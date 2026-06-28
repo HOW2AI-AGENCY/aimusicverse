@@ -45,8 +45,16 @@ interface StudioProjectRow {
 const STATUS_META = {
   draft: { label: "Черновик", dot: "bg-slate-400", className: "border-slate-400/30 text-slate-300 bg-slate-400/10" },
   mixing: { label: "Сведение", dot: "bg-blue-400", className: "border-blue-400/30 text-blue-300 bg-blue-400/10" },
-  mastering: { label: "Мастеринг", dot: "bg-purple-400", className: "border-purple-400/30 text-purple-300 bg-purple-400/10" },
-  completed: { label: "Готово", dot: "bg-emerald-400", className: "border-emerald-400/30 text-emerald-300 bg-emerald-400/10" },
+  mastering: {
+    label: "Мастеринг",
+    dot: "bg-purple-400",
+    className: "border-purple-400/30 text-purple-300 bg-purple-400/10",
+  },
+  completed: {
+    label: "Готово",
+    dot: "bg-emerald-400",
+    className: "border-emerald-400/30 text-emerald-300 bg-emerald-400/10",
+  },
   archived: { label: "Архив", dot: "bg-zinc-500", className: "border-zinc-500/30 text-zinc-400 bg-zinc-500/10" },
 } as const;
 
@@ -67,7 +75,6 @@ function hashIndex(s: string, mod: number): number {
   return h % mod;
 }
 
-
 export default function StudioHubPage() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<StudioProjectRow[]>([]);
@@ -81,10 +88,6 @@ export default function StudioHubPage() {
     fallbackPath: "/",
   });
 
-  useEffect(() => {
-    loadProjects();
-  }, []);
-
   const loadProjects = async () => {
     setIsLoading(true);
     const { data } = await supabase
@@ -95,6 +98,10 @@ export default function StudioHubPage() {
     setProjects((data as StudioProjectRow[]) || []);
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    loadProjects();
+  }, []);
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -156,125 +163,124 @@ export default function StudioHubPage() {
             </Button>
           }
         >
-        {isLoading ? (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-[104px] rounded-xl" />
-            ))}
-          </div>
-        ) : projects.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="rounded-full bg-muted p-4 mb-4">
-              <Music2 className="h-8 w-8 text-muted-foreground" />
+          {isLoading ? (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {[1, 2, 3, 4].map((i) => (
+                <Skeleton key={i} className="h-[104px] rounded-xl" />
+              ))}
             </div>
-            <h2 className="text-xl font-semibold mb-2">Нет проектов</h2>
-            <p className="text-muted-foreground mb-6 max-w-sm">
-              Создайте первый проект студии для работы с треками и сведения
-            </p>
-            <Button onClick={() => navigate("/studio-v2/new")}>
-              <Plus className="mr-2 h-4 w-4" />
-              Создать проект
-            </Button>
-          </div>
-        ) : (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {projects.map((project) => {
-              const trackCount = getTrackCount(project.tracks);
-              const status = (project.status || "draft") as keyof typeof STATUS_META;
-              const meta = STATUS_META[status] ?? STATUS_META.draft;
-              const cover = COVER_GRADIENTS[hashIndex(project.id, COVER_GRADIENTS.length)];
-              const initials = (project.name || "?").trim().slice(0, 2).toUpperCase();
-              const updated = project.opened_at || project.updated_at;
+          ) : projects.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <div className="rounded-full bg-muted p-4 mb-4">
+                <Music2 className="h-8 w-8 text-muted-foreground" />
+              </div>
+              <h2 className="text-xl font-semibold mb-2">Нет проектов</h2>
+              <p className="text-muted-foreground mb-6 max-w-sm">
+                Создайте первый проект студии для работы с треками и сведения
+              </p>
+              <Button onClick={() => navigate("/studio-v2/new")}>
+                <Plus className="mr-2 h-4 w-4" />
+                Создать проект
+              </Button>
+            </div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {projects.map((project) => {
+                const trackCount = getTrackCount(project.tracks);
+                const status = (project.status || "draft") as keyof typeof STATUS_META;
+                const meta = STATUS_META[status] ?? STATUS_META.draft;
+                const cover = COVER_GRADIENTS[hashIndex(project.id, COVER_GRADIENTS.length)];
+                const initials = (project.name || "?").trim().slice(0, 2).toUpperCase();
+                const updated = project.opened_at || project.updated_at;
 
-              return (
-                <Card
-                  key={project.id}
-                  className="group relative cursor-pointer overflow-hidden border-border/50 bg-card/50 backdrop-blur transition-all hover:border-primary/60 hover:shadow-lg hover:-translate-y-0.5"
-                  onClick={() => navigate(`/studio-v2/project/${project.id}`)}
-                >
-                  <div className="flex gap-3 p-3">
-                    {/* Cover swatch */}
-                    <div
-                      className={cn(
-                        "relative flex h-20 w-20 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-inner",
-                        cover,
-                      )}
-                    >
-                      <span className="font-bold text-2xl tracking-tight drop-shadow">{initials}</span>
-                      <Disc3 className="absolute bottom-1 right-1 h-3.5 w-3.5 opacity-60" />
-                    </div>
-
-                    {/* Body */}
-                    <div className="flex-1 min-w-0 flex flex-col">
-                      <div className="flex items-start justify-between gap-1">
-                        <h3 className="font-semibold text-sm leading-tight truncate flex-1">{project.name}</h3>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-6 w-6 -mt-1 -mr-1 opacity-60 group-hover:opacity-100"
-                            >
-                              <MoreVertical className="h-3.5 w-3.5" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              className="text-destructive"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setDeleteId(project.id);
-                              }}
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Удалить
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                return (
+                  <Card
+                    key={project.id}
+                    className="group relative cursor-pointer overflow-hidden border-border/50 bg-card/50 backdrop-blur transition-all hover:border-primary/60 hover:shadow-lg hover:-translate-y-0.5"
+                    onClick={() => navigate(`/studio-v2/project/${project.id}`)}
+                  >
+                    <div className="flex gap-3 p-3">
+                      {/* Cover swatch */}
+                      <div
+                        className={cn(
+                          "relative flex h-20 w-20 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-inner",
+                          cover,
+                        )}
+                      >
+                        <span className="font-bold text-2xl tracking-tight drop-shadow">{initials}</span>
+                        <Disc3 className="absolute bottom-1 right-1 h-3.5 w-3.5 opacity-60" />
                       </div>
 
-                      {project.description ? (
-                        <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{project.description}</p>
-                      ) : (
-                        <p className="text-xs text-muted-foreground/60 italic mt-0.5">Без описания</p>
-                      )}
+                      {/* Body */}
+                      <div className="flex-1 min-w-0 flex flex-col">
+                        <div className="flex items-start justify-between gap-1">
+                          <h3 className="font-semibold text-sm leading-tight truncate flex-1">{project.name}</h3>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6 -mt-1 -mr-1 opacity-60 group-hover:opacity-100"
+                              >
+                                <MoreVertical className="h-3.5 w-3.5" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem
+                                className="text-destructive"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setDeleteId(project.id);
+                                }}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Удалить
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
 
-                      {/* Status + meta chips */}
-                      <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
-                        <Badge
-                          variant="outline"
-                          className={cn("h-5 px-1.5 text-[10px] font-medium gap-1 border", meta.className)}
-                        >
-                          <span className={cn("h-1.5 w-1.5 rounded-full", meta.dot)} />
-                          {meta.label}
-                        </Badge>
-                        <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
-                          <Layers className="h-3 w-3" />
-                          {trackCount}
-                        </span>
-                        {project.bpm ? (
+                        {project.description ? (
+                          <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{project.description}</p>
+                        ) : (
+                          <p className="text-xs text-muted-foreground/60 italic mt-0.5">Без описания</p>
+                        )}
+
+                        {/* Status + meta chips */}
+                        <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
+                          <Badge
+                            variant="outline"
+                            className={cn("h-5 px-1.5 text-[10px] font-medium gap-1 border", meta.className)}
+                          >
+                            <span className={cn("h-1.5 w-1.5 rounded-full", meta.dot)} />
+                            {meta.label}
+                          </Badge>
                           <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
-                            <Activity className="h-3 w-3" />
-                            {project.bpm}
+                            <Layers className="h-3 w-3" />
+                            {trackCount}
                           </span>
-                        ) : null}
-                        {updated ? (
-                          <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground ml-auto">
-                            <Clock className="h-3 w-3" />
-                            {formatDistanceToNow(new Date(updated), { addSuffix: false, locale: ru })}
-                          </span>
-                        ) : null}
+                          {project.bpm ? (
+                            <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                              <Activity className="h-3 w-3" />
+                              {project.bpm}
+                            </span>
+                          ) : null}
+                          {updated ? (
+                            <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground ml-auto">
+                              <Clock className="h-3 w-3" />
+                              {formatDistanceToNow(new Date(updated), { addSuffix: false, locale: ru })}
+                            </span>
+                          ) : null}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-        )}
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </Section>
       </main>
-
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
