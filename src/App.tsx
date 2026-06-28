@@ -74,7 +74,7 @@ const Artists = lazy(() => import("./pages/Artists"));
 const Playlists = lazy(() => import("./pages/Playlists"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Community = lazy(() => import("./pages/Community"));
-const Onboarding = lazy(() => import("./pages/Onboarding"));
+
 const Rewards = lazy(() => import("./pages/Rewards"));
 const Referral = lazy(() => import("./pages/Referral"));
 const VoiceLibraryPage = lazy(() => import("./pages/VoiceLibraryPage"));
@@ -214,7 +214,7 @@ const App = () => (
                         <Route path="/playlists" element={<Playlists />} />
                         <Route path="/blog" element={<Blog />} />
                         <Route path="/community" element={<Community />} />
-                        <Route path="/onboarding" element={<Onboarding />} />
+                        <Route path="/onboarding" element={<Navigate to="/" replace />} />
                         <Route path="/rewards" element={<Rewards />} />
                         <Route path="/referral" element={<Referral />} />
                         <Route path="/analytics" element={<Analytics />} />

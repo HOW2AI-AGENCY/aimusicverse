@@ -158,7 +158,7 @@ export const MainLayout = () => {
     if (shouldShowQuickStart && !isOldOnboardingActive) {
       const timer = setTimeout(() => {
         setQuickStartOpen(true);
-      }, 1500);
+      }, 800);
       return () => clearTimeout(timer);
     }
   }, [shouldShowQuickStart, isOldOnboardingActive]);
