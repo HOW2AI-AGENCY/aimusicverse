@@ -22,6 +22,7 @@ import "./styles/shimmer.css";
 import { logger } from "./lib/logger";
 import { initSentry, captureError } from "./lib/sentry";
 import { initTelemetry } from "./lib/telemetry";
+import { migrateQueueFromPlayerStore } from "./lib/migration";
 
 // === CRITICAL: Early error logging for black screen debugging ===
 const BOOT_LOG: string[] = [];
@@ -131,6 +132,14 @@ if ("visualViewport" in window && window.visualViewport) {
 }
 
 bootLog("Event listeners registered");
+
+// Run data migrations before app render
+try {
+  migrateQueueFromPlayerStore();
+  bootLog("Queue migration completed");
+} catch (e) {
+  bootLog(`Queue migration failed: ${e}`);
+}
 
 // Register Audio Service Worker for offline caching
 if ("serviceWorker" in navigator) {
