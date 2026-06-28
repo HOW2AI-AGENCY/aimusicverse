@@ -41,3 +41,13 @@ This project uses graphify for knowledge graph management.
 - Global error handlers filter `AbortError` (DOMException name: `'AbortError'`) — they are silenced
 - Viewport CSS vars: `--vh`, `--keyboard-height`; toggle class `keyboard-open` when keyboard > 150px
 - Audio Service Worker registered at `/audio-sw.js`
+
+---
+
+<div align="center">
+
+[← CLAUDE.md](./CLAUDE.md) · [↑ К индексу](./DOCUMENTATION_INDEX.md) · [CONTRIBUTING.md →](./CONTRIBUTING.md)
+
+<sub>Обновлено: 29.06.2026</sub>
+
+</div>
