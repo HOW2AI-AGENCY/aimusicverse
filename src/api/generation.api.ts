@@ -24,6 +24,10 @@ export interface GenerationLog {
   suno_task_id: string | null;
   expected_clips: number | null;
   received_clips: number | null;
+  failure_category: string | null;
+  abort_reason: string | null;
+  retry_count: number | null;
+  generation_params: Record<string, unknown> | null;
   // Joined from profiles
   username?: string;
   photo_url?: string;
@@ -168,4 +172,80 @@ export async function retryGenerationTask(taskId: string): Promise<void> {
     .eq("id", taskId);
 
   if (error) throw new Error(error.message);
+}
+
+// ==========================================
+// Failure Tracking (Sprint 034)
+// ==========================================
+
+export type FailureCategory =
+  | "api_error"
+  | "rate_limit"
+  | "content_policy"
+  | "timeout"
+  | "network"
+  | "validation"
+  | "unknown";
+
+export interface FailurePattern {
+  failure_category: string;
+  error_count: number;
+  percentage: number;
+  avg_retry_count: number;
+  most_common_error: string;
+  first_seen: string;
+  last_seen: string;
+}
+
+/**
+ * Update a generation task with failure details
+ */
+export async function logGenerationFailure(
+  taskId: string,
+  details: {
+    failure_category: FailureCategory;
+    abort_reason?: string;
+    retry_count?: number;
+    generation_params?: Record<string, unknown>;
+    error_message?: string;
+  },
+): Promise<void> {
+  const { error } = await supabase
+    .from("generation_tasks")
+    .update({
+      status: "failed",
+      failure_category: details.failure_category,
+      abort_reason: details.abort_reason || null,
+      retry_count: details.retry_count || 0,
+      generation_params: details.generation_params || null,
+      error_message: details.error_message || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", taskId);
+
+  if (error) throw new Error(error.message);
+}
+
+/**
+ * Fetch failure pattern analysis
+ */
+export async function fetchFailurePatterns(timeRange: "24h" | "7d" | "30d" = "7d"): Promise<FailurePattern[]> {
+  const { data, error } = await supabase.rpc("get_generation_failure_patterns", {
+    _time_period: getInterval(timeRange),
+  });
+  if (error) throw new Error(error.message);
+  return (data as FailurePattern[]) || [];
+}
+
+/**
+ * Fetch success rate timeline for charts
+ */
+export async function fetchSuccessTimeline(
+  timeRange: "24h" | "7d" | "30d" = "7d",
+): Promise<Array<{ bucket: string; total: number; completed: number; failed: number; success_rate: number }>> {
+  const { data, error } = await supabase.rpc("get_generation_success_timeline", {
+    _time_period: getInterval(timeRange),
+  });
+  if (error) throw new Error(error.message);
+  return data || [];
 }

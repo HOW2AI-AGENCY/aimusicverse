@@ -11,3 +11,4 @@ export { default as AdminTelegram } from "./AdminTelegram";
 export { default as AdminBroadcast } from "./AdminBroadcast";
 export { default as AdminAlerts } from "./AdminAlerts";
 export { default as AdminTariffs } from "./AdminTariffs";
+export { default as GenerationMetrics } from "./GenerationMetrics";

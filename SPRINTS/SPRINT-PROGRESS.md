@@ -9,7 +9,7 @@
 | Sprint                                 | Статус          | Прогресс                                 |
 | -------------------------------------- | --------------- | ---------------------------------------- |
 | Sprint 001-033                         | ✅ ЗАВЕРШЕНЫ    | 100%                                     |
-| Sprint 034 (Generation Reliability)    | ⏳ ЗАПЛАНИРОВАН | Failure rate 12% → <8%                   |
+| Sprint 034 (Generation Reliability)    | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                           |
 | Sprint 035 (Platform Integrations)     | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
 | Q1 2026 Plan                           | ✅ ЗАВЕРШЁН     | Phase 1-6 Complete, Sprints A-E Complete |
 | Phase 8: Dead Code Removal             | ✅ ЗАВЕРШЁН     | 196 файлов, 45K строк                    |
@@ -22,7 +22,7 @@
 | **Phase 10B: Critical Path Tests**     | ✅ ЗАВЕРШЁН     | 320 тестов, 5 новых test suites          |
 | **Phase 10C: E2E Tests**               | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии            |
 | **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                         |
-| **Sprint 034: Generation Reliability** | ⏳ ЗАПЛАНИРОВАН | Failure rate 12% → <8%                   |
+| **Sprint 034: Generation Reliability** | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                           |
 | **Sprint 035: Platform Integrations**  | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
 
 ---
@@ -183,21 +183,42 @@
 - [x] Production build successful
 - [x] commitlint ESM compatibility fix
 
-### Sprint 034: Generation Reliability ⏳ PLANNED (Q3 2026)
+### Sprint 034: Generation Reliability ✅ COMPLETE (Q3 2026)
 
-Снижение failure rate с 12% до <8%
+Снижение failure rate с 12% до <8%. [Детальный план](SPRINT-034-036-PLAN.md)
 
-- [ ] Расширенный мониторинг ошибок генерации
-- [ ] Улучшение retry/fallback стратегии
-- [ ] A/B тестирование параметров генерации
-- [ ] Dashboard метрик генерации
+- [x] Dashboard метрик генерации (`/admin/generation-metrics`)
+- [x] Sentry breadcrumbs для flow генерации
+- [x] Алерты при failure rate >10% (Edge Function)
+- [x] Интеграция `useAutomaticRetry` в `handleGenerate()` (2 retries + exp. backoff)
+- [x] Structured failure categories в `generation_tasks` (abort_reason, retry_count, failure_category)
+- [x] Prompt pre-validation перед отправкой
+- [x] Активация `useExperiment` — PROMPT_SUGGESTIONS (50/50, running)
+- [x] Failure pattern analysis RPC (get_generation_failure_patterns)
+- [x] Generation queue position UI
+- [x] Model fallback chain exposed в UI
+- [x] A/B тест: 2-step vs 4-step wizard (WIZARD_STEPS experiment)
+- [x] Delivery tracking для обоих clip-ов (partial_delivery status)
 
-### Sprint 035: Platform Integrations ⏳ PLANNED (Q3-Q4 2026)
+### Sprint 035: E2E + Platform Export ⏳ PLANNED (Q3 2026)
 
-- [ ] Spotify export
-- [ ] Apple Music export
-- [ ] YouTube export
-- [ ] Public API для third-party интеграций
+Стабилизация E2E + начало экспортов. [Детальный план](SPRINT-034-036-PLAN.md)
+
+- [ ] Починить smoke + navigation E2E тесты (47 spec написаны, 0% проходят)
+- [ ] Настроить Playwright CI pipeline
+- [ ] Универсальный export service (WAV/MP3/FLAC)
+- [ ] YouTube-ready export (аудио + обложка → видео)
+- [ ] Telegram Stories sharing с аудио-превью
+
+### Sprint 036: Quality & Stability ⏳ PLANNED (Q3 2026)
+
+Рефакторинг + тесты + Service Worker. [Детальный план](SPRINT-034-036-PLAN.md)
+
+- [ ] Разбить GlobalAudioProvider.tsx (982 строки) → hooks/state/queue
+- [ ] Разбить 5 файлов >800 строк
+- [ ] Unit-тесты до 500+ (с 362)
+- [ ] Service Worker с Workbox (cache-first для статики + аудио)
+- [ ] Phase 9C: Консолидация Lyrics-экосистемы
 
 ---
 

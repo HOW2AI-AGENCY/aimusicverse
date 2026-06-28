@@ -58,3 +58,12 @@ export type {
 
 // Re-export constants for external use
 export { STATUS_MESSAGES, STATUS_PROGRESS, OPERATION_ENDPOINTS } from "./audioProcessing";
+
+// Prompt pre-validation (Sprint 034)
+export { usePromptValidation } from "./usePromptValidation";
+
+// Generation queue position (Sprint 034)
+export { useGenerationQueue } from "./useGenerationQueue";
+
+// Delivery tracking for A/B clip monitoring (Sprint 034)
+export { useDeliveryTracking } from "./useDeliveryTracking";

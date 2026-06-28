@@ -1,7 +1,3 @@
-/**
- * WizardProgress - Visual progress indicator for generation wizard
- */
-
 import { memo } from "react";
 import { motion } from "@/lib/motion";
 import { Check, Lightbulb, Music, Mic, Sparkles } from "@/lib/icons";
@@ -12,25 +8,33 @@ interface WizardProgressProps {
   currentStep: WizardStep;
   completedSteps: WizardStep[];
   onStepClick?: (step: WizardStep) => void;
+  steps?: WizardStep[];
 }
 
-const STEPS_CONFIG: { step: WizardStep; label: string; icon: typeof Lightbulb }[] = [
+const DEFAULT_STEPS: { step: WizardStep; label: string; icon: typeof Lightbulb }[] = [
   { step: "idea", label: "Идея", icon: Lightbulb },
   { step: "style-settings", label: "Стиль", icon: Music },
   { step: "vocals-lyrics", label: "Вокал", icon: Mic },
   { step: "preview", label: "Генерация", icon: Sparkles },
 ];
 
+const TWO_STEP_CONFIG: { step: WizardStep; label: string; icon: typeof Lightbulb }[] = [
+  { step: "idea", label: "Идея и стиль", icon: Lightbulb },
+  { step: "vocals-lyrics", label: "Вокал и генерация", icon: Sparkles },
+];
+
 export const WizardProgress = memo(function WizardProgress({
   currentStep,
   completedSteps,
   onStepClick,
+  steps,
 }: WizardProgressProps) {
-  const currentIndex = STEPS_CONFIG.findIndex((s) => s.step === currentStep);
+  const stepsConfig = steps ? TWO_STEP_CONFIG : DEFAULT_STEPS;
+  const currentIndex = stepsConfig.findIndex((s) => s.step === currentStep);
 
   return (
     <div className="flex items-center justify-between gap-1 px-2 py-3">
-      {STEPS_CONFIG.map((config, index) => {
+      {stepsConfig.map((config, index) => {
         const isCompleted = completedSteps.includes(config.step);
         const isCurrent = config.step === currentStep;
         const isClickable = isCompleted || index <= currentIndex;
@@ -38,7 +42,6 @@ export const WizardProgress = memo(function WizardProgress({
 
         return (
           <div key={config.step} className="flex items-center flex-1 last:flex-none">
-            {/* Step circle */}
             <button
               type="button"
               onClick={() => isClickable && onStepClick?.(config.step)}
@@ -79,8 +82,7 @@ export const WizardProgress = memo(function WizardProgress({
               </span>
             </button>
 
-            {/* Connector line */}
-            {index < STEPS_CONFIG.length - 1 && (
+            {index < stepsConfig.length - 1 && (
               <div className="flex-1 h-0.5 mx-1 bg-muted rounded-full overflow-hidden">
                 <motion.div
                   initial={false}

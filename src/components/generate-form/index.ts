@@ -13,6 +13,7 @@ export { PromptValidationAlert } from "./PromptValidationAlert";
 export { CreditBalanceWarning } from "./CreditBalanceWarning";
 export { CreditBalanceIndicator } from "./CreditBalanceIndicator";
 export { SmartPromptSuggestions } from "./SmartPromptSuggestions";
+export { QueuePosition } from "./QueuePosition";
 export { FormSection, FormDivider } from "./FormSection";
 export { SectionLabel, SECTION_HINTS } from "./SectionLabel";
 

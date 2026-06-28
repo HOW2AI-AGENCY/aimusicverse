@@ -227,7 +227,20 @@ export async function trackExperimentConversion(experimentId: string, goalName: 
  * Add new experiments here as the product evolves
  */
 export const EXPERIMENTS = {
-  // Example: New onboarding flow
+  // Sprint 034: Test prompt suggestions to improve generation quality
+  PROMPT_SUGGESTIONS: {
+    id: "prompt_suggestions_v1",
+    name: "Prompt Suggestions",
+    description: "Show AI-powered prompt suggestions to reduce vague prompts and improve generation success rate",
+    variants: [
+      { id: "control", name: "No Suggestions", weight: 50 },
+      { id: "treatment", name: "With Suggestions", weight: 50 },
+    ],
+    status: "running" as const,
+    metrics: ["generation_started", "generation_completed", "prompt_length", "failure_rate"],
+  },
+
+  // New onboarding flow
   ONBOARDING_V2: {
     id: "onboarding_v2",
     name: "New Onboarding Flow",
@@ -240,7 +253,7 @@ export const EXPERIMENTS = {
     metrics: ["onboarding_completion", "first_generation", "d7_retention"],
   },
 
-  // Example: Generation UI
+  // Generation UI
   GENERATION_UI: {
     id: "generation_ui",
     name: "Generation Form Layout",
@@ -254,7 +267,20 @@ export const EXPERIMENTS = {
     metrics: ["generation_started", "generation_completed", "generation_satisfaction"],
   },
 
-  // Example: Player UX
+  // Sprint 034: Test 2-step vs 4-step generation wizard
+  WIZARD_STEPS: {
+    id: "wizard_steps_v1",
+    name: "Wizard Step Count",
+    description: "Compare 2-step (condensed) vs 4-step (current) generation wizard",
+    variants: [
+      { id: "control", name: "4-Step Wizard", weight: 50 },
+      { id: "treatment", name: "2-Step Wizard", weight: 50 },
+    ],
+    status: "running" as const,
+    metrics: ["generation_started", "generation_completed", "wizard_abandon_rate", "time_to_generate"],
+  },
+
+  // Player UX
   PLAYER_EXPAND_CTA: {
     id: "player_expand_cta",
     name: "Player Expand CTA",
