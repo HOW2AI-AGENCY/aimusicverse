@@ -5,7 +5,8 @@ import { BarChart3, Music, Play, Heart, TrendingUp, Calendar, CheckCircle2, XCir
 import { useUserStats } from "@/hooks/useUserStats";
 import { motion } from "@/lib/motion";
 import { Skeleton } from "@/components/ui/skeleton";
-import { EngagementChart, GenreDistributionChart } from "@/components/analytics";
+import { EngagementChart } from "@/components/analytics/EngagementChart";
+import { GenreDistributionChart } from "@/components/analytics/GenreDistributionChart";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { DesktopDashboardLayout } from "@/components/layout/desktop";
 
