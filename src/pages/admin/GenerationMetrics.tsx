@@ -290,7 +290,7 @@ function useRecentFailedGenerations() {
         throw error;
       }
 
-      return (data || []) as FailedGeneration[];
+      return ((data || []) as unknown) as FailedGeneration[];
     },
     staleTime: 30_000,
   });
