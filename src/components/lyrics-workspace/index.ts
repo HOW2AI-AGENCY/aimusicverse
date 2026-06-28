@@ -13,3 +13,4 @@ export { CloudAudioPicker } from "./CloudAudioPicker";
 // History & Versioning
 export { LyricsHistoryBar } from "./LyricsHistoryBar";
 export { LyricsVersionsPanel } from "./LyricsVersionsPanel";
+export { LyricsVersionDiff } from "./LyricsVersionDiff";
