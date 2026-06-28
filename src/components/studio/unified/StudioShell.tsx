@@ -458,8 +458,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         isMobile={isMobile}
         viewMode={viewMode}
         onViewModeChange={(v) => setViewMode(v)}
-        studioMode={studioMode}
-        onStudioModeChange={setStudioMode}
+        // studioMode/onStudioModeChange handled elsewhere — header does not accept these props
         canUndo={canUndo()}
         canRedo={canRedo()}
         onUndo={undo}
