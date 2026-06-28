@@ -24,7 +24,7 @@ import { motion, useMotionValue, useTransform, PanInfo } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { backdrop } from "@/lib/overlay-colors";
 import { X } from "@/lib/icons";
-import { DialogBackdrop } from "../unified-dialog";
+import { DialogBackdrop } from "../dialog-shared";
 import { DIALOG_CONFIG } from "../unified-dialog.config";
 import type { SheetDialogProps } from "../unified-dialog.types";
 import { useHaptic } from "@/hooks/useHaptic";

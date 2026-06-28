@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { canShareToStory, getPlaylistDeepLink, sharePlaylistToStory, sharePlaylistURL } from "@/services/telegram";
 import { useTelegram } from "@/contexts/TelegramContext";
 import type { Playlist } from "@/hooks/usePlaylists";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface SharePlaylistDialogProps {
   playlist: Playlist | null;
@@ -88,7 +89,7 @@ export function SharePlaylistDialog({ playlist, open, onOpenChange }: SharePlayl
         <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
           <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted">
             {playlist.cover_url ? (
-              <img src={playlist.cover_url} alt={playlist.title} className="w-full h-full object-cover" />
+              <LazyImage src={playlist.cover_url} alt={playlist.title} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground text-lg">📁</div>
             )}

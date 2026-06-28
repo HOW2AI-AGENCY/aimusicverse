@@ -28,7 +28,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { X } from "@/lib/icons";
-import { DialogBackdrop, DialogContainer } from "../unified-dialog";
+import { DialogBackdrop, DialogContainer } from "../dialog-shared";
 import { DIALOG_CONFIG } from "../unified-dialog.config";
 import type { ModalDialogProps } from "../unified-dialog.types";
 import { useHaptic } from "@/hooks/useHaptic";

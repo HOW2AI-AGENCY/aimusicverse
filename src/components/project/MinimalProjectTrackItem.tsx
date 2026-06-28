@@ -38,6 +38,7 @@ import { toast } from "sonner";
 import { EditTrackDialog } from "./EditTrackDialog";
 import { TrackVersionsPanel } from "./TrackVersionsPanel";
 import { motion } from "@/lib/motion";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface GenerationStatus {
   progress: number;
@@ -270,7 +271,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
               )}
             >
               {linkedTrack?.cover_url ? (
-                <img src={linkedTrack.cover_url} alt={track.title} className="w-full h-full object-cover" />
+                <LazyImage src={linkedTrack.cover_url} alt={track.title} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
                   <Music className={cn("text-primary/50", isMobile ? "w-4 h-4" : "w-3 h-3")} />

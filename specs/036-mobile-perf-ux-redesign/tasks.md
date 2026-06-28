@@ -27,10 +27,10 @@
 
 **Purpose**: Create foundational files and configurations needed by all user stories
 
-- [ ] T001 Create design tokens CSS file at `src/styles/tokens.css` with CSS custom properties for colors (brand, neutral, semantic, surface, text), typography (sizes, weights, line-heights), spacing (8px grid scale), radii, shadows, and transitions
-- [ ] T002 [P] Create TypeScript design tokens companion at `src/lib/design-tokens.ts` exporting typed token objects that mirror the CSS custom properties
-- [ ] T003 [P] Import `tokens.css` in `src/main.tsx` and verify Tailwind `theme.extend` references CSS custom properties in `tailwind.config.ts`
-- [ ] T004 [P] Create Zod schemas for GestureConfig and UserPreferences in `src/lib/schemas/preferences.schema.ts` per data-model.md validation rules
+- [x] T001 Create design tokens CSS file at `src/styles/tokens.css` with CSS custom properties for colors (brand, neutral, semantic, surface, text), typography (sizes, weights, line-heights), spacing (8px grid scale), radii, shadows, and transitions
+- [x] T002 [P] Create TypeScript design tokens companion at `src/lib/design-tokens.ts` exporting typed token objects that mirror the CSS custom properties
+- [x] T003 [P] Import `tokens.css` in `src/main.tsx` and verify Tailwind `theme.extend` references CSS custom properties in `tailwind.config.ts`
+- [x] T004 [P] Create Zod schemas for GestureConfig and UserPreferences in `src/lib/schemas/preferences.schema.ts` per data-model.md validation rules
 
 ---
 
@@ -40,11 +40,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create `usePreferencesStore` Zustand store at `src/stores/usePreferencesStore.ts` with two slices: `preferences` (theme, textSize, reducedMotion, audioQuality, notificationsEnabled, compactCards) and `gestureConfig` (swipeEnabled, swipeSensitivity, longPressEnabled, longPressDuration, doubleTapEnabled, pullToRefreshEnabled, hapticEnabled, hapticIntensity)
-- [ ] T006 [P] Add triple persistence middleware to `usePreferencesStore`: Zustand → localStorage (`user-preferences`, `gesture-config` keys) → Telegram CloudStorage (`prefs`, `gestures` keys) with async write
-- [ ] T007 [P] Create `useGestureConfig` hook at `src/hooks/useGestureConfig.ts` that reads gesture settings from `usePreferencesStore` and provides typed getters
-- [ ] T008 [P] Create `useUserPreferences` hook at `src/hooks/useUserPreferences.ts` that reads user preferences from `usePreferencesStore` and applies theme/textSize/reducedMotion to DOM
-- [ ] T009 Wire `useUserPreferences` into `src/App.tsx` to apply theme class (`dark`/`light`) and text scale CSS variable (`--text-scale`) on mount and on change
+- [x] T005 Create `usePreferencesStore` Zustand store at `src/stores/usePreferencesStore.ts` with two slices: `preferences` (theme, textSize, reducedMotion, audioQuality, notificationsEnabled, compactCards) and `gestureConfig` (swipeEnabled, swipeSensitivity, longPressEnabled, longPressDuration, doubleTapEnabled, pullToRefreshEnabled, hapticEnabled, hapticIntensity)
+- [x] T006 [P] Add triple persistence middleware to `usePreferencesStore`: Zustand → localStorage (`user-preferences`, `gesture-config` keys) → Telegram CloudStorage (`prefs`, `gestures` keys) with async write
+- [x] T007 [P] Create `useGestureConfig` hook at `src/hooks/useGestureConfig.ts` that reads gesture settings from `usePreferencesStore` and provides typed getters
+- [x] T008 [P] Create `useDisplayPreferences` hook (renamed from useUserPreferences to avoid conflict) at `src/hooks/useUserPreferences.ts` that reads user preferences from `usePreferencesStore` and applies theme/textSize/reducedMotion to DOM
+- [x] T009 Wire `useDisplayPreferences` into `src/App.tsx` to apply theme class (`dark`/`light`) and text scale CSS variable (`--text-scale`) on mount and on change
 
 **Checkpoint**: Foundation ready — design tokens, preferences store, and hooks available for all user stories
 
@@ -58,11 +58,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Audit all 57 pages in `src/pages/` for React.lazy() coverage — list any pages imported eagerly and convert to lazy imports in `src/App.tsx`
+- [x] T010 [P] [US1] Audit all 57 pages — 50 converted from lazy() to lazyWithRetry() in `src/pages/` for React.lazy() coverage — list any pages imported eagerly and convert to lazy imports in `src/App.tsx`
 - [ ] T011 [P] [US1] Audit all image usages across `src/components/` — replace any raw `<img>` tags with `LazyImage` from `src/components/ui/lazy-image.tsx`
 - [ ] T012 [P] [US1] Identify and remove 6 duplicate hook pairs listed in PROJECT_STATUS.md — consolidate into single canonical hooks, update all imports (~1700 LOC reduction)
-- [ ] T013 [P] [US1] Audit DnD library usage — find all imports of `react-beautiful-dnd` and `@dnd-kit`, consolidate to `@dnd-kit` only, remove `react-beautiful-dnd` from `package.json` (~50KB savings)
-- [ ] T014 [US1] Audit all framer-motion imports across `src/` — replace any direct `import { ... } from 'framer-motion'` with `import { ... } from '@/lib/motion'`
+- [x] T013 [P] [US1] Audit DnD library usage — already consolidated to @dnd-kit, react-beautiful-dnd not present — find all imports of `react-beautiful-dnd` and `@dnd-kit`, consolidate to `@dnd-kit` only, remove `react-beautiful-dnd` from `package.json` (~50KB savings)
+- [x] T014 [US1] Audit all framer-motion imports — already using @/lib/motion wrapper exclusively across `src/` — replace any direct `import { ... } from 'framer-motion'` with `import { ... } from '@/lib/motion'`
 - [ ] T015 [US1] Audit list components in `src/components/library/`, `src/components/player/Queue*.tsx`, and playlist screens — ensure all lists >50 items use `react-virtuoso` with proper overscan
 - [ ] T016 [US1] Audit animations across `src/components/` — replace any CSS/JS animations using `width`, `height`, `top`, `left`, `margin`, `padding` with `transform`/`opacity`/`filter` equivalents
 - [ ] T017 [US1] Split `src/hooks/useGenerateForm.ts` (1218 LOC) into 4 focused hooks: `useGenerateFormState.ts`, `useGenerateFormValidation.ts`, `useGenerateFormDraft.ts`, `useGenerateFormSubmit.ts` — each <300 LOC

@@ -506,13 +506,13 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: 035 (Stabilization + Architecture Cleanup) - planned
+- Sprint: 037 (Infrastructure Hardening) - completed 2026-06-29
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
 - Components: 987, Hooks: 347, Stores: 20, API files: 20, Services: 18
 - Bundle Size: 918 KB / 950 KB limit
-- Unit Tests: 7 files (critical gap), E2E: 47 specs
+- Unit Tests: 341 passing (25 test suites), Storybook: 4 stories, E2E: 47 specs
 - Key Issues: 30+ layer violations, 6 code duplicates, 342 `any` types, 33 files >500 LOC
-- Overall Progress: 93% (34 sprints complete)
+- Overall Progress: 94% (35 sprints complete incl. Sprint 037)
 
 ## Telegram Bot Integration
 
@@ -608,7 +608,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-06-28 (Sprint 033 — Interface Audit & UX Overhaul)
+**Last Updated:** 2026-06-29 (Sprint 037 — Infrastructure Hardening & Developer Experience)
 
 ## graphify
 
