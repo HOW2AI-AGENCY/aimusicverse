@@ -18,14 +18,7 @@
 </p>
 
 <!-- BADGES:START -->
-<p>
-  <img alt="React" src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/>
-  <img alt="Vite" src="https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white"/>
-  <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"/>
-  <img alt="Supabase" src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"/>
-  <img alt="Suno" src="https://img.shields.io/badge/Suno_AI-v5-9333EA?style=for-the-badge"/>
-</p>
+![Release](https://img.shields.io/badge/Release-v0.0.0-26A5E4?style=flat-square) ![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat-square) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=flat-square) ![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?style=flat-square) ![Tailwind](https://img.shields.io/badge/Tailwind-3.4.18-06B6D4?style=flat-square) ![Vitest](https://img.shields.io/badge/Vitest-4.0.14-6E9F18?style=flat-square) ![Playwright](https://img.shields.io/badge/Playwright-1.61.1-2EAD33?style=flat-square)
 <!-- BADGES:END -->
 
 <p>
