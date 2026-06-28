@@ -7,10 +7,10 @@
 
 ## 📊 Quick Status
 
-| Status       | Count   | Description                                  |
-| ------------ | ------- | -------------------------------------------- |
-| ✅ Completed | 32      | Core platform + UI/UX optimization (032)     |
-| 🔄 Active    | Q3 2026 | UI Improvements, Reliability, Integrations  |
+| Status       | Count   | Description                                |
+| ------------ | ------- | ------------------------------------------ |
+| ✅ Completed | 32      | Core platform + UI/UX optimization (032)   |
+| 🔄 Active    | Q3 2026 | UI Improvements, Reliability, Integrations |
 
 **Current Focus:** Q3 2026 — UI Improvements (Spec 001), Reliability (034), E2E Tests
 
@@ -120,7 +120,7 @@ All active and in-progress sprints have been completed as of June 25, 2026:
 - ✅ Touch feedback optimization
 - ✅ Documentation update
 
-**Location:** [SPRINT-032-FINAL-SUMMARY.md](SPRINT-032-FINAL-SUMMARY.md)
+**Location:** [SPRINT-032-FINAL-SUMMARY.md](completed/SPRINT-032-FINAL-SUMMARY.md)
 
 ### Sprint 031: Data Model & Optimization Phase 2
 
@@ -134,7 +134,7 @@ All active and in-progress sprints have been completed as of June 25, 2026:
 - ✅ Code splitting improvements
 - ✅ Type safety enhancements
 
-**Location:** [SPRINT-031-TASKS.md](SPRINT-031-TASKS.md)
+**Location:** [SPRINT-031-TASKS.md](completed/SPRINT-031-TASKS.md)
 
 ### Sprint 030: Unified Studio Mobile
 
@@ -149,7 +149,7 @@ All active and in-progress sprints have been completed as of June 25, 2026:
 - ✅ Touch-optimized controls
 - ✅ 40% code deduplication
 
-**Location:** [SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINT-030-UNIFIED-STUDIO-MOBILE.md)
+**Location:** [SPRINT-030-UNIFIED-STUDIO-MOBILE.md](completed/SPRINT-030-UNIFIED-STUDIO-MOBILE.md)
 
 ### Sprint 029: Telegram Mobile Optimization
 
@@ -164,7 +164,7 @@ All active and in-progress sprints have been completed as of June 25, 2026:
 - ✅ Mobile-first UI optimization
 - ✅ Touch targets 44×56px
 
-**Location:** [SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md)
+**Location:** [SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md)
 
 ### Sprint 028: UI/UX Optimization & Enhancement
 
@@ -197,7 +197,7 @@ All active and in-progress sprints have been completed as of June 25, 2026:
 - ✅ Vocal Map, Translate tools
 - ✅ New result components
 
-**Location:** [SPRINT-027-AI-LYRICS-TOOLS.md](SPRINT-027-AI-LYRICS-TOOLS.md)
+**Location:** [SPRINT-027-AI-LYRICS-TOOLS.md](completed/SPRINT-027-AI-LYRICS-TOOLS.md)
 
 ### Sprint 026: UX Unification
 

@@ -46,7 +46,7 @@ export const queryKeys = {
   credits: (userId: string | undefined) => ["credits", userId] as const,
 
   // Tracks
-  tracks: (userId: string | undefined, filters?: Record<string, any>) =>
+  tracks: (userId: string | undefined, filters?: Record<string, unknown>) =>
     filters ? (["tracks", userId, filters] as const) : (["tracks", userId] as const),
   track: (trackId: string) => ["track", trackId] as const,
   trackVersions: (trackId: string) => ["track-versions", trackId] as const,
@@ -117,7 +117,7 @@ export function invalidatePublicContent(queryClient: QueryClient) {
 /**
  * Prefetch data for expected navigation
  */
-export async function prefetchTrack(queryClient: QueryClient, trackId: string, fetchFn: () => Promise<any>) {
+export async function prefetchTrack(queryClient: QueryClient, trackId: string, fetchFn: () => Promise<unknown>) {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.track(trackId),
     queryFn: fetchFn,
@@ -132,30 +132,35 @@ export async function prefetchTrack(queryClient: QueryClient, trackId: string, f
 /**
  * Helper for optimistic like toggle
  */
+interface TrackLike {
+  id: string;
+  is_liked?: boolean;
+}
+
+interface PaginatedTracks {
+  pages: Array<{ tracks: TrackLike[] }>;
+}
+
 export function createOptimisticLikeUpdate(queryClient: QueryClient, trackId: string, isCurrentlyLiked: boolean) {
-  // Snapshot current data
   const previousData = queryClient.getQueryData(["tracks"]);
 
-  // Optimistically update
-  queryClient.setQueriesData({ queryKey: ["tracks"] }, (old: any) => {
+  queryClient.setQueriesData({ queryKey: ["tracks"] }, (old: PaginatedTracks | TrackLike[] | undefined) => {
     if (!old) return old;
 
-    // Handle paginated data
-    if (old.pages) {
+    if ("pages" in old) {
       return {
         ...old,
-        pages: old.pages.map((page: any) => ({
+        pages: old.pages.map((page) => ({
           ...page,
-          tracks: page.tracks.map((track: any) =>
+          tracks: page.tracks.map((track) =>
             track.id === trackId ? { ...track, is_liked: !isCurrentlyLiked } : track,
           ),
         })),
       };
     }
 
-    // Handle flat array
     if (Array.isArray(old)) {
-      return old.map((track: any) => (track.id === trackId ? { ...track, is_liked: !isCurrentlyLiked } : track));
+      return old.map((track) => (track.id === trackId ? { ...track, is_liked: !isCurrentlyLiked } : track));
     }
 
     return old;
@@ -167,6 +172,6 @@ export function createOptimisticLikeUpdate(queryClient: QueryClient, trackId: st
 /**
  * Rollback helper for failed mutations
  */
-export function rollbackOptimisticUpdate(queryClient: QueryClient, queryKey: QueryKey, previousData: any) {
+export function rollbackOptimisticUpdate(queryClient: QueryClient, queryKey: QueryKey, previousData: unknown) {
   queryClient.setQueryData(queryKey, previousData);
 }

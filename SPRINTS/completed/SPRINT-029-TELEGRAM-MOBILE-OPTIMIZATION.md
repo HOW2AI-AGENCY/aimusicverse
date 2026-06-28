@@ -537,9 +537,9 @@
 
 ## 📚 Связанные документы
 
-- [Mobile Optimization Roadmap 2026](../docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
-- [Telegram Bot Architecture](../docs/TELEGRAM_BOT_ARCHITECTURE.md)
-- [Performance Optimization](../docs/PERFORMANCE_OPTIMIZATION.md)
+- [Mobile Optimization Roadmap 2026](../../docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
+- [Telegram Bot Architecture](../../docs/TELEGRAM_BOT_ARCHITECTURE.md)
+- [Performance Optimization](../../docs/PERFORMANCE_OPTIMIZATION.md)
 
 ---
 

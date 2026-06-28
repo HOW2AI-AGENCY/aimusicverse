@@ -266,7 +266,7 @@ export function preloadAudio(url: string): Promise<void> {
  * @param obj - Object to measure
  * @returns Estimated size in bytes
  */
-export function estimateMemorySize(obj: any): number {
+export function estimateMemorySize(obj: unknown): number {
   const str = JSON.stringify(obj);
   // Rough estimation: 2 bytes per character in UTF-16
   return str.length * 2;
@@ -394,7 +394,7 @@ export function monitorMemoryUsage(thresholdMB: number, callback: (usage: number
  * @param queue - Array of tracks
  * @returns Memory usage statistics
  */
-export function calculateQueueMemory(queue: any[]) {
+export function calculateQueueMemory(queue: unknown[]) {
   const totalSize = estimateMemorySize(queue);
   const avgTrackSize = queue.length > 0 ? totalSize / queue.length : 0;
 

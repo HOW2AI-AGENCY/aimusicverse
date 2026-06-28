@@ -23,8 +23,10 @@
 | **Phase 10C: E2E Tests**               | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии            |
 | **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                         |
 | **Sprint 034: Generation Reliability** | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                           |
-| **Sprint 035: E2E + Export**           | ⏳ ЗАПЛАНИРОВАН | E2E стабилизация, WAV/MP3/FLAC экспорт   |
-| **Sprint 036: Quality & Stability**   | ⏳ ЗАПЛАНИРОВАН | Split >800 LOC files, unit tests 500+    |
+| **Sprint 035: E2E + Export**           | ⏳ ЗАПЛАНИРОВАН | E2E, export, 484 any→<50, CI build       |
+| **Sprint 036: Refactoring**            | ⏳ ЗАПЛАНИРОВАН | Split >500 LOC, store slicing, layers    |
+| **Sprint 037: Test Coverage**          | ⏳ ЗАПЛАНИРОВАН | Unit 362→500+, critical hooks, mutation  |
+| **Sprint 038: DX & Infra**             | ⏳ ЗАПЛАНИРОВАН | Service Worker, Lighthouse CI, Storybook |
 
 ---
 
@@ -220,6 +222,7 @@
 - [ ] Unit-тесты до 500+ (с 362)
 - [ ] Service Worker с Workbox (cache-first для статики + аудио)
 - [ ] Phase 9C: Консолидация Lyrics-экосистемы
+
 ### Sprint 037: Infrastructure Hardening & Developer Experience ⏳ ACTIVE (Q3 2026, ~30 SP over 10 days)
 
 Инфраструктурное укрепление и улучшение DX. [Детальный план](SPRINT-037-PLAN.md)
@@ -238,7 +241,6 @@
 - [ ] 037-12: Sentry для error tracking
 
 ---
-
 
 ## ✅ Completed Sprints Archive
 
