@@ -224,7 +224,7 @@ const Index = () => {
           </Suspense>
         )}
 
-        <ContextHints context="generation" delay={4000} />
+        {!isMobile && <ContextHints context="generation" delay={4000} />}
       </PullToRefreshWrapper>
     </div>
   );

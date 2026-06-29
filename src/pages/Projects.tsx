@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useGuestMode } from "@/contexts/GuestModeContext";
 import { PageSkeleton } from "@/components/ui/skeleton/PageSkeleton";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,7 @@ const typeLabels: Record<string, string> = {
 
 export default function Projects() {
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const { isGuestMode } = useGuestMode();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -65,7 +67,7 @@ export default function Projects() {
     return <PageSkeleton variant="list" />;
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !isGuestMode) {
     return <Navigate to="/auth" replace />;
   }
 

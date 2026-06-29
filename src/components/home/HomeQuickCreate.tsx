@@ -13,7 +13,6 @@ import { Sparkles, Plus } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { Button } from "@/components/ui/button";
-import { UnifiedTipCard } from "@/components/hints";
 import { glass } from "@/lib/glass";
 
 interface HomeQuickCreateProps {
@@ -94,15 +93,6 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
             <Plus className="w-5 h-5 lg:w-6 lg:h-6 mr-2" aria-hidden="true" />
             Создать трек
           </Button>
-          <UnifiedTipCard
-            id="quick-create-first"
-            title="Создайте первый трек"
-            message="Нажмите кнопку, опишите музыку словами — AI создаст трек за минуту. Стоимость: 10–12 кредитов."
-            emoji="✨"
-            delay={1500}
-            onDismiss={() => {}}
-          />
-
           {/* Quick expand toggle */}
           <button
             onClick={handleExpand}

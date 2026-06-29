@@ -22,7 +22,17 @@ import { useEffect, useState } from "react";
  * @returns Whether the media query matches
  */
 export function useMediaQuery(query: string, defaultValue: boolean = false): boolean {
-  const [matches, setMatches] = useState(defaultValue);
+  const [matches, setMatches] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return defaultValue;
+    }
+
+    try {
+      return window.matchMedia(query).matches;
+    } catch {
+      return defaultValue;
+    }
+  });
 
   useEffect(() => {
     // Check if window is available (SSR check)

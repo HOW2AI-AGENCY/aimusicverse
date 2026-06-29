@@ -2074,7 +2074,7 @@ select:focus-visible,
 
 /* Page transition animations */
 .page-fade {
-  opacity: 0;
+  opacity: 1;
   transition: opacity var(--page-duration, 200ms) ease-out;
 }
 
@@ -2083,8 +2083,8 @@ select:focus-visible,
 }
 
 .page-slide-up {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
+  transform: translateY(0);
   transition:
     opacity var(--page-duration, 200ms) ease-out,
     transform var(--page-duration, 200ms) ease-out;
@@ -2096,8 +2096,8 @@ select:focus-visible,
 }
 
 .page-slide-left {
-  opacity: 0;
-  transform: translateX(20px);
+  opacity: 1;
+  transform: translateX(0);
   transition:
     opacity var(--page-duration, 200ms) ease-out,
     transform var(--page-duration, 200ms) ease-out;
@@ -2109,8 +2109,8 @@ select:focus-visible,
 }
 
 .page-scale {
-  opacity: 0;
-  transform: scale(0.96);
+  opacity: 1;
+  transform: scale(1);
   transition:
     opacity var(--page-duration, 200ms) ease-out,
     transform var(--page-duration, 200ms) ease-out;
