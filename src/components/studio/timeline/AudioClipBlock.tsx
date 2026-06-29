@@ -6,7 +6,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { StudioClip, useStudioProjectStore } from "@/stores/useStudioProjectStore";
 import { cn } from "@/lib/utils";
 import { GripVertical } from "@/lib/icons";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface AudioClipBlockProps {
   clip: StudioClip;
