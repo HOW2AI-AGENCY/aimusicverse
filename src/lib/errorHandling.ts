@@ -301,7 +301,7 @@ export function showGenerationError(error: unknown): void {
     });
   } else {
     toast.error("Ошибка генерации", {
-      description: appError.toUserMessage() || "Попробуйте изменить описание или повторить позже.",
+      description: "Попробуйте изменить описание или повторить позже",
     });
   }
 }
