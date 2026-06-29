@@ -197,9 +197,9 @@ export function HintRegistryProvider({ children }: { children: ReactNode }) {
       if (overlayOpen) return false;
       // Hard dedup: already-seen tips cannot reappear.
       if (seenRef.current.has(id)) return false;
-      // Hard dedup: another tip currently owns the slot — even the same id.
+      // Hard dedup: a mounted card already owns the slot — even the same id.
       if (activeIdRef.current && activeIdRef.current !== id) return false;
-      if (activeIdRef.current === id) return true;
+      if (activeIdRef.current === id) return false;
       // Cooldown: prevent rapid re-show of the same id after release.
       const last = recentRef.current.get(id) ?? 0;
       if (Date.now() - last < REQUEST_COOLDOWN_MS) return false;
