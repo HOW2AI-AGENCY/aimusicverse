@@ -18,6 +18,7 @@ import { useCallback, useEffect } from "react";
 
 export function PromptDJMidi() {
   const navigate = useNavigate();
+  const dj = usePromptDJ() as unknown as Record<string, unknown>;
   const {
     channels,
     updateChannel,
@@ -38,7 +39,8 @@ export function PromptDJMidi() {
     currentPrompt,
     analyzerNode,
     removeTrack,
-  } = usePromptDJ();
+  } = dj as any;
+
 
   const handleUseAsReference = (track: (typeof generatedTracks)[0]) => {
     ReferenceManager.createFromCreativeTool("dj", track.audioUrl, {
@@ -195,7 +197,7 @@ export function PromptDJMidi() {
 
       {/* Channels grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {channels.map((channel) => (
+        {channels.map((channel: any) => (
           <ChannelCard key={channel.id} channel={channel} onUpdate={(updates) => updateChannel(channel.id, updates)} />
         ))}
       </div>
@@ -219,7 +221,7 @@ export function PromptDJMidi() {
           <CardContent className="p-0">
             <ScrollArea className="max-h-64">
               <div className="p-3 space-y-2">
-                {generatedTracks.map((track) => (
+                {generatedTracks.map((track: any) => (
                   <div
                     key={track.id}
                     className={cn(

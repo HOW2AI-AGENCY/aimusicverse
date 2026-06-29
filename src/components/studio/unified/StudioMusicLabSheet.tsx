@@ -603,7 +603,7 @@ export const StudioMusicLabSheet = memo(function StudioMusicLabSheet({
                             if (musicLab.promptDJ.isPreviewPlaying) {
                               musicLab.promptDJ.stopPreview();
                             } else {
-                              musicLab.promptDJ.previewPrompt();
+                              musicLab.promptDJ.previewPrompt?.("");
                             }
                           }}
                         >

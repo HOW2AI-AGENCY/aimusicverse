@@ -423,8 +423,9 @@ export function useMusicLabStudio(options: UseMusicLabStudioOptions) {
     promptDJ: {
       channels: promptDJ.channels,
       updateChannel: promptDJ.updateChannel,
-      crossfaderPosition: promptDJ.crossfaderPosition,
-      setCrossfaderPosition: promptDJ.setCrossfaderPosition,
+      crossfaderPosition: (promptDJ as unknown as { crossfaderPosition?: number }).crossfaderPosition,
+      setCrossfaderPosition: (promptDJ as unknown as { setCrossfaderPosition?: (n: number) => void }).setCrossfaderPosition,
+
       globalSettings: promptDJ.globalSettings,
       updateGlobalSettings: promptDJ.updateGlobalSettings,
       isGenerating: promptDJ.isGenerating,
@@ -435,7 +436,7 @@ export function useMusicLabStudio(options: UseMusicLabStudioOptions) {
       currentTrack: promptDJ.currentTrack,
       playTrack: promptDJ.playTrack,
       stopPlayback: promptDJ.stopPlayback,
-      previewPrompt: promptDJ.previewPrompt,
+      previewPrompt: (promptDJ as unknown as { previewPrompt?: (p: string) => void }).previewPrompt,
       stopPreview: promptDJ.stopPreview,
       isPreviewPlaying: promptDJ.isPreviewPlaying,
       currentPrompt: promptDJ.currentPrompt,

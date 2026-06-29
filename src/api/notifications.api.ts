@@ -19,7 +19,7 @@ export async function upsertNotificationSettings(data: {
   new_comment?: boolean;
   new_like?: boolean;
 }) {
-  const { error } = await supabase.from("user_notification_settings").upsert(data, { onConflict: "user_id" });
+  const { error } = await supabase.from("user_notification_settings").upsert(data as never, { onConflict: "user_id" });
   if (error) logger.error("Failed to upsert notification settings", { error: error.message });
   return { error };
 }

@@ -28,13 +28,17 @@ export const PageTransition = memo(function PageTransition({
   variant = "fade",
   duration = 200,
 }: PageTransitionProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  // Start visible immediately to prevent a blank-frame flicker on route changes.
+  // The previous opacity-0 → opacity-1 entry caused a visible flash whenever
+  // the route key reset (auth redirect, Suspense fallback swap, etc.).
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Trigger animation on next frame for smooth entry
-    const id = requestAnimationFrame(() => setIsVisible(true));
-    return () => cancelAnimationFrame(id);
-  }, []);
+    if (!isVisible) {
+      const id = requestAnimationFrame(() => setIsVisible(true));
+      return () => cancelAnimationFrame(id);
+    }
+  }, [isVisible]);
 
   return (
     <div
@@ -42,7 +46,6 @@ export const PageTransition = memo(function PageTransition({
       style={
         {
           "--page-duration": `${duration}ms`,
-          willChange: "opacity, transform",
         } as React.CSSProperties
       }
     >
@@ -50,6 +53,7 @@ export const PageTransition = memo(function PageTransition({
     </div>
   );
 });
+
 
 /**
  * Staggered children animation wrapper

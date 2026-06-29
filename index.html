@@ -135,8 +135,18 @@
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
       }
+      html {
+        /* Lock initial background to match theme so the first paint (before React
+           mounts) doesn't flash white on dark theme. The .light class below
+           overrides this when the early theme script resolves to light. */
+        background: hsl(220, 20%, 7%);
+      }
+      html.light {
+        background: hsl(220, 20%, 98%);
+      }
       body {
         margin: 0;
+        background: inherit;
         font-family:
           "DM Sans",
           "Inter",
@@ -144,6 +154,7 @@
           -apple-system,
           sans-serif;
       }
+
 
       /* Fallback loading styles - properly centered with safe areas */
       #loading-fallback {
