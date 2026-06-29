@@ -131,7 +131,7 @@ export function useThrottledCallback<T extends (...args: unknown[]) => unknown>(
         timeoutId.current = setTimeout(
           () => {
             lastCall.current = Date.now();
-            lastResult.current = callback(...args);
+            lastResult.current = callback(...args) as ReturnType<T>;
           },
           delay - (now - lastCall.current),
         );
