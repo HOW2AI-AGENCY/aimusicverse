@@ -50,7 +50,7 @@ const techDebtWarnRules = {
 // violates; surface as warnings rather than blocking the gate. Kept separate
 // because the react-hooks plugin is only registered for ts/tsx files.
 const reactHooksWarnRules = {
-  "react-hooks/rules-of-hooks": "warn",
+  "react-hooks/rules-of-hooks": "error",
   "react-hooks/set-state-in-effect": "warn",
   "react-hooks/set-state-in-render": "warn",
   "react-hooks/immutability": "warn",

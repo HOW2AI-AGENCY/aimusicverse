@@ -36,10 +36,6 @@ export const KaraokeWord = memo(
     inactiveColor = "hsl(var(--muted-foreground) / 0.5)",
     pastColor = "hsl(var(--foreground) / 0.7)",
   }: KaraokeWordProps) {
-    // Clean word from newlines
-    const cleanWord = word.replace(/\n/g, "").trim();
-    if (!cleanWord) return null;
-
     // Calculate progress through the word (0 to 1)
     const progress = useMemo(() => {
       if (currentTime < startTime) return 0;
@@ -50,6 +46,9 @@ export const KaraokeWord = memo(
 
       return Math.min(1, Math.max(0, (currentTime - startTime) / duration));
     }, [currentTime, startTime, endTime]);
+
+    const cleanWord = word.replace(/\n/g, "").trim();
+    if (!cleanWord) return null;
 
     const isActive = currentTime >= startTime && currentTime <= endTime;
     const isPast = currentTime > endTime;
