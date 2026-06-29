@@ -221,7 +221,7 @@ export function PromptDJMidi() {
           <CardContent className="p-0">
             <ScrollArea className="max-h-64">
               <div className="p-3 space-y-2">
-                {generatedTracks.map((track) => (
+                {generatedTracks.map((track: any) => (
                   <div
                     key={track.id}
                     className={cn(
