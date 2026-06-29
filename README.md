@@ -55,7 +55,7 @@
 | 🧪 Покрытие кода      |                                                         ![](https://img.shields.io/codecov/c/github/HOW2AI-AGENCY/aimusicverse?style=flat-square)                                                         |
 | 🔒 Безопасность       |                                                              ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)                                                              |
 | 📊 Спринтов завершено |                                                                                                  **35**                                                                                                   |
-| 🏗 Компонентов        |                                                                                                  **987**                                                                                                  |
+| 🏗 Компонентов         |                                                                                                  **987**                                                                                                  |
 | 🔧 Хуков              |                                                                                                  **347**                                                                                                  |
 | 🚀 Стадия             |                                                                                     **Pre-Seed / Active Development**                                                                                     |
 
@@ -63,7 +63,7 @@
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Стабилизация продукта, тестовое покрытие, архитектурная чистка
+- **Текущий фокус**: Стабилизация продукта, ESLint enforcement, архитектурная чистка (Sprint 035, 94% overall)
 
 ---
 
@@ -78,13 +78,14 @@ gantt
     Sprint 033: UX-аудит              :done, 033, 2026-04-01, 2026-04-30
     Sprint 034: Надёжность генерации   :done, 034, 2026-05-01, 2026-05-31
     033-mobile: Мобильные улучшения    :done, 033m, 2026-06-01, 2026-06-28
+    Sprint 035: Стабилизация + Чистка   :active, 035, 2026-06-28, 2026-07-15
+    section Завершено (недавно) ✅
+    Sprint 036: Рефакторинг            :done, 036, 2026-05-15, 2026-06-15
+    Sprint 037: Infrastructure Hardening :done, 037, 2026-06-15, 2026-06-29
     section В работе 🟡
-    Sprint 035: Документация репо      :active, 035, 2026-06-28, 2026-07-05
-    Архитектурная чистка (035)         :active, 035a, 2026-06-01, 2026-07-15
+    Архитектурная чистка (035)         :active, 035a, 2026-06-28, 2026-07-15
     section Запланировано ⚪
-    Sprint 036: Рефакторинг            :036, 2026-07-15, 2026-08-30
-    Sprint 037: Тестовое покрытие      :037, 2026-08-30, 2026-10-15
-    Sprint 038: DX и инфраструктура    :038, 2026-10-15, 2026-12-01
+    Sprint 038: DX и инфраструктура    :038, 2026-07-15, 2026-09-01
 ```
 
 | Спринт | Название                        | Статус | Прогресс |
@@ -92,9 +93,9 @@ gantt
 |  033   | UX-аудит и переработка          |   ✅   |   100%   |
 |  033m  | Mobile UI Improvements          |   ✅   | 114/114  |
 |  034   | Надёжность генерации            |   ✅   |   100%   |
-|  035   | Документация репозитория        |   🟡   | В работе |
-|  036   | Рефакторинг слоёв + Type Safety |   ⚪   |    0%    |
-|  037   | Тестовое покрытие               |   ⚪   |    0%    |
+|  035   | Стабилизация + Чистка           |   🟡   | В работе |
+|  036   | Рефакторинг слоёв + Type Safety |   ✅   |   100%   |
+|  037   | Infrastructure Hardening        |   ✅   |   100%   |
 |  038   | DX и инфраструктура             |   ⚪   |    0%    |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md)</sub>
@@ -124,7 +125,7 @@ npm run check-all  # lint + format + typecheck + test
 | 🎤 Voice Clone  | Клонирование голоса                          |   ✅   |
 | 📝 Lyrics AI    | AI-помощник для текстов                      |   ✅   |
 | 🎸 Инструменты  | Гитара, драм-машина, микшер                  |   ✅   |
-| 🏗 Студия       | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
+| 🏗 Студия        | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
 | 👥 Сообщество   | Лента, артисты, блог                         |   ✅   |
 | 💎 Монетизация  | Stars Payment, подписки                      |   ✅   |
 | 📊 Аналитика    | Dashboard, A/B тесты                         |   ✅   |
@@ -197,7 +198,7 @@ aimusicverse/
 | 🤖 Telegram бот | [@AIMusicVerseBot](https://t.me/AIMusicVerseBot) |
 | 📧 Email        | `hello@how2ai.agency`                            |
 | 🌐 Сайт         | [how2ai.agency](https://how2ai.agency)           |
-| 🛡 Безопасность | `security@how2ai.agency`                         |
+| 🛡 Безопасность  | `security@how2ai.agency`                         |
 | 📄 Лицензия     | [MIT](LICENSE)                                   |
 
 ---
