@@ -24,6 +24,12 @@
 
 ## [Unreleased]
 
+### 🔧 Спринт 035 — Стабилизация + Чистка (2026-06-29)
+
+#### Исправлено
+
+- **TDZ краш page-admin чанка** — удалён `manualChunks` для `/pages/AdminDashboard`, вызывавший `Cannot access 'ft' before initialization` из-за разделения admin-страниц и их зависимостей по разным чанкам. Rollup теперь автоматически разбивает admin-страницы на отдельные файлы.
+
 ### 🔧 Спринт 037 — Infrastructure Hardening & Developer Experience (2026-06-29)
 
 #### Добавлено
