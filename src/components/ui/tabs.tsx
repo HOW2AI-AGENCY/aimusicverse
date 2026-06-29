@@ -31,7 +31,7 @@ const TabsTrigger = React.forwardRef<
       "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5",
       "text-sm font-medium",
       // Touch target
-      "min-h-[36px] touch-manipulation",
+      "min-h-[44px] touch-manipulation",
       // Transition
       "ring-offset-background transition-all duration-200",
       // Active state
