@@ -189,6 +189,8 @@ export const duration = {
 
 // ============================================================================
 // Z-INDEX SCALE
+// Mirrors tailwind.config.ts theme.extend.zIndex — that file is the source of
+// truth.  Keep in sync with src/constants/z-index.ts as well.
 // ============================================================================
 
 export const zIndex = {
@@ -203,7 +205,14 @@ export const zIndex = {
   dialog: 80,
   fullscreen: 90,
   system: 100,
+  sheetBackdrop: 150,
+  sheetContent: 151,
   dropdown: 200,
+  popover: 200,
+  tooltip: 250,
+  toast: 300,
+  notification: 300,
+  max: 9999,
 } as const;
 
 // ============================================================================
