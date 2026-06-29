@@ -18,6 +18,7 @@ import { useCallback, useEffect } from "react";
 
 export function PromptDJMidi() {
   const navigate = useNavigate();
+  const dj = usePromptDJ() as unknown as Record<string, unknown>;
   const {
     channels,
     updateChannel,
@@ -38,7 +39,8 @@ export function PromptDJMidi() {
     currentPrompt,
     analyzerNode,
     removeTrack,
-  } = usePromptDJ();
+  } = dj as any;
+
 
   const handleUseAsReference = (track: (typeof generatedTracks)[0]) => {
     ReferenceManager.createFromCreativeTool("dj", track.audioUrl, {
