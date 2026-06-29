@@ -10,7 +10,7 @@
     "build": "vite build",
     "clean:cache": "node scripts/clean-cache.mjs",
     "reset": "node scripts/clean-cache.mjs && npm install && npm run build",
-    "test": "vitest run",
+    "test": "NODE_OPTIONS=--max-old-space-size=2048 vitest run",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:smoke": "playwright test tests/e2e/smoke.app-boots.spec.ts --project=chromium --project=firefox --project=webkit --reporter=list,html,json",

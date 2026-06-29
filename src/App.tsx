@@ -349,10 +349,38 @@ const App = () => (
                         />
 
                         {/* Payment pages */}
-                        <Route path="/payment" element={<MobilePaymentScreen />} />
-                        <Route path="/payment/buy" element={<MobilePaymentScreen />} />
-                        <Route path="/payment/success" element={<PaymentSuccess />} />
-                        <Route path="/payment/fail" element={<PaymentFail />} />
+                        <Route
+                          path="/payment"
+                          element={
+                            <ProtectedRoute>
+                              <MobilePaymentScreen />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/payment/buy"
+                          element={
+                            <ProtectedRoute>
+                              <MobilePaymentScreen />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/payment/success"
+                          element={
+                            <ProtectedRoute>
+                              <PaymentSuccess />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/payment/fail"
+                          element={
+                            <ProtectedRoute>
+                              <PaymentFail />
+                            </ProtectedRoute>
+                          }
+                        />
 
                         {/* Error route */}
                         <Route path="/error" element={<ErrorPage />} />
