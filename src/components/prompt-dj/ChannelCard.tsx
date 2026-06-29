@@ -47,8 +47,9 @@ const CHANNEL_CONFIG = {
 };
 
 export function ChannelCard({ channel, onUpdate }: ChannelCardProps) {
-  const config = CHANNEL_CONFIG[channel.type];
+  const config = (CHANNEL_CONFIG as Record<string, (typeof CHANNEL_CONFIG)[keyof typeof CHANNEL_CONFIG]>)[channel.type] ?? CHANNEL_CONFIG.custom;
   const Icon = config.icon;
+
 
   return (
     <Card
