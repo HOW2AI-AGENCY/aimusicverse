@@ -1,12 +1,9 @@
 <div align="center">
 
-<img src="src/assets/logo.png" alt="MusicVerse AI" width="140"/>
+![AI MusicVerse](https://shieldcn.dev/header/surface.svg?title=AI+MusicVerse&subtitle=%D0%93%D0%B5%D0%BD%D0%B5%D1%80%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5%2C+%D1%80%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5%2C+%D1%81%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5+%D0%B8+%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D1%83%D0%B9%D1%82%D0%B5+%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D1%83+%D1%81+%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E+%D0%98%D0%98%2C+%D0%BD%D0%B5+%D0%B2%D1%8B%D1%85%D0%BE%D0%B4%D1%8F+%D0%B8%D0%B7+Telegram.&mode=dark&theme=slate)
 
-# 🎵 MusicVerse AI
 
 **AI-powered music creation platform — прямо в Telegram**
-
-Генерируйте, редактируйте, сводите и публикуйте музыку с помощью ИИ, не выходя из Telegram.
 
 <p>
   <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981"/></a>
