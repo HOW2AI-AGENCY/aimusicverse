@@ -10,9 +10,8 @@ export function useDisplayPreferences() {
   useEffect(() => {
     const root = document.documentElement;
     if (preferences.theme === "auto") {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      root.classList.toggle("dark", prefersDark);
-      root.classList.toggle("light", !prefersDark);
+      root.classList.add("dark");
+      root.classList.remove("light");
     } else {
       root.classList.toggle("dark", preferences.theme === "dark");
       root.classList.toggle("light", preferences.theme === "light");

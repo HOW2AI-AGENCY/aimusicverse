@@ -92,17 +92,20 @@
       (function () {
         // Check saved theme preference
         var stored = localStorage.getItem("musicverse-theme");
-        var theme = stored || "system";
+        var preferenceStore = localStorage.getItem("user-preferences");
+        var storedPreferenceTheme = null;
+
+        try {
+          storedPreferenceTheme = preferenceStore ? JSON.parse(preferenceStore).state.preferences.theme : null;
+        } catch (e) {
+          storedPreferenceTheme = null;
+        }
+
+        var theme = stored || storedPreferenceTheme || "dark";
         var resolved = theme;
 
-        if (theme === "system" || theme === "dark") {
-          // Check Telegram first
-          if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.colorScheme) {
-            resolved = window.Telegram.WebApp.colorScheme;
-          } else {
-            // Default to dark theme for music app
-            resolved = "dark";
-          }
+        if (theme === "system" || theme === "auto") {
+          resolved = "dark";
         }
 
         // Apply theme class immediately
