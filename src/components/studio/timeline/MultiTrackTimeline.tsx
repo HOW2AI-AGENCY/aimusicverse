@@ -11,7 +11,7 @@ import { Playhead } from "./Playhead";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Plus, ZoomIn, ZoomOut, Magnet } from "@/lib/icons";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface MultiTrackTimelineProps {
   onAddTrack: () => void;

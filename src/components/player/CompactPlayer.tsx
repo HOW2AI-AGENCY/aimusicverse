@@ -30,7 +30,7 @@ import {
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGestures } from "@/hooks/useGestures";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useTracks } from "@/hooks/useTracks";
 import type { Track } from "@/types/track";
 import { cn } from "@/lib/utils";

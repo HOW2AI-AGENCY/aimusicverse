@@ -10,7 +10,7 @@
 
 import { ReactNode, memo } from "react";
 import { cn } from "@/lib/utils";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface UltraWideLayoutProps {
   children: ReactNode;
