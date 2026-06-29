@@ -6,6 +6,7 @@
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
+import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 import { Loader2, GitBranch } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
-import { useQueryClient } from "@tanstack/react-query";
 import { logger } from "@/lib/logger";
 
 interface Version {
@@ -46,7 +46,7 @@ export function HeaderVersionSelector({
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(activeVersionId || null);
-  const queryClient = useQueryClient();
+  const { setPrimaryVersionAsync, isSettingPrimary } = useVersionSwitcher();
 
   useEffect(() => {
     const fetchVersions = async () => {
@@ -85,31 +85,10 @@ export function HeaderVersionSelector({
     setIsUpdating(true);
 
     try {
-      // Update track's active version and sync fields
-      const { error } = await supabase
-        .from("tracks")
-        .update({
-          active_version_id: version.id,
-          audio_url: version.audio_url,
-          cover_url: version.cover_url,
-          duration_seconds: version.duration_seconds,
-        })
-        .eq("id", trackId);
-
-      if (error) throw error;
-
-      // Update is_primary flags
-      await supabase.from("track_versions").update({ is_primary: false }).eq("track_id", trackId);
-
-      await supabase.from("track_versions").update({ is_primary: true }).eq("id", version.id);
+      await setPrimaryVersionAsync({ trackId, versionId: version.id });
 
       setActiveId(version.id);
       onVersionChange?.(version.id);
-
-      await queryClient.invalidateQueries({ queryKey: ["tracks"] });
-      await queryClient.invalidateQueries({ queryKey: ["track-versions", trackId] });
-
-      toast.success(`Версия ${version.version_label || "A"} выбрана`);
     } catch (error) {
       logger.error("Error switching version", { error });
       toast.error("Ошибка переключения версии");

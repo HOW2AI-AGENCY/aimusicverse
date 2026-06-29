@@ -101,10 +101,12 @@
 | TDZ fix: page-admin chunk crash                 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Circular deps fix (#541)                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | ESLint: `rules-of-hooks` → `"error"`            | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Удалить дубликаты хуков (6 дублей, -1700 строк) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Консолидировать PlaybackStore (3 файла → 1)     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Query key factory (`src/lib/queryKeys.ts`)      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Защитить payment-маршруты (ProtectedRoute)      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Удалить дубликаты хуков (6 дублей, -1700 строк) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Консолидировать PlaybackStore (3 файла → 1)     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Query key factory (`src/lib/queryKeys.ts`)      | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Защитить payment-маршруты (ProtectedRoute)      | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Fix Vitest OOM (infinite loop + pool config)    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| API layer: storage, payments, notifications     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | E2E стабилизация (47 spec → CI green)           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
 | Playwright CI pipeline                          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
 
@@ -248,7 +250,7 @@ mindmap
 
 ### 🔗 Связанная документация
 
-|            📚 Указатель             |      🗺 Дорожная карта       |  📝 Журнал изменений   |             🪲 Проблемы             |         🤝 Контрибуция         |
+|            📚 Указатель             |       🗺 Дорожная карта       |  📝 Журнал изменений   |             🪲 Проблемы             |         🤝 Контрибуция         |
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 

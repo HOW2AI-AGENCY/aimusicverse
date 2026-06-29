@@ -4,7 +4,8 @@
  */
 
 export { useGenerateForm } from "./useGenerateForm";
-export type { GenerateFormState, UseGenerateFormProps } from "./useGenerateForm";
+export type { GenerateFormState, UseGenerateFormProps, GenerationMode } from "./useGenerateFormTypes";
+export { classifyFailure } from "./useGenerateFormTypes";
 
 export { useGenerateDraft } from "./useGenerateDraft";
 export { useActiveGenerations } from "./useActiveGenerations";
