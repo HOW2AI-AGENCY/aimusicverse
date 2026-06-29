@@ -9,7 +9,8 @@ import { lazy, ComponentType, LazyExoticComponent, Suspense, ReactNode } from "r
  * Enhanced lazy loading with retry logic
  * Handles chunk loading failures during deployments by triggering a page reload
  */
-export function lazyWithRetry<T extends ComponentType<unknown>>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function lazyWithRetry<T extends ComponentType<any>>(
   importFn: () => Promise<{ default: T }>,
   retries = 3,
   delay = 1000,
