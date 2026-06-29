@@ -11,6 +11,7 @@ import type { Track } from "@/types/track";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { formatTime } from "@/lib/formatters";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface VersionMetadata {
   prompt?: string;
@@ -206,7 +207,11 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     {version.cover_url ? (
-                      <img src={version.cover_url} alt="Version cover" className="w-16 h-16 rounded-lg object-cover" />
+                      <LazyImage
+                        src={version.cover_url}
+                        alt="Version cover"
+                        className="w-16 h-16 rounded-lg object-cover"
+                      />
                     ) : (
                       <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
                         <Music2 className="w-8 h-8 text-primary/40" />

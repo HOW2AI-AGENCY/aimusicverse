@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FolderOpen, MoreVertical, Trash2, Music, Calendar, ChevronRight, Globe, Disc } from "@/lib/icons";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { cn } from "@/lib/utils";
 import { pill } from "@/lib/overlay-colors";
 import { format, ru } from "@/lib/date-utils";
@@ -420,7 +421,7 @@ const CompactCard = memo(function CompactCard({
     >
       <div className="w-10 h-10 rounded-md overflow-hidden bg-muted shrink-0">
         {project.cover_url ? (
-          <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover" loading="lazy" />
+          <LazyImage src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <Disc className="w-4 h-4 text-muted-foreground" />

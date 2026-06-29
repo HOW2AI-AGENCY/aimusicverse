@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { ServerCrash, RefreshCw, Bug } from "@/lib/icons";
+import { Server as ServerCrash, RefreshCw, Bug } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

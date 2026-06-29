@@ -26,6 +26,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface FeedbackItem {
   id: string;
@@ -219,7 +220,11 @@ export default function AdminFeedback() {
           {/* User Info */}
           <div className="flex items-center gap-3">
             {selectedFeedback.profile?.photo_url ? (
-              <img src={selectedFeedback.profile.photo_url} alt="" className="w-10 h-10 rounded-full object-cover" />
+              <LazyImage
+                src={selectedFeedback.profile.photo_url}
+                alt=""
+                className="w-10 h-10 rounded-full object-cover"
+              />
             ) : (
               <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                 <MessageSquare className="h-5 w-5" />

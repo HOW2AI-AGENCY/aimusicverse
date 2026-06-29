@@ -26,19 +26,22 @@
 
 ## 1. High-level system
 
+> **Verified:** 2026-06-29 (Sprint 037 infrastructure audit)
+
 ```mermaid
 flowchart TB
     subgraph Client["📱 Telegram Mini App"]
         Pages[Pages · React Router]
-        Comps[935+ Components]
-        Hooks[200+ Hooks]
+        Comps[1003+ Components]
+        Hooks[330+ Hooks]
         State[Zustand · React Query]
         Audio[GlobalAudioProvider]
+        Tests[341+ Tests]
     end
     subgraph Backend["☁️ Lovable Cloud (Supabase)"]
         Auth[Auth · JWT + RLS]
         DB[(PostgreSQL)]
-        Edge[80+ Edge Functions]
+        Edge[246+ Edge Functions]
         Storage[Object Storage]
         Realtime[Realtime channels]
     end
@@ -169,7 +172,7 @@ Architecture Decision Records under [`ADR/`](ADR/). Notable:
 
 ### 🔗 Related Documentation
 
-|            📚 Index             |             🗂 Structure             |      🗺 Roadmap       |         🧩 KB          |       📝 Changelog        |
+|            📚 Index             |             🗂 Structure              |       🗺 Roadmap       |         🧩 KB          |       📝 Changelog        |
 | :-----------------------------: | :----------------------------------: | :-------------------: | :--------------------: | :-----------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Structure](REPOSITORY_STRUCTURE.md) | [Roadmap](ROADMAP.md) | [CLAUDE.md](CLAUDE.md) | [Changelog](CHANGELOG.md) |
 

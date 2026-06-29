@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { LoadingScreen } from "@/components/UnifiedSplashScreen";
 import { AppLogo } from "@/components/branding/AppLogo";
 import { logger } from "@/lib/logger";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -155,7 +156,11 @@ const Auth = () => {
 
             {user.photo_url && (
               <div className="mb-4 flex justify-center">
-                <img src={user.photo_url} alt="Avatar" className="w-20 h-20 rounded-full border-2 border-primary/30" />
+                <LazyImage
+                  src={user.photo_url}
+                  alt="Avatar"
+                  className="w-20 h-20 rounded-full border-2 border-primary/30"
+                />
               </div>
             )}
 

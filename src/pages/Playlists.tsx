@@ -12,7 +12,7 @@ import { SharePlaylistDialog } from "@/components/playlist/SharePlaylistDialog";
 import { DesktopMasterDetailLayout } from "@/components/layout/desktop";
 import type { Playlist } from "@/hooks/usePlaylists";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
-import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
@@ -83,7 +83,7 @@ export default function Playlists() {
       ))}
     </div>
   ) : playlists.length === 0 ? (
-    <UnifiedEmptyState type="playlists" actionLabel="Создать плейлист" onAction={() => setCreateDialogOpen(true)} />
+    <EmptyState variant="playlists" action={{ label: "Создать плейлист", onClick: () => setCreateDialogOpen(true) }} />
   ) : (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
       {playlists.map((playlist) => (

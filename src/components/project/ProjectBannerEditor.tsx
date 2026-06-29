@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { logger } from "@/lib/logger";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface ProjectBannerEditorProps {
   open: boolean;
@@ -330,7 +331,7 @@ export function ProjectBannerEditor({ open, onOpenChange, project, onBannerUpdat
               {/* Current Banner Preview */}
               {project.banner_url && (
                 <div className="relative rounded-lg overflow-hidden bg-muted" style={{ aspectRatio: "16/9" }}>
-                  <img src={project.banner_url} alt="Current banner" className="w-full h-full object-cover" />
+                  <LazyImage src={project.banner_url} alt="Current banner" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                   <span className="absolute bottom-2 left-2 text-xs text-muted-foreground">Текущий баннер</span>
                 </div>

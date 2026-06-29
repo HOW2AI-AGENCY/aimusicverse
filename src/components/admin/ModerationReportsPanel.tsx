@@ -18,6 +18,7 @@ import {
   useModerationStats,
 } from "@/hooks/useAdminModerationReports";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 type ReportStatus = "pending" | "reviewed" | "resolved" | "dismissed";
 
@@ -156,7 +157,7 @@ export function ModerationReportsPanel() {
                         <div className="flex items-center gap-3 p-2 rounded-md bg-muted/50">
                           <div className="w-10 h-10 rounded overflow-hidden bg-muted flex-shrink-0">
                             {report.track.cover_url ? (
-                              <img src={report.track.cover_url} alt="" className="w-full h-full object-cover" />
+                              <LazyImage src={report.track.cover_url} alt="" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
                                 <Music className="h-5 w-5 text-muted-foreground" />

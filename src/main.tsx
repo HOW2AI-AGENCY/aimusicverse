@@ -19,6 +19,8 @@ import "./styles/animations.css";
 // Feature 033-mobile-ui-improvements: Accessibility and shimmer styles
 import "./styles/accessibility.css";
 import "./styles/shimmer.css";
+// Feature 036-mobile-perf-ux-redesign: Consolidated design tokens
+import "./styles/tokens.css";
 import { logger } from "./lib/logger";
 import { initSentry, captureError } from "./lib/sentry";
 import { initTelemetry } from "./lib/telemetry";

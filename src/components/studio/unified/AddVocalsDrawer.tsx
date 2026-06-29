@@ -22,6 +22,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
+import { LazyImage } from "@/components/ui/lazy-image";
 import type { Track } from "@/types/track";
 
 interface AddVocalsDrawerProps {
@@ -222,7 +223,9 @@ export function AddVocalsDrawer({ open, onOpenChange, track, onSuccess }: AddVoc
             <>
               {/* Track info */}
               <div className="p-3 bg-muted/30 rounded-lg flex items-center gap-3">
-                {track.cover_url && <img src={track.cover_url} alt="" className="w-12 h-12 rounded-lg object-cover" />}
+                {track.cover_url && (
+                  <LazyImage src={track.cover_url} alt="" className="w-12 h-12 rounded-lg object-cover" />
+                )}
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium truncate">{track.title || "Без названия"}</p>
                   <p className="text-xs text-muted-foreground">Инструментальный трек</p>

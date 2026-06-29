@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Switch } from "@/components/ui/switch";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 export function BroadcastPanel() {
   const [title, setTitle] = useState("");
@@ -151,7 +152,7 @@ export function BroadcastPanel() {
           <div className="mt-1">
             {imageUrl ? (
               <div className="relative">
-                <img src={imageUrl} alt="Preview" className="w-full h-32 object-cover rounded-md" />
+                <LazyImage src={imageUrl} alt="Preview" className="w-full h-32 object-cover rounded-md" />
                 <Button
                   size="icon"
                   variant="destructive"

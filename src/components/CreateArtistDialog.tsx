@@ -14,6 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { surface } from "@/lib/overlay-colors";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface TrackData {
   title?: string | null;
@@ -183,7 +184,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
         <div className="flex items-center gap-3 p-3 rounded-lg border border-border/50 bg-muted/30">
           <div className="relative shrink-0">
             {fromTrack.cover_url ? (
-              <img
+              <LazyImage
                 src={fromTrack.cover_url}
                 alt={fromTrack.title || ""}
                 className="w-14 h-14 rounded-lg object-cover"
@@ -241,7 +242,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
               isMobile ? "w-24 h-24" : "w-32 h-32",
             )}
           >
-            <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+            <LazyImage src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
             <button
               onClick={() => setAvatarUrl(null)}
               className="absolute top-0.5 right-0.5 p-1 rounded-full bg-background/80 hover:bg-background"

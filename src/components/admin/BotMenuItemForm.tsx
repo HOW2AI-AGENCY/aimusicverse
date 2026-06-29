@@ -21,6 +21,7 @@ import {
   type CreateMenuItemInput,
 } from "@/hooks/useBotMenuItems";
 import { toast } from "sonner";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 const EMOJI_OPTIONS = [
   "🏠",
@@ -376,7 +377,7 @@ export function BotMenuItemForm({ open, onOpenChange, item, parentKey, existingK
 
                 {formData.image_url ? (
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden border">
-                    <img src={formData.image_url} alt="Menu preview" className="w-full h-full object-cover" />
+                    <LazyImage src={formData.image_url} alt="Menu preview" className="w-full h-full object-cover" />
                     <Button
                       type="button"
                       variant="destructive"

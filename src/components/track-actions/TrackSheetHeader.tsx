@@ -12,6 +12,7 @@ import { pill } from "@/lib/overlay-colors";
 import { Badge } from "@/components/ui/badge";
 import { TrackTypeIcons } from "@/components/library/TrackTypeIcons";
 import { ScrollableTagsRow } from "@/components/library/ScrollableTagsRow";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 // Format duration from seconds to mm:ss
 const formatDuration = (seconds: number): string => {
@@ -57,7 +58,7 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
           )}
         >
           {coverUrl ? (
-            <img src={coverUrl} alt={track.title || "Cover"} className="w-full h-full object-cover" />
+            <LazyImage src={coverUrl} alt={track.title || "Cover"} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <Music2 className="w-6 h-6 text-primary/60" />

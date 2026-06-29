@@ -1,68 +1,33 @@
 /**
- * Motion Presets — Phase 7 UI unification
+ * Motion Animation Presets
+ * Sprint 038-C: Animation Standards
  *
- * Canonical animation variants for the whole app. Components must use these
- * instead of inlining custom `whileHover` / `initial` / `animate` objects, so
- * timings and easings stay consistent.
- *
- * Durations and easings are aligned with the CSS tokens in `src/index.css`:
- *   --motion-fast (100ms) / --motion-base (200ms) / --motion-slow (300ms)
- *
- * Re-exports the legacy variants defined in `@/lib/motion` so existing code
- * keeps working while new code imports from this file.
+ * Duration and easing constants to eliminate magic numbers.
+ * All framer-motion animations should use these instead of raw numbers.
  */
+import type { Transition } from "@/lib/motion";
 
-import type { Variants, Transition } from "@/lib/motion";
-import {
-  fadeIn,
-  slideUp,
-  slideDown,
-  slideInFromLeft,
-  slideInFromRight,
-  scaleIn,
-  scaleUp,
-  staggerContainer,
-  staggerItem,
-  shake,
-  pulse,
-  smoothTransition,
-  quickTransition,
-  slowTransition,
-  bounceTransition,
-  MOTION_DURATION,
-  MOTION_EASING,
-} from "@/lib/motion";
+// ── Duration Tiers ─────────────────────────────────────────────────
+export const DURATION_INSTANT = 0;
+export const DURATION_FAST = 0.1; // 100ms — micro-interactions
+export const DURATION_BASE = 0.2; // 200ms — default transitions
+export const DURATION_SLOW = 0.3; // 300ms — emphasis
+export const DURATION_SLOWER = 0.4;
+export const DURATION_SLOWEST = 0.5;
+export const DURATION_SPRING = 0.5; // spring-based, longer perceptual
 
-// Canonical preset names used by Phase 7 codemods.
-// Aliases mapped to existing variants so we keep one implementation.
-export const presets = {
-  fadeIn,
-  slideUp,
-  slideDown,
-  slideLeft: slideInFromLeft,
-  slideRight: slideInFromRight,
-  scaleIn,
-  scaleUp,
-  shake,
-  pulse,
-  /** Use on a parent to stagger children that use `staggerItem`. */
-  listStagger: staggerContainer,
-  /** Use on direct children of a `listStagger` parent. */
-  listItem: staggerItem,
-} satisfies Record<string, Variants>;
+// ── Easing Presets ─────────────────────────────────────────────────
+export const EASE_DEFAULT: Transition = { duration: DURATION_BASE, ease: [0.4, 0, 0.2, 1] };
+export const EASE_OUT: Transition = { duration: DURATION_BASE, ease: [0, 0, 0.2, 1] };
+export const EASE_IN: Transition = { duration: DURATION_FAST, ease: [0.4, 0, 1, 1] };
+export const EASE_BOUNCE: Transition = { duration: DURATION_SPRING, ease: [0.34, 1.56, 0.64, 1] };
+export const EASE_SPRING: Transition = { type: "spring", stiffness: 500, damping: 30 };
 
-export const transitions = {
-  fast: quickTransition,
-  base: smoothTransition,
-  slow: slowTransition,
-  bounce: bounceTransition,
-} satisfies Record<string, Transition>;
-
-/** Standard hover/press feedback for interactive surfaces. */
-export const interactiveTap = {
-  whileHover: { scale: 1.01 },
-  whileTap: { scale: 0.98 },
-  transition: { type: "spring", stiffness: 400, damping: 25 } as Transition,
-} as const;
-
-export { MOTION_DURATION, MOTION_EASING };
+// ── Preset Animations ──────────────────────────────────────────────
+export const fadeIn = { opacity: 1, transition: EASE_DEFAULT };
+export const fadeOut = { opacity: 0, transition: EASE_IN };
+export const slideUp = { opacity: 1, y: 0, transition: EASE_DEFAULT };
+export const slideDown = { opacity: 1, y: 0, transition: EASE_DEFAULT };
+export const slideInFromRight = { opacity: 1, x: 0, transition: EASE_DEFAULT };
+export const slideInFromLeft = { opacity: 1, x: 0, transition: EASE_DEFAULT };
+export const scaleIn = { opacity: 1, scale: 1, transition: EASE_SPRING };

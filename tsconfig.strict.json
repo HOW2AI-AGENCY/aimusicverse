@@ -1,0 +1,23 @@
+{
+  /**
+   * Sprint 037-07: TypeScript strict mode — analysis phase
+   *
+   * Extends tsconfig.app.json with additional strict checks.
+   * NOT used in CI/check-all yet — run manually to audit:
+   *   npx tsc --noEmit --project tsconfig.strict.json
+   *
+   * Migration plan:
+   * 1. Run audit, categorize errors by type
+   * 2. Fix in batches (unused imports first, then parameters)
+   * 3. When error count < 100, merge into tsconfig.app.json
+   */
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}
