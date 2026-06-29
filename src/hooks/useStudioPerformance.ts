@@ -120,7 +120,8 @@ export function useThrottledCallback<T extends (...args: unknown[]) => unknown>(
 
       if (now - lastCall.current >= delay) {
         lastCall.current = now;
-        lastResult.current = callback(...args);
+        lastResult.current = callback(...args) as ReturnType<T>;
+
         return lastResult.current;
       } else {
         // Schedule for later
