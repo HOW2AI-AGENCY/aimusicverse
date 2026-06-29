@@ -75,7 +75,15 @@ interface MobileFullscreenPlayerProps {
 }
 
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
+  // Perf instrumentation — log first mount + paint timings for blank-frame hunting
+  useEffect(() => {
+    perfMark("fullscreen:mount");
+    const raf = requestAnimationFrame(() => perfEvent("fullscreen", "firstPaint"));
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   const navigate = useNavigate();
+
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
   const [showVisualizer, setShowVisualizer] = useState(false);
