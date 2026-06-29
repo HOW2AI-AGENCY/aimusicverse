@@ -436,7 +436,7 @@ export function useMusicLabStudio(options: UseMusicLabStudioOptions) {
       currentTrack: promptDJ.currentTrack,
       playTrack: promptDJ.playTrack,
       stopPlayback: promptDJ.stopPlayback,
-      previewPrompt: promptDJ.previewPrompt,
+      previewPrompt: (promptDJ as unknown as { previewPrompt?: (p: string) => void }).previewPrompt,
       stopPreview: promptDJ.stopPreview,
       isPreviewPlaying: promptDJ.isPreviewPlaying,
       currentPrompt: promptDJ.currentPrompt,
