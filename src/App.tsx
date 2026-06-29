@@ -172,7 +172,6 @@ const ErrorPage = lazyWithRetry(() => import("./pages/ErrorPage"));
 // QueryClient is now initialized in CoreProviders
 
 // Feature 036: Apply user preferences (theme, text scale, reduced motion) to DOM
-import { useDisplayPreferences } from "@/hooks/useDisplayPreferences";
 
 function PreferencesApplicator({ children }: { children: React.ReactNode }) {
   useDisplayPreferences();

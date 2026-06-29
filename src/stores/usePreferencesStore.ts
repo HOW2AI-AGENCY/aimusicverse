@@ -19,7 +19,7 @@ import { logger } from "@/lib/logger";
 
 function cloudStorageSet(key: string, value: string): void {
   try {
-    window.Telegram?.WebApp?.CloudStorage?.setItem(key, value, (err: unknown) => {
+    window.Telegram?.WebApp?.CloudStorage?.setItem(key, value, (err: Error | null) => {
       if (err) logger.warn("CloudStorage write failed", { key, err });
     });
   } catch {
@@ -32,8 +32,8 @@ function cloudStorageGet(key: string): Promise<string | null> {
     try {
       window.Telegram?.WebApp?.CloudStorage?.getItem(
         key,
-        (err: unknown, value?: string) => {
-          if (err || value === undefined || value === "") resolve(null);
+        (err: Error | null, value: string | null) => {
+          if (err || value === undefined || value === null || value === "") resolve(null);
           else resolve(value);
         },
       );

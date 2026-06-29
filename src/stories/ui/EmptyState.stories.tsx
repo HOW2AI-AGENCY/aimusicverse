@@ -8,7 +8,7 @@
  * - Different icon sizes
  */
 import type { Meta, StoryObj } from "@storybook/react";
-import { EmptyState } from "@/components/ui/empty-state";
+import { UnifiedEmptyState as EmptyState } from "@/components/ui/unified-empty-state";
 import { Button } from "@/components/ui/button";
 
 const meta: Meta<typeof EmptyState> = {
@@ -45,11 +45,7 @@ export const WithAction: Story = {
     title: "No playlists",
     description: "Create a playlist to organize your favorite tracks.",
   },
-  render: (args) => (
-    <EmptyState {...args}>
-      <Button>Create Playlist</Button>
-    </EmptyState>
-  ),
+  render: (args: React.ComponentProps<typeof EmptyState>) => <EmptyState {...args} />,
 };
 
 export const Minimal: Story = {

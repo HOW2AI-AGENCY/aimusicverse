@@ -6,7 +6,7 @@
  * for cases where React hooks are not suitable.
  */
 
-export { announceToScreenReader } from "@/lib/a11y";
+export { announceToScreenReader } from "@/lib/a11y.tsx";
 
 export function trapFocus(container: HTMLElement): () => void {
   const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
