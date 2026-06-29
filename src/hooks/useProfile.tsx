@@ -37,7 +37,19 @@ export const useProfile = () => {
   const { user } = useAuth();
   const { isScreenshotMode, screenshotProfile } = useGuestMode();
 
-  // Return mock data in screenshot mode
+  const query = useQuery({
+    queryKey: ["profile", user?.id],
+    queryFn: async (): Promise<Profile | null> => {
+      if (!user?.id) return null;
+
+      const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
+
+      if (error) throw error;
+      return data as Profile | null;
+    },
+    enabled: !!user?.id && !(isScreenshotMode && screenshotProfile),
+  });
+
   if (isScreenshotMode && screenshotProfile) {
     return {
       data: screenshotProfile,
@@ -49,18 +61,7 @@ export const useProfile = () => {
     } as const;
   }
 
-  return useQuery({
-    queryKey: ["profile", user?.id],
-    queryFn: async (): Promise<Profile | null> => {
-      if (!user?.id) return null;
-
-      const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
-
-      if (error) throw error;
-      return data as Profile | null;
-    },
-    enabled: !!user?.id,
-  });
+  return query;
 };
 
 export const useUpdateProfile = () => {

@@ -267,6 +267,9 @@ export default defineConfig(({ mode }) => ({
 
           // Pages
           if (id.includes("/pages/StemStudio")) return "page-stem-studio";
+          // Note: /pages/AdminDashboard and /pages/admin/ are intentionally NOT chunked here.
+          // Manual chunking caused a TDZ crash ("Cannot access 'ft' before init")
+          // due to circular deps via admin components shared across chunks.
           if (id.includes("/pages/MusicGraph")) return "page-music-graph";
           if (id.includes("/pages/Studio") && !id.includes("/pages/StudioHub")) return "page-studio";
           if (id.includes("/pages/StudioHub")) return "page-studio-hub";

@@ -733,19 +733,11 @@ export function IntegratedStemTracks({
     setIsHardwareMode((prev) => !prev);
   }, [haptic]);
 
-  if (!stems || stems.length === 0) return null;
-
-  // Count active stems
-  const soloedCount = Object.values(stemStates).filter((s) => s.solo).length;
-  const mutedCount = Object.values(stemStates).filter((s) => s.muted).length;
-
-  // Get simulated audio levels for hardware mixer
   const simulatedLevels = useSimulatedStemLevels(stemStates, masterVolume, masterMuted, isPlaying);
 
-  // Convert stems to hardware mixer format with real-time levels
   const hardwareStems = useMemo(
     () =>
-      stems.map((stem) => ({
+      (stems || []).map((stem) => ({
         id: stem.id,
         name: stem.stem_type.charAt(0).toUpperCase() + stem.stem_type.slice(1),
         type: stem.stem_type,
@@ -753,6 +745,11 @@ export function IntegratedStemTracks({
       })),
     [stems, simulatedLevels.stems],
   );
+
+  if (!stems || stems.length === 0) return null;
+
+  const soloedCount = Object.values(stemStates).filter((s) => s.solo).length;
+  const mutedCount = Object.values(stemStates).filter((s) => s.muted).length;
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={cn("flex flex-col", className)}>

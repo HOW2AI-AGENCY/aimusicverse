@@ -6,9 +6,9 @@
 
 <p>
   <img alt="Спринт" src="https://img.shields.io/badge/sprint-035-26A5E4?style=for-the-badge"/>
-  <img alt="Прогресс" src="https://img.shields.io/badge/overall-93%25-F59E0B?style=for-the-badge"/>
+  <img alt="Прогресс" src="https://img.shields.io/badge/overall-94%25-F59E0B?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-95%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-7_files-EF4444?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-25_suites-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/bundle-918kb%2F950kb-10B981?style=for-the-badge"/>
 </p>
 
@@ -94,15 +94,19 @@
 | Unified footers across all .md files        | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 | Screenshots (4 screens)                     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
-| Задача                                          | Прогресс                                                        |
-| ----------------------------------------------- | --------------------------------------------------------------- |
-| ESLint: `rules-of-hooks` → `"error"`            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Удалить дубликаты хуков (6 дублей, -1700 строк) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Консолидировать PlaybackStore (3 файла → 1)     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Query key factory (`src/lib/queryKeys.ts`)      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Защитить payment-маршруты (ProtectedRoute)      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| E2E стабилизация (47 spec → CI green)           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Playwright CI pipeline                          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+## 🚦 Sprint `035` Стабилизация + Чистка — В РАБОТЕ 🟡
+
+| Задача                                          | Прогресс                                                          |
+| ----------------------------------------------- | ----------------------------------------------------------------- |
+| TDZ fix: page-admin chunk crash                 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Circular deps fix (#541)                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| ESLint: `rules-of-hooks` → `"error"`            | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Удалить дубликаты хуков (6 дублей, -1700 строк) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Консолидировать PlaybackStore (3 файла → 1)     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Query key factory (`src/lib/queryKeys.ts`)      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Защитить payment-маршруты (ProtectedRoute)      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| E2E стабилизация (47 spec → CI green)           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Playwright CI pipeline                          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
 
 ## 🚦 `036` Рефакторинг слоёв + Type Safety (Q3 2026)
 
@@ -244,7 +248,7 @@ mindmap
 
 ### 🔗 Связанная документация
 
-|            📚 Указатель             |      🗺 Дорожная карта       |  📝 Журнал изменений   |             🪲 Проблемы             |         🤝 Контрибуция         |
+|            📚 Указатель             |       🗺 Дорожная карта       |  📝 Журнал изменений   |             🪲 Проблемы             |         🤝 Контрибуция         |
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 

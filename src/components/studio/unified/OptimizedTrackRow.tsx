@@ -234,10 +234,7 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
               variant="ghost"
               size="sm"
               onClick={handleToggleVolume}
-              className={cn(
-                "h-7 px-2 rounded-md text-[10px] font-mono touch-manipulation",
-                showVolume && "bg-muted",
-              )}
+              className={cn("h-7 px-2 rounded-md text-[10px] font-mono touch-manipulation", showVolume && "bg-muted")}
             >
               {Math.round(volume * 100)}
             </Button>

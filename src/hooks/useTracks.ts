@@ -38,29 +38,8 @@ export function useTracks(params: UseTracksParams = {}) {
   const { isScreenshotMode } = useGuestMode();
   const { paginate = false, projectId, searchQuery, sortBy, pageSize = PAGE_SIZE, statusFilter, tagFilter } = params;
 
-  // Return mock data in screenshot mode
-  if (isScreenshotMode) {
-    return {
-      tracks: screenshotMockTracks as any[],
-      totalCount: screenshotMockTracks.length,
-      isLoading: false,
-      error: null,
-      fetchNextPage: () => Promise.resolve(),
-      hasNextPage: false,
-      isFetchingNextPage: false,
-      refetch: () => Promise.resolve(),
-      deleteTrack: () => {},
-      toggleLike: () => {},
-      logPlay: () => {},
-      downloadTrack: () => {},
-      isDeleting: false,
-      isTogglingLike: false,
-    };
-  }
-
   const queryKey = ["tracks", user?.id, projectId, searchQuery, sortBy, paginate, pageSize, statusFilter, tagFilter];
 
-  // Infinite query for paginated mode
   const infiniteQuery = useInfiniteQuery({
     queryKey: [...queryKey, "infinite"],
     queryFn: async ({ pageParam }) => {
@@ -72,25 +51,22 @@ export function useTracks(params: UseTracksParams = {}) {
       );
     },
     getNextPageParam: (lastPage, allPages) => {
-      // Safely handle undefined or malformed data
       if (!lastPage || !allPages) {
         return undefined;
       }
       if (typeof lastPage.hasMore === "undefined") {
         return undefined;
       }
-      // Return next page number if there are more pages
       return lastPage.hasMore ? allPages.length : undefined;
     },
-    enabled: !!user?.id && paginate === true,
-    staleTime: 60 * 1000, // 1 minute - optimized caching
-    gcTime: 15 * 60 * 1000, // 15 minutes - keep data longer
+    enabled: !!user?.id && paginate === true && !isScreenshotMode,
+    staleTime: 60 * 1000,
+    gcTime: 15 * 60 * 1000,
     initialPageParam: 0,
     refetchOnWindowFocus: false,
-    refetchOnMount: "always", // Always fetch on mount to ensure data loads
+    refetchOnMount: "always",
   });
 
-  // Simple query for non-paginated mode
   const simpleQuery = useQuery({
     queryKey: [...queryKey, "simple"],
     queryFn: async () => {
@@ -104,16 +80,15 @@ export function useTracks(params: UseTracksParams = {}) {
       });
       return result.tracks;
     },
-    enabled: !!user?.id && paginate === false,
-    staleTime: 60 * 1000, // 1 minute
-    gcTime: 15 * 60 * 1000, // 15 minutes
+    enabled: !!user?.id && paginate === false && !isScreenshotMode,
+    staleTime: 60 * 1000,
+    gcTime: 15 * 60 * 1000,
     refetchOnWindowFocus: false,
-    refetchOnMount: "always", // Always fetch on mount to ensure data loads
+    refetchOnMount: "always",
   });
 
-  // Realtime subscription
   useEffect(() => {
-    if (!user?.id) return;
+    if (!user?.id || isScreenshotMode) return;
 
     const channel = supabase
       .channel(`tracks_${user.id}_${Math.random().toString(36).slice(2)}`)
@@ -163,24 +138,47 @@ export function useTracks(params: UseTracksParams = {}) {
     },
   });
 
-  // Play logging mutation
   const logPlayMutation = useMutation({
     mutationFn: tracksService.logTrackPlay,
   });
 
-  // Flatten paginated results
-  const tracks = paginate
-    ? infiniteQuery.data?.pages.flatMap((page) => page.tracks) || []
-    : (simpleQuery.data as tracksService.EnrichedTrack[]) || [];
-
-  const totalCount = paginate ? infiniteQuery.data?.pages[0]?.totalCount || 0 : tracks.length;
-
-  // Download function - opens audio in new tab
   const downloadTrack = useCallback((params: { trackId: string; audioUrl: string; coverUrl?: string }) => {
     if (params.audioUrl) {
       window.open(params.audioUrl, "_blank");
     }
   }, []);
+
+  const deleteTrack = useCallback((trackId: string) => deleteMutation.mutate(trackId), [deleteMutation]);
+  const toggleLike = useCallback(
+    (params: { trackId: string; isLiked: boolean }) => likeMutation.mutate(params),
+    [likeMutation],
+  );
+  const logPlay = useCallback((trackId: string) => logPlayMutation.mutate(trackId), [logPlayMutation]);
+
+  if (isScreenshotMode) {
+    return {
+      tracks: screenshotMockTracks as any[],
+      totalCount: screenshotMockTracks.length,
+      isLoading: false,
+      error: null,
+      fetchNextPage: () => Promise.resolve(),
+      hasNextPage: false,
+      isFetchingNextPage: false,
+      refetch: () => Promise.resolve(),
+      deleteTrack: () => {},
+      toggleLike: () => {},
+      logPlay: () => {},
+      downloadTrack: () => {},
+      isDeleting: false,
+      isTogglingLike: false,
+    };
+  }
+
+  const tracks = paginate
+    ? infiniteQuery.data?.pages.flatMap((page) => page.tracks) || []
+    : (simpleQuery.data as tracksService.EnrichedTrack[]) || [];
+
+  const totalCount = paginate ? infiniteQuery.data?.pages[0]?.totalCount || 0 : tracks.length;
 
   return {
     tracks,
@@ -191,12 +189,9 @@ export function useTracks(params: UseTracksParams = {}) {
     hasNextPage: paginate ? infiniteQuery.hasNextPage : false,
     isFetchingNextPage: paginate ? infiniteQuery.isFetchingNextPage : false,
     refetch: paginate ? infiniteQuery.refetch : simpleQuery.refetch,
-    deleteTrack: useCallback((trackId: string) => deleteMutation.mutate(trackId), [deleteMutation]),
-    toggleLike: useCallback(
-      (params: { trackId: string; isLiked: boolean }) => likeMutation.mutate(params),
-      [likeMutation],
-    ),
-    logPlay: useCallback((trackId: string) => logPlayMutation.mutate(trackId), [logPlayMutation]),
+    deleteTrack,
+    toggleLike,
+    logPlay,
     downloadTrack,
     isDeleting: deleteMutation.isPending,
     isTogglingLike: likeMutation.isPending,

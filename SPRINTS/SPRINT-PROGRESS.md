@@ -6,26 +6,26 @@
 
 ## 📊 Общий статус
 
-| Sprint                                 | Статус          | Прогресс                                                     |
-| -------------------------------------- | --------------- | ------------------------------------------------------------ |
-| Sprint 001-034                         | ✅ ЗАВЕРШЕНЫ    | 100%                                                         |
-| **Архитектурный аудит (2026-06-28)**   | ✅ ЗАВЕРШЁН     | 3 параллельных агента, полный отчёт                          |
-| Q1 2026 Plan                           | ✅ ЗАВЕРШЁН     | Phase 1-6 Complete, Sprints A-E Complete                     |
-| Phase 8: Dead Code Removal             | ✅ ЗАВЕРШЁН     | 196 файлов, 45K строк                                        |
-| Sprint 9A: Deduplication               | ✅ ЗАВЕРШЁН     | 5 дубликатов, 1.35K строк                                    |
-| Sprint 9B: Split Giant Files           | ⏳ ЗАПЛАНИРОВАН | 33 файла >500 строк (уточнено аудитом)                       |
-| Sprint 9C: Lyrics Consolidation        | ⏳ ЗАПЛАНИРОВАН | 30+ lyrics-компонентов из 6 директорий                       |
-| Sprint 9D: Reorganize components/ui    | ⏳ ЗАПЛАНИРОВАН | 90+ файлов требуют группировки                               |
-| Sprint 9E: Final Verification          | ⏳ ЗАПЛАНИРОВАН | tsc, build, size, tests                                      |
-| **Phase 10A: Test Infrastructure**     | ✅ ЗАВЕРШЁН     | Jest→Vitest, 237 тестов починено                             |
-| **Phase 10B: Critical Path Tests**     | ✅ ЗАВЕРШЁН     | 320 тестов, 5 новых test suites                              |
-| **Phase 10C: E2E Tests**               | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии                                |
-| **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                                             |
-| **Sprint 034: Generation Reliability** | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                                               |
-| **Sprint 035: Стабилизация + Чистка**  | ⏳ ЗАПЛАНИРОВАН | rules-of-hooks, 6 дубликатов, PlaybackStore, query keys, E2E |
-| **Sprint 036: Слои + Type Safety**     | ⏳ ЗАПЛАНИРОВАН | 30+ Supabase из компонентов, god-хуки, 342 any→<100          |
-| **Sprint 037: DX + Мониторинг**        | ✅ ЗАВЕРШЁН     | 12/12 задач ✅ (commit `70c33162`)                           |
-| **Sprint 038: Export + Тесты**         | ⏳ ЗАПЛАНИРОВАН | export WAV/MP3, 500+ тестов, Sentry Perf                     |
+| Sprint                                 | Статус          | Прогресс                                                                                               |
+| -------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------ |
+| Sprint 001-034                         | ✅ ЗАВЕРШЕНЫ    | 100%                                                                                                   |
+| **Архитектурный аудит (2026-06-28)**   | ✅ ЗАВЕРШЁН     | 3 параллельных агента, полный отчёт                                                                    |
+| Q1 2026 Plan                           | ✅ ЗАВЕРШЁН     | Phase 1-6 Complete, Sprints A-E Complete                                                               |
+| Phase 8: Dead Code Removal             | ✅ ЗАВЕРШЁН     | 196 файлов, 45K строк                                                                                  |
+| Sprint 9A: Deduplication               | ✅ ЗАВЕРШЁН     | 5 дубликатов, 1.35K строк                                                                              |
+| Sprint 9B: Split Giant Files           | ⏳ ЗАПЛАНИРОВАН | 33 файла >500 строк (уточнено аудитом)                                                                 |
+| Sprint 9C: Lyrics Consolidation        | ⏳ ЗАПЛАНИРОВАН | 30+ lyrics-компонентов из 6 директорий                                                                 |
+| Sprint 9D: Reorganize components/ui    | ⏳ ЗАПЛАНИРОВАН | 90+ файлов требуют группировки                                                                         |
+| Sprint 9E: Final Verification          | ⏳ ЗАПЛАНИРОВАН | tsc, build, size, tests                                                                                |
+| **Phase 10A: Test Infrastructure**     | ✅ ЗАВЕРШЁН     | Jest→Vitest, 237 тестов починено                                                                       |
+| **Phase 10B: Critical Path Tests**     | ✅ ЗАВЕРШЁН     | 320 тестов, 5 новых test suites                                                                        |
+| **Phase 10C: E2E Tests**               | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии                                                                          |
+| **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                                                                                       |
+| **Sprint 034: Generation Reliability** | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                                                                                         |
+| **Sprint 035: Стабилизация + Чистка**  | 🟡 В РАБОТЕ     | TDZ fix ✅, rules-of-hooks ✅ (24 violations / 10 files), 6 дубликатов, PlaybackStore, query keys, E2E |
+| **Sprint 036: Слои + Type Safety**     | ⏳ ЗАПЛАНИРОВАН | 30+ Supabase из компонентов, god-хуки, 342 any→<100                                                    |
+| **Sprint 037: DX + Мониторинг**        | ✅ ЗАВЕРШЁН     | 12/12 задач ✅ (commit `70c33162`)                                                                     |
+| **Sprint 038: Export + Тесты**         | ⏳ ЗАПЛАНИРОВАН | export WAV/MP3, 500+ тестов, Sentry Perf                                                               |
 
 ---
 

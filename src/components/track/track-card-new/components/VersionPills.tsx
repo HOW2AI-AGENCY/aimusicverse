@@ -26,8 +26,6 @@ export const VersionPills = memo(function VersionPills({
   compact = false,
   activeSourceType,
 }: VersionPillsProps) {
-  if (count <= 1) return null;
-
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -38,6 +36,8 @@ export const VersionPills = memo(function VersionPills({
     },
     [onSwitch, activeIndex, count],
   );
+
+  if (count <= 1) return null;
 
   const currentLabel = String.fromCharCode(65 + activeIndex); // A, B, C, D
   const iconSize = compact ? "w-3.5 h-3.5" : "w-4 h-4";

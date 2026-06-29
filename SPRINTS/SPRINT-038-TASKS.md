@@ -10,6 +10,7 @@
 ## Фаза A: Foundation (Дни 1-5, 15 SP)
 
 ### T038-01: Unified EmptyState — анализ и проектирование API
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Сравнить API трёх существующих компонентов: `EmptyState.tsx`, `empty-state.tsx`, `unified-empty-state.tsx`
@@ -21,6 +22,7 @@
   - [ ] Ревью: проверить что все текущие использования покрыты новым API
 
 ### T038-02: Unified EmptyState — реализация
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** T038-01
 - **Описание:**
   - Обновить `src/components/ui/EmptyState.tsx`: добавить `action` prop, `size` prop, все варианты из спецификации
@@ -39,6 +41,7 @@
   - [ ] Тесты проходят (`npx vitest run src/__tests__/ui/EmptyState.test.tsx`)
 
 ### T038-03: Unified EmptyState — миграция
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** T038-02
 - **Описание:**
   - Найти все импорты `empty-state` и `unified-empty-state` через grep
@@ -53,6 +56,7 @@
   - [ ] `npm run build` проходит без ошибок
 
 ### T038-04: Unified Loading — SkeletonPage
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Создать `src/components/ui/SkeletonPage.tsx` — полностраничный скелетон
@@ -67,6 +71,7 @@
   - [ ] Storybook stories проходят
 
 ### T038-05: Unified Loading — ContentSkeleton + clean-up
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** T038-04
 - **Описание:**
   - Обновить `ContentSkeleton.tsx` → добавить варианты: `card-list`, `table`, `detail`, `profile`
@@ -83,6 +88,7 @@
   - [ ] `npm run build` проходит
 
 ### T038-06: Unified Onboarding — OnboardingFlow state machine
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Создать `src/components/onboarding/OnboardingFlow.tsx`
@@ -99,6 +105,7 @@
   - [ ] Стейт сохраняется в localStorage (`onboarding_completed`)
 
 ### T038-07: Unified Onboarding — шаги и интеграция
+
 - **SP:** 3 | **Статус:** 🔴 OPEN | **Зависимости:** T038-06
 - **Описание:**
   - **WelcomeCard:** логотип, слоган "Create music with AI", кнопка "Get Started"
@@ -121,6 +128,7 @@
   - [ ] `npm run build` проходит
 
 ### T038-08: Unified Onboarding — миграция и удаление старого
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** T038-07
 - **Описание:**
   - Удалить `src/pages/Onboarding.tsx`
@@ -134,10 +142,11 @@
   - [ ] `npm run build` проходит
 
 ### T038-09: Touch Target Audit
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Создать `src/components/ui/TouchTarget.tsx` враппер (`min-w-[44px] min-h-[44px] flex items-center justify-center`)
-  - Пройти grep'ом по `IconButton`, `CloseButton`, `XButton`, `TabButton`, `Chip` 
+  - Пройти grep'ом по `IconButton`, `CloseButton`, `XButton`, `TabButton`, `Chip`
   - Применить `TouchTarget` враппер
   - Проверить через Chrome DevTools все интерактивные элементы
 - **Файлы:**
@@ -151,10 +160,11 @@
   - [ ] `npm run build` проходит
 
 ### T038-10: Z-Index Audit
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Создать `src/lib/z-index.ts` с константами (`Z_BASE`, `Z_DROPDOWN`, `Z_STICKY`, `Z_DRAWER`, `Z_MODAL`, `Z_POPOVER`, `Z_TOAST`)
-  - Найти все магические z-index через `grep -r "z-\[" src/` 
+  - Найти все магические z-index через `grep -r "z-\[" src/`
   - Заменить на Tailwind z-токены через CSS variables или использовать семантические классы
   - Проверить визуально: модалки > drawer > sticky > контент
 - **Файлы:**
@@ -170,6 +180,7 @@
 ## Фаза B: Navigation & Responsive (Дни 6-10, 13 SP)
 
 ### T038-11: NavigationShell — проектирование
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** T038-09
 - **Описание:**
   - Спроектировать `NavigationShell` API: пропсы для sidebar/tabs/hooks
@@ -180,6 +191,7 @@
   - [ ] Тестовая страница показывает все 3 режима навигации
 
 ### T038-12: NavigationShell — реализация
+
 - **SP:** 3 | **Статус:** 🔴 OPEN | **Зависимости:** T038-11
 - **Описание:**
   - Создать `src/components/navigation/NavigationShell.tsx`
@@ -199,6 +211,7 @@
   - [ ] Storybook stories (3 варианта)
 
 ### T038-13: NavigationShell — интеграция
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** T038-12
 - **Описание:**
   - Заменить текущую навигацию в `App.tsx` на `NavigationShell`
@@ -210,6 +223,7 @@
   - [ ] `npm run build` проходит
 
 ### T038-14: Container Queries — миграция
+
 - **SP:** 3 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Идентифицировать компоненты с `sm:`, `md:`, `lg:` grid-классами
@@ -230,6 +244,7 @@
   - [ ] `npm run build` проходит
 
 ### T038-15: Safe Area + Safari Fixes
+
 - **SP:** 3 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - **038-08:** Пройти grep по `safe-area` — проверить что ВСЕ страницы используют `SafeAreaTop`/`SafeAreaBottom`
@@ -243,6 +258,7 @@
   - [ ] Клавиатура не перекрывает поля ввода
 
 ### T038-16: Responsive Typography (clamp)
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Добавить 5 семантических классов в `src/index.css`:
@@ -266,6 +282,7 @@
 ## Фаза C: Animation & Polish (Дни 11-15, 12 SP)
 
 ### T038-17: Animation Standards — duration/easing enforcement
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** T038-10 (z-index)
 - **Описание:**
   - Обновить `src/lib/motion-presets.ts`:
@@ -282,6 +299,7 @@
   - [ ] 5 констант duration + 3 константы easing
 
 ### T038-18: Reduced Motion — глобальный аудит
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Пройти grep по `motion.div`, `motion.span`, `AnimatePresence` во всех компонентах
@@ -297,6 +315,7 @@
   - [ ] Storybook: reduced-motion mode работает
 
 ### T038-19: Player Shared Element Transition
+
 - **SP:** 4 | **Статус:** 🔴 OPEN | **Зависимости:** T038-17, T038-18
 - **Описание:**
   - **Mini Player → Full Player** через `layoutId` Framer Motion (artwork)
@@ -316,6 +335,7 @@
   - [ ] Не ломается на iOS Safari
 
 ### T038-20: Telegram Haptics Integration
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Создать `src/lib/haptics.ts` враппер над Telegram `HapticFeedback` API
@@ -338,6 +358,7 @@
 ## Фаза D: Visual Polish (Дни 16-20, 14 SP)
 
 ### T038-21: Typography Consistency Pass
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** T038-16
 - **Описание:**
   - Пройти grep по `font-family`, `font-`, `text-` в className
@@ -350,15 +371,26 @@
   - [ ] 0 инлайн `font-family` в компонентах (кроме index.css)
 
 ### T038-22: Elevation System Standardization
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** T038-10
 - **Описание:**
   - Добавить CSS-утилиты в `src/index.css`:
     ```css
-    .elevation-0 { box-shadow: none; }
-    .elevation-1 { box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .elevation-2 { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
-    .elevation-3 { box-shadow: 0 8px 24px rgba(0,0,0,0.16); }
-    .elevation-4 { box-shadow: 0 16px 48px rgba(0,0,0,0.2); }
+    .elevation-0 {
+      box-shadow: none;
+    }
+    .elevation-1 {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .elevation-2 {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+    .elevation-3 {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    }
+    .elevation-4 {
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    }
     ```
   - Пройти grep по `shadow-`, `drop-shadow` — заменить на elevation-классы
   - Glassmorphism: `backdrop-blur-md bg-background/80` → `.glass-surface`
@@ -369,6 +401,7 @@
   - [ ] Модальные окна используют `elevation-3`
 
 ### T038-23: Color Token Audit & Enforce
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Пройти grep по `bg-[#`, `text-[#`, `border-[#` — заменить на HSL custom properties
@@ -382,6 +415,7 @@
   - [ ] ESLint правило `no-restricted-syntax` для hex в className
 
 ### T038-24: Icon Consistency Pass
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Пройти grep по `<svg`, `icon`, `emoji` в компонентах
@@ -394,6 +428,7 @@
   - [ ] aria-label на всех иконках без текста
 
 ### T038-25: Storybook — 20+ Stories
+
 - **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** T038-02..T038-24
 - **Описание:**
   - Написать stories для всех новых/изменённых компонентов:
@@ -412,6 +447,7 @@
   - [ ] Все stories используют правильные декораторы (Router, Theme)
 
 ### T038-26: LazyImage Audit
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** —
 - **Описание:**
   - Пройти grep по `<img`, `src=`, `background-image` в компонентах
@@ -424,6 +460,7 @@
   - [ ] Аватары, обложки треков, карточки проектов — LazyImage
 
 ### T038-27: Lighthouse Audit + Performance Baseline
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** все задачи фазы D
 - **Описание:**
   - Запустить Lighthouse на 4 ключевых экранах: Library, Player, Generate, Settings
@@ -436,6 +473,7 @@
   - [ ] Отчёт сохранён в docs/
 
 ### T038-28: Final Review & Documentation Update
+
 - **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** все задачи
 - **Описание:**
   - Обновить `CLAUDE.md`:
@@ -457,41 +495,41 @@
 
 ## Сводка всех задач
 
-| ID | Название | Фаза | SP | Статус |
-|----|----------|------|-----|--------|
-| T038-01 | EmptyState: API design | A | 1 | ✅ COMPLETE |
-| T038-02 | EmptyState: implementation | A | 2 | ✅ COMPLETE |
-| T038-03 | EmptyState: migration | A | 1 | ✅ COMPLETE |
-| T038-04 | SkeletonPage component | A | 1 | ✅ COMPLETE |
-| T038-05 | ContentSkeleton + clean-up | A | 2 | ✅ COMPLETE |
-| T038-06 | OnboardingFlow state machine | A | 2 | 🔴 OPEN |
-| T038-07 | OnboardingFlow steps + integration | A | 3 | 🔴 OPEN |
-| T038-08 | Onboarding: remove legacy | A | 1 | 🔴 OPEN |
-| T038-09 | Touch target audit | A | 2 | ✅ COMPLETE |
-| T038-10 | Z-index audit | A | 2 | ✅ COMPLETE |
-| | | | **10** | |
-| T038-11 | NavigationShell: design | B | 1 | 🔴 OPEN |
-| T038-12 | NavigationShell: implementation | B | 3 | 🔴 OPEN |
-| T038-13 | NavigationShell: integration | B | 1 | 🔴 OPEN |
-| T038-14 | Container queries migration | B | 3 | 🔴 OPEN |
-| T038-15 | Safe area + Safari fixes | B | 3 | ✅ COMPLETE |
-| T038-16 | Responsive typography | B | 2 | ✅ COMPLETE |
-| | | | **5** | |
-| T038-17 | Animation standards | C | 2 | 🔴 OPEN |
-| T038-18 | Reduced motion audit | C | 2 | 🔴 OPEN |
-| T038-19 | Player transition | C | 4 | 🔴 OPEN |
-| T038-20 | Telegram haptics | C | 1 | 🔴 OPEN |
-| | | | **9** | (Note: plan says 12, corrected to 9) |
-| T038-21 | Typography pass | D | 2 | 🔴 OPEN |
-| T038-22 | Elevation system | D | 2 | 🔴 OPEN |
-| T038-23 | Color tokens | D | 2 | 🔴 OPEN |
-| T038-24 | Icon consistency | D | 1 | 🔴 OPEN |
-| T038-25 | Storybook: 20+ stories | D | 2 | 🔴 OPEN |
-| T038-26 | LazyImage audit | D | 1 | 🔴 OPEN |
-| T038-27 | Lighthouse baseline | D | 1 | 🔴 OPEN |
-| T038-28 | Final review + docs | D | 1 | 🔴 OPEN |
-| | | | **12** | |
-| **Итого** | | | **49 SP** | |
+| ID        | Название                           | Фаза | SP        | Статус                               |
+| --------- | ---------------------------------- | ---- | --------- | ------------------------------------ |
+| T038-01   | EmptyState: API design             | A    | 1         | ✅ COMPLETE                          |
+| T038-02   | EmptyState: implementation         | A    | 2         | ✅ COMPLETE                          |
+| T038-03   | EmptyState: migration              | A    | 1         | ✅ COMPLETE                          |
+| T038-04   | SkeletonPage component             | A    | 1         | ✅ COMPLETE                          |
+| T038-05   | ContentSkeleton + clean-up         | A    | 2         | ✅ COMPLETE                          |
+| T038-06   | OnboardingFlow state machine       | A    | 2         | 🔴 OPEN                              |
+| T038-07   | OnboardingFlow steps + integration | A    | 3         | 🔴 OPEN                              |
+| T038-08   | Onboarding: remove legacy          | A    | 1         | 🔴 OPEN                              |
+| T038-09   | Touch target audit                 | A    | 2         | ✅ COMPLETE                          |
+| T038-10   | Z-index audit                      | A    | 2         | ✅ COMPLETE                          |
+|           |                                    |      | **10**    |                                      |
+| T038-11   | NavigationShell: design            | B    | 1         | 🔴 OPEN                              |
+| T038-12   | NavigationShell: implementation    | B    | 3         | 🔴 OPEN                              |
+| T038-13   | NavigationShell: integration       | B    | 1         | 🔴 OPEN                              |
+| T038-14   | Container queries migration        | B    | 3         | 🔴 OPEN                              |
+| T038-15   | Safe area + Safari fixes           | B    | 3         | ✅ COMPLETE                          |
+| T038-16   | Responsive typography              | B    | 2         | ✅ COMPLETE                          |
+|           |                                    |      | **5**     |                                      |
+| T038-17   | Animation standards                | C    | 2         | 🔴 OPEN                              |
+| T038-18   | Reduced motion audit               | C    | 2         | 🔴 OPEN                              |
+| T038-19   | Player transition                  | C    | 4         | 🔴 OPEN                              |
+| T038-20   | Telegram haptics                   | C    | 1         | 🔴 OPEN                              |
+|           |                                    |      | **9**     | (Note: plan says 12, corrected to 9) |
+| T038-21   | Typography pass                    | D    | 2         | 🔴 OPEN                              |
+| T038-22   | Elevation system                   | D    | 2         | 🔴 OPEN                              |
+| T038-23   | Color tokens                       | D    | 2         | 🔴 OPEN                              |
+| T038-24   | Icon consistency                   | D    | 1         | 🔴 OPEN                              |
+| T038-25   | Storybook: 20+ stories             | D    | 2         | 🔴 OPEN                              |
+| T038-26   | LazyImage audit                    | D    | 1         | 🔴 OPEN                              |
+| T038-27   | Lighthouse baseline                | D    | 1         | 🔴 OPEN                              |
+| T038-28   | Final review + docs                | D    | 1         | 🔴 OPEN                              |
+|           |                                    |      | **12**    |                                      |
+| **Итого** |                                    |      | **49 SP** |                                      |
 
 ---
 

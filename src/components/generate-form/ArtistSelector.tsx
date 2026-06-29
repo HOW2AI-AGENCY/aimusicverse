@@ -92,12 +92,7 @@ export function ArtistSelector({ open, onOpenChange, artists, selectedArtistId, 
   };
 
   return (
-    <UnifiedDialog
-      variant="modal"
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Выберите артиста"
-    >
+    <UnifiedDialog variant="modal" open={open} onOpenChange={onOpenChange} title="Выберите артиста">
       <Tabs
         value={activeTab}
         onValueChange={(v) => setActiveTab(v as "my" | "community")}

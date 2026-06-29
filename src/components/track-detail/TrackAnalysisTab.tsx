@@ -51,6 +51,8 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
     });
   };
 
+  const [showDetails, setShowDetails] = useState(false);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -108,8 +110,6 @@ export function TrackAnalysisTab({ track }: TrackAnalysisTabProps) {
       </div>
     );
   }
-
-  const [showDetails, setShowDetails] = useState(false);
 
   return (
     <div className="space-y-6">

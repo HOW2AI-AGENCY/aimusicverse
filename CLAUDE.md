@@ -506,12 +506,12 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: 037 (Infrastructure Hardening) - completed 2026-06-29
+- Sprint: 035 (Стабилизация + Чистка) - in progress
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
 - Components: 987, Hooks: 347, Stores: 20, API files: 20, Services: 18
 - Bundle Size: 918 KB / 950 KB limit
 - Unit Tests: 341 passing (25 test suites), Storybook: 4 stories, E2E: 47 specs
-- Key Issues: 30+ layer violations, 6 code duplicates, 342 `any` types, 33 files >500 LOC
+- Key Issues: 30+ layer violations, 6 code duplicates, 342 `any` types, 33 files >500 LOC, rules-of-hooks now enforced as error
 - Overall Progress: 94% (35 sprints complete incl. Sprint 037)
 
 ## Telegram Bot Integration

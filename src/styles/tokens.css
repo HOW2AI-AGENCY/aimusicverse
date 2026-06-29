@@ -6,7 +6,7 @@
 
 :root {
   /* ── Text Scale (user preference) ── */
-  --text-scale: 1.0;
+  --text-scale: 1;
 
   /* ── Brand Colors ── */
   --brand-primary: hsl(20 100% 62%);
@@ -60,15 +60,15 @@
   --line-height-relaxed: 1.6;
 
   /* ── Spacing (8px grid, refs existing vars) ── */
-  --spacing-1: var(--spacing-micro);         /* 4px */
-  --spacing-2: var(--spacing-tiny);          /* 8px */
-  --spacing-3: var(--spacing-compact);       /* 12px */
-  --spacing-4: var(--spacing-base);          /* 16px */
-  --spacing-5: var(--spacing-comfortable);   /* 20px */
-  --spacing-6: var(--spacing-relaxed);       /* 24px */
-  --spacing-8: var(--spacing-spacious);      /* 32px */
+  --spacing-1: var(--spacing-micro); /* 4px */
+  --spacing-2: var(--spacing-tiny); /* 8px */
+  --spacing-3: var(--spacing-compact); /* 12px */
+  --spacing-4: var(--spacing-base); /* 16px */
+  --spacing-5: var(--spacing-comfortable); /* 20px */
+  --spacing-6: var(--spacing-relaxed); /* 24px */
+  --spacing-8: var(--spacing-spacious); /* 32px */
   --spacing-10: 40px;
-  --spacing-12: var(--spacing-section);      /* 48px */
+  --spacing-12: var(--spacing-section); /* 48px */
   --spacing-16: var(--spacing-section-spacious); /* 64px */
 
   /* ── Border Radii ── */

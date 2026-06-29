@@ -169,7 +169,7 @@ export default {
         "safe-top": "max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px))",
         "safe-left": "max(env(safe-area-inset-left, 0px), var(--tg-safe-area-inset-left, 0px))",
         "safe-right": "max(env(safe-area-inset-right, 0px), var(--tg-safe-area-inset-right, 0px))",
-        "dock": "var(--nav-h, 84px)",
+        dock: "var(--nav-h, 84px)",
         "dock-safe": "calc(var(--nav-h, 84px) + max(env(safe-area-inset-bottom, 0px), 0.5rem))",
       },
 

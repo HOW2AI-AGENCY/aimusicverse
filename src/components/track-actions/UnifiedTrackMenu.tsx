@@ -23,7 +23,6 @@ import { WatermarkActions } from "./sections/WatermarkActions";
 import { TrackDialogsPortal } from "./TrackDialogsPortal";
 import { MobileTrackActionSheet } from "./MobileTrackActionSheet";
 
-
 interface UnifiedTrackMenuProps {
   track: Track;
   onDelete?: () => void;

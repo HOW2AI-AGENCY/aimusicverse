@@ -24,6 +24,13 @@
 
 ## [Unreleased]
 
+### 🔧 Спринт 035 — Стабилизация + Чистка (2026-06-29)
+
+#### Исправлено
+
+- **TDZ краш page-admin чанка** — удалён `manualChunks` для `/pages/AdminDashboard`, вызывавший `Cannot access 'ft' before initialization` из-за разделения admin-страниц и их зависимостей по разным чанкам. Rollup теперь автоматически разбивает admin-страницы на отдельные файлы.
+- **rules-of-hooks enforced as error** — исправлены 24 нарушения условных вызовов хуков в 10 файлах (FirstCommentCTA, KaraokeWord, IntegratedStemTracks, TrackAnalysisTab, VersionPills, useFeatureAccess, useProfile, useTracks, debug/index, touchTargets); правило повышено с `"warn"` до `"error"` в eslint.config.js
+
 ### 🔧 Спринт 037 — Infrastructure Hardening & Developer Experience (2026-06-29)
 
 #### Добавлено
@@ -201,7 +208,7 @@
 
 ### 🔗 Связанная документация
 
-|            📚 Указатель             |      🗺 Дорожная карта       |          📊 Статус          |             🪲 Проблемы             |         🤝 Контрибуция         |
+|            📚 Указатель             |       🗺 Дорожная карта       |          📊 Статус          |             🪲 Проблемы             |         🤝 Контрибуция         |
 | :---------------------------------: | :--------------------------: | :-------------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Статус](PROJECT_STATUS.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const GestureConfigSchema = z.object({
   swipeEnabled: z.boolean().default(true),
@@ -8,14 +8,14 @@ export const GestureConfigSchema = z.object({
   doubleTapEnabled: z.boolean().default(true),
   pullToRefreshEnabled: z.boolean().default(true),
   hapticEnabled: z.boolean().default(true),
-  hapticIntensity: z.enum(['light', 'medium', 'heavy']).default('medium'),
+  hapticIntensity: z.enum(["light", "medium", "heavy"]).default("medium"),
 });
 
 export const UserPreferencesSchema = z.object({
-  theme: z.enum(['light', 'dark', 'auto']).default('auto'),
-  textSize: z.enum(['small', 'medium', 'large']).default('medium'),
+  theme: z.enum(["light", "dark", "auto"]).default("auto"),
+  textSize: z.enum(["small", "medium", "large"]).default("medium"),
   reducedMotion: z.boolean().default(false),
-  audioQuality: z.enum(['low', 'medium', 'high']).default('high'),
+  audioQuality: z.enum(["low", "medium", "high"]).default("high"),
   notificationsEnabled: z.boolean().default(true),
   compactCards: z.boolean().default(false),
 });

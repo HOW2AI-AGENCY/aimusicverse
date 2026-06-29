@@ -28,12 +28,12 @@ import { useRef, useEffect } from "react";
  * ```
  */
 export function useDebugRender(componentName: string, props: Record<string, unknown>): void {
-  if (!import.meta.env.DEV) return;
-
   const prevPropsRef = useRef<Record<string, unknown>>(props);
   const renderCountRef = useRef(0);
 
   useEffect(() => {
+    if (!import.meta.env.DEV) return;
+
     renderCountRef.current += 1;
     const changed = getChangedKeys(prevPropsRef.current, props);
 
@@ -67,14 +67,13 @@ export function useDebugRender(componentName: string, props: Record<string, unkn
  * ```
  */
 export function useRenderTime(componentName: string): void {
-  if (!import.meta.env.DEV) return;
-
-  const startTime = performance.now();
+  const startTime = import.meta.env.DEV ? performance.now() : 0;
 
   useEffect(() => {
+    if (!import.meta.env.DEV) return;
+
     const duration = performance.now() - startTime;
 
-    // Only log if render takes more than 5ms
     if (duration > 5) {
       console.log(
         `%c[${componentName}]%c render time: %c${duration.toFixed(2)}ms`,

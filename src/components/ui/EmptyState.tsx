@@ -8,27 +8,11 @@
 import React, { type ReactNode } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import {
-  Search,
-  Library,
-  Music2,
-  FolderOpen,
-  Disc3,
-  ListMusic,
-  AlertTriangle,
-  type LucideIcon,
-} from "@/lib/icons";
+import { Search, Library, Music2, FolderOpen, Disc3, ListMusic, AlertTriangle, type LucideIcon } from "@/lib/icons";
 
 // ── Types ──────────────────────────────────────────────────────────
 export type EmptyStateVariant =
-  | "search"
-  | "library"
-  | "tracks"
-  | "projects"
-  | "generations"
-  | "artists"
-  | "playlists"
-  | "error";
+  "search" | "library" | "tracks" | "projects" | "generations" | "artists" | "playlists" | "error";
 
 export interface EmptyStateAction {
   label: string;
@@ -55,10 +39,7 @@ export interface EmptyStateProps {
 }
 
 // ── Preset mappings ────────────────────────────────────────────────
-const VARIANT_DEFAULTS: Record<
-  EmptyStateVariant,
-  { icon: LucideIcon; title: string; description: string }
-> = {
+const VARIANT_DEFAULTS: Record<EmptyStateVariant, { icon: LucideIcon; title: string; description: string }> = {
   search: {
     icon: Search,
     title: "Nothing found",
@@ -131,10 +112,7 @@ export function EmptyState({
   const resolvedTitle = title ?? preset.title;
   const resolvedDescription = description ?? preset.description;
 
-  const IconComponent =
-    resolvedIcon && typeof resolvedIcon !== "object"
-      ? (resolvedIcon as LucideIcon)
-      : null;
+  const IconComponent = resolvedIcon && typeof resolvedIcon !== "object" ? (resolvedIcon as LucideIcon) : null;
 
   return (
     <motion.div
@@ -154,9 +132,7 @@ export function EmptyState({
           <IconComponent className="w-full h-full" strokeWidth={1.5} />
         </div>
       ) : resolvedIcon ? (
-        <div className={cn("text-muted-foreground/60", ICON_SIZES[size])}>
-          {resolvedIcon as ReactNode}
-        </div>
+        <div className={cn("text-muted-foreground/60", ICON_SIZES[size])}>{resolvedIcon as ReactNode}</div>
       ) : null}
 
       {/* Title */}

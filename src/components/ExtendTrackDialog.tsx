@@ -356,12 +356,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
           </div>
         </div>
 
-        <Button
-          onClick={handleExtend}
-          disabled={loading || extendProgress.isActive}
-          size="lg"
-          className="w-full gap-2"
-        >
+        <Button onClick={handleExtend} disabled={loading || extendProgress.isActive} size="lg" className="w-full gap-2">
           {loading || extendProgress.isActive ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />

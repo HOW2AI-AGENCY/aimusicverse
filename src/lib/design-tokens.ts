@@ -576,15 +576,10 @@ export const tokens = {
     textSecondary: "var(--text-secondary)",
     textTertiary: "var(--text-tertiary)",
   },
-  spacing: (step: 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 16) =>
-    `var(--spacing-${step})`,
-  fontSize: (size: 12 | 14 | 16 | 20 | 24 | 32) =>
-    `var(--font-size-${size})`,
-  radius: (size: "sm" | "md" | "lg" | "xl" | "full") =>
-    `var(--radius-${size})`,
-  shadow: (level: "sm" | "md" | "lg") =>
-    `var(--shadow-${level})`,
-  transition: (speed: "fast" | "normal" | "slow") =>
-    `var(--transition-${speed})`,
+  spacing: (step: 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 16) => `var(--spacing-${step})`,
+  fontSize: (size: 12 | 14 | 16 | 20 | 24 | 32) => `var(--font-size-${size})`,
+  radius: (size: "sm" | "md" | "lg" | "xl" | "full") => `var(--radius-${size})`,
+  shadow: (level: "sm" | "md" | "lg") => `var(--shadow-${level})`,
+  transition: (speed: "fast" | "normal" | "slow") => `var(--transition-${speed})`,
   textScale: "var(--text-scale, 1)",
 } as const;

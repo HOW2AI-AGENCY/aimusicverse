@@ -77,13 +77,7 @@ export function SharePlaylistDialog({ playlist, open, onOpenChange }: SharePlayl
   if (!playlist) return null;
 
   return (
-    <UnifiedDialog
-      variant="modal"
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Поделиться плейлистом"
-      size="sm"
-    >
+    <UnifiedDialog variant="modal" open={open} onOpenChange={onOpenChange} title="Поделиться плейлистом" size="sm">
       <div className="space-y-4">
         {/* Playlist Info */}
         <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">

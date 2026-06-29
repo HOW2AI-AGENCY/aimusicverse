@@ -91,11 +91,6 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
   const hasCommented = useHasCommented(trackId);
   const isPersistentlyDismissed = useIsDismissed(trackId);
 
-  // Don't show if user has commented or dismissed
-  if (hasCommented || isPersistentlyDismissed || internalDismissed) {
-    return null;
-  }
-
   const handleCommentClick = useCallback(() => {
     hapticFeedback?.("light");
     trackEvent({
@@ -131,6 +126,10 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
     },
     [hapticFeedback, trackEvent, trackId],
   );
+
+  if (hasCommented || isPersistentlyDismissed || internalDismissed) {
+    return null;
+  }
 
   const variants = {
     banner: (

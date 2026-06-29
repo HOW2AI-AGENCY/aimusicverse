@@ -94,101 +94,100 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
       title="Создать ремикс"
       description="AI создаст новую версию трека в выбранном стиле"
     >
-
-        <div className="space-y-4 py-2">
-          {/* Original Track */}
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
-            {track.cover_url ? (
-              <LazyImage src={track.cover_url} alt={track.title || "Cover"} className="w-12 h-12 rounded object-cover" />
-            ) : (
-              <div className="w-12 h-12 rounded bg-muted flex items-center justify-center">
-                <Music className="w-5 h-5 text-muted-foreground" />
-              </div>
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{track.title || "Без названия"}</p>
-              <p className="text-xs text-muted-foreground truncate">{track.style || "Оригинал"}</p>
+      <div className="space-y-4 py-2">
+        {/* Original Track */}
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+          {track.cover_url ? (
+            <LazyImage src={track.cover_url} alt={track.title || "Cover"} className="w-12 h-12 rounded object-cover" />
+          ) : (
+            <div className="w-12 h-12 rounded bg-muted flex items-center justify-center">
+              <Music className="w-5 h-5 text-muted-foreground" />
             </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium truncate">{track.title || "Без названия"}</p>
+            <p className="text-xs text-muted-foreground truncate">{track.style || "Оригинал"}</p>
           </div>
-
-          {/* New Title */}
-          <div className="space-y-2">
-            <Label>Название ремикса</Label>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Введите название" />
-          </div>
-
-          {/* Style Presets */}
-          <div className="space-y-2">
-            <Label>Выберите стиль</Label>
-            <div className="flex flex-wrap gap-2">
-              {STYLE_PRESETS.map((preset) => (
-                <Badge
-                  key={preset.label}
-                  variant={style === preset.value ? "default" : "outline"}
-                  className={cn("cursor-pointer transition-all", style === preset.value && "bg-primary")}
-                  onClick={() => handlePresetClick(preset)}
-                >
-                  {preset.label}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Custom Style */}
-          <div className="space-y-2">
-            <Label>Свой стиль (опционально)</Label>
-            <Textarea
-              value={style}
-              onChange={(e) => setStyle(e.target.value)}
-              placeholder="Опишите желаемый стиль ремикса..."
-              rows={2}
-            />
-          </div>
-
-          {/* Additional Prompt */}
-          <div className="space-y-2">
-            <Label className="flex items-center gap-1">
-              <Sparkles className="w-3 h-3" />
-              Дополнительные указания
-            </Label>
-            <Textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Добавьте детали для AI: темп, настроение, инструменты..."
-              rows={2}
-            />
-          </div>
-
-          {/* Instrumental Toggle */}
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={isInstrumental}
-              onChange={(e) => setIsInstrumental(e.target.checked)}
-              className="rounded border-border"
-            />
-            <span className="text-sm">Инструментальная версия (без вокала)</span>
-          </label>
         </div>
 
-        <div className="flex justify-end gap-2 pt-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Отмена
-          </Button>
-          <Button onClick={handleSubmit} disabled={isSubmitting || !style.trim()}>
-            {isSubmitting ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Создаём...
-              </>
-            ) : (
-              <>
-                <Shuffle className="w-4 h-4 mr-2" />
-                Создать ремикс
-              </>
-            )}
-          </Button>
+        {/* New Title */}
+        <div className="space-y-2">
+          <Label>Название ремикса</Label>
+          <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Введите название" />
         </div>
+
+        {/* Style Presets */}
+        <div className="space-y-2">
+          <Label>Выберите стиль</Label>
+          <div className="flex flex-wrap gap-2">
+            {STYLE_PRESETS.map((preset) => (
+              <Badge
+                key={preset.label}
+                variant={style === preset.value ? "default" : "outline"}
+                className={cn("cursor-pointer transition-all", style === preset.value && "bg-primary")}
+                onClick={() => handlePresetClick(preset)}
+              >
+                {preset.label}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        {/* Custom Style */}
+        <div className="space-y-2">
+          <Label>Свой стиль (опционально)</Label>
+          <Textarea
+            value={style}
+            onChange={(e) => setStyle(e.target.value)}
+            placeholder="Опишите желаемый стиль ремикса..."
+            rows={2}
+          />
+        </div>
+
+        {/* Additional Prompt */}
+        <div className="space-y-2">
+          <Label className="flex items-center gap-1">
+            <Sparkles className="w-3 h-3" />
+            Дополнительные указания
+          </Label>
+          <Textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="Добавьте детали для AI: темп, настроение, инструменты..."
+            rows={2}
+          />
+        </div>
+
+        {/* Instrumental Toggle */}
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={isInstrumental}
+            onChange={(e) => setIsInstrumental(e.target.checked)}
+            className="rounded border-border"
+          />
+          <span className="text-sm">Инструментальная версия (без вокала)</span>
+        </label>
+      </div>
+
+      <div className="flex justify-end gap-2 pt-2">
+        <Button variant="outline" onClick={() => onOpenChange(false)}>
+          Отмена
+        </Button>
+        <Button onClick={handleSubmit} disabled={isSubmitting || !style.trim()}>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Создаём...
+            </>
+          ) : (
+            <>
+              <Shuffle className="w-4 h-4 mr-2" />
+              Создать ремикс
+            </>
+          )}
+        </Button>
+      </div>
     </UnifiedDialog>
   );
 }
