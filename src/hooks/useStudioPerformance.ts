@@ -106,7 +106,7 @@ export function useStudioPerformance(componentName: string): UseStudioPerformanc
 /**
  * useThrottledCallback - Throttle a callback to prevent excessive calls
  */
-export function useThrottledCallback<T extends (...args: any[]) => any>(
+export function useThrottledCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
   delay: number,
 ): (...args: Parameters<T>) => ReturnType<T> | undefined {
