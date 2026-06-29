@@ -77,9 +77,9 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
         paddingTop: sticky ? TELEGRAM_SAFE_AREA.stickyHeaderTop : "0.5rem",
       }}
     >
-      <div className="flex items-center gap-2 px-3 pb-2.5 min-h-[52px]">
+      <div className="grid min-h-[var(--mobile-header-content-h,52px)] grid-cols-[44px_minmax(0,1fr)_44px] items-center gap-2 px-3 pb-2.5">
         {/* Leading */}
-        <div className="flex items-center gap-1 shrink-0 w-11">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-start">
           {leading ||
             (showBack && onBack && (
               <Button
@@ -94,8 +94,8 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
             ))}
         </div>
 
-        {/* Center — left-aligned title (native iOS large-title feel, compact) */}
-        <div className="flex-1 min-w-0">
+        {/* Center */}
+        <div className="min-w-0 text-center">
           {center || (
             <div className="min-w-0">
               {title && (
@@ -109,7 +109,7 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
         </div>
 
         {/* Trailing */}
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex h-11 min-w-11 shrink-0 items-center justify-end gap-1 overflow-hidden">
           {trailing ||
             (showMore && onMore && (
               <Button

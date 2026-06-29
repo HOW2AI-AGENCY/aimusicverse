@@ -100,9 +100,9 @@ export function SafeHeader({
 
   return (
     <div
-      className={cn("sticky top-0 z-40", withHorizontalSafeArea && safeAreaClasses.safeHorizontal, className)}
+      className={cn("sticky top-0 z-sticky shrink-0", withHorizontalSafeArea && safeAreaClasses.safeHorizontal, className)}
       style={{
-        paddingTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 44px), env(safe-area-inset-top, 44px)) + ${extraPx}px)`,
+        paddingTop: `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + ${extraPx}px)`,
       }}
     >
       {children}

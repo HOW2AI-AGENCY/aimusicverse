@@ -10,11 +10,11 @@
  * - Clear timeline visualization
  */
 
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { lazy, Suspense, useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight, Mic2, Sparkles } from "@/lib/icons";
+import { X, ListMusic, ChevronLeft, ChevronRight, Mic2, Music2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
-import { WaveformProgressBar } from "./WaveformProgressBar";
+import { PlayerProgress } from "./PlayerProgress";
 import { Track } from "@/types/track";
 import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
@@ -28,14 +28,12 @@ import { usePrefetchTrackCovers } from "@/hooks/audio/usePrefetchTrackCovers";
 import { usePrefetchNextAudio } from "@/hooks/audio/usePrefetchNextAudio";
 import { SynchronizedWord } from "@/components/lyrics/SynchronizedWord";
 import { FullscreenBackground } from "./FullscreenBackground";
-import { FullscreenVisualizer } from "./FullscreenVisualizer";
-import { QueueSheet } from "./QueueSheet";
 import { VersionSwitcher } from "./VersionSwitcher";
 import { UnifiedPlayerControls } from "./UnifiedPlayerControls";
 import { PlayerActionsBar } from "./PlayerActionsBar";
-import { KaraokeView } from "./KaraokeView";
 import { DoubleTapSeekFeedback } from "./DoubleTapSeekFeedback";
 import { PlayerGestureHints } from "./PlayerGestureHints";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { cn } from "@/lib/utils";
 import { glassButton } from "@/lib/glass";
 import { motion, AnimatePresence, PanInfo } from "@/lib/motion";
@@ -43,6 +41,12 @@ import { hapticImpact } from "@/lib/haptic";
 import { logger } from "@/lib/logger";
 import { useKeyboardGestureControls } from "@/hooks/useKeyboardGestureControls";
 import "@/styles/lyrics-sync.css";
+
+const FullscreenVisualizer = lazy(() =>
+  import("./FullscreenVisualizer").then((module) => ({ default: module.FullscreenVisualizer })),
+);
+const QueueSheet = lazy(() => import("./QueueSheet").then((module) => ({ default: module.QueueSheet })));
+const KaraokeView = lazy(() => import("./KaraokeView").then((module) => ({ default: module.KaraokeView })));
 
 // Swipe thresholds
 const DRAG_CLOSE_THRESHOLD = 100; // px distance for vertical close
@@ -69,7 +73,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   const navigate = useNavigate();
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
-  const [showVisualizer, setShowVisualizer] = useState(true);
+  const [showVisualizer, setShowVisualizer] = useState(false);
   const [horizontalDragOffset, setHorizontalDragOffset] = useState(0);
   const [karaokeMode, setKaraokeMode] = useState(false);
   const [doubleTapSide, setDoubleTapSide] = useState<"left" | "right" | null>(null);
@@ -256,8 +260,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Run only once on mount
 
-  // Audio visualizer data
-  const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
+  // Audio visualizer data — lazy-enabled, so fullscreen opens without RAF pressure.
+  const visualizerData = useAudioVisualizer(showVisualizer ? audioElement : null, showVisualizer && isPlaying, {
+    barCount: 32,
+    smoothing: 0.75,
+  });
 
   // Prefer master/active version's suno IDs and lyrics when provided (correct A/B sync)
   const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
@@ -492,11 +499,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: "100%" }}
+      initial={{ opacity: 1, y: "100%" }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: "100%" }}
       transition={{ type: "spring", damping: 30, stiffness: 300 }}
-      className="fixed inset-0 z-fullscreen flex flex-col bg-background overflow-hidden"
+      className="fixed inset-0 z-fullscreen flex flex-col overflow-hidden bg-background"
       data-testid="mobile-fullscreen-player"
     >
       {/* Drag Handle Indicator - visual swipe-to-close zone */}
@@ -523,10 +530,10 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       <div className="relative flex-1 flex flex-col min-h-0 overflow-hidden">
         {/* Header with glass effect - Telegram safe area */}
         <motion.header
-          className="flex items-center justify-between p-4"
+          className="grid grid-cols-[44px_minmax(0,1fr)_88px] items-center gap-2 px-4 pb-2"
           style={{
             paddingTop:
-              "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem, env(safe-area-inset-top, 0px) + 0.75rem))",
+              "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.75rem)",
           }}
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -548,50 +555,21 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           </motion.div>
 
           <motion.div
-            className="text-center flex-1 px-4"
+            className="min-w-0 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="flex items-center justify-center gap-1.5 mb-1">
-              <span className="inline-flex items-center gap-1 bg-primary/15 text-primary px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
-                <Sparkles className="w-3 h-3" />
-                Сгенерировано AI
-              </span>
-            </div>
-            <div className="flex items-center justify-center gap-1.5 mb-0.5">
-              <h2 className="font-display font-semibold text-[17px] leading-tight truncate tracking-tight text-foreground">
-                {track.title || "Без названия"}
-              </h2>
-            </div>
-            <p className="text-[12px] text-muted-foreground/80 truncate tracking-tight">{track.style || ""}</p>
-            {/* Version Switcher */}
-            <div className="flex justify-center mt-2">
+            <h2 className="truncate font-display text-[16px] font-semibold leading-tight text-foreground">
+              {track.title || "Без названия"}
+            </h2>
+            <p className="mt-0.5 truncate text-[12px] text-muted-foreground/80">{track.style || ""}</p>
+            <div className="mt-1 flex justify-center">
               <VersionSwitcher track={track} size="compact" />
             </div>
           </motion.div>
 
-          <div className="flex items-center gap-2">
-            {/* Visualizer toggle */}
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact("light");
-                  setShowVisualizer((prev) => !prev);
-                }}
-                className={cn(
-                  "h-11 w-11 rounded-full touch-manipulation transition-colors",
-                  glassButton.default,
-                  showVisualizer && "bg-primary/20 border-primary/30",
-                )}
-                aria-label={showVisualizer ? "Скрыть визуализацию" : "Показать визуализацию"}
-              >
-                <BarChart3 className="h-5 w-5" />
-              </Button>
-            </motion.div>
-
+          <div className="flex items-center justify-end gap-1">
             {/* Karaoke mode button */}
             {lyricsLines && (
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -694,7 +672,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           </AnimatePresence>
           <div
             ref={lyricsContainerRef}
-            className="flex-1 overflow-y-auto px-4 py-4"
+            className="flex-1 overflow-y-auto px-4 py-3"
             style={{
               overscrollBehavior: "contain",
               touchAction: "pan-y",
@@ -702,7 +680,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           >
             {lyricsLines ? (
               // Synchronized lyrics with improved timing using useLyricsSynchronization
-              <div className="flex flex-col items-center text-center space-y-1 pb-[30vh] lyrics-container-enter">
+              <div className="flex flex-col items-center text-center space-y-1 pb-32 lyrics-container-enter">
                 {(() => {
                   let globalWordIndex = 0;
                   return lyricsLines.map((line, lineIndex) => {
@@ -758,27 +736,48 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
               </div>
             ) : plainLyrics ? (
               // Plain text lyrics
-              <div className="min-h-full flex items-center justify-center">
-                <p className="text-center text-lg leading-relaxed whitespace-pre-wrap text-foreground/90">
+              <div className="flex min-h-full items-center justify-center">
+                <p className="whitespace-pre-wrap text-center text-lg leading-relaxed text-foreground/90">
                   {plainLyrics}
                 </p>
               </div>
             ) : (
-              // No lyrics available
-              <div className="min-h-full flex items-center justify-center">
-                <p className="text-muted-foreground text-center">Текст песни недоступен</p>
+              <div className="flex min-h-full flex-col items-center justify-center gap-4 text-center">
+                {track.cover_url ? (
+                  <LazyImage
+                    src={track.cover_url}
+                    alt={track.title || "Обложка трека"}
+                    coverSize="large"
+                    priority
+                    aspectRatio="1/1"
+                    containerClassName="h-[min(58vw,15rem)] w-[min(58vw,15rem)] rounded-2xl bg-muted/40 shadow-xl shadow-black/15 ring-1 ring-border/40"
+                    className="h-full w-full rounded-2xl object-cover"
+                    width={320}
+                    height={320}
+                    fallback={<Music2 className="h-12 w-12 text-muted-foreground/60" aria-hidden />}
+                  />
+                ) : (
+                  <div className="flex h-[min(58vw,15rem)] w-[min(58vw,15rem)] items-center justify-center rounded-2xl bg-muted/40 ring-1 ring-border/40">
+                    <Music2 className="h-12 w-12 text-muted-foreground/60" aria-hidden />
+                  </div>
+                )}
+                <p className="text-sm text-muted-foreground">Текст песни недоступен</p>
               </div>
             )}
           </div>
         </motion.div>
 
-        <FullscreenVisualizer show={showVisualizer} isPlaying={isPlaying} visualizerData={visualizerData} />
+        <Suspense fallback={null}>
+          {showVisualizer && (
+            <FullscreenVisualizer show={showVisualizer} isPlaying={isPlaying} visualizerData={visualizerData} />
+          )}
+        </Suspense>
 
-        {/* Controls Section — aurora-tinted glass, safe-area aware (iOS/Android/Telegram) */}
+        {/* Controls Section — lighter, safe-area aware */}
         <motion.div
           className={cn(
-            "relative p-4 space-y-4 border-t border-border/40",
-            "bg-gradient-to-b from-background/40 to-background/95 backdrop-blur-2xl",
+            "relative space-y-3 border-t border-border/40 px-4 pt-3",
+            "bg-background/90 backdrop-blur-xl",
           )}
           style={{
             paddingBottom:
@@ -788,40 +787,53 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.3 }}
         >
-          {/* Subtle aurora glow strip at the top edge */}
+          {/* Subtle glow strip at the top edge */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-8 -top-px h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"
           />
-          {/* Waveform Timeline */}
+          {/* Unified waveform timeline */}
           <div data-testid="player-timeline">
-            <WaveformProgressBar
+            <PlayerProgress
               audioUrl={audioUrl}
               trackId={track.id}
               currentTime={currentTime}
               duration={duration}
               onSeek={(time) => seek(time)}
+              density="fullscreen"
               mode="standard"
-              showBeatGrid={true}
-              showLabels={true}
-              className="px-2"
+              showBeatGrid={false}
+              showLabels
             />
           </div>
 
-          {/* Main Controls - UnifiedPlayerControls */}
+          <div className="flex justify-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                hapticImpact("light");
+                setShowVisualizer((prev) => !prev);
+              }}
+              className={cn("h-8 rounded-full px-3 text-xs", showVisualizer && "bg-primary/15 text-primary")}
+              aria-label={showVisualizer ? "Скрыть визуализацию" : "Показать визуализацию"}
+            >
+              Визуализация
+            </Button>
+          </div>
+
           <div data-testid="player-transport">
             <UnifiedPlayerControls
               variant="fullscreen"
-              size="lg"
+              size="md"
               showVolume={false}
               showShuffleRepeat={true}
-              showSeekButtons={true}
+              showSeekButtons={false}
               seekSeconds={10}
             />
           </div>
 
-          {/* Secondary Actions - PlayerActionsBar */}
-          <PlayerActionsBar track={track} variant="horizontal" size="md" showStudioButton={true} />
+          <PlayerActionsBar track={track} variant="horizontal" size="sm" showStudioButton={false} />
         </motion.div>
       </div>
 
@@ -829,19 +841,21 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       <PlayerGestureHints />
 
       {/* Queue Sheet */}
-      <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />
+      <Suspense fallback={null}>{queueOpen && <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />}</Suspense>
 
       {/* Karaoke Mode */}
       <AnimatePresence>
         {karaokeMode && lyricsLines && (
-          <KaraokeView
-            lyricsLines={lyricsLines}
-            currentTime={syncedTime}
-            isPlaying={isPlaying}
-            activeLineIndex={activeLineIndex}
-            onClose={() => setKaraokeMode(false)}
-            onSeek={handleWordClick}
-          />
+          <Suspense fallback={null}>
+            <KaraokeView
+              lyricsLines={lyricsLines}
+              currentTime={syncedTime}
+              isPlaying={isPlaying}
+              activeLineIndex={activeLineIndex}
+              onClose={() => setKaraokeMode(false)}
+              onSeek={handleWordClick}
+            />
+          </Suspense>
         )}
       </AnimatePresence>
     </motion.div>

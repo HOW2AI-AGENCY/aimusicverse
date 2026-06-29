@@ -25,10 +25,10 @@ All colors MUST be HSL.
 
     /* Telegram Safe Area Variables (устанавливаются автоматически из Telegram WebApp)
        Fallback значения соответствуют типичным iOS устройствам (iPhone 15 Pro) */
-    --tg-safe-area-inset-top: 44px;
-    /* iOS notch/Dynamic Island fallback */
-    --tg-safe-area-inset-bottom: 34px;
-    /* iOS home indicator fallback */
+    --tg-safe-area-inset-top: 0px;
+    /* Telegram SDK writes the real value when available */
+    --tg-safe-area-inset-bottom: 0px;
+    /* Telegram SDK writes the real value when available */
     --tg-safe-area-inset-left: 0px;
     --tg-safe-area-inset-right: 0px;
 
@@ -173,6 +173,7 @@ All colors MUST be HSL.
        Published by MainLayout but kept with safe fallbacks so any component
        can `padding-bottom: calc(var(--bottom-stack-h) + 12px)` without math. */
     --header-h: 56px;
+    --mobile-header-content-h: 52px;
     --bottom-nav-h: 0px;
     /* set by MainLayout when nav visible */
     --player-h: 0px;

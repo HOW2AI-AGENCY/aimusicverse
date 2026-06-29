@@ -51,18 +51,18 @@ export function useTelegramSafeArea(options: UseTelegramSafeAreaOptions = {}): S
   const styles = useMemo<SafeAreaStyles>(() => {
     // Top padding: combine system safe area + Telegram content safe area
     const topExtra = extraTop > 0 ? ` + ${extraTop}px` : "";
-    const paddingTop = `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 44px)${topExtra}, env(safe-area-inset-top, 44px)${topExtra}))`;
+    const paddingTop = `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)${topExtra}, env(safe-area-inset-top, 0px)${topExtra}))`;
 
     // Bottom padding: system safe area OR Telegram content safe area (MainButton), plus extras
     let bottomParts: string[] = [];
 
     // Always include system safe area
-    bottomParts.push("var(--tg-safe-area-inset-bottom, 34px)");
-    bottomParts.push("env(safe-area-inset-bottom, 34px)");
+    bottomParts.push("var(--tg-safe-area-inset-bottom, 0px)");
+    bottomParts.push("env(safe-area-inset-bottom, 0px)");
 
     // Include MainButton space if requested
     if (withMainButton) {
-      bottomParts.push("var(--tg-content-safe-area-inset-bottom, 60px)");
+      bottomParts.push("var(--tg-content-safe-area-inset-bottom, 0px)");
     }
 
     // Calculate extra bottom (BottomNav + custom extra)
@@ -112,15 +112,15 @@ export function useTelegramSafeAreaValues(): SafeAreaValues {
 export const safeAreaClasses = {
   /** Header with top safe area */
   headerTop:
-    "pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,44px),env(safe-area-inset-top,44px))+0.5rem)]",
+    "pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,0px),env(safe-area-inset-top,0px))+0.5rem)]",
 
   /** Container with bottom nav safe area */
   containerWithNav:
-    "pb-[calc(max(var(--tg-content-safe-area-inset-bottom,60px),var(--tg-safe-area-inset-bottom,34px),env(safe-area-inset-bottom,34px))+80px)]",
+    "pb-[calc(max(var(--tg-content-safe-area-inset-bottom,0px),var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))+80px)]",
 
   /** Container without bottom nav */
   containerNoNav:
-    "pb-[max(var(--tg-content-safe-area-inset-bottom,60px),var(--tg-safe-area-inset-bottom,34px),env(safe-area-inset-bottom,34px))]",
+    "pb-[max(var(--tg-content-safe-area-inset-bottom,0px),var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))]",
 
   /** Full height using stable viewport */
   fullHeight: "min-h-[var(--tg-viewport-stable-height,100vh)]",
@@ -131,7 +131,7 @@ export const safeAreaClasses = {
 
   /** All safe areas combined */
   safeAll:
-    "pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,44px),env(safe-area-inset-top,44px)))] pb-[max(var(--tg-safe-area-inset-bottom,34px),env(safe-area-inset-bottom,34px))] pl-[max(var(--tg-safe-area-inset-left,0px),env(safe-area-inset-left,0px))] pr-[max(var(--tg-safe-area-inset-right,0px),env(safe-area-inset-right,0px))]",
+    "pt-[calc(max(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,0px),env(safe-area-inset-top,0px)))] pb-[max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))] pl-[max(var(--tg-safe-area-inset-left,0px),env(safe-area-inset-left,0px))] pr-[max(var(--tg-safe-area-inset-right,0px),env(safe-area-inset-right,0px))]",
 };
 
 /**

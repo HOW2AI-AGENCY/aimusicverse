@@ -38,9 +38,10 @@ import { motion } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
 import { glass } from "@/lib/glass";
 import { UnifiedTrackMenu } from "@/components/track-actions/UnifiedTrackMenu";
-import { WaveformProgressBar } from "./WaveformProgressBar";
+import { PlayerProgress } from "./PlayerProgress";
 import { Slider } from "@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface CompactPlayerProps {
   track: Track;
@@ -177,15 +178,20 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           aria-label={`Меню трека: ${track.title || "Без названия"}`}
         >
           {track.cover_url ? (
-            <motion.img
+            <LazyImage
               src={track.cover_url}
               alt={track.title || "Обложка трека"}
-              className={cn(
-                "rounded-xl object-cover ring-1 ring-white/10 group-hover:ring-primary/30 transition-all",
+              coverSize="small"
+              priority={isPlaying}
+              aspectRatio="1/1"
+              containerClassName={cn(
+                "rounded-xl bg-muted/40 ring-1 ring-border/40 group-hover:ring-primary/30 transition-all",
                 variant === "desktop" ? "w-14 h-14" : variant === "mid" ? "w-11 h-11" : "w-12 h-12",
               )}
-              animate={isPlaying ? { scale: [1, 1.02, 1] } : { scale: 1 }}
-              transition={{ duration: 2, repeat: Infinity }}
+              className="h-full w-full rounded-xl object-cover"
+              width={variant === "desktop" ? 56 : 48}
+              height={variant === "desktop" ? 56 : 48}
+              fallback={<Music2 className="w-5 h-5 text-primary/60" aria-hidden="true" />}
             />
           ) : (
             <div
@@ -375,13 +381,14 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
 
   const Waveform = ({ heightClass }: { heightClass: string }) => (
     <div className={cn("flex-1 min-w-0", heightClass)}>
-      <WaveformProgressBar
+      <PlayerProgress
         audioUrl={track.streaming_url || track.audio_url}
         trackId={track.id}
         currentTime={currentTime}
         duration={duration}
         onSeek={handleSeek}
         buffered={buffered}
+        density="compact"
         mode="minimal"
         showLabels={false}
         className="pointer-events-auto"

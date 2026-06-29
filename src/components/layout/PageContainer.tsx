@@ -171,8 +171,8 @@ export function PageHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-sticky w-full",
-        !transparent && "bg-background/95",
+        "sticky top-0 z-sticky w-full shrink-0",
+        !transparent && "bg-background/90",
         blur && "backdrop-blur-md",
         bordered && "border-b border-border/40",
         className,
