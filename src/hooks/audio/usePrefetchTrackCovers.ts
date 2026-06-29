@@ -10,6 +10,7 @@
 import { useEffect, useRef } from "react";
 import { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
+import { getTrackCoverUrl } from "@/lib/imageOptimization";
 
 interface PrefetchOptions {
   /** Number of tracks ahead to prefetch (default: 3) */
@@ -44,18 +45,24 @@ export function usePrefetchTrackCovers(queue: Track[], currentIndex: number, opt
 
     tracksToPrefetch.forEach((track) => {
       if (!track?.cover_url) return;
+      const coverUrl = getTrackCoverUrl(track.cover_url, "medium");
 
       // Skip already prefetched
-      if (prefetchedRef.current.has(track.cover_url)) return;
+      if (prefetchedRef.current.has(coverUrl)) return;
 
       // Create Image object for prefetching
       const img = new Image();
 
-      img.onload = () => {
-        prefetchedRef.current.add(track.cover_url!);
+      img.onload = async () => {
+        try {
+          await img.decode?.();
+        } catch {
+          // Image is still usable when decode is unavailable or rejects.
+        }
+        prefetchedRef.current.add(coverUrl);
         logger.debug("Cover prefetched", {
           trackId: track.id,
-          url: track.cover_url?.substring(0, 50),
+          url: coverUrl.substring(0, 50),
         });
       };
 
@@ -64,7 +71,7 @@ export function usePrefetchTrackCovers(queue: Track[], currentIndex: number, opt
       };
 
       // Start prefetch
-      img.src = track.cover_url;
+      img.src = coverUrl;
     });
 
     // Clear cache if too large to prevent memory bloat

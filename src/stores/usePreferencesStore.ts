@@ -17,8 +17,15 @@ import { logger } from "@/lib/logger";
 
 // --- Telegram CloudStorage helpers ---
 
+function isCloudStorageSupported(): boolean {
+  const webApp = window.Telegram?.WebApp;
+  const version = Number.parseFloat(webApp?.version ?? "0");
+  return Boolean(webApp?.CloudStorage && Number.isFinite(version) && version >= 6.9);
+}
+
 function cloudStorageSet(key: string, value: string): void {
   try {
+    if (!isCloudStorageSupported()) return;
     window.Telegram?.WebApp?.CloudStorage?.setItem(key, value, (err: Error | null) => {
       if (err) logger.warn("CloudStorage write failed", { key, err });
     });
@@ -30,6 +37,10 @@ function cloudStorageSet(key: string, value: string): void {
 function cloudStorageGet(key: string): Promise<string | null> {
   return new Promise((resolve) => {
     try {
+      if (!isCloudStorageSupported()) {
+        resolve(null);
+        return;
+      }
       window.Telegram?.WebApp?.CloudStorage?.getItem(key, (err: Error | null, value: string | null) => {
         if (err || value === undefined || value === null || value === "") resolve(null);
         else resolve(value);

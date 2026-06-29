@@ -30,7 +30,7 @@ export const PageSkeleton = memo(function PageSkeleton({
 
   return (
     <div
-      className={cn("min-h-screen bg-background animate-in fade-in duration-150", className)}
+      className={cn("min-h-screen bg-background", className)}
       style={{
         minHeight: "var(--tg-viewport-stable-height, 100vh)",
       }}
