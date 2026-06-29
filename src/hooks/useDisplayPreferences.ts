@@ -10,9 +10,7 @@ export function useDisplayPreferences() {
   useEffect(() => {
     const root = document.documentElement;
     if (preferences.theme === "auto") {
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       root.classList.toggle("dark", prefersDark);
       root.classList.toggle("light", !prefersDark);
     } else {
@@ -22,12 +20,7 @@ export function useDisplayPreferences() {
   }, [preferences.theme]);
 
   useEffect(() => {
-    const scale =
-      preferences.textSize === "small"
-        ? 0.875
-        : preferences.textSize === "large"
-          ? 1.125
-          : 1.0;
+    const scale = preferences.textSize === "small" ? 0.875 : preferences.textSize === "large" ? 1.125 : 1.0;
     document.documentElement.style.setProperty("--text-scale", String(scale));
   }, [preferences.textSize]);
 

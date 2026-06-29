@@ -6,7 +6,7 @@
 import { memo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface PageSkeletonProps {
   /** Page type for optimized skeleton */

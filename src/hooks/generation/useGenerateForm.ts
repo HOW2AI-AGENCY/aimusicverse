@@ -587,11 +587,27 @@ export function useGenerateForm({
       const errorMessage = error instanceof Error ? error.message : "";
       if (errorMessage.includes("429") || errorMessage.includes("кредитов")) {
         toast.error("Недостаточно кредитов", {
-          description: "Пополните баланс SunoAPI",
+          description: "Пополните баланс для улучшения стиля",
+        });
+      } else if (errorMessage.includes("network") || errorMessage.includes("fetch")) {
+        toast.error("Ошибка соединения", {
+          description: "Проверьте подключение к интернету и попробуйте снова",
+        });
+      } else if (errorMessage.includes("timeout") || errorMessage.includes("timed out")) {
+        toast.error("Превышено время ожидания", {
+          description: "Сервер не ответил вовремя. Попробуйте ещё раз",
+        });
+      } else if (
+        errorMessage.includes("500") ||
+        errorMessage.includes("502") ||
+        errorMessage.includes("Edge Function")
+      ) {
+        toast.error("Сервис временно недоступен", {
+          description: "Попробуйте повторить через несколько минут",
         });
       } else {
-        toast.error("Ошибка улучшения", {
-          description: errorMessage || "Попробуйте еще раз",
+        toast.error("Не удалось улучшить стиль", {
+          description: "Попробуйте изменить описание или повторить позже",
         });
       }
     } finally {
@@ -1035,27 +1051,25 @@ export function useGenerateForm({
 
       const failureCategory = classifyFailure(error);
       try {
-        await supabase
-          .from("generation_tasks")
-          .insert({
-            user_id: (await supabase.auth.getUser()).data.user?.id ?? "",
-            prompt: (mode === "simple" ? description : lyrics)?.slice(0, 500) || "",
-            status: "failed",
-            source: "mini_app",
-            error_message: errorMessage.slice(0, 500),
-            failure_category: failureCategory,
-            retry_count: retryCount,
-            model_used: finalModel,
-            generation_mode: submissionMode,
-            generation_params: {
-              mode,
-              model: finalModel,
-              hasVocals,
-              hasAudioFile: !!audioFile,
-              hasReference: !!activeReference,
-              promptLength: (mode === "simple" ? description : lyrics)?.length || 0,
-            },
-          } as never);
+        await supabase.from("generation_tasks").insert({
+          user_id: (await supabase.auth.getUser()).data.user?.id ?? "",
+          prompt: (mode === "simple" ? description : lyrics)?.slice(0, 500) || "",
+          status: "failed",
+          source: "mini_app",
+          error_message: errorMessage.slice(0, 500),
+          failure_category: failureCategory,
+          retry_count: retryCount,
+          model_used: finalModel,
+          generation_mode: submissionMode,
+          generation_params: {
+            mode,
+            model: finalModel,
+            hasVocals,
+            hasAudioFile: !!audioFile,
+            hasReference: !!activeReference,
+            promptLength: (mode === "simple" ? description : lyrics)?.length || 0,
+          },
+        } as never);
       } catch {
         /* swallow logging failures */
       }

@@ -210,29 +210,28 @@ export function getTouchTargetClasses(size: 44 | 48 | 56 = 48): string {
  * React hook for validating touch targets in development
  */
 export function useTouchTargetValidation(ref: React.RefObject<HTMLElement>, options: TouchTargetOptions = {}) {
-  if (import.meta.env.DEV) {
-    // Only validate in development
-    React.useEffect(() => {
-      if (!ref.current) return;
+  const isDev = import.meta.env.DEV;
+  React.useEffect(() => {
+    if (!isDev) return;
+    if (!ref.current) return;
 
-      const element = ref.current;
-      const rect = element.getBoundingClientRect();
-      const result = validateTouchTarget(rect.width, rect.height, {
-        ...options,
-        context: element.tagName.toLowerCase(),
-      });
+    const element = ref.current;
+    const rect = element.getBoundingClientRect();
+    const result = validateTouchTarget(rect.width, rect.height, {
+      ...options,
+      context: element.tagName.toLowerCase(),
+    });
 
-      if (!result.valid) {
-        logger.error("Touch Target Validation Failed", undefined, { errors: result.errors });
-      } else if (result.warnings.length > 0) {
-        logger.warn("Touch Target Warnings", { warnings: result.warnings });
-      }
+    if (!result.valid) {
+      logger.error("Touch Target Validation Failed", undefined, { errors: result.errors });
+    } else if (result.warnings.length > 0) {
+      logger.warn("Touch Target Warnings", { warnings: result.warnings });
+    }
 
-      if (result.recommendations.length > 0) {
-        logger.warn("Touch Target Recommendations", { recommendations: result.recommendations });
-      }
-    }, [ref, options]);
-  }
+    if (result.recommendations.length > 0) {
+      logger.warn("Touch Target Recommendations", { recommendations: result.recommendations });
+    }
+  }, [ref, options, isDev]);
 }
 
 /**

@@ -183,7 +183,11 @@ export function ShareTrackDialog({ open, onOpenChange, track }: ShareTrackDialog
         {/* Track Preview */}
         <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50">
           {track.cover_url && (
-            <LazyImage src={track.cover_url} alt={track.title || "Track"} className="w-20 h-20 rounded-md object-cover" />
+            <LazyImage
+              src={track.cover_url}
+              alt={track.title || "Track"}
+              className="w-20 h-20 rounded-md object-cover"
+            />
           )}
           <div className="flex-1 min-w-0">
             <p className="font-semibold truncate">{track.title}</p>

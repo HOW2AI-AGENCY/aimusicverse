@@ -220,7 +220,11 @@ export default function AdminFeedback() {
           {/* User Info */}
           <div className="flex items-center gap-3">
             {selectedFeedback.profile?.photo_url ? (
-              <LazyImage src={selectedFeedback.profile.photo_url} alt="" className="w-10 h-10 rounded-full object-cover" />
+              <LazyImage
+                src={selectedFeedback.profile.photo_url}
+                alt=""
+                className="w-10 h-10 rounded-full object-cover"
+              />
             ) : (
               <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                 <MessageSquare className="h-5 w-5" />

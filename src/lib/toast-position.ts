@@ -3,6 +3,11 @@
  * Ensures consistent positioning across all notification types
  */
 
+// Re-export canonical z-index constants so existing imports keep working.
+// The single source of truth lives in @/constants/z-index (which mirrors
+// tailwind.config.ts).
+export { Z_INDEX } from "@/constants/z-index";
+
 /**
  * Get CSS position styles for toasts
  * Mobile: bottom-center with safe area support
@@ -51,23 +56,8 @@ export function getToastClasses(isMobile: boolean): string {
   return "fixed left-1/2 -translate-x-1/2 z-50 max-w-sm w-auto";
 }
 
-/**
- * Z-index constants per Z_INDEX_HIERARCHY.md
- */
-export const Z_INDEX = {
-  base: 10, // Regular page content
-  sidebar: 40, // Background UI elements
-  navigation: 50, // Bottom navigation bar
-  player: 60, // Mini player
-  floatingButton: 70, // Floating action buttons
-  tooltips: 80, // Smart hints, tooltips
-  dialogs: 140, // Modal dialogs
-  sheet: 150, // Bottom sheets
-  fullscreen: 160, // Major fullscreen experiences
-  dropdown: 200, // Select, popover, dropdown menus
-  system: 300, // System notifications (toasts)
-  critical: 9999, // Critical alerts, context menus
-} as const;
+// Legacy z-index aliases removed — use Z_INDEX from @/constants/z-index
+// (re-exported at the top of this file).
 /**
  * Get safe area padding styles for fullscreen overlays
  */

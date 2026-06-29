@@ -235,7 +235,11 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
             </Button>
           </div>
           {coverUrl && (
-            <LazyImage src={coverUrl} alt="Обложка статьи" className="w-full max-w-md h-32 object-cover rounded-md border" />
+            <LazyImage
+              src={coverUrl}
+              alt="Обложка статьи"
+              className="w-full max-w-md h-32 object-cover rounded-md border"
+            />
           )}
         </div>
 

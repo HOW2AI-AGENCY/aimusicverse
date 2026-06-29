@@ -53,7 +53,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       style={{
         // Use unified positioning from toast-position utility
         ...positionStyles,
-        zIndex: Z_INDEX.system, // 300 - above sheets/dialogs but below context menus
+        zIndex: Z_INDEX.toast, // 300 - above sheets/dialogs
       }}
       toastOptions={{
         unstyled: false,

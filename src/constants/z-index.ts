@@ -1,31 +1,38 @@
 /**
  * Z-Index System
- * Single source of truth for all z-index values in the application
+ * Values are aligned with tailwind.config.ts — that file is the single source
+ * of truth for z-index tokens.  Any change here MUST be mirrored there and in
+ * src/lib/design-tokens.ts.
  *
  * HIERARCHY (from lowest to highest):
  *
  * 0.     Base content (default)
  * 10.    Raised content (cards, panels)
  * 20.    Sticky headers/footers
- * 30.    Floating elements (tooltips, popovers)
+ * 30.    Floating elements
  * 40.    Overlays (backdrops)
  * 50.    Navigation (bottom nav, sidebar)
  * 60.    Player (compact, expanded)
- * 70.    Contextual hints, toasts
- * 80.    Dialogs, sheets, modals
+ * 70.    Contextual hints
+ * 80.    Dialogs, modals
  * 90.    Fullscreen player, studio
  * 100.   System notifications (achievements, alerts)
- * 200.   Dropdown menus, select lists
+ * 150.   Sheet backdrops
+ * 151.   Sheet content
+ * 200.   Dropdown menus, popovers, select lists
+ * 250.   Tooltips
+ * 300.   Toasts, notifications
  * 9999.  Debug/development tools
  *
  * USAGE:
  * - Import and use these constants instead of hardcoded z-index values
  * - Never use arbitrary z-index values like z-[123]
- * - When adding new layers, update this file and the hierarchy above
+ * - When adding new layers, update this file, tailwind.config.ts, and
+ *   src/lib/design-tokens.ts
  */
 
 /**
- * Base layer - default content flow
+ * Consolidated z-index constants — mirrors tailwind.config.ts theme.extend.zIndex
  */
 export const Z_INDEX = {
   // Base content
@@ -65,17 +72,24 @@ export const Z_INDEX = {
   contextual: 70,
   hint: 70,
 
+  // Dialogs - modals (same level as dialog in Tailwind config)
+  dialog: 80,
+  modal: 80,
+
   // Fullscreen - fullscreen player, studio, immersive views
   fullscreen: 90,
   fullscreenPlayer: 90,
   studio: 90,
   immersive: 90,
 
-  // Dialogs - modals, sheets (above fullscreen)
-  dialog: 160,
-  modal: 160,
+  // System notifications (achievements, alerts)
+  system: 100,
+  achievement: 100,
+  levelUp: 100,
+  alert: 100,
+  systemNotification: 100,
 
-  // Sheets - bottom sheets, side sheets
+  // Sheets - bottom sheets, side sheets (high-priority overlays)
   sheet: 150,
   sheetBackdrop: 150,
   sheetContent: 151,
@@ -89,14 +103,9 @@ export const Z_INDEX = {
   // Tooltips - above dropdowns
   tooltip: 250,
 
-  // Toasts/Notifications - system level
+  // Toasts/Notifications - highest regular priority
   toast: 300,
   notification: 300,
-  system: 300,
-  achievement: 300,
-  levelUp: 300,
-  alert: 300,
-  systemNotification: 300,
 
   // Maximum - debug, critical UI
   max: 9999,
@@ -126,7 +135,14 @@ export const Z_INDEX_VARS = {
   "--z-dialog": Z_INDEX.dialog,
   "--z-fullscreen": Z_INDEX.fullscreen,
   "--z-system": Z_INDEX.system,
+  "--z-sheet-backdrop": Z_INDEX.sheetBackdrop,
+  "--z-sheet-content": Z_INDEX.sheetContent,
   "--z-dropdown": Z_INDEX.dropdown,
+  "--z-popover": Z_INDEX.popover,
+  "--z-tooltip": Z_INDEX.tooltip,
+  "--z-toast": Z_INDEX.toast,
+  "--z-notification": Z_INDEX.notification,
+  "--z-max": Z_INDEX.max,
 } as const;
 
 /**
@@ -145,7 +161,14 @@ export const zIndexUtilities = [
   "z-dialog",
   "z-fullscreen",
   "z-system",
+  "z-sheet-backdrop",
+  "z-sheet-content",
   "z-dropdown",
+  "z-popover",
+  "z-tooltip",
+  "z-toast",
+  "z-notification",
+  "z-max",
 ] as const;
 
 export type ZIndexKey = keyof typeof Z_INDEX;

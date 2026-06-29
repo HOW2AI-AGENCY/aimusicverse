@@ -191,6 +191,9 @@ export function ProjectsTab({ onProjectSelect, selectedProjectId }: ProjectsTabP
         <EmptyState
           icon={FolderOpen}
           title={searchQuery ? "Ничего не найдено" : "Нет проектов"}
+          description={
+            searchQuery ? "Попробуйте изменить поисковый запрос" : "Создайте первый проект для организации ваших треков"
+          }
           variant="compact"
           actions={
             !searchQuery

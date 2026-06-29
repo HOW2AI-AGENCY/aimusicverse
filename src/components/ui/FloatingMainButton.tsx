@@ -41,7 +41,7 @@ export function FloatingMainButton({
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="fixed bottom-0 left-0 right-0 pointer-events-none"
           style={{
-            zIndex: Z_INDEX.floatingButton,
+            zIndex: Z_INDEX.contextual,
             paddingBottom: getBottomSafeAreaWithNav(),
           }}
         >

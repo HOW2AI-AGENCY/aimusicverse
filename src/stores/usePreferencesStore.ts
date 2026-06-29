@@ -19,7 +19,7 @@ import { logger } from "@/lib/logger";
 
 function cloudStorageSet(key: string, value: string): void {
   try {
-    window.Telegram?.WebApp?.CloudStorage?.setItem(key, value, (err: unknown) => {
+    window.Telegram?.WebApp?.CloudStorage?.setItem(key, value, (err: Error | null) => {
       if (err) logger.warn("CloudStorage write failed", { key, err });
     });
   } catch {
@@ -30,13 +30,10 @@ function cloudStorageSet(key: string, value: string): void {
 function cloudStorageGet(key: string): Promise<string | null> {
   return new Promise((resolve) => {
     try {
-      window.Telegram?.WebApp?.CloudStorage?.getItem(
-        key,
-        (err: unknown, value?: string) => {
-          if (err || value === undefined || value === "") resolve(null);
-          else resolve(value);
-        },
-      );
+      window.Telegram?.WebApp?.CloudStorage?.getItem(key, (err: Error | null, value: string | null) => {
+        if (err || value === undefined || value === null || value === "") resolve(null);
+        else resolve(value);
+      });
       // Timeout fallback
       setTimeout(() => resolve(null), 2000);
     } catch {
@@ -156,10 +153,7 @@ export const usePreferencesStore = create<PreferencesState>()(
 
 async function mergeFromCloudStorage(): Promise<void> {
   try {
-    const [prefsRaw, gesturesRaw] = await Promise.all([
-      cloudStorageGet("prefs"),
-      cloudStorageGet("gestures"),
-    ]);
+    const [prefsRaw, gesturesRaw] = await Promise.all([cloudStorageGet("prefs"), cloudStorageGet("gestures")]);
 
     if (!prefsRaw && !gesturesRaw) return;
 
@@ -169,15 +163,13 @@ async function mergeFromCloudStorage(): Promise<void> {
     if (prefsRaw) {
       const cloud = parsePreferences(JSON.parse(prefsRaw));
       // Cloud wins if localStorage had defaults (i.e. fresh install)
-      const isDefault =
-        JSON.stringify(store.preferences) === JSON.stringify(DEFAULT_USER_PREFERENCES);
+      const isDefault = JSON.stringify(store.preferences) === JSON.stringify(DEFAULT_USER_PREFERENCES);
       if (isDefault) updates.preferences = cloud;
     }
 
     if (gesturesRaw) {
       const cloud = parseGestureConfig(JSON.parse(gesturesRaw));
-      const isDefault =
-        JSON.stringify(store.gestureConfig) === JSON.stringify(DEFAULT_GESTURE_CONFIG);
+      const isDefault = JSON.stringify(store.gestureConfig) === JSON.stringify(DEFAULT_GESTURE_CONFIG);
       if (isDefault) updates.gestureConfig = cloud;
     }
 

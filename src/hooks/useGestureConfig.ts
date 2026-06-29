@@ -1,4 +1,4 @@
-import { usePreferencesStore } from '@/stores/usePreferencesStore';
+import { usePreferencesStore } from "@/stores/usePreferencesStore";
 
 export function useGestureConfig() {
   const gestureConfig = usePreferencesStore((s) => s.gestureConfig);

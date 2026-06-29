@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useGuestMode } from "@/contexts/GuestModeContext";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { motion, AnimatePresence } from "@/lib/motion";
 
 /**

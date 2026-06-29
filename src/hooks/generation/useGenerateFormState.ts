@@ -6,11 +6,7 @@ import { useUserCredits } from "@/hooks/useUserCredits";
 import { useAnalyticsTracking } from "@/hooks/useAnalyticsTracking";
 import { useAutomaticRetry } from "@/hooks/useAutomaticRetry";
 import { toast } from "sonner";
-import {
-  DEFAULT_STYLE_WEIGHT,
-  DEFAULT_WEIRDNESS,
-  DEFAULT_AUDIO_WEIGHT,
-} from "@/constants/generationConstants";
+import { DEFAULT_STYLE_WEIGHT, DEFAULT_WEIRDNESS, DEFAULT_AUDIO_WEIGHT } from "@/constants/generationConstants";
 import { addUserActionBreadcrumb } from "@/lib/sentry";
 
 // Wizard mode removed for UX simplification - only 2 modes now

@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { BottomNavigation } from "./BottomNavigation";
 import { Sidebar } from "./Sidebar";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { ResizablePlayer } from "./ResizablePlayer";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { usePlaybackTracking } from "@/hooks/usePlaybackTracking";
@@ -24,8 +24,6 @@ import { useAdminDailyStats } from "@/hooks/useAdminDailyStats";
 import { TELEGRAM_SAFE_AREA } from "@/constants/safe-area";
 import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvider";
 import { SafeAreaContainer } from "./layout/SafeAreaContainer";
-
-
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() =>
@@ -122,9 +120,6 @@ export const MainLayout = () => {
     }
     return false;
   });
-
-
-
 
   // When viewport shrinks to compact-desktop range, auto-collapse unless the
   // user has explicitly chosen the expanded state.
@@ -308,8 +303,6 @@ export const MainLayout = () => {
                 <Sidebar collapsed onCollapsedChange={() => {}} />
               </div>
             )}
-
-
 
             <main
               id="main-content"

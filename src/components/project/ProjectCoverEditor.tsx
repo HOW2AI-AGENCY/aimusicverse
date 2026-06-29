@@ -153,7 +153,11 @@ export function ProjectCoverEditor({
         <CardContent className="space-y-4">
           {currentCoverUrl ? (
             <div className="relative group">
-              <LazyImage src={currentCoverUrl} alt="Project cover" className="w-full aspect-square object-cover rounded-lg" />
+              <LazyImage
+                src={currentCoverUrl}
+                alt="Project cover"
+                className="w-full aspect-square object-cover rounded-lg"
+              />
               <div
                 className={cn(
                   "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2",
@@ -181,13 +185,7 @@ export function ProjectCoverEditor({
         </CardContent>
       </Card>
 
-      <UnifiedDialog
-        variant="modal"
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        title="Обложка проекта"
-        size="xl"
-      >
+      <UnifiedDialog variant="modal" open={isOpen} onOpenChange={setIsOpen} title="Обложка проекта" size="xl">
         <div className="space-y-6">
           {/* Upload Section */}
           <div className="space-y-3">

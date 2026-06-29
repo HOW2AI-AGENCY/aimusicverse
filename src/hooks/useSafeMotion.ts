@@ -14,15 +14,14 @@
 import { useReducedMotion } from "@/lib/motion";
 
 export function useSafeMotion() {
-    const prefersReduced = useReducedMotion() ?? false;
+  const prefersReduced = useReducedMotion() ?? false;
 
-    return {
-        /** true when user prefers reduced motion (accessibility) */
-        prefersReduced,
-        /** Returns the given value OR an empty object if reduced motion is preferred */
-        animate: <T extends Record<string, unknown>>(value: T): T | Record<string, never> =>
-            prefersReduced ? {} : value,
-        /** Returns `true` if animations should be applied */
-        shouldAnimate: !prefersReduced,
-    } as const;
+  return {
+    /** true when user prefers reduced motion (accessibility) */
+    prefersReduced,
+    /** Returns the given value OR an empty object if reduced motion is preferred */
+    animate: <T extends Record<string, unknown>>(value: T): T | Record<string, never> => (prefersReduced ? {} : value),
+    /** Returns `true` if animations should be applied */
+    shouldAnimate: !prefersReduced,
+  } as const;
 }

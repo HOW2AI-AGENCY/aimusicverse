@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { LazyImage } from "@/components/ui/lazy-image";
 import {
   ArrowLeft,
   Sparkles,
@@ -211,7 +212,7 @@ export default function ProjectDetail() {
           <Button
             size="sm"
             onClick={() => dialogs.setPublishDialogOpen(true)}
-            className="gap-1.5 bg-green-500 hover:bg-green-600 h-8"
+            className="gap-1.5 bg-green-500 hover:bg-green-600 h-10 min-h-touch"
           >
             <Rocket className="w-3.5 h-3.5" />
             Опубликовать
@@ -329,13 +330,7 @@ function ProjectHeroSection({
       <div className="relative">
         <div className="relative w-full aspect-[3/2]">
           {project.cover_url ? (
-            <img
-              loading="lazy"
-              decoding="async"
-              src={project.cover_url}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
+            <LazyImage src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary to-muted flex items-center justify-center">
               <Music className="w-14 h-14 text-muted-foreground/40" />
@@ -354,7 +349,7 @@ function ProjectHeroSection({
               variant="secondary"
               size="icon"
               onClick={onNavigateBack}
-              className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+              className="h-11 w-11 min-h-touch bg-background/70 backdrop-blur-md border-0 shadow-lg"
             >
               <ArrowLeft className="w-4 h-4" />
             </Button>
@@ -363,7 +358,7 @@ function ProjectHeroSection({
                 variant="secondary"
                 size="icon"
                 onClick={onOpenMediaGenerator}
-                className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+                className="h-11 w-11 min-h-touch bg-background/70 backdrop-blur-md border-0 shadow-lg"
               >
                 <Image className="w-4 h-4" />
               </Button>
@@ -371,7 +366,7 @@ function ProjectHeroSection({
                 variant="secondary"
                 size="icon"
                 onClick={onOpenSettings}
-                className="h-9 w-9 bg-background/70 backdrop-blur-md border-0 shadow-lg"
+                className="h-11 w-11 min-h-touch bg-background/70 backdrop-blur-md border-0 shadow-lg"
               >
                 <Settings className="w-4 h-4" />
               </Button>
@@ -403,11 +398,11 @@ function ProjectHeroSection({
         }}
       >
         <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" onClick={onNavigateBack} className="h-8 w-8">
+          <Button variant="ghost" size="icon" onClick={onNavigateBack} className="h-10 w-10 min-h-touch">
             <ArrowLeft className="w-4 h-4" />
           </Button>
           <h1 className="font-semibold text-sm truncate flex-1 text-center mx-3">{project.title}</h1>
-          <Button variant="ghost" size="icon" onClick={onOpenSettings} className="h-8 w-8">
+          <Button variant="ghost" size="icon" onClick={onOpenSettings} className="h-10 w-10 min-h-touch">
             <Settings className="w-3.5 h-3.5" />
           </Button>
         </div>
@@ -433,7 +428,7 @@ function ProjectHeroSection({
           <Button
             size="icon"
             variant="secondary"
-            className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute -bottom-1 -right-1 h-10 w-10 min-h-touch rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={onOpenMediaGenerator}
           >
             <Image className="w-3.5 h-3.5" />
@@ -513,7 +508,7 @@ function ProjectMetaSection({
             variant="ghost"
             size="sm"
             onClick={onToggleProjectInfo}
-            className="w-full h-7 text-xs text-muted-foreground hover:text-foreground gap-1"
+            className="w-full h-10 min-h-touch text-xs text-muted-foreground hover:text-foreground gap-1"
           >
             {projectInfoExpanded ? (
               <>

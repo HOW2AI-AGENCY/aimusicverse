@@ -278,10 +278,41 @@ export class AppError extends Error {
   }
 
   /**
-   * Convert to user-friendly message
+   * Convert to user-friendly message.
+   * Subclasses override this; the base implementation avoids leaking raw
+   * API/technical strings by mapping known error codes to safe messages.
    */
   toUserMessage(): string {
-    return this.message;
+    switch (this.code) {
+      case ErrorCode.NETWORK_ERROR:
+      case ErrorCode.CONNECTION_ERROR:
+        return "Ошибка сети. Проверьте подключение к интернету";
+      case ErrorCode.TIMEOUT_ERROR:
+        return "Превышено время ожидания. Попробуйте повторить позже";
+      case ErrorCode.CORS_ERROR:
+        return "Ошибка соединения с сервером. Попробуйте обновить страницу";
+      case ErrorCode.RATE_LIMIT_ERROR:
+        return "Слишком много запросов. Подождите минуту и попробуйте снова";
+      case ErrorCode.INSUFFICIENT_CREDITS:
+        return "Недостаточно кредитов для выполнения операции";
+      case ErrorCode.UNAUTHORIZED:
+      case ErrorCode.SESSION_EXPIRED:
+        return "Требуется авторизация. Войдите в аккаунт";
+      case ErrorCode.FORBIDDEN:
+        return "Доступ запрещён";
+      case ErrorCode.NOT_FOUND:
+        return "Запрашиваемый ресурс не найден";
+      case ErrorCode.SERVER_ERROR:
+        return "Ошибка сервера. Попробуйте повторить позже";
+      case ErrorCode.VALIDATION_ERROR:
+      case ErrorCode.INVALID_INPUT:
+        return "Проверьте введённые данные и попробуйте снова";
+      case ErrorCode.GENERATION_ERROR:
+      case ErrorCode.CONTENT_BLOCKED:
+        return "Не удалось выполнить операцию. Попробуйте изменить параметры";
+      default:
+        return "Произошла непредвиденная ошибка. Попробуйте повторить позже";
+    }
   }
 
   /**
@@ -422,9 +453,24 @@ export class GenerationError extends AppError {
 
   toUserMessage(): string {
     if (this.message.includes("credits") || this.message.includes("кредит")) {
-      return "Недостаточно кредитов. Пополните баланс SunoAPI";
+      return "Недостаточно кредитов. Пополните баланс для продолжения генерации";
     }
-    return `Ошибка генерации: ${this.message}`;
+    if (this.message.includes("timeout") || this.message.includes("timed out")) {
+      return "Превышено время ожидания. Попробуйте повторить позже";
+    }
+    if (this.message.includes("network") || this.message.includes("fetch")) {
+      return "Ошибка соединения. Проверьте подключение к интернету";
+    }
+    if (this.message.includes("rate") || this.message.includes("limit") || this.message.includes("429")) {
+      return "Слишком много запросов. Подождите минуту и попробуйте снова";
+    }
+    if (this.message.includes("content") || this.message.includes("policy") || this.message.includes("moderat")) {
+      return "Запрос не прошёл модерацию. Измените описание и попробуйте снова";
+    }
+    if (this.message.includes("500") || this.message.includes("502") || this.message.includes("Edge Function")) {
+      return "Сервис генерации временно недоступен. Попробуйте через несколько минут";
+    }
+    return "Не удалось создать трек. Попробуйте изменить описание или повторить позже";
   }
 }
 
