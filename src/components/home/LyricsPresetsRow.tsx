@@ -123,7 +123,7 @@ export const LyricsPresetsRow = memo(function LyricsPresetsRow({
   return (
     <div className={cn("space-y-2", className)}>
       {/* Presets row */}
-      <div className="relative -mx-4 px-4">
+      <div className="relative -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-1">
           {visiblePresets.map((preset, index) =>
             variant === "chips" ? (
