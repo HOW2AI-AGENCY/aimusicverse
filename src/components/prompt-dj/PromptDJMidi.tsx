@@ -197,7 +197,7 @@ export function PromptDJMidi() {
 
       {/* Channels grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {channels.map((channel) => (
+        {channels.map((channel: any) => (
           <ChannelCard key={channel.id} channel={channel} onUpdate={(updates) => updateChannel(channel.id, updates)} />
         ))}
       </div>
