@@ -88,10 +88,23 @@ export const LazyImage = memo(function LazyImage({
     setHasError(true);
   }, []);
 
+  // Resolve container style: explicit width/height OR aspectRatio reserve space to prevent CLS.
+  const hasFixedSize = props.width != null && props.height != null;
+  const resolvedAspectRatio =
+    aspectRatio ??
+    (coverSize ? "1 / 1" : hasFixedSize ? `${Number(props.width)} / ${Number(props.height)}` : undefined);
+
+  const containerStyle: React.CSSProperties = {
+    aspectRatio: resolvedAspectRatio,
+    width: props.width != null ? Number(props.width) : undefined,
+    height: props.height != null ? Number(props.height) : undefined,
+  };
+
   if (hasError || !src) {
     return (
       <div
-        className={cn("bg-muted flex items-center justify-center", containerClassName)}
+        className={cn("bg-muted flex items-center justify-center overflow-hidden", containerClassName)}
+        style={containerStyle}
         role="img"
         aria-label={alt || "Изображение недоступно"}
       >
@@ -101,14 +114,10 @@ export const LazyImage = memo(function LazyImage({
   }
 
   return (
-    <div
-      className={cn("relative overflow-hidden", containerClassName)}
-      style={aspectRatio ? { aspectRatio } : undefined}
-    >
-      {/* Low quality blur placeholder - only show while loading */}
+    <div className={cn("relative overflow-hidden", containerClassName)} style={containerStyle}>
+      {/* Low quality blur placeholder - exactly matches container box, no layout shift */}
       {!isLoaded && (
         <div className="absolute inset-0 bg-muted/80 backdrop-blur-sm" aria-hidden="true">
-          {/* Subtle pulse effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent animate-pulse" />
         </div>
       )}
@@ -127,7 +136,7 @@ export const LazyImage = memo(function LazyImage({
         onLoad={handleLoad}
         onError={handleError}
         className={cn(
-          "transition-opacity duration-slow ease-default",
+          "absolute inset-0 h-full w-full object-cover transition-opacity duration-slow ease-default",
           isLoaded ? "opacity-100" : "opacity-0",
           className,
         )}
@@ -136,6 +145,7 @@ export const LazyImage = memo(function LazyImage({
     </div>
   );
 });
+
 
 // Re-export for backwards compatibility
 export { LazyImage as default };

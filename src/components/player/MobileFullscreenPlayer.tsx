@@ -39,8 +39,13 @@ import { glassButton } from "@/lib/glass";
 import { motion, AnimatePresence, PanInfo } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
 import { logger } from "@/lib/logger";
+import { perfMark, perfEvent } from "@/lib/perfMarks";
 import { useKeyboardGestureControls } from "@/hooks/useKeyboardGestureControls";
 import "@/styles/lyrics-sync.css";
+
+// Mark the very first time this module is evaluated — helps trace lazy-chunk load cost.
+perfMark("fullscreen:moduleEval");
+
 
 const FullscreenVisualizer = lazy(() =>
   import("./FullscreenVisualizer").then((module) => ({ default: module.FullscreenVisualizer })),
@@ -70,7 +75,15 @@ interface MobileFullscreenPlayerProps {
 }
 
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
+  // Perf instrumentation — log first mount + paint timings for blank-frame hunting
+  useEffect(() => {
+    perfMark("fullscreen:mount");
+    const raf = requestAnimationFrame(() => perfEvent("fullscreen", "firstPaint"));
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   const navigate = useNavigate();
+
   const [queueOpen, setQueueOpen] = useState(false);
   const [userScrolling, setUserScrolling] = useState(false);
   const [showVisualizer, setShowVisualizer] = useState(false);
