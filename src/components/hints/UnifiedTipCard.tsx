@@ -9,7 +9,7 @@
  * Always exclusive — only one card is visible thanks to HintRegistry.
  */
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { X, ChevronRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -48,9 +48,10 @@ export function UnifiedTipCard({
   const isActive = reg.activeId === id;
   const hasSeen = reg.hasSeen(id);
   const overlayOpen = reg.overlayOpen;
-  const request = () => reg.request(id);
-  const release = () => reg.release(id);
-  const markSeen = () => reg.markSeen(id);
+
+  const request = useCallback(() => reg.request(id), [reg.request, id]);
+  const release = useCallback(() => reg.release(id), [reg.release, id]);
+  const markSeen = useCallback(() => reg.markSeen(id), [reg.markSeen, id]);
 
   // Try to claim the visible slot after `delay`, unless already seen.
   useEffect(() => {
