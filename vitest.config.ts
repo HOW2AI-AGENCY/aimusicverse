@@ -12,16 +12,22 @@ export default defineConfig({
     setupFiles: ["./src/__tests__/vitest.setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
     exclude: ["src/__tests__/e2e/**", "node_modules/**"],
+    pool: "forks",
+    poolOptions: {
+      forks: {
+        maxForks: 1,
+        minForks: 1,
+        isolate: true,
+        execArgv: ["--max-old-space-size=2048"],
+      },
+    },
+    fileParallelism: false,
+    testTimeout: 10000,
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
       include: ["src/**/*.{ts,tsx}"],
-      exclude: [
-        "src/**/*.test.{ts,tsx}",
-        "src/**/*.spec.{ts,tsx}",
-        "src/__tests__/**",
-        "src/vite-env.d.ts",
-      ],
+      exclude: ["src/**/*.test.{ts,tsx}", "src/**/*.spec.{ts,tsx}", "src/__tests__/**", "src/vite-env.d.ts"],
     },
   },
   resolve: {

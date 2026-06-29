@@ -15,7 +15,6 @@
 
 import { memo, useCallback, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +23,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Check, Star, Play, Pause, Loader2 } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
@@ -67,9 +67,9 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   disabled = false,
   className,
 }: UnifiedVersionSelectorProps) {
-  const queryClient = useQueryClient();
   const haptic = useHapticFeedback();
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
+  const { setPrimaryVersionAsync } = useVersionSwitcher();
 
   const [versions, setVersions] = useState<TrackVersion[]>([]);
   const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
@@ -142,23 +142,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
       );
 
       try {
-        // Update is_primary on all versions
-        await supabase.from("track_versions").update({ is_primary: false }).eq("track_id", trackId);
-
-        await supabase.from("track_versions").update({ is_primary: true }).eq("id", version.id);
-
-        // Update track's active_version_id and audio_url
-        const { error } = await supabase
-          .from("tracks")
-          .update({
-            active_version_id: version.id,
-            audio_url: version.audioUrl,
-            cover_url: version.coverUrl,
-            duration_seconds: version.duration,
-          })
-          .eq("id", trackId);
-
-        if (error) throw error;
+        await setPrimaryVersionAsync({ trackId, versionId: version.id });
 
         // Update player if this track is currently playing
         if (activeTrack?.id === trackId) {
@@ -169,12 +153,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
           } as any);
         }
 
-        // Invalidate queries
-        queryClient.invalidateQueries({ queryKey: ["tracks"] });
-        queryClient.invalidateQueries({ queryKey: ["track-versions", trackId] });
-
         onVersionChange?.(version);
-        toast.success(`Версия ${version.label} активна`);
       } catch (error) {
         // Rollback on error
         setActiveVersionId(previousActiveId);
@@ -190,7 +169,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
         setIsSwitching(false);
       }
     },
-    [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, queryClient, onVersionChange],
+    [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, onVersionChange],
   );
 
   // Handle preview play

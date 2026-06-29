@@ -184,7 +184,7 @@ minimizePlayer(); // Show compact player
 For better performance, use the optimized audio player:
 
 ```typescript
-import { useOptimizedAudioPlayer } from "@/hooks/useOptimizedAudioPlayer";
+import { useOptimizedAudioPlayer } from "@/hooks/audio/useOptimizedAudioPlayer";
 
 function HighPerformancePlayer({ track, nextTrack }) {
   const player = useOptimizedAudioPlayer({

@@ -33,40 +33,34 @@ export function useStudioPerformance(componentName: string): UseStudioPerformanc
     lastRenderStart.current = performance.now();
   }, []);
 
-  // Measure render completion
+  // Measure render completion — only when trackRender() was called
+  const [renderCountState, setRenderCountState] = useState(0);
+
   useEffect(() => {
     if (lastRenderStart.current > 0) {
       const renderTime = performance.now() - lastRenderStart.current;
       renderTimes.current.push(renderTime);
+      lastRenderStart.current = 0;
 
-      // Keep only last N samples
       if (renderTimes.current.length > MAX_RENDER_SAMPLES) {
         renderTimes.current.shift();
       }
 
       renderCount.current++;
+      setRenderCountState(renderCount.current);
     }
   });
 
   // Get memory usage (when available)
   const getMemoryUsage = useCallback((): number | null => {
     if ("memory" in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as unknown as { memory?: { usedJSHeapSize?: number } }).memory;
       if (memory?.usedJSHeapSize) {
         return Math.round(memory.usedJSHeapSize / (1024 * 1024));
       }
     }
     return null;
   }, []);
-
-  // Calculate average render time
-  // Track render count changes via state for proper memoization
-  const [renderCountState, setRenderCountState] = useState(0);
-
-  // Update state when renderCount changes
-  useEffect(() => {
-    setRenderCountState(renderCount.current);
-  }, [renderCount.current]);
 
   const averageRenderTime = useMemo(() => {
     if (renderTimes.current.length === 0) return 0;
@@ -112,7 +106,7 @@ export function useStudioPerformance(componentName: string): UseStudioPerformanc
 /**
  * useThrottledCallback - Throttle a callback to prevent excessive calls
  */
-export function useThrottledCallback<T extends (...args: any[]) => any>(
+export function useThrottledCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
   delay: number,
 ): (...args: Parameters<T>) => ReturnType<T> | undefined {

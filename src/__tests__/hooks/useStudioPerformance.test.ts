@@ -245,11 +245,9 @@ describe("useCustomDeferredValue", () => {
       vi.advanceTimersByTime(100);
     });
 
-    // Re-render to get updated ref value
     rerender({ value: "updated" });
 
-    // Note: Due to how useRef works, we need another render to see the change
-    expect(result.current).toBe("initial"); // Will be updated on next render
+    expect(result.current).toBe("updated");
   });
 
   it("should cancel previous timeout on rapid changes", () => {

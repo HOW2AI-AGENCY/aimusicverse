@@ -140,6 +140,7 @@ export interface PromptChannel {
   value: string;
   weight: number; // 0-1
   enabled: boolean;
+  deck?: "A" | "B" | "both";
 }
 
 export interface GlobalSettings {

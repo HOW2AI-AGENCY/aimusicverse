@@ -19,6 +19,7 @@ import { Play, Pause, Check, Sliders, Library, Sparkles, Volume2 } from "@/lib/i
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { supabase } from "@/integrations/supabase/client";
+import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { glass } from "@/lib/glass";
@@ -53,6 +54,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
   const [selectedVersion, setSelectedVersion] = useState<string | null>(null);
   const [playingVersionId, setPlayingVersionId] = useState<string | null>(null);
   const [settingPrimary, setSettingPrimary] = useState(false);
+  const { setPrimaryVersionAsync } = useVersionSwitcher();
 
   // Fetch track versions when trackId changes
   useEffect(() => {
@@ -143,13 +145,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
     setSettingPrimary(true);
 
     try {
-      // Deactivate all versions first
-      await supabase.from("track_versions").update({ is_primary: false }).eq("track_id", trackId);
-
-      // Activate selected version
-      const { error } = await supabase.from("track_versions").update({ is_primary: true }).eq("id", selectedVersion);
-
-      if (error) throw error;
+      await setPrimaryVersionAsync({ trackId, versionId: selectedVersion });
 
       // Update local state
       setVersions((prev) =>
@@ -158,9 +154,6 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
           isPrimary: v.id === selectedVersion,
         })),
       );
-
-      const selectedLabel = versions.find((v) => v.id === selectedVersion)?.label;
-      toast.success(`Версия ${selectedLabel} установлена как основная`);
     } catch (error) {
       logger.error("Failed to set primary version", error);
       toast.error("Не удалось установить версию");
