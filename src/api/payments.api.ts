@@ -12,7 +12,7 @@ export async function insertCreditTransaction(data: {
   description?: string;
   admin_id?: string;
 }) {
-  const { error } = await supabase.from("credit_transactions").insert(data);
+  const { error } = await supabase.from("credit_transactions").insert(data as never);
   if (error) logger.error("Failed to insert credit transaction", { error: error.message });
   return { error };
 }
