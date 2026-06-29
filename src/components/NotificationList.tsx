@@ -15,6 +15,7 @@ import {
   Users,
   Trophy,
   Bell as BellIcon,
+  BellOff,
   Trash2,
   X,
   Clock,
@@ -105,9 +106,14 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
 
     if (!notificationList || notificationList.length === 0) {
       return (
-        <div className="p-8 text-center text-muted-foreground">
-          <Bell className="w-12 h-12 mx-auto mb-3 opacity-20" />
-          <p>Нет уведомлений</p>
+        <div className="flex flex-col items-center justify-center py-12 gap-3 text-center">
+          <div className="flex items-center justify-center rounded-full bg-muted h-14 w-14">
+            <BellOff className="h-7 w-7 text-muted-foreground" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="font-semibold text-foreground text-base">Нет уведомлений</h3>
+            <p className="text-sm text-muted-foreground">Вы в курсе всех событий!</p>
+          </div>
         </div>
       );
     }
@@ -226,19 +232,3 @@ export const NotificationList = ({ onNotificationClick }: NotificationListProps)
     </div>
   );
 };
-
-const Bell = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-  </svg>
-);
