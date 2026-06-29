@@ -9,7 +9,7 @@
  * Always exclusive — only one card is visible thanks to HintRegistry.
  */
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { X, ChevronRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -45,6 +45,7 @@ export function UnifiedTipCard({
 }: UnifiedTipCardProps) {
   const { isMobile, className: positionClass } = useTipPosition();
   const reg = useHintRegistry();
+  const [claimed, setClaimed] = useState(false);
   const isActive = reg.activeId === id;
   const hasSeen = reg.hasSeen(id);
   const overlayOpen = reg.overlayOpen;
@@ -58,10 +59,14 @@ export function UnifiedTipCard({
     if (!force && hasSeen) return;
     if (overlayOpen) return;
     const t = setTimeout(() => {
-      request();
+      setClaimed(request());
     }, delay);
     return () => clearTimeout(t);
   }, [request, delay, force, hasSeen, overlayOpen]);
+
+  useEffect(() => {
+    if (!isActive) setClaimed(false);
+  }, [isActive]);
 
   // Release on unmount
   useEffect(() => {
@@ -82,7 +87,7 @@ export function UnifiedTipCard({
 
   return (
     <AnimatePresence>
-      {isActive && (
+      {isActive && claimed && (
         <motion.div
           role="status"
           aria-live="polite"
