@@ -403,23 +403,9 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     });
   }, [activeLineIndex, activeWordIndex, userScrolling, isPlaying]);
 
-  const handleSeek = (value: number[]) => {
-    seek(value[0]);
-  };
-
   const handleWordClick = (startTime: number) => {
     hapticImpact("light");
     seek(startTime);
-  };
-
-  const handlePlayPause = () => {
-    hapticImpact("medium");
-    if (isPlaying) {
-      pauseTrack();
-    } else {
-      // Don't pass track to avoid reloading audio - just resume
-      playTrack();
-    }
   };
 
   // Vertical swipe-to-close handler (for header area)
