@@ -11,6 +11,7 @@ import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Sparkles, PenTool, ArrowRight } from "@/lib/icons";
 import { LYRICS_PRESETS, type LyricsPreset, getQuickLyricsPresets } from "@/constants/lyricsPresets";
+import { getLyricsPresetIcon } from "@/lib/presetIcons";
 import { useTelegram } from "@/contexts/TelegramContext";
 
 interface LyricsPresetsRowProps {
@@ -45,7 +46,10 @@ const LyricsChip = memo(function LyricsChip({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <span className="text-base">{preset.emoji}</span>
+      {(() => {
+        const Icon = getLyricsPresetIcon(preset.id);
+        return <Icon className="w-4 h-4 text-primary" />;
+      })()}
       <span className="text-xs font-medium whitespace-nowrap">{preset.name}</span>
     </motion.button>
   );
@@ -76,9 +80,12 @@ const LyricsCard = memo(function LyricsCard({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      {/* Emoji */}
+      {/* Icon */}
       <div className="flex items-center gap-2 mb-1.5">
-        <span className="text-xl">{preset.emoji}</span>
+        {(() => {
+          const Icon = getLyricsPresetIcon(preset.id);
+          return <Icon className="w-5 h-5 text-primary" />;
+        })()}
         <span className={cn("text-[8px] px-1 py-0.5 rounded", preset.bgClass, preset.colorClass)}>
           {preset.genre.split(",")[0]}
         </span>

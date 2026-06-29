@@ -11,6 +11,7 @@ import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Folder, ArrowRight, Sparkles } from "@/lib/icons";
 import { PROJECT_PRESETS, type ProjectPreset, getProjectTypeLabel } from "@/constants/projectPresets";
+import { getProjectPresetIconById } from "@/lib/presetIcons";
 import { useTelegram } from "@/contexts/TelegramContext";
 
 interface ProjectPresetsCarouselProps {
@@ -43,9 +44,12 @@ const ProjectPresetCard = memo(function ProjectPresetCard({
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
     >
-      {/* Emoji & Type */}
+      {/* Icon & Type */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-2xl">{preset.emoji}</span>
+        {(() => {
+          const Icon = getProjectPresetIconById(preset.id);
+          return <Icon className={cn("w-6 h-6", preset.colorClass)} />;
+        })()}
         <span className={cn("text-[9px] px-1.5 py-0.5 rounded-full", preset.bgClass, preset.colorClass)}>
           {getProjectTypeLabel(preset.type)}
         </span>

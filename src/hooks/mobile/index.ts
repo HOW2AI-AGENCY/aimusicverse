@@ -37,4 +37,4 @@ export { useCloudStorage, useCloudStorageFlag } from "../useCloudStorage";
 
 // Media queries
 export { useIsMobile } from "../use-mobile";
-export { useMediaQuery } from "../useMediaQuery";
+export { useMediaQuery } from "../use-media-query";

@@ -6,7 +6,8 @@
 import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Music, ArrowRight } from "@/lib/icons";
+import { Music, ArrowRight, Mic } from "@/lib/icons";
+import { getTrackPresetIcon } from "@/lib/presetIcons";
 import { useTelegram } from "@/contexts/TelegramContext";
 
 export interface TrackPreset {
@@ -84,9 +85,14 @@ const TrackChip = memo(function TrackChip({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <span className="text-base">{preset.emoji}</span>
+      {(() => {
+        const Icon = getTrackPresetIcon(preset.id);
+        return <Icon className="w-4 h-4 text-primary" />;
+      })()}
       <span className="text-xs font-medium whitespace-nowrap">{preset.label}</span>
-      {preset.hasVocals && <span className="text-[8px] px-1 py-0.5 rounded bg-primary/20 text-primary">🎤</span>}
+      {preset.hasVocals && (
+        <Mic className="w-3 h-3 text-primary" aria-label="vocals" />
+      )}
     </motion.button>
   );
 });
@@ -120,14 +126,17 @@ const TrackCard = memo(function TrackCard({
 
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-2xl drop-shadow-sm">{preset.emoji}</span>
+          {(() => {
+            const Icon = getTrackPresetIcon(preset.id);
+            return <Icon className="w-6 h-6 text-primary drop-shadow-sm" />;
+          })()}
           {preset.hasVocals ? (
-            <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium border border-primary/30">
-              🎤
+            <span className="flex items-center gap-1 text-[8px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium border border-primary/30">
+              <Mic className="w-2.5 h-2.5" /> Вокал
             </span>
           ) : (
-            <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-muted/50 text-muted-foreground font-medium">
-              🎵
+            <span className="flex items-center gap-1 text-[8px] px-1.5 py-0.5 rounded-full bg-muted/50 text-muted-foreground font-medium">
+              <Music className="w-2.5 h-2.5" /> Инстр.
             </span>
           )}
         </div>
