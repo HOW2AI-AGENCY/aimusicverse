@@ -35,28 +35,34 @@ export default function MobilePlayerPage() {
     queryFn: async () => {
       if (!trackId) throw new Error("No track ID");
 
+      // NOTE: tracks.user_id has no FK → profiles, so we can't embed profiles
+      // via PostgREST. Fetch the track first, then enrich with the creator
+      // profile via a separate query.
       const { data, error } = await supabase
         .from("tracks")
-        .select(
-          `
-          *,
-          profiles:user_id (
-            username,
-            display_name,
-            photo_url
-          )
-        `,
-        )
+        .select("*")
         .eq("id", trackId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
+      if (!data) throw new Error("Track not found");
+
+      let profile: { username: string | null; display_name: string | null; photo_url: string | null } | null = null;
+      if (data.user_id) {
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("username, display_name, photo_url")
+          .eq("user_id", data.user_id)
+          .maybeSingle();
+        profile = profileData ?? null;
+      }
 
       // Transform to Track type with is_liked default
       return {
         ...data,
+        profiles: profile,
         is_liked: false, // Will be updated by useLikes hook if needed
-      } as Track;
+      } as unknown as Track;
     },
     enabled: !!trackId,
     staleTime: 1000 * 60 * 5,
