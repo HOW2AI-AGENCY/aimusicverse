@@ -137,3 +137,22 @@
     background-position: -200% 0;
   }
 }
+
+/* Symmetric top/bottom fade for lyrics scroll container.
+   Keeps the active line readable while hinting at off-screen content. */
+.lyrics-fade-mask {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 36px,
+    #000 calc(100% - 56px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 36px,
+    #000 calc(100% - 56px),
+    transparent 100%
+  );
+}

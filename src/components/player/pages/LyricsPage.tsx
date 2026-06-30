@@ -6,7 +6,7 @@
  * - Falls back to plain text or an empty state when timestamps are unavailable
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Mic2 } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -36,6 +36,23 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
   const activeLineRef = useRef<HTMLDivElement>(null);
   const userScrollTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [userScrolling, setUserScrolling] = useState(false);
+  const [flashIndex, setFlashIndex] = useState<number | null>(null);
+  const flashTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleLineTap = useCallback(
+    (lineIndex: number, lineStart: number) => {
+      hapticImpact("light");
+      seek(lineStart);
+      setFlashIndex(lineIndex);
+      if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+      flashTimerRef.current = setTimeout(() => setFlashIndex(null), 260);
+    },
+    [seek],
+  );
+
+  useEffect(() => () => {
+    if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+  }, []);
 
   const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
   const sunoId = currentVersion?.suno_id ?? track.suno_id ?? null;
@@ -113,8 +130,12 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
   // Plain (non-synchronized) fallback
   if (!lyricsLines && plainLyrics) {
     return (
-      <div ref={scrollRef} className="h-full overflow-y-auto px-6 py-6">
-        <p className="whitespace-pre-wrap text-center text-[17px] leading-[1.65] text-foreground/85">
+      <div
+        ref={scrollRef}
+        className="lyrics-fade-mask h-full overflow-y-auto px-4 py-6"
+        style={{ overscrollBehavior: "contain" }}
+      >
+        <p className="mx-auto max-w-[28rem] whitespace-pre-wrap text-center text-[17px] font-medium leading-[1.65] text-foreground/85 pb-24">
           {plainLyrics}
         </p>
       </div>
@@ -126,7 +147,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
   return (
     <div
       ref={scrollRef}
-      className="relative h-full overflow-y-auto px-4 py-6"
+      className="lyrics-fade-mask relative h-full overflow-y-auto px-4 py-6"
       style={{ overscrollBehavior: "contain", touchAction: "pan-y" }}
     >
       {onOpenKaraoke && (
@@ -152,16 +173,15 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
             <motion.div
               key={lineIndex}
               ref={isActiveLine ? activeLineRef : null}
-              onClick={() => {
-                hapticImpact("light");
-                seek(lineStart);
-              }}
+              onClick={() => handleLineTap(lineIndex, lineStart)}
               animate={{ scale: isActiveLine ? 1.02 : 1 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
               className={cn(
                 "cursor-pointer rounded-xl px-3 py-2 transition-colors",
                 "will-change-transform transform-gpu",
                 isActiveLine ? "text-foreground" : isPastLine ? "text-foreground/35" : "text-foreground/65",
+                flashIndex === lineIndex &&
+                  "bg-primary/10 ring-1 ring-primary/30 transition-[background-color,box-shadow] duration-200",
               )}
             >
               <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-1">
