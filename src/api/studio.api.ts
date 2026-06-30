@@ -283,20 +283,24 @@ export async function fetchStudioProject(id: string) {
   return { data, error };
 }
 
-export async function createStudioProject(params: {
-  userId: string;
-  name: string;
-  sourceTrackId?: string;
-  description?: string;
-}) {
+export async function createStudioProject(
+  params:
+    | { userId: string; name: string; sourceTrackId?: string; description?: string }
+    | Record<string, unknown>,
+) {
+  // Normalize legacy shape to row shape
+  const row =
+    "userId" in params
+      ? {
+          user_id: (params as { userId: string }).userId,
+          name: (params as { name: string }).name,
+          source_track_id: (params as { sourceTrackId?: string }).sourceTrackId ?? null,
+          description: (params as { description?: string }).description ?? null,
+        }
+      : (params as Record<string, unknown>);
   const { data, error } = await supabase
     .from("studio_projects")
-    .insert({
-      user_id: params.userId,
-      name: params.name,
-      source_track_id: params.sourceTrackId ?? null,
-      description: params.description ?? null,
-    })
+    .insert(row as never)
     .select()
     .single();
   return { data, error };
