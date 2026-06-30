@@ -262,7 +262,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
             <X className="h-5 w-5" aria-hidden="true" />
           </Button>
 
-          <div className="min-w-0 text-center">
+          <div className="min-w-0 text-center" aria-live="polite">
             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/60">
               {page === "cover" ? "Сейчас играет" : page === "lyrics" ? "Текст" : "О треке"}
             </p>
