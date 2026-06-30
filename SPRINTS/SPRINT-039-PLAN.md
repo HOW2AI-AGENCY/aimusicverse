@@ -51,13 +51,16 @@
 
 ### Задачи
 
-| ID     | Название                                              | Статус  | SP  | Зависимости |
-| ------ | ----------------------------------------------------- | ------- | --- | ----------- |
-| 039-01 | **Layer audit: grep все прямые Supabase-вызовы**      | ✅ DONE | 1   | —           |
-| 039-02 | **Вынести Supabase из UI-компонентов (batch 1: 15+)** | ✅ DONE | 5   | 039-01      |
-| 039-03 | **Вынести Supabase из UI-компонентов (batch 2: 15+)** | ✅ DONE | 5   | 039-02      |
-| 039-04 | **Generic undo/redo Zustand middleware**              | ✅ DONE | 3   | —           |
-| 039-05 | **Убрать побочные эффекты из lyricsWizardStore**      | ✅ DONE | 1   | —           |
+| ID      | Название                                              | Статус         | SP  | Зависимости |
+| ------- | ----------------------------------------------------- | -------------- | --- | ----------- |
+| 039-01  | **Layer audit: grep все прямые Supabase-вызовы**      | ✅ DONE        | 1   | —           |
+| 039-02  | **Вынести Supabase из UI-компонентов (batch 1: 15+)** | ✅ DONE        | 5   | 039-01      |
+| 039-03  | **Вынести Supabase из UI-компонентов (batch 2: 15+)** | ✅ DONE        | 5   | 039-02      |
+| 039-03b | **Layer-fix добивание (35 совпадений в 17 файлах)**   | 🟠 IN PROGRESS | 4   | 039-03      |
+| 039-04  | **Generic undo/redo Zustand middleware**              | ✅ DONE        | 3   | —           |
+| 039-05  | **Убрать побочные эффекты из lyricsWizardStore**      | ✅ DONE        | 1   | —           |
+
+> **⚠️ Аудит 2026-06-30:** PR #552 заявил «0 нарушений», но `grep supabase.{from,rpc,storage}` по `src/{components,pages,stores}` всё ещё даёт **35 совпадений в 17 файлах** (admin/analytics, project wizard, studio dialogs, comments, onboarding, artist). Заведена задача **039-03b** в фазе A. Полный список — в `docs/LAYER_VIOLATIONS.md`.
 
 ### 039-01: Layer Audit
 
@@ -236,7 +239,9 @@ grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 
 | ID     | Название                                             | Статус  | SP  | Зависимости |
 | ------ | ---------------------------------------------------- | ------- | --- | ----------- |
-| 039-10 | **Типизировать API-слой (615 `any` → <50)**          | ✅ DONE | 5   | 039-03      |
+| 039-10 | **Типизировать API-слой + services (`any` = 0)**     | ✅ DONE (scope: api/services) | 5   | 039-03      |
+
+> **⚠️ Аудит 2026-06-30:** в `src/api/` и `src/services/` `any` действительно устранён (0). Однако по всему `src/` остаётся **447** использований `: any`/`as any` — таргет «<50 во всём src» НЕ достигнут. Перенесено в Sprint 040 (задача 040-01).
 | 039-11 | **E2E: починить Playwright CI pipeline**             | 🔴 OPEN | 3   | —           |
 | 039-12 | **E2E: починить smoke + navigation + library тесты** | 🔴 OPEN | 2   | 039-11      |
 | 039-13 | **E2E: починить player + generation тесты**          | 🔴 OPEN | 1   | 039-12      |
