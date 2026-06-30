@@ -173,16 +173,15 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
             <motion.div
               key={lineIndex}
               ref={isActiveLine ? activeLineRef : null}
-              onClick={() => {
-                hapticImpact("light");
-                seek(lineStart);
-              }}
+              onClick={() => handleLineTap(lineIndex, lineStart)}
               animate={{ scale: isActiveLine ? 1.02 : 1 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
               className={cn(
                 "cursor-pointer rounded-xl px-3 py-2 transition-colors",
                 "will-change-transform transform-gpu",
                 isActiveLine ? "text-foreground" : isPastLine ? "text-foreground/35" : "text-foreground/65",
+                flashIndex === lineIndex &&
+                  "bg-primary/10 ring-1 ring-primary/30 transition-[background-color,box-shadow] duration-200",
               )}
             >
               <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-1">
