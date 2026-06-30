@@ -26,7 +26,7 @@
 | **Sprint 036: Слои + Type Safety**     | ⏳ ЗАПЛАНИРОВАН | 60+ Supabase из компонентов, god-хуки, 615 any→<100 (перенесено в Sprint 039)                          |
 | **Sprint 037: Infrastructure Hardening**| ✅ ЗАВЕРШЁН     | 12/12 задач ✅ — bundle visualizer, Sentry Perf, TS strict, Storybook 6 stories, FSM docs               |
 | **Sprint 038: Design System Unif.**    | ✅ ЗАВЕРШЁН     | 28/28 задач (100%) — EmptyState ✅, Skeleton ✅, Touch ✅, Z-index ✅, Safari ✅, Animation ✅, Haptics ✅, Elevation ✅, Typography ✅, Storybook 20+ ✅, LazyImage ✅, OnboardingFlow ✅, ContainerQueries ✅, NavigationShell ✅, PlayerTransition ✅, Lighthouse ✅ |
-| **Sprint 039: Архит. рефакторинг**     | 🟡 В РАБОТЕ     | 2/14 (14%) — 039-06 ✅ (useGenerateForm 280 стр, sub-хуки), 039-09 ✅ (DnD→@dnd-kit); осталось: 60+ layer violations, 615 any → <50, E2E CI |
+| **Sprint 039: Архит. рефакторинг**     | 🟡 В РАБОТЕ     | 5/14 (36%) — 039-01 ✅ (аудит, 109 нарушений), 039-02 ✅ (batch 1), 039-03 ✅ (batch 2, **0 нарушений слоёв**), 039-06 ✅, 039-09 ✅; осталось: 615 any → <50, god-компоненты, E2E CI |
 | **Sprint 040: Тесты + Export**         | 📋 ЗАПЛАНИРОВАН | 100+ unit-тест файлов, WAV/MP3/FLAC export, Service Worker, Lighthouse CI                              |
 
 ---
