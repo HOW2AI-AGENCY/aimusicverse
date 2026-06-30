@@ -8,7 +8,7 @@
  * untouched — this redesign is purely presentation.
  */
 
-import { lazy, Suspense, useState, useEffect, useMemo, useCallback } from "react";
+import { lazy, Suspense, useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { X, ListMusic, Music2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { PlayerProgress } from "./PlayerProgress";
