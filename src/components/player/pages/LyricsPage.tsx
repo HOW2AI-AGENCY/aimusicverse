@@ -36,6 +36,23 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
   const activeLineRef = useRef<HTMLDivElement>(null);
   const userScrollTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [userScrolling, setUserScrolling] = useState(false);
+  const [flashIndex, setFlashIndex] = useState<number | null>(null);
+  const flashTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleLineTap = useCallback(
+    (lineIndex: number, lineStart: number) => {
+      hapticImpact("light");
+      seek(lineStart);
+      setFlashIndex(lineIndex);
+      if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+      flashTimerRef.current = setTimeout(() => setFlashIndex(null), 260);
+    },
+    [seek],
+  );
+
+  useEffect(() => () => {
+    if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+  }, []);
 
   const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
   const sunoId = currentVersion?.suno_id ?? track.suno_id ?? null;
