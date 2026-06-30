@@ -24,6 +24,29 @@
 
 ## [Unreleased]
 
+### 🏗 Спринт 039 — Layer Architecture & Type Safety (2026-06-30)
+
+#### Изменено
+
+- **Layer-fix добивание (039-03b)** — закрыты все 4 батча: `src/{components,stores}` больше не вызывают `supabase.from/rpc/storage` напрямую (35 → 0 нарушений в 17 файлах).
+  - Batch 1 (admin/analytics, 6 файлов).
+  - Batch 2 (project/wizard, 4 файла): `ProjectCreationWizard`, `ProjectBannerEditor`, `ProjectCoverEditor`, `useProjectStore`.
+  - Batch 3 (studio/dialogs, 4 файла): `ImportAudioDialog`, `SaveVersionDialog`, `AudioActionDialog`, `useEnhancedStudioLogger`.
+  - Batch 4 (misc, 3 файла): `ReportCommentDialog`, `ProfileSetupOnboarding`, `ArtistDetailsPanel`.
+- **API-слой расширен:** `projects.api` (`checkPremiumStatus`, `invokeProjectAi`, `invokeGenerateCoverImage`, `invokeGenerateProjectMedia`, `updateProjectFields`, `updateProjectCover`, `updateProjectBanner`), `studio.api` (`ensureTrackVersion`, `invokeMergeStems`, `insertTrackChangeLog`, `createStudioProject` принимает row-shape).
+
+#### Добавлено
+
+- `.github/workflows/e2e.yml` — отдельный Playwright pipeline (matrix `chromium` / `Mobile Chrome`, артефакты HTML-репорта и traces, `workflow_dispatch`).
+- `docs/audit/SPRINT-039-AUDIT-2026-06-30.md` — полный отчёт по аудиту спринта.
+- `SPRINTS/SPRINT-040-TYPE-SAFETY-PLAN.md`, `SPRINTS/SPRINT-041-PLAN.md` — планы следующих двух спринтов (Type Safety + UX features).
+
+#### Исправлено
+
+- Pre-existing TS-поломки (`withHistory`, `useProjectStore`, `StudioNotationPanel`, `ProjectSettingsSheet`, `studio.api`, `profiles.api`) — `tsc --noEmit` снова зелёный.
+
+
+
 ### 🎨 Спринт 038 — Design System Unification (2026-06-30)
 
 #### Добавлено
