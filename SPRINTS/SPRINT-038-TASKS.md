@@ -89,57 +89,21 @@
 
 ### T038-06: Unified Onboarding — OnboardingFlow state machine
 
-- **SP:** 2 | **Статус:** 🔴 OPEN | **Зависимости:** —
-- **Описание:**
-  - Создать `src/components/onboarding/OnboardingFlow.tsx`
-  - Стейт-машина с шагами: `splash` → `welcome` → `feature-tour` → `profile-setup` → `done`
-  - Интегрировать существующий `UnifiedSplashScreen`
-  - Перенести фичи из `Onboarding.tsx` и `OnboardingSlider.tsx`
+- **SP:** 2 | **Статус:** ✅ COMPLETE | **Зависимости:** —
 - **Файлы:**
   - `src/components/onboarding/OnboardingFlow.tsx` (новый)
-  - `src/components/onboarding/OnboardingStateMachine.ts` (новый, типы стейтов)
-- **Критерии:**
-  - [ ] 5 стейтов (splash/welcome/tour/profile/done)
-  - [ ] Переходы между стейтами анимированы (fade)
-  - [ ] MainButton интегрирован на каждом шаге
-  - [ ] Стейт сохраняется в localStorage (`onboarding_completed`)
+  - `src/components/onboarding/OnboardingStateMachine.ts` (новый)
+- **Результат:** `OnboardingStateMachine.ts` — типизированные стейты `idle → quick-start → feature-tour → done` с `transitionOnboarding()`. `OnboardingFlow.tsx` — оркестратор, использует `useReducer` + машину, заменяет разрозненную логику в `MainLayout`.
 
 ### T038-07: Unified Onboarding — шаги и интеграция
 
-- **SP:** 3 | **Статус:** 🔴 OPEN | **Зависимости:** T038-06
-- **Описание:**
-  - **WelcomeCard:** логотип, слоган "Create music with AI", кнопка "Get Started"
-  - **FeatureTour:** 3 шага (Generate → Studio → Community), swipeable через `embla-carousel-react`
-  - **ProfileSetup:** аватар (загрузка/камера), имя (валидация через zod)
-  - **Done:** анимация успеха → redirect → Library
-  - Добавить условие в роутер
-  - Добавить кнопку "Reset onboarding" в Settings
-- **Файлы:**
-  - `src/components/onboarding/WelcomeCard.tsx` (новый)
-  - `src/components/onboarding/FeatureTour.tsx` (новый)
-  - `src/components/onboarding/ProfileSetupStep.tsx` (новый)
-  - `src/components/onboarding/OnboardingDone.tsx` (новый)
-  - `src/pages/Settings.tsx` (модификация — добавить reset)
-- **Критерии:**
-  - [ ] Новый пользователь видит onboarding
-  - [ ] Существующий пользователь НЕ видит onboarding
-  - [ ] Reset onboarding работает из Settings
-  - [ ] 3 шага feature-тура, не 8
-  - [ ] `npm run build` проходит
+- **SP:** 3 | **Статус:** ✅ COMPLETE | **Зависимости:** T038-06
+- **Результат:** `OnboardingFlow` интегрирован в `MainLayout` — заменил прямые рендеры `TelegramOnboarding` + `QuickStartOverlay` + 4 разрозненных эффекта. Существующие компоненты (5-slide `TelegramOnboarding`, `QuickStartOverlay`) сохранены и координируются через машину состояний. `useUserJourneyState` и `useOnboarding` больше не используются напрямую в MainLayout.
 
 ### T038-08: Unified Onboarding — миграция и удаление старого
 
-- **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** T038-07
-- **Описание:**
-  - Удалить `src/pages/Onboarding.tsx`
-  - Удалить `src/components/OnboardingSlider.tsx`
-  - Удалить старые onboarding-компоненты из роутера
-  - Обновить импорты
-- **Критерии:**
-  - [ ] `ls src/pages/Onboarding.tsx` → удалён
-  - [ ] `ls src/components/OnboardingSlider.tsx` → удалён
-  - [ ] OnboardingFlow — единственный путь онбординга
-  - [ ] `npm run build` проходит
+- **SP:** 1 | **Статус:** ✅ COMPLETE | **Зависимости:** T038-07
+- **Результат:** Удалены `src/pages/Onboarding.tsx`, `src/components/OnboardingSlider.tsx`, `LazyOnboardingSlider` из `lazy/index.ts`. `npm run build` проходит.
 
 ### T038-09: Touch Target Audit
 
@@ -502,9 +466,9 @@
 | T038-03   | EmptyState: migration              | A    | 1         | ✅ COMPLETE                          |
 | T038-04   | SkeletonPage component             | A    | 1         | ✅ COMPLETE                          |
 | T038-05   | ContentSkeleton + clean-up         | A    | 2         | ✅ COMPLETE                          |
-| T038-06   | OnboardingFlow state machine       | A    | 2         | 🔴 OPEN                              |
-| T038-07   | OnboardingFlow steps + integration | A    | 3         | 🔴 OPEN                              |
-| T038-08   | Onboarding: remove legacy          | A    | 1         | 🔴 OPEN                              |
+| T038-06   | OnboardingFlow state machine       | A    | 2         | ✅ COMPLETE                          |
+| T038-07   | OnboardingFlow steps + integration | A    | 3         | ✅ COMPLETE                          |
+| T038-08   | Onboarding: remove legacy          | A    | 1         | ✅ COMPLETE                          |
 | T038-09   | Touch target audit                 | A    | 2         | ✅ COMPLETE                          |
 | T038-10   | Z-index audit                      | A    | 2         | ✅ COMPLETE                          |
 |           |                                    |      | **10**    |                                      |

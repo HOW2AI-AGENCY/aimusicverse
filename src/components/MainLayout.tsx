@@ -16,22 +16,14 @@ import { cn } from "@/lib/utils";
 import { setSubscriptionDialogCallback } from "@/hooks/useTrackActions";
 import { useTelegramSettingsButton } from "@/hooks/telegram";
 import { SmartAlertProvider } from "./notifications/smart-alerts";
-import { useUserJourneyState } from "@/hooks/useUserJourneyState";
-import { useOnboarding } from "@/hooks/useOnboarding";
 import { useGenerationResult } from "@/hooks/generation";
 import { useWelcomeBonusCheck } from "@/hooks/useCreditsLimits";
 import { useAdminDailyStats } from "@/hooks/useAdminDailyStats";
-import { TELEGRAM_SAFE_AREA } from "@/constants/safe-area";
 import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvider";
 import { SafeAreaContainer } from "./layout/SafeAreaContainer";
+import { OnboardingFlow } from "./onboarding/OnboardingFlow";
 
 // Lazy load heavy dialogs - not needed on initial render
-const TelegramOnboarding = lazy(() =>
-  import("./onboarding/TelegramOnboarding").then((m) => ({ default: m.TelegramOnboarding })),
-);
-const QuickStartOverlay = lazy(() =>
-  import("./onboarding/QuickStartOverlay").then((m) => ({ default: m.QuickStartOverlay })),
-);
 const SubscriptionRequiredDialog = lazy(() =>
   import("./dialogs/SubscriptionRequiredDialog").then((m) => ({ default: m.SubscriptionRequiredDialog })),
 );
@@ -67,7 +59,6 @@ export const MainLayout = () => {
   const navigate = useNavigate();
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
   const [gamificationOnboardingOpen, setGamificationOnboardingOpen] = useState(false);
-  const [quickStartOpen, setQuickStartOpen] = useState(false);
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [welcomeBonusOpen, setWelcomeBonusOpen] = useState(false);
   const hasActiveTrack = usePlayerStore((s) => Boolean(s.activeTrack));
@@ -105,9 +96,7 @@ export const MainLayout = () => {
   // Generation result sheet for post-generation A/B selection
   const { resultOpen, resultTrackId, resultTrackTitle, setResultOpen } = useGenerationResult();
 
-  // User journey tracking
-  const { shouldShowQuickStart, isNewUser, completedOnboarding } = useUserJourneyState();
-  const { isActive: isOldOnboardingActive, completeOnboarding: completeOldOnboarding } = useOnboarding();
+
 
   // Sidebar collapse state — auto-collapsed on compact desktop unless user
   // explicitly expanded it.
@@ -148,16 +137,6 @@ export const MainLayout = () => {
     return () => setSubscriptionDialogCallback(() => {});
   }, []);
 
-  // Show Quick Start for new users (replacing old onboarding)
-  useEffect(() => {
-    if (shouldShowQuickStart && !isOldOnboardingActive) {
-      const timer = setTimeout(() => {
-        setQuickStartOpen(true);
-      }, 800);
-      return () => clearTimeout(timer);
-    }
-  }, [shouldShowQuickStart, isOldOnboardingActive]);
-
   // Check if gamification onboarding should show (after first checkin)
   useEffect(() => {
     const hasSeenGamificationOnboarding = localStorage.getItem("gamification-onboarding-completed");
@@ -192,31 +171,6 @@ export const MainLayout = () => {
     setGamificationOnboardingOpen(false);
   };
 
-  // Quick Start handlers
-  const handleQuickStartClose = useCallback(() => {
-    setQuickStartOpen(false);
-    // Also complete old onboarding if it was pending
-    completeOldOnboarding();
-  }, [completeOldOnboarding]);
-
-  const handleStartGeneration = useCallback(() => {
-    setQuickStartOpen(false);
-    setGenerateSheetOpen(true);
-    completeOldOnboarding();
-  }, [completeOldOnboarding]);
-
-  const handleStartListening = useCallback(() => {
-    setQuickStartOpen(false);
-    completeOldOnboarding();
-    // Scroll to popular tracks on homepage
-    navigate("/");
-  }, [navigate, completeOldOnboarding]);
-
-  const handleStartTour = useCallback(() => {
-    setQuickStartOpen(false);
-    // Trigger old onboarding for full tour
-  }, []);
-
   const handleSidebarCollapsedChange = useCallback((collapsed: boolean) => {
     setSidebarCollapsed(collapsed);
     localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(collapsed));
@@ -244,23 +198,11 @@ export const MainLayout = () => {
             {/* Offline Banner - shows when network is disconnected */}
             <OfflineBanner />
 
-            {/* Quick Start Overlay for new users */}
-            {quickStartOpen && (
-              <Suspense fallback={null}>
-                <QuickStartOverlay
-                  isOpen={quickStartOpen}
-                  onClose={handleQuickStartClose}
-                  onStartGeneration={handleStartGeneration}
-                  onStartListening={handleStartListening}
-                  onStartTour={handleStartTour}
-                />
-              </Suspense>
-            )}
-
-            {/* Legacy Telegram Onboarding - for full tour */}
-            <Suspense fallback={null}>
-              <TelegramOnboarding />
-            </Suspense>
+            {/* Onboarding flow: QuickStart → optional TelegramOnboarding tour */}
+            <OnboardingFlow
+              onGenerateSheetOpen={() => setGenerateSheetOpen(true)}
+              onNavigateHome={() => navigate("/")}
+            />
 
             {/* Subscription Required Dialog - lazy loaded */}
             {subscriptionDialogOpen && (
