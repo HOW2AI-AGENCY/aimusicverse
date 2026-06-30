@@ -93,11 +93,9 @@ export function ProjectCoverEditor({
     setGenerating(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("generate-cover-image", {
-        body: {
-          projectId,
-          prompt: generationPrompt,
-        },
+      const { data, error } = await invokeGenerateCoverImage({
+        projectId,
+        prompt: generationPrompt,
       });
 
       if (error) throw error;
