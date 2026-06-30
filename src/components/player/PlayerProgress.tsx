@@ -7,7 +7,6 @@ import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { UnifiedWaveform, type WaveformMode } from "@/components/waveform";
-import { motion } from "@/lib/motion";
 
 type PlayerProgressDensity = "compact" | "default" | "fullscreen";
 
