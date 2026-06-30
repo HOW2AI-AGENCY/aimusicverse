@@ -9,8 +9,13 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { supabase } from "@/integrations/supabase/client";
 import { Json } from "@/integrations/supabase/types";
+import {
+  createStudioProject,
+  fetchStudioProject,
+  updateStudioProject,
+  deleteStudioProject,
+} from "@/api/studio.api";
 import { logger } from "@/lib/logger";
 import type { StudioProject, CreateProjectParams, ProjectStatus, StemsMode, ViewSettings } from "./types";
 import { createDefaultViewSettings, generateId } from "./types";
