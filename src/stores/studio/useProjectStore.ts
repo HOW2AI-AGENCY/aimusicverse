@@ -176,7 +176,7 @@ export const useProjectStore = create<ProjectState>()(
           });
 
           // Update opened_at
-          await supabase.from("studio_projects").update({ opened_at: new Date().toISOString() }).eq("id", projectId);
+          await updateStudioProject(projectId, { opened_at: new Date().toISOString() });
 
           projectLogger.info("Project loaded successfully", { projectId, name: project.name });
           return true;
