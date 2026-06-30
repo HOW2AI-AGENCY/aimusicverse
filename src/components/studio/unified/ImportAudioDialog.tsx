@@ -13,7 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { Upload, FileAudio, Loader2, Check, X, Music } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
