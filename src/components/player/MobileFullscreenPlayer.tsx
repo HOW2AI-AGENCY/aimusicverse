@@ -27,7 +27,7 @@ import { usePrefetchTrackCovers } from "@/hooks/audio/usePrefetchTrackCovers";
 import { usePrefetchNextAudio } from "@/hooks/audio/usePrefetchNextAudio";
 import { cn } from "@/lib/utils";
 import { glassButton } from "@/lib/glass";
-import { motion, AnimatePresence, type PanInfo } from "@/lib/motion";
+import { motion, AnimatePresence, useReducedMotion, type PanInfo } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
 import { logger } from "@/lib/logger";
 import { perfMark, perfEvent } from "@/lib/perfMarks";
