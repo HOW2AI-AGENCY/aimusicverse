@@ -142,7 +142,7 @@ export const useProjectStore = create<ProjectState>()(
         set({ isLoading: true });
 
         try {
-          const { data, error } = await supabase.from("studio_projects").select("*").eq("id", projectId).single();
+          const { data, error } = await fetchStudioProject(projectId);
 
           if (error) throw error;
           if (!data) throw new Error("Project not found");
