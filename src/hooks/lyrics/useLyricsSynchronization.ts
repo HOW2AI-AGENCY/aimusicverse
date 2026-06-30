@@ -380,11 +380,30 @@ export function useLyricsSynchronization({
       updateSync();
     }
 
+    // Re-sync immediately on user scrub / tap-seek, even while paused.
+    const audio = getGlobalAudioRef();
+    let seekRaf: number | null = null;
+    const scheduleResync = () => {
+      timeSmootherRef.current.reset();
+      lastUpdateRef.current = 0; // bypass throttle
+      if (seekRaf) cancelAnimationFrame(seekRaf);
+      seekRaf = requestAnimationFrame(() => {
+        seekRaf = null;
+        updateSync();
+      });
+    };
+
+    audio?.addEventListener("seeking", scheduleResync);
+    audio?.addEventListener("seeked", scheduleResync);
+
     return () => {
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
       }
+      if (seekRaf) cancelAnimationFrame(seekRaf);
+      audio?.removeEventListener("seeking", scheduleResync);
+      audio?.removeEventListener("seeked", scheduleResync);
     };
   }, [enabled, isPlaying, updateSync]);
 
