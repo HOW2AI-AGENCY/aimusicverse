@@ -24,6 +24,7 @@ import {
 } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { logger } from "@/lib/logger";
 import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
