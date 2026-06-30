@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { insertCreditTransaction } from "@/api/payments.api";
 import { toast } from "sonner";
 import { Crown, Calendar, Loader2 } from "@/lib/icons";
 import { format, addDays, addMonths } from "@/lib/date-utils";
@@ -87,7 +88,7 @@ export function AdminUserSubscriptionDialog({
       if (error) throw error;
 
       // Log the action
-      await supabase.from("credit_transactions").insert({
+      await insertCreditTransaction({
         user_id: user.user_id,
         amount: 0,
         transaction_type: "admin_action",

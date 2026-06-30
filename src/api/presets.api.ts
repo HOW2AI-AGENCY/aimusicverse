@@ -727,6 +727,20 @@ export function subscribeToUserPresets(userId: string, callback: (preset: Preset
 
 // ============= Prompt Templates =============
 
+export async function fetchUserPromptTemplates(userId: string) {
+  const { data, error } = await supabase
+    .from("prompt_templates")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  return { data, error };
+}
+
+export async function updatePromptTemplateUsage(id: string, usageCount: number): Promise<void> {
+  const { error } = await supabase.from("prompt_templates").update({ usage_count: usageCount }).eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
 export async function deletePromptTemplate(id: string): Promise<void> {
   const { error } = await supabase.from("prompt_templates").delete().eq("id", id);
   if (error) throw new Error(error.message);
