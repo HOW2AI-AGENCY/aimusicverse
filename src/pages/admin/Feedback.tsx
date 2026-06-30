@@ -104,18 +104,9 @@ export default function AdminFeedback() {
   const fetchFeedback = async () => {
     setLoading(true);
 
-    let query = supabase.from("user_feedback").select("*").order("created_at", { ascending: false });
+    try {
+      const data = await fetchUserFeedback({ status: activeTab !== "all" ? activeTab : undefined });
 
-    if (activeTab !== "all") {
-      query = query.eq("status", activeTab);
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      toast.error("Ошибка загрузки");
-      logger.error("Failed to load feedback", error);
-    } else {
       const userIds = (data?.filter((f) => f.user_id).map((f) => f.user_id) || []).filter(
         (id): id is string => id !== null,
       );
@@ -138,6 +129,9 @@ export default function AdminFeedback() {
       } else {
         setFeedback(data || []);
       }
+    } catch (error) {
+      toast.error("Ошибка загрузки");
+      logger.error("Failed to load feedback", error);
     }
 
     setLoading(false);
@@ -185,17 +179,16 @@ export default function AdminFeedback() {
   };
 
   const handleClose = async (id: string) => {
-    const { error } = await supabase.from("user_feedback").update({ status: "closed" }).eq("id", id);
-
-    if (error) {
-      toast.error("Ошибка");
-    } else {
+    try {
+      await closeFeedbackItem(id);
       toast.success("Закрыто");
       fetchFeedback();
       if (selectedFeedback?.id === id) {
         setSelectedFeedback(null);
         setDetailSheetOpen(false);
       }
+    } catch {
+      toast.error("Ошибка");
     }
   };
 

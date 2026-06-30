@@ -4,7 +4,7 @@
  */
 
 import { useState, useRef, useEffect, useCallback, memo } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { updateTrack } from "@/api/tracks.api";
 import { toast } from "sonner";
 import { hapticImpact } from "@/lib/haptic";
 import { cn } from "@/lib/utils";
@@ -66,9 +66,7 @@ export const EditableTrackTitle = memo(function EditableTrackTitle({
 
     setIsSaving(true);
     try {
-      const { error } = await supabase.from("tracks").update({ title: trimmedValue }).eq("id", trackId);
-
-      if (error) throw error;
+      await updateTrack(trackId, { title: trimmedValue });
 
       onTitleChange?.(trimmedValue);
       toast.success("Название изменено");

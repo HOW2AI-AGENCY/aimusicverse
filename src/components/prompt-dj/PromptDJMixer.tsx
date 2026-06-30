@@ -22,7 +22,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import { supabase } from "@/integrations/supabase/client";
+import { insertReferenceAudio } from "@/api/recordings.api";
 import { useAuth } from "@/hooks/useAuth";
 import { usePredictiveGeneration } from "@/hooks/usePredictiveGeneration";
 import { logger } from "@/lib/logger";
@@ -227,21 +227,13 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
 
         const duration = audio.duration || 0;
 
-        const { error } = await supabase.from("reference_audio").insert({
-          user_id: user.id,
-          file_url: track.audioUrl,
-          file_name: `PromptDJ Mix - ${new Date().toLocaleDateString("ru")}`,
+        await insertReferenceAudio({
+          userId: user.id,
+          fileUrl: track.audioUrl,
+          fileName: `PromptDJ Mix - ${new Date().toLocaleDateString("ru")}`,
           source: "promptdj",
-          style_description: track.prompt,
-          duration_seconds: duration,
-          analysis_status: "completed",
-          bpm: globalSettings.bpm,
-          genre: channels.find((c) => c.type === "genre")?.value || null,
-          mood: channels.find((c) => c.type === "mood")?.value || null,
-          energy: channels.find((c) => c.type === "energy")?.value || null,
+          durationSeconds: duration,
         });
-
-        if (error) throw error;
         toast.success("Трек сохранён в облако");
       } catch (error: unknown) {
         logger.error("Save error", error instanceof Error ? error : new Error(String(error)));

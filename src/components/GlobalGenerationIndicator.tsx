@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useActiveGenerations } from "@/hooks/generation";
 import { useFailedGenerations } from "@/hooks/generation/useFailedGenerations";
-import { supabase } from "@/integrations/supabase/client";
+import { deleteGenerationTask, dismissGenerationTask } from "@/api/generation.api";
+import { deleteTrack } from "@/api/tracks.api";
 import { logger } from "@/lib/logger";
 import { toast } from "sonner";
 
@@ -25,12 +26,10 @@ export function GlobalGenerationIndicator() {
   const handleDeleteFailed = async (taskId: string, trackId?: string | null) => {
     setDeletingIds((prev) => new Set(prev).add(taskId));
     try {
-      const { error } = await supabase.from("generation_tasks").delete().eq("id", taskId);
-
-      if (error) throw error;
+      await deleteGenerationTask(taskId);
 
       if (trackId) {
-        await supabase.from("tracks").delete().eq("id", trackId);
+        await deleteTrack(trackId);
       }
 
       toast.success("Задача удалена");
@@ -49,7 +48,7 @@ export function GlobalGenerationIndicator() {
 
   const handleDismissFailed = async (taskId: string) => {
     try {
-      await supabase.from("generation_tasks").update({ status: "dismissed" }).eq("id", taskId);
+      await dismissGenerationTask(taskId);
       refetchFailed();
     } catch (error) {
       logger.warn("Dismiss generation task error", { taskId, error });

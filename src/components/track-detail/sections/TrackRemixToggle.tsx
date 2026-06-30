@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Lock, Unlock } from "@/lib/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { updateTrack } from "@/api/tracks.api";
 import { toast } from "sonner";
 
 interface TrackRemixToggleProps {
@@ -28,8 +28,7 @@ export const TrackRemixToggle = memo(function TrackRemixToggle({
 
   const toggleRemixMutation = useMutation({
     mutationFn: async (newValue: boolean) => {
-      const { error } = await supabase.from("tracks").update({ allow_remix: newValue }).eq("id", trackId);
-      if (error) throw error;
+      await updateTrack(trackId, { allow_remix: newValue });
       return newValue;
     },
     onSuccess: (newValue) => {

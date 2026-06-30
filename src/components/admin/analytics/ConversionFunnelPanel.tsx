@@ -12,6 +12,7 @@ import { memo, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchProfileCount } from "@/api/profiles.api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp, TrendingDown, Users, Music, Star, CreditCard } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -34,7 +35,7 @@ interface ConversionFunnelPanelProps {
  */
 async function fetchFunnelData() {
   // Get total users
-  const { count: totalUsers } = await supabase.from("profiles").select("*", { count: "exact", head: true });
+  const totalUsers = await fetchProfileCount();
 
   // Get users who generated at least 1 track
   const { count: generatingUsers } = await supabase.from("tracks").select("user_id", { count: "exact", head: true });

@@ -9,6 +9,8 @@ import { TrendingUp, TrendingDown, Minus, Users, Music, Zap, DollarSign } from "
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchProfileCount } from "@/api/profiles.api";
+import { fetchGenerationLogs } from "@/api/generation.api";
 import { subDays, startOfDay } from "@/lib/date-utils";
 
 interface ComparisonPanelProps {
@@ -37,13 +39,13 @@ export function ComparisonPanel({ timePeriod }: ComparisonPanelProps) {
 
       // Current period metrics
       const [
-        { count: currentUsers },
+        currentUsers,
         { count: currentNewUsers },
         { count: currentTracks },
         { data: currentGenerations },
         { data: currentRevenue },
       ] = await Promise.all([
-        supabase.from("profiles").select("*", { count: "exact", head: true }),
+        fetchProfileCount(),
         supabase
           .from("profiles")
           .select("*", { count: "exact", head: true })
