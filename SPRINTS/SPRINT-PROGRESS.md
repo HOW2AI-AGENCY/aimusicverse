@@ -23,10 +23,10 @@
 | **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                                                                                       |
 | **Sprint 034: Generation Reliability** | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                                                                                         |
 | **Sprint 035: Стабилизация + Чистка**  | 🟡 В РАБОТЕ     | TDZ fix ✅, rules-of-hooks ✅ (24 violations / 10 files), 6 дубликатов, PlaybackStore, query keys, E2E |
-| **Sprint 036: Слои + Type Safety**     | ⏳ ЗАПЛАНИРОВАН | 30+ Supabase из компонентов, god-хуки, 342 any→<100                                                    |
+| **Sprint 036: Слои + Type Safety**     | ⏳ ЗАПЛАНИРОВАН | 60+ Supabase из компонентов, god-хуки, 615 any→<100 (перенесено в Sprint 039)                          |
 | **Sprint 037: Infrastructure Hardening**| ✅ ЗАВЕРШЁН     | 12/12 задач ✅ — bundle visualizer, Sentry Perf, TS strict, Storybook 6 stories, FSM docs               |
 | **Sprint 038: Design System Unif.**    | ✅ ЗАВЕРШЁН     | 28/28 задач (100%) — EmptyState ✅, Skeleton ✅, Touch ✅, Z-index ✅, Safari ✅, Animation ✅, Haptics ✅, Elevation ✅, Typography ✅, Storybook 20+ ✅, LazyImage ✅, OnboardingFlow ✅, ContainerQueries ✅, NavigationShell ✅, PlayerTransition ✅, Lighthouse ✅ |
-| **Sprint 039: Архит. рефакторинг**     | 📋 ЗАПЛАНИРОВАН | Layer violations, god-хуки, 342 any → <50, E2E CI green, DnD унификация                               |
+| **Sprint 039: Архит. рефакторинг**     | 🟡 В РАБОТЕ     | 2/14 (14%) — 039-06 ✅ (useGenerateForm 280 стр, sub-хуки), 039-09 ✅ (DnD→@dnd-kit); осталось: 60+ layer violations, 615 any → <50, E2E CI |
 | **Sprint 040: Тесты + Export**         | 📋 ЗАПЛАНИРОВАН | 100+ unit-тест файлов, WAV/MP3/FLAC export, Service Worker, Lighthouse CI                              |
 
 ---
