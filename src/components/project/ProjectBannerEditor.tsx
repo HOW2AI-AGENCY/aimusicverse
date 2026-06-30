@@ -24,6 +24,7 @@ import {
   X,
 } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -60,6 +61,7 @@ const STYLE_PRESETS = [
 ];
 
 export function ProjectBannerEditor({ open, onOpenChange, project, onBannerUpdate }: ProjectBannerEditorProps) {
+  const { user } = useAuth();
   const isMobile = useIsMobile();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -245,9 +247,6 @@ export function ProjectBannerEditor({ open, onOpenChange, project, onBannerUpdat
       });
 
       // Get current user for folder path
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
       if (!user) throw new Error("Unauthorized");
 
       const fileName = `${user.id}/${project.id}_${Date.now()}.webp`;

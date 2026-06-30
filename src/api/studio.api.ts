@@ -206,3 +206,67 @@ export async function logTrackActivity(params: {
 
   return { error };
 }
+
+// ============= Stem Transcriptions =============
+
+export async function fetchStemTranscriptions(filter: { trackId?: string; stemId?: string }) {
+  let query = supabase.from("stem_transcriptions").select("*");
+  if (filter.trackId) query = query.eq("track_id", filter.trackId);
+  if (filter.stemId) query = query.eq("stem_id", filter.stemId);
+  const { data, error } = await query.order("created_at", { ascending: false });
+  return { data, error };
+}
+
+// ============= Track Version RPC =============
+
+export async function ensureTrackVersion(params: {
+  trackId: string;
+  audioUrl: string;
+  label?: string;
+  versionType?: string;
+}) {
+  const { data, error } = await supabase.rpc("ensure_track_version", {
+    p_track_id: params.trackId,
+    p_audio_url: params.audioUrl,
+    p_label: params.label,
+    p_version_type: params.versionType,
+  });
+  if (error) throw new Error(error.message);
+  return data as string;
+}
+
+// ============= Studio Projects =============
+
+export async function fetchStudioProject(id: string) {
+  const { data, error } = await supabase.from("studio_projects").select("*").eq("id", id).single();
+  return { data, error };
+}
+
+export async function createStudioProject(params: {
+  userId: string;
+  name: string;
+  sourceTrackId?: string;
+  description?: string;
+}) {
+  const { data, error } = await supabase
+    .from("studio_projects")
+    .insert({
+      user_id: params.userId,
+      name: params.name,
+      source_track_id: params.sourceTrackId ?? null,
+      description: params.description ?? null,
+    })
+    .select()
+    .single();
+  return { data, error };
+}
+
+export async function updateStudioProject(id: string, updates: Record<string, unknown>) {
+  const { data, error } = await supabase.from("studio_projects").update(updates).eq("id", id).select().single();
+  return { data, error };
+}
+
+export async function deleteStudioProject(id: string) {
+  const { error } = await supabase.from("studio_projects").delete().eq("id", id);
+  return { error };
+}

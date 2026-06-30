@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchTrackStems } from "@/api/studio.api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { useSaveTranscription } from "@/hooks/useStemTranscription";
@@ -109,23 +110,20 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   const { data: resolvedStemData } = useQuery({
     queryKey: ["resolve-stem-id", trackId, normalizedStemType, propStemId],
     queryFn: async () => {
-      // If propStemId provided, just verify it exists
-      if (propStemId) {
-        const { data } = await supabase.from("track_stems").select("id, stem_type").eq("id", propStemId).maybeSingle();
-        return data ? { stemId: data.id, stemType: data.stem_type } : null;
+      // If propStemId provided, find it via trackId stems list
+      if (propStemId && trackId) {
+        const { data: stems } = await fetchTrackStems(trackId);
+        const found = stems?.find((s) => s.id === propStemId);
+        return found ? { stemId: found.id, stemType: found.stem_type } : null;
       }
 
       // Try to find stem by trackId + normalizedStemType (exact match)
       if (trackId && normalizedStemType) {
-        const { data } = await supabase
-          .from("track_stems")
-          .select("id, stem_type")
-          .eq("track_id", trackId)
-          .eq("stem_type", normalizedStemType)
-          .maybeSingle();
-        if (data) {
-          logger.debug("[StudioTranscriptionPanel] Resolved stem by type", { normalizedStemType, stemId: data.id });
-          return { stemId: data.id, stemType: data.stem_type };
+        const { data: stems } = await fetchTrackStems(trackId);
+        const found = stems?.find((s) => s.stem_type === normalizedStemType);
+        if (found) {
+          logger.debug("[StudioTranscriptionPanel] Resolved stem by type", { normalizedStemType, stemId: found.id });
+          return { stemId: found.id, stemType: found.stem_type };
         }
       }
 

@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Shuffle, Loader2, Music, Sparkles } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { LazyImage } from "@/components/ui/lazy-image";
@@ -37,6 +38,7 @@ const STYLE_PRESETS = [
 ];
 
 export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
+  const { user } = useAuth();
   const [title, setTitle] = useState(`${track.title || "Трек"} (ремикс)`);
   const [style, setStyle] = useState(track.style || "");
   const [prompt, setPrompt] = useState("");
@@ -55,9 +57,6 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
 
     setIsSubmitting(true);
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
       if (!user) throw new Error("Не авторизован");
 
       const { data, error } = await supabase.functions.invoke("suno-remix", {

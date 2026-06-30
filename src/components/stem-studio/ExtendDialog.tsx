@@ -13,6 +13,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Clock, Loader2, Music, ArrowRight, Sparkles } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { LazyImage } from "@/components/ui/lazy-image";
@@ -27,6 +28,7 @@ interface ExtendDialogProps {
 type ExtendDirection = "continue" | "intro";
 
 export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
+  const { user } = useAuth();
   const [direction, setDirection] = useState<ExtendDirection>("continue");
   const [prompt, setPrompt] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,9 +41,6 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
 
     setIsSubmitting(true);
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
       if (!user) throw new Error("Не авторизован");
 
       const { data, error } = await supabase.functions.invoke("suno-extend", {

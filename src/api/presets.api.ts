@@ -724,3 +724,10 @@ export function subscribeToUserPresets(userId: string, callback: (preset: Preset
     )
     .subscribe();
 }
+
+// ============= Prompt Templates =============
+
+export async function deletePromptTemplate(id: string): Promise<void> {
+  const { error } = await supabase.from("prompt_templates").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+}

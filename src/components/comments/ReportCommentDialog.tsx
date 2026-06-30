@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { AlertTriangle, Flag, Loader2 } from "@/lib/icons";
 import { logger } from "@/lib/logger";
@@ -32,6 +33,7 @@ export function ReportCommentDialog({
   commentUserId,
   commentPreview,
 }: ReportCommentDialogProps) {
+  const { user } = useAuth();
   const [reason, setReason] = useState("");
   const [details, setDetails] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,9 +46,6 @@ export function ReportCommentDialog({
 
     setIsSubmitting(true);
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
       if (!user) {
         toast.error("Необходима авторизация");
         return;

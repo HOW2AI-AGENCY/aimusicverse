@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 
 interface MenuImageConfig {
@@ -91,6 +92,7 @@ const MENU_IMAGE_CONFIGS: MenuImageConfig[] = [
 ];
 
 export function AdminBotImagesPanel() {
+  const { user } = useAuth();
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
   const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const queryClient = useQueryClient();
@@ -123,10 +125,6 @@ export function AdminBotImagesPanel() {
   // Save config mutation
   const saveConfigMutation = useMutation({
     mutationFn: async (images: Record<string, string>) => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
       if (!user) throw new Error("Сессия истекла. Войдите снова.");
       if (!canManage) throw new Error("Недостаточно прав администратора");
 
@@ -157,10 +155,6 @@ export function AdminBotImagesPanel() {
       toast.error("Нет доступа: войдите как администратор");
       return;
     }
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
 
     if (!user) {
       toast.error("Сессия истекла — войдите снова");
@@ -208,10 +202,6 @@ export function AdminBotImagesPanel() {
       toast.error("Нет доступа: войдите как администратор");
       return;
     }
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
 
     if (!user) {
       toast.error("Сессия истекла — войдите снова");

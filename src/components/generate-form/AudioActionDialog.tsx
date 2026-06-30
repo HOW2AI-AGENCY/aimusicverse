@@ -25,6 +25,7 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
+import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useReferenceAudio, ReferenceAudio } from "@/hooks/useReferenceAudio";
 import { useAudioReference } from "@/hooks/useAudioReference";
@@ -67,6 +68,7 @@ export function AudioActionDialog({
   initialMode = "cover",
   onOpenCoverDialog,
 }: AudioActionDialogProps) {
+  const { user } = useAuth();
   const isMobile = useIsMobile();
   const { saveAudio, updateAnalysis: updateDbAnalysis } = useReferenceAudio();
   const { setFromUpload, setFromCloud } = useAudioReference();
@@ -230,9 +232,6 @@ export function AudioActionDialog({
   }, [isAnalyzing, analysisResult]);
 
   const uploadAndGetUrl = async (file: File): Promise<string> => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
     if (!user) throw new Error("Не авторизован");
 
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");

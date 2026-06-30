@@ -251,3 +251,18 @@ export async function fetchSuccessTimeline(
   if (error) throw new Error(error.message);
   return (data as Array<{ bucket: string; total: number; completed: number; failed: number; success_rate: number }>) || [];
 }
+
+// ============= Task Management =============
+
+export async function deleteGenerationTask(taskId: string) {
+  const { error } = await supabase.from("generation_tasks").delete().eq("id", taskId);
+  if (error) throw new Error(error.message);
+}
+
+export async function dismissGenerationTask(taskId: string) {
+  const { error } = await supabase
+    .from("generation_tasks")
+    .update({ status: "dismissed" })
+    .eq("id", taskId);
+  if (error) throw new Error(error.message);
+}

@@ -14,6 +14,7 @@ import { Upload, FileAudio, Loader2, Check, X, Music } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
 
@@ -37,6 +38,7 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 const ACCEPTED_TYPES = ["audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm", "audio/flac"];
 
 export function ImportAudioDialog({ open, onOpenChange, onImport, projectId }: ImportAudioDialogProps) {
+  const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -157,9 +159,6 @@ export function ImportAudioDialog({ open, onOpenChange, onImport, projectId }: I
     setUploadProgress(10);
 
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
       if (!user) throw new Error("Не авторизован");
 
       // Sanitize filename

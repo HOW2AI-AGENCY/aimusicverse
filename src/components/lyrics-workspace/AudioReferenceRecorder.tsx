@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { ReferenceAnalysis } from "@/hooks/useSectionNotes";
 import { toast } from "sonner";
@@ -241,20 +242,18 @@ export function AudioReferenceRecorder({
 
       setUploadProgress(30);
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from("audio-references")
-        .upload(fileName, audioBlob, {
-          contentType: audioBlob.type,
-          upsert: true,
-        });
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "audio-references",
+        path: fileName,
+        file: audioBlob,
+        upsert: true,
+      });
 
       if (uploadError) throw uploadError;
 
-      setUploadProgress(60);
+      const publicUrl = uploadData!.publicUrl;
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("audio-references").getPublicUrl(fileName);
+      setUploadProgress(60);
 
       let analysis: ReferenceAnalysis | undefined;
 

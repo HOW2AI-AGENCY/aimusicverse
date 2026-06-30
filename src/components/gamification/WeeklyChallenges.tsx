@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchTracks } from "@/api/tracks.api";
+import { getUserCredits } from "@/api/payments.api";
 import { Trophy, Clock, Star, Flame, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { differenceInDays, endOfWeek, startOfWeek, format, ru } from "@/lib/date-utils";
@@ -53,9 +55,8 @@ export function WeeklyChallenges() {
         .lte("created_at", weekEndStr);
 
       // Get week's likes received
-      const { data: userTracks } = await supabase.from("tracks").select("id").eq("user_id", user.id);
-
-      const trackIds = userTracks?.map((t) => t.id) || [];
+      const { data: userTracksData } = await fetchTracks({ userId: user.id });
+      const trackIds = userTracksData?.map((t) => t.id) || [];
       let likesReceived = 0;
 
       if (trackIds.length > 0) {
@@ -69,11 +70,7 @@ export function WeeklyChallenges() {
       }
 
       // Get streak
-      const { data: credits } = await supabase
-        .from("user_credits")
-        .select("current_streak")
-        .eq("user_id", user.id)
-        .single();
+      const { data: credits } = await getUserCredits(user.id);
 
       return {
         generations: generationsCount || 0,

@@ -46,7 +46,7 @@ function mapToStarsProduct(p: DBProduct): StarsProduct {
 
 export default function Pricing() {
   const { webApp, showAlert } = useTelegram();
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const { isAdmin, isLoading: roleLoading } = useUserRole();
   const queryClient = useQueryClient();
   const userId = user?.id;
@@ -117,8 +117,7 @@ export default function Pricing() {
     setPurchasingProduct(productCode);
 
     try {
-      const { data: authData } = await supabase.auth.getSession();
-      const token = authData.session?.access_token;
+      const token = session?.access_token;
 
       if (!token) {
         throw new Error("Не удалось получить токен авторизации");

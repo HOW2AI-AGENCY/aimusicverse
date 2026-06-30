@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, Wand2, Loader2, X, Image as ImageIcon } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -63,17 +64,11 @@ export function ProjectCoverEditor({
       const fileName = `${projectId}-${Date.now()}.${fileExt}`;
       const filePath = `covers/${fileName}`;
 
-      const { error: uploadError, data } = await supabase.storage.from("project-assets").upload(filePath, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
+      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "project-assets", path: filePath, file });
 
       if (uploadError) throw uploadError;
 
-      // Get public URL
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("project-assets").getPublicUrl(filePath);
+      const publicUrl = uploadData!.publicUrl;
 
       // Update project cover_url
       const { error: updateError } = await supabase

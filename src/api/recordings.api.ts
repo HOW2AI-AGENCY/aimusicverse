@@ -509,3 +509,41 @@ export function calculateTotalDuration(chords: ChordData[]): number {
   const lastChord = chords[chords.length - 1];
   return lastChord.time + lastChord.duration;
 }
+
+// ============= Reference Audio =============
+
+export async function insertReferenceAudio(data: {
+  userId: string;
+  fileName: string;
+  fileUrl: string;
+  source: string;
+  durationSeconds?: number;
+  mimeType?: string;
+  fileSize?: number;
+}) {
+  const { data: row, error } = await supabase
+    .from("reference_audio")
+    .insert({
+      user_id: data.userId,
+      file_name: data.fileName,
+      file_url: data.fileUrl,
+      source: data.source,
+      duration_seconds: data.durationSeconds ?? null,
+      mime_type: data.mimeType ?? null,
+      file_size: data.fileSize ?? null,
+    })
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+  return row;
+}
+
+export async function fetchReferenceAudioById(id: string) {
+  const { data, error } = await supabase.from("reference_audio").select("*").eq("id", id).single();
+  return { data, error };
+}
+
+export async function deleteReferenceAudio(id: string) {
+  const { error } = await supabase.from("reference_audio").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+}

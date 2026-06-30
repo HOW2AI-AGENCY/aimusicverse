@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { checkAdminRole, fetchUserFeedback, closeFeedbackItem } from "@/api/admin.api";
 import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -89,7 +90,7 @@ export default function AdminFeedback() {
   const checkAdminStatus = async () => {
     if (!user) return;
 
-    const { data } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+    const data = await checkAdminRole(user.id);
 
     if (!data) {
       toast.error("Доступ запрещён");

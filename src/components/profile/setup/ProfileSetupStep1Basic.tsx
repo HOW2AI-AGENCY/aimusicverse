@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { ImageGeneratorDialog } from "../ImageGeneratorDialog";
@@ -36,15 +36,11 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
       const fileExt = file.name.split(".").pop();
       const fileName = `${userId}_${Date.now()}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, { upsert: true });
+      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
 
       if (uploadError) throw uploadError;
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("avatars").getPublicUrl(fileName);
-
-      onUpdate({ avatarUrl: publicUrl });
+      onUpdate({ avatarUrl: uploadData!.publicUrl });
       toast.success("Фото загружено");
     } catch (error) {
       logger.error("Error uploading avatar", error instanceof Error ? error : new Error(String(error)), {

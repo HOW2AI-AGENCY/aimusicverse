@@ -175,3 +175,16 @@ export async function reorderPlaylistTracks(playlistId: string, trackIds: string
 
   await Promise.all(updates);
 }
+
+/**
+ * Fetch all playlists that contain a specific track
+ */
+export async function fetchPlaylistsContainingTrack(trackId: string): Promise<PlaylistRow[]> {
+  const { data, error } = await supabase
+    .from("playlist_tracks")
+    .select("playlist_id, playlists(*)")
+    .eq("track_id", trackId);
+
+  if (error) throw new Error(error.message);
+  return (data || []).map((row) => (row as unknown as { playlists: PlaylistRow }).playlists).filter(Boolean);
+}

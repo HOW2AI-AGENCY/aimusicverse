@@ -52,7 +52,7 @@
 | 📦 Размер бандла      | ![](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/HOW2AI-AGENCY/aimusicverse/main/package.json&query=$.size-limit[0].limit&style=flat-square&label=bundle&color=10B981) |
 | 🧪 Покрытие кода      |                                                         ![](https://img.shields.io/codecov/c/github/HOW2AI-AGENCY/aimusicverse?style=flat-square)                                                         |
 | 🔒 Безопасность       |                                                              ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)                                                              |
-| 📊 Спринтов завершено |                                                                                                  **35**                                                                                                   |
+| 📊 Спринтов завершено |                                                                                                  **37**                                                                                                   |
 | 🏗 Компонентов        |                                                                                                  **987**                                                                                                  |
 | 🔧 Хуков              |                                                                                                  **347**                                                                                                  |
 | 🚀 Стадия             |                                                                                     **Pre-Seed / Active Development**                                                                                     |
@@ -61,7 +61,7 @@
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Стабилизация продукта, ESLint enforcement, архитектурная чистка (Sprint 035, 94% overall)
+- **Текущий фокус**: Sprint 039 — архитектурный рефакторинг: **0 нарушений слоёв** (было 109), 97% overall
 
 ---
 
@@ -75,26 +75,26 @@ gantt
     section Завершено ✅
     Sprint 033: UX-аудит              :done, 033, 2026-04-01, 2026-04-30
     Sprint 034: Надёжность генерации   :done, 034, 2026-05-01, 2026-05-31
-    033-mobile: Мобильные улучшения    :done, 033m, 2026-06-01, 2026-06-28
-    Sprint 035: Стабилизация + Чистка   :active, 035, 2026-06-28, 2026-07-15
-    section Завершено (недавно) ✅
-    Sprint 036: Рефакторинг            :done, 036, 2026-05-15, 2026-06-15
-    Sprint 037: Infrastructure Hardening :done, 037, 2026-06-15, 2026-06-29
+    Sprint 035: Стабилизация           :done, 035, 2026-06-01, 2026-06-20
+    Sprint 036: Рефакторинг слоёв      :done, 036, 2026-06-01, 2026-06-20
+    Sprint 037: Infrastructure         :done, 037, 2026-06-21, 2026-06-29
+    Sprint 038: Design System          :done, 038, 2026-06-29, 2026-06-30
     section В работе 🟡
-    Архитектурная чистка (035)         :active, 035a, 2026-06-28, 2026-07-15
+    Sprint 039: Архит. рефакторинг     :active, 039, 2026-06-30, 2026-07-15
     section Запланировано ⚪
-    Sprint 038: DX и инфраструктура    :038, 2026-07-15, 2026-09-01
+    Sprint 040: Тесты + Export         :040, 2026-07-15, 2026-08-01
 ```
 
-| Спринт | Название                        | Статус | Прогресс |
-| :----: | ------------------------------- | :----: | :------: |
-|  033   | UX-аудит и переработка          |   ✅   |   100%   |
-|  033m  | Mobile UI Improvements          |   ✅   | 114/114  |
-|  034   | Надёжность генерации            |   ✅   |   100%   |
-|  035   | Стабилизация + Чистка           |   🟡   | В работе |
-|  036   | Рефакторинг слоёв + Type Safety |   ✅   |   100%   |
-|  037   | Infrastructure Hardening        |   ✅   |   100%   |
-|  038   | DX и инфраструктура             |   ⚪   |    0%    |
+| Спринт | Название                            | Статус | Прогресс   |
+| :----: | ----------------------------------- | :----: | :--------: |
+|  033   | UX-аудит и переработка              |   ✅   |   100%     |
+|  034   | Надёжность генерации                |   ✅   |   100%     |
+|  035   | Стабилизация + Чистка               |   ✅   |   100%     |
+|  036   | Рефакторинг слоёв + Type Safety     |   ✅   |   100%     |
+|  037   | Infrastructure Hardening            |   ✅   |   100%     |
+|  038   | Design System Unification           |   ✅   | 28/28      |
+|  039   | Архитектурный рефакторинг           |   🟡   | 5/14 (36%) |
+|  040   | Тесты + Export                      |   ⚪   |   0%       |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md)</sub>
 
