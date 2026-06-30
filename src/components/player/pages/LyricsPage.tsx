@@ -6,7 +6,7 @@
  * - Falls back to plain text or an empty state when timestamps are unavailable
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Mic2 } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
