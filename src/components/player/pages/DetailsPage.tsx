@@ -44,6 +44,19 @@ interface Row {
 }
 
 export function DetailsPage({ track }: DetailsPageProps) {
+  const isPlaying = usePlayerStore((s) => s.isPlaying);
+  const currentTrackId = usePlayerStore((s) => s.currentTrack?.id);
+  const playTrack = usePlayerStore((s) => s.playTrack);
+  const pauseTrack = usePlayerStore((s) => s.pauseTrack);
+  const isThisTrackActive = currentTrackId === track.id;
+  const showAsPlaying = isThisTrackActive && isPlaying;
+
+  const togglePlay = () => {
+    hapticImpact("light");
+    if (showAsPlaying) pauseTrack();
+    else playTrack(track);
+  };
+
   const rows = useMemo<Row[]>(() => {
     const list: Row[] = [];
     list.push({ label: "Длительность", value: formatDuration(track.duration_seconds), icon: Clock3 });
@@ -54,7 +67,12 @@ export function DetailsPage({ track }: DetailsPageProps) {
   }, [track]);
 
   return (
-    <div className="h-full overflow-y-auto px-4 py-4" style={{ overscrollBehavior: "contain" }}>
+    <div
+      className="h-full overflow-y-auto px-4 py-4"
+      style={{ overscrollBehavior: "contain" }}
+      role="region"
+      aria-label="Информация о треке"
+    >
       <div className="mx-auto flex max-w-[28rem] flex-col gap-4 pb-24">
         {/* Title block */}
         <section className="rounded-2xl bg-card/60 p-4 ring-1 ring-border/40 backdrop-blur">
