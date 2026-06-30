@@ -23,7 +23,8 @@ import {
   Crop,
   X,
 } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
+import { invokeGenerateProjectMedia, updateProjectBanner } from "@/api/projects.api";
 import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
