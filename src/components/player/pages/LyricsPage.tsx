@@ -113,8 +113,12 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
   // Plain (non-synchronized) fallback
   if (!lyricsLines && plainLyrics) {
     return (
-      <div ref={scrollRef} className="h-full overflow-y-auto px-6 py-6">
-        <p className="whitespace-pre-wrap text-center text-[17px] leading-[1.65] text-foreground/85">
+      <div
+        ref={scrollRef}
+        className="lyrics-fade-mask h-full overflow-y-auto px-4 py-6"
+        style={{ overscrollBehavior: "contain" }}
+      >
+        <p className="mx-auto max-w-[28rem] whitespace-pre-wrap text-center text-[17px] font-medium leading-[1.65] text-foreground/85 pb-24">
           {plainLyrics}
         </p>
       </div>
