@@ -117,14 +117,14 @@ export const PlayerProgress = memo(function PlayerProgress({
           interactive={false}
           className="pointer-events-none relative z-10"
         />
-        <motion.div
+        <div
           className={cn(
             "absolute top-1/2 z-20 h-3 w-3 -translate-y-1/2 rounded-full bg-background shadow-lg ring-2 ring-primary",
+            "transition-[opacity,transform] duration-150 ease-out motion-reduce:transition-none",
             isDragging || isHovering ? "opacity-100" : "opacity-0",
+            isDragging ? "scale-110" : "scale-100",
           )}
           style={{ left: `calc(${progress}% - 0.375rem)` }}
-          animate={{ scale: isDragging ? 1.12 : 1 }}
-          transition={{ duration: 0.12 }}
           aria-hidden="true"
         />
         {isDragging && (
