@@ -72,7 +72,7 @@ export const BlogPostCard = memo(function BlogPostCard({
               {!post.is_published && <Badge variant="secondary">Черновик</Badge>}
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
+            <h2 className="text-2xl sm:text-3xl font-bold font-display mb-3 text-foreground group-hover:text-primary transition-colors">
               {post.title}
             </h2>
 

@@ -520,12 +520,12 @@
 | T038-19   | Player transition                  | C    | 4         | 🔴 OPEN                              |
 | T038-20   | Telegram haptics                   | C    | 1         | ✅ COMPLETE                          |
 |           |                                    |      | **9**     | (Note: plan says 12, corrected to 9) |
-| T038-21   | Typography pass                    | D    | 2         | 🔴 OPEN                              |
-| T038-22   | Elevation system                   | D    | 2         | 🔴 OPEN                              |
-| T038-23   | Color tokens                       | D    | 2         | 🔴 OPEN                              |
-| T038-24   | Icon consistency                   | D    | 1         | 🔴 OPEN                              |
-| T038-25   | Storybook: 20+ stories             | D    | 2         | 🔴 OPEN                              |
-| T038-26   | LazyImage audit                    | D    | 1         | 🔴 OPEN                              |
+| T038-21   | Typography pass                    | D    | 2         | ✅ COMPLETE                          |
+| T038-22   | Elevation system                   | D    | 2         | ✅ COMPLETE                          |
+| T038-23   | Color tokens                       | D    | 2         | ✅ N/A (hex in BotMenuPreview intentional — Telegram mockup) |
+| T038-24   | Icon consistency                   | D    | 1         | ✅ N/A (already lucide-only)         |
+| T038-25   | Storybook: 20+ stories             | D    | 2         | ✅ COMPLETE (20 stories, 15 new)     |
+| T038-26   | LazyImage audit                    | D    | 1         | ✅ COMPLETE                          |
 | T038-27   | Lighthouse baseline                | D    | 1         | 🔴 OPEN                              |
 | T038-28   | Final review + docs                | D    | 1         | 🔴 OPEN                              |
 |           |                                    |      | **12**    |                                      |

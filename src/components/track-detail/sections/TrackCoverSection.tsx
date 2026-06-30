@@ -32,7 +32,7 @@ export const TrackCoverSection = memo(function TrackCoverSection({ track }: Trac
 
       {/* Title overlay on cover */}
       <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-        <h3 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">{track.title || "Без названия"}</h3>
+        <h3 className="text-2xl sm:text-3xl font-bold font-display text-white drop-shadow-lg">{track.title || "Без названия"}</h3>
         <div className="flex flex-wrap items-center gap-2 mt-2">
           <Badge
             variant={track.status === "completed" ? "default" : "secondary"}
