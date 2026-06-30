@@ -108,9 +108,9 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
   // Check premium status
   useEffect(() => {
     if (user) {
-      supabase.rpc("is_premium_or_admin", { _user_id: user.id }).then(({ data }) => {
-        setIsPremiumUser(!!data);
-        setIsPublic(!data);
+      checkPremiumStatus(user.id).then((isPremium) => {
+        setIsPremiumUser(isPremium);
+        setIsPublic(!isPremium);
       });
     }
   }, [user]);
