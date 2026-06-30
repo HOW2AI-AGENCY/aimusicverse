@@ -108,7 +108,10 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
 
   const audioUrl = useMemo(() => track.streaming_url || track.audio_url, [track.streaming_url, track.audio_url]);
 
-  // Lyrics sync — kept in shell so it stays accurate when user is on Cover page too
+  // Lyrics data — only used here to feed the Karaoke overlay.
+  // The active LyricsPage owns its own synchronization loop; running a second
+  // useLyricsSynchronization in parallel here causes the active line to flicker
+  // because two RAF loops fight over the shared time smoother.
   const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
   const sunoId = currentVersion?.suno_id ?? track.suno_id ?? null;
   const trackLyrics = currentVersion?.lyrics ?? track.lyrics ?? null;
@@ -117,7 +120,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   const flat = useMemo(() => (lyricsLines ? lyricsLines.flat() : []), [lyricsLines]);
   const { activeLineIndex, currentTime: syncedTime } = useLyricsSynchronization({
     words: flat,
-    enabled: !!lyricsLines?.length,
+    enabled: karaokeMode && !!lyricsLines?.length,
   });
 
   // Restore preserved time
