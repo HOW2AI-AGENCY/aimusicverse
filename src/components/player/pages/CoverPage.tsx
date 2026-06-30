@@ -7,6 +7,8 @@
 
 import { Music2 } from "@/lib/icons";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { motion } from "@/lib/motion";
+import { usePlayerTransition } from "@/components/player/PlayerTransitionProvider";
 import type { Track } from "@/types/track";
 
 interface CoverPageProps {
@@ -14,9 +16,14 @@ interface CoverPageProps {
 }
 
 export function CoverPage({ track }: CoverPageProps) {
+  const { artworkLayoutId } = usePlayerTransition();
   return (
     <div className="flex h-full w-full flex-col items-center justify-center px-6">
-      <div className="relative aspect-square w-[min(72vw,22rem)] overflow-hidden rounded-3xl bg-muted/40 ring-1 ring-border/40 shadow-2xl shadow-black/25">
+      <motion.div
+        layoutId={artworkLayoutId}
+        className="relative aspect-square w-[min(72vw,22rem)] overflow-hidden rounded-3xl bg-muted/40 ring-1 ring-border/40 shadow-2xl shadow-black/25"
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
         {track.cover_url ? (
           <LazyImage
             src={track.cover_url}
@@ -36,7 +43,7 @@ export function CoverPage({ track }: CoverPageProps) {
             <Music2 className="h-16 w-16 text-muted-foreground/50" aria-hidden />
           </div>
         )}
-      </div>
+      </motion.div>
 
       <div className="mt-6 w-full max-w-[22rem] text-center">
         <h1 className="truncate font-display text-[20px] font-semibold leading-tight text-foreground">

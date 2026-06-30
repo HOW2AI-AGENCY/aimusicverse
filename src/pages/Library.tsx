@@ -376,7 +376,7 @@ export default function Library() {
 
               {/* Active Generations Section */}
               {hasActiveGenerations && (
-                <div className="mb-8">
+                <div className="mb-8 @container">
                   <h2 className="text-xs font-medium text-muted-foreground mb-4 flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
                     Генерируется ({activeGenerations.length})
@@ -384,7 +384,7 @@ export default function Library() {
                   <div
                     className={
                       viewMode === "grid"
-                        ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5 lg:gap-6"
+                        ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 @xl:grid-cols-6 gap-4 @sm:gap-5 @lg:gap-6"
                         : "flex flex-col gap-3 sm:gap-4"
                     }
                   >
@@ -403,7 +403,7 @@ export default function Library() {
 
               {/* Track List Content */}
               {isLoading ? (
-                <div data-safe-skeleton="">
+                <div data-safe-skeleton="" className="@container">
                   {isMobile ? (
                     viewMode === "grid" ? (
                       <MobileGridSkeleton count={4} />
@@ -414,7 +414,7 @@ export default function Library() {
                     <div
                       className={
                         viewMode === "grid"
-                          ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-6"
+                          ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 gap-4 @sm:gap-5 @lg:gap-6"
                           : "flex flex-col gap-3 sm:gap-4"
                       }
                     >

@@ -8,7 +8,7 @@ import { FolderOpen } from "@/lib/icons";
 
 export function ProjectsSkeleton() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 @container">
       {/* Header skeleton */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -31,7 +31,7 @@ export function ProjectsSkeleton() {
       </div>
 
       {/* Projects grid skeleton */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 @sm:grid-cols-2 @lg:grid-cols-3 gap-4">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="bg-card/50 rounded-xl p-4 space-y-3">
             <div className="flex items-start justify-between">

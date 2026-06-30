@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import tailwindContainerQueries from "@tailwindcss/container-queries";
 import { typography, spacing, borderRadius } from "./src/lib/design-tokens";
 
 // Shadow values (moved from design-tokens to avoid breaking changes)
@@ -295,5 +296,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, tailwindContainerQueries],
 } satisfies Config;

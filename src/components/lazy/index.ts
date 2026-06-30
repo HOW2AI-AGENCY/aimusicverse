@@ -71,10 +71,6 @@ export const LazyNoteFlowVisualization = lazy(() =>
 // Onboarding & analytics (load later)
 // ============================================
 
-export const LazyOnboardingSlider = lazy(() =>
-  import("@/components/OnboardingSlider").then((m) => ({ default: m.OnboardingSlider })),
-);
-
 // TrackAnalytics removed - unused component
 
 export const LazyGamificationOnboarding = lazy(() =>

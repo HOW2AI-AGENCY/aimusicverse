@@ -73,7 +73,7 @@ export default function Playlists() {
 
   // Playlist grid/list content
   const PlaylistsContent = isLoading ? (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-4">
+    <div className="grid grid-cols-1 @sm:grid-cols-2 @lg:grid-cols-3 @xl:grid-cols-4 gap-3 lg:gap-4">
       {[1, 2, 3, 4].map((i) => (
         <div key={i} className="bg-card rounded-xl lg:rounded-2xl p-3 lg:p-4 animate-pulse">
           <div className="aspect-square bg-muted rounded-lg lg:rounded-xl mb-3" />
@@ -85,7 +85,7 @@ export default function Playlists() {
   ) : playlists.length === 0 ? (
     <EmptyState variant="playlists" action={{ label: "Создать плейлист", onClick: () => setCreateDialogOpen(true) }} />
   ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+    <div className="grid grid-cols-1 @sm:grid-cols-2 @lg:grid-cols-3 gap-3 lg:gap-4">
       {playlists.map((playlist) => (
         <div
           key={playlist.id}
@@ -187,7 +187,7 @@ export default function Playlists() {
       </div>
 
       {/* Content */}
-      <div className="p-4">{PlaylistsContent}</div>
+      <div className="p-4 @container">{PlaylistsContent}</div>
 
       {Dialogs}
     </div>

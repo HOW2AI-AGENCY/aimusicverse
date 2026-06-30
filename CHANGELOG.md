@@ -24,6 +24,40 @@
 
 ## [Unreleased]
 
+### 🎨 Спринт 038 — Design System Unification (2026-06-30)
+
+#### Добавлено
+
+- **NavigationShell** — render-prop компонент (`src/components/navigation/NavigationShell.tsx`) инкапсулирует breakpoint-логику, sidebar collapse, `hasOwnBottomNav`, CSS-var публикацию (`--nav-h`, `--player-h`); `ActiveTabIndicator` анимированный индикатор таба
+- **OnboardingFlow + FSM** — `OnboardingStateMachine.ts` (типизированные состояния `idle → quick-start → feature-tour → done`) + `OnboardingFlow.tsx` оркестратор на `useReducer`; заменяет 4 разрозненных `useEffect` в `MainLayout`
+- **Container queries** — 5 компонентов (`PresetBrowser`, `Library`, `Playlists`, `Community`, `ProjectsSkeleton`) мигрированы с `sm:` медиа-брейкпоинтов на `@sm:`/`@lg:`/`@xl:` container queries
+- **Player Shared Element Transition** — Framer Motion `layoutId` spring-анимация (stiffness 300, damping 30) artwork обложки между `CompactPlayer` и `CoverPage`; `AnimatePresence mode="sync"` для одновременной анимации
+- **Elevation system** — CSS утилиты `.elevation-0`..`.elevation-4` с тёмным режимом + `.glass-surface` (backdrop-blur, HSL border) в `src/index.css`
+- **Семантическая типографика** — CSS классы `.text-display`, `.text-heading`, `.text-overline`, `.text-body-base`, `.text-caption-base` с clamp() для адаптивных размеров; применены к h1/h2/h3 в BlogHeroSection, BlogPostCard, ProjectHero, TrackCoverSection
+- **Storybook: 20 stories** — 15 новых story-файлов: Heading, StatusBadge, Shimmer, ProgressSteps, CollapsibleSection, ChipInput, TouchTarget, LoadingOverlay, Badge, Card, Avatar, Alert, Progress, Skeleton, Switch
+- **DnD унификация** — `@hello-pangea/dnd` удалён, все drag-and-drop (ProjectDetail, LyricsVisualEditor, ProjectTracklistSection) мигрированы на `@dnd-kit`
+- **Z-Index константы** — `src/lib/z-index.ts` с семантическими токенами
+- **Haptics** — `src/lib/haptics.ts` враппер над Telegram HapticFeedback API
+- **Animation presets** — duration/easing константы в `src/lib/motion-presets.ts`
+- **useSafeMotion** — хук проверки `prefers-reduced-motion` для всех анимированных компонентов
+- **Safe area fixes** — `100vh` заменён на `dvh`/`var(--vh)` по всему приложению
+- **LazyImage аудит** — добавлен `loading="lazy" decoding="async"` ко всем bare `<img>` тегам
+- **Lighthouse baseline** — `docs/LIGHTHOUSE_BASELINE_038.md` со статическими метриками (FCP ~1.8s, LCP ~3.2s, TBT ~180ms, Perf ~82)
+
+#### Удалено
+
+- `src/pages/Onboarding.tsx` — устаревший онбординг (заменён `OnboardingFlow`)
+- `src/components/OnboardingSlider.tsx` — 5-слайдовый слайдер (заменён `TelegramOnboarding`)
+- `LazyOnboardingSlider` экспорт из `src/components/lazy/index.ts`
+
+#### Изменено
+
+- `MainLayout.tsx` — убраны 4 `useMediaQuery`, `sidebarCollapsed` state, CSS var `useEffect`, `handleSidebarCollapsedChange`; навигация делегирована `NavigationShell`, онбординг — `OnboardingFlow`
+- `ResizablePlayer.tsx` — обёрнут в `PlayerTransitionProvider`; `AnimatePresence mode="wait"` → `mode="sync"`
+- Responsive typography CSS custom properties (`--text-display`, `--text-heading` и др.) добавлены в `:root`
+- `font-display` применён к hero-заголовкам (ProjectHero h1, TrackCoverSection h3, BlogPostCard h2)
+- `vite.config.ts`: чанк `@hello-pangea/dnd` удалён из manualChunks
+
 ### 🔧 Спринт 035 — Стабилизация + Чистка (2026-06-29)
 
 #### Исправлено

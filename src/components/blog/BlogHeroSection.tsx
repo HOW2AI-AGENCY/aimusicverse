@@ -35,7 +35,7 @@ export const BlogHeroSection = memo(function BlogHeroSection({ isAdmin, onCreate
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text"
+              className="text-heading bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text"
             >
               Блог
             </motion.h1>
