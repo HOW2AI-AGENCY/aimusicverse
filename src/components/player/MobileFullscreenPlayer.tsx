@@ -8,7 +8,7 @@
  * untouched — this redesign is purely presentation.
  */
 
-import { lazy, Suspense, useState, useEffect, useMemo, useCallback } from "react";
+import { lazy, Suspense, useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { X, ListMusic, Music2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { PlayerProgress } from "./PlayerProgress";
@@ -27,7 +27,7 @@ import { usePrefetchTrackCovers } from "@/hooks/audio/usePrefetchTrackCovers";
 import { usePrefetchNextAudio } from "@/hooks/audio/usePrefetchNextAudio";
 import { cn } from "@/lib/utils";
 import { glassButton } from "@/lib/glass";
-import { motion, AnimatePresence, type PanInfo } from "@/lib/motion";
+import { motion, AnimatePresence, useReducedMotion, type PanInfo } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
 import { logger } from "@/lib/logger";
 import { perfMark, perfEvent } from "@/lib/perfMarks";
@@ -57,10 +57,18 @@ interface MobileFullscreenPlayerProps {
 }
 
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     perfMark("fullscreen:mount");
     const raf = requestAnimationFrame(() => perfEvent("fullscreen", "firstPaint"));
-    return () => cancelAnimationFrame(raf);
+    // Focus the close button so screen-reader and keyboard users land in the dialog.
+    const focusTimer = setTimeout(() => closeButtonRef.current?.focus(), 120);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(focusTimer);
+    };
   }, []);
 
   const [page, setPage] = useState<PagerPage>("cover");
@@ -68,6 +76,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   const [karaokeMode, setKaraokeMode] = useState(false);
 
   useTelegramBackButton({ onClick: onClose, visible: true });
+
 
   const { currentTime, duration, seek } = useAudioTime();
   const {
@@ -200,25 +209,34 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
 
   return (
     <motion.div
-      initial={{ opacity: 1, y: "100%" }}
+      initial={prefersReducedMotion ? { opacity: 0, y: 0 } : { opacity: 1, y: "100%" }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: "100%" }}
-      transition={{ type: "spring", damping: 30, stiffness: 300 }}
+      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: "100%" }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.12 }
+          : { type: "spring", damping: 30, stiffness: 300 }
+      }
       className="fixed inset-0 z-fullscreen flex flex-col overflow-hidden bg-background"
       data-testid="mobile-fullscreen-player"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Полноэкранный плеер"
     >
       <FullscreenBackground coverUrl={track.cover_url} />
 
       {/* Drag-to-close strip */}
       <motion.div
-        drag="y"
+        drag={prefersReducedMotion ? false : "y"}
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={{ top: 0.1, bottom: 0.5 }}
         onDragEnd={handleVerticalDragEnd}
         className="absolute top-0 left-0 right-0 z-20 flex h-10 cursor-grab items-start justify-center pt-2 active:cursor-grabbing"
+        role="button"
+        tabIndex={-1}
         aria-label="Потяните вниз чтобы закрыть"
       >
-        <div className="h-1 w-10 rounded-full bg-muted-foreground/40" />
+        <div className="h-1 w-10 rounded-full bg-muted-foreground/40" aria-hidden="true" />
       </motion.div>
 
       <div className="relative z-10 flex flex-1 flex-col min-h-0">
@@ -231,6 +249,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           }}
         >
           <Button
+            ref={closeButtonRef}
             variant="ghost"
             size="icon"
             onClick={() => {
@@ -238,12 +257,12 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
               onClose();
             }}
             className={cn("h-11 w-11 rounded-full touch-manipulation", glassButton.default)}
-            aria-label="Закрыть"
+            aria-label="Закрыть плеер"
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" aria-hidden="true" />
           </Button>
 
-          <div className="min-w-0 text-center">
+          <div className="min-w-0 text-center" aria-live="polite">
             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/60">
               {page === "cover" ? "Сейчас играет" : page === "lyrics" ? "Текст" : "О треке"}
             </p>
@@ -258,9 +277,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
                 setQueueOpen(true);
               }}
               className={cn("h-11 w-11 rounded-full touch-manipulation", glassButton.default)}
-              aria-label="Очередь"
+              aria-label="Открыть очередь воспроизведения"
+              aria-haspopup="dialog"
+              aria-expanded={queueOpen}
             >
-              <ListMusic className="h-5 w-5" />
+              <ListMusic className="h-5 w-5" aria-hidden="true" />
             </Button>
           </div>
         </header>
@@ -289,9 +310,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
             paddingBottom:
               "calc(max(var(--tg-safe-area-inset-bottom, 0px) + 0.75rem, env(safe-area-inset-bottom, 0px) + 0.75rem))",
           }}
-          initial={{ y: 24, opacity: 0 }}
+          initial={prefersReducedMotion ? { y: 0, opacity: 1 } : { y: 24, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.15, duration: 0.25 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.15, duration: 0.25 }}
+          role="region"
+          aria-label="Управление воспроизведением"
         >
           <div data-testid="player-timeline">
             <PlayerProgress

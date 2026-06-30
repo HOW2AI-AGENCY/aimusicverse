@@ -6,10 +6,14 @@
  */
 
 import { useMemo } from "react";
-import { Calendar, Clock3, Music2, Sparkles } from "@/lib/icons";
+import { Calendar, Clock3, Music2, Sparkles, Play, Pause } from "@/lib/icons";
 import type { Track } from "@/types/track";
 import { VersionSwitcher } from "../VersionSwitcher";
 import { PlayerActionsBar } from "../PlayerActionsBar";
+import { Button } from "@/components/ui/button";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { hapticImpact } from "@/lib/haptic";
+import { cn } from "@/lib/utils";
 
 interface DetailsPageProps {
   track: Track;
@@ -40,6 +44,19 @@ interface Row {
 }
 
 export function DetailsPage({ track }: DetailsPageProps) {
+  const isPlaying = usePlayerStore((s) => s.isPlaying);
+  const currentTrackId = usePlayerStore((s) => s.activeTrack?.id);
+  const playTrack = usePlayerStore((s) => s.playTrack);
+  const pauseTrack = usePlayerStore((s) => s.pauseTrack);
+  const isThisTrackActive = currentTrackId === track.id;
+  const showAsPlaying = isThisTrackActive && isPlaying;
+
+  const togglePlay = () => {
+    hapticImpact("light");
+    if (showAsPlaying) pauseTrack();
+    else playTrack(track);
+  };
+
   const rows = useMemo<Row[]>(() => {
     const list: Row[] = [];
     list.push({ label: "Длительность", value: formatDuration(track.duration_seconds), icon: Clock3 });
@@ -50,20 +67,44 @@ export function DetailsPage({ track }: DetailsPageProps) {
   }, [track]);
 
   return (
-    <div className="h-full overflow-y-auto px-4 py-4" style={{ overscrollBehavior: "contain" }}>
+    <div
+      className="h-full overflow-y-auto px-4 py-4"
+      style={{ overscrollBehavior: "contain" }}
+      role="region"
+      aria-label="Информация о треке"
+    >
       <div className="mx-auto flex max-w-[28rem] flex-col gap-4 pb-24">
         {/* Title block */}
         <section className="rounded-2xl bg-card/60 p-4 ring-1 ring-border/40 backdrop-blur">
-          <h2 className="font-display text-[17px] font-semibold leading-tight text-foreground">
-            {track.title || "Без названия"}
-          </h2>
-          {track.style && (
-            <p className="mt-1 text-[12px] text-muted-foreground/80">{track.style}</p>
-          )}
+          <div className="flex items-start gap-3">
+            <div className="min-w-0 flex-1">
+              <h2 className="font-display text-[17px] font-semibold leading-tight text-foreground">
+                {track.title || "Без названия"}
+              </h2>
+              {track.style && (
+                <p className="mt-1 text-[12px] text-muted-foreground/80">{track.style}</p>
+              )}
+            </div>
+            <Button
+              type="button"
+              onClick={togglePlay}
+              size="icon"
+              className={cn(
+                "h-11 w-11 shrink-0 rounded-full",
+                "bg-primary text-primary-foreground hover:bg-primary/90",
+                "transition-transform active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100",
+              )}
+              aria-label={showAsPlaying ? "Пауза" : "Воспроизвести"}
+              aria-pressed={showAsPlaying}
+            >
+              {showAsPlaying ? <Pause className="h-5 w-5" /> : <Play className="ml-0.5 h-5 w-5" />}
+            </Button>
+          </div>
           <div className="mt-3">
             <VersionSwitcher track={track} size="compact" />
           </div>
         </section>
+
 
         {/* Metadata grid */}
         <section className="rounded-2xl bg-card/60 p-2 ring-1 ring-border/40 backdrop-blur">
