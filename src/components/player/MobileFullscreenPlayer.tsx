@@ -310,9 +310,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
             paddingBottom:
               "calc(max(var(--tg-safe-area-inset-bottom, 0px) + 0.75rem, env(safe-area-inset-bottom, 0px) + 0.75rem))",
           }}
-          initial={{ y: 24, opacity: 0 }}
+          initial={prefersReducedMotion ? { y: 0, opacity: 1 } : { y: 24, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.15, duration: 0.25 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.15, duration: 0.25 }}
+          role="region"
+          aria-label="Управление воспроизведением"
         >
           <div data-testid="player-timeline">
             <PlayerProgress
