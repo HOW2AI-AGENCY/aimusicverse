@@ -130,7 +130,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
   return (
     <div
       ref={scrollRef}
-      className="relative h-full overflow-y-auto px-4 py-6"
+      className="lyrics-fade-mask relative h-full overflow-y-auto px-4 py-6"
       style={{ overscrollBehavior: "contain", touchAction: "pan-y" }}
     >
       {onOpenKaraoke && (
