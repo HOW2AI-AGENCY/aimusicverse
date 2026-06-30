@@ -166,6 +166,8 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                     src={coverUrl}
                     alt={track.title || "Track cover"}
                     className="w-48 h-48 sm:w-44 sm:h-44 rounded-2xl object-cover shadow-2xl ring-4 ring-background/50"
+                    loading="lazy"
+                    decoding="async"
                     onError={() => setImageError(true)}
                   />
                 ) : (

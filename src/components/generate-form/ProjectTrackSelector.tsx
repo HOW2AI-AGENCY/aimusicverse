@@ -133,7 +133,7 @@ export function ProjectTrackSelector({
                 <div className="flex items-center gap-3 w-full">
                   <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                     {track.cover_url ? (
-                      <img src={track.cover_url} alt={track.title || "Track"} className="w-full h-full object-cover" />
+                      <LazyImage src={track.cover_url} alt={track.title || "Track"} className="w-full h-full object-cover" />
                     ) : (
                       <Music className="w-8 h-8 text-primary" />
                     )}
