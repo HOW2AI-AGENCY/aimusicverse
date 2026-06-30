@@ -5,7 +5,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchUserPlaylists, fetchPlaylistsContainingTrack, addTrackToPlaylist, getMaxPosition, removeTrackFromPlaylist, createPlaylist } from "@/api/playlists.api";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -29,13 +29,7 @@ export function AddToPlaylistSheet({ open, onOpenChange, trackId, trackTitle }: 
     queryKey: ["user-playlists-for-add", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
-      const { data, error } = await supabase
-        .from("playlists")
-        .select("id, title, track_count, cover_url")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return data || [];
+      return fetchUserPlaylists(user.id);
     },
     enabled: !!user?.id && open,
   });
@@ -45,9 +39,8 @@ export function AddToPlaylistSheet({ open, onOpenChange, trackId, trackTitle }: 
     queryKey: ["track-in-playlists", trackId, user?.id],
     queryFn: async () => {
       if (!user?.id || !trackId) return [];
-      const { data, error } = await supabase.from("playlist_tracks").select("playlist_id").eq("track_id", trackId);
-      if (error) throw error;
-      return data?.map((pt) => pt.playlist_id) || [];
+      const playlists = await fetchPlaylistsContainingTrack(trackId);
+      return playlists.map((p) => p.id);
     },
     enabled: !!user?.id && !!trackId && open,
   });
@@ -58,30 +51,11 @@ export function AddToPlaylistSheet({ open, onOpenChange, trackId, trackTitle }: 
       const isInPlaylist = trackInPlaylists?.includes(playlistId);
 
       if (isInPlaylist) {
-        // Remove from playlist
-        const { error } = await supabase
-          .from("playlist_tracks")
-          .delete()
-          .eq("playlist_id", playlistId)
-          .eq("track_id", trackId);
-        if (error) throw error;
+        await removeTrackFromPlaylist(playlistId, trackId);
         return { action: "removed" };
       } else {
-        // Get max position
-        const { data: maxPos } = await supabase
-          .from("playlist_tracks")
-          .select("position")
-          .eq("playlist_id", playlistId)
-          .order("position", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-
-        const nextPosition = (maxPos?.position || 0) + 1;
-
-        const { error } = await supabase
-          .from("playlist_tracks")
-          .insert({ playlist_id: playlistId, track_id: trackId, position: nextPosition });
-        if (error) throw error;
+        const nextPosition = (await getMaxPosition(playlistId)) + 1;
+        await addTrackToPlaylist(playlistId, trackId, nextPosition);
         return { action: "added" };
       }
     },
@@ -101,20 +75,10 @@ export function AddToPlaylistSheet({ open, onOpenChange, trackId, trackTitle }: 
     mutationFn: async (title: string) => {
       if (!user?.id) throw new Error("Not authenticated");
 
-      const { data: playlist, error: playlistError } = await supabase
-        .from("playlists")
-        .insert({ user_id: user.id, title })
-        .select("id")
-        .single();
-
-      if (playlistError) throw playlistError;
+      const playlist = await createPlaylist({ user_id: user.id, title });
 
       // Add track to new playlist
-      const { error: trackError } = await supabase
-        .from("playlist_tracks")
-        .insert({ playlist_id: playlist.id, track_id: trackId, position: 1 });
-
-      if (trackError) throw trackError;
+      await addTrackToPlaylist(playlist.id, trackId, 1);
 
       return playlist;
     },

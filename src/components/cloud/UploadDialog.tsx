@@ -38,11 +38,13 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
       const fileName = `recording_${format(new Date(), "dd-MM-yyyy_HH-mm")}.webm`;
       const path = `${user.id}/recording-${timestamp}.webm`;
 
-      const { url: publicUrl } = await uploadFile({ bucket: "reference-audio", path, file: audioBlob });
+      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "reference-audio", path, file: audioBlob });
+
+      if (uploadError) throw uploadError;
 
       await saveAudio({
         fileName,
-        fileUrl: publicUrl,
+        fileUrl: uploadData!.publicUrl,
         fileSize: audioBlob.size,
         mimeType: "audio/webm",
         durationSeconds: duration,
@@ -73,7 +75,11 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
       const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
       const path = `${user.id}/reference-${timestamp}-${sanitizedName}`;
 
-      const { url: publicUrl } = await uploadFile({ bucket: "reference-audio", path, file });
+      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "reference-audio", path, file });
+
+      if (uploadError) throw uploadError;
+
+      const publicUrl = uploadData!.publicUrl;
 
       // Get audio duration
       const audioEl = new Audio();

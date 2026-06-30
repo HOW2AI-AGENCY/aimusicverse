@@ -57,9 +57,6 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
 
     setIsSubmitting(true);
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
       if (!user) throw new Error("Не авторизован");
 
       const { data, error } = await supabase.functions.invoke("suno-remix", {

@@ -15,7 +15,7 @@ import { LyricsPreview } from "./sections/LyricsPreview";
 import { ActionGroup, ActionDivider, ActionGridContainer } from "./ActionGrid";
 import { IconGridButton } from "./IconGridButton";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchStemTranscriptions } from "@/api/studio.api";
 import {
   ImagePlus,
   Disc,
@@ -89,7 +89,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
     if (!track?.id || !open) return;
 
     const fetchStatus = async () => {
-      const { data } = await supabase.from("stem_transcriptions").select("midi_url, pdf_url").eq("track_id", track.id);
+      const { data } = await fetchStemTranscriptions({ trackId: track.id });
 
       const transcriptions = data || [];
       setTrackStatus({

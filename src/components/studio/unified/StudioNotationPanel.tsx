@@ -12,7 +12,7 @@ import { AlertCircle, ChevronDown, Download, FileText, Loader2, Music2, RefreshC
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { supabase } from "@/integrations/supabase/client";
+import { fetchStemTranscriptions } from "@/api/studio.api";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -169,11 +169,10 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
       }
 
       // 3) Fallback: latest transcription by trackId (or track.id)
-      const query = trackId
-        ? supabase.from("stem_transcriptions").select("*").eq("track_id", trackId)
-        : supabase.from("stem_transcriptions").select("*").eq("stem_id", track.id);
-
-      const { data, error } = await query.order("created_at", { ascending: false }).limit(1);
+      const { data: allData, error } = await fetchStemTranscriptions(
+        trackId ? { trackId } : { stemId: track.id },
+      );
+      const data = allData?.slice(0, 1) ?? null;
 
       if (error) throw error;
       if (!data || data.length === 0) return null;

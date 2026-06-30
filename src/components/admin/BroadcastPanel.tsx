@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Send, Loader2, Megaphone, Image, X, FileText, ChevronDown } from "@/lib/icons";
 import { useBroadcastNotification, useBroadcastTemplates, useSaveBroadcastTemplate } from "@/hooks/useBroadcast";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Switch } from "@/components/ui/switch";
@@ -33,14 +33,11 @@ export function BroadcastPanel() {
     setUploading(true);
     try {
       const path = `broadcast-${Date.now()}-${file.name}`;
-      const { data, error } = await supabase.storage
-        .from("broadcast")
-        .upload(path, file, { cacheControl: "3600", upsert: false });
+      const { data: uploadData, error } = await uploadFile({ bucket: "broadcast", path, file });
 
       if (error) throw error;
 
-      const { data: urlData } = supabase.storage.from("broadcast").getPublicUrl(path);
-      setImageUrl(urlData.publicUrl);
+      setImageUrl(uploadData!.publicUrl);
       setImageFile(file);
       toast.success("Изображение загружено");
     } catch (error) {

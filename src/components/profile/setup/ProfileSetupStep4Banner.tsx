@@ -4,7 +4,7 @@ import { ImageIcon, Upload, Sparkles, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { uploadFile, getPublicUrl } from "@/api/storage.api";
+import { uploadFile } from "@/api/storage.api";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { ImageGeneratorDialog } from "../ImageGeneratorDialog";
@@ -36,9 +36,11 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
       const fileExt = file.name.split(".").pop();
       const fileName = `banner_${userId}_${Date.now()}.${fileExt}`;
 
-      const { url: publicUrl } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
+      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
 
-      onUpdate({ bannerUrl: publicUrl });
+      if (uploadError) throw uploadError;
+
+      onUpdate({ bannerUrl: uploadData!.publicUrl });
       toast.success("Баннер загружен");
     } catch (error) {
       logger.error("Error uploading banner", error instanceof Error ? error : new Error(String(error)), {

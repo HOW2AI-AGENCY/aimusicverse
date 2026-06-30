@@ -30,7 +30,7 @@ import { surface } from "@/lib/overlay-colors";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from "@/hooks/useProjectGeneratedTracks";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchTrackStems, fetchStemTranscriptions, fetchGuitarAnalysis } from "@/api/studio.api";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { formatDuration } from "@/lib/formatters";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
@@ -67,7 +67,7 @@ function useTrackAssets(trackId: string | undefined) {
     queryKey: ["track-stems", trackId],
     queryFn: async () => {
       if (!trackId) return [];
-      const { data, error } = await supabase.from("track_stems").select("*").eq("track_id", trackId);
+      const { data, error } = await fetchTrackStems(trackId);
       if (error) throw error;
       return data || [];
     },
@@ -79,7 +79,7 @@ function useTrackAssets(trackId: string | undefined) {
     queryKey: ["stem-transcriptions", trackId],
     queryFn: async () => {
       if (!trackId) return [];
-      const { data, error } = await supabase.from("stem_transcriptions").select("*").eq("track_id", trackId);
+      const { data, error } = await fetchStemTranscriptions({ trackId });
       if (error) throw error;
       return data || [];
     },
@@ -91,9 +91,9 @@ function useTrackAssets(trackId: string | undefined) {
     queryKey: ["guitar-recordings", trackId],
     queryFn: async () => {
       if (!trackId) return [];
-      const { data, error } = await supabase.from("guitar_recordings").select("*").eq("track_id", trackId);
+      const { data, error } = await fetchGuitarAnalysis(trackId);
       if (error) throw error;
-      return data || [];
+      return data ? [data] : [];
     },
     enabled: !!trackId,
   });

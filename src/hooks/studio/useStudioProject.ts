@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import {
   useUnifiedStudioStore,
   StudioTrack,
@@ -23,6 +24,7 @@ interface UseStudioProjectReturn {
 }
 
 export function useStudioProject(): UseStudioProjectReturn {
+  const { user } = useAuth();
   const store = useUnifiedStudioStore();
   const {
     project,
@@ -57,6 +59,7 @@ export function useStudioProject(): UseStudioProjectReturn {
 
         const projectId = await storeCreateProject({
           name: `Проект: ${track.title || "Без названия"}`,
+          userId: user?.id,
           sourceTrackId: trackId,
           sourceAudioUrl: track.audio_url || undefined,
           duration: track.duration_seconds || undefined,
@@ -80,6 +83,7 @@ export function useStudioProject(): UseStudioProjectReturn {
       try {
         const projectId = await storeCreateProject({
           name: name || "Новый проект",
+          userId: user?.id,
         });
 
         if (projectId) {

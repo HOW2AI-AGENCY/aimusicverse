@@ -11,7 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { Crown, Zap, Check, Star, Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 
@@ -77,7 +76,7 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
   onClose,
   reason = "general",
 }: SubscriptionUpgradePopupProps) {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [selectedTier, setSelectedTier] = useState<"pro" | "premium">("pro");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -93,8 +92,7 @@ export const SubscriptionUpgradePopup = memo(function SubscriptionUpgradePopup({
     setIsLoading(true);
 
     try {
-      const { data: authData } = await supabase.auth.getSession();
-      const token = authData.session?.access_token;
+      const token = session?.access_token;
 
       if (!token) {
         throw new Error("Не удалось получить токен авторизации");

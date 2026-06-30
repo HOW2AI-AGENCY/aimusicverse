@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Camera, Loader2, X } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile, listFiles, deleteFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
@@ -47,20 +47,12 @@ export function AvatarUpload({ currentUrl, firstName, onUpload }: AvatarUploadPr
       const fileName = `${user.id}/avatar.${fileExt}`;
 
       // Upload to Supabase Storage
-      const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, {
-        upsert: true,
-        contentType: file.type,
-      });
+      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
 
       if (uploadError) throw uploadError;
 
-      // Get public URL
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("avatars").getPublicUrl(fileName);
-
       // Add cache buster
-      const urlWithCacheBuster = `${publicUrl}?t=${Date.now()}`;
+      const urlWithCacheBuster = `${uploadData!.publicUrl}?t=${Date.now()}`;
 
       onUpload(urlWithCacheBuster);
       toast.success("Аватар обновлён");
@@ -86,11 +78,10 @@ export function AvatarUpload({ currentUrl, firstName, onUpload }: AvatarUploadPr
 
     try {
       // List files in user folder
-      const { data: files } = await supabase.storage.from("avatars").list(user.id);
+      const { data: files } = await listFiles("avatars", user.id);
 
       if (files && files.length > 0) {
-        const filesToRemove = files.map((f) => `${user.id}/${f.name}`);
-        await supabase.storage.from("avatars").remove(filesToRemove);
+        await Promise.all(files.map((f) => deleteFile("avatars", `${user.id}/${f.name}`)));
       }
 
       setPreviewUrl(null);

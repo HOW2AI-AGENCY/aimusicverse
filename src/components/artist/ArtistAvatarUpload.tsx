@@ -44,7 +44,11 @@ export function ArtistAvatarUpload({
       const fileExt = file.name.split(".").pop();
       const fileName = `${user.id}/artist-avatar-${Date.now()}.${fileExt}`;
 
-      const { url: publicUrl } = await uploadFile({ bucket: "project-assets", path: fileName, file, upsert: true });
+      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "project-assets", path: fileName, file, upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      const publicUrl = uploadData!.publicUrl;
 
       if (isReference) {
         setReferenceImage(publicUrl);

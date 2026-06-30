@@ -133,9 +133,14 @@ export function ImageGeneratorDialog({
         const fileName = `${type}_cropped_${Date.now()}.png`;
         const file = new File([blob], fileName, { type: "image/png" });
 
-        const { url: publicUrl } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
+        const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
 
-        onGenerated(publicUrl);
+        if (uploadError) {
+          toast.error("Ошибка сохранения");
+          return;
+        }
+
+        onGenerated(uploadData!.publicUrl);
         onOpenChange(false);
         toast.success("Изображение сохранено!");
       }, "image/png");

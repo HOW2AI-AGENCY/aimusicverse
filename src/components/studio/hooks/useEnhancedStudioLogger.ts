@@ -5,6 +5,7 @@
 
 import { useCallback, useRef, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 
 const studioLogger = logger.child({ module: "Studio" });
@@ -67,6 +68,7 @@ interface StudioMetrics {
 }
 
 export function useEnhancedStudioLogger(trackId: string) {
+  const { user } = useAuth();
   const sessionIdRef = useRef<string | null>(null);
   const metricsRef = useRef<StudioMetrics>({
     sessionStart: Date.now(),
@@ -128,9 +130,6 @@ export function useEnhancedStudioLogger(trackId: string) {
       });
 
       try {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
         if (!user) return;
 
         // Log important actions to track_change_log

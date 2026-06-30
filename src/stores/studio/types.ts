@@ -98,6 +98,7 @@ export interface ViewSettings {
 
 export interface CreateProjectParams {
   name: string;
+  userId?: string;
   sourceTrackId?: string;
   sourceAudioUrl?: string;
   duration?: number;

@@ -60,11 +60,8 @@ export const useProjectStore = create<ProjectState>()(
        */
       createProject: async (params: CreateProjectParams) => {
         const projectId = generateId();
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
 
-        if (!user) {
+        if (!params.userId) {
           projectLogger.error("No authenticated user found");
           return null;
         }
@@ -73,7 +70,7 @@ export const useProjectStore = create<ProjectState>()(
 
         const project: StudioProject = {
           id: projectId,
-          userId: user.id,
+          userId: params.userId,
           sourceTrackId: params.sourceTrackId,
           name: params.name,
           description: undefined,

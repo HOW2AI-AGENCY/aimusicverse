@@ -294,7 +294,11 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
         try {
           const fileName = `${user?.id}/${Date.now()}-${recordingType}.webm`;
 
-          const { url: audioUrl } = await uploadFile({ bucket: "reference-audio", path: fileName, file: audioBlob });
+          const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "reference-audio", path: fileName, file: audioBlob });
+
+          if (uploadError) throw uploadError;
+
+          const audioUrl = uploadData!.publicUrl;
           const duration = recordingDuration;
 
           const typeLabels: Record<RecordingType, string> = {

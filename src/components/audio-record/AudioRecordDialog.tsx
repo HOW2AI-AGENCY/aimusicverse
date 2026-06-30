@@ -231,7 +231,11 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
       const actionLabel = action === "vocals" ? "vocal" : action === "instrumental" ? "inst" : action;
       const fileName = `recordings/${user.id}/rec_${actionLabel}_${dateStr}_${timeStr}.webm`;
 
-      const { url: publicUrl } = await uploadFile({ bucket: "audio", path: fileName, file: audioBlob });
+      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "audio", path: fileName, file: audioBlob });
+
+      if (uploadError) throw uploadError;
+
+      const publicUrl = uploadData!.publicUrl;
       const recordingTitle = `Запись ${action === "vocals" ? "вокала" : action === "instrumental" ? "инструментала" : ""} ${new Date().toLocaleDateString("ru-RU")}`;
 
       await processAudio(publicUrl, recordingTitle, action, duration, settings);
@@ -308,6 +312,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         // Create project with vocal track
         studioProjectId = await store.createProject({
           name: `Студия: ${title}`,
+          userId: user?.id,
           sourceAudioUrl: audioUrl,
           duration: audioDuration,
           tracks: [

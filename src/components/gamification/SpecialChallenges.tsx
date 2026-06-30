@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchTracks } from "@/api/tracks.api";
+import { getUserCredits } from "@/api/payments.api";
 import { Rocket, Crown, Gem, Zap, Lock, Gift, Timer } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { differenceInHours } from "@/lib/date-utils";
@@ -32,15 +34,10 @@ export function SpecialChallenges() {
       if (!user?.id) return null;
 
       // Get total tracks
-      const { count: totalTracks } = await supabase
-        .from("tracks")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id);
+      const { data: allUserTracks, count: totalTracks } = await fetchTracks({ userId: user.id });
 
       // Get total likes received
-      const { data: userTracks } = await supabase.from("tracks").select("id").eq("user_id", user.id);
-
-      const trackIds = userTracks?.map((t) => t.id) || [];
+      const trackIds = allUserTracks?.map((t) => t.id) || [];
       let totalLikes = 0;
 
       if (trackIds.length > 0) {
@@ -52,7 +49,7 @@ export function SpecialChallenges() {
       }
 
       // Get credits data
-      const { data: credits } = await supabase.from("user_credits").select("*").eq("user_id", user.id).single();
+      const { data: credits } = await getUserCredits(user.id);
 
       // Get artists count
       const { count: artistsCount } = await supabase
