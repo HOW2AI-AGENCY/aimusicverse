@@ -1,60 +1,160 @@
-# UI/UX Audit & Fix Plan
+# План: UX, плеер, синхронизированная лирика и панель деталей трека
 
-Focused on the issues you listed. Each section = audit finding + fix.
+Цель — довести ключевой пользовательский путь (открыл приложение → нашёл/создал трек → слушает в плеере с лирикой → изучает детали → делится) до уровня минималистичного, аккуратного и симметричного интерфейса. Без новой бизнес-логики — только UX, презентация и доводка существующего функционала.
 
-## 1. App flicker on load / auth redirects
-**Audit:** Root `Suspense` fallback and auth-gate render `null` or a spinner that swaps to layout → visible flash. `GlobalAudioProvider` also re-mounts on route change in some cases.
-**Fix:**
-- Add a stable `<AppBootSkeleton />` as Suspense fallback in `App.tsx` matching final layout (header + bottom-nav placeholders, same bg).
-- In `AuthGate` / protected routes, render `<PageSkeleton />` instead of `null` while `authLoading`.
-- Lock background color on `<html>`/`<body>` to `hsl(var(--background))` to avoid white flash before CSS hydrates.
+---
 
-## 2. Header alignment / safe-area regressions
-**Audit:** Several pages use ad-hoc headers instead of `MobileHeaderBar`; some apply `padding-top` twice (layout + page), causing oversized headers on Telegram. Title alignment inconsistent (left vs center).
-**Fix:**
-- Sweep `src/pages/**` and replace custom headers with `UnifiedScreenLayout` + `MobileHeaderBar`.
-- Remove duplicate safe-area padding from page-level wrappers; rely on `MainLayout`.
-- Standardize: back button left, title centered, max 2 action icons right, 56px height.
+## 1. Аудит пользовательских путей (User Journeys)
 
-## 3. Player timeline vs soundwave size mismatch
-**Audit:** Compact player progress bar and `WavesurferPlayer` use different heights/paddings; soundwave container has `min-h-[64px]` while timeline is 4px causing visual offset.
-**Fix:**
-- Unify into a single `<PlayerProgress />` primitive: 32px row containing waveform (24px) + time labels below. Use it in compact, expanded and fullscreen.
-- Align horizontal padding via `--player-gutter` token.
+Закрепляем 4 канонических сценария и фиксим разрывы:
 
-## 4. Cover images load slowly / pop-in
-**Audit:** Covers fetched at full size from Supabase storage without transform; no preload for current track; `LazyImage` shimmer flashes even for cached items.
-**Fix:**
-- Use Supabase storage `?width=` transform: 96px (list), 320px (player compact), 800px (fullscreen).
-- Add `<link rel="preload" as="image">` for current + next track cover via `usePrefetchTrackCovers` (already exists — extend `count` and include current).
-- Cache decoded covers in memory map keyed by url; skip shimmer if already in cache.
+1. **Первый запуск** → Home → Quick Create → Generation → Result Sheet → Player
+2. **Возвращение** → Home (с черновиком) → Library → Player → Lyrics → Details
+3. **Глубокая ссылка** → `/player/:id` → Fullscreen Player → Share
+4. **Студийный путь** → Library → "Edit in Studio" → Studio V2 → обратно в Player
 
-## 5. Fullscreen player overload → redesign
-**Audit:** `FullscreenPlayer` stacks cover, title, waveform, lyrics toggle, queue, 8+ action buttons, share row — too dense, no clear hierarchy.
-**Fix (structural, not visual brief):**
-- 3-zone layout: top (cover + meta), middle (waveform + transport), bottom (collapsible action drawer with secondary actions behind a "More" sheet).
-- Reduce primary surface to: prev / play / next / like / lyrics. Move stems, share, version switcher, queue, download, edit into bottom sheet.
-- Lyrics becomes an overlay panel, not a stacked section.
-- (If you want full visual redesign with rendered options, I can run a design-directions pass on a screenshot in a follow-up.)
+Действия:
+- Карта переходов и точек «трения» (лишние клики, перегруженные экраны)
+- Унификация заголовков и back-кнопок через `UnifiedPageHeader` / `MobileHeaderBar`
+- Единый шаблон пустых состояний (skeleton + CTA), единые toast'ы
+- Сквозной prefetch: при наведении/тапе на трек — предзагрузка обложки и аудио
 
-## 6. Home page spacing / asymmetry
-**Audit:** Sections (`TrackPresetsRow`, `LyricsPresetsRow`, `ProjectPresetsCarousel`, quick actions) use mixed `px-4`, `px-6`, `gap-3`, `gap-6`. Carousels bleed right but have left padding → asymmetric.
-**Fix:**
-- Introduce `--page-gutter: 16px` token; all home sections use `px-[var(--page-gutter)]`.
-- Carousels: negative-margin trick `-mx-[var(--page-gutter)] px-[var(--page-gutter)]` so first/last items align with section titles.
-- Unify vertical rhythm: `space-y-6` between sections, `mb-3` between section title and content.
+---
 
-## 7. Verification
-- `tsgo` + `vite build`.
-- Playwright smoke on `/`, `/library`, `/projects`, `/player/:id` at 360×720 and 424×783: assert no `ErrorBoundary` fallback, no console errors, screenshot each.
-- Visual diff against current screenshots for home and fullscreen player.
+## 2. Редизайн плеера (главный фокус)
 
-## Technical details
-- Files touched: `src/App.tsx`, `src/components/MainLayout.tsx`, `src/components/AuthGate.tsx`, `src/components/player/{CompactPlayer,FullscreenPlayer,MobileFullscreenPlayer}.tsx`, new `src/components/player/PlayerProgress.tsx`, `src/components/ui/lazy-image.tsx`, `src/hooks/audio/usePrefetchTrackCovers.ts`, `src/components/home/*`, `src/pages/{Index,Library,Projects,Community,Profile}.tsx`, `src/styles/tokens.css` (new `--page-gutter`, `--player-gutter`).
-- No backend / schema changes.
-- No new dependencies.
+Сейчас `MobileFullscreenPlayer.tsx` — 862 строки, перегружен (визуализатор, караоке, очередь, жесты, версии). Разбираем на **3 чистых режима** с единым визуальным языком.
 
-## Out of scope (ask if you want included)
-- Full visual redesign of fullscreen player (needs design-directions round).
-- Dark/light theme token overhaul.
-- Bottom navigation redesign.
+### 2.1 Компактный плеер (CompactPlayer)
+- Высота 64px, симметричные паддинги 12px
+- Сетка: `[48 cover] [1fr meta] [40 play] [40 menu]`
+- Тонкий прогресс-бар сверху (2px, без отступов)
+- Тап по обложке/мете → expand; кнопки изолированы
+
+### 2.2 Fullscreen Player (мобайл)
+Новая компоновка, 3 «страницы» по горизонтальному свайпу:
+
+```text
+[ Cover ]  ⇄  [ Lyrics ]  ⇄  [ Details ]
+```
+
+Общий каркас (вертикально, симметрия 16px по бокам):
+```text
+┌────────────────────────────┐
+│ 44  · · ·  44   (header)   │  close / page-dots / queue
+├────────────────────────────┤
+│                            │
+│        активная страница   │  1fr, swipeable
+│                            │
+├────────────────────────────┤
+│   PlayerProgress (unified) │  timeline + waveform, 48px
+├────────────────────────────┤
+│   ◁◁   ▷    ⏯    ▷   ▷▷   │  transport 72px
+├────────────────────────────┤
+│   ♡   ⤴   💬   ⋯           │  actions 56px
+└────────────────────────────┘
+```
+
+- Удаляем визуализатор по умолчанию, оставляем как опцию в «⋯»
+- Жесты: вниз = закрыть, горизонталь = смена страницы (не трека); смена трека только кнопками/из очереди
+- Все элементы фиксированных размеров → нет «прыжков»
+
+### 2.3 Технический разбор файла
+- `MobileFullscreenPlayer.tsx` → 3 файла:
+  - `FullscreenShell.tsx` (каркас, жесты, header/footer)
+  - `FullscreenPages.tsx` (Cover / Lyrics / Details — lazy)
+  - `useFullscreenGestures.ts`
+- Сохраняем `PlayerProgress`, `UnifiedPlayerControls`, `PlayerActionsBar`
+
+---
+
+## 3. Синхронизированная лирика с подсветкой
+
+Использует `useTimestampedLyrics` + `useLyricsSynchronization` + `SynchronizedWord` — функционал есть, нужен UX-полишинг.
+
+### 3.1 Визуал
+- **Auto-scroll**: активная строка фиксируется в центре (40% сверху на мобайле)
+- **Подсветка слов**: текущее слово — `text-foreground`, прошедшие — `text-foreground/40`, будущие — `text-foreground/70`
+- **Активная строка**: лёгкий scale 1.02 + увеличенный вес шрифта, без рамок/фонов
+- Шрифт: 20px / line-height 1.5, центр; на десктопе 28px
+- Отступы между строками 12px, между секциями ([Verse], [Chorus]) — 24px и тонкий лейбл секции `text-muted-foreground/60 text-xs uppercase tracking-wider`
+
+### 3.2 Взаимодействие
+- Тап по строке → seek на её timestamp + haptic
+- Long-press по строке → меню (скопировать, поделиться куплетом)
+- Кнопка «Karaoke mode» в header страницы лирики — крупный текст по одному слову
+- Если timestamps недоступны — показываем `StructuredLyricsDisplay` (без подсветки, но со скроллом)
+
+### 3.3 Состояния
+- Loading: shimmer-строки одинаковой высоты (без layout shift)
+- Empty: иконка `Mic2` + «Лирика недоступна для этого трека»
+- Error: тихий fallback на статичный текст
+
+---
+
+## 4. Панель деталей трека (Track Details)
+
+Третья «страница» fullscreen-плеера и одновременно отдельный bottom-sheet из меню «⋯».
+
+Содержимое (вертикальный стек, секции с разделителями `border-t border-border/40`):
+
+1. **Заголовок**: название, исполнитель, длительность, дата — выровнено по левому краю, симметричные 16px
+2. **Версии (A/B)**: `VersionSwitcher` — таб-пилюли, активная подсвечена `bg-primary/10`
+3. **Метаданные**: жанр, BPM, ключ, модель Suno — сетка 2×N, label сверху мелким, value крупнее
+4. **Стемы**: горизонтальный список чипов (если есть) → открывает Studio
+5. **Действия**: симметричная сетка 2×2 — Like, Add to Playlist, Share, Download
+6. **Проект**: ссылка на родительский проект (если есть)
+7. **Комментарии**: первые 3 + «Показать все»
+
+Единые токены: spacing 16px, радиусы `rounded-2xl`, тени `shadow-sm`, фон `bg-card/60 backdrop-blur`.
+
+---
+
+## 5. Дизайн-система и симметрия
+
+- Аудит токенов: все плеерные компоненты используют только `src/lib/design-tokens.ts` и `src/lib/glass.ts`
+- Запрет хардкод-цветов (`bg-black/50`, `text-white`) — замена на семантику
+- Сетка отступов: 4/8/12/16/24 — никаких произвольных
+- Иконки: только `lucide-react` через `@/lib/icons`, размер 20/24
+- Touch-targets ≥ 44×44
+
+---
+
+## 6. Производительность и отзывчивость
+
+- Lazy: `LyricsPage`, `DetailsPage`, `KaraokeView`, `QueueSheet`, `FullscreenVisualizer`
+- Prefetch обложки следующего трека через `usePrefetchTrackCovers` (уже есть) + `img.decode()`
+- `requestAnimationFrame` для скролла лирики, throttle 16ms
+- Кэш `useTimestampedLyrics` через `lyricsCache` (уже есть) — оставить
+- Бюджет: первая отрисовка fullscreen < 200ms, переключение страниц < 100ms
+
+---
+
+## 7. Проверка и тесты
+
+- Playwright: новые сценарии — открыть fullscreen, свайп Cover→Lyrics→Details, тап по строке = seek
+- Visual regression: 360 / 424 / 768 / 1440, портрет/ландшафт
+- Скриншоты для трёх страниц fullscreen и компактного плеера
+- Axe: контраст подсветки слов AA на тёмном фоне
+- Smoke: `/`, `/library`, `/player/:id`, `/projects` — 0 JS errors, 0 layout shifts
+
+---
+
+## 8. Этапы реализации
+
+1. **Каркас**: разбить `MobileFullscreenPlayer` на `Shell` + `Pages`, ввести горизонтальный pager
+2. **Cover page**: симметричная компоновка, унификация прогресса/контролов
+3. **Lyrics page**: новый layout строк, auto-scroll, tap-to-seek, состояния
+4. **Details page**: секции, версии, метаданные, действия
+5. **CompactPlayer**: подгон под новую сетку и токены
+6. **Тесты + визуальная регрессия + типчек + build**
+
+---
+
+## Технические заметки
+
+- Все изменения — frontend/presentation. Никаких миграций БД и правок Edge Functions
+- Не трогаем `GlobalAudioProvider`, `usePlayerStore`, API слой
+- Использовать существующие хуки: `useTimestampedLyrics`, `useLyricsSynchronization`, `useParsedLyrics`, `useGlobalAudioPlayer`
+- Заголовки и safe-area через уже выстроенные `UnifiedScreenLayout` / `useTelegramSafeArea`
+- Файлы > 500 строк дробить согласно конвенции репо
