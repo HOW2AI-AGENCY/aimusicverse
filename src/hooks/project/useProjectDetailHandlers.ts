@@ -5,7 +5,8 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { DropResult } from "@hello-pangea/dnd";
+import { type DragEndEvent } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
@@ -67,14 +68,16 @@ export function useProjectDetailHandlers({
 
   // Drag and drop reorder
   const handleDragEnd = useCallback(
-    (result: DropResult) => {
-      if (!result.destination || !tracks) return;
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (!over || active.id === over.id || !tracks) return;
 
-      const items = Array.from(tracks);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
+      const oldIndex = tracks.findIndex((t) => t.id === String(active.id));
+      const newIndex = tracks.findIndex((t) => t.id === String(over.id));
+      if (oldIndex === -1 || newIndex === -1) return;
 
-      const updates = items.map((track, index) => ({
+      const reordered = arrayMove(tracks, oldIndex, newIndex);
+      const updates = reordered.map((track, index) => ({
         id: track.id,
         position: index + 1,
       }));

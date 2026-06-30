@@ -33,7 +33,16 @@ import { ProjectLyricsTab } from "@/components/project/ProjectLyricsTab";
 import { MobileQuickActionsGrid } from "@/components/project/detail/MobileQuickActionsGrid";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { SEOHead } from "@/components/SEOHead";
@@ -610,13 +619,38 @@ function QuickActionsBar({
   );
 }
 
+interface SortableProjectTrackProps {
+  track: NonNullable<ReturnType<typeof useProjectDetailData>["tracks"]>[number];
+  onGenerate: () => void;
+  onOpenLyrics: () => void;
+  onOpenLyricsWizard: () => void;
+}
+
+function SortableProjectTrack({ track, onGenerate, onOpenLyrics, onOpenLyricsWizard }: SortableProjectTrackProps) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id: track.id });
+  const style = transform ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` } : undefined;
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <MinimalProjectTrackItem
+        track={track}
+        dragHandleProps={{ ...listeners, ...attributes }}
+        isDragging={isDragging}
+        onGenerate={onGenerate}
+        onOpenLyrics={onOpenLyrics}
+        onOpenLyricsWizard={onOpenLyricsWizard}
+      />
+    </div>
+  );
+}
+
 interface TracksTabContentProps {
   projectId: string;
   tracks: ReturnType<typeof useProjectDetailData>["tracks"];
   tracksLoading: boolean;
   isGenerating: boolean;
   isMobile: boolean;
-  onDragEnd: (result: any) => void;
+  onDragEnd: (event: DragEndEvent) => void;
   onGenerate: (track: any) => void;
   onOpenLyrics: (track: any) => void;
   onOpenLyricsWizard: (track: any) => void;
@@ -637,6 +671,8 @@ function TracksTabContent({
   onAddTrack,
   onGenerateTracklist,
 }: TracksTabContentProps) {
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
+
   return (
     <div className={cn(isMobile ? "px-3" : "px-4")}>
       {tracksLoading ? (
@@ -644,31 +680,21 @@ function TracksTabContent({
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary" />
         </div>
       ) : tracks && tracks.length > 0 ? (
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="project-tracks">
-            {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-2">
-                {tracks.map((track, index) => (
-                  <Draggable key={track.id} draggableId={track.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div ref={provided.innerRef} {...(provided.draggableProps as any)}>
-                        <MinimalProjectTrackItem
-                          track={track}
-                          dragHandleProps={provided.dragHandleProps}
-                          isDragging={snapshot.isDragging}
-                          onGenerate={() => onGenerate(track)}
-                          onOpenLyrics={() => onOpenLyrics(track)}
-                          onOpenLyricsWizard={() => onOpenLyricsWizard(track)}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+          <SortableContext items={tracks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
+            <div className="space-y-2">
+              {tracks.map((track) => (
+                <SortableProjectTrack
+                  key={track.id}
+                  track={track}
+                  onGenerate={() => onGenerate(track)}
+                  onOpenLyrics={() => onOpenLyrics(track)}
+                  onOpenLyricsWizard={() => onOpenLyricsWizard(track)}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
       ) : (
         <div className="text-center py-12">
           <Music className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />

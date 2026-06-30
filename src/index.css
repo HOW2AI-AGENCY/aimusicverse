@@ -2303,6 +2303,43 @@ select:focus-visible,
   .hairline {
     border-color: hsl(var(--border) / 0.6);
   }
+
+  /* Elevation system (T038-22) — named shadow scale, dark-mode aware */
+  .elevation-0 {
+    box-shadow: none;
+  }
+  .elevation-1 {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+  .elevation-2 {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+  .elevation-3 {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16), 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .elevation-4 {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.12);
+  }
+  .dark .elevation-1 {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  .dark .elevation-2 {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.25);
+  }
+  .dark .elevation-3 {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  .dark .elevation-4 {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Glass surface — used with elevation utilities */
+  .glass-surface {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: hsla(var(--glass-bg));
+    border: 1px solid hsl(var(--glass-border));
+  }
 }
 
 /* =========================================

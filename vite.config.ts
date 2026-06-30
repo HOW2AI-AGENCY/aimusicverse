@@ -213,7 +213,7 @@ export default defineConfig(({ mode }) => ({
               return "vendor-supabase";
             }
             // DnD
-            if (id.includes("@dnd-kit") || id.includes("@hello-pangea/dnd")) {
+            if (id.includes("@dnd-kit")) {
               return "vendor-dnd";
             }
             // Forms

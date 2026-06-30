@@ -1,5 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
-import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -255,6 +264,198 @@ function getCleanCharCount(text: string): number {
     .trim().length;
 }
 
+interface SortableLyricSectionProps {
+  section: LyricSection;
+  index: number;
+  isEditing: boolean;
+  onSetEditing: (id: string | null) => void;
+  onSaveEdit: (id: string) => void;
+  onUpdateSection: (id: string, content: string) => void;
+  onUpdateSectionTags: (id: string, tags: string[]) => void;
+  onDeleteSection: (id: string) => void;
+  onDuplicateSection: (id: string) => void;
+  onVoiceInput: (id: string, text: string) => void;
+  getSectionConfig: (type: string) => (typeof SECTION_TYPES)[number];
+}
+
+function SortableLyricSection({
+  section,
+  index,
+  isEditing,
+  onSetEditing,
+  onSaveEdit,
+  onUpdateSection,
+  onUpdateSectionTags,
+  onDeleteSection,
+  onDuplicateSection,
+  onVoiceInput,
+  getSectionConfig,
+}: SortableLyricSectionProps) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id: section.id });
+  const style = transform ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` } : undefined;
+
+  const config = getSectionConfig(section.type);
+  const charCount = getCleanCharCount(section.content);
+  const lineCount = section.content.split("\n").filter((l) => l.trim()).length;
+  const isOptimalLength = charCount >= 50 && charCount <= 200;
+
+  return (
+    <div
+      id={`section-${section.id}`}
+      ref={setNodeRef}
+      style={style}
+      className={cn(
+        "rounded-xl border-2 overflow-hidden transition-all",
+        isDragging
+          ? "shadow-2xl scale-[1.02] border-primary rotate-1"
+          : "border-border/30 hover:border-border/50 shadow-sm",
+        `bg-gradient-to-br ${config.gradient} backdrop-blur-sm`,
+      )}
+    >
+      {/* Section Header */}
+      <div className="flex items-center gap-2 px-3 py-2.5 bg-background/40 backdrop-blur-sm border-b border-border/30">
+        <div {...listeners} {...attributes} className="cursor-grab active:cursor-grabbing touch-none">
+          <GripVertical className="w-4 h-4 text-muted-foreground/50 hover:text-muted-foreground transition-colors" />
+        </div>
+
+        <Badge variant="outline" className={cn("border-2 text-xs font-semibold shadow-sm", config.color)}>
+          <span className="mr-1.5">{config.icon}</span>
+          {config.label} {index + 1}
+        </Badge>
+
+        {/* Character count indicator */}
+        <div className="flex items-center gap-1.5 ml-2">
+          <span
+            className={cn(
+              "text-xs font-medium tabular-nums",
+              isOptimalLength ? "text-emerald-500" : "text-muted-foreground",
+            )}
+          >
+            {charCount}
+          </span>
+          {charCount > 0 && (
+            <div className="w-12 h-1 bg-muted rounded-full overflow-hidden">
+              <div
+                className={cn("h-full transition-all rounded-full", isOptimalLength ? "bg-emerald-500" : "bg-primary")}
+                style={{ width: `${Math.min((charCount / 200) * 100, 100)}%` }}
+              />
+            </div>
+          )}
+        </div>
+
+        <div className="flex-1" />
+
+        <div className="flex items-center gap-1">
+          {isEditing ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 min-w-[44px] min-h-[44px] text-emerald-500 hover:text-emerald-600 hover:bg-emerald-500/10"
+              onClick={() => onSaveEdit(section.id)}
+            >
+              <Check className="w-4 h-4" />
+            </Button>
+          ) : (
+            <>
+              <VoiceInputButton
+                onResult={(text) => onVoiceInput(section.id, text)}
+                context="lyrics"
+                size="icon"
+                className="h-8 w-8 min-w-[44px] min-h-[44px]"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 min-w-[44px] min-h-[44px] hover:bg-primary/10"
+                onClick={() => onSetEditing(section.id)}
+              >
+                <Edit2 className="w-4 h-4" />
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 min-w-[44px] min-h-[44px] hover:bg-primary/10"
+                onClick={() => onDuplicateSection(section.id)}
+                title="Дублировать секцию"
+              >
+                <Copy className="w-4 h-4" />
+              </Button>
+            </>
+          )}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 min-w-[44px] min-h-[44px] text-destructive hover:text-destructive hover:bg-destructive/10"
+            onClick={() => onDeleteSection(section.id)}
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-4 space-y-3">
+        {isEditing ? (
+          <div className="space-y-2">
+            <Textarea
+              value={section.content}
+              onChange={(e) => onUpdateSection(section.id, e.target.value)}
+              placeholder="Введите текст секции..."
+              rows={6}
+              className="resize-none text-sm bg-background/50 border-border/40 focus:border-primary/50 font-mono leading-relaxed"
+              autoFocus
+              onBlur={() => onSaveEdit(section.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") onSaveEdit(section.id);
+              }}
+            />
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">
+                {lineCount} {lineCount === 1 ? "строка" : lineCount < 5 ? "строки" : "строк"}
+              </span>
+              <span className={cn("font-medium", isOptimalLength ? "text-emerald-500" : "text-muted-foreground")}>
+                {isOptimalLength && "✓ "}
+                {charCount} / 200 символов
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div
+            className={cn(
+              "text-sm whitespace-pre-wrap cursor-pointer rounded-lg p-3 transition-all min-h-[80px] font-mono leading-relaxed",
+              section.content
+                ? "hover:bg-background/40 bg-background/20 border border-border/20"
+                : "bg-background/10 border-2 border-dashed border-border/30",
+            )}
+            onClick={() => onSetEditing(section.id)}
+          >
+            {section.content || (
+              <span className="text-muted-foreground/60 italic flex items-center gap-2 justify-center h-full">
+                <Edit2 className="w-4 h-4" />
+                Нажмите для ввода текста...
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Tags Section */}
+        <div className="pt-2 border-t border-border/20">
+          <SectionTagSelector
+            selectedTags={section.tags || []}
+            onChange={(tags) => onUpdateSectionTags(section.id, tags)}
+            sectionName={config.label}
+            compact={true}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisualEditorProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -286,15 +487,19 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
     };
   }, [sections]);
 
-  const handleDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
 
-    const items = Array.from(sections);
-    const [reordered] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reordered);
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-    setSections(items);
-    onChange(sectionsToLyrics(items));
+    const oldIndex = sections.findIndex((s) => s.id === String(active.id));
+    const newIndex = sections.findIndex((s) => s.id === String(over.id));
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    const reordered = arrayMove(sections, oldIndex, newIndex);
+    setSections(reordered);
+    onChange(sectionsToLyrics(reordered));
     toast.success("Секция перемещена");
   };
 
@@ -502,198 +707,28 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
       {/* Sections List */}
       <ScrollArea className="max-h-[500px]">
         {sections.length > 0 ? (
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="lyrics-sections">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3 pr-2">
-                  {sections.map((section, index) => {
-                    const config = getSectionConfig(section.type);
-                    const isEditing = editingId === section.id;
-                    const charCount = getCleanCharCount(section.content);
-                    const lineCount = section.content.split("\n").filter((l) => l.trim()).length;
-                    const isOptimalLength = charCount >= 50 && charCount <= 200;
-
-                    return (
-                      <Draggable key={section.id} draggableId={section.id} index={index}>
-                        {(provided, snapshot) => (
-                          <div
-                            id={`section-${section.id}`}
-                            ref={provided.innerRef}
-                            {...(provided.draggableProps as any)}
-                            className={cn(
-                              "rounded-xl border-2 overflow-hidden transition-all",
-                              snapshot.isDragging
-                                ? "shadow-2xl scale-[1.02] border-primary rotate-1"
-                                : "border-border/30 hover:border-border/50 shadow-sm",
-                              `bg-gradient-to-br ${config.gradient} backdrop-blur-sm`,
-                            )}
-                          >
-                            {/* Section Header */}
-                            <div className="flex items-center gap-2 px-3 py-2.5 bg-background/40 backdrop-blur-sm border-b border-border/30">
-                              <div
-                                {...provided.dragHandleProps}
-                                className="cursor-grab active:cursor-grabbing touch-none"
-                              >
-                                <GripVertical className="w-4 h-4 text-muted-foreground/50 hover:text-muted-foreground transition-colors" />
-                              </div>
-
-                              <Badge
-                                variant="outline"
-                                className={cn("border-2 text-xs font-semibold shadow-sm", config.color)}
-                              >
-                                <span className="mr-1.5">{config.icon}</span>
-                                {config.label} {index + 1}
-                              </Badge>
-
-                              {/* Character count indicator */}
-                              <div className="flex items-center gap-1.5 ml-2">
-                                <span
-                                  className={cn(
-                                    "text-xs font-medium tabular-nums",
-                                    isOptimalLength ? "text-emerald-500" : "text-muted-foreground",
-                                  )}
-                                >
-                                  {charCount}
-                                </span>
-                                {charCount > 0 && (
-                                  <div className="w-12 h-1 bg-muted rounded-full overflow-hidden">
-                                    <div
-                                      className={cn(
-                                        "h-full transition-all rounded-full",
-                                        isOptimalLength ? "bg-emerald-500" : "bg-primary",
-                                      )}
-                                      style={{ width: `${Math.min((charCount / 200) * 100, 100)}%` }}
-                                    />
-                                  </div>
-                                )}
-                              </div>
-
-                              <div className="flex-1" />
-
-                              <div className="flex items-center gap-1">
-                                {isEditing ? (
-                                  <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8 min-w-[44px] min-h-[44px] text-emerald-500 hover:text-emerald-600 hover:bg-emerald-500/10"
-                                    onClick={() => handleSaveEdit(section.id)}
-                                  >
-                                    <Check className="w-4 h-4" />
-                                  </Button>
-                                ) : (
-                                  <>
-                                    <VoiceInputButton
-                                      onResult={(text) => handleVoiceInput(section.id, text)}
-                                      context="lyrics"
-                                      size="icon"
-                                      className="h-8 w-8 min-w-[44px] min-h-[44px]"
-                                    />
-                                    <Button
-                                      type="button"
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-8 w-8 min-w-[44px] min-h-[44px] hover:bg-primary/10"
-                                      onClick={() => setEditingId(section.id)}
-                                    >
-                                      <Edit2 className="w-4 h-4" />
-                                    </Button>
-                                    <Button
-                                      type="button"
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-8 w-8 min-w-[44px] min-h-[44px] hover:bg-primary/10"
-                                      onClick={() => handleDuplicateSection(section.id)}
-                                      title="Дублировать секцию"
-                                    >
-                                      <Copy className="w-4 h-4" />
-                                    </Button>
-                                  </>
-                                )}
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8 min-w-[44px] min-h-[44px] text-destructive hover:text-destructive hover:bg-destructive/10"
-                                  onClick={() => handleDeleteSection(section.id)}
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </Button>
-                              </div>
-                            </div>
-
-                            {/* Content */}
-                            <div className="p-4 space-y-3">
-                              {isEditing ? (
-                                <div className="space-y-2">
-                                  <Textarea
-                                    value={section.content}
-                                    onChange={(e) => handleUpdateSection(section.id, e.target.value)}
-                                    placeholder="Введите текст секции..."
-                                    rows={6}
-                                    className="resize-none text-sm bg-background/50 border-border/40 focus:border-primary/50 font-mono leading-relaxed"
-                                    autoFocus
-                                    onBlur={() => handleSaveEdit(section.id)}
-                                    onKeyDown={(e) => {
-                                      if (e.key === "Escape") {
-                                        handleSaveEdit(section.id);
-                                      }
-                                    }}
-                                  />
-                                  <div className="flex items-center justify-between text-xs">
-                                    <span className="text-muted-foreground">
-                                      {lineCount} {lineCount === 1 ? "строка" : lineCount < 5 ? "строки" : "строк"}
-                                    </span>
-                                    <span
-                                      className={cn(
-                                        "font-medium",
-                                        isOptimalLength ? "text-emerald-500" : "text-muted-foreground",
-                                      )}
-                                    >
-                                      {isOptimalLength && "✓ "}
-                                      {charCount} / 200 символов
-                                    </span>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div
-                                  className={cn(
-                                    "text-sm whitespace-pre-wrap cursor-pointer rounded-lg p-3 transition-all min-h-[80px] font-mono leading-relaxed",
-                                    section.content
-                                      ? "hover:bg-background/40 bg-background/20 border border-border/20"
-                                      : "bg-background/10 border-2 border-dashed border-border/30",
-                                  )}
-                                  onClick={() => setEditingId(section.id)}
-                                >
-                                  {section.content || (
-                                    <span className="text-muted-foreground/60 italic flex items-center gap-2 justify-center h-full">
-                                      <Edit2 className="w-4 h-4" />
-                                      Нажмите для ввода текста...
-                                    </span>
-                                  )}
-                                </div>
-                              )}
-
-                              {/* Tags Section */}
-                              <div className="pt-2 border-t border-border/20">
-                                <SectionTagSelector
-                                  selectedTags={section.tags || []}
-                                  onChange={(tags) => handleUpdateSectionTags(section.id, tags)}
-                                  sectionName={config.label}
-                                  compact={true}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={sections.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+              <div className="space-y-3 pr-2">
+                {sections.map((section, index) => (
+                  <SortableLyricSection
+                    key={section.id}
+                    section={section}
+                    index={index}
+                    isEditing={editingId === section.id}
+                    onSetEditing={setEditingId}
+                    onSaveEdit={handleSaveEdit}
+                    onUpdateSection={handleUpdateSection}
+                    onUpdateSectionTags={handleUpdateSectionTags}
+                    onDeleteSection={handleDeleteSection}
+                    onDuplicateSection={handleDuplicateSection}
+                    onVoiceInput={handleVoiceInput}
+                    getSectionConfig={getSectionConfig}
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
         ) : (
           <div className="rounded-2xl border-2 border-dashed border-border/40 bg-gradient-to-br from-muted/30 to-muted/10 p-12 text-center">
             <div className="max-w-md mx-auto space-y-4">

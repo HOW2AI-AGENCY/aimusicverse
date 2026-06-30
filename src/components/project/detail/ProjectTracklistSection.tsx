@@ -5,7 +5,16 @@
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Music, Plus, Sparkles } from "@/lib/icons";
-import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { MinimalProjectTrackItem } from "@/components/project/MinimalProjectTrackItem";
 import { UnlinkedTracksSection } from "@/components/project/UnlinkedTracksSection";
 import { cn } from "@/lib/utils";
@@ -16,13 +25,38 @@ interface ProjectTracklistSectionProps {
   tracks: ProjectTrack[] | undefined;
   isLoading: boolean;
   isGenerating: boolean;
-  onDragEnd: (result: DropResult) => void;
+  onDragEnd: (event: DragEndEvent) => void;
   onGenerateFromPlan: (track: ProjectTrack) => void;
   onOpenLyrics: (track: ProjectTrack) => void;
   onOpenLyricsWizard: (track: ProjectTrack) => void;
   onAddTrack: () => void;
   onGenerateTracklist: () => void;
   isMobile?: boolean;
+}
+
+interface SortableTrackItemProps {
+  track: ProjectTrack;
+  onGenerate: () => void;
+  onOpenLyrics: () => void;
+  onOpenLyricsWizard: () => void;
+}
+
+function SortableTrackItem({ track, onGenerate, onOpenLyrics, onOpenLyricsWizard }: SortableTrackItemProps) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id: track.id });
+  const style = transform ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` } : undefined;
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <MinimalProjectTrackItem
+        track={track}
+        dragHandleProps={{ ...listeners, ...attributes }}
+        isDragging={isDragging}
+        onGenerate={onGenerate}
+        onOpenLyrics={onOpenLyrics}
+        onOpenLyricsWizard={onOpenLyricsWizard}
+      />
+    </div>
+  );
 }
 
 export const ProjectTracklistSection = memo(function ProjectTracklistSection({
@@ -38,6 +72,8 @@ export const ProjectTracklistSection = memo(function ProjectTracklistSection({
   onGenerateTracklist,
   isMobile = false,
 }: ProjectTracklistSectionProps) {
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
+
   if (isLoading) {
     return (
       <div className={cn("flex items-center justify-center py-12", isMobile ? "px-3" : "px-4")}>
@@ -67,31 +103,21 @@ export const ProjectTracklistSection = memo(function ProjectTracklistSection({
 
   return (
     <div className={cn(isMobile ? "px-3" : "px-4")}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="project-tracks">
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-2">
-              {tracks.map((track, index) => (
-                <Draggable key={track.id} draggableId={track.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div ref={provided.innerRef} {...(provided.draggableProps as any)}>
-                      <MinimalProjectTrackItem
-                        track={track}
-                        dragHandleProps={provided.dragHandleProps}
-                        isDragging={snapshot.isDragging}
-                        onGenerate={() => onGenerateFromPlan(track)}
-                        onOpenLyrics={() => onOpenLyrics(track)}
-                        onOpenLyricsWizard={() => onOpenLyricsWizard(track)}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+        <SortableContext items={tracks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
+          <div className="space-y-2">
+            {tracks.map((track) => (
+              <SortableTrackItem
+                key={track.id}
+                track={track}
+                onGenerate={() => onGenerateFromPlan(track)}
+                onOpenLyrics={() => onOpenLyrics(track)}
+                onOpenLyricsWizard={() => onOpenLyricsWizard(track)}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
 
       {/* Unlinked Tracks Section */}
       <div className="mt-4">
