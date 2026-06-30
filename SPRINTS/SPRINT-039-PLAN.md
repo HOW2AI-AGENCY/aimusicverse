@@ -12,6 +12,7 @@
 После аудита 2026-06-28 выявлены критические проблемы архитектуры (оценка 6.1/10), которые не были устранены в Sprint 035-038 из-за приоритизации UX/Design задач. Sprint 039 полностью посвящён устранению этих долгов.
 
 **Состояние входа:**
+
 - 🔴 60+ компонентов вызывают `supabase.from()` напрямую, минуя API-слой
 - ✅ `useGenerateForm.ts` — **280 строк** (уже разбит: useGenerateFormSubmit, useGenerateFormDraft, useGenerateFormValidation, useGenerateDraft — **039-06 DONE до старта спринта**)
 - 🔴 `GlobalAudioProvider.tsx` — 982 строки (god-компонент)
@@ -22,6 +23,7 @@
 - 🟠 Бандл 918/950 КБ, запас 32 КБ
 
 **Ожидаемое состояние выхода:**
+
 - ✅ 0 компонентов с прямым `supabase.from()`
 - ✅ 0 файлов >1000 строк
 - ✅ `any` <50 (с 615)
@@ -32,12 +34,12 @@
 
 ## Сводка
 
-| Фаза                        | Дни   | Задач | SP  | Бюджет |
-| --------------------------- | ----- | ----- | --- | ------ |
-| A: Layer Architecture       | 1-5   | 5     | 15  | ~40h   |
-| B: God-компоненты + Bundle  | 6-10  | 4     | 13  | ~35h   |
-| C: Type Safety + E2E Green  | 11-15 | 5     | 12  | ~30h   |
-| **Итого**                   | **15**| **14**|**40**|**~105h**|
+| Фаза                       | Дни    | Задач  | SP     | Бюджет    |
+| -------------------------- | ------ | ------ | ------ | --------- |
+| A: Layer Architecture      | 1-5    | 5      | 15     | ~40h      |
+| B: God-компоненты + Bundle | 6-10   | 4      | 13     | ~35h      |
+| C: Type Safety + E2E Green | 11-15  | 5      | 12     | ~30h      |
+| **Итого**                  | **15** | **14** | **40** | **~105h** |
 
 ---
 
@@ -54,12 +56,13 @@
 | 039-01 | **Layer audit: grep все прямые Supabase-вызовы**      | ✅ DONE | 1   | —           |
 | 039-02 | **Вынести Supabase из UI-компонентов (batch 1: 15+)** | ✅ DONE | 5   | 039-01      |
 | 039-03 | **Вынести Supabase из UI-компонентов (batch 2: 15+)** | ✅ DONE | 5   | 039-02      |
-| 039-04 | **Generic undo/redo Zustand middleware**               | 🔴 OPEN | 3   | —           |
-| 039-05 | **Убрать побочные эффекты из lyricsWizardStore**       | 🔴 OPEN | 1   | —           |
+| 039-04 | **Generic undo/redo Zustand middleware**              | ✅ DONE | 3   | —           |
+| 039-05 | **Убрать побочные эффекты из lyricsWizardStore**      | ✅ DONE | 1   | —           |
 
 ### 039-01: Layer Audit
 
 **Команда:**
+
 ```bash
 grep -rn "supabase\.from\|supabase\.rpc\|supabase\.auth\|supabase\.storage" \
   src/components/ src/pages/ src/stores/ \
@@ -67,6 +70,7 @@ grep -rn "supabase\.from\|supabase\.rpc\|supabase\.auth\|supabase\.storage" \
 ```
 
 **Ожидаемые файлы-нарушители (из аудита):**
+
 - `UnifiedVersionSelector.tsx` — прямой select из `track_versions`
 - `EditableTrackTitle.tsx` — update в `tracks`
 - `GlobalGenerationIndicator.tsx` — realtime subscriptions
@@ -77,16 +81,17 @@ grep -rn "supabase\.from\|supabase\.rpc\|supabase\.auth\|supabase\.storage" \
 - 23+ других компонента
 
 **Критерии:**
+
 - [ ] Список всех нарушений задокументирован в `docs/LAYER_VIOLATIONS.md`
 - [ ] Оценка времени для каждого нарушения
 
 ### 039-02 + 039-03: Layer Fixes
 
 **Паттерн исправления:**
+
 ```typescript
 // ❌ До: компонент напрямую
-const { data } = await supabase.from("track_versions")
-  .select("*").eq("track_id", trackId);
+const { data } = await supabase.from("track_versions").select("*").eq("track_id", trackId);
 
 // ✅ После: через API-слой
 import { getTrackVersions } from "@/api/tracks.api";
@@ -97,6 +102,7 @@ const { data } = await getTrackVersions(trackId);
 **Batch 2 (039-03):** Компоненты с write-операциями (insert, update, delete, realtime)
 
 **Критерии:**
+
 - [ ] `grep -rn "supabase\.from" src/components/ src/pages/ src/stores/` → 0 результатов
 - [ ] Все существующие тесты проходят
 - [ ] `npm run build` без ошибок
@@ -104,20 +110,23 @@ const { data } = await getTrackVersions(trackId);
 ### 039-04: Generic Undo/Redo Middleware
 
 **Текущее состояние:** 3 независимые реализации undo/redo в:
+
 - `useMixerHistoryStore.ts`
 - `useLyricsHistoryStore.ts`
 - `useUnifiedStudioStore.ts` (частично)
 
 **Целевая реализация:**
+
 ```typescript
 // src/stores/middleware/undoRedo.ts
 export function withHistory<T>(config: {
   limit?: number; // default: 50
   include?: (keyof T)[]; // tracked fields
-}): StateCreator<T & HistoryState<T>, [], [], T & HistoryState<T>>
+}): StateCreator<T & HistoryState<T>, [], [], T & HistoryState<T>>;
 ```
 
 **Критерии:**
+
 - [ ] `withHistory` middleware в `src/stores/middleware/undoRedo.ts`
 - [ ] 3 стора используют его (mixer, lyrics, studio)
 - [ ] Undo/redo работает во всех трёх
@@ -129,12 +138,12 @@ export function withHistory<T>(config: {
 
 ### Задачи
 
-| ID     | Название                                               | Статус  | SP  | Зависимости |
-| ------ | ------------------------------------------------------ | ------- | --- | ----------- |
-| 039-06 | **Разбить `useGenerateForm.ts` (1218 строк → 4 хука)** | ✅ DONE | 4   | 039-03      |
-| 039-07 | **Разбить `GlobalAudioProvider.tsx` (982 строки)**     | 🔴 OPEN | 4   | —           |
-| 039-08 | **Разбить 4 oversized-компонента (>800 строк)**        | 🔴 OPEN | 3   | —           |
-| 039-09 | **DnD: удалить `@hello-pangea/dnd` → только `@dnd-kit`**| ✅ DONE | 2   | —           |
+| ID     | Название                                                 | Статус  | SP  | Зависимости |
+| ------ | -------------------------------------------------------- | ------- | --- | ----------- |
+| 039-06 | **Разбить `useGenerateForm.ts` (1218 строк → 4 хука)**   | ✅ DONE | 4   | 039-03      |
+| 039-07 | **Разбить `GlobalAudioProvider.tsx` (982 строки)**       | ✅ DONE | 4   | —           |
+| 039-08 | **Разбить 4 oversized-компонента (>800 строк)**          | 🔴 OPEN | 3   | —           |
+| 039-09 | **DnD: удалить `@hello-pangea/dnd` → только `@dnd-kit`** | ✅ DONE | 2   | —           |
 
 ### 039-06: Разбить useGenerateForm.ts
 
@@ -143,6 +152,7 @@ export function withHistory<T>(config: {
 **Текущий файл:** `src/hooks/generation/useGenerateForm.ts` (план: 1218 строк → **фактически: 280 строк**)
 
 **Целевая декомпозиция:**
+
 ```
 useGenerateForm.ts          → orchestrator (импортирует 4 хука, ~150 строк)
   useGenerateValidation.ts  → Zod validation, pre-flight checks (~200 строк)
@@ -152,6 +162,7 @@ useGenerateForm.ts          → orchestrator (импортирует 4 хука,
 ```
 
 **Критерии:**
+
 - [ ] `useGenerateForm.ts` < 200 строк (только оркестрация)
 - [ ] 4 дочерних хука, каждый < 300 строк
 - [ ] Все E2E тесты генерации проходят
@@ -162,6 +173,7 @@ useGenerateForm.ts          → orchestrator (импортирует 4 хука,
 **Текущий файл:** `src/components/GlobalAudioProvider.tsx` (982 строки, КРИТИЧЕСКИЙ)
 
 **Целевая декомпозиция:**
+
 ```
 GlobalAudioProvider.tsx     → провайдер + контекст (~150 строк)
   useAudioCore.ts           → HTMLAudioElement management (~200 строк)
@@ -173,6 +185,7 @@ GlobalAudioProvider.tsx     → провайдер + контекст (~150 ст
 **Важно:** Сохранить публичный API (`useGlobalAudioPlayer()`) без изменений — этот хук используется в 50+ компонентах.
 
 **Критерии:**
+
 - [ ] `GlobalAudioProvider.tsx` < 200 строк
 - [ ] Публичный API `useGlobalAudioPlayer()` не изменился
 - [ ] AudioElementPool интеграция сохранена
@@ -182,12 +195,12 @@ GlobalAudioProvider.tsx     → провайдер + контекст (~150 ст
 
 Приоритетные файлы для разбивки:
 
-| Файл | Строк | Целевое разбиение |
-| ---- | ----- | ----------------- |
-| `StudioShell.tsx` | 1873 | `StudioShell` + `StudioToolbar` + `StudioPanels` + `StudioLayout` |
-| `UnifiedStudioContent.tsx` | 1451 | `StudioContentRouter` + 4 вью |
-| `MobileFullscreenPlayer.tsx` | 1067 | `MobilePlayer` + `MobilePlayerQueue` + `MobilePlayerLyrics` |
-| `SectionNotesPanel.tsx` | ~850 | `NotesPanel` + `NoteItem` + `NoteEditor` |
+| Файл                         | Строк | Целевое разбиение                                                 |
+| ---------------------------- | ----- | ----------------------------------------------------------------- |
+| `StudioShell.tsx`            | 1873  | `StudioShell` + `StudioToolbar` + `StudioPanels` + `StudioLayout` |
+| `UnifiedStudioContent.tsx`   | 1451  | `StudioContentRouter` + 4 вью                                     |
+| `MobileFullscreenPlayer.tsx` | 1067  | `MobilePlayer` + `MobilePlayerQueue` + `MobilePlayerLyrics`       |
+| `SectionNotesPanel.tsx`      | ~850  | `NotesPanel` + `NoteItem` + `NoteEditor`                          |
 
 **Критерий:** Ни один из этих файлов не должен превышать 500 строк после разбивки.
 
@@ -196,17 +209,20 @@ GlobalAudioProvider.tsx     → провайдер + контекст (~150 ст
 > **✅ ЗАВЕРШЕНО ДО СТАРТА СПРИНТА:** `@hello-pangea/dnd` удалён из `package.json`. Все drag-and-drop используют `@dnd-kit`. Сэкономлено ~25 КБ gzip. Все критерии ниже выполнены.
 
 **Исходное состояние** (для справки): 2 библиотеки использовались параллельно:
+
 - `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` — современная, accessibility-friendly
 - `@hello-pangea/dnd` — форк react-beautiful-dnd, устаревший подход, ~25 КБ gzip
 
 **Решение:** Оставить `@dnd-kit`, мигрировать все `@hello-pangea/dnd` usages.
 
 **Команда для поиска:**
+
 ```bash
 grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 ```
 
 **Критерии:**
+
 - [ ] `@hello-pangea/dnd` удалён из `package.json`
 - [ ] Все drag-and-drop функции работают через `@dnd-kit`
 - [ ] Бандл уменьшился на ~25 КБ (проверить `npm run size`)
@@ -218,13 +234,13 @@ grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 
 ### Задачи
 
-| ID     | Название                                               | Статус  | SP  | Зависимости |
-| ------ | ------------------------------------------------------ | ------- | --- | ----------- |
-| 039-10 | **Типизировать API-слой (615 `any` → <50)**            | 🔴 OPEN | 5   | 039-03      |
-| 039-11 | **E2E: починить Playwright CI pipeline**               | 🔴 OPEN | 3   | —           |
-| 039-12 | **E2E: починить smoke + navigation + library тесты**   | 🔴 OPEN | 2   | 039-11      |
-| 039-13 | **E2E: починить player + generation тесты**            | 🔴 OPEN | 1   | 039-12      |
-| 039-14 | **Верификация: build, size, tests, lint**               | 🔴 OPEN | 1   | все         |
+| ID     | Название                                             | Статус  | SP  | Зависимости |
+| ------ | ---------------------------------------------------- | ------- | --- | ----------- |
+| 039-10 | **Типизировать API-слой (615 `any` → <50)**          | 🔴 OPEN | 5   | 039-03      |
+| 039-11 | **E2E: починить Playwright CI pipeline**             | 🔴 OPEN | 3   | —           |
+| 039-12 | **E2E: починить smoke + navigation + library тесты** | 🔴 OPEN | 2   | 039-11      |
+| 039-13 | **E2E: починить player + generation тесты**          | 🔴 OPEN | 1   | 039-12      |
+| 039-14 | **Верификация: build, size, tests, lint**            | 🔴 OPEN | 1   | все         |
 
 ### 039-10: Type Safety
 
@@ -244,6 +260,7 @@ grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 **Инструмент:** `npx ts-prune` для нахождения неиспользуемых экспортов + `tsc --noEmit` для ошибок
 
 **Критерии:**
+
 - [ ] `grep -rn ": any" src/api/` → 0 результатов
 - [ ] `grep -rn "as any" src/api/ src/services/` → 0 результатов
 - [ ] `any` в src/ < 50 (проверить `npx ts-prune`)
@@ -254,24 +271,28 @@ grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 **Текущая проблема:** 47 E2E spec-файлов не проходят в CI (0%).
 
 **Диагностика:**
+
 ```bash
 cd /home/user/aimusicverse
 npx playwright test --reporter=list 2>&1 | head -50
 ```
 
 **Вероятные причины:**
+
 - Supabase credentials не настроены в CI environment
 - Dev server не стартует до начала тестов
 - Telegram WebApp API не мокируется
 - Тесты ожидают реального генерации (async, медленно)
 
 **Решение:**
+
 1. Добавить `.env.test` с тестовыми Supabase credentials
 2. Мокировать Suno API в тестах (`page.route('/*/suno*', ...)`)
 3. Настроить `playwright.config.ts`: `webServer.reuseExistingServer: true`
 4. CI: добавить `SUPABASE_URL` + `SUPABASE_ANON_KEY` в GitHub Secrets
 
 **Критерии:**
+
 - [ ] `npm run test:e2e` запускается без падений на dev-машине
 - [ ] CI pipeline зелёный (GitHub Actions)
 - [ ] ≥35 из 47 тестов проходят (75% pass rate)
@@ -288,6 +309,7 @@ tsc --noEmit          # 0 ошибок типов
 ```
 
 **Критерии:**
+
 - [ ] Все команды выше выполняются без критических ошибок
 - [ ] Бандл < 900 КБ gzip
 - [ ] `PROJECT_STATUS.md` обновлён
@@ -297,26 +319,31 @@ tsc --noEmit          # 0 ошибок типов
 ## Критерии успеха Sprint 039
 
 ### Архитектура
+
 - [ ] `grep -rn "supabase\.from" src/components/ src/pages/ src/stores/` → 0 результатов
 - [ ] Нет файлов > 1000 строк
 - [ ] Нет файлов > 500 строк (целевой показатель: < 5 исключений)
 
 ### Type Safety
+
 - [ ] `any` использований < 50 (было 615)
 - [ ] `tsc --noEmit` без ошибок
 - [ ] Все API-файлы полностью типизированы
 
 ### Bundle
+
 - [ ] `@hello-pangea/dnd` удалён
 - [ ] Бандл ≤ 900 КБ gzip (с 918 КБ, экономия ~25 КБ)
 - [ ] `npm run size` зелёный
 
 ### E2E
+
 - [ ] Playwright CI pipeline работает
 - [ ] ≥35/47 тестов проходят в CI
 - [ ] Нет flaky тестов (стабильность ≥ 90%)
 
 ### DX
+
 - [ ] `npm run build` < 60 секунд
 - [ ] `undo/redo` middleware — единая реализация
 
@@ -324,13 +351,13 @@ tsc --noEmit          # 0 ошибок типов
 
 ## Риски
 
-| Риск | Вероятность | Влияние | Митигация |
-| ---- | ----------- | ------- | --------- |
-| Разбивка GlobalAudioProvider ломает iOS audio | Высокая | Критическое | Сначала написать тесты, потом рефакторить |
-| DnD миграция ломает drag-to-reorder в Queue | Средняя | Высокое | Тестировать на mobile + desktop viewport |
-| E2E тесты flaky из-за Suno API | Высокая | Среднее | Мокировать все внешние API в тестах |
-| `any` ремувал открывает скрытые ошибки типов | Средняя | Среднее | Исправлять итеративно, не всё сразу |
-| StudioShell разбивка нарушает студию | Высокая | Высокое | Один компонент за раз + E2E смок-тест |
+| Риск                                          | Вероятность | Влияние     | Митигация                                 |
+| --------------------------------------------- | ----------- | ----------- | ----------------------------------------- |
+| Разбивка GlobalAudioProvider ломает iOS audio | Высокая     | Критическое | Сначала написать тесты, потом рефакторить |
+| DnD миграция ломает drag-to-reorder в Queue   | Средняя     | Высокое     | Тестировать на mobile + desktop viewport  |
+| E2E тесты flaky из-за Suno API                | Высокая     | Среднее     | Мокировать все внешние API в тестах       |
+| `any` ремувал открывает скрытые ошибки типов  | Средняя     | Среднее     | Исправлять итеративно, не всё сразу       |
+| StudioShell разбивка нарушает студию          | Высокая     | Высокое     | Один компонент за раз + E2E смок-тест     |
 
 ---
 
