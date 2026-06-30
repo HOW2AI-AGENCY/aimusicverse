@@ -71,12 +71,7 @@ export function ProjectCoverEditor({
       const publicUrl = uploadData!.publicUrl;
 
       // Update project cover_url
-      const { error: updateError } = await supabase
-        .from("music_projects")
-        .update({ cover_url: publicUrl })
-        .eq("id", projectId);
-
-      if (updateError) throw updateError;
+      await updateProjectCover(projectId, publicUrl);
 
       onCoverUpdate(publicUrl);
       toast.success("Обложка загружена");
