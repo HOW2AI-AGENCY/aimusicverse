@@ -100,7 +100,7 @@ export const useProjectStore = create<ProjectState>()(
 
         // Save to database
         try {
-          const { error } = await supabase.from("studio_projects").insert({
+          const { error } = await createStudioProject({
             id: projectId,
             user_id: params.userId,
             source_track_id: params.sourceTrackId,
