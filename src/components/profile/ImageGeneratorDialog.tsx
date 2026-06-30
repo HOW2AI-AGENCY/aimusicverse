@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Sparkles, Wand2, Crop, RotateCcw, Check, Loader2 } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
@@ -132,16 +133,7 @@ export function ImageGeneratorDialog({
         const fileName = `${type}_cropped_${Date.now()}.png`;
         const file = new File([blob], fileName, { type: "image/png" });
 
-        const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, { upsert: true });
-
-        if (uploadError) {
-          toast.error("Ошибка сохранения");
-          return;
-        }
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("avatars").getPublicUrl(fileName);
+        const { url: publicUrl } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
 
         onGenerated(publicUrl);
         onOpenChange(false);

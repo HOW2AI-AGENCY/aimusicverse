@@ -13,6 +13,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { Guitar, Wand2, Loader2, Music, Sliders, ChevronRight } from "@/lib/icons";
@@ -44,6 +45,7 @@ export function StudioArrangementDialog({
   projectName,
   onSuccess,
 }: StudioArrangementDialogProps) {
+  const { session } = useAuth();
   const [step, setStep] = useState<"config" | "generating">("config");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -75,9 +77,6 @@ export function StudioArrangementDialog({
     setIsLoading(true);
 
     try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
       if (!session) {
         toast.error("Необходима авторизация");
         return;

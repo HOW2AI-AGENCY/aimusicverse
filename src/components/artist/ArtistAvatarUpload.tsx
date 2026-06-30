@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Camera, Upload, Sparkles, Loader2, X, Image as ImageIcon } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -43,15 +44,7 @@ export function ArtistAvatarUpload({
       const fileExt = file.name.split(".").pop();
       const fileName = `${user.id}/artist-avatar-${Date.now()}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from("project-assets")
-        .upload(fileName, file, { upsert: true });
-
-      if (uploadError) throw uploadError;
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("project-assets").getPublicUrl(fileName);
+      const { url: publicUrl } = await uploadFile({ bucket: "project-assets", path: fileName, file, upsert: true });
 
       if (isReference) {
         setReferenceImage(publicUrl);

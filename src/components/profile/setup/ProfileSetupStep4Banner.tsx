@@ -4,7 +4,7 @@ import { ImageIcon, Upload, Sparkles, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile, getPublicUrl } from "@/api/storage.api";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { ImageGeneratorDialog } from "../ImageGeneratorDialog";
@@ -36,13 +36,7 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
       const fileExt = file.name.split(".").pop();
       const fileName = `banner_${userId}_${Date.now()}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, { upsert: true });
-
-      if (uploadError) throw uploadError;
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("avatars").getPublicUrl(fileName);
+      const { url: publicUrl } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
 
       onUpdate({ bannerUrl: publicUrl });
       toast.success("Баннер загружен");

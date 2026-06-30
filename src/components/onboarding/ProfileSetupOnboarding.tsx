@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 
@@ -436,6 +437,7 @@ export function ProfileSetupOnboarding({ userId, initialProfile, onComplete, onS
 }
 
 export function useProfileSetupCheck() {
+  const { user } = useAuth();
   const [needsSetup, setNeedsSetup] = useState(false);
   const [profile, setProfile] = useState<any>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -443,13 +445,11 @@ export function useProfileSetupCheck() {
 
   useEffect(() => {
     checkProfileSetup();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const checkProfileSetup = async () => {
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
       if (!user) {
         setIsChecking(false);
         return;

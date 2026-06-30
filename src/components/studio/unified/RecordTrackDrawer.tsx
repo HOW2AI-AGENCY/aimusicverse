@@ -17,7 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { useHaptic } from "@/hooks/useHaptic";
 import { useRealtimeChordDetection } from "@/hooks/useRealtimeChordDetection";
@@ -294,16 +294,7 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
         try {
           const fileName = `${user?.id}/${Date.now()}-${recordingType}.webm`;
 
-          const { error: uploadError } = await supabase.storage.from("reference-audio").upload(fileName, audioBlob, {
-            contentType: "audio/webm",
-            upsert: false,
-          });
-
-          if (uploadError) throw uploadError;
-
-          const { data: urlData } = supabase.storage.from("reference-audio").getPublicUrl(fileName);
-
-          const audioUrl = urlData.publicUrl;
+          const { url: audioUrl } = await uploadFile({ bucket: "reference-audio", path: fileName, file: audioBlob });
           const duration = recordingDuration;
 
           const typeLabels: Record<RecordingType, string> = {

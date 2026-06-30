@@ -6,7 +6,7 @@ import { Play, Pause, Scissors, Download, Save, RotateCcw, Volume2, VolumeX } fr
 import { TrimRegionSelector } from "./TrimRegionSelector";
 import { useTrimExport } from "@/hooks/studio/useTrimExport";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { formatTimePrecise } from "@/lib/player-utils";
@@ -26,6 +26,7 @@ interface TrimDialogProps {
 }
 
 export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDialogProps) => {
+  const { user } = useAuth();
   const isMobile = useIsMobile();
   const [region, setRegion] = useState<{ start: number; end: number } | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -152,9 +153,6 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
   const handleSaveAsTrack = async () => {
     if (!region || !track.audio_url) return;
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
     if (!user) {
       toast.error("Необходима авторизация");
       return;

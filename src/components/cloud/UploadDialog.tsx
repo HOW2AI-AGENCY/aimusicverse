@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { useReferenceAudio } from "@/hooks/useReferenceAudio";
 import { useAudioRecording } from "@/hooks/useAudioRecording";
@@ -37,13 +38,7 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
       const fileName = `recording_${format(new Date(), "dd-MM-yyyy_HH-mm")}.webm`;
       const path = `${user.id}/recording-${timestamp}.webm`;
 
-      const { error: uploadError } = await supabase.storage.from("reference-audio").upload(path, audioBlob);
-
-      if (uploadError) throw uploadError;
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("reference-audio").getPublicUrl(path);
+      const { url: publicUrl } = await uploadFile({ bucket: "reference-audio", path, file: audioBlob });
 
       await saveAudio({
         fileName,
@@ -78,13 +73,7 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
       const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
       const path = `${user.id}/reference-${timestamp}-${sanitizedName}`;
 
-      const { error: uploadError } = await supabase.storage.from("reference-audio").upload(path, file);
-
-      if (uploadError) throw uploadError;
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("reference-audio").getPublicUrl(path);
+      const { url: publicUrl } = await uploadFile({ bucket: "reference-audio", path, file });
 
       // Get audio duration
       const audioEl = new Audio();

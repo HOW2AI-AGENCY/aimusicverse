@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { CloudAudioPicker } from "./CloudAudioPicker";
@@ -230,14 +231,7 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
       const actionLabel = action === "vocals" ? "vocal" : action === "instrumental" ? "inst" : action;
       const fileName = `recordings/${user.id}/rec_${actionLabel}_${dateStr}_${timeStr}.webm`;
 
-      const { error: uploadError } = await supabase.storage
-        .from("audio")
-        .upload(fileName, audioBlob, { contentType: "audio/webm" });
-
-      if (uploadError) throw uploadError;
-
-      const { data: urlData } = supabase.storage.from("audio").getPublicUrl(fileName);
-      const publicUrl = urlData.publicUrl;
+      const { url: publicUrl } = await uploadFile({ bucket: "audio", path: fileName, file: audioBlob });
       const recordingTitle = `Запись ${action === "vocals" ? "вокала" : action === "instrumental" ? "инструментала" : ""} ${new Date().toLocaleDateString("ru-RU")}`;
 
       await processAudio(publicUrl, recordingTitle, action, duration, settings);
