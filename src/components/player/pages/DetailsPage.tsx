@@ -6,10 +6,14 @@
  */
 
 import { useMemo } from "react";
-import { Calendar, Clock3, Music2, Sparkles } from "@/lib/icons";
+import { Calendar, Clock3, Music2, Sparkles, Play, Pause } from "@/lib/icons";
 import type { Track } from "@/types/track";
 import { VersionSwitcher } from "../VersionSwitcher";
 import { PlayerActionsBar } from "../PlayerActionsBar";
+import { Button } from "@/components/ui/button";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { hapticImpact } from "@/lib/haptic";
+import { cn } from "@/lib/utils";
 
 interface DetailsPageProps {
   track: Track;
