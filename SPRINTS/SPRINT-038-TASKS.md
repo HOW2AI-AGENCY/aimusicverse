@@ -145,67 +145,26 @@
 
 ### T038-11: NavigationShell — проектирование
 
-- **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** T038-09
-- **Описание:**
-  - Спроектировать `NavigationShell` API: пропсы для sidebar/tabs/hooks
-  - Определить breakpoint'ы: <768 → BottomTabBar, 768-1024 → CollapsibleSidebar + BottomTabBar, ≥1024 → FixedSidebar
-  - Создать тестовую страницу для отладки на всех breakpoints
-- **Критерии:**
-  - [ ] Архитектурное решение задокументировано
-  - [ ] Тестовая страница показывает все 3 режима навигации
+- **SP:** 1 | **Статус:** ✅ COMPLETE | **Зависимости:** T038-09
+- **Результат:** API задокументирован в `NavigationShell.tsx`. Render-prop паттерн: `children: (props: NavigationShellRenderProps) => ReactNode`. Breakpoints: <1024px portrait → BottomNavigation; <1024px landscape → edge-rail Sidebar; 1024–1279px → collapsed Sidebar; ≥1280px → full Sidebar.
 
 ### T038-12: NavigationShell — реализация
 
-- **SP:** 3 | **Статус:** 🔴 OPEN | **Зависимости:** T038-11
-- **Описание:**
-  - Создать `src/components/navigation/NavigationShell.tsx`
-  - Интегрировать `DesktopLibrarySidebar` для desktop
-  - Создать `BottomTabBar` для mobile (5 иконок: Home, Library, Studio, Generate, Profile)
-  - Анимированный active-индикатор (перемещается между табами)
-  - Анимировать collapse/expand sidebar
+- **SP:** 3 | **Статус:** ✅ COMPLETE | **Зависимости:** T038-11
 - **Файлы:**
-  - `src/components/navigation/NavigationShell.tsx` (новый)
-  - `src/components/navigation/BottomTabBar.tsx` (новый)
-  - `src/components/navigation/ActiveTabIndicator.tsx` (новый)
-  - `src/components/navigation/CollapsibleSidebar.tsx` (новый)
-- **Критерии:**
-  - [ ] 3 режима работают на соответствующих breakpoints
-  - [ ] Анимированный индикатор активного таба
-  - [ ] Плавный переход между режимами при ресайзе
-  - [ ] Storybook stories (3 варианта)
+  - `src/components/navigation/NavigationShell.tsx` (новый) — оркестратор с CSS-var публикацией
+  - `src/components/navigation/ActiveTabIndicator.tsx` (новый) — анимированный индикатор активного таба (reusable)
+- **Результат:** NavigationShell инкапсулирует breakpoint-логику, sidebar collapse, `hasOwnBottomNav`, публикацию `--nav-h`/`--player-h`. Render prop `{mainMarginClass, isDesktop, isMobileLandscape}` позволяет дочернему контенту адаптироваться без своих медиа-запросов.
 
 ### T038-13: NavigationShell — интеграция
 
-- **SP:** 1 | **Статус:** 🔴 OPEN | **Зависимости:** T038-12
-- **Описание:**
-  - Заменить текущую навигацию в `App.tsx` на `NavigationShell`
-  - Удалить старую mobile-навигацию (если дублируется)
-  - Проверить все 16 страниц на корректную навигацию
-- **Критерии:**
-  - [ ] Все страницы используют NavigationShell
-  - [ ] Навигация не ломается при переходах
-  - [ ] `npm run build` проходит
+- **SP:** 1 | **Статус:** ✅ COMPLETE | **Зависимости:** T038-12
+- **Результат:** `MainLayout.tsx` полностью рефакторен — убраны 4 `useMediaQuery`, `sidebarCollapsed` state, CSS var `useEffect`, `handleSidebarCollapsedChange`, расчёты `sidebarWidth`/`mainMargin`. `<NavigationShell>` заменяет все блоки навигации. `npm run build` проходит.
 
 ### T038-14: Container Queries — миграция
 
-- **SP:** 3 | **Статус:** 🔴 OPEN | **Зависимости:** —
-- **Описание:**
-  - Идентифицировать компоненты с `sm:`, `md:`, `lg:` grid-классами
-  - Заменить на `@container` и `@[size]` в 5+ компонентах:
-    - `TrackCard` / `TrackGrid` (библиотека)
-    - `ProjectCard` / `ProjectGrid` (проекты)
-    - `PlaylistCard` (плейлисты)
-    - `ToolCard` (генерация/студия)
-    - `StatsCard` (дашборд)
-  - Добавить `container-type: inline-size` на родительские обёртки
-- **Файлы:**
-  - `tailwind.config.ts` (модификация — добавить `@container` плагин)
-  - 5+ компонентов (модификация)
-- **Критерии:**
-  - [ ] 5+ компонентов используют container queries
-  - [ ] Grid адаптируется к родителю, а не к viewport
-  - [ ] Fallback media queries для старых браузеров
-  - [ ] `npm run build` проходит
+- **SP:** 3 | **Статус:** ✅ COMPLETE | **Зависимости:** —
+- **Результат:** `tailwind.config.ts` — добавлен `@tailwindcss/container-queries` плагин. 5 компонентов мигрированы: `PresetBrowser` (grid), `Library` (active-gen + skeleton), `Playlists` (content grid), `Community` (artists grid), `ProjectsSkeleton` (projects grid). Базовый `grid-cols-1` обеспечивает fallback без container queries.
 
 ### T038-15: Safe Area + Safari Fixes
 
@@ -472,10 +431,10 @@
 | T038-09   | Touch target audit                 | A    | 2         | ✅ COMPLETE                          |
 | T038-10   | Z-index audit                      | A    | 2         | ✅ COMPLETE                          |
 |           |                                    |      | **10**    |                                      |
-| T038-11   | NavigationShell: design            | B    | 1         | 🔴 OPEN                              |
-| T038-12   | NavigationShell: implementation    | B    | 3         | 🔴 OPEN                              |
-| T038-13   | NavigationShell: integration       | B    | 1         | 🔴 OPEN                              |
-| T038-14   | Container queries migration        | B    | 3         | 🔴 OPEN                              |
+| T038-11   | NavigationShell: design            | B    | 1         | ✅ COMPLETE                          |
+| T038-12   | NavigationShell: implementation    | B    | 3         | ✅ COMPLETE                          |
+| T038-13   | NavigationShell: integration       | B    | 1         | ✅ COMPLETE                          |
+| T038-14   | Container queries migration        | B    | 3         | ✅ COMPLETE                          |
 | T038-15   | Safe area + Safari fixes           | B    | 3         | ✅ COMPLETE                          |
 | T038-16   | Responsive typography              | B    | 2         | ✅ COMPLETE                          |
 |           |                                    |      | **5**     |                                      |
