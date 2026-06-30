@@ -156,12 +156,10 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
 
         setProgress(40);
 
-        const { data, error: mergeError } = await supabase.functions.invoke("merge-stems", {
-          body: {
-            stems: stemsToMerge,
-            masterVolume,
-            format: "wav",
-          },
+        const { data, error: mergeError } = await invokeMergeStems({
+          stems: stemsToMerge,
+          masterVolume,
+          format: "wav",
         });
 
         if (mergeError) throw mergeError;
