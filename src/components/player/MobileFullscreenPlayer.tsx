@@ -277,9 +277,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
                 setQueueOpen(true);
               }}
               className={cn("h-11 w-11 rounded-full touch-manipulation", glassButton.default)}
-              aria-label="Очередь"
+              aria-label="Открыть очередь воспроизведения"
+              aria-haspopup="dialog"
+              aria-expanded={queueOpen}
             >
-              <ListMusic className="h-5 w-5" />
+              <ListMusic className="h-5 w-5" aria-hidden="true" />
             </Button>
           </div>
         </header>
