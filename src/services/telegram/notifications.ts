@@ -120,7 +120,7 @@ async function saveFailedNotification(item: NotificationQueueItem): Promise<void
     await supabase.from("failed_telegram_notifications").insert({
       chat_id: item.payload.chatId,
       method: "sendMessage",
-      payload: item.payload as any,
+      payload: item.payload as unknown as import("@/integrations/supabase/types").Json,
       retry_count: item.retryCount,
       status: "failed",
     });

@@ -170,7 +170,7 @@ export async function createPayment(
  */
 export function isTinkoffAvailable(): boolean {
   // Tinkoff is available outside of Telegram
-  return typeof window !== "undefined" && !(window as any).Telegram?.WebApp;
+  return typeof window !== "undefined" && !(window as Window & { Telegram?: { WebApp?: unknown } }).Telegram?.WebApp;
 }
 
 /**
@@ -178,7 +178,7 @@ export function isTinkoffAvailable(): boolean {
  */
 export function isStarsAvailable(): boolean {
   // Stars are only available inside Telegram
-  return typeof window !== "undefined" && !!(window as any).Telegram?.WebApp;
+  return typeof window !== "undefined" && !!(window as Window & { Telegram?: { WebApp?: unknown } }).Telegram?.WebApp;
 }
 
 /**

@@ -174,13 +174,14 @@ export async function getLyricVersions(trackId: string): Promise<GetLyricVersion
   }
 
   // Transform the data to match API contract
-  const versions: LyricVersionWithAuthor[] = (data || []).map((version: any) => ({
+  type RawLyricVersion = typeof data extends (infer R)[] | null ? R : never;
+  const versions: LyricVersionWithAuthor[] = (data || []).map((version: RawLyricVersion) => ({
     id: version.id,
     versionNumber: version.version_number,
     content: version.lyrics,
     author: {
-      id: version.profiles.id,
-      username: version.profiles.username,
+      id: (version as { profiles: { id: string; username: string } }).profiles.id,
+      username: (version as { profiles: { id: string; username: string } }).profiles.username,
     },
     createdAt: version.created_at,
     isCurrent: version.is_current ?? false,
@@ -406,7 +407,8 @@ export async function getSectionNotes(sectionId: string): Promise<GetSectionNote
   }
 
   // Transform the data to match API contract
-  const notes: SectionNoteWithAuthor[] = (data || []).map((note: any) => ({
+  type RawNote = { profiles: { id: string; username: string }; [key: string]: unknown };
+  const notes: SectionNoteWithAuthor[] = (data || []).map((note: RawNote) => ({
     id: note.id,
     content: note.notes || "",
     noteType: note.section_type || "general",
@@ -585,27 +587,29 @@ export async function getLyricVersionsBatch(trackIds: string[]): Promise<Record<
   // Group by track ID
   const grouped: Record<string, LyricVersionWithAuthor[]> = {};
   for (const version of data || []) {
-    const trackId = (version as any).project_track_id;
+    type RawBatchVersion = typeof version & { project_track_id: string; profiles: { id: string; username: string } };
+    const v = version as RawBatchVersion;
+    const trackId = v.project_track_id;
     if (!grouped[trackId]) {
       grouped[trackId] = [];
     }
     grouped[trackId].push({
-      id: version.id,
-      versionNumber: version.version_number,
-      content: version.lyrics,
+      id: v.id,
+      versionNumber: v.version_number,
+      content: v.lyrics,
       author: {
-        id: (version as any).profiles.id,
-        username: (version as any).profiles.username,
+        id: v.profiles.id,
+        username: v.profiles.username,
       },
-      createdAt: version.created_at,
-      isCurrent: version.is_current ?? false,
-      changeSummary: version.change_description,
-      versionName: version.version_name,
-      changeType: version.change_type,
-      sectionsData: version.sections_data,
-      tags: version.tags,
-      aiModelUsed: version.ai_model_used,
-      aiPromptUsed: version.ai_prompt_used,
+      createdAt: v.created_at,
+      isCurrent: v.is_current ?? false,
+      changeSummary: v.change_description,
+      versionName: v.version_name,
+      changeType: v.change_type,
+      sectionsData: v.sections_data,
+      tags: v.tags,
+      aiModelUsed: v.ai_model_used,
+      aiPromptUsed: v.ai_prompt_used,
     });
   }
 

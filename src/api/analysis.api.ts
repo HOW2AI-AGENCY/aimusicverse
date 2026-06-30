@@ -4,6 +4,7 @@
  */
 
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 
 // ==========================================
 // Types
@@ -24,7 +25,7 @@ export interface AudioAnalysis {
   style_description: string | null;
   valence: number | null;
   arousal: number | null;
-  beats_data: any | null;
+  beats_data: Json | null;
   created_at: string;
   updated_at: string;
 }
@@ -38,9 +39,9 @@ export interface GuitarRecording {
   bpm: number | null;
   key: string | null;
   time_signature: string | null;
-  chords: any | null;
-  notes: any | null;
-  beats: any | null;
+  chords: Json | null;
+  notes: Json | null;
+  beats: Json | null;
   midi_url: string | null;
   pdf_url: string | null;
   musicxml_url: string | null;
@@ -84,7 +85,7 @@ export async function createAudioAnalysis(analysis: {
   tempo?: string;
   instruments?: string[];
   structure?: string;
-  beatsData?: any;
+  beatsData?: Json;
 }): Promise<AudioAnalysis> {
   const { data, error } = await supabase
     .from("audio_analysis")
@@ -166,7 +167,7 @@ export async function invokeMidiTranscription(params: {
   trackId: string;
   audioUrl: string;
   modelType?: string;
-}): Promise<{ success: boolean; error?: string; data?: any }> {
+}): Promise<{ success: boolean; error?: string; data?: unknown }> {
   const { data, error } = await supabase.functions.invoke("transcribe-midi", {
     body: {
       track_id: params.trackId,
@@ -194,9 +195,9 @@ export async function saveGuitarRecording(recording: {
   bpm?: number;
   key?: string;
   timeSignature?: string;
-  chords?: any;
-  notes?: any;
-  beats?: any;
+  chords?: Json;
+  notes?: Json;
+  beats?: Json;
   midiUrl?: string;
   generatedTags?: string[];
   styleDescription?: string;

@@ -5,7 +5,8 @@
 
 import { useState, useRef, useCallback } from "react";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
-import type { TrackEffectsState, InstrumentalResultData } from "./types";
+import type { TrackEffectsState } from "./types";
+import type { InstrumentalResultData } from "../InstrumentalResultHandler";
 import { defaultStemEffects } from "@/hooks/studio/stemEffectsConfig";
 
 export function useStudioShellState() {
@@ -49,6 +50,10 @@ export function useStudioShellState() {
 
   // Lyrics sheet state (unified interface - no tabs)
   const [showLyricsSheet, setShowLyricsSheet] = useState(false);
+
+  // Presets / Dashboard sheet states
+  const [showPresetsSheet, setShowPresetsSheet] = useState(false);
+  const [showDashboardSheet, setShowDashboardSheet] = useState(false);
 
   // Pending generation context
   const pendingGenerationContextRef = useRef<Map<string, { type: "replace_instrumental"; existingId?: string }>>(
@@ -167,6 +172,13 @@ export function useStudioShellState() {
     setShowMusicLabSheet,
     showLyricsSheet,
     setShowLyricsSheet,
+    showPresetsSheet,
+    setShowPresetsSheet,
+    showDashboardSheet,
+    setShowDashboardSheet,
+
+    // Track effects (raw setter for StudioShellDialogs compatibility)
+    setTrackEffects,
 
     // Generation context
     pendingGenerationContextRef,

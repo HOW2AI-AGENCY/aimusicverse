@@ -4,6 +4,7 @@
  */
 
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 
 // ==========================================
 // Types
@@ -224,7 +225,7 @@ export async function trackJourneyStep(params: {
   droppedOff?: boolean;
   metadata?: Record<string, unknown>;
 }): Promise<void> {
-  const { error } = await (supabase.from("user_journey_events") as any).insert({
+  const { error } = await supabase.from("user_journey_events").insert({
     user_id: params.userId,
     session_id: params.sessionId,
     funnel_name: params.funnelName,
@@ -233,7 +234,7 @@ export async function trackJourneyStep(params: {
     completed: params.completed,
     duration_from_prev_ms: params.durationFromPrevMs || null,
     dropped_off: params.droppedOff || false,
-    metadata: params.metadata || {},
+    metadata: (params.metadata || {}) as Json,
   });
 
   if (error) throw new Error(error.message);
@@ -250,9 +251,9 @@ export async function fetchFunnelDropoffStats(funnelName: string, daysBack: numb
 
   if (error) throw new Error(error.message);
 
-  return (data || []).map((row: any) => ({
-    step_name: row.step_name,
-    step_index: row.step_index,
+  return (data || []).map((row: Record<string, unknown>) => ({
+    step_name: row.step_name as string,
+    step_index: row.step_index as number,
     users_reached: Number(row.users_reached),
     users_dropped: Number(row.users_dropped),
     conversion_rate: Number(row.conversion_rate),

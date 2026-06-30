@@ -24,7 +24,7 @@ export interface RecordingMetadata {
   sampleRate?: number;
   bitDepth?: number;
   channels?: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -115,7 +115,7 @@ export interface ChordDetectionResultsResponse extends ChordDetectionData {}
 export interface ApiError {
   error: string;
   message: string;
-  details?: any;
+  details?: unknown;
   requestId?: string;
 }
 
