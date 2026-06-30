@@ -8,9 +8,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp, TrendingDown, Minus, Users, Music, Zap, DollarSign } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { fetchProfileCount } from "@/api/profiles.api";
 import { fetchGenerationLogs } from "@/api/generation.api";
+import { fetchPeriodComparison } from "@/api/analytics.api";
 import { subDays, startOfDay } from "@/lib/date-utils";
 
 interface ComparisonPanelProps {
@@ -37,75 +37,30 @@ export function ComparisonPanel({ timePeriod }: ComparisonPanelProps) {
       const previousStart = startOfDay(subDays(now, days * 2));
       const previousEnd = currentStart;
 
-      // Current period metrics
-      const [
-        currentUsers,
-        { count: currentNewUsers },
-        { count: currentTracks },
-        { data: currentGenerations },
-        { data: currentRevenue },
-      ] = await Promise.all([
+      const [currentUsers, comparison] = await Promise.all([
         fetchProfileCount(),
-        supabase
-          .from("profiles")
-          .select("*", { count: "exact", head: true })
-          .gte("created_at", currentStart.toISOString()),
-        supabase
-          .from("tracks")
-          .select("*", { count: "exact", head: true })
-          .gte("created_at", currentStart.toISOString()),
-        supabase.from("generation_tasks").select("status").gte("created_at", currentStart.toISOString()),
-        supabase
-          .from("stars_transactions")
-          .select("stars_amount")
-          .gte("created_at", currentStart.toISOString())
-          .eq("status", "completed"),
+        fetchPeriodComparison({ currentStart, previousStart, previousEnd }),
       ]);
 
-      // Previous period metrics
-      const [{ count: prevNewUsers }, { count: prevTracks }, { data: prevGenerations }, { data: prevRevenue }] =
-        await Promise.all([
-          supabase
-            .from("profiles")
-            .select("*", { count: "exact", head: true })
-            .gte("created_at", previousStart.toISOString())
-            .lt("created_at", previousEnd.toISOString()),
-          supabase
-            .from("tracks")
-            .select("*", { count: "exact", head: true })
-            .gte("created_at", previousStart.toISOString())
-            .lt("created_at", previousEnd.toISOString()),
-          supabase
-            .from("generation_tasks")
-            .select("status")
-            .gte("created_at", previousStart.toISOString())
-            .lt("created_at", previousEnd.toISOString()),
-          supabase
-            .from("stars_transactions")
-            .select("stars_amount")
-            .gte("created_at", previousStart.toISOString())
-            .lt("created_at", previousEnd.toISOString())
-            .eq("status", "completed"),
-        ]);
-
-      const sumRevenue = (data: any[] | null) => data?.reduce((sum, t) => sum + (t.stars_amount || 0), 0) || 0;
+      const sumRevenue = (rows: Array<{ stars_amount: number | null }>) =>
+        rows.reduce((sum, t) => sum + (t.stars_amount ?? 0), 0);
 
       return {
         current: {
           users: currentUsers || 0,
-          newUsers: currentNewUsers || 0,
-          tracks: currentTracks || 0,
-          generations: currentGenerations?.length || 0,
-          successfulGenerations: currentGenerations?.filter((g) => g.status === "completed").length || 0,
-          revenue: sumRevenue(currentRevenue),
+          newUsers: comparison.current.newUsers,
+          tracks: comparison.current.tracks,
+          generations: comparison.current.generations.length,
+          successfulGenerations: comparison.current.generations.filter((g) => g.status === "completed").length,
+          revenue: sumRevenue(comparison.current.revenue),
         },
         previous: {
           users: 0, // Historical total not relevant for comparison
-          newUsers: prevNewUsers || 0,
-          tracks: prevTracks || 0,
-          generations: prevGenerations?.length || 0,
-          successfulGenerations: prevGenerations?.filter((g) => g.status === "completed").length || 0,
-          revenue: sumRevenue(prevRevenue),
+          newUsers: comparison.previous.newUsers,
+          tracks: comparison.previous.tracks,
+          generations: comparison.previous.generations.length,
+          successfulGenerations: comparison.previous.generations.filter((g) => g.status === "completed").length,
+          revenue: sumRevenue(comparison.previous.revenue),
         },
       };
     },

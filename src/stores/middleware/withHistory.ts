@@ -57,38 +57,52 @@ export function withHistory<T extends object>(config: WithHistoryConfig<T>) {
   const { include } = config;
 
   return (f: StateCreator<T, [], [], T>): StateCreator<WithHistory<T>, [], [], WithHistory<T>> => {
-    return (
-      set: (
-        partial: Partial<WithHistory<T>> | ((s: WithHistory<T>) => Partial<WithHistory<T>>),
-        replace?: boolean,
-      ) => void,
+    return ((
+      set: StoreApi<WithHistory<T>>["setState"],
       get: () => WithHistory<T>,
       api: StoreApi<WithHistory<T>>,
     ): WithHistory<T> => {
       // Flag prevents history ops from re-triggering themselves
       let isHistoryOp = false;
 
+      // Generic setter for partial updates that bypass narrow typing of zustand
+      // (we know our internal `_past`/`_future` updates are safe).
+      const rawSet = (partial: Record<string, unknown>) => {
+        set(partial as Partial<WithHistory<T>>);
+      };
+
       // Wrap set: before applying, snapshot tracked fields; after applying, push to history
-      const trackedSet = (partial: Partial<T> | ((s: T) => Partial<T>), replace?: boolean) => {
+      const trackedSet = (
+        partial: Partial<T> | ((s: T) => Partial<T>),
+        replace?: boolean,
+      ) => {
         if (isHistoryOp) {
-          set(partial as Partial<WithHistory<T>>, replace);
+          if (replace === true) {
+            (set as (s: WithHistory<T>, r: true) => void)(partial as unknown as WithHistory<T>, true);
+          } else {
+            set(partial as Partial<WithHistory<T>>);
+          }
           return;
         }
 
         const before = pickSnap(get() as T, include);
-        set(partial as Partial<WithHistory<T>>, replace);
+        if (replace === true) {
+          (set as (s: WithHistory<T>, r: true) => void)(partial as unknown as WithHistory<T>, true);
+        } else {
+          set(partial as Partial<WithHistory<T>>);
+        }
 
         if (hasChanged(before, get() as T, include)) {
           const newPast = [...get()._past, before].slice(-limit);
           isHistoryOp = true;
-          set({ _past: newPast, _future: [], canUndo: newPast.length > 0, canRedo: false });
+          rawSet({ _past: newPast, _future: [], canUndo: newPast.length > 0, canRedo: false });
           isHistoryOp = false;
         }
       };
 
       // Initialise the user's store with the wrapped setter
       const base = f(
-        trackedSet as StateCreator<T, [], [], T> extends (set: infer S, ...rest: infer R) => T ? S : never,
+        trackedSet as Parameters<StateCreator<T, [], [], T>>[0],
         get as () => T,
         api as unknown as StoreApi<T>,
       );
@@ -97,8 +111,8 @@ export function withHistory<T extends object>(config: WithHistoryConfig<T>) {
         ...base,
 
         // --- history internals ---
-        _past: [],
-        _future: [],
+        _past: [] as Partial<T>[],
+        _future: [] as Partial<T>[],
 
         // --- public controls ---
         canUndo: false,
@@ -111,7 +125,7 @@ export function withHistory<T extends object>(config: WithHistoryConfig<T>) {
           const curr = pickSnap(s as T, include);
           const newPast = s._past.slice(0, -1);
           isHistoryOp = true;
-          set({
+          rawSet({
             ...prev,
             _past: newPast,
             _future: [curr, ...s._future],
@@ -127,7 +141,7 @@ export function withHistory<T extends object>(config: WithHistoryConfig<T>) {
           const [next, ...newFuture] = s._future;
           const curr = pickSnap(s as T, include);
           isHistoryOp = true;
-          set({
+          rawSet({
             ...next,
             _past: [...s._past, curr],
             _future: newFuture,
@@ -139,10 +153,10 @@ export function withHistory<T extends object>(config: WithHistoryConfig<T>) {
 
         clearHistory() {
           isHistoryOp = true;
-          set({ _past: [], _future: [], canUndo: false, canRedo: false });
+          rawSet({ _past: [], _future: [], canUndo: false, canRedo: false });
           isHistoryOp = false;
         },
-      };
-    };
+      } as WithHistory<T>;
+    }) as StateCreator<WithHistory<T>, [], [], WithHistory<T>>;
   };
 }

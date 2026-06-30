@@ -14,7 +14,7 @@ import { UnifiedDialog } from "@/components/dialog/unified-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Zap, Send, Coins, Gift, CheckCircle2, RefreshCw } from "@/lib/icons";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeAdminBroadcast, bulkAwardCredits } from "@/api/admin.api";
 import { useMutation } from "@tanstack/react-query";
 import { useUpdateEconomyConfig } from "@/hooks/admin/useEconomyConfig";
 import { useToggleFeatureFlag, useFeatureFlags } from "@/hooks/admin/useFeatureFlags";
@@ -32,16 +32,7 @@ interface QuickAction {
 function useQuickBroadcast() {
   return useMutation({
     mutationFn: async ({ title, message }: { title: string; message: string }) => {
-      const { data, error } = await supabase.functions.invoke("telegram-bot", {
-        body: {
-          action: "broadcast",
-          title,
-          message,
-          target_type: "all",
-        },
-      });
-      if (error) throw error;
-      return data;
+      return invokeAdminBroadcast({ title, message, target_type: "all" });
     },
     onSuccess: (data) => {
       toast.success("Рассылка отправлена", {
@@ -56,38 +47,11 @@ function useQuickBroadcast() {
   });
 }
 
-// Quick credit mutation - uses direct table updates (like AdminUserCreditsDialog)
+// Quick credit mutation - delegates bulk award to admin API layer
 function useQuickCredit() {
   return useMutation({
     mutationFn: async ({ amount, reason }: { amount: number; reason: string }) => {
-      // Get all users with credits
-      const { data: users, error: fetchError } = await supabase
-        .from("user_credits")
-        .select("user_id, balance, total_earned");
-
-      if (fetchError) throw fetchError;
-
-      // Update each user's balance
-      for (const user of users || []) {
-        await supabase
-          .from("user_credits")
-          .update({
-            balance: user.balance + amount,
-            total_earned: user.total_earned + amount,
-          })
-          .eq("user_id", user.user_id);
-
-        // Log transaction
-        await supabase.from("credit_transactions").insert({
-          user_id: user.user_id,
-          amount: amount,
-          transaction_type: "earn",
-          action_type: "admin_bulk_bonus",
-          description: reason || "Бонус от администрации",
-        });
-      }
-
-      return { amount, count: users?.length || 0 };
+      return bulkAwardCredits({ amount, reason });
     },
     onSuccess: ({ amount, count }) => {
       toast.success("Кредиты начислены", {

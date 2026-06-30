@@ -7,8 +7,8 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { fetchProfileCount } from "@/api/profiles.api";
+import { fetchRealTimeMetricsRaw, subscribeToRealtimeAdminMetrics } from "@/api/analytics.api";
 import { Activity, Users, Music, Zap, Radio, TrendingUp, Circle, ArrowUpRight } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 
@@ -33,41 +33,20 @@ export function RealTimeMetrics() {
       const fifteenMinutesAgo = new Date(now.getTime() - 15 * 60 * 1000);
       const todayStart = new Date(now.setHours(0, 0, 0, 0));
 
-      const [recentEventsResult, generationsResult, activeSessionsResult, newTracksResult, newUsersResult] =
-        await Promise.all([
-          // Events in last minute
-          supabase
-            .from("user_analytics_events")
-            .select("created_at")
-            .gte("created_at", oneMinuteAgo.toISOString())
-            .order("created_at", { ascending: false }),
+      const [raw, newUsersResult] = await Promise.all([
+        fetchRealTimeMetricsRaw({ oneMinuteAgo, fifteenMinutesAgo, todayStart }),
+        fetchProfileCount(),
+      ]);
 
-          // Active generations
-          supabase.from("generation_tasks").select("id").in("status", ["pending", "processing"]),
-
-          // Active sessions (events in last 15 min)
-          supabase
-            .from("user_analytics_events")
-            .select("session_id")
-            .gte("created_at", fifteenMinutesAgo.toISOString()),
-
-          // New tracks today
-          supabase.from("tracks").select("id").gte("created_at", todayStart.toISOString()).eq("status", "completed"),
-
-          // New users today
-          fetchProfileCount(),
-        ]);
-
-      const recentEvents = recentEventsResult.data || [];
-      const uniqueSessions = new Set((activeSessionsResult.data || []).map((e) => e.session_id).filter(Boolean));
+      const uniqueSessions = new Set(raw.activeSessions.map((e) => e.session_id).filter(Boolean));
 
       return {
         activeUsers: uniqueSessions.size,
-        generationsInProgress: generationsResult.data?.length || 0,
-        recentEvents: recentEvents.length,
-        lastEventTime: recentEvents[0]?.created_at ? new Date(recentEvents[0].created_at) : null,
-        eventsPerMinute: recentEvents.length,
-        newTracksToday: newTracksResult.data?.length || 0,
+        generationsInProgress: raw.generationsInProgress,
+        recentEvents: raw.recentEvents.length,
+        lastEventTime: raw.recentEvents[0]?.created_at ? new Date(raw.recentEvents[0].created_at) : null,
+        eventsPerMinute: raw.recentEvents.length,
+        newTracksToday: raw.newTracksToday,
         newUsersToday: typeof newUsersResult === "number" ? newUsersResult : 0,
       };
     },
@@ -84,21 +63,10 @@ export function RealTimeMetrics() {
     }
   }, [data?.recentEvents]);
 
-  // Subscribe to realtime changes
+  // Subscribe to realtime changes via API layer
   useEffect(() => {
-    const channel = supabase
-      .channel("realtime-metrics")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "user_analytics_events" }, () => {
-        refetch();
-      })
-      .on("postgres_changes", { event: "*", schema: "public", table: "generation_tasks" }, () => {
-        refetch();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    const unsubscribe = subscribeToRealtimeAdminMetrics(() => refetch());
+    return () => unsubscribe();
   }, [refetch]);
 
   const formatTimeSince = (date: Date | null): string => {

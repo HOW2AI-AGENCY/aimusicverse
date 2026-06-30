@@ -273,7 +273,12 @@ export async function createStudioProject(params: {
 }
 
 export async function updateStudioProject(id: string, updates: Record<string, unknown>) {
-  const { data, error } = await supabase.from("studio_projects").update(updates).eq("id", id).select().single();
+  const { data, error } = await supabase
+    .from("studio_projects")
+    .update(updates as never)
+    .eq("id", id)
+    .select()
+    .single();
   return { data, error };
 }
 

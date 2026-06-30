@@ -75,7 +75,7 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
   }) => {
     setIsSavingStyle(true);
     try {
-      await updateProject(project.id, data);
+      await updateProject({ id: project.id, updates: data });
 
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       toast.success("Визуальный стиль сохранен");

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { supabase } from "@/integrations/supabase/client";
+import { reportContent } from "@/api/admin.api";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { AlertTriangle, Flag, Loader2 } from "@/lib/icons";
@@ -51,16 +51,14 @@ export function ReportCommentDialog({
         return;
       }
 
-      const { error } = await supabase.from("moderation_reports").insert({
-        reporter_id: user.id,
-        entity_type: "comment",
-        entity_id: commentId,
-        reported_user_id: commentUserId,
+      await reportContent({
+        reporterId: user.id,
+        reportedUserId: commentUserId,
+        entityType: "comment",
+        entityId: commentId,
         reason,
-        details: details || null,
+        details: details || undefined,
       });
-
-      if (error) throw error;
 
       toast.success("Жалоба отправлена. Мы рассмотрим её в ближайшее время.");
       onOpenChange(false);

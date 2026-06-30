@@ -215,3 +215,110 @@ export async function reportContent(params: {
   if (error) throw new Error(error.message);
   return data;
 }
+
+// ==========================================
+// Quick Actions (broadcasts, bulk credits)
+// ==========================================
+
+/**
+ * Invoke the Telegram bot broadcast edge function.
+ */
+export async function invokeAdminBroadcast(payload: {
+  title: string;
+  message: string;
+  target_type?: "all" | "active" | "premium";
+}): Promise<{ sent_count?: number } & Record<string, unknown>> {
+  const { data, error } = await supabase.functions.invoke("telegram-bot", {
+    body: {
+      action: "broadcast",
+      target_type: payload.target_type ?? "all",
+      title: payload.title,
+      message: payload.message,
+    },
+  });
+  if (error) throw new Error(error.message);
+  return (data as { sent_count?: number } & Record<string, unknown>) ?? {};
+}
+
+/**
+ * Fetch the list of all users with current credit balances —
+ * used by bulk-credit admin actions.
+ */
+export async function fetchAllUserCreditsList(): Promise<
+  Array<{ user_id: string; balance: number; total_earned: number }>
+> {
+  const { data, error } = await supabase.from("user_credits").select("user_id, balance, total_earned");
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
+
+/**
+ * Bulk-award credits to every user that has a credits row, recording a
+ * matching `credit_transactions` entry per user.
+ *
+ * NB: this is a thin wrapper around the original direct-update path; a future
+ * migration should move the work into a security-definer RPC so it executes
+ * server-side in a single transaction.
+ */
+export async function bulkAwardCredits(params: {
+  amount: number;
+  reason?: string;
+}): Promise<{ amount: number; count: number }> {
+  const users = await fetchAllUserCreditsList();
+
+  for (const u of users) {
+    const { error: updateError } = await supabase
+      .from("user_credits")
+      .update({
+        balance: u.balance + params.amount,
+        total_earned: (u.total_earned ?? 0) + params.amount,
+      })
+      .eq("user_id", u.user_id);
+    if (updateError) throw new Error(updateError.message);
+
+    const { error: txError } = await supabase.from("credit_transactions").insert({
+      user_id: u.user_id,
+      amount: params.amount,
+      transaction_type: "earn",
+      action_type: "admin_bulk_bonus",
+      description: params.reason || "Бонус от администрации",
+    });
+    if (txError) throw new Error(txError.message);
+  }
+
+  return { amount: params.amount, count: users.length };
+}
+
+// ==========================================
+// Telegram bot config (menu images)
+// ==========================================
+
+export type BotMenuImagesConfig = Record<string, string>;
+
+export async function fetchBotMenuImagesConfig(): Promise<BotMenuImagesConfig> {
+  const { data, error } = await supabase
+    .from("telegram_bot_config")
+    .select("*")
+    .eq("config_key", "menu_images")
+    .maybeSingle();
+
+  if (error && error.code !== "PGRST116") throw new Error(error.message);
+  return ((data?.config_value as BotMenuImagesConfig) || {}) ?? {};
+}
+
+export async function upsertBotMenuImagesConfig(params: {
+  images: BotMenuImagesConfig;
+  updatedBy: string;
+}): Promise<void> {
+  const { error } = await supabase.from("telegram_bot_config").upsert(
+    {
+      config_key: "menu_images",
+      config_value: params.images,
+      description: "Изображения меню бота",
+      updated_at: new Date().toISOString(),
+      updated_by: params.updatedBy,
+    },
+    { onConflict: "config_key" },
+  );
+  if (error) throw new Error(error.message);
+}

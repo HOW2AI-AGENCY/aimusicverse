@@ -4,6 +4,9 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
+import type { Database } from "@/integrations/supabase/types";
+
+type NotificationSettingsUpdate = Database["public"]["Tables"]["user_notification_settings"]["Update"];
 
 export async function getNotificationSettings(userId: string) {
   const { data, error } = await supabase.from("user_notification_settings").select("*").eq("user_id", userId).single();
@@ -21,6 +24,29 @@ export async function upsertNotificationSettings(data: {
 }) {
   const { error } = await supabase.from("user_notification_settings").upsert(data as never, { onConflict: "user_id" });
   if (error) logger.error("Failed to upsert notification settings", { error: error.message });
+  return { error };
+}
+
+/**
+ * Upsert notification settings used by the onboarding flow.
+ * Distinct from {@link upsertNotificationSettings} because the
+ * onboarding screen tracks a different set of channels.
+ */
+export async function upsertOnboardingNotificationSettings(data: {
+  user_id: string;
+  notify_completed?: boolean;
+  notify_likes?: boolean;
+  notify_achievements?: boolean;
+  notify_daily_reminder?: boolean;
+}) {
+  const payload: NotificationSettingsUpdate = {
+    ...data,
+    updated_at: new Date().toISOString(),
+  };
+  const { error } = await supabase
+    .from("user_notification_settings")
+    .upsert(payload as never, { onConflict: "user_id" });
+  if (error) logger.error("Failed to upsert onboarding notification settings", { error: error.message });
   return { error };
 }
 

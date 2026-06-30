@@ -260,3 +260,240 @@ export async function fetchFunnelDropoffStats(funnelName: string, daysBack: numb
     avg_duration_ms: Number(row.avg_duration_ms),
   }));
 }
+
+// ==========================================
+// Period comparison (admin/analytics)
+// ==========================================
+
+export interface PeriodMetricsRaw {
+  newUsers: number;
+  tracks: number;
+  generations: Array<{ status: string | null }>;
+  revenue: Array<{ stars_amount: number | null }>;
+}
+
+export interface PeriodComparisonRaw {
+  current: PeriodMetricsRaw;
+  previous: PeriodMetricsRaw;
+}
+
+/**
+ * Aggregate raw metrics for two adjacent time windows.
+ *
+ * The component is responsible for computing derived KPIs (deltas, success
+ * rates, etc.) — this function returns shape-friendly data so the same call
+ * can power multiple dashboards.
+ */
+export async function fetchPeriodComparison(params: {
+  currentStart: Date;
+  previousStart: Date;
+  previousEnd: Date;
+}): Promise<PeriodComparisonRaw> {
+  const { currentStart, previousStart, previousEnd } = params;
+
+  const [
+    { count: currentNewUsers },
+    { count: currentTracks },
+    { data: currentGenerations },
+    { data: currentRevenue },
+  ] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", currentStart.toISOString()),
+    supabase
+      .from("tracks")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", currentStart.toISOString()),
+    supabase.from("generation_tasks").select("status").gte("created_at", currentStart.toISOString()),
+    supabase
+      .from("stars_transactions")
+      .select("stars_amount")
+      .gte("created_at", currentStart.toISOString())
+      .eq("status", "completed"),
+  ]);
+
+  const [{ count: prevNewUsers }, { count: prevTracks }, { data: prevGenerations }, { data: prevRevenue }] =
+    await Promise.all([
+      supabase
+        .from("profiles")
+        .select("*", { count: "exact", head: true })
+        .gte("created_at", previousStart.toISOString())
+        .lt("created_at", previousEnd.toISOString()),
+      supabase
+        .from("tracks")
+        .select("*", { count: "exact", head: true })
+        .gte("created_at", previousStart.toISOString())
+        .lt("created_at", previousEnd.toISOString()),
+      supabase
+        .from("generation_tasks")
+        .select("status")
+        .gte("created_at", previousStart.toISOString())
+        .lt("created_at", previousEnd.toISOString()),
+      supabase
+        .from("stars_transactions")
+        .select("stars_amount")
+        .gte("created_at", previousStart.toISOString())
+        .lt("created_at", previousEnd.toISOString())
+        .eq("status", "completed"),
+    ]);
+
+  return {
+    current: {
+      newUsers: currentNewUsers ?? 0,
+      tracks: currentTracks ?? 0,
+      generations: (currentGenerations ?? []) as Array<{ status: string | null }>,
+      revenue: (currentRevenue ?? []) as Array<{ stars_amount: number | null }>,
+    },
+    previous: {
+      newUsers: prevNewUsers ?? 0,
+      tracks: prevTracks ?? 0,
+      generations: (prevGenerations ?? []) as Array<{ status: string | null }>,
+      revenue: (prevRevenue ?? []) as Array<{ stars_amount: number | null }>,
+    },
+  };
+}
+
+// ==========================================
+// Conversion funnel
+// ==========================================
+
+export interface FunnelMetricsRaw {
+  totalSessions: number;
+  generatingUsers: number;
+  perUserTrackCounts: Array<{ user_id: string }>;
+  payingUsers: number;
+}
+
+export async function fetchFunnelMetricsRaw(): Promise<FunnelMetricsRaw> {
+  const { count: generatingUsers } = await supabase
+    .from("tracks")
+    .select("user_id", { count: "exact", head: true });
+
+  const { data: activeUsersData } = await supabase.from("tracks").select("user_id").limit(10000);
+
+  const { count: payingUsers } = await supabase
+    .from("stars_transactions")
+    .select("user_id", { count: "exact", head: true })
+    .eq("status", "completed");
+
+  const { count: totalSessions } = await supabase
+    .from("telemetry_events")
+    .select("*", { count: "exact", head: true })
+    .eq("event_type", "session_started");
+
+  return {
+    totalSessions: totalSessions ?? 0,
+    generatingUsers: generatingUsers ?? 0,
+    perUserTrackCounts: (activeUsersData ?? []) as Array<{ user_id: string }>,
+    payingUsers: payingUsers ?? 0,
+  };
+}
+
+// ==========================================
+// Real-time admin metrics
+// ==========================================
+
+export interface RealTimeMetricsRaw {
+  recentEvents: Array<{ created_at: string | null }>;
+  generationsInProgress: number;
+  activeSessions: Array<{ session_id: string | null }>;
+  newTracksToday: number;
+}
+
+export async function fetchRealTimeMetricsRaw(params: {
+  oneMinuteAgo: Date;
+  fifteenMinutesAgo: Date;
+  todayStart: Date;
+}): Promise<RealTimeMetricsRaw> {
+  const { oneMinuteAgo, fifteenMinutesAgo, todayStart } = params;
+
+  const [recentEventsResult, generationsResult, activeSessionsResult, newTracksResult] = await Promise.all([
+    supabase
+      .from("user_analytics_events")
+      .select("created_at")
+      .gte("created_at", oneMinuteAgo.toISOString())
+      .order("created_at", { ascending: false }),
+    supabase.from("generation_tasks").select("id").in("status", ["pending", "processing"]),
+    supabase
+      .from("user_analytics_events")
+      .select("session_id")
+      .gte("created_at", fifteenMinutesAgo.toISOString()),
+    supabase.from("tracks").select("id").gte("created_at", todayStart.toISOString()).eq("status", "completed"),
+  ]);
+
+  return {
+    recentEvents: (recentEventsResult.data ?? []) as Array<{ created_at: string | null }>,
+    generationsInProgress: generationsResult.data?.length ?? 0,
+    activeSessions: (activeSessionsResult.data ?? []) as Array<{ session_id: string | null }>,
+    newTracksToday: newTracksResult.data?.length ?? 0,
+  };
+}
+
+/**
+ * Subscribe to realtime activity that should refresh admin "live" widgets.
+ * Returns an unsubscribe function — consumers MUST call it on cleanup.
+ */
+export function subscribeToRealtimeAdminMetrics(onChange: () => void): () => void {
+  const channel = supabase
+    .channel("realtime-metrics")
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "user_analytics_events" }, () => onChange())
+    .on("postgres_changes", { event: "*", schema: "public", table: "generation_tasks" }, () => onChange())
+    .subscribe();
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}
+
+// ==========================================
+// Revenue analytics (stars_transactions)
+// ==========================================
+
+export interface RevenueAnalyticsRaw {
+  current: Array<{
+    created_at: string | null;
+    stars_amount: number | null;
+    user_id: string;
+    product_code: string | null;
+  }>;
+  previousSum: number;
+  newUsersInRange: number;
+}
+
+export async function fetchRevenueAnalyticsRaw(params: {
+  startDate: Date;
+  previousStart: Date;
+}): Promise<RevenueAnalyticsRaw> {
+  const { startDate, previousStart } = params;
+
+  const [transactionsResult, previousResult, usersResult] = await Promise.all([
+    supabase
+      .from("stars_transactions")
+      .select("*")
+      .gte("created_at", startDate.toISOString())
+      .eq("status", "completed"),
+    supabase
+      .from("stars_transactions")
+      .select("stars_amount")
+      .gte("created_at", previousStart.toISOString())
+      .lt("created_at", startDate.toISOString())
+      .eq("status", "completed"),
+    supabase
+      .from("profiles")
+      .select("user_id", { count: "exact", head: true })
+      .gte("created_at", startDate.toISOString()),
+  ]);
+
+  const previousSum = (previousResult.data ?? []).reduce((sum, t) => sum + (t.stars_amount ?? 0), 0);
+
+  return {
+    current: (transactionsResult.data ?? []) as Array<{
+      created_at: string | null;
+      stars_amount: number | null;
+      user_id: string;
+      product_code: string | null;
+    }>,
+    previousSum,
+    newUsersInRange: usersResult.count ?? 0,
+  };
+}

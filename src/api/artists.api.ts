@@ -92,3 +92,27 @@ export async function generateArtistPortrait(
   if (error) throw new Error(error.message);
   return data;
 }
+
+/**
+ * Aggregate stats for an artist's published tracks (count, total plays, likes).
+ */
+export async function fetchArtistTrackStats(
+  artistId: string,
+  trackIds?: string[],
+): Promise<{ tracks: number; totalPlays: number; totalLikes: number }> {
+  const [tracksResult, likesResult] = await Promise.all([
+    supabase.from("tracks").select("id, play_count", { count: "exact" }).eq("artist_id", artistId),
+    supabase
+      .from("track_likes")
+      .select("id", { count: "exact", head: true })
+      .in("track_id", trackIds && trackIds.length > 0 ? trackIds : ["00000000-0000-0000-0000-000000000000"]),
+  ]);
+
+  const totalPlays = tracksResult.data?.reduce((sum, t) => sum + (t.play_count || 0), 0) || 0;
+
+  return {
+    tracks: tracksResult.count || 0,
+    totalPlays,
+    totalLikes: likesResult.count || 0,
+  };
+}

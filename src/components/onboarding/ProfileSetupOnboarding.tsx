@@ -8,7 +8,9 @@ import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchProfileByUserId, updateUserProfile } from "@/api/profiles.api";
+import { upsertOnboardingNotificationSettings } from "@/api/notifications.api";
+import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
@@ -103,26 +105,20 @@ export function ProfileSetupOnboarding({ userId, initialProfile, onComplete, onS
     setIsLoading(true);
     try {
       // Update profile
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .update({
-          first_name: displayName,
-          username: username || null,
-          is_public: isPublic,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("user_id", userId);
-
-      if (profileError) throw profileError;
+      await updateUserProfile(userId, {
+        first_name: displayName,
+        username: username || null,
+        is_public: isPublic,
+        updated_at: new Date().toISOString(),
+      });
 
       // Update notification settings
-      const { error: notifError } = await supabase.from("user_notification_settings").upsert({
+      const { error: notifError } = await upsertOnboardingNotificationSettings({
         user_id: userId,
         notify_completed: notifyCompleted,
         notify_likes: notifyLikes,
         notify_achievements: notifyAchievements,
         notify_daily_reminder: notifyDailyReminder,
-        updated_at: new Date().toISOString(),
       });
 
       if (notifError) throw notifError;
@@ -154,18 +150,19 @@ export function ProfileSetupOnboarding({ userId, initialProfile, onComplete, onS
       const fileExt = file.name.split(".").pop();
       const fileName = `${userId}_${Date.now()}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, { upsert: true });
+      const { data, error: uploadError } = await uploadFile({
+        bucket: "avatars",
+        path: fileName,
+        file,
+        upsert: true,
+      });
 
-      if (uploadError) throw uploadError;
+      if (uploadError || !data) throw uploadError ?? new Error("Upload failed");
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("avatars").getPublicUrl(fileName);
-
-      setAvatarUrl(publicUrl);
+      setAvatarUrl(data.publicUrl);
 
       // Update profile with new avatar
-      await supabase.from("profiles").update({ photo_url: publicUrl }).eq("user_id", userId);
+      await updateUserProfile(userId, { photo_url: data.publicUrl });
 
       toast.success("Фото загружено");
     } catch (error) {
@@ -465,7 +462,7 @@ export function useProfileSetupCheck() {
       }
 
       // Check if profile has been set up
-      const { data: profileData } = await supabase.from("profiles").select("*").eq("user_id", user.id).single();
+      const profileData = await fetchProfileByUserId(user.id);
 
       if (profileData) {
         setProfile(profileData);
