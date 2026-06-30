@@ -486,15 +486,15 @@ export default function Community() {
           </TabsContent>
 
           {/* Artists */}
-          <TabsContent value="artists" className="mt-0">
+          <TabsContent value="artists" className="mt-0 @container">
             {artistsLoading ? (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-4 @sm:grid-cols-2 @lg:grid-cols-3">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
                 ))}
               </div>
             ) : filteredArtists.length > 0 ? (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-4 @sm:grid-cols-2 @lg:grid-cols-3">
                 {filteredArtists.map((artist, index) => (
                   <motion.div
                     key={artist.id}
