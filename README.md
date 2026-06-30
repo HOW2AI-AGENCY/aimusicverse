@@ -2,14 +2,13 @@
 
 ![AI MusicVerse](https://shieldcn.dev/header/surface.svg?title=AI+MusicVerse&subtitle=%D0%93%D0%B5%D0%BD%D0%B5%D1%80%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5%2C+%D1%80%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5%2C+%D1%81%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5+%D0%B8+%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D1%83%D0%B9%D1%82%D0%B5+%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D1%83+%D1%81+%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E+%D0%98%D0%98%2C+%D0%BD%D0%B5+%D0%B2%D1%8B%D1%85%D0%BE%D0%B4%D1%8F+%D0%B8%D0%B7+Telegram.&mode=dark&theme=slate)
 
-
 **AI-powered music creation platform — прямо в Telegram**
 
 <p>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981"/></a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/releases"><img alt="Версия" src="https://img.shields.io/github/v/release/HOW2AI-AGENCY/aimusicverse?style=for-the-badge&color=475569"/></a>
+  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/actions/workflows/quality-check.yml"><img alt="Quality &amp; Build" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/quality-check.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981&label=Quality+%26+Build"/></a>
+  <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.0-475569?style=for-the-badge"/>
   <a href="LICENSE"><img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/></a>
-  <img alt="Бандл" src="https://img.shields.io/badge/bundle-%3C950kb-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
+  <img alt="Бандл" src="https://img.shields.io/badge/bundle-918KB_of_950KB-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
   <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
 </p>
 
@@ -33,35 +32,34 @@
 
 <div align="center">
 
-|                   Главная                   |                   Библиотека                   |                 Проекты                  |                  Студия                  |
-| :-----------------------------------------: | :--------------------------------------------: | :--------------------------------------: | :--------------------------------------: |
+|                                                  Главная                                                   |                                                    Библиотека                                                    |                                                    Проекты                                                     |                                                   Студия                                                    |
+| :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: |
 | ![Главная](https://aimusicverse.lovable.app/__l5e/assets-v1/403b3246-5427-4e1b-b4ae-0f040cbb13f9/home.png) | ![Библиотека](https://aimusicverse.lovable.app/__l5e/assets-v1/ee33a97f-b38a-4237-b4dd-7570cf20d1f3/library.png) | ![Проекты](https://aimusicverse.lovable.app/__l5e/assets-v1/4ed69732-610c-48d3-9c97-758de4f636a4/projects.png) | ![Студия](https://aimusicverse.lovable.app/__l5e/assets-v1/c73682a9-7b3c-487f-919a-e926941d119b/studio.png) |
 
 <sub>Реальные скриншоты приложения на мобильном viewport 390×844 (iPhone-class). Сгенерированы автоматически через Playwright из живого preview.</sub>
 
 </div>
 
-
 ---
 
 ## 💰 Для инвесторов
 
-| Метрика               |                                                                                                 Значение                                                                                                  |
-| --------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| ⭐ GitHub Stars       |                                                           ![](https://img.shields.io/github/stars/HOW2AI-AGENCY/aimusicverse?style=flat-square)                                                           |
-| 📦 Размер бандла      | ![](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/HOW2AI-AGENCY/aimusicverse/main/package.json&query=$.size-limit[0].limit&style=flat-square&label=bundle&color=10B981) |
-| 🧪 Покрытие кода      |                                                         ![](https://img.shields.io/codecov/c/github/HOW2AI-AGENCY/aimusicverse?style=flat-square)                                                         |
-| 🔒 Безопасность       |                                                              ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)                                                              |
-| 📊 Спринтов завершено |                                                                                                  **37**                                                                                                   |
-| 🏗 Компонентов        |                                                                                                  **987**                                                                                                  |
-| 🔧 Хуков              |                                                                                                  **347**                                                                                                  |
-| 🚀 Стадия             |                                                                                     **Pre-Seed / Active Development**                                                                                     |
+| Метрика               |                                                Значение                                                |
+| --------------------- | :----------------------------------------------------------------------------------------------------: |
+| ⭐ GitHub Stars       |       ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)        |
+| 📦 Размер бандла      | ![](https://img.shields.io/badge/bundle-918_KB_%2F_950_KB_limit-10B981?style=flat-square&logo=webpack) |
+| 🧪 Покрытие кода      |     ![](https://img.shields.io/badge/unit_tests-341_passing-10B981?style=flat-square&logo=vitest)      |
+| 🔒 Безопасность       |            ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)             |
+| 📊 Спринтов завершено |                                                 **38**                                                 |
+| 🏗 Компонентов         |                                                **990**                                                 |
+| 🔧 Хуков              |                                                **351**                                                 |
+| 🚀 Стадия             |                                   **Pre-Seed / Active Development**                                    |
 
 > **MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 039 — архитектурный рефакторинг: **0 нарушений слоёв** (было 109), 97% overall
+- **Текущий фокус**: Sprint 039 — архитектурный рефакторинг: **8/14 задач** (57%), 0 нарушений слоёв, god-компоненты разбиты
 
 ---
 
@@ -85,16 +83,16 @@ gantt
     Sprint 040: Тесты + Export         :040, 2026-07-15, 2026-08-01
 ```
 
-| Спринт | Название                            | Статус | Прогресс   |
-| :----: | ----------------------------------- | :----: | :--------: |
-|  033   | UX-аудит и переработка              |   ✅   |   100%     |
-|  034   | Надёжность генерации                |   ✅   |   100%     |
-|  035   | Стабилизация + Чистка               |   ✅   |   100%     |
-|  036   | Рефакторинг слоёв + Type Safety     |   ✅   |   100%     |
-|  037   | Infrastructure Hardening            |   ✅   |   100%     |
-|  038   | Design System Unification           |   ✅   | 28/28      |
-|  039   | Архитектурный рефакторинг           |   🟡   | 5/14 (36%) |
-|  040   | Тесты + Export                      |   ⚪   |   0%       |
+| Спринт | Название                        | Статус |  Прогресс  |
+| :----: | ------------------------------- | :----: | :--------: |
+|  033   | UX-аудит и переработка          |   ✅   |    100%    |
+|  034   | Надёжность генерации            |   ✅   |    100%    |
+|  035   | Стабилизация + Чистка           |   ✅   |    100%    |
+|  036   | Рефакторинг слоёв + Type Safety |   ✅   |    100%    |
+|  037   | Infrastructure Hardening        |   ✅   |    100%    |
+|  038   | Design System Unification       |   ✅   |   28/28    |
+|  039   | Архитектурный рефакторинг       |   🟡   | 8/14 (57%) |
+|  040   | Тесты + Export                  |   ⚪   |     0%     |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md)</sub>
 
@@ -123,7 +121,7 @@ npm run check-all  # lint + format + typecheck + test
 | 🎤 Voice Clone  | Клонирование голоса                          |   ✅   |
 | 📝 Lyrics AI    | AI-помощник для текстов                      |   ✅   |
 | 🎸 Инструменты  | Гитара, драм-машина, микшер                  |   ✅   |
-| 🏗 Студия       | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
+| 🏗 Студия        | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
 | 👥 Сообщество   | Лента, артисты, блог                         |   ✅   |
 | 💎 Монетизация  | Stars Payment, подписки                      |   ✅   |
 | 📊 Аналитика    | Dashboard, A/B тесты                         |   ✅   |
@@ -196,7 +194,7 @@ aimusicverse/
 | 🤖 Telegram бот | [@AIMusicVerseBot](https://t.me/AIMusicVerseBot) |
 | 📧 Email        | `hello@how2ai.agency`                            |
 | 🌐 Сайт         | [how2ai.agency](https://how2ai.agency)           |
-| 🛡 Безопасность | `security@how2ai.agency`                         |
+| 🛡 Безопасность  | `security@how2ai.agency`                         |
 | 📄 Лицензия     | [MIT](LICENSE)                                   |
 
 ---
