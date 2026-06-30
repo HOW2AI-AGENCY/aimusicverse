@@ -11,22 +11,7 @@
  * never accidentally triggers expand.
  */
 import { memo, useCallback, useState, type KeyboardEvent } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Play,
-  Pause,
-  Music2,
-  SkipForward,
-  SkipBack,
-  ChevronUp,
-  X,
-  Heart,
-  Volume2,
-  VolumeX,
-  Volume1,
-  Loader2,
-  AlertCircle,
-} from "@/lib/icons";
+import { Music2, ChevronUp, AlertCircle } from "@/lib/icons";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGestures } from "@/hooks/useGestures";
@@ -39,10 +24,17 @@ import { hapticImpact } from "@/lib/haptic";
 import { glass } from "@/lib/glass";
 import { UnifiedTrackMenu } from "@/components/track-actions/UnifiedTrackMenu";
 import { PlayerProgress } from "./PlayerProgress";
-import { Slider } from "@/components/ui/slider";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LazyImage } from "@/components/ui/lazy-image";
 import { usePlayerTransition } from "./PlayerTransitionProvider";
+import {
+  PlayBtn,
+  NextBtn,
+  PrevBtn,
+  CloseBtn,
+  LikeBtn,
+  ExpandBtn,
+  VolumeControl,
+} from "./CompactPlayerButtons";
 
 interface CompactPlayerProps {
   track: Track;
