@@ -47,7 +47,7 @@ jobs:
           CI: true
 
       - name: Run Playwright (${{ matrix.project }})
-        run: npx playwright test --project=${{ matrix.project }}
+        run: npx playwright test --project="${{ matrix.project }}"
         env:
           CI: true
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
