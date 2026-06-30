@@ -42,6 +42,7 @@ import { PlayerProgress } from "./PlayerProgress";
 import { Slider } from "@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { usePlayerTransition } from "./PlayerTransitionProvider";
 
 interface CompactPlayerProps {
   track: Track;
@@ -75,6 +76,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   const variant: "mobile" | "mid" | "desktop" = isDesktop ? "desktop" : isMidRange ? "mid" : "mobile";
 
   const hasNextTrack = queue.length > 0;
+  const { artworkLayoutId } = usePlayerTransition();
 
   const handlePlayPause = useCallback(
     (e: React.MouseEvent) => {
@@ -171,11 +173,13 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
     <UnifiedTrackMenu
       track={track}
       trigger={
-        <div
+        <motion.div
+          layoutId={artworkLayoutId}
           className="relative flex-shrink-0 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-xl"
           role="button"
           tabIndex={0}
           aria-label={`Меню трека: ${track.title || "Без названия"}`}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           {track.cover_url ? (
             <LazyImage
@@ -220,7 +224,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               ))}
             </motion.div>
           )}
-        </div>
+        </motion.div>
       }
     />
   );

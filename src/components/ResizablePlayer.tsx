@@ -3,6 +3,7 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { getGlobalAudioRef } from "@/hooks/audio/useAudioTime";
 import { AnimatePresence } from "@/lib/motion";
 import { logger } from "@/lib/logger";
+import { PlayerTransitionProvider } from "./player/PlayerTransitionProvider";
 
 // Lazy load player surfaces
 const CompactPlayer = React.lazy(() => import("./player/CompactPlayer").then((m) => ({ default: m.CompactPlayer })));
@@ -84,16 +85,18 @@ export const ResizablePlayer = () => {
   }
 
   return (
-    <React.Suspense fallback={null}>
-      <AnimatePresence mode="wait">
-        {/* Compact mode - minimal bottom bar */}
-        {playerMode === "compact" && <CompactPlayer key="compact" track={activeTrack} onExpand={handleMaximize} />}
+    <PlayerTransitionProvider>
+      <React.Suspense fallback={null}>
+        <AnimatePresence mode="sync">
+          {/* Compact mode - minimal bottom bar */}
+          {playerMode === "compact" && <CompactPlayer key="compact" track={activeTrack} onExpand={handleMaximize} />}
 
-        {/* Fullscreen mode - unified entry, dispatches to mobile/desktop layout internally */}
-        {playerMode === "fullscreen" && (
-          <FullscreenPlayer key="fullscreen" track={activeTrack} onClose={handleMinimize} />
-        )}
-      </AnimatePresence>
-    </React.Suspense>
+          {/* Fullscreen mode - unified entry, dispatches to mobile/desktop layout internally */}
+          {playerMode === "fullscreen" && (
+            <FullscreenPlayer key="fullscreen" track={activeTrack} onClose={handleMinimize} />
+          )}
+        </AnimatePresence>
+      </React.Suspense>
+    </PlayerTransitionProvider>
   );
 };

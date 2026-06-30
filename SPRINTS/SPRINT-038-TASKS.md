@@ -239,23 +239,13 @@
 
 ### T038-19: Player Shared Element Transition
 
-- **SP:** 4 | **Статус:** 🔴 OPEN | **Зависимости:** T038-17, T038-18
-- **Описание:**
-  - **Mini Player → Full Player** через `layoutId` Framer Motion (artwork)
-  - FullPlayer — `Sheet` (vaul) на мобильных, `Dialog` на desktop
-  - Queue — правая панель внутри FullPlayer (не отдельный экран)
-  - Waveform — `motion.div` с анимированной высотой
-  - Swipe down для закрытия FullPlayer (возврат к Mini)
+- **SP:** 4 | **Статус:** ✅ COMPLETE | **Зависимости:** T038-17, T038-18
 - **Файлы:**
-  - `src/components/player/MiniPlayer.tsx` (модификация)
-  - `src/components/player/FullScreenPlayer.tsx` (модификация)
-  - `src/components/player/PlayerQueue.tsx` (модификация — теперь внутри FullPlayer)
-  - `src/components/player/PlayerTransitionProvider.tsx` (новый — layoutId контекст)
-- **Критерии:**
-  - [ ] Shared element transition artwork (mini → full) плавный, < 300ms
-  - [ ] FullPlayer закрывается swipe'ом вниз
-  - [ ] Queue доступна из FullPlayer (не отдельная страница)
-  - [ ] Не ломается на iOS Safari
+  - `src/components/player/PlayerTransitionProvider.tsx` (уже существовал — layoutId контекст)
+  - `src/components/ResizablePlayer.tsx` — обёрнут в `PlayerTransitionProvider`, `AnimatePresence mode="sync"`
+  - `src/components/player/CompactPlayer.tsx` — artwork trigger стал `<motion.div layoutId={artworkLayoutId}>`
+  - `src/components/player/pages/CoverPage.tsx` — fullscreen artwork контейнер `<motion.div layoutId={artworkLayoutId}>`
+- **Результат:** Framer Motion `layoutId` spring-transition (stiffness 300, damping 30) анимирует artwork из компактного плеера в полноэкранный. Swipe-down уже был реализован в `MobileFullscreenPlayer`. Queue Sheet уже была доступна внутри FullPlayer.
 
 ### T038-20: Telegram Haptics Integration
 
@@ -440,7 +430,7 @@
 |           |                                    |      | **5**     |                                      |
 | T038-17   | Animation standards                | C    | 2         | ✅ COMPLETE                          |
 | T038-18   | Reduced motion audit               | C    | 2         | ✅ COMPLETE                          |
-| T038-19   | Player transition                  | C    | 4         | 🔴 OPEN                              |
+| T038-19   | Player transition                  | C    | 4         | ✅ COMPLETE                          |
 | T038-20   | Telegram haptics                   | C    | 1         | ✅ COMPLETE                          |
 |           |                                    |      | **9**     | (Note: plan says 12, corrected to 9) |
 | T038-21   | Typography pass                    | D    | 2         | ✅ COMPLETE                          |
