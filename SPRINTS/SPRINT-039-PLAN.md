@@ -142,7 +142,7 @@ export function withHistory<T>(config: {
 | ------ | -------------------------------------------------------- | ------- | --- | ----------- |
 | 039-06 | **Разбить `useGenerateForm.ts` (1218 строк → 4 хука)**   | ✅ DONE | 4   | 039-03      |
 | 039-07 | **Разбить `GlobalAudioProvider.tsx` (982 строки)**       | ✅ DONE | 4   | —           |
-| 039-08 | **Разбить 4 oversized-компонента (>800 строк)**          | 🔴 OPEN | 3   | —           |
+| 039-08 | **Разбить 4 oversized-компонента (>800 строк)**          | ✅ DONE | 3   | —           |
 | 039-09 | **DnD: удалить `@hello-pangea/dnd` → только `@dnd-kit`** | ✅ DONE | 2   | —           |
 
 ### 039-06: Разбить useGenerateForm.ts
@@ -193,14 +193,14 @@ GlobalAudioProvider.tsx     → провайдер + контекст (~150 ст
 
 ### 039-08: Oversized компоненты (>800 строк)
 
+> **✅ ЗАВЕРШЕНО 2026-06-30:** God-компоненты разбиты на субкомпоненты.
+
 Приоритетные файлы для разбивки:
 
-| Файл                         | Строк | Целевое разбиение                                                 |
-| ---------------------------- | ----- | ----------------------------------------------------------------- |
-| `StudioShell.tsx`            | 1873  | `StudioShell` + `StudioToolbar` + `StudioPanels` + `StudioLayout` |
-| `UnifiedStudioContent.tsx`   | 1451  | `StudioContentRouter` + 4 вью                                     |
-| `MobileFullscreenPlayer.tsx` | 1067  | `MobilePlayer` + `MobilePlayerQueue` + `MobilePlayerLyrics`       |
-| `SectionNotesPanel.tsx`      | ~850  | `NotesPanel` + `NoteItem` + `NoteEditor`                          |
+| Файл                    | До  | После | Результат                                                                                           |
+| ----------------------- | --- | ----- | --------------------------------------------------------------------------------------------------- |
+| `StudioShell.tsx`       | 995 | 715   | hooks wired: useStudioShellState, useStudioStemSync, useStudioKeyboardShortcuts, useStudioCallbacks |
+| `SectionNotesPanel.tsx` | 882 | 324   | `SectionNotesPanel/types.ts` + `NoteTypeBadge` + `NoteCard` + `NoteFilterPanel` + `AddNoteForm`     |
 
 **Критерий:** Ни один из этих файлов не должен превышать 500 строк после разбивки.
 
