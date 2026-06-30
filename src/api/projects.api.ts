@@ -148,7 +148,7 @@ export async function updateProjectBanner(
 /**
  * Invoke project-ai edge function with arbitrary action payload
  */
-export async function invokeProjectAi(payload: Record<string, unknown>): Promise<{ data: unknown; error: Error | null }> {
+export async function invokeProjectAi(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
   const { data, error } = await supabase.functions.invoke("project-ai", { body: payload });
   return { data, error: error ? new Error(error.message) : null };
 }
