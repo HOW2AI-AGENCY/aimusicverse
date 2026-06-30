@@ -209,25 +209,34 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
 
   return (
     <motion.div
-      initial={{ opacity: 1, y: "100%" }}
+      initial={prefersReducedMotion ? { opacity: 0, y: 0 } : { opacity: 1, y: "100%" }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: "100%" }}
-      transition={{ type: "spring", damping: 30, stiffness: 300 }}
+      exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: "100%" }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.12 }
+          : { type: "spring", damping: 30, stiffness: 300 }
+      }
       className="fixed inset-0 z-fullscreen flex flex-col overflow-hidden bg-background"
       data-testid="mobile-fullscreen-player"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Полноэкранный плеер"
     >
       <FullscreenBackground coverUrl={track.cover_url} />
 
       {/* Drag-to-close strip */}
       <motion.div
-        drag="y"
+        drag={prefersReducedMotion ? false : "y"}
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={{ top: 0.1, bottom: 0.5 }}
         onDragEnd={handleVerticalDragEnd}
         className="absolute top-0 left-0 right-0 z-20 flex h-10 cursor-grab items-start justify-center pt-2 active:cursor-grabbing"
+        role="button"
+        tabIndex={-1}
         aria-label="Потяните вниз чтобы закрыть"
       >
-        <div className="h-1 w-10 rounded-full bg-muted-foreground/40" />
+        <div className="h-1 w-10 rounded-full bg-muted-foreground/40" aria-hidden="true" />
       </motion.div>
 
       <div className="relative z-10 flex flex-1 flex-col min-h-0">
