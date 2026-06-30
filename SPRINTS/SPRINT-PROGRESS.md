@@ -24,8 +24,10 @@
 | **Sprint 034: Generation Reliability** | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                                                                                         |
 | **Sprint 035: Стабилизация + Чистка**  | 🟡 В РАБОТЕ     | TDZ fix ✅, rules-of-hooks ✅ (24 violations / 10 files), 6 дубликатов, PlaybackStore, query keys, E2E |
 | **Sprint 036: Слои + Type Safety**     | ⏳ ЗАПЛАНИРОВАН | 30+ Supabase из компонентов, god-хуки, 342 any→<100                                                    |
-| **Sprint 037: DX + Мониторинг**        | ✅ ЗАВЕРШЁН     | 12/12 задач ✅ (commit `70c33162`)                                                                     |
-| **Sprint 038: Export + Тесты**         | ⏳ ЗАПЛАНИРОВАН | export WAV/MP3, 500+ тестов, Sentry Perf                                                               |
+| **Sprint 037: Infrastructure Hardening**| ✅ ЗАВЕРШЁН     | 12/12 задач ✅ — bundle visualizer, Sentry Perf, TS strict, Storybook 6 stories, FSM docs               |
+| **Sprint 038: Design System Unif.**    | 🟡 В РАБОТЕ     | 12/28 задач (43%) — EmptyState ✅, Skeleton ✅, Touch ✅, Z-index ✅, Safari ✅, Animation ✅, Haptics ✅ |
+| **Sprint 039: Архит. рефакторинг**     | 📋 ЗАПЛАНИРОВАН | Layer violations, god-хуки, 342 any → <50, E2E CI green, DnD унификация                               |
+| **Sprint 040: Тесты + Export**         | 📋 ЗАПЛАНИРОВАН | 100+ unit-тест файлов, WAV/MP3/FLAC export, Service Worker, Lighthouse CI                              |
 
 ---
 
