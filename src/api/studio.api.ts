@@ -56,6 +56,17 @@ export async function fetchTrackStems(trackId: string) {
   return { data, error };
 }
 
+// ============= Source Track Query =============
+
+export async function fetchSourceTrackForStudio(trackId: string) {
+  const { data, error } = await supabase
+    .from("tracks")
+    .select("id, lyrics, suno_task_id, suno_id")
+    .eq("id", trackId)
+    .maybeSingle();
+  return { data, error };
+}
+
 // ============= Stem Separation =============
 
 export async function invokeStemSeparation(params: {
