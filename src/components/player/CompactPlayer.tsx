@@ -11,22 +11,7 @@
  * never accidentally triggers expand.
  */
 import { memo, useCallback, useState, type KeyboardEvent } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Play,
-  Pause,
-  Music2,
-  SkipForward,
-  SkipBack,
-  ChevronUp,
-  X,
-  Heart,
-  Volume2,
-  VolumeX,
-  Volume1,
-  Loader2,
-  AlertCircle,
-} from "@/lib/icons";
+import { Music2, ChevronUp, AlertCircle } from "@/lib/icons";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGestures } from "@/hooks/useGestures";
@@ -39,10 +24,17 @@ import { hapticImpact } from "@/lib/haptic";
 import { glass } from "@/lib/glass";
 import { UnifiedTrackMenu } from "@/components/track-actions/UnifiedTrackMenu";
 import { PlayerProgress } from "./PlayerProgress";
-import { Slider } from "@/components/ui/slider";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LazyImage } from "@/components/ui/lazy-image";
 import { usePlayerTransition } from "./PlayerTransitionProvider";
+import {
+  PlayBtn,
+  NextBtn,
+  PrevBtn,
+  CloseBtn,
+  LikeBtn,
+  ExpandBtn,
+  VolumeControl,
+} from "./CompactPlayerButtons";
 
 interface CompactPlayerProps {
   track: Track;
@@ -249,139 +241,22 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   );
 
   const PlayButton = (
-    <Button
-      variant="ghost"
-      size="icon"
+    <PlayBtn
+      variant={variant}
+      isPlaying={isPlaying}
+      isLoading={isLoading}
+      hasError={hasError}
+      playbackError={playbackError}
       onClick={handlePlayPause}
-      disabled={isLoading}
-      className={cn(
-        "rounded-full bg-primary/10 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all",
-        variant === "desktop" ? "h-12 w-12" : "h-11 w-11",
-        "min-h-[44px] min-w-[44px]",
-        hasError && "bg-destructive/15 hover:bg-destructive/25",
-      )}
-      aria-label={
-        hasError
-          ? `Ошибка: ${playbackError || "не удалось загрузить"}`
-          : isLoading
-            ? "Загрузка трека"
-            : isPlaying
-              ? "Пауза"
-              : "Воспроизвести"
-      }
-      aria-busy={isLoading}
-      title={hasError ? playbackError || "Ошибка воспроизведения" : undefined}
-      data-testid="compact-player-play"
-    >
-      {hasError ? (
-        <AlertCircle className={cn("text-destructive", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} />
-      ) : isLoading ? (
-        <Loader2 className={cn("animate-spin", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} />
-      ) : isPlaying ? (
-        <Pause className={cn(variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} fill="currentColor" />
-      ) : (
-        <Play className={cn("ml-0.5", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} fill="currentColor" />
-      )}
-    </Button>
+    />
   );
 
-  const NextButton = (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={handleNextTrack}
-      disabled={!hasNextTrack}
-      className={cn(
-        "h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 hover:scale-105 active:scale-95 transition-all",
-        !hasNextTrack && "opacity-40",
-      )}
-      aria-label="Следующий трек"
-    >
-      <SkipForward className="h-4 w-4" />
-    </Button>
-  );
-
-  const PrevButton = (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={handlePrevTrack}
-      className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 hover:scale-105 active:scale-95 transition-all"
-      aria-label="Предыдущий трек"
-    >
-      <SkipBack className="h-4 w-4" />
-    </Button>
-  );
-
-  const CloseButton = (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={handleClose}
-      className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-destructive/15 hover:text-destructive active:scale-95 transition-all"
-      aria-label="Закрыть плеер"
-      data-testid="compact-player-close"
-    >
-      <X className="h-4 w-4" />
-    </Button>
-  );
-
-  const LikeButton = (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={handleLike}
-      className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 active:scale-95 transition-all"
-      aria-label={isLiked ? "Убрать из избранного" : "В избранное"}
-    >
-      <Heart className={cn("h-4 w-4", isLiked && "fill-primary text-primary")} />
-    </Button>
-  );
-
-  const VolumePopover = (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={(e) => e.stopPropagation()}
-          className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 transition-all"
-          aria-label="Громкость"
-        >
-          {volume === 0 ? (
-            <VolumeX className="h-4 w-4" />
-          ) : volume < 0.5 ? (
-            <Volume1 className="h-4 w-4" />
-          ) : (
-            <Volume2 className="h-4 w-4" />
-          )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent side="top" align="end" className="w-44 p-3" onClick={(e) => e.stopPropagation()}>
-        <Slider
-          value={[Math.round(volume * 100)]}
-          onValueChange={(v) => setVolume(v[0] / 100)}
-          min={0}
-          max={100}
-          step={1}
-          aria-label="Уровень громкости"
-        />
-        <div className="mt-2 text-xs text-muted-foreground text-center tabular-nums">{Math.round(volume * 100)}%</div>
-      </PopoverContent>
-    </Popover>
-  );
-
-  const ExpandButton = (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={handleExpand}
-      className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted/50 transition-all"
-      aria-label="Развернуть плеер"
-    >
-      <ChevronUp className="h-4 w-4" />
-    </Button>
-  );
+  const NextButton = <NextBtn onClick={handleNextTrack} disabled={!hasNextTrack} />;
+  const PrevButton = <PrevBtn onClick={handlePrevTrack} />;
+  const CloseButton = <CloseBtn onClick={handleClose} />;
+  const LikeButton = <LikeBtn onClick={handleLike} isLiked={isLiked} />;
+  const VolumePopover = <VolumeControl volume={volume} setVolume={setVolume} />;
+  const ExpandButton = <ExpandBtn onClick={handleExpand} />;
 
   const Waveform = ({ heightClass }: { heightClass: string }) => (
     <div className={cn("flex-1 min-w-0", heightClass)}>
