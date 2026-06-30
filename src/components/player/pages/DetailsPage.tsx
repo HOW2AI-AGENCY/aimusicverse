@@ -76,16 +76,35 @@ export function DetailsPage({ track }: DetailsPageProps) {
       <div className="mx-auto flex max-w-[28rem] flex-col gap-4 pb-24">
         {/* Title block */}
         <section className="rounded-2xl bg-card/60 p-4 ring-1 ring-border/40 backdrop-blur">
-          <h2 className="font-display text-[17px] font-semibold leading-tight text-foreground">
-            {track.title || "Без названия"}
-          </h2>
-          {track.style && (
-            <p className="mt-1 text-[12px] text-muted-foreground/80">{track.style}</p>
-          )}
+          <div className="flex items-start gap-3">
+            <div className="min-w-0 flex-1">
+              <h2 className="font-display text-[17px] font-semibold leading-tight text-foreground">
+                {track.title || "Без названия"}
+              </h2>
+              {track.style && (
+                <p className="mt-1 text-[12px] text-muted-foreground/80">{track.style}</p>
+              )}
+            </div>
+            <Button
+              type="button"
+              onClick={togglePlay}
+              size="icon"
+              className={cn(
+                "h-11 w-11 shrink-0 rounded-full",
+                "bg-primary text-primary-foreground hover:bg-primary/90",
+                "transition-transform active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100",
+              )}
+              aria-label={showAsPlaying ? "Пауза" : "Воспроизвести"}
+              aria-pressed={showAsPlaying}
+            >
+              {showAsPlaying ? <Pause className="h-5 w-5" /> : <Play className="ml-0.5 h-5 w-5" />}
+            </Button>
+          </div>
           <div className="mt-3">
             <VersionSwitcher track={track} size="compact" />
           </div>
         </section>
+
 
         {/* Metadata grid */}
         <section className="rounded-2xl bg-card/60 p-2 ring-1 ring-border/40 backdrop-blur">
