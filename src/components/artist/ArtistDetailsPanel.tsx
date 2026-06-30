@@ -10,6 +10,8 @@ import { Card } from "@/components/ui/card";
 import { User, Music2, Sparkles, Play, Edit, Settings, Clock, ChevronRight, Lock, Globe } from "@/lib/icons";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { checkAdminRole } from "@/api/admin.api";
+import { fetchTracks } from "@/api/tracks.api";
 import { useAuth } from "@/hooks/useAuth";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { cn } from "@/lib/utils";
@@ -38,8 +40,8 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
     queryKey: ["can-make-private", user?.id],
     queryFn: async () => {
       if (!user?.id) return false;
-      const [{ data: isAdmin }, { data: profile }] = await Promise.all([
-        supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }),
+      const [isAdmin, { data: profile }] = await Promise.all([
+        checkAdminRole(user.id),
         supabase.from("profiles").select("subscription_tier").eq("user_id", user.id).single(),
       ]);
       return isAdmin || (profile?.subscription_tier && profile.subscription_tier !== "free");
@@ -52,14 +54,10 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
     queryKey: ["artist-tracks", artist?.id],
     queryFn: async () => {
       if (!artist?.id) return [];
-      const { data, error } = await supabase
-        .from("tracks")
-        .select("*")
-        .eq("artist_id", artist.id)
-        .order("created_at", { ascending: false })
-        .limit(50);
-      if (error) throw error;
-      return data || [];
+      const { data } = await fetchTracks({ userId: undefined }, { page: 0, pageSize: 50 });
+      // Filter by artist_id client-side since fetchTracks doesn't support artistId filter
+      const artistTracks = data.filter((t) => (t as unknown as { artist_id?: string }).artist_id === artist.id);
+      return artistTracks;
     },
     enabled: !!artist?.id && open,
   });

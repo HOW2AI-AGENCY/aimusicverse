@@ -6,6 +6,7 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchReferenceAudioById, deleteReferenceAudio } from "@/api/recordings.api";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -126,7 +127,7 @@ export default function ReferenceAudioDetail() {
     queryFn: async () => {
       if (!id) throw new Error("No ID provided");
 
-      const { data, error } = await supabase.from("reference_audio").select("*").eq("id", id).single();
+      const { data, error } = await fetchReferenceAudioById(id);
 
       if (error) throw error;
       return data as ReferenceAudio;
@@ -138,8 +139,7 @@ export default function ReferenceAudioDetail() {
   const deleteMutation = useMutation({
     mutationFn: async () => {
       if (!id) throw new Error("No ID");
-      const { error } = await supabase.from("reference_audio").delete().eq("id", id);
-      if (error) throw error;
+      await deleteReferenceAudio(id);
     },
     onSuccess: () => {
       toast.success("Аудио удалено");

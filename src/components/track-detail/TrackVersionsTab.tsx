@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Music2, Clock, Play, Pause, Download, Check, Trash2, Plus } from "@/lib/icons";
 import { format, ru } from "@/lib/date-utils";
 import { useTrackVersionManagement } from "@/hooks/useTrackVersionManagement";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchTrackById } from "@/api/tracks.api";
 import { useQuery } from "@tanstack/react-query";
 import type { Track } from "@/types/track";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -63,9 +63,8 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
   const { data: mainTrack } = useQuery({
     queryKey: ["track", trackId],
     queryFn: async () => {
-      const { data, error } = await supabase.from("tracks").select("*").eq("id", trackId).single();
-
-      if (error) throw error;
+      const data = await fetchTrackById(trackId);
+      if (!data) throw new Error("Track not found");
       return {
         ...data,
         likes_count: 0,

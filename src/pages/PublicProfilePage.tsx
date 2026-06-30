@@ -30,6 +30,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
+import { getUserCredits } from "@/api/payments.api";
+import { fetchTracks } from "@/api/tracks.api";
+import { fetchPublicProfile } from "@/api/profiles.api";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useTelegramBackButton } from "@/hooks/telegram";
@@ -124,8 +127,8 @@ export default function PublicProfilePage() {
           .select("id", { count: "exact", head: true })
           .eq("user_id", userId)
           .eq("is_public", true),
-        supabase.from("user_credits").select("total_likes_received").eq("user_id", userId).maybeSingle(),
-        supabase.from("tracks").select("play_count").eq("user_id", userId).eq("is_public", true),
+        getUserCredits(userId),
+        fetchTracks({ userId, isPublic: true }),
       ]);
 
       const totalPlays = playsRes.data?.reduce((sum, t) => sum + (t.play_count || 0), 0) || 0;
@@ -146,15 +149,10 @@ export default function PublicProfilePage() {
     queryKey: ["public-tracks", userId],
     queryFn: async () => {
       if (!userId) return [];
-      const { data, error } = await supabase
-        .from("tracks")
-        .select("*")
-        .eq("user_id", userId)
-        .eq("is_public", true)
-        .eq("status", "completed")
-        .order("created_at", { ascending: false })
-        .limit(50);
-
+      const { data, error } = await fetchTracks(
+        { userId, isPublic: true, statusFilter: ["completed"] },
+        { page: 0, pageSize: 50 },
+      );
       if (error) throw error;
       return data || [];
     },
