@@ -1,8 +1,5 @@
-// Zustand store for AI Lyrics Wizard state management
-// IMP013: Added undo/redo functionality with history stack
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { LYRICS_MAX_LENGTH, LYRICS_MIN_LENGTH } from "@/constants/generationConstants";
 import { LyricsFormatter } from "@/lib/lyrics/LyricsFormatter";
 import { LyricsValidator } from "@/lib/lyrics/LyricsValidator";
 
@@ -174,14 +171,6 @@ const INITIAL_STATE = {
   isGenerating: false,
 };
 
-// Debounce timer for validation (IMP012)
-let validationTimer: NodeJS.Timeout | null = null;
-const VALIDATION_DEBOUNCE_MS = 500;
-
-// Debounce timer for history (avoid storing every keystroke)
-let historyTimer: NodeJS.Timeout | null = null;
-const HISTORY_DEBOUNCE_MS = 1000;
-
 // Clone sections deeply to avoid reference issues
 function cloneSections(sections: LyricSection[]): LyricSection[] {
   return sections.map((s) => ({
@@ -259,50 +248,20 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
 
       updateSectionContent: (sectionId, content) => {
         const state = get();
-        const currentSections = state.writing.sections;
+        const historyEntry: HistoryEntry = {
+          sections: cloneSections(state.writing.sections),
+          timestamp: Date.now(),
+        };
+        const newPast = [...state.history.past, historyEntry].slice(-MAX_HISTORY_SIZE);
+        const newSections = state.writing.sections.map((s) => (s.id === sectionId ? { ...s, content } : s));
+        const finalLyrics = LyricsFormatter.formatFinal(newSections, state.enrichment);
+        const validation = LyricsValidator.validate(finalLyrics, newSections);
 
-        // Update the section content
-        set((state) => ({
-          writing: {
-            ...state.writing,
-            sections: state.writing.sections.map((s) => (s.id === sectionId ? { ...s, content } : s)),
-          },
-          // Clear future history on new edit
-          history: {
-            ...state.history,
-            future: [],
-          },
-        }));
-
-        // Debounced history save (IMP013)
-        if (historyTimer) {
-          clearTimeout(historyTimer);
-        }
-        historyTimer = setTimeout(() => {
-          const currentState = get();
-          const historyEntry: HistoryEntry = {
-            sections: cloneSections(currentSections),
-            timestamp: Date.now(),
-          };
-
-          // Add to history, respecting max size
-          const newPast = [...currentState.history.past, historyEntry].slice(-MAX_HISTORY_SIZE);
-
-          set({
-            history: {
-              past: newPast,
-              future: [],
-            },
-          });
-        }, HISTORY_DEBOUNCE_MS);
-
-        // Trigger debounced validation (IMP012)
-        if (validationTimer) {
-          clearTimeout(validationTimer);
-        }
-        validationTimer = setTimeout(() => {
-          get().validateLyrics();
-        }, VALIDATION_DEBOUNCE_MS);
+        set({
+          writing: { ...state.writing, sections: newSections },
+          history: { past: newPast, future: [] },
+          validation,
+        });
       },
 
       updateSectionTags: (sectionId, tags) => {
@@ -387,8 +346,7 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
           },
         });
 
-        // Revalidate after undo
-        setTimeout(() => get().validateLyrics(), 0);
+        get().validateLyrics();
       },
 
       redo: () => {
@@ -415,8 +373,7 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
           },
         });
 
-        // Revalidate after redo
-        setTimeout(() => get().validateLyrics(), 0);
+        get().validateLyrics();
       },
 
       canUndo: () => get().history.past.length > 0,
@@ -432,18 +389,7 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
       },
 
       // Reset
-      reset: () => {
-        // Clear pending timers to prevent stale updates
-        if (validationTimer) {
-          clearTimeout(validationTimer);
-          validationTimer = null;
-        }
-        if (historyTimer) {
-          clearTimeout(historyTimer);
-          historyTimer = null;
-        }
-        set(INITIAL_STATE);
-      },
+      reset: () => set(INITIAL_STATE),
     }),
     {
       name: "lyrics-wizard-storage", // unique name for localStorage key (IMP009)
