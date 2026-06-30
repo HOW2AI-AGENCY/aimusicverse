@@ -241,12 +241,9 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     if (!description && aiDescription) updateData.description = aiDescription;
 
                     if (Object.keys(updateData).length > 0) {
-                      const { error: updateError } = await supabase
-                        .from("music_projects")
-                        .update(updateData as any)
-                        .eq("id", data.id);
-
-                      if (updateError) {
+                      try {
+                        await updateProjectFields(data.id, updateData);
+                      } catch (updateError) {
                         logger.warn("Failed to update project with AI data", { error: updateError });
                       }
                     }
@@ -257,18 +254,13 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                       setStatusMessage("Генерация обложки...");
 
                       try {
-                        const { data: coverData, error: coverError } = await supabase.functions.invoke(
-                          "generate-cover-image",
-                          {
-                            body: {
-                              projectId: data.id,
-                              prompt: coverPrompt,
-                              title: aiTitle || title,
-                              genre: genre || undefined,
-                              mood: mood || undefined,
-                            },
-                          },
-                        );
+                        const { data: coverData, error: coverError } = await invokeGenerateCoverImage({
+                          projectId: data.id,
+                          prompt: coverPrompt,
+                          title: aiTitle || title,
+                          genre: genre || undefined,
+                          mood: mood || undefined,
+                        });
 
                         if (!coverError && coverData?.url) {
                           logger.info("Cover generated successfully", { url: coverData.url });
