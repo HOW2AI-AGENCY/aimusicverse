@@ -193,17 +193,15 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                   setProgress(50);
                   setStatusMessage("AI создаёт трек-лист...");
 
-                  const { data: aiResult, error } = await supabase.functions.invoke("project-ai", {
-                    body: {
-                      action: "full-project",
-                      projectId: data.id,
-                      projectType,
-                      genre: genre || undefined,
-                      mood: mood || undefined,
-                      theme: description || undefined,
-                      trackCount: getRecommendedTrackCount(projectType),
-                      language,
-                    },
+                  const { data: aiResult, error } = await invokeProjectAi({
+                    action: "full-project",
+                    projectId: data.id,
+                    projectType,
+                    genre: genre || undefined,
+                    mood: mood || undefined,
+                    theme: description || undefined,
+                    trackCount: getRecommendedTrackCount(projectType),
+                    language,
                   });
 
                   if (error) {
