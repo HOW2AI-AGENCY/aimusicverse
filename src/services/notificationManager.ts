@@ -9,15 +9,7 @@ import { logger } from "@/lib/logger";
 const log = logger.child({ module: "NotificationManager" });
 
 export type NotificationType =
-  | "info"
-  | "success"
-  | "warning"
-  | "error"
-  | "generation"
-  | "project"
-  | "social"
-  | "achievement"
-  | "system";
+  "info" | "success" | "warning" | "error" | "generation" | "project" | "social" | "achievement" | "system";
 
 export interface NotificationOptions {
   userId: string;
@@ -44,12 +36,12 @@ export async function createNotification(options: NotificationOptions): Promise<
       p_title: options.title,
       p_message: options.message,
       p_type: options.type,
-      p_group_key: options.groupKey ?? null,
-      p_action_url: options.actionUrl ?? null,
-      p_metadata: options.metadata ? JSON.stringify(options.metadata) : "{}",
-      p_expires_at: expiresAt,
+      p_group_key: options.groupKey ?? undefined,
+      p_action_url: options.actionUrl ?? undefined,
+      p_metadata: (options.metadata ?? {}) as import("@/integrations/supabase/types").Json,
+      p_expires_at: expiresAt ?? undefined,
       p_priority: options.priority ?? 0,
-    } as any);
+    });
 
     if (error) {
       log.error("Failed to create notification", { error, options });

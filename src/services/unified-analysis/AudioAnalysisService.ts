@@ -13,6 +13,9 @@ import type {
   UnifiedAnalysisResult,
   NoteData,
   ChordData,
+  VocalInfo,
+  EnergyInfo,
+  ProductionInfo,
   DEFAULT_PROVIDER_FOR_TYPE,
 } from "./types";
 
@@ -352,7 +355,7 @@ class AudioAnalysisService {
       // Merge with priority to non-null values
       Object.entries(result).forEach(([key, value]) => {
         if (value !== null && value !== undefined) {
-          (merged as any)[key] = value;
+          Object.assign(merged, { [key]: value });
         }
       });
     }
@@ -410,90 +413,151 @@ class AudioAnalysisService {
   // Result Normalizers
   // ==========================================
 
-  private normalizeFlamingoResult(data: any): UnifiedAnalysisResult {
+  private normalizeFlamingoResult(data: Record<string, unknown>): UnifiedAnalysisResult {
+    type FlamingoShape = {
+      genre?: string;
+      subgenres?: string[];
+      mood?: string;
+      emotions?: string[];
+      bpm?: number;
+      key?: string;
+      scale?: "unknown" | "major" | "minor" | "modal";
+      time_signature?: string;
+      instruments?: string[];
+      vocals?: VocalInfo;
+      structure?: {
+        sections?: string[];
+        has_intro?: boolean;
+        has_outro?: boolean;
+        has_bridge?: boolean;
+      };
+      energy?: EnergyInfo;
+      production?: ProductionInfo;
+      style_prompt?: string;
+      tags?: string[];
+    };
+    const d = data as FlamingoShape;
     return {
-      genre: data.genre,
-      subgenres: data.subgenres,
-      mood: data.mood,
-      emotions: data.emotions,
-      bpm: data.bpm,
-      key: data.key,
-      scale: data.scale,
-      timeSignature: data.time_signature,
-      instruments: data.instruments,
-      hasVocals: data.vocals?.present,
-      vocalInfo: data.vocals,
+      genre: d.genre,
+      subgenres: d.subgenres,
+      mood: d.mood,
+      emotions: d.emotions,
+      bpm: d.bpm,
+      key: d.key,
+      scale: d.scale,
+      timeSignature: d.time_signature,
+      instruments: d.instruments,
+      hasVocals: d.vocals?.present,
+      vocalInfo: d.vocals,
       structure: {
-        sections: data.structure?.sections,
-        hasIntro: data.structure?.has_intro,
-        hasOutro: data.structure?.has_outro,
-        hasBridge: data.structure?.has_bridge,
+        sections: d.structure?.sections,
+        hasIntro: d.structure?.has_intro,
+        hasOutro: d.structure?.has_outro,
+        hasBridge: d.structure?.has_bridge,
       },
-      energy: data.energy,
-      arousal: data.energy?.arousal,
-      valence: data.energy?.valence,
-      production: data.production,
-      styleDescription: data.style_prompt,
-      styleTags: data.tags,
+      energy: d.energy,
+      arousal: d.energy?.arousal,
+      valence: d.energy?.valence,
+      production: d.production,
+      styleDescription: d.style_prompt,
+      styleTags: d.tags,
       provider: "flamingo",
     };
   }
 
-  private normalizeLovableAIResult(data: any): UnifiedAnalysisResult {
+  private normalizeLovableAIResult(data: Record<string, unknown>): UnifiedAnalysisResult {
+    type LovableShape = {
+      genre?: string;
+      mood?: string;
+      bpm?: number;
+      key_signature?: string;
+      instruments?: string[];
+      arousal?: number;
+      valence?: number;
+      style_description?: string;
+      structure?: string;
+    };
+    const d = data as LovableShape;
     return {
-      genre: data.genre,
-      mood: data.mood,
-      bpm: data.bpm,
-      key: data.key_signature,
-      instruments: data.instruments,
-      arousal: data.arousal,
-      valence: data.valence,
-      styleDescription: data.style_description,
-      structure: data.structure ? { sections: [data.structure] } : undefined,
+      genre: d.genre,
+      mood: d.mood,
+      bpm: d.bpm,
+      key: d.key_signature,
+      instruments: d.instruments,
+      arousal: d.arousal,
+      valence: d.valence,
+      styleDescription: d.style_description,
+      structure: d.structure ? { sections: [d.structure] } : undefined,
       provider: "lovable-ai",
     };
   }
 
-  private normalizeKlangioResult(data: any, mode: string): UnifiedAnalysisResult {
-    const result: UnifiedAnalysisResult = {
-      provider: "klangio",
+  private normalizeKlangioResult(data: Record<string, unknown>, mode: string): UnifiedAnalysisResult {
+    type KNote = {
+      pitch?: number;
+      start_time?: number;
+      startTime?: number;
+      end_time?: number;
+      endTime?: number;
+      velocity?: number;
+      note_name?: string;
+      noteName?: string;
     };
+    type KBeat = { time?: number; confidence?: number };
+    type KChord = {
+      chord?: string;
+      label?: string;
+      start_time?: number;
+      startTime?: number;
+      end_time?: number;
+      endTime?: number;
+      confidence?: number;
+    };
+    type KlangioShape = {
+      bpm?: number;
+      key?: string;
+      time_signature?: string;
+      notes?: KNote[];
+      beats?: KBeat[];
+      chords?: KChord[];
+      downbeats?: number[];
+      files?: { midi?: string; midi_quant?: string; pdf?: string; mxml?: string; gp5?: string };
+    };
+    const d = data as KlangioShape;
+    const result: UnifiedAnalysisResult = { provider: "klangio" };
 
     if (mode === "transcription") {
-      result.notes = data.notes?.map((n: any) => ({
-        pitch: n.pitch,
-        startTime: n.start_time || n.startTime,
-        endTime: n.end_time || n.endTime,
-        velocity: n.velocity || 80,
-        noteName: n.note_name || n.noteName,
+      result.notes = d.notes?.map((n) => ({
+        pitch: n.pitch ?? 0,
+        startTime: n.start_time ?? n.startTime ?? 0,
+        endTime: n.end_time ?? n.endTime ?? 0,
+        velocity: n.velocity ?? 80,
+        noteName: n.note_name ?? n.noteName,
       }));
-      result.bpm = data.bpm;
-      result.key = data.key;
-      result.timeSignature = data.time_signature;
-      result.midiUrl = data.files?.midi;
-      result.midiQuantUrl = data.files?.midi_quant;
-      result.pdfUrl = data.files?.pdf;
-      result.musicXmlUrl = data.files?.mxml;
-      result.gp5Url = data.files?.gp5;
+      result.bpm = d.bpm;
+      result.key = d.key;
+      result.timeSignature = d.time_signature;
+      result.midiUrl = d.files?.midi;
+      result.midiQuantUrl = d.files?.midi_quant;
+      result.pdfUrl = d.files?.pdf;
+      result.musicXmlUrl = d.files?.mxml;
+      result.gp5Url = d.files?.gp5;
     }
 
     if (mode === "beat-tracking") {
-      result.beats = data.beats?.map((b: any) => ({
-        time: b.time || b,
-        confidence: b.confidence,
-      }));
-      result.downbeats = data.downbeats;
-      result.bpm = data.bpm;
+      result.beats = d.beats?.map((b) => ({ time: b.time ?? 0, confidence: b.confidence }));
+      result.downbeats = d.downbeats;
+      result.bpm = d.bpm;
     }
 
     if (mode === "chord-recognition" || mode === "chord-recognition-extended") {
-      result.chords = data.chords?.map((c: any) => ({
-        chord: c.chord || c.label,
-        startTime: c.start_time || c.startTime,
-        endTime: c.end_time || c.endTime,
+      result.chords = d.chords?.map((c) => ({
+        chord: c.chord ?? c.label ?? "",
+        startTime: c.start_time ?? c.startTime ?? 0,
+        endTime: c.end_time ?? c.endTime ?? 0,
         confidence: c.confidence,
       }));
-      result.key = data.key;
+      result.key = d.key;
     }
 
     return result;

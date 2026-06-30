@@ -11,11 +11,12 @@ export class VoiceApiError extends Error {
   }
 }
 
-async function invoke<T = any>(name: string, body?: any): Promise<T> {
-  const { data, error } = await supabase.functions.invoke(name, { body });
+async function invoke<T = unknown>(name: string, body?: unknown): Promise<T> {
+  const { data, error } = await supabase.functions.invoke(name, { body: body as Record<string, unknown> | undefined });
   if (error) throw new VoiceApiError(error.message || "Сетевая ошибка", "NETWORK");
-  if ((data as any)?.error) {
-    throw new VoiceApiError((data as any).error, (data as any).code || "SUNO_ERROR");
+  const response = data as Record<string, unknown> | null;
+  if (response?.error) {
+    throw new VoiceApiError(String(response.error), String(response.code ?? "SUNO_ERROR"));
   }
   return data as T;
 }
@@ -39,7 +40,7 @@ export const voiceCloneApi = {
   uploadSource: async (userId: string, file: Blob, ext = "mp3"): Promise<string> => {
     const path = `${userId}/source_${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("voice-sources").upload(path, file, {
-      contentType: (file as any).type || "audio/mpeg",
+      contentType: (file as File).type || "audio/mpeg",
       upsert: false,
     });
     if (error) throw error;
@@ -49,7 +50,7 @@ export const voiceCloneApi = {
   uploadVerification: async (userId: string, file: Blob, ext = "webm"): Promise<string> => {
     const path = `${userId}/verify_${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("voice-verifications").upload(path, file, {
-      contentType: (file as any).type || "audio/webm",
+      contentType: (file as File).type || "audio/webm",
       upsert: false,
     });
     if (error) throw error;

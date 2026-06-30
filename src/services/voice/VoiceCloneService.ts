@@ -68,7 +68,7 @@ const ENDPOINTS = {
 export class VoiceCloneServiceError extends Error {
   public code: string;
   public statusCode?: number;
-  public details?: any;
+  public details?: unknown;
   public step?: VoiceCloningStep;
   public retryable?: boolean;
 
@@ -76,7 +76,7 @@ export class VoiceCloneServiceError extends Error {
     message: string,
     code: string,
     statusCode?: number,
-    details?: any,
+    details?: unknown,
     step?: VoiceCloningStep,
     retryable?: boolean,
   ) {
@@ -221,7 +221,11 @@ export class VoiceCloneService {
         calBackUrl: callBackUrl || `${this.config.baseUrl}/webhooks/voice/regenerate`,
       };
 
-      const response = await this.callApi<ValidateVoiceResponse>(ENDPOINTS.REGENERATE_PHRASE, "POST", request as unknown as Record<string, unknown>);
+      const response = await this.callApi<ValidateVoiceResponse>(
+        ENDPOINTS.REGENERATE_PHRASE,
+        "POST",
+        request as unknown as Record<string, unknown>,
+      );
 
       logger.info("Phrase regenerated", { taskId: response.validate_task_id });
       return response.validate_task_id;

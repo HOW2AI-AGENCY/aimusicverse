@@ -42,8 +42,9 @@ type TelegramWebApp = any;
  * Get Telegram WebApp instance
  */
 function getWebApp(): TelegramWebApp | null {
-  if (typeof window !== "undefined" && (window as any).Telegram?.WebApp) {
-    return (window as any).Telegram.WebApp;
+  type TelegramWindow = Window & { Telegram?: { WebApp?: TelegramWebApp } };
+  if (typeof window !== "undefined" && (window as TelegramWindow).Telegram?.WebApp) {
+    return (window as TelegramWindow).Telegram!.WebApp!;
   }
   return null;
 }

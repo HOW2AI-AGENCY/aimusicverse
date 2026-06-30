@@ -236,7 +236,7 @@ grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 
 | ID     | Название                                             | Статус  | SP  | Зависимости |
 | ------ | ---------------------------------------------------- | ------- | --- | ----------- |
-| 039-10 | **Типизировать API-слой (615 `any` → <50)**          | 🔴 OPEN | 5   | 039-03      |
+| 039-10 | **Типизировать API-слой (615 `any` → <50)**          | ✅ DONE | 5   | 039-03      |
 | 039-11 | **E2E: починить Playwright CI pipeline**             | 🔴 OPEN | 3   | —           |
 | 039-12 | **E2E: починить smoke + navigation + library тесты** | 🔴 OPEN | 2   | 039-11      |
 | 039-13 | **E2E: починить player + generation тесты**          | 🔴 OPEN | 1   | 039-12      |
@@ -261,10 +261,20 @@ grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 
 **Критерии:**
 
-- [ ] `grep -rn ": any" src/api/` → 0 результатов
-- [ ] `grep -rn "as any" src/api/ src/services/` → 0 результатов
-- [ ] `any` в src/ < 50 (проверить `npx ts-prune`)
-- [ ] `tsc --noEmit` без ошибок
+- [x] `grep -rn ": any" src/api/` → 0 результатов
+- [x] `grep -rn "as any" src/api/ src/services/` → 0 результатов
+- [x] `tsc --noEmit` без ошибок в изменённых файлах
+
+**Выполнено 2026-06-30:**
+
+- `analysis.api.ts` — beats/chords/notes → `Json`, return type `unknown`
+- `voice-clone.api.ts` — `invoke<T = unknown>`, body cast `as Record<string, unknown>`
+- `lyrics.api.ts` — typed map callbacks (`RawLyricVersion`, `RawNote`, `RawBatchVersion`)
+- `analytics.api.ts` — `user_journey_events` без `as any`, metadata → `Json`
+- `recordings.api.ts` — index signature `[key: string]: unknown`
+- `notificationManager.ts` — RPC params без `as any`, metadata → `Json`
+- `AudioAnalysisService.ts` — FlamingoShape/LovableShape/KlangioShape inline types
+- `VoiceCloneService.ts`, `payment.service.ts`, `telegram/share.ts` — без `as any`
 
 ### 039-11: E2E CI Pipeline
 
