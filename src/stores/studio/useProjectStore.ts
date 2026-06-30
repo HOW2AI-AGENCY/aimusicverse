@@ -97,7 +97,7 @@ export const useProjectStore = create<ProjectState>()(
         try {
           const { error } = await supabase.from("studio_projects").insert({
             id: projectId,
-            user_id: user.id,
+            user_id: params.userId,
             source_track_id: params.sourceTrackId,
             name: params.name,
             bpm: 120,

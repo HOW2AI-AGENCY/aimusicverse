@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchRevenueAnalyticsRaw } from "@/api/analytics.api";
 import {
   AreaChart,
   Area,
@@ -52,29 +52,12 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
       const startDate = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000);
       const previousStart = new Date(startDate.getTime() - periodDays * 24 * 60 * 60 * 1000);
 
-      // Fetch Stars transactions
-      const [transactionsResult, previousResult, usersResult] = await Promise.all([
-        supabase
-          .from("stars_transactions")
-          .select("*")
-          .gte("created_at", startDate.toISOString())
-          .eq("status", "completed"),
-        supabase
-          .from("stars_transactions")
-          .select("stars_amount")
-          .gte("created_at", previousStart.toISOString())
-          .lt("created_at", startDate.toISOString())
-          .eq("status", "completed"),
-        supabase.from("profiles").select("user_id").gte("created_at", startDate.toISOString()),
-      ]);
-
-      const transactions = transactionsResult.data || [];
-      const previousTransactions = previousResult.data || [];
-      const newUsers = usersResult.data?.length || 0;
+      // Fetch Stars transactions via API layer
+      const { current: transactions, previousSum: previousStars, newUsersInRange: newUsers } =
+        await fetchRevenueAnalyticsRaw({ startDate, previousStart });
 
       // Calculate metrics
       const totalStars = transactions.reduce((sum, t) => sum + (t.stars_amount || 0), 0);
-      const previousStars = previousTransactions.reduce((sum, t) => sum + (t.stars_amount || 0), 0);
       const uniquePayers = new Set(transactions.map((t) => t.user_id)).size;
       const avgTransaction = transactions.length > 0 ? totalStars / transactions.length : 0;
 

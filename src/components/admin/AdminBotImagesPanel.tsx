@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Image as ImageIcon, Upload, RefreshCw, Trash2, ExternalLink, ShieldAlert } from "@/lib/icons";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchBotMenuImagesConfig, upsertBotMenuImagesConfig } from "@/api/admin.api";
+import { uploadFile, deleteFile } from "@/api/storage.api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useAuth } from "@/hooks/useAuth";
@@ -109,16 +110,7 @@ export function AdminBotImagesPanel() {
   // Fetch current images from database config
   const { data: imageConfig, isLoading } = useQuery({
     queryKey: ["bot-menu-images-config"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("telegram_bot_config")
-        .select("*")
-        .eq("config_key", "menu_images")
-        .single();
-
-      if (error && error.code !== "PGRST116") throw error;
-      return (data?.config_value as Record<string, string>) || {};
-    },
+    queryFn: fetchBotMenuImagesConfig,
     enabled: canManage,
   });
 
@@ -128,18 +120,7 @@ export function AdminBotImagesPanel() {
       if (!user) throw new Error("Сессия истекла. Войдите снова.");
       if (!canManage) throw new Error("Недостаточно прав администратора");
 
-      const { error } = await supabase.from("telegram_bot_config").upsert(
-        {
-          config_key: "menu_images",
-          config_value: images,
-          description: "Изображения меню бота",
-          updated_at: new Date().toISOString(),
-          updated_by: user.id,
-        },
-        { onConflict: "config_key" },
-      );
-
-      if (error) throw error;
+      await upsertBotMenuImagesConfig({ images, updatedBy: user.id });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bot-menu-images-config"] });
@@ -172,20 +153,20 @@ export function AdminBotImagesPanel() {
       const fileName = `menu-images/${key}.${ext}`;
 
       // Delete existing file if any (ignore errors)
-      await supabase.storage.from("bot-assets").remove([fileName]);
+      await deleteFile("bot-assets", fileName);
 
       // Upload new file
-      const { error: uploadError } = await supabase.storage.from("bot-assets").upload(fileName, file, { upsert: true });
+      const { data: uploaded, error: uploadError } = await uploadFile({
+        bucket: "bot-assets",
+        path: fileName,
+        file,
+        upsert: true,
+      });
 
-      if (uploadError) throw uploadError;
-
-      // Get public URL
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("bot-assets").getPublicUrl(fileName);
+      if (uploadError || !uploaded) throw uploadError ?? new Error("Upload failed");
 
       // Update config
-      const newConfig = { ...(imageConfig || {}), [key]: publicUrl };
+      const newConfig = { ...(imageConfig || {}), [key]: uploaded.publicUrl };
       await saveConfigMutation.mutateAsync(newConfig);
 
       toast.success(`Изображение "${key}" загружено`);
@@ -212,7 +193,7 @@ export function AdminBotImagesPanel() {
       // Remove from storage
       const extensions = ["png", "jpg", "jpeg", "webp"];
       for (const ext of extensions) {
-        await supabase.storage.from("bot-assets").remove([`menu-images/${key}.${ext}`]);
+        await deleteFile("bot-assets", `menu-images/${key}.${ext}`);
       }
 
       // Update config

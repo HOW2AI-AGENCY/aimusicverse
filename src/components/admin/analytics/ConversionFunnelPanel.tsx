@@ -11,8 +11,8 @@
 import { memo, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { fetchProfileCount } from "@/api/profiles.api";
+import { fetchFunnelMetricsRaw } from "@/api/analytics.api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp, TrendingDown, Users, Music, Star, CreditCard } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -37,37 +37,22 @@ async function fetchFunnelData() {
   // Get total users
   const totalUsers = await fetchProfileCount();
 
-  // Get users who generated at least 1 track
-  const { count: generatingUsers } = await supabase.from("tracks").select("user_id", { count: "exact", head: true });
-
-  // Get active users (generated 3+ tracks)
-  const { data: activeUsersData } = await supabase.from("tracks").select("user_id").limit(10000);
+  // Get raw metrics via API layer
+  const raw = await fetchFunnelMetricsRaw();
 
   // Count users with 3+ tracks
   const userTrackCounts: Record<string, number> = {};
-  activeUsersData?.forEach((t) => {
+  raw.perUserTrackCounts.forEach((t) => {
     userTrackCounts[t.user_id] = (userTrackCounts[t.user_id] || 0) + 1;
   });
   const activeUsers = Object.values(userTrackCounts).filter((c) => c >= 3).length;
 
-  // Get paying users (have stars transactions)
-  const { count: payingUsers } = await supabase
-    .from("stars_transactions")
-    .select("user_id", { count: "exact", head: true })
-    .eq("status", "completed");
-
-  // Get total sessions (approximate from telemetry)
-  const { count: totalSessions } = await supabase
-    .from("telemetry_events")
-    .select("*", { count: "exact", head: true })
-    .eq("event_type", "session_started");
-
   return {
-    visits: totalSessions || 0,
+    visits: raw.totalSessions,
     registered: totalUsers || 0,
-    firstGeneration: generatingUsers || 0,
-    activeUsers: activeUsers || 0,
-    paidUsers: payingUsers || 0,
+    firstGeneration: raw.generatingUsers,
+    activeUsers,
+    paidUsers: raw.payingUsers,
   };
 }
 

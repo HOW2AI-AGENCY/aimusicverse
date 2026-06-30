@@ -9,9 +9,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 import { User, Music2, Sparkles, Play, Edit, Settings, Clock, ChevronRight, Lock, Globe } from "@/lib/icons";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { checkAdminRole } from "@/api/admin.api";
 import { fetchTracks } from "@/api/tracks.api";
+import { fetchUserSubscriptionTier } from "@/api/profiles.api";
+import { fetchArtistTrackStats } from "@/api/artists.api";
 import { useAuth } from "@/hooks/useAuth";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { cn } from "@/lib/utils";
@@ -40,11 +41,8 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
     queryKey: ["can-make-private", user?.id],
     queryFn: async () => {
       if (!user?.id) return false;
-      const [isAdmin, { data: profile }] = await Promise.all([
-        checkAdminRole(user.id),
-        supabase.from("profiles").select("subscription_tier").eq("user_id", user.id).single(),
-      ]);
-      return isAdmin || (profile?.subscription_tier && profile.subscription_tier !== "free");
+      const [isAdmin, tier] = await Promise.all([checkAdminRole(user.id), fetchUserSubscriptionTier(user.id)]);
+      return isAdmin || (tier !== null && tier !== "free");
     },
     enabled: !!user?.id && isOwner,
   });
@@ -64,25 +62,13 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
 
   // Fetch artist stats
   const { data: stats } = useQuery({
-    queryKey: ["artist-stats", artist?.id],
+    queryKey: ["artist-stats", artist?.id, artistTracks?.map((t) => t.id).join(",")],
     queryFn: async () => {
       if (!artist?.id) return { tracks: 0, totalPlays: 0, totalLikes: 0 };
-
-      const [tracksResult, likesResult] = await Promise.all([
-        supabase.from("tracks").select("id, play_count", { count: "exact" }).eq("artist_id", artist.id),
-        supabase
-          .from("track_likes")
-          .select("id", { count: "exact", head: true })
-          .in("track_id", artistTracks?.map((t) => t.id) || []),
-      ]);
-
-      const totalPlays = tracksResult.data?.reduce((sum, t) => sum + (t.play_count || 0), 0) || 0;
-
-      return {
-        tracks: tracksResult.count || 0,
-        totalPlays,
-        totalLikes: likesResult.count || 0,
-      };
+      return fetchArtistTrackStats(
+        artist.id,
+        artistTracks?.map((t) => t.id),
+      );
     },
     enabled: !!artist?.id && !!artistTracks && open,
   });

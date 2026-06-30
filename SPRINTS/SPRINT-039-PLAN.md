@@ -56,11 +56,13 @@
 | 039-01  | **Layer audit: grep все прямые Supabase-вызовы**      | ✅ DONE        | 1   | —           |
 | 039-02  | **Вынести Supabase из UI-компонентов (batch 1: 15+)** | ✅ DONE        | 5   | 039-01      |
 | 039-03  | **Вынести Supabase из UI-компонентов (batch 2: 15+)** | ✅ DONE        | 5   | 039-02      |
-| 039-03b | **Layer-fix добивание (35 совпадений в 17 файлах)**   | 🟠 IN PROGRESS | 4   | 039-03      |
+| 039-03b | **Layer-fix добивание (Batch 1 + 4 ✅; остаются 2, 3)** | 🟠 IN PROGRESS | 4   | 039-03      |
 | 039-04  | **Generic undo/redo Zustand middleware**              | ✅ DONE        | 3   | —           |
 | 039-05  | **Убрать побочные эффекты из lyricsWizardStore**      | ✅ DONE        | 1   | —           |
 
-> **⚠️ Аудит 2026-06-30:** PR #552 заявил «0 нарушений», но `grep supabase.{from,rpc,storage}` по `src/{components,pages,stores}` всё ещё даёт **35 совпадений в 17 файлах** (admin/analytics, project wizard, studio dialogs, comments, onboarding, artist). Заведена задача **039-03b** в фазе A. Полный список — в `docs/LAYER_VIOLATIONS.md`.
+> **⚠️ Аудит 2026-06-30 (утро):** PR #552 заявил «0 нарушений», но `grep supabase.{from,rpc,storage}` по `src/{components,pages,stores}` всё ещё даёт **35 совпадений в 17 файлах**. Заведена задача **039-03b**.
+>
+> **🔧 Update 2026-06-30 (вечер):** закрыты **Batch 4** (`ReportCommentDialog`, `ProfileSetupOnboarding`, `ArtistDetailsPanel`) и **Batch 1** (`QuickActionsPanel`, `AdminBotImagesPanel`, 4 admin/analytics панели) — **20 нарушений устранены**, осталось **15 в 8 файлах** (Batch 2 + Batch 3). Добавлены API: `invokeAdminBroadcast`, `bulkAwardCredits`, `fetchBotMenuImagesConfig/upsertBotMenuImagesConfig`, `fetchRevenueAnalyticsRaw`, `fetchPeriodComparison`, `fetchFunnelMetricsRaw`, `fetchRealTimeMetricsRaw`, `subscribeToRealtimeAdminMetrics`, `fetchUserSubscriptionTier`, `fetchArtistTrackStats`, `upsertOnboardingNotificationSettings`, `fetchProfileByUserId`. Попутно вылечена pre-existing поломка `tsc` (6 файлов). Подробности — `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`.
 
 ### 039-01: Layer Audit
 
@@ -242,10 +244,12 @@ grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 | 039-10 | **Типизировать API-слой + services (`any` = 0)**     | ✅ DONE (scope: api/services) | 5   | 039-03      |
 
 > **⚠️ Аудит 2026-06-30:** в `src/api/` и `src/services/` `any` действительно устранён (0). Однако по всему `src/` остаётся **447** использований `: any`/`as any` — таргет «<50 во всём src» НЕ достигнут. Перенесено в Sprint 040 (задача 040-01).
-| 039-11 | **E2E: починить Playwright CI pipeline**             | 🔴 OPEN | 3   | —           |
+| 039-11 | **E2E: отдельный Playwright CI workflow**            | 🟡 PARTIAL (workflow добавлен, требуются secrets) | 3 | — |
 | 039-12 | **E2E: починить smoke + navigation + library тесты** | 🔴 OPEN | 2   | 039-11      |
 | 039-13 | **E2E: починить player + generation тесты**          | 🔴 OPEN | 1   | 039-12      |
 | 039-14 | **Верификация: build, size, tests, lint**            | 🔴 OPEN | 1   | все         |
+
+> **🔧 Update 2026-06-30 (вечер):** добавлен `.github/workflows/e2e.yml` — отдельный pipeline с matrix `chromium` / `Mobile Chrome`, выгрузкой HTML-репорта и traces в артефакты, `workflow_dispatch` триггером. Нужны GitHub Secrets `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY`, чтобы build не падал.
 
 ### 039-10: Type Safety
 
