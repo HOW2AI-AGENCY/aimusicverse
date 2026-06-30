@@ -78,9 +78,11 @@ gantt
     Sprint 037: Infrastructure         :done, 037, 2026-06-21, 2026-06-29
     Sprint 038: Design System          :done, 038, 2026-06-29, 2026-06-30
     section В работе 🟡
-    Sprint 039: Архит. рефакторинг     :active, 039, 2026-06-30, 2026-07-15
+    Sprint 039: Архит. рефакторинг     :done, 039, 2026-06-30, 2026-06-30
     section Запланировано ⚪
-    Sprint 040: Тесты + Export         :040, 2026-07-15, 2026-08-01
+    Sprint 040: Type Safety + God-files :040, 2026-07-01, 2026-07-12
+    Sprint 040b: Тесты + Audio Export   :040b, 2026-07-15, 2026-08-01
+    Sprint 041: UX features (AI/TTS)    :041, 2026-08-01, 2026-08-08
 ```
 
 | Спринт | Название                        | Статус |  Прогресс   |
