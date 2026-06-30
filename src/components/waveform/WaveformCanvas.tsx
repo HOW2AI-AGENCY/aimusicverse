@@ -109,29 +109,32 @@ export const WaveformCanvas = memo(function WaveformCanvas({
 
     ctx.clearRect(0, 0, width, canvasHeight);
 
-    const totalBarWidth = barWidth + barGap;
-    const barsCount = Math.min(waveformData.length, Math.floor(width / totalBarWidth));
-    const startX = (width - barsCount * totalBarWidth) / 2;
-    const step = waveformData.length / barsCount;
+    // Distribute bars uniformly across the full width so the rendered
+    // waveform spans exactly 0%..100% — matches the parent's progress thumb
+    // pixel-for-pixel instead of being centered with side padding.
+    const targetBars = Math.max(1, Math.floor(width / (barWidth + barGap)));
+    const slotWidth = width / targetBars;
+    const drawnBarWidth = Math.max(1, slotWidth - barGap);
+    const step = waveformData.length / targetBars;
 
-    for (let i = 0; i < barsCount; i++) {
+    for (let i = 0; i < targetBars; i++) {
       const dataIndex = Math.floor(i * step);
       const value = waveformData[dataIndex] || 0;
       const barHeight = Math.max(2, value * maxBarHeight);
-      const x = startX + i * totalBarWidth;
+      const x = i * slotWidth;
       const y = centerY - barHeight / 2;
 
-      const barProgress = (x + barWidth / 2) / width;
+      const barProgress = (x + slotWidth / 2) / width;
       const isPassed = barProgress <= progress;
 
       ctx.fillStyle = isPassed ? colorsRef.current!.progress : colorsRef.current!.wave;
 
       if (barRadius > 0) {
         ctx.beginPath();
-        ctx.roundRect(x, y, barWidth, barHeight, barRadius);
+        ctx.roundRect(x, y, drawnBarWidth, barHeight, barRadius);
         ctx.fill();
       } else {
-        ctx.fillRect(x, y, barWidth, barHeight);
+        ctx.fillRect(x, y, drawnBarWidth, barHeight);
       }
     }
 
