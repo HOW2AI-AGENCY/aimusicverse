@@ -57,10 +57,18 @@ interface MobileFullscreenPlayerProps {
 }
 
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     perfMark("fullscreen:mount");
     const raf = requestAnimationFrame(() => perfEvent("fullscreen", "firstPaint"));
-    return () => cancelAnimationFrame(raf);
+    // Focus the close button so screen-reader and keyboard users land in the dialog.
+    const focusTimer = setTimeout(() => closeButtonRef.current?.focus(), 120);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(focusTimer);
+    };
   }, []);
 
   const [page, setPage] = useState<PagerPage>("cover");
@@ -68,6 +76,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   const [karaokeMode, setKaraokeMode] = useState(false);
 
   useTelegramBackButton({ onClick: onClose, visible: true });
+
 
   const { currentTime, duration, seek } = useAudioTime();
   const {
