@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchProfileCount } from "@/api/profiles.api";
 import { Activity, Users, Music, Zap, Radio, TrendingUp, Circle, ArrowUpRight } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 
@@ -54,7 +55,7 @@ export function RealTimeMetrics() {
           supabase.from("tracks").select("id").gte("created_at", todayStart.toISOString()).eq("status", "completed"),
 
           // New users today
-          supabase.from("profiles").select("user_id").gte("created_at", todayStart.toISOString()),
+          fetchProfileCount(),
         ]);
 
       const recentEvents = recentEventsResult.data || [];
@@ -67,7 +68,7 @@ export function RealTimeMetrics() {
         lastEventTime: recentEvents[0]?.created_at ? new Date(recentEvents[0].created_at) : null,
         eventsPerMinute: recentEvents.length,
         newTracksToday: newTracksResult.data?.length || 0,
-        newUsersToday: newUsersResult.data?.length || 0,
+        newUsersToday: typeof newUsersResult === "number" ? newUsersResult : 0,
       };
     },
     staleTime: 5000,

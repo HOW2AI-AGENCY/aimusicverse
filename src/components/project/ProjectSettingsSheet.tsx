@@ -14,7 +14,7 @@ import { VisualStyleEditor } from "./VisualStyleEditor";
 import { useQueryClient } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LazyImage } from "@/components/ui/lazy-image";
-import { supabase } from "@/integrations/supabase/client";
+import { updateProject } from "@/api/projects.api";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -75,9 +75,7 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
   }) => {
     setIsSavingStyle(true);
     try {
-      const { error } = await supabase.from("music_projects").update(data).eq("id", project.id);
-
-      if (error) throw error;
+      await updateProject(project.id, data);
 
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       toast.success("Визуальный стиль сохранен");

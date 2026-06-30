@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { supabase } from "@/integrations/supabase/client";
+import { getUserCredits, updateUserCreditsBalance, upsertUserCreditsBalance, insertCreditTransaction } from "@/api/payments.api";
 import { toast } from "sonner";
 import { Coins, Plus, Minus } from "@/lib/icons";
 import { logger } from "@/lib/logger";
@@ -43,15 +43,11 @@ export function AdminUserCreditsDialog({ open, onOpenChange, user, onSuccess }: 
       const finalAmount = operation === "add" ? numAmount : -numAmount;
 
       // Get current credits
-      const { data: currentCredits } = await supabase
-        .from("user_credits")
-        .select("balance, total_earned")
-        .eq("user_id", user.user_id)
-        .single();
+      const { data: currentCredits } = await getUserCredits(user.user_id);
 
       if (!currentCredits) {
         // Create record if doesn't exist
-        await supabase.from("user_credits").insert({
+        await upsertUserCreditsBalance({
           user_id: user.user_id,
           balance: Math.max(0, finalAmount),
           total_earned: operation === "add" ? numAmount : 0,
@@ -61,17 +57,14 @@ export function AdminUserCreditsDialog({ open, onOpenChange, user, onSuccess }: 
         const newTotalEarned =
           operation === "add" ? currentCredits.total_earned + numAmount : currentCredits.total_earned;
 
-        await supabase
-          .from("user_credits")
-          .update({
-            balance: newBalance,
-            total_earned: newTotalEarned,
-          })
-          .eq("user_id", user.user_id);
+        await updateUserCreditsBalance(user.user_id, {
+          balance: newBalance,
+          total_earned: newTotalEarned,
+        });
       }
 
       // Log transaction
-      await supabase.from("credit_transactions").insert({
+      await insertCreditTransaction({
         user_id: user.user_id,
         amount: Math.abs(finalAmount),
         transaction_type: operation === "add" ? "earn" : "spend",

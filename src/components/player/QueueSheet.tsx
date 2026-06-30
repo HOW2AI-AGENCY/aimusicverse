@@ -36,7 +36,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { createPlaylist, addTrackToPlaylist } from "@/api/playlists.api";
 import { useRadioMode } from "@/hooks/audio/useRadioMode";
 import { logger } from "@/lib/logger";
 import { glass } from "@/lib/glass";
@@ -141,31 +141,19 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     setIsSaving(true);
     try {
       // Create playlist
-      const { data: playlist, error: playlistError } = await supabase
-        .from("playlists")
-        .insert({
-          user_id: user.id,
-          title: `Плейлист ${new Date().toLocaleDateString("ru-RU")}`,
-          description: "Создан из очереди воспроизведения",
-          is_public: false,
-          track_count: queue.length,
-          total_duration: totalDuration,
-        })
-        .select()
-        .single();
-
-      if (playlistError) throw playlistError;
+      const playlist = await createPlaylist({
+        user_id: user.id,
+        title: `Плейлист ${new Date().toLocaleDateString("ru-RU")}`,
+        description: "Создан из очереди воспроизведения",
+        is_public: false,
+        track_count: queue.length,
+        total_duration: totalDuration,
+      });
 
       // Add tracks to playlist
-      const trackEntries = queue.map((track, index) => ({
-        playlist_id: playlist.id,
-        track_id: track.id,
-        position: index,
-      }));
-
-      const { error: tracksError } = await supabase.from("playlist_tracks").insert(trackEntries);
-
-      if (tracksError) throw tracksError;
+      await Promise.all(
+        queue.map((track, index) => addTrackToPlaylist(playlist.id, track.id, index)),
+      );
 
       toast.success("Плейлист создан", {
         description: `${queue.length} треков сохранено`,

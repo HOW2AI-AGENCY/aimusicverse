@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchUserPromptTemplates, updatePromptTemplateUsage, deletePromptTemplate } from "@/api/presets.api";
 import { useAuth } from "@/hooks/useAuth";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { FileText, Search, Trash2, Copy, Check, ArrowRight, Plus, Sparkles, BookOpen } from "@/lib/icons";
@@ -55,11 +55,7 @@ const Templates = () => {
     queryKey: ["templates", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
-      const { data, error } = await supabase
-        .from("prompt_templates")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+      const { data, error } = await fetchUserPromptTemplates(user.id);
       if (error) throw error;
       return data as Template[];
     },
@@ -68,8 +64,7 @@ const Templates = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("prompt_templates").delete().eq("id", id);
-      if (error) throw error;
+      await deletePromptTemplate(id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["templates"] });
@@ -83,11 +78,8 @@ const Templates = () => {
 
   const incrementUsageMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from("prompt_templates")
-        .update({ usage_count: (templates.find((t) => t.id === id)?.usage_count || 0) + 1 })
-        .eq("id", id);
-      if (error) throw error;
+      const newCount = (templates.find((t) => t.id === id)?.usage_count || 0) + 1;
+      await updatePromptTemplateUsage(id, newCount);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["templates"] });

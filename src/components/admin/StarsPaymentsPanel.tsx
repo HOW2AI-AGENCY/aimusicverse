@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getStarsPaymentStats, getStarsTransactions } from "@/api/payments.api";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,7 @@ export function StarsPaymentsPanel() {
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ["stars-payment-stats"],
     queryFn: async (): Promise<Stats> => {
-      const { data, error } = await supabase.rpc("get_stars_payment_stats");
+      const { data, error } = await getStarsPaymentStats();
 
       if (error) throw error;
       const result = Array.isArray(data) ? data[0] : data;
@@ -61,16 +61,11 @@ export function StarsPaymentsPanel() {
   const { data: transactions, isLoading: transactionsLoading } = useQuery({
     queryKey: ["stars-transactions", statusFilter],
     queryFn: async (): Promise<Transaction[]> => {
-      let query = supabase.from("stars_transactions").select("*").order("created_at", { ascending: false }).limit(100);
-
-      if (statusFilter !== "all") {
-        query = query.eq("status", statusFilter);
-      }
-
-      const { data, error } = await query;
+      const { data, error } = await getStarsTransactions({ limit: 100 });
 
       if (error) throw error;
-      return (data || []) as Transaction[];
+      const allData = (data || []) as Transaction[];
+      return statusFilter !== "all" ? allData.filter((tx) => tx.status === statusFilter) : allData;
     },
     refetchInterval: 10000,
   });
