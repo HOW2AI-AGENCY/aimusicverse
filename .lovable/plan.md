@@ -1,160 +1,80 @@
-# План: UX, плеер, синхронизированная лирика и панель деталей трека
+## Аудит последних коммитов (Sprint 039)
 
-Цель — довести ключевой пользовательский путь (открыл приложение → нашёл/создал трек → слушает в плеере с лирикой → изучает детали → делится) до уровня минималистичного, аккуратного и симметричного интерфейса. Без новой бизнес-логики — только UX, презентация и доводка существующего функционала.
+Проверил 4 крупных PR (#551–#554) и сверил заявленные результаты с фактическим состоянием кода.
 
----
+### Что реально сделано ✅
 
-## 1. Аудит пользовательских путей (User Journeys)
+| Задача | Заявлено | Факт | Вердикт |
+|---|---|---|---|
+| 039-04 `withHistory` middleware | ✅ DONE | `src/stores/middleware/withHistory.ts` + 111-строчный тест | ✅ корректно |
+| 039-05 lyricsWizardStore без эффектов | ✅ DONE | стор похудел с ~250→86 строк | ✅ корректно |
+| 039-06 useGenerateForm декомпозиция | ✅ DONE | оркестратор 280 строк, 4 суб-хука | ✅ корректно |
+| 039-07 GlobalAudioProvider | ✅ DONE | **79 строк** (было 982), вынесено в `useAudioInit/Playback/TrackLoader` | ✅ отлично |
+| 039-08 god-компоненты | ✅ DONE | StudioShell 995→720, SectionNotesPanel 882→324 | ✅ корректно |
+| 039-09 DnD унификация | ✅ DONE | `@hello-pangea/dnd` удалён | ✅ корректно |
+| 039-10 Type Safety (API/services) | ✅ DONE | `: any`/`as any` в `src/api/` и `src/services/` = **0** | ✅ корректно |
 
-Закрепляем 4 канонических сценария и фиксим разрывы:
+### Расхождения с планом ⚠️
 
-1. **Первый запуск** → Home → Quick Create → Generation → Result Sheet → Player
-2. **Возвращение** → Home (с черновиком) → Library → Player → Lyrics → Details
-3. **Глубокая ссылка** → `/player/:id` → Fullscreen Player → Share
-4. **Студийный путь** → Library → "Edit in Studio" → Studio V2 → обратно в Player
+1. **039-02/03 «0 нарушений слоёв» — НЕВЕРНО.** PR #552 заявил «было 109 → стало 0», но `grep supabase.from/rpc/storage` по `src/components|pages|stores` даёт **35 совпадений в 17 файлах**, среди них:
+   - `admin/QuickActionsPanel.tsx`, `admin/analytics/RevenueAnalyticsPanel.tsx`, `admin/AdminBotImagesPanel.tsx`
+   - `generate-form/AudioActionDialog.tsx`, `project/ProjectCreationWizard.tsx`, `project/ProjectBannerEditor.tsx`, `project/ProjectCoverEditor.tsx`
+   - `studio/unified/ImportAudioDialog.tsx`, `studio/unified/SaveVersionDialog.tsx`, `studio/hooks/useEnhancedStudioLogger.ts`, `stores/studio/useProjectStore.ts`
+   - `comments/ReportCommentDialog.tsx`, `onboarding/ProfileSetupOnboarding.tsx`, `artist/ArtistDetailsPanel.tsx`
+   - analytics-панели (Comparison/ConversionFunnel/RealTime) — частично рефакторены, но остатки есть
+2. **039-10 для всего src/ — не выполнено.** В `src/api`+`src/services` `any` устранён, но в целом по `src/` остаётся **447** `: any`/`as any` против таргета «<50».
+3. **God-файлы >800 строк всё ещё есть (5):** `LyricsStudio.tsx` 1092, `usePromptDJEnhanced.ts` 1071, `IntegratedStemTracks.tsx` 872, `UnifiedNotesViewer.tsx` 855, `ProjectDetail.tsx` 851, `LyricsVisualEditor.tsx` 812.
+4. **Фаза C (E2E) полностью открыта**: 039-11 CI pipeline, 039-12 smoke/navigation/library, 039-13 player/generation, 039-14 верификация.
 
-Действия:
-- Карта переходов и точек «трения» (лишние клики, перегруженные экраны)
-- Унификация заголовков и back-кнопок через `UnifiedPageHeader` / `MobileHeaderBar`
-- Единый шаблон пустых состояний (skeleton + CTA), единые toast'ы
-- Сквозной prefetch: при наведении/тапе на трек — предзагрузка обложки и аудио
+### Сильные стороны коммитов
 
----
-
-## 2. Редизайн плеера (главный фокус)
-
-Сейчас `MobileFullscreenPlayer.tsx` — 862 строки, перегружен (визуализатор, караоке, очередь, жесты, версии). Разбираем на **3 чистых режима** с единым визуальным языком.
-
-### 2.1 Компактный плеер (CompactPlayer)
-- Высота 64px, симметричные паддинги 12px
-- Сетка: `[48 cover] [1fr meta] [40 play] [40 menu]`
-- Тонкий прогресс-бар сверху (2px, без отступов)
-- Тап по обложке/мете → expand; кнопки изолированы
-
-### 2.2 Fullscreen Player (мобайл)
-Новая компоновка, 3 «страницы» по горизонтальному свайпу:
-
-```text
-[ Cover ]  ⇄  [ Lyrics ]  ⇄  [ Details ]
-```
-
-Общий каркас (вертикально, симметрия 16px по бокам):
-```text
-┌────────────────────────────┐
-│ 44  · · ·  44   (header)   │  close / page-dots / queue
-├────────────────────────────┤
-│                            │
-│        активная страница   │  1fr, swipeable
-│                            │
-├────────────────────────────┤
-│   PlayerProgress (unified) │  timeline + waveform, 48px
-├────────────────────────────┤
-│   ◁◁   ▷    ⏯    ▷   ▷▷   │  transport 72px
-├────────────────────────────┤
-│   ♡   ⤴   💬   ⋯           │  actions 56px
-└────────────────────────────┘
-```
-
-- Удаляем визуализатор по умолчанию, оставляем как опцию в «⋯»
-- Жесты: вниз = закрыть, горизонталь = смена страницы (не трека); смена трека только кнопками/из очереди
-- Все элементы фиксированных размеров → нет «прыжков»
-
-### 2.3 Технический разбор файла
-- `MobileFullscreenPlayer.tsx` → 3 файла:
-  - `FullscreenShell.tsx` (каркас, жесты, header/footer)
-  - `FullscreenPages.tsx` (Cover / Lyrics / Details — lazy)
-  - `useFullscreenGestures.ts`
-- Сохраняем `PlayerProgress`, `UnifiedPlayerControls`, `PlayerActionsBar`
+- Чёткое разнесение по слоям с новыми API-файлами (`presets.api`, `recordings.api`, `studio.api`).
+- `withHistory` middleware с тестами — переиспользуется в lyrics/mixer/studio сторах.
+- GlobalAudioProvider реально декомпозирован — публичный API сохранён.
+- Тип-чистка `src/api` и `src/services` сделана аккуратно без `@ts-ignore`.
 
 ---
 
-## 3. Синхронизированная лирика с подсветкой
+## План дальнейших работ
 
-Использует `useTimestampedLyrics` + `useLyricsSynchronization` + `SynchronizedWord` — функционал есть, нужен UX-полишинг.
+### Sprint 039 — добивание (приоритет, ~3 дня)
 
-### 3.1 Визуал
-- **Auto-scroll**: активная строка фиксируется в центре (40% сверху на мобайле)
-- **Подсветка слов**: текущее слово — `text-foreground`, прошедшие — `text-foreground/40`, будущие — `text-foreground/70`
-- **Активная строка**: лёгкий scale 1.02 + увеличенный вес шрифта, без рамок/фонов
-- Шрифт: 20px / line-height 1.5, центр; на десктопе 28px
-- Отступы между строками 12px, между секциями ([Verse], [Chorus]) — 24px и тонкий лейбл секции `text-muted-foreground/60 text-xs uppercase tracking-wider`
+**039-03b. Доделать layer-fix (15 SP overdue):** перенести оставшиеся 35 прямых `supabase.*` вызовов в API-слой.
+- Batch 1 (admin/analytics): `RevenueAnalyticsPanel`, `QuickActionsPanel`, `AdminBotImagesPanel`, остатки в Comparison/ConversionFunnel/RealTime → расширить `src/api/admin.api.ts` + `analytics.api.ts`.
+- Batch 2 (project/wizard): `ProjectCreationWizard`, `ProjectBannerEditor`, `ProjectCoverEditor`, `useProjectStore` → расширить `projects.api.ts` (uploads + создание).
+- Batch 3 (studio/forms): `ImportAudioDialog`, `SaveVersionDialog`, `AudioActionDialog`, `useEnhancedStudioLogger` → `studio.api.ts`.
+- Batch 4 (misc): `ReportCommentDialog`, `ProfileSetupOnboarding`, `ArtistDetailsPanel`.
+- Acceptance: grep даёт 0 совпадений, `npm run build` зелёный, обновить `docs/LAYER_VIOLATIONS.md`.
 
-### 3.2 Взаимодействие
-- Тап по строке → seek на её timestamp + haptic
-- Long-press по строке → меню (скопировать, поделиться куплетом)
-- Кнопка «Karaoke mode» в header страницы лирики — крупный текст по одному слову
-- Если timestamps недоступны — показываем `StructuredLyricsDisplay` (без подсветки, но со скроллом)
+**039-11/12/13/14. E2E CI.**
+- Починить `playwright.config.ts` + `.github/workflows/quality-check.yml` (отдельный job для E2E с кэшем браузеров).
+- Поэтапно стабилизировать: smoke/navigation → library/track-actions → player/generation. Падающие spec помечать `test.fixme` с issue-ссылкой, а не удалять.
+- Acceptance: ≥35 specs зелёные в CI, артефакт HTML-отчёта.
 
-### 3.3 Состояния
-- Loading: shimmer-строки одинаковой высоты (без layout shift)
-- Empty: иконка `Mic2` + «Лирика недоступна для этого трека»
-- Error: тихий fallback на статичный текст
+**039-15 (новая). Корректировка отчётов.** Обновить `SPRINTS/SPRINT-039-PLAN.md` и `PROJECT_STATUS.md`: 039-02/03 → IN PROGRESS, 039-10 → «API/services done, app-wide deferred».
 
----
+### Sprint 040 — Type Safety wave 2 + god-файлы (предложение, 2 недели)
 
-## 4. Панель деталей трека (Track Details)
+**040-01. `any` → типы (447 → <50).** Поэтапно по директориям: `src/hooks/` → `src/components/` → `src/stores/` → `src/pages/`. Использовать `tsconfig.strict.json` как зачётный CI.
 
-Третья «страница» fullscreen-плеера и одновременно отдельный bottom-sheet из меню «⋯».
+**040-02. Разбить 5 god-файлов (>800 строк):**
+- `LyricsStudio.tsx` (1092) — extract `LyricsWorkspaceLayout`, `LyricsEditorPanel`, `LyricsToolbar` + хук `useLyricsStudio`.
+- `usePromptDJEnhanced.ts` (1071) — выделить `usePromptDJState`, `usePromptDJEffects`, `usePromptDJAudio`.
+- `IntegratedStemTracks.tsx`, `UnifiedNotesViewer.tsx`, `ProjectDetail.tsx`, `LyricsVisualEditor.tsx` — каждый <500 строк.
+- Acceptance: 0 файлов >700 строк в `src/{components,pages,hooks}`.
 
-Содержимое (вертикальный стек, секции с разделителями `border-t border-border/40`):
+**040-03. Удалить дубли по графу.** Включить `npm run check:design-tokens` в pre-commit, прогнать `graphify update .`, разрулить 6 оставшихся дублей из аудита 2026-06-28.
 
-1. **Заголовок**: название, исполнитель, длительность, дата — выровнено по левому краю, симметричные 16px
-2. **Версии (A/B)**: `VersionSwitcher` — таб-пилюли, активная подсвечена `bg-primary/10`
-3. **Метаданные**: жанр, BPM, ключ, модель Suno — сетка 2×N, label сверху мелким, value крупнее
-4. **Стемы**: горизонтальный список чипов (если есть) → открывает Studio
-5. **Действия**: симметричная сетка 2×2 — Like, Add to Playlist, Share, Download
-6. **Проект**: ссылка на родительский проект (если есть)
-7. **Комментарии**: первые 3 + «Показать все»
+**040-04. Bundle hardening.** Цель ≤880 КБ (запас 70 КБ): анализ через `npm run size:why`, lazy-load `vendor-tone` и `vendor-wavesurfer` отложенно (после первого play).
 
-Единые токены: spacing 16px, радиусы `rounded-2xl`, тени `shadow-sm`, фон `bg-card/60 backdrop-blur`.
+### Sprint 041 — UX-долги из todo_analysis.md (ориентир)
+
+Перенести высокоприоритетные TODO: AI suggestions в `IdeaStep`, генерация текста в `LyricsStep`, перечитывание лирики в `LyricsView`, недоделки `useStudioAudioEngine` (loop/export/recording).
 
 ---
 
-## 5. Дизайн-система и симметрия
+## Технические детали
 
-- Аудит токенов: все плеерные компоненты используют только `src/lib/design-tokens.ts` и `src/lib/glass.ts`
-- Запрет хардкод-цветов (`bg-black/50`, `text-white`) — замена на семантику
-- Сетка отступов: 4/8/12/16/24 — никаких произвольных
-- Иконки: только `lucide-react` через `@/lib/icons`, размер 20/24
-- Touch-targets ≥ 44×44
-
----
-
-## 6. Производительность и отзывчивость
-
-- Lazy: `LyricsPage`, `DetailsPage`, `KaraokeView`, `QueueSheet`, `FullscreenVisualizer`
-- Prefetch обложки следующего трека через `usePrefetchTrackCovers` (уже есть) + `img.decode()`
-- `requestAnimationFrame` для скролла лирики, throttle 16ms
-- Кэш `useTimestampedLyrics` через `lyricsCache` (уже есть) — оставить
-- Бюджет: первая отрисовка fullscreen < 200ms, переключение страниц < 100ms
-
----
-
-## 7. Проверка и тесты
-
-- Playwright: новые сценарии — открыть fullscreen, свайп Cover→Lyrics→Details, тап по строке = seek
-- Visual regression: 360 / 424 / 768 / 1440, портрет/ландшафт
-- Скриншоты для трёх страниц fullscreen и компактного плеера
-- Axe: контраст подсветки слов AA на тёмном фоне
-- Smoke: `/`, `/library`, `/player/:id`, `/projects` — 0 JS errors, 0 layout shifts
-
----
-
-## 8. Этапы реализации
-
-1. **Каркас**: разбить `MobileFullscreenPlayer` на `Shell` + `Pages`, ввести горизонтальный pager
-2. **Cover page**: симметричная компоновка, унификация прогресса/контролов
-3. **Lyrics page**: новый layout строк, auto-scroll, tap-to-seek, состояния
-4. **Details page**: секции, версии, метаданные, действия
-5. **CompactPlayer**: подгон под новую сетку и токены
-6. **Тесты + визуальная регрессия + типчек + build**
-
----
-
-## Технические заметки
-
-- Все изменения — frontend/presentation. Никаких миграций БД и правок Edge Functions
-- Не трогаем `GlobalAudioProvider`, `usePlayerStore`, API слой
-- Использовать существующие хуки: `useTimestampedLyrics`, `useLyricsSynchronization`, `useParsedLyrics`, `useGlobalAudioPlayer`
-- Заголовки и safe-area через уже выстроенные `UnifiedScreenLayout` / `useTelegramSafeArea`
-- Файлы > 500 строк дробить согласно конвенции репо
+- Метрики снимались командами: `grep -rn "supabase\.from|rpc|storage" src/{components,pages,stores}`, `wc -l` по всем `*.ts/tsx`, `grep ": any| as any"`.
+- Полный список 17 нарушителей и 5 god-файлов приведён выше — годится как чек-лист для 039-03b и 040-02.
+- E2E spec'и существуют (47 шт в `tests/e2e/`), но `quality-check.yml` намеренно их исключает («lint+typecheck+build only»). Нужен отдельный `e2e.yml` workflow.
