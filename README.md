@@ -33,13 +33,14 @@
 
 <div align="center">
 
-|                   Главная                   |                   Плеер                   |                 Студия                  |                  Библиотека                  |
-| :-----------------------------------------: | :---------------------------------------: | :-------------------------------------: | :------------------------------------------: |
-| ![Главная](public/images/bot/main-menu.jpg) | ![Плеер](public/images/bot/generator.jpg) | ![Студия](public/images/bot/studio.jpg) | ![Библиотека](public/images/bot/library.jpg) |
+|                   Главная                   |                   Библиотека                   |                 Проекты                  |                  Студия                  |
+| :-----------------------------------------: | :--------------------------------------------: | :--------------------------------------: | :--------------------------------------: |
+| ![Главная](https://aimusicverse.lovable.app/__l5e/assets-v1/403b3246-5427-4e1b-b4ae-0f040cbb13f9/home.png) | ![Библиотека](https://aimusicverse.lovable.app/__l5e/assets-v1/ee33a97f-b38a-4237-b4dd-7570cf20d1f3/library.png) | ![Проекты](https://aimusicverse.lovable.app/__l5e/assets-v1/4ed69732-610c-48d3-9c97-758de4f636a4/projects.png) | ![Студия](https://aimusicverse.lovable.app/__l5e/assets-v1/c73682a9-7b3c-487f-919a-e926941d119b/studio.png) |
 
-<sub>Скриншоты из Telegram Mini App. Для автоматической генерации: `npx playwright test scripts/capture-screenshots.ts`</sub>
+<sub>Реальные скриншоты приложения на мобильном viewport 390×844 (iPhone-class). Сгенерированы автоматически через Playwright из живого preview.</sub>
 
 </div>
+
 
 ---
 
