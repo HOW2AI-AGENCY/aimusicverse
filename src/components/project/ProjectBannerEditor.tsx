@@ -117,14 +117,12 @@ export function ProjectBannerEditor({ open, onOpenChange, project, onBannerUpdat
     try {
       const prompt = buildPrompt();
 
-      const { data, error } = await supabase.functions.invoke("generate-project-media", {
-        body: {
-          prompt,
-          width: BANNER_WIDTH,
-          height: BANNER_HEIGHT,
-          projectId: project.id,
-          assetType: "banner",
-        },
+      const { data, error } = await invokeGenerateProjectMedia({
+        prompt,
+        width: BANNER_WIDTH,
+        height: BANNER_HEIGHT,
+        projectId: project.id,
+        assetType: "banner",
       });
 
       if (error) throw error;
