@@ -259,7 +259,7 @@ export const useProjectStore = create<ProjectState>()(
        */
       deleteProject: async (projectId: string) => {
         try {
-          const { error } = await supabase.from("studio_projects").delete().eq("id", projectId);
+          const { error } = await deleteStudioProject(projectId);
 
           if (error) throw error;
 
