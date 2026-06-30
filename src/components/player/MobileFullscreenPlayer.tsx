@@ -249,6 +249,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           }}
         >
           <Button
+            ref={closeButtonRef}
             variant="ghost"
             size="icon"
             onClick={() => {
@@ -256,9 +257,9 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
               onClose();
             }}
             className={cn("h-11 w-11 rounded-full touch-manipulation", glassButton.default)}
-            aria-label="Закрыть"
+            aria-label="Закрыть плеер"
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" aria-hidden="true" />
           </Button>
 
           <div className="min-w-0 text-center">
