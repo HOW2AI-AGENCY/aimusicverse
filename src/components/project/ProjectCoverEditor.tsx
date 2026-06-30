@@ -117,9 +117,7 @@ export function ProjectCoverEditor({
 
   const handleRemoveCover = async () => {
     try {
-      const { error } = await supabase.from("music_projects").update({ cover_url: null }).eq("id", projectId);
-
-      if (error) throw error;
+      await updateProjectCover(projectId, null);
 
       onCoverUpdate("");
       toast.success("Обложка удалена");
