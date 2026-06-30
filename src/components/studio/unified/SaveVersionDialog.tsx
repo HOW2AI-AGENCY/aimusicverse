@@ -21,7 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { ensureTrackVersion, invokeMergeStems } from "@/api/studio.api";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
 
