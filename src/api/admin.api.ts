@@ -169,3 +169,49 @@ export async function fetchRecentBotEvents(limit: number = 50) {
   if (error) throw new Error(error.message);
   return data;
 }
+
+// ==========================================
+// User Feedback
+// ==========================================
+
+export async function fetchUserFeedback(options: { status?: string; limit?: number } = {}) {
+  const { status, limit = 50 } = options;
+  let query = supabase.from("user_feedback").select("*").order("created_at", { ascending: false }).limit(limit);
+  if (status) query = query.eq("status", status);
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function closeFeedbackItem(id: string) {
+  const { error } = await supabase.from("user_feedback").update({ status: "closed" }).eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+// ==========================================
+// Content Moderation
+// ==========================================
+
+export async function reportContent(params: {
+  reporterId: string;
+  reportedUserId: string;
+  entityType: string;
+  entityId: string;
+  reason: string;
+  details?: string;
+}) {
+  const { data, error } = await supabase
+    .from("moderation_reports")
+    .insert({
+      reporter_id: params.reporterId,
+      reported_user_id: params.reportedUserId,
+      entity_type: params.entityType,
+      entity_id: params.entityId,
+      reason: params.reason,
+      details: params.details ?? null,
+    })
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
+}
