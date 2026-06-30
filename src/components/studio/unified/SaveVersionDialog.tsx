@@ -81,14 +81,12 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
         setProgress(50);
 
         // Use ensure_track_version RPC which handles duplicates
-        const { data: versionId, error: ensureError } = await supabase.rpc("ensure_track_version", {
-          p_track_id: sourceTrackId,
-          p_audio_url: audioUrl,
-          p_label: label,
-          p_version_type: "snapshot",
+        const versionId = await ensureTrackVersion({
+          trackId: sourceTrackId,
+          audioUrl,
+          label,
+          versionType: "snapshot",
         });
-
-        if (ensureError) throw ensureError;
 
         setProgress(100);
         toast.success("Версия сохранена");
