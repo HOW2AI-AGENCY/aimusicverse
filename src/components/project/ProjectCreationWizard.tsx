@@ -25,7 +25,12 @@ import {
 import { useProjects } from "@/hooks/useProjects";
 import { useProjectTracks } from "@/hooks/useProjectTracks";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
+import {
+  checkPremiumStatus,
+  invokeProjectAi,
+  invokeGenerateCoverImage,
+  updateProjectFields,
+} from "@/api/projects.api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
