@@ -250,27 +250,23 @@ export function ProjectBannerEditor({ open, onOpenChange, project, onBannerUpdat
 
       const fileName = `${user.id}/${project.id}_${Date.now()}.webp`;
 
-      const { error: uploadError } = await supabase.storage.from("project-banners").upload(fileName, blob, {
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "project-banners",
+        path: fileName,
+        file: blob,
         contentType: "image/webp",
         upsert: true,
       });
 
       if (uploadError) throw uploadError;
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("project-banners").getPublicUrl(fileName);
+      const publicUrl = uploadData!.publicUrl;
 
       // Update project
-      const { error: updateError } = await supabase
-        .from("music_projects")
-        .update({
-          banner_url: publicUrl,
-          banner_prompt: selectedPreset || customPrompt || null,
-        })
-        .eq("id", project.id);
-
-      if (updateError) throw updateError;
+      await updateProjectBanner(project.id, {
+        bannerUrl: publicUrl,
+        bannerPrompt: selectedPreset || customPrompt || null,
+      });
 
       onBannerUpdate(publicUrl);
       toast.success("Баннер сохранён");
