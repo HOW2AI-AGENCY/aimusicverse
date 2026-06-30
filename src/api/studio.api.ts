@@ -218,6 +218,36 @@ export async function logTrackActivity(params: {
   return { error };
 }
 
+/**
+ * Invoke merge-stems edge function
+ */
+export async function invokeMergeStems(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
+  const { data, error } = await supabase.functions.invoke("merge-stems", { body: payload });
+  return { data, error: error ? new Error(error.message) : null };
+}
+
+/**
+ * Insert a track_change_log row directly (used by enhanced studio logger).
+ */
+export async function insertTrackChangeLog(params: {
+  trackId: string;
+  userId: string;
+  changeType: string;
+  changedBy: string;
+  newValue?: string;
+  versionId?: string;
+}): Promise<void> {
+  const { error } = await supabase.from("track_change_log").insert({
+    track_id: params.trackId,
+    user_id: params.userId,
+    change_type: params.changeType,
+    changed_by: params.changedBy,
+    new_value: params.newValue,
+    version_id: params.versionId,
+  });
+  if (error) throw new Error(error.message);
+}
+
 // ============= Stem Transcriptions =============
 
 export async function fetchStemTranscriptions(filter: { trackId?: string; stemId?: string }) {
