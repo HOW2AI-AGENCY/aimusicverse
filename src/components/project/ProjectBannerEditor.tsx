@@ -23,7 +23,8 @@ import {
   Crop,
   X,
 } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
+import { invokeGenerateProjectMedia, updateProjectBanner } from "@/api/projects.api";
 import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
@@ -116,14 +117,12 @@ export function ProjectBannerEditor({ open, onOpenChange, project, onBannerUpdat
     try {
       const prompt = buildPrompt();
 
-      const { data, error } = await supabase.functions.invoke("generate-project-media", {
-        body: {
-          prompt,
-          width: BANNER_WIDTH,
-          height: BANNER_HEIGHT,
-          projectId: project.id,
-          assetType: "banner",
-        },
+      const { data, error } = await invokeGenerateProjectMedia({
+        prompt,
+        width: BANNER_WIDTH,
+        height: BANNER_HEIGHT,
+        projectId: project.id,
+        assetType: "banner",
       });
 
       if (error) throw error;
@@ -251,27 +250,23 @@ export function ProjectBannerEditor({ open, onOpenChange, project, onBannerUpdat
 
       const fileName = `${user.id}/${project.id}_${Date.now()}.webp`;
 
-      const { error: uploadError } = await supabase.storage.from("project-banners").upload(fileName, blob, {
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "project-banners",
+        path: fileName,
+        file: blob,
         contentType: "image/webp",
         upsert: true,
       });
 
       if (uploadError) throw uploadError;
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("project-banners").getPublicUrl(fileName);
+      const publicUrl = uploadData!.publicUrl;
 
       // Update project
-      const { error: updateError } = await supabase
-        .from("music_projects")
-        .update({
-          banner_url: publicUrl,
-          banner_prompt: selectedPreset || customPrompt || null,
-        })
-        .eq("id", project.id);
-
-      if (updateError) throw updateError;
+      await updateProjectBanner(project.id, {
+        bannerUrl: publicUrl,
+        bannerPrompt: selectedPreset || customPrompt || null,
+      });
 
       onBannerUpdate(publicUrl);
       toast.success("Баннер сохранён");

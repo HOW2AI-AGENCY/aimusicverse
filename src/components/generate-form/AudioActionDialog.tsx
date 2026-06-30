@@ -24,6 +24,7 @@ import {
 } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { logger } from "@/lib/logger";
 import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -237,20 +238,19 @@ export function AudioActionDialog({
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     const fileName = `${user.id}/reference-${Date.now()}-${sanitizedName}`;
 
-    const { error: uploadError } = await supabase.storage
-      .from("project-assets")
-      .upload(fileName, file, { cacheControl: "3600", upsert: false });
+    const { data: uploadData, error: uploadError } = await uploadFile({
+      bucket: "project-assets",
+      path: fileName,
+      file,
+      upsert: false,
+    });
 
     if (uploadError) {
       logger.error("Storage upload error", { error: uploadError.message });
       throw new Error(`Ошибка загрузки: ${uploadError.message}`);
     }
 
-    const {
-      data: { publicUrl },
-    } = supabase.storage.from("project-assets").getPublicUrl(fileName);
-
-    return publicUrl;
+    return uploadData!.publicUrl;
   };
 
   const analyzeAudio = async (file: File, existingUrl?: string) => {

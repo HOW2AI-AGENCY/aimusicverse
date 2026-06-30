@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, Wand2, Loader2, X, Image as ImageIcon } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/api/storage.api";
+import { updateProjectCover, invokeGenerateCoverImage } from "@/api/projects.api";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -71,12 +71,7 @@ export function ProjectCoverEditor({
       const publicUrl = uploadData!.publicUrl;
 
       // Update project cover_url
-      const { error: updateError } = await supabase
-        .from("music_projects")
-        .update({ cover_url: publicUrl })
-        .eq("id", projectId);
-
-      if (updateError) throw updateError;
+      await updateProjectCover(projectId, publicUrl);
 
       onCoverUpdate(publicUrl);
       toast.success("Обложка загружена");
@@ -98,11 +93,9 @@ export function ProjectCoverEditor({
     setGenerating(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("generate-cover-image", {
-        body: {
-          projectId,
-          prompt: generationPrompt,
-        },
+      const { data, error } = await invokeGenerateCoverImage({
+        projectId,
+        prompt: generationPrompt,
       });
 
       if (error) throw error;
@@ -124,9 +117,7 @@ export function ProjectCoverEditor({
 
   const handleRemoveCover = async () => {
     try {
-      const { error } = await supabase.from("music_projects").update({ cover_url: null }).eq("id", projectId);
-
-      if (error) throw error;
+      await updateProjectCover(projectId, null);
 
       onCoverUpdate("");
       toast.success("Обложка удалена");

@@ -4,7 +4,7 @@
  */
 
 import { useCallback, useRef, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { insertTrackChangeLog } from "@/api/studio.api";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 
@@ -144,18 +144,18 @@ export function useEnhancedStudioLogger(trackId: string) {
         ];
 
         if (importantActions.includes(action)) {
-          await supabase.from("track_change_log").insert({
-            track_id: trackId,
-            change_type: action,
-            changed_by: "user",
-            user_id: user.id,
-            new_value: JSON.stringify({
+          await insertTrackChangeLog({
+            trackId,
+            userId: user.id,
+            changeType: action,
+            changedBy: "user",
+            newValue: JSON.stringify({
               ...metadata,
               sessionId,
               sessionDuration,
               actionCount: metricsRef.current.actionCount,
             }),
-            version_id: metadata?.versionId,
+            versionId: metadata?.versionId as string | undefined,
           });
         }
       } catch (error) {

@@ -25,7 +25,12 @@ import {
 import { useProjects } from "@/hooks/useProjects";
 import { useProjectTracks } from "@/hooks/useProjectTracks";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
+import {
+  checkPremiumStatus,
+  invokeProjectAi,
+  invokeGenerateCoverImage,
+  updateProjectFields,
+} from "@/api/projects.api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -103,9 +108,9 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
   // Check premium status
   useEffect(() => {
     if (user) {
-      supabase.rpc("is_premium_or_admin", { _user_id: user.id }).then(({ data }) => {
-        setIsPremiumUser(!!data);
-        setIsPublic(!data);
+      checkPremiumStatus(user.id).then((isPremium) => {
+        setIsPremiumUser(isPremium);
+        setIsPublic(!isPremium);
       });
     }
   }, [user]);
@@ -188,17 +193,15 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                   setProgress(50);
                   setStatusMessage("AI создаёт трек-лист...");
 
-                  const { data: aiResult, error } = await supabase.functions.invoke("project-ai", {
-                    body: {
-                      action: "full-project",
-                      projectId: data.id,
-                      projectType,
-                      genre: genre || undefined,
-                      mood: mood || undefined,
-                      theme: description || undefined,
-                      trackCount: getRecommendedTrackCount(projectType),
-                      language,
-                    },
+                  const { data: aiResult, error } = await invokeProjectAi({
+                    action: "full-project",
+                    projectId: data.id,
+                    projectType,
+                    genre: genre || undefined,
+                    mood: mood || undefined,
+                    theme: description || undefined,
+                    trackCount: getRecommendedTrackCount(projectType),
+                    language,
                   });
 
                   if (error) {
@@ -238,12 +241,9 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     if (!description && aiDescription) updateData.description = aiDescription;
 
                     if (Object.keys(updateData).length > 0) {
-                      const { error: updateError } = await supabase
-                        .from("music_projects")
-                        .update(updateData as any)
-                        .eq("id", data.id);
-
-                      if (updateError) {
+                      try {
+                        await updateProjectFields(data.id, updateData);
+                      } catch (updateError) {
                         logger.warn("Failed to update project with AI data", { error: updateError });
                       }
                     }
@@ -254,18 +254,13 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                       setStatusMessage("Генерация обложки...");
 
                       try {
-                        const { data: coverData, error: coverError } = await supabase.functions.invoke(
-                          "generate-cover-image",
-                          {
-                            body: {
-                              projectId: data.id,
-                              prompt: coverPrompt,
-                              title: aiTitle || title,
-                              genre: genre || undefined,
-                              mood: mood || undefined,
-                            },
-                          },
-                        );
+                        const { data: coverData, error: coverError } = await invokeGenerateCoverImage({
+                          projectId: data.id,
+                          prompt: coverPrompt,
+                          title: aiTitle || title,
+                          genre: genre || undefined,
+                          mood: mood || undefined,
+                        });
 
                         if (!coverError && coverData?.url) {
                           logger.info("Cover generated successfully", { url: coverData.url });

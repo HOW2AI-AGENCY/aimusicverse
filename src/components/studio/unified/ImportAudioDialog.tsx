@@ -13,7 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { Upload, FileAudio, Loader2, Check, X, Music } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
@@ -168,8 +168,10 @@ export function ImportAudioDialog({ open, onOpenChange, onImport, projectId }: I
       setUploadProgress(30);
 
       // Upload to storage
-      const { error: uploadError } = await supabase.storage.from("project-assets").upload(fileName, file, {
-        cacheControl: "3600",
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "project-assets",
+        path: fileName,
+        file,
         upsert: false,
       });
 
@@ -180,9 +182,7 @@ export function ImportAudioDialog({ open, onOpenChange, onImport, projectId }: I
       setUploadProgress(80);
 
       // Get public URL
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("project-assets").getPublicUrl(fileName);
+      const publicUrl = uploadData!.publicUrl;
 
       setUploadProgress(100);
       setIsComplete(true);

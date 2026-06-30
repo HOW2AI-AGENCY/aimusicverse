@@ -218,6 +218,36 @@ export async function logTrackActivity(params: {
   return { error };
 }
 
+/**
+ * Invoke merge-stems edge function
+ */
+export async function invokeMergeStems(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
+  const { data, error } = await supabase.functions.invoke("merge-stems", { body: payload });
+  return { data, error: error ? new Error(error.message) : null };
+}
+
+/**
+ * Insert a track_change_log row directly (used by enhanced studio logger).
+ */
+export async function insertTrackChangeLog(params: {
+  trackId: string;
+  userId: string;
+  changeType: string;
+  changedBy: string;
+  newValue?: string;
+  versionId?: string;
+}): Promise<void> {
+  const { error } = await supabase.from("track_change_log").insert({
+    track_id: params.trackId,
+    user_id: params.userId,
+    change_type: params.changeType,
+    changed_by: params.changedBy,
+    new_value: params.newValue,
+    version_id: params.versionId,
+  });
+  if (error) throw new Error(error.message);
+}
+
 // ============= Stem Transcriptions =============
 
 export async function fetchStemTranscriptions(filter: { trackId?: string; stemId?: string }) {
@@ -253,20 +283,24 @@ export async function fetchStudioProject(id: string) {
   return { data, error };
 }
 
-export async function createStudioProject(params: {
-  userId: string;
-  name: string;
-  sourceTrackId?: string;
-  description?: string;
-}) {
+export async function createStudioProject(
+  params:
+    | { userId: string; name: string; sourceTrackId?: string; description?: string }
+    | Record<string, unknown>,
+) {
+  // Normalize legacy shape to row shape
+  const row =
+    "userId" in params
+      ? {
+          user_id: (params as { userId: string }).userId,
+          name: (params as { name: string }).name,
+          source_track_id: (params as { sourceTrackId?: string }).sourceTrackId ?? null,
+          description: (params as { description?: string }).description ?? null,
+        }
+      : (params as Record<string, unknown>);
   const { data, error } = await supabase
     .from("studio_projects")
-    .insert({
-      user_id: params.userId,
-      name: params.name,
-      source_track_id: params.sourceTrackId ?? null,
-      description: params.description ?? null,
-    })
+    .insert(row as never)
     .select()
     .single();
   return { data, error };

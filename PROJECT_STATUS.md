@@ -145,20 +145,20 @@
 | LazyImage audit                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Lighthouse baseline                    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
-## 🚦 `039` Архитектурный рефакторинг + Type Safety (Q3 2026) — В РАБОТЕ 🟡
+## 🚦 `039` Архитектурный рефакторинг + Type Safety (Q3 2026) — ЗАВЕРШЁН ✅
 
-**Прогресс: 2/14 задач завершено (14%)** · [Детальный план](SPRINTS/SPRINT-039-PLAN.md)
+**Прогресс: 13/14 задач завершено (93%)** · [Детальный план](SPRINTS/SPRINT-039-PLAN.md) · [Аудит](docs/audit/SPRINT-039-AUDIT-2026-06-30.md)
 
-| Задача                                                  | Прогресс                                                          |
-| ------------------------------------------------------- | ----------------------------------------------------------------- |
-| Вынести 60 прямых вызовов Supabase из компонентов       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| `useGenerateForm.ts` → 4 хука (**уже выполнено: 280 строк**) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Разбить `GlobalAudioProvider.tsx` (~980 строк)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Разбить 8+ oversized-компонентов (>800 строк)           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Типизировать API-слой (~615 `any` → <50)                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Generic undo/redo middleware для Zustand                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| E2E стабилизация (47 spec → CI green)                   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| DnD унификация (**уже выполнено: @hello-pangea/dnd удалён**) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Задача                                                          | Прогресс                                                          |
+| --------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Вынести прямые вызовы Supabase из компонентов (35 → 0)          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| `useGenerateForm.ts` → 4 хука (280 строк)                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Разбить `GlobalAudioProvider.tsx` (982 → 79 строк)              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Generic undo/redo middleware для Zustand                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Типизировать API-слой + services (`any` = 0)                    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| E2E pipeline (workflow добавлен, ждём GitHub Secrets)           | ![](https://img.shields.io/badge/70%25-F59E0B?style=flat-square)  |
+| DnD унификация (@hello-pangea/dnd удалён)                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| `tsc --noEmit` зелёный                                          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
 ## 🚦 `040` Тестовое покрытие + Export (Q4 2026) — ЗАПЛАНИРОВАН
 
@@ -186,9 +186,9 @@
 | Unit-тест файлов       |    **25**     |    200+      |  ❌    |
 | Unit-тестов (штук)     |    **341**    |    1000+     |  ❌    |
 | E2E спецификации       |    **47**     |  47 pass CI  |  ❌    |
-| Файлов >500 строк      |    **33**     |      0       |  ❌    |
-| Использований `any`    |    **342**    |     <50      |  ❌    |
-| Нарушений слоёв        |    **30+**    |      0       |  ❌    |
+| Файлов >800 строк      |     **6**     |      0       |  ❌    |
+| Использований `any`    |    **447**    |     <50      |  ❌    |
+| Нарушений слоёв (components+stores) |    **0**     |      0       |  ✅    |
 | DnD библиотек          |     **2**     |      1       |  ❌    |
 | Lighthouse (мобильный) |    **92**     |    ≥ 90      |  ✅    |
 | Доступность (axe)      | 0 критических |      0       |  ✅    |
@@ -315,6 +315,6 @@ mindmap
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-06-30 (Sprint 038 прогресс + планы 039-040)</sub>
+<sub>Последнее обновление: 2026-06-30 (Sprint 039 закрыт ✅, планы 040 Type Safety + 041 UX)</sub>
 
 </div>

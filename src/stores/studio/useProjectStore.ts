@@ -9,8 +9,13 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { supabase } from "@/integrations/supabase/client";
 import { Json } from "@/integrations/supabase/types";
+import {
+  createStudioProject,
+  fetchStudioProject,
+  updateStudioProject,
+  deleteStudioProject,
+} from "@/api/studio.api";
 import { logger } from "@/lib/logger";
 import type { StudioProject, CreateProjectParams, ProjectStatus, StemsMode, ViewSettings } from "./types";
 import { createDefaultViewSettings, generateId } from "./types";
@@ -95,7 +100,7 @@ export const useProjectStore = create<ProjectState>()(
 
         // Save to database
         try {
-          const { error } = await supabase.from("studio_projects").insert({
+          const { error } = await createStudioProject({
             id: projectId,
             user_id: params.userId,
             source_track_id: params.sourceTrackId,
@@ -137,7 +142,7 @@ export const useProjectStore = create<ProjectState>()(
         set({ isLoading: true });
 
         try {
-          const { data, error } = await supabase.from("studio_projects").select("*").eq("id", projectId).single();
+          const { data, error } = await fetchStudioProject(projectId);
 
           if (error) throw error;
           if (!data) throw new Error("Project not found");
@@ -171,7 +176,7 @@ export const useProjectStore = create<ProjectState>()(
           });
 
           // Update opened_at
-          await supabase.from("studio_projects").update({ opened_at: new Date().toISOString() }).eq("id", projectId);
+          await updateStudioProject(projectId, { opened_at: new Date().toISOString() });
 
           projectLogger.info("Project loaded successfully", { projectId, name: project.name });
           return true;
@@ -204,23 +209,20 @@ export const useProjectStore = create<ProjectState>()(
         set({ isSaving: true });
 
         try {
-          const { error } = await supabase
-            .from("studio_projects")
-            .update({
-              name: project.name,
-              description: project.description,
-              bpm: project.bpm,
-              key_signature: project.keySignature,
-              time_signature: project.timeSignature,
-              duration_seconds: project.durationSeconds,
-              master_volume: project.masterVolume,
-              tracks: project.tracks as unknown as Json,
-              status: project.status,
-              stems_mode: project.stemsMode,
-              view_settings: project.viewSettings as unknown as Json,
-              updated_at: new Date().toISOString(),
-            })
-            .eq("id", project.id);
+          const { error } = await updateStudioProject(project.id, {
+            name: project.name,
+            description: project.description,
+            bpm: project.bpm,
+            key_signature: project.keySignature,
+            time_signature: project.timeSignature,
+            duration_seconds: project.durationSeconds,
+            master_volume: project.masterVolume,
+            tracks: project.tracks as unknown as Json,
+            status: project.status,
+            stems_mode: project.stemsMode,
+            view_settings: project.viewSettings as unknown as Json,
+            updated_at: new Date().toISOString(),
+          });
 
           if (error) throw error;
 
@@ -257,7 +259,7 @@ export const useProjectStore = create<ProjectState>()(
        */
       deleteProject: async (projectId: string) => {
         try {
-          const { error } = await supabase.from("studio_projects").delete().eq("id", projectId);
+          const { error } = await deleteStudioProject(projectId);
 
           if (error) throw error;
 

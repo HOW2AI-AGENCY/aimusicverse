@@ -111,3 +111,60 @@ export async function generateProjectConcept(params: {
   if (error) throw new Error(error.message);
   return data;
 }
+
+/**
+ * Update arbitrary project fields (used by wizard / editors)
+ */
+export async function updateProjectFields(projectId: string, updates: Record<string, unknown>): Promise<void> {
+  const { error } = await supabase
+    .from("music_projects")
+    .update(updates as ProjectUpdate)
+    .eq("id", projectId);
+  if (error) throw new Error(error.message);
+}
+
+/**
+ * Update project cover_url (set or clear)
+ */
+export async function updateProjectCover(projectId: string, coverUrl: string | null): Promise<void> {
+  const { error } = await supabase.from("music_projects").update({ cover_url: coverUrl }).eq("id", projectId);
+  if (error) throw new Error(error.message);
+}
+
+/**
+ * Update project banner fields
+ */
+export async function updateProjectBanner(
+  projectId: string,
+  params: { bannerUrl: string; bannerPrompt: string | null },
+): Promise<void> {
+  const { error } = await supabase
+    .from("music_projects")
+    .update({ banner_url: params.bannerUrl, banner_prompt: params.bannerPrompt })
+    .eq("id", projectId);
+  if (error) throw new Error(error.message);
+}
+
+/**
+ * Invoke project-ai edge function with arbitrary action payload
+ */
+export async function invokeProjectAi(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
+  const { data, error } = await supabase.functions.invoke("project-ai", { body: payload });
+  return { data, error: error ? new Error(error.message) : null };
+}
+
+/**
+ * Invoke generate-cover-image edge function
+ */
+export async function invokeGenerateCoverImage(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
+  const { data, error } = await supabase.functions.invoke("generate-cover-image", { body: payload });
+  return { data, error: error ? new Error(error.message) : null };
+}
+
+/**
+ * Invoke generate-project-media edge function (banner / artwork)
+ */
+export async function invokeGenerateProjectMedia(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
+  const { data, error } = await supabase.functions.invoke("generate-project-media", { body: payload });
+  return { data, error: error ? new Error(error.message) : null };
+}

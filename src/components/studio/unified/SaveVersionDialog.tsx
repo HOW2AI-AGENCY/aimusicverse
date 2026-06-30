@@ -21,7 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { ensureTrackVersion, invokeMergeStems } from "@/api/studio.api";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
 
@@ -81,14 +81,12 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
         setProgress(50);
 
         // Use ensure_track_version RPC which handles duplicates
-        const { data: versionId, error: ensureError } = await supabase.rpc("ensure_track_version", {
-          p_track_id: sourceTrackId,
-          p_audio_url: audioUrl,
-          p_label: label,
-          p_version_type: "snapshot",
+        const versionId = await ensureTrackVersion({
+          trackId: sourceTrackId,
+          audioUrl,
+          label,
+          versionType: "snapshot",
         });
-
-        if (ensureError) throw ensureError;
 
         setProgress(100);
         toast.success("Версия сохранена");
@@ -116,33 +114,29 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
 
         setProgress(40);
 
-        const { data, error: mergeError } = await supabase.functions.invoke("merge-stems", {
-          body: {
-            stems: stemsToMerge,
-            masterVolume,
-            trackId: sourceTrackId,
-            versionLabel: label,
-            projectId,
-          },
+        const { data, error: mergeError } = await invokeMergeStems({
+          stems: stemsToMerge,
+          masterVolume,
+          trackId: sourceTrackId,
+          versionLabel: label,
+          projectId,
         });
 
         if (mergeError) throw mergeError;
 
         setProgress(80);
 
-        const { data: versionId, error: ensureError } = await supabase.rpc("ensure_track_version", {
-          p_track_id: sourceTrackId,
-          p_audio_url: data.audioUrl,
-          p_label: label,
-          p_version_type: "merged",
+        const versionId = await ensureTrackVersion({
+          trackId: sourceTrackId,
+          audioUrl: data.audioUrl,
+          label,
+          versionType: "merged",
         });
-
-        if (ensureError) throw ensureError;
 
         setProgress(100);
         toast.success("Микс сохранён как новая версия");
         onVersionSaved?.({
-          id: versionId as string,
+          id: versionId,
           audioUrl: data.audioUrl,
           label,
         });
@@ -162,12 +156,10 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
 
         setProgress(40);
 
-        const { data, error: mergeError } = await supabase.functions.invoke("merge-stems", {
-          body: {
-            stems: stemsToMerge,
-            masterVolume,
-            format: "wav",
-          },
+        const { data, error: mergeError } = await invokeMergeStems({
+          stems: stemsToMerge,
+          masterVolume,
+          format: "wav",
         });
 
         if (mergeError) throw mergeError;

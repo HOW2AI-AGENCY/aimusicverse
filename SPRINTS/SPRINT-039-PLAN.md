@@ -56,13 +56,16 @@
 | 039-01  | **Layer audit: grep все прямые Supabase-вызовы**      | ✅ DONE        | 1   | —           |
 | 039-02  | **Вынести Supabase из UI-компонентов (batch 1: 15+)** | ✅ DONE        | 5   | 039-01      |
 | 039-03  | **Вынести Supabase из UI-компонентов (batch 2: 15+)** | ✅ DONE        | 5   | 039-02      |
-| 039-03b | **Layer-fix добивание (Batch 1 + 4 ✅; остаются 2, 3)** | 🟠 IN PROGRESS | 4   | 039-03      |
+| 039-03b | **Layer-fix добивание (все 4 батча закрыты)**         | ✅ DONE        | 4   | 039-03      |
 | 039-04  | **Generic undo/redo Zustand middleware**              | ✅ DONE        | 3   | —           |
 | 039-05  | **Убрать побочные эффекты из lyricsWizardStore**      | ✅ DONE        | 1   | —           |
 
-> **⚠️ Аудит 2026-06-30 (утро):** PR #552 заявил «0 нарушений», но `grep supabase.{from,rpc,storage}` по `src/{components,pages,stores}` всё ещё даёт **35 совпадений в 17 файлах**. Заведена задача **039-03b**.
->
-> **🔧 Update 2026-06-30 (вечер):** закрыты **Batch 4** (`ReportCommentDialog`, `ProfileSetupOnboarding`, `ArtistDetailsPanel`) и **Batch 1** (`QuickActionsPanel`, `AdminBotImagesPanel`, 4 admin/analytics панели) — **20 нарушений устранены**, осталось **15 в 8 файлах** (Batch 2 + Batch 3). Добавлены API: `invokeAdminBroadcast`, `bulkAwardCredits`, `fetchBotMenuImagesConfig/upsertBotMenuImagesConfig`, `fetchRevenueAnalyticsRaw`, `fetchPeriodComparison`, `fetchFunnelMetricsRaw`, `fetchRealTimeMetricsRaw`, `subscribeToRealtimeAdminMetrics`, `fetchUserSubscriptionTier`, `fetchArtistTrackStats`, `upsertOnboardingNotificationSettings`, `fetchProfileByUserId`. Попутно вылечена pre-existing поломка `tsc` (6 файлов). Подробности — `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`.
+> **🔧 Update 2026-06-30 (вечер):** **все 4 батча 039-03b закрыты** — 17 файлов / 35 нарушений устранены. По `src/{components,stores}` `supabase.{from,rpc,storage}` = **0**.
+> - **Batch 1 (admin/analytics, 6 файлов):** `QuickActionsPanel`, `AdminBotImagesPanel`, `RevenueAnalyticsPanel`, `ComparisonPanel`, `ConversionFunnelPanel`, `RealTimeMetrics`.
+> - **Batch 2 (project/wizard, 4 файла):** `ProjectCreationWizard`, `ProjectBannerEditor`, `ProjectCoverEditor`, `useProjectStore`.
+> - **Batch 3 (studio/dialogs, 4 файла):** `ImportAudioDialog`, `SaveVersionDialog`, `AudioActionDialog`, `useEnhancedStudioLogger`.
+> - **Batch 4 (misc, 3 файла):** `ReportCommentDialog`, `ProfileSetupOnboarding`, `ArtistDetailsPanel`.
+> Добавлено в API: `invokeAdminBroadcast`, `bulkAwardCredits`, `fetchBotMenuImagesConfig/upsertBotMenuImagesConfig`, `fetchRevenueAnalyticsRaw`, `fetchPeriodComparison`, `fetchFunnelMetricsRaw`, `fetchRealTimeMetricsRaw`, `subscribeToRealtimeAdminMetrics`, `fetchUserSubscriptionTier`, `fetchArtistTrackStats`, `upsertOnboardingNotificationSettings`, `fetchProfileByUserId`, `checkPremiumStatus`, `invokeProjectAi`, `invokeGenerateCoverImage`, `invokeGenerateProjectMedia`, `updateProjectFields`, `updateProjectCover`, `updateProjectBanner`, `ensureTrackVersion`, `invokeMergeStems`, `insertTrackChangeLog`. Подробности — `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`.
 
 ### 039-01: Layer Audit
 
