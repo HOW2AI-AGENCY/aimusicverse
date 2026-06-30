@@ -16,19 +16,20 @@ interface CoverPageProps {
 export function CoverPage({ track }: CoverPageProps) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center px-6">
-      <div className="aspect-square w-[min(72vw,22rem)] overflow-hidden rounded-3xl bg-muted/40 ring-1 ring-border/40 shadow-2xl shadow-black/25">
+      <div className="relative aspect-square w-[min(72vw,22rem)] overflow-hidden rounded-3xl bg-muted/40 ring-1 ring-border/40 shadow-2xl shadow-black/25">
         {track.cover_url ? (
           <LazyImage
             src={track.cover_url}
             alt={track.title || "Обложка"}
             coverSize="large"
             priority
-            aspectRatio="1/1"
-            containerClassName="h-full w-full"
+            containerClassName="absolute inset-0"
             className="h-full w-full object-cover"
-            width={352}
-            height={352}
-            fallback={<Music2 className="h-12 w-12 text-muted-foreground/60" aria-hidden />}
+            fallback={
+              <div className="flex h-full w-full items-center justify-center">
+                <Music2 className="h-12 w-12 text-muted-foreground/60" aria-hidden />
+              </div>
+            }
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
