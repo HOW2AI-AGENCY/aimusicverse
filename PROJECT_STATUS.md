@@ -5,9 +5,9 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-038-26A5E4?style=for-the-badge"/>
-  <img alt="Прогресс" src="https://img.shields.io/badge/overall-96%25-F59E0B?style=for-the-badge"/>
-  <img alt="Здоровье" src="https://img.shields.io/badge/health-96%2F100-9333EA?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-039-26A5E4?style=for-the-badge"/>
+  <img alt="Прогресс" src="https://img.shields.io/badge/overall-97%25-F59E0B?style=for-the-badge"/>
+  <img alt="Здоровье" src="https://img.shields.io/badge/health-97%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-25_suites-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/bundle-918kb%2F950kb-F59E0B?style=for-the-badge"/>
 </p>
@@ -114,49 +114,51 @@
 | FSM state schema документация                 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Telegram cold start оптимизация               | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
-## 🚦 Sprint `038` Design System Unification — В РАБОТЕ 🟡
+## 🚦 Sprint `038` Design System Unification — ЗАВЕРШЁН ✅
 
-**Прогресс: 12/28 задач завершено (43%)**
+**Прогресс: 28/28 задач завершено (100%)**
 
 | Фаза                                    | Прогресс                                                          |
 | --------------------------------------- | ----------------------------------------------------------------- |
-| **A: Foundation** — EmptyState, Skeleton, Touch, Z-index | ![](https://img.shields.io/badge/70%25-F59E0B?style=flat-square) |
+| **A: Foundation** — EmptyState, Skeleton, Touch, Z-index | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Unified EmptyState (3→1 компонент)      | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Unified Loading (7→4 компонента)        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Onboarding flow (5 шагов)              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| OnboardingFlow state machine (5 шагов) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Touch target audit (≥44px)             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Z-index audit (магические числа → токены) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| **B: Navigation & Responsive**         | ![](https://img.shields.io/badge/33%25-F59E0B?style=flat-square)  |
-| NavigationShell (adaptive)             | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Container queries (5+ компонентов)     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| **B: Navigation & Responsive**         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| NavigationShell (adaptive)             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Container queries (5+ компонентов)     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Safe area + Safari 100vh fix           | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Responsive typography (clamp)          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| **C: Animation & Polish**              | ![](https://img.shields.io/badge/75%25-F59E0B?style=flat-square)  |
+| **C: Animation & Polish**              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Animation standards (duration/easing)  | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Reduced motion (useSafeMotion)         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Player shared element transition       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Player shared element transition       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Telegram haptics integration           | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| **D: Visual Polish**                   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Typography pass (5 семантических классов) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Elevation system (4 уровня)            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Color token audit                      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Icon consistency (lucide-only)         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Storybook 20+ stories                  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| LazyImage audit                        | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Lighthouse baseline                    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| **D: Visual Polish**                   | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Typography pass (5 семантических классов) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Elevation system (4 уровня)            | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Color token audit                      | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Icon consistency (lucide-only)         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Storybook 20+ stories                  | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| LazyImage audit                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Lighthouse baseline                    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
-## 🚦 `039` Архитектурный рефакторинг + Type Safety (Q3 2026) — ЗАПЛАНИРОВАН
+## 🚦 `039` Архитектурный рефакторинг + Type Safety (Q3 2026) — В РАБОТЕ 🟡
 
-| Задача                                                  | Прогресс                                                        |
-| ------------------------------------------------------- | --------------------------------------------------------------- |
-| Вынести 30+ прямых вызовов Supabase из компонентов      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Разбить `useGenerateForm.ts` (1218 строк → 4 хука)      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Разбить `GlobalAudioProvider.tsx` (982 строки)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Разбить 6 oversized-компонентов (>800 строк)            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Типизировать API-слой (342 `any` → <50)                 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Generic undo/redo middleware для Zustand                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| E2E стабилизация (47 spec → CI green)                   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Выбрать одну DnD-библиотеку (-50KB бандла)              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+**Прогресс: 2/14 задач завершено (14%)** · [Детальный план](SPRINTS/SPRINT-039-PLAN.md)
+
+| Задача                                                  | Прогресс                                                          |
+| ------------------------------------------------------- | ----------------------------------------------------------------- |
+| Вынести 60 прямых вызовов Supabase из компонентов       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| `useGenerateForm.ts` → 4 хука (**уже выполнено: 280 строк**) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Разбить `GlobalAudioProvider.tsx` (~980 строк)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Разбить 8+ oversized-компонентов (>800 строк)           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Типизировать API-слой (~615 `any` → <50)                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Generic undo/redo middleware для Zustand                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| E2E стабилизация (47 spec → CI green)                   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| DnD унификация (**уже выполнено: @hello-pangea/dnd удалён**) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
 ## 🚦 `040` Тестовое покрытие + Export (Q4 2026) — ЗАПЛАНИРОВАН
 
