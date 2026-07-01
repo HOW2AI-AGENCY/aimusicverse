@@ -9,13 +9,11 @@
 
 import { memo, useCallback, useMemo, useState } from "react";
 import { AlertCircle, ChevronDown, Download, FileText, Loader2, Music2, RefreshCw } from "@/lib/icons";
-import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { fetchStemTranscriptions } from "@/api/studio.api";
-import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranscriptionForStudio } from "@/hooks/studio/useTranscriptionForStudio";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -72,153 +70,60 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
   const durationSeconds = (track as any).duration || track.clips?.[0]?.duration || 60;
 
   const {
-    data: transcription,
+    data: rawTranscription,
     isLoading,
     error,
     refetch,
-  } = useQuery({
-    queryKey: ["studio-transcription", trackId, stemType || null, versionId, track.id],
-    queryFn: async (): Promise<TranscriptionData | null> => {
-      // 1) Try cached transcription_data on track_versions
-      if (versionId) {
-        const { data: version } = await supabase
-          .from("track_versions")
-          .select("transcription_data")
-          .eq("id", versionId)
-          .maybeSingle();
-
-        if (version?.transcription_data && typeof version.transcription_data === "object") {
-          const td = version.transcription_data as Record<string, unknown>;
-          return {
-            id: String(td.transcription_id || ""),
-            midi_url: td.midi_url as string | undefined,
-            mxml_url: td.mxml_url as string | undefined,
-            gp5_url: td.gp5_url as string | undefined,
-            pdf_url: td.pdf_url as string | undefined,
-            bpm: typeof td.bpm === "number" ? td.bpm : undefined,
-            key_detected: td.key as string | undefined,
-            time_signature: td.time_signature as string | undefined,
-            notes_count: typeof td.notes_count === "number" ? td.notes_count : undefined,
-            notes: Array.isArray(td.notes) ? (td.notes as MidiNote[]) : undefined,
-          };
-        }
-      }
-
-      // 2) Prefer stem_transcriptions by (trackId + stemType)
-      if (trackId && stemType) {
-        const { data: stem } = await supabase
-          .from("track_stems")
-          .select("id")
-          .eq("track_id", trackId)
-          .eq("stem_type", stemType)
-          .maybeSingle();
-
-        if (stem) {
-          const { data, error } = await supabase
-            .from("stem_transcriptions")
-            .select("*")
-            .eq("stem_id", stem.id)
-            .order("created_at", { ascending: false })
-            .limit(1);
-
-          if (error) throw error;
-          if (!data || data.length === 0) return null;
-
-          const item: any = data[0];
-
-          let notes: MidiNote[] | undefined;
-          if (Array.isArray(item.notes)) {
-            notes = item.notes
-              .map((n: any, i: number) => {
-                const pitch = typeof n?.pitch === "number" ? n.pitch : 60;
-                const startTime =
-                  typeof n?.startTime === "number" ? n.startTime : typeof n?.start_time === "number" ? n.start_time : 0;
-                const duration =
-                  typeof n?.duration === "number" ? n.duration : typeof n?.dur === "number" ? n.dur : 0.25;
-                const velocity = typeof n?.velocity === "number" ? n.velocity : 100;
-
-                return {
-                  id: String(n?.id ?? `note-${i}`),
-                  pitch,
-                  startTime,
-                  duration,
-                  velocity,
-                } satisfies MidiNote;
-              })
-              .filter(
-                (n: MidiNote) =>
-                  Number.isFinite(n.pitch) &&
-                  Number.isFinite(n.startTime) &&
-                  Number.isFinite(n.duration) &&
-                  n.duration > 0,
-              );
-          }
-
-          return {
-            id: item.id,
-            midi_url: item.midi_url ?? undefined,
-            mxml_url: item.mxml_url ?? undefined,
-            gp5_url: item.gp5_url ?? undefined,
-            pdf_url: item.pdf_url ?? undefined,
-            bpm: item.bpm ? Number(item.bpm) : undefined,
-            key_detected: item.key_detected ?? undefined,
-            time_signature: item.time_signature ?? undefined,
-            notes_count: item.notes_count ?? (notes ? notes.length : undefined),
-            notes,
-          };
-        }
-      }
-
-      // 3) Fallback: latest transcription by trackId (or track.id)
-      const { data: allData, error } = await fetchStemTranscriptions(
-        trackId ? { trackId } : { stemId: track.id },
-      );
-      const data = allData?.slice(0, 1) ?? null;
-
-      if (error) throw error;
-      if (!data || data.length === 0) return null;
-
-      const item: any = data[0];
-
-      let notes: MidiNote[] | undefined;
-      if (Array.isArray(item.notes)) {
-        notes = item.notes
-          .map((n: any, i: number) => {
-            const pitch = typeof n?.pitch === "number" ? n.pitch : 60;
-            const startTime =
-              typeof n?.startTime === "number" ? n.startTime : typeof n?.start_time === "number" ? n.start_time : 0;
-            const duration = typeof n?.duration === "number" ? n.duration : typeof n?.dur === "number" ? n.dur : 0.25;
-            const velocity = typeof n?.velocity === "number" ? n.velocity : 100;
-
-            return {
-              id: String(n?.id ?? `note-${i}`),
-              pitch,
-              startTime,
-              duration,
-              velocity,
-            } satisfies MidiNote;
-          })
-          .filter(
-            (n: MidiNote) =>
-              Number.isFinite(n.pitch) && Number.isFinite(n.startTime) && Number.isFinite(n.duration) && n.duration > 0,
-          );
-      }
-
-      return {
-        id: item.id,
-        midi_url: item.midi_url ?? undefined,
-        mxml_url: item.mxml_url ?? undefined,
-        gp5_url: item.gp5_url ?? undefined,
-        pdf_url: item.pdf_url ?? undefined,
-        bpm: typeof item.bpm === "number" ? item.bpm : undefined,
-        key_detected: item.key_detected ?? undefined,
-        time_signature: item.time_signature ?? undefined,
-        notes_count: item.notes_count ?? (notes ? notes.length : undefined),
-        notes,
-      };
-    },
-    enabled: !!(trackId || track.id),
+  } = useTranscriptionForStudio({
+    versionId,
+    trackId,
+    stemType,
+    fallbackStemId: track.id,
   });
+
+  const transcription = useMemo<TranscriptionData | null>(() => {
+    if (!rawTranscription) return null;
+    const item = rawTranscription as Record<string, unknown>;
+    let notes: MidiNote[] | undefined;
+    if (Array.isArray(item.notes)) {
+      notes = (item.notes as Array<Record<string, unknown>>)
+        .map((n, i) => {
+          const pitch = typeof n?.pitch === "number" ? n.pitch : 60;
+          const startTime =
+            typeof n?.startTime === "number"
+              ? n.startTime
+              : typeof n?.start_time === "number"
+                ? (n.start_time as number)
+                : 0;
+          const duration =
+            typeof n?.duration === "number" ? n.duration : typeof n?.dur === "number" ? (n.dur as number) : 0.25;
+          const velocity = typeof n?.velocity === "number" ? n.velocity : 100;
+          return {
+            id: String(n?.id ?? `note-${i}`),
+            pitch,
+            startTime,
+            duration,
+            velocity,
+          } satisfies MidiNote;
+        })
+        .filter(
+          (n) =>
+            Number.isFinite(n.pitch) && Number.isFinite(n.startTime) && Number.isFinite(n.duration) && n.duration > 0,
+        );
+    }
+    return {
+      id: String(item.id ?? ""),
+      midi_url: (item.midi_url as string | undefined) ?? undefined,
+      mxml_url: (item.mxml_url as string | undefined) ?? undefined,
+      gp5_url: (item.gp5_url as string | undefined) ?? undefined,
+      pdf_url: (item.pdf_url as string | undefined) ?? undefined,
+      bpm: typeof item.bpm === "number" ? item.bpm : item.bpm ? Number(item.bpm) : undefined,
+      key_detected: (item.key_detected as string | undefined) ?? undefined,
+      time_signature: (item.time_signature as string | undefined) ?? undefined,
+      notes_count: typeof item.notes_count === "number" ? item.notes_count : notes ? notes.length : undefined,
+      notes,
+    };
+  }, [rawTranscription]);
 
   const downloadFile = useCallback(async (url: string, filename: string) => {
     setIsDownloading(filename);

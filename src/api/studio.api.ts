@@ -70,6 +70,44 @@ export async function fetchTrackStemsByTypes(trackId: string, stemTypes: string[
   return { data, error };
 }
 
+/**
+ * Fetch a single stem by track_id + stem_type.
+ */
+export async function fetchTrackStemByType(trackId: string, stemType: string) {
+  const { data, error } = await supabase
+    .from("track_stems")
+    .select("id")
+    .eq("track_id", trackId)
+    .eq("stem_type", stemType)
+    .maybeSingle();
+  return { data, error };
+}
+
+/**
+ * Fetch latest transcription for a specific stem id.
+ */
+export async function fetchLatestStemTranscription(stemId: string) {
+  const { data, error } = await supabase
+    .from("stem_transcriptions")
+    .select("*")
+    .eq("stem_id", stemId)
+    .order("created_at", { ascending: false })
+    .limit(1);
+  return { data, error };
+}
+
+/**
+ * Fetch cached transcription_data on a track_versions row (if any).
+ */
+export async function fetchVersionTranscriptionData(versionId: string) {
+  const { data, error } = await supabase
+    .from("track_versions")
+    .select("transcription_data")
+    .eq("id", versionId)
+    .maybeSingle();
+  return { data, error };
+}
+
 // ============= Source Track Query =============
 
 export async function fetchSourceTrackForStudio(trackId: string) {

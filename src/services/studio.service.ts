@@ -325,6 +325,51 @@ export async function fetchTranscriptionsByStemIds(stemIds: string[]): Promise<S
   return data as StemTranscriptionRow[];
 }
 
+// ============= Studio Notation Panel Transcription Resolution =============
+
+export interface ResolvedTranscription {
+  id: string;
+  midi_url?: string | null;
+  mxml_url?: string | null;
+  gp5_url?: string | null;
+  pdf_url?: string | null;
+  bpm?: number | null;
+  key_detected?: string | null;
+  time_signature?: string | null;
+  notes_count?: number | null;
+  notes?: unknown[] | null;
+  [key: string]: unknown;
+}
+
+export async function fetchVersionTranscription(versionId: string): Promise<ResolvedTranscription | null> {
+  const { data, error } = await studioApi.fetchVersionTranscriptionData(versionId);
+  if (error || !data) return null;
+  const td = data.transcription_data as Record<string, unknown> | null;
+  if (!td || typeof td !== "object") return null;
+  return td as unknown as ResolvedTranscription;
+}
+
+export async function fetchStemTranscriptionForTrackType(
+  trackId: string,
+  stemType: string,
+): Promise<ResolvedTranscription | null> {
+  const stem = await studioApi.fetchTrackStemByType(trackId, stemType);
+  if (stem.error || !stem.data) return null;
+  const trans = await studioApi.fetchLatestStemTranscription((stem.data as { id: string }).id);
+  if (trans.error || !trans.data || trans.data.length === 0) return null;
+  return trans.data[0] as ResolvedTranscription;
+}
+
+export async function fetchLatestTranscriptionForTrackOrStem(
+  trackId: string | null | undefined,
+  fallbackStemId: string,
+): Promise<ResolvedTranscription | null> {
+  const filter: { trackId?: string; stemId?: string } = trackId ? { trackId } : { stemId: fallbackStemId };
+  const { data, error } = await studioApi.fetchStemTranscriptions(filter);
+  if (error || !data || data.length === 0) return null;
+  return data[0] as ResolvedTranscription;
+}
+
 // ============= MIDI Export =============
 
 export interface ExportMidiParams {
