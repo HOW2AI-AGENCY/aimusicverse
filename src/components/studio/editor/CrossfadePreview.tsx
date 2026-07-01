@@ -5,7 +5,7 @@
  * between original and replacement section versions
  */
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useId } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Play, Pause, RefreshCw, Volume2, VolumeX } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,8 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { logger } from "@/lib/logger";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface CrossfadePreviewProps {
   originalAudioUrl: string;
@@ -41,7 +43,21 @@ export function CrossfadePreview({
   const [volume, setVolume] = useState(0.85);
   const [isMuted, setIsMuted] = useState(false);
 
-  // Audio refs for crossfade
+  const instanceId = useId();
+
+  // Pull both audio elements from the pool, one per side of the crossfade.
+  const { audioRef: originalHookRef } = usePreviewAudio({
+    id: `crossfade-original-${instanceId}`,
+    src: originalAudioUrl,
+    priority: AudioPriority.MEDIUM,
+  });
+  const { audioRef: replacementHookRef } = usePreviewAudio({
+    id: `crossfade-replacement-${instanceId}`,
+    src: replacementAudioUrl,
+    priority: AudioPriority.MEDIUM,
+  });
+
+  // Audio refs for crossfade — backed by pooled elements, kept in sync via effect.
   const originalAudioRef = useRef<HTMLAudioElement | null>(null);
   const replacementAudioRef = useRef<HTMLAudioElement | null>(null);
   const animationRef = useRef<number | undefined>(undefined);
@@ -51,31 +67,23 @@ export function CrossfadePreview({
   });
   const audioContextRef = useRef<AudioContext | null>(null);
 
+  useEffect(() => {
+    originalAudioRef.current = originalHookRef.current;
+    replacementAudioRef.current = replacementHookRef.current;
+  }, [originalHookRef, replacementHookRef]);
+
   const sectionDuration = sectionEnd - sectionStart;
   const crossfadePoint = sectionStart + sectionDuration / 2; // Crossfade in the middle
 
-  // Initialize audio elements
+  // Tear-down crossfade plumbing on unmount — but DON'T touch the pooled element lifecycle.
   useEffect(() => {
-    const originalAudio = new Audio(originalAudioUrl);
-    const replacementAudio = new Audio(replacementAudioUrl);
-
-    originalAudio.preload = "auto";
-    replacementAudio.preload = "auto";
-
-    originalAudioRef.current = originalAudio;
-    replacementAudioRef.current = replacementAudio;
-
     return () => {
-      originalAudio.pause();
-      replacementAudio.pause();
-      originalAudio.src = "";
-      replacementAudio.src = "";
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
       audioContextRef.current?.close();
     };
-  }, [originalAudioUrl, replacementAudioUrl]);
+  }, []);
 
   // Update volume
   useEffect(() => {
