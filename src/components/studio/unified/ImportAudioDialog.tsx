@@ -3,7 +3,7 @@
  * Supports drag-and-drop and file picker
  */
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,8 @@ import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface ImportAudioDialogProps {
   open: boolean;
@@ -51,6 +53,19 @@ export function ImportAudioDialog({ open, onOpenChange, onImport, projectId }: I
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+
+  // Pool-based duration probe keyed off the selected file URL.
+  const { duration: probedDuration } = usePreviewAudio({
+    id: audioUrl ? `import-audio-${file?.name ?? audioUrl}` : "import-audio-none",
+    src: audioUrl ?? "",
+    priority: AudioPriority.LOW,
+  });
+
+  useEffect(() => {
+    if (probedDuration && Number.isFinite(probedDuration)) {
+      setDuration(probedDuration);
+    }
+  }, [probedDuration, audioUrl]);
 
   const resetState = useCallback(() => {
     if (audioUrl) {
@@ -103,15 +118,7 @@ export function ImportAudioDialog({ open, onOpenChange, onImport, projectId }: I
       setAudioUrl(url);
       setTrackName(selectedFile.name.replace(/\.[^/.]+$/, "")); // Remove extension
 
-      // Get duration from audio element (one-shot, release after metadata)
-      const audio = new Audio(url);
-      const onMeta = () => {
-        setDuration(audio.duration);
-        audio.removeEventListener("loadedmetadata", onMeta);
-        audio.src = "";
-        audio.load();
-      };
-      audio.addEventListener("loadedmetadata", onMeta);
+      // Duration is read reactively by the usePreviewAudio probe above.
     },
     [audioUrl],
   );
