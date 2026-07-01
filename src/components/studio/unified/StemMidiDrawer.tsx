@@ -40,7 +40,7 @@ import { PianoRoll, type MidiNote } from "./PianoRoll";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { supabase } from "@/integrations/supabase/client";
+import { useExportMidi } from "@/hooks/studio/useExportMidi";
 import {
   getTranscriptionConfig,
   getFormatLabel,
@@ -95,6 +95,7 @@ export function StemMidiDrawer({
   trackDurationSeconds,
 }: StemMidiDrawerProps) {
   const isMobile = useIsMobile();
+  const exportMidiMutation = useExportMidi();
   const [selectedModel, setSelectedModel] = useState<KlangioModel>("universal");
   const [activeTab, setActiveTab] = useState<"create" | "player" | "editor" | "files">("create");
   const [activeMidiUrl, setActiveMidiUrl] = useState<string | null>(null);
@@ -305,17 +306,15 @@ export function StemMidiDrawer({
 
     setIsExportingMidi(true);
     try {
-      const { data, error } = await supabase.functions.invoke("export-midi", {
-        body: {
-          notes: pianoRollNotes,
-          bpm: latestTranscription?.bpm || 120,
-          timeSignature: latestTranscription?.time_signature || "4/4",
-          trackName: `${trackTitle} - ${stem?.stem_type || "Export"}`,
-        },
+      const data = await exportMidiMutation.mutateAsync({
+        notes: pianoRollNotes,
+        bpm: latestTranscription?.bpm || 120,
+        timeSignature: latestTranscription?.time_signature || "4/4",
+        trackName: `${trackTitle} - ${stem?.stem_type || "Export"}`,
       });
 
-      if (error) throw error;
       if (!data?.success) throw new Error(data?.error || "Export failed");
+      if (!data.data) throw new Error("Export returned no MIDI data");
 
       // Download the MIDI file
       const midiBlob = Uint8Array.from(atob(data.data), (c) => c.charCodeAt(0));
@@ -324,7 +323,7 @@ export function StemMidiDrawer({
 
       const a = document.createElement("a");
       a.href = url;
-      a.download = data.filename || "export.mid";
+      a.download = (data as { filename?: string }).filename || "export.mid";
       a.click();
       URL.revokeObjectURL(url);
 
@@ -335,7 +334,7 @@ export function StemMidiDrawer({
     } finally {
       setIsExportingMidi(false);
     }
-  }, [pianoRollNotes, latestTranscription, trackTitle, stem]);
+  }, [pianoRollNotes, latestTranscription, trackTitle, stem, exportMidiMutation]);
 
   const latestMidiUrl = result?.midiUrl || activeMidiUrl || latestTranscription?.midi_url;
   const hasFiles = Object.keys(transcriptionFiles).length > 0;

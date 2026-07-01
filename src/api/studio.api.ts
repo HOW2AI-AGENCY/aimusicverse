@@ -391,6 +391,18 @@ export async function invokeAddVocals(payload: {
   return { data, error };
 }
 
+// ============= MIDI Export =============
+
+export async function invokeExportMidi(payload: {
+  notes: unknown[];
+  bpm: number;
+  timeSignature: string;
+  trackName: string;
+}) {
+  const { data, error } = await supabase.functions.invoke("export-midi", { body: payload });
+  return { data, error };
+}
+
 // ============= Section Replacement Realtime =============
 
 export interface ReplacementTask {

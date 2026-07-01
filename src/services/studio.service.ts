@@ -325,6 +325,27 @@ export async function fetchTranscriptionsByStemIds(stemIds: string[]): Promise<S
   return data as StemTranscriptionRow[];
 }
 
+// ============= MIDI Export =============
+
+export interface ExportMidiParams {
+  notes: unknown[];
+  bpm: number;
+  timeSignature: string;
+  trackName: string;
+}
+
+export interface ExportMidiResult {
+  data: string; // base64-encoded MIDI
+  success: boolean;
+  error?: string;
+}
+
+export async function exportMidi(params: ExportMidiParams): Promise<ExportMidiResult> {
+  const { data, error } = await studioApi.invokeExportMidi(params);
+  if (error) throw new Error(error.message);
+  return (data ?? {}) as ExportMidiResult;
+}
+
 // ============= Stem Separation =============
 
 export async function separateStems(
