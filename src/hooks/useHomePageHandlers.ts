@@ -47,17 +47,19 @@ export function useHomePageHandlers({ onOpenGenerateSheet, onOpenAudioDialog }: 
     [hapticFeedback, navigate],
   );
 
-  // Play a track in the global compact player. Accepts either a Track object
-  // (preferred — no extra fetch) or a bare id string as a fallback that
-  // navigates to /track/:id for a full-page load.
+  // Play a track in the global compact player. Accepts any object with at
+  // least an `id` (home sections use several narrower shapes like
+  // PublicTrackWithCreator, TrendingTrack, etc.) or a bare id string, which
+  // falls back to /track/:id for a full page load.
   const handleTrackClick = useCallback(
-    (trackOrId: Track | string) => {
+    (trackOrId: (Partial<Track> & { id: string }) | string) => {
       hapticFeedback("light");
       if (typeof trackOrId === "string") {
         navigate(`/track/${trackOrId}`);
         return;
       }
-      playTrack(trackOrId);
+      // playTrack tolerates partial shapes at runtime — it reads id/audio_url/title/cover_url.
+      playTrack(trackOrId as Track);
     },
     [hapticFeedback, navigate, playTrack],
   );
