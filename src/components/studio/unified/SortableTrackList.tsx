@@ -4,7 +4,6 @@
  */
 
 import { memo, useCallback, useMemo } from "react";
-import { logger } from "@/lib/logger";
 import {
   DndContext,
   closestCenter,
@@ -28,8 +27,7 @@ import { StudioTrackRow } from "./StudioTrackRow";
 import { StudioPendingTrackRow } from "./StudioPendingTrackRow";
 import { cn } from "@/lib/utils";
 import { useStemTypeTranscriptionStatus, StemTranscriptionData } from "@/hooks/studio/useStemTypeTranscriptionStatus";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useStemTranscriptionsForTypes } from "@/hooks/studio/useStemTranscriptionsForTypes";
 
 interface SortableTrackListProps {
   tracks: StudioTrack[];
@@ -186,120 +184,9 @@ export const SortableTrackList = memo(function SortableTrackList({
 
   // Fetch full transcription data for all stems that have transcriptions
   // Also fetch by track_id directly for main tracks without stems
-  const { data: transcriptionsMap, isLoading: loadingTranscriptions } = useQuery({
-    queryKey: ["stem-transcriptions-full", sourceTrackId, stemTypes.sort().join(",")],
-    queryFn: async (): Promise<Record<string, StemTranscriptionData>> => {
-      if (!sourceTrackId || stemTypes.length === 0) return {};
-
-      // Get stems for this track
-      const { data: stems, error: stemsError } = await supabase
-        .from("track_stems")
-        .select("id, stem_type")
-        .eq("track_id", sourceTrackId)
-        .in("stem_type", stemTypes);
-
-      const result: Record<string, StemTranscriptionData> = {};
-
-      if (stemsError || !stems?.length) {
-        logger.info("[SortableTrackList] No stems found for", { sourceTrackId, stemTypes });
-        // Try to fetch transcriptions directly by track_id for 'main' type
-        if (stemTypes.includes("main")) {
-          const { data: mainTrans } = await supabase
-            .from("stem_transcriptions")
-            .select("*")
-            .eq("track_id", sourceTrackId)
-            .order("created_at", { ascending: false })
-            .limit(1)
-            .maybeSingle();
-
-          if (mainTrans) {
-            result["main"] = {
-              stemType: "main",
-              stemId: mainTrans.stem_id,
-              midiUrl: mainTrans.midi_url,
-              pdfUrl: mainTrans.pdf_url,
-              gp5Url: mainTrans.gp5_url,
-              mxmlUrl: mainTrans.mxml_url,
-              notes: mainTrans.notes as any[] | null,
-              notesCount: mainTrans.notes_count,
-              bpm: mainTrans.bpm ? Number(mainTrans.bpm) : null,
-              keyDetected: mainTrans.key_detected,
-              durationSeconds: mainTrans.duration_seconds ? Number(mainTrans.duration_seconds) : null,
-            };
-          }
-        }
-        return result;
-      }
-
-      const stemIds = stems.map((s) => s.id);
-
-      // Get transcriptions for these stems
-      const { data: transcriptions, error: transError } = await supabase
-        .from("stem_transcriptions")
-        .select("*")
-        .in("stem_id", stemIds);
-
-      if (transError) {
-        logger.warn("[SortableTrackList] Error fetching transcriptions", { error: transError });
-        return result;
-      }
-
-      if (!transcriptions?.length) {
-        logger.info("[SortableTrackList] No transcriptions found for stemIds", { stemIds });
-        return result;
-      }
-
-      logger.info("[SortableTrackList] Found transcriptions", {
-        count: transcriptions.length,
-        stemTypes: stems.map((s) => s.stem_type),
-      });
-
-      // Build map: stemType -> transcription data (reuse result already declared above)
-
-      for (const trans of transcriptions) {
-        const stem = stems.find((s) => s.id === trans.stem_id);
-        if (!stem) continue;
-
-        // Normalize notes array
-        let normalizedNotes: any[] | null = null;
-        if (trans.notes && Array.isArray(trans.notes)) {
-          normalizedNotes = trans.notes
-            .map((n: any) => {
-              const pitch = typeof n?.pitch === "number" ? n.pitch : 60;
-              const startTime =
-                typeof n?.startTime === "number" ? n.startTime : typeof n?.start_time === "number" ? n.start_time : 0;
-              const duration = typeof n?.duration === "number" ? n.duration : typeof n?.dur === "number" ? n.dur : 0.25;
-              return { pitch, startTime, endTime: startTime + duration, duration };
-            })
-            .filter((n: any) => Number.isFinite(n.pitch) && Number.isFinite(n.startTime));
-        }
-
-        result[stem.stem_type] = {
-          stemType: stem.stem_type,
-          stemId: stem.id,
-          midiUrl: trans.midi_url,
-          pdfUrl: trans.pdf_url,
-          gp5Url: trans.gp5_url,
-          mxmlUrl: trans.mxml_url,
-          notes: normalizedNotes,
-          notesCount: trans.notes_count ?? (normalizedNotes?.length || null),
-          bpm: trans.bpm ? Number(trans.bpm) : null,
-          keyDetected: trans.key_detected,
-          durationSeconds: trans.duration_seconds ? Number(trans.duration_seconds) : null,
-        };
-
-        logger.info("[SortableTrackList] Mapped transcription for", {
-          stemType: stem.stem_type,
-          hasNotes: !!normalizedNotes?.length,
-          hasMidi: !!trans.midi_url,
-          hasPdf: !!trans.pdf_url,
-        });
-      }
-
-      return result;
-    },
-    enabled: !!sourceTrackId && stemTypes.length > 0,
-    staleTime: 60 * 1000,
+  const { data: transcriptionsMap, isLoading: loadingTranscriptions } = useStemTranscriptionsForTypes({
+    sourceTrackId,
+    stemTypes,
   });
 
   // DnD kit needs stable item IDs

@@ -56,6 +56,20 @@ export async function fetchTrackStems(trackId: string) {
   return { data, error };
 }
 
+/**
+ * Fetch minimal stems metadata (id + stem_type) for a given track,
+ * filtered by the provided stem type list.
+ */
+export async function fetchTrackStemsByTypes(trackId: string, stemTypes: string[]) {
+  const { data, error } = await supabase
+    .from("track_stems")
+    .select("id, stem_type")
+    .eq("track_id", trackId)
+    .in("stem_type", stemTypes);
+
+  return { data, error };
+}
+
 // ============= Source Track Query =============
 
 export async function fetchSourceTrackForStudio(trackId: string) {
@@ -438,6 +452,14 @@ export async function fetchStemTranscriptions(filter: { trackId?: string; stemId
   if (filter.trackId) query = query.eq("track_id", filter.trackId);
   if (filter.stemId) query = query.eq("stem_id", filter.stemId);
   const { data, error } = await query.order("created_at", { ascending: false });
+  return { data, error };
+}
+
+/**
+ * Fetch stem transcriptions by an explicit list of stem ids using `in`.
+ */
+export async function fetchStemTranscriptionsByStemIds(stemIds: string[]) {
+  const { data, error } = await supabase.from("stem_transcriptions").select("*").in("stem_id", stemIds);
   return { data, error };
 }
 

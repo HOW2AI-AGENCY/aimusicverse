@@ -148,6 +148,8 @@ export const queryKeys = {
     audioAnalysis: (trackId: string) => ["audio-analysis", trackId] as const,
     beatGrid: (trackId: string) => ["beat-grid", trackId] as const,
     timestampedLyrics: (trackId: string) => ["timestamped-lyrics", trackId] as const,
+    stemTranscriptions: (trackId: string, stemTypesKey: string) =>
+      ["stem-transcriptions-full", trackId, stemTypesKey] as const,
   },
 
   gamification: {

@@ -275,6 +275,56 @@ export async function fetchSourceTrack(trackId: string): Promise<SourceTrackMeta
   return data as SourceTrackMetadata;
 }
 
+// ============= Stem Transcriptions =============
+
+export type StemMetadata = { id: string; stem_type: string };
+
+export type StemTranscriptionRow = {
+  id: string;
+  track_id: string;
+  stem_id: string | null;
+  midi_url?: string | null;
+  pdf_url?: string | null;
+  gp5_url?: string | null;
+  mxml_url?: string | null;
+  notes?: unknown;
+  notes_count?: number | null;
+  bpm?: number | string | null;
+  key_detected?: string | null;
+  duration_seconds?: number | string | null;
+  created_at?: string;
+  [key: string]: unknown;
+};
+
+/**
+ * Fetch minimal stem metadata (id + stem_type) for a track, filtered by stem type list.
+ */
+export async function fetchStemsByTypes(trackId: string, stemTypes: string[]): Promise<StemMetadata[]> {
+  const { data, error } = await studioApi.fetchTrackStemsByTypes(trackId, stemTypes);
+  if (error || !data) return [];
+  return (data as StemMetadata[]) ?? [];
+}
+
+/**
+ * Fetch the most-recent stem transcription for a track (used when no stems exist
+ * and we want the main-track transcription).
+ */
+export async function fetchMainTrackTranscription(trackId: string): Promise<StemTranscriptionRow | null> {
+  const { data, error } = await studioApi.fetchStemTranscriptions({ trackId });
+  if (error || !data || data.length === 0) return null;
+  return data[0] as StemTranscriptionRow;
+}
+
+/**
+ * Fetch stem transcriptions by stem id list.
+ */
+export async function fetchTranscriptionsByStemIds(stemIds: string[]): Promise<StemTranscriptionRow[]> {
+  if (stemIds.length === 0) return [];
+  const { data, error } = await studioApi.fetchStemTranscriptionsByStemIds(stemIds);
+  if (error || !data) return [];
+  return data as StemTranscriptionRow[];
+}
+
 // ============= Stem Separation =============
 
 export async function separateStems(
