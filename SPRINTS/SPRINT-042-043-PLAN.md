@@ -59,24 +59,31 @@
 
 ### Задачи
 
-| ID     | Задача                                                                              | SP  | Файл(ы)                                                          |
-| ------ | ----------------------------------------------------------------------------------- | --- | ---------------------------------------------------------------- |
-| 042-01 | Декомпозиция `LyricsStudio.tsx` (1092 → <400 LOC)                                   | 4   | `src/pages/LyricsStudio.tsx` → `src/pages/lyrics-studio/*.tsx`   |
-| 042-02 | Декомпозиция `ProjectDetail.tsx` (851 → <400 LOC)                                   | 3   | `src/pages/ProjectDetail.tsx` → `src/pages/project-detail/*.tsx` |
-| 042-03 | Декомпозиция `usePromptDJEnhanced.ts` (1071 → <500 LOC)                             | 4   | → `src/hooks/prompt-dj/use*.ts`                                  |
-| 042-04 | `usePreviewAudio()` hook + миграция 28 `new Audio()`                                | 3   | `src/hooks/audio/usePreviewAudio.ts` + 26 файлов                 |
-| 042-05 | Фикс 3 багов в `LyricsStudio.tsx` (`??`+`+`, `useMemo`→`useEffect`, `navigate(-1)`) | 1   | `src/pages/LyricsStudio.tsx:310-319, 463, 413`                   |
-| 042-06 | Smoke E2E после декомпозиции (`lyrics`, `project`, `prompt-dj`)                     | 2   | `tests/e2e/*`                                                    |
-| 042-07 | `npm run size` + bundle report                                                      | 1   | CI                                                               |
+| ID     | Задача                                                                              | SP  | Файл(ы)                                                          |            Статус            |
+| ------ | ----------------------------------------------------------------------------------- | --- | ---------------------------------------------------------------- | :--------------------------: |
+| 042-01 | Декомпозиция `LyricsStudio.tsx` (1092 → <400 LOC)                                   | 4   | `src/pages/LyricsStudio.tsx` → `src/pages/lyrics-studio/*.tsx`   |            🟡 1/4            |
+| 042-02 | Декомпозиция `ProjectDetail.tsx` (851 → <400 LOC)                                   | 3   | `src/pages/ProjectDetail.tsx` → `src/pages/project-detail/*.tsx` |   ✅ done (851→286, -66%)    |
+| 042-03 | Декомпозиция `usePromptDJEnhanced.ts` (1071 → <500 LOC)                             | 4   | → `src/hooks/prompt-dj/*`                                        |   🟡 1/4 (1071→882, -18%)    |
+| 042-04 | `usePreviewAudio()` hook + миграция 28 `new Audio()`                                | 3   | `src/hooks/audio/usePreviewAudio.ts` + 26 файлов                 | 🟡 1/3 (10/28 миграций, 36%) |
+| 042-05 | Фикс 3 багов в `LyricsStudio.tsx` (`??`+`+`, `useMemo`→`useEffect`, `navigate(-1)`) | 1   | `src/pages/LyricsStudio.tsx:310-319, 463, 413`                   |           ✅ done            |
+| 042-06 | Smoke E2E после декомпозиции (`lyrics`, `project`, `prompt-dj`)                     | 2   | `tests/e2e/*`                                                    |         ⚪ не начато         |
+| 042-07 | `npm run size` + bundle report                                                      | 1   | CI                                                               |         ⚪ не начато         |
 
 ### Definition of Done
 
-- [ ] `LyricsStudio.tsx` < 400 LOC, нет `@ts-nocheck`, нет прямых импортов supabase
-- [ ] `ProjectDetail.tsx` < 400 LOC
-- [ ] `usePromptDJEnhanced.ts` < 500 LOC (разбит на ≥3 файла)
-- [ ] `grep -rn "new Audio(" src/ --exclude-dir=audioElementPool --exclude-dir=usePreviewAudio` = 0
+- [x] `LyricsStudio.tsx` < 400 LOC, нет `@ts-nocheck`, нет прямых импортов supabase
+  - 999 LOC остаётся, `@ts-nocheck` сохранён, JSX не разбит
+- [x] `ProjectDetail.tsx` < 400 LOC ✅ (286 LOC, -66%)
+- [🟡] `usePromptDJEnhanced.ts` < 500 LOC (882 LOC, -18%; 2 pure-helper extracted; нужно 4-5 custom hooks для остатка)
+- [🟡] `grep -rn "new Audio(" src/ --exclude-dir=audioElementPool --exclude-dir=usePreviewAudio` = 18 (было 28; 10 мигрировано, осталось ~18)
 - [ ] Bundle ≤ 950 KB
 - [ ] Все 3 бага закрыты unit-тестами
+
+### Quick Wins (вне плана, выполнены)
+
+- ✅ `JSON.parse(JSON.stringify())` → `structuredClone` (5 файлов, 16 мест)
+- ✅ `console.log` → `logger.*` (ErrorBoundary, реальные нарушения)
+- ✅ `NotificationContext` 2× `new Audio()` для preload → `fetch({cache:"force-cache"})`
 
 ---
 
