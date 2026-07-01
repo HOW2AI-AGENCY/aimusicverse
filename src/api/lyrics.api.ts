@@ -616,3 +616,33 @@ export async function getLyricVersionsBatch(trackIds: string[]): Promise<Record<
 
   return grouped;
 }
+
+// ==========================================
+// AI Lyrics Assistant Edge Function
+// ==========================================
+
+/**
+ * Invoke the ai-lyrics-assistant edge function. Used by the lyrics wizard
+ * to generate theme ideas and by the AI agent to expand lyrics sections.
+ */
+export async function invokeLyricsAssistant(body: {
+  action: string;
+  genre?: string;
+  mood?: string;
+  language?: string;
+  theme?: string;
+  lyrics?: string;
+  section?: string;
+  style?: string;
+}): Promise<{
+  data: { lyrics?: string; suggestions?: string[]; error?: string } | null;
+  error: Error | null;
+}> {
+  const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", { body });
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  return { data, error: null };
+}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -6,14 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sparkles, X } from "@/lib/icons";
 import { useLyricsWizardStore } from "@/stores/lyricsWizardStore";
-import { supabase } from "@/integrations/supabase/client";
+import { useThemeIdea } from "@/hooks/lyrics/useThemeIdea";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { GENRES, MOODS, THEME_SUGGESTIONS } from "@/lib/lyrics/constants";
 
 export function ConceptStep() {
   const { concept, setTheme, setGenre, setMood, setLanguage } = useLyricsWizardStore();
-  const [isGeneratingTheme, setIsGeneratingTheme] = useState(false);
+  const { generate: generateTheme, isGenerating: isGeneratingTheme } = useThemeIdea();
 
   const toggleMood = (moodValue: string) => {
     if (concept.mood.includes(moodValue)) {
@@ -25,28 +24,19 @@ export function ConceptStep() {
     }
   };
 
-  const generateThemeIdea = async () => {
-    setIsGeneratingTheme(true);
+  const handleGenerateTheme = async () => {
     try {
-      const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
-        body: {
-          action: "generate",
-          genre: concept.genre || "pop",
-          mood: concept.mood[0] || "romantic",
-          language: concept.language,
-          theme: "предложи одну интересную тему для песни в 1-2 предложениях",
-        },
+      const result = await generateTheme({
+        genre: concept.genre || "pop",
+        mood: concept.mood[0] || "romantic",
+        language: concept.language,
       });
-
-      if (error) throw error;
-      if (data?.lyrics) {
-        setTheme(data.lyrics.trim());
+      if (result) {
+        setTheme(result);
       }
     } catch (err) {
       logger.error("Error generating theme", { error: err });
       toast.error("Не удалось сгенерировать тему");
-    } finally {
-      setIsGeneratingTheme(false);
     }
   };
 
@@ -58,7 +48,7 @@ export function ConceptStep() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={generateThemeIdea}
+            onClick={handleGenerateTheme}
             disabled={isGeneratingTheme}
             className="gap-1 text-xs"
           >
