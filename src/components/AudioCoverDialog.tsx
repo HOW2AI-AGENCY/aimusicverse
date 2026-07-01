@@ -21,6 +21,8 @@ import { formatDuration } from "@/lib/player-utils";
 import { useTelegramMainButton } from "@/hooks/telegram";
 import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
 import { AudioReferencePreview } from "@/components/audio/AudioReferencePreview";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 interface AudioCoverDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -131,6 +133,7 @@ export const AudioCoverDialog = ({
     }
   }, [audioDuration, model]);
 
+  // Preview pool — only used to read duration metadata of selected file.
   const handleFileSelect = (file: File) => {
     if (!file.type.startsWith("audio/")) {
       toast.error("Выберите аудиофайл");
@@ -144,26 +147,32 @@ export const AudioCoverDialog = ({
 
     const previewUrl = URL.createObjectURL(file);
     setAudioPreviewUrl(previewUrl);
-
-    const audio = new Audio();
-    audio.src = previewUrl;
-    audio.onloadedmetadata = () => {
-      const duration = audio.duration;
-      setAudioDuration(duration);
-
-      // Auto-select best model for duration
-      if (duration > 60 && model === "V4_5ALL") {
-        if (duration <= 180) {
-          setModel("V3_5");
-        } else if (duration <= 240) {
-          setModel("V5");
-        } else {
-          setModel("V4_5PLUS");
-        }
-        toast.info("Модель автоматически выбрана для вашего аудио");
-      }
-    };
   };
+
+  // Pool-based duration probe for the selected file (replaces inline new Audio()).
+  const { duration: probedDuration } = usePreviewAudio({
+    id: audioPreviewUrl ? `audio-cover-duration-${audioPreviewUrl}` : "audio-cover-duration-none",
+    src: audioPreviewUrl ?? "",
+    priority: AudioPriority.LOW,
+  });
+
+  useEffect(() => {
+    if (!probedDuration || !Number.isFinite(probedDuration)) return;
+    setAudioDuration(probedDuration);
+
+    // Auto-select best model for duration
+    if (probedDuration > 60 && model === "V4_5ALL") {
+      if (probedDuration <= 180) {
+        setModel("V3_5");
+      } else if (probedDuration <= 240) {
+        setModel("V5");
+      } else {
+        setModel("V4_5PLUS");
+      }
+      toast.info("Модель автоматически выбрана для вашего аудио");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [probedDuration]);
 
   const clearAudio = () => {
     if (audioPreviewUrl) {
