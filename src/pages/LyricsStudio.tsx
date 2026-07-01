@@ -48,6 +48,7 @@ import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 import { parseLyricsToSections, sectionsToLyrics } from "./lyrics-studio/sections";
 import { LyricsHeader } from "./lyrics-studio/LyricsHeader";
+import { LyricsTagsPanels } from "./lyrics-studio/LyricsTagsPanels";
 
 export default function LyricsStudio() {
   const navigate = useNavigate();
@@ -398,70 +399,17 @@ export default function LyricsStudio() {
         </Drawer>
       )}
 
-      {/* Tags Panel */}
-      <AnimatePresence>
-        {tagsPanelOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="border-b border-border/50 overflow-hidden bg-muted/30"
-          >
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-sm flex items-center gap-2">
-                  <Tag className="w-4 h-4" />
-                  Теги для генерации
-                </h3>
-                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setTagsPanelOpen(false)}>
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-              <TagsEditor
-                tags={globalTags}
-                onChange={(tags) => {
-                  setGlobalTags(tags);
-                  setIsDirty(true);
-                }}
-                suggestedTags={enrichedTags}
-                maxTags={15}
-              />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Enriched Tags Bar (collapsed when Tags Panel is open) */}
-      <AnimatePresence>
-        {!tagsPanelOpen && (globalTags.length > 0 || enrichedTags.length > 0) && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="border-b border-border/30 overflow-hidden cursor-pointer hover:bg-muted/30 transition-colors"
-            onClick={() => setTagsPanelOpen(true)}
-          >
-            <div className="px-4 py-2.5 flex items-center gap-2">
-              <div className="flex items-center gap-1.5 text-xs text-muted-foreground shrink-0">
-                <Tag className="w-3.5 h-3.5" />
-                Теги:
-              </div>
-              <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
-                {[...globalTags, ...enrichedTags].slice(0, 8).map((tag, idx) => (
-                  <Badge key={`${tag}-${idx}`} variant="secondary" className="text-xs whitespace-nowrap">
-                    {tag}
-                  </Badge>
-                ))}
-                {globalTags.length + enrichedTags.length > 8 && (
-                  <Badge variant="outline" className="text-xs">
-                    +{globalTags.length + enrichedTags.length - 8}
-                  </Badge>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <LyricsTagsPanels
+        open={tagsPanelOpen}
+        globalTags={globalTags}
+        enrichedTags={enrichedTags}
+        onOpen={() => setTagsPanelOpen(true)}
+        onClose={() => setTagsPanelOpen(false)}
+        onChange={(tags) => {
+          setGlobalTags(tags);
+          setIsDirty(true);
+        }}
+      />
 
       {/* Main Content with AI Panel */}
       <div className="flex-1 overflow-hidden flex">
