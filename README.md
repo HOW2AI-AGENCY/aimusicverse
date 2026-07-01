@@ -51,15 +51,15 @@
 | 🧪 Покрытие кода      |     ![](https://img.shields.io/badge/unit_tests-341_passing-10B981?style=flat-square&logo=vitest)      |
 | 🔒 Безопасность       |            ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)             |
 | 📊 Спринтов завершено |                                                 **38**                                                 |
-| 🏗 Компонентов         |                                                **990**                                                 |
-| 🔧 Хуков              |                                                **351**                                                 |
+| 🏗 Компонентов        |                                      **993** (+6 project-detail)                                       |
+| 🔧 Хуков              |                                                **347**                                                 |
 | 🚀 Стадия             |                                   **Pre-Seed / Active Development**                                    |
 
 > **MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 039 — архитектурный рефакторинг **завершён ✅** (0 нарушений слоёв в `components`/`stores`, god-компоненты разбиты, `tsc` зелёный). Следующее: Sprint 040 — Type Safety wave 2 + распил 6 god-файлов >800 LOC.
+- **Текущий фокус**: Sprint 042 — Page Decomposition + Audio Pooling **в работе 🟡**. Quick Wins ✅ (3 lyrics бага исправлены, structuredClone, console.log→logger, schema-drift задокументирован). `usePreviewAudio` hook готов (240 LOC, с `playUrl()` для динамических URL). **ProjectDetail 851 → 286 LOC (-66%)** ✅ и **usePromptDJEnhanced 1071 → 919 LOC** ✅. 8/28 компонентов мигрировано на `usePreviewAudio`. См. [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md).
 
 ---
 
@@ -77,26 +77,35 @@ gantt
     Sprint 036: Рефакторинг слоёв      :done, 036, 2026-06-01, 2026-06-20
     Sprint 037: Infrastructure         :done, 037, 2026-06-21, 2026-06-29
     Sprint 038: Design System          :done, 038, 2026-06-29, 2026-06-30
-    section В работе 🟡
     Sprint 039: Архит. рефакторинг     :done, 039, 2026-06-30, 2026-06-30
+    section В работе 🟡
+    Sprint 042: Page Decomp + Audio    :active, 042, 2026-07-01, 2026-07-10
     section Запланировано ⚪
     Sprint 040: Type Safety + God-files :040, 2026-07-01, 2026-07-12
     Sprint 040b: Тесты + Audio Export   :040b, 2026-07-15, 2026-08-01
     Sprint 041: UX features (AI/TTS)    :041, 2026-08-01, 2026-08-08
+    Sprint 043: Layer Compliance       :043, 2026-07-13, 2026-07-19
+    Sprint 044: Type Safety Wave 2     :044, 2026-07-20, 2026-07-26
+    Sprint 045: Hygiene + Docs         :045, 2026-07-27, 2026-07-31
 ```
 
-| Спринт | Название                        | Статус |  Прогресс   |
-| :----: | ------------------------------- | :----: | :---------: |
-|  033   | UX-аудит и переработка          |   ✅   |    100%     |
-|  034   | Надёжность генерации            |   ✅   |    100%     |
-|  035   | Стабилизация + Чистка           |   ✅   |    100%     |
-|  036   | Рефакторинг слоёв + Type Safety |   ✅   |    100%     |
-|  037   | Infrastructure Hardening        |   ✅   |    100%     |
-|  038   | Design System Unification       |   ✅   |    28/28    |
-|  039   | Архитектурный рефакторинг       |   🟡   | 10/14 (71%) |
-|  040   | Тесты + Export                  |   ⚪   |     0%      |
+| Спринт  | Название                           | Статус |  Прогресс   |
+| :-----: | ---------------------------------- | :----: | :---------: |
+|   033   | UX-аудит и переработка             |   ✅   |    100%     |
+|   034   | Надёжность генерации               |   ✅   |    100%     |
+|   035   | Стабилизация + Чистка              |   ✅   |    100%     |
+|   036   | Рефакторинг слоёв + Type Safety    |   ✅   |    100%     |
+|   037   | Infrastructure Hardening           |   ✅   |    100%     |
+|   038   | Design System Unification          |   ✅   |    28/28    |
+|   039   | Архитектурный рефакторинг          |   🟡   | 10/14 (71%) |
+|   040   | Тесты + Export                     |   ⚪   |     0%      |
+|   041   | UX features (AI/TTS)               |   ⚪   |     0%      |
+| **042** | **Page Decomp + Audio Pooling**    |   🟡   |  **~75%**   |
+|   043   | Layer Compliance (72 → 0)          |   ⚪   |     0%      |
+|   044   | Type Safety Wave 2 (any 449 → <50) |   ⚪   |     0%      |
+|   045   | Hygiene + Documentation            |   ⚪   |     0%      |
 
-<sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md)</sub>
+<sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>
 
 ---
 
@@ -123,7 +132,7 @@ npm run check-all  # lint + format + typecheck + test
 | 🎤 Voice Clone  | Клонирование голоса                          |   ✅   |
 | 📝 Lyrics AI    | AI-помощник для текстов                      |   ✅   |
 | 🎸 Инструменты  | Гитара, драм-машина, микшер                  |   ✅   |
-| 🏗 Студия        | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
+| 🏗 Студия       | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
 | 👥 Сообщество   | Лента, артисты, блог                         |   ✅   |
 | 💎 Монетизация  | Stars Payment, подписки                      |   ✅   |
 | 📊 Аналитика    | Dashboard, A/B тесты                         |   ✅   |
@@ -196,7 +205,7 @@ aimusicverse/
 | 🤖 Telegram бот | [@AIMusicVerseBot](https://t.me/AIMusicVerseBot) |
 | 📧 Email        | `hello@how2ai.agency`                            |
 | 🌐 Сайт         | [how2ai.agency](https://how2ai.agency)           |
-| 🛡 Безопасность  | `security@how2ai.agency`                         |
+| 🛡 Безопасность | `security@how2ai.agency`                         |
 | 📄 Лицензия     | [MIT](LICENSE)                                   |
 
 ---
