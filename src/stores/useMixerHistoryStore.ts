@@ -74,7 +74,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
       const pushToHistory = () => {
         const state = get();
         const entry: MixerHistoryEntry = {
-          stemStates: JSON.parse(JSON.stringify(state.stemStates)),
+          stemStates: structuredClone(state.stemStates),
           masterVolume: state.masterVolume,
           masterMuted: state.masterMuted,
           timestamp: Date.now(),
@@ -193,7 +193,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
             if (entry) {
               logger.info("Mixer undo", { from: state.historyIndex, to: newIndex });
               set({
-                stemStates: JSON.parse(JSON.stringify(entry.stemStates)),
+                stemStates: structuredClone(entry.stemStates),
                 masterVolume: entry.masterVolume,
                 masterMuted: entry.masterMuted,
                 historyIndex: newIndex,
@@ -210,7 +210,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
             if (entry) {
               logger.info("Mixer redo", { from: state.historyIndex, to: newIndex });
               set({
-                stemStates: JSON.parse(JSON.stringify(entry.stemStates)),
+                stemStates: structuredClone(entry.stemStates),
                 masterVolume: entry.masterVolume,
                 masterMuted: entry.masterMuted,
                 historyIndex: newIndex,
@@ -232,7 +232,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
         clearHistory: () => {
           const state = get();
           const currentEntry: MixerHistoryEntry = {
-            stemStates: JSON.parse(JSON.stringify(state.stemStates)),
+            stemStates: structuredClone(state.stemStates),
             masterVolume: state.masterVolume,
             masterMuted: state.masterMuted,
             timestamp: Date.now(),
@@ -273,7 +273,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
         savePreset: (name) => {
           const state = get();
           return {
-            stemStates: JSON.parse(JSON.stringify(state.stemStates)),
+            stemStates: structuredClone(state.stemStates),
             masterVolume: state.masterVolume,
             masterMuted: state.masterMuted,
             timestamp: Date.now(),
@@ -282,7 +282,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
 
         loadPreset: (preset) => {
           set({
-            stemStates: JSON.parse(JSON.stringify(preset.stemStates)),
+            stemStates: structuredClone(preset.stemStates),
             masterVolume: preset.masterVolume,
             masterMuted: preset.masterMuted,
             ...pushToHistory(),

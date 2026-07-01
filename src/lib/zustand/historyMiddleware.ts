@@ -66,7 +66,7 @@ export function createHistorySlice(
   // Deep clone state for history
   const cloneState = (state: Record<string, unknown>): Record<string, unknown> => {
     try {
-      return JSON.parse(JSON.stringify(state));
+      return structuredClone(state);
     } catch {
       return { ...state };
     }

@@ -61,7 +61,7 @@ export const useLyricsHistoryStore = create<LyricsHistoryState>((set, get) => ({
 
   initialize: ({ sections, tags, projectTrackId, lyricsTemplateId }) => {
     const initialEntry: LyricsHistoryEntry = {
-      sections: JSON.parse(JSON.stringify(sections)),
+      sections: structuredClone(sections),
       tags: [...tags],
       timestamp: Date.now(),
       changeType: "initial",
@@ -80,7 +80,7 @@ export const useLyricsHistoryStore = create<LyricsHistoryState>((set, get) => ({
     const state = get();
     const newEntry: LyricsHistoryEntry = {
       ...entry,
-      sections: JSON.parse(JSON.stringify(entry.sections)),
+      sections: structuredClone(entry.sections),
       tags: [...entry.tags],
       timestamp: Date.now(),
     };

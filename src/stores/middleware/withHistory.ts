@@ -42,7 +42,7 @@ function pickSnap<T extends object>(state: T, keys: (keyof T)[]): Partial<T> {
   const snap: Partial<T> = {};
   for (const k of keys) {
     const v = state[k];
-    snap[k] = v === null || typeof v !== "object" ? v : (JSON.parse(JSON.stringify(v)) as T[typeof k]);
+    snap[k] = v === null || typeof v !== "object" ? v : (structuredClone(v) as T[typeof k]);
   }
   return snap;
 }
@@ -72,10 +72,7 @@ export function withHistory<T extends object>(config: WithHistoryConfig<T>) {
       };
 
       // Wrap set: before applying, snapshot tracked fields; after applying, push to history
-      const trackedSet = (
-        partial: Partial<T> | ((s: T) => Partial<T>),
-        replace?: boolean,
-      ) => {
+      const trackedSet = (partial: Partial<T> | ((s: T) => Partial<T>), replace?: boolean) => {
         if (isHistoryOp) {
           if (replace === true) {
             (set as (s: WithHistory<T>, r: true) => void)(partial as unknown as WithHistory<T>, true);
