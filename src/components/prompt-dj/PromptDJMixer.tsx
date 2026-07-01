@@ -3,7 +3,7 @@
  * Enhanced UX with editable prompt, progress tracking, waveform history, and smart suggestions
  */
 
-import { memo, useCallback, useEffect, useState, useMemo } from "react";
+import { memo, useCallback, useEffect, useState, useMemo, useRef } from "react";
 import { AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,8 @@ import { logger } from "@/lib/logger";
 import { useTelegramMainButton } from "@/hooks/telegram";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { usePromptDJEnhanced, GeneratedTrack, ChannelType, PromptChannel } from "@/hooks/usePromptDJEnhanced";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 // Quick presets for header chips
 const QUICK_PRESETS = [
@@ -207,29 +209,44 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
     setSelectedChannel(id);
   }, []);
 
-  // Save track to cloud
+  // Save track to cloud — staged via render-side usePreviewAudio probe to keep element pool count low.
+  const [pendingSaveUrl, setPendingSaveUrl] = useState<string | null>(null);
+  const completedSaveRef = useRef<string | null>(null);
+  const { duration: saveDuration, error: saveError } = usePreviewAudio({
+    id: pendingSaveUrl ? `promptdj-save-${pendingSaveUrl}` : "promptdj-save-none",
+    src: pendingSaveUrl ?? "",
+    priority: AudioPriority.LOW,
+  });
+
   const handleSaveToCloud = useCallback(
-    async (track: GeneratedTrack) => {
+    (track: GeneratedTrack) => {
       if (!user) {
         toast.error("Авторизуйтесь для сохранения");
         return;
       }
-
+      if (savingTrackId) return; // already saving
       setSavingTrackId(track.id);
+      completedSaveRef.current = null;
+      setPendingSaveUrl(track.audioUrl);
+    },
+    [user, savingTrackId],
+  );
 
+  // Run the actual DB insert once the pool reports the duration (or fails).
+  useEffect(() => {
+    if (!pendingSaveUrl || !savingTrackId || !user) return;
+    if (completedSaveRef.current === pendingSaveUrl) return;
+    if (!saveDuration && !saveError) return;
+
+    completedSaveRef.current = pendingSaveUrl;
+    const url = pendingSaveUrl;
+    const duration = saveDuration || 0;
+
+    (async () => {
       try {
-        const audio = new Audio(track.audioUrl);
-        await new Promise((resolve, reject) => {
-          audio.onloadedmetadata = resolve;
-          audio.onerror = reject;
-          setTimeout(reject, 5000);
-        });
-
-        const duration = audio.duration || 0;
-
         await insertReferenceAudio({
           userId: user.id,
-          fileUrl: track.audioUrl,
+          fileUrl: url,
           fileName: `PromptDJ Mix - ${new Date().toLocaleDateString("ru")}`,
           source: "promptdj",
           durationSeconds: duration,
@@ -240,10 +257,10 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
         toast.error("Ошибка сохранения");
       } finally {
         setSavingTrackId(null);
+        setPendingSaveUrl(null);
       }
-    },
-    [user, globalSettings.bpm, channels],
-  );
+    })();
+  }, [pendingSaveUrl, saveDuration, saveError, savingTrackId, user]);
 
   // Use as reference (unified system)
   const handleUseAsReference = useCallback(
