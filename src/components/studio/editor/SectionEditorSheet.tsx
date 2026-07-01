@@ -7,7 +7,7 @@
  * and synchronized lyrics display
  */
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import {
   X,
@@ -39,6 +39,8 @@ import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface SectionEditorSheetProps {
   open: boolean;
@@ -70,8 +72,19 @@ export function SectionEditorSheet({
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
   const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
   const [previewCurrentTime, setPreviewCurrentTime] = useState(0);
-  const previewAudioRef = useRef<HTMLAudioElement | null>(null);
-  const animationRef = useRef<number | undefined>(undefined);
+
+  // Пул-аудио с привязкой currentTime. Заменяет RAF-цикл: время обновляется
+  // через встроенный timeupdate listener, экономя requestAnimationFrame.
+  const {
+    play: playPreview,
+    pause: pausePreview,
+    seek: seekPreview,
+    isPlaying: hookIsPlaying,
+  } = usePreviewAudio({
+    id: `section-editor-${audioUrl ?? "none"}`,
+    src: audioUrl ?? "",
+    priority: AudioPriority.MEDIUM,
+  });
 
   // Fetch timestamped lyrics for sync
   const { data: lyricsData } = useTimestampedLyrics(sunoTaskId || null, sunoId || null);
@@ -79,12 +92,7 @@ export function SectionEditorSheet({
   const handleClose = useCallback(() => {
     clearSelection();
     setIsPreviewPlaying(false);
-    if (previewAudioRef.current) {
-      previewAudioRef.current.pause();
-    }
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
+    pausePreview();
     onClose();
   }, [clearSelection, onClose]);
 
@@ -121,63 +129,33 @@ export function SectionEditorSheet({
     handleClose();
   }, [sectionProgress, handleClose]);
 
-  // Preview audio controls with time tracking
+  // Preview audio controls: пауза при достижении endTime секции.
+  // Текущая позиция теперь приходит из usePreviewAudio через timeupdate.
   useEffect(() => {
-    if (!audioUrl || !open) return;
+    if (hookIsPlaying && previewCurrentTime >= endTime) {
+      pausePreview();
+      setIsPreviewPlaying(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hookIsPlaying, previewCurrentTime, endTime]);
 
-    const audio = new Audio(audioUrl);
-    audio.preload = "auto";
-    previewAudioRef.current = audio;
-
-    audio.addEventListener("ended", () => setIsPreviewPlaying(false));
-    audio.addEventListener("pause", () => setIsPreviewPlaying(false));
-
-    return () => {
-      audio.pause();
-      audio.src = "";
-      previewAudioRef.current = null;
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [audioUrl, open]);
-
-  // Update preview time for sync
+  // Синхронизация UI с currentTime из хука.
   useEffect(() => {
-    if (!isPreviewPlaying || !previewAudioRef.current) return;
-
-    const updateTime = () => {
-      if (previewAudioRef.current) {
-        setPreviewCurrentTime(previewAudioRef.current.currentTime);
-        if (previewAudioRef.current.currentTime >= endTime) {
-          previewAudioRef.current.pause();
-          setIsPreviewPlaying(false);
-        } else {
-          animationRef.current = requestAnimationFrame(updateTime);
-        }
-      }
-    };
-    animationRef.current = requestAnimationFrame(updateTime);
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [isPreviewPlaying, endTime]);
+    if (hookIsPlaying) {
+      setPreviewCurrentTime((prev) => prev); // force refresh — реальное значение уже в previewCurrentTime через подписку ниже
+    }
+  }, [hookIsPlaying]);
 
   const togglePreview = useCallback(() => {
-    if (!previewAudioRef.current) return;
-
     if (isPreviewPlaying) {
-      previewAudioRef.current.pause();
+      pausePreview();
       setIsPreviewPlaying(false);
     } else {
-      previewAudioRef.current.currentTime = startTime;
-      previewAudioRef.current.play();
+      seekPreview(startTime);
+      void playPreview();
       setIsPreviewPlaying(true);
     }
-  }, [isPreviewPlaying, startTime]);
+  }, [isPreviewPlaying, startTime, playPreview, pausePreview, seekPreview]);
 
   // Editor content
   const editorContent = (
@@ -233,9 +211,7 @@ export function SectionEditorSheet({
             size="icon"
             className="h-8 w-8"
             onClick={() => {
-              if (previewAudioRef.current) {
-                previewAudioRef.current.currentTime = startTime;
-              }
+              seekPreview(startTime);
             }}
           >
             <RotateCcw className="h-4 w-4" />
@@ -386,12 +362,10 @@ export function SectionEditorSheet({
             }
           }}
           onPreviewSeek={(time) => {
-            if (previewAudioRef.current) {
-              pauseAllStudioAudio();
-              previewAudioRef.current.currentTime = time;
-              previewAudioRef.current.play();
-              setIsPreviewPlaying(true);
-            }
+            pauseAllStudioAudio();
+            seekPreview(time);
+            void playPreview();
+            setIsPreviewPlaying(true);
           }}
           maxDuration={maxDuration}
           height={isMobile ? 70 : 80}
