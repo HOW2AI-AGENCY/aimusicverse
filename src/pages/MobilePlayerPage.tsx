@@ -265,8 +265,10 @@ export default function MobilePlayerPage() {
 
   // Render fullscreen player
   return (
-    <div className="fixed inset-0 z-50">
-      <FullscreenPlayer track={track} onClose={handleCloseFullscreen} />
-    </div>
+    <PlayerTransitionProvider>
+      <div className="fixed inset-0 z-50">
+        <FullscreenPlayer track={track} onClose={handleCloseFullscreen} />
+      </div>
+    </PlayerTransitionProvider>
   );
 }
