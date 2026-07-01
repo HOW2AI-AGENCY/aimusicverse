@@ -14,8 +14,13 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-import { fetchTrackStems } from "@/api/studio.api";
+import {
+  fetchTrackStems,
+  fetchLatestStemTranscriptionByStemId,
+  fetchLatestStemTranscriptionByTrackId,
+  invokeReplicateMidiTranscription,
+  invokeKlangioAnalyze,
+} from "@/api/studio.api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { useSaveTranscription } from "@/hooks/useStemTranscription";
@@ -145,28 +150,12 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     queryFn: async () => {
       // If we have resolved stemId, use it
       if (resolvedStemId) {
-        const { data, error } = await supabase
-          .from("stem_transcriptions")
-          .select("*")
-          .eq("stem_id", resolvedStemId)
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-        if (error) throw error;
-        return data;
+        return await fetchLatestStemTranscriptionByStemId(resolvedStemId);
       }
 
       // Fallback: get any transcription for this track
       if (trackId) {
-        const { data, error } = await supabase
-          .from("stem_transcriptions")
-          .select("*")
-          .eq("track_id", trackId)
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-        if (error) throw error;
-        return data;
+        return await fetchLatestStemTranscriptionByTrackId(trackId);
       }
 
       return null;
@@ -186,13 +175,11 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
         setProgress((p) => Math.min(85, p + 5));
       }, 2500);
 
-      const { data, error } = await supabase.functions.invoke("replicate-midi-transcription", {
-        body: {
-          audioUrl,
-          trackId,
-          stemId: resolvedStemId,
-          model: "basic-pitch",
-        },
+      const { data, error } = await invokeReplicateMidiTranscription({
+        audioUrl,
+        trackId,
+        stemId: resolvedStemId,
+        model: "basic-pitch",
       });
 
       window.clearInterval(progressInterval);
@@ -259,16 +246,14 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
         setProgress((p) => Math.min(90, p + 7));
       }, 3000);
 
-      const { data, error } = await supabase.functions.invoke("klangio-analyze", {
-        body: {
-          audio_url: audioUrl,
-          mode: "transcription",
-          model: klangioModel,
-          outputs: ["midi", "midi_quant", "gp5", "pdf", "mxml"],
-          title: track.name,
-          stem_type: resolvedStemType || track.type,
-          user_id: (track as any).user_id,
-        },
+      const { data, error } = await invokeKlangioAnalyze({
+        audio_url: audioUrl,
+        mode: "transcription",
+        model: klangioModel,
+        outputs: ["midi", "midi_quant", "gp5", "pdf", "mxml"],
+        title: track.name,
+        stem_type: resolvedStemType || track.type,
+        user_id: (track as { user_id?: string }).user_id,
       });
 
       window.clearInterval(progressInterval);
