@@ -6,9 +6,9 @@
 import { useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { useUnifiedStudioStore, TrackType, TRACK_COLORS, StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { useStemSeparation } from "@/hooks/useStemSeparation";
+import { fetchTrackById } from "@/api/tracks.api";
 import { logger } from "@/lib/logger";
 import type { Track } from "@/types/track";
 
@@ -118,13 +118,9 @@ export function useStudioCallbacks({
         return;
       }
 
-      const { data: trackData, error } = await supabase
-        .from("tracks")
-        .select("id, title, audio_url, suno_id, suno_task_id")
-        .eq("id", sourceTrackId)
-        .maybeSingle();
+      const trackData = await fetchTrackById(sourceTrackId);
 
-      if (error || !trackData) {
+      if (!trackData) {
         toast.error("Не удалось загрузить трек");
         return;
       }
