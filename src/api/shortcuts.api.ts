@@ -133,7 +133,7 @@ export const DEFAULT_SHORTCUTS: ShortcutsConfig = {
  * @example
  * ```typescript
  * const { shortcuts } = await getShortcuts('user-123');
- * console.log(shortcuts.studio?.play_pause); // { key: ' ', ctrl: false, shift: false }
+ * shortcuts.studio?.play_pause; // { key: ' ', ctrl: false, shift: false }
  * ```
  */
 export async function getShortcuts(userId: string): Promise<GetShortcutsResponse> {
@@ -215,7 +215,7 @@ export async function updateShortcuts(
  * @example
  * ```typescript
  * const { shortcuts } = await resetShortcuts('user-123');
- * console.log(shortcuts); // Default shortcuts configuration
+ * shortcuts; // Default shortcuts configuration
  * ```
  */
 export async function resetShortcuts(userId: string): Promise<ResetShortcutsResponse> {

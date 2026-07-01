@@ -199,7 +199,7 @@ export async function initiateBatchSeparate(params: BatchSeparateRequest): Promi
  *
  * @example
  * const status = await getBatchStatus('batch-uuid');
- * console.log(status.progress); // 66
+ * status.progress; // 66
  */
 export async function getBatchStatus(batchId: string): Promise<StemBatchStatus> {
   try {
@@ -289,7 +289,7 @@ export async function getTrackBatches(trackId: string): Promise<StemBatchStatus[
  *
  * @example
  * const subscription = subscribeToBatchUpdates('batch-uuid', (status) => {
- *   console.log('Progress:', status.progress);
+ *   status.progress; // current progress value
  * });
  * // Later: subscription.unsubscribe();
  */
@@ -451,7 +451,7 @@ export async function deleteBatch(batchId: string): Promise<void> {
  *
  * @example
  * const stats = await getUserBatchStats('user-uuid');
- * console.log(stats.totalBatches);
+ * stats.totalBatches;
  */
 export async function getUserBatchStats(userId: string): Promise<{
   totalBatches: number;

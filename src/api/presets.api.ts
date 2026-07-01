@@ -559,7 +559,7 @@ export async function incrementPresetUsage(presetId: string): Promise<void> {
  * ```typescript
  * const { success, appliedSettings, error } = await applyPresetToTrack('track-id', 'preset-id');
  * if (success) {
- *   console.log('Applied settings:', appliedSettings);
+ *   appliedSettings; // settings applied to the track
  * }
  * ```
  */
@@ -670,7 +670,7 @@ export async function batchApplyPresetToTracks(
  * @example
  * ```typescript
  * const subscription = subscribeToPresetUpdates('preset-id', (payload) => {
- *   console.log('Preset updated:', payload.new);
+ *   payload.new; // updated preset
  * });
  *
  * // Unsubscribe when done
@@ -705,7 +705,7 @@ export function subscribeToPresetUpdates(presetId: string, callback: (preset: Pr
  * @example
  * ```typescript
  * const subscription = subscribeToUserPresets('user-id', (preset) => {
- *   console.log('New preset created:', preset);
+ *   preset; // newly created preset
  * });
  * ```
  */

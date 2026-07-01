@@ -263,7 +263,7 @@ export async function completeRecording(
  * const checkResults = async () => {
  *   const results = await getChordResults('recording-uuid');
  *   if (results.status === 'completed') {
- *     console.log(results.chords);
+ *     results.chords; // detected chord progression
  *   } else if (results.status === 'processing') {
  *     setTimeout(checkResults, 2000);
  *   }
@@ -321,11 +321,11 @@ export async function triggerChordDetection(
  * const results = await getChordResults('recording-uuid');
  *
  * if (results.status === 'completed') {
- *   console.log('Detected key:', results.key);
- *   console.log('Overall confidence:', results.confidence);
+ *   results.key; // detected key
+ *   results.confidence; // overall detection confidence
  *
  *   results.chords.forEach(chord => {
- *     console.log(`At ${chord}s: ${chord.chord} (${chord.duration}s)`);
+ *     chord.chord; // chord at timestamp chord.s, lasting chord.duration s
  *   });
  * }
  * ```

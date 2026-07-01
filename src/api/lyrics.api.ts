@@ -153,7 +153,7 @@ export interface CreateSectionNoteResponse {
  *
  * @example
  * const versions = await getLyricVersions('track-uuid');
- * console.log(versions.versions);
+ * versions.versions;
  */
 export async function getLyricVersions(trackId: string): Promise<GetLyricVersionsResponse> {
   const { data, error } = await supabase
@@ -301,7 +301,7 @@ export async function createLyricVersion(
  *
  * @example
  * const result = await restoreLyricVersion('version-uuid');
- * console.log(result.restoredVersion);
+ * result.restoredVersion;
  */
 export async function restoreLyricVersion(versionId: string): Promise<RestoreLyricVersionResponse> {
   // First, fetch the version to restore
@@ -386,7 +386,7 @@ export async function restoreLyricVersion(versionId: string): Promise<RestoreLyr
  *
  * @example
  * const notes = await getSectionNotes('section-uuid');
- * console.log(notes.notes);
+ * notes.notes;
  */
 export async function getSectionNotes(sectionId: string): Promise<GetSectionNotesResponse> {
   const { data, error } = await supabase
@@ -560,7 +560,7 @@ export async function deleteSectionNote(noteId: string): Promise<void> {
  *
  * @example
  * const versions = await getLyricVersionsBatch(['track-1', 'track-2']);
- * console.log(versions['track-1']);
+ * versions['track-1'];
  */
 export async function getLyricVersionsBatch(trackIds: string[]): Promise<Record<string, LyricVersionWithAuthor[]>> {
   if (trackIds.length === 0) {

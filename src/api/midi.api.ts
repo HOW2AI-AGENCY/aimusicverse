@@ -101,7 +101,7 @@ export interface MidiApiError {
  *   trackId: 'track-uuid'
  * });
  * if (result.success && result.data) {
- *   console.log('MIDI uploaded:', result.data.fileUrl);
+ *   result.data.fileUrl; // MIDI URL
  * }
  * ```
  */
@@ -179,8 +179,8 @@ export async function uploadMidiFile(params: UploadMidiRequest): Promise<UploadM
  * ```typescript
  * const result = await getMidiMetadata('midi-uuid');
  * if (result.success && result.data) {
- *   console.log('MIDI duration:', result.data.duration);
- *   console.log('MIDI tempo:', result.data.tempo);
+ *   result.data.duration; // MIDI duration in seconds
+ *   result.data.tempo;    // MIDI tempo (BPM)
  * }
  * ```
  */
@@ -326,7 +326,7 @@ export async function getMidiPublicUrl(midiId: string): Promise<string | null> {
  * ```typescript
  * const result = await deleteMidiFile('midi-uuid');
  * if (result.success) {
- *   console.log('MIDI file deleted');
+ *   // MIDI file deleted
  * }
  * ```
  */
@@ -381,7 +381,7 @@ export async function deleteMidiFile(midiId: string): Promise<{ success: boolean
  * ```typescript
  * const result = await listMidiFilesForTrack('track-uuid');
  * if (result.success && result.data) {
- *   console.log('Found MIDI files:', result.data.length);
+ *   result.data.length; // number of MIDI files
  * }
  * ```
  */
