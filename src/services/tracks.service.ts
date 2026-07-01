@@ -237,6 +237,16 @@ export async function deleteTrackWithCleanup(trackId: string): Promise<void> {
   logger.info("Track deletion completed", { trackId, deletedFiles: filePaths.length });
 }
 
+// ============= Track Lookup (Pass 3 — service-layer routing) =============
+
+/**
+ * Fetch a single track by id (including its active version join).
+ * Returns null when the track is not found.
+ */
+export async function fetchTrackById(trackId: string): Promise<tracksApi.TrackRow | null> {
+  return tracksApi.fetchTrackById(trackId);
+}
+
 /**
  * Update track visibility
  */

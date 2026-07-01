@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useUnifiedStudioStore, TrackType, TRACK_COLORS, StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { useStemSeparation } from "@/hooks/useStemSeparation";
-import { fetchTrackById } from "@/api/tracks.api";
+import { fetchTrackById } from "@/services/tracks.service";
 import { logger } from "@/lib/logger";
 import type { Track } from "@/types/track";
 
