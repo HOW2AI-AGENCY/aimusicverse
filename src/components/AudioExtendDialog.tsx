@@ -20,6 +20,8 @@ import { validatePromptForGeneration, showGenerationError } from "@/lib/errorHan
 import { formatDuration } from "@/lib/player-utils";
 import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
 import { AudioReferencePreview } from "@/components/audio/AudioReferencePreview";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface AudioExtendDialogProps {
   open: boolean;
@@ -124,24 +126,28 @@ export const AudioExtendDialog = ({
 
     const previewUrl = URL.createObjectURL(file);
     setAudioPreviewUrl(previewUrl);
-
-    const audio = new Audio();
-    audio.src = previewUrl;
-    audio.onloadedmetadata = () => {
-      const duration = audio.duration;
-      setAudioDuration(duration);
-      // Set continue point to 80% by default
-      setContinueAt(Math.floor(duration * 0.8));
-
-      // Auto-select model
-      if (duration > 60 && model === "V4_5ALL") {
-        if (duration <= 180) setModel("V3_5");
-        else if (duration <= 240) setModel("V5");
-        else setModel("V4_5PLUS");
-        toast.info("Модель автоматически выбрана");
-      }
-    };
   };
+
+  // Pool-based duration probe for the selected file (replaces inline new Audio()).
+  const { duration: probedDuration } = usePreviewAudio({
+    id: audioPreviewUrl ? `audio-extend-duration-${audioPreviewUrl}` : "audio-extend-duration-none",
+    src: audioPreviewUrl ?? "",
+    priority: AudioPriority.LOW,
+  });
+
+  useEffect(() => {
+    if (!probedDuration || !Number.isFinite(probedDuration)) return;
+    setAudioDuration(probedDuration);
+    setContinueAt(Math.floor(probedDuration * 0.8));
+
+    if (probedDuration > 60 && model === "V4_5ALL") {
+      if (probedDuration <= 180) setModel("V3_5");
+      else if (probedDuration <= 240) setModel("V5");
+      else setModel("V4_5PLUS");
+      toast.info("Модель автоматически выбрана");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [probedDuration]);
 
   const clearAudio = () => {
     if (audioPreviewUrl) URL.revokeObjectURL(audioPreviewUrl);
