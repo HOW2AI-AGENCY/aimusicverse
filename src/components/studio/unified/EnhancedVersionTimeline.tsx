@@ -41,6 +41,8 @@ import { formatTime } from "@/lib/player-utils";
 import { format, ru } from "@/lib/date-utils";
 import { toast } from "sonner";
 import { useRef, useEffect } from "react";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface EnhancedVersionTimelineProps {
   trackId: string;
@@ -76,56 +78,46 @@ function VersionPreviewPlayer({
   onStop: () => void;
   isActive: boolean;
 }) {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const animationRef = useRef<number | undefined>(undefined);
 
-  useEffect(() => {
-    const audio = new Audio(audioUrl);
-    audio.preload = "metadata";
-    audioRef.current = audio;
-
-    const updateProgress = () => {
-      if (audioRef.current) {
-        setProgress((audio.currentTime / audio.duration) * 100);
-      }
-      animationRef.current = requestAnimationFrame(updateProgress);
-    };
-
-    audio.addEventListener("play", () => {
-      setIsPlaying(true);
-      onPlay();
-      animationRef.current = requestAnimationFrame(updateProgress);
-    });
-
-    audio.addEventListener("pause", () => {
-      setIsPlaying(false);
-      onStop();
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    });
-
-    audio.addEventListener("ended", () => {
-      setIsPlaying(false);
+  // Пул-аудио с заменой RAF-цикла на timeupdate listener хука.
+  const {
+    isPlaying,
+    currentTime,
+    duration: hookDuration,
+    play,
+    pause,
+  } = usePreviewAudio({
+    id: `version-preview-${audioUrl}`,
+    src: audioUrl,
+    priority: AudioPriority.MEDIUM,
+    onEnded: () => {
       setProgress(0);
       onStop();
-    });
+    },
+  });
 
-    return () => {
-      audio.pause();
-      audio.src = "";
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
-  }, [audioUrl, onPlay, onStop]);
+  // Sync local callbacks via play/pause side-effects.
+  useEffect(() => {
+    if (isPlaying) onPlay();
+    else onStop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlaying]);
+
+  // Update progress bar from hook currentTime.
+  useEffect(() => {
+    if (hookDuration > 0) {
+      setProgress((currentTime / hookDuration) * 100);
+    }
+  }, [currentTime, hookDuration]);
 
   const togglePlay = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!audioRef.current) return;
 
     if (isPlaying) {
-      audioRef.current.pause();
+      pause();
     } else {
-      await audioRef.current.play();
+      await play();
     }
   };
 
