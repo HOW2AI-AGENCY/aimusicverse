@@ -11,8 +11,7 @@
 
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { useUnifiedStudioStore, StudioTrack } from "@/stores/useUnifiedStudioStore";
+import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 import { useViewStore } from "@/stores/studio";
 import { StudioShellHeader } from "./StudioShellHeader";
 import { StudioShellDialogs } from "./StudioShellDialogs";
@@ -34,7 +33,8 @@ import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { useProjectTrackSync } from "@/hooks/studio/useProjectTrackSync";
 import { useStudioOperationLock } from "@/hooks/studio/useStudioOperationLock";
-import { fetchSourceTrackForStudio } from "@/api/studio.api";
+import { useSourceTrack } from "@/hooks/studio/useSourceTrack";
+import { useStudioRealtime } from "@/hooks/studio/useStudioRealtime";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { OptimizedTransport } from "./OptimizedTransport";
@@ -44,7 +44,6 @@ import { cn } from "@/lib/utils";
 import { Loader2, Volume2, VolumeX, Upload, Plus } from "@/lib/icons";
 import { toast } from "sonner";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import type { TrackStem } from "@/hooks/useTrackStems";
 
@@ -182,15 +181,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const { isMountedRef } = useStudioStemSync({ projectId: project?.id, sourceTrackId });
 
   // ── Source track (via API layer) ──────────────────────────────────────
-  const { data: sourceTrack } = useQuery({
-    queryKey: ["source-track-for-studio", sourceTrackId],
-    queryFn: async () => {
-      if (!sourceTrackId) return null;
-      const { data } = await fetchSourceTrackForStudio(sourceTrackId);
-      return data;
-    },
-    enabled: !!sourceTrackId,
-  });
+  const { data: sourceTrack } = useSourceTrack(sourceTrackId ?? null);
 
   // ── Lyrics + section detection ────────────────────────────────────────
   const { data: lyricsData } = useTimestampedLyrics(sourceTrack?.suno_task_id || null, sourceTrack?.suno_id || null);
@@ -241,89 +232,55 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     project?.tracks.forEach((track) => audioEngine.setTrackVolume(track.id, track.volume));
   }, [project?.tracks, audioEngine]);
 
-  // ── Generation tasks realtime subscription ────────────────────────────
+  // ── Generation tasks realtime subscription (via api layer) ───────────
   const pendingTrackIds = useMemo(
     () => new Set((project?.tracks ?? []).filter((t) => t.status === "pending").map((t) => t.id)),
     [project?.tracks],
   );
+  const pendingTasks = useMemo(
+    () =>
+      (project?.tracks ?? [])
+        .filter((t) => t.status === "pending" && t.taskId)
+        .map((t) => ({ trackId: t.id, taskId: t.taskId! })),
+    [project?.tracks],
+  );
 
-  useEffect(() => {
-    if (!project?.id) return;
-    const pendingTasks = project.tracks
-      .filter((t) => t.status === "pending" && t.taskId)
-      .map((t) => ({ trackId: t.id, taskId: t.taskId! }));
-    if (pendingTasks.length === 0) return;
-    logger.info("Subscribing to pending tasks", { count: pendingTasks.length });
-
-    const channels = pendingTasks.map(({ trackId, taskId }) =>
-      supabase
-        .channel(`task-complete-${taskId}`)
-        .on(
-          "postgres_changes",
-          { event: "UPDATE", schema: "public", table: "generation_tasks", filter: `suno_task_id=eq.${taskId}` },
-          async (payload) => {
-            if (!isMountedRef.current) return;
-            const newData = payload.new as Record<string, unknown>;
-            if (newData.status === "completed" && newData.audio_clips) {
-              try {
-                const clips =
-                  typeof newData.audio_clips === "string" ? JSON.parse(newData.audio_clips) : newData.audio_clips;
-                if (Array.isArray(clips) && clips.length > 0) {
-                  const versions = clips.map((clip: Record<string, unknown>, idx: number) => ({
-                    label: String.fromCharCode(65 + idx),
-                    audioUrl: clip.audio_url as string,
-                    duration: (clip.duration_seconds as number) || 180,
-                  }));
-                  const context = dialogs.pendingGenerationContextRef.current.get(taskId);
-                  if (context?.type === "replace_instrumental") {
-                    resolvePendingTrack(taskId, versions);
-                    dialogs.setInstrumentalResultData({
-                      newTrackId: trackId,
-                      existingInstrumentalId: context.existingId,
-                      versions,
-                      trackName: "Новый инструментал",
-                    });
-                    dialogs.setShowInstrumentalResult(true);
-                    dialogs.pendingGenerationContextRef.current.delete(taskId);
-                  } else {
-                    resolvePendingTrack(taskId, versions);
-                    toast.success("Инструментал готов! 🎸", {
-                      description: versions.length > 1 ? "Выберите версию A или B" : "Трек добавлен",
-                    });
-                  }
-                }
-              } catch (err) {
-                logger.error("Failed to parse audio clips", err);
-              }
-            } else if (newData.status === "failed") {
-              toast.error("Ошибка генерации инструментала");
-            }
-          },
-        )
-        .subscribe(),
-    );
-
-    const projectChannel = supabase
-      .channel(`studio-project-${project.id}`)
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "studio_projects", filter: `id=eq.${project.id}` },
-        async (payload) => {
-          if (!isMountedRef.current) return;
-          const newTracks = (payload.new as Record<string, unknown>)?.tracks as StudioTrack[] | undefined;
-          if (newTracks) {
-            const resolvedTracks = newTracks.filter((t) => t.status === "ready" && pendingTrackIds.has(t.id));
-            if (resolvedTracks.length > 0) await loadProject(project.id);
-          }
-        },
-      )
-      .subscribe();
-
-    return () => {
-      channels.forEach((ch) => supabase.removeChannel(ch));
-      supabase.removeChannel(projectChannel);
-    };
-  }, [project?.id, project?.tracks, loadProject, pendingTrackIds, resolvePendingTrack, isMountedRef, dialogs]);
+  useStudioRealtime({
+    projectId: project?.id ?? null,
+    pendingTasks,
+    pendingTrackIds,
+    isMountedRef,
+    callbacks: {
+      onTaskCompleted: ({ taskId, versions }) => {
+        const context = dialogs.pendingGenerationContextRef.current.get(taskId);
+        if (context?.type === "replace_instrumental") {
+          resolvePendingTrack(taskId, versions);
+          const ctxTrackId = pendingTasks.find((p) => p.taskId === taskId)?.trackId;
+          dialogs.setInstrumentalResultData({
+            newTrackId: ctxTrackId ?? "",
+            existingInstrumentalId: context.existingId,
+            versions,
+            trackName: "Новый инструментал",
+          });
+          dialogs.setShowInstrumentalResult(true);
+          dialogs.pendingGenerationContextRef.current.delete(taskId);
+        } else {
+          resolvePendingTrack(taskId, versions);
+          toast.success("Инструментал готов! 🎸", {
+            description: versions.length > 1 ? "Выберите версию A или B" : "Трек добавлен",
+          });
+        }
+      },
+      onTaskFailed: () => {
+        toast.error("Ошибка генерации инструментала");
+      },
+      onProjectTracksUpdated: (newTracks) => {
+        const resolvedTracks = newTracks.filter((t) => t.status === "ready" && pendingTrackIds.has(t.id));
+        if (resolvedTracks.length > 0 && project?.id) void loadProject(project.id);
+      },
+    },
+    loadProject,
+  });
 
   // ── Track action handler (needs dialog setters) ───────────────────────
   const handleMobileTrackAction = useCallback(

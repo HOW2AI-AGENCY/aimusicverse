@@ -617,3 +617,60 @@ export async function deleteStudioProject(id: string) {
   const { error } = await supabase.from("studio_projects").delete().eq("id", id);
   return { error };
 }
+
+/**
+ * Subscribe to realtime updates for a generation_tasks row by suno_task_id.
+ * Callback receives the full row (including audio_clips) so callers can parse
+ * completion payloads. Returns { unsubscribe } to match the supabase shape.
+ */
+export function subscribeToPendingTaskComplete(
+  sunoTaskId: string,
+  callback: (row: Record<string, unknown>) => void,
+): { unsubscribe: () => void } {
+  const channel = supabase
+    .channel(`task-complete-${sunoTaskId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "generation_tasks",
+        filter: `suno_task_id=eq.${sunoTaskId}`,
+      },
+      (payload) => callback(payload.new as Record<string, unknown>),
+    )
+    .subscribe();
+  return {
+    unsubscribe: () => {
+      void supabase.removeChannel(channel);
+    },
+  };
+}
+
+/**
+ * Subscribe to realtime updates for a studio_projects row by id.
+ * Callback receives the full row. Returns { unsubscribe }.
+ */
+export function subscribeToStudioProject(
+  projectId: string,
+  callback: (row: Record<string, unknown>) => void,
+): { unsubscribe: () => void } {
+  const channel = supabase
+    .channel(`studio-project-${projectId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "studio_projects",
+        filter: `id=eq.${projectId}`,
+      },
+      (payload) => callback(payload.new as Record<string, unknown>),
+    )
+    .subscribe();
+  return {
+    unsubscribe: () => {
+      void supabase.removeChannel(channel);
+    },
+  };
+}
