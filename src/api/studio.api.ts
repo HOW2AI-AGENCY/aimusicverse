@@ -276,6 +276,60 @@ export async function invokeSunoRemix(payload: {
   return { data, error };
 }
 
+// ============= Section Replacement Realtime =============
+
+export interface ReplacementTask {
+  id: string;
+  status: string;
+  created_at: string;
+  error_message?: string | null;
+  generation_mode?: string;
+}
+
+export async function fetchReplacementTasks(trackId: string): Promise<ReplacementTask[]> {
+  const { data, error } = await supabase
+    .from("generation_tasks")
+    .select("id, status, created_at, error_message, generation_mode")
+    .eq("track_id", trackId)
+    .eq("generation_mode", "replace_section")
+    .in("status", ["pending", "processing", "completed", "failed"])
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  if (error || !data) return [];
+  return data as ReplacementTask[];
+}
+
+export function subscribeToReplacementTasks(
+  trackId: string,
+  callback: (task: ReplacementTask) => void,
+): { unsubscribe: () => void } {
+  const channel = supabase
+    .channel(`replacement-tasks-${trackId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "generation_tasks",
+        filter: `track_id=eq.${trackId}`,
+      },
+      (payload) => {
+        const incoming = payload.new as ReplacementTask;
+        if (incoming?.generation_mode === "replace_section") {
+          callback(incoming);
+        }
+      },
+    )
+    .subscribe();
+
+  return {
+    unsubscribe: () => {
+      void supabase.removeChannel(channel);
+    },
+  };
+}
+
 // ============= Stem Transcriptions =============
 
 export async function fetchStemTranscriptions(filter: { trackId?: string; stemId?: string }) {

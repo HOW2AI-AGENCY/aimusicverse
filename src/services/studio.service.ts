@@ -363,6 +363,41 @@ export async function extendTrack(params: {
   }
 }
 
+// ============= Track Replacement Realtime =============
+
+export interface ReplacementTaskSummary {
+  id: string;
+  status: string;
+  created_at: string;
+  error_message?: string | null;
+}
+
+export async function fetchReplacementTasksForTrack(trackId: string): Promise<ReplacementTaskSummary[]> {
+  const tasks = await studioApi.fetchReplacementTasks(trackId);
+  return tasks.map((t) => ({
+    id: t.id,
+    status: t.status,
+    created_at: t.created_at,
+    error_message: t.error_message ?? null,
+  }));
+}
+
+export type ReplacementSubscription = ReturnType<typeof studioApi.subscribeToReplacementTasks>;
+
+export function subscribeToReplacementTasks(
+  trackId: string,
+  callback: (task: ReplacementTaskSummary) => void,
+): ReplacementSubscription {
+  return studioApi.subscribeToReplacementTasks(trackId, (task) => {
+    callback({
+      id: task.id,
+      status: task.status,
+      created_at: task.created_at,
+      error_message: task.error_message ?? null,
+    });
+  });
+}
+
 // ============= Track Remix =============
 
 export async function remixTrack(params: {

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { supabase } from "@/integrations/supabase/client";
+import { useReplacementTasks } from "@/hooks/studio/useReplacementTasks";
 import { cn } from "@/lib/utils";
 
 interface ReplacementProgressIndicatorProps {
@@ -14,69 +14,9 @@ interface ReplacementProgressIndicatorProps {
   className?: string;
 }
 
-interface ActiveTask {
-  id: string;
-  status: string;
-  created_at: string;
-  error_message?: string | null;
-}
-
 export function ReplacementProgressIndicator({ trackId, onViewResult, className }: ReplacementProgressIndicatorProps) {
-  const [activeTasks, setActiveTasks] = useState<ActiveTask[]>([]);
+  const { data: activeTasks = [] } = useReplacementTasks(trackId);
   const [elapsedTime, setElapsedTime] = useState(0);
-
-  // Subscribe to generation tasks for this track
-  useEffect(() => {
-    // Initial fetch
-    const fetchTasks = async () => {
-      const { data } = await supabase
-        .from("generation_tasks")
-        .select("id, status, created_at, error_message")
-        .eq("track_id", trackId)
-        .eq("generation_mode", "replace_section")
-        .in("status", ["pending", "processing", "completed", "failed"])
-        .order("created_at", { ascending: false })
-        .limit(5);
-
-      if (data) {
-        setActiveTasks(data);
-      }
-    };
-
-    fetchTasks();
-
-    // Subscribe to changes
-    const channel = supabase
-      .channel(`replacement-tasks-${trackId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "generation_tasks",
-          filter: `track_id=eq.${trackId}`,
-        },
-        (payload) => {
-          if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
-            const task = payload.new as ActiveTask & { generation_mode: string };
-            if (task.generation_mode === "replace_section") {
-              setActiveTasks((prev) => {
-                const existing = prev.find((t) => t.id === task.id);
-                if (existing) {
-                  return prev.map((t) => (t.id === task.id ? task : t));
-                }
-                return [task, ...prev].slice(0, 5);
-              });
-            }
-          }
-        },
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [trackId]);
 
   // Track elapsed time for pending tasks
   useEffect(() => {
