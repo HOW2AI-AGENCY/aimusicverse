@@ -1,4 +1,4 @@
-import { memo, useState, useRef, useEffect } from "react";
+import { memo, useState } from "react";
 import { useTrackVersions } from "@/hooks/useTrackVersions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,9 +9,11 @@ import { fetchTrackById } from "@/api/tracks.api";
 import { useQuery } from "@tanstack/react-query";
 import type { Track } from "@/types/track";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { formatTime } from "@/lib/formatters";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface VersionMetadata {
   prompt?: string;
@@ -33,31 +35,20 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
   const { isProcessing, createVersionFromTrack, setVersionAsPrimary, deleteVersion } = useTrackVersionManagement();
 
   const [playingId, setPlayingId] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const sourceId = `versions-tab-${trackId}`;
 
-  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  const { pauseTrack } = usePlayerStore();
 
-  // Register with studio audio coordinator
-  useEffect(() => {
-    registerStudioAudio(sourceId, () => {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    });
-
-    return () => {
-      unregisterStudioAudio(sourceId);
-      audioRef.current?.pause();
-    };
-  }, [sourceId]);
-
-  // Pause when global player starts
-  useEffect(() => {
-    if (globalIsPlaying && playingId) {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    }
-  }, [globalIsPlaying, playingId]);
+  // Пул-аудио с динамическим src через usePreviewAudio.
+  // Регистрация в useStudioAudio координаторе уже встроена в хук.
+  const { playUrl, pause } = usePreviewAudio({
+    id: sourceId,
+    src: previewUrl,
+    priority: AudioPriority.MEDIUM,
+    onEnded: () => setPlayingId(null),
+    onError: () => setPlayingId(null),
+  });
 
   // Fetch main track data
   const { data: mainTrack } = useQuery({
@@ -148,27 +139,22 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
     );
   }
 
-  const handlePlayVersion = (versionId: string, audioUrl: string) => {
+  const handlePlayVersion = async (versionId: string, audioUrl: string) => {
     if (playingId === versionId) {
-      audioRef.current?.pause();
+      // Toggle off
+      pause();
       setPlayingId(null);
       return;
     }
-
-    // Stop current playback
-    audioRef.current?.pause();
 
     // Pause global player and other studio audio
     pauseTrack();
     pauseAllStudioAudio(sourceId);
 
-    // Play this version
-    const audio = new Audio(audioUrl);
-    audio.onended = () => setPlayingId(null);
-    audio.onerror = () => setPlayingId(null);
-    audio.play();
-    audioRef.current = audio;
+    // Меняем src на pool-элементе и запускаем.
     setPlayingId(versionId);
+    setPreviewUrl(audioUrl);
+    await playUrl(audioUrl);
   };
 
   return (
