@@ -17,9 +17,8 @@ import { MobileSectionsView } from "./MobileSectionsView";
 import { useSectionDetection, DetectedSection } from "@/hooks/useSectionDetection";
 import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
 import { useReplacedSections } from "@/hooks/useReplacedSections";
+import { useSourceTrack } from "@/hooks/studio/useSourceTrack";
 import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
-import { supabase } from "@/integrations/supabase/client";
-import { useQuery } from "@tanstack/react-query";
 import type { StudioProject, StudioTrack } from "@/stores/useUnifiedStudioStore";
 
 interface MobileSectionsContentProps {
@@ -49,19 +48,7 @@ export const MobileSectionsContent = memo(function MobileSectionsContent({
   const sourceTrackId = project.sourceTrackId;
 
   // Fetch source track metadata for lyrics and suno IDs
-  const { data: sourceTrack } = useQuery({
-    queryKey: ["source-track", sourceTrackId],
-    queryFn: async () => {
-      if (!sourceTrackId) return null;
-      const { data } = await supabase
-        .from("tracks")
-        .select("id, lyrics, suno_task_id, suno_id")
-        .eq("id", sourceTrackId)
-        .maybeSingle();
-      return data;
-    },
-    enabled: !!sourceTrackId,
-  });
+  const { data: sourceTrack } = useSourceTrack(sourceTrackId);
 
   // Get timestamped lyrics for section detection
   const { data: lyricsData, isLoading: lyricsLoading } = useTimestampedLyrics(

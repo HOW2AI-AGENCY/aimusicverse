@@ -260,6 +260,21 @@ export async function replaceSection(params: {
   }
 }
 
+// ============= Source Track =============
+
+export type SourceTrackMetadata = {
+  id: string;
+  lyrics: string | null;
+  suno_task_id: string | null;
+  suno_id: string | null;
+};
+
+export async function fetchSourceTrack(trackId: string): Promise<SourceTrackMetadata | null> {
+  const { data, error } = await studioApi.fetchSourceTrackForStudio(trackId);
+  if (error || !data) return null;
+  return data as SourceTrackMetadata;
+}
+
 // ============= Stem Separation =============
 
 export async function separateStems(
@@ -423,9 +438,17 @@ export interface AddVocalsParams {
   negativeTags?: string;
   audioWeight?: number;
   styleWeight?: number;
+  weirdnessConstraint?: number;
+  model?: string;
+  prompt?: string;
+  customMode?: boolean;
+  projectId?: string | null;
+  vocalGender?: string;
 }
 
-export async function addVocals(params: AddVocalsParams): Promise<{ trackId: string | null; error: Error | null }> {
+export async function addVocals(
+  params: AddVocalsParams,
+): Promise<{ trackId: string | null; taskId: string | null; error: Error | null }> {
   try {
     const { data, error } = await studioApi.invokeAddVocals({
       track_id: params.trackId,
@@ -435,17 +458,22 @@ export async function addVocals(params: AddVocalsParams): Promise<{ trackId: str
       negative_tags: params.negativeTags,
       audio_weight: params.audioWeight,
       style_weight: params.styleWeight,
+      weirdness_constraint: params.weirdnessConstraint,
+      model: params.model,
+      prompt: params.prompt,
+      custom_mode: params.customMode,
+      project_id: params.projectId,
+      vocal_gender: params.vocalGender,
       action: "add_vocals",
     });
-    if (error) return { trackId: null, error: new Error(error.message) };
-    const newTrackId =
-      (data as { trackId?: string; track?: { id?: string } } | null)?.trackId ||
-      (data as { track?: { id?: string } } | null)?.track?.id ||
-      null;
-    return { trackId: newTrackId, error: null };
+    if (error) return { trackId: null, taskId: null, error: new Error(error.message) };
+    const payload = data as { trackId?: string; taskId?: string; track?: { id?: string } } | null;
+    const newTrackId = payload?.trackId || payload?.track?.id || null;
+    const taskId = payload?.taskId || null;
+    return { trackId: newTrackId, taskId, error: null };
   } catch (err) {
     logger.error("Error in addVocals", err);
-    return { trackId: null, error: err as Error };
+    return { trackId: null, taskId: null, error: err as Error };
   }
 }
 
