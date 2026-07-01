@@ -55,8 +55,10 @@ export interface UsePreviewAudioReturn {
   isLoading: boolean;
   /** Сообщение об ошибке или null. */
   error: string | null;
-  /** Начать воспроизведение. */
+  /** Начать воспроизведение текущего src. */
   play: () => Promise<void>;
+  /** Переключить src и сразу запустить воспроизведение. Для динамических плейлистов. */
+  playUrl: (url: string) => Promise<void>;
   /** Поставить на паузу. */
   pause: () => void;
   /** Переключить play/pause. */
@@ -185,6 +187,31 @@ export function usePreviewAudio({
     }
   }, [id]);
 
+  /**
+   * Переключает src на новый URL и запускает воспроизведение.
+   * Используется в динамических списках (TrackVersionsTab, CloudAudioPicker и т.п.),
+   * где один пул-элемент используется для проигрывания разных треков по клику.
+   */
+  const playUrl = useCallback(
+    async (newUrl: string) => {
+      const el = audioRef.current;
+      if (!el || !newUrl) return;
+      try {
+        el.src = newUrl;
+        el.load();
+        setCurrentTime(0);
+        setError(null);
+        await el.play();
+      } catch (err) {
+        const msg = "Воспроизведение заблокировано";
+        setError(msg);
+        onErrorRef.current?.(msg);
+        logger.warn("usePreviewAudio: playUrl blocked", { id, newUrl, err });
+      }
+    },
+    [id],
+  );
+
   const pause = useCallback(() => {
     audioRef.current?.pause();
   }, []);
@@ -215,6 +242,7 @@ export function usePreviewAudio({
     isLoading,
     error,
     play,
+    playUrl,
     pause,
     toggle,
     seek,

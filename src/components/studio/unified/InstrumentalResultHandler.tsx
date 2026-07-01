@@ -4,7 +4,7 @@
  * Allows A/B version listening and choosing action: replace/add version/new track
  */
 
-import { memo, useState, useCallback, useRef, useEffect } from "react";
+import { memo, useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import {
@@ -21,6 +21,8 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Play, Pause, Music2, Replace, GitBranch, PlusCircle, Volume2, Check } from "@/lib/icons";
 import { StudioTrackVersion } from "@/stores/useUnifiedStudioStore";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 export interface InstrumentalResultData {
   newTrackId: string;
@@ -47,7 +49,17 @@ export const InstrumentalResultHandler = memo(function InstrumentalResultHandler
     data?.existingInstrumentalId ? "replace" : "new",
   );
   const [playingVersion, setPlayingVersion] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
+
+  // Пул-аудио с динамическим src. Активно только когда previewUrl непустой.
+  const { playUrl, pause } = usePreviewAudio({
+    id: "instrumental-result-preview",
+    src: previewUrl,
+    priority: AudioPriority.MEDIUM,
+    volume: 0.8,
+    onEnded: () => setPlayingVersion(null),
+    onError: () => setPlayingVersion(null),
+  });
 
   // Reset state when data changes
   useEffect(() => {
@@ -55,67 +67,49 @@ export const InstrumentalResultHandler = memo(function InstrumentalResultHandler
       setSelectedVersion(data.versions[0]?.label || "A");
       setSaveAction(data.existingInstrumentalId ? "replace" : "new");
       setPlayingVersion(null);
+      setPreviewUrl("");
     }
   }, [data]);
 
-  // Cleanup audio on unmount or close
+  // Cleanup on unmount or close: гарантируем паузу.
   useEffect(() => {
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = "";
-        audioRef.current = null;
-      }
+      pause();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePlayVersion = useCallback(
-    (version: StudioTrackVersion) => {
-      // Stop current playback
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-
+    async (version: StudioTrackVersion) => {
       if (playingVersion === version.label) {
         // Toggle off
+        pause();
         setPlayingVersion(null);
         return;
       }
 
-      // Create new audio element
-      const audio = new Audio(version.audioUrl);
-      audio.volume = 0.8;
-      audioRef.current = audio;
-
-      audio.onended = () => setPlayingVersion(null);
-      audio.onerror = () => setPlayingVersion(null);
-
-      audio
-        .play()
-        .then(() => setPlayingVersion(version.label))
-        .catch(() => setPlayingVersion(null));
+      // Меняем src и запускаем через единый пул-элемент.
+      setPlayingVersion(version.label);
+      setPreviewUrl(version.audioUrl);
+      await playUrl(version.audioUrl);
     },
-    [playingVersion],
+    [playingVersion, pause, playUrl],
   );
 
   const handleApply = useCallback(() => {
     if (!data) return;
 
     // Stop playback
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
+    pause();
 
     onApply(saveAction, selectedVersion);
   }, [data, saveAction, selectedVersion, onApply]);
 
   const handleClose = useCallback(() => {
     // Stop playback on close
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
+    pause();
     onClose();
-  }, [onClose]);
+  }, [onClose, pause]);
 
   if (!data) return null;
 
