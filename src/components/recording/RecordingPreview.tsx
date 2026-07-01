@@ -2,11 +2,13 @@
  * RecordingPreview - Playback preview of recorded audio
  */
 
-import React, { memo, useRef, useState, useEffect, useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
 import { Play, Pause, RotateCcw, Download } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface RecordingPreviewProps {
   audioUrl: string | null;
@@ -29,51 +31,22 @@ export const RecordingPreview = memo(function RecordingPreview({
   className,
   showDownload = true,
 }: RecordingPreviewProps) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [audioDuration, setAudioDuration] = useState(duration);
-
-  // Handle audio element
-  useEffect(() => {
-    if (!audioUrl) {
-      setIsPlaying(false);
-      setCurrentTime(0);
-      return;
-    }
-
-    const audio = new Audio(audioUrl);
-    audioRef.current = audio;
-
-    audio.addEventListener("loadedmetadata", () => {
-      setAudioDuration(audio.duration);
-    });
-
-    audio.addEventListener("timeupdate", () => {
-      setCurrentTime(audio.currentTime);
-    });
-
-    audio.addEventListener("ended", () => {
-      setIsPlaying(false);
-      setCurrentTime(0);
-    });
-
-    return () => {
-      audio.pause();
-      audio.src = "";
-    };
-  }, [audioUrl]);
+  const {
+    isPlaying,
+    currentTime,
+    duration: audioDuration,
+    toggle,
+    audioRef,
+  } = usePreviewAudio({
+    id: `recording-preview-${audioUrl ?? "none"}`,
+    src: audioUrl ?? "",
+    priority: AudioPriority.LOW,
+  });
 
   const togglePlayback = useCallback(() => {
     if (!audioRef.current) return;
-
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  }, [isPlaying]);
+    void toggle();
+  }, [toggle, audioRef]);
 
   const handleDownload = useCallback(() => {
     if (!audioBlob) return;
