@@ -52,14 +52,14 @@ export function useHomePageHandlers({ onOpenGenerateSheet, onOpenAudioDialog }: 
   // PublicTrackWithCreator, TrendingTrack, etc.) or a bare id string, which
   // falls back to /track/:id for a full page load.
   const handleTrackClick = useCallback(
-    (trackOrId: (Partial<Track> & { id: string }) | string) => {
+    (trackOrId: { id: string; [key: string]: unknown } | string) => {
       hapticFeedback("light");
       if (typeof trackOrId === "string") {
         navigate(`/track/${trackOrId}`);
         return;
       }
       // playTrack tolerates partial shapes at runtime — it reads id/audio_url/title/cover_url.
-      playTrack(trackOrId as Track);
+      playTrack(trackOrId as unknown as Track);
     },
     [hapticFeedback, navigate, playTrack],
   );
