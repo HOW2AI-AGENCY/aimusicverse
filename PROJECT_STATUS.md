@@ -9,7 +9,7 @@
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-97%25-F59E0B?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-97%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-25_suites-10B981?style=for-the-badge"/>
-  <img alt="Бандл" src="https://img.shields.io/badge/bundle-918kb%2F950kb-F59E0B?style=for-the-badge"/>
+  <img alt="Бандл" src="https://img.shields.io/badge/bundle-2.21MB%2F950KB-EF4444?style=for-the-badge"/>
 </p>
 
 <p>
@@ -109,7 +109,7 @@
 | Storybook (6 stories: LazyImage, GlowButton…) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | TypeScript strict mode (tsconfig.strict.json) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | ESLint plugin expansion                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Sentry Performance (tracesSampleRate: 0.1)   | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Sentry Performance (tracesSampleRate: 0.1)    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | ARCHITECTURE_HUB.md верификация               | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | FSM state schema документация                 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Telegram cold start оптимизация               | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
@@ -118,82 +118,82 @@
 
 **Прогресс: 28/28 задач завершено (100%)**
 
-| Фаза                                    | Прогресс                                                          |
-| --------------------------------------- | ----------------------------------------------------------------- |
+| Фаза                                                     | Прогресс                                                          |
+| -------------------------------------------------------- | ----------------------------------------------------------------- |
 | **A: Foundation** — EmptyState, Skeleton, Touch, Z-index | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Unified EmptyState (3→1 компонент)      | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Unified Loading (7→4 компонента)        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| OnboardingFlow state machine (5 шагов) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Touch target audit (≥44px)             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Z-index audit (магические числа → токены) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| **B: Navigation & Responsive**         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| NavigationShell (adaptive)             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Container queries (5+ компонентов)     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Safe area + Safari 100vh fix           | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Responsive typography (clamp)          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| **C: Animation & Polish**              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Animation standards (duration/easing)  | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Reduced motion (useSafeMotion)         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Player shared element transition       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Telegram haptics integration           | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| **D: Visual Polish**                   | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Typography pass (5 семантических классов) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Elevation system (4 уровня)            | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Color token audit                      | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Icon consistency (lucide-only)         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Storybook 20+ stories                  | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| LazyImage audit                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Lighthouse baseline                    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Unified EmptyState (3→1 компонент)                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Unified Loading (7→4 компонента)                         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| OnboardingFlow state machine (5 шагов)                   | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Touch target audit (≥44px)                               | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Z-index audit (магические числа → токены)                | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **B: Navigation & Responsive**                           | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| NavigationShell (adaptive)                               | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Container queries (5+ компонентов)                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Safe area + Safari 100vh fix                             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Responsive typography (clamp)                            | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **C: Animation & Polish**                                | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Animation standards (duration/easing)                    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Reduced motion (useSafeMotion)                           | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Player shared element transition                         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Telegram haptics integration                             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **D: Visual Polish**                                     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Typography pass (5 семантических классов)                | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Elevation system (4 уровня)                              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Color token audit                                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Icon consistency (lucide-only)                           | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Storybook 20+ stories                                    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| LazyImage audit                                          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Lighthouse baseline                                      | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
 ## 🚦 `039` Архитектурный рефакторинг + Type Safety (Q3 2026) — ЗАВЕРШЁН ✅
 
 **Прогресс: 13/14 задач завершено (93%)** · [Детальный план](SPRINTS/SPRINT-039-PLAN.md) · [Аудит](docs/audit/SPRINT-039-AUDIT-2026-06-30.md)
 
-| Задача                                                          | Прогресс                                                          |
-| --------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Вынести прямые вызовы Supabase из компонентов (35 → 0)          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| `useGenerateForm.ts` → 4 хука (280 строк)                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Разбить `GlobalAudioProvider.tsx` (982 → 79 строк)              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Generic undo/redo middleware для Zustand                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Типизировать API-слой + services (`any` = 0)                    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| E2E pipeline (workflow добавлен, ждём GitHub Secrets)           | ![](https://img.shields.io/badge/70%25-F59E0B?style=flat-square)  |
-| DnD унификация (@hello-pangea/dnd удалён)                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| `tsc --noEmit` зелёный                                          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Задача                                                 | Прогресс                                                          |
+| ------------------------------------------------------ | ----------------------------------------------------------------- |
+| Вынести прямые вызовы Supabase из компонентов (35 → 0) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| `useGenerateForm.ts` → 4 хука (280 строк)              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Разбить `GlobalAudioProvider.tsx` (982 → 79 строк)     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Generic undo/redo middleware для Zustand               | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Типизировать API-слой + services (`any` = 0)           | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| E2E pipeline (workflow добавлен, ждём GitHub Secrets)  | ![](https://img.shields.io/badge/70%25-F59E0B?style=flat-square)  |
+| DnD унификация (@hello-pangea/dnd удалён)              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| `tsc --noEmit` зелёный                                 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
 ## 🚦 `040` Тестовое покрытие + Export (Q4 2026) — ЗАПЛАНИРОВАН
 
-| Задача                                             | Прогресс                                                        |
-| -------------------------------------------------- | --------------------------------------------------------------- |
-| Unit-тесты API-слоя (20 файлов → тесты)            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Unit-тесты сервисов (18 файлов → тесты)            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Unit-тесты god-хуков (после рефакторинга 039)      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Export service (WAV/MP3/FLAC)                      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Result-паттерн для API обработки ошибок            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Service Worker + оффлайн-режим                     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Lighthouse CI budget enforcement                   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                                        | Прогресс                                                        |
+| --------------------------------------------- | --------------------------------------------------------------- |
+| Unit-тесты API-слоя (20 файлов → тесты)       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Unit-тесты сервисов (18 файлов → тесты)       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Unit-тесты god-хуков (после рефакторинга 039) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Export service (WAV/MP3/FLAC)                 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Result-паттерн для API обработки ошибок       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Service Worker + оффлайн-режим                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Lighthouse CI budget enforcement              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🧮 Ключевые метрики
 
-| Метрика                |   Значение    |    Цель      | Статус |
-| ---------------------- | :-----------: | :----------: | :----: |
-| Компоненты             |     1003      |      —       |   —    |
-| Хуки                   |      347      |      —       |   —    |
-| Edge Functions         |      246      |      —       |   —    |
-| Zustand Stores         |  12 + 8 sub   |      —       |   —    |
-| API-файлов             |      20       |      —       |   —    |
-| Сервисов               |      18       |      —       |   —    |
-| Размер бандла (gzip)   |  **918 КБ**   |  ≤ 950 КБ    |  ⚠️   |
-| Unit-тест файлов       |    **25**     |    200+      |  ❌    |
-| Unit-тестов (штук)     |    **341**    |    1000+     |  ❌    |
-| E2E спецификации       |    **47**     |  47 pass CI  |  ❌    |
-| Файлов >800 строк      |     **6**     |      0       |  ❌    |
-| Использований `any`    |    **447**    |     <50      |  ❌    |
-| Нарушений слоёв (components+stores) |    **0**     |      0       |  ✅    |
-| DnD библиотек          |     **2**     |      1       |  ❌    |
-| Lighthouse (мобильный) |    **92**     |    ≥ 90      |  ✅    |
-| Доступность (axe)      | 0 критических |      0       |  ✅    |
-| Ошибки Sentry (24ч)    |    0.04%      |  < 0.1%      |  ✅    |
-| Cold start (Telegram)  |    < 3s       |    < 3s      |  ✅    |
+| Метрика                             |   Значение    |    Цель    | Статус |
+| ----------------------------------- | :-----------: | :--------: | :----: |
+| Компоненты                          |     1003      |     —      |   —    |
+| Хуки                                |      347      |     —      |   —    |
+| Edge Functions                      |      246      |     —      |   —    |
+| Zustand Stores                      |  12 + 8 sub   |     —      |   —    |
+| API-файлов                          |      20       |     —      |   —    |
+| Сервисов                            |      18       |     —      |   —    |
+| Размер бандла (gzip)                |  **918 КБ**   |  ≤ 950 КБ  |   ⚠️   |
+| Unit-тест файлов                    |    **25**     |    200+    |   ❌   |
+| Unit-тестов (штук)                  |    **341**    |   1000+    |   ❌   |
+| E2E спецификации                    |    **47**     | 47 pass CI |   ❌   |
+| Файлов >800 строк                   |     **6**     |     0      |   ❌   |
+| Использований `any`                 |    **447**    |    <50     |   ❌   |
+| Нарушений слоёв (components+stores) |     **0**     |     0      |   ✅   |
+| DnD библиотек                       |     **2**     |     1      |   ❌   |
+| Lighthouse (мобильный)              |    **92**     |    ≥ 90    |   ✅   |
+| Доступность (axe)                   | 0 критических |     0      |   ✅   |
+| Ошибки Sentry (24ч)                 |     0.04%     |   < 0.1%   |   ✅   |
+| Cold start (Telegram)               |     < 3s      |    < 3s    |   ✅   |
 
 ## 🏗 Архитектурные столпы
 
@@ -231,6 +231,7 @@ mindmap
 - ✅ Обложки треков, timing и waveform исправлены (последний коммит).
 
 **Предыдущие Sprint 033-035:**
+
 - ✅ Спринт 034: Надёжность генерации — 13/13 задач (auto-retry, A/B framework, failure alerts).
 - ✅ Спринт 033: Полный аудит интерфейса — 114 задач в 13 фазах.
 - ✅ Миграция Jest → Vitest + Husky pre-commit hooks.
@@ -240,13 +241,14 @@ mindmap
 
 ## 🗓 Дорожная карта спринтов (обновлено 2026-06-30)
 
-| Спринт  | Фокус                                    | Статус          | Срок    |
-| ------- | ---------------------------------------- | --------------- | ------- |
-| **038** | Design System Unification (Phase B, C, D) | 🟡 В РАБОТЕ    | Июль    |
-| **039** | Архитектурный рефакторинг + Type Safety   | 📋 Запланирован | Авг     |
-| **040** | Тестовое покрытие + Audio Export          | 📋 Запланирован | Сен     |
+| Спринт  | Фокус                                     | Статус          | Срок |
+| ------- | ----------------------------------------- | --------------- | ---- |
+| **038** | Design System Unification (Phase B, C, D) | 🟡 В РАБОТЕ     | Июль |
+| **039** | Архитектурный рефакторинг + Type Safety   | 📋 Запланирован | Авг  |
+| **040** | Тестовое покрытие + Audio Export          | 📋 Запланирован | Сен  |
 
 **Ключевые долги, блокирующие 039:**
+
 - 🔴 30+ компонентов с прямым `supabase.from()` — обход API-слоя
 - 🔴 God-хуки: `useGenerateForm.ts` (1218 строк), `GlobalAudioProvider.tsx` (982 строки)
 - 🔴 342 использования `any` — TypeScript без реального контроля типов
@@ -290,18 +292,19 @@ mindmap
 
 ## 🚨 Активные блокеры
 
-| Блокер | Критичность | Целевой спринт |
-| ------ | ----------- | -------------- |
-| 30+ компонентов вызывают `supabase.from()` напрямую | 🔴 Critical | 039 |
-| God-хуки >1000 строк (useGenerateForm, GlobalAudioProvider) | 🔴 Critical | 039 |
-| 342 `any` — TypeScript не защищает от ошибок типов | 🔴 Critical | 039 |
-| E2E 47 spec, 0% CI green — нет автоматической регрессии | 🔴 Critical | 039 |
-| Бандл 918/950 КБ, запас 32 КБ | 🟠 High | 039 (DnD) |
-| 2 DnD-библиотеки (~50 КБ), нарушает бандл-бюджет | 🟠 High | 039 |
-| Onboarding: 2 несовместимых компонента (Sprint 038 WIP) | 🟡 Medium | 038 |
-| NavigationShell не реализован (Sprint 038 WIP) | 🟡 Medium | 038 |
+| Блокер                                                      | Критичность | Целевой спринт |
+| ----------------------------------------------------------- | ----------- | -------------- |
+| 30+ компонентов вызывают `supabase.from()` напрямую         | 🔴 Critical | 039            |
+| God-хуки >1000 строк (useGenerateForm, GlobalAudioProvider) | 🔴 Critical | 039            |
+| 342 `any` — TypeScript не защищает от ошибок типов          | 🔴 Critical | 039            |
+| E2E 47 spec, 0% CI green — нет автоматической регрессии     | 🔴 Critical | 039            |
+| Бандл 918/950 КБ, запас 32 КБ                               | 🟠 High     | 039 (DnD)      |
+| 2 DnD-библиотеки (~50 КБ), нарушает бандл-бюджет            | 🟠 High     | 039            |
+| Onboarding: 2 несовместимых компонента (Sprint 038 WIP)     | 🟡 Medium   | 038            |
+| NavigationShell не реализован (Sprint 038 WIP)              | 🟡 Medium   | 038            |
 
 Под наблюдением (не блокируют):
+
 - Пул аудио-элементов iOS Safari ~9/10 в тяжёлых сессиях
 - Лимиты Suno API в часы пик
 
