@@ -295,3 +295,25 @@ export async function incrementPlayCount(trackId: string): Promise<void> {
   });
   if (error) throw new Error(error.message);
 }
+
+/**
+ * Fetch track versions (A/B) for a given track.
+ */
+export interface TrackVersionRow {
+  id: string;
+  version_label: string | null;
+  audio_url: string;
+  duration_seconds: number | null;
+  is_primary: boolean | null;
+}
+
+export async function fetchTrackVersions(trackId: string): Promise<TrackVersionRow[]> {
+  const { data, error } = await supabase
+    .from("track_versions")
+    .select("id, version_label, audio_url, duration_seconds, is_primary")
+    .eq("track_id", trackId)
+    .order("version_label", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}

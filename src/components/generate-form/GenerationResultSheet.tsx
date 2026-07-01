@@ -18,8 +18,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Play, Pause, Check, Sliders, Library, Sparkles, Volume2 } from "@/lib/icons";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
-import { supabase } from "@/integrations/supabase/client";
 import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
+import { useTrackVersionsList } from "@/hooks/generation/useTrackVersionsList";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { glass } from "@/lib/glass";
@@ -49,59 +49,28 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
   const haptic = useHapticFeedback();
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
 
-  const [versions, setVersions] = useState<TrackVersion[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedVersion, setSelectedVersion] = useState<string | null>(null);
   const [playingVersionId, setPlayingVersionId] = useState<string | null>(null);
   const [settingPrimary, setSettingPrimary] = useState(false);
   const { setPrimaryVersionAsync } = useVersionSwitcher();
+  const { data: versions = [], isLoading: loading } = useTrackVersionsList({
+    trackId,
+    enabled: open,
+  });
 
-  // Fetch track versions when trackId changes
+  // Reset selection when versions change
   useEffect(() => {
     if (!open || !trackId) {
-      setVersions([]);
-      setLoading(true);
+      setSelectedVersion(null);
       return;
     }
-
-    const fetchVersions = async () => {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from("track_versions")
-          .select("id, version_label, audio_url, duration_seconds, is_primary")
-          .eq("track_id", trackId)
-          .order("version_label", { ascending: true });
-
-        if (error) throw error;
-
-        const mappedVersions: TrackVersion[] = (data || []).map((v) => ({
-          id: v.id,
-          label: v.version_label || "A",
-          audioUrl: v.audio_url,
-          duration: v.duration_seconds ?? undefined,
-          isPrimary: v.is_primary || false,
-        }));
-
-        setVersions(mappedVersions);
-
-        // Pre-select the primary version
-        const primary = mappedVersions.find((v) => v.isPrimary);
-        if (primary) {
-          setSelectedVersion(primary.id);
-        } else if (mappedVersions.length > 0) {
-          setSelectedVersion(mappedVersions[0].id);
-        }
-      } catch (error) {
-        logger.error("Failed to fetch track versions", error);
-        toast.error("Не удалось загрузить версии");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchVersions();
-  }, [open, trackId]);
+    const primary = versions.find((v) => v.isPrimary);
+    if (primary) {
+      setSelectedVersion(primary.id);
+    } else if (versions.length > 0 && !selectedVersion) {
+      setSelectedVersion(versions[0].id);
+    }
+  }, [open, trackId, versions, selectedVersion]);
 
   // Handle version preview (play/pause)
   const handlePreview = useCallback(
@@ -146,21 +115,13 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
 
     try {
       await setPrimaryVersionAsync({ trackId, versionId: selectedVersion });
-
-      // Update local state
-      setVersions((prev) =>
-        prev.map((v) => ({
-          ...v,
-          isPrimary: v.id === selectedVersion,
-        })),
-      );
     } catch (error) {
       logger.error("Failed to set primary version", error);
       toast.error("Не удалось установить версию");
     } finally {
       setSettingPrimary(false);
     }
-  }, [selectedVersion, trackId, versions, haptic]);
+  }, [selectedVersion, trackId, haptic]);
 
   // Navigate to studio
   const handleGoToStudio = useCallback(() => {
