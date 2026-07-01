@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
+import { useAddInstrumental } from "@/hooks/studio/useAddInstrumental";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
@@ -46,6 +46,7 @@ export function StudioArrangementDialog({
   onSuccess,
 }: StudioArrangementDialogProps) {
   const { session } = useAuth();
+  const addInstrumentalMutation = useAddInstrumental();
   const [step, setStep] = useState<"config" | "generating">("config");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -82,26 +83,24 @@ export function StudioArrangementDialog({
         return;
       }
 
-      const { data, error } = await supabase.functions.invoke("suno-add-instrumental", {
-        body: {
-          audioUrl: vocalAudioUrl,
-          title: title.trim() || "New Arrangement",
-          style: style.trim(),
-          negativeTags: negativeTags.trim(),
-          audioWeight,
-          styleWeight,
-          weirdnessConstraint: weirdness,
-          model: "V4_5PLUS",
-        },
+      const { taskId: returnedTaskId, error } = await addInstrumentalMutation.mutateAsync({
+        audioUrl: vocalAudioUrl,
+        title: title.trim() || "New Arrangement",
+        style: style.trim(),
+        negativeTags: negativeTags.trim(),
+        audioWeight,
+        styleWeight,
+        weirdnessConstraint: weirdness,
+        model: "V4_5PLUS",
       });
 
       if (error) throw error;
 
-      if (data?.taskId) {
+      if (returnedTaskId) {
         toast.success("Генерация запущена", {
           description: "Новая аранжировка будет готова через 1-2 минуты",
         });
-        onSuccess(data.taskId, title);
+        onSuccess(returnedTaskId, title);
         onClose();
       } else {
         throw new Error("Не получен taskId");

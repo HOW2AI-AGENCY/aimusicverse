@@ -466,18 +466,20 @@ export async function generateSfx(params: { prompt: string; duration: number }):
 // ============= Add Instrumental / Vocals =============
 
 export interface AddInstrumentalParams {
-  trackId: string;
+  trackId?: string;
   audioUrl?: string | null;
   style: string;
   title?: string;
   negativeTags?: string;
   audioWeight?: number;
   styleWeight?: number;
+  weirdnessConstraint?: number;
+  model?: string;
 }
 
 export async function addInstrumental(
   params: AddInstrumentalParams,
-): Promise<{ trackId: string | null; error: Error | null }> {
+): Promise<{ trackId: string | null; taskId: string | null; error: Error | null }> {
   try {
     const { data, error } = await studioApi.invokeAddInstrumental({
       track_id: params.trackId,
@@ -487,17 +489,20 @@ export async function addInstrumental(
       negative_tags: params.negativeTags,
       audio_weight: params.audioWeight,
       style_weight: params.styleWeight,
+      weirdness_constraint: params.weirdnessConstraint,
+      model: params.model,
       action: "add_instrumental",
     });
-    if (error) return { trackId: null, error: new Error(error.message) };
-    const newTrackId =
-      (data as { trackId?: string; track?: { id?: string } } | null)?.trackId ||
-      (data as { track?: { id?: string } } | null)?.track?.id ||
-      null;
-    return { trackId: newTrackId, error: null };
+    if (error) return { trackId: null, taskId: null, error: new Error(error.message) };
+    const payload = data as { trackId?: string; taskId?: string; track?: { id?: string } } | null;
+    return {
+      trackId: payload?.trackId || payload?.track?.id || null,
+      taskId: payload?.taskId || null,
+      error: null,
+    };
   } catch (err) {
     logger.error("Error in addInstrumental", err);
-    return { trackId: null, error: err as Error };
+    return { trackId: null, taskId: null, error: err as Error };
   }
 }
 

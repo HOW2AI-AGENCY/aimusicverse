@@ -362,13 +362,15 @@ export async function invokeSunoRemix(payload: {
 // ============= Add Instrumental / Vocals =============
 
 export async function invokeAddInstrumental(payload: {
-  track_id: string;
+  track_id?: string;
   audio_url?: string | null;
   style: string;
   title?: string;
   negative_tags?: string;
   audio_weight?: number;
   style_weight?: number;
+  weirdness_constraint?: number;
+  model?: string;
   action?: string;
   [key: string]: unknown;
 }) {
