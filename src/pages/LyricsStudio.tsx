@@ -307,7 +307,7 @@ export default function LyricsStudio() {
   }, [isProjectTrackMode, trackId, projectId, navigate]);
 
   // Load template if provided (standalone mode)
-  useMemo(() => {
+  useEffect(() => {
     if (!isProjectTrackMode && templateId && templates) {
       const template = templates.find((t) => t.id === templateId);
       if (template) {
@@ -410,7 +410,13 @@ export default function LyricsStudio() {
     if (isProjectTrackMode && projectId) {
       navigate(`/projects/${projectId}`);
     } else {
-      navigate(-1);
+      // Защита от `navigate(-1)` при пустой истории — в Telegram Mini App
+      // это может закрыть Mini App и вернуть в чат. Fallback на главную.
+      if (window.history.length > 1) {
+        navigate(-1);
+      } else {
+        navigate("/");
+      }
     }
   }, [isProjectTrackMode, projectId, navigate]);
 
@@ -460,7 +466,7 @@ export default function LyricsStudio() {
 
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] text-muted-foreground truncate">
-                  {projectData.title} • #{projectTrack?.position ?? 0 + 1}
+                  {projectData.title} • #{(projectTrack?.position ?? 0) + 1}
                 </p>
                 <p className="text-sm font-semibold truncate">{title}</p>
               </div>
