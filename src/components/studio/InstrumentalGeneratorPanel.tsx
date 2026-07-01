@@ -4,8 +4,7 @@
  */
 
 import { useState, useEffect, useId } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +21,7 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
+import { useTrackContextAnalysis, useGenerateInstrumental } from "@/hooks/studio/useInstrumentalGenerator";
 
 const log = logger.child({ module: "InstrumentalGenerator" });
 
@@ -29,18 +29,6 @@ interface InstrumentalGeneratorPanelProps {
   mainTrackUrl: string;
   trackId?: string;
   onClose: () => void;
-}
-
-interface TrackAnalysis {
-  bpm?: number;
-  key?: string;
-  scale?: string;
-  genre?: string;
-  mood?: string;
-  energy?: string;
-  instruments?: string[];
-  suggestedInstruments?: string[];
-  style_description?: string;
 }
 
 const instrumentOptions = [
@@ -75,23 +63,7 @@ export function InstrumentalGeneratorPanel({ mainTrackUrl, trackId, onClose }: I
   });
 
   // Analyze main track
-  const {
-    data: analysis,
-    isLoading: isAnalyzing,
-    refetch: reanalyze,
-  } = useQuery({
-    queryKey: ["track-context", trackId || mainTrackUrl],
-    queryFn: async (): Promise<TrackAnalysis> => {
-      const response = await supabase.functions.invoke("analyze-track-context", {
-        body: { audioUrl: mainTrackUrl, trackId },
-      });
-
-      if (response.error) throw response.error;
-      return response.data;
-    },
-    enabled: !!mainTrackUrl,
-    staleTime: 1000 * 60 * 30, // Cache for 30 minutes
-  });
+  const { data: analysis, isLoading: isAnalyzing, refetch: reanalyze } = useTrackContextAnalysis(mainTrackUrl, trackId);
 
   // Set default instrument from suggestions
   useEffect(() => {
@@ -100,45 +72,41 @@ export function InstrumentalGeneratorPanel({ mainTrackUrl, trackId, onClose }: I
     }
   }, [analysis, selectedInstrument]);
 
-  const generateMutation = useMutation({
-    mutationFn: async () => {
-      const instrument = instrumentOptions.find((i) => i.value === selectedInstrument)?.label || selectedInstrument;
+  const generateMutation = useGenerateInstrumental();
 
-      // Build contextual prompt
-      let prompt = `${instrument}`;
-      if (analysis) {
-        prompt += ` in ${analysis.key || "C"} ${analysis.scale || "major"}`;
-        prompt += `, ${analysis.bpm || 120} BPM`;
-        if (analysis.genre) prompt += `, ${analysis.genre} style`;
-        if (analysis.mood) prompt += `, ${analysis.mood} mood`;
-      }
-      if (customPrompt) {
-        prompt += `, ${customPrompt}`;
-      }
-      prompt += ", high quality, studio production, loopable";
+  const buildPrompt = (): string => {
+    const instrument = instrumentOptions.find((i) => i.value === selectedInstrument)?.label || selectedInstrument;
+    let prompt = `${instrument}`;
+    if (analysis) {
+      prompt += ` in ${analysis.key || "C"} ${analysis.scale || "major"}`;
+      prompt += `, ${analysis.bpm || 120} BPM`;
+      if (analysis.genre) prompt += `, ${analysis.genre} style`;
+      if (analysis.mood) prompt += `, ${analysis.mood} mood`;
+    }
+    if (customPrompt) {
+      prompt += `, ${customPrompt}`;
+    }
+    prompt += ", high quality, studio production, loopable";
+    return prompt;
+  };
 
-      log.debug("Generating instrumental with prompt:", { prompt });
+  const handleGenerate = () => {
+    const prompt = buildPrompt();
+    log.debug("Generating instrumental with prompt:", { prompt });
 
-      // Use MusicGen for instrumental generation
-      const response = await supabase.functions.invoke("musicgen-generate", {
-        body: {
-          prompt,
-          duration,
-          model: "melody", // Better for melodic content
+    generateMutation.mutate(
+      { prompt, duration },
+      {
+        onSuccess: (data) => {
+          setGeneratedUrl(data.audioUrl ?? null);
+          toast.success("Инструментал сгенерирован!");
         },
-      });
-
-      if (response.error) throw response.error;
-      return response.data.audioUrl;
-    },
-    onSuccess: (url) => {
-      setGeneratedUrl(url);
-      toast.success("Инструментал сгенерирован!");
-    },
-    onError: (error: Error) => {
-      toast.error(`Ошибка: ${error.message}`);
-    },
-  });
+        onError: (error: Error) => {
+          toast.error(`Ошибка: ${error.message}`);
+        },
+      },
+    );
+  };
 
   const handlePreview = async () => {
     if (!generatedUrl) return;
@@ -281,7 +249,7 @@ export function InstrumentalGeneratorPanel({ mainTrackUrl, trackId, onClose }: I
         {/* Generate Button */}
         <Button
           className="w-full"
-          onClick={() => generateMutation.mutate()}
+          onClick={handleGenerate}
           disabled={generateMutation.isPending || !selectedInstrument}
         >
           {generateMutation.isPending ? (

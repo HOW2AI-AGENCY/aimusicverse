@@ -261,6 +261,13 @@ export async function invokeSunoExtend(payload: {
   return { data, error };
 }
 
+// ============= SFX Generator =============
+
+export async function invokeGenerateSfx(payload: { prompt: string; duration: number }) {
+  const { data, error } = await supabase.functions.invoke("generate-sfx", { body: payload });
+  return { data, error };
+}
+
 // ============= Telegram Notifications =============
 
 export async function invokeSendTelegramNotification(payload: {

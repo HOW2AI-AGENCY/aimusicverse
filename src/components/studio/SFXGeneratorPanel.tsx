@@ -5,7 +5,6 @@
 
 import { useState, useCallback, useEffect, useId } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,6 +19,7 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
+import { useGenerateSfx } from "@/hooks/studio/useGenerateSfx";
 
 interface SFXGeneratorPanelProps {
   onClose: () => void;

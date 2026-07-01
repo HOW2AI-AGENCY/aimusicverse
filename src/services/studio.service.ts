@@ -363,6 +363,20 @@ export async function extendTrack(params: {
   }
 }
 
+// ============= SFX Generation =============
+
+export async function generateSfx(params: { prompt: string; duration: number }): Promise<string> {
+  const { data, error } = await studioApi.invokeGenerateSfx({
+    prompt: params.prompt,
+    duration: params.duration,
+  });
+  if (error) throw new Error(error.message);
+  if (!data?.success || !data?.audioUrl) {
+    throw new Error(data?.error || "Failed to generate SFX");
+  }
+  return data.audioUrl as string;
+}
+
 // ============= Telegram Notifications (from midi/notes card) =============
 
 export interface TelegramDocumentSharePayload {
