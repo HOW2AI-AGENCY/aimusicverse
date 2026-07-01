@@ -545,6 +545,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 1. **Don't create multiple audio elements** - Use `useGlobalAudioPlayer()` or `usePlayerStore()`
 2. **Don't create audio elements on iOS** - Use `audioElementPool` (iOS Safari limit of 10)
 3. **Don't forget audio element pooling** - iOS Safari crashes with >10 audio elements
+4. **For UI preview audio (versions, stems, recordings, dialogs) — use `usePreviewAudio()`** (`src/hooks/audio/usePreviewAudio.ts`). Wraps `audioElementPool` + `useStudioAudio` coordinator. Replaces `new Audio(...)` in 28+ component files. Returns `{ isPlaying, play, pause, toggle, seek, setVolume, audioRef }`.
 
 ### Performance & Bundle
 
