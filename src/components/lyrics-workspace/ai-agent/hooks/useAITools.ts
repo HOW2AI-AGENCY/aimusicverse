@@ -3,12 +3,12 @@
  */
 
 import { useState, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { hapticImpact } from "@/lib/haptic";
 import { AITool, AIMessage, AIAgentContext, AIToolId, OutputType } from "../types";
 import { AI_TOOLS } from "../constants";
 import { parseAIResponse } from "@/lib/ai/aiResponseParser";
+import { executeAiTool, sendAiChatMessage } from "@/services/lyrics/ai-tools.service";
 import { logger } from "@/lib/logger";
 
 /**
@@ -159,9 +159,7 @@ export function useAITools({
           requestBody.tracklist = context.tracklist;
         }
 
-        const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
-          body: requestBody,
-        });
+        const { data, error } = await executeAiTool(requestBody);
 
         if (error) {
           if (error.message?.includes("429")) toast.error("Превышен лимит запросов.");
@@ -173,8 +171,8 @@ export function useAITools({
         const parsed = parseAIResponse(data, tool.action);
 
         let responseType: OutputType = (parsed.type as OutputType) || tool.outputType;
-        let responseData: AIMessage["data"] = {};
-        let responseContent = parsed.message || data.message || data.result || "Готово!";
+        const responseData: AIMessage["data"] = {};
+        const responseContent = parsed.message || data.message || data.result || "Готово!";
 
         // Handle expanded/deep analysis response
         if (parsed.type === "expanded_analysis" && parsed.expandedAnalysis) {
@@ -358,13 +356,7 @@ export function useAITools({
           })),
         };
 
-        const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
-          body: {
-            action: "chat",
-            message,
-            context: fullContext,
-          },
-        });
+        const { data, error } = await sendAiChatMessage({ message, context: fullContext });
 
         if (error) {
           if (error.message?.includes("429")) toast.error("Превышен лимит запросов.");
@@ -372,7 +364,7 @@ export function useAITools({
           throw error;
         }
 
-        let responseData: AIMessage["data"] = {};
+        const responseData: AIMessage["data"] = {};
         let responseType: OutputType = "text";
 
         // Handle lyrics - don't auto-apply, show in card with buttons
