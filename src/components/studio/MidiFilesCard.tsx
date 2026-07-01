@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Download, FileMusic, FileText, FileCode, Music2, ExternalLink, Send, Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { TranscriptionFiles } from "@/hooks/useReplicateMidiTranscription";
-import { supabase } from "@/integrations/supabase/client";
+import { useTelegramDocumentShare } from "@/hooks/studio/useTelegramDocumentShare";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 
@@ -74,6 +74,7 @@ interface MidiFilesCardProps {
 
 export function MidiFilesCard({ files, className, title, trackTitle }: MidiFilesCardProps) {
   const [sendingFile, setSendingFile] = useState<string | null>(null);
+  const shareMutation = useTelegramDocumentShare();
   const availableFormats = FILE_FORMATS.filter((f) => files[f.key]);
 
   if (availableFormats.length === 0) {
@@ -106,15 +107,12 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
         return;
       }
 
-      const { error } = await supabase.functions.invoke("send-telegram-notification", {
-        body: {
-          type: "document_share",
-          chat_id: ids.telegram_id,
-          document_url: url,
-          document_type: format.key,
-          filename: `${trackTitle || "transcription"}${format.extension}`,
-          track_title: trackTitle,
-        },
+      const { error } = await shareMutation.mutateAsync({
+        chat_id: ids.telegram_id,
+        document_url: url,
+        document_type: format.key,
+        filename: `${trackTitle || "transcription"}${format.extension}`,
+        track_title: trackTitle,
       });
 
       if (error) throw error;

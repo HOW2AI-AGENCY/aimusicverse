@@ -363,6 +363,63 @@ export async function extendTrack(params: {
   }
 }
 
+// ============= Telegram Notifications (from midi/notes card) =============
+
+export interface TelegramDocumentSharePayload {
+  chat_id: string | number;
+  document_url: string;
+  document_type: string;
+  filename: string;
+  track_title?: string;
+  [key: string]: unknown;
+}
+
+export async function sendTelegramDocumentShare(
+  payload: TelegramDocumentSharePayload,
+): Promise<{ error: Error | null }> {
+  try {
+    const { error } = await studioApi.invokeSendTelegramNotification({
+      type: "document_share",
+      ...payload,
+    });
+    if (error) return { error: new Error(error.message) };
+    return { error: null };
+  } catch (err) {
+    logger.error("Error in sendTelegramDocumentShare", err);
+    return { error: err as Error };
+  }
+}
+
+// ============= Track Context Analysis =============
+
+export type TrackContextAnalysis = studioApi.TrackContextAnalysis;
+
+export async function analyzeTrackContext(audioUrl: string, trackId?: string): Promise<TrackContextAnalysis> {
+  const { data, error } = await studioApi.invokeAnalyzeTrackContext({ audioUrl, trackId });
+  if (error) throw new Error(error.message);
+  return (data ?? {}) as TrackContextAnalysis;
+}
+
+// ============= MusicGen Instrumental Generation =============
+
+export interface InstrumentalGenerationResult {
+  audioUrl?: string;
+}
+
+export async function generateInstrumental(params: {
+  prompt: string;
+  duration: number;
+  model?: string;
+}): Promise<InstrumentalGenerationResult> {
+  const { data, error } = await studioApi.invokeMusicgenGenerate({
+    prompt: params.prompt,
+    duration: params.duration,
+    model: params.model ?? "melody",
+  });
+  if (error) throw new Error(error.message);
+  return (data ?? {}) as InstrumentalGenerationResult;
+}
+
 // ============= Section Replacement History =============
 
 export interface SectionReplacementHistoryEntry {

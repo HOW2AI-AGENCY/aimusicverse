@@ -261,6 +261,45 @@ export async function invokeSunoExtend(payload: {
   return { data, error };
 }
 
+// ============= Telegram Notifications =============
+
+export async function invokeSendTelegramNotification(payload: {
+  type: string;
+  chat_id: string | number;
+  document_url?: string;
+  document_type?: string;
+  filename?: string;
+  track_title?: string;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("send-telegram-notification", { body: payload });
+  return { data, error };
+}
+
+// ============= Instrumental Generator =============
+
+export interface TrackContextAnalysis {
+  bpm?: number;
+  key?: string;
+  scale?: string;
+  genre?: string;
+  mood?: string;
+  energy?: string;
+  instruments?: string[];
+  suggestedInstruments?: string[];
+  style_description?: string;
+}
+
+export async function invokeAnalyzeTrackContext(payload: { audioUrl: string; trackId?: string }) {
+  const { data, error } = await supabase.functions.invoke("analyze-track-context", { body: payload });
+  return { data, error };
+}
+
+export async function invokeMusicgenGenerate(payload: { prompt: string; duration: number; model?: string }) {
+  const { data, error } = await supabase.functions.invoke("musicgen-generate", { body: payload });
+  return { data, error };
+}
+
 // ============= Section Replacement History =============
 
 export interface SectionReplacementLog {
