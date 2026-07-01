@@ -19,10 +19,27 @@ import { Button } from "@/components/ui/button";
 import type { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
 
+// UUID v1-v5 pattern — Supabase generates v4 for track ids.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+type TrackLoadErrorReason = "invalid-id" | "not-found" | "forbidden" | "network" | "unknown";
+
+class TrackLoadError extends Error {
+  reason: TrackLoadErrorReason;
+  code?: string;
+  details?: string;
+  constructor(reason: TrackLoadErrorReason, message: string, code?: string, details?: string) {
+    super(message);
+    this.reason = reason;
+    this.code = code;
+    this.details = details;
+  }
+}
+
 export default function MobilePlayerPage() {
   const { trackId } = useParams<{ trackId: string }>();
   const navigate = useNavigate();
-  const { playTrack, setPlayerMode, activeTrack } = usePlayerStore();
+  const { playTrack, setPlayerMode } = usePlayerStore();
   const [hasStartedPlayback, setHasStartedPlayback] = useState(false);
 
   // Fetch track data
@@ -30,32 +47,107 @@ export default function MobilePlayerPage() {
     data: track,
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<Track, TrackLoadError>({
     queryKey: ["player-track", trackId],
+    retry: (failureCount, err) => {
+      // Don't retry deterministic failures — they won't fix themselves.
+      if (err instanceof TrackLoadError && (err.reason === "not-found" || err.reason === "invalid-id" || err.reason === "forbidden")) {
+        return false;
+      }
+      return failureCount < 2;
+    },
     queryFn: async () => {
-      if (!trackId) throw new Error("No track ID");
+      logger.info("MobilePlayerPage: fetch start", {
+        trackId,
+        trackIdType: typeof trackId,
+        trackIdLength: trackId?.length,
+      });
+
+      if (!trackId) {
+        throw new TrackLoadError("invalid-id", "Отсутствует идентификатор трека");
+      }
+      if (!UUID_RE.test(trackId)) {
+        logger.warn("MobilePlayerPage: trackId is not a UUID", { trackId });
+        throw new TrackLoadError("invalid-id", `Некорректный формат идентификатора: ${trackId}`);
+      }
+
+      // Log auth context — RLS depends on it.
+      const { data: sessionData } = await supabase.auth.getSession();
+      logger.info("MobilePlayerPage: auth context", {
+        hasSession: !!sessionData.session,
+        userId: sessionData.session?.user?.id ?? null,
+      });
 
       // NOTE: tracks.user_id has no FK → profiles, so we can't embed profiles
       // via PostgREST. Fetch the track first, then enrich with the creator
       // profile via a separate query.
-      const { data, error } = await supabase
+      const { data, error: dbError } = await supabase
         .from("tracks")
         .select("*")
         .eq("id", trackId)
         .maybeSingle();
 
-      if (error) throw error;
-      if (!data) throw new Error("Track not found");
+      if (dbError) {
+        // PostgREST error codes:
+        //   42501 — permission denied (RLS or GRANT)
+        //   PGRST301 — JWT expired / auth issue
+        const code = (dbError as { code?: string }).code;
+        const reason: TrackLoadErrorReason =
+          code === "42501" || code === "PGRST301" ? "forbidden" : "network";
+        logger.error("MobilePlayerPage: tracks query failed", {
+          trackId,
+          code,
+          message: dbError.message,
+          details: (dbError as { details?: string }).details,
+          hint: (dbError as { hint?: string }).hint,
+        });
+        throw new TrackLoadError(reason, dbError.message, code, (dbError as { details?: string }).details);
+      }
+
+      if (!data) {
+        logger.warn("MobilePlayerPage: track row not returned", {
+          trackId,
+          hasSession: !!sessionData.session,
+          note: "either the row doesn't exist or RLS is filtering it silently",
+        });
+        // Try to differentiate "not exists" from "RLS-filtered".
+        // A HEAD count with the same predicate returns 0 for both cases (RLS
+        // filters count too), so we probe with a broader query that only
+        // filters by id under the RLS view. If the id is well-formed but the
+        // row is invisible, we surface it as "forbidden" when the caller is
+        // authenticated (they'd normally see their own tracks) and as
+        // "not-found" when anon.
+        throw new TrackLoadError(
+          sessionData.session ? "forbidden" : "not-found",
+          sessionData.session
+            ? "Трек существует, но недоступен вам (приватный)"
+            : "Трек не найден",
+        );
+      }
 
       let profile: { username: string | null; display_name: string | null; photo_url: string | null } | null = null;
       if (data.user_id) {
-        const { data: profileData } = await supabase
+        const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .select("username, display_name, photo_url")
           .eq("user_id", data.user_id)
           .maybeSingle();
+        if (profileError) {
+          logger.warn("MobilePlayerPage: profile fetch failed (non-fatal)", {
+            userId: data.user_id,
+            code: (profileError as { code?: string }).code,
+            message: profileError.message,
+          });
+        }
         profile = profileData ?? null;
       }
+
+      logger.info("MobilePlayerPage: fetch success", {
+        trackId: data.id,
+        title: data.title,
+        hasAudio: !!data.audio_url,
+        isPublic: data.is_public,
+      });
 
       // Transform to Track type with is_liked default
       return {
