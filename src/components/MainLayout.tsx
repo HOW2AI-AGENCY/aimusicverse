@@ -20,6 +20,7 @@ import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvide
 import { SafeAreaContainer } from "./layout/SafeAreaContainer";
 import { OnboardingFlow } from "./onboarding/OnboardingFlow";
 import { NavigationShell } from "./navigation/NavigationShell";
+import { PlayerTransitionProvider } from "./player/PlayerTransitionProvider";
 
 // Lazy load heavy dialogs - not needed on initial render
 const SubscriptionRequiredDialog = lazy(() =>
@@ -109,7 +110,8 @@ export const MainLayout = () => {
 
   return (
     <SmartAlertProvider>
-      <KeyboardShortcutsProvider onOpenGenerateSheet={() => setGenerateSheetOpen(true)}>
+      <PlayerTransitionProvider>
+        <KeyboardShortcutsProvider onOpenGenerateSheet={() => setGenerateSheetOpen(true)}>
         <div className="flex flex-col h-screen bg-background noise-overlay">
           <div className="flex flex-1 min-h-0 overflow-hidden">
             <SkipToContent />
@@ -207,7 +209,8 @@ export const MainLayout = () => {
             </Suspense>
           </div>
         </div>
-      </KeyboardShortcutsProvider>
+        </KeyboardShortcutsProvider>
+      </PlayerTransitionProvider>
     </SmartAlertProvider>
   );
 };

@@ -15,7 +15,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { FullscreenPlayer } from "@/components/player/FullscreenPlayer";
 import { PlayerTransitionProvider } from "@/components/player/PlayerTransitionProvider";
-import { Loader2, ChevronLeft, Music2 } from "@/lib/icons";
+import { Loader2, ChevronLeft, Music2, AlertTriangle, RefreshCw } from "@/lib/icons";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Button } from "@/components/ui/button";
 import type { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
@@ -263,12 +264,40 @@ export default function MobilePlayerPage() {
     );
   }
 
-  // Render fullscreen player
+  // Render fullscreen player with an isolated ErrorBoundary so a crash
+  // inside the player subtree (e.g. missing provider, waveform failure)
+  // shows a recovery UI instead of the app-wide "Что-то пошло не так" page.
   return (
     <PlayerTransitionProvider>
-      <div className="fixed inset-0 z-50">
-        <FullscreenPlayer track={track} onClose={handleCloseFullscreen} />
-      </div>
+      <ErrorBoundary
+        fallback={(err, reset) => (
+          <div
+            className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50 p-6"
+            role="alert"
+          >
+            <div className="flex flex-col items-center gap-4 text-center max-w-sm">
+              <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
+                <AlertTriangle className="w-10 h-10 text-destructive" />
+              </div>
+              <h2 className="text-xl font-semibold">Плеер не смог загрузиться</h2>
+              <p className="text-muted-foreground text-sm break-words">{err.message}</p>
+              <div className="flex flex-col gap-2 w-full mt-2">
+                <Button onClick={reset} variant="default">
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Попробовать снова
+                </Button>
+                <Button onClick={handleBack} variant="outline">
+                  <ChevronLeft className="w-4 h-4 mr-2" />В библиотеку
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      >
+        <div className="fixed inset-0 z-50">
+          <FullscreenPlayer track={track} onClose={handleCloseFullscreen} />
+        </div>
+      </ErrorBoundary>
     </PlayerTransitionProvider>
   );
 }
