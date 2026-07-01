@@ -10,6 +10,8 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import type { Track } from "@/types/track";
 import type { QuickStartPreset } from "@/components/home/QuickStartCards";
 import type { TrackPreset } from "@/components/home/TrackPresetsRow";
 
@@ -22,6 +24,7 @@ export function useHomePageHandlers({ onOpenGenerateSheet, onOpenAudioDialog }: 
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
+  const playTrack = usePlayerStore((s) => s.playTrack);
 
   // Navigate to profile
   const goToProfile = useCallback(() => {
@@ -44,13 +47,19 @@ export function useHomePageHandlers({ onOpenGenerateSheet, onOpenAudioDialog }: 
     [hapticFeedback, navigate],
   );
 
-  // Navigate to track page
+  // Play a track in the global compact player. Accepts either a Track object
+  // (preferred — no extra fetch) or a bare id string as a fallback that
+  // navigates to /track/:id for a full-page load.
   const handleTrackClick = useCallback(
-    (trackId: string) => {
+    (trackOrId: Track | string) => {
       hapticFeedback("light");
-      navigate(`/track/${trackId}`);
+      if (typeof trackOrId === "string") {
+        navigate(`/track/${trackOrId}`);
+        return;
+      }
+      playTrack(trackOrId);
     },
-    [hapticFeedback, navigate],
+    [hapticFeedback, navigate, playTrack],
   );
 
   // Handler for Quick Start preset cards
