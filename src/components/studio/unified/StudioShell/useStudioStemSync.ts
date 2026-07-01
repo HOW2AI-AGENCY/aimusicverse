@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useRef, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchTrackStemsMinimal, subscribeToTrackStemsInsert } from "@/api/studio.api";
 import { useUnifiedStudioStore, TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
 import { toast } from "sonner";
@@ -89,55 +89,32 @@ export function useStudioStemSync({ projectId, sourceTrackId }: UseStudioStemSyn
 
       (async () => {
         try {
-          const { data, error } = await supabase
-            .from("track_stems")
-            .select("stem_type,audio_url")
-            .eq("track_id", sourceTrackId)
-            .abortSignal(abortController.signal);
-
-          if (error) {
-            logger.warn("Failed to load track stems for studio project", { error });
-            return;
-          }
+          const rows = await fetchTrackStemsMinimal(sourceTrackId, abortController.signal);
 
           if (!isMountedRef.current) return;
 
-          const stems = (data || []).filter((s) => s.audio_url);
+          const stems = rows.filter((s): s is { stem_type: string; audio_url: string } => !!s.audio_url);
           stems.forEach((s) => addStemToProjectIfMissing(s));
         } catch (err) {
           if (err instanceof Error && err.name === "AbortError") return;
-          logger.error("Error loading track stems", err);
+          logger.warn("Failed to load track stems for studio project", { error: err });
         }
       })();
     }
 
     // Realtime subscription for new stems
-    const channel = supabase
-      .channel(`studio-stems-${sourceTrackId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "track_stems",
-          filter: `track_id=eq.${sourceTrackId}`,
-        },
-        (payload) => {
-          if (!isMountedRef.current) return;
-
-          const stem = payload.new as any;
-          if (stem?.audio_url && stem?.stem_type) {
-            addStemToProjectIfMissing(stem);
-            toast.success("Стем добавлен в студию");
-          }
-        },
-      )
-      .subscribe();
+    const sub = subscribeToTrackStemsInsert(sourceTrackId, (stem) => {
+      if (!isMountedRef.current) return;
+      if (stem?.audio_url && stem?.stem_type) {
+        addStemToProjectIfMissing({ stem_type: stem.stem_type, audio_url: stem.audio_url });
+        toast.success("Стем добавлен в студию");
+      }
+    });
 
     return () => {
       isMountedRef.current = false;
       abortController.abort();
-      supabase.removeChannel(channel);
+      sub.unsubscribe();
     };
   }, [projectId, sourceTrackId, addStemToProjectIfMissing]);
 

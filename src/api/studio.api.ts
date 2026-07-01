@@ -674,3 +674,47 @@ export function subscribeToStudioProject(
     },
   };
 }
+
+// ============= Studio Stem Sync =============
+
+/**
+ * Fetch minimal stems (stem_type + audio_url) for a track. Supports AbortSignal.
+ */
+export async function fetchTrackStemsMinimal(
+  trackId: string,
+  signal?: AbortSignal,
+): Promise<Array<{ stem_type: string; audio_url: string | null }>> {
+  let query = supabase.from("track_stems").select("stem_type, audio_url").eq("track_id", trackId);
+  if (signal) query = query.abortSignal(signal);
+  const { data, error } = await query;
+  if (error) throw error;
+  return (data ?? []) as Array<{ stem_type: string; audio_url: string | null }>;
+}
+
+/**
+ * Subscribe to realtime INSERT events on track_stems filtered by track_id.
+ * Returns { unsubscribe }.
+ */
+export function subscribeToTrackStemsInsert(
+  trackId: string,
+  callback: (row: { stem_type: string; audio_url: string | null }) => void,
+): { unsubscribe: () => void } {
+  const channel = supabase
+    .channel(`studio-stems-${trackId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "track_stems",
+        filter: `track_id=eq.${trackId}`,
+      },
+      (payload) => callback(payload.new as { stem_type: string; audio_url: string | null }),
+    )
+    .subscribe();
+  return {
+    unsubscribe: () => {
+      void supabase.removeChannel(channel);
+    },
+  };
+}
