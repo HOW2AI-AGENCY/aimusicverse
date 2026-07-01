@@ -18,7 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GenerationAdvancedSettings, GenerationSettings } from "@/components/common/GenerationAdvancedSettings";
 import { InlineLyricsEditor } from "@/components/common/InlineLyricsEditor";
 import { useAddVocalsProgress } from "@/hooks/generation/useAddVocalsProgress";
-import { supabase } from "@/integrations/supabase/client";
+import { useAddVocals } from "@/hooks/studio/useAddVocals";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -33,6 +33,7 @@ interface AddVocalsDrawerProps {
 }
 
 export function AddVocalsDrawer({ open, onOpenChange, track, onSuccess }: AddVocalsDrawerProps) {
+  const addVocalsMutation = useAddVocals();
   const [lyrics, setLyrics] = useState("");
   const [style, setStyle] = useState(track.style || "pop, powerful vocals, professional singing");
   const [title, setTitle] = useState("");
@@ -79,10 +80,13 @@ export function AddVocalsDrawer({ open, onOpenChange, track, onSuccess }: AddVoc
       const effectiveTitle = title.trim() || `${track.title || "Трек"} с вокалом`;
       const effectiveStyle = style.trim() || "pop, vocals";
 
-      const body: Record<string, unknown> = {
+      const {
+        trackId: newTrackId,
+        taskId,
+        error,
+      } = await addVocalsMutation.mutateAsync({
+        trackId: track.id,
         audioUrl: track.audio_url,
-        prompt: lyrics,
-        customMode: true,
         style: effectiveStyle,
         title: effectiveTitle,
         negativeTags: negativeTags.trim() || "low quality, distorted, noise",
@@ -91,18 +95,12 @@ export function AddVocalsDrawer({ open, onOpenChange, track, onSuccess }: AddVoc
         styleWeight: advancedSettings.styleWeight,
         weirdnessConstraint: advancedSettings.weirdnessConstraint,
         model: advancedSettings.model,
-      };
-
-      if (advancedSettings.vocalGender) {
-        body.vocalGender = advancedSettings.vocalGender;
-      }
-
-      const { data, error } = await supabase.functions.invoke("suno-add-vocals", { body });
+        prompt: lyrics,
+        customMode: true,
+        vocalGender: advancedSettings.vocalGender || undefined,
+      });
 
       if (error) throw error;
-
-      const taskId = data?.taskId || data?.task?.id;
-      const newTrackId = data?.trackId || data?.track?.id;
 
       if (taskId && newTrackId) {
         progress.startTracking(taskId, newTrackId);
