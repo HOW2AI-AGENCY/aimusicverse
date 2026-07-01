@@ -16,8 +16,8 @@ interface TrendingTrack {
 
 interface CommunityTrendingProps {
   tracks: TrendingTrack[];
-  /** Called with the track id; matches useHomePageHandlers.handleTrackClick. */
-  onTrackClick: (trackId: string) => void;
+  /** Called with the full track record so it plays inline in the compact player. */
+  onTrackClick: (track: TrendingTrack) => void;
   className?: string;
 }
 
@@ -36,7 +36,7 @@ export function CommunityTrending({ tracks, onTrackClick, className }: Community
         {tracks.slice(0, 4).map((track) => (
           <button
             key={track.id}
-            onClick={() => onTrackClick(track.id)}
+            onClick={() => onTrackClick(track)}
             className="flex items-center gap-3.5 p-2.5 rounded-[14px] hover:bg-card/60 transition-colors text-left w-full"
           >
             <div className="relative w-[50px] h-[50px] rounded-xl overflow-hidden flex-shrink-0">
