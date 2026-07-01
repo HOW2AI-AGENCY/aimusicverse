@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { User, Sparkles, Image as ImageIcon, X, Plus, Play, Pause, Music } from "@/lib/icons";
 import { useArtists } from "@/hooks/useArtists";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
@@ -41,7 +43,6 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isGeneratingPortrait, setIsGeneratingPortrait] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const isMobile = useIsMobile();
 
   // Pre-fill from track data when dialog opens
@@ -68,39 +69,31 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
 
   // Cleanup audio on close
   useEffect(() => {
-    if (!open && audioRef.current) {
-      audioRef.current.pause();
+    if (!open && isPlaying) {
+      pause();
       setIsPlaying(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  // Hard cleanup on unmount to release iOS audio slot
-  useEffect(() => {
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = "";
-        audioRef.current.load();
-        audioRef.current = null;
-      }
-    };
-  }, []);
-
   const { createArtist, isCreating } = useArtists();
+
+  // Пул-аудио для превью трека. Активно только когда fromTrack задан.
+  const { play, pause } = usePreviewAudio({
+    id: `create-artist-preview-${fromTrack?.audio_url ?? "none"}`,
+    src: fromTrack?.audio_url ?? "",
+    priority: AudioPriority.LOW,
+    onEnded: () => setIsPlaying(false),
+  });
 
   const togglePlayback = () => {
     if (!fromTrack?.audio_url) return;
 
-    if (!audioRef.current) {
-      audioRef.current = new Audio(fromTrack.audio_url);
-      audioRef.current.onended = () => setIsPlaying(false);
-    }
-
     if (isPlaying) {
-      audioRef.current.pause();
+      pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.play();
+      void play();
       setIsPlaying(true);
     }
   };
