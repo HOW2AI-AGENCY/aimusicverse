@@ -209,7 +209,8 @@ export const MainLayout = () => {
             </Suspense>
           </div>
         </div>
-      </KeyboardShortcutsProvider>
+        </KeyboardShortcutsProvider>
+      </PlayerTransitionProvider>
     </SmartAlertProvider>
   );
 };
