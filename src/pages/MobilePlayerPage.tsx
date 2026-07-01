@@ -215,8 +215,26 @@ export default function MobilePlayerPage() {
     );
   }
 
-  // Error state
+  // Error state — differentiate reasons so the user gets a truthful message.
   if (error || !track) {
+    const reason: TrackLoadErrorReason = error?.reason ?? "not-found";
+    const title =
+      reason === "forbidden"
+        ? "Нет доступа к треку"
+        : reason === "invalid-id"
+        ? "Неверная ссылка"
+        : reason === "network"
+        ? "Не удалось загрузить трек"
+        : "Трек не найден";
+    const description =
+      reason === "forbidden"
+        ? "Трек существует, но помечен как приватный или недоступен вашей учётной записи."
+        : reason === "invalid-id"
+        ? "Идентификатор трека в ссылке некорректен."
+        : reason === "network"
+        ? `Проблема с соединением или сервером${error?.code ? ` (код ${error.code})` : ""}.`
+        : "Возможно, трек был удалён или ссылка недействительна.";
+
     return (
       <div
         className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50 p-6"
@@ -231,8 +249,11 @@ export default function MobilePlayerPage() {
           <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
             <Music2 className="w-10 h-10 text-destructive" />
           </div>
-          <h2 className="text-xl font-semibold">Трек не найден</h2>
-          <p className="text-muted-foreground text-sm">Возможно, трек был удалён или ссылка недействительна</p>
+          <h2 className="text-xl font-semibold">{title}</h2>
+          <p className="text-muted-foreground text-sm">{description}</p>
+          {trackId && (
+            <p className="text-muted-foreground/60 text-xs font-mono break-all">id: {trackId}</p>
+          )}
           <Button onClick={handleBack} variant="outline" className="mt-4">
             <ChevronLeft className="w-4 h-4 mr-2" />В библиотеку
           </Button>
