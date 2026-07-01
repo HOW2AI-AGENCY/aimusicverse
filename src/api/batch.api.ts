@@ -1,4 +1,5 @@
-// @ts-nocheck
+// @ts-nocheck — schema drift: batch_* RPCs и таблицы отсутствуют в сгенерированных типах
+// TODO(Sprint 045): восстановить после `supabase gen types typescript` (задача Hygiene).
 /**
  * Batch API Layer
  * Raw Supabase operations for batch stem processing functionality

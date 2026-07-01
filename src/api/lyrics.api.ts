@@ -1,4 +1,5 @@
-// @ts-nocheck
+// @ts-nocheck — schema drift: lyrics RPCs отсутствуют в сгенерированных типах
+// TODO(Sprint 045): восстановить после `supabase gen types typescript`.
 /**
  * Lyrics API Layer
  * Raw Supabase database operations for lyrics versioning and section notes
