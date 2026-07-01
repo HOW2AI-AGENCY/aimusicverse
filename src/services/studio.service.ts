@@ -750,6 +750,141 @@ export async function remixTrack(params: {
   }
 }
 
+// ============= Realtime Subscriptions (Pass 3 — service-layer routing) =============
+
+/**
+ * Subscribe to realtime completion events for a generation_tasks row, identified
+ * by its suno_task_id. Returns an object exposing `unsubscribe()` so callers can
+ * tear down the underlying realtime channel.
+ */
+export function subscribeToPendingTaskComplete(
+  sunoTaskId: string,
+  callback: (row: Record<string, unknown>) => void,
+): { unsubscribe: () => void } {
+  return studioApi.subscribeToPendingTaskComplete(sunoTaskId, callback);
+}
+
+/**
+ * Subscribe to realtime UPDATE events for a studio_projects row. Returns an
+ * object exposing `unsubscribe()` matching the supabase RealtimeChannel shape.
+ */
+export function subscribeToStudioProject(
+  projectId: string,
+  callback: (row: Record<string, unknown>) => void,
+): { unsubscribe: () => void } {
+  return studioApi.subscribeToStudioProject(projectId, callback);
+}
+
+/**
+ * Subscribe to realtime UPDATE events for a generation_tasks row identified by
+ * its suno_task_id. Returns an object exposing `unsubscribe()`.
+ */
+export function subscribeToGenerationTaskBySunoId(
+  sunoTaskId: string,
+  callback: (task: { status: string; received_clips: number | null; expected_clips: number | null }) => void,
+): { unsubscribe: () => void } {
+  return studioApi.subscribeToGenerationTaskBySunoId(sunoTaskId, callback);
+}
+
+// ============= Generation Task Lookup (Pass 3 — service-layer routing) =============
+
+export interface GenerationTaskProgressRow {
+  status: string;
+  received_clips: number | null;
+  expected_clips: number | null;
+}
+
+/**
+ * Fetch the slim status of a generation task by its suno_task_id column.
+ * Preserves the `{ data, error }` shape from the api layer so callers can
+ * distinguish missing rows from errors.
+ */
+export async function fetchGenerationTaskBySunoId(
+  sunoTaskId: string,
+): Promise<{ data: GenerationTaskProgressRow | null; error: unknown }> {
+  return studioApi.fetchGenerationTaskBySunoId(sunoTaskId);
+}
+
+// ============= Studio Stem Sync (Pass 3 — service-layer routing) =============
+
+/**
+ * Fetch minimal stem rows (stem_type + audio_url) for a track. Supports an
+ * AbortSignal so callers can cancel in-flight requests on unmount.
+ */
+export async function fetchTrackStemsMinimal(
+  trackId: string,
+  signal?: AbortSignal,
+): Promise<Array<{ stem_type: string; audio_url: string | null }>> {
+  return studioApi.fetchTrackStemsMinimal(trackId, signal);
+}
+
+/**
+ * Subscribe to realtime INSERT events on track_stems filtered by track_id.
+ * Returns `{ unsubscribe }`.
+ */
+export function subscribeToTrackStemsInsert(
+  trackId: string,
+  callback: (row: { stem_type: string; audio_url: string | null }) => void,
+): { unsubscribe: () => void } {
+  return studioApi.subscribeToTrackStemsInsert(trackId, callback);
+}
+
+// ============= Stem Resolution (Pass 3 — service-layer routing) =============
+
+export interface TrackStemRow {
+  id: string;
+  stem_type: string;
+  [key: string]: unknown;
+}
+
+/**
+ * Fetch all stems for a track ordered by creation time (newest first).
+ * Returns an empty array when no stems exist or the query errors.
+ */
+export async function fetchTrackStems(trackId: string): Promise<TrackStemRow[]> {
+  const { data, error } = await studioApi.fetchTrackStems(trackId);
+  if (error || !data) return [];
+  return data as TrackStemRow[];
+}
+
+// ============= Transcription Lookups (Pass 3 — service-layer routing) =============
+
+/**
+ * Fetch the most recent stem_transcription row for a given stem_id (or null).
+ */
+export async function fetchLatestStemTranscriptionByStemId(stemId: string): Promise<Record<string, unknown> | null> {
+  return studioApi.fetchLatestStemTranscriptionByStemId(stemId);
+}
+
+/**
+ * Fetch the most recent stem_transcription row for a given track_id (or null).
+ */
+export async function fetchLatestStemTranscriptionByTrackId(trackId: string): Promise<Record<string, unknown> | null> {
+  return studioApi.fetchLatestStemTranscriptionByTrackId(trackId);
+}
+
+// ============= Transcription Edge Function Invocations (Pass 3) =============
+
+/**
+ * Invoke the Replicate MIDI transcription edge function (Basic Pitch model).
+ * Returns the raw response shape so the caller can normalize downstream.
+ */
+export async function invokeReplicateMidiTranscription(
+  payload: studioApi.ReplicateMidiPayload,
+): Promise<{ data: studioApi.ReplicateMidiResponse | null; error: Error | null }> {
+  return studioApi.invokeReplicateMidiTranscription(payload);
+}
+
+/**
+ * Invoke the Klangio transcription edge function. Returns the raw response
+ * shape so the caller can normalize the file URLs downstream.
+ */
+export async function invokeKlangioAnalyze(
+  payload: studioApi.KlangioAnalyzePayload,
+): Promise<{ data: studioApi.KlangioAnalyzeResponse | null; error: Error | null }> {
+  return studioApi.invokeKlangioAnalyze(payload);
+}
+
 // ============= Validation =============
 
 export function validateSectionBounds(

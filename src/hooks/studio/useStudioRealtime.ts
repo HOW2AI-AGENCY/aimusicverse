@@ -13,7 +13,7 @@ import { useEffect, useRef } from "react";
 import {
   subscribeToPendingTaskComplete,
   subscribeToStudioProject,
-} from "@/api/studio.api";
+} from "@/services/studio.service";
 import { logger } from "@/lib/logger";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 
