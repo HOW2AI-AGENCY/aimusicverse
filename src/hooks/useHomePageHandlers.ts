@@ -10,6 +10,8 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import type { Track } from "@/types/track";
 import type { QuickStartPreset } from "@/components/home/QuickStartCards";
 import type { TrackPreset } from "@/components/home/TrackPresetsRow";
 
@@ -22,6 +24,7 @@ export function useHomePageHandlers({ onOpenGenerateSheet, onOpenAudioDialog }: 
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
+  const playTrack = usePlayerStore((s) => s.playTrack);
 
   // Navigate to profile
   const goToProfile = useCallback(() => {
@@ -44,13 +47,21 @@ export function useHomePageHandlers({ onOpenGenerateSheet, onOpenAudioDialog }: 
     [hapticFeedback, navigate],
   );
 
-  // Navigate to track page
+  // Play a track in the global compact player. Accepts any object with at
+  // least an `id` (home sections use several narrower shapes like
+  // PublicTrackWithCreator, TrendingTrack, etc.) or a bare id string, which
+  // falls back to /track/:id for a full page load.
   const handleTrackClick = useCallback(
-    (trackId: string) => {
+    (trackOrId: { id: string } | string) => {
       hapticFeedback("light");
-      navigate(`/track/${trackId}`);
+      if (typeof trackOrId === "string") {
+        navigate(`/track/${trackOrId}`);
+        return;
+      }
+      // playTrack tolerates partial shapes at runtime — it reads id/audio_url/title/cover_url.
+      playTrack(trackOrId as unknown as Track);
     },
-    [hapticFeedback, navigate],
+    [hapticFeedback, navigate, playTrack],
   );
 
   // Handler for Quick Start preset cards

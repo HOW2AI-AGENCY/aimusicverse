@@ -27,7 +27,7 @@ interface DiscoverTabsProps {
   hasMoreRecent?: boolean;
   isLoadingMoreRecent?: boolean;
   onLoadMoreRecent?: () => void;
-  onTrackClick?: (id: string) => void;
+  onTrackClick?: (track: TrackData) => void;
   /**
    * Optional remix callback. Accepted at the boundary so callers can
    * pass a uniform handler signature even when the rendered card variant
@@ -44,7 +44,7 @@ const Grid = memo(function Grid({
 }: {
   tracks: TrackData[];
   columns: number;
-  onTrackClick?: (id: string) => void;
+  onTrackClick?: (track: TrackData) => void;
   onRemix?: (id: string) => void;
 }) {
   if (!tracks.length) {
@@ -62,7 +62,7 @@ const Grid = memo(function Grid({
           key={track.id}
           track={track}
           variant="grid"
-          onPlay={() => onTrackClick?.(track.id)}
+          onPlay={() => onTrackClick?.(track)}
           showActions={false}
           data-onremix={onRemix ? "true" : undefined}
         />

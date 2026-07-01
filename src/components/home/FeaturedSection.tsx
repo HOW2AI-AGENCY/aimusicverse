@@ -21,7 +21,7 @@ import { homeSectionColors } from "@/lib/design-colors";
 interface FeaturedSectionProps {
   tracks: TrackData[];
   isLoading?: boolean;
-  onTrackClick?: (trackId: string) => void;
+  onTrackClick?: (track: TrackData) => void;
   onRemix?: (trackId: string) => void;
   className?: string;
   maxTracks?: number;
@@ -63,9 +63,9 @@ export const FeaturedSection = memo(function FeaturedSection({
   const displayTracks = maxTracks ? tracks.slice(0, maxTracks) : tracks;
 
   const handleTrackClick = useCallback(
-    (trackId: string) => {
+    (track: TrackData) => {
       hapticFeedback("light");
-      onTrackClick?.(trackId);
+      onTrackClick?.(track);
     },
     [hapticFeedback, onTrackClick],
   );
@@ -141,7 +141,7 @@ export const FeaturedSection = memo(function FeaturedSection({
             <UnifiedTrackCard
               track={track}
               variant="grid"
-              onPlay={() => handleTrackClick(track.id)}
+              onPlay={() => handleTrackClick(track)}
               showActions={false}
               className="h-full transition-all duration-200 group-hover:shadow-lg group-hover:shadow-primary/10 group-hover:-translate-y-1"
             />
