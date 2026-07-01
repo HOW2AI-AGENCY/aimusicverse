@@ -10,6 +10,16 @@ import { useDebouncedCallback } from "use-debounce";
 import { useAudioBufferPool } from "./useAudioBufferPool";
 import { logger } from "@/lib/logger";
 
+// Константы / типы / дефолты вынесены в ./prompt-dj/* для уменьшения god-hook.
+// Ре-экспорт ниже сохраняет обратную совместимость импортов от компонентов.
+export { CHANNEL_TYPES, NOTE_NAMES } from "./prompt-dj/constants";
+export { DEFAULT_CHANNELS, DEFAULT_SETTINGS } from "./prompt-dj/defaults";
+export type { ChannelType, PromptChannel, GlobalSettings, GeneratedTrack } from "./prompt-dj/types";
+
+import { NOTE_NAMES } from "./prompt-dj/constants";
+import { DEFAULT_CHANNELS, DEFAULT_SETTINGS } from "./prompt-dj/defaults";
+import type { PromptChannel, GlobalSettings, GeneratedTrack } from "./prompt-dj/types";
+
 // Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
 type ToneType = typeof import("tone");
 type PlayerType = import("tone").Player;
@@ -23,168 +33,6 @@ type GainType = import("tone").Gain;
 
 // Cached Tone module reference
 let ToneModule: ToneType | null = null;
-
-// Available channel types that users can choose from
-export const CHANNEL_TYPES = [
-  {
-    type: "genre",
-    label: "Жанр",
-    color: "#a855f7",
-    presets: [
-      "Electronic",
-      "Hip-Hop",
-      "Rock",
-      "Jazz",
-      "Pop",
-      "Ambient",
-      "Lo-Fi",
-      "EDM",
-      "Classical",
-      "Trap",
-      "R&B",
-      "House",
-    ],
-  },
-  {
-    type: "instrument",
-    label: "Инструмент",
-    color: "#3b82f6",
-    presets: [
-      "Piano",
-      "Guitar",
-      "Synth",
-      "Strings",
-      "Bass",
-      "Drums",
-      "Pads",
-      "Brass",
-      "Bells",
-      "Choir",
-      "Violin",
-      "Sax",
-    ],
-  },
-  {
-    type: "mood",
-    label: "Настроение",
-    color: "#ec4899",
-    presets: [
-      "Energetic",
-      "Calm",
-      "Dark",
-      "Happy",
-      "Epic",
-      "Dreamy",
-      "Aggressive",
-      "Romantic",
-      "Mysterious",
-      "Groovy",
-      "Sad",
-      "Uplifting",
-    ],
-  },
-  {
-    type: "energy",
-    label: "Энергия",
-    color: "#ef4444",
-    presets: [
-      "Low",
-      "Medium",
-      "High",
-      "Building",
-      "Dropping",
-      "Intense",
-      "Relaxed",
-      "Driving",
-      "Floating",
-      "Explosive",
-    ],
-  },
-  {
-    type: "texture",
-    label: "Текстура",
-    color: "#f59e0b",
-    presets: ["Smooth", "Gritty", "Airy", "Dense", "Sparse", "Layered", "Vintage", "Modern", "Organic", "Digital"],
-  },
-  {
-    type: "style",
-    label: "Стиль",
-    color: "#22c55e",
-    presets: ["Minimalist", "Maximalist", "Retro", "Futuristic", "Cinematic", "Experimental", "Acoustic", "Synthwave"],
-  },
-  {
-    type: "vocal",
-    label: "Вокал",
-    color: "#06b6d4",
-    presets: ["Male", "Female", "Choir", "Whisper", "Powerful", "Soft", "Rap", "Falsetto", "No vocals"],
-  },
-  {
-    type: "tempo",
-    label: "Темп",
-    color: "#8b5cf6",
-    presets: ["Slow", "Medium", "Fast", "Accelerating", "Decelerating", "Steady", "Varying", "Groove"],
-  },
-  {
-    type: "custom",
-    label: "Своё",
-    color: "#64748b",
-    presets: [],
-  },
-] as const;
-
-export type ChannelType = (typeof CHANNEL_TYPES)[number]["type"];
-
-export interface PromptChannel {
-  id: string;
-  type: ChannelType;
-  value: string;
-  weight: number; // 0-1
-  enabled: boolean;
-  deck?: "A" | "B" | "both";
-}
-
-export interface GlobalSettings {
-  bpm: number;
-  key: string;
-  scale: string;
-  density: number;
-  brightness: number;
-  duration: number;
-}
-
-export interface GeneratedTrack {
-  id: string;
-  prompt: string;
-  audioUrl: string;
-  createdAt: Date;
-}
-
-// Default 9 channels (3x3 grid)
-const DEFAULT_CHANNELS: PromptChannel[] = [
-  // Row 1
-  { id: "ch1", type: "genre", value: "", weight: 0.5, enabled: true },
-  { id: "ch2", type: "instrument", value: "", weight: 0.5, enabled: true },
-  { id: "ch3", type: "mood", value: "", weight: 0.5, enabled: true },
-  // Row 2
-  { id: "ch4", type: "energy", value: "", weight: 0.5, enabled: true },
-  { id: "ch5", type: "texture", value: "", weight: 0.3, enabled: false },
-  { id: "ch6", type: "style", value: "", weight: 0.3, enabled: false },
-  // Row 3
-  { id: "ch7", type: "instrument", value: "", weight: 0.3, enabled: false },
-  { id: "ch8", type: "vocal", value: "", weight: 0.3, enabled: false },
-  { id: "ch9", type: "custom", value: "", weight: 0.3, enabled: false },
-];
-
-const DEFAULT_SETTINGS: GlobalSettings = {
-  bpm: 120,
-  key: "C",
-  scale: "minor",
-  density: 0.5,
-  brightness: 0.5,
-  duration: 20,
-};
-
-const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 // URL cache for prompts (separate from buffer pool)
 const globalAudioCache = new Map<string, string>();
