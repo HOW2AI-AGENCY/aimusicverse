@@ -3,7 +3,7 @@
  * Integrates with studio audio coordination
  */
 
-import { useState, useEffect, useRef, useId } from "react";
+import { useState, useEffect, useId } from "react";
 import { Cloud, Search, Play, Pause, Check, Music2, Loader2, Clock, Tag } from "@/lib/icons";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 import { cn } from "@/lib/utils";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
@@ -42,10 +44,23 @@ export function CloudAudioPicker({ open, onOpenChange, onSelect }: CloudAudioPic
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [playingId, setPlayingId] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const sourceId = useId();
 
-  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  const { pauseTrack } = usePlayerStore();
+
+  // Пул-аудио с динамическим src. Регистрация в useStudioAudio координаторе
+  // уже встроена в хук.
+  const { playUrl, pause } = usePreviewAudio({
+    id: `lyrics-cloud-picker-${sourceId}`,
+    src: previewUrl,
+    priority: AudioPriority.LOW,
+    onEnded: () => setPlayingId(null),
+    onError: () => {
+      setPlayingId(null);
+      logger.warn("Failed to load audio", { url: previewUrl });
+    },
+  });
 
   // Fetch audio list
   useEffect(() => {
@@ -54,34 +69,14 @@ export function CloudAudioPicker({ open, onOpenChange, onSelect }: CloudAudioPic
     }
   }, [open, user]);
 
-  // Register with studio audio coordinator
-  useEffect(() => {
-    const fullSourceId = `lyrics-cloud-picker-${sourceId}`;
-    registerStudioAudio(fullSourceId, () => {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    });
-
-    return () => {
-      unregisterStudioAudio(fullSourceId);
-    };
-  }, [sourceId]);
-
-  // Pause when global player starts
-  useEffect(() => {
-    if (globalIsPlaying && playingId) {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    }
-  }, [globalIsPlaying, playingId]);
-
   // Cleanup audio on close
   useEffect(() => {
-    if (!open && audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+    if (!open) {
+      pause();
       setPlayingId(null);
+      setPreviewUrl("");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   const fetchAudioList = async () => {
@@ -105,38 +100,25 @@ export function CloudAudioPicker({ open, onOpenChange, onSelect }: CloudAudioPic
     }
   };
 
-  const handlePlay = (audio: CloudAudio) => {
+  const handlePlay = async (audio: CloudAudio) => {
     if (playingId === audio.id) {
-      audioRef.current?.pause();
+      pause();
       setPlayingId(null);
       return;
     }
-
-    // Stop current playback
-    audioRef.current?.pause();
 
     // Pause global player and other studio audio
     pauseTrack();
     pauseAllStudioAudio(`lyrics-cloud-picker-${sourceId}`);
 
-    const newAudio = new Audio(audio.file_url);
-    newAudio.onended = () => setPlayingId(null);
-    newAudio.onerror = () => {
-      setPlayingId(null);
-      logger.warn("Failed to load audio", { url: audio.file_url });
-    };
-    newAudio.play().catch((err: unknown) => {
-      logger.error("Audio play error", err instanceof Error ? err : new Error(String(err)));
-      setPlayingId(null);
-    });
-    audioRef.current = newAudio;
     setPlayingId(audio.id);
+    setPreviewUrl(audio.file_url);
+    await playUrl(audio.file_url);
   };
 
   const handleSelect = (audio: CloudAudio) => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
+    pause();
+    setPlayingId(null);
     onSelect(audio);
     onOpenChange(false);
   };
