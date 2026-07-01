@@ -185,6 +185,57 @@ export async function invokeMidiTranscription(params: {
 }
 
 /**
+ * Invoke reference audio analysis edge function (Flamingo)
+ */
+export async function invokeAudioAnalysis(params: { audioUrl: string; analysisType?: string }): Promise<{
+  data: {
+    success?: boolean;
+    error?: string;
+    parsed?: {
+      style_description?: string;
+      genre?: string;
+      mood?: string;
+    };
+  } | null;
+  error: Error | null;
+}> {
+  const { data, error } = await supabase.functions.invoke("analyze-audio-flamingo", {
+    body: {
+      audio_url: params.audioUrl,
+      analysis_type: params.analysisType || "reference",
+    },
+  });
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  return { data, error: null };
+}
+
+/**
+ * Invoke lyrics transcription edge function
+ */
+export async function invokeLyricsTranscription(params: { audioUrl: string }): Promise<{
+  data: {
+    error?: string;
+    has_vocals?: boolean;
+    lyrics?: string;
+  } | null;
+  error: Error | null;
+}> {
+  const { data, error } = await supabase.functions.invoke("transcribe-lyrics", {
+    body: { audio_url: params.audioUrl },
+  });
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  return { data, error: null };
+}
+
+/**
  * Save guitar recording
  */
 export async function saveGuitarRecording(recording: {

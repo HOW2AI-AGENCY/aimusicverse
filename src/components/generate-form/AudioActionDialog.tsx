@@ -23,13 +23,13 @@ import {
   Guitar,
 } from "@/lib/icons";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/api/storage.api";
 import { logger } from "@/lib/logger";
 import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useReferenceAudio, ReferenceAudio } from "@/hooks/useReferenceAudio";
 import { useAudioReference } from "@/hooks/useAudioReference";
+import { useAudioActionAnalysis } from "@/hooks/audio-reference/useAudioActionAnalysis";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { GuitarModeRecorder } from "./GuitarModeRecorder";
@@ -75,6 +75,7 @@ export function AudioActionDialog({
   const isMobile = useIsMobile();
   const { saveAudio, updateAnalysis: updateDbAnalysis } = useReferenceAudio();
   const { setFromUpload, setFromCloud } = useAudioReference();
+  const { analyzeAudio: runAnalyzeAudio, transcribeLyrics: runTranscribeLyrics } = useAudioActionAnalysis();
   const sourceId = useId();
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
@@ -297,15 +298,10 @@ export function AudioActionDialog({
       }
 
       // Make request with timeout
-      const analysisPromise = supabase.functions.invoke("analyze-audio-flamingo", {
-        body: {
-          audio_url: publicUrl,
-          analysis_type: "reference",
-        },
-      });
+      const analysisPromise = runAnalyzeAudio({ publicUrl, analysisType: "reference" });
 
       // Race between analysis and timeout
-      const result = await Promise.race([
+      const analysisResultData = await Promise.race([
         analysisPromise,
         new Promise<never>((_, reject) => {
           controller.signal.addEventListener("abort", () => {
@@ -316,35 +312,26 @@ export function AudioActionDialog({
 
       clearTimeout(timeoutId);
 
-      const { data: analysisData, error: analysisError } = result as { data: any; error: any };
+      const analysisResult = {
+        style: analysisResultData.style,
+        genre: analysisResultData.genre,
+        mood: analysisResultData.mood,
+      };
+      setAnalysisResult(analysisResult);
 
-      if (analysisError) throw new Error(analysisError.message || "Network error");
-      if (analysisData?.error) throw new Error(analysisData.error);
+      // Update database record
+      if (audioRecord?.id || savedAudioId) {
+        await updateDbAnalysis({
+          id: audioRecord?.id || savedAudioId!,
+          genre: analysisResult.genre,
+          mood: analysisResult.mood,
+          analysisStatus: "completed",
+        });
+      }
 
-      if (analysisData?.success && analysisData.parsed) {
-        const analysisResult = {
-          style: analysisData.parsed.style_description,
-          genre: analysisData.parsed.genre,
-          mood: analysisData.parsed.mood,
-        };
-        setAnalysisResult(analysisResult);
-
-        // Update database record
-        if (audioRecord?.id || savedAudioId) {
-          await updateDbAnalysis({
-            id: audioRecord?.id || savedAudioId!,
-            genre: analysisResult.genre,
-            mood: analysisResult.mood,
-            analysisStatus: "completed",
-          });
-        }
-
-        if (analysisResult.style) {
-          onAnalysisComplete?.(analysisResult.style);
-          toast.success("Стиль определён!");
-        }
-      } else {
-        throw new Error("Не удалось проанализировать аудио");
+      if (analysisResult.style) {
+        onAnalysisComplete?.(analysisResult.style);
+        toast.success("Стиль определён!");
       }
     } catch (error) {
       clearTimeout(timeoutId);
@@ -378,25 +365,20 @@ export function AudioActionDialog({
         publicUrl = await uploadAndGetUrl(audioFile);
       }
 
-      const { data, error } = await supabase.functions.invoke("transcribe-lyrics", {
-        body: { audio_url: publicUrl },
-      });
+      const data = await runTranscribeLyrics({ publicUrl });
 
-      if (error) throw new Error(error.message || "Network error");
-      if (data?.error) throw new Error(data.error);
-
-      setHasVocals(data?.has_vocals ?? false);
+      setHasVocals(data.hasVocals);
 
       // Update database record
       if (savedAudioId) {
         await updateDbAnalysis({
           id: savedAudioId,
-          hasVocals: data?.has_vocals,
-          transcription: data?.lyrics,
+          hasVocals: data.hasVocals,
+          transcription: data.lyrics,
         });
       }
 
-      if (data?.has_vocals && data?.lyrics) {
+      if (data.hasVocals && data.lyrics) {
         setExtractedLyrics(data.lyrics);
         onLyricsExtracted?.(data.lyrics);
         toast.success("Текст извлечён!");
