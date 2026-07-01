@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Shuffle, Loader2, Music, Sparkles } from "@/lib/icons";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { useRemixTrack } from "@/hooks/studio/useRemixTrack";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -43,7 +43,7 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
   const [style, setStyle] = useState(track.style || "");
   const [prompt, setPrompt] = useState("");
   const [isInstrumental, setIsInstrumental] = useState(track.is_instrumental ?? false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const remixMutation = useRemixTrack();
 
   const handlePresetClick = (preset: (typeof STYLE_PRESETS)[0]) => {
     setStyle(preset.value);
@@ -54,20 +54,18 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
       toast.error("Нет данных для создания ремикса");
       return;
     }
+    if (!user) {
+      toast.error("Не авторизован");
+      return;
+    }
 
-    setIsSubmitting(true);
     try {
-      if (!user) throw new Error("Не авторизован");
-
-      const { data, error } = await supabase.functions.invoke("suno-remix", {
-        body: {
-          audioId: track.suno_id,
-          prompt: prompt || `Ремикс в стиле: ${style}`,
-          style: style,
-          title: title,
-          instrumental: isInstrumental,
-          model: "chirp-v4",
-        },
+      const { error } = await remixMutation.mutateAsync({
+        audioId: track.suno_id,
+        prompt: prompt || `Ремикс в стиле: ${style}`,
+        style,
+        title,
+        instrumental: isInstrumental,
       });
 
       if (error) throw error;
@@ -80,8 +78,6 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
     } catch (error) {
       logger.error("Error creating remix", error);
       toast.error("Ошибка при создании ремикса");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -173,8 +169,8 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
         <Button variant="outline" onClick={() => onOpenChange(false)}>
           Отмена
         </Button>
-        <Button onClick={handleSubmit} disabled={isSubmitting || !style.trim()}>
-          {isSubmitting ? (
+        <Button onClick={handleSubmit} disabled={remixMutation.isPending || !style.trim()}>
+          {remixMutation.isPending ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               Создаём...

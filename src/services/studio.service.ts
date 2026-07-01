@@ -363,6 +363,37 @@ export async function extendTrack(params: {
   }
 }
 
+// ============= Track Remix =============
+
+export async function remixTrack(params: {
+  audioId: string;
+  prompt: string;
+  style: string;
+  title: string;
+  instrumental: boolean;
+  model?: string;
+}): Promise<{ error: Error | null }> {
+  try {
+    const { error } = await studioApi.invokeSunoRemix({
+      audioId: params.audioId,
+      prompt: params.prompt,
+      style: params.style,
+      title: params.title,
+      instrumental: params.instrumental,
+      model: params.model ?? "chirp-v4",
+    });
+
+    if (error) {
+      return { error: new Error(error.message) };
+    }
+
+    return { error: null };
+  } catch (err) {
+    logger.error("Error in remixTrack", err);
+    return { error: err as Error };
+  }
+}
+
 // ============= Validation =============
 
 export function validateSectionBounds(

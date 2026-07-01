@@ -261,6 +261,21 @@ export async function invokeSunoExtend(payload: {
   return { data, error };
 }
 
+/**
+ * Invoke suno-remix edge function (generate a remix of an existing track in a new style).
+ */
+export async function invokeSunoRemix(payload: {
+  audioId: string;
+  prompt: string;
+  style: string;
+  title: string;
+  instrumental: boolean;
+  model?: string;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-remix", { body: payload });
+  return { data, error };
+}
+
 // ============= Stem Transcriptions =============
 
 export async function fetchStemTranscriptions(filter: { trackId?: string; stemId?: string }) {
