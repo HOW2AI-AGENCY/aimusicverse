@@ -1,16 +1,18 @@
 # UI Event Handlers
 
-> 7 nodes · cohesion 0.29
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L1) (6 connections)
-- [change](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L174) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L193) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L30) (1 connections)
-- [days](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L28) (1 connections)
-- [isNeutral](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L181) (1 connections)
-- [isPositive](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L180) (1 connections)
+- [Heading.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L1) (8 connections)
+- [Animated](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L41) (1 connections)
+- [Gradient](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L33) (1 connections)
+- [H1](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L21) (1 connections)
+- [H2](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L25) (1 connections)
+- [H3](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L29) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L4) (1 connections)
+- [Muted](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L37) (1 connections)
+- [Truncated](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -18,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Heading.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

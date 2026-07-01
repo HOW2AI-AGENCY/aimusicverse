@@ -1,13 +1,14 @@
 # SEO Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useAudioWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts#L24) (2 connections)
-- [WatermarkActions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L17) (2 connections)
-- [WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L1) (1 connections)
-- [useAudioWatermark.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts#L1) (1 connections)
+- [AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L1) (4 connections)
+- [useAIAssistant()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L169) (2 connections)
+- [useIsAIAssistantEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L180) (2 connections)
+- [AIAssistantContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L49) (1 connections)
+- [AIAssistantProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -15,13 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioWatermark.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 10 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

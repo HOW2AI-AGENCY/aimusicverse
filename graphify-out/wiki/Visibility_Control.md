@@ -1,15 +1,16 @@
 # Visibility Control
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.38
 
 ## Key Concepts
 
-- [OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L1) (5 connections)
-- [ChannelControls](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L68) (1 connections)
-- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L124) (1 connections)
-- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L132) (1 connections)
-- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L113) (1 connections)
-- [VolumeFader](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L35) (1 connections)
+- [LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L1) (6 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L46) (3 connections)
+- [handleRedo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L34) (2 connections)
+- [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L24) (2 connections)
+- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L75) (1 connections)
+- [historyLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L74) (1 connections)
+- [{ undo, redo, canUndo, canRedo, getHistoryLength, getHistoryIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

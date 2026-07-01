@@ -1,15 +1,16 @@
 # Testing Utilities
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [layout.bottomnav-overlap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L1) (5 connections)
-- [lastBottom](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L31) (1 connections)
-- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L18) (1 connections)
-- [nav](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L23) (1 connections)
-- [navBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L25) (1 connections)
-- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L3) (1 connections)
+- [TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L1) (6 connections)
+- [buttonSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L23) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L74) (1 connections)
+- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L51) (1 connections)
+- [isGridSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L54) (1 connections)
+- [showOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L53) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.bottomnav-overlap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

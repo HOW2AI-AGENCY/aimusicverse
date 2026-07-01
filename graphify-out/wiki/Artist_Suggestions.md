@@ -1,13 +1,14 @@
 # Artist Suggestions
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TrackListSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L1) (4 connections)
-- [shimmer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L194) (1 connections)
-- [shimmerClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L195) (1 connections)
-- [TrackRowSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L12) (1 connections)
+- [lazy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L1) (4 connections)
+- [batchLoad()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L103) (2 connections)
+- [createLazyRoute()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L64) (2 connections)
+- [lazyLoad()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L36) (2 connections)
+- [lazyLibrary()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L82) (1 connections)
 
 ## Relationships
 
@@ -15,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeletons\TrackListSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lazy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

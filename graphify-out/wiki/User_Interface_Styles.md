@@ -1,11 +1,12 @@
 # User Interface Styles
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L1) (1 connections)
-- [SmartAlertProviderWrapper()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L8) (1 connections)
+- [useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L1) (2 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L41) (1 connections)
+- [useTransportSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L48) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

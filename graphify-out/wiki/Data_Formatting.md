@@ -1,10 +1,11 @@
 # Data Formatting
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L1) (0 connections)
+- [AdminBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx#L10) (1 connections)
+- [AdminBroadcast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBroadcast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

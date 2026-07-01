@@ -1,11 +1,12 @@
 # Supabase Configuration
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L1) (1 connections)
-- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L35) (1 connections)
+- [SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L1) (2 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L23) (1 connections)
+- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

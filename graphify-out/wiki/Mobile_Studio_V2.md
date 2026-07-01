@@ -1,13 +1,14 @@
 # Mobile Studio V2
 
-> 4 nodes · cohesion 0.83
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L1) (3 connections)
-- [TelegramSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L39) (3 connections)
-- [getTelegramSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L35) (2 connections)
-- [getTelegramSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L31) (2 connections)
+- [projectPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L1) (4 connections)
+- [getProjectPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L143) (1 connections)
+- [getProjectPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L123) (1 connections)
+- [getProjectTypeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L148) (1 connections)
+- [PROJECT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\projectPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

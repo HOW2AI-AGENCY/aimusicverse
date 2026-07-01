@@ -1,33 +1,34 @@
 # Speech Recognition
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [Sprint 008 Completion - Library & Player MVP](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (11 connections)
-- [ExpandedPlayer Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [PlaybackControls Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [ProgressBar Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [QueueSheet Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [QueueItem Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [VolumeControl Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [Haptic Feedback Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [Infinite Scroll Library](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [Swipe Gestures (Like/Delete)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [Three-Mode Player (Compact/Expanded/Fullscreen)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
-- [useTracksInfinite Hook](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L1) (12 connections)
+- [formatted](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L188) (1 connections)
+- [lines](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L164) (1 connections)
+- [mockAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L26) (1 connections)
+- [mockBPMResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L39) (1 connections)
+- [mockDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L27) (1 connections)
+- [mockNearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L129) (1 connections)
+- [mockPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L147) (1 connections)
+- [mockSnapResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L103) (1 connections)
+- [nearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L138) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L42) (1 connections)
+- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L225) (1 connections)
+- [snapped](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L118) (1 connections)
 
 ## Relationships
 
-- [[Audio Error Handling]] (22 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

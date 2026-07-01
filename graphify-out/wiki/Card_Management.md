@@ -1,10 +1,11 @@
 # Card Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/index.ts#L1) (0 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts#L1) (1 connections)
+- [Constants](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts#L6877) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

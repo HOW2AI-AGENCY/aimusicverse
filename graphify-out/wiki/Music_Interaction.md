@@ -1,16 +1,17 @@
 # Music Interaction
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [MobileProjectsToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L1) (6 connections)
-- [handleCreateClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L51) (2 connections)
-- [handleSearchToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L38) (1 connections)
-- [handleViewModeChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L46) (1 connections)
-- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L29) (1 connections)
-- [[isSearchExpanded, setIsSearchExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L28) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L30) (1 connections)
+- [UnifiedFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L1) (7 connections)
+- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L134) (1 connections)
+- [bottomStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L81) (1 connections)
+- [handleActionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L72) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L63) (1 connections)
+- [{ impact }](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L61) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L60) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -18,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\MobileProjectsToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\UnifiedFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (92%)
-- INFERRED: 1 (8%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

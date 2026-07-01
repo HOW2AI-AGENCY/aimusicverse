@@ -4,10 +4,20 @@
 
 ## Key Concepts
 
-- [useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L1) (3 connections)
-- [calculateRMS()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L35) (1 connections)
-- [DEFAULT_LEVELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L26) (1 connections)
-- [useStemAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L46) (1 connections)
+- [voice-clone.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L1) (3 connections)
+- [VoiceApiError](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L6) (2 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L8) (1 connections)
+- [voiceCloneApi](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L24) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class VoiceApiError {
+        +voice-clone.api.ts()
+        +.constructor()
+    }
+```
 
 ## Relationships
 
@@ -15,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\api\voice-clone.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

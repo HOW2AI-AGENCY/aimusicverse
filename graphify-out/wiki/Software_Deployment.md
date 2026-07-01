@@ -1,58 +1,35 @@
 # Software Deployment
 
-> 34 nodes · cohesion 0.06
+> 33 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [PromptDJMixer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L1) (33 connections)
-- [applyPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L159) (1 connections)
-- [{
-    channels,
-    updateChannel,
-    globalSettings,
-    updateGlobalSettings,
-    isGenerating,
-    generatedTracks,
-    generateMusic,
-    previewWithSynth,
-    stopPreview,
-    isPreviewPlaying,
-    isPlaying,
-    currentTrack,
-    playTrack,
-    stopPlayback,
-    currentPrompt,
-    analyzerNode,
-    removeTrack,
-    isLiveMode,
-    liveStatus,
-    startLiveMode,
-    stopLiveMode,
-    forceRegenerateInLive,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L60) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L424) (1 connections)
-- [customChannel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L293) (1 connections)
-- [{ description, bpm }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L292) (1 connections)
-- [[dismissedSuggestions, setDismissedSuggestions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L55) (1 connections)
-- [drumData](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L289) (1 connections)
-- [getLiveStatusText()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L311) (1 connections)
-- [handleApplyQuickStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L176) (1 connections)
-- [handleApplySuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L132) (1 connections)
-- [handleDismissSuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L154) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L272) (1 connections)
-- [handleKnobChangeEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L123) (1 connections)
-- [handleKnobChangeStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L118) (1 connections)
-- [handleSaveToCloud](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L211) (1 connections)
-- [handleSelectChannel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L206) (1 connections)
-- [handleTypeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L198) (1 connections)
-- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L257) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L49) (1 connections)
-- [{ hasPrediction }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L86) (1 connections)
-- [hasSeenQuickStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L110) (1 connections)
-- [[isKnobAdjusting, setIsKnobAdjusting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L54) (1 connections)
-- [isKnobsActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L305) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L47) (1 connections)
-- *... and 9 more nodes in this community*
+- [check-css-imports.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L1) (32 connections)
+- [abs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L37) (1 connections)
+- [absPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L100) (1 connections)
+- [before](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L66) (1 connections)
+- [BOLD](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L27) (1 connections)
+- [code](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L72) (1 connections)
+- [color()](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L30) (1 connections)
+- [CYAN](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L25) (1 connections)
+- [DIM](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L26) (1 connections)
+- [__dirname](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L17) (1 connections)
+- [end](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L57) (1 connections)
+- [filePath](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L99) (1 connections)
+- [firstOtherLine](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L47) (1 connections)
+- [firstOtherText](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L48) (1 connections)
+- [GREEN](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L24) (1 connections)
+- [hasError](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L34) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L52) (1 connections)
+- [inBlockComment](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L49) (1 connections)
+- [isCharset](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L78) (1 connections)
+- [isEmptyLayer](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L79) (1 connections)
+- [isImport](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L77) (1 connections)
+- [line](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L53) (1 connections)
+- [lines](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L44) (1 connections)
+- [projectRoot](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L18) (1 connections)
+- [RED](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L22) (1 connections)
+- *... and 8 more nodes in this community*
 
 ## Relationships
 
@@ -60,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJMixer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\check-css-imports.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs)
 
 ## Audit Trail
 
-- EXTRACTED: 66 (100%)
+- EXTRACTED: 64 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

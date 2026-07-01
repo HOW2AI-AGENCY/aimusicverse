@@ -1,13 +1,14 @@
 # Sprint Reporting
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L1) (3 connections)
-- [TelegramThemeContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L29) (1 connections)
-- [TelegramThemeProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L37) (1 connections)
-- [useTelegramTheme()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L147) (1 connections)
+- [quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L1) (4 connections)
+- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L151) (1 connections)
+- [getPresetsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L158) (1 connections)
+- [QUICK_CREATE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L25) (1 connections)
+- [searchPresetsByTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L165) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

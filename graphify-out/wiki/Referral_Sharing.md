@@ -4,23 +4,19 @@
 
 ## Key Concepts
 
-- [Audio System Improvements 2025-12-09](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_SYSTEM_IMPROVEMENTS_2025-12-09.md) (3 connections)
-- [Audio Player No Sound Fix V2](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_V2_2025-12-10.md) (2 connections)
-- [Audio Player No Sound Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_2025-12-10.md) (1 connections)
-- [Professional Platform Visual Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md) (1 connections)
-- [Bug Fix Summary - Stem Studio](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md) (1 connections)
+- [GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L241) (1 connections)
+- [GenerationResultSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L42) (1 connections)
+- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L217) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L216) (1 connections)
 
 ## Relationships
 
-- [[Audio Control]] (8 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_2025-12-10.md)
-- [docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_V2_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_V2_2025-12-10.md)
-- [docs/archive/2025-12/AUDIO_SYSTEM_IMPROVEMENTS_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_SYSTEM_IMPROVEMENTS_2025-12-09.md)
-- [docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md)
-- [docs/archive/2025-12/BUGFIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx)
 
 ## Audit Trail
 

@@ -1,17 +1,18 @@
 # Music Track Attributes
 
-> 8 nodes · cohesion 0.29
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ActivityItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L1) (7 connections)
-- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L66) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L57) (2 connections)
-- [getActivityColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L38) (1 connections)
-- [getActivityIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L20) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L58) (1 connections)
-- [iconColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L59) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L61) (1 connections)
+- [ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L1) (8 connections)
+- [globalIdx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L125) (1 connections)
+- [groupedRecs](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L53) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L62) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L113) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L114) (1 connections)
+- [[selectedIndex, setSelectedIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L50) (1 connections)
+- [TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L29) (1 connections)
+- [TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -19,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\social\ActivityItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx)
 
 ## Audit Trail
 

@@ -1,14 +1,15 @@
 # UI Icon Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L1) (4 connections)
-- [handleSwipeAddToQueue](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L51) (1 connections)
-- [handleSwipeSwitchVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L55) (1 connections)
-- [{ isOwnTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L62) (1 connections)
-- [{ sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L47) (1 connections)
+- [PaymentHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L1) (5 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L119) (2 connections)
+- [getProductIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L80) (2 connections)
+- [formatProductName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L88) (1 connections)
+- [PaymentHistoryItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L99) (1 connections)
+- [STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

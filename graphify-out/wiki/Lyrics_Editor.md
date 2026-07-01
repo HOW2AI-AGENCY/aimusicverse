@@ -1,20 +1,21 @@
 # Lyrics Editor
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [AlertHistoryPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L1) (11 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L114) (1 connections)
-- [{ data: alerts, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L30) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L31) (1 connections)
-- [isResolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L117) (1 connections)
-- [[resolutionNote, setResolutionNote]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L35) (1 connections)
-- [resolveAlert](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L32) (1 connections)
-- [[resolveDialogOpen, setResolveDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L33) (1 connections)
-- [[selectedAlertId, setSelectedAlertId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L34) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L23) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L116) (1 connections)
+- [NewArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L1) (12 connections)
+- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L29) (1 connections)
+- [defaultStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L36) (1 connections)
+- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L38) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L27) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L32) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L28) (1 connections)
+- [[showTrackInfo, setShowTrackInfo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L33) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L30) (1 connections)
+- [styleHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L44) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L31) (1 connections)
+- [trackLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AlertHistoryPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\NewArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 23 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

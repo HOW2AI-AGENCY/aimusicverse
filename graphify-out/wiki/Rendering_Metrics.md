@@ -1,22 +1,23 @@
 # Rendering Metrics
 
-> 13 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L1) (12 connections)
-- [categorizedFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L210) (1 connections)
-- [categoryFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L288) (1 connections)
-- [{ data: flags, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L195) (1 connections)
-- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L151) (1 connections)
-- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L199) (1 connections)
-- [handleUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L203) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L150) (1 connections)
-- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L38) (1 connections)
-- [toggleFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L196) (1 connections)
-- [totalEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L213) (1 connections)
-- [totalFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L214) (1 connections)
-- [updateFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L197) (1 connections)
+- [InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L1) (13 connections)
+- [{ activeReference, clearActive, analysisStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L50) (1 connections)
+- [defaultContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L97) (1 connections)
+- [effectiveDur](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L96) (1 connections)
+- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L149) (1 connections)
+- [getModeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L136) (1 connections)
+- [getModeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L130) (1 connections)
+- [getSourceIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L107) (1 connections)
+- [handleContinueAtChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L81) (1 connections)
+- [handleModeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L63) (1 connections)
+- [handleRemove](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L58) (1 connections)
+- [hasAnalysisData](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L142) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L52) (1 connections)
+- [{ isPlaying, currentTime, duration, isLoading, isBuffering, togglePlay, seek }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -24,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\features\FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

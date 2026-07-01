@@ -1,10 +1,11 @@
 # Game Character
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/index.ts#L1) (0 connections)
+- [shimmerAnimation.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/lib/shimmerAnimation.tsx#L1) (1 connections)
+- [ShimmerLoader](file:///D:/.MUSICVERSE/aimusicverse/src/lib/shimmerAnimation.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\shimmerAnimation.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/lib/shimmerAnimation.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,13 @@
 # Category Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L1) (2 connections)
-- [ResponsiveContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L56) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L47) (1 connections)
+- [useStudioTrackState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L38) (2 connections)
+- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L17) (2 connections)
+- [useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L1) (1 connections)
+- [useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -14,12 +15,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\responsive-container\responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\hooks\useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (67%)
+- INFERRED: 2 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

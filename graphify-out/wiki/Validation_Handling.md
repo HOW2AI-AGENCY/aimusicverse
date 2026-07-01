@@ -1,11 +1,12 @@
 # Validation Handling
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L1) (1 connections)
-- [cleanWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L37) (1 connections)
+- [useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L1) (2 connections)
+- [audioLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L23) (1 connections)
+- [useAudioPlayer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

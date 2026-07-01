@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L1) (3 connections)
-- [OPERATION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L56) (1 connections)
-- [STEM_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L54) (1 connections)
-- [useStudioOperationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L68) (1 connections)
+- [CoverPromptSuggester.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L1) (3 connections)
+- [BRANDED_PROMPTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L22) (1 connections)
+- [CoverPromptSuggester()](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L111) (1 connections)
+- [generateRandomPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\cover\CoverPromptSuggester.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx)
 
 ## Audit Trail
 

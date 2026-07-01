@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useTinkoffPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts#L1) (1 connections)
-- [useTinkoffPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts#L22) (1 connections)
+- [RhythmResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/RhythmResultCard.tsx#L1) (1 connections)
+- [RhythmResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/RhythmResultCard.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTinkoffPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\RhythmResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/RhythmResultCard.tsx)
 
 ## Audit Trail
 

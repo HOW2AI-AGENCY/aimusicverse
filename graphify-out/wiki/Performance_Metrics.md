@@ -1,35 +1,35 @@
 # Performance Metrics
 
-> 26 nodes · cohesion 0.09
+> 27 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L1) (13 connections)
-- [styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L1) (11 connections)
-- [parseStyleTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L80) (4 connections)
-- [parseTrackTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L196) (3 connections)
-- [cleanTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L46) (2 connections)
-- [getDisplayTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L215) (2 connections)
-- [isValidTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L58) (2 connections)
-- [addTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L123) (2 connections)
-- [detectCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L31) (1 connections)
-- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L23) (1 connections)
-- [MOOD_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L18) (1 connections)
-- [STRUCTURE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L25) (1 connections)
-- [TEMPO_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L22) (1 connections)
-- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L20) (1 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L121) (1 connections)
-- [addBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L136) (1 connections)
-- [ADVANCED_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L112) (1 connections)
-- [BACK_VOCAL_EFFECTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L98) (1 connections)
-- [[backVocals, setBackVocals]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L120) (1 connections)
-- [clearAll](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L176) (1 connections)
-- [copyToClipboard](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L167) (1 connections)
-- [generateCompoundTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L149) (1 connections)
-- [removeBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L145) (1 connections)
-- [removeTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L132) (1 connections)
-- [[selectedTags, setSelectedTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L119) (1 connections)
-- *... and 1 more nodes in this community*
+- [memory-usage.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L1) (26 connections)
+- [afterClear](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L172) (1 connections)
+- [baseMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L137) (1 connections)
+- [beforeClear](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L168) (1 connections)
+- [finalMeasurement](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L53) (1 connections)
+- [finalMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L284) (1 connections)
+- [growth](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L312) (1 connections)
+- [hasLeak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L213) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L125) (1 connections)
+- [initialMeasurement](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L38) (1 connections)
+- [initialMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L245) (1 connections)
+- [largeArray](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L307) (1 connections)
+- [measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L134) (1 connections)
+- [memoryGrowth](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L58) (1 connections)
+- [memoryReleased](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L174) (1 connections)
+- [memoryRetained](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L103) (1 connections)
+- [memoryTracker](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L13) (1 connections)
+- [memoryUsed](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L138) (1 connections)
+- [peakMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L136) (1 connections)
+- [phase1Measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L89) (1 connections)
+- [phase1Peak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L101) (1 connections)
+- [phase2Measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L99) (1 connections)
+- [phase2Peak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L102) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L42) (1 connections)
+- [{ result, unmount }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L80) (1 connections)
+- *... and 2 more nodes in this community*
 
 ## Relationships
 
@@ -37,13 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\performance\memory-usage.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 54 (95%)
-- INFERRED: 3 (5%)
+- EXTRACTED: 52 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

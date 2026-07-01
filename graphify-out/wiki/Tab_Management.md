@@ -1,10 +1,11 @@
 # Tab Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/index.ts#L1) (0 connections)
+- [AdminTariffs()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx#L7) (1 connections)
+- [AdminTariffs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTariffs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

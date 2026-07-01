@@ -1,11 +1,12 @@
 # Bar Chart
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L1) (1 connections)
-- [MobileQuickActionsGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L20) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L1) (2 connections)
+- [DEFAULT_PROVIDER_FOR_TYPE](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L200) (1 connections)
+- [PROVIDER_CAPABILITIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L189) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

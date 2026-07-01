@@ -1,19 +1,20 @@
 # Pricing Information
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L141) (1 connections)
-- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L221) (1 connections)
-- [filteredJourneys](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L223) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L170) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L117) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L171) (1 connections)
-- [JOURNEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L45) (1 connections)
-- [OUTCOME_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L106) (1 connections)
-- [outcomeStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L118) (1 connections)
+- [DailyCheckin.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L1) (10 connections)
+- [generateStarMovements()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L11) (2 connections)
+- [checkin](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L22) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L61) (1 connections)
+- [{ data: canCheckin, isLoading: checkingStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L20) (1 connections)
+- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L21) (1 connections)
+- [handleCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L25) (1 connections)
+- [nextStreakBonus](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L40) (1 connections)
+- [{ showStreak, showCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L23) (1 connections)
+- [[starMovements]](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L19) (1 connections)
+- [streak](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -21,12 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\DailyCheckin.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

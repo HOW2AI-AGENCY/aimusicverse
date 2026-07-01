@@ -1,20 +1,21 @@
 # Slider Component
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [DailyCheckin.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L1) (10 connections)
-- [generateStarMovements()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L11) (2 connections)
-- [checkin](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L22) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L61) (1 connections)
-- [{ data: canCheckin, isLoading: checkingStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L20) (1 connections)
-- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L21) (1 connections)
-- [handleCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L25) (1 connections)
-- [nextStreakBonus](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L40) (1 connections)
-- [{ showStreak, showCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L23) (1 connections)
-- [[starMovements]](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L19) (1 connections)
-- [streak](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L44) (1 connections)
+- [LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L1) (11 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L81) (1 connections)
+- [{ data: leaderboard, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L22) (1 connections)
+- [{ data: userCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L23) (1 connections)
+- [isCurrentUser](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L61) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L21) (1 connections)
+- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L60) (1 connections)
+- [RANK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L13) (1 connections)
+- [topThree](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L43) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L20) (1 connections)
+- [userPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L26) (1 connections)
+- [xpToNextRank](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -22,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\DailyCheckin.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 22 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,16 +1,17 @@
 # Deeplink Analytics
 
-> 7 nodes · cohesion 0.43
+> 8 nodes · cohesion 0.39
 
 ## Key Concepts
 
-- [usePublicTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L1) (6 connections)
-- [usePublicTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L31) (4 connections)
-- [useNewTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L165) (2 connections)
-- [usePopularTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L172) (2 connections)
-- [useTrendingTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L179) (2 connections)
-- [useIncrementPlayCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L150) (1 connections)
-- [useToggleTrackLike()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L118) (1 connections)
+- [useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L1) (7 connections)
+- [useMusicGraphData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L151) (5 connections)
+- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L96) (2 connections)
+- [useMusicStyles()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L112) (2 connections)
+- [useStyleTagMappings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L127) (2 connections)
+- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L139) (2 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L70) (1 connections)
+- [GENRE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L83) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

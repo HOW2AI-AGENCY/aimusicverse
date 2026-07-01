@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts#L4) (1 connections)
+- [WaveformProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L1) (1 connections)
+- [WaveformProgressBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\WaveformProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx)
 
 ## Audit Trail
 

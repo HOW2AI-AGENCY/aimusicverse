@@ -1,18 +1,19 @@
 # Media Attributes
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L1) (8 connections)
-- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L22) (1 connections)
-- [header](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L12) (1 connections)
-- [headerBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L38) (1 connections)
-- [overflow](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L29) (1 connections)
-- [tab](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L20) (1 connections)
-- [tablist](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L15) (1 connections)
-- [tablistBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L39) (1 connections)
-- [WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L3) (1 connections)
+- [z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L1) (9 connections)
+- [Z_BASE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L10) (1 connections)
+- [Z_CLASS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L20) (1 connections)
+- [Z_DEV_OVERLAY](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L17) (1 connections)
+- [Z_DRAWER](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L13) (1 connections)
+- [Z_DROPDOWN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L11) (1 connections)
+- [Z_MODAL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L14) (1 connections)
+- [Z_POPOVER](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L15) (1 connections)
+- [Z_STICKY](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L12) (1 connections)
+- [Z_TOAST](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L16) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

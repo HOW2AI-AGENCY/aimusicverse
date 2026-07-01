@@ -1,11 +1,12 @@
 # Klang.io Integration
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [BotContextBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx#L18) (1 connections)
-- [BotContextBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx#L1) (1 connections)
+- [mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L1) (2 connections)
+- [createMockWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L17) (1 connections)
+- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\BotContextBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

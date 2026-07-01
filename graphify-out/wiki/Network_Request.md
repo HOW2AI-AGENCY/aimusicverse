@@ -1,19 +1,20 @@
 # Network Request
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L1) (9 connections)
-- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L24) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L87) (1 connections)
-- [handleLinkTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L38) (1 connections)
-- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L51) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L25) (1 connections)
-- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L52) (1 connections)
-- [selectedSlot](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L53) (1 connections)
-- [[selectedSlots, setSelectedSlots]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L26) (1 connections)
-- [{ unlinkedTracks, isLoading, linkTrackToSlot, isLinking }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L28) (1 connections)
+- [UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L1) (10 connections)
+- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L61) (1 connections)
+- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L63) (1 connections)
+- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L70) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L94) (1 connections)
+- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L102) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L180) (1 connections)
+- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L92) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L88) (1 connections)
+- [projectType](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L91) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L90) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

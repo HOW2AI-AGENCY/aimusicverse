@@ -1,21 +1,22 @@
 # Chip Input
 
-> 12 nodes · cohesion 0.18
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L1) (11 connections)
-- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L152) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L138) (2 connections)
-- [adminSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L105) (1 connections)
-- [allItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L148) (1 connections)
-- [allSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L145) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L142) (1 connections)
-- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L167) (1 connections)
-- [{ isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L141) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L139) (1 connections)
-- [menuSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L61) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L140) (1 connections)
+- [VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L1) (12 connections)
+- [finalTranscript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L92) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L95) (1 connections)
+- [interim](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L93) (1 connections)
+- [[interimTranscript, setInterimTranscript]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L60) (1 connections)
+- [[isListening, setIsListening]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L57) (1 connections)
+- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L58) (1 connections)
+- [isSupported](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L150) (1 connections)
+- [recognition](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L81) (1 connections)
+- [recognitionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L59) (1 connections)
+- [SpeechRecognitionClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L64) (1 connections)
+- [toggleListening](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L133) (1 connections)
+- [transcript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -23,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx)
 
 ## Audit Trail
 

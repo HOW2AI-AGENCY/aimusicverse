@@ -1,17 +1,26 @@
 # Watermark Management
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useBotMenuItems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L1) (8 connections)
-- [useBotMenuItems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L57) (1 connections)
-- [useBotMenuItemsByParent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L76) (1 connections)
-- [useCreateMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L99) (1 connections)
-- [useDeleteMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L154) (1 connections)
-- [useReorderMenuItems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L178) (1 connections)
-- [useToggleMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L212) (1 connections)
-- [useUpdateMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L124) (1 connections)
+- [AddTrackDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L1) (8 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L87) (1 connections)
+- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L43) (1 connections)
+- [handleSuccess()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L53) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L88) (1 connections)
+- [isSuggested](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L89) (1 connections)
+- [[selectedType, setSelectedType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L30) (1 connections)
+- [[styleHint, setStyleHint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L31) (1 connections)
+- [{
+    trackContext,
+    isLoadingContext,
+    refetchContext,
+    generateStem,
+    isGenerating,
+    generationProgress,
+    lastGeneration,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -19,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotMenuItems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddTrackDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

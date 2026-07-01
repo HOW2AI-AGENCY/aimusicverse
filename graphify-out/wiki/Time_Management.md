@@ -1,10 +1,11 @@
 # Time Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [contract_unified-dialog-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-dialog.types.ts) (0 connections)
+- [UnifiedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx#L1) (1 connections)
+- [UnifiedTrackCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-dialog.types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\UnifiedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

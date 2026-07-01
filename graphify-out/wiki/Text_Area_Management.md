@@ -1,19 +1,20 @@
 # Text Area Management
 
-> 10 nodes · cohesion 0.29
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L1) (9 connections)
-- [getStemDisplayInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L186) (5 connections)
-- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L156) (2 connections)
-- [getStemEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L166) (2 connections)
-- [getStemIconName()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L176) (2 connections)
-- [getStemLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L146) (2 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L55) (1 connections)
-- [STEM_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L84) (1 connections)
-- [STEM_ICON_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L113) (1 connections)
-- [STEM_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L9) (1 connections)
+- [layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L1) (10 connections)
+- [compact](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L59) (1 connections)
+- [compactBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L73) (1 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L66) (1 connections)
+- [last](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L71) (1 connections)
+- [lastBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L72) (1 connections)
+- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L53) (1 connections)
+- [mountCompact()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L21) (1 connections)
+- [SAMPLE_TRACK](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L10) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L65) (1 connections)
+- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

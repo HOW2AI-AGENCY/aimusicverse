@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackLyricsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackLyricsSection.tsx#L1) (1 connections)
-- [TrackLyricsSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackLyricsSection.tsx#L18) (1 connections)
+- [VirtualizedLyricsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx#L1) (1 connections)
+- [handleCopy](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackLyricsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackLyricsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedLyricsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx)
 
 ## Audit Trail
 

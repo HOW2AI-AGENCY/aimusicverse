@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L1) (2 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L15) (1 connections)
-- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L27) (1 connections)
+- [DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L1) (2 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L51) (1 connections)
+- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L52) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\integration\paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx)
 
 ## Audit Trail
 

@@ -1,33 +1,32 @@
 # Timeline Interaction
 
-> 24 nodes · cohesion 0.08
+> 23 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [CrossfadePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L1) (23 connections)
-- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L47) (1 connections)
-- [applyCrossfade](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L88) (1 connections)
-- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L52) (1 connections)
-- [crossfadePoint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L55) (1 connections)
-- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L40) (1 connections)
-- [effectiveVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L82) (1 connections)
-- [gainNodesRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L48) (1 connections)
-- [isCrossfading](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L195) (1 connections)
-- [[isMuted, setIsMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L42) (1 connections)
-- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L39) (1 connections)
-- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L38) (1 connections)
-- [originalAudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L59) (1 connections)
-- [originalAudioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L45) (1 connections)
-- [pause](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L174) (1 connections)
-- [play](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L155) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L194) (1 connections)
-- [replacementAudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L60) (1 connections)
-- [replacementAudioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L46) (1 connections)
-- [restart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L183) (1 connections)
-- [sectionDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L54) (1 connections)
-- [togglePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L189) (1 connections)
-- [updatePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L133) (1 connections)
-- [[volume, setVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L41) (1 connections)
+- [AudioExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L1) (23 connections)
+- [clearAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L146) (2 connections)
+- [handleFileSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L114) (2 connections)
+- [[audioDuration, setAudioDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L57) (1 connections)
+- [[audioFile, setAudioFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L56) (1 connections)
+- [[audioPreviewUrl, setAudioPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L58) (1 connections)
+- [availableModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L239) (1 connections)
+- [[continueAt, setContinueAt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L66) (1 connections)
+- [[durationError, setDurationError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L74) (1 connections)
+- [file](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L272) (1 connections)
+- [[instrumental, setInstrumental]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L64) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L54) (1 connections)
+- [limit](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L105) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L55) (1 connections)
+- [[lyrics, setLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L63) (1 connections)
+- [MODEL_LIMITS](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L38) (1 connections)
+- [[model, setModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L65) (1 connections)
+- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L70) (1 connections)
+- [[showAdvanced, setShowAdvanced]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L69) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L61) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L62) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L53) (1 connections)
+- [[vocalGender, setVocalGender]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L71) (1 connections)
 
 ## Relationships
 
@@ -35,12 +34,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\CrossfadePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\AudioExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 46 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

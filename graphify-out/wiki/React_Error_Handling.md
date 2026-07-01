@@ -1,11 +1,12 @@
 # React Error Handling
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [PrivacyToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx#L1) (1 connections)
-- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx#L20) (1 connections)
+- [toggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L1) (2 connections)
+- [Toggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L28) (1 connections)
+- [toggleVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L7) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\PrivacyToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\toggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

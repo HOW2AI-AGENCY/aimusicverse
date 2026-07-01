@@ -1,21 +1,22 @@
 # Music Generation
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L1) (11 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L81) (1 connections)
-- [{ data: leaderboard, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L22) (1 connections)
-- [{ data: userCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L23) (1 connections)
-- [isCurrentUser](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L61) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L21) (1 connections)
-- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L60) (1 connections)
-- [RANK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L13) (1 connections)
-- [topThree](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L43) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L20) (1 connections)
-- [userPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L26) (1 connections)
-- [xpToNextRank](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L33) (1 connections)
+- [StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L1) (12 connections)
+- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L42) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L94) (1 connections)
+- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L83) (1 connections)
+- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L45) (1 connections)
+- [handlePointerMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L60) (1 connections)
+- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L73) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L34) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L36) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L37) (1 connections)
+- [knobRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L35) (1 connections)
+- [startValueRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L39) (1 connections)
+- [startYRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -23,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\melody-mixer\StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

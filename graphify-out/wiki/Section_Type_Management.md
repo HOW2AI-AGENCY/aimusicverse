@@ -1,12 +1,13 @@
 # Section Type Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L1) (2 connections)
-- [createMockWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L17) (1 connections)
-- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L12) (1 connections)
+- [useAddInstrumentalProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L1) (3 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L49) (1 connections)
+- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L59) (1 connections)
+- [useAddInstrumentalProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L69) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAddInstrumentalProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

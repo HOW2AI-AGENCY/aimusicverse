@@ -1,13 +1,14 @@
 # Responsive Layout
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L1) (3 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L36) (1 connections)
-- [containerSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L28) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L20) (1 connections)
+- [useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L1) (4 connections)
+- [TABLET_MAX](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L24) (1 connections)
+- [TABLET_MIN](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L23) (1 connections)
+- [useIsTablet()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L26) (1 connections)
+- [useResponsive()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

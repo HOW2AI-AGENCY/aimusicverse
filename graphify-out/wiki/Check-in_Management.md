@@ -1,19 +1,20 @@
 # Check-in Management
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [HeaderVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L1) (11 connections)
-- [[activeId, setActiveId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L48) (1 connections)
-- [activeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L135) (1 connections)
-- [activeVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L134) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L153) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L46) (1 connections)
-- [[isUpdating, setIsUpdating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L47) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L154) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L49) (1 connections)
-- [[versions, setVersions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L45) (1 connections)
+- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
+- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
+- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L23) (3 connections)
+- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
+- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
+- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L247) (1 connections)
+- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L275) (1 connections)
+- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L157) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L136) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
 
 ## Relationships
 
@@ -21,12 +22,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\HeaderVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (87%)
+- INFERRED: 3 (13%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useStudioShellState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts#L1) (1 connections)
-- [useStudioShellState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts#L11) (1 connections)
+- [TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L1) (1 connections)
+- [TracksTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioShellState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx)
 
 ## Audit Trail
 

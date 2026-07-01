@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [seo.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L1) (9 connections)
-- [canonical](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L31) (1 connections)
-- [desc](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L26) (1 connections)
-- [lang](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L45) (1 connections)
-- [ogUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L39) (1 connections)
-- [resp](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L19) (1 connections)
-- [ROUTES](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L15) (1 connections)
-- [title](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L22) (1 connections)
-- [v](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L36) (1 connections)
-- [viewport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L42) (1 connections)
+- [HealthCheckPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L1) (10 connections)
+- [CheckIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L129) (1 connections)
+- [checkIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L47) (1 connections)
+- [{ data: health, isLoading, refetch, isFetching }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L57) (1 connections)
+- [[isSendingAlert, setIsSendingAlert]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L58) (1 connections)
+- [OverallIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L98) (1 connections)
+- [statusBgColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L41) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L35) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L128) (1 connections)
+- [statusIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -21,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\seo.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\HealthCheckPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 19 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

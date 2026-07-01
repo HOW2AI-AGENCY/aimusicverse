@@ -1,11 +1,12 @@
 # UI Redesign
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L1) (1 connections)
-- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L19) (1 connections)
+- [responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L1) (2 connections)
+- [ResponsiveContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L56) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\responsive-container\responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

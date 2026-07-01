@@ -1,28 +1,18 @@
 # Stem Representation
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L1) (7 connections)
-- [canDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L67) (1 connections)
-- [[deleteDialogOpen, setDeleteDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L51) (1 connections)
-- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L97) (1 connections)
-- [handleDrag](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L93) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L70) (1 connections)
-- [{
-    sheetOpen,
-    setSheetOpen,
-    isMobile,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
-    isOwnTrack,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L53) (1 connections)
-- [[swipeOffset, setSwipeOffset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L50) (1 connections)
+- [EditPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L1) (9 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L66) (2 connections)
+- [[coverUrl, setCoverUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L25) (1 connections)
+- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L23) (1 connections)
+- [[isGeneratingCover, setIsGeneratingCover]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L27) (1 connections)
+- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L24) (1 connections)
+- [[isSubmitting, setIsSubmitting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L26) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L22) (1 connections)
+- [{ updatePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -30,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\EditPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 17 (94%)
+- INFERRED: 1 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

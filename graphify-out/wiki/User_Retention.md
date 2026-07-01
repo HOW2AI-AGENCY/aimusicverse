@@ -1,20 +1,21 @@
 # User Retention
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L1) (10 connections)
-- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L184) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L74) (1 connections)
-- [hasValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L44) (1 connections)
-- [inputPaddingTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L60) (1 connections)
-- [isFloating](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L45) (1 connections)
-- [[isFocused, setIsFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L41) (1 connections)
-- [isPassword](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L46) (1 connections)
-- [labelSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L54) (1 connections)
-- [[showPassword, setShowPassword]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L42) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L48) (1 connections)
+- [economy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L1) (12 connections)
+- [calculateBonusPercent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L142) (3 connections)
+- [starsToCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L107) (3 connections)
+- [calculateReferralReward()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L158) (2 connections)
+- [MODEL_COSTS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/economy.ts#L7) (2 connections)
+- [calculatePurchaseXp()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L151) (1 connections)
+- [creditsToStars()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L114) (1 connections)
+- [formatCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L135) (1 connections)
+- [formatStars()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L121) (1 connections)
+- [formatUsd()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L128) (1 connections)
+- [starsToUsd()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L93) (1 connections)
+- [usdToStars()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L100) (1 connections)
 
 ## Relationships
 
@@ -22,12 +23,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\economy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\economy.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/economy.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 28 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

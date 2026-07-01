@@ -4,17 +4,16 @@
 
 ## Key Concepts
 
-- [CloudStorage Synchronization](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
-- [Telegram Deep Linking](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md) (1 connections)
+- [StudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx#L1) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx#L41) (1 connections)
 
 ## Relationships
 
-- [[User Management]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md)
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\StudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx)
 
 ## Audit Trail
 

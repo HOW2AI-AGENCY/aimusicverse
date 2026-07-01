@@ -1,11 +1,12 @@
 # Quality Assurance
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L1) (1 connections)
-- [TitleSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L11) (1 connections)
+- [TouchTarget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L1) (2 connections)
+- [TouchIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L39) (1 connections)
+- [TouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\TouchTarget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

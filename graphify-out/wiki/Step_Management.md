@@ -1,11 +1,12 @@
 # Step Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L1) (1 connections)
-- [ProducerToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L12) (1 connections)
+- [useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L1) (2 connections)
+- [stemTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L127) (1 connections)
+- [useContextualGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L45) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

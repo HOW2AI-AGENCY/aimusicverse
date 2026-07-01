@@ -1,13 +1,28 @@
 # Report Submission
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L1) (3 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L26) (2 connections)
-- [findActiveLine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L44) (1 connections)
-- [OptimizedLyricsPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L60) (1 connections)
+- [UnifiedRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L1) (4 connections)
+- [formatDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L86) (1 connections)
+- [handleModeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L92) (1 connections)
+- [{
+    isRecording,
+    isPaused,
+    duration,
+    audioLevel,
+    waveformData,
+    audioBlob,
+    audioUrl,
+    isSupported,
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    resumeRecording,
+    resetRecording,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L64) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -15,12 +30,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\UnifiedRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

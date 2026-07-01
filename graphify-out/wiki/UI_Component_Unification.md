@@ -1,12 +1,13 @@
 # UI Component Unification
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L1) (2 connections)
-- [modes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L26) (1 connections)
-- [RecordingTypeSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L47) (1 connections)
+- [LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L1) (3 connections)
+- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L36) (1 connections)
+- [containerSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L28) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

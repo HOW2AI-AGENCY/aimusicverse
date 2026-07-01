@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L1) (3 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L49) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L48) (1 connections)
-- [settings](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L47) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L1) (3 connections)
+- [GENRE_THEME_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L37) (1 connections)
+- [getContextualOptions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L71) (1 connections)
+- [INITIAL_MESSAGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts)
 
 ## Audit Trail
 

@@ -1,21 +1,59 @@
 # Music Genre Management
 
-> 12 nodes · cohesion 0.18
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L1) (11 connections)
-- [getRetentionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L39) (2 connections)
-- [RetentionCell()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L67) (2 connections)
-- [AverageCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L100) (1 connections)
-- [averages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L129) (1 connections)
-- [{ data: cohorts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L127) (1 connections)
-- [dateRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L118) (1 connections)
-- [formatDate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L52) (1 connections)
-- [RETENTION_COLUMNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L29) (1 connections)
-- [TIME_RANGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L22) (1 connections)
-- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L116) (1 connections)
-- [totalUsers](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L134) (1 connections)
+- [DrumMachine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L1) (12 connections)
+- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L92) (1 connections)
+- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L26) (1 connections)
+- [getAvailableKits()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L182) (1 connections)
+- [getPresetPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L288) (1 connections)
+- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L68) (1 connections)
+- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L75) (1 connections)
+- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L102) (1 connections)
+- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L130) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L111) (1 connections)
+- [{
+    isReady,
+    isPlaying,
+    currentStep,
+    bpm,
+    swing,
+    volume,
+    currentKit,
+    pattern,
+    soloTracks,
+    mutedTracks,
+    stepLength,
+    recordingState,
+    recordedAudioUrl,
+    recordedAudioBlob,
+    trackEffects,
+    initialize,
+    play,
+    stop,
+    toggleStep,
+    triggerSound,
+    setBpm,
+    setSwing,
+    setVolume,
+    setKit,
+    loadPattern,
+    clearPattern,
+    toggleSolo,
+    toggleMute,
+    getAvailableKits,
+    getPresetPatterns,
+    setStepLength,
+    startRecording,
+    stopRecording,
+    clearRecording,
+    setTrackEffect,
+    exportToMidi,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L28) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L24) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -23,7 +61,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumMachine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx)
 
 ## Audit Trail
 

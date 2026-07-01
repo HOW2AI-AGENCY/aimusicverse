@@ -1,11 +1,12 @@
 # Tag Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx#L53) (1 connections)
-- [CleanStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx#L1) (1 connections)
+- [voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L1) (2 connections)
+- [html](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L47) (1 connections)
+- [response](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L34) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\CleanStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,11 +1,12 @@
 # User Experience
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L1) (1 connections)
-- [PROJECT_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L20) (1 connections)
+- [CoreProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L1) (2 connections)
+- [CoreProviders](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L48) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\providers\CoreProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,14 +1,16 @@
 # Step Navigation
 
-> 5 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L1) (4 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L27) (1 connections)
-- [currentArtists](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L35) (1 connections)
-- [{ data: publicArtists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L28) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L30) (1 connections)
+- [useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L1) (6 connections)
+- [EXCLUDED_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L17) (1 connections)
+- [historyLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L14) (1 connections)
+- [selectCanRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L94) (1 connections)
+- [selectCanUndo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L89) (1 connections)
+- [selectHistoryState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L79) (1 connections)
+- [useStudioHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L28) (1 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

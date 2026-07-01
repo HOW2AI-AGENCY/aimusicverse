@@ -1,13 +1,14 @@
 # Rendering Configuration
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [RecordingControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L1) (3 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L54) (1 connections)
-- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L33) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L27) (1 connections)
+- [AnalysisQuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L1) (4 connections)
+- [normalizeAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L52) (1 connections)
+- [normalized](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L75) (1 connections)
+- [StatCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L34) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L77) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\AnalysisQuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

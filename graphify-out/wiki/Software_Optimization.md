@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [use-mobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-mobile.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\use-mobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-mobile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/index.ts)
 
 ## Audit Trail
 

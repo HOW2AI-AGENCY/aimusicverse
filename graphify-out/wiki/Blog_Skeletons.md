@@ -1,12 +1,13 @@
 # Blog Skeletons
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L1) (2 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L23) (1 connections)
-- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L39) (1 connections)
+- [MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L1) (3 connections)
+- [MusicLabAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L18) (1 connections)
+- [MusicLabAudioProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L20) (1 connections)
+- [useMusicLabAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

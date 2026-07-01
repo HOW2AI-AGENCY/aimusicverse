@@ -1,18 +1,19 @@
 # Filter Management
 
-> 9 nodes · cohesion 0.31
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L1) (8 connections)
-- [getChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L142) (3 connections)
-- [getAllChords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L157) (2 connections)
-- [getChordsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L164) (2 connections)
-- [hasChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L150) (2 connections)
-- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L120) (2 connections)
-- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L13) (1 connections)
-- [FINGER_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L102) (1 connections)
-- [STRING_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L111) (1 connections)
+- [query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L1) (9 connections)
+- [prefetchTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L120) (2 connections)
+- [createOptimisticLikeUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L144) (1 connections)
+- [GC_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L32) (1 connections)
+- [invalidatePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L111) (1 connections)
+- [invalidateTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L102) (1 connections)
+- [invalidateUserTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L92) (1 connections)
+- [queryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L42) (1 connections)
+- [rollbackOptimisticUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L175) (1 connections)
+- [STALE_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -20,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

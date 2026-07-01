@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L1) (1 connections)
-- [UnifiedStudioMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L41) (1 connections)
+- [ActorCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L14) (1 connections)
+- [ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\actors\ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx)
 
 ## Audit Trail
 

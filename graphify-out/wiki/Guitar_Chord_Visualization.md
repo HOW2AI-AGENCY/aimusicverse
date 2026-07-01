@@ -1,24 +1,62 @@
 # Guitar Chord Visualization
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L1) (14 connections)
-- [background](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L81) (1 connections)
-- [containerClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L58) (1 connections)
-- [defaultMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L67) (1 connections)
-- [[dismissed, setDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L199) (1 connections)
-- [displayMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L75) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L202) (1 connections)
-- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L43) (1 connections)
-- [[loadingTime, setLoadingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L197) (1 connections)
-- [retryTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L207) (1 connections)
-- [shouldReduceMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L42) (1 connections)
-- [[showRetry, setShowRetry]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L198) (1 connections)
-- [simulatedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L215) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L48) (1 connections)
-- [zIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L82) (1 connections)
+- [DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L1) (15 connections)
+- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L93) (1 connections)
+- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L25) (1 connections)
+- [getAvailableKits()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L194) (1 connections)
+- [getPresetPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L271) (1 connections)
+- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L67) (1 connections)
+- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L75) (1 connections)
+- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L104) (1 connections)
+- [handleRecord](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L118) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L113) (1 connections)
+- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L152) (1 connections)
+- [handleTrackVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L130) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L138) (1 connections)
+- [{
+    isReady,
+    isPlaying,
+    currentStep,
+    bpm,
+    swing,
+    volume,
+    currentKit,
+    pattern,
+    soloTracks,
+    mutedTracks,
+    stepLength,
+    recordingState,
+    recordedAudioUrl,
+    recordedAudioBlob,
+    trackEffects,
+    initialize,
+    play,
+    stop,
+    toggleStep,
+    triggerSound,
+    setBpm,
+    setSwing,
+    setVolume,
+    setKit,
+    loadPattern,
+    clearPattern,
+    toggleSolo,
+    toggleMute,
+    getAvailableKits,
+    getPresetPatterns,
+    setStepLength,
+    startRecording,
+    stopRecording,
+    clearRecording,
+    setTrackEffect,
+    exportToMidi,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L27) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L23) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -26,11 +64,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

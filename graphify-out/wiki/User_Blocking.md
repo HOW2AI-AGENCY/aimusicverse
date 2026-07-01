@@ -1,15 +1,21 @@
 # User Blocking
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [transcription-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L1) (5 connections)
-- [getFormatDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L163) (1 connections)
-- [getFormatLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L143) (1 connections)
-- [getTranscriptionConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L39) (1 connections)
-- [MODEL_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L191) (1 connections)
-- [stemSupportsTableture()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L183) (1 connections)
+- [StudioNotationPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L1) (6 connections)
+- [availableFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L248) (1 connections)
+- [{
+    data: transcription,
+    isLoading,
+    error,
+    refetch,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L74) (1 connections)
+- [downloadFile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L223) (1 connections)
+- [durationSeconds](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L72) (1 connections)
+- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L70) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -17,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\transcription-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioNotationPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

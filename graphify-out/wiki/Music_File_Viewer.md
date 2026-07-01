@@ -1,21 +1,22 @@
 # Music File Viewer
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L1) (11 connections)
-- [formatRelative()](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L11) (2 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L38) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L39) (1 connections)
-- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L36) (1 connections)
-- [keepEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L83) (1 connections)
-- [pending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L79) (1 connections)
-- [pendingRelative](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L40) (1 connections)
-- [ready](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L27) (1 connections)
-- [selected](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L37) (1 connections)
-- [selectedPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L31) (1 connections)
-- [{ voices, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L26) (1 connections)
+- [prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L1) (12 connections)
+- [buildEnglishPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L324) (2 connections)
+- [buildPromptFromChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L411) (1 connections)
+- [DURATION_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L317) (1 connections)
+- [GENRE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L11) (1 connections)
+- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L403) (1 connections)
+- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L38) (1 connections)
+- [KEY_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L307) (1 connections)
+- [MOOD_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L58) (1 connections)
+- [QUICK_MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L113) (1 connections)
+- [SCALE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L309) (1 connections)
+- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L77) (1 connections)
+- [TEMPO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L298) (1 connections)
 
 ## Relationships
 
@@ -23,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\voice-clone\CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
+- EXTRACTED: 24 (96%)
 - INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 

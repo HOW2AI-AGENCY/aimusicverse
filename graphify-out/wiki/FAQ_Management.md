@@ -1,15 +1,17 @@
 # FAQ Management
 
-> 6 nodes · cohesion 0.33
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [DeeplinkTrendsChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L1) (5 connections)
-- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L50) (1 connections)
-- [labels](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L115) (1 connections)
-- [trend](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L29) (1 connections)
-- [trendColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L60) (1 connections)
-- [TrendIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L58) (1 connections)
+- [Badge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L1) (7 connections)
+- [AllVariants](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L36) (1 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L20) (1 connections)
+- [Destructive](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L28) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L4) (1 connections)
+- [MusicContextBadges](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L47) (1 connections)
+- [Outline](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L32) (1 connections)
+- [Secondary](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -17,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\DeeplinkTrendsChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Badge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

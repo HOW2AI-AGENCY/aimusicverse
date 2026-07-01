@@ -1,10 +1,11 @@
 # Marker Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/types.ts#L1) (0 connections)
+- [useStudioData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts#L1) (1 connections)
+- [useStudioData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts#L58) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,14 +1,14 @@
 # Anomaly Detection
 
-> 5 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [telegramSafeArea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L1) (4 connections)
-- [getTelegramSafeAreaInsets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L9) (2 connections)
-- [wouldCollideWithSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L48) (2 connections)
-- [getTelegramHeaderPaddingTop()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L40) (1 connections)
-- [getTelegramSafeAreaCSS()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L27) (1 connections)
+- [RevenueAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L1) (4 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L136) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L45) (1 connections)
+- [isPositiveChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L134) (1 connections)
+- [revenueChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L130) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\telegramSafeArea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RevenueAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

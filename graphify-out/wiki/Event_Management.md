@@ -1,15 +1,16 @@
 # Event Management
 
-> 6 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L1) (5 connections)
-- [getActionsForStemType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L294) (2 connections)
-- [getGroupedActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L309) (2 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L327) (1 connections)
-- [normalizeTrackType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L338) (1 connections)
-- [STEM_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L64) (1 connections)
+- [KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L1) (6 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L92) (1 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L42) (1 connections)
+- [categoryShortcuts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L110) (1 connections)
+- [KeyBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L54) (1 connections)
+- [ShortcutRow](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L71) (1 connections)
+- [SHORTCUTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -17,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx)
 
 ## Audit Trail
 

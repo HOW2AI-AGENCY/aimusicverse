@@ -1,10 +1,11 @@
 # Pull-to-Refresh
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/index.ts#L1) (0 connections)
+- [AdminAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx#L9) (1 connections)
+- [AdminAlerts.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\performance\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminAlerts.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

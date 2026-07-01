@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [schemas.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L1) (29 connections)
-- [clipSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L70) (1 connections)
-- [commentSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L285) (1 connections)
-- [createCommentSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L298) (1 connections)
-- [createProjectParamsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L180) (1 connections)
-- [createReportSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L314) (1 connections)
-- [generationParamsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L270) (1 connections)
-- [lyricsFormDataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L260) (1 connections)
-- [noteTypeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L230) (1 connections)
-- [paginationSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L22) (1 connections)
-- [projectStatusSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L132) (1 connections)
-- [reportReasonSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L309) (1 connections)
-- [schemas](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L323) (1 connections)
-- [sortSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L30) (1 connections)
-- [stemsModeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L137) (1 connections)
-- [studioLyricVersionSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L235) (1 connections)
-- [studioProjectSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L157) (1 connections)
-- [studioSectionNoteSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L247) (1 connections)
-- [studioTrackSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L97) (1 connections)
-- [trackEffectsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L88) (1 connections)
-- [trackFormDataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L119) (1 connections)
-- [trackMetadataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L50) (1 connections)
-- [trackStatusSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L45) (1 connections)
-- [trackTypeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L40) (1 connections)
-- [trackVersionSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L59) (1 connections)
+- [library.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L1) (29 connections)
+- [accessibleCards](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L331) (1 connections)
+- [accessibleCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L335) (1 connections)
+- [actionsButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L194) (1 connections)
+- [actionsCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L198) (1 connections)
+- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L32) (1 connections)
+- [bodyBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L265) (1 connections)
+- [contentCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L40) (1 connections)
+- [emptyCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L80) (1 connections)
+- [emptyState](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L75) (1 connections)
+- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L22) (1 connections)
+- [filterCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L63) (1 connections)
+- [filters](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L59) (1 connections)
+- [focusedElement](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L322) (1 connections)
+- [h1](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L310) (1 connections)
+- [h1Count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L311) (1 connections)
+- [hasFocus](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L323) (1 connections)
+- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L23) (1 connections)
+- [hasSearch](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L112) (1 connections)
+- [hasTrack](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L169) (1 connections)
+- [inputCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L51) (1 connections)
+- [libraryContent](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L36) (1 connections)
+- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L183) (1 connections)
+- [playCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L187) (1 connections)
+- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L20) (1 connections)
 - *... and 5 more nodes in this community*
 
 ## Relationships
@@ -37,7 +37,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\validation\schemas.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\library.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts)
 
 ## Audit Trail
 

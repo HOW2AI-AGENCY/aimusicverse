@@ -1,12 +1,13 @@
 # AI Assistant
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L1) (2 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L51) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L43) (1 connections)
+- [EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L1) (4 connections)
+- [[formData, setFormData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L31) (1 connections)
+- [[trackParams, setTrackParams]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L37) (1 connections)
+- [{ updateTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

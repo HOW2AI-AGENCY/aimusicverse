@@ -1,12 +1,13 @@
 # Voice Input
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [VocalMapResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L1) (2 connections)
-- [getEffectIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L157) (1 connections)
-- [VocalMapResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L28) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L1) (3 connections)
+- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L68) (1 connections)
+- [TAG_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L82) (1 connections)
+- [UI_TRANSLATIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\VocalMapResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

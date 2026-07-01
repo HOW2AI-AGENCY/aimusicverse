@@ -1,13 +1,14 @@
 # History Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.60
 
 ## Key Concepts
 
-- [creator-avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L1) (3 connections)
-- [CreatorAvatar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L28) (1 connections)
-- [CreatorLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L87) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L21) (1 connections)
+- [OnboardingTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L8) (3 connections)
+- [useOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L20) (3 connections)
+- [useShouldShowOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L77) (3 connections)
+- [useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L1) (2 connections)
+- [OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -15,12 +16,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\creator-avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (67%)
+- INFERRED: 4 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

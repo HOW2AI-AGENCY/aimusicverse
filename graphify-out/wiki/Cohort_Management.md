@@ -1,19 +1,20 @@
 # Cohort Management
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L1) (9 connections)
-- [DESKTOP_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L19) (1 connections)
-- [MOBILE_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L18) (1 connections)
-- [props](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L86) (1 connections)
-- [rowHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L77) (1 connections)
-- [shouldVirtualize](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L76) (1 connections)
-- [state](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L83) (1 connections)
-- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L82) (1 connections)
-- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L84) (1 connections)
-- [VIRTUALIZATION_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L15) (1 connections)
+- [LyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L1) (10 connections)
+- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L178) (1 connections)
+- [getSectionIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L167) (1 connections)
+- [lineHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L479) (1 connections)
+- [lines](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L473) (1 connections)
+- [PanelHeader](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L107) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L455) (1 connections)
+- [scrollTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L480) (1 connections)
+- [targetLine](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L474) (1 connections)
+- [textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L477) (1 connections)
+- [value](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx#L499) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\LyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

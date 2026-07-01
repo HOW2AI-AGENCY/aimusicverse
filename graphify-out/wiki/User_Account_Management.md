@@ -1,17 +1,18 @@
 # User Account Management
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L1) (7 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L83) (1 connections)
-- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L114) (1 connections)
-- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L45) (1 connections)
-- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L75) (1 connections)
-- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L76) (1 connections)
-- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L150) (1 connections)
-- [stepIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L117) (1 connections)
+- [PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L1) (8 connections)
+- [bgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L83) (1 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L82) (1 connections)
+- [DEVICE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L25) (1 connections)
+- [isGood](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L41) (1 connections)
+- [isPoor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L42) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L44) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L45) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useDeliveryTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useDeliveryTracking.ts#L1) (1 connections)
-- [useDeliveryTracking()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useDeliveryTracking.ts#L19) (1 connections)
+- [ActiveTabIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx#L8) (1 connections)
+- [ActiveTabIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useDeliveryTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useDeliveryTracking.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\ActiveTabIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx)
 
 ## Audit Trail
 

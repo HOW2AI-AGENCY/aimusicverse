@@ -1,19 +1,20 @@
 # Blog Content Management
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [ChordSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L1) (9 connections)
-- [currentChordIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L62) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L30) (1 connections)
-- [handleChordClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L67) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L76) (1 connections)
-- [handleExport](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L82) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L45) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L157) (1 connections)
-- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L48) (1 connections)
-- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L51) (1 connections)
+- [LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L1) (11 connections)
+- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L27) (1 connections)
+- [currentWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L51) (1 connections)
+- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L36) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L143) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L144) (1 connections)
+- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L163) (1 connections)
+- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L34) (1 connections)
+- [lyricsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L28) (1 connections)
+- [lyricsText](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L37) (1 connections)
+- [wordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ChordSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 21 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

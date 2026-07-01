@@ -1,13 +1,14 @@
 # Fullscreen Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [AppLogo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L1) (3 connections)
-- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L22) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L48) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L31) (1 connections)
+- [TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L1) (4 connections)
+- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L18) (1 connections)
+- [categoryInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L38) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L39) (1 connections)
+- [resolvedCategory](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\branding\AppLogo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

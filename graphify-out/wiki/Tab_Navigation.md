@@ -1,16 +1,30 @@
 # Tab Navigation
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L1) (6 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L51) (1 connections)
-- [handlePresetChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L54) (1 connections)
-- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L74) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L50) (1 connections)
-- [[isHardwareMode, setIsHardwareMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L52) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L49) (1 connections)
+- [OptimizedMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L1) (7 connections)
+- [enrichedStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L50) (1 connections)
+- [handleMasterMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L83) (1 connections)
+- [handleMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L69) (1 connections)
+- [handleSoloToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L76) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L62) (1 connections)
+- [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L87) (1 connections)
+- [{
+    stemStates,
+    masterVolume,
+    masterMuted,
+    setMasterVolume,
+    setMasterMuted,
+    setStemVolume,
+    toggleMute,
+    toggleSolo,
+    hasSoloStems,
+    resetToDefaults,
+    getEffectiveVolume,
+    isStemEffectivelyMuted,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -18,11 +32,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

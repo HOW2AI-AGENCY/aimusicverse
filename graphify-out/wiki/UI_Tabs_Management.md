@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L1) (3 connections)
-- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L25) (1 connections)
-- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L33) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L6) (1 connections)
+- [UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L1) (3 connections)
+- [is4K](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L55) (1 connections)
+- [isUltraWide](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L54) (1 connections)
+- [maxWidthClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx)
 
 ## Audit Trail
 

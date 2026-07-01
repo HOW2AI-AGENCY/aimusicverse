@@ -1,12 +1,13 @@
 # UI Assets
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L6) (1 connections)
-- [useMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L8) (1 connections)
+- [useRAFThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L1) (3 connections)
+- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L54) (1 connections)
+- [useRAFThrottleBatch()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L189) (1 connections)
+- [useRAFThrottledState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L141) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRAFThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,6 +1,6 @@
 # useAuth()
 
-> God node · 115 connections · [D:\.MUSICVERSE\aimusicverse\src\contexts\AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L285)
+> God node · 118 connections · [D:\.MUSICVERSE\aimusicverse\src\contexts\AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L285)
 
 ## Call Trace Diagram
 
@@ -22,114 +22,117 @@ sequenceDiagram
     participant P13 as FeatureWithBadge()
     participant P14 as MobileTrackActionSheet()
     participant P15 as useProfile()
-    participant P16 as Library()
-    participant P17 as useAuditLog()
-    participant P18 as useUserCredits()
-    participant P19 as useAnalyticsTracking()
-    participant P20 as useAudioReference()
+    participant P16 as useUserCredits()
+    participant P17 as Library()
+    participant P18 as useAnalyticsTracking()
+    participant P19 as useAudioReference()
+    participant P20 as useAuditLog()
     participant P21 as useTracks()
     participant P22 as usePlayerAnalytics()
     participant P23 as useLikeTrack()
-    participant P24 as useMusicLabStudio()
-    participant P25 as useProjectDetailData()
-    participant P26 as SmartAlertProvider()
-    participant P27 as EnhancedProfileSetup()
-    participant P28 as useTrackCardState()
-    participant P29 as LikeButton()
-    participant P30 as useExperiment()
-    participant P31 as useProfileSetupCheck()
-    participant P32 as useProjects()
-    participant P33 as useProjectTracks()
-    participant P34 as useReferralStats()
-    participant P35 as useAnalyticsProvider()
-    participant P36 as useActiveGenerations()
+    participant P24 as useProjectDetailData()
+    participant P25 as SmartAlertProvider()
+    participant P26 as EnhancedProfileSetup()
+    participant P27 as useTrackCardState()
+    participant P28 as LikeButton()
+    participant P29 as useExperiment()
+    participant P30 as useProfileSetupCheck()
+    participant P31 as useProjects()
+    participant P32 as useProjectTracks()
+    participant P33 as useReferralStats()
+    participant P34 as useAnalyticsProvider()
+    participant P35 as useActiveGenerations()
+    participant P36 as useMusicLabStudio()
     participant P37 as useFollowingIds()
     participant P38 as useLikedCreatorIds()
     participant P39 as useActivityFeed()
     participant P40 as useFollow()
-    participant P41 as CommentForm()
-    participant P42 as FollowButton()
-    participant P43 as NotificationProvider()
-    participant P44 as useAchievementNotifications()
-    participant P45 as useAnalyticsData()
-    participant P46 as useArtists()
-    participant P47 as useFirstGeneratedTrack()
-    participant P48 as useRewardShare()
-    participant P49 as useGenerationHistory()
-    participant P50 as useGenerationRealtime()
-    participant P51 as useGuestAccess()
-    participant P52 as useMarkAsRead()
-    participant P53 as useMarkAllAsRead()
-    participant P54 as useNotificationSettings()
-    participant P55 as usePlaylists()
-    participant P56 as usePromptHistorySync()
-    participant P57 as useReferenceAudio()
-    participant P58 as useReferralRewards()
-    participant P59 as useTelegramIntegration()
-    participant P60 as useUserJourneyState()
-    participant P61 as useUserPreferences()
-    participant P62 as useUserStudioStats()
-    participant P63 as useLikeComment()
-    participant P64 as useFailedGenerations()
-    participant P65 as useGenerationQueue()
-    participant P66 as useSmartAssistant()
-    participant P67 as useSyncStaleTasks()
-    participant P68 as usePublicContentBatch()
-    participant P69 as LikeEncouragementProvider()
-    participant P70 as useCredits()
-    participant P71 as useCheckin()
-    participant P72 as useCanCheckinToday()
-    participant P73 as useRewardAction()
-    participant P74 as useTransactionHistory()
-    participant P75 as useUserAchievements()
-    participant P76 as useWelcomeBonusCheck()
-    participant P77 as useUserCredits()
-    participant P78 as useUserAchievements()
-    participant P79 as useCreditTransactions()
-    participant P80 as useCheckin()
-    participant P81 as useRewardAction()
-    participant P82 as useCanCheckinToday()
-    participant P83 as useAddToHistory()
-    participant P84 as useClearHistory()
-    participant P85 as useHomePageHandlers()
-    participant P86 as useKlangioAnalysis()
-    participant P87 as useKlangioSaveAnalysis()
-    participant P88 as useLyricsTemplates()
-    participant P89 as useLyricsVersioning()
-    participant P90 as useCreateLyricVersion()
-    participant P91 as useCreateNotification()
-    participant P92 as useCreatePreset()
-    participant P93 as useUpdatePreset()
-    participant P94 as useDeletePreset()
-    participant P95 as useClonePreset()
-    participant P96 as useUpdateProfile()
-    participant P97 as useSavedStylePresets()
-    participant P98 as useRecordingUpload()
-    participant P99 as useReferenceStems()
-    participant P100 as useReferralLeaderboard()
-    participant P101 as useReferralRank()
-    participant P102 as useApplyReferralCode()
-    participant P103 as useStudioChangeLog()
-    participant P104 as usePublicTracks()
-    participant P105 as useTrialEligibility()
-    participant P106 as useUserGenerationStats()
-    participant P107 as useTotalGenerationCount()
-    participant P108 as useUserStats()
-    participant P109 as useFeatureUsageTracking()
-    participant P110 as useComments()
-    participant P111 as useAddComment()
-    participant P112 as useDeleteComment()
-    participant P113 as useGenerationResult()
-    participant P114 as useLyricsStudio()
-    participant P115 as useBlockedUsers()
-    participant P116 as useIsBlocked()
-    participant P117 as useBlockUser()
-    participant P118 as useUnblockUser()
-    participant P119 as useBlockUser()
-    participant P120 as useBlockedUsers()
-    participant P121 as useCustomVoices()
-    participant P122 as useUserVocalStems()
-    participant P123 as useVoiceCloneWizard()
+    participant P41 as useStudioProject()
+    participant P42 as CommentForm()
+    participant P43 as ReportCommentDialog()
+    participant P44 as FollowButton()
+    participant P45 as useEnhancedStudioLogger()
+    participant P46 as NotificationProvider()
+    participant P47 as useAchievementNotifications()
+    participant P48 as useAnalyticsData()
+    participant P49 as useArtists()
+    participant P50 as useFirstGeneratedTrack()
+    participant P51 as useRewardShare()
+    participant P52 as useGenerationHistory()
+    participant P53 as useGenerationRealtime()
+    participant P54 as useGuestAccess()
+    participant P55 as useHomePageHandlers()
+    participant P56 as useMarkAsRead()
+    participant P57 as useMarkAllAsRead()
+    participant P58 as useNotificationSettings()
+    participant P59 as usePlaylists()
+    participant P60 as usePromptHistorySync()
+    participant P61 as useReferenceAudio()
+    participant P62 as useReferralRewards()
+    participant P63 as useTelegramIntegration()
+    participant P64 as useUserJourneyState()
+    participant P65 as useUserPreferences()
+    participant P66 as useUserStudioStats()
+    participant P67 as useLikeComment()
+    participant P68 as useFailedGenerations()
+    participant P69 as useGenerationQueue()
+    participant P70 as useSmartAssistant()
+    participant P71 as useSyncStaleTasks()
+    participant P72 as usePublicContentBatch()
+    participant P73 as LikeEncouragementProvider()
+    participant P74 as useCredits()
+    participant P75 as useCheckin()
+    participant P76 as useCanCheckinToday()
+    participant P77 as useRewardAction()
+    participant P78 as useTransactionHistory()
+    participant P79 as useUserAchievements()
+    participant P80 as useWelcomeBonusCheck()
+    participant P81 as useUserCredits()
+    participant P82 as useUserAchievements()
+    participant P83 as useCreditTransactions()
+    participant P84 as useCheckin()
+    participant P85 as useRewardAction()
+    participant P86 as useCanCheckinToday()
+    participant P87 as useAddToHistory()
+    participant P88 as useClearHistory()
+    participant P89 as useKlangioAnalysis()
+    participant P90 as useKlangioSaveAnalysis()
+    participant P91 as useLyricsTemplates()
+    participant P92 as useLyricsVersioning()
+    participant P93 as useCreateLyricVersion()
+    participant P94 as useCreateNotification()
+    participant P95 as useCreatePreset()
+    participant P96 as useUpdatePreset()
+    participant P97 as useDeletePreset()
+    participant P98 as useClonePreset()
+    participant P99 as useUpdateProfile()
+    participant P100 as useSavedStylePresets()
+    participant P101 as useRecordingUpload()
+    participant P102 as useReferenceStems()
+    participant P103 as useReferralLeaderboard()
+    participant P104 as useReferralRank()
+    participant P105 as useApplyReferralCode()
+    participant P106 as useStudioChangeLog()
+    participant P107 as usePublicTracks()
+    participant P108 as useTrialEligibility()
+    participant P109 as useUserGenerationStats()
+    participant P110 as useTotalGenerationCount()
+    participant P111 as useUserStats()
+    participant P112 as useFeatureUsageTracking()
+    participant P113 as useComments()
+    participant P114 as useAddComment()
+    participant P115 as useDeleteComment()
+    participant P116 as useGenerationResult()
+    participant P117 as useLyricsStudio()
+    participant P118 as useBlockedUsers()
+    participant P119 as useIsBlocked()
+    participant P120 as useBlockUser()
+    participant P121 as useUnblockUser()
+    participant P122 as useBlockUser()
+    participant P123 as useBlockedUsers()
+    participant P124 as useCustomVoices()
+    participant P125 as useUserVocalStems()
+    participant P126 as useVoiceCloneWizard()
     P0->>+ P1: calls
     P1-->>- P0: return
     P1->>+ P0: calls
@@ -176,14 +179,14 @@ sequenceDiagram
     P16-->>- P0: return
     P0->>+ P17: calls
     P17-->>- P0: return
-    P0->>+ P4: calls
-    P4-->>- P0: return
     P0->>+ P18: calls
     P18-->>- P0: return
     P0->>+ P19: calls
     P19-->>- P0: return
     P0->>+ P20: calls
     P20-->>- P0: return
+    P0->>+ P4: calls
+    P4-->>- P0: return
     P0->>+ P21: calls
     P21-->>- P0: return
     P0->>+ P22: calls
@@ -210,10 +213,10 @@ sequenceDiagram
     P32-->>- P0: return
     P0->>+ P33: calls
     P33-->>- P0: return
-    P0->>+ P34: calls
-    P34-->>- P0: return
     P0->>+ P9: calls
     P9-->>- P0: return
+    P0->>+ P34: calls
+    P34-->>- P0: return
     P0->>+ P35: calls
     P35-->>- P0: return
     P0->>+ P36: calls
@@ -238,14 +241,14 @@ sequenceDiagram
     P45-->>- P0: return
     P0->>+ P46: calls
     P46-->>- P0: return
-    P0->>+ P5: calls
-    P5-->>- P0: return
     P0->>+ P47: calls
     P47-->>- P0: return
     P0->>+ P48: calls
     P48-->>- P0: return
     P0->>+ P49: calls
     P49-->>- P0: return
+    P0->>+ P5: calls
+    P5-->>- P0: return
     P0->>+ P50: calls
     P50-->>- P0: return
     P0->>+ P51: calls
@@ -394,6 +397,12 @@ sequenceDiagram
     P122-->>- P0: return
     P0->>+ P123: calls
     P123-->>- P0: return
+    P0->>+ P124: calls
+    P124-->>- P0: return
+    P0->>+ P125: calls
+    P125-->>- P0: return
+    P0->>+ P126: calls
+    P126-->>- P0: return
 ```
 
 ## Connections by Relation
@@ -402,16 +411,15 @@ sequenceDiagram
 - [[useFeatureAccess()]] `INFERRED`
 - [[useProfile()]] `INFERRED`
 - [[usePaywallTrigger()]] `INFERRED`
-- [[Library()]] `INFERRED`
-- [[useAuditLog()]] `INFERRED`
-- [[useUserFeatures()]] `INFERRED`
 - [[useUserCredits()]] `INFERRED`
+- [[Library()]] `INFERRED`
 - [[useAnalyticsTracking()]] `INFERRED`
 - [[useAudioReference()]] `INFERRED`
+- [[useAuditLog()]] `INFERRED`
+- [[useUserFeatures()]] `INFERRED`
 - [[useTracks()]] `INFERRED`
 - [[usePlayerAnalytics()]] `INFERRED`
 - [[useLikeTrack()]] `INFERRED`
-- [[useMusicLabStudio()]] `INFERRED`
 - [[useProjectDetailData()]] `INFERRED`
 - [[SmartAlertProvider()]] `INFERRED`
 - [[EnhancedProfileSetup()]] `INFERRED`
@@ -419,6 +427,7 @@ sequenceDiagram
 - [[LikeButton()]] `INFERRED`
 - [[useExperiment()]] `INFERRED`
 - [[useProfileSetupCheck()]] `INFERRED`
+- [[useProjects()]] `INFERRED`
 
 ### contains
 - [[AuthContext.tsx]] `EXTRACTED`

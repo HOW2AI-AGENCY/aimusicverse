@@ -1,13 +1,14 @@
 # API Response Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L1) (3 connections)
-- [GAMIFICATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L72) (1 connections)
-- [GENERATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L23) (1 connections)
-- [SOCIAL_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L50) (1 connections)
+- [accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L1) (4 connections)
+- [Accordion](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L7) (1 connections)
+- [AccordionContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L37) (1 connections)
+- [AccordionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L9) (1 connections)
+- [AccordionTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

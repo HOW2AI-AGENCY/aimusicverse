@@ -1,10 +1,11 @@
 # Badge Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/index.ts#L1) (0 connections)
+- [useVoiceRecorder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts#L1) (1 connections)
+- [useVoiceRecorder()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\voice\useVoiceRecorder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

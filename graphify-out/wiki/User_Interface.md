@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [PageSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton/PageSkeleton.tsx#L1) (0 connections)
+- [NetworkErrorState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/error/NetworkErrorState.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton\PageSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton/PageSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\error\NetworkErrorState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/error/NetworkErrorState.tsx)
 
 ## Audit Trail
 

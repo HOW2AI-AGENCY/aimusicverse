@@ -1,13 +1,14 @@
 # Music Visualization
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [UndoRedoControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L1) (3 connections)
-- [isMac](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L23) (1 connections)
-- [modKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L24) (1 connections)
-- [{ undo, redo, canUndo, canRedo, historyLength, historyIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L21) (1 connections)
+- [LoadingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L1) (2 connections)
+- [IconComponent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L39) (2 connections)
+- [Switch](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx#L6) (2 connections)
+- [switch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx#L1) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -15,12 +16,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\UndoRedoControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\switch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (75%)
+- INFERRED: 2 (25%)
 - AMBIGUOUS: 0 (0%)
 
 ---

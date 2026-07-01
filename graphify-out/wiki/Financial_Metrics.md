@@ -1,13 +1,14 @@
 # Financial Metrics
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L1) (3 connections)
-- [isAllowed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L47) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L27) (1 connections)
-- [toggleRemixMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L29) (1 connections)
+- [useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L1) (4 connections)
+- [useBroadcastNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L30) (1 connections)
+- [useBroadcastTemplates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L55) (1 connections)
+- [useDeleteBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L99) (1 connections)
+- [useSaveBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L70) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,20 +1,21 @@
 # Design System
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L1) (10 connections)
-- [colorPalette](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L82) (1 connections)
-- [hasBasicInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L85) (1 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L87) (1 connections)
-- [hasVisualStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L86) (1 connections)
-- [IMAGE_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L56) (1 connections)
-- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L81) (1 connections)
-- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L34) (1 connections)
-- [PROJECT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L45) (1 connections)
-- [TYPOGRAPHY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L69) (1 connections)
-- [visualKeywords](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L83) (1 connections)
+- [AIActionsFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L1) (11 connections)
+- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L113) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L330) (1 connections)
+- [disabledReason](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L297) (1 connections)
+- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L273) (1 connections)
+- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L289) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L103) (1 connections)
+- [isDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L296) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L102) (1 connections)
+- [isOperationDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L106) (1 connections)
+- [studioMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L104) (1 connections)
+- [toggleOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L268) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AIActionsFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

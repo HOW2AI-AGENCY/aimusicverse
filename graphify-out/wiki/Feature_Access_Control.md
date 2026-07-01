@@ -1,21 +1,29 @@
 # Feature Access Control
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [LibraryFilterModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L1) (11 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L109) (1 connections)
-- [FILTERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L38) (1 connections)
-- [handleApply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L74) (1 connections)
-- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L82) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L69) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L108) (1 connections)
-- [[localFilter, setLocalFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L70) (1 connections)
-- [[localSort, setLocalSort]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L71) (1 connections)
-- [[localStatus, setLocalStatus]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L72) (1 connections)
-- [SORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L45) (1 connections)
-- [STATUS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L51) (1 connections)
+- [SubscriptionManagement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L1) (13 connections)
+- [[cancelling, setCancelling]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L148) (1 connections)
+- [{ data: activeSubscription, isLoading: subLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L162) (1 connections)
+- [{ data: transactions = [], isLoading: txLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L168) (1 connections)
+- [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L147) (1 connections)
+- [{
+    isActive,
+    tier,
+    expiresAt,
+    daysRemaining,
+    autoRenew,
+    isLoading: statusLoading,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L150) (1 connections)
+- [isCancelled](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L209) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L174) (1 connections)
+- [LoadingSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L53) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L146) (1 connections)
+- [showExpirationWarning](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L208) (1 connections)
+- [StatusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L62) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L145) (1 connections)
 
 ## Relationships
 
@@ -23,11 +31,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\LibraryFilterModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\SubscriptionManagement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 25 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

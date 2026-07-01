@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L1) (1 connections)
-- [exportTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L75) (1 connections)
+- [ConfirmationDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx#L22) (1 connections)
+- [ConfirmationDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ConfirmationDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx)
 
 ## Audit Trail
 

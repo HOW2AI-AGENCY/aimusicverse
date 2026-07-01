@@ -1,13 +1,14 @@
 # Content Sharing
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [StructureToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L1) (3 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L106) (1 connections)
-- [STRUCTURE_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L13) (1 connections)
-- [StructureToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L53) (1 connections)
+- [AudioLoadingProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L1) (4 connections)
+- [hasErrors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L55) (1 connections)
+- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L54) (1 connections)
+- [overallProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L42) (1 connections)
+- [STEM_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\StructureToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioLoadingProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

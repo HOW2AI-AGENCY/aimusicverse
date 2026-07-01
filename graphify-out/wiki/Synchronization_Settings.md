@@ -1,11 +1,12 @@
 # Synchronization Settings
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L1) (1 connections)
-- [TierTelegramSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L19) (1 connections)
+- [StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L1) (2 connections)
+- [hasActiveEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L54) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\effects\StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

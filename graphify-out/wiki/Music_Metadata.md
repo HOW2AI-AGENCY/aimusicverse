@@ -1,15 +1,16 @@
 # Music Metadata
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [DeepLinkHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L1) (5 connections)
-- [DEEP_LINK_DESCRIPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L111) (1 connections)
-- [DEEP_LINK_ROUTES](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L20) (1 connections)
-- [DeepLinkHandler()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L154) (1 connections)
-- [getDeepLinkDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L150) (1 connections)
-- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L17) (1 connections)
+- [PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L1) (6 connections)
+- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L72) (1 connections)
+- [CategoryIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L241) (1 connections)
+- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L64) (1 connections)
+- [genrePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L80) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L218) (1 connections)
+- [PresetsManager()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L89) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\DeepLinkHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,13 +1,14 @@
 # Music XML Processing
 
-> 4 nodes · cohesion 0.83
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L1) (5 connections)
-- [watermarkAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L29) (3 connections)
-- [applyWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L52) (2 connections)
-- [detectWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L59) (2 connections)
+- [ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L1) (4 connections)
+- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L53) (1 connections)
+- [examples](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L73) (1 connections)
+- [extractArtistFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L32) (1 connections)
+- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

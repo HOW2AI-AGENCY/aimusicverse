@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint 008 Kickoff Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_KICKOFF_CHECKLIST.md) (0 connections)
+- [Header.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/SPRINT_008_KICKOFF_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_KICKOFF_CHECKLIST.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Header.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.tsx)
 
 ## Audit Trail
 

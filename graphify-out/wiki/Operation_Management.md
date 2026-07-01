@@ -1,11 +1,23 @@
 # Operation Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MiniWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx#L1) (1 connections)
-- [MiniWaveform](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx#L23) (1 connections)
+- [CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L54) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -13,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\MiniWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

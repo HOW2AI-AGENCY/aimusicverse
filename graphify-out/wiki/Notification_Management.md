@@ -1,21 +1,22 @@
 # Notification Management
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L1) (11 connections)
-- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L77) (2 connections)
-- [AUDIO_ERROR_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L28) (1 connections)
-- [audioElements](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L114) (1 connections)
-- [{ children, fallbackMessage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L135) (1 connections)
-- [errorType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L138) (1 connections)
-- [getAudioErrorType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L36) (1 connections)
-- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L73) (1 connections)
-- [getRecoveryHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L48) (1 connections)
-- [handleAudioError](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L202) (1 connections)
-- [{ hasError, error, isRecovering }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L134) (1 connections)
-- [recoveryHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L139) (1 connections)
+- [MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L1) (12 connections)
+- [[activeMode, setActiveMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L87) (1 connections)
+- [chordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L92) (1 connections)
+- [handleRecordingSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L104) (1 connections)
+- [handleToggleChordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L114) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L84) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L161) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L222) (1 connections)
+- [{ isActive: isPro }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L85) (1 connections)
+- [promptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L101) (1 connections)
+- [RECORDING_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L55) (1 connections)
+- [[selectedRecordingType, setSelectedRecordingType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L89) (1 connections)
+- [[showRecordDrawer, setShowRecordDrawer]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L88) (1 connections)
 
 ## Relationships
 
@@ -23,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

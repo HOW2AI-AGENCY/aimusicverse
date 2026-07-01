@@ -1,23 +1,14 @@
 # Dialog Properties
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L1) (3 connections)
-- [handleMenuClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L59) (1 connections)
-- [handlePlayClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L50) (1 connections)
-- [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L38) (1 connections)
+- [sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L1) (4 connections)
+- [getAvailableGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L420) (2 connections)
+- [getTemplateById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L413) (1 connections)
+- [getTemplatesByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L406) (1 connections)
+- [SUNO_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -25,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (89%)
+- INFERRED: 1 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

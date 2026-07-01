@@ -1,17 +1,18 @@
 # Chord Management
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L1) (7 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L68) (1 connections)
-- [ProfileSetupStep3Social()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L47) (1 connections)
-- [SOCIAL_FIELDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L38) (1 connections)
-- [SoundCloudIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L26) (1 connections)
-- [SpotifyIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L20) (1 connections)
-- [TwitterIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L14) (1 connections)
-- [YouTubeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L32) (1 connections)
+- [SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L1) (8 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L82) (1 connections)
+- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L178) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L242) (1 connections)
+- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L57) (1 connections)
+- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L129) (1 connections)
+- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L130) (1 connections)
+- [isGroupStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L131) (1 connections)
+- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L241) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

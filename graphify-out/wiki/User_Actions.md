@@ -1,13 +1,14 @@
 # User Actions
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L1) (3 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L89) (1 connections)
-- [CONTINUE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L14) (1 connections)
-- [ContinueToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L21) (1 connections)
+- [ExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L1) (5 connections)
+- [[direction, setDirection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L32) (1 connections)
+- [[isSubmitting, setIsSubmitting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L34) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L33) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\ExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 9 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

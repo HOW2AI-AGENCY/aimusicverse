@@ -1,10 +1,22 @@
 # Text Processing
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [contract_unified-skeleton-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-skeleton.types.ts) (0 connections)
+- [MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L1) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -12,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-skeleton.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-skeleton.types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

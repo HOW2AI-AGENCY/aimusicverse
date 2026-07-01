@@ -4,18 +4,17 @@
 
 ## Key Concepts
 
-- [Telegram Bot Features](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_BOT_FEATURES.md) (2 connections)
-- [Inline Mode Music Generation](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md) (1 connections)
-- [Voice Messages to Music](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md) (1 connections)
+- [TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L1) (2 connections)
+- [getLanguageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L81) (1 connections)
+- [TranslateResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L24) (1 connections)
 
 ## Relationships
 
-- [[Tab Navigation]] (4 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_BOT_FEATURES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_BOT_FEATURES.md)
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx)
 
 ## Audit Trail
 

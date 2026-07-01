@@ -1,13 +1,14 @@
 # Music Composition
 
-> 4 nodes · cohesion 0.67
+> 5 nodes · cohesion 0.60
 
 ## Key Concepts
 
-- [unified-empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L1) (3 connections)
-- [isLucideIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L143) (2 connections)
-- [UnifiedEmptyState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L147) (2 connections)
-- [emptyStateConfigs](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L47) (1 connections)
+- [useStudioGestures.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L1) (4 connections)
+- [useStudioGestures()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L56) (3 connections)
+- [usePinchZoom()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L232) (2 connections)
+- [useSwipeNavigation()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L247) (2 connections)
+- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L45) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\unified-empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioGestures.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

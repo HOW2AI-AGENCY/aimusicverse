@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [CompactPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L1) (27 connections)
-- [bottomBase](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L161) (1 connections)
-- [bottomStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L162) (1 connections)
-- [{ currentTime, duration, buffered, seek }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L66) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L50) (1 connections)
-- [{ gestureHandlers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L148) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L111) (1 connections)
-- [handleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L106) (1 connections)
-- [handleExpandKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L137) (1 connections)
-- [handleLike](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L120) (1 connections)
-- [handleNextTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L88) (1 connections)
-- [handlePlayPause](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L78) (1 connections)
-- [handlePrevTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L97) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L129) (1 connections)
-- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L65) (1 connections)
-- [hasNextTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L76) (1 connections)
-- [isDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L72) (1 connections)
-- [isLiked](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L167) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L64) (1 connections)
-- [isMidRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L71) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L70) (1 connections)
-- [isMobileLandscape](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L73) (1 connections)
-- [{ isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L60) (1 connections)
-- [playbackError](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L63) (1 connections)
-- [playbackStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L62) (1 connections)
+- [timeline-snap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L1) (27 connections)
+- [beatLines](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L193) (1 connections)
+- [betweenGrid](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L335) (1 connections)
+- [bpm](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L136) (1 connections)
+- [dragPlayhead()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L13) (1 connections)
+- [dragPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L307) (1 connections)
+- [dragTimeDisplays](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L371) (1 connections)
+- [event](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L159) (1 connections)
+- [finalPosition](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L145) (1 connections)
+- [getBPMDisplay()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L121) (1 connections)
+- [getPlayheadPosition()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L100) (1 connections)
+- [getTimeDisplay()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L113) (1 connections)
+- [gridLines](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L181) (1 connections)
+- [hapticEvents](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L243) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L315) (1 connections)
+- [isSnapped](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L343) (1 connections)
+- [measureLines](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L192) (1 connections)
+- [observer](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L294) (1 connections)
+- [originalHaptic](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L230) (1 connections)
+- [playhead](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L289) (1 connections)
+- [positions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L285) (1 connections)
+- [positionZoomedIn](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L390) (1 connections)
+- [positionZoomedOut](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L400) (1 connections)
+- [snapDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L203) (1 connections)
+- [snapPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L324) (1 connections)
 - *... and 3 more nodes in this community*
 
 ## Relationships
@@ -37,7 +37,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\CompactPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\studio\timeline-snap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts)
 
 ## Audit Trail
 

@@ -1,11 +1,12 @@
 # User Access Levels
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AdminDashboardHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L25) (1 connections)
-- [AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L1) (1 connections)
+- [MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L1) (2 connections)
+- [mood](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L34) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

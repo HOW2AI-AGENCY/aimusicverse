@@ -1,11 +1,12 @@
 # String Manipulation
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L1) (1 connections)
-- [OnboardingStepCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L24) (1 connections)
+- [useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L1) (2 connections)
+- [useSimpleVirtualization()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L143) (1 connections)
+- [useVirtualizedTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

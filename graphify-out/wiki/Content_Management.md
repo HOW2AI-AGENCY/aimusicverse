@@ -1,10 +1,11 @@
 # Content Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [contract_unified-form-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-form.types.ts) (0 connections)
+- [PlayingIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx#L1) (1 connections)
+- [PlayingIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-form.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-form.types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\PlayingIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

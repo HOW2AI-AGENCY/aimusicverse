@@ -1,13 +1,14 @@
 # Timer Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L1) (3 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L29) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L30) (1 connections)
-- [isUpcoming](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L31) (1 connections)
+- [Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L1) (4 connections)
+- [breadcrumbItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L38) (1 connections)
+- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L80) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L35) (1 connections)
+- [ROUTE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

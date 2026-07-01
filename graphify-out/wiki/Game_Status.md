@@ -1,10 +1,11 @@
 # Game Status
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [LibraryDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryDialogs.tsx#L1) (0 connections)
+- [useSimulatedStemLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts#L1) (1 connections)
+- [useSimulatedStemLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\LibraryDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryDialogs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useSimulatedStemLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

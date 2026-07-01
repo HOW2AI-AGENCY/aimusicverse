@@ -1,10 +1,11 @@
 # Lyrics Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [SectionReferenceDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionReferenceDisplay.tsx#L1) (0 connections)
+- [useLoopRegion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts#L1) (1 connections)
+- [useLoopRegion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\SectionReferenceDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionReferenceDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useLoopRegion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

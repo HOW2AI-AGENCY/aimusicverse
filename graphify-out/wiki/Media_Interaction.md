@@ -1,26 +1,27 @@
 # Media Interaction
 
-> 17 nodes · cohesion 0.12
+> 18 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [TrackVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L1) (16 connections)
-- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L270) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L327) (1 connections)
-- [hasAnyAssets](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L127) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L160) (1 connections)
-- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L291) (1 connections)
-- [isMaster](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L293) (1 connections)
-- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L292) (1 connections)
-- [masterVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L275) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L114) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L47) (1 connections)
-- [STEM_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L55) (1 connections)
-- [{ stems, transcriptions, guitarRecordings, isLoading, hasStems, hasTranscriptions, hasGuitarRecordings }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L115) (1 connections)
-- [{ tracksBySlot, isLoading, setMasterTrack, isSettingMaster }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L271) (1 connections)
-- [useTrackAssets()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L64) (1 connections)
-- [versions](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L273) (1 connections)
-- [versionsCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L274) (1 connections)
+- [ReferenceMidiSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L1) (18 connections)
+- [availableStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L77) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L158) (1 connections)
+- [[error, setError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L74) (1 connections)
+- [FORMAT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L52) (1 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L138) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L159) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L160) (1 connections)
+- [[isTranscribing, setIsTranscribing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L71) (1 connections)
+- [MODEL_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L59) (1 connections)
+- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L72) (1 connections)
+- [[result, setResult]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L73) (1 connections)
+- [[selectedFormat, setSelectedFormat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L69) (1 connections)
+- [[selectedModel, setSelectedModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L70) (1 connections)
+- [[selectedStem, setSelectedStem]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L68) (1 connections)
+- [STEM_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L43) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L67) (1 connections)
+- [validModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L86) (1 connections)
 
 ## Relationships
 
@@ -28,11 +29,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\TrackVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceMidiSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
+- EXTRACTED: 35 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

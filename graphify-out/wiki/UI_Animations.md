@@ -1,26 +1,27 @@
 # UI Animations
 
-> 17 nodes · cohesion 0.12
+> 18 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L1) (17 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L101) (2 connections)
-- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L57) (1 connections)
-- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L64) (1 connections)
-- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L36) (1 connections)
-- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L30) (1 connections)
-- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L32) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L40) (1 connections)
-- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L37) (1 connections)
-- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L33) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L29) (1 connections)
-- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L34) (1 connections)
-- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L35) (1 connections)
-- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L38) (1 connections)
-- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L31) (1 connections)
-- [{ updateArtist, isUpdating, deleteArtist, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L27) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L26) (1 connections)
+- [ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L1) (18 connections)
+- [handleOpenTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L142) (2 connections)
+- [handlePlayTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L131) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L32) (2 connections)
+- [playTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L33) (2 connections)
+- [[audioWeight, setAudioWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L50) (1 connections)
+- [[continueAt, setContinueAt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L39) (1 connections)
+- [extendProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L34) (1 connections)
+- [loading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L59) (1 connections)
+- [[model, setModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L45) (1 connections)
+- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L46) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L40) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L41) (1 connections)
+- [[styleWeight, setStyleWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L48) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L42) (1 connections)
+- [[useCustomParams, setUseCustomParams]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L36) (1 connections)
+- [[vocalGender, setVocalGender]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L47) (1 connections)
+- [[weirdnessConstraint, setWeirdnessConstraint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -28,12 +29,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\artist\EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 33 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 39 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

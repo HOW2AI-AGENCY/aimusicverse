@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L1) (3 connections)
-- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L21) (1 connections)
-- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L18) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L6) (1 connections)
+- [GeneratingTrackSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L1) (3 connections)
+- [GeneratingTrackSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L27) (1 connections)
+- [ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L25) (1 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\GeneratingTrackSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx)
 
 ## Audit Trail
 

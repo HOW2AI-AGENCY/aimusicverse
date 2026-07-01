@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L1) (2 connections)
-- [DEFAULT_PROVIDER_FOR_TYPE](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L200) (1 connections)
-- [PROVIDER_CAPABILITIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L189) (1 connections)
+- [ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L1) (2 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L52) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx)
 
 ## Audit Trail
 

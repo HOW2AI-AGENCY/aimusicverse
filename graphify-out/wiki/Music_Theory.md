@@ -1,12 +1,13 @@
 # Music Theory
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useStudioActivityLogger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L1) (2 connections)
-- [useStudioActivityLogger()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L56) (2 connections)
-- [IMPORTANT_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L47) (1 connections)
+- [client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L1) (3 connections)
+- [supabase](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L11) (1 connections)
+- [SUPABASE_PUBLISHABLE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L6) (1 connections)
+- [SUPABASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -14,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioActivityLogger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (80%)
-- INFERRED: 1 (20%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

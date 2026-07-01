@@ -1,13 +1,14 @@
 # UI Component Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L1) (3 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L31) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L50) (1 connections)
-- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L54) (1 connections)
+- [GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L1) (4 connections)
+- [aWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L31) (1 connections)
+- [bWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L32) (1 connections)
+- [genreA](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L34) (1 connections)
+- [genreB](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

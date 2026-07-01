@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [slider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx#L1) (1 connections)
-- [Slider](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx#L10) (1 connections)
+- [formatPlayCount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx#L24) (1 connections)
+- [CommunityTrending.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\slider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\CommunityTrending.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx)
 
 ## Audit Trail
 

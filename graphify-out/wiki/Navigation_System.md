@@ -1,10 +1,11 @@
 # Navigation System
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/index.ts#L1) (0 connections)
+- [useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L1) (1 connections)
+- [useOffline()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

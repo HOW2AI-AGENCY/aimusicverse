@@ -1,14 +1,15 @@
 # Button Component
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L1) (4 connections)
-- [hapticClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L94) (1 connections)
-- [hapticPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L13) (1 connections)
-- [useHapticPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L74) (1 connections)
-- [withHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L81) (1 connections)
+- [MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L1) (5 connections)
+- [[animating, setAnimating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L55) (1 connections)
+- [MobilePageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L15) (1 connections)
+- [MobileSlideUpTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L80) (1 connections)
+- [[shouldRender, setShouldRender]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L54) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L63) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,20 +1,21 @@
 # Analytics Dashboard
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.27
 
 ## Key Concepts
 
-- [LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L1) (11 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L27) (1 connections)
-- [currentWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L51) (1 connections)
-- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L36) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L143) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L144) (1 connections)
-- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L163) (1 connections)
-- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L34) (1 connections)
-- [lyricsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L28) (1 connections)
-- [lyricsText](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L37) (1 connections)
-- [wordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L54) (1 connections)
+- [useUnifiedAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L1) (11 connections)
+- [useAnalysisByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L158) (8 connections)
+- [useBeatAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L136) (2 connections)
+- [useChordAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L143) (2 connections)
+- [useEmotionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L122) (2 connections)
+- [useFullAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L150) (2 connections)
+- [useMusicTheoryAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L115) (2 connections)
+- [useStyleAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L108) (2 connections)
+- [useTranscriptionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L129) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L20) (1 connections)
+- [useTrackAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L184) (1 connections)
+- [useUnifiedAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUnifiedAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

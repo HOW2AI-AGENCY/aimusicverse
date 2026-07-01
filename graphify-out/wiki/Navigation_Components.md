@@ -1,11 +1,12 @@
 # Navigation Components
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L1) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L16) (1 connections)
+- [UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L1) (2 connections)
+- [createWrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L20) (1 connections)
+- [module](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\studio\unified\UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,11 @@
 # User Onboarding
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [TierPricingSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierPricingSection.tsx#L1) (0 connections)
+- [badgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L6) (1 connections)
+- [badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierPricingSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierPricingSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

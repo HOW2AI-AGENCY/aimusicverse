@@ -1,23 +1,13 @@
 # Musical Pitch
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L1) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L54) (1 connections)
-- [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleKeyDown,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L32) (1 connections)
+- [BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L1) (3 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L40) (1 connections)
+- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L39) (1 connections)
+- [visibleBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -25,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

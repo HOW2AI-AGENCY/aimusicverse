@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [artistReplacements.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L1) (4 connections)
-- [ARTIST_REPLACEMENTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L16) (1 connections)
-- [findArtistReplacement()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L523) (1 connections)
-- [getGenreSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L571) (1 connections)
-- [replaceArtistsWithGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L538) (1 connections)
+- [SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L1) (4 connections)
+- [BASE_DESCRIPTION](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L19) (1 connections)
+- [BASE_TITLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L18) (1 connections)
+- [SEO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L112) (1 connections)
+- [SEOHead()](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\artistReplacements.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx)
 
 ## Audit Trail
 

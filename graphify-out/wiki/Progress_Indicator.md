@@ -4,29 +4,29 @@
 
 ## Key Concepts
 
-- [UnifiedDAWLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L1) (22 connections)
-- [barDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L325) (1 connections)
-- [barNumber](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L347) (1 connections)
-- [beatCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L326) (1 connections)
-- [beatDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L324) (1 connections)
-- [bpm](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L323) (1 connections)
-- [disabledOperations](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L150) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L434) (1 connections)
-- [getDisabledReason](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L170) (1 connections)
-- [handleMasterMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L215) (1 connections)
-- [handleMixerToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L220) (1 connections)
-- [handlePlayPause](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L244) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L249) (1 connections)
-- [handleTrackToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L225) (1 connections)
-- [handleTrackVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L237) (1 connections)
-- [isBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L346) (1 connections)
-- [[masterMuted, setMasterMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L144) (1 connections)
-- [[mixerOpen, setMixerOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L143) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L142) (1 connections)
-- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L259) (1 connections)
-- [safeAreaTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L257) (1 connections)
-- [time](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L344) (1 connections)
-- [trackStates](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L201) (1 connections)
+- [PresetManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L1) (22 connections)
+- [[appliedId, setAppliedId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L87) (1 connections)
+- [{ applyPreset, isApplying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L97) (1 connections)
+- [badge](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L138) (1 connections)
+- [BadgeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L139) (1 connections)
+- [CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L43) (1 connections)
+- [[category, setCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L85) (1 connections)
+- [{ clonePreset, isCloning }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L99) (1 connections)
+- [{ deletePreset, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L98) (1 connections)
+- [grouped](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L102) (1 connections)
+- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L114) (1 connections)
+- [handleClone](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L129) (1 connections)
+- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L123) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L83) (1 connections)
+- [isApplied](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L141) (1 connections)
+- [isOwn](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L140) (1 connections)
+- [ownershipBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L67) (1 connections)
+- [[pendingDelete, setPendingDelete]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L88) (1 connections)
+- [{ presets, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L91) (1 connections)
+- [renderGroup()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L286) (1 connections)
+- [[saveOpen, setSaveOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L89) (1 connections)
+- [[search, setSearch]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L86) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L82) (1 connections)
 
 ## Relationships
 
@@ -34,7 +34,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedDAWLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\PresetManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx)
 
 ## Audit Trail
 

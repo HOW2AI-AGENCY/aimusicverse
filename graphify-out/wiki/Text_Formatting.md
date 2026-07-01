@@ -4,25 +4,23 @@
 
 ## Key Concepts
 
-- [Telegram Payments Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_PAYMENTS.md) (3 connections)
-- [Bot API 9.x Updates](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_FEATURES.md) (1 connections)
-- [Sprint 3 - Integration Payments](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md) (1 connections)
-- [Telegram Stars Payments](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md) (1 connections)
+- [OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L1) (3 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L31) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L50) (1 connections)
+- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L54) (1 connections)
 
 ## Relationships
 
-- [[Variant Management]] (6 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md)
-- [docs/TELEGRAM_MINI_APP_FEATURES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_FEATURES.md)
-- [docs/TELEGRAM_PAYMENTS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_PAYMENTS.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

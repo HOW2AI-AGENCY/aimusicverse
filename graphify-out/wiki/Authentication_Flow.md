@@ -1,13 +1,14 @@
 # Authentication Flow
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useConfirm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L1) (3 connections)
-- [ConfirmContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L43) (1 connections)
-- [ConfirmProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L50) (1 connections)
-- [useConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L96) (1 connections)
+- [Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L1) (4 connections)
+- [AnimatedIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L23) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L86) (1 connections)
+- [isTelegramApp](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L85) (1 connections)
+- [{ webApp }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useConfirm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

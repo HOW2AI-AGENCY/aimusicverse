@@ -1,12 +1,13 @@
 # Icon Sizing
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useUserBalanceSummary.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L1) (2 connections)
-- [useUserBalanceSummary()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L5) (1 connections)
-- [useUsersWithBalances()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L13) (1 connections)
+- [queue-schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L1) (3 connections)
+- [PlaybackQueueSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L3) (1 connections)
+- [RecentlyPlayedSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L10) (1 connections)
+- [UserPreferencesSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L24) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUserBalanceSummary.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\validation\queue-schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

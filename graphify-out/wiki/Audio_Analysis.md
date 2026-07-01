@@ -1,15 +1,16 @@
 # Audio Analysis
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L1) (5 connections)
-- [{ data: masterVersion }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L35) (1 connections)
-- [FullscreenDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L22) (1 connections)
-- [FullscreenMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L18) (1 connections)
-- [isMobileViewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L34) (1 connections)
-- [resolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L37) (1 connections)
+- [LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L89) (1 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L111) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L109) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L50) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L108) (1 connections)
+- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L121) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,14 +1,16 @@
 # Achievements Management
 
-> 5 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.52
 
 ## Key Concepts
 
-- [PatternBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L1) (4 connections)
-- [genreColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L17) (1 connections)
-- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L102) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L99) (1 connections)
-- [PatternCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L36) (1 connections)
+- [usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L1) (6 connections)
+- [usePlaybackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L21) (6 connections)
+- [useLoopControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L53) (2 connections)
+- [usePlaybackControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L38) (2 connections)
+- [usePlaybackLoadingState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L73) (2 connections)
+- [usePlaybackProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L66) (2 connections)
+- [usePlaybackStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L27) (2 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\PatternBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

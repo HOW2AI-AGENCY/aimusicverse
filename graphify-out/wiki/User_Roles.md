@@ -1,12 +1,13 @@
 # User Roles
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L1) (2 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L22) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L56) (1 connections)
+- [TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L1) (3 connections)
+- [IconTouchButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L128) (1 connections)
+- [PressableCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L91) (1 connections)
+- [TouchFeedback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,11 @@
 # UI State Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [AppHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/AppHeader.tsx#L1) (0 connections)
+- [useUpsellThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUpsellThrottle.ts#L1) (1 connections)
+- [useUpsellThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUpsellThrottle.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\AppHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/AppHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUpsellThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUpsellThrottle.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

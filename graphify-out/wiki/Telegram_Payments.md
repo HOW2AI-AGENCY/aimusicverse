@@ -1,12 +1,13 @@
 # Telegram Payments
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [RecordingVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L1) (2 connections)
-- [barHeights](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L31) (1 connections)
-- [getLevelColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L49) (1 connections)
+- [popover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/popover.tsx#L1) (3 connections)
+- [Popover](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/popover.tsx#L6) (1 connections)
+- [PopoverContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/popover.tsx#L10) (1 connections)
+- [PopoverTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/popover.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\popover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/popover.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

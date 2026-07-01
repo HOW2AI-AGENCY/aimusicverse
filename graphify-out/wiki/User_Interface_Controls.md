@@ -1,62 +1,50 @@
 # User Interface Controls
 
-> 67 nodes · cohesion 0.03
+> 46 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [RecordTrackDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/RecordTrackDrawer.tsx#L1) (33 connections)
-- [GuitarStudio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L1) (21 connections)
-- [MusicRecognitionDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/MusicRecognitionDialog.tsx#L1) (12 connections)
-- [handleStopRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L195) (3 connections)
-- [startRecording](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/RecordTrackDrawer.tsx#L206) (3 connections)
-- [handleStartRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L191) (2 connections)
-- [handleMicrophoneClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/MusicRecognitionDialog.tsx#L60) (2 connections)
-- [handleUrlRecognize()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/MusicRecognitionDialog.tsx#L54) (2 connections)
-- [stopRecording](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/RecordTrackDrawer.tsx#L257) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L98) (1 connections)
-- [[analysisError, setAnalysisError]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L104) (1 connections)
-- [[analysisStage, setAnalysisStage]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L103) (1 connections)
-- [audioLevel](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L121) (1 connections)
-- [[currentStep, setCurrentStep]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L101) (1 connections)
-- [handleAnalyze()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L200) (1 connections)
-- [handleClear()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L208) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L128) (1 connections)
-- [{
-    isAnalyzing,
-    isRecording,
-    analysisResult,
-    recordedAudioUrl,
-    progress,
-    progressPercent,
-    mediaStream,
-    startRecording,
-    stopRecording,
-    analyzeGuitarRecording,
-    clearRecording,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L106) (1 connections)
-- [[linkDialogOpen, setLinkDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L102) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L97) (1 connections)
-- [newWorkflow](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L141) (1 connections)
-- [progressLower](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L177) (1 connections)
-- [[recordingTime, setRecordingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L99) (1 connections)
-- [{ saveRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L124) (1 connections)
-- [[workflow, setWorkflow]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx#L100) (1 connections)
-- *... and 42 more nodes in this community*
+- [StudioLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L1) (33 connections)
+- [lyricsUtils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsUtils.ts#L1) (6 connections)
+- [useLyricsSynchronization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSynchronization.ts#L1) (5 connections)
+- [groupWordsIntoLines()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSynchronization.ts#L177) (4 connections)
+- [filterStructuralTagWords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsUtils.ts#L125) (3 connections)
+- [groupLinesIntoSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L110) (3 connections)
+- [groupWordsIntoLines()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L59) (3 connections)
+- [isStructuralTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsUtils.ts#L66) (2 connections)
+- [splitWordByLineBreaks()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsUtils.ts#L142) (2 connections)
+- [detectSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L157) (2 connections)
+- [cleanLyricsText()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsUtils.ts#L100) (1 connections)
+- [hasLineBreak()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsUtils.ts#L135) (1 connections)
+- [STRUCTURAL_TAG_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsUtils.ts#L12) (1 connections)
+- [activeIdx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L265) (1 connections)
+- [[activeLineIndex, setActiveLineIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L247) (1 connections)
+- [calculateReplacementBounds()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L176) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L507) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L249) (1 connections)
+- [{ data: lyricsData, isLoading: loading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L245) (1 connections)
+- [DOUBLE_CLICK_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L298) (1 connections)
+- [handleConfirmSelection](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L373) (1 connections)
+- [handleLineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L340) (1 connections)
+- [handleSelectSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L389) (1 connections)
+- [handleSmartSelectSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L301) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L532) (1 connections)
+- *... and 21 more nodes in this community*
 
 ## Relationships
 
-- [[Content Comparison]] (1 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-recognition\MusicRecognitionDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/MusicRecognitionDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\RecordTrackDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/RecordTrackDrawer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\GuitarStudio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/GuitarStudio.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StudioLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useLyricsSynchronization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSynchronization.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyricsUtils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsUtils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 130 (94%)
-- INFERRED: 8 (6%)
+- EXTRACTED: 89 (90%)
+- INFERRED: 10 (10%)
 - AMBIGUOUS: 0 (0%)
 
 ---

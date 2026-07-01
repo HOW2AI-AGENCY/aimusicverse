@@ -1,35 +1,35 @@
 # Sprint Management
 
-> 41 nodes · cohesion 0.08
+> 38 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [Feedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L1) (21 connections)
-- [credits.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L1) (13 connections)
-- [credits.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L1) (10 connections)
-- [fetchUserCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L30) (9 connections)
-- [upsertUserCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L40) (8 connections)
-- [processDailyCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L185) (7 connections)
-- [chargeForGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L168) (6 connections)
-- [checkAdminStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L88) (6 connections)
-- [logCreditTransaction()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L95) (5 connections)
-- [getLevelProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L113) (5 connections)
-- [getUserGamificationStats()](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L309) (5 connections)
-- [rewardForAction()](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L262) (5 connections)
-- [fetchSunoApiBalance()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L192) (4 connections)
-- [hasCheckedInToday()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L201) (4 connections)
-- [canAffordGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L135) (4 connections)
-- [getLevelFromExperience()](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L99) (4 connections)
-- [addCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L64) (3 connections)
-- [deductCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L80) (3 connections)
-- [recordCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L216) (3 connections)
-- [getExperienceForLevel()](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L106) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L64) (2 connections)
-- [checkAdminStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L133) (1 connections)
-- [fetchLeaderboard()](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts#L176) (1 connections)
-- [ACTION_REWARDS](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L17) (1 connections)
-- [GENERATION_COST](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts#L12) (1 connections)
-- *... and 16 more nodes in this community*
+- [design-colors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L1) (24 connections)
+- [Leaderboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/Leaderboard.tsx#L1) (12 connections)
+- [getRankColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L361) (3 connections)
+- [getRankBg()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/Leaderboard.tsx#L27) (2 connections)
+- [getRankIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/Leaderboard.tsx#L13) (2 connections)
+- [analysisColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L630) (1 connections)
+- [chordColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L676) (1 connections)
+- [effectColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L597) (1 connections)
+- [emotionalColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L661) (1 connections)
+- [errorCodeColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L511) (1 connections)
+- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L686) (1 connections)
+- [getErrorColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L525) (1 connections)
+- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L246) (1 connections)
+- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L125) (1 connections)
+- [getTierInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L427) (1 connections)
+- [getVuMeterColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L616) (1 connections)
+- [hintColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L309) (1 connections)
+- [homeSectionColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L699) (1 connections)
+- [overlayColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L538) (1 connections)
+- [rankColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L327) (1 connections)
+- [sectionColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L139) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L556) (1 connections)
+- [stemColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L25) (1 connections)
+- [streakColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L486) (1 connections)
+- [tagColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L260) (1 connections)
+- *... and 13 more nodes in this community*
 
 ## Relationships
 
@@ -37,14 +37,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\credits.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/credits.api.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\Feedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\services\credits.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/credits.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\Leaderboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/Leaderboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\design-colors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 102 (68%)
-- INFERRED: 47 (32%)
+- EXTRACTED: 72 (95%)
+- INFERRED: 4 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

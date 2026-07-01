@@ -4,17 +4,16 @@
 
 ## Key Concepts
 
-- [UI Audit and Unification Map](file:///D:/.MUSICVERSE/aimusicverse/docs/UI_AUDIT.md) (1 connections)
-- [UI Unification Phase 10 - Icons Complete](file:///D:/.MUSICVERSE/aimusicverse/docs/UI_UNIFICATION_STATUS.md) (1 connections)
+- [UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L1) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L46) (1 connections)
 
 ## Relationships
 
-- [[User Interaction]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/UI_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/UI_AUDIT.md)
-- [docs/UI_UNIFICATION_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/UI_UNIFICATION_STATUS.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx)
 
 ## Audit Trail
 

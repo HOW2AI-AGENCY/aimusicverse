@@ -1,15 +1,16 @@
 # User Mode Selection
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L1) (5 connections)
-- [ANALYSIS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L12) (1 connections)
-- [AnalyzeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L19) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L101) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L95) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L96) (1 connections)
+- [MobileProjectsToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L1) (6 connections)
+- [handleCreateClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L51) (2 connections)
+- [handleSearchToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L38) (1 connections)
+- [handleViewModeChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L46) (1 connections)
+- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L29) (1 connections)
+- [[isSearchExpanded, setIsSearchExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L28) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -17,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\MobileProjectsToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (92%)
+- INFERRED: 1 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

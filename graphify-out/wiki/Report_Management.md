@@ -1,18 +1,35 @@
 # Report Management
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [EditablePromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L1) (8 connections)
-- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L29) (1 connections)
-- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L53) (1 connections)
-- [handleCopy](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L58) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L45) (1 connections)
-- [handleStartEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L39) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L28) (1 connections)
-- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L64) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L30) (1 connections)
+- [IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L1) (9 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L92) (2 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L100) (2 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L21) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L132) (1 connections)
+- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L64) (1 connections)
+- [isVisible](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L109) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L37) (1 connections)
+- [{ selectedSection, customRange, editMode, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L63) (1 connections)
+- [{
+    startTime,
+    endTime,
+    sectionDuration,
+    maxDuration,
+    isValidDuration,
+    isSubmitting,
+    prompt,
+    setPrompt,
+    tags,
+    setTags,
+    lyrics,
+    setLyrics,
+    addPreset,
+    executeReplacement,
+    reset,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L66) (1 connections)
 
 ## Relationships
 
@@ -20,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\EditablePromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

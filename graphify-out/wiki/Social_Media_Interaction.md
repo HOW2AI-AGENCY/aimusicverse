@@ -1,24 +1,25 @@
 # Social Media Interaction
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [screenshotMockData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L1) (14 connections)
-- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L94) (1 connections)
-- [mockAchievements](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L237) (1 connections)
-- [mockArtists](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L203) (1 connections)
-- [mockCredits](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L64) (1 connections)
-- [mockGenerationFormData](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L250) (1 connections)
-- [mockLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L259) (1 connections)
-- [mockPlaylists](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L163) (1 connections)
-- [mockProfile](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L24) (1 connections)
-- [mockProjects](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L117) (1 connections)
-- [mockStats](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L49) (1 connections)
-- [mockTracks](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L97) (1 connections)
-- [moods](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L95) (1 connections)
-- [screenshotScreens](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L278) (1 connections)
-- [trackTitles](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L76) (1 connections)
+- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L1) (7 connections)
+- [touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L1) (5 connections)
+- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L1) (3 connections)
+- [touchTarget](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L12) (3 connections)
+- [circularStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L52) (1 connections)
+- [CloseButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L229) (1 connections)
+- [CompactIconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L197) (1 connections)
+- [getTouchTargetPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L47) (1 connections)
+- [IconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L161) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L46) (1 connections)
+- [TOUCH_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L30) (1 connections)
+- [TOUCH_TARGET_MIN_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L6) (1 connections)
+- [TouchableIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L78) (1 connections)
+- [TouchableLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L124) (1 connections)
+- [TouchableListItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L284) (1 connections)
+- [validateTouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -26,11 +27,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\screenshotMockData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

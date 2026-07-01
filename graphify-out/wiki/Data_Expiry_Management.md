@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useTrackChangelog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackChangelog.tsx#L1) (1 connections)
-- [useTrackChangelog()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackChangelog.tsx#L20) (1 connections)
+- [TagsResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx#L1) (1 connections)
+- [TagsResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackChangelog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackChangelog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TagsResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx)
 
 ## Audit Trail
 

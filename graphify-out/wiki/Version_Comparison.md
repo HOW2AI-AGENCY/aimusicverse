@@ -1,13 +1,14 @@
 # Version Comparison
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [UserActivityHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserActivityHeatmap.tsx#L1) (3 connections)
-- [DAYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserActivityHeatmap.tsx#L24) (1 connections)
-- [HOURS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserActivityHeatmap.tsx#L25) (1 connections)
-- [UserActivityHeatmap()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserActivityHeatmap.tsx#L27) (1 connections)
+- [NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L1) (4 connections)
+- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L44) (1 connections)
+- [{ hasGeneratedTrack, hasPlayedTrack, hasVisitedLibrary, completedOnboarding }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L24) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L45) (1 connections)
+- [steps](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserActivityHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserActivityHeatmap.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

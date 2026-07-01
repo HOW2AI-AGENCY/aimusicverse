@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [StudioShellTransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx#L1) (1 connections)
-- [StudioShellTransportBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx#L41) (1 connections)
+- [TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L1) (1 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellTransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx)
 
 ## Audit Trail
 

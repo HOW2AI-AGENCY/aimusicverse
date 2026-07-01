@@ -1,22 +1,27 @@
 # Chart Visualization
 
-> 13 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L1) (12 connections)
-- [activeIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L71) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L163) (1 connections)
-- [GAP_MERGE_THRESHOLD_S](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L31) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L167) (1 connections)
-- [isReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L168) (1 connections)
-- [isSectionReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L59) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L166) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L161) (1 connections)
-- [normalizedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L83) (1 connections)
-- [originalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L165) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L34) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L162) (1 connections)
+- [UnifiedWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L1) (13 connections)
+- [{ beatGrid }](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L144) (1 connections)
+- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L157) (1 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L121) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L117) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L116) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L148) (1 connections)
+- [handleSeek()](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L167) (1 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L118) (1 connections)
+- [MODE_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L67) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L151) (1 connections)
+- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L76) (1 connections)
+- [waveformData](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L147) (1 connections)
+- [{
+    waveformData: loadedData,
+    duration: loadedDuration,
+    isLoading,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L133) (1 connections)
 
 ## Relationships
 
@@ -24,11 +29,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\UnifiedWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

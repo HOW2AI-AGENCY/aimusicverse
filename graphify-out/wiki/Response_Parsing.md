@@ -1,16 +1,17 @@
 # Response Parsing
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L1) (6 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L92) (1 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L42) (1 connections)
-- [categoryShortcuts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L110) (1 connections)
-- [KeyBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L54) (1 connections)
-- [ShortcutRow](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L71) (1 connections)
-- [SHORTCUTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L21) (1 connections)
+- [MobilePlayerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L1) (7 connections)
+- [handleShare()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L88) (2 connections)
+- [handleSkip](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L73) (1 connections)
+- [isMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L60) (1 connections)
+- [mainAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L63) (1 connections)
+- [[showVolumeSlider, setShowVolumeSlider]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L59) (1 connections)
+- [timeout](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L68) (1 connections)
+- [toggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -18,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobilePlayerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

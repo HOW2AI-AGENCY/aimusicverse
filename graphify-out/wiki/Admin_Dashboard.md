@@ -1,22 +1,22 @@
 # Admin Dashboard
 
-> 13 nodes · cohesion 0.27
+> 13 nodes · cohesion 0.19
 
 ## Key Concepts
 
-- [notificationManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L1) (14 connections)
-- [createNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L37) (13 connections)
-- [deleteNotificationsByGroup()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L70) (2 connections)
-- [notifyAchievement()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L239) (2 connections)
-- [notifyFeatureAnnouncement()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L303) (2 connections)
-- [notifyGenerationComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L160) (2 connections)
-- [notifyGenerationFailed()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L181) (2 connections)
-- [notifyGenerationProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L138) (2 connections)
-- [notifyProjectChange()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L323) (2 connections)
-- [notifySocialEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L201) (2 connections)
-- [notifySystem()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L259) (2 connections)
-- [notifyTranscriptionComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L280) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L9) (1 connections)
+- [AddInstrumentalDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L1) (13 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L27) (3 connections)
+- [handleOpenStudio()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L132) (2 connections)
+- [handleOpenTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L125) (2 connections)
+- [handlePlayTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L114) (2 connections)
+- [playTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L28) (2 connections)
+- [[advancedSettings, setAdvancedSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L37) (1 connections)
+- [instrumentalProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L29) (1 connections)
+- [loading](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L52) (1 connections)
+- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L33) (1 connections)
+- [[openInStudio, setOpenInStudio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L34) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L31) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -24,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\notificationManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\AddInstrumentalDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (92%)
-- INFERRED: 4 (8%)
+- EXTRACTED: 31 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

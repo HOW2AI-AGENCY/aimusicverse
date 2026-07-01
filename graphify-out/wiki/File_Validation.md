@@ -1,18 +1,19 @@
 # File Validation
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [WorkflowVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L165) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L128) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L130) (1 connections)
-- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L131) (1 connections)
-- [isHorizontal](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L84) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L129) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L47) (1 connections)
-- [StepIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L127) (1 connections)
+- [MidiSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L1) (9 connections)
+- [autoMidiEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L59) (1 connections)
+- [autoMidiModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L60) (1 connections)
+- [autoMidiStemsOnly](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L61) (1 connections)
+- [handleChangeModel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L69) (1 connections)
+- [handleToggleAutoMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L65) (1 connections)
+- [handleToggleStemsOnly()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L73) (1 connections)
+- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L11) (1 connections)
+- [selectedModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L63) (1 connections)
+- [{ settings, updateSettings, isUpdating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L57) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\WorkflowVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\MidiSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

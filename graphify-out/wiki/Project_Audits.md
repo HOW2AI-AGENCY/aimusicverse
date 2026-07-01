@@ -1,16 +1,17 @@
 # Project Audits
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L1) (6 connections)
-- [buttonSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L44) (1 connections)
-- [currentLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L42) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L31) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L48) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L43) (1 connections)
-- [isStudioVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L47) (1 connections)
+- [BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L1) (7 connections)
+- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L28) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L24) (1 connections)
+- [handleBeatClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L56) (1 connections)
+- [handleTimelineClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L45) (1 connections)
+- [[hoveredBeat, setHoveredBeat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L25) (1 connections)
+- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L38) (1 connections)
+- [trackDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

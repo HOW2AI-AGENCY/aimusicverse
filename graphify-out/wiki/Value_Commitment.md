@@ -1,12 +1,13 @@
 # Value Commitment
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L7) (1 connections)
-- [useGuitarRecordings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L41) (1 connections)
+- [useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L1) (3 connections)
+- [useAudioSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L23) (2 connections)
+- [useAutoSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L104) (2 connections)
+- [DEFAULT_SYNC_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L21) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

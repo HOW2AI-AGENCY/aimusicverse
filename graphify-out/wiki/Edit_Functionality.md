@@ -1,17 +1,18 @@
 # Edit Functionality
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L1) (7 connections)
-- [compressorPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L54) (1 connections)
-- [defaultCompressorSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L23) (1 connections)
-- [defaultEQSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L15) (1 connections)
-- [defaultReverbSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L32) (1 connections)
-- [defaultStemEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L38) (1 connections)
-- [eqPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L45) (1 connections)
-- [reverbPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L63) (1 connections)
+- [NotationDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L1) (8 connections)
+- [availableFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L69) (1 connections)
+- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L67) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L108) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L79) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L60) (1 connections)
+- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L61) (1 connections)
+- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L65) (1 connections)
+- [safeAreaTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L64) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\NotationDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,17 +1,18 @@
 # User Top-Up
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [Analytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L1) (7 connections)
-- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L14) (1 connections)
-- [generationStats](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L60) (1 connections)
-- [Header](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L89) (1 connections)
-- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L13) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L15) (1 connections)
-- [mainStats](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L29) (1 connections)
-- [successRate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L84) (1 connections)
+- [FormFieldActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L1) (10 connections)
+- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L130) (1 connections)
+- [hasCustomActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L136) (1 connections)
+- [iconClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L71) (1 connections)
+- [isEmpty](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L133) (1 connections)
+- [[saving, setSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L131) (1 connections)
+- [shouldHideWhenEmpty](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L135) (1 connections)
+- [showCopyClear](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L178) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L65) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Analytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FormFieldActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

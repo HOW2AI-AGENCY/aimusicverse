@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminOverview.tsx#L11) (1 connections)
-- [AdminOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminOverview.tsx#L1) (1 connections)
+- [ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L1) (1 connections)
+- [PROJECT_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminOverview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx)
 
 ## Audit Trail
 

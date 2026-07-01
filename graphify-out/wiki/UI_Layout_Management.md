@@ -4,28 +4,28 @@
 
 ## Key Concepts
 
-- [EnhancedVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L1) (21 connections)
-- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L42) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L187) (1 connections)
-- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L141) (1 connections)
-- [[detailsOpen, setDetailsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L46) (1 connections)
-- [handleAddToPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L112) (1 connections)
-- [handleCardClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L62) (1 connections)
-- [handleFollow](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L125) (1 connections)
-- [handlePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L67) (1 connections)
-- [handleShare](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L80) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L43) (1 connections)
-- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L45) (1 connections)
-- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L54) (1 connections)
-- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L53) (1 connections)
-- [{ isFollowing, toggleFollow, isLoading: isFollowLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L51) (1 connections)
-- [[isHovered, setIsHovered]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L48) (1 connections)
-- [isOwnTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L50) (1 connections)
-- [platformCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L139) (1 connections)
-- [[playlistSheetOpen, setPlaylistSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L47) (1 connections)
-- [sunoCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L140) (1 connections)
-- [trackForPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L56) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L44) (1 connections)
+- [StudioActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L1) (12 connections)
+- [StudioActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L1) (9 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L249) (2 connections)
+- [availableActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L311) (1 connections)
+- [canReplace](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L100) (1 connections)
+- [canSeparate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L99) (1 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L104) (1 connections)
+- [CategoryIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L314) (1 connections)
+- [[expandedCategories, setExpandedCategories]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L97) (1 connections)
+- [getMidiModel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L113) (1 connections)
+- [getStemIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L107) (1 connections)
+- [getStemLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L119) (1 connections)
+- [hasDetailedStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L104) (1 connections)
+- [hasSimpleStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L103) (1 connections)
+- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L101) (1 connections)
+- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L315) (1 connections)
+- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L102) (1 connections)
+- [midiModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L247) (1 connections)
+- [primaryActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L238) (1 connections)
+- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L63) (1 connections)
+- [STEM_MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L77) (1 connections)
+- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L230) (1 connections)
 
 ## Relationships
 
@@ -33,7 +33,8 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\EnhancedVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\actions\StudioActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\panels\StudioActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx)
 
 ## Audit Trail
 

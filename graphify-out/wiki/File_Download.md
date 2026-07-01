@@ -1,11 +1,12 @@
 # File Download
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [LiveVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/LiveVisualizer.tsx#L1) (1 connections)
-- [LiveVisualizer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/LiveVisualizer.tsx#L11) (1 connections)
+- [useLyricsHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L1) (2 connections)
+- [MAX_HISTORY](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L53) (1 connections)
+- [useLyricsHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\LiveVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/LiveVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\useLyricsHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

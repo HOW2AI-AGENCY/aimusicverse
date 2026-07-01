@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AdminTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L8) (1 connections)
-- [AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L1) (1 connections)
+- [MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L1) (1 connections)
+- [MobileQuickActionsGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx)
 
 ## Audit Trail
 

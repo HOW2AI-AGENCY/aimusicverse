@@ -1,30 +1,69 @@
 # Note Management
 
-> 21 nodes · cohesion 0.10
+> 21 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [motion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L1) (20 connections)
-- [bounceTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L141) (1 connections)
-- [fadeIn](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L41) (1 connections)
-- [getReducedMotionVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L167) (1 connections)
-- [MOTION_DURATION](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L147) (1 connections)
-- [MOTION_EASING](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L157) (1 connections)
-- [pulse](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L97) (1 connections)
-- [quickTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L126) (1 connections)
-- [scaleIn](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L71) (1 connections)
-- [scaleUp](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L77) (1 connections)
-- [shake](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L106) (1 connections)
-- [slideDown](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L53) (1 connections)
-- [slideInFromLeft](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L65) (1 connections)
-- [slideInFromRight](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L59) (1 connections)
-- [slideUp](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L47) (1 connections)
-- [slowerTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L136) (1 connections)
-- [slowTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L131) (1 connections)
-- [smoothTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L121) (1 connections)
-- [springTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L115) (1 connections)
-- [staggerContainer](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L83) (1 connections)
-- [staggerItem](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L91) (1 connections)
+- [errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L1) (11 connections)
+- [logError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L140) (5 connections)
+- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L8) (3 connections)
+- [isAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L99) (3 connections)
+- [.toJSON()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L25) (2 connections)
+- [AuthError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L53) (2 connections)
+- [getUserErrorMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L106) (2 connections)
+- [NetworkError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L44) (2 connections)
+- [NotFoundError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L60) (2 connections)
+- [PermissionError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L67) (2 connections)
+- [RateLimitError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L74) (2 connections)
+- [ServiceUnavailableError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L83) (2 connections)
+- [ValidationError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L37) (2 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L9) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L54) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L45) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L61) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L68) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L75) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L84) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L38) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class AppError {
+        +errors.ts()
+        +.constructor()
+        +.toJSON()
+    }
+    class AuthError {
+        +errors.ts()
+        +.constructor()
+    }
+    class NetworkError {
+        +errors.ts()
+        +.constructor()
+    }
+    class NotFoundError {
+        +errors.ts()
+        +.constructor()
+    }
+    class PermissionError {
+        +errors.ts()
+        +.constructor()
+    }
+    class RateLimitError {
+        +errors.ts()
+        +.constructor()
+    }
+    class ServiceUnavailableError {
+        +errors.ts()
+        +.constructor()
+    }
+    class ValidationError {
+        +errors.ts()
+        +.constructor()
+    }
+```
 
 ## Relationships
 
@@ -32,12 +71,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\motion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 40 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 46 (96%)
+- INFERRED: 2 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,24 +1,25 @@
 # Analytics Reporting
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [TipsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L1) (14 connections)
-- [allTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L44) (1 connections)
-- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L102) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L193) (1 connections)
-- [[completedTips, setCompletedTips]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L124) (1 connections)
-- [currentTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L129) (1 connections)
-- [[currentTipIndex, setCurrentTipIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L122) (1 connections)
-- [filteredTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L127) (1 connections)
-- [handleMarkComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L136) (1 connections)
-- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L132) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L253) (1 connections)
-- [isCarousel](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L130) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L254) (1 connections)
-- [[isDismissed, setIsDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L123) (1 connections)
-- [levelBadgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L109) (1 connections)
+- [ScreenshotNavigator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L1) (15 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L77) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L48) (2 connections)
+- [[autoTourDelay, setAutoTourDelay]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L54) (1 connections)
+- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L57) (1 connections)
+- [currentScreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L58) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L203) (1 connections)
+- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L32) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L204) (1 connections)
+- [[isAutoTour, setIsAutoTour]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L53) (1 connections)
+- [[isCollapsed, setIsCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L51) (1 connections)
+- [[isHidden, setIsHidden]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L52) (1 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L205) (1 connections)
+- [{ isScreenshotMode, disableScreenshotMode }](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L47) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L49) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L64) (1 connections)
 
 ## Relationships
 
@@ -26,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\TipsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\screenshot\ScreenshotNavigator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

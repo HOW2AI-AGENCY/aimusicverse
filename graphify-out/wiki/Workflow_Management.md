@@ -1,11 +1,12 @@
 # Workflow Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L1) (1 connections)
-- [MobileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L35) (1 connections)
+- [useStemTypeTranscriptionStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L1) (2 connections)
+- [useStemTranscriptionByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L88) (1 connections)
+- [useStemTypeTranscriptionStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemTypeTranscriptionStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

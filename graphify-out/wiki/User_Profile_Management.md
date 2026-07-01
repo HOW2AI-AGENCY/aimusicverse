@@ -1,25 +1,26 @@
 # User Profile Management
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [SynchronizedSectionLyrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L1) (15 connections)
-- [activeWordIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L94) (1 connections)
-- [activeWordRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L42) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L41) (1 connections)
-- [[editedText, setEditedText]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L40) (1 connections)
-- [handleCancelEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L122) (1 connections)
-- [handleSaveEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L117) (1 connections)
-- [handleStartEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L112) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L187) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L39) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L188) (1 connections)
-- [lastSyncedRangeRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L70) (1 connections)
-- [lyricsText](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L58) (1 connections)
-- [newLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L76) (1 connections)
-- [rangeKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L74) (1 connections)
-- [sectionWords](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L45) (1 connections)
+- [StudioTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L1) (16 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L458) (2 connections)
+- [audioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L315) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L311) (1 connections)
+- [disabledActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L344) (1 connections)
+- [disabledReasons](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L345) (1 connections)
+- [effectiveMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L318) (1 connections)
+- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L332) (1 connections)
+- [handleToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L320) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L309) (1 connections)
+- [hasAnyFile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L110) (1 connections)
+- [hasNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L109) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L312) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L306) (1 connections)
+- [{ normalizedNotes, playheadPos }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L65) (1 connections)
+- [[showActionSheet, setShowActionSheet]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L308) (1 connections)
+- [[showVolume, setShowVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx#L307) (1 connections)
 
 ## Relationships
 
@@ -27,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\SynchronizedSectionLyrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTrackRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 32 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

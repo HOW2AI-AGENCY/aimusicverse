@@ -1,25 +1,26 @@
 # Authentication System
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L1) (7 connections)
-- [touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L1) (5 connections)
-- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L1) (3 connections)
-- [touchTarget](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L12) (3 connections)
-- [circularStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L52) (1 connections)
-- [CloseButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L229) (1 connections)
-- [CompactIconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L197) (1 connections)
-- [getTouchTargetPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L47) (1 connections)
-- [IconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L161) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L46) (1 connections)
-- [TOUCH_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L30) (1 connections)
-- [TOUCH_TARGET_MIN_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L6) (1 connections)
-- [TouchableIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L78) (1 connections)
-- [TouchableLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L124) (1 connections)
-- [TouchableListItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L284) (1 connections)
-- [validateTouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L40) (1 connections)
+- [Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L1) (16 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L45) (1 connections)
+- [initialTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L44) (1 connections)
+- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L35) (1 connections)
+- [{ isGuestMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L36) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L37) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L38) (1 connections)
+- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L40) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L39) (1 connections)
+- [selectedProject](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L50) (1 connections)
+- [[selectedProjectId, setSelectedProjectId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L48) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L61) (1 connections)
+- [statusLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L19) (1 connections)
+- [tab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L54) (1 connections)
+- [typeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L27) (1 connections)
+- [urlTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L43) (1 connections)
+- [VALID_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -27,13 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

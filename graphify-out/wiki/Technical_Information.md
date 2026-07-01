@@ -1,11 +1,12 @@
 # Technical Information
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L1) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L46) (1 connections)
+- [useStarsPayment.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/useStarsPayment.test.tsx#L1) (2 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/useStarsPayment.test.tsx#L17) (1 connections)
+- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/useStarsPayment.test.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\useStarsPayment.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/useStarsPayment.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

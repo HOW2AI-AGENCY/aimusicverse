@@ -1,16 +1,17 @@
 # Stem Management
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [AchievementsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L1) (6 connections)
-- [category](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L39) (1 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L7) (1 connections)
-- [{ data: achievements, isLoading: loadingAchievements }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L20) (1 connections)
-- [{ data: userAchievements, isLoading: loadingUserAchievements }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L21) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L23) (1 connections)
-- [isUnlocked](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L67) (1 connections)
+- [DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L83) (1 connections)
+- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L114) (1 connections)
+- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L45) (1 connections)
+- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L75) (1 connections)
+- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L76) (1 connections)
+- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L150) (1 connections)
+- [stepIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L117) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\AchievementsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

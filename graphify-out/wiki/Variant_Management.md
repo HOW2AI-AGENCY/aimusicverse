@@ -1,11 +1,12 @@
 # Variant Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L1) (1 connections)
-- [ProjectSettingsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L28) (1 connections)
+- [AnalyticsProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L1) (2 connections)
+- [AnalyticsProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L30) (1 connections)
+- [WebVitalsReporter](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\providers\AnalyticsProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

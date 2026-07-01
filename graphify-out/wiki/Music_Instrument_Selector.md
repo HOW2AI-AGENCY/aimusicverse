@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [Suno Voice API](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md) (1 connections)
-- [Voice Cloning 6-Step Workflow](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md) (1 connections)
+- [Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L1) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L16) (1 connections)
 
 ## Relationships
 
-- [[User Confirmation]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/VOICE_CLONING_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx)
 
 ## Audit Trail
 

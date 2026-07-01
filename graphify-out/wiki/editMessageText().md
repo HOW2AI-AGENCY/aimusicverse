@@ -9,8 +9,8 @@ sequenceDiagram
     participant P0 as editMessageText()
     participant P1 as error
     participant P2 as handleDeepLink()
-    participant P3 as sendMessage()
-    participant P4 as .info()
+    participant P3 as .info()
+    participant P4 as sendMessage()
     participant P5 as .build()
     participant P6 as .addButton()
     participant P7 as buildMessage()
@@ -35,8 +35,8 @@ sequenceDiagram
     participant P26 as handleStart()
     participant P27 as parseDeepLink()
     participant P28 as uploadAndShowActions()
-    participant P29 as handleDashboard()
-    participant P30 as handleAudioActionCallback()
+    participant P29 as handleAudioActionCallback()
+    participant P30 as handleDashboard()
     participant P31 as handleClassificationCallback()
     participant P32 as processVoiceMessage()
     participant P33 as handleAutoUploadWithPipeline()
@@ -49,514 +49,526 @@ sequenceDiagram
     participant P40 as handleUpdate()
     participant P41 as editMessageMedia()
     participant P42 as handleGenerate()
-    participant P43 as sendNotification()
-    participant P44 as .setActive()
-    participant P45 as handleGuitarAudio()
-    participant P46 as handleInlineQuery()
-    participant P47 as handleMidiCommand()
-    participant P48 as startMidiConversion()
-    participant P49 as handleStatus()
-    participant P50 as processMediaGroupAction()
-    participant P51 as sendTelegramAudio()
-    participant P52 as handleCheckTask()
-    participant P53 as handleCloudUploadWithAnalysis()
-    participant P54 as handleVoiceForGeneration()
-    participant P55 as getCachedAudio()
-    participant P56 as createNotification()
-    participant P57 as sendAudio()
-    participant P58 as handleDynamicMenuCallback()
-    participant P59 as handleGenerateFromReference()
-    participant P60 as handleCloudCallback()
-    participant P61 as handlePlayTrack()
-    participant P62 as handleGenerationWizardCallback()
-    participant P63 as editMessageCaption()
-    participant P64 as handleInlineQuery()
-    participant P65 as .saveState()
-    participant P66 as handleAudioActionCallback()
-    participant P67 as handleCoverAction()
-    participant P68 as handleExtendAction()
-    participant P69 as showTierInfo()
-    participant P70 as cacheAudio()
-    participant P71 as .getState()
-    participant P72 as sendDocument()
-    participant P73 as handleAnalyzeCommand()
-    participant P74 as handleChordAnalysis()
-    participant P75 as handleBeatAnalysis()
-    participant P76 as handlePianoCommand()
-    participant P77 as handleSendTrackToChat()
-    participant P78 as handleMyUploads()
-    participant P79 as .cleanup()
-    participant P80 as handleStemsAction()
-    participant P81 as handleMidiAction()
-    participant P82 as processAudioUpload()
-    participant P83 as handleUploadCallback()
-    participant P84 as startGenerationFromVoice()
-    participant P85 as .deleteTrackedMessage()
-    participant P86 as sendLikeDigest()
-    participant P87 as sendCommentDigest()
-    participant P88 as startGeneration()
-    participant P89 as handleRewardShare()
-    participant P90 as .acquire()
-    participant P91 as createTinkoffPayment()
-    participant P92 as .analyze()
-    participant P93 as sendAlertToAdmins()
-    participant P94 as sendTelegramVideo()
-    participant P95 as sendTelegramDocument()
-    participant P96 as handleTranscription()
-    participant P97 as handleFullAnalysis()
-    participant P98 as handleGuitarCommand()
-    participant P99 as handleLyrics()
-    participant P100 as handleRecognizeAudio()
-    participant P101 as handleStudio()
-    participant P102 as deleteActiveMenu()
-    participant P103 as .showMenu()
-    participant P104 as .startWizard()
-    participant P105 as .handleCallback()
-    participant P106 as showAudioClassificationPromptInternal()
-    participant P107 as handleFeedbackCallback()
-    participant P108 as handleChosenInlineResult()
-    participant P109 as startQuickGeneration()
-    participant P110 as handleTariffCallback()
-    participant P111 as handleVoiceProcessorCallback()
-    participant P112 as sendAutoDeleteMessage()
-    participant P113 as sendFollowerDigest()
-    participant P114 as createProject()
-    participant P115 as ensureAudioReady()
-    participant P116 as resumeAudioContext()
-    participant P117 as ensureAudioRoutedToDestination()
-    participant P118 as showGenerationError()
-    participant P119 as .generateFallback()
-    participant P120 as shareTrackURL()
-    participant P121 as sharePlaylistURL()
-    participant P122 as checkAndUnlockAchievements()
-    participant P123 as sendTelegramMessage()
-    participant P124 as handleSuccessfulPayment()
-    participant P125 as handleMediaGroupCallbacks()
-    participant P126 as handleAnalyzeSelect()
-    participant P127 as handleAnalyzeList()
-    participant P128 as handleAddToPlaylist()
-    participant P129 as handleRecognizeCommand()
-    participant P130 as handleTrackStats()
-    participant P131 as handleStemSeparation()
-    participant P132 as handleCheckStemsStatus()
-    participant P133 as handleSelectReference()
-    participant P134 as handleUseReference()
-    participant P135 as .cancelWizard()
-    participant P136 as .getTrackById()
-    participant P137 as processFeedbackMessage()
-    participant P138 as sendFeedbackReply()
-    participant P139 as handleDownloadTrack()
-    participant P140 as handleBuyCommand()
-    participant P141 as handleBuyProduct()
-    participant P142 as handleEnhancedQuickActionCallback()
-    participant P143 as loadTiers()
-    participant P144 as handleTracksCallback()
-    participant P145 as generateThumbnails()
-    participant P146 as handleSubmit()
-    participant P147 as handleFileSelect()
-    participant P148 as analyzeAudio()
-    participant P149 as registerAudioServiceWorker()
-    participant P150 as .saveState()
-    participant P151 as detectBPM()
-    participant P152 as cancelTinkoffSubscription()
-    participant P153 as .getActive()
-    participant P154 as shareTrackToStory()
-    participant P155 as sharePlaylistToStory()
-    participant P156 as pollForResult()
-    participant P157 as handlePreCheckoutQuery()
-    participant P158 as recognizeFromUrl()
-    participant P159 as handleRemix()
-    participant P160 as handleAddVocals()
-    participant P161 as handleAddInstrumental()
-    participant P162 as handleTrackDetails()
-    participant P163 as handleDownloadStems()
-    participant P164 as handleShowLyrics()
-    participant P165 as getPendingUpload()
-    participant P166 as consumePendingAudio()
-    participant P167 as .navigateBack()
-    participant P168 as .saveState()
-    participant P169 as .handleInput()
-    participant P170 as .confirmWizard()
-    participant P171 as .getUserProjects()
-    participant P172 as getFileUrl()
-    participant P173 as getFileUrl()
-    participant P174 as loadMenuItems()
-    participant P175 as getUserRecentStyles()
-    participant P176 as loadCustomImages()
-    participant P177 as storeFailedNotification()
-    participant P178 as runAccessibilityAudit()
-    participant P179 as analyzeBundleSizes()
-    participant P180 as handleSubmit()
-    participant P181 as handleFileUpload()
-    participant P182 as uploadAndAnalyze()
-    participant P183 as handleApplyCrop()
-    participant P184 as handleFileUpload()
-    participant P185 as handleFileSelect()
-    participant P186 as loadPositions()
-    participant P187 as getOrCreateAudioNodes()
-    participant P188 as fetchFeedback()
-    participant P189 as handleReply()
-    participant P190 as .persistToDatabase()
-    participant P191 as processQueue()
-    participant P192 as sendTelegramProgress()
-    participant P193 as getPublicTracksForGuests()
-    participant P194 as handlePlaylistAdd()
-    participant P195 as handleShareTrack()
-    participant P196 as handleSeparateStems()
-    participant P197 as handleDownloadStems()
-    participant P198 as handleDeleteReference()
-    participant P199 as deleteAndSendNewMenu()
-    participant P200 as setPendingAudio()
-    participant P201 as updatePendingAudioAnalysis()
-    participant P202 as setWizardState()
-    participant P203 as .updateMenu()
-    participant P204 as .getUserByTelegramId()
-    participant P205 as .getUserTracks()
-    participant P206 as updatePendingClassification()
-    participant P207 as handleLikeTrack()
-    participant P208 as showEnhancedQuickActions()
-    participant P209 as handleUploadCancel()
-    participant P210 as checkUserQuota()
-    participant P211 as startGenerationWizard()
-    participant P212 as validateFeatureAccess()
-    participant P213 as handleSubmit()
-    participant P214 as componentDidCatch()
-    participant P215 as handleFileUpload()
-    participant P216 as handleImageUpload()
-    participant P217 as handleRecordingComplete()
-    participant P218 as uploadAndGetUrl()
-    participant P219 as extractLyrics()
-    participant P220 as handleSaveAsPlaylist()
-    participant P221 as handleActivateTrial()
-    participant P222 as handleGenerate()
-    participant P223 as handleRemoveAvatar()
-    participant P224 as handleUseAsReference()
-    participant P225 as generateWaveform()
-    participant P226 as handleUpload()
-    participant P227 as handleVersionSelect()
-    participant P228 as handleCopy()
-    participant P229 as activateTrial()
-    participant P230 as prefetchAudio()
-    participant P231 as cleanupExpiredEntries()
-    participant P232 as exportAnalytics()
-    participant P233 as detectBPMFromUrl()
-    participant P234 as loadProjectData()
-    participant P235 as handleSeparateStems()
-    participant P236 as checkAdminStatus()
-    participant P237 as handleClose()
-    participant P238 as .clearActive()
-    participant P239 as downloadAndUploadStem()
-    participant P240 as handleSetEmojiStatus()
-    participant P241 as handleRemoveEmojiStatus()
-    participant P242 as clearActiveMenu()
-    participant P243 as getBotCommands()
-    participant P244 as updateBotCommands()
-    participant P245 as setPendingUpload()
-    participant P246 as consumePendingUpload()
-    participant P247 as getPendingAudioWithoutConsuming()
-    participant P248 as updatePendingUpload()
-    participant P249 as .sendMenu()
-    participant P250 as setPendingClassification()
-    participant P251 as getPendingClassification()
-    participant P252 as consumePendingClassification()
-    participant P253 as getFileUrl()
-    participant P254 as loadTariffTiers()
-    participant P255 as startInlineGeneration()
-    participant P256 as handleBuyCreditPackages()
-    participant P257 as handleBuySubscriptions()
-    participant P258 as handleVoiceGenerationCallback()
-    participant P259 as flushMetrics()
-    participant P260 as deductCredits()
-    participant P261 as checkRateLimitDb()
-    participant P262 as scheduleRetry()
-    participant P263 as logApiCall()
-    participant P264 as getSubscriptionStatus()
-    participant P265 as getMidiMetadata()
-    participant P266 as getDerivedStateFromError()
-    participant P267 as handleExtend()
-    participant P268 as setupWebhook()
-    participant P269 as handleDelete()
-    participant P270 as handleSubmit()
-    participant P271 as handleSubmit()
-    participant P272 as handleImageUpload()
-    participant P273 as handleForceAlert()
-    participant P274 as handleNewArrangement()
-    participant P275 as handleNewVocal()
-    participant P276 as handleAnalyze()
-    participant P277 as handleExtractLyrics()
-    participant P278 as handleGenerate()
-    participant P279 as handleImprove()
-    participant P280 as handleAddTags()
-    participant P281 as loadData()
-    participant P282 as handleAddNewPrompt()
-    participant P283 as handleDownload()
-    participant P284 as startRecording()
-    participant P285 as fetchAudioList()
-    participant P286 as handleQuickGenerate()
-    participant P287 as checkProfileSetup()
-    participant P288 as handleTranslate()
-    participant P289 as handleGenerate()
-    participant P290 as handleRemoveCover()
-    participant P291 as handleApply()
-    participant P292 as handleSendToTelegram()
-    participant P293 as handleAddToProject()
-    participant P294 as handleShareToStory()
-    participant P295 as saveGuitarAnalysisForTrack()
-    participant P296 as attemptAudioRecovery()
-    participant P297 as logError()
-    participant P298 as generateWaveformFromBuffer()
-    participant P299 as fetchDeeplinkAnalyticsSummary()
-    participant P300 as .initializeAudioContext()
-    participant P301 as retry()
-    participant P302 as fetchReplacedSections()
-    participant P303 as getPaymentTransaction()
-    participant P304 as getUserPaymentTransactions()
-    participant P305 as getActiveSubscription()
-    participant P306 as authenticateWithTelegram()
-    participant P307 as .getValidatePhrase()
-    participant P308 as .getVoiceId()
-    participant P309 as hashContentFromUrl()
-    participant P310 as editTelegramMessage()
-    participant P311 as verifyAdminAccess()
-    participant P312 as fetchWithRetry()
-    participant P313 as loadConfigFromDatabase()
-    participant P314 as executeSearch()
-    participant P315 as answerInlineQuery()
-    participant P316 as getActiveMenuMessageId()
-    participant P317 as saveBotCommands()
-    participant P318 as cancelPendingUpload()
-    participant P319 as setConversationContext()
-    participant P320 as getWizardState()
-    participant P321 as .getActiveTasks()
-    participant P322 as editInlineMessage()
-    participant P323 as storeMediaGroupSession()
-    participant P324 as saveRecentStyle()
-    participant P325 as storeVoiceTranscription()
-    participant P326 as createMainMenuKeyboardAsync()
-    participant P327 as markNotificationSuccess()
-    participant P328 as markNotificationFailed()
-    participant P329 as handleWizardTextInput()
-    participant P330 as validateRequest()
-    participant P331 as checkLinks()
-    participant P332 as migrateFile()
-    participant P333 as downloadMidiFile()
-    participant P334 as handleSubmit()
-    participant P335 as handleGeneratePortrait()
-    participant P336 as handleSubmit()
-    participant P337 as sendTestAlert()
-    participant P338 as handleSendTestAlert()
-    participant P339 as handleGeneratePortrait()
+    participant P43 as handleGuitarAudio()
+    participant P44 as handleMidiCommand()
+    participant P45 as handleStatus()
+    participant P46 as sendNotification()
+    participant P47 as uploadFile()
+    participant P48 as .setActive()
+    participant P49 as handleCheckTask()
+    participant P50 as handleInlineQuery()
+    participant P51 as startMidiConversion()
+    participant P52 as handleCloudUploadWithAnalysis()
+    participant P53 as processMediaGroupAction()
+    participant P54 as sendTelegramAudio()
+    participant P55 as handleVoiceForGeneration()
+    participant P56 as getCachedAudio()
+    participant P57 as createNotification()
+    participant P58 as sendAudio()
+    participant P59 as handleDynamicMenuCallback()
+    participant P60 as handleGenerateFromReference()
+    participant P61 as handleCloudCallback()
+    participant P62 as handlePlayTrack()
+    participant P63 as handleGenerationWizardCallback()
+    participant P64 as editMessageCaption()
+    participant P65 as handleAnalyzeCommand()
+    participant P66 as handleInlineQuery()
+    participant P67 as handlePianoCommand()
+    participant P68 as handleMyUploads()
+    participant P69 as .saveState()
+    participant P70 as handleAudioActionCallback()
+    participant P71 as handleCoverAction()
+    participant P72 as handleExtendAction()
+    participant P73 as processAudioUpload()
+    participant P74 as showTierInfo()
+    participant P75 as startGenerationFromVoice()
+    participant P76 as cacheAudio()
+    participant P77 as .getState()
+    participant P78 as sendDocument()
+    participant P79 as handleChordAnalysis()
+    participant P80 as handleBeatAnalysis()
+    participant P81 as handleSendTrackToChat()
+    participant P82 as .cleanup()
+    participant P83 as handleStemsAction()
+    participant P84 as handleMidiAction()
+    participant P85 as handleUploadCallback()
+    participant P86 as .deleteTrackedMessage()
+    participant P87 as sendLikeDigest()
+    participant P88 as sendCommentDigest()
+    participant P89 as startGeneration()
+    participant P90 as handleRewardShare()
+    participant P91 as .acquire()
+    participant P92 as createTinkoffPayment()
+    participant P93 as .analyze()
+    participant P94 as sendAlertToAdmins()
+    participant P95 as sendTelegramVideo()
+    participant P96 as sendTelegramDocument()
+    participant P97 as handleTranscription()
+    participant P98 as handleFullAnalysis()
+    participant P99 as handleAnalyzeList()
+    participant P100 as handleGuitarCommand()
+    participant P101 as handleLyrics()
+    participant P102 as handleAddToPlaylist()
+    participant P103 as handleRecognizeAudio()
+    participant P104 as handleCheckStemsStatus()
+    participant P105 as handleStudio()
+    participant P106 as deleteActiveMenu()
+    participant P107 as .showMenu()
+    participant P108 as .startWizard()
+    participant P109 as .handleCallback()
+    participant P110 as showAudioClassificationPromptInternal()
+    participant P111 as handleFeedbackCallback()
+    participant P112 as handleChosenInlineResult()
+    participant P113 as handleBuyCommand()
+    participant P114 as startQuickGeneration()
+    participant P115 as loadTiers()
+    participant P116 as handleTariffCallback()
+    participant P117 as handleVoiceProcessorCallback()
+    participant P118 as sendAutoDeleteMessage()
+    participant P119 as sendFollowerDigest()
+    participant P120 as createProject()
+    participant P121 as ensureAudioReady()
+    participant P122 as resumeAudioContext()
+    participant P123 as ensureAudioRoutedToDestination()
+    participant P124 as showGenerationError()
+    participant P125 as .generateFallback()
+    participant P126 as shareTrackURL()
+    participant P127 as sharePlaylistURL()
+    participant P128 as checkAndUnlockAchievements()
+    participant P129 as sendTelegramMessage()
+    participant P130 as handleSuccessfulPayment()
+    participant P131 as handleMediaGroupCallbacks()
+    participant P132 as handleAnalyzeSelect()
+    participant P133 as handleRecognizeCommand()
+    participant P134 as handleTrackStats()
+    participant P135 as handleStemSeparation()
+    participant P136 as handleSelectReference()
+    participant P137 as handleUseReference()
+    participant P138 as .cancelWizard()
+    participant P139 as .getTrackById()
+    participant P140 as .getUserProjects()
+    participant P141 as loadMenuItems()
+    participant P142 as processFeedbackMessage()
+    participant P143 as sendFeedbackReply()
+    participant P144 as handleDownloadTrack()
+    participant P145 as handleBuyProduct()
+    participant P146 as handleEnhancedQuickActionCallback()
+    participant P147 as getUserRecentStyles()
+    participant P148 as handleTracksCallback()
+    participant P149 as generateThumbnails()
+    participant P150 as handleSubmit()
+    participant P151 as handleFileSelect()
+    participant P152 as analyzeAudio()
+    participant P153 as registerAudioServiceWorker()
+    participant P154 as migrateQueueFromPlayerStore()
+    participant P155 as .saveState()
+    participant P156 as detectBPM()
+    participant P157 as fetchFeedback()
+    participant P158 as cancelTinkoffSubscription()
+    participant P159 as .getActive()
+    participant P160 as .persistToDatabase()
+    participant P161 as shareTrackToStory()
+    participant P162 as sharePlaylistToStory()
+    participant P163 as pollForResult()
+    participant P164 as handlePreCheckoutQuery()
+    participant P165 as getPublicTracksForGuests()
+    participant P166 as handlePlaylistAdd()
+    participant P167 as recognizeFromUrl()
+    participant P168 as handleRemix()
+    participant P169 as handleAddVocals()
+    participant P170 as handleAddInstrumental()
+    participant P171 as handleTrackDetails()
+    participant P172 as handleDownloadStems()
+    participant P173 as handleShowLyrics()
+    participant P174 as getPendingUpload()
+    participant P175 as consumePendingAudio()
+    participant P176 as .navigateBack()
+    participant P177 as .saveState()
+    participant P178 as .handleInput()
+    participant P179 as .confirmWizard()
+    participant P180 as .getUserTracks()
+    participant P181 as getFileUrl()
+    participant P182 as getFileUrl()
+    participant P183 as loadCustomImages()
+    participant P184 as storeFailedNotification()
+    participant P185 as runAccessibilityAudit()
+    participant P186 as analyzeBundleSizes()
+    participant P187 as handleSubmit()
+    participant P188 as handleFileUpload()
+    participant P189 as uploadAndAnalyze()
+    participant P190 as handleApplyCrop()
+    participant P191 as handleFileUpload()
+    participant P192 as handleFileSelect()
+    participant P193 as loadPositions()
+    participant P194 as getOrCreateAudioNodes()
+    participant P195 as loadProjectData()
+    participant P196 as checkAdminStatus()
+    participant P197 as handleReply()
+    participant P198 as processQueue()
+    participant P199 as sendTelegramProgress()
+    participant P200 as downloadAndUploadStem()
+    participant P201 as handleShareTrack()
+    participant P202 as handleSeparateStems()
+    participant P203 as handleDownloadStems()
+    participant P204 as handleDeleteReference()
+    participant P205 as deleteAndSendNewMenu()
+    participant P206 as setPendingAudio()
+    participant P207 as updatePendingAudioAnalysis()
+    participant P208 as setWizardState()
+    participant P209 as .updateMenu()
+    participant P210 as .getUserByTelegramId()
+    participant P211 as updatePendingClassification()
+    participant P212 as loadTariffTiers()
+    participant P213 as handleLikeTrack()
+    participant P214 as handleBuyCreditPackages()
+    participant P215 as handleBuySubscriptions()
+    participant P216 as showEnhancedQuickActions()
+    participant P217 as handleUploadCancel()
+    participant P218 as checkUserQuota()
+    participant P219 as startGenerationWizard()
+    participant P220 as validateFeatureAccess()
+    participant P221 as handleSubmit()
+    participant P222 as componentDidCatch()
+    participant P223 as handleFileUpload()
+    participant P224 as handleSubmit()
+    participant P225 as handleImageUpload()
+    participant P226 as handleRecordingComplete()
+    participant P227 as uploadAndGetUrl()
+    participant P228 as extractLyrics()
+    participant P229 as fetchAudioList()
+    participant P230 as handleActivateTrial()
+    participant P231 as handleGenerate()
+    participant P232 as handleUseAsReference()
+    participant P233 as generateWaveform()
+    participant P234 as handleUpload()
+    participant P235 as handleCopy()
+    participant P236 as activateTrial()
+    participant P237 as prefetchAudio()
+    participant P238 as cleanupExpiredEntries()
+    participant P239 as fetchDeeplinkAnalyticsSummary()
+    participant P240 as exportAnalytics()
+    participant P241 as detectBPMFromUrl()
+    participant P242 as handleSeparateStems()
+    participant P243 as getUserPaymentTransactions()
+    participant P244 as getActiveSubscription()
+    participant P245 as .clearActive()
+    participant P246 as handleSetEmojiStatus()
+    participant P247 as handleRemoveEmojiStatus()
+    participant P248 as clearActiveMenu()
+    participant P249 as getBotCommands()
+    participant P250 as updateBotCommands()
+    participant P251 as setPendingUpload()
+    participant P252 as consumePendingUpload()
+    participant P253 as getPendingAudioWithoutConsuming()
+    participant P254 as updatePendingUpload()
+    participant P255 as .sendMenu()
+    participant P256 as .getActiveTasks()
+    participant P257 as setPendingClassification()
+    participant P258 as getPendingClassification()
+    participant P259 as consumePendingClassification()
+    participant P260 as getFileUrl()
+    participant P261 as startInlineGeneration()
+    participant P262 as handleVoiceGenerationCallback()
+    participant P263 as flushMetrics()
+    participant P264 as deductCredits()
+    participant P265 as checkRateLimitDb()
+    participant P266 as scheduleRetry()
+    participant P267 as logApiCall()
+    participant P268 as getSubscriptionStatus()
+    participant P269 as getMidiMetadata()
+    participant P270 as upsertUserCredits()
+    participant P271 as getDerivedStateFromError()
+    participant P272 as handleExtend()
+    participant P273 as setupWebhook()
+    participant P274 as handleSubmit()
+    participant P275 as handleImageUpload()
+    participant P276 as handleForceAlert()
+    participant P277 as handleNewArrangement()
+    participant P278 as handleNewVocal()
+    participant P279 as handleAnalyze()
+    participant P280 as handleExtractLyrics()
+    participant P281 as handleGenerate()
+    participant P282 as handleImprove()
+    participant P283 as handleAddTags()
+    participant P284 as loadData()
+    participant P285 as handleAddNewPrompt()
+    participant P286 as handleDownload()
+    participant P287 as startRecording()
+    participant P288 as handleQuickGenerate()
+    participant P289 as handleSaveAsPlaylist()
+    participant P290 as handleTranslate()
+    participant P291 as handleGenerate()
+    participant P292 as handleApply()
+    participant P293 as handleRemoveAvatar()
+    participant P294 as handleSendToTelegram()
+    participant P295 as fetchVersions()
+    participant P296 as handleAddToProject()
+    participant P297 as handleShareToStory()
+    participant P298 as saveGuitarAnalysisForTrack()
+    participant P299 as attemptAudioRecovery()
+    participant P300 as logError()
+    participant P301 as generateWaveformFromBuffer()
+    participant P302 as .initializeAudioContext()
+    participant P303 as retry()
+    participant P304 as handleClose()
+    participant P305 as fetchReplacedSections()
+    participant P306 as getPaymentTransaction()
+    participant P307 as getUserTinkoffSubscriptions()
+    participant P308 as authenticateWithTelegram()
+    participant P309 as .getValidatePhrase()
+    participant P310 as .getVoiceId()
+    participant P311 as hashContentFromUrl()
+    participant P312 as editTelegramMessage()
+    participant P313 as verifyAdminAccess()
+    participant P314 as fetchWithRetry()
+    participant P315 as loadConfigFromDatabase()
+    participant P316 as executeSearch()
+    participant P317 as answerInlineQuery()
+    participant P318 as getActiveMenuMessageId()
+    participant P319 as saveBotCommands()
+    participant P320 as cancelPendingUpload()
+    participant P321 as setConversationContext()
+    participant P322 as getWizardState()
+    participant P323 as editInlineMessage()
+    participant P324 as storeMediaGroupSession()
+    participant P325 as saveRecentStyle()
+    participant P326 as storeVoiceTranscription()
+    participant P327 as createMainMenuKeyboardAsync()
+    participant P328 as markNotificationSuccess()
+    participant P329 as markNotificationFailed()
+    participant P330 as handleWizardTextInput()
+    participant P331 as validateRequest()
+    participant P332 as checkLinks()
+    participant P333 as migrateFile()
+    participant P334 as downloadMidiFile()
+    participant P335 as insertCreditTransaction()
+    participant P336 as updateUserCreditsBalance()
+    participant P337 as uploadFile()
+    participant P338 as deleteFile()
+    participant P339 as listFiles()
     participant P340 as handleSubmit()
-    participant P341 as handleTranscribe()
-    participant P342 as handleSaveLyrics()
+    participant P341 as handleGeneratePortrait()
+    participant P342 as handleSubmit()
     participant P343 as handleDelete()
-    participant P344 as startRecording()
-    participant P345 as handleSubmit()
-    participant P346 as handleDownload()
-    participant P347 as handleLink()
-    participant P348 as handleCancelSubscription()
-    participant P349 as handleGenerateCover()
-    participant P350 as handleShareToStory()
-    participant P351 as handleSubscribe()
-    participant P352 as handleStartTrial()
-    participant P353 as handleSubscribe()
-    participant P354 as handleGenerate()
-    participant P355 as handleApplyOption()
-    participant P356 as handleSubmit()
+    participant P344 as sendTestAlert()
+    participant P345 as handleSendTestAlert()
+    participant P346 as handleGeneratePortrait()
+    participant P347 as handleSubmit()
+    participant P348 as handleTranscribe()
+    participant P349 as handleSaveLyrics()
+    participant P350 as handleDelete()
+    participant P351 as startRecording()
+    participant P352 as handleSubmit()
+    participant P353 as handleDownload()
+    participant P354 as handleLink()
+    participant P355 as checkProfileSetup()
+    participant P356 as handleCancelSubscription()
     participant P357 as handleGenerateCover()
-    participant P358 as handleDownload()
-    participant P359 as handleDownload()
-    participant P360 as handleSubmit()
-    participant P361 as handleSubmit()
-    participant P362 as handleSubmit()
-    participant P363 as handleVersionSelect()
-    participant P364 as init()
-    participant P365 as handleScan()
-    participant P366 as handleCopy()
-    participant P367 as handleCopy()
-    participant P368 as fetchVersions()
-    participant P369 as handleCopy()
-    participant P370 as handleDownload()
-    participant P371 as pickStem()
-    participant P372 as getStoredPresets()
-    participant P373 as savePositions()
-    participant P374 as clearAudioCache()
-    participant P375 as precacheAudioUrls()
-    participant P376 as clearAudioCacheViaSW()
-    participant P377 as deleteFile()
-    participant P378 as mapSunoError()
-    participant P379 as generateWaveformFromUrl()
-    participant P380 as handleSaveRecording()
-    participant P381 as handleCreate()
-    participant P382 as getAllProducts()
-    participant P383 as getProduct()
-    participant P384 as getCreditPackages()
-    participant P385 as getSubscriptions()
-    participant P386 as createPayment()
-    participant P387 as getUserTinkoffSubscriptions()
-    participant P388 as saveFailedNotification()
-    participant P389 as switchInlineQuery()
-    participant P390 as .validateVoice()
-    participant P391 as .regeneratePhrase()
-    participant P392 as .generateVoice()
-    participant P393 as .checkVoiceAvailability()
-    participant P394 as createHealthAlert()
-    participant P395 as checkRateLimit()
-    participant P396 as fetchStatusWithRetry()
-    participant P397 as answerPreCheckoutQuery()
-    participant P398 as logInlineSearch()
-    participant P399 as sendNotification()
-    participant P400 as getMenuState()
-    participant P401 as clearWizardState()
-    participant P402 as cleanupSessions()
-    participant P403 as .getCurrentContext()
-    participant P404 as .getBreadcrumb()
-    participant P405 as .getProjectById()
-    participant P406 as .incrementPlayCount()
-    participant P407 as storeTemporaryAudio()
-    participant P408 as logChosenResult()
-    participant P409 as handleTrackChosen()
-    participant P410 as getFileInfo()
-    participant P411 as getFileUrl()
-    participant P412 as getFileUrl()
-    participant P413 as .processQueue()
-    participant P414 as getBundleFiles()
-    participant P415 as uploadMidiFile()
-    participant P416 as getMidiPublicUrl()
-    participant P417 as deleteMidiFile()
-    participant P418 as listMidiFilesForTrack()
-    participant P419 as handleSubmit()
-    participant P420 as handleRemixClick()
-    participant P421 as handleResolve()
-    participant P422 as handleFileInputChange()
-    participant P423 as handleSubmit()
-    participant P424 as handleSave()
-    participant P425 as handleCopyProgression()
-    participant P426 as handleFileUpload()
-    participant P427 as handleStartRecording()
-    participant P428 as generateThemeIdea()
-    participant P429 as startTuner()
-    participant P430 as handleReanalyze()
-    participant P431 as handleCopy()
-    participant P432 as handleCopy()
-    participant P433 as handleCopy()
-    participant P434 as handleGetOptions()
-    participant P435 as handleDownload()
-    participant P436 as handleCreateProject()
-    participant P437 as handleShare()
-    participant P438 as handleCopyLink()
-    participant P439 as handleCopy()
-    participant P440 as handleSave()
-    participant P441 as savePresets()
-    participant P442 as uploadFile()
-    participant P443 as getOwnTelegramIds()
-    participant P444 as handleBatchAction()
-    participant P445 as deleteNotification()
-    participant P446 as cleanupExpiredNotifications()
-    participant P447 as replaceSection()
-    participant P448 as separateStems()
-    participant P449 as switchToVersion()
-    participant P450 as setSession()
-    participant P451 as validateWebhookSignature()
-    participant P452 as handleInternalAction()
-    participant P453 as storeNotification()
-    participant P454 as checkAlerts()
-    participant P455 as getPendingRetries()
-    participant P456 as handleFileSelect()
-    participant P457 as handleFileSelect()
-    participant P458 as componentDidCatch()
-    participant P459 as handleSubmit()
-    participant P460 as handleBroadcast()
-    participant P461 as handleCredit()
-    participant P462 as handleCostChange()
-    participant P463 as handleFeatureToggle()
-    participant P464 as initWavesurfer()
-    participant P465 as handleSaveRecording()
-    participant P466 as .componentDidCatch()
-    participant P467 as handleFileUpload()
-    participant P468 as handleRecognizeLyrics()
-    participant P469 as handleFileSelect()
-    participant P470 as componentDidCatch()
-    participant P471 as handleSaveAsTrack()
-    participant P472 as init()
-    participant P473 as componentDidCatch()
-    participant P474 as handleGenerate()
-    participant P475 as deleteNotificationsByGroup()
-    participant P476 as json()
-    participant P477 as handleNavigationCallbacks()
-    participant P478 as handleProjectsCallback()
-    participant P479 as text
-    participant P480 as handleProjectDetails()
-    participant P481 as handleProjectsCarousel()
-    participant P482 as handleWizardCallback()
-    participant P483 as showCloudFiles()
-    participant P484 as handleCoverCommand()
-    participant P485 as handleExtendCommand()
-    participant P486 as handleTerms()
-    participant P487 as handlePrivacy()
-    participant P488 as handleUploadCommand()
-    participant P489 as handleArtistDetails()
-    participant P490 as showCloudTracks()
-    participant P491 as handleAbout()
-    participant P492 as showClassificationPrompt()
-    participant P493 as showFileDetails()
-    participant P494 as handleProjectShare()
-    participant P495 as handleProjectStats()
-    participant P496 as handleMidiTrackCallback()
-    participant P497 as handleArtistsCallback()
-    participant P498 as handleArtistEdit()
-    participant P499 as handleArtistTracks()
-    participant P500 as showStemFiles()
-    participant P501 as showMidiFiles()
-    participant P502 as showStorageInfo()
-    participant P503 as showMyRequests()
-    participant P504 as handleProjectEdit()
-    participant P505 as handleProjectTracks()
-    participant P506 as showTracksList()
-    participant P507 as startProjectWizard()
-    participant P508 as handleArtistDeleteConfirm()
-    participant P509 as handleProjectDeleteConfirm()
-    participant P510 as showTariffsMenu()
-    participant P511 as showEnterpriseContact()
-    participant P512 as handleVoiceToTrack()
-    participant P513 as showMoodStep()
-    participant P514 as showTypeSelection()
-    participant P515 as showGenreSelection()
-    participant P516 as showMoodSelection()
-    participant P517 as processGenerationWithReference()
-    participant P518 as processAddVocalsInstrumental()
-    participant P519 as handleCancelMidi()
-    participant P520 as handleNews()
-    participant P521 as handleRating()
-    participant P522 as showCustomPromptInput()
-    participant P523 as handleVoiceToArrangement()
-    participant P524 as handleVoiceToCover()
-    participant P525 as handleVoiceToStems()
-    participant P526 as showSubgenreStep()
-    participant P527 as showConfirmStep()
-    participant P528 as cancelWizard()
-    participant P529 as handleCancelUploadCallback()
-    participant P530 as handleCancelGuitar()
-    participant P531 as handleMidiUploadCallback()
-    participant P532 as handleCancelRecognize()
-    participant P533 as handleCopyTrackLink()
-    participant P534 as handleTemplateSelection()
-    participant P535 as showStyleStep()
-    participant P536 as showDetailsStep()
-    participant P537 as showDescriptionInput()
-    participant P538 as showConfirmation()
-    participant P539 as handleTranscribeMenu()
-    participant P540 as handlePlaylistNew()
-    participant P541 as handleSettings()
-    participant P542 as handleNotificationSettings()
-    participant P543 as handleEmojiStatusSettings()
-    participant P544 as showGenderPrompt()
-    participant P545 as promptFeedback()
-    participant P546 as showEnergyStep()
-    participant P547 as showRatingOptions()
-    participant P548 as showGenreFilter()
-    participant P549 as promptTrackSearch()
-    participant P550 as showUploadProgress()
+    participant P358 as handleShareToStory()
+    participant P359 as handleStartTrial()
+    participant P360 as handleSubscribe()
+    participant P361 as handleGenerate()
+    participant P362 as handleApplyOption()
+    participant P363 as handleSubmit()
+    participant P364 as handleGenerateCover()
+    participant P365 as handleRemoveCover()
+    participant P366 as handleDownload()
+    participant P367 as handleDownload()
+    participant P368 as handleSubmit()
+    participant P369 as handleSubmit()
+    participant P370 as handleSubmit()
+    participant P371 as handleVersionSelect()
+    participant P372 as init()
+    participant P373 as handleScan()
+    participant P374 as handleCopy()
+    participant P375 as handleCopy()
+    participant P376 as handleCopy()
+    participant P377 as handleDownload()
+    participant P378 as pickStem()
+    participant P379 as getStoredPresets()
+    participant P380 as savePositions()
+    participant P381 as clearAudioCache()
+    participant P382 as precacheAudioUrls()
+    participant P383 as clearAudioCacheViaSW()
+    participant P384 as deleteFile()
+    participant P385 as mapSunoError()
+    participant P386 as generateWaveformFromUrl()
+    participant P387 as handleSaveRecording()
+    participant P388 as handleCreate()
+    participant P389 as getAllProducts()
+    participant P390 as getProduct()
+    participant P391 as getCreditPackages()
+    participant P392 as getSubscriptions()
+    participant P393 as createPayment()
+    participant P394 as saveFailedNotification()
+    participant P395 as switchInlineQuery()
+    participant P396 as .validateVoice()
+    participant P397 as .regeneratePhrase()
+    participant P398 as .generateVoice()
+    participant P399 as .checkVoiceAvailability()
+    participant P400 as createHealthAlert()
+    participant P401 as checkRateLimit()
+    participant P402 as fetchStatusWithRetry()
+    participant P403 as answerPreCheckoutQuery()
+    participant P404 as logInlineSearch()
+    participant P405 as sendNotification()
+    participant P406 as getMenuState()
+    participant P407 as clearWizardState()
+    participant P408 as cleanupSessions()
+    participant P409 as .getCurrentContext()
+    participant P410 as .getBreadcrumb()
+    participant P411 as .getProjectById()
+    participant P412 as .incrementPlayCount()
+    participant P413 as storeTemporaryAudio()
+    participant P414 as logChosenResult()
+    participant P415 as handleTrackChosen()
+    participant P416 as getFileInfo()
+    participant P417 as getFileUrl()
+    participant P418 as getFileUrl()
+    participant P419 as .processQueue()
+    participant P420 as getBundleFiles()
+    participant P421 as uploadMidiFile()
+    participant P422 as getMidiPublicUrl()
+    participant P423 as deleteMidiFile()
+    participant P424 as listMidiFilesForTrack()
+    participant P425 as upsertNotificationSettings()
+    participant P426 as upsertOnboardingNotificationSettings()
+    participant P427 as upsertUserCreditsBalance()
+    participant P428 as handleSubmit()
+    participant P429 as handleRemixClick()
+    participant P430 as handleResolve()
+    participant P431 as handleFileInputChange()
+    participant P432 as handleSubmit()
+    participant P433 as handleSave()
+    participant P434 as handleCopyProgression()
+    participant P435 as handleFileUpload()
+    participant P436 as handleStartRecording()
+    participant P437 as generateThemeIdea()
+    participant P438 as startTuner()
+    participant P439 as handleReanalyze()
+    participant P440 as handleCopy()
+    participant P441 as handleCopy()
+    participant P442 as handleCopy()
+    participant P443 as handleSubscribe()
+    participant P444 as handleGetOptions()
+    participant P445 as handleDownload()
+    participant P446 as handleCreateProject()
+    participant P447 as handleShare()
+    participant P448 as handleCopyLink()
+    participant P449 as handleVersionSelect()
+    participant P450 as handleCopy()
+    participant P451 as handleSave()
+    participant P452 as savePresets()
+    participant P453 as requestNotificationPermission()
+    participant P454 as getOwnTelegramIds()
+    participant P455 as handleBatchAction()
+    participant P456 as deleteNotification()
+    participant P457 as cleanupExpiredNotifications()
+    participant P458 as replaceSection()
+    participant P459 as separateStems()
+    participant P460 as switchToVersion()
+    participant P461 as setSession()
+    participant P462 as validateWebhookSignature()
+    participant P463 as handleInternalAction()
+    participant P464 as storeNotification()
+    participant P465 as checkAlerts()
+    participant P466 as getPendingRetries()
+    participant P467 as handleFileSelect()
+    participant P468 as handleFileSelect()
+    participant P469 as componentDidCatch()
+    participant P470 as handleSubmit()
+    participant P471 as handleBroadcast()
+    participant P472 as handleCredit()
+    participant P473 as handleCostChange()
+    participant P474 as handleFeatureToggle()
+    participant P475 as initWavesurfer()
+    participant P476 as handleSaveRecording()
+    participant P477 as .componentDidCatch()
+    participant P478 as handleFileUpload()
+    participant P479 as handleRecognizeLyrics()
+    participant P480 as handleFileSelect()
+    participant P481 as componentDidCatch()
+    participant P482 as handleSaveAsTrack()
+    participant P483 as init()
+    participant P484 as componentDidCatch()
+    participant P485 as handleGenerate()
+    participant P486 as showGenerationCompleteNotification()
+    participant P487 as deleteNotificationsByGroup()
+    participant P488 as json()
+    participant P489 as handleNavigationCallbacks()
+    participant P490 as handleProjectsCallback()
+    participant P491 as text
+    participant P492 as handleProjectsCarousel()
+    participant P493 as handleProjectDetails()
+    participant P494 as showCloudFiles()
+    participant P495 as handleWizardCallback()
+    participant P496 as showCloudTracks()
+    participant P497 as handleCoverCommand()
+    participant P498 as handleExtendCommand()
+    participant P499 as handleTerms()
+    participant P500 as handlePrivacy()
+    participant P501 as handleUploadCommand()
+    participant P502 as handleArtistDetails()
+    participant P503 as handleAbout()
+    participant P504 as handleArtistsCallback()
+    participant P505 as handleArtistTracks()
+    participant P506 as showClassificationPrompt()
+    participant P507 as showFileDetails()
+    participant P508 as showMyRequests()
+    participant P509 as handleProjectShare()
+    participant P510 as handleProjectStats()
+    participant P511 as handleProjectTracks()
+    participant P512 as showTracksList()
+    participant P513 as handleMidiTrackCallback()
+    participant P514 as handleArtistEdit()
+    participant P515 as showStemFiles()
+    participant P516 as showMidiFiles()
+    participant P517 as showStorageInfo()
+    participant P518 as handleProjectEdit()
+    participant P519 as startProjectWizard()
+    participant P520 as handleArtistDeleteConfirm()
+    participant P521 as handleProjectDeleteConfirm()
+    participant P522 as showTariffsMenu()
+    participant P523 as showEnterpriseContact()
+    participant P524 as handleVoiceToTrack()
+    participant P525 as showMoodStep()
+    participant P526 as showTypeSelection()
+    participant P527 as showGenreSelection()
+    participant P528 as showMoodSelection()
+    participant P529 as processGenerationWithReference()
+    participant P530 as processAddVocalsInstrumental()
+    participant P531 as handleCancelMidi()
+    participant P532 as handleNews()
+    participant P533 as handleRating()
+    participant P534 as showCustomPromptInput()
+    participant P535 as handleVoiceToArrangement()
+    participant P536 as handleVoiceToCover()
+    participant P537 as handleVoiceToStems()
+    participant P538 as showSubgenreStep()
+    participant P539 as showConfirmStep()
+    participant P540 as cancelWizard()
+    participant P541 as handleCancelUploadCallback()
+    participant P542 as handleCancelGuitar()
+    participant P543 as handleMidiUploadCallback()
+    participant P544 as handleCancelRecognize()
+    participant P545 as handleCopyTrackLink()
+    participant P546 as handleTemplateSelection()
+    participant P547 as showStyleStep()
+    participant P548 as showDetailsStep()
+    participant P549 as showDescriptionInput()
+    participant P550 as showConfirmation()
+    participant P551 as handleTranscribeMenu()
+    participant P552 as handlePlaylistNew()
+    participant P553 as handleSettings()
+    participant P554 as handleNotificationSettings()
+    participant P555 as handleEmojiStatusSettings()
+    participant P556 as showGenderPrompt()
+    participant P557 as promptFeedback()
+    participant P558 as showEnergyStep()
+    participant P559 as showRatingOptions()
+    participant P560 as showGenreFilter()
+    participant P561 as promptTrackSearch()
+    participant P562 as showUploadProgress()
     P0->>+ P1: calls
     P1-->>- P0: return
     P1->>+ P0: calls
@@ -637,6 +649,8 @@ sequenceDiagram
     P35-->>- P1: return
     P1->>+ P36: calls
     P36-->>- P1: return
+    P1->>+ P12: calls
+    P12-->>- P1: return
     P1->>+ P37: calls
     P37-->>- P1: return
     P1->>+ P38: calls
@@ -645,8 +659,6 @@ sequenceDiagram
     P39-->>- P1: return
     P1->>+ P40: calls
     P40-->>- P1: return
-    P1->>+ P12: calls
-    P12-->>- P1: return
     P1->>+ P41: calls
     P41-->>- P1: return
     P1->>+ P42: calls
@@ -673,10 +685,10 @@ sequenceDiagram
     P52-->>- P1: return
     P1->>+ P53: calls
     P53-->>- P1: return
-    P1->>+ P13: calls
-    P13-->>- P1: return
     P1->>+ P54: calls
     P54-->>- P1: return
+    P1->>+ P13: calls
+    P13-->>- P1: return
     P1->>+ P55: calls
     P55-->>- P1: return
     P1->>+ P56: calls
@@ -1519,138 +1531,100 @@ sequenceDiagram
     P474-->>- P1: return
     P1->>+ P475: calls
     P475-->>- P1: return
-    P0->>+ P476: calls
-    P476-->>- P0: return
+    P1->>+ P476: calls
+    P476-->>- P1: return
+    P1->>+ P477: calls
+    P477-->>- P1: return
+    P1->>+ P478: calls
+    P478-->>- P1: return
+    P1->>+ P479: calls
+    P479-->>- P1: return
+    P1->>+ P480: calls
+    P480-->>- P1: return
+    P1->>+ P481: calls
+    P481-->>- P1: return
+    P1->>+ P482: calls
+    P482-->>- P1: return
+    P1->>+ P483: calls
+    P483-->>- P1: return
+    P1->>+ P484: calls
+    P484-->>- P1: return
+    P1->>+ P485: calls
+    P485-->>- P1: return
+    P1->>+ P486: calls
+    P486-->>- P1: return
+    P1->>+ P487: calls
+    P487-->>- P1: return
+    P0->>+ P488: calls
+    P488-->>- P0: return
     P0->>+ P28: calls
     P28-->>- P0: return
-    P0->>+ P30: calls
-    P30-->>- P0: return
+    P0->>+ P29: calls
+    P29-->>- P0: return
     P0->>+ P31: calls
     P31-->>- P0: return
     P0->>+ P32: calls
     P32-->>- P0: return
-    P0->>+ P477: calls
-    P477-->>- P0: return
     P0->>+ P11: calls
     P11-->>- P0: return
-    P0->>+ P39: calls
-    P39-->>- P0: return
-    P0->>+ P12: calls
-    P12-->>- P0: return
-    P0->>+ P478: calls
-    P478-->>- P0: return
-    P0->>+ P479: calls
-    P479-->>- P0: return
-    P0->>+ P48: calls
-    P48-->>- P0: return
-    P0->>+ P49: calls
-    P49-->>- P0: return
-    P0->>+ P480: calls
-    P480-->>- P0: return
-    P0->>+ P481: calls
-    P481-->>- P0: return
-    P0->>+ P52: calls
-    P52-->>- P0: return
-    P0->>+ P54: calls
-    P54-->>- P0: return
-    P0->>+ P59: calls
-    P59-->>- P0: return
-    P0->>+ P482: calls
-    P482-->>- P0: return
-    P0->>+ P67: calls
-    P67-->>- P0: return
-    P0->>+ P68: calls
-    P68-->>- P0: return
-    P0->>+ P483: calls
-    P483-->>- P0: return
-    P0->>+ P69: calls
-    P69-->>- P0: return
-    P0->>+ P74: calls
-    P74-->>- P0: return
-    P0->>+ P75: calls
-    P75-->>- P0: return
-    P0->>+ P78: calls
-    P78-->>- P0: return
-    P0->>+ P80: calls
-    P80-->>- P0: return
-    P0->>+ P81: calls
-    P81-->>- P0: return
-    P0->>+ P83: calls
-    P83-->>- P0: return
-    P0->>+ P84: calls
-    P84-->>- P0: return
-    P0->>+ P88: calls
-    P88-->>- P0: return
-    P0->>+ P96: calls
-    P96-->>- P0: return
-    P0->>+ P97: calls
-    P97-->>- P0: return
-    P0->>+ P484: calls
-    P484-->>- P0: return
-    P0->>+ P485: calls
-    P485-->>- P0: return
-    P0->>+ P486: calls
-    P486-->>- P0: return
-    P0->>+ P487: calls
-    P487-->>- P0: return
-    P0->>+ P99: calls
-    P99-->>- P0: return
-    P0->>+ P101: calls
-    P101-->>- P0: return
-    P0->>+ P488: calls
-    P488-->>- P0: return
     P0->>+ P489: calls
     P489-->>- P0: return
+    P0->>+ P12: calls
+    P12-->>- P0: return
     P0->>+ P490: calls
     P490-->>- P0: return
-    P0->>+ P109: calls
-    P109-->>- P0: return
-    P0->>+ P111: calls
-    P111-->>- P0: return
-    P0->>+ P114: calls
-    P114-->>- P0: return
-    P0->>+ P125: calls
-    P125-->>- P0: return
-    P0->>+ P126: calls
-    P126-->>- P0: return
-    P0->>+ P127: calls
-    P127-->>- P0: return
+    P0->>+ P39: calls
+    P39-->>- P0: return
     P0->>+ P491: calls
     P491-->>- P0: return
-    P0->>+ P128: calls
-    P128-->>- P0: return
-    P0->>+ P130: calls
-    P130-->>- P0: return
-    P0->>+ P131: calls
-    P131-->>- P0: return
-    P0->>+ P132: calls
-    P132-->>- P0: return
-    P0->>+ P133: calls
-    P133-->>- P0: return
-    P0->>+ P134: calls
-    P134-->>- P0: return
+    P0->>+ P45: calls
+    P45-->>- P0: return
     P0->>+ P492: calls
     P492-->>- P0: return
+    P0->>+ P49: calls
+    P49-->>- P0: return
+    P0->>+ P51: calls
+    P51-->>- P0: return
     P0->>+ P493: calls
     P493-->>- P0: return
+    P0->>+ P55: calls
+    P55-->>- P0: return
+    P0->>+ P60: calls
+    P60-->>- P0: return
     P0->>+ P494: calls
     P494-->>- P0: return
     P0->>+ P495: calls
     P495-->>- P0: return
+    P0->>+ P68: calls
+    P68-->>- P0: return
+    P0->>+ P71: calls
+    P71-->>- P0: return
+    P0->>+ P72: calls
+    P72-->>- P0: return
+    P0->>+ P74: calls
+    P74-->>- P0: return
+    P0->>+ P75: calls
+    P75-->>- P0: return
+    P0->>+ P79: calls
+    P79-->>- P0: return
+    P0->>+ P80: calls
+    P80-->>- P0: return
+    P0->>+ P83: calls
+    P83-->>- P0: return
+    P0->>+ P84: calls
+    P84-->>- P0: return
     P0->>+ P496: calls
     P496-->>- P0: return
-    P0->>+ P159: calls
-    P159-->>- P0: return
-    P0->>+ P160: calls
-    P160-->>- P0: return
-    P0->>+ P161: calls
-    P161-->>- P0: return
-    P0->>+ P162: calls
-    P162-->>- P0: return
-    P0->>+ P163: calls
-    P163-->>- P0: return
-    P0->>+ P164: calls
-    P164-->>- P0: return
+    P0->>+ P85: calls
+    P85-->>- P0: return
+    P0->>+ P89: calls
+    P89-->>- P0: return
+    P0->>+ P97: calls
+    P97-->>- P0: return
+    P0->>+ P98: calls
+    P98-->>- P0: return
+    P0->>+ P99: calls
+    P99-->>- P0: return
     P0->>+ P497: calls
     P497-->>- P0: return
     P0->>+ P498: calls
@@ -1659,12 +1633,38 @@ sequenceDiagram
     P499-->>- P0: return
     P0->>+ P500: calls
     P500-->>- P0: return
+    P0->>+ P101: calls
+    P101-->>- P0: return
+    P0->>+ P102: calls
+    P102-->>- P0: return
+    P0->>+ P104: calls
+    P104-->>- P0: return
+    P0->>+ P105: calls
+    P105-->>- P0: return
     P0->>+ P501: calls
     P501-->>- P0: return
     P0->>+ P502: calls
     P502-->>- P0: return
+    P0->>+ P114: calls
+    P114-->>- P0: return
+    P0->>+ P117: calls
+    P117-->>- P0: return
+    P0->>+ P120: calls
+    P120-->>- P0: return
+    P0->>+ P131: calls
+    P131-->>- P0: return
+    P0->>+ P132: calls
+    P132-->>- P0: return
     P0->>+ P503: calls
     P503-->>- P0: return
+    P0->>+ P134: calls
+    P134-->>- P0: return
+    P0->>+ P135: calls
+    P135-->>- P0: return
+    P0->>+ P136: calls
+    P136-->>- P0: return
+    P0->>+ P137: calls
+    P137-->>- P0: return
     P0->>+ P504: calls
     P504-->>- P0: return
     P0->>+ P505: calls
@@ -1673,20 +1673,10 @@ sequenceDiagram
     P506-->>- P0: return
     P0->>+ P507: calls
     P507-->>- P0: return
-    P0->>+ P195: calls
-    P195-->>- P0: return
-    P0->>+ P196: calls
-    P196-->>- P0: return
-    P0->>+ P197: calls
-    P197-->>- P0: return
-    P0->>+ P203: calls
-    P203-->>- P0: return
     P0->>+ P508: calls
     P508-->>- P0: return
     P0->>+ P509: calls
     P509-->>- P0: return
-    P0->>+ P208: calls
-    P208-->>- P0: return
     P0->>+ P510: calls
     P510-->>- P0: return
     P0->>+ P511: calls
@@ -1695,6 +1685,18 @@ sequenceDiagram
     P512-->>- P0: return
     P0->>+ P513: calls
     P513-->>- P0: return
+    P0->>+ P168: calls
+    P168-->>- P0: return
+    P0->>+ P169: calls
+    P169-->>- P0: return
+    P0->>+ P170: calls
+    P170-->>- P0: return
+    P0->>+ P171: calls
+    P171-->>- P0: return
+    P0->>+ P172: calls
+    P172-->>- P0: return
+    P0->>+ P173: calls
+    P173-->>- P0: return
     P0->>+ P514: calls
     P514-->>- P0: return
     P0->>+ P515: calls
@@ -1707,14 +1709,20 @@ sequenceDiagram
     P518-->>- P0: return
     P0->>+ P519: calls
     P519-->>- P0: return
+    P0->>+ P201: calls
+    P201-->>- P0: return
+    P0->>+ P202: calls
+    P202-->>- P0: return
+    P0->>+ P203: calls
+    P203-->>- P0: return
+    P0->>+ P209: calls
+    P209-->>- P0: return
     P0->>+ P520: calls
     P520-->>- P0: return
-    P0->>+ P240: calls
-    P240-->>- P0: return
-    P0->>+ P241: calls
-    P241-->>- P0: return
     P0->>+ P521: calls
     P521-->>- P0: return
+    P0->>+ P216: calls
+    P216-->>- P0: return
     P0->>+ P522: calls
     P522-->>- P0: return
     P0->>+ P523: calls
@@ -1723,8 +1731,6 @@ sequenceDiagram
     P524-->>- P0: return
     P0->>+ P525: calls
     P525-->>- P0: return
-    P0->>+ P258: calls
-    P258-->>- P0: return
     P0->>+ P526: calls
     P526-->>- P0: return
     P0->>+ P527: calls
@@ -1739,6 +1745,10 @@ sequenceDiagram
     P531-->>- P0: return
     P0->>+ P532: calls
     P532-->>- P0: return
+    P0->>+ P246: calls
+    P246-->>- P0: return
+    P0->>+ P247: calls
+    P247-->>- P0: return
     P0->>+ P533: calls
     P533-->>- P0: return
     P0->>+ P534: calls
@@ -1749,6 +1759,8 @@ sequenceDiagram
     P536-->>- P0: return
     P0->>+ P537: calls
     P537-->>- P0: return
+    P0->>+ P262: calls
+    P262-->>- P0: return
     P0->>+ P538: calls
     P538-->>- P0: return
     P0->>+ P539: calls
@@ -1775,6 +1787,30 @@ sequenceDiagram
     P549-->>- P0: return
     P0->>+ P550: calls
     P550-->>- P0: return
+    P0->>+ P551: calls
+    P551-->>- P0: return
+    P0->>+ P552: calls
+    P552-->>- P0: return
+    P0->>+ P553: calls
+    P553-->>- P0: return
+    P0->>+ P554: calls
+    P554-->>- P0: return
+    P0->>+ P555: calls
+    P555-->>- P0: return
+    P0->>+ P556: calls
+    P556-->>- P0: return
+    P0->>+ P557: calls
+    P557-->>- P0: return
+    P0->>+ P558: calls
+    P558-->>- P0: return
+    P0->>+ P559: calls
+    P559-->>- P0: return
+    P0->>+ P560: calls
+    P560-->>- P0: return
+    P0->>+ P561: calls
+    P561-->>- P0: return
+    P0->>+ P562: calls
+    P562-->>- P0: return
 ```
 
 ## Connections by Relation
@@ -1786,20 +1822,20 @@ sequenceDiagram
 - [[handleAudioActionCallback()]] `INFERRED`
 - [[handleClassificationCallback()]] `INFERRED`
 - [[processVoiceMessage()]] `INFERRED`
-- [[handleNavigationCallbacks()]] `INFERRED`
 - [[handleProjects()]] `INFERRED`
-- [[initiateTariffPurchase()]] `INFERRED`
+- [[handleNavigationCallbacks()]] `INFERRED`
 - [[handleLibrary()]] `INFERRED`
 - [[handleProjectsCallback()]] `INFERRED`
+- [[initiateTariffPurchase()]] `INFERRED`
 - [[text]] `INFERRED`
-- [[startMidiConversion()]] `INFERRED`
 - [[handleStatus()]] `INFERRED`
-- [[handleProjectDetails()]] `INFERRED`
 - [[handleProjectsCarousel()]] `INFERRED`
 - [[handleCheckTask()]] `INFERRED`
+- [[startMidiConversion()]] `INFERRED`
+- [[handleProjectDetails()]] `INFERRED`
 - [[handleVoiceForGeneration()]] `INFERRED`
 - [[handleGenerateFromReference()]] `INFERRED`
-- [[handleWizardCallback()]] `INFERRED`
+- [[showCloudFiles()]] `INFERRED`
 
 ### contains
 - [[telegram-api.ts]] `EXTRACTED`

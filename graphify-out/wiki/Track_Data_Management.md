@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L1) (1 connections)
-- [EmptyState](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L30) (1 connections)
+- [GenerateFormActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx#L1) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerateFormActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx)
 
 ## Audit Trail
 

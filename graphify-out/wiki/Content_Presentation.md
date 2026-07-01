@@ -1,13 +1,14 @@
 # Content Presentation
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L1) (3 connections)
-- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L30) (1 connections)
-- [PremiumBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L36) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L24) (1 connections)
+- [TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L114) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L165) (1 connections)
+- [TelegramMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L28) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L159) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

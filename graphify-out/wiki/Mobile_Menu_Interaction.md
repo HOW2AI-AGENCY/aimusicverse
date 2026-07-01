@@ -1,17 +1,18 @@
 # Mobile Menu Interaction
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [waveformWorker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L1) (7 connections)
-- [arrayBuffer](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L114) (1 connections)
-- [errorResult](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L88) (1 connections)
-- [generatePeaksFromArrayBuffer()](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L28) (1 connections)
-- [peaks](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L115) (1 connections)
-- [response](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L109) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L117) (1 connections)
-- [{ type, audioUrl, samples, id }](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L81) (1 connections)
+- [useProgressTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L1) (4 connections)
+- [useAudioProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L1) (3 connections)
+- [useAudioProcessing()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L38) (2 connections)
+- [useProgressTracking()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L44) (2 connections)
+- [fileToBase64()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L26) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L21) (1 connections)
+- [createInitialState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L26) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L19) (1 connections)
+- [POLL_INTERVAL_MS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L21) (1 connections)
 
 ## Relationships
 
@@ -19,12 +20,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\workers\waveformWorker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\useProgressTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAudioProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (88%)
+- INFERRED: 2 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

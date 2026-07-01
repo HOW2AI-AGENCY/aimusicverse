@@ -1,14 +1,16 @@
 # Track Display
 
-> 5 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L1) (4 connections)
-- [artistMatch](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L27) (1 connections)
-- [handleApplySuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L34) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L25) (1 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L29) (1 connections)
+- [Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L1) (6 connections)
+- [AvatarPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L22) (1 connections)
+- [CardPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L18) (1 connections)
+- [Inactive](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L48) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L4) (1 connections)
+- [TextLinePlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L26) (1 connections)
+- [TrackCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

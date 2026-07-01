@@ -1,18 +1,19 @@
 # Accessibility Utilities
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L1) (8 connections)
-- [globalIdx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L125) (1 connections)
-- [groupedRecs](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L53) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L62) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L113) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L114) (1 connections)
-- [[selectedIndex, setSelectedIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L50) (1 connections)
-- [TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L29) (1 connections)
-- [TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L36) (1 connections)
+- [TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L1) (9 connections)
+- [hasAnyIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L40) (1 connections)
+- [hasModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L38) (1 connections)
+- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L29) (1 connections)
+- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L25) (1 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L47) (1 connections)
+- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L32) (1 connections)
+- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L34) (1 connections)
+- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L27) (1 connections)
+- [model](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

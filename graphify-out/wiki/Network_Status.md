@@ -1,14 +1,15 @@
 # Network Status
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TrackPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L1) (4 connections)
-- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L150) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L148) (1 connections)
-- [TRACK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L20) (1 connections)
-- [TrackChip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L61) (1 connections)
+- [useRoutePreloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L1) (3 connections)
+- [NavigationProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx#L13) (2 connections)
+- [useRoutePreloader()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L23) (2 connections)
+- [NavigationProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx#L1) (1 connections)
+- [adjacentRoutes](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L11) (1 connections)
+- [usePreloadOnHover()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L53) (1 connections)
 
 ## Relationships
 
@@ -16,12 +17,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\TrackPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\NavigationProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useRoutePreloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (80%)
+- INFERRED: 2 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

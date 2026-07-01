@@ -1,17 +1,18 @@
 # Editing Functionality
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [LyricsRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L1) (7 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L47) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L67) (1 connections)
-- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L72) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L68) (1 connections)
-- [isUpcoming](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L69) (1 connections)
-- [renderWord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L36) (1 connections)
-- [WORD_TIMING_TOLERANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L32) (1 connections)
+- [CreativePresetsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L1) (8 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L39) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L116) (1 connections)
+- [handleTabChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L42) (1 connections)
+- [handleTrackPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L52) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L40) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L106) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L107) (1 connections)
+- [TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\CreativePresetsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

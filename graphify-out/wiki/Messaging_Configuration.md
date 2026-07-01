@@ -1,12 +1,13 @@
 # Messaging Configuration
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L1) (2 connections)
-- [RadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L7) (1 connections)
-- [RadioGroupItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L15) (1 connections)
+- [useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L1) (3 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L22) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L30) (1 connections)
+- [useMidiSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

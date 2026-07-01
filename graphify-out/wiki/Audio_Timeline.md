@@ -1,25 +1,26 @@
 # Audio Timeline
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [NotesViewerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L1) (15 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L55) (1 connections)
-- [availableTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L136) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L110) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L118) (1 connections)
-- [handleOpenExternal](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L129) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L170) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L54) (1 connections)
-- [[localPlaying, setLocalPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L57) (1 connections)
-- [[localTime, setLocalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L56) (1 connections)
-- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L85) (1 connections)
-- [{ parseMidiFromUrl, parsedMidi, isLoading: isParsing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L59) (1 connections)
-- [{ parseMusicXmlFromUrl, parsedXml, isLoading: isParsingXml }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L60) (1 connections)
-- [{ playNote, stopAll, isReady }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L61) (1 connections)
-- [xmlDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L114) (1 connections)
-- [xmlNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L97) (1 connections)
+- [StudioPendingTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L1) (10 connections)
+- [.subscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts#L37) (7 connections)
+- [channel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L77) (7 connections)
+- [subscribeToRealtimeAdminMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/api/analytics.api.ts#L437) (3 connections)
+- [subscribeToBatchUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/api/batch.api.ts#L296) (3 connections)
+- [subscribeToGenerationLogs()](file:///D:/.MUSICVERSE/aimusicverse/src/api/generation.api.ts#L133) (3 connections)
+- [subscribeToPresetUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/api/presets.api.ts#L680) (3 connections)
+- [subscribeToUserPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/api/presets.api.ts#L712) (3 connections)
+- [subscribeToGenerationTask()](file:///D:/.MUSICVERSE/aimusicverse/src/api/studio.api.ts#L177) (3 connections)
+- [[animatedProgress, setAnimatedProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L45) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L107) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L130) (1 connections)
+- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L43) (1 connections)
+- [[stage, setStage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L44) (1 connections)
+- [statusMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L131) (1 connections)
+- [statusMessages](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L31) (1 connections)
+- [taskId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -27,12 +28,18 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\NotesViewerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\api\analytics.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/analytics.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\api\batch.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/batch.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\api\generation.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/generation.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\api\presets.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/presets.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\api\studio.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/studio.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioPendingTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\ReferenceManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 26 (52%)
+- INFERRED: 24 (48%)
 - AMBIGUOUS: 0 (0%)
 
 ---

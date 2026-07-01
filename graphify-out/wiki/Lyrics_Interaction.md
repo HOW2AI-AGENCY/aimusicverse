@@ -1,14 +1,16 @@
 # Lyrics Interaction
 
-> 5 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L1) (4 connections)
-- [canSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L67) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L45) (1 connections)
-- [textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L37) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L33) (1 connections)
+- [TouchTarget.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L1) (6 connections)
+- [ComparisonWithoutTarget](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L59) (1 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L19) (1 connections)
+- [LargeTarget](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L40) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L5) (1 connections)
+- [SmallIcon](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L32) (1 connections)
+- [TouchIconExample](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\TouchTarget.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

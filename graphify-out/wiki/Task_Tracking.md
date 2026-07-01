@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L1) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L16) (1 connections)
+- [TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L1) (1 connections)
+- [TierDisplaySection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx)
 
 ## Audit Trail
 

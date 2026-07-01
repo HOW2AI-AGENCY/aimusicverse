@@ -1,20 +1,21 @@
 # Touch Interaction
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L1) (10 connections)
-- [checkinDates](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L49) (1 connections)
-- [{ data: checkins, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L19) (1 connections)
-- [dayNames](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L52) (1 connections)
-- [dayNum](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L78) (1 connections)
-- [dayOfWeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L77) (1 connections)
-- [isCheckedIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L75) (1 connections)
-- [isToday](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L76) (1 connections)
-- [last7Days](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L43) (1 connections)
-- [today](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L50) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L17) (1 connections)
+- [WeeklyChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L1) (11 connections)
+- [challenges](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L86) (1 connections)
+- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L32) (1 connections)
+- [daysLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L30) (1 connections)
+- [format()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L186) (1 connections)
+- [getDifficultyColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L129) (1 connections)
+- [getDifficultyLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L140) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L191) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L192) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L26) (1 connections)
+- [weekEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L29) (1 connections)
+- [weekStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\WeeklyChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,16 +1,17 @@
 # Error Telemetry
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [useEnhancedAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L1) (6 connections)
-- [useActiveUsersStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L143) (1 connections)
-- [useContentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L247) (1 connections)
-- [useErrorDistribution()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L184) (1 connections)
-- [useGenerationModeStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L99) (1 connections)
-- [useModelUsageStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L47) (1 connections)
-- [useSourceDistribution()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L273) (1 connections)
+- [LCDDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L77) (1 connections)
+- [fontSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L139) (1 connections)
+- [formattedValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L134) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L62) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L46) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L61) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEnhancedAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\LCDDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

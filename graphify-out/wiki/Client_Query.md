@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L1) (1 connections)
-- [useProjectDetailDialogs()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L22) (1 connections)
+- [SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L1) (1 connections)
+- [SmartAlertProviderWrapper()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\project\useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx)
 
 ## Audit Trail
 

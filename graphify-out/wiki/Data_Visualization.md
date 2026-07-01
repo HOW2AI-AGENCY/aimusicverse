@@ -1,10 +1,11 @@
 # Data Visualization
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [KitSelectorPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/KitSelectorPro.tsx#L1) (0 connections)
+- [useAdminDailyStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts#L1) (1 connections)
+- [useAdminDailyStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\KitSelectorPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/KitSelectorPro.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminDailyStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

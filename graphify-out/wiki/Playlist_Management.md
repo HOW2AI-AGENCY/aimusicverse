@@ -1,14 +1,15 @@
 # Playlist Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L1) (4 connections)
-- [CATEGORY_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L15) (1 connections)
-- [categoryStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L76) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L87) (1 connections)
-- [{ visible, hiddenCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L65) (1 connections)
+- [FunnelVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L1) (5 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L84) (1 connections)
+- [getBarColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L52) (1 connections)
+- [STEP_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L25) (1 connections)
+- [TIME_RANGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L33) (1 connections)
+- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\FunnelVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

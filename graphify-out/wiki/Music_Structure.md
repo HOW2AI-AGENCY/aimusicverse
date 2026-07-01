@@ -1,11 +1,12 @@
 # Music Structure
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MobileNavDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx#L1) (1 connections)
-- [MobileNavDrawer](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx#L23) (1 connections)
+- [useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L1) (2 connections)
+- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L11) (1 connections)
+- [useHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L13) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\MobileNavDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

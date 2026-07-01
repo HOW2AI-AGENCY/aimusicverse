@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useAddInstrumentalProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L1) (3 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L49) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L59) (1 connections)
-- [useAddInstrumentalProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L69) (1 connections)
+- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L1) (3 connections)
+- [handleNotificationClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L13) (2 connections)
+- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L11) (1 connections)
+- [{ unreadCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L10) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAddInstrumentalProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

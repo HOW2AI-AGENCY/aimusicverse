@@ -1,20 +1,21 @@
 # Creative Tools Development
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L1) (10 connections)
-- [{ activeTrack, isPlaying, playTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L24) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L116) (1 connections)
-- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L42) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L35) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L101) (1 connections)
-- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L102) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L100) (1 connections)
-- [originalTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L27) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L29) (1 connections)
-- [versionTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L80) (1 connections)
+- [AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L1) (11 connections)
+- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L77) (2 connections)
+- [AUDIO_ERROR_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L28) (1 connections)
+- [audioElements](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L114) (1 connections)
+- [{ children, fallbackMessage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L135) (1 connections)
+- [errorType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L138) (1 connections)
+- [getAudioErrorType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L36) (1 connections)
+- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L73) (1 connections)
+- [getRecoveryHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L48) (1 connections)
+- [handleAudioError](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L202) (1 connections)
+- [{ hasError, error, isRecovering }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L134) (1 connections)
+- [recoveryHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L139) (1 connections)
 
 ## Relationships
 
@@ -22,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,11 +1,12 @@
 # Data Fetching
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L1) (1 connections)
-- [StarsPaymentButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L21) (1 connections)
+- [useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L35) (1 connections)
+- [useTelegramSensors()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L79) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,14 +1,15 @@
 # Data Duplication
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L1) (4 connections)
-- [createDrumSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L98) (1 connections)
-- [defaultTrackEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L90) (1 connections)
-- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L19) (1 connections)
-- [useDrumMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L115) (1 connections)
+- [studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L1) (5 connections)
+- [chordColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L85) (1 connections)
+- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L139) (1 connections)
+- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L158) (1 connections)
+- [stemColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L99) (1 connections)
+- [studioAnimations](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

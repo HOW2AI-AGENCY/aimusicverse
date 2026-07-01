@@ -4,29 +4,29 @@
 
 ## Key Concepts
 
-- [BroadcastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L1) (18 connections)
-- [SaveTemplateDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L1) (4 connections)
-- [handleFileChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L52) (2 connections)
-- [loadTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L67) (2 connections)
-- [saveTemplate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L29) (2 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L24) (2 connections)
-- [broadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L27) (1 connections)
-- [clearImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L59) (1 connections)
-- [{ data: templates }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L28) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L25) (1 connections)
-- [handleSend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L77) (1 connections)
-- [[imageFile, setImageFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L20) (1 connections)
-- [[imageUrl, setImageUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L19) (1 connections)
-- [[message, setMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L17) (1 connections)
-- [[saveAsTemplate, setSaveAsTemplate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L22) (1 connections)
-- [[targetType, setTargetType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L18) (1 connections)
-- [[templateName, setTemplateName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L23) (1 connections)
-- [[templatesOpen, setTemplatesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L24) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L16) (1 connections)
-- [[uploading, setUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L21) (1 connections)
-- [lyricsPreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L41) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L21) (1 connections)
-- [{ saveTemplate, isSaving }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L22) (1 connections)
+- [LyricsSectionAdvanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L1) (23 connections)
+- [charCountColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L110) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L250) (1 connections)
+- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L92) (1 connections)
+- [end](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L97) (1 connections)
+- [handleApplyTemplate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L116) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L78) (1 connections)
+- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L107) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L171) (1 connections)
+- [lyricsValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L106) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L77) (1 connections)
+- [QUICK_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L51) (1 connections)
+- [[saveDialogOpen, setSaveDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L82) (1 connections)
+- [sel](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L93) (1 connections)
+- [selectionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L88) (1 connections)
+- [showPreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L81) (1 connections)
+- [[showQuickTemplates, setShowQuickTemplates]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L84) (1 connections)
+- [showVisualEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L80) (1 connections)
+- [start](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L96) (1 connections)
+- [switchView](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L125) (1 connections)
+- [[templateSelectorOpen, setTemplateSelectorOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L83) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L87) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L79) (1 connections)
 
 ## Relationships
 
@@ -34,13 +34,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BroadcastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SaveTemplateDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\LyricsSectionAdvanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (94%)
-- INFERRED: 3 (6%)
+- EXTRACTED: 45 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

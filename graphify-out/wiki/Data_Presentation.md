@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L1) (1 connections)
-- [useStudioDialogState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L19) (1 connections)
+- [AdminDashboardHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L25) (1 connections)
+- [AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx)
 
 ## Audit Trail
 

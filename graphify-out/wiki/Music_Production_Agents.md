@@ -1,19 +1,20 @@
 # Music Production Agents
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [PublishProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L1) (9 connections)
-- [[bannerDialogOpen, setBannerDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L38) (1 connections)
-- [completedTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L40) (1 connections)
-- [handlePublish()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L45) (1 connections)
-- [handlePublishWithoutBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L59) (1 connections)
-- [hasBanner](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L43) (1 connections)
-- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L106) (1 connections)
-- [isReadyToPublish](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L42) (1 connections)
-- [{ mutate: publishProject, isPending }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L37) (1 connections)
-- [totalTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L41) (1 connections)
+- [ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L1) (10 connections)
+- [colorPalette](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L82) (1 connections)
+- [hasBasicInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L85) (1 connections)
+- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L87) (1 connections)
+- [hasVisualStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L86) (1 connections)
+- [IMAGE_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L56) (1 connections)
+- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L81) (1 connections)
+- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L34) (1 connections)
+- [PROJECT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L45) (1 connections)
+- [TYPOGRAPHY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L69) (1 connections)
+- [visualKeywords](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\PublishProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

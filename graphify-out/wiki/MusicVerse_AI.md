@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useStudioHandlers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioHandlers.ts#L1) (1 connections)
-- [useStudioHandlers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioHandlers.ts#L61) (1 connections)
+- [StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L1) (1 connections)
+- [StarsPaymentButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioHandlers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioHandlers.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx)
 
 ## Audit Trail
 

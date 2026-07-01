@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useTrackVersionManagement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackVersionManagement.tsx#L1) (1 connections)
-- [useTrackVersionManagement()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackVersionManagement.tsx#L8) (1 connections)
+- [ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L1) (1 connections)
+- [ProducerToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackVersionManagement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackVersionManagement.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx)
 
 ## Audit Trail
 

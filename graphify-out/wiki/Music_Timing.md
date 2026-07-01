@@ -4,30 +4,43 @@
 
 ## Key Concepts
 
-- [DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L1) (23 connections)
-- [handleProjectSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L85) (2 connections)
-- [{ activeReference }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L59) (1 connections)
-- [[advancedOpen, setAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L70) (1 connections)
-- [[artistDialogOpen, setArtistDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L63) (1 connections)
-- [{ artists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L57) (1 connections)
-- [[audioActionDialogOpen, setAudioActionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L64) (1 connections)
-- [chordInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L330) (1 connections)
-- [form](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L75) (1 connections)
-- [FormSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L41) (1 connections)
-- [GenerateFormCustom](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L36) (1 connections)
-- [GenerateFormSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L33) (1 connections)
-- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L98) (1 connections)
-- [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L66) (1 connections)
-- [[lyricsAssistantOpen, setLyricsAssistantOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L67) (1 connections)
-- [[projectDialogOpen, setProjectDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L62) (1 connections)
-- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L56) (1 connections)
-- [projectTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L83) (1 connections)
-- [[projectTrackStep, setProjectTrackStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L69) (1 connections)
-- [qc](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L71) (1 connections)
-- [[stylesOpen, setStylesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L68) (1 connections)
-- [{ tracks: allTracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L58) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L72) (1 connections)
-- [[voiceCloneOpen, setVoiceCloneOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L65) (1 connections)
+- [MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L1) (23 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L105) (1 connections)
+- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L108) (1 connections)
+- [handleApplyLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L253) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L243) (1 connections)
+- [handleQuickAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L226) (1 connections)
+- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L237) (1 connections)
+- [handleStartWorkflow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L218) (1 connections)
+- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L210) (1 connections)
+- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L201) (1 connections)
+- [hasAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L301) (1 connections)
+- [hasAnalysisResults](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L163) (1 connections)
+- [hasGeneratedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L159) (1 connections)
+- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L103) (1 connections)
+- [{ isRecording, isProcessing, toggleRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L151) (1 connections)
+- [latestLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L167) (1 connections)
+- [{ messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L123) (1 connections)
+- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L104) (1 connections)
+- [renderMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L295) (1 connections)
+- [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L261) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L106) (1 connections)
+- [TAB_TOOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L173) (1 connections)
+- [viewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L196) (1 connections)
+- [{
+    workflow: activeWorkflow,
+    currentStep,
+    currentStepIndex,
+    stepResults,
+    status: workflowStatus,
+    progress: workflowProgress,
+    startWorkflow,
+    pauseWorkflow,
+    resumeWorkflow,
+    skipStep,
+    cancelWorkflow,
+    isRunning: isWorkflowRunning,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L131) (1 connections)
 
 ## Relationships
 
@@ -35,12 +48,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 46 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

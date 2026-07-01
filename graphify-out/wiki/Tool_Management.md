@@ -1,27 +1,32 @@
 # Tool Management
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- **generation-system** (5 connections)
-- **hooks-reference** (2 connections)
-- **mobile-components** (2 connections)
-- **player-architecture** (2 connections)
-- **env-vars-telegram** (1 connections)
-- **klang-io-integration** (1 connections)
-- **languages-support** (1 connections)
-- **layout-system** (1 connections)
-- **meta-tags-system** (1 connections)
+- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L34) (2 connections)
+- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
+- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L43) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L32) (1 connections)
+- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
+- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
+- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
 
 ## Relationships
 
-- [[User Journey Analytics]] (16 shared connections)
+- No strong cross-community connections detected
+
+## Source Files
+
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

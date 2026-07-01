@@ -1,13 +1,14 @@
 # Animation Timing
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [SectionPromptInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L1) (3 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L51) (1 connections)
-- [lyricsChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L37) (1 connections)
-- [[showLyrics, setShowLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L36) (1 connections)
+- [pro-badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L1) (4 connections)
+- [ProBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L38) (1 connections)
+- [ProFeatureIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L59) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L32) (1 connections)
+- [variantConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionPromptInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pro-badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

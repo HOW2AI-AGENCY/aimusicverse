@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useMusicRecognition.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts#L1) (1 connections)
-- [useMusicRecognition()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts#L27) (1 connections)
+- [SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L1) (1 connections)
+- [cleanWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicRecognition.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx)
 
 ## Audit Trail
 

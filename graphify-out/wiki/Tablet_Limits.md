@@ -1,12 +1,25 @@
 # Tablet Limits
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L1) (2 connections)
-- [getLanguageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L81) (1 connections)
-- [TranslateResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L24) (1 connections)
+- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L1) (3 connections)
+- [audioTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L148) (1 connections)
+- [firstTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L431) (1 connections)
+- [{
+    isMobile,
+    projectId,
+    projectName,
+    sourceTrackId,
+    tracks,
+    masterVolume,
+    duration,
+    currentTime,
+    isPlaying,
+    detectedSections,
+    TRACK_COLORS,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L133) (1 connections)
 
 ## Relationships
 
@@ -14,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

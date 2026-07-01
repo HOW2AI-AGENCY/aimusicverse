@@ -1,27 +1,28 @@
 # User Statistics
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [Infrastructure Audit - Storage & CDN Architecture](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (5 connections)
-- [CDN Assets Table](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
-- [Media Processing Queue](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
-- [Storage Buckets (tracks, covers, stems, uploads, avatars, temp)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
-- [Storage Management Tables (storage_usage, file_registry)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
-- [Storage RLS Policies](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
+- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L1) (6 connections)
+- [displayCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L40) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L42) (1 connections)
+- [showBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L39) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L49) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L130) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L55) (1 connections)
 
 ## Relationships
 
-- [[Playlist Management]] (10 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

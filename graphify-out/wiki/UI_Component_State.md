@@ -1,16 +1,17 @@
 # UI Component State
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L1) (6 connections)
-- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L27) (1 connections)
-- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L22) (1 connections)
-- [LANGUAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L13) (1 connections)
-- [[preserveSyllables, setPreserveSyllables]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L20) (1 connections)
-- [sourceLanguage](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L25) (1 connections)
-- [[targetLanguage, setTargetLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L19) (1 connections)
+- [PaymentSuccessModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L274) (1 connections)
+- [ConfettiParticle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L24) (1 connections)
+- [FloatingStar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L61) (1 connections)
+- [getText()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L106) (1 connections)
+- [[showConfetti, setShowConfetti]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L85) (1 connections)
+- [text](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L139) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L101) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentSuccessModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L35) (1 connections)
-- [useTelegramSensors()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L79) (1 connections)
+- [EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L1) (2 connections)
+- [changedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L35) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx)
 
 ## Audit Trail
 

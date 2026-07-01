@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L1) (2 connections)
-- [useSimpleVirtualization()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L143) (1 connections)
-- [useVirtualizedTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L36) (1 connections)
+- [vitest.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L1) (2 connections)
+- [__dirname](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L6) (1 connections)
+- [__filename](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts)
+- [D:\.MUSICVERSE\aimusicverse\vitest.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts)
 
 ## Audit Trail
 

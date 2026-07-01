@@ -1,10 +1,11 @@
 # Music Library
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useTrackData.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackData.contract.ts#L1) (0 connections)
+- [useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L1) (1 connections)
+- [useStudioDialogState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\001-ui-refactor\contracts\useTrackData.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackData.contract.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

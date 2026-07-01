@@ -1,12 +1,13 @@
 # Music Playlist Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [StyleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L1) (2 connections)
-- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L27) (1 connections)
-- [styleValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L25) (1 connections)
+- [ProjectReadinessIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L1) (3 connections)
+- [hasAnyMaster](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L23) (1 connections)
+- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L22) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\StyleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectReadinessIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

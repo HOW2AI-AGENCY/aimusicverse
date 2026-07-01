@@ -1,12 +1,13 @@
 # Type Selection
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useBeatGrid.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L1) (2 connections)
-- [generateSyntheticBeatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L86) (1 connections)
-- [useBeatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L29) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L1) (3 connections)
+- [computeLyricsStats](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L81) (1 connections)
+- [formatLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L86) (1 connections)
+- [parseLyricsStructure](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L91) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useBeatGrid.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\lyrics\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

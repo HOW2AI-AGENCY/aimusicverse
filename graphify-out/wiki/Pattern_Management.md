@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [Project Audit with Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md) (1 connections)
-- [Code Quality - Lint Errors Fixed](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md) (1 connections)
+- [MobileActionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx#L1) (1 connections)
+- [MobileActionsContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx#L45) (1 connections)
 
 ## Relationships
 
-- [[MusicVerse AI]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileActionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx)
 
 ## Audit Trail
 

@@ -1,10 +1,11 @@
 # Project Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [VirtualizedProjectsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedProjectsList.tsx#L1) (0 connections)
+- [visually-hidden.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx#L1) (1 connections)
+- [VisuallyHidden](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx#L4) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedProjectsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedProjectsList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\visually-hidden.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

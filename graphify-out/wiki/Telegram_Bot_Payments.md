@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [useAuth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAuth.tsx#L1) (0 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/types.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAuth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAuth.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/types.ts)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [textarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx#L1) (1 connections)
-- [Textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx#L7) (1 connections)
+- [TracksGridSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx#L1) (1 connections)
+- [displayTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx#L66) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\textarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\TracksGridSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx)
 
 ## Audit Trail
 

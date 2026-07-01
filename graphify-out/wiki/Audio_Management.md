@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [command.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/command.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\command.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/command.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/index.ts)
 
 ## Audit Trail
 

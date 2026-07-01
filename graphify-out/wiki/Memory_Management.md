@@ -4,29 +4,29 @@
 
 ## Key Concepts
 
-- [QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L1) (22 connections)
-- [handleBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L131) (2 connections)
-- [handleCostChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L171) (2 connections)
-- [handleCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L151) (2 connections)
-- [handleFeatureToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L190) (2 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L210) (1 connections)
-- [[broadcastMessage, setBroadcastMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L113) (1 connections)
-- [[broadcastOpen, setBroadcastOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L106) (1 connections)
-- [[broadcastTitle, setBroadcastTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L112) (1 connections)
-- [[costOpen, setCostOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L108) (1 connections)
-- [[creditAmount, setCreditAmount]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L116) (1 connections)
-- [[creditOpen, setCreditOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L107) (1 connections)
-- [[creditReason, setCreditReason]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L117) (1 connections)
-- [{ data: features }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L129) (1 connections)
-- [[featureOpen, setFeatureOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L109) (1 connections)
-- [[newCost, setNewCost]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L120) (1 connections)
-- [quickBroadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L125) (1 connections)
-- [quickCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L126) (1 connections)
-- [[selectedFeature, setSelectedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L123) (1 connections)
-- [toggleFeature](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L128) (1 connections)
-- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L127) (1 connections)
-- [useQuickBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L32) (1 connections)
-- [useQuickCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L60) (1 connections)
+- [CreateArtistFromTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L1) (23 connections)
+- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L92) (1 connections)
+- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L99) (1 connections)
+- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L69) (1 connections)
+- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L41) (1 connections)
+- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L35) (1 connections)
+- [{ createArtist, isCreating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L29) (1 connections)
+- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L37) (1 connections)
+- [handleSelectTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L87) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L27) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L26) (1 connections)
+- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L38) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L34) (1 connections)
+- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L39) (1 connections)
+- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L40) (1 connections)
+- [resetForm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L45) (1 connections)
+- [selectedTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L43) (1 connections)
+- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L32) (1 connections)
+- [[step, setStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L31) (1 connections)
+- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L36) (1 connections)
+- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L76) (1 connections)
+- [{ tracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L28) (1 connections)
+- [trackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -34,12 +34,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\CreateArtistFromTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (92%)
-- INFERRED: 4 (8%)
+- EXTRACTED: 45 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

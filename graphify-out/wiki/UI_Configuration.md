@@ -1,20 +1,21 @@
 # UI Configuration
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L1) (10 connections)
-- [{ data: adminAuth }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L30) (1 connections)
-- [{ data: posts, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L33) (1 connections)
-- [{ data: selectedPost, isLoading: isLoadingPost }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L34) (1 connections)
-- [deletePost](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L35) (1 connections)
-- [[editingPost, setEditingPost]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L37) (1 connections)
-- [isAdmin](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L31) (1 connections)
-- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L38) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L26) (1 connections)
-- [postSlug](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L28) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L27) (1 connections)
+- [waveform-load.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L1) (11 connections)
+- [benchmarkResult](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L90) (1 connections)
+- [{ duration }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L71) (1 connections)
+- [isCached](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L240) (1 connections)
+- [largeMockWaveformData](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L164) (1 connections)
+- [mockAudioBuffer](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L17) (1 connections)
+- [mockWaveformData](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L24) (1 connections)
+- [promises](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L254) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L36) (1 connections)
+- [{ result: cachedResult, duration }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L51) (1 connections)
+- [samplesPerPixels](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L200) (1 connections)
+- [trackIds](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L224) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\performance\waveform-load.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

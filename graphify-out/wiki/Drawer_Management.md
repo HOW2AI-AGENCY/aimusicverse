@@ -1,13 +1,14 @@
 # Drawer Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L1) (3 connections)
-- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L28) (1 connections)
-- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L16) (1 connections)
-- [NotificationCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L40) (1 connections)
+- [MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L1) (4 connections)
+- [[expandedTrack, setExpandedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L60) (1 connections)
+- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L66) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L169) (1 connections)
+- [toggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

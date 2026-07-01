@@ -1,10 +1,11 @@
 # Track Editing
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/index.ts#L1) (0 connections)
+- [slider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx#L1) (1 connections)
+- [Slider](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx#L10) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\cloud\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\slider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,11 @@
 # Music Display
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [MobileBottomSheet.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/MobileBottomSheet.contract.ts#L1) (0 connections)
+- [TagMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx#L1) (1 connections)
+- [TagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\001-unified-interface\contracts\MobileBottomSheet.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/MobileBottomSheet.contract.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\TagMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

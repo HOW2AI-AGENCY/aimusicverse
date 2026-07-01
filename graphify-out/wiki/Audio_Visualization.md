@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/index.ts#L1) (0 connections)
+- [FormSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\FormSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx)
 
 ## Audit Trail
 

@@ -1,12 +1,25 @@
 # Music Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useStemTypeTranscriptionStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L1) (2 connections)
-- [useStemTranscriptionByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L88) (1 connections)
-- [useStemTypeTranscriptionStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L27) (1 connections)
+- [lamejs.d.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts#L1) (3 connections)
+- [lamejs](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts#L38) (1 connections)
+- [Mp3Encoder](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts#L9) (1 connections)
+- [WavHeader](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts#L27) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class Mp3Encoder {
+        +lamejs.d.ts()
+    }
+    class WavHeader {
+        +lamejs.d.ts()
+    }
+```
 
 ## Relationships
 
@@ -14,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemTypeTranscriptionStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\types\lamejs.d.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

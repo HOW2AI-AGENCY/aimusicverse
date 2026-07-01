@@ -1,15 +1,16 @@
 # Context Menu
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ProjectHero.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L1) (5 connections)
-- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L59) (1 connections)
-- [projectType](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L58) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L57) (1 connections)
-- [STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L35) (1 connections)
-- [TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L42) (1 connections)
+- [MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L1) (6 connections)
+- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L24) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L18) (1 connections)
+- [observer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L37) (1 connections)
+- [[overflow, setOverflow]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L21) (1 connections)
+- [[shouldAnimate, setShouldAnimate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L20) (1 connections)
+- [textRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\ProjectHero.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

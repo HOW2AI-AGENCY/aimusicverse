@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useSimulatedStemLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts#L1) (1 connections)
-- [useSimulatedStemLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts#L20) (1 connections)
+- [MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L1) (1 connections)
+- [MobileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useSimulatedStemLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx)
 
 ## Audit Trail
 

@@ -1,24 +1,25 @@
 # Instrument Selection
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [ReferenceDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L1) (14 connections)
-- [{ activeReference, recentReferences, isLoading, setFromCloud, clearActive, analysisStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L209) (1 connections)
-- [{ deleteAudio }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L212) (1 connections)
-- [filteredReferences](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L276) (1 connections)
-- [getAnalysisStatusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L106) (1 connections)
-- [getSourceIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L85) (1 connections)
-- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L263) (1 connections)
-- [handlePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L232) (1 connections)
-- [handleSelectCloud](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L254) (1 connections)
-- [{ isPlaying, togglePlay, reset }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L218) (1 connections)
-- [[playingId, setPlayingId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L215) (1 connections)
-- [[playingUrl, setPlayingUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L216) (1 connections)
-- [ReferenceItemSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L50) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L214) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx#L247) (1 connections)
+- [ChordTimelineMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L1) (15 connections)
+- [activeChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L68) (1 connections)
+- [[activeChordIndex, setActiveChordIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L20) (1 connections)
+- [chordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L32) (1 connections)
+- [handleChordTap](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L40) (1 connections)
+- [handleShowDiagram](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L49) (1 connections)
+- [index](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L25) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L132) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L167) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L130) (1 connections)
+- [navigateChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L54) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L69) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L18) (1 connections)
+- [[showDiagram, setShowDiagram]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L21) (1 connections)
+- [{ tap, selectionChanged }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L19) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L131) (1 connections)
 
 ## Relationships
 
@@ -26,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordTimelineMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

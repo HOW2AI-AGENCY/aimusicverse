@@ -1,14 +1,15 @@
 # Interface Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L1) (4 connections)
-- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L63) (1 connections)
-- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L42) (1 connections)
-- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L40) (1 connections)
-- [useStemAudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L78) (1 connections)
+- [CustomVoicePicker.pending.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L1) (5 connections)
+- [helper](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L71) (1 connections)
+- [mockedUseCustomVoices](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L27) (1 connections)
+- [pendingVoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L29) (1 connections)
+- [readyVoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L38) (1 connections)
+- [setVoices()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\voice-clone\CustomVoicePicker.pending.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

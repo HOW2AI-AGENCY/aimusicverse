@@ -1,13 +1,14 @@
 # Character Limit
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.60
 
 ## Key Concepts
 
-- [BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L1) (3 connections)
-- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L40) (1 connections)
-- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L39) (1 connections)
-- [visibleBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L27) (1 connections)
+- [perfMarks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L1) (4 connections)
+- [perfMeasure()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L23) (4 connections)
+- [perfEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L36) (3 connections)
+- [perfMark()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L14) (2 connections)
+- [ENABLED](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -15,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\perfMarks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (86%)
+- INFERRED: 2 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

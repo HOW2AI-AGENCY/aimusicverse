@@ -1,10 +1,11 @@
 # Media Formatting
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/index.ts#L1) (0 connections)
+- [useTelegramSettingsButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts#L1) (1 connections)
+- [useTelegramSettingsButton()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSettingsButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

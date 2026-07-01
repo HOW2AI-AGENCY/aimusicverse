@@ -1,14 +1,16 @@
 # Editor Management
 
-> 5 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.52
 
 ## Key Concepts
 
-- [QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L1) (4 connections)
-- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L36) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L38) (1 connections)
-- [StatItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L18) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L35) (1 connections)
+- [useStemMixerStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L1) (6 connections)
+- [useStemMixerStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L21) (6 connections)
+- [useEffectiveStemVolume()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L70) (2 connections)
+- [useIsStemMuted()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L77) (2 connections)
+- [useMasterControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L56) (2 connections)
+- [useStemActions()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L42) (2 connections)
+- [useStemState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L27) (2 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\useStemMixerStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

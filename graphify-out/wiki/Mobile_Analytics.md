@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L1) (1 connections)
-- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L21) (1 connections)
+- [GenrePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx#L94) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\GenrePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx)
 
 ## Audit Trail
 

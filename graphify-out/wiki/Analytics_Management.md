@@ -1,12 +1,13 @@
 # Analytics Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L1) (2 connections)
-- [useWorkflowEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L95) (1 connections)
-- [WORKFLOWS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L40) (1 connections)
+- [UndoRedoControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L1) (3 connections)
+- [isMac](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L23) (1 connections)
+- [modKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L24) (1 connections)
+- [{ undo, redo, canUndo, canRedo, historyLength, historyIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\UndoRedoControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

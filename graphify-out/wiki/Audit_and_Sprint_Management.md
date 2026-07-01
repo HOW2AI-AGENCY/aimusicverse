@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [EnhancedSectionWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L1) (24 connections)
-- [bars](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L78) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L211) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L62) (1 connections)
-- [[dragStartX, setDragStartX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L64) (1 connections)
-- [endPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L92) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L297) (1 connections)
-- [getTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L96) (1 connections)
-- [handleContainerClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L166) (1 connections)
-- [handleDragStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L107) (1 connections)
-- [handleEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L149) (1 connections)
-- [handleMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L125) (1 connections)
-- [[hoveredSection, setHoveredSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L68) (1 connections)
-- [[initialEnd, setInitialEnd]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L66) (1 connections)
-- [[initialStart, setInitialStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L65) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L63) (1 connections)
-- [isHovered](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L237) (1 connections)
-- [progressPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L94) (1 connections)
-- [sectionEndPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L235) (1 connections)
-- [sectionStartPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L234) (1 connections)
-- [sectionWidthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L236) (1 connections)
-- [[showMarkers, setShowMarkers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L67) (1 connections)
-- [startPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L91) (1 connections)
-- [{ waveformData, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L71) (1 connections)
-- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L93) (1 connections)
+- [ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L1) (24 connections)
+- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L83) (1 connections)
+- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L121) (1 connections)
+- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L30) (1 connections)
+- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L113) (1 connections)
+- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L28) (1 connections)
+- [centerX](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L78) (1 connections)
+- [centerY](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L79) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L29) (1 connections)
+- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L115) (1 connections)
+- [[dimensions, setDimensions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L38) (1 connections)
+- [[dragStart, setDragStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L36) (1 connections)
+- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L41) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L204) (1 connections)
+- [handleMouseDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L193) (1 connections)
+- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L198) (1 connections)
+- [[hoveredNode, setHoveredNode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L37) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L35) (1 connections)
+- [{ nodes, edges }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L118) (1 connections)
+- [[pan, setPan]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L34) (1 connections)
+- [positions](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L119) (1 connections)
+- [positionsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L31) (1 connections)
+- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L84) (1 connections)
+- [updateDimensions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L97) (1 connections)
+- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -36,7 +36,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\EnhancedSectionWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx)
 
 ## Audit Trail
 

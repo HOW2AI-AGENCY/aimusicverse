@@ -1,15 +1,16 @@
 # Section Management
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [SmartAssistantInline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L1) (5 connections)
-- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L27) (1 connections)
-- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L33) (1 connections)
-- [hasMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L42) (1 connections)
-- [{ suggestions, isAnalyzing, dismissSuggestion, hasContext }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L28) (1 connections)
-- [visibleSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L40) (1 connections)
+- [ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L1) (6 connections)
+- [availableModes](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L39) (1 connections)
+- [cfg](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L53) (1 connections)
+- [currentMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L74) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L82) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L54) (1 connections)
+- [modeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\SmartAssistantInline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

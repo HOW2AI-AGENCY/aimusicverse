@@ -1,15 +1,16 @@
 # Caching System
 
-> 6 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L1) (6 connections)
-- [useFeatureFlags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L44) (2 connections)
-- [useIsFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L151) (2 connections)
-- [FLAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L35) (1 connections)
-- [useToggleFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L62) (1 connections)
-- [useUpdateFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L111) (1 connections)
+- [AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L1) (8 connections)
+- [displayUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L98) (1 connections)
+- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L20) (1 connections)
+- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L99) (1 connections)
+- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L18) (1 connections)
+- [[previewUrl, setPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L19) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 13 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

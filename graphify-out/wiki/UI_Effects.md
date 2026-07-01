@@ -1,26 +1,24 @@
 # UI Effects
 
-> 3 nodes · cohesion 0.67
+> 3 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Security Operations Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_OPERATIONS.md) (2 connections)
-- [Security Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md) (1 connections)
-- [Reactive Security](file:///D:/.MUSICVERSE/aimusicverse/SECURITY_OPERATIONS.md) (1 connections)
+- [ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L1) (2 connections)
+- [getScoreLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L36) (2 connections)
+- [ProducerResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L43) (2 connections)
 
 ## Relationships
 
-- [[Responsive Design]] (4 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [SECURITY_OPERATIONS.md](file:///D:/.MUSICVERSE/aimusicverse/SECURITY_OPERATIONS.md)
-- [docs/SECURITY_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md)
-- [docs/SECURITY_OPERATIONS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_OPERATIONS.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

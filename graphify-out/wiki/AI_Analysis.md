@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [home.navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L1) (9 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L76) (1 connections)
-- [dupes](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L48) (1 connections)
-- [EXPECTED_ORDER](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L11) (1 connections)
-- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L30) (1 connections)
-- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L31) (1 connections)
-- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L28) (1 connections)
-- [sectionIds](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L38) (1 connections)
-- [seen](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L54) (1 connections)
-- [sortedByExpected](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L55) (1 connections)
+- [EnhancedAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L1) (9 connections)
+- [{ data: activeUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L64) (1 connections)
+- [{ data: contentStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L66) (1 connections)
+- [{ data: errorStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L65) (1 connections)
+- [{ data: modelStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L62) (1 connections)
+- [{ data: modeStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L63) (1 connections)
+- [{ data: sourceStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L67) (1 connections)
+- [MODE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L43) (1 connections)
+- [SOURCE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L53) (1 connections)
+- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\EnhancedAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx)
 
 ## Audit Trail
 

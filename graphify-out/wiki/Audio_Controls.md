@@ -1,12 +1,13 @@
 # Audio Controls
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L1) (2 connections)
-- [stemTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L127) (1 connections)
-- [useContextualGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L45) (1 connections)
+- [Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L1) (3 connections)
+- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L21) (1 connections)
+- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L18) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L6) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

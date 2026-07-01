@@ -1,17 +1,18 @@
 # Music Application
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L1) (8 connections)
-- [aspectClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L273) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L493) (1 connections)
-- [ListItemSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L193) (1 connections)
-- [PlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L151) (1 connections)
-- [TrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L34) (1 connections)
-- [TrackCardSkeletonCompact()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L132) (1 connections)
-- [WAVEFORM_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L14) (1 connections)
+- [StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L1) (8 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L94) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L96) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L36) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L37) (1 connections)
+- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L38) (1 connections)
+- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L95) (1 connections)
+- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L19) (1 connections)
+- [stemTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,21 +1,22 @@
 # Volume Control
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.23
 
 ## Key Concepts
 
-- [VoiceHistoryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L1) (12 connections)
-- [filtered](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L54) (1 connections)
-- [isInProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L43) (1 connections)
-- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L51) (1 connections)
-- [[retryingId, setRetryingId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L52) (1 connections)
-- [statusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L16) (1 connections)
-- [[statusFilter, setStatusFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L50) (1 connections)
-- [t](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L142) (1 connections)
-- [taskId](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L143) (1 connections)
-- [[typeFilter, setTypeFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L49) (1 connections)
-- [typeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L39) (1 connections)
-- [{ voices, isLoading, deleteVoice }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L48) (1 connections)
+- [branded.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L1) (12 connections)
+- [isValidUUID()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L59) (7 connections)
+- [createArtistId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L120) (2 connections)
+- [createPlaylistId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L132) (2 connections)
+- [createProjectId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L108) (2 connections)
+- [createStemId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L96) (2 connections)
+- [createTrackId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L72) (2 connections)
+- [createUserId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L84) (2 connections)
+- [brand](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L23) (1 connections)
+- [extractId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L172) (1 connections)
+- [unsafeAsStemId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L161) (1 connections)
+- [unsafeAsTrackId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L145) (1 connections)
+- [unsafeAsUserId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L153) (1 connections)
 
 ## Relationships
 
@@ -23,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\VoiceHistoryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\types\branded.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 23 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

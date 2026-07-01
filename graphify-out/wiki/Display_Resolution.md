@@ -1,13 +1,14 @@
 # Display Resolution
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useInfiniteGenreTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L1) (4 connections)
-- [flattenGenreTracksPages()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L157) (1 connections)
-- [GENRE_DB_VALUES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L13) (1 connections)
-- [useInfiniteGenreTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L41) (1 connections)
+- [Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L1) (4 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L4) (1 connections)
+- [Sizes](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L32) (1 connections)
+- [WithFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L14) (1 connections)
+- [WithImage](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useInfiniteGenreTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

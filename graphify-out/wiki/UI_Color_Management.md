@@ -1,15 +1,16 @@
 # UI Color Management
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L1) (5 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L82) (1 connections)
-- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L104) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L102) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L101) (1 connections)
-- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L114) (1 connections)
+- [CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L1) (6 connections)
+- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L49) (1 connections)
+- [handleLike()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L56) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L48) (1 connections)
+- [likeComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L46) (1 connections)
+- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L51) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

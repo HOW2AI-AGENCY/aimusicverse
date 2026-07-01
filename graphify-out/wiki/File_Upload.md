@@ -1,14 +1,15 @@
 # File Upload
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L1) (4 connections)
-- [breadcrumbItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L38) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L80) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L35) (1 connections)
-- [ROUTE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L17) (1 connections)
+- [ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L1) (5 connections)
+- [ComingSoonModal()](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L22) (1 connections)
+- [[currentFeature, setCurrentFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L167) (1 connections)
+- [hideComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L192) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L166) (1 connections)
+- [showComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L174) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\beta\ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

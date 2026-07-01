@@ -4,43 +4,30 @@
 
 ## Key Concepts
 
-- [MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L1) (23 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L105) (1 connections)
-- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L108) (1 connections)
-- [handleApplyLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L253) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L243) (1 connections)
-- [handleQuickAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L226) (1 connections)
-- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L237) (1 connections)
-- [handleStartWorkflow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L218) (1 connections)
-- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L210) (1 connections)
-- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L201) (1 connections)
-- [hasAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L301) (1 connections)
-- [hasAnalysisResults](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L163) (1 connections)
-- [hasGeneratedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L159) (1 connections)
-- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L103) (1 connections)
-- [{ isRecording, isProcessing, toggleRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L151) (1 connections)
-- [latestLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L167) (1 connections)
-- [{ messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L123) (1 connections)
-- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L104) (1 connections)
-- [renderMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L295) (1 connections)
-- [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L261) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L106) (1 connections)
-- [TAB_TOOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L173) (1 connections)
-- [viewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L196) (1 connections)
-- [{
-    workflow: activeWorkflow,
-    currentStep,
-    currentStepIndex,
-    stepResults,
-    status: workflowStatus,
-    progress: workflowProgress,
-    startWorkflow,
-    pauseWorkflow,
-    resumeWorkflow,
-    skipStep,
-    cancelWorkflow,
-    isRunning: isWorkflowRunning,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L131) (1 connections)
+- [CrossfadePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L1) (23 connections)
+- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L47) (1 connections)
+- [applyCrossfade](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L88) (1 connections)
+- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L52) (1 connections)
+- [crossfadePoint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L55) (1 connections)
+- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L40) (1 connections)
+- [effectiveVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L82) (1 connections)
+- [gainNodesRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L48) (1 connections)
+- [isCrossfading](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L195) (1 connections)
+- [[isMuted, setIsMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L42) (1 connections)
+- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L39) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L38) (1 connections)
+- [originalAudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L59) (1 connections)
+- [originalAudioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L45) (1 connections)
+- [pause](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L174) (1 connections)
+- [play](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L155) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L194) (1 connections)
+- [replacementAudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L60) (1 connections)
+- [replacementAudioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L46) (1 connections)
+- [restart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L183) (1 connections)
+- [sectionDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L54) (1 connections)
+- [togglePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L189) (1 connections)
+- [updatePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L133) (1 connections)
+- [[volume, setVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -48,7 +35,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\CrossfadePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx)
 
 ## Audit Trail
 

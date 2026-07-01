@@ -1,16 +1,22 @@
 # Content Comparison
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [UploadDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L165) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L25) (1 connections)
-- [{ isRecording, recordingTime, startRecording, stopRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L67) (1 connections)
-- [{ saveAudio, updateAnalysis }](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L28) (1 connections)
-- [[uploading, setUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L26) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L27) (1 connections)
+- [SystemStatusCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L1) (9 connections)
+- [checkConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L218) (1 connections)
+- [CheckIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L219) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L115) (1 connections)
+- [{
+    data: healthStatus,
+    isLoading,
+    refetch,
+    dataUpdatedAt,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L60) (1 connections)
+- [[isSendingTest, setIsSendingTest]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L58) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L33) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L117) (1 connections)
 
 ## Relationships
 
@@ -18,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\cloud\UploadDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\SystemStatusCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

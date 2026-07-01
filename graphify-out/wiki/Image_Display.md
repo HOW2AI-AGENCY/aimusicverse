@@ -1,13 +1,14 @@
 # Image Display
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [LibraryFilterChips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L1) (3 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L32) (1 connections)
-- [filterOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L20) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L31) (1 connections)
+- [CompactVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L1) (4 connections)
+- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L34) (1 connections)
+- [idleInterval](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L28) (1 connections)
+- [[levels, setLevels]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L22) (1 connections)
+- [rafRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\LibraryFilterChips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\CompactVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,13 +1,14 @@
 # UI Theme
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L1) (3 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L156) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L44) (1 connections)
-- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L167) (1 connections)
+- [registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L1) (4 connections)
+- [getHintsByContext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L210) (1 connections)
+- [HINT_ALIASES](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L193) (1 connections)
+- [HINT_REGISTRY](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L23) (1 connections)
+- [resolveHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L203) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

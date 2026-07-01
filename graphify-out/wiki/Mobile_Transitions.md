@@ -1,12 +1,13 @@
 # Mobile Transitions
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useGenerationAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L1) (2 connections)
-- [fetchGenerationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L81) (1 connections)
-- [useGenerationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L128) (1 connections)
+- [mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L1) (3 connections)
+- [getMixPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L229) (1 connections)
+- [getPresetStemSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L236) (1 connections)
+- [MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGenerationAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

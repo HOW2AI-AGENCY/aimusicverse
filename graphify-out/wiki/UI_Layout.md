@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [HMAC-SHA256 Validation](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md) (1 connections)
-- [Telegram OAuth Flow Architecture](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx#L54) (1 connections)
+- [CleanStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx#L1) (1 connections)
 
 ## Relationships
 
-- [[Deeplink Analytics]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\CleanStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx)
 
 ## Audit Trail
 

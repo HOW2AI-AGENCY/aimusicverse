@@ -1,10 +1,11 @@
 # Project Configuration
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/index.ts#L1) (0 connections)
+- [table.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx#L1) (1 connections)
+- [Table](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx#L5) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\table.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

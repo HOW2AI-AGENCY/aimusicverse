@@ -1,14 +1,15 @@
 # Suno Tag Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TelegramProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L1) (4 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L20) (1 connections)
-- [context](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L89) (1 connections)
-- [TelegramContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L15) (1 connections)
-- [{ webApp, user, platform, initData, isInitialized, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L18) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L1) (5 connections)
+- [DEFAULT_TITLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L80) (1 connections)
+- [INVALIDATE_QUERY_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L91) (1 connections)
+- [OPERATION_ENDPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L69) (1 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L12) (1 connections)
+- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\TelegramProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

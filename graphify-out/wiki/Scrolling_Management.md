@@ -1,37 +1,25 @@
 # Scrolling Management
 
-> 15 nodes · cohesion 0.14
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [QueueSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L1) (15 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L263) (2 connections)
-- [getRepeatIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L181) (2 connections)
-- [handleClearQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L122) (2 connections)
-- [handleToggleVersionMode()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L130) (2 connections)
-- [{ currentTrack, upNextTracks, remainingDuration }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L78) (1 connections)
-- [formatTotalDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L87) (1 connections)
-- [getRepeatLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L186) (1 connections)
-- [handleDragEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L107) (1 connections)
-- [{ isEnabled: radioEnabled, isFetching: radioFetching, toggleRadioMode, autoAddedCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L60) (1 connections)
-- [[isSaving, setIsSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L57) (1 connections)
-- [{
-    queue,
-    currentIndex,
-    reorderQueue,
-    removeFromQueue,
-    clearQueue,
-    versionMode,
-    toggleVersionMode,
-    shuffle,
-    repeat,
-    toggleShuffle,
-    toggleRepeat,
-    activeTrack,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L62) (1 connections)
-- [sensors](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L96) (1 connections)
-- [totalDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L86) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L56) (1 connections)
+- [ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L1) (18 connections)
+- [buildPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L151) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L147) (1 connections)
+- [ASSET_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L63) (1 connections)
+- [[assetType, setAssetType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L114) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L386) (1 connections)
+- [currentMediaUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L144) (1 connections)
+- [[customPrompt, setCustomPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L115) (1 connections)
+- [entityTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L128) (1 connections)
+- [[generatedUrl, setGeneratedUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L118) (1 connections)
+- [getCurrentMediaUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L131) (1 connections)
+- [[isGenerating, setIsGenerating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L117) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L113) (1 connections)
+- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L116) (1 connections)
+- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L93) (1 connections)
+- [targetEntity](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L127) (1 connections)
 
 ## Relationships
 
@@ -39,12 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueueSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 31 (94%)
-- INFERRED: 2 (6%)
+- EXTRACTED: 34 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

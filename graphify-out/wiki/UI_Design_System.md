@@ -1,16 +1,17 @@
 # UI Design System
 
-> 7 nodes · cohesion 0.33
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L1) (6 connections)
-- [handleTagClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L44) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L38) (2 connections)
-- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L39) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L40) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L17) (1 connections)
-- [hasHD](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L41) (1 connections)
+- [carousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L1) (7 connections)
+- [Carousel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L41) (1 connections)
+- [CarouselContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L134) (1 connections)
+- [CarouselContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L29) (1 connections)
+- [CarouselItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L151) (1 connections)
+- [CarouselNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L196) (1 connections)
+- [CarouselPrevious](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L168) (1 connections)
+- [useCarousel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -18,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\carousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx)
 
 ## Audit Trail
 

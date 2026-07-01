@@ -1,10 +1,11 @@
 # Data Loading
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [DesktopRewardsLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DesktopRewardsLayout.tsx#L1) (0 connections)
+- [useAudioRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts#L1) (1 connections)
+- [useAudioRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\DesktopRewardsLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DesktopRewardsLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,41 +1,24 @@
 # Timeline Editor
 
-> 14 nodes · cohesion 0.14
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [StudioLyricsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L1) (13 connections)
-- [AI_TOOL_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L90) (1 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L179) (1 connections)
-- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L180) (1 connections)
-- [handleAddNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L350) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L549) (1 connections)
-- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L528) (1 connections)
-- [{
-    lyrics,
-    sections,
-    versions,
-    sectionNotes,
-    stats,
-    isDirty,
-    activeAITool,
-    isLoading,
-    isSaving,
-    isRestoring,
-    setLyrics,
-    save,
-    restoreVersion,
-    selectAITool,
-    closeAITool,
-    addNote,
-    deleteNote,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L494) (1 connections)
-- [[newNoteContent, setNewNoteContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L348) (1 connections)
-- [[newNoteSection, setNewNoteSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L347) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L140) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L79) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L492) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L491) (1 connections)
+- [TipsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L1) (14 connections)
+- [allTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L44) (1 connections)
+- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L102) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L193) (1 connections)
+- [[completedTips, setCompletedTips]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L124) (1 connections)
+- [currentTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L129) (1 connections)
+- [[currentTipIndex, setCurrentTipIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L122) (1 connections)
+- [filteredTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L127) (1 connections)
+- [handleMarkComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L136) (1 connections)
+- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L132) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L253) (1 connections)
+- [isCarousel](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L130) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L254) (1 connections)
+- [[isDismissed, setIsDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L123) (1 connections)
+- [levelBadgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L109) (1 connections)
 
 ## Relationships
 
@@ -43,11 +26,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioLyricsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\TipsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

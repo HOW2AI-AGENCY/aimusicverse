@@ -1,12 +1,13 @@
 # Bio Display
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useReplicateAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateAnalysis.tsx#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateAnalysis.tsx#L6) (1 connections)
-- [useReplicateAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateAnalysis.tsx#L8) (1 connections)
+- [useTrimExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts#L1) (3 connections)
+- [audioBufferToWav()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts#L172) (2 connections)
+- [writeString()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts#L226) (2 connections)
+- [useTrimExport()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReplicateAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateAnalysis.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTrimExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

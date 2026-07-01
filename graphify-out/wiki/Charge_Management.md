@@ -4,29 +4,29 @@
 
 ## Key Concepts
 
-- [CreateArtistFromTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L1) (23 connections)
-- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L92) (1 connections)
-- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L99) (1 connections)
-- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L69) (1 connections)
-- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L41) (1 connections)
-- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L35) (1 connections)
-- [{ createArtist, isCreating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L29) (1 connections)
-- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L37) (1 connections)
-- [handleSelectTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L87) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L27) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L26) (1 connections)
-- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L38) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L34) (1 connections)
-- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L39) (1 connections)
-- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L40) (1 connections)
-- [resetForm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L45) (1 connections)
-- [selectedTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L43) (1 connections)
-- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L32) (1 connections)
-- [[step, setStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L31) (1 connections)
-- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L36) (1 connections)
-- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L76) (1 connections)
-- [{ tracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L28) (1 connections)
-- [trackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L68) (1 connections)
+- [BroadcastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L1) (18 connections)
+- [SaveTemplateDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L1) (4 connections)
+- [handleFileChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L50) (2 connections)
+- [loadTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L65) (2 connections)
+- [saveTemplate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L30) (2 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L24) (2 connections)
+- [broadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L28) (1 connections)
+- [clearImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L57) (1 connections)
+- [{ data: templates }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L29) (1 connections)
+- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L26) (1 connections)
+- [handleSend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L75) (1 connections)
+- [[imageFile, setImageFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L21) (1 connections)
+- [[imageUrl, setImageUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L20) (1 connections)
+- [[message, setMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L18) (1 connections)
+- [[saveAsTemplate, setSaveAsTemplate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L23) (1 connections)
+- [[targetType, setTargetType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L19) (1 connections)
+- [[templateName, setTemplateName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L24) (1 connections)
+- [[templatesOpen, setTemplatesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L25) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L17) (1 connections)
+- [[uploading, setUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L22) (1 connections)
+- [lyricsPreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L41) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L21) (1 connections)
+- [{ saveTemplate, isSaving }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -34,12 +34,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\artist\CreateArtistFromTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BroadcastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SaveTemplateDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 45 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 44 (94%)
+- INFERRED: 3 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

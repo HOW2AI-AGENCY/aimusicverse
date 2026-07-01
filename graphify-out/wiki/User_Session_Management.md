@@ -1,18 +1,19 @@
 # User Session Management
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [SubscriptionUpgradePopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L161) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L152) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L82) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L153) (1 connections)
-- [REASON_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L68) (1 connections)
-- [[selectedTier, setSelectedTier]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L81) (1 connections)
-- [TIERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L36) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L80) (1 connections)
+- [UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L1) (9 connections)
+- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L24) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L87) (1 connections)
+- [handleLinkTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L38) (1 connections)
+- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L51) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L25) (1 connections)
+- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L52) (1 connections)
+- [selectedSlot](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L53) (1 connections)
+- [[selectedSlots, setSelectedSlots]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L26) (1 connections)
+- [{ unlinkedTracks, isLoading, linkTrackToSlot, isLinking }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\popups\SubscriptionUpgradePopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 17 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

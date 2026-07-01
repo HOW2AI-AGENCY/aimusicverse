@@ -1,17 +1,18 @@
 # Modal Interaction
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [cdn.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L1) (7 connections)
-- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L28) (1 connections)
-- [observerSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L181) (1 connections)
-- [providers](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L64) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L35) (1 connections)
-- [support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L160) (1 connections)
-- [timing](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L269) (1 connections)
-- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L196) (1 connections)
+- [genreMoodIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L1) (6 connections)
+- [PresetCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetCard.tsx#L16) (3 connections)
+- [getCategoryIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L67) (2 connections)
+- [PresetCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetCard.tsx#L1) (1 connections)
+- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L48) (1 connections)
+- [GENRE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L25) (1 connections)
+- [getGenreIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L57) (1 connections)
+- [getMoodIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L62) (1 connections)
+- [MOOD_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L37) (1 connections)
 
 ## Relationships
 
@@ -19,12 +20,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\cdn.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\PresetCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\genreMoodIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (82%)
+- INFERRED: 3 (18%)
 - AMBIGUOUS: 0 (0%)
 
 ---

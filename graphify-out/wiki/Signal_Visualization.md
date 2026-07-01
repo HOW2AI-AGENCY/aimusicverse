@@ -1,10 +1,11 @@
 # Signal Visualization
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [ProjectQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectQuickActions.tsx#L1) (0 connections)
+- [SortableProjectTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/SortableProjectTrack.tsx#L1) (1 connections)
+- [SortableProjectTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/SortableProjectTrack.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\ProjectQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectQuickActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\project-detail\SortableProjectTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/SortableProjectTrack.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

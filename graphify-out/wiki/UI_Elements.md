@@ -1,12 +1,13 @@
 # UI Elements
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [PullToRefresh.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PullToRefresh.tsx#L1) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PullToRefresh.tsx#L41) (1 connections)
-- [{ containerRef, isPulling, isRefreshing, pullDistance, progress }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PullToRefresh.tsx#L24) (1 connections)
+- [useInfiniteGenreTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L1) (4 connections)
+- [flattenGenreTracksPages()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L157) (1 connections)
+- [GENRE_DB_VALUES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L13) (1 connections)
+- [useInfiniteGenreTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L41) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\PullToRefresh.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PullToRefresh.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useInfiniteGenreTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

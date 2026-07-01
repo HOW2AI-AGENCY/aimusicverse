@@ -4,13 +4,17 @@
 
 ## Key Concepts
 
-- **phase2-completion** (2 connections)
-- **formatting-guide** (1 connections)
-- **onboarding-guide** (1 connections)
+- [useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L1) (2 connections)
+- [useWorkflowEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L95) (1 connections)
+- [WORKFLOWS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L40) (1 connections)
 
 ## Relationships
 
-- [[Guitar Chord Management]] (4 shared connections)
+- No strong cross-community connections detected
+
+## Source Files
+
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts)
 
 ## Audit Trail
 

@@ -1,28 +1,29 @@
 # Payment Processing
 
-> 19 nodes · cohesion 0.13
+> 20 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [lyricsParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L1) (7 connections)
-- [detectSectionsFromGaps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts#L174) (5 connections)
-- [useSectionDetection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts#L1) (3 connections)
-- [musicalStructure.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts#L1) (3 connections)
-- [matchSectionToTimestamps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L98) (3 connections)
-- [createMusicalSections()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts#L21) (3 connections)
-- [getSectionLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/types/sections.ts#L73) (3 connections)
-- [buildSectionsFromParsedLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts#L61) (3 connections)
-- [sections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/sections.ts#L1) (2 connections)
-- [getTypeFromTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L19) (2 connections)
-- [normalizeText()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L87) (2 connections)
-- [parseSectionsFromLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L39) (2 connections)
-- [inferSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts#L94) (2 connections)
-- [filterTagWords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L80) (1 connections)
-- [TAG_FILTER_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L13) (1 connections)
-- [TAG_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L10) (1 connections)
-- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/types/sections.ts#L55) (1 connections)
-- [makeSectionsContinuous()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts#L30) (1 connections)
-- [useSectionDetection()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts#L114) (1 connections)
+- [BotMenuItemForm.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L1) (10 connections)
+- [useGuitarAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L1) (6 connections)
+- [usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L1) (3 connections)
+- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L142) (2 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L167) (2 connections)
+- [generateStyleDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L99) (2 connections)
+- [generateTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L123) (2 connections)
+- [formatCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L26) (2 connections)
+- [usePlatformStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L70) (2 connections)
+- [ACTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L59) (1 connections)
+- [createMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L76) (1 connections)
+- [EMOJI_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L26) (1 connections)
+- [[formData, setFormData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L80) (1 connections)
+- [isSubmitting](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L199) (1 connections)
+- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L79) (1 connections)
+- [updateMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L77) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L6) (1 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L92) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L90) (1 connections)
+- [useGuitarAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L166) (1 connections)
 
 ## Relationships
 
@@ -30,15 +31,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSectionDetection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\lyricsParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\musicalStructure.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\types\sections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/sections.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BotMenuItemForm.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 38 (83%)
-- INFERRED: 8 (17%)
+- EXTRACTED: 39 (93%)
+- INFERRED: 3 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

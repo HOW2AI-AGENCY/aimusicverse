@@ -4,43 +4,39 @@
 
 ## Key Concepts
 
-- [ReferenceAudioDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L1) (21 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L104) (5 connections)
-- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L117) (2 connections)
-- [handleGenerateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L179) (2 connections)
-- [handleGenerateExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L183) (2 connections)
-- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L116) (2 connections)
-- [handleOpenStudio()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L187) (2 connections)
-- [analysisComplete](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L238) (1 connections)
-- [buildStemsArray()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L74) (1 connections)
-- [{ close }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L108) (1 connections)
-- [{
-    data: reference,
-    isLoading,
-    error,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L120) (1 connections)
-- [deleteMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L138) (1 connections)
-- [hasStemUrls](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L239) (1 connections)
-- [{ id }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L102) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L107) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L106) (1 connections)
-- [reanalyzeMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L155) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L103) (1 connections)
-- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L111) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L105) (1 connections)
+- [TelegramOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L1) (19 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L147) (4 connections)
+- [handleSkip](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L124) (2 connections)
+- [nextSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L108) (2 connections)
+- [prevSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L118) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L200) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L92) (1 connections)
+- [[currentSlide, setCurrentSlide]](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L90) (1 connections)
+- [[direction, setDirection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L91) (1 connections)
+- [goToSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L98) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L130) (1 connections)
+- [{ isActive, skipOnboarding, completeOnboarding }](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L89) (1 connections)
+- [isLastSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L95) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L88) (1 connections)
+- [slide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L96) (1 connections)
+- [SlideIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L163) (1 connections)
+- [SLIDES](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L27) (1 connections)
+- [SWIPE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L84) (1 connections)
+- [SWIPE_VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L85) (1 connections)
+- [totalSlides](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L94) (1 connections)
 
 ## Relationships
 
-- [[Content Comparison]] (1 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\ReferenceAudioDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\TelegramOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 48 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 44 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

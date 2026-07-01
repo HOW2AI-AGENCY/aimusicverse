@@ -1,11 +1,12 @@
 # MIDI Logging
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AdminUserCreditsDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L26) (1 connections)
-- [AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L1) (1 connections)
+- [ProfileSetupStep1Basic.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L77) (1 connections)
+- [ProfileSetupStep1Basic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep1Basic.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,11 +1,12 @@
 # Recommendation System
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L1) (1 connections)
-- [ShareProjectCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L24) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L1) (2 connections)
+- [ACTIVE_REFERENCE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L75) (1 connections)
+- [REFERENCE_EXPIRY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L78) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

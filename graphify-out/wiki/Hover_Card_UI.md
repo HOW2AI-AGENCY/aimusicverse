@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L1) (2 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L134) (1 connections)
-- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L135) (1 connections)
+- [HomeSectionGroup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L1) (2 connections)
+- [hasHeader](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L44) (1 connections)
+- [toneToClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeSectionGroup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx)
 
 ## Audit Trail
 

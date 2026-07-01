@@ -1,11 +1,12 @@
 # Mobile UI Redesign
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ContextHints](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx#L23) (1 connections)
-- [ContextHints.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx#L1) (1 connections)
+- [ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L1) (2 connections)
+- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L24) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextHints.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\workflows\ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

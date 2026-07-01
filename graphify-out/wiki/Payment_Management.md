@@ -1,11 +1,12 @@
 # Payment Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [vite.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L1) (1 connections)
-- [reactPriorityPlugin()](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L14) (1 connections)
+- [PlaylistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L1) (2 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L23) (1 connections)
+- [getTrackWord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\vite.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\PlaylistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

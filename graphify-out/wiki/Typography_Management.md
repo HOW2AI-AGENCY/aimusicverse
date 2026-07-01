@@ -1,15 +1,16 @@
 # Typography Management
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L1) (5 connections)
-- [Display](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L127) (1 connections)
-- [Heading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L38) (1 connections)
-- [Prose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L161) (1 connections)
-- [Text](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L88) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L71) (1 connections)
+- [GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L1) (6 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L35) (1 connections)
+- [hasFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L59) (1 connections)
+- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L28) (1 connections)
+- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L69) (1 connections)
+- [toggleGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L61) (1 connections)
+- [toggleNodeType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L77) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

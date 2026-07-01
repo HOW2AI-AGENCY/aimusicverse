@@ -1,19 +1,20 @@
 # Audio Error Handling
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [DrumRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L1) (9 connections)
-- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L81) (2 connections)
-- [audio](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L39) (1 connections)
-- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L31) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L73) (1 connections)
-- [handleUseAsReference()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L89) (1 connections)
-- [{ pauseTrack, isPlaying: globalIsPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L33) (1 connections)
-- [[recordingTime, setRecordingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L34) (1 connections)
-- [sourceId](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L32) (1 connections)
-- [timerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L35) (1 connections)
+- [AddVocalsToGuitarDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L1) (11 connections)
+- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L48) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L46) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L47) (1 connections)
+- [[lyrics, setLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L51) (1 connections)
+- [[mood, setMood]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L55) (1 connections)
+- [moodPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L32) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L53) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L52) (1 connections)
+- [vocalStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L25) (1 connections)
+- [[vocalType, setVocalType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -21,12 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AddVocalsToGuitarDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 21 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [Sprint 007 Closure - Mobile-First Setup](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md) (1 connections)
-- [Sprint Closure Audit - Sprint 7 & 8 Status](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md) (1 connections)
+- [TimelineRuler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx#L1) (1 connections)
+- [markers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx#L17) (1 connections)
 
 ## Relationships
 
-- [[Tier Management]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\TimelineRuler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx)
 
 ## Audit Trail
 

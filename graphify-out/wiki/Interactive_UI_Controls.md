@@ -1,21 +1,22 @@
 # Interactive UI Controls
 
-> 12 nodes · cohesion 0.21
+> 13 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [Auth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L1) (7 connections)
-- [authenticateWithTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L28) (5 connections)
-- [handleAuth()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L21) (3 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L14) (3 connections)
-- [setSession()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L53) (3 connections)
-- [auth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L1) (3 connections)
-- [handleGuestMode()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L32) (2 connections)
-- [{ enableGuestMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L17) (1 connections)
-- [{ isAuthenticated, loading, authenticateWithTelegram }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L15) (1 connections)
-- [[isAuthenticating, setIsAuthenticating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L19) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L9) (1 connections)
-- [{ webApp, user, isInitialized, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L16) (1 connections)
+- [sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L1) (12 connections)
+- [sanitizeText()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L29) (5 connections)
+- [validatePrompt()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L52) (3 connections)
+- [isSpamPattern()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L202) (2 connections)
+- [validateDescription()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L137) (2 connections)
+- [validateMessage()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L165) (2 connections)
+- [validateTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L102) (2 connections)
+- [escapeSQLLike()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L304) (1 connections)
+- [isValidTelegramUserId()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L281) (1 connections)
+- [isValidUrl()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L290) (1 connections)
+- [maskSensitiveData()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L262) (1 connections)
+- [MAX_LENGTHS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L15) (1 connections)
+- [sanitizeHTML()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L233) (1 connections)
 
 ## Relationships
 
@@ -23,13 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Auth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\services\telegram\auth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (84%)
-- INFERRED: 5 (16%)
+- EXTRACTED: 34 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

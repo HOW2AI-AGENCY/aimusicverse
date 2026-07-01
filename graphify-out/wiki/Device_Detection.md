@@ -1,10 +1,11 @@
 # Device Detection
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/index.ts#L1) (0 connections)
+- [usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L1) (1 connections)
+- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L21) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

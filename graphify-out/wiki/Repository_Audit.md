@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [common.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/common.ts#L1) (0 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/types.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\common.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/common.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/types.ts)
 
 ## Audit Trail
 

@@ -1,16 +1,17 @@
 # Health Metrics
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L1) (6 connections)
-- [BATCH_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L115) (1 connections)
-- [GENRE_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L120) (1 connections)
-- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L27) (1 connections)
-- [GENRE_QUERIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L16) (1 connections)
-- [PUBLIC_CONTENT_GC_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L110) (1 connections)
-- [PUBLIC_CONTENT_STALE_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L105) (1 connections)
+- [stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L1) (7 connections)
+- [compressorPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L54) (1 connections)
+- [defaultCompressorSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L23) (1 connections)
+- [defaultEQSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L15) (1 connections)
+- [defaultReverbSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L32) (1 connections)
+- [defaultStemEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L38) (1 connections)
+- [eqPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L45) (1 connections)
+- [reverbPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L63) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

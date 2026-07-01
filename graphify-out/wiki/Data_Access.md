@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useStudioData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts#L1) (1 connections)
-- [useStudioData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts#L58) (1 connections)
+- [EditableLyricsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx#L1) (1 connections)
+- [EditableLyricsContent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\EditableLyricsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx)
 
 ## Audit Trail
 

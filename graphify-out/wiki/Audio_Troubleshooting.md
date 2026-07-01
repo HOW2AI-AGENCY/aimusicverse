@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [use-is-mobile.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-is-mobile.ts#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\use-is-mobile.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-is-mobile.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/index.ts)
 
 ## Audit Trail
 

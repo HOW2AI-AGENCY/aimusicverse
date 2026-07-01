@@ -4,12 +4,16 @@
 
 ## Key Concepts
 
-- **env-vars-suno** (1 connections)
-- **env-vars-supabase** (1 connections)
+- [ProfileTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/ProfileTab.tsx#L1) (1 connections)
+- [ProfileTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/ProfileTab.tsx#L28) (1 connections)
 
 ## Relationships
 
-- [[Configuration Health]] (2 shared connections)
+- No strong cross-community connections detected
+
+## Source Files
+
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\ProfileTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/ProfileTab.tsx)
 
 ## Audit Trail
 

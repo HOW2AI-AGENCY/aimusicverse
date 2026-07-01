@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [TrackCoverSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackCoverSection.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackCoverSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackCoverSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\branding\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/index.ts)
 
 ## Audit Trail
 

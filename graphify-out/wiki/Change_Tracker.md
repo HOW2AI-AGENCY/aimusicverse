@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [bufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L1) (5 connections)
-- [bufferPoolInstance](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L180) (1 connections)
-- [createBufferPool()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L195) (1 connections)
-- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L23) (1 connections)
-- [getBufferPool()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L185) (1 connections)
+- [AnalyzeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalyzeButton.tsx#L1) (4 connections)
+- [handleAnalyze()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalyzeButton.tsx#L89) (2 connections)
+- [analysisOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalyzeButton.tsx#L30) (1 connections)
+- [{ analyze, isAnalyzing, status, currentStep }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalyzeButton.tsx#L86) (1 connections)
+- [[lastAnalyzedType, setLastAnalyzedType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalyzeButton.tsx#L87) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\bufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\AnalyzeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalyzeButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 9 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (89%)
+- INFERRED: 1 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

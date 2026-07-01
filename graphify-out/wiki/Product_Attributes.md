@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L1) (2 connections)
-- [html](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L47) (1 connections)
-- [response](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L34) (1 connections)
+- [DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L1) (2 connections)
+- [DesktopDashboardLayout](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L36) (1 connections)
+- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx)
 
 ## Audit Trail
 

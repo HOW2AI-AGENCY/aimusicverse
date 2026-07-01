@@ -1,10 +1,11 @@
 # User Input
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [BannerRequiredDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/BannerRequiredDialog.tsx#L1) (0 connections)
+- [AdminTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L8) (1 connections)
+- [AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\BannerRequiredDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/BannerRequiredDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

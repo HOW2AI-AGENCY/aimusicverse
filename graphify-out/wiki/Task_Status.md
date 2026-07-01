@@ -1,11 +1,12 @@
 # Task Status
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ProfileSetupStep4Banner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx#L1) (1 connections)
-- [ProfileSetupStep4Banner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx#L20) (1 connections)
+- [AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L1) (2 connections)
+- [{ data: metrics }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L11) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep4Banner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,35 +1,35 @@
 # Artist Project Management
 
-> 37 nodes · cohesion 0.05
+> 35 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [WaveformRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L1) (37 connections)
-- [barHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L137) (1 connections)
-- [barW](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L154) (1 connections)
-- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L117) (1 connections)
-- [barX](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L153) (1 connections)
-- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L103) (1 connections)
-- [canvasHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L116) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L46) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L311) (1 connections)
-- [computedStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L124) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L45) (1 connections)
-- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L106) (1 connections)
-- [dpr](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L109) (1 connections)
-- [endPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L119) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L278) (1 connections)
-- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L173) (1 connections)
-- [handleMouseMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L179) (1 connections)
-- [handleMouseUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L205) (1 connections)
-- [handleTouchEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L258) (1 connections)
-- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L231) (1 connections)
-- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L226) (1 connections)
-- [inRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L142) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L48) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L49) (1 connections)
-- [mutedFgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L126) (1 connections)
-- *... and 12 more nodes in this community*
+- [LyricsEditorMetricsOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L1) (21 connections)
+- [ExportMixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L1) (13 connections)
+- [handleExport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L58) (3 connections)
+- [readMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L39) (3 connections)
+- [sample()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L244) (3 connections)
+- [tick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L218) (3 connections)
+- [downloadBlob()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L46) (2 connections)
+- [loop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L271) (2 connections)
+- [toCSV()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L58) (2 connections)
+- [activeTracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L98) (1 connections)
+- [bitrateOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L92) (1 connections)
+- [[format, setFormat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L32) (1 connections)
+- [formatOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L87) (1 connections)
+- [handleCancelExport](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L41) (1 connections)
+- [{ isExporting, exportProgress, exportMix, cancelExport, downloadBlob }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L38) (1 connections)
+- [[limiter, setLimiter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L36) (1 connections)
+- [[mp3Bitrate, setMp3Bitrate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L34) (1 connections)
+- [[normalize, setNormalize]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L35) (1 connections)
+- [[quality, setQuality]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L33) (1 connections)
+- [qualityOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L81) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L50) (1 connections)
+- [COLLAPSED_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L24) (1 connections)
+- [FLASH_MS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L25) (1 connections)
+- [HISTORY_INTERVAL_MS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L29) (1 connections)
+- [HISTORY_MAX](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L28) (1 connections)
+- *... and 10 more nodes in this community*
 
 ## Relationships
 
@@ -37,12 +37,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\WaveformRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dev\LyricsEditorMetricsOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ExportMixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 73 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 73 (94%)
+- INFERRED: 5 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

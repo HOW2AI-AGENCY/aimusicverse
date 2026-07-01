@@ -1,22 +1,23 @@
 # Audio Application Architecture
 
-> 13 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L1) (12 connections)
-- [addComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L31) (1 connections)
-- [{ data: comments = [], isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L30) (1 connections)
-- [deleteComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L32) (1 connections)
-- [formInput](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L123) (1 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L56) (1 connections)
-- [handleReply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L46) (1 connections)
-- [handleReport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L60) (1 connections)
-- [handleSubmitComment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L41) (1 connections)
-- [mappedComments](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L72) (1 connections)
-- [[replyTo, setReplyTo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L34) (1 connections)
-- [[reportTarget, setReportTarget]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L35) (1 connections)
-- [title](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L29) (1 connections)
+- [ReferenceActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L1) (13 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L48) (6 connections)
+- [prepareAnalysisData()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L57) (6 connections)
+- [handleNewArrangement()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L93) (5 connections)
+- [handleNewVocal()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L110) (5 connections)
+- [handleCover()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L79) (4 connections)
+- [handleExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L86) (4 connections)
+- [handleOpenPromptDJ()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L126) (4 connections)
+- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L133) (1 connections)
+- [hasInstrumentalStem](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L53) (1 connections)
+- [hasStemsReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L54) (1 connections)
+- [hasVocalStem](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L52) (1 connections)
+- [[midiSheetOpen, setMidiSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L50) (1 connections)
+- [{ saveAnalysisData, buildTitleFromFileName }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -24,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 46 (87%)
+- INFERRED: 7 (13%)
 - AMBIGUOUS: 0 (0%)
 
 ---

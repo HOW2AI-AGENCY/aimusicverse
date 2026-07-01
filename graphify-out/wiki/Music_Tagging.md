@@ -1,25 +1,22 @@
 # Music Tagging
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L1) (11 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L41) (1 connections)
-- [campaignData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L94) (1 connections)
-- [{ data: events, isLoading: eventsLoading, refetch: refetchEvents }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L44) (1 connections)
-- [{ data: stats, isLoading: statsLoading, refetch: refetchStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L43) (1 connections)
-- [{
-    data: summary,
-    isLoading: summaryLoading,
-    refetch: refetchSummary,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L47) (1 connections)
-- [funnelData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L107) (1 connections)
-- [heatmapData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L79) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L66) (1 connections)
-- [refetch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L60) (1 connections)
-- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L40) (1 connections)
-- [trendData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L69) (1 connections)
+- [FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L1) (12 connections)
+- [categorizedFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L210) (1 connections)
+- [categoryFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L288) (1 connections)
+- [{ data: flags, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L195) (1 connections)
+- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L151) (1 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L199) (1 connections)
+- [handleUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L203) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L150) (1 connections)
+- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L38) (1 connections)
+- [toggleFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L196) (1 connections)
+- [totalEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L213) (1 connections)
+- [totalFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L214) (1 connections)
+- [updateFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L197) (1 connections)
 
 ## Relationships
 
@@ -27,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\features\FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

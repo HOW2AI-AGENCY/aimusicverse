@@ -1,16 +1,17 @@
 # Timestamp Management
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [TrackCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L1) (6 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L121) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L81) (1 connections)
-- [displayTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L83) (1 connections)
-- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L80) (1 connections)
-- [showOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L82) (1 connections)
-- [SIZE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L33) (1 connections)
+- [utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L1) (7 connections)
+- [countSyllables()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L29) (1 connections)
+- [generateSunoPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L41) (1 connections)
+- [insertTagAtCursor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L111) (1 connections)
+- [parseTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L4) (1 connections)
+- [parseTextToSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L62) (1 connections)
+- [translateTagsToEnglish()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L20) (1 connections)
+- [translateTagsToRussian()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,13 +1,14 @@
 # Emotional Metrics
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L1) (3 connections)
-- [handleMore()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L62) (2 connections)
-- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L56) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L54) (1 connections)
+- [AutoSaveIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L1) (4 connections)
+- [formatTimeSince()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L18) (2 connections)
+- [getStatusConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L38) (2 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L85) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L86) (1 connections)
 
 ## Relationships
 
@@ -15,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AutoSaveIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 10 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

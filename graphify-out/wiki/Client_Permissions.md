@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L1) (2 connections)
-- [createHistorySlice()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L47) (1 connections)
-- [DEFAULT_EXCLUDE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L29) (1 connections)
+- [BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L1) (2 connections)
+- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L30) (1 connections)
+- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\zustand\historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx)
 
 ## Audit Trail
 

@@ -1,17 +1,18 @@
 # Audio Version Management
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ProjectMeta.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L1) (7 connections)
-- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L36) (1 connections)
-- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L38) (1 connections)
-- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L45) (1 connections)
-- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L64) (1 connections)
-- [ProjectStatusBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L152) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L62) (1 connections)
-- [typeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L63) (1 connections)
+- [UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L1) (8 connections)
+- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L34) (1 connections)
+- [ErrorIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L49) (1 connections)
+- [handleContactSupport](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L62) (1 connections)
+- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L55) (1 connections)
+- [handleFaqClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L68) (1 connections)
+- [handleRetry](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L51) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L59) (1 connections)
+- [[showExamples, setShowExamples]](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMeta.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\errors\UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

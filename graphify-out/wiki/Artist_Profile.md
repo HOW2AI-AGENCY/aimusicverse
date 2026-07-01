@@ -1,24 +1,25 @@
 # Artist Profile
 
-> 15 nodes · cohesion 0.18
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [admin.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L1) (9 connections)
-- [admin.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L1) (6 connections)
-- [getAdminDashboardData()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L58) (4 connections)
-- [getUsersByBalance()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L88) (4 connections)
-- [getCurrentUserAdminStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L68) (3 connections)
-- [checkAdminRole()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L55) (2 connections)
-- [fetchBotMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L150) (2 connections)
-- [fetchUserBalanceSummary()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L85) (2 connections)
-- [getLowBalanceUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L104) (2 connections)
-- [getZeroBalanceUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L112) (2 connections)
-- [isCurrentUserAdmin()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L75) (2 connections)
-- [analyzeBotHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L140) (1 connections)
-- [calculateChurnRisk()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L119) (1 connections)
-- [getIntervalFromTimeRange()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L36) (1 connections)
-- [TIME_RANGES](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L29) (1 connections)
+- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L1) (15 connections)
+- [backdropOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L58) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L91) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L53) (1 connections)
+- [[currentSnapPoint, setCurrentSnapPoint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L52) (1 connections)
+- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L34) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L82) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L64) (1 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L55) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L47) (1 connections)
+- [rawSnapRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L59) (1 connections)
+- [safeDefaultSnap](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L51) (1 connections)
+- [snapHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L61) (1 connections)
+- [snapRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L60) (1 connections)
+- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L35) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -26,13 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\admin.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\services\admin.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (81%)
-- INFERRED: 8 (19%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

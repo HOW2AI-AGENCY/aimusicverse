@@ -1,12 +1,13 @@
 # Resource Monitoring
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L1) (2 connections)
-- [Label](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L9) (1 connections)
-- [labelVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L7) (1 connections)
+- [useHealthAlerts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHealthAlerts.ts#L1) (3 connections)
+- [useAlertStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHealthAlerts.ts#L55) (1 connections)
+- [useHealthAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHealthAlerts.ts#L18) (1 connections)
+- [useResolveAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHealthAlerts.ts#L34) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useHealthAlerts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHealthAlerts.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

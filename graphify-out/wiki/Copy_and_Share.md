@@ -1,14 +1,15 @@
 # Copy and Share
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L114) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L165) (1 connections)
-- [TelegramMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L28) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L159) (1 connections)
+- [AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L1) (5 connections)
+- [ANALYSIS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L12) (1 connections)
+- [AnalyzeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L19) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L101) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L95) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

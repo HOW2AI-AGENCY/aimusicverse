@@ -1,20 +1,21 @@
 # Onboarding Navigation
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L1) (10 connections)
-- [availableModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L56) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L122) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L113) (1 connections)
-- [currentModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L57) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L114) (1 connections)
-- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L146) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L115) (1 connections)
-- [lowBalance](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L58) (1 connections)
-- [MODE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L39) (1 connections)
-- [MODE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L44) (1 connections)
+- [AddToPlaylistSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L1) (11 connections)
+- [addToPlaylistMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L49) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L211) (1 connections)
+- [createPlaylistMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L74) (1 connections)
+- [{ data: playlists, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L28) (1 connections)
+- [{ data: trackInPlaylists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L38) (1 connections)
+- [handleCreatePlaylist()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L97) (1 connections)
+- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L25) (1 connections)
+- [isInPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L172) (1 connections)
+- [[newPlaylistName, setNewPlaylistName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L24) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L23) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\AddToPlaylistSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

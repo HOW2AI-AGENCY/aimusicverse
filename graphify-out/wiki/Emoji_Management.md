@@ -1,39 +1,25 @@
 # Emoji Management
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [PromptDJClean.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L1) (14 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L199) (2 connections)
-- [applyPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L88) (1 connections)
-- [CHANNEL_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L44) (1 connections)
-- [{
-    channels,
-    updateChannel,
-    globalSettings,
-    updateGlobalSettings,
-    isGenerating,
-    generatedTracks,
-    generateMusic,
-    isPlaying,
-    currentTrack,
-    playTrack,
-    stopPlayback,
-    currentPrompt,
-    analyzerNode,
-    removeTrack,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L70) (1 connections)
-- [customChannel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L142) (1 connections)
-- [{ description, bpm }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L141) (1 connections)
-- [drumData](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L138) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L121) (1 connections)
-- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L109) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L67) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L66) (1 connections)
-- [QUICK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L52) (1 connections)
-- [resetChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L102) (1 connections)
-- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L68) (1 connections)
+- [NotesViewerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L1) (15 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L55) (1 connections)
+- [availableTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L136) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L110) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L118) (1 connections)
+- [handleOpenExternal](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L129) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L170) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L54) (1 connections)
+- [[localPlaying, setLocalPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L57) (1 connections)
+- [[localTime, setLocalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L56) (1 connections)
+- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L85) (1 connections)
+- [{ parseMidiFromUrl, parsedMidi, isLoading: isParsing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L59) (1 connections)
+- [{ parseMusicXmlFromUrl, parsedXml, isLoading: isParsingXml }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L60) (1 connections)
+- [{ playNote, stopAll, isReady }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L61) (1 connections)
+- [xmlDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L114) (1 connections)
+- [xmlNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L97) (1 connections)
 
 ## Relationships
 
@@ -41,12 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJClean.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\NotesViewerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

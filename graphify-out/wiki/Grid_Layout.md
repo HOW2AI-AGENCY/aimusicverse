@@ -1,12 +1,13 @@
 # Grid Layout
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useStudioState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L1) (2 connections)
-- [DEFAULT_STEM_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L61) (1 connections)
-- [useStudioState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L68) (1 connections)
+- [useGenerateDraft.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L1) (3 connections)
+- [draft](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L47) (1 connections)
+- [DRAFT_KEY](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L9) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useGenerateDraft.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

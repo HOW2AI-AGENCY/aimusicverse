@@ -1,19 +1,20 @@
 # Music Creation
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.36
 
 ## Key Concepts
 
-- [editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L1) (9 connections)
-- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L37) (1 connections)
-- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L65) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L83) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L70) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L55) (1 connections)
-- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L38) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L36) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L89) (1 connections)
-- [titleSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L95) (1 connections)
+- [sectionMatcher.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L1) (10 connections)
+- [matchSectionToWords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L194) (6 connections)
+- [scoreSequenceMatch()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L99) (5 connections)
+- [fuzzyWordMatch()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L71) (4 connections)
+- [normalizeForMatching()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L29) (4 connections)
+- [findBestEndPosition()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L153) (3 connections)
+- [findBestStartPosition()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L125) (3 connections)
+- [alignSectionBoundaries()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L314) (2 connections)
+- [calculateGapScore()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L294) (2 connections)
+- [extractLyricsForTimeRange()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L427) (2 connections)
+- [levenshteinDistance()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts#L47) (2 connections)
 
 ## Relationships
 
@@ -21,12 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\sectionMatcher.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/sectionMatcher.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 40 (93%)
+- INFERRED: 3 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

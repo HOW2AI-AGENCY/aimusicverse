@@ -1,14 +1,16 @@
 # User Risk Management
 
-> 5 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L1) (4 connections)
-- [BASE_DESCRIPTION](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L19) (1 connections)
-- [BASE_TITLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L18) (1 connections)
-- [SEO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L112) (1 connections)
-- [SEOHead()](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L21) (1 connections)
+- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L1) (6 connections)
+- [isBottomSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L82) (1 connections)
+- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L77) (1 connections)
+- [Sheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L10) (1 connections)
+- [SheetClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L14) (1 connections)
+- [SheetPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L16) (1 connections)
+- [SheetTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

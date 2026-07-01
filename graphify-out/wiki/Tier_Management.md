@@ -1,16 +1,17 @@
 # Tier Management
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [useBasicQueries.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L1) (6 connections)
-- [useFeaturedContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L233) (1 connections)
-- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L109) (1 connections)
-- [usePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L145) (1 connections)
-- [usePublicProjects()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L73) (1 connections)
-- [usePublicTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L28) (1 connections)
-- [useSearchPublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L272) (1 connections)
+- [useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L1) (7 connections)
+- [cacheHits](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L50) (1 connections)
+- [cacheMisses](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L51) (1 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L40) (1 connections)
+- [formatCacheSize()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L280) (1 connections)
+- [globalCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L48) (1 connections)
+- [totalCacheSize](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L49) (1 connections)
+- [useAudioBufferCache()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L53) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\useBasicQueries.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

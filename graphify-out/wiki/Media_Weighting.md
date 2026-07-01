@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useMidiSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L1) (3 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L37) (1 connections)
-- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L14) (1 connections)
-- [useMidiSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L44) (1 connections)
+- [PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L1) (3 connections)
+- [{ minPitch, maxPitch, normalizedNotes, pitchRange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L28) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L25) (1 connections)
+- [octaveLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L63) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMidiSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx)
 
 ## Audit Trail
 

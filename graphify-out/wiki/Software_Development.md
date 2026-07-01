@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useStemStudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L1) (4 connections)
-- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L25) (1 connections)
-- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L17) (1 connections)
-- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L15) (1 connections)
-- [useStemStudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L58) (1 connections)
+- [vite.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L1) (4 connections)
+- [hasTerser](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L9) (1 connections)
+- [reactPriorityPlugin()](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L33) (1 connections)
+- [visualizer](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L7) (1 connections)
+- [viteCompression](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L8) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemStudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts)
+- [D:\.MUSICVERSE\aimusicverse\vite.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts)
 
 ## Audit Trail
 

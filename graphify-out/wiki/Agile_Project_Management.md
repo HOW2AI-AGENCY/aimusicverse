@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [usePublicContent.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicContent.ts#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicContent.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicContent.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/index.ts)
 
 ## Audit Trail
 

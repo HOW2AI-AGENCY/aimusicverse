@@ -1,15 +1,16 @@
 # Form Elements
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ShareActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L1) (5 connections)
-- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L27) (1 connections)
-- [showCopyLink](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L23) (1 connections)
-- [showPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L24) (1 connections)
-- [showProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L25) (1 connections)
-- [showTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L22) (1 connections)
+- [EnhancedMessages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L397) (1 connections)
+- [failCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L282) (1 connections)
+- [LyricsGeneratedMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L40) (1 connections)
+- [passCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L280) (1 connections)
+- [statusIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L284) (1 connections)
+- [warnCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L281) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\ShareActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\messages\EnhancedMessages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

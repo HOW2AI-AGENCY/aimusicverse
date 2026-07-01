@@ -1,14 +1,16 @@
 # User Interface Modes
 
-> 5 nodes · cohesion 0.50
+> 7 nodes · cohesion 0.43
 
 ## Key Concepts
 
-- [ForecastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx#L1) (4 connections)
-- [forecast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx#L68) (2 connections)
-- [linearRegression()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx#L46) (2 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx#L78) (1 connections)
-- [days](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx#L76) (1 connections)
+- [usePublicTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L1) (6 connections)
+- [usePublicTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L31) (4 connections)
+- [useNewTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L165) (2 connections)
+- [usePopularTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L172) (2 connections)
+- [useTrendingTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L179) (2 connections)
+- [useIncrementPlayCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L150) (1 connections)
+- [useToggleTrackLike()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L118) (1 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ForecastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

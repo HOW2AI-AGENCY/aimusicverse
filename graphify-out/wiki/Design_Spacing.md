@@ -1,19 +1,20 @@
 # Design Spacing
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L1) (9 connections)
-- [[activeFilters, setActiveFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L254) (1 connections)
-- [changeTypeFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L63) (1 connections)
-- [filteredVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L256) (1 connections)
-- [getChangeTypeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L74) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L346) (1 connections)
-- [{ open, onOpenChange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L347) (1 connections)
-- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L109) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L111) (1 connections)
-- [toggleFilter()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L261) (1 connections)
+- [PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L1) (10 connections)
+- [getDiscount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L50) (2 connections)
+- [bestValueId](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L39) (1 connections)
+- [creditsAmount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L72) (1 connections)
+- [discount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L71) (1 connections)
+- [getBestValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L20) (1 connections)
+- [getProductLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L42) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L69) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L70) (1 connections)
+- [priceRub](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L73) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L74) (1 connections)
 
 ## Relationships
 
@@ -21,12 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

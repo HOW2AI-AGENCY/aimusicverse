@@ -1,14 +1,15 @@
 # Statistical Analysis
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [lyricsPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L1) (4 connections)
-- [getLyricsPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L151) (1 connections)
-- [getLyricsPresetsByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L156) (1 connections)
-- [getQuickLyricsPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L161) (1 connections)
-- [LYRICS_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L26) (1 connections)
+- [typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L1) (5 connections)
+- [Display](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L127) (1 connections)
+- [Heading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L38) (1 connections)
+- [Prose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L161) (1 connections)
+- [Text](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L88) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L71) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\lyricsPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

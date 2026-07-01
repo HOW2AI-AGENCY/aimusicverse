@@ -1,16 +1,28 @@
 # Mobile Platform Development
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L1) (6 connections)
-- [buttonSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L23) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L74) (1 connections)
-- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L51) (1 connections)
-- [isGridSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L54) (1 connections)
-- [showOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L53) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L16) (1 connections)
+- [GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L1) (7 connections)
+- [canDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L67) (1 connections)
+- [[deleteDialogOpen, setDeleteDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L51) (1 connections)
+- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L97) (1 connections)
+- [handleDrag](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L93) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L70) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isMobile,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+    isOwnTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L53) (1 connections)
+- [[swipeOffset, setSwipeOffset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -18,11 +30,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

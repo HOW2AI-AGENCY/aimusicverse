@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [GitHub Best Practices Implementation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md) (0 connections)
+- [Storybook Banner Image](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md)
+- [assets/banner.jpg](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg)
 
 ## Audit Trail
 

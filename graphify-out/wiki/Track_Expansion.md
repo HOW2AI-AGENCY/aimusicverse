@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L1) (3 connections)
-- [studioProjectToDAWProject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L56) (2 connections)
-- [dawTrackToStudioTrackUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L68) (1 connections)
-- [studioTrackToDAWTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L40) (1 connections)
+- [GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L1) (3 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L29) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L30) (1 connections)
+- [isUpcoming](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\studio\typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

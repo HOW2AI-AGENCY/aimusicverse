@@ -1,13 +1,14 @@
 # Content Parsing
 
-> 4 nodes · cohesion 0.67
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L1) (3 connections)
-- [usePaymentHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L24) (2 connections)
-- [useRecentTransactions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L56) (2 connections)
-- [paymentHistoryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L10) (1 connections)
+- [ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L1) (4 connections)
+- [ANALYSIS_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L6) (1 connections)
+- [PRODUCER_REVIEW_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L164) (1 connections)
+- [SUNO_TAGS_REFERENCE](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L222) (1 connections)
+- [WRITING_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L101) (1 connections)
 
 ## Relationships
 
@@ -15,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts)
 
 ## Audit Trail
 

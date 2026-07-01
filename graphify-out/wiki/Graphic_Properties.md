@@ -1,17 +1,18 @@
 # Graphic Properties
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [OptimizedStemTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L1) (7 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L100) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L110) (1 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L41) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L30) (1 connections)
-- [StemControls](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L63) (1 connections)
-- [StemLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L51) (1 connections)
-- [waveformColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L102) (1 connections)
+- [LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L1) (9 connections)
+- [errorCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L45) (1 connections)
+- [getIssueIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L63) (1 connections)
+- [getScoreBg()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L56) (1 connections)
+- [getScoreColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L49) (1 connections)
+- [infoCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L47) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L24) (1 connections)
+- [validation](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L26) (1 connections)
+- [warningCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedStemTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 17 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

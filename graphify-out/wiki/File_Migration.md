@@ -1,22 +1,23 @@
 # File Migration
 
-> 13 nodes · cohesion 0.19
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [Onboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L1) (12 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L134) (4 connections)
-- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L157) (2 connections)
-- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L143) (2 connections)
-- [handleSkip()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L164) (2 connections)
-- [ONBOARDING_STEPS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/handlers/onboarding.ts#L27) (2 connections)
-- [[currentStep, setCurrentStep]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L136) (1 connections)
-- [handlePrev()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L152) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L135) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L141) (1 connections)
-- [isFirst](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L139) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L140) (1 connections)
-- [step](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx#L138) (1 connections)
+- [browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L1) (13 connections)
+- [apis](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L18) (1 connections)
+- [audioSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L172) (1 connections)
+- [dimensions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L264) (1 connections)
+- [dynamicImport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L125) (1 connections)
+- [es6Support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L75) (1 connections)
+- [fetchTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L227) (1 connections)
+- [imageSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L152) (1 connections)
+- [mediaQuerySupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L280) (1 connections)
+- [perf](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L313) (1 connections)
+- [perfSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L296) (1 connections)
+- [report](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L339) (1 connections)
+- [storageTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L190) (1 connections)
+- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L255) (1 connections)
 
 ## Relationships
 
@@ -24,12 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Onboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Onboarding.tsx)
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\handlers\onboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/handlers/onboarding.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 31 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

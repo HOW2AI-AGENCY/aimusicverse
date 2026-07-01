@@ -1,13 +1,14 @@
 # Change Log
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L1) (3 connections)
-- [is4K](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L55) (1 connections)
-- [isUltraWide](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L54) (1 connections)
-- [maxWidthClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L29) (1 connections)
+- [ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L1) (4 connections)
+- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L38) (1 connections)
+- [hasMetadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L37) (1 connections)
+- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L36) (1 connections)
+- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,16 +1,18 @@
 # Musical Notes
 
-> 7 nodes · cohesion 0.29
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L1) (6 connections)
-- [availableModes](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L39) (1 connections)
-- [cfg](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L53) (1 connections)
-- [currentMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L74) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L82) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L54) (1 connections)
-- [modeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L21) (1 connections)
+- [useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L1) (8 connections)
+- [defaultProps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L19) (1 connections)
+- [largeTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L260) (1 connections)
+- [lineIndex](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L189) (1 connections)
+- [mockTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L11) (1 connections)
+- [onActiveLineChange](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L205) (1 connections)
+- [{ rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L207) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L32) (1 connections)
+- [seekTime](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L169) (1 connections)
 
 ## Relationships
 
@@ -18,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\lyrics\useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

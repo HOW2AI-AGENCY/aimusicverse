@@ -1,10 +1,11 @@
 # Credit Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [babel.config.js](file:///D:/.MUSICVERSE/aimusicverse/babel.config.js#L1) (0 connections)
+- [MobileStudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx#L1) (1 connections)
+- [MobileStudioPlayerBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\babel.config.js](file:///D:/.MUSICVERSE/aimusicverse/babel.config.js)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileStudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

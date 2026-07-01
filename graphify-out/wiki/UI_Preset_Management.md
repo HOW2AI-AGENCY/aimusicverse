@@ -1,14 +1,15 @@
 # UI Preset Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L1) (4 connections)
-- [aWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L31) (1 connections)
-- [bWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L32) (1 connections)
-- [genreA](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L34) (1 connections)
-- [genreB](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L35) (1 connections)
+- [SpecialChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L1) (5 connections)
+- [challenges](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L79) (1 connections)
+- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L31) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L172) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L173) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\SpecialChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

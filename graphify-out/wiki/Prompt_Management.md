@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelegramFullscreen.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L27) (1 connections)
-- [useTelegramFullscreen()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L41) (1 connections)
+- [ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L1) (2 connections)
+- [isDevEnvironment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L15) (1 connections)
+- [ProtectedRoute](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramFullscreen.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx)
 
 ## Audit Trail
 

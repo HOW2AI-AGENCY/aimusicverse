@@ -1,27 +1,28 @@
 # UI Framework
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [Comprehensive Audit - Russian Language](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (5 connections)
-- [Deep Commands System](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
-- [Rich Notifications (10+ types)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
-- [TelegramBridge Service](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
-- [Voice-to-Music Pipeline](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
-- [Telegram Integration Enhancement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
+- [TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L1) (6 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L56) (1 connections)
+- [handleOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L50) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L47) (1 connections)
+- [[sheetOpen, setSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L48) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L60) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L65) (1 connections)
 
 ## Relationships
 
-- [[Version Management]] (10 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

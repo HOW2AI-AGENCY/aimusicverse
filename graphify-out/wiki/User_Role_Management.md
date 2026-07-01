@@ -1,10 +1,11 @@
 # User Role Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [postcss.config.js](file:///D:/.MUSICVERSE/aimusicverse/postcss.config.js#L1) (0 connections)
+- [StudioPresetsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPresetsSheet.tsx#L1) (1 connections)
+- [StudioPresetsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPresetsSheet.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\postcss.config.js](file:///D:/.MUSICVERSE/aimusicverse/postcss.config.js)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioPresetsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPresetsSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

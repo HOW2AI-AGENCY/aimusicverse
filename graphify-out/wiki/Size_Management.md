@@ -1,11 +1,12 @@
 # Size Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ProfileStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx#L1) (1 connections)
-- [ProfileStats()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx#L14) (1 connections)
+- [Terms.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L1) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L12) (1 connections)
+- [{ showBackButton, hideBackButton, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Terms.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

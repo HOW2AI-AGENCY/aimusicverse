@@ -1,21 +1,22 @@
 # Button Variants
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [MobileBottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L1) (11 connections)
-- [backdropOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L46) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L124) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L42) (1 connections)
-- [currentHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L48) (1 connections)
-- [[currentSnap, setCurrentSnap]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L43) (1 connections)
-- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L26) (1 connections)
-- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L84) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L50) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L41) (1 connections)
-- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L27) (1 connections)
-- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L45) (1 connections)
+- [QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L1) (12 connections)
+- [handleActionClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L107) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L101) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L147) (1 connections)
+- [displayActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L105) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L102) (1 connections)
+- [hasProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L136) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L134) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L103) (1 connections)
+- [professionalActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L34) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L89) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L135) (1 connections)
+- [statusIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -23,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileBottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

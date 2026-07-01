@@ -1,14 +1,16 @@
 # UI Toggle
 
-> 5 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [LyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L1) (4 connections)
-- [parse()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L30) (1 connections)
-- [SECTION_META](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L18) (1 connections)
-- [sections](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L67) (1 connections)
-- [totalLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L68) (1 connections)
+- [NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L1) (6 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L19) (1 connections)
+- [Dot](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L21) (1 connections)
+- [Labels](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L45) (1 connections)
+- [MaxCount](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L25) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L5) (1 connections)
+- [StatusIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\LyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

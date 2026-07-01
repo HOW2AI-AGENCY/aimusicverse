@@ -1,11 +1,12 @@
 # Audio Playback
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx#L1) (1 connections)
-- [KeyboardShortcutsDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx#L19) (1 connections)
+- [telegram.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L1) (2 connections)
+- [getTelegramHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L259) (2 connections)
+- [getTelegramWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L251) (2 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\types\telegram.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

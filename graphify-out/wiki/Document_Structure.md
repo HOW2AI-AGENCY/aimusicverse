@@ -1,10 +1,11 @@
 # Document Structure
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [vitest.shims.d.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.shims.d.ts#L1) (0 connections)
+- [NoteTypeBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteTypeBadge.tsx#L1) (1 connections)
+- [NoteTypeBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteTypeBadge.tsx#L11) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\vitest.shims.d.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.shims.d.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\SectionNotesPanel\NoteTypeBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteTypeBadge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,11 +1,12 @@
 # Last Element Retrieval
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L1) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L23) (1 connections)
+- [queryKeys.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L1) (2 connections)
+- [createKeys()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L20) (1 connections)
+- [queryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L30) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\queryKeys.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

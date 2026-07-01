@@ -1,14 +1,15 @@
 # Channel Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [PresetBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L1) (4 connections)
-- [[activeCategory, setActiveCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L15) (1 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L27) (1 connections)
-- [filteredPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L17) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L14) (1 connections)
+- [AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L1) (5 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L110) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L72) (1 connections)
+- [groupedHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L78) (1 connections)
+- [mockHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L37) (1 connections)
+- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L205) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\PresetBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

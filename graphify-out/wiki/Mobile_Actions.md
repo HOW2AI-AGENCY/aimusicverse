@@ -1,10 +1,11 @@
 # Mobile Actions
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/index.ts#L1) (0 connections)
+- [useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L1) (1 connections)
+- [useSwipeActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L34) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,16 +1,17 @@
 # Dropdown Menu
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L1) (6 connections)
-- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L24) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L18) (1 connections)
-- [observer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L37) (1 connections)
-- [[overflow, setOverflow]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L21) (1 connections)
-- [[shouldAnimate, setShouldAnimate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L20) (1 connections)
-- [textRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L19) (1 connections)
+- [HelpCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L1) (7 connections)
+- [[expandedFaq, setExpandedFaq]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L138) (1 connections)
+- [faqItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L45) (1 connections)
+- [filteredFaq](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L140) (1 connections)
+- [helpTopics](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L88) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L298) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L136) (1 connections)
+- [[selectedTopic, setSelectedTopic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L137) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\help\HelpCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

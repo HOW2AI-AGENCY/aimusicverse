@@ -1,17 +1,18 @@
 # Tutorial Management
 
-> 8 nodes · cohesion 0.36
+> 9 nodes · cohesion 0.31
 
 ## Key Concepts
 
-- [response-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L1) (8 connections)
-- [errorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L55) (4 connections)
-- [authErrorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L88) (2 connections)
-- [notFoundResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L98) (2 connections)
-- [validationErrorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L78) (2 connections)
-- [corsHeaders](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L8) (1 connections)
-- [optionsResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L105) (1 connections)
-- [successResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L33) (1 connections)
+- [chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L1) (8 connections)
+- [getChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L142) (3 connections)
+- [getAllChords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L157) (2 connections)
+- [getChordsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L164) (2 connections)
+- [hasChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L150) (2 connections)
+- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L120) (2 connections)
+- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L13) (1 connections)
+- [FINGER_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L102) (1 connections)
+- [STRING_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L111) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\response-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,13 @@
 # Channel Settings
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L1) (2 connections)
-- [mapStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L49) (1 connections)
-- [useSystemHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L60) (1 connections)
+- [type-guards.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L1) (3 connections)
+- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L20) (1 connections)
+- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L8) (1 connections)
+- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\type-guards.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

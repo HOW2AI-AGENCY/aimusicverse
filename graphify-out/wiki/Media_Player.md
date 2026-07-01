@@ -1,14 +1,15 @@
 # Media Player
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [ModelBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ModelBadge.tsx#L1) (4 connections)
-- [getModelDisplayInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ModelBadge.tsx#L104) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ModelBadge.tsx#L151) (1 connections)
-- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ModelBadge.tsx#L147) (1 connections)
-- [MODEL_DISPLAY](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ModelBadge.tsx#L14) (1 connections)
+- [AnomalyDetectionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L1) (5 connections)
+- [{ anomalies, criticalCount, warningCount, hasAnomalies, hasCritical }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L107) (1 connections)
+- [AnomalyCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L65) (1 connections)
+- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L106) (1 connections)
+- [severityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L25) (1 connections)
+- [typeIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\ModelBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ModelBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AnomalyDetectionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

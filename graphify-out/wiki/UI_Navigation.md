@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StarsPaymentButton.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L1) (2 connections)
-- [button](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L20) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L17) (1 connections)
+- [CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L1) (2 connections)
+- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L17) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\StarsPaymentButton.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\loading\CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx)
 
 ## Audit Trail
 

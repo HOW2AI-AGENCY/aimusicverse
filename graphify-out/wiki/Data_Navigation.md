@@ -1,25 +1,26 @@
 # Data Navigation
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [MidiPlayerCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L1) (15 connections)
-- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L47) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L111) (1 connections)
-- [handleTogglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L94) (1 connections)
-- [hasNotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L148) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L64) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L38) (1 connections)
-- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L46) (1 connections)
-- [{ isReady, isMuted, volume, playNote, stopAll, setVolume, setMuted, initialize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L40) (1 connections)
-- [{ parseMidiFromUrl, parsedMidi, isLoading: isParsing, error: parseError }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L39) (1 connections)
-- [percent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L232) (1 connections)
-- [[playbackInterval, setPlaybackInterval]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L48) (1 connections)
-- [[playedNotes, setPlayedNotes]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L49) (1 connections)
-- [rect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L231) (1 connections)
-- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L62) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L43) (1 connections)
+- [OptimizedTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L1) (16 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L225) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L165) (1 connections)
+- [ControlButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L115) (1 connections)
+- [effectiveMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L170) (1 connections)
+- [handleOpenMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L176) (1 connections)
+- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L173) (1 connections)
+- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L174) (1 connections)
+- [handleToggleVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L177) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L175) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L166) (1 connections)
+- [isBusy](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L171) (1 connections)
+- [[showVolume, setShowVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L163) (1 connections)
+- [STATUS_META](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L79) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L168) (1 connections)
+- [statusMeta](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L167) (1 connections)
+- [TRACK_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -27,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\MidiPlayerCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

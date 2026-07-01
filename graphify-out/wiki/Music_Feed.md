@@ -1,14 +1,15 @@
 # Music Feed
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L1) (4 connections)
-- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L30) (1 connections)
-- [handleClear()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L41) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L45) (1 connections)
-- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L28) (1 connections)
+- [BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L1) (5 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L38) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L35) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L147) (1 connections)
+- [getReadingTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L22) (1 connections)
+- [readingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

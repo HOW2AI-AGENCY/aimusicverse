@@ -1,10 +1,11 @@
 # Reference Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/types.ts#L1) (0 connections)
+- [useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L1) (1 connections)
+- [useOptimisticVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

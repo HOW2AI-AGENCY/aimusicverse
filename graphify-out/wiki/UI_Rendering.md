@@ -1,11 +1,12 @@
 # UI Rendering
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [SubscriptionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionCard.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionCard.tsx#L79) (1 connections)
+- [haptics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/haptics.ts#L1) (2 connections)
+- [getHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/haptics.ts#L12) (1 connections)
+- [haptics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/haptics.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\SubscriptionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\haptics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/haptics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

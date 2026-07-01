@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L18) (1 connections)
-- [useTelegramOrientationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L40) (1 connections)
+- [StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L1) (2 connections)
+- [StatCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L17) (1 connections)
+- [StatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx)
 
 ## Audit Trail
 

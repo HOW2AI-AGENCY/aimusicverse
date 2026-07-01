@@ -1,10 +1,11 @@
 # Feature Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/index.ts#L1) (0 connections)
+- [TrackStatsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx#L1) (1 connections)
+- [TrackStatsGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackStatsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

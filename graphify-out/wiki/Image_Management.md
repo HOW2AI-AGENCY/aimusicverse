@@ -1,19 +1,20 @@
 # Image Management
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L1) (9 connections)
-- [hasAnyIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L40) (1 connections)
-- [hasModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L38) (1 connections)
-- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L29) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L25) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L47) (1 connections)
-- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L32) (1 connections)
-- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L34) (1 connections)
-- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L27) (1 connections)
-- [model](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L37) (1 connections)
+- [OnboardingFlow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L1) (10 connections)
+- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L35) (1 connections)
+- [handleStartGeneration](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L40) (1 connections)
+- [handleStartListening](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L46) (1 connections)
+- [handleStartTour](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L52) (1 connections)
+- [{ isActive, completeOnboarding }](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L21) (1 connections)
+- [QuickStartOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L6) (1 connections)
+- [{ shouldShowQuickStart }](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L20) (1 connections)
+- [[stage, dispatch]](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L23) (1 connections)
+- [TelegramOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L10) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingFlow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingFlow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,17 +4,16 @@
 
 ## Key Concepts
 
-- [Telegram Mini App Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md) (1 connections)
-- [Z-Index Layering System](file:///D:/.MUSICVERSE/aimusicverse/docs/Z_INDEX_HIERARCHY.md) (1 connections)
+- [LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L1) (1 connections)
+- [LyricsAutoScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L24) (1 connections)
 
 ## Relationships
 
-- [[Music Metadata]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md)
-- [docs/Z_INDEX_HIERARCHY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/Z_INDEX_HIERARCHY.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx)
 
 ## Audit Trail
 

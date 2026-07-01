@@ -1,15 +1,16 @@
 # Music Editing
 
-> 6 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [PaymentHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L1) (5 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L119) (2 connections)
-- [getProductIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L80) (2 connections)
-- [formatProductName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L88) (1 connections)
-- [PaymentHistoryItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L99) (1 connections)
-- [STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L18) (1 connections)
+- [HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L101) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L145) (1 connections)
+- [handleCreate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L27) (1 connections)
+- [handleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L32) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L24) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -17,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx)
 
 ## Audit Trail
 

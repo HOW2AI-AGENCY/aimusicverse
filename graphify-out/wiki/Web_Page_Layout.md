@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useTelegramSettingsButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts#L1) (1 connections)
-- [useTelegramSettingsButton()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts#L35) (1 connections)
+- [DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L1) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSettingsButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx)
 
 ## Audit Trail
 

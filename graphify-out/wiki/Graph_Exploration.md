@@ -1,25 +1,26 @@
 # Graph Exploration
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L1) (15 connections)
-- [canonical](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L40) (1 connections)
-- [checks](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L26) (1 connections)
-- [DIST](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L10) (1 connections)
-- [errors](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L12) (1 connections)
-- [fail()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L15) (1 connections)
-- [html](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L25) (1 connections)
-- [indexPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L18) (1 connections)
-- [ogUrl](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L42) (1 connections)
-- [PUBLIC](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L11) (1 connections)
-- [robots](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L57) (1 connections)
-- [sitemap](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L49) (1 connections)
-- [txt](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L60) (1 connections)
-- [warn](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L13) (1 connections)
-- [warnMsg()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L16) (1 connections)
-- [xml](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L52) (1 connections)
+- [EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L1) (17 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L101) (2 connections)
+- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L57) (1 connections)
+- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L64) (1 connections)
+- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L36) (1 connections)
+- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L30) (1 connections)
+- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L32) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L40) (1 connections)
+- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L37) (1 connections)
+- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L33) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L29) (1 connections)
+- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L34) (1 connections)
+- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L35) (1 connections)
+- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L38) (1 connections)
+- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L31) (1 connections)
+- [{ updateArtist, isUpdating, deleteArtist, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L27) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -27,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 33 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [FloatingMainButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingMainButton.tsx#L1) (1 connections)
-- [FloatingMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingMainButton.tsx#L25) (1 connections)
+- [isAssistant](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L15) (1 connections)
+- [ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FloatingMainButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingMainButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx)
 
 ## Audit Trail
 

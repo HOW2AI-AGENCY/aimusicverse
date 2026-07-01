@@ -1,14 +1,15 @@
 # Filtering System
 
-> 5 nodes · cohesion 0.50
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [AdminQuickAccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L1) (4 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L31) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L22) (2 connections)
-- [{ data: adminAuth, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L24) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L23) (1 connections)
+- [accessibility-audit.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L1) (6 connections)
+- [{ AxePuppeteer }](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L8) (1 connections)
+- [fs](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L10) (1 connections)
+- [pages](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L13) (1 connections)
+- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L11) (1 connections)
+- [puppeteer](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L9) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\AdminQuickAccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\accessibility-audit.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 11 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

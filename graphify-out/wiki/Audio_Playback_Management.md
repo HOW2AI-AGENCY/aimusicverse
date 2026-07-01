@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [StemMidiDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L1) (31 connections)
-- [[activeMidiUrl, setActiveMidiUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L100) (1 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L99) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L151) (1 connections)
-- [files](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L159) (1 connections)
-- [handleDownloadMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L290) (1 connections)
-- [handleExportMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L300) (1 connections)
-- [handlePlayMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L294) (1 connections)
-- [handleTranscribe](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L211) (1 connections)
-- [hasFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L341) (1 connections)
-- [hasMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L136) (1 connections)
-- [hasNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L342) (1 connections)
-- [[isExportingMidi, setIsExportingMidi]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L103) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L97) (1 connections)
-- [isRecommended](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L423) (1 connections)
-- [latestMidiUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L340) (1 connections)
-- [{ latestTranscription, hasTranscription, isLoading: isLoadingTranscription }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L107) (1 connections)
-- [midiNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L122) (1 connections)
-- [model](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L422) (1 connections)
-- [modelIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L61) (1 connections)
-- [modelSupportsTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L424) (1 connections)
-- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L114) (1 connections)
-- [[pianoRollNotes, setPianoRollNotes]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L102) (1 connections)
-- [{ saveTranscription, isSaving }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L109) (1 connections)
-- [SELECTABLE_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx#L76) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L1) (22 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L1) (7 connections)
+- [Calendar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/calendar.tsx#L10) (2 connections)
+- [buttonVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L389) (2 connections)
+- [TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L158) (2 connections)
+- [AI_TOOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L37) (1 connections)
+- [badgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L395) (1 connections)
+- [DYNAMIC_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L338) (1 connections)
+- [EMOTIONAL_CUES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L350) (1 connections)
+- [formatCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L440) (1 connections)
+- [GENRE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L233) (1 connections)
+- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L15) (1 connections)
+- [getGenreByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L404) (1 connections)
+- [getMoodByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L408) (1 connections)
+- [getSectionTypeByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L416) (1 connections)
+- [getStructureByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L412) (1 connections)
+- [getTagDefinition()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L420) (1 connections)
+- [getTagsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L424) (1 connections)
+- [messageVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L378) (1 connections)
+- [MOOD_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L222) (1 connections)
+- [MOODS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L40) (1 connections)
+- [PROMPT_BUILDERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L255) (1 connections)
+- [RHYME_SCHEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L273) (1 connections)
+- [SECTION_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L211) (1 connections)
+- [SECTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L132) (1 connections)
 - *... and 7 more nodes in this community*
 
 ## Relationships
@@ -37,12 +37,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemMidiDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemMidiDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\calendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/calendar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 62 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 60 (97%)
+- INFERRED: 2 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

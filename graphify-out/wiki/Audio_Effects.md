@@ -1,14 +1,15 @@
 # Audio Effects
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [CreditPackageCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L1) (4 connections)
-- [description](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L33) (1 connections)
-- [name](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L28) (1 connections)
-- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L39) (1 connections)
-- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L38) (1 connections)
+- [FirstCommentCTA.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L1) (5 connections)
+- [DISMISSED_CTAS_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L28) (1 connections)
+- [FirstCommentCTA](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L80) (1 connections)
+- [useCommentCTA()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L313) (1 connections)
+- [useHasCommented()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L33) (1 connections)
+- [useIsDismissed()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\CreditPackageCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\FirstCommentCTA.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

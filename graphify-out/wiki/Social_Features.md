@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [TelegramContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TelegramContext.tsx#L1) (0 connections)
+- [SectionLabel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionLabel.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\TelegramContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TelegramContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SectionLabel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionLabel.tsx)
 
 ## Audit Trail
 

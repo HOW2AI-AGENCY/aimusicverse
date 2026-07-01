@@ -1,33 +1,32 @@
 # Lyrics Formatting
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [Telegram Mini Apps 2.0](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_FEATURES.md) (4 connections)
-- [Telegram Mini App Advanced Features](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md) (4 connections)
-- [Device Sensors API](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md) (2 connections)
-- [Biometric Authentication](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
-- [Fullscreen Mode API](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md) (1 connections)
-- [QR Scanner for Collaboration](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
-- [SecureStorage Encrypted Storage](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md) (1 connections)
-- [ShareToStory Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
-- [Sprint 2 - Mini App Advanced](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
+- [AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L1) (9 connections)
+- [handleTabChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L75) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L63) (2 connections)
+- [activeTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L69) (1 connections)
+- [CurrentTabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L96) (1 connections)
+- [{ data: auth, isLoading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L66) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L65) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L64) (1 connections)
+- [TAB_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L41) (1 connections)
+- [TabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L130) (1 connections)
 
 ## Relationships
 
-- [[Image Handling]] (16 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md)
-- [docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md)
-- [docs/TELEGRAM_MINI_APP_FEATURES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_FEATURES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (62%)
-- INFERRED: 6 (38%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

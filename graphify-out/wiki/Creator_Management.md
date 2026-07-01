@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L1) (10 connections)
-- [compact](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L59) (1 connections)
-- [compactBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L73) (1 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L66) (1 connections)
-- [last](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L71) (1 connections)
-- [lastBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L72) (1 connections)
-- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L53) (1 connections)
-- [mountCompact()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L21) (1 connections)
-- [SAMPLE_TRACK](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L10) (1 connections)
-- [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L65) (1 connections)
-- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L36) (1 connections)
+- [AlertHistoryPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L1) (11 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L114) (1 connections)
+- [{ data: alerts, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L30) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L31) (1 connections)
+- [isResolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L117) (1 connections)
+- [[resolutionNote, setResolutionNote]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L35) (1 connections)
+- [resolveAlert](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L32) (1 connections)
+- [[resolveDialogOpen, setResolveDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L33) (1 connections)
+- [[selectedAlertId, setSelectedAlertId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L34) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L23) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L116) (1 connections)
 
 ## Relationships
 
@@ -22,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AlertHistoryPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 21 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

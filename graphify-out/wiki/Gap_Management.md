@@ -1,10 +1,11 @@
 # Gap Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [UnifiedScreenLayout.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/UnifiedScreenLayout.contract.ts#L1) (0 connections)
+- [TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L1) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\001-unified-interface\contracts\UnifiedScreenLayout.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/UnifiedScreenLayout.contract.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

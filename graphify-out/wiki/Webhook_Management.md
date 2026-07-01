@@ -1,13 +1,14 @@
 # Webhook Management
 
-> 4 nodes · cohesion 0.67
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L1) (3 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L44) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L19) (2 connections)
-- [{ data: parentTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L21) (1 connections)
+- [TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L1) (4 connections)
+- [TrackListContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L16) (1 connections)
+- [TrackListProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L27) (1 connections)
+- [useTrackInList()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L51) (1 connections)
+- [useTrackListContext()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -15,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx)
 
 ## Audit Trail
 

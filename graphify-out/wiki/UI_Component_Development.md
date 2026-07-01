@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/index.ts#L1) (0 connections)
+- [ChatMessageList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageList.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatMessageList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageList.tsx)
 
 ## Audit Trail
 

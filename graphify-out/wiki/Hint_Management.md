@@ -1,13 +1,14 @@
 # Hint Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L1) (3 connections)
-- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L22) (1 connections)
-- [useBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L42) (1 connections)
-- [useUpdateBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L66) (1 connections)
+- [preferences.schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L1) (4 connections)
+- [DEFAULT_GESTURE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L26) (1 connections)
+- [DEFAULT_USER_PREFERENCES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L27) (1 connections)
+- [GestureConfigSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L3) (1 connections)
+- [UserPreferencesSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\schemas\preferences.schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

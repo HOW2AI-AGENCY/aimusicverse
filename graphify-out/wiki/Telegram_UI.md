@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L1) (2 connections)
-- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L41) (1 connections)
-- [useTransportSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L48) (1 connections)
+- [fix-library-test.js](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L1) (2 connections)
+- [content](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L2) (1 connections)
+- [fs](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L1) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts)
+- [D:\.MUSICVERSE\aimusicverse\fix-library-test.js](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js)
 
 ## Audit Trail
 

@@ -1,11 +1,12 @@
 # Product Information
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [YouStrip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/YouStrip.tsx#L1) (1 connections)
-- [GamificationBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/YouStrip.tsx#L12) (1 connections)
+- [useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L7) (1 connections)
+- [useGuitarRecordings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L41) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\YouStrip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/YouStrip.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,13 +1,14 @@
 # User Input Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L1) (3 connections)
-- [FeaturedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L49) (1 connections)
-- [SKELETON_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L34) (1 connections)
-- [TrackSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L37) (1 connections)
+- [CompactPlayerButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L1) (4 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L182) (1 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L51) (1 connections)
+- [ROUND](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L32) (1 connections)
+- [TOUCH](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\CompactPlayerButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [ContextHelp.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ContextHelp.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\workflows\ContextHelp.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ContextHelp.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/index.ts)
 
 ## Audit Trail
 

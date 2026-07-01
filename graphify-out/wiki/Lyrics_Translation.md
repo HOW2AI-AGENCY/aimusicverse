@@ -1,14 +1,16 @@
 # Lyrics Translation
 
-> 5 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L1) (4 connections)
-- [getHintsByContext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L210) (1 connections)
-- [HINT_ALIASES](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L193) (1 connections)
-- [HINT_REGISTRY](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L23) (1 connections)
-- [resolveHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L203) (1 connections)
+- [useWaveformCache.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L1) (6 connections)
+- [before](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L97) (1 connections)
+- [entry](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L29) (1 connections)
+- [entryA](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L83) (1 connections)
+- [entryB](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L84) (1 connections)
+- [peaks](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L23) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -16,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\studio\useWaveformCache.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

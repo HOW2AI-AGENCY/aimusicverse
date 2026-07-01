@@ -4,22 +4,22 @@
 
 ## Key Concepts
 
-- [Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L1) (15 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L42) (1 connections)
-- [initialTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L41) (1 connections)
-- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L33) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L34) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L35) (1 connections)
-- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L37) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L36) (1 connections)
-- [selectedProject](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L47) (1 connections)
-- [[selectedProjectId, setSelectedProjectId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L45) (1 connections)
-- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L58) (1 connections)
-- [statusLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L17) (1 connections)
-- [tab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L51) (1 connections)
-- [typeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L25) (1 connections)
-- [urlTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L40) (1 connections)
-- [VALID_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L15) (1 connections)
+- [seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L1) (15 connections)
+- [canonical](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L40) (1 connections)
+- [checks](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L26) (1 connections)
+- [DIST](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L10) (1 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L12) (1 connections)
+- [fail()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L15) (1 connections)
+- [html](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L25) (1 connections)
+- [indexPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L18) (1 connections)
+- [ogUrl](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L42) (1 connections)
+- [PUBLIC](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L11) (1 connections)
+- [robots](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L57) (1 connections)
+- [sitemap](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L49) (1 connections)
+- [txt](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L60) (1 connections)
+- [warn](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L13) (1 connections)
+- [warnMsg()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L16) (1 connections)
+- [xml](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L52) (1 connections)
 
 ## Relationships
 
@@ -27,7 +27,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs)
 
 ## Audit Trail
 

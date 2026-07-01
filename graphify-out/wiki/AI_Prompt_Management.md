@@ -1,24 +1,25 @@
 # AI Prompt Management
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L1) (14 connections)
-- [baseFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L214) (1 connections)
-- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L10) (1 connections)
-- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L184) (1 connections)
-- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L194) (1 connections)
-- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L213) (1 connections)
-- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L212) (1 connections)
-- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L139) (1 connections)
-- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L183) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L186) (1 connections)
-- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L195) (1 connections)
-- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L196) (1 connections)
-- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L193) (1 connections)
-- [{ width, height, fontSize, dotSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L192) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L273) (1 connections)
+- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L1) (15 connections)
+- [getSectionTypeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L36) (2 connections)
+- [renderSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L114) (2 connections)
+- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/services/studio.service.ts#L58) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L92) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L335) (1 connections)
+- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L91) (1 connections)
+- [hasNoTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L101) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L257) (1 connections)
+- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L256) (1 connections)
+- [parsed](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L95) (1 connections)
+- [proAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L98) (1 connections)
+- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L139) (1 connections)
+- [TAG_TYPE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L24) (1 connections)
+- [TAG_TYPE_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L41) (1 connections)
+- [tagType](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L255) (1 connections)
 
 ## Relationships
 
@@ -26,12 +27,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\studio.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/studio.service.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 30 (91%)
+- INFERRED: 3 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

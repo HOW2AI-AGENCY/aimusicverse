@@ -1,11 +1,12 @@
 # UI Components
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L1) (1 connections)
-- [LyricsAutoScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L24) (1 connections)
+- [setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L1) (2 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L134) (1 connections)
+- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L135) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

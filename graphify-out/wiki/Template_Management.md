@@ -1,11 +1,12 @@
 # Template Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [onboardingSteps.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts#L1) (1 connections)
-- [ONBOARDING_STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts#L20) (1 connections)
+- [useTelegramFullscreen.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L27) (1 connections)
+- [useTelegramFullscreen()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L41) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\onboardingSteps.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramFullscreen.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,13 @@
 # Z-Index Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L1) (2 connections)
-- [getAudioWeightDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L22) (1 connections)
-- [getAudioWeightLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L13) (1 connections)
+- [ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L1) (3 connections)
+- [displayBio](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L20) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L13) (1 connections)
+- [shouldTruncate](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,13 @@
 # Modal State Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TrackTechnicalSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L1) (2 connections)
-- [formatModelName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L14) (1 connections)
-- [TechInfoItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L32) (1 connections)
+- [useAudioAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L1) (3 connections)
+- [analysisLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L6) (1 connections)
+- [useAnalyzeAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L53) (1 connections)
+- [useAudioAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackTechnicalSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,43 +1,33 @@
 # Web Accessibility
 
-> 25 nodes · cohesion 0.08
+> 24 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [UnifiedTrackSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L1) (25 connections)
-- [{
-    actionState,
-    isProcessing,
-    dialogs,
-    closeDialog,
-    executeAction,
-    handleConfirmDelete,
-    stems,
-    enableVideoStatusFetch,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L64) (1 connections)
-- [hasHdAudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L129) (1 connections)
-- [isUpscaling](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L130) (1 connections)
-- [showAddInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L112) (1 connections)
-- [showAddVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L111) (1 connections)
-- [showCopyLink](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L121) (1 connections)
-- [showCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L108) (1 connections)
-- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L124) (1 connections)
-- [showDownloadStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L119) (1 connections)
-- [showExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L109) (1 connections)
-- [showGenerateCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L107) (1 connections)
-- [showMp3](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L117) (1 connections)
-- [showPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L122) (1 connections)
-- [showProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L123) (1 connections)
-- [showRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L110) (1 connections)
-- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L114) (1 connections)
-- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L116) (1 connections)
-- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L115) (1 connections)
-- [showStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L113) (1 connections)
-- [showTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L120) (1 connections)
-- [showTogglePublic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L125) (1 connections)
-- [showUpscaleHd](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L126) (1 connections)
-- [showWav](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L118) (1 connections)
-- [[trackStatus, setTrackStatus]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L62) (1 connections)
+- [DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L1) (23 connections)
+- [handleProjectSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L86) (2 connections)
+- [{ activeReference }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L60) (1 connections)
+- [[advancedOpen, setAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L71) (1 connections)
+- [[artistDialogOpen, setArtistDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L64) (1 connections)
+- [{ artists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L58) (1 connections)
+- [[audioActionDialogOpen, setAudioActionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L65) (1 connections)
+- [chordInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L331) (1 connections)
+- [form](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L76) (1 connections)
+- [FormSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L42) (1 connections)
+- [GenerateFormCustom](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L37) (1 connections)
+- [GenerateFormSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L34) (1 connections)
+- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L99) (1 connections)
+- [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L67) (1 connections)
+- [[lyricsAssistantOpen, setLyricsAssistantOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L68) (1 connections)
+- [[projectDialogOpen, setProjectDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L63) (1 connections)
+- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L57) (1 connections)
+- [projectTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L84) (1 connections)
+- [[projectTrackStep, setProjectTrackStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L70) (1 connections)
+- [qc](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L72) (1 connections)
+- [[stylesOpen, setStylesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L69) (1 connections)
+- [{ tracks: allTracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L59) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L73) (1 connections)
+- [[voiceCloneOpen, setVoiceCloneOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L66) (1 connections)
 
 ## Relationships
 
@@ -45,12 +35,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\UnifiedTrackSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 49 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 46 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,18 +1,19 @@
 # Reward Calculation
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [WizardProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L1) (8 connections)
-- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L33) (1 connections)
-- [DEFAULT_STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L14) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L41) (1 connections)
-- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L40) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L38) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L39) (1 connections)
-- [stepsConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L32) (1 connections)
-- [TWO_STEP_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L21) (1 connections)
+- [LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L1) (9 connections)
+- [[activeFilters, setActiveFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L254) (1 connections)
+- [changeTypeFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L63) (1 connections)
+- [filteredVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L256) (1 connections)
+- [getChangeTypeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L74) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L346) (1 connections)
+- [{ open, onOpenChange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L347) (1 connections)
+- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L109) (1 connections)
+- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L111) (1 connections)
+- [toggleFilter()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L261) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\WizardProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

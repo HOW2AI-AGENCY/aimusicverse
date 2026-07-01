@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [UnifiedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx#L1) (1 connections)
-- [UnifiedTrackCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx#L28) (1 connections)
+- [WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L1) (1 connections)
+- [WebVitalsReporter](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\UnifiedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx)
 
 ## Audit Trail
 

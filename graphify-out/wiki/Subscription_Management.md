@@ -1,11 +1,12 @@
 # Subscription Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ActorCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L14) (1 connections)
-- [ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L1) (1 connections)
+- [ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L1) (2 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L19) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\actors\ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

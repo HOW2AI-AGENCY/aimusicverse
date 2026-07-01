@@ -4,43 +4,31 @@
 
 ## Key Concepts
 
-- [SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L1) (24 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L333) (1 connections)
-- [{
-    data: notes,
-    isLoading,
-    error,
-    createNote,
-    updateNote,
-    deleteNote,
-    resolveNote,
-    isCreating,
-    isUpdating,
-    isDeleting,
-    isResolving,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L406) (1 connections)
-- [[editContent, setEditContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L190) (1 connections)
-- [[editingNoteId, setEditingNoteId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L402) (1 connections)
-- [[editType, setEditType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L191) (1 connections)
-- [filteredNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L427) (1 connections)
-- [[filters, setFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L393) (1 connections)
-- [groupedNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L449) (1 connections)
-- [handleCreateNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L476) (1 connections)
-- [handleDeleteNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L522) (1 connections)
-- [handleResetFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L577) (1 connections)
-- [handleSaveEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L194) (1 connections)
-- [handleToggleResolve](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L558) (1 connections)
-- [handleUpdateNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L501) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L192) (1 connections)
-- [{ hapticFeedback: haptic }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L389) (1 connections)
-- [[isAddingNote, setIsAddingNote]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L399) (1 connections)
-- [[newNoteContent, setNewNoteContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L400) (1 connections)
-- [[newNoteType, setNewNoteType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L401) (1 connections)
-- [NOTE_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L101) (1 connections)
-- [NoteTypeBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L144) (1 connections)
-- [[showFilters, setShowFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L403) (1 connections)
-- [useHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L390) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L388) (1 connections)
+- [EnhancedSectionWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L1) (24 connections)
+- [bars](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L78) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L211) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L62) (1 connections)
+- [[dragStartX, setDragStartX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L64) (1 connections)
+- [endPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L92) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L297) (1 connections)
+- [getTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L96) (1 connections)
+- [handleContainerClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L166) (1 connections)
+- [handleDragStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L107) (1 connections)
+- [handleEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L149) (1 connections)
+- [handleMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L125) (1 connections)
+- [[hoveredSection, setHoveredSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L68) (1 connections)
+- [[initialEnd, setInitialEnd]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L66) (1 connections)
+- [[initialStart, setInitialStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L65) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L63) (1 connections)
+- [isHovered](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L237) (1 connections)
+- [progressPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L94) (1 connections)
+- [sectionEndPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L235) (1 connections)
+- [sectionStartPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L234) (1 connections)
+- [sectionWidthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L236) (1 connections)
+- [[showMarkers, setShowMarkers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L67) (1 connections)
+- [startPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L91) (1 connections)
+- [{ waveformData, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L71) (1 connections)
+- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L93) (1 connections)
 
 ## Relationships
 
@@ -48,7 +36,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\EnhancedSectionWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx)
 
 ## Audit Trail
 

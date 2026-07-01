@@ -1,20 +1,20 @@
 # User Interface Tutorial
 
-> 11 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [NewStudioProjectPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L1) (11 connections)
-- [handleCreate()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L58) (4 connections)
-- [handleModeChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L51) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L23) (2 connections)
-- [{ createEmptyProject, createFromTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L24) (1 connections)
-- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L33) (1 connections)
-- [[loadingTracks, setLoadingTracks]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L37) (1 connections)
-- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L34) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L32) (1 connections)
-- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L36) (1 connections)
-- [[tracks, setTracks]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L35) (1 connections)
+- [wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L1) (10 connections)
+- [attempt](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L26) (1 connections)
+- [host](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L15) (1 connections)
+- [intervalMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L19) (1 connections)
+- [lastError](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L27) (1 connections)
+- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L17) (1 connections)
+- [port](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L16) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L32) (1 connections)
+- [start](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L25) (1 connections)
+- [timeoutMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L18) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L21) (1 connections)
 
 ## Relationships
 
@@ -22,12 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\studio-v2\NewStudioProjectPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (92%)
-- INFERRED: 2 (8%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

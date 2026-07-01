@@ -1,14 +1,15 @@
 # Menu Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
-- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
-- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
-- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
-- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
+- [WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L1) (5 connections)
+- [closeTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L40) (1 connections)
+- [confettiTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L37) (1 connections)
+- [fireConfetti()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L28) (1 connections)
+- [[showContent, setShowContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L20) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\popups\WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

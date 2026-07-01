@@ -1,12 +1,13 @@
 # Content Generation
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [QuickPresets.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickPresets.tsx#L1) (2 connections)
-- [QuickPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickPresets.tsx#L113) (2 connections)
-- [QUICK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickPresets.tsx#L14) (1 connections)
+- [collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L1) (3 connections)
+- [Collapsible](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L3) (1 connections)
+- [CollapsibleContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L7) (1 connections)
+- [CollapsibleTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L5) (1 connections)
 
 ## Relationships
 
@@ -14,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\QuickPresets.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickPresets.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (80%)
-- INFERRED: 1 (20%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

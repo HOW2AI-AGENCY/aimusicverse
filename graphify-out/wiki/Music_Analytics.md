@@ -1,10 +1,11 @@
 # Music Analytics
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/index.ts#L1) (0 connections)
+- [useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L1) (1 connections)
+- [useStemControls()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

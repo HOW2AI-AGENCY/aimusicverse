@@ -1,22 +1,22 @@
 # Music Arrangement
 
-> 13 nodes · cohesion 0.22
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L1) (12 connections)
-- [sanitizeText()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L29) (5 connections)
-- [validatePrompt()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L52) (3 connections)
-- [isSpamPattern()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L202) (2 connections)
-- [validateDescription()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L137) (2 connections)
-- [validateMessage()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L165) (2 connections)
-- [validateTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L102) (2 connections)
-- [escapeSQLLike()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L304) (1 connections)
-- [isValidTelegramUserId()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L281) (1 connections)
-- [isValidUrl()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L290) (1 connections)
-- [maskSensitiveData()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L262) (1 connections)
-- [MAX_LENGTHS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L15) (1 connections)
-- [sanitizeHTML()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L233) (1 connections)
+- [BotMenuPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L1) (12 connections)
+- [currentItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L29) (1 connections)
+- [[currentMenu, setCurrentMenu]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L20) (1 connections)
+- [currentMenuItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L24) (1 connections)
+- [getButtonTextLength()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L39) (1 connections)
+- [getCaption()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L110) (1 connections)
+- [getImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L104) (1 connections)
+- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L94) (1 connections)
+- [handleButtonClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L87) (1 connections)
+- [MAX_CHARS_FOR_PAIRING](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L36) (1 connections)
+- [[navigationStack, setNavigationStack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L21) (1 connections)
+- [renderCaption()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L119) (1 connections)
+- [rows](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -24,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BotMenuPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

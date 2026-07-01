@@ -1,12 +1,13 @@
 # Threshold Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L1) (2 connections)
-- [GenerationBridge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L13) (1 connections)
-- [usePresetToParams()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L40) (1 connections)
+- [TelegramList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L1) (3 connections)
+- [columnClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L149) (1 connections)
+- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L155) (1 connections)
+- [handleItemPress](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

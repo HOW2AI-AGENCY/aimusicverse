@@ -1,15 +1,20 @@
 # Form Styling
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [StatsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/StatsGrid.tsx#L1) (5 connections)
-- [COLUMN_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/StatsGrid.tsx#L43) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/StatsGrid.tsx#L97) (1 connections)
-- [SIZE_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/StatsGrid.tsx#L55) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/StatsGrid.tsx#L79) (1 connections)
-- [VARIANT_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/StatsGrid.tsx#L49) (1 connections)
+- [GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L1) (6 connections)
+- [{ data: dailyStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L141) (1 connections)
+- [{
+    data: stats,
+    isLoading: statsLoading,
+    refetch,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L85) (1 connections)
+- [{ data: topUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L196) (1 connections)
+- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L82) (1 connections)
+- [successRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L249) (1 connections)
+- [TIME_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L74) (1 connections)
 
 ## Relationships
 
@@ -17,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\StatsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/StatsGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

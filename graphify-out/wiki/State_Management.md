@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [safe-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx#L1) (1 connections)
-- [SafeArea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx#L43) (1 connections)
+- [SafeAreaContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx#L1) (1 connections)
+- [SafeAreaContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\safe-area\safe-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SafeAreaContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx)
 
 ## Audit Trail
 

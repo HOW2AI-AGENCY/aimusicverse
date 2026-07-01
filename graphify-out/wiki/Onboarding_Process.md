@@ -1,12 +1,13 @@
 # Onboarding Process
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useAITools.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L1) (2 connections)
-- [cleanLyricsFromSyllableCounts()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L18) (1 connections)
-- [useAITools()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L39) (1 connections)
+- [SectionPromptInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L1) (3 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L51) (1 connections)
+- [lyricsChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L37) (1 connections)
+- [[showLyrics, setShowLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useAITools.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionPromptInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

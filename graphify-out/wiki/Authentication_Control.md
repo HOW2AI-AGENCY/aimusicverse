@@ -1,11 +1,12 @@
 # Authentication Control
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [formatPlayCount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx#L24) (1 connections)
-- [CommunityTrending.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx#L1) (1 connections)
+- [useTelegramActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L1) (2 connections)
+- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L14) (1 connections)
+- [useTelegramActions()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\CommunityTrending.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\useTelegramActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

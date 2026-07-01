@@ -1,13 +1,14 @@
 # User Analytics
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L1) (3 connections)
-- [IconTouchButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L128) (1 connections)
-- [PressableCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L91) (1 connections)
-- [TouchFeedback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L31) (1 connections)
+- [useStemStudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L1) (4 connections)
+- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L25) (1 connections)
+- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L17) (1 connections)
+- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L15) (1 connections)
+- [useStemStudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L58) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemStudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

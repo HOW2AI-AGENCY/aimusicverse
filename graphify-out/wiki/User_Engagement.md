@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L1) (1 connections)
-- [useStemControls()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L20) (1 connections)
+- [PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx)
 
 ## Audit Trail
 

@@ -1,12 +1,13 @@
 # Pattern Handling
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useEmotionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L6) (1 connections)
-- [useEmotionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L15) (1 connections)
+- [usePromptValidation.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L1) (3 connections)
+- [DEBOUNCE_MS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L4) (1 connections)
+- [EMPTY_RESULT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L6) (1 connections)
+- [usePromptValidation()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEmotionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\usePromptValidation.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

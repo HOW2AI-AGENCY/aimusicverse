@@ -1,18 +1,19 @@
 # User Check-in
 
-> 9 nodes · cohesion 0.42
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [use-media-query.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L1) (8 connections)
-- [useMediaQuery()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L24) (8 connections)
-- [useBreakpoint()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L102) (2 connections)
-- [useIsDesktop()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L86) (2 connections)
-- [useIsMobile()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L72) (2 connections)
-- [useIsSmallPhone()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L93) (2 connections)
-- [useIsTablet()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L79) (2 connections)
-- [useOrientation()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L121) (2 connections)
-- [usePrefersReducedMotion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L128) (2 connections)
+- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L1) (5 connections)
+- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L1) (4 connections)
+- [PageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L68) (2 connections)
+- [AnimatedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L108) (1 connections)
+- [FadeIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L144) (1 connections)
+- [getVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L26) (1 connections)
+- [ScaleIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L160) (1 connections)
+- [StaggerContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L68) (1 connections)
+- [StaggerItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L92) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\use-media-query.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

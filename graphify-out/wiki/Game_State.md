@@ -1,13 +1,14 @@
 # Game State
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [LEDIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L1) (3 connections)
-- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L19) (1 connections)
-- [LEDIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L59) (1 connections)
-- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L52) (1 connections)
+- [artistReplacements.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L1) (4 connections)
+- [ARTIST_REPLACEMENTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L16) (1 connections)
+- [findArtistReplacement()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L523) (1 connections)
+- [getGenreSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L571) (1 connections)
+- [replaceArtistsWithGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L538) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\LEDIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\artistReplacements.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,11 +1,12 @@
 # Keyboard Shortcuts
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ExtractLyricsButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtractLyricsButton.tsx#L1) (1 connections)
-- [ExtractLyricsButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtractLyricsButton.tsx#L18) (1 connections)
+- [StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L1) (2 connections)
+- [ActionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L68) (1 connections)
+- [StudioActionsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L114) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ExtractLyricsButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtractLyricsButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

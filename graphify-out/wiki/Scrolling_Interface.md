@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [StudioShellHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx#L128) (1 connections)
+- [AdminUserCreditsDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L26) (1 connections)
+- [AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx)
 
 ## Audit Trail
 

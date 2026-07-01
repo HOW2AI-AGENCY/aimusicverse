@@ -1,10 +1,11 @@
 # Track Export
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/index.ts#L1) (0 connections)
+- [useTinkoffPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts#L1) (1 connections)
+- [useTinkoffPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generation\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTinkoffPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

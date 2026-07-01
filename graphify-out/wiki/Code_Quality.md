@@ -4,26 +4,35 @@
 
 ## Key Concepts
 
-- [ModerationDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L1) (20 connections)
-- [toggleSelectAll()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L147) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L40) (1 connections)
-- [batchUpdateMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L112) (1 connections)
-- [[currentPage, setCurrentPage]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L44) (1 connections)
-- [{ data: adminData, isLoading: isCheckingAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L37) (1 connections)
-- [{ data: reportsData, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L47) (1 connections)
-- [[entityFilter, setEntityFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L41) (1 connections)
-- [getStatusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L197) (1 connections)
-- [isAdmin](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L38) (1 connections)
-- [ITEMS_PER_PAGE](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L33) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L36) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L39) (1 connections)
-- [reports](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L87) (1 connections)
-- [resetFilters()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L168) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L42) (1 connections)
-- [[selectedReports, setSelectedReports]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L43) (1 connections)
-- [toggleReportSelection()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L134) (1 connections)
-- [totalPages](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L88) (1 connections)
-- [updateStatusMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L90) (1 connections)
+- [SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L1) (19 connections)
+- [{
+    data: notes,
+    isLoading,
+    error,
+    createNote,
+    updateNote,
+    deleteNote,
+    resolveNote,
+    isCreating,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L44) (1 connections)
+- [[editingNoteId, setEditingNoteId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L41) (1 connections)
+- [filteredNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L55) (1 connections)
+- [[filters, setFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L37) (1 connections)
+- [groupedNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L66) (1 connections)
+- [handleCreateNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L81) (1 connections)
+- [handleDeleteNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L109) (1 connections)
+- [handleResetFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L146) (1 connections)
+- [handleToggleResolve](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L133) (1 connections)
+- [handleUpdateNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L95) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L35) (1 connections)
+- [[isAddingNote, setIsAddingNote]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L38) (1 connections)
+- [[newNoteContent, setNewNoteContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L39) (1 connections)
+- [[newNoteType, setNewNoteType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L40) (1 connections)
+- [noteCardProps](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L151) (1 connections)
+- [[showFilters, setShowFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L42) (1 connections)
+- [typeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L266) (1 connections)
+- [TypeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L267) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -31,12 +40,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\ModerationDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 39 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 38 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

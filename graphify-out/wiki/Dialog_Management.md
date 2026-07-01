@@ -1,11 +1,12 @@
 # Dialog Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [SafeAreaSkeletonPlaceholder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaSkeletonPlaceholder.tsx#L1) (1 connections)
-- [SafeAreaSkeletonPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaSkeletonPlaceholder.tsx#L25) (1 connections)
+- [useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L1) (2 connections)
+- [useOptimistic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L58) (1 connections)
+- [useOptimisticList()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L143) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SafeAreaSkeletonPlaceholder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaSkeletonPlaceholder.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

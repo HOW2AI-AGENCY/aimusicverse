@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [Privacy.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L1) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L12) (1 connections)
-- [{ showBackButton, hideBackButton, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L13) (1 connections)
+- [StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L1) (2 connections)
+- [analysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L20) (1 connections)
+- [displayStrokes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Privacy.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx)
 
 ## Audit Trail
 

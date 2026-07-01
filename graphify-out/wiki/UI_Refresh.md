@@ -1,10 +1,11 @@
 # UI Refresh
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [VirtualizedTrackList.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/VirtualizedTrackList.contract.ts#L1) (0 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L1) (1 connections)
+- [VARIANT_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L174) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\001-unified-interface\contracts\VirtualizedTrackList.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/VirtualizedTrackList.contract.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

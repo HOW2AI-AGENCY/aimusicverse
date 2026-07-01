@@ -1,28 +1,22 @@
 # Menu Navigation
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [AddToPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L1) (12 connections)
-- [[creatingNew, setCreatingNew]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L23) (1 connections)
-- [filteredPlaylists](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L42) (1 connections)
-- [handleAddToPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L48) (1 connections)
-- [handleCreateNewPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L84) (1 connections)
-- [handleOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L127) (1 connections)
-- [[newPlaylistName, setNewPlaylistName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L24) (1 connections)
-- [{
-    playlists,
-    isLoading: playlistsLoading,
-    createPlaylist,
-    addTrackToPlaylist,
-    isCreating,
-    isAdding,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L30) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L21) (1 connections)
-- [[selectedPlaylistId, setSelectedPlaylistId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L22) (1 connections)
-- [triggerSelectionHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L27) (1 connections)
-- [triggerSuccessHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L26) (1 connections)
+- [StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L1) (12 connections)
+- [activeIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L71) (1 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L163) (1 connections)
+- [GAP_MERGE_THRESHOLD_S](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L31) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L167) (1 connections)
+- [isReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L168) (1 connections)
+- [isSectionReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L59) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L166) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L161) (1 connections)
+- [normalizedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L83) (1 connections)
+- [originalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L165) (1 connections)
+- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L34) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L162) (1 connections)
 
 ## Relationships
 
@@ -30,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\AddToPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 23 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

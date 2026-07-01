@@ -1,13 +1,14 @@
 # Route Navigation
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L1) (4 connections)
-- [[formData, setFormData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L31) (1 connections)
-- [[trackParams, setTrackParams]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L37) (1 connections)
-- [{ updateTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L30) (1 connections)
+- [ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L1) (4 connections)
+- [handleSwipeAddToQueue](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L51) (1 connections)
+- [handleSwipeSwitchVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L55) (1 connections)
+- [{ isOwnTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L62) (1 connections)
+- [{ sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

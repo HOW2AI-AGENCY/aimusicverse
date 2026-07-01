@@ -1,16 +1,17 @@
 # Configuration Health
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L1) (6 connections)
-- [isBottomSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L82) (1 connections)
-- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L77) (1 connections)
-- [Sheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L10) (1 connections)
-- [SheetClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L14) (1 connections)
-- [SheetPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L16) (1 connections)
-- [SheetTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L12) (1 connections)
+- [skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L1) (8 connections)
+- [aspectClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L273) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L493) (1 connections)
+- [ListItemSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L193) (1 connections)
+- [PlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L151) (1 connections)
+- [TrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L34) (1 connections)
+- [TrackCardSkeletonCompact()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L132) (1 connections)
+- [WAVEFORM_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

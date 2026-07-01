@@ -1,18 +1,19 @@
 # Mention Notifications
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [CreativePresetsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L1) (8 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L39) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L116) (1 connections)
-- [handleTabChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L42) (1 connections)
-- [handleTrackPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L52) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L40) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L106) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L107) (1 connections)
-- [TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L28) (1 connections)
+- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L1) (9 connections)
+- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L77) (2 connections)
+- [DEFAULT_STYLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L47) (1 connections)
+- [emoji](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L259) (1 connections)
+- [getSectionStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L187) (1 connections)
+- [getTagEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L192) (1 connections)
+- [SECTION_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L32) (1 connections)
+- [StructuredLyricsDisplay()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L200) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L247) (1 connections)
+- [TAG_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -20,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\CreativePresetsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,14 +1,15 @@
 # Sheet Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [LoadingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L1) (2 connections)
-- [IconComponent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L39) (2 connections)
-- [Switch](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx#L6) (2 connections)
-- [switch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx#L1) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L32) (1 connections)
+- [GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L1) (5 connections)
+- [[elapsedTime, setElapsedTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L31) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L42) (1 connections)
+- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L30) (1 connections)
+- [remainingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L54) (1 connections)
+- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -16,13 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\switch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (75%)
-- INFERRED: 2 (25%)
+- EXTRACTED: 10 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

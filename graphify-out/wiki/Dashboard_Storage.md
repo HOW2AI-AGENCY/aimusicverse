@@ -1,25 +1,26 @@
 # Dashboard Storage
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L1) (18 connections)
-- [buildPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L150) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L146) (1 connections)
-- [ASSET_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L62) (1 connections)
-- [[assetType, setAssetType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L113) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L385) (1 connections)
-- [currentMediaUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L143) (1 connections)
-- [[customPrompt, setCustomPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L114) (1 connections)
-- [entityTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L127) (1 connections)
-- [[generatedUrl, setGeneratedUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L117) (1 connections)
-- [getCurrentMediaUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L130) (1 connections)
-- [[isGenerating, setIsGenerating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L116) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L112) (1 connections)
-- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L115) (1 connections)
-- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L92) (1 connections)
-- [targetEntity](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L126) (1 connections)
+- [VersionTree.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L1) (16 connections)
+- [handleVersionSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L48) (2 connections)
+- [activeVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L45) (1 connections)
+- [buildTree()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L67) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L102) (1 connections)
+- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L41) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L43) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L100) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L39) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L40) (1 connections)
+- [letter](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L182) (1 connections)
+- [{ setPrimaryVersionAsync, isSettingPrimary }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L42) (1 connections)
+- [TypeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L103) (1 connections)
+- [versionCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L46) (1 connections)
+- [versionTree](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L75) (1 connections)
+- [versionType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L101) (1 connections)
+- [versionTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -27,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\shared\VersionTree.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 32 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,14 +1,15 @@
 # User Interface State
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L1) (4 connections)
-- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L67) (1 connections)
-- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L57) (1 connections)
-- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L62) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L55) (1 connections)
+- [SmartAssistantInline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L1) (5 connections)
+- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L27) (1 connections)
+- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L33) (1 connections)
+- [hasMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L42) (1 connections)
+- [{ suggestions, isAnalyzing, dismissSuggestion, hasContext }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L28) (1 connections)
+- [visibleSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\SmartAssistantInline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

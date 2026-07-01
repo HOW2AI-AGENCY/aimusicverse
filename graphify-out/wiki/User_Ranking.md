@@ -1,19 +1,20 @@
 # User Ranking
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L1) (9 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L19) (1 connections)
-- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L63) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L60) (1 connections)
-- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L67) (1 connections)
-- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L64) (1 connections)
-- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L65) (1 connections)
-- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L61) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L29) (1 connections)
-- [trackAny](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L58) (1 connections)
+- [ProgressiveImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L1) (10 connections)
+- [aspectClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L66) (1 connections)
+- [avatarFallback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L179) (1 connections)
+- [handleError](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L61) (1 connections)
+- [handleLoad](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L56) (1 connections)
+- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L54) (1 connections)
+- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L53) (1 connections)
+- [objectFitClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L90) (1 connections)
+- [roundedClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L73) (1 connections)
+- [showFallback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L96) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ProgressiveImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

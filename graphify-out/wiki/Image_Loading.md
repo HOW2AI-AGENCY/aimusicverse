@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L1) (2 connections)
-- [{ data: metrics }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L11) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L12) (1 connections)
+- [unified-dialog.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L1) (2 connections)
+- [DIALOG_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L7) (1 connections)
+- [DIALOG_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L63) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts)
 
 ## Audit Trail
 

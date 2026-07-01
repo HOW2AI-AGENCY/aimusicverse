@@ -1,19 +1,19 @@
 # Slide Navigation
 
-> 10 nodes · cohesion 0.20
+> 10 nodes · cohesion 0.24
 
 ## Key Concepts
 
-- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L34) (2 connections)
-- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
-- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L43) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L32) (1 connections)
-- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
-- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
-- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
+- [lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L1) (9 connections)
+- [checkFileName()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L63) (4 connections)
+- [shouldIgnore()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L59) (2 connections)
+- [walkDirectory()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L109) (2 connections)
+- [checkedFiles](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L57) (1 connections)
+- [IGNORE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L17) (1 connections)
+- [PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L43) (1 connections)
+- [SRC_DIR](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L16) (1 connections)
+- [srcPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L130) (1 connections)
+- [violations](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L56) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

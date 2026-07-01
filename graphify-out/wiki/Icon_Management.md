@@ -1,13 +1,14 @@
 # Icon Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useAudioAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L1) (3 connections)
-- [analysisLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L6) (1 connections)
-- [useAnalyzeAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L53) (1 connections)
-- [useAudioAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L32) (1 connections)
+- [toast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L1) (4 connections)
+- [notify](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L44) (1 connections)
+- [stableId()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L17) (1 connections)
+- [toast](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L30) (1 connections)
+- [wrap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L24) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\toast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

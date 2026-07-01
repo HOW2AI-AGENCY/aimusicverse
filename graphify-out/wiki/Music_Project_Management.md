@@ -1,27 +1,28 @@
 # Music Project Management
 
-> 18 nodes · cohesion 0.11
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [ChordDiagramEnhanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L1) (17 connections)
-- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L14) (1 connections)
-- [chordData](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L159) (1 connections)
-- [FINGER_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L99) (1 connections)
-- [fingerColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L312) (1 connections)
-- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L160) (1 connections)
-- [fingerNum](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L311) (1 connections)
-- [fingers](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L161) (1 connections)
-- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L172) (1 connections)
-- [MotionWrapper](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L176) (1 connections)
-- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L107) (1 connections)
-- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L158) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L163) (1 connections)
-- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L173) (1 connections)
-- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L174) (1 connections)
-- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L171) (1 connections)
-- [{ width, height, fontSize, dotSize, labelSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L170) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L310) (1 connections)
+- [StudioHubPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L1) (17 connections)
+- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx#L24) (2 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L106) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L79) (2 connections)
+- [EmptyLibraryState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx#L1) (1 connections)
+- [cover](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L192) (1 connections)
+- [COVER_GRADIENTS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L61) (1 connections)
+- [[deleteId, setDeleteId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L82) (1 connections)
+- [{ deleteProject, isLoading: isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L83) (1 connections)
+- [getTrackCount()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L115) (1 connections)
+- [hashIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L72) (1 connections)
+- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L193) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L81) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L191) (1 connections)
+- [[projects, setProjects]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L80) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L190) (1 connections)
+- [STATUS_META](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L45) (1 connections)
+- [trackCount](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L189) (1 connections)
+- [updated](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L194) (1 connections)
 
 ## Relationships
 
@@ -29,12 +30,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagramEnhanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\EmptyLibraryState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\studio-v2\StudioHubPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 35 (92%)
+- INFERRED: 3 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

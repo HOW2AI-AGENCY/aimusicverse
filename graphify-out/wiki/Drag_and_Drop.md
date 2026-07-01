@@ -1,15 +1,16 @@
 # Drag and Drop
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L1) (5 connections)
-- [closeTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L40) (1 connections)
-- [confettiTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L37) (1 connections)
-- [fireConfetti()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L28) (1 connections)
-- [[showContent, setShowContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L20) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L25) (1 connections)
+- [ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L136) (1 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L80) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L78) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L77) (1 connections)
+- [ProjectPresetCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L22) (1 connections)
+- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L90) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\popups\WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

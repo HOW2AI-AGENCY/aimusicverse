@@ -1,60 +1,35 @@
 # Lyrics Synchronization
 
-> 33 nodes · cohesion 0.09
+> 33 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [LyricsValidator](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L127) (17 connections)
-- [.validateForSuno()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L177) (8 connections)
-- [LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L1) (6 connections)
-- [LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L1) (5 connections)
-- [LyricsFormatter](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L101) (5 connections)
-- [.validate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L131) (5 connections)
-- [.findInvalidSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L439) (4 connections)
-- [isValidSectionTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L110) (3 connections)
-- [.validateTagInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L576) (3 connections)
-- [.calculateCharCount()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L169) (2 connections)
-- [.formatFinal()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L105) (2 connections)
-- [sanitizeTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L63) (2 connections)
-- [wrapInBrackets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L82) (2 connections)
-- [.autoFixIssues()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L401) (2 connections)
-- [.calculateValidationScore()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L378) (2 connections)
-- [.checkConflictingTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L271) (2 connections)
-- [.checkMissingEndTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L219) (2 connections)
-- [.checkRussianTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L236) (2 connections)
-- [.checkSectionBalance()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L545) (2 connections)
-- [.checkStructureTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L356) (2 connections)
-- [.checkTagOverload()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L302) (2 connections)
-- [.checkWrongBrackets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L326) (2 connections)
-- [.isDynamicTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L457) (2 connections)
-- [normalizeSectionTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L118) (2 connections)
-- [isValidBracketTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L42) (1 connections)
+- [rlsPolicies.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L1) (32 connections)
+- [adminToken](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L27) (1 connections)
+- [adminUserId](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L23) (1 connections)
+- [{ data: adminSession }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L84) (1 connections)
+- [{ data: adminUser }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L52) (1 connections)
+- [{ data: allSubs }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L324) (1 connections)
+- [{ data: allTransactions }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L317) (1 connections)
+- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L127) (1 connections)
+- [{ data: product }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L94) (1 connections)
+- [{ data: session1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L66) (1 connections)
+- [{ data: session2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L75) (1 connections)
+- [{ data: sub1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L254) (1 connections)
+- [{ data: sub2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L267) (1 connections)
+- [{ data: tx1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L183) (1 connections)
+- [{ data: tx2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L197) (1 connections)
+- [{ data: user1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L37) (1 connections)
+- [{ data: user2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L44) (1 connections)
+- [{ error }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L138) (1 connections)
+- [supabaseAdmin](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L17) (1 connections)
+- [supabaseAnonKey](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L32) (1 connections)
+- [supabaseServiceKey](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L31) (1 connections)
+- [supabaseUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L30) (1 connections)
+- [supabaseUser1](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L18) (1 connections)
+- [supabaseUser2](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L19) (1 connections)
+- [testProductId](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L24) (1 connections)
 - *... and 8 more nodes in this community*
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class LyricsFormatter {
-        +LyricsFormatter.ts()
-        +.formatFinal()
-        +.calculateCharCount()
-        +.extractSections()
-        +.validateStructure()
-    }
-    class LyricsValidator {
-        +LyricsValidator.ts()
-        +.validate()
-        +.validateForSuno()
-        +.checkMissingEndTag()
-        +.checkRussianTags()
-        +.checkConflictingTags()
-        +.checkTagOverload()
-        +.checkWrongBrackets()
-        +.checkStructureTags()
-        +.calculateValidationScore()
-    }
-```
 
 ## Relationships
 
@@ -62,13 +37,12 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\rlsPolicies.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 90 (95%)
-- INFERRED: 5 (5%)
+- EXTRACTED: 64 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

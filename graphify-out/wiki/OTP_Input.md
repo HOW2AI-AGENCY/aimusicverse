@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [MobileStudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx#L1) (1 connections)
-- [MobileStudioPlayerBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx#L31) (1 connections)
+- [tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L1) (1 connections)
+- [shadows](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L7) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileStudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts)
 
 ## Audit Trail
 

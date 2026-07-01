@@ -1,17 +1,18 @@
 # Audio Track Management
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [PaymentSuccessModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L1) (7 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L274) (1 connections)
-- [ConfettiParticle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L24) (1 connections)
-- [FloatingStar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L61) (1 connections)
-- [getText()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L106) (1 connections)
-- [[showConfetti, setShowConfetti]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L85) (1 connections)
-- [text](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L139) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L101) (1 connections)
+- [LyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L1) (8 connections)
+- [handleEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L32) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L26) (2 connections)
+- [[deleteConfirmId, setDeleteConfirmId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L30) (1 connections)
+- [filteredTemplates](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L36) (1 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L43) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L28) (1 connections)
+- [[selectedTemplate, setSelectedTemplate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L29) (1 connections)
+- [{ templates, isLoading, deleteTemplate }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentSuccessModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\tabs\LyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

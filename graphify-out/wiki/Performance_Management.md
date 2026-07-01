@@ -1,11 +1,12 @@
 # Performance Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [isAssistant](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L15) (1 connections)
-- [ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L1) (1 connections)
+- [skeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L1) (2 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L131) (1 connections)
+- [skeletonVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L4) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,11 +1,12 @@
 # Synchronized Drawing
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TagsResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx#L1) (1 connections)
-- [TagsResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx#L17) (1 connections)
+- [defaults.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/defaults.ts#L1) (2 connections)
+- [DEFAULT_CHANNELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/defaults.ts#L11) (1 connections)
+- [DEFAULT_SETTINGS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/defaults.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TagsResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\prompt-dj\defaults.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/defaults.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

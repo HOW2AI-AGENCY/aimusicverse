@@ -1,11 +1,12 @@
 # Track Visualization
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [DrumPadGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx#L1) (1 connections)
-- [DrumPad](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx#L19) (1 connections)
+- [label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L1) (2 connections)
+- [Label](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L9) (1 connections)
+- [labelVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L7) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumPadGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

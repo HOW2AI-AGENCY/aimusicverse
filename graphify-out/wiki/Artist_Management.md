@@ -1,12 +1,13 @@
 # Artist Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L1) (2 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L19) (1 connections)
-- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L20) (1 connections)
+- [ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L1) (3 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L44) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L19) (2 connections)
+- [{ data: parentTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,20 +1,21 @@
 # Music Recording
 
-> 11 nodes · cohesion 0.20
+> 12 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
-- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
-- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L23) (3 connections)
-- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
-- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
-- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L247) (1 connections)
-- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L275) (1 connections)
-- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L157) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L136) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
+- [RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L1) (11 connections)
+- [getRetentionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L39) (2 connections)
+- [RetentionCell()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L67) (2 connections)
+- [AverageCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L100) (1 connections)
+- [averages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L129) (1 connections)
+- [{ data: cohorts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L127) (1 connections)
+- [dateRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L118) (1 connections)
+- [formatDate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L52) (1 connections)
+- [RETENTION_COLUMNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L29) (1 connections)
+- [TIME_RANGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L22) (1 connections)
+- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L116) (1 connections)
+- [totalUsers](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L134) (1 connections)
 
 ## Relationships
 
@@ -22,13 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (87%)
-- INFERRED: 3 (13%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

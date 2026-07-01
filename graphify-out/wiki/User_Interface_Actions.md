@@ -1,19 +1,20 @@
 # User Interface Actions
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L1) (9 connections)
-- [closeRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L145) (1 connections)
-- [Dialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L11) (1 connections)
-- [DialogClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L17) (1 connections)
-- [DialogOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L19) (1 connections)
-- [DialogPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L15) (1 connections)
-- [DialogTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L13) (1 connections)
-- [innerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L144) (1 connections)
-- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L141) (1 connections)
-- [useSwipeDownToClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L60) (1 connections)
+- [accessibility.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L1) (10 connections)
+- [ariaUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L340) (1 connections)
+- [contrastUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L262) (1 connections)
+- [focusUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L191) (1 connections)
+- [getSkipLinkProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L401) (1 connections)
+- [keyboardUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L301) (1 connections)
+- [srUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L235) (1 connections)
+- [TOUCH_TARGET](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L12) (1 connections)
+- [useFocusTrap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L98) (1 connections)
+- [useKeyboardNavigation()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L21) (1 connections)
+- [useLiveAnnounce()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L150) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\accessibility.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,13 @@
 # Offline Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L1) (2 connections)
-- [useOptimistic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L58) (1 connections)
-- [useOptimisticList()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L143) (1 connections)
+- [useStemAnalyzer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L1) (3 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L36) (1 connections)
+- [useMultiStemAnalyzer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L208) (1 connections)
+- [useStemAnalyzer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L42) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAnalyzer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

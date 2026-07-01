@@ -1,21 +1,22 @@
 # Chat Interface
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.21
 
 ## Key Concepts
 
-- [MobileNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L1) (11 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L258) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L132) (1 connections)
-- [handleNoteClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L127) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L43) (1 connections)
-- [NOTE_NAMES_RU](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L44) (1 connections)
-- [parsedTimeSignature](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L74) (1 connections)
-- [parseTimeSignature()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L46) (1 connections)
-- [processedNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L77) (1 connections)
-- [[selectedNoteIndex, setSelectedNoteIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L72) (1 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L103) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L71) (1 connections)
+- [UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L1) (12 connections)
+- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L76) (3 connections)
+- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L82) (3 connections)
+- [markSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L55) (3 connections)
+- [release](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L54) (3 connections)
+- [[claimed, setClaimed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L48) (1 connections)
+- [hasSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L50) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L49) (1 connections)
+- [{ isMobile, className: positionClass }](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L46) (1 connections)
+- [overlayOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L51) (1 connections)
+- [reg](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L47) (1 connections)
+- [request](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L53) (1 connections)
+- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L61) (1 connections)
 
 ## Relationships
 
@@ -23,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\MobileNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

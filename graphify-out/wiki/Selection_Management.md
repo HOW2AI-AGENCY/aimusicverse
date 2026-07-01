@@ -1,12 +1,13 @@
 # Selection Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useBatchStemProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L1) (2 connections)
-- [initialState](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L41) (1 connections)
-- [useBatchStemProcessing()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L50) (1 connections)
+- [useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L1) (3 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L42) (1 connections)
+- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L52) (1 connections)
+- [useExtendProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L62) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBatchStemProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

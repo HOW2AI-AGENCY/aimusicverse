@@ -1,14 +1,15 @@
 # Audio Mixer
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L1) (4 connections)
-- [[expandedTrack, setExpandedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L60) (1 connections)
-- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L66) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L169) (1 connections)
-- [toggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L62) (1 connections)
+- [ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L1) (5 connections)
+- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L54) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L52) (2 connections)
+- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L31) (1 connections)
+- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L41) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L61) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

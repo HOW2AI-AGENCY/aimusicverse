@@ -1,12 +1,13 @@
 # Media Playback
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L1) (2 connections)
-- [Alert](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L21) (1 connections)
-- [alertVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L6) (1 connections)
+- [useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L1) (3 connections)
+- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L22) (1 connections)
+- [useBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L42) (1 connections)
+- [useUpdateBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L66) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

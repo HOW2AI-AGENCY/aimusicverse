@@ -1,12 +1,13 @@
 # Product Sizing
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L1) (2 connections)
-- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L17) (1 connections)
-- [showTogglePublic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L18) (1 connections)
+- [useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L1) (3 connections)
+- [useAdminModerationReports()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L32) (1 connections)
+- [useModerationStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L111) (1 connections)
+- [useUpdateReportStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L74) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

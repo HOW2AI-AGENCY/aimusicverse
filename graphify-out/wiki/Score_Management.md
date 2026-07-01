@@ -1,11 +1,12 @@
 # Score Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L1) (1 connections)
-- [NodeDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L17) (1 connections)
+- [useStudioModals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L1) (2 connections)
+- [useStudioModalHandlers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L93) (1 connections)
+- [useStudioModals()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L52) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioModals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

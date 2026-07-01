@@ -1,13 +1,14 @@
 # Model Metadata
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useStudioTrackState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L38) (2 connections)
-- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L17) (2 connections)
-- [useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L1) (1 connections)
-- [useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L1) (1 connections)
+- [tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L1) (4 connections)
+- [Tooltip](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L8) (1 connections)
+- [TooltipContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L12) (1 connections)
+- [TooltipProvider](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L6) (1 connections)
+- [TooltipTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L10) (1 connections)
 
 ## Relationships
 
@@ -15,13 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\hooks\useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

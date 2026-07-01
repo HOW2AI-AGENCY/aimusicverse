@@ -1,18 +1,19 @@
 # Editing Interface
 
-> 9 nodes · cohesion 0.33
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L1) (8 connections)
-- [useTagRecommendations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L114) (5 connections)
-- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L281) (2 connections)
-- [useTagPopularity()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L58) (2 connections)
-- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L96) (2 connections)
-- [useTagUsageHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L37) (2 connections)
-- [getCurrentUser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L6) (1 connections)
-- [useSuccessfulCombinations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L295) (1 connections)
-- [useTrackTagUsage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L242) (1 connections)
+- [breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L1) (9 connections)
+- [BREAKPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L15) (1 connections)
+- [GAPS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L89) (1 connections)
+- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L36) (1 connections)
+- [hideBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L140) (1 connections)
+- [LAYOUT_RATIOS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L103) (1 connections)
+- [matchesBreakpoint()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L154) (1 connections)
+- [MAX_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L67) (1 connections)
+- [showBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L147) (1 connections)
+- [SIDEBAR_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L126) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,23 +1,24 @@
 # Referral Management
 
-> 14 nodes · cohesion 0.14
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L1) (13 connections)
-- [apis](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L18) (1 connections)
-- [audioSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L172) (1 connections)
-- [dimensions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L264) (1 connections)
-- [dynamicImport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L125) (1 connections)
-- [es6Support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L75) (1 connections)
-- [fetchTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L227) (1 connections)
-- [imageSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L152) (1 connections)
-- [mediaQuerySupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L280) (1 connections)
-- [perf](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L313) (1 connections)
-- [perfSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L296) (1 connections)
-- [report](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L339) (1 connections)
-- [storageTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L190) (1 connections)
-- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L255) (1 connections)
+- [usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L1) (12 connections)
+- [usePromptDJStore](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L161) (2 connections)
+- [usePromptHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L27) (2 connections)
+- [usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L1) (1 connections)
+- [dbPromise](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L57) (1 connections)
+- [DEFAULT_CHANNELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L80) (1 connections)
+- [DEFAULT_SETTINGS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L92) (1 connections)
+- [indexedDBStorage](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L11) (1 connections)
+- [openDB()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L58) (1 connections)
+- [selectChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L278) (1 connections)
+- [selectHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L280) (1 connections)
+- [selectPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L281) (1 connections)
+- [selectRecentPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L287) (1 connections)
+- [selectSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L279) (1 connections)
+- [selectTopRatedPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L284) (1 connections)
 
 ## Relationships
 
@@ -25,12 +26,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 26 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

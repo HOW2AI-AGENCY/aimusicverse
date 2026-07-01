@@ -1,20 +1,21 @@
 # Admin Image Management
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L1) (10 connections)
-- [[cursorPosition, setCursorPosition]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L37) (1 connections)
-- [handleOpenTagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L65) (1 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L60) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L35) (1 connections)
-- [lineTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L100) (1 connections)
-- [[localContent, setLocalContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L36) (1 connections)
-- [sectionLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L40) (1 connections)
-- [syllableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L42) (1 connections)
-- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L41) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L38) (1 connections)
+- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L1) (6 connections)
+- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L1) (4 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L22) (2 connections)
+- [toggleTheme](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L78) (2 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L27) (1 connections)
+- [handleThemeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L34) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L20) (1 connections)
+- [{ resolvedTheme, setTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L76) (1 connections)
+- [{ theme, resolvedTheme, setTheme, toggleTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L19) (1 connections)
+- [{ theme, setTheme, resolvedTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L32) (1 connections)
+- [ThemeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L42) (1 connections)
+- [themeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -22,12 +23,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\suno\SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\theme\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (91%)
+- INFERRED: 2 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

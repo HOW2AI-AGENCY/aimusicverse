@@ -1,10 +1,11 @@
 # Process Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useTrackActions.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackActions.contract.ts#L1) (0 connections)
+- [StudioShellTransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx#L1) (1 connections)
+- [StudioShellTransportBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\001-ui-refactor\contracts\useTrackActions.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackActions.contract.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellTransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,36 +1,36 @@
 {
   "hotspots": [
     {
-      "label": "useGenerateForm()",
-      "risk": 0.603,
-      "type": "FUNCTION"
-    },
-    {
-      "label": "usePromptDJEnhanced()",
-      "risk": 0.475,
-      "type": "FUNCTION"
-    },
-    {
       "label": "LyricsParser",
-      "risk": 0.462,
+      "risk": 0.603,
       "type": "CLASS"
     },
     {
-      "label": "GlobalAudioProvider()",
-      "risk": 0.456,
+      "label": "usePromptDJEnhanced()",
+      "risk": 0.562,
       "type": "FUNCTION"
     },
     {
       "label": "useTelegramActions()",
-      "risk": 0.338,
+      "risk": 0.442,
+      "type": "FUNCTION"
+    },
+    {
+      "label": "ProfileSetupOnboarding()",
+      "risk": 0.44,
+      "type": "FUNCTION"
+    },
+    {
+      "label": "useGenerateFormSubmit()",
+      "risk": 0.359,
       "type": "FUNCTION"
     }
   ],
   "blast_radius": {
-    "error": 459,
-    "from": 439,
-    "Select": 309,
-    "map": 246,
-    "now": 204
+    "error": 471,
+    "from": 470,
+    "Select": 333,
+    "map": 245,
+    "now": 212
   }
 }

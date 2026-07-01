@@ -1,35 +1,35 @@
 # Lyrics Scrolling
 
-> 38 nodes · cohesion 0.05
+> 36 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [social-features.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L1) (37 connections)
-- [generateTestUser()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L7) (2 connections)
-- [activityItems](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L166) (1 connections)
-- [afterScrollCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L267) (1 connections)
-- [commentsList](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L111) (1 connections)
-- [commentText](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L103) (1 connections)
-- [deliveryTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L344) (1 connections)
-- [firstActivity](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L175) (1 connections)
-- [firstTrack](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L93) (1 connections)
-- [firstUserCard](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L77) (1 connections)
-- [followButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L81) (1 connections)
-- [fps](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L288) (1 connections)
-- [frameCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L277) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L281) (1 connections)
-- [initialCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L258) (1 connections)
-- [initialLikeText](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L127) (1 connections)
-- [itemCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L167) (1 connections)
-- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L126) (1 connections)
-- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L251) (1 connections)
-- [notificationBell](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L141) (1 connections)
-- [notificationTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L368) (1 connections)
-- [page1](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L324) (1 connections)
-- [page2](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L325) (1 connections)
-- [privacySelect](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L219) (1 connections)
-- [profileSetupExists](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L32) (1 connections)
-- *... and 13 more nodes in this community*
+- [InteractiveChordWheel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L1) (29 connections)
+- [useLyricVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useLyricVersions.ts#L1) (5 connections)
+- [useCurrentLyricVersion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useLyricVersions.ts#L80) (3 connections)
+- [current](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L48) (2 connections)
+- [useCreateLyricVersion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useLyricVersions.ts#L128) (2 connections)
+- [useLyricVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useLyricVersions.ts#L58) (2 connections)
+- [[activeChord, setActiveChord]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L44) (1 connections)
+- [alpha](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L109) (1 connections)
+- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L77) (1 connections)
+- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L42) (1 connections)
+- [centerX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L88) (1 connections)
+- [centerY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L89) (1 connections)
+- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L80) (1 connections)
+- [dpr](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L83) (1 connections)
+- [gradient](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L107) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L187) (1 connections)
+- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L208) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L41) (1 connections)
+- [[hoveredChord, setHoveredChord]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L43) (1 connections)
+- [innerRadius](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L91) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L98) (1 connections)
+- [isHovered](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L99) (1 connections)
+- [labelRadius](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L124) (1 connections)
+- [labelX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L125) (1 connections)
+- [labelY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L126) (1 connections)
+- *... and 11 more nodes in this community*
 
 ## Relationships
 
@@ -37,12 +37,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\social-features.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\InteractiveChordWheel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useLyricVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useLyricVersions.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 74 (99%)
-- INFERRED: 1 (1%)
+- EXTRACTED: 70 (96%)
+- INFERRED: 3 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

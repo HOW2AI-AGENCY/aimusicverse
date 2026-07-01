@@ -1,22 +1,23 @@
 # Animation Management
 
-> 13 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L1) (12 connections)
-- [bgClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L141) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L137) (1 connections)
-- [displayLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L139) (1 connections)
-- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L144) (1 connections)
-- [isCustomIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L145) (1 connections)
-- [isSpinning](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L146) (1 connections)
-- [s](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L163) (1 connections)
-- [shouldPulse](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L140) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L148) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L224) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L51) (1 connections)
-- [textClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L142) (1 connections)
+- [usePerformanceMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L1) (8 connections)
+- [PerformanceDashboard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceDashboard.tsx#L20) (4 connections)
+- [usePerformanceMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts#L62) (4 connections)
+- [usePerformanceMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts#L1) (3 connections)
+- [usePerformanceTrend()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L156) (3 connections)
+- [calculateTrend()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L69) (2 connections)
+- [collectWebVitals()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L83) (2 connections)
+- [useAddPerformanceMetric()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L132) (2 connections)
+- [PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceDashboard.tsx#L1) (1 connections)
+- [calculatePercentile()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts#L55) (1 connections)
+- [getMetricStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L55) (1 connections)
+- [PERFORMANCE_TARGETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L37) (1 connections)
+- [THRESHOLDS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts#L47) (1 connections)
+- [useLatestPerformanceMetric()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L112) (1 connections)
 
 ## Relationships
 
@@ -24,12 +25,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\performance\PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\usePerformanceMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePerformanceMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 28 (82%)
+- INFERRED: 6 (18%)
 - AMBIGUOUS: 0 (0%)
 
 ---

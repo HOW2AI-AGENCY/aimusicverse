@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [dashboard](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx#L98) (1 connections)
-- [AdminDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx#L1) (1 connections)
+- [{ artworkLayoutId }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/pages/CoverPage.tsx#L19) (1 connections)
+- [CoverPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/pages/CoverPage.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\AdminDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\pages\CoverPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/pages/CoverPage.tsx)
 
 ## Audit Trail
 
