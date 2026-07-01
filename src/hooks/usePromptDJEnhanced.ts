@@ -1,533 +1,104 @@
 /**
- * usePromptDJEnhanced - Enhanced PromptDJ hook with real-time reactive synthesis
- * Optimized for performance with buffering, memoization and batched updates
+ * usePromptDJEnhanced — тонкий оркестратор.
+ *
+ * Композирует три внутренних хука (все в `./prompt-dj/`):
+ * - usePromptDecks — каналы (knob grid) + глобальные настройки + currentPrompt
+ * - usePromptEffects — Tone.js pipeline (synth/filter/reverb/delay, real-time)
+ * - usePromptRecording — генерация, воспроизведение, история треков
+ *
+ * Сам оркестратор владеет только live-mode (crossfade + continuation),
+ * потому что live-mode — это cross-cutting concern поверх decks+recording.
+ *
+ * Public API preserved — все 22 поля возврата идентичны исходному хуку.
+ *
+ * Извлечено из src/hooks/usePromptDJEnhanced.ts в Sprint 042 / Task B2
+ * (god-hook декомпозиция 879 → ~150 LOC).
  */
 
-import { useState, useCallback, useRef, useEffect, useMemo, useTransition } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { useDebouncedCallback } from "use-debounce";
-import { useAudioBufferPool } from "./useAudioBufferPool";
+import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 
-// Константы / типы / дефолты вынесены в ./prompt-dj/* для уменьшения god-hook.
-// Ре-экспорт ниже сохраняет обратную совместимость импортов от компонентов.
+import { usePromptDecks } from "./prompt-dj/usePromptDecks";
+import { usePromptEffects } from "./prompt-dj/usePromptEffects";
+import { usePromptRecording } from "./prompt-dj/usePromptRecording";
+
+// Re-export shared constants/types/defaults for backward compatibility
 export { CHANNEL_TYPES, NOTE_NAMES } from "./prompt-dj/constants";
 export { DEFAULT_CHANNELS, DEFAULT_SETTINGS } from "./prompt-dj/defaults";
 export type { ChannelType, PromptChannel, GlobalSettings, GeneratedTrack } from "./prompt-dj/types";
 
-import { NOTE_NAMES } from "./prompt-dj/constants";
-import { DEFAULT_CHANNELS, DEFAULT_SETTINGS } from "./prompt-dj/defaults";
-import { buildWeightedPrompt, computeScaleNotes } from "./prompt-dj/promptBuilder";
-import type { PromptChannel, GlobalSettings, GeneratedTrack } from "./prompt-dj/types";
-
 // Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
 type ToneType = typeof import("tone");
 type PlayerType = import("tone").Player;
-type PolySynthType = import("tone").PolySynth;
-type SequenceType = import("tone").Sequence;
-type AnalyserType = import("tone").Analyser;
-type ReverbType = import("tone").Reverb;
-type FilterType = import("tone").Filter;
-type FeedbackDelayType = import("tone").FeedbackDelay;
 type GainType = import("tone").Gain;
 
-// Cached Tone module reference
 let ToneModule: ToneType | null = null;
 
-// URL cache for prompts (separate from buffer pool)
-const globalAudioCache = new Map<string, string>();
-
 export function usePromptDJEnhanced() {
-  const [channels, setChannels] = useState<PromptChannel[]>(DEFAULT_CHANNELS);
-  const [globalSettings, setGlobalSettings] = useState<GlobalSettings>(DEFAULT_SETTINGS);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedTracks, setGeneratedTracks] = useState<GeneratedTrack[]>([]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState<GeneratedTrack | null>(null);
-  const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  // 1. Deck state (channels + global settings + currentPrompt memo)
+  const { channels, updateChannel, globalSettings, updateGlobalSettings, currentPrompt } = usePromptDecks();
 
-  // Live mode state
+  // 2. Live Tone pipeline (synth preview, analyser, real-time effects)
+  const { analyzerNode, isPreviewPlaying, previewWithSynth, stopPreview } = usePromptEffects({
+    channels,
+    globalSettings,
+  });
+
+  // 3. Recording / playback (generate, play, stop, track history)
+  const {
+    isGenerating,
+    generatedTracks,
+    currentTrack,
+    isPlaying,
+    audioCache,
+    generateMusic,
+    playTrack,
+    stopPlayback,
+    removeTrack,
+    pushTrack,
+  } = usePromptRecording({
+    currentPrompt,
+    duration: globalSettings.duration,
+    analyzerNode,
+    onWillPlay: stopPreview,
+  });
+
+  // 4. Live mode state (cross-cutting — composed above)
   const [isLiveMode, setIsLiveMode] = useState(false);
   const [liveStatus, setLiveStatus] = useState<"idle" | "generating" | "playing" | "transitioning">("idle");
+
+  const playerRef = useRef<PlayerType | null>(null);
+  const nextPlayerRef = useRef<PlayerType | null>(null);
+  const gainNodeRef = useRef<GainType | null>(null);
+  const nextGainNodeRef = useRef<GainType | null>(null);
   const lastGeneratedPromptRef = useRef<string>("");
+  const lastAudioUrlRef = useRef<string | null>(null);
+  const segmentCountRef = useRef(0);
   const liveGenerationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isGeneratingLiveRef = useRef(false);
 
-  // Audio refs
-  const playerRef = useRef<PlayerType | null>(null);
-  const nextPlayerRef = useRef<PlayerType | null>(null);
-  const synthRef = useRef<PolySynthType | null>(null);
-  const sequenceRef = useRef<SequenceType | null>(null);
-  const analyzerRef = useRef<AnalyserType | null>(null);
-  const reverbRef = useRef<ReverbType | null>(null);
-  const filterRef = useRef<FilterType | null>(null);
-  const delayRef = useRef<FeedbackDelayType | null>(null);
-  const gainNodeRef = useRef<GainType | null>(null);
-  const nextGainNodeRef = useRef<GainType | null>(null);
-
-  // Pattern state for real-time updates
-  const patternRef = useRef<(string | null)[]>([]);
-  const scaleNotesRef = useRef<string[]>([]);
-
-  // Use global caches
-  const audioCacheRef = useRef(globalAudioCache);
-
-  // Use optimized buffer pool
-  const { getBuffer, setBuffer, queuePreload } = useAudioBufferPool();
-
-  // Compute scale notes (pure function, extracted to promptBuilder.ts)
-  const computeScaleNotesLocal = useCallback((key: string, scale: string) => computeScaleNotes(key, scale), []);
-
-  // Initialize analyzer with dynamic import
-  useEffect(() => {
-    const initAnalyzer = async () => {
-      if (!ToneModule) {
-        ToneModule = await import("tone");
-      }
-      analyzerRef.current = new ToneModule.Analyser("fft", 64);
-    };
-    initAnalyzer();
-
-    return () => {
-      analyzerRef.current?.dispose();
-      playerRef.current?.dispose();
-      synthRef.current?.dispose();
-      sequenceRef.current?.dispose();
-      reverbRef.current?.dispose();
-      filterRef.current?.dispose();
-      delayRef.current?.dispose();
-    };
-  }, []);
-
-  // REAL-TIME: Update BPM when it changes
-  useEffect(() => {
-    if (isPreviewPlaying && ToneModule) {
-      ToneModule.getTransport().bpm.rampTo(globalSettings.bpm, 0.2);
-    }
-  }, [globalSettings.bpm, isPreviewPlaying]);
-
-  // REAL-TIME: Update synth sound when brightness changes
-  useEffect(() => {
-    if (isPreviewPlaying && synthRef.current) {
-      const oscType =
-        globalSettings.brightness > 0.7 ? "sawtooth" : globalSettings.brightness > 0.4 ? "triangle" : "sine";
-
-      synthRef.current.set({
-        oscillator: { type: oscType as any },
-        envelope: {
-          attack: 0.02 + (1 - globalSettings.brightness) * 0.1,
-          release: 0.3 + (1 - globalSettings.brightness) * 0.4,
-        },
-      });
-    }
-  }, [globalSettings.brightness, isPreviewPlaying]);
-
-  // REAL-TIME: Update filter based on brightness
-  useEffect(() => {
-    if (isPreviewPlaying && filterRef.current) {
-      const freq = 200 + globalSettings.brightness * 4000;
-      filterRef.current.frequency.rampTo(freq, 0.1);
-    }
-  }, [globalSettings.brightness, isPreviewPlaying]);
-
-  // REAL-TIME: Update reverb based on mood/texture
-  useEffect(() => {
-    if (isPreviewPlaying && reverbRef.current) {
-      const moodChannel = channels.find((c) => c.type === "mood");
-      const textureChannel = channels.find((c) => c.type === "texture");
-
-      const isDreamy =
-        moodChannel?.value?.toLowerCase().includes("dreamy") ||
-        textureChannel?.value?.toLowerCase().includes("airy") ||
-        textureChannel?.value?.toLowerCase().includes("ambient");
-
-      reverbRef.current.wet.rampTo(isDreamy ? 0.6 : 0.2, 0.3);
-    }
-  }, [channels, isPreviewPlaying]);
-
-  // REAL-TIME: Update scale notes when key/scale changes
-  useEffect(() => {
-    scaleNotesRef.current = computeScaleNotesLocal(globalSettings.key, globalSettings.scale);
-  }, [globalSettings.key, globalSettings.scale, computeScaleNotesLocal]);
-
-  // REAL-TIME: Regenerate pattern when density changes
-  useEffect(() => {
-    if (isPreviewPlaying && scaleNotesRef.current.length > 0) {
-      const energyChannel = channels.find((c) => c.type === "energy");
-      const isHighEnergy =
-        energyChannel?.enabled &&
-        (energyChannel?.weight > 0.6 ||
-          energyChannel?.value?.toLowerCase().includes("high") ||
-          energyChannel?.value?.toLowerCase().includes("intense"));
-
-      const stepCount = isHighEnergy ? 16 : 8;
-      const noteDensity = 0.2 + globalSettings.density * 0.6;
-
-      const newPattern: (string | null)[] = [];
-      for (let i = 0; i < stepCount; i++) {
-        if (Math.random() < noteDensity) {
-          newPattern.push(scaleNotesRef.current[Math.floor(Math.random() * scaleNotesRef.current.length)]);
-        } else {
-          newPattern.push(null);
-        }
-      }
-      patternRef.current = newPattern;
-
-      // Update sequence events
-      if (sequenceRef.current) {
-        sequenceRef.current.events = newPattern;
-      }
-    }
-  }, [globalSettings.density, channels, isPreviewPlaying]);
-
-  // Build weighted prompt from channels (pure function, extracted to promptBuilder.ts)
-  const currentPrompt = useMemo(() => buildWeightedPrompt(channels, globalSettings), [channels, globalSettings]);
-
-  // Debounced channel update for weight changes (smooth knob interaction)
-  const debouncedChannelUpdate = useDebouncedCallback(
-    (id: string, updates: Partial<PromptChannel>) => {
-      startTransition(() => {
-        setChannels((prev) => prev.map((ch) => (ch.id === id ? { ...ch, ...updates } : ch)));
-      });
-    },
-    16, // ~60fps
-    { leading: true, trailing: true, maxWait: 50 },
-  );
-
-  // Update channel - immediate for non-weight, debounced for weight
-  const updateChannel = useCallback(
-    (id: string, updates: Partial<PromptChannel>) => {
-      if ("weight" in updates && Object.keys(updates).length === 1) {
-        // Weight-only updates are debounced for smooth knob interaction
-        debouncedChannelUpdate(id, updates);
-      } else {
-        // Other updates are immediate
-        setChannels((prev) => prev.map((ch) => (ch.id === id ? { ...ch, ...updates } : ch)));
-      }
-    },
-    [debouncedChannelUpdate],
-  );
-
-  // Debounced global settings update
-  const debouncedSettingsUpdate = useDebouncedCallback(
-    (updates: Partial<GlobalSettings>) => {
-      startTransition(() => {
-        setGlobalSettings((prev) => ({ ...prev, ...updates }));
-      });
-    },
-    16,
-    { leading: true, trailing: true, maxWait: 50 },
-  );
-
-  // Update global settings
-  const updateGlobalSettings = useCallback(
-    (updates: Partial<GlobalSettings>) => {
-      // Debounce continuous values like BPM slider
-      if ("bpm" in updates || "density" in updates || "brightness" in updates) {
-        debouncedSettingsUpdate(updates);
-      } else {
-        setGlobalSettings((prev) => ({ ...prev, ...updates }));
-      }
-    },
-    [debouncedSettingsUpdate],
-  );
-
-  // Generate music with caching
-  const generateMusic = useCallback(async () => {
-    if (!currentPrompt.trim()) {
-      toast.error("Настройте каналы для генерации");
-      return;
-    }
-
-    // Check cache first
-    const cachedUrl = audioCacheRef.current.get(currentPrompt);
-    if (cachedUrl) {
-      const cachedTrack: GeneratedTrack = {
-        id: crypto.randomUUID(),
-        prompt: currentPrompt,
-        audioUrl: cachedUrl,
-        createdAt: new Date(),
-      };
-      setGeneratedTracks((prev) => [cachedTrack, ...prev]);
-      toast.success("Трек загружен из кэша!");
-      playTrack(cachedTrack);
-      return;
-    }
-
-    setIsGenerating(true);
-
-    try {
-      const { data, error } = await supabase.functions.invoke("musicgen-generate", {
-        body: {
-          prompt: currentPrompt,
-          duration: globalSettings.duration,
-          temperature: 1.0,
-        },
-      });
-
-      if (error) throw error;
-
-      if (data?.audio_url) {
-        // Cache the result
-        audioCacheRef.current.set(currentPrompt, data.audio_url);
-
-        // Queue preload into buffer pool
-        queuePreload(data.audio_url, currentPrompt);
-
-        const newTrack: GeneratedTrack = {
-          id: crypto.randomUUID(),
-          prompt: currentPrompt,
-          audioUrl: data.audio_url,
-          createdAt: new Date(),
-        };
-
-        setGeneratedTracks((prev) => [newTrack, ...prev]);
-        toast.success("Трек сгенерирован!");
-        playTrack(newTrack);
-      }
-    } catch (error) {
-      logger.error("Generation error", error instanceof Error ? error : new Error(String(error)));
-      toast.error("Ошибка генерации");
-    } finally {
-      setIsGenerating(false);
-    }
-  }, [currentPrompt, globalSettings.duration, queuePreload]);
-
-  // Play track with buffering
-  const playTrack = useCallback(
-    async (track: GeneratedTrack) => {
-      try {
-        if (!ToneModule) {
-          ToneModule = await import("tone");
-        }
-        const Tone = ToneModule;
-
-        await Tone.start();
-        stopPreview();
-
-        if (playerRef.current) {
-          playerRef.current.stop();
-          playerRef.current.dispose();
-        }
-
-        // Check buffer pool first
-        const cachedBuffer = getBuffer(track.prompt);
-
-        const player = new Tone.Player();
-
-        if (analyzerRef.current) {
-          player.connect(analyzerRef.current);
-        }
-        player.toDestination();
-
-        if (cachedBuffer && cachedBuffer.loaded) {
-          player.buffer = cachedBuffer;
-          player.start();
-        } else {
-          await player.load(track.audioUrl);
-          player.start();
-
-          // Cache buffer for future use
-          if (player.buffer) {
-            setBuffer(track.prompt, player.buffer);
-          }
-        }
-
-        playerRef.current = player;
-        setCurrentTrack(track);
-        setIsPlaying(true);
-
-        player.onstop = () => {
-          setIsPlaying(false);
-        };
-      } catch (error) {
-        logger.error("Playback error", error instanceof Error ? error : new Error(String(error)));
-        toast.error("Ошибка воспроизведения");
-      }
-    },
-    [getBuffer, setBuffer],
-  );
-
-  // Stop playback
-  const stopPlayback = useCallback(() => {
-    if (playerRef.current) {
-      playerRef.current.stop();
-    }
-    setIsPlaying(false);
-  }, []);
-
-  // Start real-time preview with synth
-  const previewWithSynth = useCallback(async () => {
-    try {
-      if (!ToneModule) {
-        ToneModule = await import("tone");
-      }
-      const Tone = ToneModule;
-
-      await Tone.start();
-      stopPreview();
-
-      // Create filter for brightness control
-      const filter = new Tone.Filter({
-        frequency: 200 + globalSettings.brightness * 4000,
-        type: "lowpass",
-        rolloff: -12,
-      });
-      filterRef.current = filter;
-
-      // Create reverb
-      const reverb = new Tone.Reverb({
-        decay: 2.5,
-        wet: 0.2,
-        preDelay: 0.01,
-      });
-      await reverb.generate();
-      reverbRef.current = reverb;
-
-      // Create delay for texture
-      const delay = new Tone.FeedbackDelay({
-        delayTime: "8n",
-        feedback: 0.2,
-        wet: 0.15,
-      });
-      delayRef.current = delay;
-
-      // Create synth based on settings
-      const oscType =
-        globalSettings.brightness > 0.7 ? "sawtooth" : globalSettings.brightness > 0.4 ? "triangle" : "sine";
-
-      const synth = new Tone.PolySynth(Tone.Synth, {
-        oscillator: { type: oscType as any },
-        envelope: {
-          attack: 0.02 + (1 - globalSettings.brightness) * 0.1,
-          decay: 0.2,
-          sustain: 0.4,
-          release: 0.3 + (1 - globalSettings.brightness) * 0.4,
-        },
-      });
-
-      // Connect chain: synth -> filter -> delay -> reverb -> analyzer -> destination
-      synth.connect(filter);
-      filter.connect(delay);
-      delay.connect(reverb);
-
-      if (analyzerRef.current) {
-        reverb.connect(analyzerRef.current);
-      }
-      reverb.toDestination();
-
-      synthRef.current = synth;
-
-      // Generate initial scale notes
-      scaleNotesRef.current = computeScaleNotes(globalSettings.key, globalSettings.scale);
-
-      // Generate initial pattern
-      const energyChannel = channels.find((c) => c.type === "energy");
-      const isHighEnergy =
-        energyChannel?.enabled &&
-        (energyChannel?.weight > 0.6 ||
-          energyChannel?.value?.toLowerCase().includes("high") ||
-          energyChannel?.value?.toLowerCase().includes("intense"));
-
-      const stepCount = isHighEnergy ? 16 : 8;
-      const noteDensity = 0.2 + globalSettings.density * 0.6;
-
-      const pattern: (string | null)[] = [];
-      for (let i = 0; i < stepCount; i++) {
-        if (Math.random() < noteDensity) {
-          pattern.push(scaleNotesRef.current[Math.floor(Math.random() * scaleNotesRef.current.length)]);
-        } else {
-          pattern.push(null);
-        }
-      }
-      patternRef.current = pattern;
-
-      Tone.getTransport().bpm.value = globalSettings.bpm;
-
-      const sequence = new Tone.Sequence(
-        (time, note) => {
-          if (note && synthRef.current) {
-            const noteLength = isHighEnergy ? "16n" : "8n";
-            synthRef.current.triggerAttackRelease(note, noteLength, time);
-          }
-        },
-        pattern,
-        isHighEnergy ? "16n" : "8n",
-      );
-
-      sequence.loop = true;
-      sequence.start(0);
-      sequenceRef.current = sequence;
-
-      Tone.getTransport().start();
-      setIsPreviewPlaying(true);
-    } catch (error) {
-      logger.error("Preview error", error instanceof Error ? error : new Error(String(error)));
-      toast.error("Ошибка запуска превью");
-    }
-  }, [globalSettings, channels, computeScaleNotes]);
-
-  // Stop preview
-  const stopPreview = useCallback(() => {
-    if (!ToneModule) return;
-    const Tone = ToneModule;
-
-    if (sequenceRef.current) {
-      sequenceRef.current.stop();
-      sequenceRef.current.dispose();
-      sequenceRef.current = null;
-    }
-    if (synthRef.current) {
-      synthRef.current.dispose();
-      synthRef.current = null;
-    }
-    if (reverbRef.current) {
-      reverbRef.current.dispose();
-      reverbRef.current = null;
-    }
-    if (filterRef.current) {
-      filterRef.current.dispose();
-      filterRef.current = null;
-    }
-    if (delayRef.current) {
-      delayRef.current.dispose();
-      delayRef.current = null;
-    }
-    Tone.getTransport().stop();
-    setIsPreviewPlaying(false);
-  }, []);
-
-  // Track the last generated audio URL for continuation
-  const lastAudioUrlRef = useRef<string | null>(null);
-  const segmentCountRef = useRef(0);
-
-  // Live mode: Generate and play with crossfade transitions
-  // Uses continuation mode for seamless melody generation
+  // Generate segment (possibly with continuation context for seamless melody)
   const generateForLive = useCallback(
     async (prompt: string, continuationUrl?: string): Promise<string | null> => {
-      // Create unique cache key including continuation context
       const cacheKey = continuationUrl ? `${prompt}__continuation_${segmentCountRef.current}` : prompt;
 
-      // Check cache first (only for exact matches without continuation)
       if (!continuationUrl) {
-        const cachedUrl = audioCacheRef.current.get(cacheKey);
+        const cachedUrl = audioCache.get(cacheKey);
         if (cachedUrl) return cachedUrl;
       }
 
       try {
-        // Build generation request with continuation support
         const requestBody: Record<string, unknown> = {
           prompt: `${prompt}, seamless transition, continuous melody`,
           duration: globalSettings.duration,
-          temperature: 0.8, // Lower temperature for more consistent output
+          temperature: 0.8,
         };
 
-        // Add continuation audio for seamless melody
         if (continuationUrl) {
           requestBody.continuation_url = continuationUrl;
-          requestBody.continuation_start = Math.max(0, globalSettings.duration - 3); // Last 3 seconds
+          requestBody.continuation_start = Math.max(0, globalSettings.duration - 3);
           requestBody.prompt = `continuation of previous segment, ${prompt}, seamless transition`;
         }
 
@@ -538,7 +109,7 @@ export function usePromptDJEnhanced() {
         if (error) throw error;
 
         if (data?.audio_url) {
-          audioCacheRef.current.set(cacheKey, data.audio_url);
+          audioCache.set(cacheKey, data.audio_url);
           lastAudioUrlRef.current = data.audio_url;
           segmentCountRef.current += 1;
           return data.audio_url;
@@ -549,83 +120,79 @@ export function usePromptDJEnhanced() {
         return null;
       }
     },
-    [globalSettings.duration],
+    [audioCache, globalSettings.duration],
   );
 
   // Crossfade to new track
-  const crossfadeToTrack = useCallback(async (audioUrl: string, prompt: string) => {
-    try {
-      if (!ToneModule) {
-        ToneModule = await import("tone");
+  const crossfadeToTrack = useCallback(
+    async (audioUrl: string, prompt: string) => {
+      try {
+        if (!ToneModule) {
+          ToneModule = await import("tone");
+        }
+        const Tone = ToneModule;
+
+        await Tone.start();
+        setLiveStatus("transitioning");
+
+        const newPlayer = new Tone.Player();
+        const newGain = new Tone.Gain(0);
+
+        newPlayer.connect(newGain);
+        if (analyzerNode) {
+          newGain.connect(analyzerNode);
+        }
+        newGain.toDestination();
+        newPlayer.loop = true;
+
+        await newPlayer.load(audioUrl);
+        newPlayer.start();
+
+        nextPlayerRef.current = newPlayer;
+        nextGainNodeRef.current = newGain;
+
+        const fadeTime = 2;
+
+        if (gainNodeRef.current) {
+          gainNodeRef.current.gain.rampTo(0, fadeTime);
+        }
+        newGain.gain.rampTo(1, fadeTime);
+
+        setTimeout(
+          () => {
+            if (playerRef.current) {
+              playerRef.current.stop();
+              playerRef.current.dispose();
+            }
+            if (gainNodeRef.current) {
+              gainNodeRef.current.dispose();
+            }
+
+            playerRef.current = nextPlayerRef.current;
+            gainNodeRef.current = nextGainNodeRef.current;
+            nextPlayerRef.current = null;
+            nextGainNodeRef.current = null;
+
+            // Track is added by recording hook via playTrack — but for live mode
+            // we want a separate history slice; emit a synthetic track record.
+            const newTrack = {
+              id: crypto.randomUUID(),
+              prompt,
+              audioUrl,
+              createdAt: new Date(),
+            };
+            pushTrack(newTrack, { cap: 10, makeCurrent: true });
+            setLiveStatus("playing");
+          },
+          fadeTime * 1000 + 100,
+        );
+      } catch (error) {
+        logger.warn("Crossfade error", { error });
+        setLiveStatus("playing");
       }
-      const Tone = ToneModule;
-
-      await Tone.start();
-      setLiveStatus("transitioning");
-
-      // Create new player
-      const newPlayer = new Tone.Player();
-      const newGain = new Tone.Gain(0); // Start silent
-
-      newPlayer.connect(newGain);
-      if (analyzerRef.current) {
-        newGain.connect(analyzerRef.current);
-      }
-      newGain.toDestination();
-      newPlayer.loop = true;
-
-      await newPlayer.load(audioUrl);
-      newPlayer.start();
-
-      nextPlayerRef.current = newPlayer;
-      nextGainNodeRef.current = newGain;
-
-      // Crossfade over 2 seconds
-      const fadeTime = 2;
-
-      // Fade out current
-      if (gainNodeRef.current) {
-        gainNodeRef.current.gain.rampTo(0, fadeTime);
-      }
-
-      // Fade in new
-      newGain.gain.rampTo(1, fadeTime);
-
-      // After fade, clean up old player
-      setTimeout(
-        () => {
-          if (playerRef.current) {
-            playerRef.current.stop();
-            playerRef.current.dispose();
-          }
-          if (gainNodeRef.current) {
-            gainNodeRef.current.dispose();
-          }
-
-          // Swap refs
-          playerRef.current = nextPlayerRef.current;
-          gainNodeRef.current = nextGainNodeRef.current;
-          nextPlayerRef.current = null;
-          nextGainNodeRef.current = null;
-
-          // Update track state
-          const newTrack: GeneratedTrack = {
-            id: crypto.randomUUID(),
-            prompt,
-            audioUrl,
-            createdAt: new Date(),
-          };
-          setCurrentTrack(newTrack);
-          setGeneratedTracks((prev) => [newTrack, ...prev.slice(0, 9)]); // Keep last 10
-          setLiveStatus("playing");
-        },
-        fadeTime * 1000 + 100,
-      );
-    } catch (error) {
-      logger.warn("Crossfade error", { error });
-      setLiveStatus("playing");
-    }
-  }, []);
+    },
+    [analyzerNode, pushTrack],
+  );
 
   // Start live mode
   const startLiveMode = useCallback(async () => {
@@ -634,7 +201,6 @@ export function usePromptDJEnhanced() {
       return;
     }
 
-    // Reset continuation state for new session
     lastAudioUrlRef.current = null;
     segmentCountRef.current = 0;
 
@@ -651,7 +217,6 @@ export function usePromptDJEnhanced() {
 
       await Tone.start();
 
-      // First segment - no continuation
       const audioUrl = await generateForLive(currentPrompt);
 
       if (!audioUrl) {
@@ -662,16 +227,14 @@ export function usePromptDJEnhanced() {
         return;
       }
 
-      // Remember what we generated
       lastGeneratedPromptRef.current = currentPrompt;
 
-      // Create initial player with gain for crossfade support
       const player = new Tone.Player();
       const gain = new Tone.Gain(1);
 
       player.connect(gain);
-      if (analyzerRef.current) {
-        gain.connect(analyzerRef.current);
+      if (analyzerNode) {
+        gain.connect(analyzerNode);
       }
       gain.toDestination();
       player.loop = true;
@@ -682,15 +245,14 @@ export function usePromptDJEnhanced() {
       playerRef.current = player;
       gainNodeRef.current = gain;
 
-      const newTrack: GeneratedTrack = {
+      const newTrack = {
         id: crypto.randomUUID(),
         prompt: currentPrompt,
         audioUrl,
         createdAt: new Date(),
       };
 
-      setCurrentTrack(newTrack);
-      setGeneratedTracks((prev) => [newTrack, ...prev]);
+      pushTrack(newTrack, { cap: 10, makeCurrent: true });
       setIsPlaying(true);
       setLiveStatus("playing");
       isGeneratingLiveRef.current = false;
@@ -703,7 +265,7 @@ export function usePromptDJEnhanced() {
       setLiveStatus("idle");
       isGeneratingLiveRef.current = false;
     }
-  }, [currentPrompt, generateForLive]);
+  }, [currentPrompt, generateForLive, analyzerNode, pushTrack]);
 
   // Stop live mode
   const stopLiveMode = useCallback(() => {
@@ -740,32 +302,20 @@ export function usePromptDJEnhanced() {
 
   // Auto-trigger generation when prompt changes in live mode
   useEffect(() => {
-    // Only proceed if in live mode
     if (!isLiveMode) return;
-
-    // Don't queue if already generating
     if (isGeneratingLiveRef.current) return;
-
-    // Don't regenerate for same prompt
     if (currentPrompt === lastGeneratedPromptRef.current) return;
 
-    // Clear any pending timeout
     if (liveGenerationTimeoutRef.current) {
       clearTimeout(liveGenerationTimeoutRef.current);
     }
 
-    // Debounce: wait 2 seconds after last change before generating
     liveGenerationTimeoutRef.current = setTimeout(async () => {
-      // Double check we're still in live mode
       if (!isLiveMode) return;
-
-      // Prevent concurrent generations
       if (isGeneratingLiveRef.current) return;
       isGeneratingLiveRef.current = true;
 
       const promptToGenerate = currentPrompt;
-
-      // Skip if same as last generated
       if (promptToGenerate === lastGeneratedPromptRef.current) {
         isGeneratingLiveRef.current = false;
         return;
@@ -775,7 +325,6 @@ export function usePromptDJEnhanced() {
       toast.info("🎵 Генерация нового сегмента с плавным переходом...");
 
       try {
-        // Use last audio URL for continuation to create seamless melody
         const continuationUrl = lastAudioUrlRef.current;
         const audioUrl = await generateForLive(promptToGenerate, continuationUrl || undefined);
 
@@ -801,24 +350,12 @@ export function usePromptDJEnhanced() {
     };
   }, [currentPrompt, isLiveMode, generateForLive, crossfadeToTrack]);
 
-  // Remove track
-  const removeTrack = useCallback(
-    (id: string) => {
-      setGeneratedTracks((prev) => prev.filter((t) => t.id !== id));
-      if (currentTrack?.id === id) {
-        stopPlayback();
-      }
-    },
-    [currentTrack, stopPlayback],
-  );
-
-  // Force regenerate in live mode - called after user finishes adjusting knobs
+  // Force regenerate in live mode
   const forceRegenerateInLive = useCallback(async () => {
     if (!isLiveMode) return;
     if (isGeneratingLiveRef.current) return;
     if (currentPrompt === lastGeneratedPromptRef.current) return;
 
-    // Clear any pending timeout
     if (liveGenerationTimeoutRef.current) {
       clearTimeout(liveGenerationTimeoutRef.current);
       liveGenerationTimeoutRef.current = null;
@@ -831,7 +368,6 @@ export function usePromptDJEnhanced() {
     toast.info("🎵 Генерация нового сегмента...");
 
     try {
-      // Use continuation for seamless melody
       const continuationUrl = lastAudioUrlRef.current;
       const audioUrl = await generateForLive(promptToGenerate, continuationUrl || undefined);
 
@@ -851,24 +387,27 @@ export function usePromptDJEnhanced() {
   }, [isLiveMode, currentPrompt, generateForLive, crossfadeToTrack]);
 
   return {
+    // Decks
     channels,
     updateChannel,
     globalSettings,
     updateGlobalSettings,
+    // Recording
     isGenerating,
     generatedTracks,
     generateMusic,
-    previewWithSynth,
-    stopPreview,
-    isPreviewPlaying,
     isPlaying,
     currentTrack,
     playTrack,
     stopPlayback,
-    currentPrompt,
-    analyzerNode: analyzerRef.current,
     removeTrack,
-    audioCache: audioCacheRef.current,
+    audioCache,
+    // Effects
+    previewWithSynth,
+    stopPreview,
+    isPreviewPlaying,
+    currentPrompt,
+    analyzerNode,
     // Live mode
     isLiveMode,
     liveStatus,
