@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useRef, useCallback } from "react";
-import { fetchTrackStemsMinimal, subscribeToTrackStemsInsert } from "@/api/studio.api";
+import { fetchTrackStemsMinimal, subscribeToTrackStemsInsert } from "@/services/studio.service";
 import { useUnifiedStudioStore, TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
 import { toast } from "sonner";
