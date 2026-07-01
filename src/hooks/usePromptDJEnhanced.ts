@@ -18,7 +18,7 @@ export type { ChannelType, PromptChannel, GlobalSettings, GeneratedTrack } from 
 
 import { NOTE_NAMES } from "./prompt-dj/constants";
 import { DEFAULT_CHANNELS, DEFAULT_SETTINGS } from "./prompt-dj/defaults";
-import { buildWeightedPrompt } from "./prompt-dj/promptBuilder";
+import { buildWeightedPrompt, computeScaleNotes } from "./prompt-dj/promptBuilder";
 import type { PromptChannel, GlobalSettings, GeneratedTrack } from "./prompt-dj/types";
 
 // Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
@@ -77,27 +77,8 @@ export function usePromptDJEnhanced() {
   // Use optimized buffer pool
   const { getBuffer, setBuffer, queuePreload } = useAudioBufferPool();
 
-  // Compute scale notes based on key and scale
-  const computeScaleNotes = useCallback((key: string, scale: string) => {
-    const rootIndex = NOTE_NAMES.indexOf(key);
-    const scaleIntervals =
-      scale === "major"
-        ? [0, 2, 4, 5, 7, 9, 11]
-        : scale === "minor"
-          ? [0, 2, 3, 5, 7, 8, 10]
-          : scale === "dorian"
-            ? [0, 2, 3, 5, 7, 9, 10]
-            : scale === "pentatonic"
-              ? [0, 2, 4, 7, 9]
-              : [0, 2, 3, 5, 7, 8, 10]; // default minor
-
-    const octave = 4;
-    return scaleIntervals.map((interval) => {
-      const noteIndex = (rootIndex + interval) % 12;
-      const noteOctave = octave + Math.floor((rootIndex + interval) / 12);
-      return `${NOTE_NAMES[noteIndex]}${noteOctave}`;
-    });
-  }, []);
+  // Compute scale notes (pure function, extracted to promptBuilder.ts)
+  const computeScaleNotesLocal = useCallback((key: string, scale: string) => computeScaleNotes(key, scale), []);
 
   // Initialize analyzer with dynamic import
   useEffect(() => {
@@ -168,8 +149,8 @@ export function usePromptDJEnhanced() {
 
   // REAL-TIME: Update scale notes when key/scale changes
   useEffect(() => {
-    scaleNotesRef.current = computeScaleNotes(globalSettings.key, globalSettings.scale);
-  }, [globalSettings.key, globalSettings.scale, computeScaleNotes]);
+    scaleNotesRef.current = computeScaleNotesLocal(globalSettings.key, globalSettings.scale);
+  }, [globalSettings.key, globalSettings.scale, computeScaleNotesLocal]);
 
   // REAL-TIME: Regenerate pattern when density changes
   useEffect(() => {

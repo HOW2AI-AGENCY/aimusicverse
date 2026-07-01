@@ -9,6 +9,7 @@
  */
 
 import type { PromptChannel, GlobalSettings } from "./types";
+import { NOTE_NAMES } from "./constants";
 
 /**
  * Собирает промпт из активных каналов + глобальных настроек.
@@ -39,4 +40,32 @@ export function buildWeightedPrompt(channels: PromptChannel[], globalSettings: G
   else if (globalSettings.brightness > 0.7) parts.push("bright, crisp");
 
   return parts.filter(Boolean).join(", ");
+}
+
+/**
+ * Вычисляет MIDI-подобные имена нот для заданных key/scale.
+ *
+ * Например: computeScaleNotes("C", "minor") => ["C4", "D4", "D#4", "F4", "G4", "G#4", "A#4"].
+ * Используется в Pattern-генераторе usePromptDJEnhanced.
+ *
+ * Pure function — никаких React зависимостей.
+ */
+export function computeScaleNotes(key: string, scale: string, octave: number = 4): string[] {
+  const rootIndex = NOTE_NAMES.indexOf(key);
+  const scaleIntervals =
+    scale === "major"
+      ? [0, 2, 4, 5, 7, 9, 11]
+      : scale === "minor"
+        ? [0, 2, 3, 5, 7, 8, 10]
+        : scale === "dorian"
+          ? [0, 2, 3, 5, 7, 9, 10]
+          : scale === "pentatonic"
+            ? [0, 2, 4, 7, 9]
+            : [0, 2, 3, 5, 7, 8, 10]; // default minor
+
+  return scaleIntervals.map((interval) => {
+    const noteIndex = (rootIndex + interval) % 12;
+    const noteOctave = octave + Math.floor((rootIndex + interval) / 12);
+    return `${NOTE_NAMES[noteIndex]}${noteOctave}`;
+  });
 }
