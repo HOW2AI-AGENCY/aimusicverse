@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useTrackStems } from "@/hooks/useTrackStems";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,9 @@ import { Play, Pause, Download, Loader2, Mic, Volume2, Music } from "@/lib/icons
 import { Badge } from "@/components/ui/badge";
 import { getStemLabel } from "@/lib/stemLabels";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface TrackStemsTabProps {
   trackId: string;
@@ -15,53 +17,36 @@ interface TrackStemsTabProps {
 export const TrackStemsTab = ({ trackId }: TrackStemsTabProps) => {
   const { data: stems, isLoading } = useTrackStems(trackId);
   const [playingId, setPlayingId] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const sourceId = `stems-tab-${trackId}`;
 
-  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  const { pauseTrack } = usePlayerStore();
 
-  // Register with studio audio coordinator
-  useEffect(() => {
-    registerStudioAudio(sourceId, () => {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    });
+  // Пул-аудио с динамическим src.
+  const { playUrl, pause } = usePreviewAudio({
+    id: sourceId,
+    src: previewUrl,
+    priority: AudioPriority.MEDIUM,
+    onEnded: () => setPlayingId(null),
+    onError: () => setPlayingId(null),
+  });
 
-    return () => {
-      unregisterStudioAudio(sourceId);
-      audioRef.current?.pause();
-    };
-  }, [sourceId]);
-
-  // Pause when global player starts
-  useEffect(() => {
-    if (globalIsPlaying && playingId) {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    }
-  }, [globalIsPlaying, playingId]);
-
-  const handlePlay = (stemId: string, audioUrl: string) => {
+  const handlePlay = async (stemId: string, audioUrl: string) => {
     if (playingId === stemId) {
-      audioRef.current?.pause();
+      // Toggle off
+      pause();
       setPlayingId(null);
       return;
     }
-
-    // Stop any current playback
-    audioRef.current?.pause();
 
     // Pause global player and other studio audio
     pauseTrack();
     pauseAllStudioAudio(sourceId);
 
-    // Play this stem
-    const audio = new Audio(audioUrl);
-    audio.onended = () => setPlayingId(null);
-    audio.onerror = () => setPlayingId(null);
-    audio.play();
-    audioRef.current = audio;
+    // Меняем src на pool-элементе и запускаем.
     setPlayingId(stemId);
+    setPreviewUrl(audioUrl);
+    await playUrl(audioUrl);
   };
 
   const getStemIcon = (stemType: string) => {
