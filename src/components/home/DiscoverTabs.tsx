@@ -27,7 +27,7 @@ interface DiscoverTabsProps {
   hasMoreRecent?: boolean;
   isLoadingMoreRecent?: boolean;
   onLoadMoreRecent?: () => void;
-  onTrackClick?: (id: string) => void;
+  onTrackClick?: (track: TrackData) => void;
   /**
    * Optional remix callback. Accepted at the boundary so callers can
    * pass a uniform handler signature even when the rendered card variant
