@@ -24,7 +24,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   static getDerivedStateFromError(error: Error): State {
     // Log to boot log for critical debugging
-    console.error("[ErrorBoundary] Error caught:", error);
+    logger.error("[ErrorBoundary] Error caught", { error });
     try {
       const existing = JSON.parse(sessionStorage.getItem("musicverse_boot_log") || "[]");
       existing.push(`[${new Date().toISOString()}] [ErrorBoundary] CRITICAL: ${error.message}`);
@@ -38,7 +38,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Log to boot log
-    console.error("[ErrorBoundary] componentDidCatch:", error, errorInfo);
+    logger.error("[ErrorBoundary] componentDidCatch", { error, errorInfo });
     try {
       const existing = JSON.parse(sessionStorage.getItem("musicverse_boot_log") || "[]");
       existing.push(`[${new Date().toISOString()}] [ErrorBoundary] componentDidCatch: ${error.message}`);
