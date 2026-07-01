@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, XCircle, Play, Pause, Check } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { SectionVariant } from "@/hooks/generation/useReplaceSectionProgress";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface SectionReplacementProgressProps {
   status: "idle" | "submitting" | "pending" | "processing" | "completed" | "error";
@@ -38,19 +40,15 @@ export function SectionReplacementProgress({
 }: SectionReplacementProgressProps) {
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
 
-  // Hard cleanup on unmount to release iOS audio slot
-  useEffect(() => {
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = "";
-        audioRef.current.load();
-        audioRef.current = null;
-      }
-    };
-  }, []);
+  // Пул-аудио с динамическим src.
+  const { playUrl, pause } = usePreviewAudio({
+    id: "section-replacement-preview",
+    src: previewUrl,
+    priority: AudioPriority.MEDIUM,
+    onEnded: () => setPlayingIndex(null),
+  });
 
   if (status === "idle") return null;
 
@@ -58,19 +56,16 @@ export function SectionReplacementProgress({
   const isCompleted = status === "completed";
   const isError = status === "error";
 
-  const handlePlayVariant = (index: number, audioUrl: string) => {
+  const handlePlayVariant = async (index: number, audioUrl: string) => {
     if (playingIndex === index) {
-      audioRef.current?.pause();
+      pause();
       setPlayingIndex(null);
-    } else {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      audioRef.current = new Audio(audioUrl);
-      audioRef.current.play();
-      audioRef.current.onended = () => setPlayingIndex(null);
-      setPlayingIndex(index);
+      return;
     }
+
+    setPlayingIndex(index);
+    setPreviewUrl(audioUrl);
+    await playUrl(audioUrl);
   };
 
   const handleSelectVariant = (index: number) => {
