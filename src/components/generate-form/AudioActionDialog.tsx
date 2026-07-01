@@ -36,6 +36,8 @@ import { GuitarModeRecorder } from "./GuitarModeRecorder";
 import { CloudAudioSelector } from "@/components/audio-reference";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 type AudioMode = "cover" | "extend";
 type RecordingMode = "standard" | "guitar";
@@ -106,6 +108,19 @@ export function AudioActionDialog({
       setIsPlaying(false);
     }
   }, [globalIsPlaying, isPlaying]);
+
+  // Pool-based duration probe for the currently selected audio.
+  const { duration: probedDuration } = usePreviewAudio({
+    id: audioUrl ? `audio-action-${sourceId}` : "audio-action-none",
+    src: audioUrl ?? "",
+    priority: AudioPriority.LOW,
+  });
+
+  useEffect(() => {
+    if (probedDuration && Number.isFinite(probedDuration)) {
+      setAudioDuration(probedDuration);
+    }
+  }, [probedDuration]);
 
   // Analysis state with progress
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -425,11 +440,7 @@ export function AudioActionDialog({
         const file = new File([blob], `recording-${Date.now()}.${ext}`, { type: mimeType });
         const url = URL.createObjectURL(blob);
 
-        const audio = new Audio(url);
-        audio.onloadedmetadata = () => {
-          setAudioDuration(audio.duration);
-        };
-
+        // Duration is read by the usePreviewAudio probe at the top of this file.
         setAudioUrl(url);
         setAudioFile(file);
 
@@ -464,11 +475,7 @@ export function AudioActionDialog({
 
     const url = URL.createObjectURL(file);
 
-    const audio = new Audio(url);
-    audio.onloadedmetadata = () => {
-      setAudioDuration(audio.duration);
-    };
-
+    // Duration is read by the usePreviewAudio probe at the top of this file.
     setAudioUrl(url);
     setAudioFile(file);
     await analyzeAudio(file);
