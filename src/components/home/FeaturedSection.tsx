@@ -141,7 +141,7 @@ export const FeaturedSection = memo(function FeaturedSection({
             <UnifiedTrackCard
               track={track}
               variant="grid"
-              onPlay={() => handleTrackClick(track.id)}
+              onPlay={() => handleTrackClick(track)}
               showActions={false}
               className="h-full transition-all duration-200 group-hover:shadow-lg group-hover:shadow-primary/10 group-hover:-translate-y-1"
             />
