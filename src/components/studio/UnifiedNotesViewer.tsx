@@ -44,7 +44,7 @@ import { useMidiFileParser, type ParsedMidiNote } from "@/hooks/useMidiFileParse
 import { useMusicXmlParser } from "@/hooks/useMusicXmlParser";
 import { useMidiSynth } from "@/hooks/useMidiSynth";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { supabase } from "@/integrations/supabase/client";
+import { useTelegramDocumentShare } from "@/hooks/studio/useTelegramDocumentShare";
 import { toast } from "sonner";
 
 type ViewMode = "piano" | "notation" | "list";
@@ -141,6 +141,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
   onNoteClick,
 }: UnifiedNotesViewerProps) {
   const isMobile = useIsMobile();
+  const telegramShare = useTelegramDocumentShare();
 
   // Validate/normalize URL helper (поддерживаем относительные ссылки из backend)
   const normalizeUrl = (url: unknown): string | null => {
@@ -438,15 +439,12 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
           return;
         }
 
-        const { error } = await supabase.functions.invoke("send-telegram-notification", {
-          body: {
-            type: "document_share",
-            chat_id: ids.telegram_id,
-            document_url: url,
-            document_type: type,
-            filename: `${trackTitle || "transcription"}${extension}`,
-            track_title: trackTitle,
-          },
+        const { error } = await telegramShare.mutateAsync({
+          chat_id: ids.telegram_id,
+          document_url: url,
+          document_type: type,
+          filename: `${trackTitle || "transcription"}${extension}`,
+          track_title: trackTitle,
         });
 
         if (error) throw error;
@@ -459,7 +457,7 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
         setSendingFile(null);
       }
     },
-    [trackTitle],
+    [trackTitle, telegramShare],
   );
 
   // Увеличенная высота для мобильных устройств (mobile-first)
