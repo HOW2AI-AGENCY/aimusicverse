@@ -4,7 +4,7 @@
  * Integrates with studio audio coordination
  */
 
-import { memo, useState, useRef, useEffect, useId } from "react";
+import { memo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,6 +13,8 @@ import { useReferenceAudio, type ReferenceAudio } from "@/hooks/useReferenceAudi
 import { useAudioReference } from "@/hooks/useAudioReference";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/formatters";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 import type { ReferenceMode } from "@/services/audio-reference";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
@@ -36,68 +38,47 @@ export const CloudAudioSelector = memo(function CloudAudioSelector({
   const { setFromCloud, activeReference } = useAudioReference();
   const [isExpanded, setIsExpanded] = useState(false);
   const [playingId, setPlayingId] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const sourceId = useId();
+  const [previewUrl, setPreviewUrl] = useState<string>("");
 
-  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  const { pauseTrack } = usePlayerStore();
 
-  // Register with studio audio coordinator
-  useEffect(() => {
-    const fullSourceId = `cloud-selector-${sourceId}`;
-    registerStudioAudio(fullSourceId, () => {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    });
-
-    return () => {
-      unregisterStudioAudio(fullSourceId);
-      audioRef.current?.pause();
-    };
-  }, [sourceId]);
-
-  // Pause when global player starts
-  useEffect(() => {
-    if (globalIsPlaying && playingId) {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    }
-  }, [globalIsPlaying, playingId]);
+  // Пул-аудио с динамическим src.
+  // Регистрация в useStudioAudio координаторе уже встроена в хук.
+  const { playUrl, pause } = usePreviewAudio({
+    id: "cloud-selector",
+    src: previewUrl,
+    priority: AudioPriority.LOW,
+    onEnded: () => setPlayingId(null),
+    onError: () => setPlayingId(null),
+  });
 
   const handleSelect = (audio: ReferenceAudio) => {
     setFromCloud(audio, selectedMode);
     onSelect?.(audio, selectedMode);
 
     // Stop any playing audio
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setPlayingId(null);
-    }
+    pause();
+    setPlayingId(null);
   };
 
-  const handlePlayPreview = (audio: ReferenceAudio, e: React.MouseEvent) => {
+  const handlePlayPreview = async (audio: ReferenceAudio, e: React.MouseEvent) => {
     e.stopPropagation();
 
     if (playingId === audio.id) {
       // Stop playing
-      audioRef.current?.pause();
+      pause();
       setPlayingId(null);
       return;
     }
 
-    // Stop previous
-    audioRef.current?.pause();
-
     // Pause global player and other studio audio
     pauseTrack();
-    pauseAllStudioAudio(`cloud-selector-${sourceId}`);
+    pauseAllStudioAudio("cloud-selector");
 
-    // Play new
-    const newAudio = new Audio(audio.file_url);
-    newAudio.onended = () => setPlayingId(null);
-    newAudio.onerror = () => setPlayingId(null);
-    newAudio.play();
-    audioRef.current = newAudio;
+    // Меняем src на pool-элементе и запускаем.
     setPlayingId(audio.id);
+    setPreviewUrl(audio.file_url);
+    await playUrl(audio.file_url);
   };
 
   if (audioList.length === 0) {
