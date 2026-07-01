@@ -4,7 +4,7 @@
  * Coordinates with global player and other studio audio
  */
 
-import { useState, useRef, useEffect, useCallback, useId } from "react";
+import { useState, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Repeat } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,8 @@ import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface SectionPreviewPlayerProps {
   audioUrl: string;
@@ -32,7 +34,6 @@ export function SectionPreviewPlayer({
   className,
 }: SectionPreviewPlayerProps) {
   const sourceId = useId();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(startTime);
   const [volume, setVolume] = useState(1);
@@ -45,13 +46,20 @@ export function SectionPreviewPlayer({
   const duration = endTime - startTime;
   const progress = duration > 0 ? ((currentTime - startTime) / duration) * 100 : 0;
 
-  // Initialize audio element with coordination
-  useEffect(() => {
-    const audio = new Audio(audioUrl);
-    audio.preload = "auto";
-    audioRef.current = audio;
+  // Pull audio element from the pool instead of `new Audio(...)`.
+  const { audioRef, isLoading } = usePreviewAudio({
+    id: `section-preview-${sourceId}`,
+    src: audioUrl,
+    priority: AudioPriority.MEDIUM,
+  });
 
-    // Register for audio coordination
+  // Wire coordination + loop/range behaviour onto the pooled audio element.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    setIsLoaded(!isLoading);
+
     registerStudioAudio(`section-preview-${sourceId}`, () => {
       audio.pause();
       setIsPlaying(false);
@@ -61,7 +69,7 @@ export function SectionPreviewPlayer({
     const handleEnded = () => {
       if (isLooping) {
         audio.currentTime = startTime;
-        audio.play();
+        void audio.play();
       } else {
         setIsPlaying(false);
         setCurrentTime(startTime);
@@ -75,12 +83,9 @@ export function SectionPreviewPlayer({
       audio.removeEventListener("canplay", handleCanPlay);
       audio.removeEventListener("ended", handleEnded);
       audio.pause();
-      audio.src = "";
-      audio.load();
       unregisterStudioAudio(`section-preview-${sourceId}`);
-      audioRef.current = null;
     };
-  }, [audioUrl, sourceId]);
+  }, [audioRef, isLoading, sourceId, isLooping, startTime]);
 
   // Pause when global player starts
   useEffect(() => {
