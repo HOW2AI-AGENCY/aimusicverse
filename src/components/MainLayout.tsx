@@ -20,6 +20,7 @@ import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvide
 import { SafeAreaContainer } from "./layout/SafeAreaContainer";
 import { OnboardingFlow } from "./onboarding/OnboardingFlow";
 import { NavigationShell } from "./navigation/NavigationShell";
+import { PlayerTransitionProvider } from "./player/PlayerTransitionProvider";
 
 // Lazy load heavy dialogs - not needed on initial render
 const SubscriptionRequiredDialog = lazy(() =>
