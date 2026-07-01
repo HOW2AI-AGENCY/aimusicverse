@@ -18,6 +18,7 @@ export type { ChannelType, PromptChannel, GlobalSettings, GeneratedTrack } from 
 
 import { NOTE_NAMES } from "./prompt-dj/constants";
 import { DEFAULT_CHANNELS, DEFAULT_SETTINGS } from "./prompt-dj/defaults";
+import { buildWeightedPrompt } from "./prompt-dj/promptBuilder";
 import type { PromptChannel, GlobalSettings, GeneratedTrack } from "./prompt-dj/types";
 
 // Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
@@ -200,30 +201,8 @@ export function usePromptDJEnhanced() {
     }
   }, [globalSettings.density, channels, isPreviewPlaying]);
 
-  // Build weighted prompt from channels
-  const currentPrompt = useMemo(() => {
-    const parts: string[] = [];
-
-    channels.forEach((channel) => {
-      if (!channel.enabled || !channel.value || channel.weight < 0.1) return;
-
-      // Apply weight emphasis
-      const emphasis = channel.weight > 0.7 ? "very " : channel.weight > 0.4 ? "" : "subtle ";
-      parts.push(`${emphasis}${channel.value.toLowerCase()}`);
-    });
-
-    // Add global settings
-    parts.push(`${globalSettings.bpm} BPM`);
-    parts.push(`${globalSettings.key} ${globalSettings.scale}`);
-
-    if (globalSettings.density < 0.3) parts.push("sparse, minimal");
-    else if (globalSettings.density > 0.7) parts.push("dense, layered");
-
-    if (globalSettings.brightness < 0.3) parts.push("warm, mellow");
-    else if (globalSettings.brightness > 0.7) parts.push("bright, crisp");
-
-    return parts.filter(Boolean).join(", ");
-  }, [channels, globalSettings]);
+  // Build weighted prompt from channels (pure function, extracted to promptBuilder.ts)
+  const currentPrompt = useMemo(() => buildWeightedPrompt(channels, globalSettings), [channels, globalSettings]);
 
   // Debounced channel update for weight changes (smooth knob interaction)
   const debouncedChannelUpdate = useDebouncedCallback(
