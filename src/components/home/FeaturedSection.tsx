@@ -63,9 +63,9 @@ export const FeaturedSection = memo(function FeaturedSection({
   const displayTracks = maxTracks ? tracks.slice(0, maxTracks) : tracks;
 
   const handleTrackClick = useCallback(
-    (trackId: string) => {
+    (track: TrackData) => {
       hapticFeedback("light");
-      onTrackClick?.(trackId);
+      onTrackClick?.(track);
     },
     [hapticFeedback, onTrackClick],
   );
