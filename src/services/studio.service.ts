@@ -363,6 +363,35 @@ export async function extendTrack(params: {
   }
 }
 
+// ============= Section Replacement History =============
+
+export interface SectionReplacementHistoryEntry {
+  id: string;
+  startTime: number;
+  endTime: number;
+  replacedAt: Date;
+  versionId?: string;
+  label: string;
+}
+
+export async function fetchSectionReplacementsHistory(trackId: string): Promise<SectionReplacementHistoryEntry[]> {
+  const rows = await studioApi.fetchSectionReplacementsHistory(trackId);
+  const locale = "ru-RU";
+
+  return rows.map((row) => {
+    const metadata = (row.metadata ?? {}) as { start?: number; end?: number };
+    const createdAt = row.created_at ? new Date(row.created_at) : new Date();
+    return {
+      id: row.id,
+      startTime: typeof metadata.start === "number" ? metadata.start : 0,
+      endTime: typeof metadata.end === "number" ? metadata.end : 0,
+      replacedAt: createdAt,
+      versionId: row.version_id ?? undefined,
+      label: `Замена ${createdAt.toLocaleDateString(locale, { day: "numeric", month: "short" })}`,
+    };
+  });
+}
+
 // ============= Track Replacement Realtime =============
 
 export interface ReplacementTaskSummary {

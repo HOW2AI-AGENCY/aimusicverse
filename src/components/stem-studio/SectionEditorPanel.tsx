@@ -14,6 +14,7 @@ import { memo, useMemo, useCallback, useState, useEffect } from "react";
 import { motion, AnimatePresence, Variants } from "@/lib/motion";
 import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
 import { useSectionReplacement } from "@/hooks/useSectionReplacement";
+import { useSectionReplacementHistory } from "@/hooks/stem-studio/useSectionReplacementHistory";
 import { SectionPreviewPlayer } from "./SectionPreviewPlayer";
 import {
   SectionEditorHeader,
@@ -25,7 +26,6 @@ import {
   ABCompareOverlay,
   type ReplacedSection,
 } from "./section-editor";
-import { supabase } from "@/integrations/supabase/client";
 
 const containerVariants: Variants = {
   hidden: { height: 0, opacity: 0 },
@@ -106,34 +106,19 @@ function SectionEditorPanelInner({
   });
 
   // Load replaced sections history
-  useEffect(() => {
-    const loadHistory = async () => {
-      const { data } = await supabase
-        .from("track_change_log")
-        .select("id, change_type, metadata, created_at, version_id")
-        .eq("track_id", trackId)
-        .eq("change_type", "section_replacement")
-        .order("created_at", { ascending: false })
-        .limit(10);
+  const { data: history = [] } = useSectionReplacementHistory(trackId);
 
-      if (data) {
-        const sections: ReplacedSection[] = data.map((log) => {
-          const metadata = log.metadata as { start?: number; end?: number } | null;
-          const createdAt = log.created_at ? new Date(log.created_at) : new Date();
-          return {
-            id: log.id,
-            startTime: metadata?.start || 0,
-            endTime: metadata?.end || 0,
-            replacedAt: createdAt,
-            versionId: log.version_id || undefined,
-            label: `Замена ${createdAt.toLocaleDateString("ru-RU", { day: "numeric", month: "short" })}`,
-          };
-        });
-        setReplacedSections(sections);
-      }
-    };
-    loadHistory();
-  }, [trackId]);
+  useEffect(() => {
+    const sections: ReplacedSection[] = history.map((entry) => ({
+      id: entry.id,
+      startTime: entry.startTime,
+      endTime: entry.endTime,
+      replacedAt: entry.replacedAt,
+      versionId: entry.versionId,
+      label: entry.label,
+    }));
+    setReplacedSections(sections);
+  }, [history]);
 
   const handleClose = useCallback(() => {
     reset();

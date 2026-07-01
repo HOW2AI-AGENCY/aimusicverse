@@ -261,6 +261,29 @@ export async function invokeSunoExtend(payload: {
   return { data, error };
 }
 
+// ============= Section Replacement History =============
+
+export interface SectionReplacementLog {
+  id: string;
+  change_type: string;
+  metadata: Record<string, unknown> | null;
+  created_at: string | null;
+  version_id: string | null;
+}
+
+export async function fetchSectionReplacementsHistory(trackId: string): Promise<SectionReplacementLog[]> {
+  const { data, error } = await supabase
+    .from("track_change_log")
+    .select("id, change_type, metadata, created_at, version_id")
+    .eq("track_id", trackId)
+    .eq("change_type", "section_replacement")
+    .order("created_at", { ascending: false })
+    .limit(10);
+
+  if (error || !data) return [];
+  return data as SectionReplacementLog[];
+}
+
 /**
  * Invoke suno-remix edge function (generate a remix of an existing track in a new style).
  */
