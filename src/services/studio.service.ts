@@ -377,6 +377,78 @@ export async function generateSfx(params: { prompt: string; duration: number }):
   return data.audioUrl as string;
 }
 
+// ============= Add Instrumental / Vocals =============
+
+export interface AddInstrumentalParams {
+  trackId: string;
+  audioUrl?: string | null;
+  style: string;
+  title?: string;
+  negativeTags?: string;
+  audioWeight?: number;
+  styleWeight?: number;
+}
+
+export async function addInstrumental(
+  params: AddInstrumentalParams,
+): Promise<{ trackId: string | null; error: Error | null }> {
+  try {
+    const { data, error } = await studioApi.invokeAddInstrumental({
+      track_id: params.trackId,
+      audio_url: params.audioUrl,
+      style: params.style,
+      title: params.title,
+      negative_tags: params.negativeTags,
+      audio_weight: params.audioWeight,
+      style_weight: params.styleWeight,
+      action: "add_instrumental",
+    });
+    if (error) return { trackId: null, error: new Error(error.message) };
+    const newTrackId =
+      (data as { trackId?: string; track?: { id?: string } } | null)?.trackId ||
+      (data as { track?: { id?: string } } | null)?.track?.id ||
+      null;
+    return { trackId: newTrackId, error: null };
+  } catch (err) {
+    logger.error("Error in addInstrumental", err);
+    return { trackId: null, error: err as Error };
+  }
+}
+
+export interface AddVocalsParams {
+  trackId: string;
+  audioUrl?: string | null;
+  style?: string;
+  title?: string;
+  negativeTags?: string;
+  audioWeight?: number;
+  styleWeight?: number;
+}
+
+export async function addVocals(params: AddVocalsParams): Promise<{ trackId: string | null; error: Error | null }> {
+  try {
+    const { data, error } = await studioApi.invokeAddVocals({
+      track_id: params.trackId,
+      audio_url: params.audioUrl,
+      style: params.style,
+      title: params.title,
+      negative_tags: params.negativeTags,
+      audio_weight: params.audioWeight,
+      style_weight: params.styleWeight,
+      action: "add_vocals",
+    });
+    if (error) return { trackId: null, error: new Error(error.message) };
+    const newTrackId =
+      (data as { trackId?: string; track?: { id?: string } } | null)?.trackId ||
+      (data as { track?: { id?: string } } | null)?.track?.id ||
+      null;
+    return { trackId: newTrackId, error: null };
+  } catch (err) {
+    logger.error("Error in addVocals", err);
+    return { trackId: null, error: err as Error };
+  }
+}
+
 // ============= Telegram Notifications (from midi/notes card) =============
 
 export interface TelegramDocumentSharePayload {

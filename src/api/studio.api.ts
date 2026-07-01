@@ -345,6 +345,38 @@ export async function invokeSunoRemix(payload: {
   return { data, error };
 }
 
+// ============= Add Instrumental / Vocals =============
+
+export async function invokeAddInstrumental(payload: {
+  track_id: string;
+  audio_url?: string | null;
+  style: string;
+  title?: string;
+  negative_tags?: string;
+  audio_weight?: number;
+  style_weight?: number;
+  action?: string;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-add-instrumental", { body: payload });
+  return { data, error };
+}
+
+export async function invokeAddVocals(payload: {
+  track_id: string;
+  audio_url?: string | null;
+  style?: string;
+  title?: string;
+  negative_tags?: string;
+  audio_weight?: number;
+  style_weight?: number;
+  action?: string;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-add-vocals", { body: payload });
+  return { data, error };
+}
+
 // ============= Section Replacement Realtime =============
 
 export interface ReplacementTask {
