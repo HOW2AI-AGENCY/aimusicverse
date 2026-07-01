@@ -20,7 +20,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { useAddInstrumental } from "@/hooks/studio/useAddInstrumental";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { logger } from "@/lib/logger";
 import type { Track } from "@/types/track";
@@ -51,6 +51,7 @@ export const AddInstrumentalDrawer = memo(function AddInstrumentalDrawer({
   onSuccess,
 }: AddInstrumentalDrawerProps) {
   const haptic = useHapticFeedback();
+  const addInstrumentalMutation = useAddInstrumental();
 
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<"instrument" | "settings">("instrument");
@@ -100,23 +101,17 @@ export const AddInstrumentalDrawer = memo(function AddInstrumentalDrawer({
         style: effectiveStyle,
       });
 
-      const body = {
-        track_id: track.id,
-        audio_url: track.audio_url,
+      const { trackId: newTrackId, error } = await addInstrumentalMutation.mutateAsync({
+        trackId: track.id,
+        audioUrl: track.audio_url,
         style: effectiveStyle,
         title: title.trim() || `${track.title || "Трек"} + ${INSTRUMENT_PRESETS[instrumentType].label}`,
-        negative_tags: negativeTags.trim() || undefined,
-        audio_weight: audioWeight,
-        style_weight: styleWeight,
-        action: "add_instrumental",
-      };
-
-      // Use similar endpoint to add-vocals but for instrumental
-      const { data, error } = await supabase.functions.invoke("suno-add-instrumental", { body });
+        negativeTags: negativeTags.trim() || undefined,
+        audioWeight,
+        styleWeight,
+      });
 
       if (error) throw error;
-
-      const newTrackId = data?.trackId || data?.track?.id;
 
       toast.success("Добавление инструментала началось! 🎸", {
         description: "Новый трек появится в библиотеке через 1-3 минуты",
@@ -146,6 +141,7 @@ export const AddInstrumentalDrawer = memo(function AddInstrumentalDrawer({
     haptic,
     onSuccess,
     onOpenChange,
+    addInstrumentalMutation,
   ]);
 
   // Handle close
