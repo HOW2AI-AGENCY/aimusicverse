@@ -381,10 +381,11 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
                 .single()
                 .then(({ data: trackData }) => {
                   if (trackData?.streaming_url) {
-                    // Preload audio in background
-                    const audio = new Audio();
-                    audio.preload = "auto";
-                    audio.src = trackData.streaming_url;
+                    // Прогрев HTTP-кеша через fetch — без создания <audio>
+                    // (iOS Safari ограничивает число одновременных audio элементов).
+                    fetch(trackData.streaming_url, { cache: "force-cache", mode: "no-cors" }).catch(() => {
+                      /* ignore — warm-up best-effort */
+                    });
 
                     log.info("Audio preloading started", { url: trackData.streaming_url.substring(0, 50) });
 
@@ -478,10 +479,11 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           if (track.streaming_url && !oldTrack?.streaming_url && track.status === "streaming_ready") {
             log.info("Track streaming URL available", { trackId: track.id, title: track.title });
 
-            // Preload audio immediately
-            const audio = new Audio();
-            audio.preload = "auto";
-            audio.src = track.streaming_url;
+            // Прогрев HTTP-кеша через fetch — без создания <audio>
+            // (iOS Safari ограничивает число одновременных audio элементов).
+            fetch(track.streaming_url, { cache: "force-cache", mode: "no-cors" }).catch(() => {
+              /* ignore — warm-up best-effort */
+            });
 
             // Refresh tracks list
             queryClient.invalidateQueries({ queryKey: ["tracks"] });
