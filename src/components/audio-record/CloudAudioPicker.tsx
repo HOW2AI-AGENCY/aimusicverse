@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useId } from "react";
+import { useState } from "react";
 import { useReferenceAudio, ReferenceAudio } from "@/hooks/useReferenceAudio";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,9 +7,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, Play, Pause, Music, Mic, Cloud, Check } from "@/lib/icons";
 import { EmptyState } from "@/components/common/EmptyState";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface CloudAudioPickerProps {
   onSelect: (audio: ReferenceAudio) => void;
@@ -20,32 +21,19 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
   const { audioList, isLoading } = useReferenceAudio();
   const [searchQuery, setSearchQuery] = useState("");
   const [playingId, setPlayingId] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const sourceId = useId();
+  const [previewUrl, setPreviewUrl] = useState<string>("");
 
-  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  const { pauseTrack } = usePlayerStore();
 
-  // Register with studio audio coordinator
-  useEffect(() => {
-    const fullSourceId = `cloud-picker-${sourceId}`;
-    registerStudioAudio(fullSourceId, () => {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    });
-
-    return () => {
-      unregisterStudioAudio(fullSourceId);
-      audioRef.current?.pause();
-    };
-  }, [sourceId]);
-
-  // Pause when global player starts
-  useEffect(() => {
-    if (globalIsPlaying && playingId) {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    }
-  }, [globalIsPlaying, playingId]);
+  // Пул-аудио с динамическим src через usePreviewAudio.
+  // Регистрация в useStudioAudio координаторе уже встроена в хук.
+  const { playUrl, pause } = usePreviewAudio({
+    id: "cloud-picker",
+    src: previewUrl,
+    priority: AudioPriority.LOW,
+    onEnded: () => setPlayingId(null),
+    onError: () => setPlayingId(null),
+  });
 
   const filteredAudio =
     audioList?.filter(
@@ -62,30 +50,24 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const handlePlay = (audio: ReferenceAudio, e: React.MouseEvent) => {
+  const handlePlay = async (audio: ReferenceAudio, e: React.MouseEvent) => {
     e.stopPropagation();
 
     if (playingId === audio.id) {
-      audioRef.current?.pause();
+      // Toggle off
+      pause();
       setPlayingId(null);
-    } else {
-      // Stop current playback
-      audioRef.current?.pause();
-
-      // Pause global player and other studio audio
-      pauseTrack();
-      pauseAllStudioAudio(`cloud-picker-${sourceId}`);
-
-      const newAudio = new Audio(audio.file_url);
-      newAudio.onended = () => setPlayingId(null);
-      newAudio.onerror = () => {
-        toast.error("Ошибка воспроизведения");
-        setPlayingId(null);
-      };
-      newAudio.play();
-      audioRef.current = newAudio;
-      setPlayingId(audio.id);
+      return;
     }
+
+    // Pause global player and other studio audio
+    pauseTrack();
+    pauseAllStudioAudio("cloud-picker");
+
+    // Меняем src на pool-элементе и запускаем.
+    setPlayingId(audio.id);
+    setPreviewUrl(audio.file_url);
+    await playUrl(audio.file_url);
   };
 
   if (isLoading) {
