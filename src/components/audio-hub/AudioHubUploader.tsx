@@ -12,6 +12,8 @@ import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface UploadedFile {
   id: string;
@@ -30,8 +32,16 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Пул-аудио с динамическим src.
+  const { playUrl, pause } = usePreviewAudio({
+    id: "audio-hub-preview",
+    src: previewUrl,
+    priority: AudioPriority.LOW,
+    onEnded: () => setPlayingId(null),
+  });
 
   const addFiles = useCallback((newFiles: FileList | File[]) => {
     const validFiles: UploadedFile[] = [];
@@ -101,31 +111,28 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
         return prev.filter((f) => f.id !== id);
       });
       if (playingId === id) {
-        audioRef.current?.pause();
+        pause();
         setPlayingId(null);
       }
     },
-    [playingId],
+    [playingId, pause],
   );
 
   const togglePlay = useCallback(
-    (file: UploadedFile) => {
+    async (file: UploadedFile) => {
       if (playingId === file.id) {
-        audioRef.current?.pause();
+        // Toggle off
+        pause();
         setPlayingId(null);
-      } else {
-        if (audioRef.current) {
-          audioRef.current.src = file.url;
-          audioRef.current.play();
-        } else {
-          audioRef.current = new Audio(file.url);
-          audioRef.current.play();
-          audioRef.current.onended = () => setPlayingId(null);
-        }
-        setPlayingId(file.id);
+        return;
       }
+
+      // Меняем src на pool-элементе и запускаем.
+      setPlayingId(file.id);
+      setPreviewUrl(file.url);
+      await playUrl(file.url);
     },
-    [playingId],
+    [playingId, pause, playUrl],
   );
 
   const analyzeAll = useCallback(async () => {
