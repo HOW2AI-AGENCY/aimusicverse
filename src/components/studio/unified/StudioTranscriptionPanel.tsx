@@ -14,16 +14,13 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import {
-  fetchTrackStems,
-  fetchLatestStemTranscriptionByStemId,
-  fetchLatestStemTranscriptionByTrackId,
-  invokeReplicateMidiTranscription,
-  invokeKlangioAnalyze,
-} from "@/api/studio.api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { useSaveTranscription } from "@/hooks/useStemTranscription";
+import { useStudioTrackStems } from "@/hooks/studio/useStudioTrackStems";
+import { useLatestStemTranscription } from "@/hooks/studio/useLatestStemTranscription";
+import { useReplicateMidiTranscription } from "@/hooks/studio/useReplicateMidiTranscription";
+import { useKlangioAnalyze } from "@/hooks/studio/useKlangioAnalyze";
 import { logger } from "@/lib/logger";
 
 interface StudioTranscriptionPanelProps {
@@ -90,6 +87,8 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
 }: StudioTranscriptionPanelProps) {
   const queryClient = useQueryClient();
   const { saveTranscription } = useSaveTranscription();
+  const { mutateAsync: invokeReplicate } = useReplicateMidiTranscription();
+  const { mutateAsync: invokeKlangio } = useKlangioAnalyze();
 
   const [engine, setEngine] = useState<TranscriptionEngine>("klangio");
   // Auto-detect initial model based on stem/track type
@@ -112,55 +111,41 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   }, [stemType, track.type]);
 
   // Resolve stemId from trackId + stemType if not provided directly
-  const { data: resolvedStemData } = useQuery({
-    queryKey: ["resolve-stem-id", trackId, normalizedStemType, propStemId],
-    queryFn: async () => {
-      // If propStemId provided, find it via trackId stems list
-      if (propStemId && trackId) {
-        const { data: stems } = await fetchTrackStems(trackId);
-        const found = stems?.find((s) => s.id === propStemId);
-        return found ? { stemId: found.id, stemType: found.stem_type } : null;
-      }
+  const { data: stemsList } = useStudioTrackStems(propStemId || normalizedStemType ? trackId : undefined);
 
-      // Try to find stem by trackId + normalizedStemType (exact match)
-      if (trackId && normalizedStemType) {
-        const { data: stems } = await fetchTrackStems(trackId);
-        const found = stems?.find((s) => s.stem_type === normalizedStemType);
-        if (found) {
-          logger.debug("[StudioTranscriptionPanel] Resolved stem by type", { normalizedStemType, stemId: found.id });
-          return { stemId: found.id, stemType: found.stem_type };
-        }
-      }
+  const resolvedStemData = useMemo(() => {
+    const stems = stemsList ?? [];
 
-      // NO FALLBACK - if we can't find the correct stem, don't use a random one
-      // This prevents saving transcriptions to wrong stems
+    // If propStemId provided, find it via trackId stems list
+    if (propStemId && trackId) {
+      const found = stems.find((s) => s.id === propStemId);
+      return found ? { stemId: found.id, stemType: found.stem_type } : null;
+    }
+
+    // Try to find stem by trackId + normalizedStemType (exact match)
+    if (trackId && normalizedStemType) {
+      const found = stems.find((s) => s.stem_type === normalizedStemType);
+      if (found) {
+        logger.debug("[StudioTranscriptionPanel] Resolved stem by type", { normalizedStemType, stemId: found.id });
+        return { stemId: found.id, stemType: found.stem_type };
+      }
+    }
+
+    // NO FALLBACK - if we can't find the correct stem, don't use a random one
+    // This prevents saving transcriptions to wrong stems
+    if (propStemId || (trackId && normalizedStemType)) {
       logger.warn("[StudioTranscriptionPanel] Could not resolve stem for", { trackId, normalizedStemType });
-      return null;
-    },
-    enabled: !!(propStemId || (trackId && normalizedStemType)),
-    staleTime: 60000,
-  });
+    }
+    return null;
+  }, [stemsList, propStemId, trackId, normalizedStemType]);
 
   const resolvedStemId = resolvedStemData?.stemId || propStemId;
   const resolvedStemType = resolvedStemData?.stemType || normalizedStemType;
 
   // Fetch existing transcription using resolved stemId
-  const { data: existingTranscription, isLoading: loadingExisting } = useQuery({
-    queryKey: ["transcription", resolvedStemId, trackId],
-    queryFn: async () => {
-      // If we have resolved stemId, use it
-      if (resolvedStemId) {
-        return await fetchLatestStemTranscriptionByStemId(resolvedStemId);
-      }
-
-      // Fallback: get any transcription for this track
-      if (trackId) {
-        return await fetchLatestStemTranscriptionByTrackId(trackId);
-      }
-
-      return null;
-    },
-    enabled: !!(resolvedStemId || trackId),
+  const { data: existingTranscription, isLoading: loadingExisting } = useLatestStemTranscription({
+    stemId: resolvedStemId,
+    trackId,
   });
 
   // Basic Pitch transcription (Replicate)
@@ -175,7 +160,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
         setProgress((p) => Math.min(85, p + 5));
       }, 2500);
 
-      const { data, error } = await invokeReplicateMidiTranscription({
+      const { data, error } = await invokeReplicate({
         audioUrl,
         trackId,
         stemId: resolvedStemId,
@@ -232,7 +217,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     } finally {
       setIsTranscribing(false);
     }
-  }, [audioUrl, resolvedStemId, trackId, queryClient, saveTranscription, onComplete]);
+  }, [audioUrl, resolvedStemId, trackId, queryClient, saveTranscription, onComplete, invokeReplicate]);
 
   // Klangio transcription (klangio-analyze, server-side polling)
   const runKlangio = useCallback(async () => {
@@ -246,7 +231,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
         setProgress((p) => Math.min(90, p + 7));
       }, 3000);
 
-      const { data, error } = await invokeKlangioAnalyze({
+      const { data, error } = await invokeKlangio({
         audio_url: audioUrl,
         mode: "transcription",
         model: klangioModel,
@@ -352,6 +337,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     queryClient,
     saveTranscription,
     onComplete,
+    invokeKlangio,
   ]);
 
   // Start transcription
