@@ -236,6 +236,48 @@ export async function invokeLyricsTranscription(params: { audioUrl: string }): P
 }
 
 /**
+ * Invoke reference audio analysis edge function used by AudioReferenceRecorder.
+ * Returns analysis metadata (bpm, key, genre, mood, etc.) for an uploaded reference.
+ */
+export async function invokeReferenceAudioAnalysis(params: {
+  audioUrl: string;
+  analyzeStyle?: boolean;
+  detectChords?: boolean;
+  detectBpm?: boolean;
+  recordingType?: string;
+}): Promise<{
+  data: {
+    bpm?: number;
+    key?: string;
+    genre?: string;
+    mood?: string;
+    energy?: string;
+    instruments?: string[];
+    chords?: string[];
+    style_description?: string;
+    vocal_style?: string;
+    suggested_tags?: string[];
+  } | null;
+  error: Error | null;
+}> {
+  const { data, error } = await supabase.functions.invoke("analyze-reference-audio", {
+    body: {
+      audioUrl: params.audioUrl,
+      analyzeStyle: params.analyzeStyle ?? true,
+      detectChords: params.detectChords ?? false,
+      detectBpm: params.detectBpm ?? true,
+      recordingType: params.recordingType ?? "vocal",
+    },
+  });
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  return { data, error: null };
+}
+
+/**
  * Save guitar recording
  */
 export async function saveGuitarRecording(recording: {

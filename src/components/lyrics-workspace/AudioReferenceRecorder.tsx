@@ -11,9 +11,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
+import { useReferenceAudioAnalysis } from "@/hooks/audio-reference/useReferenceAudioAnalysis";
 import { ReferenceAnalysis } from "@/hooks/useSectionNotes";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
@@ -52,6 +52,7 @@ export function AudioReferenceRecorder({
   defaultRecordingType = "vocal",
 }: AudioReferenceRecorderProps) {
   const { user } = useAuth();
+  const { analyze: runReferenceAnalysis } = useReferenceAudioAnalysis();
   const [recordingType, setRecordingType] = useState<RecordingType>(defaultRecordingType);
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
@@ -262,33 +263,14 @@ export function AudioReferenceRecorder({
         setUploadProgress(80);
 
         try {
-          const { data: analysisData, error: analysisError } = await supabase.functions.invoke(
-            "analyze-reference-audio",
-            {
-              body: {
-                audioUrl: publicUrl,
-                analyzeStyle: true,
-                detectChords: recordingType === "guitar",
-                detectBpm: true,
-                recordingType,
-              },
-            },
-          );
-
-          if (!analysisError && analysisData) {
-            analysis = {
-              bpm: analysisData.bpm,
-              key: analysisData.key,
-              genre: analysisData.genre,
-              mood: analysisData.mood,
-              energy: analysisData.energy,
-              instruments: analysisData.instruments,
-              chords: analysisData.chords,
-              style_description: analysisData.style_description,
-              vocal_style: analysisData.vocal_style,
-              suggested_tags: analysisData.suggested_tags,
-            };
-          }
+          analysis =
+            (await runReferenceAnalysis({
+              audioUrl: publicUrl,
+              analyzeStyle: true,
+              detectChords: recordingType === "guitar",
+              detectBpm: true,
+              recordingType,
+            })) ?? undefined;
         } catch (analysisError) {
           logger.warn("Audio analysis failed, continuing without", { error: String(analysisError) });
         }
