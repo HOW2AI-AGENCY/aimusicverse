@@ -6,14 +6,16 @@
  * Integrates with studio audio coordination
  */
 
-import { useState, useRef, useCallback, useEffect, useId } from "react";
+import { useState, useCallback, useEffect, useId } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Play, Pause, Check, X, Volume2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface ReplacementVariant {
   id: "A" | "B";
@@ -44,62 +46,45 @@ export function ReplacementTimelineOverlay({
 }: ReplacementTimelineOverlayProps) {
   const [activeVariant, setActiveVariant] = useState<"original" | "A" | "B">("A");
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const sourceId = useId();
 
-  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  const { pauseTrack } = usePlayerStore();
+
+  // Пул-аудио с динамическим src.
+  // Регистрация в useStudioAudio координаторе уже встроена в хук.
+  const { playUrl, pause, currentTime, seek } = usePreviewAudio({
+    id: `replacement-overlay-${sourceId}`,
+    src: previewUrl,
+    priority: AudioPriority.MEDIUM,
+    onEnded: () => setIsPlaying(false),
+  });
 
   // Calculate position percentages
   const startPercent = (sectionStart / duration) * 100;
   const widthPercent = ((sectionEnd - sectionStart) / duration) * 100;
 
-  // Register with studio audio coordinator
+  // Pause when reaching sectionEnd (interval → useEffect).
   useEffect(() => {
-    const fullSourceId = `replacement-overlay-${sourceId}`;
-    registerStudioAudio(fullSourceId, () => {
-      audioRef.current?.pause();
+    if (isPlaying && currentTime >= sectionEnd) {
+      pause();
       setIsPlaying(false);
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    });
-
-    return () => {
-      unregisterStudioAudio(fullSourceId);
-      audioRef.current?.pause();
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [sourceId]);
-
-  // Pause when global player starts
-  useEffect(() => {
-    if (globalIsPlaying && isPlaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
     }
-  }, [globalIsPlaying, isPlaying]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlaying, currentTime, sectionEnd]);
+
+  // Регистрация в useStudioAudio координаторе уже встроена в хук.
+  // Pause when global player starts: useStudioAudio координатор дёргает наш pause.
 
   const getCurrentAudioUrl = useCallback(() => {
     if (activeVariant === "original") return originalAudioUrl;
     return variants.find((v) => v.id === activeVariant)?.audioUrl || originalAudioUrl;
   }, [activeVariant, variants, originalAudioUrl]);
 
-  const togglePlay = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
-
+  const togglePlay = useCallback(async () => {
     if (isPlaying) {
+      pause();
       setIsPlaying(false);
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
       return;
     }
 
@@ -107,34 +92,17 @@ export function ReplacementTimelineOverlay({
     pauseTrack();
     pauseAllStudioAudio(`replacement-overlay-${sourceId}`);
 
-    const audio = new Audio(getCurrentAudioUrl());
-    audioRef.current = audio;
-    audio.currentTime = sectionStart;
-
-    audio.play();
+    // Меняем src на pool-элементе + перемотка к sectionStart.
     setIsPlaying(true);
-
-    // Stop at section end
-    intervalRef.current = setInterval(() => {
-      if (audio.currentTime >= sectionEnd) {
-        audio.pause();
-        setIsPlaying(false);
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-        }
-      }
-    }, 100);
-
-    audio.addEventListener("ended", () => {
-      setIsPlaying(false);
-    });
-  }, [isPlaying, getCurrentAudioUrl, sectionStart, sectionEnd, pauseTrack, sourceId]);
+    setPreviewUrl(getCurrentAudioUrl());
+    await playUrl(getCurrentAudioUrl());
+    seek(sectionStart);
+    // Заметка: пауза на sectionEnd происходит через useEffect выше.
+  }, [isPlaying, getCurrentAudioUrl, sectionStart, pauseTrack, sourceId, playUrl, seek, pause]);
 
   const switchVariant = (variantId: "original" | "A" | "B") => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    }
+    pause();
+    setIsPlaying(false);
     setActiveVariant(variantId);
   };
 
