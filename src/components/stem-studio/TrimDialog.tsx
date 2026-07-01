@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -10,6 +10,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { formatTimePrecise } from "@/lib/player-utils";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface TrimDialogProps {
   open: boolean;
@@ -34,18 +36,30 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
   const [muted, setMuted] = useState(false);
   const [previewMode, setPreviewMode] = useState<"full" | "region">("region");
 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
   const { trimAudio, saveAsNewTrack, downloadTrimmed, isExporting, progress } = useTrimExport();
 
   const duration = track.duration_seconds || 0;
 
-  // Initialize audio
-  useEffect(() => {
-    if (!open || !track.audio_url) return;
+  // Пул-аудио вместо `new Audio(...)` — элемент живёт в audioElementPool.
+  const {
+    audioRef,
+    currentTime: hookTime,
+    toggle,
+  } = usePreviewAudio({
+    id: track.audio_url ? `trim-${track.id}` : "trim-none",
+    src: track.audio_url ?? "",
+    priority: AudioPriority.MEDIUM,
+  });
 
-    const audio = new Audio(track.audio_url);
-    audioRef.current = audio;
+  // Sync time-update from hook.
+  useEffect(() => {
+    if (Number.isFinite(hookTime)) setCurrentTime(hookTime);
+  }, [hookTime]);
+
+  // Append `ended` listener for region-restart behaviour.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
     const handleEnded = () => {
       setIsPlaying(false);
@@ -55,21 +69,9 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
       }
     };
 
-    const handleTimeUpdate = () => {
-      if (!audioRef.current) return;
-      setCurrentTime(audioRef.current.currentTime);
-    };
-
     audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("timeupdate", handleTimeUpdate);
-
-    return () => {
-      audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("timeupdate", handleTimeUpdate);
-      audio.pause();
-      audio.src = "";
-    };
-  }, [open, track.audio_url]);
+    return () => audio.removeEventListener("ended", handleEnded);
+  }, [audioRef, region, previewMode]);
 
   // Check region bounds during playback
   useEffect(() => {
@@ -86,28 +88,27 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
 
     const interval = setInterval(checkBounds, 100);
     return () => clearInterval(interval);
-  }, [isPlaying, region, previewMode]);
+  }, [audioRef, isPlaying, region, previewMode]);
 
   // Update mute state
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.muted = muted;
     }
-  }, [muted]);
+  }, [audioRef, muted]);
 
   const togglePlay = async () => {
     if (!audioRef.current) return;
-
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
-    } else {
-      if (region && previewMode === "region") {
-        audioRef.current.currentTime = region.start;
-      }
-      await audioRef.current.play();
-      setIsPlaying(true);
+      return;
     }
+    if (region && previewMode === "region") {
+      audioRef.current.currentTime = region.start;
+    }
+    await toggle();
+    setIsPlaying(true);
   };
 
   const handleSeek = (time: number) => {
