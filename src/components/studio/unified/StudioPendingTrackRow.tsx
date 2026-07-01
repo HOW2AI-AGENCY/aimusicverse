@@ -9,8 +9,7 @@ import { cn } from "@/lib/utils";
 import { Loader2, Music, XCircle, RefreshCw } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { supabase } from "@/integrations/supabase/client";
-import { logger } from "@/lib/logger";
+import { useGenerationTaskProgress } from "@/hooks/studio/useGenerationTaskProgress";
 
 interface PendingTrackData {
   id: string;
@@ -40,65 +39,21 @@ export const StudioPendingTrackRow = memo(function StudioPendingTrackRow({
   onCancel,
   onRetry,
 }: StudioPendingTrackRowProps) {
-  const [progress, setProgress] = useState(0);
-  const [stage, setStage] = useState<string>("pending");
   const [animatedProgress, setAnimatedProgress] = useState(0);
 
   // Subscribe to realtime updates for the generation task
+  const taskProgress = useGenerationTaskProgress(track.taskId);
+  const stage = taskProgress.status;
+  const progress =
+    taskProgress.receivedClips && taskProgress.expectedClips
+      ? (taskProgress.receivedClips / taskProgress.expectedClips) * 100
+      : 0;
+
   useEffect(() => {
     if (!track.taskId) {
       // No taskId yet, start at 5% and animate slowly
       setAnimatedProgress(5);
-      return;
     }
-
-    const taskId = track.taskId;
-
-    // Initial fetch of task status - try both suno_task_id and by taskId patterns
-    const fetchTaskStatus = async () => {
-      // First try by suno_task_id
-      let { data } = await supabase
-        .from("generation_tasks")
-        .select("status, received_clips, expected_clips")
-        .eq("suno_task_id", taskId)
-        .single();
-
-      if (data) {
-        setStage(data.status);
-        if (data.received_clips && data.expected_clips) {
-          setProgress((data.received_clips / data.expected_clips) * 100);
-        }
-      }
-    };
-
-    fetchTaskStatus();
-
-    // Realtime subscription
-    const channel = supabase
-      .channel(`task-${taskId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "generation_tasks",
-          filter: `suno_task_id=eq.${taskId}`,
-        },
-        (payload) => {
-          const newData = payload.new as any;
-          logger.debug("Task update received", { status: newData.status });
-          setStage(newData.status);
-
-          if (newData.received_clips && newData.expected_clips) {
-            setProgress((newData.received_clips / newData.expected_clips) * 100);
-          }
-        },
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
   }, [track.taskId]);
 
   // Animated progress for visual feedback

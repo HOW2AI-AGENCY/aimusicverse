@@ -242,6 +242,48 @@ export function subscribeToGenerationTask(taskId: string, callback: (task: Gener
     .subscribe();
 }
 
+/**
+ * Fetch the slim status of a generation task by its suno_task_id column.
+ * Returns null if not found.
+ */
+export async function fetchGenerationTaskBySunoId(sunoTaskId: string) {
+  const { data, error } = await supabase
+    .from("generation_tasks")
+    .select("status, received_clips, expected_clips")
+    .eq("suno_task_id", sunoTaskId)
+    .maybeSingle();
+  return { data, error };
+}
+
+/**
+ * Subscribe to realtime updates for a generation task identified by suno_task_id.
+ * Returns an object with `unsubscribe()` matching the supabase RealtimeChannel shape.
+ */
+export function subscribeToGenerationTaskBySunoId(
+  sunoTaskId: string,
+  callback: (task: { status: string; received_clips: number | null; expected_clips: number | null }) => void,
+) {
+  const channel = supabase
+    .channel(`task-${sunoTaskId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "generation_tasks",
+        filter: `suno_task_id=eq.${sunoTaskId}`,
+      },
+      (payload) =>
+        callback(payload.new as { status: string; received_clips: number | null; expected_clips: number | null }),
+    )
+    .subscribe();
+  return {
+    unsubscribe: () => {
+      void supabase.removeChannel(channel);
+    },
+  };
+}
+
 // ============= Track Change Log =============
 
 export async function logTrackActivity(params: {
