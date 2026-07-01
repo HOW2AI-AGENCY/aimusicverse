@@ -547,3 +547,31 @@ export async function deleteReferenceAudio(id: string) {
   const { error } = await supabase.from("reference_audio").delete().eq("id", id);
   if (error) throw new Error(error.message);
 }
+
+export interface CloudAudioRow {
+  id: string;
+  file_name: string;
+  file_url: string;
+  duration_seconds: number | null;
+  genre: string | null;
+  mood: string | null;
+  bpm: number | null;
+  instruments: string[] | null;
+  source: string;
+  created_at: string;
+}
+
+/**
+ * List a user's reference audio files (used by CloudAudioPicker).
+ */
+export async function listReferenceAudioForUser(userId: string, limit = 50): Promise<CloudAudioRow[]> {
+  const { data, error } = await supabase
+    .from("reference_audio")
+    .select("id, file_name, file_url, duration_seconds, genre, mood, bpm, instruments, source, created_at")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}

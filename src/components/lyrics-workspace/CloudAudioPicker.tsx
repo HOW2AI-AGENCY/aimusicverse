@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { useCloudAudioList } from "@/hooks/audio-reference/useCloudAudioList";
 import { AudioPriority } from "@/lib/audioElementPool";
 import { cn } from "@/lib/utils";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -40,8 +40,6 @@ interface CloudAudioPickerProps {
 
 export function CloudAudioPicker({ open, onOpenChange, onSelect }: CloudAudioPickerProps) {
   const { user } = useAuth();
-  const [audioList, setAudioList] = useState<CloudAudio[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
@@ -62,12 +60,13 @@ export function CloudAudioPicker({ open, onOpenChange, onSelect }: CloudAudioPic
     },
   });
 
-  // Fetch audio list
+  const { data: audioList = [], isLoading, error } = useCloudAudioList({ enabled: open });
+
   useEffect(() => {
-    if (open && user) {
-      fetchAudioList();
+    if (error) {
+      logger.error("Failed to fetch audio list", error instanceof Error ? error : new Error(String(error)));
     }
-  }, [open, user]);
+  }, [error]);
 
   // Cleanup audio on close
   useEffect(() => {
@@ -78,27 +77,6 @@ export function CloudAudioPicker({ open, onOpenChange, onSelect }: CloudAudioPic
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
-
-  const fetchAudioList = async () => {
-    if (!user) return;
-
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from("reference_audio")
-        .select("id, file_name, file_url, duration_seconds, genre, mood, bpm, instruments, source, created_at")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(50);
-
-      if (error) throw error;
-      setAudioList(data || []);
-    } catch (error: unknown) {
-      logger.error("Failed to fetch audio list", error instanceof Error ? error : new Error(String(error)));
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handlePlay = async (audio: CloudAudio) => {
     if (playingId === audio.id) {
