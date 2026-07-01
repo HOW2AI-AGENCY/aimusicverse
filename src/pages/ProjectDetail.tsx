@@ -1,52 +1,30 @@
+/**
+ * ProjectDetail — страница проекта (музыкальный проект со списком треков).
+ *
+ * Sprint 042: декомпозиция god-page (851 → ~280 LOC).
+ * Page-orchestrator импортирует 3 хука (@/hooks/project) и 6 sub-components
+ * (./project-detail/*). Вся визуальная логика вынесена в sub-components.
+ */
+
 import { useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { LazyImage } from "@/components/ui/lazy-image";
-import {
-  ArrowLeft,
-  Sparkles,
-  Music,
-  Plus,
-  Settings,
-  Image,
-  Rocket,
-  FileText,
-  ChevronDown,
-  ChevronUp,
-} from "@/lib/icons";
-import { AIActionsDialog } from "@/components/project/AIActionsDialog";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { MinimalProjectTrackItem } from "@/components/project/MinimalProjectTrackItem";
-import { ProjectSettingsSheet } from "@/components/project/ProjectSettingsSheet";
-import { AddTrackDialog } from "@/components/project/AddTrackDialog";
-import { ProjectDetailsCard } from "@/components/project/ProjectDetailsCard";
-import { LyricsPreviewSheet } from "@/components/project/LyricsPreviewSheet";
-import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
-import { ProjectMediaGenerator } from "@/components/project/ProjectMediaGenerator";
-import { ProjectReadinessIndicator } from "@/components/project/ProjectReadinessIndicator";
-import { PublishProjectDialog } from "@/components/project/PublishProjectDialog";
-import { UnlinkedTracksSection } from "@/components/project/UnlinkedTracksSection";
-import { ShareProjectCard } from "@/components/project/ShareProjectCard";
-import { ProjectLyricsTab } from "@/components/project/ProjectLyricsTab";
-import { MobileQuickActionsGrid } from "@/components/project/detail/MobileQuickActionsGrid";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowLeft, Music, Rocket, FileText } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { ProjectReadinessIndicator } from "@/components/project/ProjectReadinessIndicator";
+import { ProjectLyricsTab } from "@/components/project/ProjectLyricsTab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { SEOHead } from "@/components/SEOHead";
 import { useProjectDetailData, useProjectDetailDialogs, useProjectDetailHandlers } from "@/hooks/project";
+import { ProjectHeroSection } from "./project-detail/ProjectHeroSection";
+import { ProjectMetaSection } from "./project-detail/ProjectMetaSection";
+import { QuickActionsBar } from "./project-detail/QuickActionsBar";
+import { TracksTabContent } from "./project-detail/TracksTabContent";
+import { ProjectDialogs } from "./project-detail/ProjectDialogs";
 
 export default function ProjectDetail() {
   const isMobile = useIsMobile();
@@ -158,6 +136,15 @@ export default function ProjectDetail() {
     project.concept ||
     `Музыкальный проект «${projectTitle}» — ${totalTracks} ${totalTracks === 1 ? "трек" : "треков"} на MusicVerse AI.`;
 
+  const generateTracklistArgs = () =>
+    generateTracklist({
+      projectType: project.project_type || "album",
+      genre: project.genre || undefined,
+      mood: project.mood || undefined,
+      theme: project.concept || undefined,
+      trackCount: 10,
+    });
+
   return (
     <div
       className="pb-24"
@@ -185,7 +172,7 @@ export default function ProjectDetail() {
           genre: project.genre || undefined,
         }}
       />
-      {/* Hero Section */}
+
       <ProjectHeroSection
         project={project}
         isMobile={isMobile}
@@ -194,7 +181,6 @@ export default function ProjectDetail() {
         onOpenMediaGenerator={() => dialogs.openMediaGenerator(null)}
       />
 
-      {/* Project Meta */}
       <ProjectMetaSection
         project={project}
         isMobile={isMobile}
@@ -208,14 +194,12 @@ export default function ProjectDetail() {
         onOpenSettings={() => dialogs.setSettingsOpen(true)}
       />
 
-      {/* Readiness Indicator */}
       {totalTracks > 0 && !isPublished && (
         <div className={cn("max-w-sm mx-auto mt-2", isMobile ? "px-3" : "")}>
           <ProjectReadinessIndicator totalTracks={totalTracks} tracksWithMaster={tracksWithMaster} />
         </div>
       )}
 
-      {/* Publish Button */}
       {isReadyToPublish && !isPublished && (
         <div className="flex justify-center mt-2">
           <Button
@@ -229,7 +213,6 @@ export default function ProjectDetail() {
         </div>
       )}
 
-      {/* Quick Actions Bar */}
       <QuickActionsBar
         project={project}
         isMobile={isMobile}
@@ -237,20 +220,11 @@ export default function ProjectDetail() {
         totalTracks={totalTracks}
         tracksWithMaster={tracksWithMaster}
         onAddTrack={() => dialogs.setAddTrackOpen(true)}
-        onGenerateTracklist={() =>
-          generateTracklist({
-            projectType: project.project_type || "album",
-            genre: project.genre || undefined,
-            mood: project.mood || undefined,
-            theme: project.concept || undefined,
-            trackCount: 10,
-          })
-        }
+        onGenerateTracklist={generateTracklistArgs}
         onOpenAI={() => dialogs.setAiDialogOpen(true)}
         onShare={handlers.handleShare}
       />
 
-      {/* Tabs: Tracks and Lyrics */}
       <Tabs defaultValue="tracks" className="w-full">
         <div className={cn(isMobile ? "px-3 pt-2" : "px-4 pt-2")}>
           <TabsList className={cn("w-full grid grid-cols-2 bg-muted/50", isMobile ? "h-10" : "h-9")}>
@@ -283,15 +257,7 @@ export default function ProjectDetail() {
             onOpenLyrics={handlers.handleOpenLyrics}
             onOpenLyricsWizard={dialogs.openLyricsWizard}
             onAddTrack={() => dialogs.setAddTrackOpen(true)}
-            onGenerateTracklist={() =>
-              generateTracklist({
-                projectType: project.project_type || "album",
-                genre: project.genre || undefined,
-                mood: project.mood || undefined,
-                theme: project.concept || undefined,
-                trackCount: 10,
-              })
-            }
+            onGenerateTracklist={generateTracklistArgs}
           />
         </TabsContent>
 
@@ -305,7 +271,6 @@ export default function ProjectDetail() {
         </TabsContent>
       </Tabs>
 
-      {/* Dialogs */}
       <ProjectDialogs
         project={project}
         tracks={tracks}
@@ -314,538 +279,5 @@ export default function ProjectDetail() {
         queryClient={queryClient}
       />
     </div>
-  );
-}
-
-// ============ Sub-components ============
-
-interface ProjectHeroSectionProps {
-  project: NonNullable<ReturnType<typeof useProjectDetailData>["project"]>;
-  isMobile: boolean;
-  onNavigateBack: () => void;
-  onOpenSettings: () => void;
-  onOpenMediaGenerator: () => void;
-}
-
-function ProjectHeroSection({
-  project,
-  isMobile,
-  onNavigateBack,
-  onOpenSettings,
-  onOpenMediaGenerator,
-}: ProjectHeroSectionProps) {
-  if (isMobile) {
-    return (
-      <div className="relative">
-        <div className="relative w-full aspect-[3/2]">
-          {project.cover_url ? (
-            <LazyImage src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary to-muted flex items-center justify-center">
-              <Music className="w-14 h-14 text-muted-foreground/40" />
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-
-          <div
-            className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 z-10"
-            style={{
-              paddingTop:
-                "calc(var(--tg-safe-area-inset-top, 44px) + var(--tg-content-safe-area-inset-top, 0px) + 0.5rem)",
-            }}
-          >
-            <Button
-              variant="secondary"
-              size="icon"
-              onClick={onNavigateBack}
-              className="h-11 w-11 min-h-touch bg-background/70 backdrop-blur-md border-0 shadow-lg"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-            <div className="flex gap-1.5">
-              <Button
-                variant="secondary"
-                size="icon"
-                onClick={onOpenMediaGenerator}
-                className="h-11 w-11 min-h-touch bg-background/70 backdrop-blur-md border-0 shadow-lg"
-              >
-                <Image className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="secondary"
-                size="icon"
-                onClick={onOpenSettings}
-                className="h-11 w-11 min-h-touch bg-background/70 backdrop-blur-md border-0 shadow-lg"
-              >
-                <Settings className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <div
-        className="absolute inset-0 h-32 bg-gradient-to-b from-primary/10 to-background"
-        style={{
-          backgroundImage: project.cover_url ? `url(${project.cover_url})` : undefined,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "blur(40px)",
-          opacity: 0.4,
-        }}
-      />
-
-      <div
-        className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 pb-3"
-        style={{
-          paddingTop:
-            "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
-        }}
-      >
-        <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" onClick={onNavigateBack} className="h-10 w-10 min-h-touch">
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <h1 className="font-semibold text-sm truncate flex-1 text-center mx-3">{project.title}</h1>
-          <Button variant="ghost" size="icon" onClick={onOpenSettings} className="h-10 w-10 min-h-touch">
-            <Settings className="w-3.5 h-3.5" />
-          </Button>
-        </div>
-      </div>
-
-      <div className="relative flex flex-col items-center gap-3 pt-3 pb-4 px-4">
-        <div className="relative group">
-          <div className="w-44 h-44 rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-secondary to-muted ring-1 ring-white/10 transition-transform group-hover:scale-[1.02]">
-            {project.cover_url ? (
-              <img
-                loading="lazy"
-                decoding="async"
-                src={project.cover_url}
-                alt={project.title}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <Music className="w-12 h-12 text-muted-foreground/40" />
-              </div>
-            )}
-          </div>
-          <Button
-            size="icon"
-            variant="secondary"
-            className="absolute -bottom-1 -right-1 h-10 w-10 min-h-touch rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={onOpenMediaGenerator}
-          >
-            <Image className="w-3.5 h-3.5" />
-          </Button>
-        </div>
-      </div>
-    </>
-  );
-}
-
-interface ProjectMetaSectionProps {
-  project: NonNullable<ReturnType<typeof useProjectDetailData>["project"]>;
-  isMobile: boolean;
-  completedTracks: number;
-  totalTracks: number;
-  isPublished: boolean;
-  descriptionExpanded: boolean;
-  projectInfoExpanded: boolean;
-  onToggleDescription: () => void;
-  onToggleProjectInfo: () => void;
-  onOpenSettings: () => void;
-}
-
-function ProjectMetaSection({
-  project,
-  isMobile,
-  completedTracks,
-  totalTracks,
-  isPublished,
-  descriptionExpanded,
-  projectInfoExpanded,
-  onToggleDescription,
-  onToggleProjectInfo,
-  onOpenSettings,
-}: ProjectMetaSectionProps) {
-  return (
-    <div className={cn("text-center space-y-1.5", isMobile ? "px-4 -mt-6 relative z-10" : "pt-2")}>
-      {isMobile && <h1 className="text-xl font-bold text-foreground mb-1">{project.title}</h1>}
-
-      <div className={cn("flex items-center gap-1.5", isMobile ? "justify-center flex-wrap" : "justify-center")}>
-        {project.genre && (
-          <Badge
-            variant="secondary"
-            className="gap-0.5 text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0"
-          >
-            <Music className="w-2.5 h-2.5" />
-            {project.genre}
-          </Badge>
-        )}
-        <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
-          {completedTracks}/{totalTracks} треков
-        </Badge>
-        {isPublished && (
-          <Badge className="bg-emerald-500/20 text-emerald-500 border-0 h-5 px-2 gap-0.5 shrink-0">
-            <Rocket className="w-2.5 h-2.5" />
-            Опубликован
-          </Badge>
-        )}
-      </div>
-
-      {project.description && (
-        <div className="max-w-sm mx-auto cursor-pointer group" onClick={onToggleDescription}>
-          <p className={cn("text-xs text-muted-foreground transition-all", !descriptionExpanded && "line-clamp-2")}>
-            {project.description}
-          </p>
-          {project.description.length > 100 && (
-            <span className="text-[10px] text-primary/70 group-hover:text-primary transition-colors">
-              {descriptionExpanded ? "Свернуть" : "Читать полностью"}
-            </span>
-          )}
-        </div>
-      )}
-
-      {(project.genre || project.mood || project.concept || project.image_style || project.color_palette) && (
-        <div className="max-w-sm mx-auto mt-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onToggleProjectInfo}
-            className="w-full h-10 min-h-touch text-xs text-muted-foreground hover:text-foreground gap-1"
-          >
-            {projectInfoExpanded ? (
-              <>
-                <ChevronUp className="w-3 h-3" />
-                Скрыть детали
-              </>
-            ) : (
-              <>
-                <ChevronDown className="w-3 h-3" />
-                Показать детали
-              </>
-            )}
-          </Button>
-
-          {projectInfoExpanded && (
-            <div className="mt-2 animate-in slide-in-from-top-2 duration-200">
-              <ProjectDetailsCard project={project} onEdit={onOpenSettings} />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-interface QuickActionsBarProps {
-  project: NonNullable<ReturnType<typeof useProjectDetailData>["project"]>;
-  isMobile: boolean;
-  isGenerating: boolean;
-  totalTracks: number;
-  tracksWithMaster: number;
-  onAddTrack: () => void;
-  onGenerateTracklist: () => void;
-  onOpenAI: () => void;
-  onShare: () => void;
-}
-
-function QuickActionsBar({
-  project,
-  isMobile,
-  isGenerating,
-  totalTracks,
-  tracksWithMaster,
-  onAddTrack,
-  onGenerateTracklist,
-  onOpenAI,
-  onShare,
-}: QuickActionsBarProps) {
-  // Mobile: use 2x2 icon grid
-  if (isMobile) {
-    return (
-      <MobileQuickActionsGrid
-        isGenerating={isGenerating}
-        onAddTrack={onAddTrack}
-        onGenerateTracklist={onGenerateTracklist}
-        onOpenAI={onOpenAI}
-        onShare={onShare}
-        className="sticky top-0 z-30"
-      />
-    );
-  }
-
-  // Desktop: horizontal button row
-  return (
-    <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border/50 px-4 py-2">
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-        <Button size="sm" onClick={onAddTrack} className="gap-1.5 shrink-0 bg-primary h-7 px-3 text-xs">
-          <Plus className="w-3.5 h-3.5" />
-          Трек
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onGenerateTracklist}
-          disabled={isGenerating}
-          className="gap-1.5 shrink-0 h-7 px-3 text-xs"
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          AI треклист
-        </Button>
-        <Button variant="outline" size="sm" onClick={onOpenAI} className="gap-1.5 shrink-0 h-7 px-3 text-xs">
-          <Sparkles className="w-3.5 h-3.5" />
-          AI
-        </Button>
-        <ShareProjectCard
-          project={{
-            id: project.id,
-            title: project.title,
-            cover_url: project.cover_url,
-            genre: project.genre,
-            total_tracks_count: totalTracks,
-            approved_tracks_count: tracksWithMaster,
-          }}
-          variant="button"
-          className="gap-1.5 shrink-0 h-7 px-3 text-xs"
-        />
-      </div>
-    </div>
-  );
-}
-
-interface SortableProjectTrackProps {
-  track: NonNullable<ReturnType<typeof useProjectDetailData>["tracks"]>[number];
-  onGenerate: () => void;
-  onOpenLyrics: () => void;
-  onOpenLyricsWizard: () => void;
-}
-
-function SortableProjectTrack({ track, onGenerate, onOpenLyrics, onOpenLyricsWizard }: SortableProjectTrackProps) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id: track.id });
-  const style = transform ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` } : undefined;
-
-  return (
-    <div ref={setNodeRef} style={style}>
-      <MinimalProjectTrackItem
-        track={track}
-        dragHandleProps={{ ...listeners, ...attributes }}
-        isDragging={isDragging}
-        onGenerate={onGenerate}
-        onOpenLyrics={onOpenLyrics}
-        onOpenLyricsWizard={onOpenLyricsWizard}
-      />
-    </div>
-  );
-}
-
-interface TracksTabContentProps {
-  projectId: string;
-  tracks: ReturnType<typeof useProjectDetailData>["tracks"];
-  tracksLoading: boolean;
-  isGenerating: boolean;
-  isMobile: boolean;
-  onDragEnd: (event: DragEndEvent) => void;
-  onGenerate: (track: any) => void;
-  onOpenLyrics: (track: any) => void;
-  onOpenLyricsWizard: (track: any) => void;
-  onAddTrack: () => void;
-  onGenerateTracklist: () => void;
-}
-
-function TracksTabContent({
-  projectId,
-  tracks,
-  tracksLoading,
-  isGenerating,
-  isMobile,
-  onDragEnd,
-  onGenerate,
-  onOpenLyrics,
-  onOpenLyricsWizard,
-  onAddTrack,
-  onGenerateTracklist,
-}: TracksTabContentProps) {
-  const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
-
-  return (
-    <div className={cn(isMobile ? "px-3" : "px-4")}>
-      {tracksLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary" />
-        </div>
-      ) : tracks && tracks.length > 0 ? (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-          <SortableContext items={tracks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
-            <div className="space-y-2">
-              {tracks.map((track) => (
-                <SortableProjectTrack
-                  key={track.id}
-                  track={track}
-                  onGenerate={() => onGenerate(track)}
-                  onOpenLyrics={() => onOpenLyrics(track)}
-                  onOpenLyricsWizard={() => onOpenLyricsWizard(track)}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
-      ) : (
-        <div className="text-center py-12">
-          <Music className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
-          <p className="text-muted-foreground mb-4">Треклист пуст</p>
-          <div className="flex flex-col gap-2 max-w-xs mx-auto">
-            <Button onClick={onAddTrack} className="gap-2">
-              <Plus className="w-4 h-4" />
-              Добавить трек
-            </Button>
-            <Button variant="outline" onClick={onGenerateTracklist} disabled={isGenerating} className="gap-2">
-              <Sparkles className="w-4 h-4" />
-              Сгенерировать AI
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {tracks && tracks.length > 0 && (
-        <div className="mt-4">
-          <UnlinkedTracksSection projectId={projectId} projectTracks={tracks} />
-        </div>
-      )}
-    </div>
-  );
-}
-
-interface ProjectDialogsProps {
-  project: NonNullable<ReturnType<typeof useProjectDetailData>["project"]>;
-  tracks: ReturnType<typeof useProjectDetailData>["tracks"];
-  dialogs: ReturnType<typeof useProjectDetailDialogs>;
-  handlers: ReturnType<typeof useProjectDetailHandlers>;
-  queryClient: ReturnType<typeof useQueryClient>;
-}
-
-function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient }: ProjectDialogsProps) {
-  return (
-    <>
-      <AIActionsDialog
-        open={dialogs.aiDialogOpen}
-        onOpenChange={dialogs.setAiDialogOpen}
-        projectId={project.id}
-        onApply={handlers.handleApplyUpdates}
-      />
-
-      <ProjectSettingsSheet open={dialogs.settingsOpen} onOpenChange={dialogs.setSettingsOpen} project={project} />
-
-      <AddTrackDialog
-        open={dialogs.addTrackOpen}
-        onOpenChange={dialogs.setAddTrackOpen}
-        projectId={project.id}
-        tracksCount={tracks?.length || 0}
-      />
-
-      <LyricsPreviewSheet
-        open={dialogs.lyricsSheetOpen}
-        onOpenChange={dialogs.setLyricsSheetOpen}
-        track={dialogs.selectedTrackForLyrics}
-        onSaveLyrics={handlers.handleSaveLyrics}
-        onSaveNotes={handlers.handleSaveNotes}
-        onOpenWizard={dialogs.closeLyricsSheetAndOpenWizard}
-        projectContext={{
-          projectId: project.id,
-          projectTitle: project.title,
-          genre: project.genre || undefined,
-          mood: project.mood || undefined,
-          language: project.language as "ru" | "en" | undefined,
-          concept: project.concept || undefined,
-        }}
-      />
-
-      <LyricsChatAssistant
-        open={dialogs.lyricsWizardOpen}
-        onOpenChange={dialogs.setLyricsWizardOpen}
-        onLyricsGenerated={(lyrics) => handlers.handleLyricsGenerated(lyrics, dialogs.selectedTrackForLyrics?.id)}
-        initialGenre={project.genre || undefined}
-        initialMood={project.mood ? [project.mood] : undefined}
-        initialLanguage={project.language as "ru" | "en" | undefined}
-        projectContext={{
-          projectId: project.id,
-          projectTitle: project.title,
-          genre: project.genre || undefined,
-          mood: project.mood || undefined,
-          language: project.language as "ru" | "en" | undefined,
-          concept: project.concept || undefined,
-          targetAudience: project.target_audience || undefined,
-          existingTracks: tracks?.map((t) => ({
-            position: t.position,
-            title: t.title,
-            stylePrompt: t.style_prompt || undefined,
-            draftLyrics: t.lyrics || undefined,
-            generatedLyrics: t.linked_track?.lyrics || undefined,
-            recommendedTags: t.recommended_tags || undefined,
-            recommendedStructure: t.recommended_structure || undefined,
-            notes: t.notes || undefined,
-            lyrics: t.lyrics || undefined,
-            lyricsStatus: t.lyrics_status as "draft" | "prompt" | "generated" | "approved" | undefined,
-          })),
-        }}
-        trackContext={
-          dialogs.selectedTrackForLyrics
-            ? {
-                position: dialogs.selectedTrackForLyrics.position,
-                title: dialogs.selectedTrackForLyrics.title,
-                stylePrompt: dialogs.selectedTrackForLyrics.style_prompt || undefined,
-                draftLyrics: dialogs.selectedTrackForLyrics.lyrics || undefined,
-                generatedLyrics: dialogs.selectedTrackForLyrics.linked_track?.lyrics || undefined,
-                recommendedTags: dialogs.selectedTrackForLyrics.recommended_tags || undefined,
-                recommendedStructure: dialogs.selectedTrackForLyrics.recommended_structure || undefined,
-                notes: dialogs.selectedTrackForLyrics.notes || undefined,
-                lyrics: dialogs.selectedTrackForLyrics.lyrics || undefined,
-                lyricsStatus: dialogs.selectedTrackForLyrics.lyrics_status as
-                  | "draft"
-                  | "prompt"
-                  | "generated"
-                  | "approved"
-                  | undefined,
-              }
-            : undefined
-        }
-      />
-
-      <ProjectMediaGenerator
-        open={dialogs.mediaGeneratorOpen}
-        onOpenChange={dialogs.setMediaGeneratorOpen}
-        project={{
-          id: project.id,
-          title: project.title,
-          genre: project.genre,
-          mood: project.mood,
-          concept: project.concept,
-          cover_url: project.cover_url,
-        }}
-        track={
-          dialogs.selectedTrackForMedia
-            ? {
-                id: dialogs.selectedTrackForMedia.id,
-                title: dialogs.selectedTrackForMedia.title,
-                style_prompt: dialogs.selectedTrackForMedia.style_prompt,
-                notes: dialogs.selectedTrackForMedia.notes,
-              }
-            : null
-        }
-        onCoverGenerated={() => queryClient.invalidateQueries({ queryKey: ["projects"] })}
-      />
-
-      <PublishProjectDialog
-        open={dialogs.publishDialogOpen}
-        onOpenChange={dialogs.setPublishDialogOpen}
-        project={project}
-        tracks={tracks || []}
-      />
-    </>
   );
 }
