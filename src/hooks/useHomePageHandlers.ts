@@ -52,7 +52,7 @@ export function useHomePageHandlers({ onOpenGenerateSheet, onOpenAudioDialog }: 
   // PublicTrackWithCreator, TrendingTrack, etc.) or a bare id string, which
   // falls back to /track/:id for a full page load.
   const handleTrackClick = useCallback(
-    (trackOrId: { id: string; [key: string]: unknown } | string) => {
+    (trackOrId: { id: string } | string) => {
       hapticFeedback("light");
       if (typeof trackOrId === "string") {
         navigate(`/track/${trackOrId}`);
