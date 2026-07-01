@@ -12,6 +12,8 @@ import { useVoiceRecorder } from "@/hooks/voice/useVoiceRecorder";
 import { useUserVocalStems, type UserVocalStem } from "@/hooks/voice/useUserVocalStems";
 import { notify } from "@/lib/notifications";
 import { logger } from "@/lib/logger";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface Props {
   open: boolean;
@@ -26,7 +28,6 @@ const MIN_PHRASE_REC_SEC = 5;
 export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
   const { step, voice, isWorking, lastError, canRetry, startValidation, submitRecording, retryLast, reset } =
     useVoiceCloneWizard();
-
 
   const phraseRecorder = useVoiceRecorder();
   const sourceRecorder = useVoiceRecorder();
@@ -71,20 +72,24 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     };
   }, [phraseUrl]);
 
+  // Pool-based duration probe (replaces inline `new Audio(sourceUrl)`).
+  const { duration: probedDuration } = usePreviewAudio({
+    id: sourceUrl ? `voice-clone-source-${sourceUrl}` : "voice-clone-source-none",
+    src: sourceUrl ?? "",
+    priority: AudioPriority.LOW,
+  });
+
   // Compute duration whenever the source blob changes
   useEffect(() => {
     if (!sourceBlob || !sourceUrl) {
       setAudioDuration(0);
       return;
     }
-    const a = new Audio(sourceUrl);
-    a.onloadedmetadata = () => {
-      const dur = isFinite(a.duration) ? a.duration : 0;
-      setAudioDuration(dur);
-      setVocalStart(0);
-      setVocalEnd(Math.min(10, Math.max(MIN_SOURCE_SEC, Math.floor(dur))));
-    };
-  }, [sourceBlob, sourceUrl]);
+    if (!probedDuration || !Number.isFinite(probedDuration)) return;
+    setAudioDuration(probedDuration);
+    setVocalStart(0);
+    setVocalEnd(Math.min(10, Math.max(MIN_SOURCE_SEC, Math.floor(probedDuration))));
+  }, [sourceBlob, sourceUrl, probedDuration]);
 
   // Toasts driven by wizard state transitions — so users always know what's happening.
   const lastStepRef = useRef(step);
@@ -118,7 +123,6 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
       });
     }
   }, [step, voice?.voice_id, voice?.voice_name, voice?.error_message, lastError, canRetry, retryLast, onComplete]);
-
 
   function close() {
     onOpenChange(false);
@@ -474,7 +478,11 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                   data-testid="voice-clone-retry"
                   onClick={() => void retryLast()}
                 >
-                  {isWorking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RotateCcw className="mr-2 h-4 w-4" />}
+                  {isWorking ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <RotateCcw className="mr-2 h-4 w-4" />
+                  )}
                   Повторить
                 </Button>
               )}
@@ -488,4 +496,3 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     </Dialog>
   );
 }
-
