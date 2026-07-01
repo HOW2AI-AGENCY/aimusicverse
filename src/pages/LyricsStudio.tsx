@@ -9,21 +9,7 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "@/lib/motion";
-import {
-  ChevronLeft,
-  Save,
-  Plus,
-  FileText,
-  Sparkles,
-  Tag,
-  Music2,
-  Loader2,
-  FolderOpen,
-  Bot,
-  X,
-  MoreVertical,
-  PenLine,
-} from "@/lib/icons";
+import { ChevronLeft, Save, Plus, FileText, Sparkles, Tag, Loader2, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -58,12 +44,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { hapticImpact } from "@/lib/haptic";
 import { toast } from "sonner";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
-import { AppHeader } from "@/components/layout/AppHeader";
-import { EditableTitle } from "@/components/ui/editable-title";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
-import { LazyImage } from "@/components/ui/lazy-image";
 import { parseLyricsToSections, sectionsToLyrics } from "./lyrics-studio/sections";
+import { LyricsHeader } from "./lyrics-studio/LyricsHeader";
 
 export default function LyricsStudio() {
   const navigate = useNavigate();
@@ -340,171 +324,28 @@ export default function LyricsStudio() {
           : undefined,
       }}
     >
-      {/* Project Header for project mode - compact multi-line on mobile */}
-      {isProjectTrackMode && projectData && (
-        <div className="border-b border-border/50 bg-card/50">
-          {/* Compact header row */}
-          <div className="flex items-center gap-3 px-3 py-2.5">
-            <Button variant="ghost" size="icon" onClick={handleBack} className="h-8 w-8 shrink-0">
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-
-            {/* Cover + info */}
-            <div className="flex items-center gap-2.5 flex-1 min-w-0">
-              <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted shrink-0 shadow-sm">
-                {projectData.cover_url ? (
-                  <LazyImage
-                    src={projectData.cover_url}
-                    alt={projectData.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                    <Music2 className="w-5 h-5 text-primary/50" />
-                  </div>
-                )}
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] text-muted-foreground truncate">
-                  {projectData.title} • #{(projectTrack?.position ?? 0) + 1}
-                </p>
-                <p className="text-sm font-semibold truncate">{title}</p>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center gap-1 shrink-0">
-              <Button
-                onClick={() => {
-                  setAiPanelOpen(true);
-                  hapticImpact("light");
-                }}
-                size="icon"
-                variant="ghost"
-                className="h-8 w-8"
-              >
-                <Bot className="w-4 h-4" />
-              </Button>
-              <Button
-                onClick={handleSave}
-                disabled={isSavingLyrics || !isDirty}
-                size="icon"
-                variant={isDirty ? "default" : "ghost"}
-                className="h-8 w-8"
-              >
-                {isSavingLyrics ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              </Button>
-            </div>
-          </div>
-
-          {/* Tags row - only if present */}
-          {(projectData.genre || projectData.mood || globalTags.length > 0) && (
-            <div
-              className="flex gap-1.5 px-3 pb-2 overflow-x-auto scrollbar-hide cursor-pointer"
-              onClick={() => setTagsPanelOpen(true)}
-            >
-              {projectData.genre && (
-                <Badge
-                  variant="secondary"
-                  className="text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0"
-                >
-                  {projectData.genre}
-                </Badge>
-              )}
-              {projectData.mood && (
-                <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
-                  {projectData.mood}
-                </Badge>
-              )}
-              {globalTags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-2 shrink-0">
-                  {tag}
-                </Badge>
-              ))}
-              {globalTags.length > 3 && (
-                <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
-                  +{globalTags.length - 3}
-                </Badge>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Standard Header for standalone mode */}
-      {!isProjectTrackMode && (
-        <AppHeader
-          showLogo={isMobile}
-          title={title}
-          titleElement={
-            <EditableTitle
-              value={title}
-              onChange={(newTitle) => {
-                setTitle(newTitle);
-                setIsDirty(true);
-              }}
-              placeholder="Название текста"
-              size="md"
-            />
-          }
-          icon={<PenLine className="w-4 h-4 text-primary" />}
-          leftAction={
-            <Button variant="ghost" size="icon" onClick={handleBack} className="h-8 w-8">
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-          }
-          rightAction={
-            <div className="flex items-center gap-1">
-              <Button
-                onClick={handleSave}
-                disabled={isSavingLyrics || !isDirty}
-                size="icon"
-                variant={isDirty ? "default" : "ghost"}
-                className="h-8 w-8"
-              >
-                {isSavingLyrics ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              </Button>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <MoreVertical className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-popover">
-                  <DropdownMenuItem onClick={() => setTemplatesOpen(true)}>
-                    <FolderOpen className="w-4 h-4 mr-2" />
-                    Мои тексты
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setAiPanelOpen(true);
-                      hapticImpact("light");
-                    }}
-                  >
-                    <Bot className="w-4 h-4 mr-2" />
-                    AI Ассистент
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setTagsPanelOpen(true);
-                      hapticImpact("light");
-                    }}
-                  >
-                    <Tag className="w-4 h-4 mr-2" />
-                    Теги ({globalTags.length + enrichedTags.length})
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleNewDocument}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Новый текст
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          }
-        />
-      )}
+      <LyricsHeader
+        isProjectTrackMode={isProjectTrackMode}
+        projectData={projectData}
+        projectTrack={projectTrack}
+        isMobile={isMobile}
+        title={title}
+        isSavingLyrics={isSavingLyrics}
+        isDirty={isDirty}
+        globalTags={globalTags}
+        enrichedTags={enrichedTags}
+        onBack={handleBack}
+        onSave={handleSave}
+        onNewDocument={handleNewDocument}
+        onOpenTemplates={() => setTemplatesOpen(true)}
+        onOpenAi={() => setAiPanelOpen(true)}
+        onOpenTags={() => setTagsPanelOpen(true)}
+        onChangeTitle={(newTitle) => {
+          setTitle(newTitle);
+          setIsDirty(true);
+        }}
+        onHaptic={() => hapticImpact("light")}
+      />
 
       {/* Mobile Templates Drawer */}
       {isMobile && (
