@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Clock, Loader2, Music, ArrowRight, Sparkles } from "@/lib/icons";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { useExtendTrack } from "@/hooks/studio/useExtendTrack";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -31,25 +31,23 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
   const { user } = useAuth();
   const [direction, setDirection] = useState<ExtendDirection>("continue");
   const [prompt, setPrompt] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const extendMutation = useExtendTrack();
 
   const handleSubmit = async () => {
     if (!track.suno_id) {
       toast.error("Нет данных для расширения");
       return;
     }
+    if (!user) {
+      toast.error("Не авторизован");
+      return;
+    }
 
-    setIsSubmitting(true);
     try {
-      if (!user) throw new Error("Не авторизован");
-
-      const { data, error } = await supabase.functions.invoke("suno-extend", {
-        body: {
-          audioId: track.suno_id,
-          prompt: prompt || (direction === "continue" ? "Продолжи трек естественно" : "Добавь вступление"),
-          continueAt: direction === "continue" ? track.duration_seconds || 120 : 0,
-          model: "chirp-v4",
-        },
+      const { error } = await extendMutation.mutateAsync({
+        audioId: track.suno_id,
+        prompt: prompt || (direction === "continue" ? "Продолжи трек естественно" : "Добавь вступление"),
+        continueAt: direction === "continue" ? track.duration_seconds || 120 : 0,
       });
 
       if (error) throw error;
@@ -62,8 +60,6 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
     } catch (error) {
       logger.error("Error extending track", error);
       toast.error("Ошибка при расширении трека");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -157,8 +153,8 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
         <Button variant="outline" onClick={() => onOpenChange(false)}>
           Отмена
         </Button>
-        <Button onClick={handleSubmit} disabled={isSubmitting}>
-          {isSubmitting ? (
+        <Button onClick={handleSubmit} disabled={extendMutation.isPending}>
+          {extendMutation.isPending ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               Создаём...

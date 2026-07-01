@@ -336,6 +336,33 @@ export async function logStudioActivity(
   }
 }
 
+// ============= Track Extension =============
+
+export async function extendTrack(params: {
+  audioId: string;
+  prompt: string;
+  continueAt: number;
+  model?: string;
+}): Promise<{ error: Error | null }> {
+  try {
+    const { error } = await studioApi.invokeSunoExtend({
+      audioId: params.audioId,
+      prompt: params.prompt,
+      continueAt: params.continueAt,
+      model: params.model ?? "chirp-v4",
+    });
+
+    if (error) {
+      return { error: new Error(error.message) };
+    }
+
+    return { error: null };
+  } catch (err) {
+    logger.error("Error in extendTrack", err);
+    return { error: err as Error };
+  }
+}
+
 // ============= Validation =============
 
 export function validateSectionBounds(

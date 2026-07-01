@@ -248,6 +248,19 @@ export async function insertTrackChangeLog(params: {
   if (error) throw new Error(error.message);
 }
 
+/**
+ * Invoke suno-extend edge function (track continuation / intro insertion).
+ */
+export async function invokeSunoExtend(payload: {
+  audioId: string;
+  prompt: string;
+  continueAt: number;
+  model?: string;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-extend", { body: payload });
+  return { data, error };
+}
+
 // ============= Stem Transcriptions =============
 
 export async function fetchStemTranscriptions(filter: { trackId?: string; stemId?: string }) {
@@ -284,9 +297,7 @@ export async function fetchStudioProject(id: string) {
 }
 
 export async function createStudioProject(
-  params:
-    | { userId: string; name: string; sourceTrackId?: string; description?: string }
-    | Record<string, unknown>,
+  params: { userId: string; name: string; sourceTrackId?: string; description?: string } | Record<string, unknown>,
 ) {
   // Normalize legacy shape to row shape
   const row =
