@@ -21,7 +21,7 @@ import { homeSectionColors } from "@/lib/design-colors";
 interface FeaturedSectionProps {
   tracks: TrackData[];
   isLoading?: boolean;
-  onTrackClick?: (trackId: string) => void;
+  onTrackClick?: (track: TrackData) => void;
   onRemix?: (trackId: string) => void;
   className?: string;
   maxTracks?: number;
