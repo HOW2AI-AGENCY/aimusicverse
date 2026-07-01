@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { fetchGenerationTaskBySunoId, subscribeToGenerationTaskBySunoId } from "@/api/studio.api";
+import { fetchGenerationTaskBySunoId, subscribeToGenerationTaskBySunoId } from "@/services/studio.service";
 
 export interface GenerationTaskProgress {
   status: string;
