@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { FullscreenPlayer } from "@/components/player/FullscreenPlayer";
+import { PlayerTransitionProvider } from "@/components/player/PlayerTransitionProvider";
 import { Loader2, ChevronLeft, Music2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import type { Track } from "@/types/track";
@@ -264,8 +265,10 @@ export default function MobilePlayerPage() {
 
   // Render fullscreen player
   return (
-    <div className="fixed inset-0 z-50">
-      <FullscreenPlayer track={track} onClose={handleCloseFullscreen} />
-    </div>
+    <PlayerTransitionProvider>
+      <div className="fixed inset-0 z-50">
+        <FullscreenPlayer track={track} onClose={handleCloseFullscreen} />
+      </div>
+    </PlayerTransitionProvider>
   );
 }
