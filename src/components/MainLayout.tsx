@@ -110,7 +110,8 @@ export const MainLayout = () => {
 
   return (
     <SmartAlertProvider>
-      <KeyboardShortcutsProvider onOpenGenerateSheet={() => setGenerateSheetOpen(true)}>
+      <PlayerTransitionProvider>
+        <KeyboardShortcutsProvider onOpenGenerateSheet={() => setGenerateSheetOpen(true)}>
         <div className="flex flex-col h-screen bg-background noise-overlay">
           <div className="flex flex-1 min-h-0 overflow-hidden">
             <SkipToContent />
