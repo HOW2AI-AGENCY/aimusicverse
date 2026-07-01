@@ -180,6 +180,19 @@ export default function MobilePlayerPage() {
     }
   }, [track, hasStartedPlayback, playTrack, setPlayerMode]);
 
+  // Cleanup: whenever this page unmounts (browser back, route change, swipe),
+  // demote the global player mode back to compact so the app-wide ResizablePlayer
+  // in MainLayout doesn't keep the FullscreenPlayer overlay mounted on other
+  // routes — that manifested as a black screen with audio still playing.
+  useEffect(() => {
+    return () => {
+      const currentMode = usePlayerStore.getState().playerMode;
+      if (currentMode === "fullscreen") {
+        usePlayerStore.getState().setPlayerMode("compact");
+      }
+    };
+  }, []);
+
   // Handle back navigation
   const handleBack = () => {
     setPlayerMode("compact");
