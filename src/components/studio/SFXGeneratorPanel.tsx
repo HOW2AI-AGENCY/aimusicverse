@@ -17,7 +17,9 @@ import { toast } from "sonner";
 import { useStudioProjectStore } from "@/stores/useStudioProjectStore";
 import { cn } from "@/lib/utils";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 interface SFXGeneratorPanelProps {
   onClose: () => void;
@@ -38,34 +40,21 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
   const [prompt, setPrompt] = useState("");
   const [duration, setDuration] = useState(3);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audio] = useState(() => new Audio());
   const sourceId = useId();
+  const fullSourceId = `sfx-generator-${sourceId}`;
 
   const { addTrack, addClip, currentProject } = useStudioProjectStore();
-  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  const { pauseTrack } = usePlayerStore();
 
-  // Register with studio audio coordinator
-  useEffect(() => {
-    const fullSourceId = `sfx-generator-${sourceId}`;
-    registerStudioAudio(fullSourceId, () => {
-      audio.pause();
-      setIsPlaying(false);
-    });
+  // Пул-аудио с динамическим src.
+  const { playUrl, pause, toggle, isPlaying } = usePreviewAudio({
+    id: fullSourceId,
+    src: generatedUrl ?? "",
+    priority: AudioPriority.MEDIUM,
+  });
 
-    return () => {
-      unregisterStudioAudio(fullSourceId);
-      audio.pause();
-    };
-  }, [sourceId, audio]);
-
-  // Pause when global player starts
-  useEffect(() => {
-    if (globalIsPlaying && isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    }
-  }, [globalIsPlaying, isPlaying, audio]);
+  // Регистрация в useStudioAudio координаторе и пауза при старте глобального плейера
+  // уже встроены в usePreviewAudio.
 
   const generateMutation = useMutation({
     mutationFn: async ({ prompt, duration }: { prompt: string; duration: number }) => {
@@ -98,22 +87,20 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
     generateMutation.mutate({ prompt, duration });
   };
 
-  const handlePreview = () => {
+  const handlePreview = async () => {
     if (!generatedUrl) return;
 
     if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    } else {
-      // Pause global player and other studio audio
-      pauseTrack();
-      pauseAllStudioAudio(`sfx-generator-${sourceId}`);
-
-      audio.src = generatedUrl;
-      audio.play();
-      setIsPlaying(true);
-      audio.onended = () => setIsPlaying(false);
+      // Toggle off
+      pause();
+      return;
     }
+
+    // Pause global player and other studio audio
+    pauseTrack();
+    pauseAllStudioAudio(fullSourceId);
+
+    await playUrl(generatedUrl);
   };
 
   const handleAddToTimeline = () => {

@@ -19,7 +19,9 @@ import { useStudioProjectStore } from "@/stores/useStudioProjectStore";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
+import { AudioPriority } from "@/lib/audioElementPool";
 
 const log = logger.child({ module: "InstrumentalGenerator" });
 
@@ -59,34 +61,18 @@ export function InstrumentalGeneratorPanel({ mainTrackUrl, trackId, onClose }: I
   const [customPrompt, setCustomPrompt] = useState("");
   const [duration, setDuration] = useState(30);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audio] = useState(() => new Audio());
   const sourceId = useId();
+  const fullSourceId = `instrumental-generator-${sourceId}`;
 
   const { addTrack, addClip, currentProject } = useStudioProjectStore();
-  const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
+  const { pauseTrack } = usePlayerStore();
 
-  // Register with studio audio coordinator
-  useEffect(() => {
-    const fullSourceId = `instrumental-generator-${sourceId}`;
-    registerStudioAudio(fullSourceId, () => {
-      audio.pause();
-      setIsPlaying(false);
-    });
-
-    return () => {
-      unregisterStudioAudio(fullSourceId);
-      audio.pause();
-    };
-  }, [sourceId, audio]);
-
-  // Pause when global player starts
-  useEffect(() => {
-    if (globalIsPlaying && isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    }
-  }, [globalIsPlaying, isPlaying, audio]);
+  // Пул-аудио с динамическим src.
+  const { playUrl, pause, isPlaying } = usePreviewAudio({
+    id: fullSourceId,
+    src: generatedUrl ?? "",
+    priority: AudioPriority.MEDIUM,
+  });
 
   // Analyze main track
   const {
@@ -154,22 +140,18 @@ export function InstrumentalGeneratorPanel({ mainTrackUrl, trackId, onClose }: I
     },
   });
 
-  const handlePreview = () => {
+  const handlePreview = async () => {
     if (!generatedUrl) return;
 
     if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    } else {
-      // Pause global player and other studio audio
-      pauseTrack();
-      pauseAllStudioAudio(`instrumental-generator-${sourceId}`);
-
-      audio.src = generatedUrl;
-      audio.play();
-      setIsPlaying(true);
-      audio.onended = () => setIsPlaying(false);
+      pause();
+      return;
     }
+
+    pauseTrack();
+    pauseAllStudioAudio(fullSourceId);
+
+    await playUrl(generatedUrl);
   };
 
   const handleAddToTimeline = () => {
