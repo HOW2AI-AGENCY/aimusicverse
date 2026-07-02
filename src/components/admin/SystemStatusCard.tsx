@@ -1,13 +1,12 @@
 /**
  * SystemStatusCard - Real-time system health status card with test alert functionality
  */
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useSystemHealthStatus } from "@/hooks/admin/useMonitoringHealth";
+import { useSendTestHealthAlert, useForceHealthAlert } from "@/hooks/admin/useHealthAlert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Activity, CheckCircle2, AlertTriangle, XCircle, RefreshCw, TestTube, Bell, Server } from "@/lib/icons";
+import { Activity, CheckCircle2, AlertTriangle, XCircle, RefreshCw, TestTube, Bell } from "@/lib/icons";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -55,59 +54,36 @@ const statusConfig = {
 };
 
 export function SystemStatusCard() {
-  const [isSendingTest, setIsSendingTest] = useState(false);
+  const sendTestMutation = useSendTestHealthAlert();
+  const forceAlertMutation = useForceHealthAlert();
+  const { data: rawHealthStatus, isLoading, refetch, dataUpdatedAt } = useSystemHealthStatus();
 
-  const {
-    data: healthStatus,
-    isLoading,
-    refetch,
-    dataUpdatedAt,
-  } = useQuery({
-    queryKey: ["system-health"],
-    queryFn: async (): Promise<HealthStatus> => {
-      const { data, error } = await supabase.functions.invoke("health-check");
-      if (error) throw error;
-      return data;
-    },
-    refetchInterval: 60000, // Refresh every minute
-    staleTime: 30000,
-  });
+  const healthStatus = rawHealthStatus as HealthStatus | undefined;
 
   const handleSendTestAlert = async () => {
-    setIsSendingTest(true);
     try {
-      const { data, error } = await supabase.functions.invoke("health-alert", {
-        body: { test: true },
-      });
-
-      if (error) throw error;
-
-      if (data.success) {
-        toast.success(`Тестовый алерт отправлен ${data.recipients} получателям`);
+      const data = await sendTestMutation.mutateAsync();
+      const payload = data as { success?: boolean; recipients?: number; error?: string };
+      if (payload.success) {
+        toast.success(`Тестовый алерт отправлен ${payload.recipients} получателям`);
       } else {
-        toast.error(data.error || "Ошибка отправки");
+        toast.error(payload.error || "Ошибка отправки");
       }
-    } catch (error) {
+    } catch {
       toast.error("Не удалось отправить тестовый алерт");
-    } finally {
-      setIsSendingTest(false);
     }
   };
 
   const handleForceAlert = async () => {
     try {
-      const { data, error } = await supabase.functions.invoke("health-alert", {
-        body: { force: true },
-      });
-
-      if (error) throw error;
-
-      if (data.alert_sent) {
-        toast.success(`Алерт отправлен ${data.recipients} получателям`);
+      const data = await forceAlertMutation.mutateAsync();
+      const payload = data as { alert_sent?: boolean; recipients?: number; status?: string };
+      if (payload.alert_sent) {
+        toast.success(`Алерт отправлен ${payload.recipients} получателям`);
       } else {
-        toast.info(`Система здорова (${data.status}), алерт не требуется`);
+        toast.info(`Система здорова (${payload.status}), алерт не требуется`);
       }
-    } catch (error) {
+    } catch {
       toast.error("Ошибка проверки системы");
     }
   };
@@ -139,10 +115,10 @@ export function SystemStatusCard() {
               variant="outline"
               size="sm"
               onClick={handleSendTestAlert}
-              disabled={isSendingTest}
+              disabled={sendTestMutation.isPending}
               className="h-8 px-2 sm:px-3"
             >
-              <TestTube className={cn("h-3 w-3 sm:h-4 sm:w-4", isSendingTest && "animate-pulse")} />
+              <TestTube className={cn("h-3 w-3 sm:h-4 sm:w-4", sendTestMutation.isPending && "animate-pulse")} />
               <span className="hidden sm:inline ml-1">Тест</span>
             </Button>
           </div>
@@ -231,7 +207,13 @@ export function SystemStatusCard() {
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-2 pt-2 border-t border-border/50">
-          <Button variant="secondary" size="sm" onClick={handleForceAlert} className="flex-1 h-8 text-xs sm:text-sm">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleForceAlert}
+            disabled={forceAlertMutation.isPending}
+            className="flex-1 h-8 text-xs sm:text-sm"
+          >
             <Bell className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
             Принудительная проверка
           </Button>
