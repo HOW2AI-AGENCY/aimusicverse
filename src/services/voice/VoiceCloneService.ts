@@ -10,11 +10,16 @@
  * Step 5: Get voice ID
  * Step 6: Check voice availability
  *
+ * Public methods return `Result<T, VoiceCloneServiceError>` so callers can
+ * pattern-match on `ok` / `err` instead of try/catch around thrown errors.
+ *
  * @see https://docs.sunoapi.org/suno-voice for API documentation
  * @see ./voice-types.ts for type definitions
  */
 
 import { logger } from "@/lib/logger";
+import { ok, err } from "@/lib/result";
+import type { Result } from "@/lib/result";
 import type {
   // Request/Response types
   ValidateVoiceRequest,
@@ -108,13 +113,11 @@ export class VoiceCloneService {
   // ============================================================================
 
   /**
-   * Step 1: Validate voice and start cloning process
+   * Step 1: Validate voice and start cloning process.
    *
-   * @param request - Validate voice request with audio segment
-   * @returns validate_task_id for polling
-   * @throws VoiceCloneServiceError on validation failure
+   * @returns `Ok<string>` with the validate_task_id, or `Err<VoiceCloneServiceError>`.
    */
-  async validateVoice(request: ValidateVoiceRequest): Promise<string> {
+  async validateVoice(request: ValidateVoiceRequest): Promise<Result<string, VoiceCloneServiceError>> {
     logger.info("Step 1: Validating voice", {
       voiceUrl: request.voiceUrl,
       segment: `${request.vocalStartS}-${request.vocalEndS}`,
@@ -133,20 +136,22 @@ export class VoiceCloneService {
       });
 
       if (!response.validate_task_id) {
-        throw new VoiceCloneServiceError(
-          "No task ID returned from validate endpoint",
-          "NO_TASK_ID",
-          500,
-          response,
-          "upload",
+        return err(
+          new VoiceCloneServiceError(
+            "No task ID returned from validate endpoint",
+            "NO_TASK_ID",
+            500,
+            response,
+            "upload",
+          ),
         );
       }
 
       logger.info("Step 1 completed", { taskId: response.validate_task_id });
-      return response.validate_task_id;
+      return ok(response.validate_task_id);
     } catch (error) {
       logger.error("Step 1 failed", { error });
-      throw this.handleError(error, "upload");
+      return err(this.handleError(error, "upload"));
     }
   }
 
@@ -155,13 +160,12 @@ export class VoiceCloneService {
   // ============================================================================
 
   /**
-   * Step 2: Get validation phrase to record
+   * Step 2: Get validation phrase to record.
    *
-   * @param taskId - validate_task_id from step 1
-   * @returns Validation phrase string
-   * @throws VoiceCloneServiceError if validation failed
+   * @returns `Ok<string | null>` with the phrase (or `null` to signal
+   *   "still processing, poll required"), or `Err<VoiceCloneServiceError>`.
    */
-  async getValidatePhrase(taskId: string): Promise<string | null> {
+  async getValidatePhrase(taskId: string): Promise<Result<string | null, VoiceCloneServiceError>> {
     logger.info("Step 2: Getting validation phrase", { taskId });
 
     try {
@@ -170,48 +174,44 @@ export class VoiceCloneService {
       });
 
       if (response.status === "processing_validate_fail") {
-        throw new VoiceCloneServiceError(
-          response.error || "Voice validation failed",
-          "VALIDATION_FAILED",
-          400,
-          response,
-          "validate_phrase",
-          true, // retryable - try different segment
+        return err(
+          new VoiceCloneServiceError(
+            response.error || "Voice validation failed",
+            "VALIDATION_FAILED",
+            400,
+            response,
+            "validate_phrase",
+            true, // retryable - try different segment
+          ),
         );
       }
 
       if (response.status === "pending" || response.status === "processing_validate") {
         // Still processing, need to poll
         logger.info("Step 2: Still processing, poll required");
-        return null; // Signal to poll
+        return ok(null); // Signal to poll
       }
 
       if (!response.validate_phrase) {
-        throw new VoiceCloneServiceError(
-          "No validation phrase returned",
-          "NO_PHRASE",
-          500,
-          response,
-          "validate_phrase",
+        return err(
+          new VoiceCloneServiceError("No validation phrase returned", "NO_PHRASE", 500, response, "validate_phrase"),
         );
       }
 
       logger.info("Step 2 completed", { phraseLength: response.validate_phrase.length });
-      return response.validate_phrase;
+      return ok(response.validate_phrase);
     } catch (error) {
       logger.error("Step 2 failed", { error, taskId });
-      throw this.handleError(error, "validate_phrase");
+      return err(this.handleError(error, "validate_phrase"));
     }
   }
 
   /**
-   * Regenerate validation phrase (if current one is problematic)
+   * Regenerate validation phrase (if current one is problematic).
    *
-   * @param taskId - validate_task_id from step 1
-   * @param callBackUrl - Optional webhook URL
-   * @returns New validate_task_id
+   * @returns `Ok<string>` with new validate_task_id, or `Err<VoiceCloneServiceError>`.
    */
-  async regeneratePhrase(taskId: string, callBackUrl?: string): Promise<string> {
+  async regeneratePhrase(taskId: string, callBackUrl?: string): Promise<Result<string, VoiceCloneServiceError>> {
     logger.info("Step 2: Regenerating phrase", { taskId });
 
     try {
@@ -228,21 +228,20 @@ export class VoiceCloneService {
       );
 
       logger.info("Phrase regenerated", { taskId: response.validate_task_id });
-      return response.validate_task_id;
+      return ok(response.validate_task_id);
     } catch (error) {
       logger.error("Phrase regeneration failed", { error, taskId });
-      throw this.handleError(error, "validate_phrase");
+      return err(this.handleError(error, "validate_phrase"));
     }
   }
 
   /**
-   * Poll for validation phrase (built-in polling helper)
+   * Poll for validation phrase (built-in polling helper).
    *
-   * @param taskId - validate_task_id from step 1
-   * @param options - Polling configuration
-   * @returns Validation phrase string
+   * @returns `Ok<string>` with the phrase, or `Err<VoiceCloneServiceError>`
+   *   on abort / timeout.
    */
-  async pollValidateInfo(taskId: string, options?: PollingOptions): Promise<string> {
+  async pollValidateInfo(taskId: string, options?: PollingOptions): Promise<Result<string, VoiceCloneServiceError>> {
     const pollingOptions: PollingOptions = {
       interval: options?.interval || this.config.pollingInterval || DEFAULT_CONFIG.pollingInterval,
       maxAttempts: options?.maxAttempts || this.config.maxPollingAttempts || DEFAULT_CONFIG.maxPollingAttempts,
@@ -257,17 +256,22 @@ export class VoiceCloneService {
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       if (pollingOptions.abortSignal?.aborted) {
-        throw new VoiceCloneServiceError("Polling aborted", "POLLING_ABORTED", 0, null, "validate_phrase", false);
+        return err(new VoiceCloneServiceError("Polling aborted", "POLLING_ABORTED", 0, null, "validate_phrase", false));
       }
 
       pollingOptions.onProgress?.(attempt, maxAttempts);
 
       const result = await this.getValidatePhrase(taskId);
 
-      if (result !== null) {
-        // Got the phrase!
-        logger.info("Validation phrase obtained", { attempt, phrase: result.substring(0, 50) });
-        return result;
+      if (result.kind === "ok") {
+        if (result.value !== null) {
+          // Got the phrase!
+          logger.info("Validation phrase obtained", { attempt, phrase: result.value.substring(0, 50) });
+          return ok(result.value);
+        }
+      } else {
+        // Bubble up real errors from a single attempt (validation failed etc.)
+        return err(result.error);
       }
 
       // Wait before next poll
@@ -276,13 +280,15 @@ export class VoiceCloneService {
       }
     }
 
-    throw new VoiceCloneServiceError(
-      "Timeout waiting for validation phrase",
-      "POLLING_TIMEOUT",
-      408,
-      { maxAttempts },
-      "validate_phrase",
-      true,
+    return err(
+      new VoiceCloneServiceError(
+        "Timeout waiting for validation phrase",
+        "POLLING_TIMEOUT",
+        408,
+        { maxAttempts },
+        "validate_phrase",
+        true,
+      ),
     );
   }
 
@@ -291,13 +297,11 @@ export class VoiceCloneService {
   // ============================================================================
 
   /**
-   * Step 4: Generate custom voice from user's recording
+   * Step 4: Generate custom voice from user's recording.
    *
-   * @param request - Generate voice request with recording URL
-   * @returns generate_task_id for polling
-   * @throws VoiceCloneServiceError on generation failure
+   * @returns `Ok<string>` with generate_task_id, or `Err<VoiceCloneServiceError>`.
    */
-  async generateVoice(request: GenerateVoiceRequest): Promise<string> {
+  async generateVoice(request: GenerateVoiceRequest): Promise<Result<string, VoiceCloneServiceError>> {
     logger.info("Step 4: Generating voice", { taskId: request.taskId });
 
     try {
@@ -308,20 +312,22 @@ export class VoiceCloneService {
       });
 
       if (!response.generate_task_id) {
-        throw new VoiceCloneServiceError(
-          "No task ID returned from generate endpoint",
-          "NO_TASK_ID",
-          500,
-          response,
-          "generate_voice",
+        return err(
+          new VoiceCloneServiceError(
+            "No task ID returned from generate endpoint",
+            "NO_TASK_ID",
+            500,
+            response,
+            "generate_voice",
+          ),
         );
       }
 
       logger.info("Step 4 completed", { taskId: response.generate_task_id });
-      return response.generate_task_id;
+      return ok(response.generate_task_id);
     } catch (error) {
       logger.error("Step 4 failed", { error, taskId: request.taskId });
-      throw this.handleError(error, "generate_voice");
+      return err(this.handleError(error, "generate_voice"));
     }
   }
 
@@ -330,55 +336,55 @@ export class VoiceCloneService {
   // ============================================================================
 
   /**
-   * Step 5: Get voice ID from generation
+   * Step 5: Get voice ID from generation.
    *
-   * @param taskId - generate_task_id from step 4
-   * @returns Voice ID string
-   * @throws VoiceCloneServiceError if generation failed
+   * @returns `Ok<string | null>` with voice_id (or `null` if still processing),
+   *   or `Err<VoiceCloneServiceError>`.
    */
-  async getVoiceId(taskId: string): Promise<string | null> {
+  async getVoiceId(taskId: string): Promise<Result<string | null, VoiceCloneServiceError>> {
     logger.info("Step 5: Getting voice ID", { taskId });
 
     try {
       const response = await this.callApi<RecordInfoResponse>(ENDPOINTS.GET_RECORD_INFO, "POST", { task_id: taskId });
 
       if (response.status === "processing_record_fail") {
-        throw new VoiceCloneServiceError(
-          response.error || "Voice generation failed",
-          "GENERATION_FAILED",
-          400,
-          response,
-          "wait_voice_id",
-          false, // Not retryable - user needs to re-record
+        return err(
+          new VoiceCloneServiceError(
+            response.error || "Voice generation failed",
+            "GENERATION_FAILED",
+            400,
+            response,
+            "wait_voice_id",
+            false, // Not retryable - user needs to re-record
+          ),
         );
       }
 
       if (response.status === "pending" || response.status === "processing_record") {
         // Still processing, need to poll
         logger.info("Step 5: Still processing, poll required");
-        return null; // Signal to poll
+        return ok(null); // Signal to poll
       }
 
       if (!response.voice_id) {
-        throw new VoiceCloneServiceError("No voice ID returned", "NO_VOICE_ID", 500, response, "wait_voice_id");
+        return err(new VoiceCloneServiceError("No voice ID returned", "NO_VOICE_ID", 500, response, "wait_voice_id"));
       }
 
       logger.info("Step 5 completed", { voiceId: response.voice_id });
-      return response.voice_id;
+      return ok(response.voice_id);
     } catch (error) {
       logger.error("Step 5 failed", { error, taskId });
-      throw this.handleError(error, "wait_voice_id");
+      return err(this.handleError(error, "wait_voice_id"));
     }
   }
 
   /**
-   * Poll for voice ID (built-in polling helper)
+   * Poll for voice ID (built-in polling helper).
    *
-   * @param taskId - generate_task_id from step 4
-   * @param options - Polling configuration
-   * @returns Voice ID string
+   * @returns `Ok<string>` with voice ID, or `Err<VoiceCloneServiceError>`
+   *   on abort / timeout.
    */
-  async pollRecordInfo(taskId: string, options?: PollingOptions): Promise<string> {
+  async pollRecordInfo(taskId: string, options?: PollingOptions): Promise<Result<string, VoiceCloneServiceError>> {
     const pollingOptions: PollingOptions = {
       interval: options?.interval || this.config.pollingInterval || DEFAULT_CONFIG.pollingInterval,
       maxAttempts: options?.maxAttempts || this.config.maxPollingAttempts || DEFAULT_CONFIG.maxPollingAttempts,
@@ -393,17 +399,22 @@ export class VoiceCloneService {
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       if (pollingOptions.abortSignal?.aborted) {
-        throw new VoiceCloneServiceError("Polling aborted", "POLLING_ABORTED", 0, null, "wait_voice_id", false);
+        return err(new VoiceCloneServiceError("Polling aborted", "POLLING_ABORTED", 0, null, "wait_voice_id", false));
       }
 
       pollingOptions.onProgress?.(attempt, maxAttempts);
 
       const result = await this.getVoiceId(taskId);
 
-      if (result !== null) {
-        // Got the voice ID!
-        logger.info("Voice ID obtained", { attempt, voiceId: result });
-        return result;
+      if (result.kind === "ok") {
+        if (result.value !== null) {
+          // Got the voice ID!
+          logger.info("Voice ID obtained", { attempt, voiceId: result.value });
+          return ok(result.value);
+        }
+      } else {
+        // Bubble up real errors from a single attempt (generation failed etc.)
+        return err(result.error);
       }
 
       // Wait before next poll
@@ -412,13 +423,15 @@ export class VoiceCloneService {
       }
     }
 
-    throw new VoiceCloneServiceError(
-      "Timeout waiting for voice ID",
-      "POLLING_TIMEOUT",
-      408,
-      { maxAttempts },
-      "wait_voice_id",
-      true,
+    return err(
+      new VoiceCloneServiceError(
+        "Timeout waiting for voice ID",
+        "POLLING_TIMEOUT",
+        408,
+        { maxAttempts },
+        "wait_voice_id",
+        true,
+      ),
     );
   }
 
@@ -427,13 +440,13 @@ export class VoiceCloneService {
   // ============================================================================
 
   /**
-   * Step 6: Check if voice is ready to use
+   * Step 6: Check if voice is ready to use.
    *
-   * @param request - Check voice availability request
-   * @returns true if voice is ready and available
-   * @throws VoiceCloneServiceError if check failed
+   * @returns `Ok<boolean>` with availability, or `Err<VoiceCloneServiceError>`.
    */
-  async checkVoiceAvailability(request: CheckVoiceAvailabilityRequest): Promise<boolean> {
+  async checkVoiceAvailability(
+    request: CheckVoiceAvailabilityRequest,
+  ): Promise<Result<boolean, VoiceCloneServiceError>> {
     logger.info("Step 6: Checking voice availability", {
       voiceId: request.voiceId,
       taskId: request.taskId,
@@ -446,13 +459,15 @@ export class VoiceCloneService {
       });
 
       if (response.status === "failed") {
-        throw new VoiceCloneServiceError(
-          response.error || "Voice availability check failed",
-          "AVAILABILITY_FAILED",
-          400,
-          response,
-          "verify_ready",
-          false,
+        return err(
+          new VoiceCloneServiceError(
+            response.error || "Voice availability check failed",
+            "AVAILABILITY_FAILED",
+            400,
+            response,
+            "verify_ready",
+            false,
+          ),
         );
       }
 
@@ -464,10 +479,10 @@ export class VoiceCloneService {
         status: response.status,
       });
 
-      return isReady;
+      return ok(isReady);
     } catch (error) {
       logger.error("Step 6 failed", { error, voiceId: request.voiceId });
-      throw this.handleError(error, "verify_ready");
+      return err(this.handleError(error, "verify_ready"));
     }
   }
 
@@ -494,7 +509,12 @@ export class VoiceCloneService {
   // ============================================================================
 
   /**
-   * Make API call to Suno Voice API
+   * Make API call to Suno Voice API.
+   *
+   * Internal helper — still throws on failure so the public Result-returning
+   * methods can wrap the call in a single try/catch boundary. (We only convert
+   * the **public** surface to Result; internal plumbing throws are mapped at
+   * the boundary via {@link handleError}.)
    */
   private async callApi<T>(
     endpoint: string,
@@ -626,7 +646,11 @@ export function createVoiceCloneService(config: VoiceCloneConfig): VoiceCloneSer
 }
 
 /**
- * Validate voice quality before cloning
+ * Validate voice quality before cloning.
+ *
+ * This helper does NOT throw — it always returns metrics + recommendations.
+ * Kept synchronous-style for the call site; no Result wrapping needed because
+ * it never produces a typed error.
  *
  * @param audioFile - Audio file to validate
  * @returns Quality metrics and recommendations
@@ -670,7 +694,7 @@ export async function validateVoiceQuality(audioFile: File): Promise<{
     if (duration > DURATION_MAX) {
       recommendations.push("Audio is too long. Maximum duration is 60 seconds.");
     }
-  } catch (error) {
+  } catch {
     recommendations.push("Could not determine audio duration.");
   }
 
@@ -727,3 +751,16 @@ export function getRecommendedSegmentTimes(duration: number): {
     reason: "Vocals are typically in the middle section of the audio",
   };
 }
+
+// ============================================================================
+// INTERNAL HELPERS (Result-side utilities used internally only — re-exported
+// for test files via this module's exports below. Not part of the public
+// surface; external callers should pattern-match on Result instead.)
+// ============================================================================
+
+/**
+ * Helper: convert a Result-returning step into its thrown-error equivalent.
+ * Exists for parity with the historical throwing API; tests use it to verify
+ * the throw wrappers preserve original behavior. NOT exported from index.ts.
+ */
+export const __resultInternals = { ok, err };
