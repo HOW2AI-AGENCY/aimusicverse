@@ -5,7 +5,7 @@
 
 import { memo, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Mic, MicOff, Trash2, Copy, Volume2 } from "@/lib/icons";
+import { Mic, MicOff, Trash2, Copy, Volume2, Music2, Guitar, Lightbulb, VolumeX, ClipboardCopy } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -191,7 +191,11 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
               </motion.div>
             ) : (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-8">
-                <div className="text-4xl text-muted-foreground mb-2">{isListening ? "🎸" : "🎵"}</div>
+                {isListening ? (
+                  <Mic className="w-10 h-10 text-muted-foreground mx-auto mb-2" aria-hidden="true" />
+                ) : (
+                  <Guitar className="w-10 h-10 text-muted-foreground mx-auto mb-2" aria-hidden="true" />
+                )}
                 <p className="text-muted-foreground">
                   {isListening ? "Сыграйте аккорд..." : 'Нажмите "Слушать" для начала'}
                 </p>
@@ -302,10 +306,22 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
           >
             <Card className="bg-muted/30">
               <CardContent className="py-4 text-sm text-muted-foreground space-y-2">
-                <p>💡 Играйте аккорды чётко и держите их 1-2 секунды</p>
-                <p>🎸 Лучше всего работает с акустической гитарой</p>
-                <p>🔇 Минимизируйте фоновый шум для точности</p>
-                <p>📋 Нажмите копировать для сохранения прогрессии</p>
+                <p className="flex items-center gap-2">
+                  <Lightbulb className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  Играйте аккорды чётко и держите их 1-2 секунды
+                </p>
+                <p className="flex items-center gap-2">
+                  <Guitar className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  Лучше всего работает с акустической гитарой
+                </p>
+                <p className="flex items-center gap-2">
+                  <VolumeX className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  Минимизируйте фоновый шум для точности
+                </p>
+                <p className="flex items-center gap-2">
+                  <ClipboardCopy className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  Нажмите копировать для сохранения прогрессии
+                </p>
               </CardContent>
             </Card>
           </motion.div>
