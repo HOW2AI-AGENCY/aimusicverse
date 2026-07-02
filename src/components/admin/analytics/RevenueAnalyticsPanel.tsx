@@ -200,7 +200,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                   />
                   <YAxis tick={{ fontSize: 10 }} width={40} />
                   <Tooltip
-                    formatter={(value: any, name: string) => [
+                    formatter={(value: any, name: any) => [
                       value.toLocaleString(),
                       name === "stars" ? "Stars" : "Транзакции",
                     ]}
