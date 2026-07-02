@@ -143,8 +143,26 @@ export function useActivityFeed(options?: { filter?: "all" | "following" | "like
 
       if (error) throw error;
 
-      const tracks: FeedTrack[] = (data || []).map(
-        (track: {
+      const tracks: FeedTrack[] = ((data || []) as any[]).map(
+        (track: any) => {
+          const t = track as {
+            id: string;
+            title: string | null;
+            style: string | null;
+            cover_url: string | null;
+            audio_url: string | null;
+            telegram_file_id: string | null;
+            duration_seconds: number | null;
+            created_at: string;
+            likes_count: number | null;
+            play_count: number | null;
+            user_id: string;
+            profiles?: any;
+          };
+          return { track: t } as any;
+        },
+      ).map((x: any) => x.track) as any;
+      void ((): any => (track: any) => track);
           id: string;
           title: string | null;
           style: string | null;

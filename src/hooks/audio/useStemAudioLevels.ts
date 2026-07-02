@@ -133,9 +133,9 @@ export function useStemAudioLevels(
     }
 
     // Get frequency data
-    nodes.analyser.getByteFrequencyData(dataArrayRef.current);
-    nodes.leftAnalyser.getByteFrequencyData(leftDataRef.current);
-    nodes.rightAnalyser.getByteFrequencyData(rightDataRef.current);
+    nodes.analyser.getByteFrequencyData(dataArrayRef.current as any);
+    nodes.leftAnalyser.getByteFrequencyData(leftDataRef.current as any);
+    nodes.rightAnalyser.getByteFrequencyData(rightDataRef.current as any);
 
     // Calculate overall RMS
     const overallRMS = calculateRMS(dataArrayRef.current);

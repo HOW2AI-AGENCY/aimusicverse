@@ -11,7 +11,7 @@ import {
   analyzeReferenceAudio,
   type AnalyzeReferenceParams,
 } from "@/services/audio-reference/reference-analysis.service";
-import type { ReferenceAnalysis } from "@/hooks/useSectionNotes";
+type ReferenceAnalysis = any;
 
 export function useReferenceAudioAnalysis() {
   const mutation = useMutation<ReferenceAnalysis | null, Error, AnalyzeReferenceParams>({

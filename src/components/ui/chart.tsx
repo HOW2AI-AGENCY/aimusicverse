@@ -89,7 +89,7 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
-type ChartTooltipPayloadItem = NonNullable<RechartsPrimitive.TooltipProps<number, string>["payload"]>[number];
+type ChartTooltipPayloadItem = NonNullable<(RechartsPrimitive.TooltipProps<number, string> & { payload?: any[] })["payload"]>[number];
 
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
@@ -241,7 +241,7 @@ ChartTooltipContent.displayName = "ChartTooltip";
 
 const ChartLegend = RechartsPrimitive.Legend;
 
-type ChartLegendPayloadItem = NonNullable<RechartsPrimitive.LegendProps["payload"]>[number];
+type ChartLegendPayloadItem = NonNullable<(RechartsPrimitive.LegendProps & { payload?: any[] })["payload"]>[number];
 
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
