@@ -1,43 +1,12 @@
 import { motion } from "@/lib/motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useStreakCalendar } from "@/hooks/gamification/useStreakCalendar";
 import { Flame, Calendar } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { streakColors } from "@/lib/design-colors";
 
-interface CheckinDay {
-  checkin_date: string;
-  credits_earned: number;
-  streak_day: number;
-}
-
 export function StreakCalendar() {
-  const { user } = useAuth();
-
-  const { data: checkins, isLoading } = useQuery({
-    queryKey: ["user-checkins-calendar", user?.id],
-    queryFn: async (): Promise<CheckinDay[]> => {
-      if (!user?.id) return [];
-
-      // Get last 30 days of checkins
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-      const { data, error } = await supabase
-        .from("user_checkins")
-        .select("checkin_date, credits_earned, streak_day")
-        .eq("user_id", user.id)
-        .gte("checkin_date", thirtyDaysAgo.toISOString().split("T")[0])
-        .order("checkin_date", { ascending: true });
-
-      if (error) throw error;
-      return data || [];
-    },
-    enabled: !!user?.id,
-    staleTime: 60000,
-  });
+  const { data: checkins, isLoading } = useStreakCalendar();
 
   // Generate last 7 days
   const last7Days = Array.from({ length: 7 }, (_, i) => {
