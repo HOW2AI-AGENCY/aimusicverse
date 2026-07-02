@@ -261,6 +261,57 @@ export async function invokeSendAdminMessage(payload: {
   return (data as { sent?: number } & Record<string, unknown>) ?? {};
 }
 
+// ==========================================
+// Generation Statistics
+// ==========================================
+
+export interface UserGenerationStatRow {
+  user_id: string;
+  date: string;
+  generations_count: number | null;
+  successful_count: number | null;
+  failed_count: number | null;
+  music_count: number | null;
+  vocals_count: number | null;
+  instrumental_count: number | null;
+  extend_count: number | null;
+  stems_count: number | null;
+  cover_count: number | null;
+  estimated_cost: number | string | null;
+  credits_spent: number | null;
+}
+
+/**
+ * Fetch raw per-user generation stats for a window ending today.
+ */
+export async function fetchUserGenerationStats(params: { startDate: Date }): Promise<UserGenerationStatRow[]> {
+  const startDateStr = params.startDate.toISOString().split("T")[0];
+  const { data, error } = await supabase
+    .from("user_generation_stats")
+    .select(
+      "user_id, date, generations_count, successful_count, failed_count, music_count, vocals_count, instrumental_count, extend_count, stems_count, cover_count, estimated_cost, credits_spent",
+    )
+    .gte("date", startDateStr);
+  if (error) throw new Error(error.message);
+  return (data || []) as UserGenerationStatRow[];
+}
+
+/**
+ * Fetch profile fragments for a list of user IDs — used to enrich the
+ * generation top-users list with names and avatars.
+ */
+export async function fetchProfilesSummary(
+  userIds: string[],
+): Promise<Array<{ user_id: string; first_name: string; username: string | null; photo_url: string | null }>> {
+  if (userIds.length === 0) return [];
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("user_id, first_name, username, photo_url")
+    .in("user_id", userIds);
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
+
 /**
  * Fetch the list of all users with current credit balances —
  * used by bulk-credit admin actions.

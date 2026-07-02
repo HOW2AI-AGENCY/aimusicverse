@@ -156,6 +156,189 @@ export async function changeUserSubscriptionTier(payload: {
 }
 
 // ==========================================
+// Generation Statistics
+// ==========================================
+
+export interface AggregatedGenerationStats {
+  total_generations: number;
+  total_successful: number;
+  total_failed: number;
+  total_music: number;
+  total_vocals: number;
+  total_instrumental: number;
+  total_extend: number;
+  total_stems: number;
+  total_cover: number;
+  total_cost: number;
+  total_credits_spent: number;
+  unique_users: number;
+  avg_per_user: number;
+}
+
+export interface DailyGenerationStats {
+  date: string;
+  generations_count: number;
+  successful_count: number;
+  failed_count: number;
+  music_count: number;
+  vocals_count: number;
+  instrumental_count: number;
+  extend_count: number;
+  stems_count: number;
+  cover_count: number;
+  estimated_cost: number;
+  credits_spent: number;
+}
+
+export interface TopGenerationUser {
+  user_id: string;
+  first_name: string;
+  username: string | null;
+  photo_url: string | null;
+  total_generations: number;
+  total_cost: number;
+}
+
+/**
+ * Aggregate the raw per-user generation stats rows into a single
+ * summary record. Pure function — easy to test in isolation.
+ */
+export function aggregateGenerationStats(rows: adminApi.UserGenerationStatRow[]): AggregatedGenerationStats {
+  const aggregated: AggregatedGenerationStats = {
+    total_generations: 0,
+    total_successful: 0,
+    total_failed: 0,
+    total_music: 0,
+    total_vocals: 0,
+    total_instrumental: 0,
+    total_extend: 0,
+    total_stems: 0,
+    total_cover: 0,
+    total_cost: 0,
+    total_credits_spent: 0,
+    unique_users: new Set(rows.map((r) => r.user_id)).size,
+    avg_per_user: 0,
+  };
+
+  rows.forEach((row) => {
+    aggregated.total_generations += row.generations_count || 0;
+    aggregated.total_successful += row.successful_count || 0;
+    aggregated.total_failed += row.failed_count || 0;
+    aggregated.total_music += row.music_count || 0;
+    aggregated.total_vocals += row.vocals_count || 0;
+    aggregated.total_instrumental += row.instrumental_count || 0;
+    aggregated.total_extend += row.extend_count || 0;
+    aggregated.total_stems += row.stems_count || 0;
+    aggregated.total_cover += row.cover_count || 0;
+    aggregated.total_cost += Number(row.estimated_cost) || 0;
+    aggregated.total_credits_spent += row.credits_spent || 0;
+  });
+
+  aggregated.avg_per_user = aggregated.unique_users > 0 ? aggregated.total_generations / aggregated.unique_users : 0;
+
+  return aggregated;
+}
+
+/**
+ * Group raw rows into per-day rolled-up records (sorted desc by date).
+ */
+export function groupGenerationStatsByDay(rows: adminApi.UserGenerationStatRow[]): DailyGenerationStats[] {
+  const byDate = new Map<string, DailyGenerationStats>();
+
+  rows.forEach((row) => {
+    const existing = byDate.get(row.date) || {
+      date: row.date,
+      generations_count: 0,
+      successful_count: 0,
+      failed_count: 0,
+      music_count: 0,
+      vocals_count: 0,
+      instrumental_count: 0,
+      extend_count: 0,
+      stems_count: 0,
+      cover_count: 0,
+      estimated_cost: 0,
+      credits_spent: 0,
+    };
+
+    existing.generations_count += row.generations_count || 0;
+    existing.successful_count += row.successful_count || 0;
+    existing.failed_count += row.failed_count || 0;
+    existing.music_count += row.music_count || 0;
+    existing.vocals_count += row.vocals_count || 0;
+    existing.instrumental_count += row.instrumental_count || 0;
+    existing.extend_count += row.extend_count || 0;
+    existing.stems_count += row.stems_count || 0;
+    existing.cover_count += row.cover_count || 0;
+    existing.estimated_cost += Number(row.estimated_cost) || 0;
+    existing.credits_spent += row.credits_spent || 0;
+
+    byDate.set(row.date, existing);
+  });
+
+  return Array.from(byDate.values()).sort((a, b) => b.date.localeCompare(a.date));
+}
+
+/**
+ * Get aggregated generation stats for the last `days` days.
+ */
+export async function getAggregatedGenerationStats(days: number): Promise<AggregatedGenerationStats> {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+  const rows = await adminApi.fetchUserGenerationStats({ startDate });
+  return aggregateGenerationStats(rows);
+}
+
+/**
+ * Get daily-rolled-up generation stats for the last `days` days.
+ */
+export async function getDailyGenerationStats(days: number): Promise<DailyGenerationStats[]> {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+  const rows = await adminApi.fetchUserGenerationStats({ startDate });
+  return groupGenerationStatsByDay(rows);
+}
+
+/**
+ * Get the top-N (default 10) users by generation count for the last `days`.
+ * Enriches each user with their public profile fields.
+ */
+export async function getTopGenerationUsers(days: number, limit: number = 10): Promise<TopGenerationUser[]> {
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+  const rows = await adminApi.fetchUserGenerationStats({ startDate });
+
+  const userTotals = new Map<string, { generations: number; cost: number }>();
+  rows.forEach((row) => {
+    const existing = userTotals.get(row.user_id) || { generations: 0, cost: 0 };
+    existing.generations += row.generations_count || 0;
+    existing.cost += Number(row.estimated_cost) || 0;
+    userTotals.set(row.user_id, existing);
+  });
+
+  const topUserIds = Array.from(userTotals.entries())
+    .sort((a, b) => b[1].generations - a[1].generations)
+    .slice(0, limit)
+    .map(([id]) => id);
+
+  if (topUserIds.length === 0) return [];
+
+  const profiles = await adminApi.fetchProfilesSummary(topUserIds);
+  return topUserIds.map((userId) => {
+    const profile = profiles.find((p) => p.user_id === userId);
+    const totals = userTotals.get(userId)!;
+    return {
+      user_id: userId,
+      first_name: profile?.first_name || "Unknown",
+      username: profile?.username ?? null,
+      photo_url: profile?.photo_url ?? null,
+      total_generations: totals.generations,
+      total_cost: totals.cost,
+    };
+  });
+}
+
+// ==========================================
 // User Management
 // ==========================================
 
