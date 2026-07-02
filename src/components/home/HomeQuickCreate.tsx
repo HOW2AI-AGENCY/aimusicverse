@@ -9,9 +9,10 @@
 
 import { memo, useCallback, useState } from "react";
 import { motion } from "@/lib/motion";
-import { Sparkles, Plus } from "@/lib/icons";
+import { Sparkles, Plus, Music2, Mic2, Guitar, Wand2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Button } from "@/components/ui/button";
 import { glass } from "@/lib/glass";
 
@@ -22,6 +23,7 @@ interface HomeQuickCreateProps {
 
 export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, className }: HomeQuickCreateProps) {
   const { hapticFeedback } = useTelegram();
+  const reducedMotion = useReducedMotion();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleCreate = useCallback(() => {
@@ -57,21 +59,24 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
           <div className="flex items-center gap-3 lg:gap-4 min-w-0 flex-1">
             <motion.div
               className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-gradient-to-br from-primary/40 to-primary/15 flex items-center justify-center shadow-lg shadow-primary/20 border border-primary/30"
-              animate={{ rotate: [0, 4, -4, 0] }}
+              animate={reducedMotion ? undefined : { rotate: [0, 4, -4, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
               <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-primary drop-shadow-sm" />
             </motion.div>
             <div className="min-w-0 flex-1">
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight font-display">Создать музыку</h2>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight font-display">
+                Создать музыку
+              </h2>
               <p className="text-xs sm:text-sm lg:text-base text-muted-foreground leading-snug">
                 AI сгенерирует трек за минуту
               </p>
             </div>
           </div>
           {/* Credits cost badge */}
-          <span className="self-start sm:self-auto px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm">
-            🎵 10–12 кредитов
+          <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm">
+            <Music2 className="w-3 h-3 lg:w-3.5 lg:h-3.5" aria-hidden="true" />
+            10–12 кредитов
           </span>
         </div>
 
@@ -116,10 +121,10 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
         {/* Expanded options */}
         {isExpanded && (
           <div className="mt-3 lg:mt-4 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3">
-            <QuickCreateOption icon="🎵" label="Трек" description="Полный трек" onClick={handleCreate} />
-            <QuickCreateOption icon="🎸" label="Рифф" description="Инструментал" onClick={handleCreate} />
-            <QuickCreateOption icon="🎤" label="Кавер" description="Переделка" onClick={handleCreate} />
-            <QuickCreateOption icon="✨" label="Ремикс" description="Новый звук" onClick={handleCreate} />
+            <QuickCreateOption Icon={Music2} label="Трек" description="Полный трек" onClick={handleCreate} />
+            <QuickCreateOption Icon={Guitar} label="Рифф" description="Инструментал" onClick={handleCreate} />
+            <QuickCreateOption Icon={Mic2} label="Кавер" description="Переделка" onClick={handleCreate} />
+            <QuickCreateOption Icon={Wand2} label="Ремикс" description="Новый звук" onClick={handleCreate} />
           </div>
         )}
       </div>
@@ -128,14 +133,14 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
 });
 
 interface QuickCreateOptionProps {
-  icon: string;
+  Icon: typeof Music2;
   label: string;
   description: string;
   onClick: () => void;
 }
 
 const QuickCreateOption = memo(function QuickCreateOption({
-  icon,
+  Icon,
   label,
   description,
   onClick,
@@ -152,19 +157,20 @@ const QuickCreateOption = memo(function QuickCreateOption({
       onClick={handleClick}
       aria-label={`Создать ${label.toLowerCase()}: ${description}`}
       className={cn(
-        "flex flex-col items-center justify-center min-h-touch min-w-touch",
+        "flex flex-col items-center justify-center min-h-[44px] min-w-[44px]",
         "p-3 lg:p-4 rounded-xl lg:rounded-2xl",
         "bg-card/50",
         "border border-border/40",
         "hover:bg-card hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5",
-        "active:scale-95",
+        "active:scale-95 motion-reduce:active:scale-100 motion-reduce:hover:translate-y-0",
         "transition-all duration-150",
         "group",
       )}
     >
-      <span className="text-xl lg:text-2xl mb-1 lg:mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">
-        {icon}
-      </span>
+      <Icon
+        className="w-5 h-5 lg:w-6 lg:h-6 mb-1 lg:mb-2 text-primary group-hover:scale-110 motion-reduce:group-hover:scale-100 transition-transform"
+        aria-hidden="true"
+      />
       <span className="text-xs lg:text-sm font-medium text-foreground">{label}</span>
       <span className="text-[10px] lg:text-xs text-muted-foreground">{description}</span>
     </button>

@@ -7,7 +7,7 @@
  * Uses design system glass tokens
  */
 
-import { memo, useState, useCallback } from "react";
+import { memo, useState, useCallback, type KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Folder, PenTool, Music, Sparkles } from "@/lib/icons";
@@ -47,6 +47,28 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
       }
     },
     [activeTab, hapticFeedback],
+  );
+
+  const handleTabKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLButtonElement>, currentIndex: number) => {
+      let nextIndex: number | null = null;
+      if (e.key === "ArrowRight") nextIndex = (currentIndex + 1) % TABS.length;
+      else if (e.key === "ArrowLeft") nextIndex = (currentIndex - 1 + TABS.length) % TABS.length;
+      else if (e.key === "Home") nextIndex = 0;
+      else if (e.key === "End") nextIndex = TABS.length - 1;
+      if (nextIndex !== null) {
+        e.preventDefault();
+        const nextTab = TABS[nextIndex].id;
+        hapticFeedback("light");
+        setActiveTab(nextTab);
+        // Move focus to the newly selected tab
+        requestAnimationFrame(() => {
+          const tabs = e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+          tabs?.[nextIndex as number]?.focus();
+        });
+      }
+    },
+    [hapticFeedback],
   );
 
   const handleTrackPreset = useCallback(
@@ -102,7 +124,7 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
             glass.subtle,
           )}
         >
-          {TABS.map((tab) => {
+          {TABS.map((tab, index) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
 
@@ -112,12 +134,15 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
                 role="tab"
                 aria-selected={isActive}
                 aria-label={tab.label}
+                tabIndex={isActive ? 0 : -1}
                 onClick={() => handleTabChange(tab.id)}
+                onKeyDown={(e) => handleTabKeyDown(e, index)}
                 className={cn(
                   "relative flex-1 sm:flex-initial px-1.5 sm:px-3 lg:px-4 py-1.5 lg:py-2 min-w-0",
                   "rounded-lg lg:rounded-xl text-xs lg:text-sm font-medium",
                   "flex items-center justify-center gap-1 lg:gap-2 transition-colors",
-                  "touch-manipulation min-h-[36px] lg:min-h-[40px]",
+                  "touch-manipulation min-h-[44px] lg:min-h-[44px]",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                   isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground/80",
                 )}
                 whileTap={{ scale: 0.96 }}
