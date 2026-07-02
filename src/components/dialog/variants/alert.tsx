@@ -26,7 +26,7 @@ import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, Info, CheckCircle } from "@/lib/icons";
 import { DialogBackdrop, DialogContainer } from "../dialog-shared";
-import { useHapticFeedback } from "@/lib/mobile-utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import type { AlertDialogProps } from "../unified-dialog.types";
 
 export function AlertDialog({
@@ -41,8 +41,7 @@ export function AlertDialog({
   severity = "danger",
 }: AlertDialogProps) {
   const [isConfirming, setIsConfirming] = useState(false);
-  const triggerWarningHaptic = useHapticFeedback("warning");
-  const triggerSelectionHaptic = useHapticFeedback("selection");
+  const { warning: triggerWarningHaptic, select: triggerSelectionHaptic } = useHapticFeedback();
 
   // Trigger warning haptic when dialog opens for danger severity
   useEffect(() => {

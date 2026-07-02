@@ -60,9 +60,13 @@ export function GenerateFormSimple({
   }, [trackFeature]);
 
   const handleCopy = useCallback(async () => {
-    if (description) {
+    if (!description) return;
+    try {
       await navigator.clipboard.writeText(description);
       notify.success("Скопировано");
+    } catch {
+      // Clipboard может быть недоступен вне secure context / в webview без разрешения
+      notify.error("Не удалось скопировать");
     }
   }, [description]);
 
@@ -116,7 +120,7 @@ export function GenerateFormSimple({
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="h-9 w-9 min-w-9 p-0 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
+                  className="h-11 w-11 min-w-11 p-0 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
                   onClick={handleOpenStyles}
                   aria-label="Выбрать стиль музыки"
                 >
@@ -129,7 +133,7 @@ export function GenerateFormSimple({
                 size="sm"
                 onClick={handleBoostStyle}
                 disabled={boostLoading || !description}
-                className="h-9 px-2.5 gap-1 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-40"
+                className="h-11 px-2.5 gap-1 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-40"
                 aria-label="Улучшить описание с помощью AI"
                 title={!description ? "Введите описание, чтобы использовать AI Boost" : undefined}
               >
@@ -153,7 +157,7 @@ export function GenerateFormSimple({
             onChange={(e) => onDescriptionChange(e.target.value)}
             rows={4}
             className={cn(
-              "resize-none text-[15px] leading-relaxed px-3.5 py-3 rounded-xl bg-muted/30 border-muted-foreground/20",
+              "resize-none text-body-lg leading-relaxed px-3.5 py-3 rounded-xl bg-muted/30 border-muted-foreground/20",
               "focus:border-primary/50 focus:ring-primary/20 transition-colors min-h-[112px]",
               overLimit && "border-destructive focus-visible:ring-destructive",
             )}
@@ -165,7 +169,7 @@ export function GenerateFormSimple({
           <div className="flex items-center justify-between gap-2 px-1">
             <span
               className={cn(
-                "text-[11px] tabular-nums transition-all duration-200",
+                "text-caption-sm tabular-nums transition-all duration-200",
                 overLimit
                   ? "text-destructive font-bold"
                   : description.length > 400
@@ -258,7 +262,7 @@ export function GenerateFormSimple({
               aria-checked={hasVocals}
               onClick={() => handleVocalsToggle(true)}
               className={cn(
-                "relative z-10 flex items-center justify-center gap-1.5 h-full rounded-full text-[13px] font-semibold transition-colors",
+                "relative z-10 flex items-center justify-center gap-1.5 h-full rounded-full text-body-sm font-semibold transition-colors",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 hasVocals ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground",
               )}
@@ -272,7 +276,7 @@ export function GenerateFormSimple({
               aria-checked={!hasVocals}
               onClick={() => handleVocalsToggle(false)}
               className={cn(
-                "relative z-10 flex items-center justify-center gap-1.5 h-full rounded-full text-[13px] font-semibold transition-colors",
+                "relative z-10 flex items-center justify-center gap-1.5 h-full rounded-full text-body-sm font-semibold transition-colors",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 !hasVocals ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground",
               )}
@@ -295,7 +299,7 @@ export function GenerateFormSimple({
             placeholder="Автогенерация если пусто"
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
-            className="min-h-[44px] text-[15px] rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
+            className="min-h-[44px] text-body-lg rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
             aria-invalid={title.length > validation.title.maxLength}
             aria-describedby={titleValidation ? "simple-title-error" : undefined}
           />
