@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { logger } from "@/lib/logger";
+import type WaveSurferType from "wavesurfer.js";
 
-type WaveSurferCtor = typeof import("wavesurfer.js");
-type WaveSurferInstance = any;
+type WaveSurferInstance = InstanceType<typeof WaveSurferType>;
 
 interface UseWaveformOptions {
   audioUrl: string;
@@ -56,8 +56,8 @@ export const useWaveform = ({
       setIsReady(false);
 
       try {
-        const mod: WaveSurferCtor = await import("wavesurfer.js");
-        const WaveSurfer = (mod as any).default ?? (mod as any);
+        const mod: typeof import("wavesurfer.js") = await import("wavesurfer.js");
+        const WaveSurfer = mod.default;
         if (!mounted) return;
 
         const wavesurfer = WaveSurfer.create({

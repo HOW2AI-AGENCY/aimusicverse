@@ -20,16 +20,33 @@ interface NetworkInfo {
   saveData?: boolean;
 }
 
+interface NavigatorWithConnection extends Navigator {
+  connection?: NetworkInformation;
+  mozConnection?: NetworkInformation;
+  webkitConnection?: NetworkInformation;
+}
+
+interface NetworkInformation extends EventTarget {
+  effectiveType?: string;
+  downlink?: number;
+  rtt?: number;
+  saveData?: boolean;
+}
+
+function getNavigatorConnection(): NetworkInformation | undefined {
+  const nav = navigator as NavigatorWithConnection;
+  return nav.connection || nav.mozConnection || nav.webkitConnection;
+}
+
 /**
  * Get connection type from navigator
  */
 function getConnectionType(): ConnectionType {
-  const nav = navigator as any;
-  if (!nav.connection && !nav.mozConnection && !nav.webkitConnection) {
+  const connection = getNavigatorConnection();
+  if (!connection) {
     return "unknown";
   }
 
-  const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
   const effectiveType = connection.effectiveType;
 
   switch (effectiveType) {
@@ -50,8 +67,7 @@ function getConnectionType(): ConnectionType {
  * Get detailed network information
  */
 function getNetworkInfo(): NetworkInfo {
-  const nav = navigator as any;
-  const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
+  const connection = getNavigatorConnection();
 
   const online = navigator.onLine;
   let status: NetworkStatus = online ? "online" : "offline";
@@ -118,8 +134,7 @@ export function useNetworkStatus() {
     window.addEventListener("offline", handleOffline);
 
     // Listen to connection changes if available
-    const nav = navigator as any;
-    const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
+    const connection = getNavigatorConnection();
 
     if (connection) {
       connection.addEventListener("change", updateNetworkInfo);

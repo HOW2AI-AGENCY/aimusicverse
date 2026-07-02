@@ -201,7 +201,7 @@ export const useAudioPlayer = ({
     audio.addEventListener("play", handlePlay);
     audio.addEventListener("pause", handlePause);
     audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("error", handleError as any);
+    audio.addEventListener("error", handleError);
 
     /**
      * Cleanup function - removes all event listeners
@@ -216,7 +216,7 @@ export const useAudioPlayer = ({
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("error", handleError as any);
+      audio.removeEventListener("error", handleError);
     };
   }, [audioSource, streamingUrl, localAudioUrl, audioUrl, onPlay, onPause, onEnded]);
 

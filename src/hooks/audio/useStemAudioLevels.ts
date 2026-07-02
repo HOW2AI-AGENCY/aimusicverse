@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { logger } from "@/lib/logger";
+import { getAudioContextClass } from "@/lib/audio/audioContextHelper";
 
 export interface StemLevels {
   vocals: number;
@@ -71,7 +72,8 @@ export function useStemAudioLevels(
     if (!audioElement || nodesRef.current) return;
 
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
+      if (!AudioContextClass) throw new Error("AudioContext is not supported in this browser");
       const context = new AudioContextClass();
 
       // Main analyser for overall level
@@ -130,15 +132,15 @@ export function useStemAudioLevels(
       return;
     }
 
-    // Get frequency data - cast to any to avoid TypeScript ArrayBuffer issues
-    nodes.analyser.getByteFrequencyData(dataArrayRef.current as any);
-    nodes.leftAnalyser.getByteFrequencyData(leftDataRef.current as any);
-    nodes.rightAnalyser.getByteFrequencyData(rightDataRef.current as any);
+    // Get frequency data
+    nodes.analyser.getByteFrequencyData(dataArrayRef.current);
+    nodes.leftAnalyser.getByteFrequencyData(leftDataRef.current);
+    nodes.rightAnalyser.getByteFrequencyData(rightDataRef.current);
 
     // Calculate overall RMS
-    const overallRMS = calculateRMS(dataArrayRef.current as any);
-    const leftRMS = calculateRMS(leftDataRef.current as any);
-    const rightRMS = calculateRMS(rightDataRef.current as any);
+    const overallRMS = calculateRMS(dataArrayRef.current);
+    const leftRMS = calculateRMS(leftDataRef.current);
+    const rightRMS = calculateRMS(rightDataRef.current);
 
     // Simulate individual stem levels based on overall level and volume ratios
     // In a real stem player, each stem would have its own audio source

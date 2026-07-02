@@ -8,6 +8,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
+import { getAudioContextClass } from "@/lib/audio/audioContextHelper";
 
 export type RecordingMode = "vocal" | "guitar" | "instrument" | "general";
 
@@ -133,7 +134,8 @@ export function useUnifiedRecording(options: UseUnifiedRecordingOptions = {}): U
   // Audio level monitoring
   const startAudioMonitoring = useCallback((stream: MediaStream) => {
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
+      if (!AudioContextClass) throw new Error("AudioContext is not supported in this browser");
       const audioContext = new AudioContextClass();
       const analyser = audioContext.createAnalyser();
       const source = audioContext.createMediaStreamSource(stream);

@@ -20,6 +20,16 @@ export interface BeatGridData {
   duration: number;
 }
 
+interface BeatsDataShape {
+  beats?: number[];
+  downbeats?: number[];
+}
+
+interface AnalysisMetadataShape {
+  time_signature?: string;
+  duration?: number;
+}
+
 interface UseBeatGridReturn {
   beatGrid: BeatGridData | null;
   isLoading: boolean;
@@ -48,8 +58,8 @@ export function useBeatGrid(trackId: string | null | undefined): UseBeatGridRetu
       }
 
       // Parse beats data
-      const beatsData = analysis.beats_data as any;
-      const metadata = analysis.analysis_metadata as any;
+      const beatsData: BeatsDataShape | null = analysis.beats_data as BeatsDataShape | null;
+      const metadata: AnalysisMetadataShape | null = analysis.analysis_metadata as AnalysisMetadataShape | null;
 
       let beats: Beat[] = [];
 
