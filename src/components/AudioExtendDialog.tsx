@@ -9,7 +9,6 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Upload, Loader2, Mic, ChevronDown, ChevronUp, ArrowRight } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -22,6 +21,7 @@ import { PromptValidationAlert } from "@/components/generate-form/PromptValidati
 import { AudioReferencePreview } from "@/components/audio/AudioReferencePreview";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
+import { useSunoUploadExtend } from "@/hooks/studio/useSunoUploadExtend";
 
 interface AudioExtendDialogProps {
   open: boolean;
@@ -113,6 +113,8 @@ export const AudioExtendDialog = ({
     }
   }, [audioDuration, model]);
 
+  const uploadExtendMutation = useSunoUploadExtend();
+
   const handleFileSelect = (file: File) => {
     if (!file.type.startsWith("audio/")) {
       toast.error("Выберите аудиофайл");
@@ -200,25 +202,23 @@ export const AudioExtendDialog = ({
         reader.onerror = reject;
       });
 
-      const { data, error } = await supabase.functions.invoke("suno-upload-extend", {
-        body: {
-          audioFile: {
-            name: audioFile.name,
-            type: audioFile.type,
-            data: reader.result,
-          },
-          audioDuration,
-          model,
-          customMode: true,
-          instrumental,
-          style,
-          title: title || "Extended Track",
-          prompt: instrumental ? undefined : lyrics,
-          continueAt,
-          negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender === "auto" ? undefined : vocalGender,
-          projectId,
+      const { error } = await uploadExtendMutation.mutateAsync({
+        audioFile: {
+          name: audioFile.name,
+          type: audioFile.type,
+          data: reader.result as string | ArrayBuffer | null,
         },
+        audioDuration,
+        model,
+        customMode: true,
+        instrumental,
+        style,
+        title: title || "Extended Track",
+        prompt: instrumental ? undefined : lyrics,
+        continueAt,
+        negativeTags: negativeTags || undefined,
+        vocalGender: vocalGender === "auto" ? undefined : vocalGender,
+        projectId,
       });
 
       if (error) throw error;
