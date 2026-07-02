@@ -1,9 +1,7 @@
 import { motion } from "@/lib/motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { useUserCredits } from "@/hooks/useGamification";
-import { useAuth } from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useQuickStats } from "@/hooks/gamification/useQuickStats";
 import { Coins, Flame, Music, Trophy } from "@/lib/icons";
 
 interface StatItemProps {
@@ -32,35 +30,8 @@ function StatItem({ icon, label, value, subValue, color, delay }: StatItemProps)
 }
 
 export function QuickStats() {
-  const { user } = useAuth();
   const { data: credits } = useUserCredits();
-
-  const { data: stats } = useQuery({
-    queryKey: ["user-quick-stats", user?.id],
-    queryFn: async () => {
-      if (!user?.id) return null;
-
-      // Get total tracks count
-      const { count: tracksCount } = await supabase
-        .from("tracks")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id)
-        .eq("status", "completed");
-
-      // Get achievements count
-      const { count: achievementsCount } = await supabase
-        .from("user_achievements")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id);
-
-      return {
-        tracks: tracksCount || 0,
-        achievements: achievementsCount || 0,
-      };
-    },
-    enabled: !!user?.id,
-    staleTime: 60000,
-  });
+  const { data: stats } = useQuickStats();
 
   return (
     <Card>
