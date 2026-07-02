@@ -95,10 +95,17 @@ export function FullscreenPager({ page, onChange, cover, lyrics, details }: Full
             aria-label={`Перейти к: ${p}`}
             onClick={() => goTo(p)}
             className={cn(
-              "pointer-events-auto h-1.5 rounded-full transition-all duration-200",
-              p === page ? "w-6 bg-foreground/80" : "w-1.5 bg-foreground/30 hover:bg-foreground/50",
+              "pointer-events-auto inline-flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full transition-all duration-200",
+              p === page ? "bg-foreground/10" : "hover:bg-foreground/5",
             )}
-          />
+          >
+            <span
+              className={cn(
+                "rounded-full transition-all duration-200",
+                p === page ? "h-1.5 w-6 bg-foreground/80" : "h-1.5 w-1.5 bg-foreground/30 hover:bg-foreground/50",
+              )}
+            />
+          </button>
         ))}
       </div>
     </div>

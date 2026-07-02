@@ -50,9 +50,12 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
     [seek],
   );
 
-  useEffect(() => () => {
-    if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+    },
+    [],
+  );
 
   const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
   const sunoId = currentVersion?.suno_id ?? track.suno_id ?? null;
@@ -62,7 +65,12 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
   const { lyricsLines, plainLyrics } = useParsedLyrics(lyricsData?.alignedWords, trackLyrics);
 
   const flat = lyricsLines ? lyricsLines.flat() : [];
-  const { activeLineIndex, activeWordIndex, currentTime: syncedTime, constants } = useLyricsSynchronization({
+  const {
+    activeLineIndex,
+    activeWordIndex,
+    currentTime: syncedTime,
+    constants,
+  } = useLyricsSynchronization({
     words: flat,
     enabled: !!lyricsLines?.length,
   });
@@ -157,7 +165,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
             hapticImpact("light");
             onOpenKaraoke();
           }}
-          className="absolute right-3 top-3 z-10 rounded-full bg-card/60 px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-muted-foreground backdrop-blur-md ring-1 ring-border/40 hover:text-foreground"
+          className="absolute right-3 top-3 z-10 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-card/60 px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground backdrop-blur-md ring-1 ring-border/40 hover:text-foreground"
         >
           Караоке
         </button>
@@ -177,7 +185,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
               animate={{ scale: isActiveLine ? 1.02 : 1 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
               className={cn(
-                "cursor-pointer rounded-xl px-3 py-2 transition-colors",
+                "cursor-pointer rounded-xl px-3 py-3 min-h-[44px] transition-colors",
                 "will-change-transform transform-gpu",
                 isActiveLine ? "text-foreground" : isPastLine ? "text-foreground/35" : "text-foreground/65",
                 flashIndex === lineIndex &&
