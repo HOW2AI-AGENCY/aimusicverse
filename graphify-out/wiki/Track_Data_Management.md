@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [GenerateFormActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx#L1) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx#L53) (1 connections)
+- [MobileNavDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx#L1) (1 connections)
+- [MobileNavDrawer](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerateFormActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\MobileNavDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx)
 
 ## Audit Trail
 

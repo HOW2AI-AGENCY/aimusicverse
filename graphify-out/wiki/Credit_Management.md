@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [MobileStudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx#L1) (1 connections)
-- [MobileStudioPlayerBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx#L31) (1 connections)
+- [AddToHomeScreen()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/AddToHomeScreen.tsx#L11) (1 connections)
+- [AddToHomeScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/AddToHomeScreen.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileStudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\AddToHomeScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/AddToHomeScreen.tsx)
 
 ## Audit Trail
 

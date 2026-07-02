@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [projectPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L1) (4 connections)
-- [getProjectPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L143) (1 connections)
-- [getProjectPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L123) (1 connections)
-- [getProjectTypeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L148) (1 connections)
-- [PROJECT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L26) (1 connections)
+- [dev-overlay.force-visible.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L1) (4 connections)
+- [btn](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L42) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L66) (1 connections)
+- [probe](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L62) (1 connections)
+- [top](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L77) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\projectPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\dev-overlay.force-visible.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts)
 
 ## Audit Trail
 

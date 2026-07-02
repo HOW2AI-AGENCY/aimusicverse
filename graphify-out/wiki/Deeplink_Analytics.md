@@ -1,17 +1,16 @@
 # Deeplink Analytics
 
-> 8 nodes · cohesion 0.39
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L1) (7 connections)
-- [useMusicGraphData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L151) (5 connections)
-- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L96) (2 connections)
-- [useMusicStyles()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L112) (2 connections)
-- [useStyleTagMappings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L127) (2 connections)
-- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L139) (2 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L70) (1 connections)
-- [GENRE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L83) (1 connections)
+- [ScrollableTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L1) (6 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L23) (1 connections)
+- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L46) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L38) (1 connections)
+- [contentRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L39) (1 connections)
+- [[isOverflowing, setIsOverflowing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L40) (1 connections)
+- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\ScrollableTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

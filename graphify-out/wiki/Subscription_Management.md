@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L1) (2 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L19) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L20) (1 connections)
+- [Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L1) (2 connections)
+- [roundedClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L78) (1 connections)
+- [widths](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L110) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx)
 
 ## Audit Trail
 

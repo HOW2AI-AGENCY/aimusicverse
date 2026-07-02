@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AudioHub](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx#L26) (1 connections)
-- [AudioHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx#L1) (1 connections)
+- [useSunoUploadExtend.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadExtend.ts#L1) (1 connections)
+- [useSunoUploadExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadExtend.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\AudioHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useSunoUploadExtend.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadExtend.ts)
 
 ## Audit Trail
 

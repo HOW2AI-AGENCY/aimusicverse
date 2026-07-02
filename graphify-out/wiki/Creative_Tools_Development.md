@@ -1,21 +1,20 @@
 # Creative Tools Development
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L1) (11 connections)
-- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L77) (2 connections)
-- [AUDIO_ERROR_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L28) (1 connections)
-- [audioElements](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L114) (1 connections)
-- [{ children, fallbackMessage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L135) (1 connections)
-- [errorType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L138) (1 connections)
-- [getAudioErrorType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L36) (1 connections)
-- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L73) (1 connections)
-- [getRecoveryHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L48) (1 connections)
-- [handleAudioError](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L202) (1 connections)
-- [{ hasError, error, isRecovering }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L134) (1 connections)
-- [recoveryHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L139) (1 connections)
+- [GenerationProgressStage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L1) (10 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L91) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L33) (1 connections)
+- [getStageInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L22) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L42) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L128) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L43) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L44) (1 connections)
+- [StageIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L129) (1 connections)
+- [stageInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L41) (1 connections)
+- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -23,12 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationProgressStage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

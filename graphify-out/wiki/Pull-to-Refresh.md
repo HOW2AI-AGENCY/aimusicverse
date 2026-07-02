@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AdminAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx#L9) (1 connections)
-- [AdminAlerts.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx#L1) (1 connections)
+- [useTelegramDocumentShare.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTelegramDocumentShare.ts#L1) (1 connections)
+- [useTelegramDocumentShare()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTelegramDocumentShare.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminAlerts.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTelegramDocumentShare.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTelegramDocumentShare.ts)
 
 ## Audit Trail
 

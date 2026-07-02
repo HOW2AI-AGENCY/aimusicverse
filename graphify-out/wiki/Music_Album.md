@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [AdminSendMessageDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L1) (4 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L39) (1 connections)
-- [[message, setMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L38) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L37) (1 connections)
+- [ProjectReadinessIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L1) (3 connections)
+- [hasAnyMaster](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L23) (1 connections)
+- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L22) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminSendMessageDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectReadinessIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

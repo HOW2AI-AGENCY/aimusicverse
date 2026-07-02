@@ -1,23 +1,23 @@
 # Rendering Metrics
 
-> 14 nodes · cohesion 0.14
+> 14 nodes · cohesion 0.24
 
 ## Key Concepts
 
-- [InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L1) (13 connections)
-- [{ activeReference, clearActive, analysisStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L50) (1 connections)
-- [defaultContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L97) (1 connections)
-- [effectiveDur](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L96) (1 connections)
-- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L149) (1 connections)
-- [getModeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L136) (1 connections)
-- [getModeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L130) (1 connections)
-- [getSourceIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L107) (1 connections)
-- [handleContinueAtChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L81) (1 connections)
-- [handleModeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L63) (1 connections)
-- [handleRemove](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L58) (1 connections)
-- [hasAnalysisData](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L142) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L52) (1 connections)
-- [{ isPlaying, currentTime, duration, isLoading, isBuffering, togglePlay, seek }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L54) (1 connections)
+- [advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L1) (13 connections)
+- [parseTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L207) (5 connections)
+- [detectTagType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L157) (4 connections)
+- [isStructuralTagValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L144) (4 connections)
+- [parseFullLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L351) (4 connections)
+- [parseLine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L238) (4 connections)
+- [extractTagFromWord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L442) (2 connections)
+- [extractTimingDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L196) (2 connections)
+- [getSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L424) (2 connections)
+- [DYNAMIC_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L104) (1 connections)
+- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L118) (1 connections)
+- [STRUCTURAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L33) (1 connections)
+- [TIMED_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L139) (1 connections)
+- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L83) (1 connections)
 
 ## Relationships
 
@@ -25,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 44 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

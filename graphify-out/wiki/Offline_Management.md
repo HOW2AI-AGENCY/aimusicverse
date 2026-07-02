@@ -1,13 +1,12 @@
 # Offline Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useStemAnalyzer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L1) (3 connections)
-- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L36) (1 connections)
-- [useMultiStemAnalyzer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L208) (1 connections)
-- [useStemAnalyzer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L42) (1 connections)
+- [AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L1) (2 connections)
+- [getAudioWeightDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L22) (1 connections)
+- [getAudioWeightLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAnalyzer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

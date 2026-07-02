@@ -1,17 +1,16 @@
 # Tier Management
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L1) (7 connections)
-- [cacheHits](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L50) (1 connections)
-- [cacheMisses](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L51) (1 connections)
-- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L40) (1 connections)
-- [formatCacheSize()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L280) (1 connections)
-- [globalCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L48) (1 connections)
-- [totalCacheSize](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L49) (1 connections)
-- [useAudioBufferCache()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L53) (1 connections)
+- [WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L1) (6 connections)
+- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L76) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L78) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L79) (1 connections)
+- [isSkipped](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L77) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L75) (1 connections)
+- [WorkflowProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

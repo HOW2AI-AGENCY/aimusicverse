@@ -1,23 +1,22 @@
 # Animation Management
 
-> 14 nodes · cohesion 0.18
+> 13 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [usePerformanceMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L1) (8 connections)
-- [PerformanceDashboard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceDashboard.tsx#L20) (4 connections)
-- [usePerformanceMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts#L62) (4 connections)
-- [usePerformanceMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts#L1) (3 connections)
-- [usePerformanceTrend()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L156) (3 connections)
-- [calculateTrend()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L69) (2 connections)
-- [collectWebVitals()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L83) (2 connections)
-- [useAddPerformanceMetric()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L132) (2 connections)
-- [PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceDashboard.tsx#L1) (1 connections)
-- [calculatePercentile()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts#L55) (1 connections)
-- [getMetricStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L55) (1 connections)
-- [PERFORMANCE_TARGETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L37) (1 connections)
-- [THRESHOLDS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts#L47) (1 connections)
-- [useLatestPerformanceMetric()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts#L112) (1 connections)
+- [QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L1) (12 connections)
+- [handleActionClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L107) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L101) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L147) (1 connections)
+- [displayActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L105) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L102) (1 connections)
+- [hasProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L136) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L134) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L103) (1 connections)
+- [professionalActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L34) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L89) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L135) (1 connections)
+- [statusIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -25,14 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\performance\PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceDashboard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\usePerformanceMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePerformanceMetrics.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePerformanceMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceMetrics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (82%)
-- INFERRED: 6 (18%)
+- EXTRACTED: 26 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

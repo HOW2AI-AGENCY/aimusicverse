@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L1) (6 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L136) (1 connections)
-- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L80) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L78) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L77) (1 connections)
-- [ProjectPresetCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L22) (1 connections)
-- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L90) (1 connections)
+- [result.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L1) (6 connections)
+- [e](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L25) (1 connections)
+- [failure](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L62) (1 connections)
+- [invoked](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L78) (1 connections)
+- [original](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L91) (1 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L16) (1 connections)
+- [r2](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L65) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\__tests__\result.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts)
 
 ## Audit Trail
 

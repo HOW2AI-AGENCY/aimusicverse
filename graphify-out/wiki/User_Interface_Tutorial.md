@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L1) (10 connections)
-- [attempt](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L26) (1 connections)
-- [host](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L15) (1 connections)
-- [intervalMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L19) (1 connections)
-- [lastError](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L27) (1 connections)
-- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L17) (1 connections)
-- [port](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L16) (1 connections)
-- [res](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L32) (1 connections)
-- [start](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L25) (1 connections)
-- [timeoutMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L18) (1 connections)
-- [url](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L21) (1 connections)
+- [SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L1) (10 connections)
+- [[cursorPosition, setCursorPosition]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L37) (1 connections)
+- [handleOpenTagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L65) (1 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L60) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L35) (1 connections)
+- [lineTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L100) (1 connections)
+- [[localContent, setLocalContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L36) (1 connections)
+- [sectionLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L40) (1 connections)
+- [syllableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L42) (1 connections)
+- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L41) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx)
 
 ## Audit Trail
 

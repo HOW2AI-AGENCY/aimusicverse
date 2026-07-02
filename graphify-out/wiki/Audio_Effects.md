@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [FirstCommentCTA.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L1) (5 connections)
-- [DISMISSED_CTAS_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L28) (1 connections)
-- [FirstCommentCTA](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L80) (1 connections)
-- [useCommentCTA()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L313) (1 connections)
-- [useHasCommented()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L33) (1 connections)
-- [useIsDismissed()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L48) (1 connections)
+- [useMixerHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L1) (3 connections)
+- [useMixerHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L70) (2 connections)
+- [useUndoRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts#L27) (2 connections)
+- [useUndoRedo.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts#L1) (1 connections)
+- [DEFAULT_STEM_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L61) (1 connections)
+- [MAX_HISTORY](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -17,12 +17,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\FirstCommentCTA.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useUndoRedo.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\useMixerHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (80%)
+- INFERRED: 2 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

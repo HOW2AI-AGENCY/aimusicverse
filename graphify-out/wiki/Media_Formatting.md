@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useTelegramSettingsButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts#L1) (1 connections)
-- [useTelegramSettingsButton()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts#L35) (1 connections)
+- [useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L1) (1 connections)
+- [useMultiTrackAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSettingsButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts)
 
 ## Audit Trail
 

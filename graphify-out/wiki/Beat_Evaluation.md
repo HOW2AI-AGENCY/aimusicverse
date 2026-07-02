@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L1) (2 connections)
-- [getLanguageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L81) (1 connections)
-- [TranslateResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L24) (1 connections)
+- [SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L1) (2 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L23) (1 connections)
+- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx)
 
 ## Audit Trail
 

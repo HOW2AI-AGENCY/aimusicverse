@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L1) (1 connections)
-- [MobileQuickActionsGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L20) (1 connections)
+- [StudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx#L1) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\StudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx)
 
 ## Audit Trail
 

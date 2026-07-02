@@ -1,20 +1,19 @@
 # User Ranking
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [ProgressiveImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L1) (10 connections)
-- [aspectClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L66) (1 connections)
-- [avatarFallback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L179) (1 connections)
-- [handleError](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L61) (1 connections)
-- [handleLoad](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L56) (1 connections)
-- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L54) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L53) (1 connections)
-- [objectFitClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L90) (1 connections)
-- [roundedClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L73) (1 connections)
-- [showFallback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L96) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L83) (1 connections)
+- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L1) (9 connections)
+- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L77) (2 connections)
+- [DEFAULT_STYLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L47) (1 connections)
+- [emoji](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L259) (1 connections)
+- [getSectionStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L187) (1 connections)
+- [getTagEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L192) (1 connections)
+- [SECTION_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L32) (1 connections)
+- [StructuredLyricsDisplay()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L200) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L247) (1 connections)
+- [TAG_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -22,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ProgressiveImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

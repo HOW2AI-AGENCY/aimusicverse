@@ -1,14 +1,14 @@
 # Invoice Management
 
-> 5 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [trackActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L1) (4 connections)
-- [getActionsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L440) (2 connections)
-- [getActionsByPriority()](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L435) (2 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L424) (1 connections)
-- [TRACK_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L97) (1 connections)
+- [useUnifiedStudio.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L1) (4 connections)
+- [mockPlayerStore](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L11) (1 connections)
+- [mockStudioStore](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L20) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L61) (1 connections)
+- [tracks](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L402) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\config\trackActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useUnifiedStudio.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

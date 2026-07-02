@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L1) (1 connections)
-- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L21) (1 connections)
+- [useQuickConversions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useQuickConversions.ts#L1) (1 connections)
+- [useQuickConversions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useQuickConversions.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useQuickConversions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useQuickConversions.ts)
 
 ## Audit Trail
 

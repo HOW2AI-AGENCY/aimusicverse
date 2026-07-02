@@ -1,25 +1,25 @@
 # AI Prompt Management
 
-> 16 nodes · cohesion 0.12
+> 16 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L1) (15 connections)
-- [getSectionTypeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L36) (2 connections)
-- [renderSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L114) (2 connections)
-- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/services/studio.service.ts#L58) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L92) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L335) (1 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L91) (1 connections)
-- [hasNoTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L101) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L257) (1 connections)
-- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L256) (1 connections)
-- [parsed](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L95) (1 connections)
-- [proAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L98) (1 connections)
-- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L139) (1 connections)
-- [TAG_TYPE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L24) (1 connections)
-- [TAG_TYPE_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L41) (1 connections)
-- [tagType](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L255) (1 connections)
+- [safe-area.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L1) (10 connections)
+- [FixedOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L1) (4 connections)
+- [FixedOverlay()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L59) (3 connections)
+- [getSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L99) (2 connections)
+- [getSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L86) (2 connections)
+- [backgroundMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L49) (1 connections)
+- [BottomSheetContainer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L115) (1 connections)
+- [zIndexMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L42) (1 connections)
+- [getMinimalSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L114) (1 connections)
+- [getMinimalSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L107) (1 connections)
+- [getSafeAreaClass()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L220) (1 connections)
+- [LAYOUT_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L179) (1 connections)
+- [LAYOUT_SPACING](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L190) (1 connections)
+- [SAFE_AREA_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L206) (1 connections)
+- [SAFE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L126) (1 connections)
+- [TELEGRAM_SAFE_AREA](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L31) (1 connections)
 
 ## Relationships
 
@@ -27,13 +27,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\services\studio.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/studio.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\FixedOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\safe-area.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (91%)
-- INFERRED: 3 (9%)
+- EXTRACTED: 28 (88%)
+- INFERRED: 4 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

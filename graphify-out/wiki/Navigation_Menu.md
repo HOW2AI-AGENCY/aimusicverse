@@ -1,14 +1,14 @@
 # Navigation Menu
 
-> 5 nodes · cohesion 0.40
+> 5 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [NoteCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L1) (4 connections)
-- [[editContent, setEditContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L45) (1 connections)
-- [[editType, setEditType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L46) (1 connections)
-- [handleSaveEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L49) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L47) (1 connections)
+- [usePerformanceTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L1) (4 connections)
+- [usePerformanceTracking()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L55) (2 connections)
+- [useWebVitalsReporter()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L213) (2 connections)
+- [getRating()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L43) (1 connections)
+- [THRESHOLDS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\SectionNotesPanel\NoteCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\usePerformanceTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

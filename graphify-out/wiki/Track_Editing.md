@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [slider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx#L1) (1 connections)
-- [Slider](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx#L10) (1 connections)
+- [useEnhancedKeyboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts#L1) (1 connections)
+- [useEnhancedKeyboard()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts#L15) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\slider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEnhancedKeyboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts)
 
 ## Audit Trail
 

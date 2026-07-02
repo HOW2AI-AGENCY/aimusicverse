@@ -1,16 +1,15 @@
 # Step Navigation
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L1) (6 connections)
-- [EXCLUDED_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L17) (1 connections)
-- [historyLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L14) (1 connections)
-- [selectCanRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L94) (1 connections)
-- [selectCanUndo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L89) (1 connections)
-- [selectHistoryState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L79) (1 connections)
-- [useStudioHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L28) (1 connections)
+- [MobileSkeletons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L1) (6 connections)
+- [MobileFormFieldSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L197) (1 connections)
+- [MobilePlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L169) (1 connections)
+- [MobileStudioTrackSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L140) (1 connections)
+- [MobileTrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L17) (1 connections)
+- [MobileTrackListSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -18,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSkeletons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 11 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

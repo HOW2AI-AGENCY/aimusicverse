@@ -1,18 +1,17 @@
 # UI Event Handlers
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [Heading.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L1) (8 connections)
-- [Animated](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L41) (1 connections)
-- [Gradient](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L33) (1 connections)
-- [H1](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L21) (1 connections)
-- [H2](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L25) (1 connections)
-- [H3](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L29) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L4) (1 connections)
-- [Muted](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L37) (1 connections)
-- [Truncated](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx#L45) (1 connections)
+- [skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L1) (8 connections)
+- [aspectClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L273) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L493) (1 connections)
+- [ListItemSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L193) (1 connections)
+- [PlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L151) (1 connections)
+- [TrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L34) (1 connections)
+- [TrackCardSkeletonCompact()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L132) (1 connections)
+- [WAVEFORM_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Heading.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Heading.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

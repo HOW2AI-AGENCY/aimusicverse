@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L1) (3 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L36) (1 connections)
-- [containerSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L28) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L20) (1 connections)
+- [client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L1) (3 connections)
+- [supabase](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L11) (1 connections)
+- [SUPABASE_PUBLISHABLE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L6) (1 connections)
+- [SUPABASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts)
 
 ## Audit Trail
 

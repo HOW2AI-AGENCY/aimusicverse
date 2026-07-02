@@ -1,43 +1,63 @@
 # Lyric Generation
 
-> 501 nodes · cohesion 0.00
+> 423 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [useAuth()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L285) (118 connections)
-- [smoke.app-boots.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/smoke.app-boots.spec.ts#L1) (17 connections)
-- [useHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts#L355) (14 connections)
-- [StatsWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/StatsWidget.tsx#L1) (13 connections)
-- [mobile-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts#L1) (11 connections)
-- [useGamification.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGamification.ts#L1) (10 connections)
-- [useMediaQuery()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L24) (9 connections)
-- [useFeatureAccess()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useFeatureAccess.ts#L72) (9 connections)
-- [useLibraryData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useLibraryData.ts#L29) (9 connections)
-- [use-media-query.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L1) (8 connections)
-- [useCredits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCredits.ts#L1) (8 connections)
-- [usePaywallTrigger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaywallTrigger.ts#L1) (8 connections)
-- [usePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePresets.ts#L1) (8 connections)
-- [suno-error-mapper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L1) (8 connections)
-- [useProfile()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useProfile.tsx#L36) (8 connections)
-- [useSubscriptionStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSubscriptionStatus.ts#L25) (8 connections)
-- [NotificationContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/NotificationContext.tsx#L1) (7 connections)
-- [useKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useKeyboardShortcuts.ts#L1) (7 connections)
-- [useGuestMode()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/GuestModeContext.tsx#L160) (7 connections)
-- [useGenerateFormState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useGenerateFormState.ts#L48) (7 connections)
-- [usePaywallTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaywallTrigger.ts#L62) (7 connections)
-- [useUserCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserCredits.ts#L23) (7 connections)
-- [useGenerateDraft.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useGenerateDraft.ts#L1) (6 connections)
-- [useNotificationHub()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/NotificationContext.tsx#L633) (6 connections)
-- [useAnalyticsTracking()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAnalyticsTracking.ts#L54) (6 connections)
-- *... and 476 more nodes in this community*
+- [getItem()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cloudStorage.ts#L83) (59 connections)
+- [setItem()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cloudStorage.ts#L39) (58 connections)
+- [.parse()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L97) (56 connections)
+- [deeplink-tracker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/deeplink-tracker.ts#L1) (24 connections)
+- [MainLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/MainLayout.tsx#L1) (23 connections)
+- [LyricsParser](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L93) (23 connections)
+- [removeItem()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cloudStorage.ts#L182) (19 connections)
+- [GamificationOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationOnboarding.tsx#L1) (18 connections)
+- [trackConversionStage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/deeplink-tracker.ts#L306) (16 connections)
+- [QueueSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L1) (15 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/ab-testing/index.ts#L1) (15 connections)
+- [PaymentFail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/PaymentFail.tsx#L1) (15 connections)
+- [trackDeeplinkVisit()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/deeplink-tracker.ts#L477) (14 connections)
+- [ContinueDraftCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L1) (12 connections)
+- [WorkflowEngine](file:///D:/.MUSICVERSE/aimusicverse/src/lib/workflow-engine.ts#L234) (12 connections)
+- [cloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cloudStorage.ts#L1) (11 connections)
+- [session.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/session.service.ts#L1) (11 connections)
+- [.getState()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/workflow-engine.ts#L257) (11 connections)
+- [HintRegistry.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/HintRegistry.tsx#L1) (10 connections)
+- [ProfileSetupOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/ProfileSetupOnboarding.tsx#L1) (10 connections)
+- [ProactiveUpsellBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L1) (10 connections)
+- [FeatureHighlight.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureHighlight.tsx#L1) (9 connections)
+- [AnnouncementContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AnnouncementContext.tsx#L1) (9 connections)
+- [retention.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/retention.service.ts#L1) (9 connections)
+- [initializeDeeplinkTracker()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/deeplink-tracker.ts#L762) (9 connections)
+- *... and 398 more nodes in this community*
 
 ## Class Diagram
 
 ```mermaid
 classDiagram
-    class SunoError {
-        +suno-error-mapper.ts()
-        +.constructor()
+    class LyricsParser {
+        +LyricsParser.ts()
+        +.parse()
+        +.extractSections()
+        +.detectSectionType()
+        +.extractInlineTags()
+        +.detectTagType()
+        +.extractAllTags()
+        +.validateTags()
+        +.analyzeSyllables()
+        +.countSyllables()
+    }
+    class WorkflowEngine {
+        +workflow-engine.ts()
+        +.startWorkflow()
+        +.getState()
+        +.saveState()
+        +.completeStep()
+        +.goToStep()
+        +.skipWorkflow()
+        +.clearState()
+        +.getCurrentWorkflow()
+        +.getCurrentStep()
     }
 ```
 
@@ -47,31 +67,31 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\GlobalGenerationIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/GlobalGenerationIndicator.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\GuestModeBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/GuestModeBanner.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\EngagementChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/EngagementChart.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\ReportCommentDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/ReportCommentDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\modal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/modal.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\engagement\LikeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/LikeButton.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\UserLevel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UserLevel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerateFormReferences.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormReferences.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\QueuePosition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QueuePosition.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\SmartAlertProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProvider.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\useAntiSpam.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/useAntiSpam.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\QuickStartOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/QuickStartOverlay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\CreatePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\FeatureGate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/FeatureGate.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\PaywallProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PaywallProvider.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\StatsWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/StatsWidget.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileSetupGuard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileSetupGuard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\EnhancedProfileSetup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/EnhancedProfileSetup.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AddTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundary.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\MainLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/MainLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\TrackDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\announcements\SubscriptionFeatureAnnouncement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/announcements/SubscriptionFeatureAnnouncement.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\GamificationOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationOnboarding.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\PromptHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\inspirationPrompts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/inspirationPrompts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gestures\GestureSettingsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gestures/GestureSettingsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\HintRegistry.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/HintRegistry.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\ContinueDraftCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SystemAnnouncement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SystemAnnouncement.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\RecentlyUsedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/RecentlyUsedSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\FeatureHighlight.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureHighlight.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\ProfileSetupOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/ProfileSetupOnboarding.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueueSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\ProactiveUpsellBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJOnboarding.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\AnnouncementContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AnnouncementContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\useTelegramInit.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramInit.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 797 (63%)
-- INFERRED: 475 (37%)
+- EXTRACTED: 934 (68%)
+- INFERRED: 449 (32%)
 - AMBIGUOUS: 0 (0%)
 
 ---

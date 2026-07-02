@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [badgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L6) (1 connections)
-- [badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L1) (1 connections)
+- [textarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx#L1) (1 connections)
+- [Textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx#L7) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\textarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx)
 
 ## Audit Trail
 

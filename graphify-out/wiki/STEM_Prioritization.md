@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TracksGridSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx#L1) (1 connections)
-- [displayTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx#L66) (1 connections)
+- [SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L1) (1 connections)
+- [cleanWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\TracksGridSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx)
 
 ## Audit Trail
 

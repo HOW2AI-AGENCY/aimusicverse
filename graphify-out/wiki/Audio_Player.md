@@ -4,29 +4,29 @@
 
 ## Key Concepts
 
-- [UnifiedWaveformTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L1) (22 connections)
-- [init()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L172) (2 connections)
-- [activeIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L273) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L283) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L159) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L323) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L252) (1 connections)
-- [[hoveredSection, setHoveredSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L164) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L286) (1 connections)
-- [isHovered](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L285) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L163) (1 connections)
-- [[isReady, setIsReady]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L162) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L284) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L401) (1 connections)
-- [mounted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L170) (1 connections)
-- [normalizedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L246) (1 connections)
-- [pos](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L282) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L166) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L35) (1 connections)
-- [sectionPositions](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L265) (1 connections)
-- [waveformRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L160) (1 connections)
-- [wavesurferRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L161) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx#L402) (1 connections)
+- [CreateArtistFromTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L1) (23 connections)
+- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L92) (1 connections)
+- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L99) (1 connections)
+- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L69) (1 connections)
+- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L41) (1 connections)
+- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L35) (1 connections)
+- [{ createArtist, isCreating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L29) (1 connections)
+- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L37) (1 connections)
+- [handleSelectTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L87) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L27) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L26) (1 connections)
+- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L38) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L34) (1 connections)
+- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L39) (1 connections)
+- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L40) (1 connections)
+- [resetForm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L45) (1 connections)
+- [selectedTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L43) (1 connections)
+- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L32) (1 connections)
+- [[step, setStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L31) (1 connections)
+- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L36) (1 connections)
+- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L76) (1 connections)
+- [{ tracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L28) (1 connections)
+- [trackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -34,12 +34,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\UnifiedWaveformTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/UnifiedWaveformTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\CreateArtistFromTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 45 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

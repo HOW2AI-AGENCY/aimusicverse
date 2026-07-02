@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L1) (2 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L33) (1 connections)
-- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L17) (1 connections)
+- [SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L1) (2 connections)
+- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L201) (1 connections)
+- [SUGGESTIONS_RULES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\empty\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx)
 
 ## Audit Trail
 

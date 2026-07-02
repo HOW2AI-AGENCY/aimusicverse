@@ -1,21 +1,21 @@
 # Lyrics Editor
 
-> 12 nodes · cohesion 0.17
+> 12 nodes · cohesion 0.27
 
 ## Key Concepts
 
-- [NewArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L1) (12 connections)
-- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L29) (1 connections)
-- [defaultStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L36) (1 connections)
-- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L38) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L27) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L32) (1 connections)
-- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L28) (1 connections)
-- [[showTrackInfo, setShowTrackInfo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L33) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L30) (1 connections)
-- [styleHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L44) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L31) (1 connections)
-- [trackLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L37) (1 connections)
+- [useUnifiedAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L1) (11 connections)
+- [useAnalysisByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L158) (8 connections)
+- [useBeatAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L136) (2 connections)
+- [useChordAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L143) (2 connections)
+- [useEmotionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L122) (2 connections)
+- [useFullAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L150) (2 connections)
+- [useMusicTheoryAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L115) (2 connections)
+- [useStyleAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L108) (2 connections)
+- [useTranscriptionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L129) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L20) (1 connections)
+- [useTrackAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L184) (1 connections)
+- [useUnifiedAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -23,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\NewArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUnifiedAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 23 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

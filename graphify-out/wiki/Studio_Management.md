@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/index.ts#L1) (0 connections)
+- [VirtualizedProjectsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedProjectsList.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedProjectsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedProjectsList.tsx)
 
 ## Audit Trail
 

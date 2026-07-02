@@ -1,24 +1,23 @@
 # Referral Management
 
-> 15 nodes · cohesion 0.13
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L1) (12 connections)
-- [usePromptDJStore](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L161) (2 connections)
-- [usePromptHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L27) (2 connections)
-- [usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L1) (1 connections)
-- [dbPromise](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L57) (1 connections)
-- [DEFAULT_CHANNELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L80) (1 connections)
-- [DEFAULT_SETTINGS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L92) (1 connections)
-- [indexedDBStorage](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L11) (1 connections)
-- [openDB()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L58) (1 connections)
-- [selectChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L278) (1 connections)
-- [selectHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L280) (1 connections)
-- [selectPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L281) (1 connections)
-- [selectRecentPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L287) (1 connections)
-- [selectSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L279) (1 connections)
-- [selectTopRatedPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L284) (1 connections)
+- [StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L1) (13 connections)
+- [handleLockedClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L66) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L43) (1 connections)
+- [{ hasAccess: canReplaceSection, requiredTier: replaceTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L53) (1 connections)
+- [{ hasAccess: canStemDetailed, requiredTier: stemDetailedTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L54) (1 connections)
+- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L62) (1 connections)
+- [[lockedFeature, setLockedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L45) (1 connections)
+- [showMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L60) (1 connections)
+- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L48) (1 connections)
+- [showStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L57) (1 connections)
+- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L50) (1 connections)
+- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L49) (1 connections)
+- [showStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L47) (1 connections)
+- [[upgradePopupOpen, setUpgradePopupOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -26,13 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (93%)
-- INFERRED: 2 (7%)
+- EXTRACTED: 26 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

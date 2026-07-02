@@ -1,21 +1,15 @@
 # User Blocking
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [StudioNotationPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L1) (6 connections)
-- [availableFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L248) (1 connections)
-- [{
-    data: transcription,
-    isLoading,
-    error,
-    refetch,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L74) (1 connections)
-- [downloadFile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L223) (1 connections)
-- [durationSeconds](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L72) (1 connections)
-- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L70) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L69) (1 connections)
+- [CampaignPerformance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L1) (5 connections)
+- [CHART_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L32) (1 connections)
+- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L47) (1 connections)
+- [labels](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L154) (1 connections)
+- [sortedCampaigns](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L42) (1 connections)
+- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L58) (1 connections)
 
 ## Relationships
 
@@ -23,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioNotationPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\CampaignPerformance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

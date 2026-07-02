@@ -1,14 +1,13 @@
 # Responsive Layout
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L1) (4 connections)
-- [TABLET_MAX](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L24) (1 connections)
-- [TABLET_MIN](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L23) (1 connections)
-- [useIsTablet()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L26) (1 connections)
-- [useResponsive()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L55) (1 connections)
+- [LevelProgressCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx#L1) (3 connections)
+- [{ level, current, next, progress }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx#L21) (1 connections)
+- [tierInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx#L25) (1 connections)
+- [xpToNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LevelProgressCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

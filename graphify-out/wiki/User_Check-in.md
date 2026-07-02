@@ -1,19 +1,18 @@
 # User Check-in
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L1) (5 connections)
-- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L1) (4 connections)
-- [PageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L68) (2 connections)
-- [AnimatedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L108) (1 connections)
-- [FadeIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L144) (1 connections)
-- [getVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L26) (1 connections)
-- [ScaleIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L160) (1 connections)
-- [StaggerContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L68) (1 connections)
-- [StaggerItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L92) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L18) (1 connections)
+- [CompactFilterBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L1) (8 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L158) (1 connections)
+- [FILTERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L38) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L157) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L191) (1 connections)
+- [[isSearchFocused, setIsSearchFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L69) (1 connections)
+- [[showSortMenu, setShowSortMenu]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L70) (1 connections)
+- [SORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L45) (1 connections)
+- [STATUS_FILTERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -21,12 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\CompactFilterBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L1) (1 connections)
-- [useOptimisticVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L36) (1 connections)
+- [useGenerateSfx.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts#L1) (1 connections)
+- [useGenerateSfx()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useGenerateSfx.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts)
 
 ## Audit Trail
 

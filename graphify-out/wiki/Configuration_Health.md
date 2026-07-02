@@ -1,17 +1,16 @@
 # Configuration Health
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L1) (8 connections)
-- [aspectClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L273) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L493) (1 connections)
-- [ListItemSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L193) (1 connections)
-- [PlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L151) (1 connections)
-- [TrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L34) (1 connections)
-- [TrackCardSkeletonCompact()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L132) (1 connections)
-- [WAVEFORM_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L14) (1 connections)
+- [ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L136) (1 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L80) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L78) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L77) (1 connections)
+- [ProjectPresetCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L22) (1 connections)
+- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L90) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

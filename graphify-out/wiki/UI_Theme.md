@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L1) (4 connections)
-- [getHintsByContext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L210) (1 connections)
-- [HINT_ALIASES](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L193) (1 connections)
-- [HINT_REGISTRY](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L23) (1 connections)
-- [resolveHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L203) (1 connections)
+- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
+- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
+- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
+- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
+- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
 
 ## Audit Trail
 

@@ -1,14 +1,13 @@
 # Dialog Properties
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.83
 
 ## Key Concepts
 
-- [sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L1) (4 connections)
-- [getAvailableGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L420) (2 connections)
-- [getTemplateById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L413) (1 connections)
-- [getTemplatesByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L406) (1 connections)
-- [SUNO_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L18) (1 connections)
+- [audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L1) (5 connections)
+- [watermarkAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L29) (3 connections)
+- [applyWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L52) (2 connections)
+- [detectWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L59) (2 connections)
 
 ## Relationships
 
@@ -16,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\api\audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

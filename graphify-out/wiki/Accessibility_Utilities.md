@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L1) (9 connections)
-- [hasAnyIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L40) (1 connections)
-- [hasModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L38) (1 connections)
-- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L29) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L25) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L47) (1 connections)
-- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L32) (1 connections)
-- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L34) (1 connections)
-- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L27) (1 connections)
-- [model](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L37) (1 connections)
+- [VoiceCloneService.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L1) (9 connections)
+- [BASE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L12) (1 connections)
+- [calls](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L171) (1 connections)
+- [controller](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L146) (1 connections)
+- [{ getRecommendedSegmentTimes }](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L340) (1 connections)
+- [mockFetch()](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L21) (1 connections)
+- [originalFetch](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L31) (1 connections)
+- [out](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L341) (1 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L47) (1 connections)
+- [svc](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L45) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\voice\__tests__\VoiceCloneService.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts)
 
 ## Audit Trail
 

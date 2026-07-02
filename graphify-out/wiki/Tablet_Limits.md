@@ -1,25 +1,13 @@
 # Tablet Limits
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L1) (3 connections)
-- [audioTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L148) (1 connections)
-- [firstTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L431) (1 connections)
-- [{
-    isMobile,
-    projectId,
-    projectName,
-    sourceTrackId,
-    tracks,
-    masterVolume,
-    duration,
-    currentTime,
-    isPlaying,
-    detectedSections,
-    TRACK_COLORS,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L133) (1 connections)
+- [useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L1) (3 connections)
+- [useSectionNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L158) (2 connections)
+- [useSectionNotesData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L97) (2 connections)
+- [sectionNotesKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -27,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

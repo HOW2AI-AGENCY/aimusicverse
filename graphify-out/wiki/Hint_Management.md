@@ -1,14 +1,13 @@
 # Hint Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [preferences.schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L1) (4 connections)
-- [DEFAULT_GESTURE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L26) (1 connections)
-- [DEFAULT_USER_PREFERENCES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L27) (1 connections)
-- [GestureConfigSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L3) (1 connections)
-- [UserPreferencesSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts#L14) (1 connections)
+- [OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L1) (3 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L31) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L50) (1 connections)
+- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\schemas\preferences.schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/schemas/preferences.schema.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

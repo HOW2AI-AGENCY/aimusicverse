@@ -1,21 +1,20 @@
 # Music Notation
 
-> 12 nodes · cohesion 0.21
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [Auth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L1) (7 connections)
-- [authenticateWithTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L28) (5 connections)
-- [handleAuth()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L22) (3 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L15) (3 connections)
-- [setSession()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L53) (3 connections)
-- [auth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L1) (3 connections)
-- [handleGuestMode()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L33) (2 connections)
-- [{ enableGuestMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L18) (1 connections)
-- [{ isAuthenticated, loading, authenticateWithTelegram }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L16) (1 connections)
-- [[isAuthenticating, setIsAuthenticating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L20) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L9) (1 connections)
-- [{ webApp, user, isInitialized, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L17) (1 connections)
+- [UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L1) (10 connections)
+- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L61) (1 connections)
+- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L63) (1 connections)
+- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L70) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L94) (1 connections)
+- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L102) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L180) (1 connections)
+- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L92) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L88) (1 connections)
+- [projectType](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L91) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L90) (1 connections)
 
 ## Relationships
 
@@ -23,13 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Auth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\services\telegram\auth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (84%)
-- INFERRED: 5 (16%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

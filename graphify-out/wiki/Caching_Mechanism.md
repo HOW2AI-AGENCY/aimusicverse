@@ -1,13 +1,13 @@
 # Caching Mechanism
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L1) (3 connections)
-- [getShortName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L64) (1 connections)
-- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L43) (1 connections)
-- [[showPresets, setShowPresets]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L41) (1 connections)
+- [usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L1) (3 connections)
+- [usePaymentHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L24) (2 connections)
+- [useRecentTransactions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L56) (2 connections)
+- [paymentHistoryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

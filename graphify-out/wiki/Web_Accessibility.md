@@ -1,33 +1,34 @@
 # Web Accessibility
 
-> 24 nodes · cohesion 0.08
+> 25 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L1) (23 connections)
-- [handleProjectSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L86) (2 connections)
-- [{ activeReference }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L60) (1 connections)
-- [[advancedOpen, setAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L71) (1 connections)
-- [[artistDialogOpen, setArtistDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L64) (1 connections)
-- [{ artists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L58) (1 connections)
-- [[audioActionDialogOpen, setAudioActionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L65) (1 connections)
-- [chordInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L331) (1 connections)
-- [form](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L76) (1 connections)
-- [FormSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L42) (1 connections)
-- [GenerateFormCustom](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L37) (1 connections)
-- [GenerateFormSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L34) (1 connections)
-- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L99) (1 connections)
-- [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L67) (1 connections)
-- [[lyricsAssistantOpen, setLyricsAssistantOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L68) (1 connections)
-- [[projectDialogOpen, setProjectDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L63) (1 connections)
-- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L57) (1 connections)
-- [projectTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L84) (1 connections)
-- [[projectTrackStep, setProjectTrackStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L70) (1 connections)
-- [qc](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L72) (1 connections)
-- [[stylesOpen, setStylesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L69) (1 connections)
-- [{ tracks: allTracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L59) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L73) (1 connections)
-- [[voiceCloneOpen, setVoiceCloneOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L66) (1 connections)
+- [ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L1) (24 connections)
+- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L83) (1 connections)
+- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L121) (1 connections)
+- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L30) (1 connections)
+- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L113) (1 connections)
+- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L28) (1 connections)
+- [centerX](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L78) (1 connections)
+- [centerY](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L79) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L29) (1 connections)
+- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L115) (1 connections)
+- [[dimensions, setDimensions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L38) (1 connections)
+- [[dragStart, setDragStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L36) (1 connections)
+- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L41) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L204) (1 connections)
+- [handleMouseDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L193) (1 connections)
+- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L198) (1 connections)
+- [[hoveredNode, setHoveredNode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L37) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L35) (1 connections)
+- [{ nodes, edges }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L118) (1 connections)
+- [[pan, setPan]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L34) (1 connections)
+- [positions](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L119) (1 connections)
+- [positionsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L31) (1 connections)
+- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L84) (1 connections)
+- [updateDimensions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L97) (1 connections)
+- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -35,12 +36,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 48 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

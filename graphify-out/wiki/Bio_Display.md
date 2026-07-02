@@ -1,13 +1,12 @@
 # Bio Display
 
-> 4 nodes · cohesion 0.67
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useTrimExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts#L1) (3 connections)
-- [audioBufferToWav()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts#L172) (2 connections)
-- [writeString()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts#L226) (2 connections)
-- [useTrimExport()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts#L20) (1 connections)
+- [AiSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L28) (2 connections)
+- [AiSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L1) (2 connections)
+- [defaultSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -15,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTrimExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTrimExport.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\AiSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (80%)
+- INFERRED: 1 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

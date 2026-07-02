@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useStudioData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts#L1) (1 connections)
-- [useStudioData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts#L58) (1 connections)
+- [useAudioVisualizer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts#L1) (1 connections)
+- [useAudioVisualizer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts#L34) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useAudioVisualizer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts)
 
 ## Audit Trail
 

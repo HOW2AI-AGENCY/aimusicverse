@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [PlayingIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx#L1) (1 connections)
-- [PlayingIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx#L14) (1 connections)
+- [badgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L6) (1 connections)
+- [badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\PlayingIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx)
 
 ## Audit Trail
 

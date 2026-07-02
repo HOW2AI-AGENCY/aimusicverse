@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [CoverPromptSuggester.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L1) (3 connections)
-- [BRANDED_PROMPTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L22) (1 connections)
-- [CoverPromptSuggester()](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L111) (1 connections)
-- [generateRandomPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L84) (1 connections)
+- [MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L1) (3 connections)
+- [getShortName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L64) (1 connections)
+- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L43) (1 connections)
+- [[showPresets, setShowPresets]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\cover\CoverPromptSuggester.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx)
 
 ## Audit Trail
 

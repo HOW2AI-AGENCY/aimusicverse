@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ActorCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L14) (1 connections)
-- [ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L1) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailPreview.tsx#L33) (1 connections)
+- [ArtistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailPreview.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\actors\ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\ArtistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailPreview.tsx)
 
 ## Audit Trail
 

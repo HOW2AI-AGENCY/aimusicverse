@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L1) (3 connections)
-- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L68) (1 connections)
-- [TAG_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L82) (1 connections)
-- [UI_TRANSLATIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L32) (1 connections)
+- [useStarsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L1) (3 connections)
+- [CREDITS_QUERY_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L26) (1 connections)
+- [SUBSCRIPTION_QUERY_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L27) (1 connections)
+- [useStarsPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\suno\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStarsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts)
 
 ## Audit Trail
 

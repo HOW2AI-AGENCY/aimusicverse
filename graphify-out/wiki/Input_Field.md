@@ -1,18 +1,17 @@
 # Input Field
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [Section.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L1) (8 connections)
-- [densityToBodyGap](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L64) (1 connections)
-- [densityToHeaderGap](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L71) (1 connections)
-- [densityToInnerPad](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L78) (1 connections)
-- [hasHeader](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L125) (1 connections)
-- [hasSurface](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L126) (1 connections)
-- [maxWidthToClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L100) (1 connections)
-- [Tag](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L124) (1 connections)
-- [toneToSurface](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L85) (1 connections)
+- [GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L1) (7 connections)
+- [{ data: dailyStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L47) (1 connections)
+- [{ data: stats, isLoading: statsLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L46) (1 connections)
+- [{ data: topUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L48) (1 connections)
+- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L43) (1 connections)
+- [daysNumber](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L44) (1 connections)
+- [successRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L50) (1 connections)
+- [TIME_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\Section.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

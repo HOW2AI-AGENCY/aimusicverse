@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L1) (3 connections)
-- [displayBio](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L20) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L13) (1 connections)
-- [shouldTruncate](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L19) (1 connections)
+- [MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L1) (3 connections)
+- [MusicLabAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L18) (1 connections)
+- [MusicLabAudioProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L20) (1 connections)
+- [useMusicLabAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx)
 
 ## Audit Trail
 

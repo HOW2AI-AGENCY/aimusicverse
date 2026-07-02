@@ -1,6 +1,6 @@
 # now
 
-> God node · 212 connections · [D:\.MUSICVERSE\aimusicverse\tests\integration\subscriptionStatus.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/subscriptionStatus.test.ts#L131)
+> God node · 215 connections · [D:\.MUSICVERSE\aimusicverse\tests\integration\subscriptionStatus.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/subscriptionStatus.test.ts#L131)
 
 ## Call Trace Diagram
 
@@ -221,150 +221,153 @@ sequenceDiagram
     participant P212 as handleSuccessfulPayment()
     participant P213 as handleRecognizeCommand()
     participant P214 as handleProjectStats()
-    participant P215 as handleFileSelect()
+    participant P215 as performUpload()
     participant P216 as migrateQueueFromPlayerStore()
     participant P217 as detectBPM()
     participant P218 as .processSingleTask()
     participant P219 as .getActive()
     participant P220 as queueNotification()
-    participant P221 as processNotification()
-    participant P222 as handlePreCheckoutQuery()
-    participant P223 as buildSearchQuery()
-    participant P224 as startProjectWizard()
-    participant P225 as handleFileUpload()
-    participant P226 as uploadAndAnalyze()
-    participant P227 as handleApplyCrop()
-    participant P228 as handleFileUpload()
-    participant P229 as handleFileSelect()
-    participant P230 as usePaywallTrigger()
-    participant P231 as loadPositions()
-    participant P232 as .enqueue()
-    participant P233 as processUploadAction()
-    participant P234 as handleImageUpload()
-    participant P235 as handleRecordingComplete()
-    participant P236 as uploadAndGetUrl()
-    participant P237 as handleUpload()
-    participant P238 as uploadMenuItemImage()
-    participant P239 as activateTrial()
-    participant P240 as cleanupExpiredEntries()
-    participant P241 as getOrCreateSessionId()
-    participant P242 as .resolveAudioUrl()
-    participant P243 as .popFromStack()
-    participant P244 as setWaitingForInput()
-    participant P245 as setPendingClassification()
-    participant P246 as showCustomPromptInput()
-    participant P247 as logApiCall()
-    participant P248 as uploadAudioForAnalysis()
-    participant P249 as handleAddNewPrompt()
-    participant P250 as trackPageVisit()
-    participant P251 as saveGestureSettings()
-    participant P252 as setCachedLyrics()
-    participant P253 as loadRecentlyPlayed()
-    participant P254 as initTelemetry()
-    participant P255 as recordMetric()
-    participant P256 as startTimer()
-    participant P257 as .generate()
-    participant P258 as .evictOldestInactive()
-    participant P259 as recordUpsellShown()
-    participant P260 as getOrCreateJourneySessionId()
-    participant P261 as refreshJourneySession()
-    participant P262 as checkDatabase()
-    participant P263 as getConfig()
-    participant P264 as handleMidiUploadCallback()
-    participant P265 as .pushToStack()
-    participant P266 as storeMediaGroupSession()
-    participant P267 as storeVoiceTranscription()
-    participant P268 as shouldSendDigest()
-    participant P269 as parseLyrics()
-    participant P270 as handleSelectInspiration()
-    participant P271 as handleSaveToBookmarks()
-    participant P272 as .set()
-    participant P273 as resetAllHints()
-    participant P274 as updateAccessTime()
-    participant P275 as .getActiveElements()
-    participant P276 as loadGestureSettings()
-    participant P277 as cleanupCache()
-    participant P278 as setCachedImage()
-    participant P279 as addRecentlyPlayed()
-    participant P280 as frame()
-    participant P281 as .createFromUpload()
-    participant P282 as .createFromRecording()
-    participant P283 as .createFromStem()
-    participant P284 as .createFromCreativeTool()
-    participant P285 as .createFromTrack()
-    participant P286 as checkGenerationQueue()
-    participant P287 as getMetrics()
-    participant P288 as calculateFailureRate()
-    participant P289 as recordFailure()
-    participant P290 as validateTelegramWebAppData()
-    participant P291 as consumePendingUpload()
-    participant P292 as hasPendingUpload()
-    participant P293 as getPendingUpload()
-    participant P294 as updatePendingUpload()
-    participant P295 as .buildStepMenu()
-    participant P296 as markNotificationSent()
-    participant P297 as .execute()
-    participant P298 as runBenchmark()
-    participant P299 as tick()
-    participant P300 as triggerConfetti()
-    participant P301 as addSection()
-    participant P302 as update()
-    participant P303 as reset()
-    participant P304 as useAntiSpam()
-    participant P305 as fireConfetti()
-    participant P306 as useEnhancedStudioLogger()
-    participant P307 as handleExport()
-    participant P308 as .get()
-    participant P309 as setLastShownAt()
-    participant P310 as cleanupExpiredLyrics()
-    participant P311 as createDefaultQueue()
-    participant P312 as getSessionDuration()
-    participant P313 as .cleanupInactiveElements()
-    participant P314 as .cleanup()
-    participant P315 as .update()
-    participant P316 as parseLyricsToSections()
-    participant P317 as canShowUpsell()
-    participant P318 as trackGeneration()
-    participant P319 as trackGenerationMetrics()
-    participant P320 as .createFromCloud()
-    participant P321 as .createFromGuitar()
-    participant P322 as getRandomArtStyle()
-    participant P323 as checkAuth()
-    participant P324 as checkCircuitBreaker()
-    participant P325 as cleanupOldGuitarSessions()
-    participant P326 as cleanupOldSessions()
-    participant P327 as cleanupOldSessions()
-    participant P328 as setConversationContext()
-    participant P329 as setLastCommand()
-    participant P330 as withMetrics()
-    participant P331 as cleanupStaleEntries()
-    participant P332 as measureScrollFPS()
-    participant P333 as handleDownload()
-    participant P334 as formatTimeSince()
-    participant P335 as handleDownload()
-    participant P336 as parseLyrics()
-    participant P337 as showGenerationComplete()
-    participant P338 as formatRelative()
-    participant P339 as generateNoteId()
-    participant P340 as useThrottledValue()
-    participant P341 as useStudioActivityLogger()
+    participant P221 as .resolveAudioUrl()
+    participant P222 as processNotification()
+    participant P223 as handlePreCheckoutQuery()
+    participant P224 as buildSearchQuery()
+    participant P225 as startProjectWizard()
+    participant P226 as handleFileSelect()
+    participant P227 as handleFileUpload()
+    participant P228 as uploadAndAnalyze()
+    participant P229 as handleApplyCrop()
+    participant P230 as handleFileUpload()
+    participant P231 as handleFileSelect()
+    participant P232 as usePaywallTrigger()
+    participant P233 as loadPositions()
+    participant P234 as .enqueue()
+    participant P235 as .createFromUpload()
+    participant P236 as .createFromRecording()
+    participant P237 as processUploadAction()
+    participant P238 as handleImageUpload()
+    participant P239 as handleRecordingComplete()
+    participant P240 as uploadAndGetUrl()
+    participant P241 as handleUpload()
+    participant P242 as uploadMenuItemImage()
+    participant P243 as activateTrial()
+    participant P244 as cleanupExpiredEntries()
+    participant P245 as getOrCreateSessionId()
+    participant P246 as .popFromStack()
+    participant P247 as setWaitingForInput()
+    participant P248 as setPendingClassification()
+    participant P249 as showCustomPromptInput()
+    participant P250 as logApiCall()
+    participant P251 as uploadAudioForAnalysis()
+    participant P252 as handleAddNewPrompt()
+    participant P253 as trackPageVisit()
+    participant P254 as saveGestureSettings()
+    participant P255 as setCachedLyrics()
+    participant P256 as loadRecentlyPlayed()
+    participant P257 as initTelemetry()
+    participant P258 as recordMetric()
+    participant P259 as startTimer()
+    participant P260 as .generate()
+    participant P261 as .evictOldestInactive()
+    participant P262 as recordUpsellShown()
+    participant P263 as getOrCreateJourneySessionId()
+    participant P264 as refreshJourneySession()
+    participant P265 as checkDatabase()
+    participant P266 as getConfig()
+    participant P267 as handleMidiUploadCallback()
+    participant P268 as .pushToStack()
+    participant P269 as storeMediaGroupSession()
+    participant P270 as storeVoiceTranscription()
+    participant P271 as shouldSendDigest()
+    participant P272 as parseLyrics()
+    participant P273 as handleSelectInspiration()
+    participant P274 as handleSaveToBookmarks()
+    participant P275 as .set()
+    participant P276 as resetAllHints()
+    participant P277 as updateAccessTime()
+    participant P278 as .getActiveElements()
+    participant P279 as loadGestureSettings()
+    participant P280 as cleanupCache()
+    participant P281 as setCachedImage()
+    participant P282 as addRecentlyPlayed()
+    participant P283 as frame()
+    participant P284 as .createFromStem()
+    participant P285 as .createFromCreativeTool()
+    participant P286 as .createFromTrack()
+    participant P287 as checkGenerationQueue()
+    participant P288 as getMetrics()
+    participant P289 as calculateFailureRate()
+    participant P290 as recordFailure()
+    participant P291 as validateTelegramWebAppData()
+    participant P292 as consumePendingUpload()
+    participant P293 as hasPendingUpload()
+    participant P294 as getPendingUpload()
+    participant P295 as updatePendingUpload()
+    participant P296 as .buildStepMenu()
+    participant P297 as markNotificationSent()
+    participant P298 as .execute()
+    participant P299 as runBenchmark()
+    participant P300 as tick()
+    participant P301 as triggerConfetti()
+    participant P302 as addSection()
+    participant P303 as update()
+    participant P304 as reset()
+    participant P305 as useAntiSpam()
+    participant P306 as fireConfetti()
+    participant P307 as useEnhancedStudioLogger()
+    participant P308 as handleExport()
+    participant P309 as .get()
+    participant P310 as setLastShownAt()
+    participant P311 as cleanupExpiredLyrics()
+    participant P312 as createDefaultQueue()
+    participant P313 as getSessionDuration()
+    participant P314 as .cleanupInactiveElements()
+    participant P315 as .cleanup()
+    participant P316 as .update()
+    participant P317 as parseLyricsToSections()
+    participant P318 as canShowUpsell()
+    participant P319 as timePeriodToStartDate()
+    participant P320 as trackGeneration()
+    participant P321 as trackGenerationMetrics()
+    participant P322 as timePeriodToStartDate()
+    participant P323 as .createFromCloud()
+    participant P324 as .createFromGuitar()
+    participant P325 as getRandomArtStyle()
+    participant P326 as checkAuth()
+    participant P327 as checkCircuitBreaker()
+    participant P328 as cleanupOldGuitarSessions()
+    participant P329 as cleanupOldSessions()
+    participant P330 as cleanupOldSessions()
+    participant P331 as setConversationContext()
+    participant P332 as setLastCommand()
+    participant P333 as withMetrics()
+    participant P334 as cleanupStaleEntries()
+    participant P335 as measureScrollFPS()
+    participant P336 as handleDownload()
+    participant P337 as formatTimeSince()
+    participant P338 as handleDownload()
+    participant P339 as parseLyrics()
+    participant P340 as showGenerationComplete()
+    participant P341 as formatRelative()
     participant P342 as generateNoteId()
-    participant P343 as useFunnelAnalytics()
-    participant P344 as useRetentionCohorts()
-    participant P345 as generateA11yId()
-    participant P346 as .getStats()
-    participant P347 as .startTimer()
-    participant P348 as useRenderTime()
-    participant P349 as createTimer()
-    participant P350 as generateId()
-    participant P351 as checkStorage()
-    participant P352 as checkEdgeFunctions()
-    participant P353 as checkTelegramBot()
-    participant P354 as cleanupSessions()
-    participant P355 as generateOrderId()
-    participant P356 as generateTestUser()
-    participant P357 as measureMemory()
-    participant P358 as measureLoadTime()
+    participant P343 as useThrottledValue()
+    participant P344 as useStudioActivityLogger()
+    participant P345 as generateNoteId()
+    participant P346 as useFunnelAnalytics()
+    participant P347 as useRetentionCohorts()
+    participant P348 as generateA11yId()
+    participant P349 as .getStats()
+    participant P350 as .startTimer()
+    participant P351 as useRenderTime()
+    participant P352 as createTimer()
+    participant P353 as generateId()
+    participant P354 as checkStorage()
+    participant P355 as checkEdgeFunctions()
+    participant P356 as checkTelegramBot()
+    participant P357 as cleanupSessions()
+    participant P358 as generateOrderId()
+    participant P359 as generateTestUser()
+    participant P360 as measureMemory()
+    participant P361 as measureLoadTime()
     P0->>+ P1: calls
     P1-->>- P0: return
     P1->>+ P0: calls
@@ -847,6 +850,8 @@ sequenceDiagram
     P222-->>- P0: return
     P0->>+ P223: calls
     P223-->>- P0: return
+    P0->>+ P224: calls
+    P224-->>- P0: return
     P0->>+ P19: calls
     P19-->>- P0: return
     P0->>+ P25: calls
@@ -855,8 +860,6 @@ sequenceDiagram
     P102-->>- P0: return
     P0->>+ P26: calls
     P26-->>- P0: return
-    P0->>+ P224: calls
-    P224-->>- P0: return
     P0->>+ P225: calls
     P225-->>- P0: return
     P0->>+ P226: calls
@@ -873,88 +876,88 @@ sequenceDiagram
     P231-->>- P0: return
     P0->>+ P232: calls
     P232-->>- P0: return
-    P0->>+ P105: calls
-    P105-->>- P0: return
-    P0->>+ P27: calls
-    P27-->>- P0: return
-    P0->>+ P29: calls
-    P29-->>- P0: return
     P0->>+ P233: calls
     P233-->>- P0: return
-    P0->>+ P108: calls
-    P108-->>- P0: return
     P0->>+ P234: calls
     P234-->>- P0: return
     P0->>+ P235: calls
     P235-->>- P0: return
     P0->>+ P236: calls
     P236-->>- P0: return
+    P0->>+ P105: calls
+    P105-->>- P0: return
+    P0->>+ P27: calls
+    P27-->>- P0: return
+    P0->>+ P29: calls
+    P29-->>- P0: return
     P0->>+ P237: calls
     P237-->>- P0: return
+    P0->>+ P108: calls
+    P108-->>- P0: return
     P0->>+ P238: calls
     P238-->>- P0: return
     P0->>+ P239: calls
     P239-->>- P0: return
     P0->>+ P240: calls
     P240-->>- P0: return
-    P0->>+ P109: calls
-    P109-->>- P0: return
     P0->>+ P241: calls
     P241-->>- P0: return
-    P0->>+ P111: calls
-    P111-->>- P0: return
-    P0->>+ P113: calls
-    P113-->>- P0: return
     P0->>+ P242: calls
     P242-->>- P0: return
-    P0->>+ P32: calls
-    P32-->>- P0: return
     P0->>+ P243: calls
     P243-->>- P0: return
     P0->>+ P244: calls
     P244-->>- P0: return
+    P0->>+ P109: calls
+    P109-->>- P0: return
     P0->>+ P245: calls
     P245-->>- P0: return
+    P0->>+ P111: calls
+    P111-->>- P0: return
+    P0->>+ P113: calls
+    P113-->>- P0: return
+    P0->>+ P32: calls
+    P32-->>- P0: return
     P0->>+ P246: calls
     P246-->>- P0: return
-    P0->>+ P121: calls
-    P121-->>- P0: return
-    P0->>+ P122: calls
-    P122-->>- P0: return
-    P0->>+ P41: calls
-    P41-->>- P0: return
     P0->>+ P247: calls
     P247-->>- P0: return
     P0->>+ P248: calls
     P248-->>- P0: return
     P0->>+ P249: calls
     P249-->>- P0: return
+    P0->>+ P121: calls
+    P121-->>- P0: return
+    P0->>+ P122: calls
+    P122-->>- P0: return
+    P0->>+ P41: calls
+    P41-->>- P0: return
     P0->>+ P250: calls
     P250-->>- P0: return
-    P0->>+ P125: calls
-    P125-->>- P0: return
     P0->>+ P251: calls
     P251-->>- P0: return
     P0->>+ P252: calls
     P252-->>- P0: return
-    P0->>+ P128: calls
-    P128-->>- P0: return
     P0->>+ P253: calls
     P253-->>- P0: return
+    P0->>+ P125: calls
+    P125-->>- P0: return
     P0->>+ P254: calls
     P254-->>- P0: return
     P0->>+ P255: calls
     P255-->>- P0: return
+    P0->>+ P128: calls
+    P128-->>- P0: return
     P0->>+ P256: calls
     P256-->>- P0: return
-    P0->>+ P129: calls
-    P129-->>- P0: return
     P0->>+ P257: calls
     P257-->>- P0: return
     P0->>+ P258: calls
     P258-->>- P0: return
     P0->>+ P259: calls
     P259-->>- P0: return
+    P0->>+ P129: calls
+    P129-->>- P0: return
     P0->>+ P260: calls
     P260-->>- P0: return
     P0->>+ P261: calls
@@ -973,28 +976,28 @@ sequenceDiagram
     P267-->>- P0: return
     P0->>+ P268: calls
     P268-->>- P0: return
-    P0->>+ P145: calls
-    P145-->>- P0: return
     P0->>+ P269: calls
     P269-->>- P0: return
     P0->>+ P270: calls
     P270-->>- P0: return
     P0->>+ P271: calls
     P271-->>- P0: return
+    P0->>+ P145: calls
+    P145-->>- P0: return
     P0->>+ P272: calls
     P272-->>- P0: return
     P0->>+ P273: calls
     P273-->>- P0: return
     P0->>+ P274: calls
     P274-->>- P0: return
-    P0->>+ P148: calls
-    P148-->>- P0: return
     P0->>+ P275: calls
     P275-->>- P0: return
     P0->>+ P276: calls
     P276-->>- P0: return
     P0->>+ P277: calls
     P277-->>- P0: return
+    P0->>+ P148: calls
+    P148-->>- P0: return
     P0->>+ P278: calls
     P278-->>- P0: return
     P0->>+ P279: calls
@@ -1031,18 +1034,18 @@ sequenceDiagram
     P294-->>- P0: return
     P0->>+ P295: calls
     P295-->>- P0: return
+    P0->>+ P296: calls
+    P296-->>- P0: return
     P0->>+ P157: calls
     P157-->>- P0: return
     P0->>+ P158: calls
     P158-->>- P0: return
-    P0->>+ P296: calls
-    P296-->>- P0: return
     P0->>+ P297: calls
     P297-->>- P0: return
-    P0->>+ P162: calls
-    P162-->>- P0: return
     P0->>+ P298: calls
     P298-->>- P0: return
+    P0->>+ P162: calls
+    P162-->>- P0: return
     P0->>+ P299: calls
     P299-->>- P0: return
     P0->>+ P300: calls
@@ -1065,10 +1068,10 @@ sequenceDiagram
     P308-->>- P0: return
     P0->>+ P309: calls
     P309-->>- P0: return
-    P0->>+ P169: calls
-    P169-->>- P0: return
     P0->>+ P310: calls
     P310-->>- P0: return
+    P0->>+ P169: calls
+    P169-->>- P0: return
     P0->>+ P311: calls
     P311-->>- P0: return
     P0->>+ P312: calls
@@ -1165,6 +1168,12 @@ sequenceDiagram
     P357-->>- P0: return
     P0->>+ P358: calls
     P358-->>- P0: return
+    P0->>+ P359: calls
+    P359-->>- P0: return
+    P0->>+ P360: calls
+    P360-->>- P0: return
+    P0->>+ P361: calls
+    P361-->>- P0: return
 ```
 
 ## Connections by Relation

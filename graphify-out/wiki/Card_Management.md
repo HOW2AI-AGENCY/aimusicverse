@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts#L1) (1 connections)
-- [Constants](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts#L6877) (1 connections)
+- [useRemixTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts#L1) (1 connections)
+- [useRemixTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRemixTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts)
 
 ## Audit Trail
 

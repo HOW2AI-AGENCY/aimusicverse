@@ -1,17 +1,16 @@
 # Timestamp Management
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L1) (7 connections)
-- [countSyllables()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L29) (1 connections)
-- [generateSunoPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L41) (1 connections)
-- [insertTagAtCursor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L111) (1 connections)
-- [parseTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L4) (1 connections)
-- [parseTextToSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L62) (1 connections)
-- [translateTagsToEnglish()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L20) (1 connections)
-- [translateTagsToRussian()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L11) (1 connections)
+- [ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L1) (6 connections)
+- [availableModes](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L39) (1 connections)
+- [cfg](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L53) (1 connections)
+- [currentMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L74) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L82) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L54) (1 connections)
+- [modeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\suno\utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

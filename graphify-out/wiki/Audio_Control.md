@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [LyricsHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsHeader.tsx#L1) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsHeader.tsx#L82) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts#L1) (1 connections)
+- [Constants](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts#L6877) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\LyricsHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/types.ts)
 
 ## Audit Trail
 

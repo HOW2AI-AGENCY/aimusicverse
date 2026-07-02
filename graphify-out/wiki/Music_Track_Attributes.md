@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L1) (8 connections)
-- [globalIdx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L125) (1 connections)
-- [groupedRecs](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L53) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L62) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L113) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L114) (1 connections)
-- [[selectedIndex, setSelectedIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L50) (1 connections)
-- [TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L29) (1 connections)
-- [TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L36) (1 connections)
+- [home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L1) (8 connections)
+- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L22) (1 connections)
+- [header](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L12) (1 connections)
+- [headerBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L38) (1 connections)
+- [overflow](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L29) (1 connections)
+- [tab](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L20) (1 connections)
+- [tablist](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L15) (1 connections)
+- [tablistBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L39) (1 connections)
+- [WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L3) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts)
 
 ## Audit Trail
 

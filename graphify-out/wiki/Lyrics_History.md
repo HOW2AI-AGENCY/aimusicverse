@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L1) (1 connections)
-- [ProducerToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L12) (1 connections)
+- [PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx)
 
 ## Audit Trail
 

@@ -1,16 +1,16 @@
 # Music Metadata
 
-> 7 nodes · cohesion 0.29
+> 7 nodes · cohesion 0.43
 
 ## Key Concepts
 
-- [PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L1) (6 connections)
-- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L72) (1 connections)
-- [CategoryIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L241) (1 connections)
-- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L64) (1 connections)
-- [genrePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L80) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L218) (1 connections)
-- [PresetsManager()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L89) (1 connections)
+- [ai-intent.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L1) (7 connections)
+- [detectIntent()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L163) (5 connections)
+- [extractMusicStyle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L135) (2 connections)
+- [getSuggestedAction()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L226) (2 connections)
+- [getSuggestedResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L247) (2 connections)
+- [isMusicPrompt()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L286) (2 connections)
+- [INTENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L37) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\ai-intent.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 19 (90%)
+- INFERRED: 2 (10%)
 - AMBIGUOUS: 0 (0%)
 
 ---

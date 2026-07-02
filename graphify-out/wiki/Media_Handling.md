@@ -1,22 +1,21 @@
 # Media Handling
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [SortableTrackList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L1) (12 connections)
-- [{ attributes, listeners, setNodeRef, transform, transition, isDragging }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L95) (1 connections)
-- [{ data: transcriptionsMap, isLoading: loadingTranscriptions }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L189) (1 connections)
-- [{ data: transcriptionStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L182) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L319) (1 connections)
-- [hasTranscription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L351) (1 connections)
-- [isSourceTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L343) (1 connections)
-- [sensors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L308) (1 connections)
-- [stemTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L176) (1 connections)
-- [stemTypesArr](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L342) (1 connections)
-- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L97) (1 connections)
-- [trackIds](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L306) (1 connections)
-- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx#L349) (1 connections)
+- [FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L1) (11 connections)
+- [[currentSlide, setCurrentSlide]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L225) (1 connections)
+- [currentSlideData](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L253) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L247) (1 connections)
+- [handleNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L232) (1 connections)
+- [handlePrev](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L242) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L224) (1 connections)
+- [isFirstSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L230) (1 connections)
+- [isLastSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L229) (1 connections)
+- [slides](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L228) (1 connections)
+- [tutorial](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L227) (1 connections)
+- [TUTORIALS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -24,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\SortableTrackList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SortableTrackList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

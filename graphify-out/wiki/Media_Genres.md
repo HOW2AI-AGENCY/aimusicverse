@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [UpgradePrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L1) (3 connections)
-- [FEATURE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L19) (1 connections)
-- [TIER_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L36) (1 connections)
-- [UpgradePrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L43) (1 connections)
+- [BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L1) (3 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L40) (1 connections)
+- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L39) (1 connections)
+- [visibleBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\UpgradePrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx)
 
 ## Audit Trail
 

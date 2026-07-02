@@ -1,19 +1,18 @@
 # Conversion Metrics
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [TrackLaneRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L1) (9 connections)
-- [controlsWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L41) (1 connections)
-- [handleDragOver](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L60) (1 connections)
-- [handleDrop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L46) (1 connections)
-- [hasSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L43) (1 connections)
-- [isEffectivelyMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L44) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L36) (1 connections)
-- [laneRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L35) (1 connections)
-- [{ toggleTrackMute, toggleTrackSolo, setTrackVolume, removeTrack, currentProject }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L38) (1 connections)
-- [trackHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L40) (1 connections)
+- [LyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L1) (8 connections)
+- [handleEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L32) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L26) (2 connections)
+- [[deleteConfirmId, setDeleteConfirmId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L30) (1 connections)
+- [filteredTemplates](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L36) (1 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L43) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L28) (1 connections)
+- [[selectedTemplate, setSelectedTemplate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L29) (1 connections)
+- [{ templates, isLoading, deleteTemplate }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -21,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\TrackLaneRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\tabs\LyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx)
 
 ## Audit Trail
 

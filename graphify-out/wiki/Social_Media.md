@@ -1,17 +1,16 @@
 # Social Media
 
-> 8 nodes · cohesion 0.36
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [response-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L1) (8 connections)
-- [errorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L55) (4 connections)
-- [authErrorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L88) (2 connections)
-- [notFoundResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L98) (2 connections)
-- [validationErrorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L78) (2 connections)
-- [corsHeaders](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L8) (1 connections)
-- [optionsResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L105) (1 connections)
-- [successResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L33) (1 connections)
+- [VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L1) (6 connections)
+- [buttonSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L44) (1 connections)
+- [currentLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L42) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L29) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L48) (1 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L43) (1 connections)
+- [isStudioVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\response-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

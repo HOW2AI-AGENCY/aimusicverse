@@ -1,24 +1,23 @@
 # Timeline Editor
 
-> 15 nodes · cohesion 0.13
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [TipsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L1) (14 connections)
-- [allTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L44) (1 connections)
-- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L102) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L193) (1 connections)
-- [[completedTips, setCompletedTips]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L124) (1 connections)
-- [currentTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L129) (1 connections)
-- [[currentTipIndex, setCurrentTipIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L122) (1 connections)
-- [filteredTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L127) (1 connections)
-- [handleMarkComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L136) (1 connections)
-- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L132) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L253) (1 connections)
-- [isCarousel](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L130) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L254) (1 connections)
-- [[isDismissed, setIsDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L123) (1 connections)
-- [levelBadgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L109) (1 connections)
+- [Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L1) (13 connections)
+- [handleMouseLeave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L55) (2 connections)
+- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L44) (2 connections)
+- [cardRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L25) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L60) (1 connections)
+- [[isFlipped, setIsFlipped]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L26) (1 connections)
+- [rotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L33) (1 connections)
+- [rotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L34) (1 connections)
+- [shineX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L41) (1 connections)
+- [shineY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L42) (1 connections)
+- [springRotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L37) (1 connections)
+- [springRotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L38) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L29) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -26,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\TipsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 26 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

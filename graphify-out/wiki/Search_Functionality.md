@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L1) (3 connections)
-- [handleNotificationClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L13) (2 connections)
-- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L11) (1 connections)
-- [{ unreadCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L10) (1 connections)
+- [EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L1) (4 connections)
+- [[formData, setFormData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L31) (1 connections)
+- [[trackParams, setTrackParams]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L37) (1 connections)
+- [{ updateTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 7 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

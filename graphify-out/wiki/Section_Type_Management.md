@@ -1,13 +1,12 @@
 # Section Type Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useAddInstrumentalProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L1) (3 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L49) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L59) (1 connections)
-- [useAddInstrumentalProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L69) (1 connections)
+- [EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L1) (2 connections)
+- [changedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L35) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAddInstrumentalProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

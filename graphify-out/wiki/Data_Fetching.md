@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L35) (1 connections)
-- [useTelegramSensors()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L79) (1 connections)
+- [useLyricsStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L1) (2 connections)
+- [lyricsLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L17) (1 connections)
+- [useLyricsStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L49) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useLyricsStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts)
 
 ## Audit Trail
 

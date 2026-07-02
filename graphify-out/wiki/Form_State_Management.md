@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [ChordProgressionDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L1) (6 connections)
-- [currentChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L40) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L21) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L74) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L75) (1 connections)
-- [progressionString](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L36) (1 connections)
-- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L32) (1 connections)
+- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L1) (6 connections)
+- [isBottomSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L82) (1 connections)
+- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L77) (1 connections)
+- [Sheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L10) (1 connections)
+- [SheetClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L14) (1 connections)
+- [SheetPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L16) (1 connections)
+- [SheetTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\ChordProgressionDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx)
 
 ## Audit Trail
 

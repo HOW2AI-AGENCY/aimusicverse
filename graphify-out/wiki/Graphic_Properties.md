@@ -1,18 +1,17 @@
 # Graphic Properties
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L1) (9 connections)
-- [errorCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L45) (1 connections)
-- [getIssueIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L63) (1 connections)
-- [getScoreBg()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L56) (1 connections)
-- [getScoreColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L49) (1 connections)
-- [infoCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L47) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L24) (1 connections)
-- [validation](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L26) (1 connections)
-- [warningCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L46) (1 connections)
+- [UnifiedFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L1) (7 connections)
+- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L134) (1 connections)
+- [bottomStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L81) (1 connections)
+- [handleActionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L72) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L63) (1 connections)
+- [{ impact }](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L61) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L60) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\UnifiedFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 17 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [DesktopRewardsLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DesktopRewardsLayout.tsx#L1) (0 connections)
+- [BlogHeroSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogHeroSection.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\DesktopRewardsLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DesktopRewardsLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogHeroSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogHeroSection.tsx)
 
 ## Audit Trail
 

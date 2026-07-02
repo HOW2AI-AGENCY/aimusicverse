@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L7) (1 connections)
-- [useGuitarRecordings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L41) (1 connections)
+- [useGenerationTaskProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerationTaskProgress.ts#L1) (2 connections)
+- [INITIAL](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerationTaskProgress.ts#L17) (1 connections)
+- [useGenerationTaskProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerationTaskProgress.ts#L23) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useGenerationTaskProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerationTaskProgress.ts)
 
 ## Audit Trail
 

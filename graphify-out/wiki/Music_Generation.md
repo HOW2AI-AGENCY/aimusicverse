@@ -1,22 +1,22 @@
 # Music Generation
 
-> 13 nodes · cohesion 0.15
+> 13 nodes · cohesion 0.23
 
 ## Key Concepts
 
-- [StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L1) (12 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L42) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L94) (1 connections)
-- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L83) (1 connections)
-- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L45) (1 connections)
-- [handlePointerMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L60) (1 connections)
-- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L73) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L34) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L36) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L37) (1 connections)
-- [knobRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L35) (1 connections)
-- [startValueRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L39) (1 connections)
-- [startYRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L38) (1 connections)
+- [branded.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L1) (12 connections)
+- [isValidUUID()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L59) (7 connections)
+- [createArtistId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L120) (2 connections)
+- [createPlaylistId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L132) (2 connections)
+- [createProjectId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L108) (2 connections)
+- [createStemId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L96) (2 connections)
+- [createTrackId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L72) (2 connections)
+- [createUserId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L84) (2 connections)
+- [brand](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L23) (1 connections)
+- [extractId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L172) (1 connections)
+- [unsafeAsStemId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L161) (1 connections)
+- [unsafeAsTrackId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L145) (1 connections)
+- [unsafeAsUserId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L153) (1 connections)
 
 ## Relationships
 
@@ -24,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\melody-mixer\StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\types\branded.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

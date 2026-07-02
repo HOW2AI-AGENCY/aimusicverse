@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [fix-library-test.js](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L1) (2 connections)
-- [content](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L2) (1 connections)
-- [fs](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L1) (1 connections)
+- [KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L1) (2 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L41) (1 connections)
+- [visibleLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\fix-library-test.js](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx)
 
 ## Audit Trail
 

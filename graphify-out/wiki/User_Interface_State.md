@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [SmartAssistantInline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L1) (5 connections)
-- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L27) (1 connections)
-- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L33) (1 connections)
-- [hasMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L42) (1 connections)
-- [{ suggestions, isAnalyzing, dismissSuggestion, hasContext }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L28) (1 connections)
-- [visibleSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx#L40) (1 connections)
+- [preview-audio.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L1) (5 connections)
+- [audioInfo](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L49) (1 connections)
+- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L41) (1 connections)
+- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L42) (1 connections)
+- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L40) (1 connections)
+- [srcAudios](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L89) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\SmartAssistantInline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantInline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\preview-audio.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts)
 
 ## Audit Trail
 

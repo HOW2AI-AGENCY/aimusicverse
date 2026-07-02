@@ -1,19 +1,18 @@
 # Tool Management
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L34) (2 connections)
-- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
-- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L43) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L32) (1 connections)
-- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
-- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
-- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
+- [SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L1) (8 connections)
+- [{ analytics, getRecommendations, topRated, history }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L28) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L80) (1 connections)
+- [deletePreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L36) (1 connections)
+- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L49) (1 connections)
+- [handleApplyRecommendation](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L42) (1 connections)
+- [loadPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L32) (1 connections)
+- [recommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L40) (1 connections)
+- [userPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -21,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 16 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

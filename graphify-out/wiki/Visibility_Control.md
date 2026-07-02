@@ -1,16 +1,16 @@
 # Visibility Control
 
-> 7 nodes · cohesion 0.38
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L1) (6 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L46) (3 connections)
-- [handleRedo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L34) (2 connections)
-- [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L24) (2 connections)
-- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L75) (1 connections)
-- [historyLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L74) (1 connections)
-- [{ undo, redo, canUndo, canRedo, getHistoryLength, getHistoryIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L22) (1 connections)
+- [useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L1) (6 connections)
+- [EXCLUDED_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L17) (1 connections)
+- [historyLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L14) (1 connections)
+- [selectCanRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L94) (1 connections)
+- [selectCanUndo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L89) (1 connections)
+- [selectHistoryState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L79) (1 connections)
+- [useStudioHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L28) (1 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

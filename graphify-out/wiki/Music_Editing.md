@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L1) (6 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L101) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L145) (1 connections)
-- [handleCreate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L27) (1 connections)
-- [handleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L32) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L24) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L25) (1 connections)
+- [presetIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L1) (6 connections)
+- [getLyricsPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L54) (1 connections)
+- [getProjectPresetIconById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L68) (1 connections)
+- [getTrackPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L38) (1 connections)
+- [LYRICS_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L43) (1 connections)
+- [PROJECT_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L59) (1 connections)
+- [TRACK_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\presetIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts)
 
 ## Audit Trail
 

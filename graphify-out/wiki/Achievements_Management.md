@@ -1,16 +1,15 @@
 # Achievements Management
 
-> 7 nodes · cohesion 0.52
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L1) (6 connections)
-- [usePlaybackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L21) (6 connections)
-- [useLoopControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L53) (2 connections)
-- [usePlaybackControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L38) (2 connections)
-- [usePlaybackLoadingState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L73) (2 connections)
-- [usePlaybackProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L66) (2 connections)
-- [usePlaybackStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L27) (2 connections)
+- [AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L1) (5 connections)
+- [ANALYSIS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L12) (1 connections)
+- [AnalyzeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L19) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L101) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L95) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -18,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [visually-hidden.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx#L1) (1 connections)
-- [VisuallyHidden](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx#L4) (1 connections)
+- [useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L1) (1 connections)
+- [useOffline()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\visually-hidden.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts)
 
 ## Audit Trail
 

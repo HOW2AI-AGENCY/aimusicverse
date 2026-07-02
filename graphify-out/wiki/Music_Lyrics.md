@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useVoiceInput()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts#L15) (2 connections)
-- [VoiceInputButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx#L16) (2 connections)
-- [VoiceInputButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx#L1) (1 connections)
-- [useVoiceInput.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts#L1) (1 connections)
+- [Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L1) (3 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L51) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L50) (1 connections)
+- [settings](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -15,13 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\VoiceInputButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useVoiceInput.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

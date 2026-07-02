@@ -1,22 +1,21 @@
 # Interactive UI Controls
 
-> 13 nodes · cohesion 0.22
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L1) (12 connections)
-- [sanitizeText()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L29) (5 connections)
-- [validatePrompt()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L52) (3 connections)
-- [isSpamPattern()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L202) (2 connections)
-- [validateDescription()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L137) (2 connections)
-- [validateMessage()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L165) (2 connections)
-- [validateTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L102) (2 connections)
-- [escapeSQLLike()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L304) (1 connections)
-- [isValidTelegramUserId()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L281) (1 connections)
-- [isValidUrl()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L290) (1 connections)
-- [maskSensitiveData()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L262) (1 connections)
-- [MAX_LENGTHS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L15) (1 connections)
-- [sanitizeHTML()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L233) (1 connections)
+- [RefinedCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L1) (11 connections)
+- [CardContent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L187) (1 connections)
+- [CardFooter()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L198) (1 connections)
+- [CardHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L169) (1 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L312) (1 connections)
+- [FeatureCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L221) (1 connections)
+- [iconColorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L268) (1 connections)
+- [paddingStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L52) (1 connections)
+- [RefinedCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L66) (1 connections)
+- [roundedStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L59) (1 connections)
+- [trendColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L306) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -24,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\RefinedCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

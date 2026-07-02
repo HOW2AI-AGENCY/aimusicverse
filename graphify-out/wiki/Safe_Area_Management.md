@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L1) (3 connections)
-- [isAllowed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L46) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L27) (1 connections)
-- [toggleRemixMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L29) (1 connections)
+- [useRAFThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L1) (3 connections)
+- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L54) (1 connections)
+- [useRAFThrottleBatch()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L189) (1 connections)
+- [useRAFThrottledState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L141) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRAFThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts)
 
 ## Audit Trail
 

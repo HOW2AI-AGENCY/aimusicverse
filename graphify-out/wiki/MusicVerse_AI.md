@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L1) (1 connections)
-- [StarsPaymentButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L21) (1 connections)
+- [ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L1) (1 connections)
+- [PROJECT_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx)
 
 ## Audit Trail
 

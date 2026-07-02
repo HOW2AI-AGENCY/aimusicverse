@@ -1,18 +1,17 @@
 # Tutorial Management
 
-> 9 nodes · cohesion 0.31
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L1) (8 connections)
-- [getChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L142) (3 connections)
-- [getAllChords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L157) (2 connections)
-- [getChordsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L164) (2 connections)
-- [hasChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L150) (2 connections)
-- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L120) (2 connections)
-- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L13) (1 connections)
-- [FINGER_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L102) (1 connections)
-- [STRING_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L111) (1 connections)
+- [BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L1) (7 connections)
+- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L28) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L24) (1 connections)
+- [handleBeatClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L56) (1 connections)
+- [handleTimelineClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L45) (1 connections)
+- [[hoveredBeat, setHoveredBeat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L25) (1 connections)
+- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L38) (1 connections)
+- [trackDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

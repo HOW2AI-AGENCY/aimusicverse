@@ -1,12 +1,11 @@
 # Tag Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L1) (2 connections)
-- [html](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L47) (1 connections)
-- [response](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L34) (1 connections)
+- [SubscriptionTiersManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SubscriptionTiersManager.tsx#L1) (1 connections)
+- [tiers](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SubscriptionTiersManager.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -14,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\SubscriptionTiersManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SubscriptionTiersManager.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

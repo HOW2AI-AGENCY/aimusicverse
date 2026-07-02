@@ -1,35 +1,35 @@
 # Character Counter
 
-> 39 nodes · cohesion 0.05
+> 48 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L1) (27 connections)
-- [AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L1) (12 connections)
-- [handleSubmitWithProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L84) (3 connections)
-- [showProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L146) (2 connections)
-- [clearAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L168) (2 connections)
-- [handleFileSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L134) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L41) (1 connections)
-- [[advancedSettings, setAdvancedSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L47) (1 connections)
-- [handleStyleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L129) (1 connections)
-- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L145) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L40) (1 connections)
-- [[lyrics, setLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L36) (1 connections)
-- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L39) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L44) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L37) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L38) (1 connections)
-- [[audioDuration, setAudioDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L57) (1 connections)
-- [[audioFile, setAudioFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L56) (1 connections)
-- [[audioPreviewUrl, setAudioPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L58) (1 connections)
-- [availableModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L261) (1 connections)
-- [[durationError, setDurationError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L73) (1 connections)
-- [file](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L294) (1 connections)
-- [[instrumental, setInstrumental]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L64) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L54) (1 connections)
-- [isSubmitDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L76) (1 connections)
-- *... and 14 more nodes in this community*
+- [UnifiedNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L1) (46 connections)
+- [isPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L349) (2 connections)
+- [getActiveAudioSource()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudio.ts#L59) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L641) (1 connections)
+- [computedNotesDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L283) (1 connections)
+- [currentTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L348) (1 connections)
+- [defaultHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L464) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L296) (1 connections)
+- [effectiveBpm](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L304) (1 connections)
+- [effectiveMidiUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L170) (1 connections)
+- [effectiveMusicXmlUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L171) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L729) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L417) (1 connections)
+- [handleNoteClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L409) (1 connections)
+- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L400) (1 connections)
+- [handleSendToTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L429) (1 connections)
+- [handleTogglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L383) (1 connections)
+- [[internalPlaying, setInternalPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L188) (1 connections)
+- [[internalTime, setInternalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L189) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L357) (1 connections)
+- [isLoadingNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L468) (1 connections)
+- [isLoud](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L632) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L143) (1 connections)
+- [{ isReady: synthReady, isMuted, volume, playNote, stopAll, setVolume, setMuted, initialize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L185) (1 connections)
+- [isSoft](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L633) (1 connections)
+- *... and 23 more nodes in this community*
 
 ## Relationships
 
@@ -37,13 +37,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\UnifiedNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudio.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 78 (96%)
-- INFERRED: 3 (4%)
+- EXTRACTED: 93 (98%)
+- INFERRED: 2 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

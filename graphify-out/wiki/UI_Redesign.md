@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L1) (2 connections)
-- [ResponsiveContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L56) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L47) (1 connections)
+- [useBeatGrid.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L1) (2 connections)
+- [generateSyntheticBeatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L96) (1 connections)
+- [useBeatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L39) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\responsive-container\responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useBeatGrid.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts)
 
 ## Audit Trail
 

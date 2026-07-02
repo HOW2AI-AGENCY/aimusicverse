@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useAdminDailyStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts#L1) (1 connections)
-- [useAdminDailyStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts#L12) (1 connections)
+- [useStudioData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts#L1) (1 connections)
+- [useStudioData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts#L59) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminDailyStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioData.ts)
 
 ## Audit Trail
 

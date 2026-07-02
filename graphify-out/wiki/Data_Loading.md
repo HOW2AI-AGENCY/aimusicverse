@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useAudioRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts#L1) (1 connections)
-- [useAudioRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts#L20) (1 connections)
+- [useTinkoffPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts#L1) (1 connections)
+- [useTinkoffPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTinkoffPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts)
 
 ## Audit Trail
 

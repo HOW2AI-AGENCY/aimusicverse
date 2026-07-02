@@ -1,20 +1,19 @@
 # Audio Error Handling
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [AddVocalsToGuitarDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L1) (11 connections)
-- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L48) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L46) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L47) (1 connections)
-- [[lyrics, setLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L51) (1 connections)
-- [[mood, setMood]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L55) (1 connections)
-- [moodPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L32) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L53) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L52) (1 connections)
-- [vocalStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L25) (1 connections)
-- [[vocalType, setVocalType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L54) (1 connections)
+- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L1) (5 connections)
+- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L1) (4 connections)
+- [PageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L68) (2 connections)
+- [AnimatedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L108) (1 connections)
+- [FadeIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L144) (1 connections)
+- [getVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L26) (1 connections)
+- [ScaleIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L160) (1 connections)
+- [StaggerContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L68) (1 connections)
+- [StaggerItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L92) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -22,11 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AddVocalsToGuitarDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

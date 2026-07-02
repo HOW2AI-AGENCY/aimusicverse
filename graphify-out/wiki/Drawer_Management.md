@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L1) (4 connections)
-- [[expandedTrack, setExpandedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L60) (1 connections)
-- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L66) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L169) (1 connections)
-- [toggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L62) (1 connections)
+- [useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L1) (4 connections)
+- [TABLET_MAX](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L24) (1 connections)
+- [TABLET_MIN](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L23) (1 connections)
+- [useIsTablet()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L26) (1 connections)
+- [useResponsive()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AdminEconomy()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminEconomy.tsx#L7) (1 connections)
-- [AdminEconomy.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminEconomy.tsx#L1) (1 connections)
+- [useTelegramSecondaryButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts#L1) (1 connections)
+- [useTelegramSecondaryButton()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts#L61) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminEconomy.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminEconomy.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSecondaryButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts)
 
 ## Audit Trail
 

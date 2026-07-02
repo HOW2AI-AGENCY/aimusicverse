@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L82) (1 connections)
-- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L178) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L242) (1 connections)
-- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L57) (1 connections)
-- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L129) (1 connections)
-- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L130) (1 connections)
-- [isGroupStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L131) (1 connections)
-- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L241) (1 connections)
+- [AudioAnalysisService.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L1) (8 connections)
+- [fromMaybeSingleMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L16) (1 connections)
+- [fromSelectMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L15) (1 connections)
+- [fromSingleMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L17) (1 connections)
+- [invokeMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L12) (1 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L62) (1 connections)
+- [resetAll()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L38) (1 connections)
+- [storageGetPublicUrlMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L14) (1 connections)
+- [storageUploadMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L13) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\__tests__\AudioAnalysisService.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts)
 
 ## Audit Trail
 

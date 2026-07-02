@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [dashboard](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx#L98) (1 connections)
-- [AdminDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx#L1) (1 connections)
+- [useSunoUploadCover.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadCover.ts#L1) (1 connections)
+- [useSunoUploadCover()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadCover.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\AdminDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useSunoUploadCover.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadCover.ts)
 
 ## Audit Trail
 

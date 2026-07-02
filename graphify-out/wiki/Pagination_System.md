@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L1) (6 connections)
-- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L27) (1 connections)
-- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L22) (1 connections)
-- [LANGUAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L13) (1 connections)
-- [[preserveSyllables, setPreserveSyllables]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L20) (1 connections)
-- [sourceLanguage](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L25) (1 connections)
-- [[targetLanguage, setTargetLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L19) (1 connections)
+- [Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L1) (6 connections)
+- [AvatarPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L22) (1 connections)
+- [CardPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L18) (1 connections)
+- [Inactive](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L48) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L4) (1 connections)
+- [TextLinePlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L26) (1 connections)
+- [TrackCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx)
 
 ## Audit Trail
 

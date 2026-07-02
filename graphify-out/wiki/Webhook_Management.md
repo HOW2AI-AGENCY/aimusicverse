@@ -1,14 +1,13 @@
 # Webhook Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L1) (4 connections)
-- [TrackListContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L16) (1 connections)
-- [TrackListProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L27) (1 connections)
-- [useTrackInList()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L51) (1 connections)
-- [useTrackListContext()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L43) (1 connections)
+- [RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L1) (3 connections)
+- [MOCK_COHORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L45) (1 connections)
+- [MOCK_RETENTION_TREND](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L37) (1 connections)
+- [summaryStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

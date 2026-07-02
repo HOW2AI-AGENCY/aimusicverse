@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L1) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L23) (1 connections)
+- [MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L1) (1 connections)
+- [MobileQuickActionsGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AnalyticsDashboardPage()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AnalyticsDashboard.tsx#L8) (1 connections)
-- [AnalyticsDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AnalyticsDashboard.tsx#L1) (1 connections)
+- [useVoiceRecorder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts#L1) (1 connections)
+- [useVoiceRecorder()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AnalyticsDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AnalyticsDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\voice\useVoiceRecorder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts)
 
 ## Audit Trail
 

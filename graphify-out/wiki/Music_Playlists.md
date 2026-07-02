@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AudioRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L33) (1 connections)
-- [AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L1) (1 connections)
+- [{ data: credits, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx#L11) (1 connections)
+- [CreditsBalance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\CreditsBalance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [CompactVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L1) (4 connections)
-- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L34) (1 connections)
-- [idleInterval](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L28) (1 connections)
-- [[levels, setLevels]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L22) (1 connections)
-- [rafRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L23) (1 connections)
+- [useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L1) (4 connections)
+- [useDeeplinkAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L11) (1 connections)
+- [useDeeplinkEvents()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L81) (1 connections)
+- [useDeeplinkStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L58) (1 connections)
+- [useTrackDeeplink()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L93) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\CompactVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts)
 
 ## Audit Trail
 

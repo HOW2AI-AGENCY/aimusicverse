@@ -1,46 +1,38 @@
 # Text Editor
 
-> 16 nodes · cohesion 0.16
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [Storybook Configure Page](file:///D:/.MUSICVERSE/aimusicverse/stories/Configure.mdx) (7 connections)
-- [Design System/Colors](file:///D:/.MUSICVERSE/aimusicverse/Colors.mdx) (4 connections)
-- [Design System/Typography](file:///D:/.MUSICVERSE/aimusicverse/Typography.mdx) (4 connections)
-- [CSS Variables Theming (light/dark)](file:///D:/.MUSICVERSE/aimusicverse/Colors.mdx) (3 connections)
-- [Design System/Introduction](file:///D:/.MUSICVERSE/aimusicverse/Introduction.mdx) (3 connections)
-- [Design System Sections (Design System / UI / Components / Pages)](file:///D:/.MUSICVERSE/aimusicverse/Introduction.mdx) (3 connections)
-- [Design Principles (Consistent / Reusable / Accessible / Efficient)](file:///D:/.MUSICVERSE/aimusicverse/Introduction.mdx) (2 connections)
-- [Inter Font Family](file:///D:/.MUSICVERSE/aimusicverse/Typography.mdx) (2 connections)
-- [Accessibility SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/accessibility.svg) (2 connections)
-- [Storybook Advanced Features](file:///D:/.MUSICVERSE/aimusicverse/stories/Configure.mdx) (2 connections)
-- [MusicVerse AI Color Palette](file:///D:/.MUSICVERSE/aimusicverse/Colors.mdx) (1 connections)
-- [Typography Heading Hierarchy (h1-h4)](file:///D:/.MUSICVERSE/aimusicverse/Typography.mdx) (1 connections)
-- [Discord Brand SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/discord.svg) (1 connections)
-- [GitHub Brand SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/github.svg) (1 connections)
-- [Tutorials Book SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/tutorials.svg) (1 connections)
-- [YouTube Brand SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/youtube.svg) (1 connections)
+- [usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L1) (12 connections)
+- [usePromptDJStore](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L161) (2 connections)
+- [usePromptHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L27) (2 connections)
+- [usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L1) (1 connections)
+- [dbPromise](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L57) (1 connections)
+- [DEFAULT_CHANNELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L80) (1 connections)
+- [DEFAULT_SETTINGS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L92) (1 connections)
+- [indexedDBStorage](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L11) (1 connections)
+- [openDB()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L58) (1 connections)
+- [selectChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L278) (1 connections)
+- [selectHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L280) (1 connections)
+- [selectPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L281) (1 connections)
+- [selectRecentPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L287) (1 connections)
+- [selectSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L279) (1 connections)
+- [selectTopRatedPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L284) (1 connections)
 
 ## Relationships
 
-- [[Music Arrangement]] (38 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [Colors.mdx](file:///D:/.MUSICVERSE/aimusicverse/Colors.mdx)
-- [Introduction.mdx](file:///D:/.MUSICVERSE/aimusicverse/Introduction.mdx)
-- [Typography.mdx](file:///D:/.MUSICVERSE/aimusicverse/Typography.mdx)
-- [stories/Configure.mdx](file:///D:/.MUSICVERSE/aimusicverse/stories/Configure.mdx)
-- [stories/assets/accessibility.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/accessibility.svg)
-- [stories/assets/discord.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/discord.svg)
-- [stories/assets/github.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/github.svg)
-- [stories/assets/tutorials.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/tutorials.svg)
-- [stories/assets/youtube.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/youtube.svg)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (63%)
-- INFERRED: 14 (37%)
+- EXTRACTED: 26 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

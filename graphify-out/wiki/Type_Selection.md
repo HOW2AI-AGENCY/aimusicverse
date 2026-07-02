@@ -1,13 +1,12 @@
 # Type Selection
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L1) (3 connections)
-- [computeLyricsStats](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L81) (1 connections)
-- [formatLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L86) (1 connections)
-- [parseLyricsStructure](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L91) (1 connections)
+- [ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L1) (2 connections)
+- [getScoreLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L36) (2 connections)
+- [ProducerResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L43) (2 connections)
 
 ## Relationships
 
@@ -15,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\lyrics\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx)
 
 ## Audit Trail
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [unified-dialog.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L1) (2 connections)
-- [DIALOG_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L7) (1 connections)
-- [DIALOG_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L63) (1 connections)
+- [MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L1) (2 connections)
+- [mood](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L34) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [AnalysisQuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L1) (4 connections)
-- [normalizeAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L52) (1 connections)
-- [normalized](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L75) (1 connections)
-- [StatCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L34) (1 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L77) (1 connections)
+- [stateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L1) (4 connections)
+- [createMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L52) (1 connections)
+- [generationMachineConfig](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L295) (1 connections)
+- [lyricsWizardMachineConfig](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L213) (1 connections)
+- [useStateMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L143) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\AnalysisQuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\stateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts)
 
 ## Audit Trail
 

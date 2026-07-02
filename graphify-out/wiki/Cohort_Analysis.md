@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [LEDIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L1) (3 connections)
-- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L19) (1 connections)
-- [LEDIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L59) (1 connections)
-- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L52) (1 connections)
+- [VoiceLibraryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L1) (3 connections)
+- [statusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L10) (1 connections)
+- [{ voices, isLoading, deleteVoice, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L34) (1 connections)
+- [[wizardOpen, setWizardOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\LEDIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\VoiceLibraryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx)
 
 ## Audit Trail
 

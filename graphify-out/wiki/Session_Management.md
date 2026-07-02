@@ -1,13 +1,13 @@
 # Session Management
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [loading-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx#L1) (3 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx#L36) (1 connections)
-- [SkeletonCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx#L136) (1 connections)
-- [textSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx#L42) (1 connections)
+- [useMobileHaptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L1) (3 connections)
+- [isHapticSupported()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L40) (2 connections)
+- [useMobileHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L50) (2 connections)
+- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L38) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\loading-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useMobileHaptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

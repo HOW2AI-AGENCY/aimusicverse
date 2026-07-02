@@ -26,6 +26,7 @@ import {
   Tag,
   X,
 } from "@/lib/icons";
+import { Heading, Text } from "@/components/ui/typography";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
@@ -361,7 +362,9 @@ export default function Library() {
                   className="flex items-center gap-3 px-5 py-3 mb-6 mx-5 sm:mx-6 bg-primary/10 border border-primary/20 rounded-xl"
                 >
                   <Tag className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm text-primary font-medium truncate">Фильтр: {tagFilter}</span>
+                  <Text variant="bodySm" className="text-primary font-medium truncate" as="span">
+                    Фильтр: {tagFilter}
+                  </Text>
                   <Button
                     size="sm"
                     variant="ghost"
@@ -377,10 +380,13 @@ export default function Library() {
               {/* Active Generations Section */}
               {hasActiveGenerations && (
                 <div className="mb-8 @container">
-                  <h2 className="text-xs font-medium text-muted-foreground mb-4 flex items-center gap-2">
+                  <Heading
+                    level="h4"
+                    className="text-xs font-medium text-muted-foreground mb-4 flex items-center gap-2"
+                  >
                     <Loader2 className="w-4 h-4 animate-spin" />
                     Генерируется ({activeGenerations.length})
-                  </h2>
+                  </Heading>
                   <div
                     className={
                       viewMode === "grid"
@@ -448,7 +454,9 @@ export default function Library() {
                   />
 
                   {!hasNextPage && (tracks?.length ?? 0) > 0 && (
-                    <p className="text-sm text-muted-foreground py-8 text-center">Все треки загружены</p>
+                    <Text variant="bodySm" muted className="py-8 text-center">
+                      Все треки загружены
+                    </Text>
                   )}
                 </>
               )}

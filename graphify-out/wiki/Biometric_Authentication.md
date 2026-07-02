@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useAudioWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts#L24) (2 connections)
-- [WatermarkActions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L17) (2 connections)
-- [WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L1) (1 connections)
-- [useAudioWatermark.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts#L1) (1 connections)
+- [mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L1) (3 connections)
+- [getMixPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L229) (1 connections)
+- [getPresetStemSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L236) (1 connections)
+- [MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -15,13 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioWatermark.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

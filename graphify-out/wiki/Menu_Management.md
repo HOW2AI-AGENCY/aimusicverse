@@ -1,15 +1,14 @@
 # Menu Management
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L1) (5 connections)
-- [closeTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L40) (1 connections)
-- [confettiTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L37) (1 connections)
-- [fireConfetti()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L28) (1 connections)
-- [[showContent, setShowContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L20) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L25) (1 connections)
+- [ResponsiveGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L1) (4 connections)
+- [GAP_SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L43) (1 connections)
+- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L33) (1 connections)
+- [GRID_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L80) (1 connections)
+- [ResponsiveGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L52) (1 connections)
 
 ## Relationships
 
@@ -17,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\popups\WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\ResponsiveGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

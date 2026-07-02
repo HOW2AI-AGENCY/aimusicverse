@@ -1,23 +1,22 @@
 # Product Selection
 
-> 14 nodes · cohesion 0.24
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L1) (13 connections)
-- [parseTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L207) (5 connections)
-- [detectTagType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L157) (4 connections)
-- [isStructuralTagValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L144) (4 connections)
-- [parseFullLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L351) (4 connections)
-- [parseLine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L238) (4 connections)
-- [extractTagFromWord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L442) (2 connections)
-- [extractTimingDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L196) (2 connections)
-- [getSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L424) (2 connections)
-- [DYNAMIC_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L104) (1 connections)
-- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L118) (1 connections)
-- [STRUCTURAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L33) (1 connections)
-- [TIMED_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L139) (1 connections)
-- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L83) (1 connections)
+- [VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L1) (12 connections)
+- [finalTranscript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L92) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L95) (1 connections)
+- [interim](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L93) (1 connections)
+- [[interimTranscript, setInterimTranscript]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L60) (1 connections)
+- [[isListening, setIsListening]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L57) (1 connections)
+- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L58) (1 connections)
+- [isSupported](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L150) (1 connections)
+- [recognition](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L81) (1 connections)
+- [recognitionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L59) (1 connections)
+- [SpeechRecognitionClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L64) (1 connections)
+- [toggleListening](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L133) (1 connections)
+- [transcript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -25,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

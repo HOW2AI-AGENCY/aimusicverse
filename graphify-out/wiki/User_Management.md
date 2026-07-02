@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Storybook Banner Image](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg) (0 connections)
+- [payment_transactions](file:///D:/.MUSICVERSE/aimusicverse/supabase/migrations/20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [assets/banner.jpg](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg)
+- [supabase\migrations\20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql](file:///D:/.MUSICVERSE/aimusicverse/supabase/migrations/20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql)
 
 ## Audit Trail
 

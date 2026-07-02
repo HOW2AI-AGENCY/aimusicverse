@@ -1,12 +1,23 @@
 # UI Effects
 
-> 3 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L1) (2 connections)
-- [getScoreLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L36) (2 connections)
-- [ProducerResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L43) (2 connections)
+- [CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L55) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -14,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AdminBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx#L10) (1 connections)
-- [AdminBroadcast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx#L1) (1 connections)
+- [useSetupTelegramWebhook.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useSetupTelegramWebhook.ts#L1) (1 connections)
+- [useSetupTelegramWebhook()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useSetupTelegramWebhook.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBroadcast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useSetupTelegramWebhook.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useSetupTelegramWebhook.ts)
 
 ## Audit Trail
 

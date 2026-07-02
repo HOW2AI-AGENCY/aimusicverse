@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L1) (1 connections)
-- [ShareProjectCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L24) (1 connections)
+- [StudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx#L1) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\StudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx)
 
 ## Audit Trail
 

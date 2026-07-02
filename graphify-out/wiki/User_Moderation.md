@@ -1,35 +1,60 @@
 # User Moderation
 
-> 38 nodes · cohesion 0.05
+> 44 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [social-features.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L1) (37 connections)
-- [generateTestUser()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L7) (2 connections)
-- [activityItems](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L166) (1 connections)
-- [afterScrollCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L267) (1 connections)
-- [commentsList](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L111) (1 connections)
-- [commentText](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L103) (1 connections)
-- [deliveryTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L344) (1 connections)
-- [firstActivity](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L175) (1 connections)
-- [firstTrack](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L93) (1 connections)
-- [firstUserCard](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L77) (1 connections)
-- [followButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L81) (1 connections)
-- [fps](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L288) (1 connections)
-- [frameCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L277) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L281) (1 connections)
-- [initialCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L258) (1 connections)
-- [initialLikeText](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L127) (1 connections)
-- [itemCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L167) (1 connections)
-- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L126) (1 connections)
-- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L251) (1 connections)
-- [notificationBell](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L141) (1 connections)
-- [notificationTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L368) (1 connections)
-- [page1](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L324) (1 connections)
-- [page2](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L325) (1 connections)
-- [privacySelect](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L219) (1 connections)
-- [profileSetupExists](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L32) (1 connections)
-- *... and 13 more nodes in this community*
+- [LyricsValidator](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L127) (17 connections)
+- [LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L1) (9 connections)
+- [.validateForSuno()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L177) (8 connections)
+- [LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L1) (6 connections)
+- [LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L1) (5 connections)
+- [LyricsFormatter](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L101) (5 connections)
+- [.validate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L131) (5 connections)
+- [handleAutoFix()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L31) (4 connections)
+- [.findInvalidSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L439) (4 connections)
+- [.validateStructure()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L529) (3 connections)
+- [isValidSectionTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L110) (3 connections)
+- [.validateTagInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L576) (3 connections)
+- [.calculateCharCount()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L169) (2 connections)
+- [.formatFinal()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L105) (2 connections)
+- [sanitizeTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L63) (2 connections)
+- [wrapInBrackets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L82) (2 connections)
+- [.autoFixIssues()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L401) (2 connections)
+- [.calculateValidationScore()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L378) (2 connections)
+- [.checkConflictingTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L271) (2 connections)
+- [.checkMissingEndTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L219) (2 connections)
+- [.checkRussianTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L236) (2 connections)
+- [.checkSectionBalance()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L545) (2 connections)
+- [.checkStructureTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L356) (2 connections)
+- [.checkTagOverload()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L302) (2 connections)
+- [.checkWrongBrackets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L326) (2 connections)
+- *... and 19 more nodes in this community*
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class LyricsFormatter {
+        +LyricsFormatter.ts()
+        +.formatFinal()
+        +.calculateCharCount()
+        +.extractSections()
+        +.validateStructure()
+    }
+    class LyricsValidator {
+        +LyricsValidator.ts()
+        +.validate()
+        +.validateForSuno()
+        +.checkMissingEndTag()
+        +.checkRussianTags()
+        +.checkConflictingTags()
+        +.checkTagOverload()
+        +.checkWrongBrackets()
+        +.checkStructureTags()
+        +.calculateValidationScore()
+    }
+```
 
 ## Relationships
 
@@ -37,12 +62,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\social-features.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 74 (99%)
-- INFERRED: 1 (1%)
+- EXTRACTED: 110 (92%)
+- INFERRED: 9 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

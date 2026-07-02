@@ -1,31 +1,32 @@
 # UI Layout Management
 
-> 22 nodes · cohesion 0.09
+> 23 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [StudioActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L1) (12 connections)
-- [StudioActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L1) (9 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L249) (2 connections)
-- [availableActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L311) (1 connections)
-- [canReplace](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L100) (1 connections)
-- [canSeparate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L99) (1 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L104) (1 connections)
-- [CategoryIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L314) (1 connections)
-- [[expandedCategories, setExpandedCategories]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L97) (1 connections)
-- [getMidiModel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L113) (1 connections)
-- [getStemIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L107) (1 connections)
-- [getStemLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L119) (1 connections)
-- [hasDetailedStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L104) (1 connections)
-- [hasSimpleStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L103) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L101) (1 connections)
-- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L315) (1 connections)
-- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L102) (1 connections)
-- [midiModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L247) (1 connections)
-- [primaryActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L238) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L63) (1 connections)
-- [STEM_MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx#L77) (1 connections)
-- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx#L230) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L1) (15 connections)
+- [getMiniAppDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L37) (9 connections)
+- [useEconomyConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L1) (6 connections)
+- [getConfigByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L236) (3 connections)
+- [getArtistDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L77) (2 connections)
+- [getGenerateDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L85) (2 connections)
+- [getInviteDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L100) (2 connections)
+- [getPlaylistDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L53) (2 connections)
+- [getProfileDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L69) (2 connections)
+- [getProjectDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L61) (2 connections)
+- [getRecognizeDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L92) (2 connections)
+- [getTelegramShareUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L117) (2 connections)
+- [getTrackDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L45) (2 connections)
+- [getBotMention()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L108) (1 connections)
+- [TELEGRAM_APP_SHORT_NAME](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L20) (1 connections)
+- [TELEGRAM_BOT_START_URL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L30) (1 connections)
+- [TELEGRAM_BOT_USERNAME](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L14) (1 connections)
+- [TELEGRAM_MINI_APP_BASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L25) (1 connections)
+- [CONFIG_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L84) (1 connections)
+- [ECONOMY_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L26) (1 connections)
+- [useBulkUpdateEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L196) (1 connections)
+- [useEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L119) (1 connections)
+- [useUpdateEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L140) (1 connections)
 
 ## Relationships
 
@@ -33,13 +34,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\actions\StudioActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StudioActionsPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\panels\StudioActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/panels/StudioActionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useEconomyConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\telegram\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 42 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 58 (95%)
+- INFERRED: 3 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

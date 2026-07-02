@@ -1,19 +1,18 @@
 # Lyrics Formatting
 
-> 10 nodes · cohesion 0.22
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L1) (9 connections)
-- [handleTabChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L75) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L63) (2 connections)
-- [activeTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L69) (1 connections)
-- [CurrentTabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L96) (1 connections)
-- [{ data: auth, isLoading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L66) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L65) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L64) (1 connections)
-- [TAB_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L41) (1 connections)
-- [TabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L130) (1 connections)
+- [StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L1) (8 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L94) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L96) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L36) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L37) (1 connections)
+- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L38) (1 connections)
+- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L95) (1 connections)
+- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L19) (1 connections)
+- [stemTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -21,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

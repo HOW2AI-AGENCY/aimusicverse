@@ -1,18 +1,17 @@
 # Layout Configuration
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L113) (1 connections)
-- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L33) (1 connections)
-- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L70) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L65) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L49) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L46) (1 connections)
-- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L34) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L47) (1 connections)
+- [UnifiedListRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L1) (7 connections)
+- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L189) (1 connections)
+- [BadgeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L165) (1 connections)
+- [coverSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L86) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L83) (1 connections)
+- [isDraggable](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L84) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L82) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L87) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\UnifiedListRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

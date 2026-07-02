@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [WaveformCanvas.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx#L1) (1 connections)
-- [WaveformCanvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx#L23) (1 connections)
+- [useReplacedSections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts#L1) (1 connections)
+- [useReplacedSections()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\WaveformCanvas.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReplacedSections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts)
 
 ## Audit Trail
 

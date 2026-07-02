@@ -1,18 +1,17 @@
 # Mock Utilities
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [RemixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L1) (9 connections)
-- [handlePresetClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L48) (1 connections)
-- [[isInstrumental, setIsInstrumental]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L45) (1 connections)
-- [[isSubmitting, setIsSubmitting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L46) (1 connections)
-- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L44) (1 connections)
-- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L29) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L43) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L42) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L41) (1 connections)
+- [StyleConvertToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L1) (7 connections)
+- [ARTIST_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L25) (1 connections)
+- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L39) (1 connections)
+- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L43) (1 connections)
+- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L41) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L37) (1 connections)
+- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L38) (1 connections)
+- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\RemixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\StyleConvertToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 17 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

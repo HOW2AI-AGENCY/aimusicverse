@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [MobileActionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx#L1) (1 connections)
-- [MobileActionsContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx#L45) (1 connections)
+- [TagMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx#L1) (1 connections)
+- [TagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileActionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\TagMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx)
 
 ## Audit Trail
 

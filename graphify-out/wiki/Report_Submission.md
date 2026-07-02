@@ -4,25 +4,11 @@
 
 ## Key Concepts
 
-- [UnifiedRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L1) (4 connections)
-- [formatDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L86) (1 connections)
-- [handleModeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L92) (1 connections)
-- [{
-    isRecording,
-    isPaused,
-    duration,
-    audioLevel,
-    waveformData,
-    audioBlob,
-    audioUrl,
-    isSupported,
-    startRecording,
-    stopRecording,
-    pauseRecording,
-    resumeRecording,
-    resetRecording,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L64) (1 connections)
-- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx#L62) (1 connections)
+- [useMidiFileParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L1) (4 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L10) (1 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L32) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L30) (1 connections)
+- [useMidiFileParser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L38) (1 connections)
 
 ## Relationships
 
@@ -30,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\recording\UnifiedRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/UnifiedRecorder.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiFileParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts)
 
 ## Audit Trail
 

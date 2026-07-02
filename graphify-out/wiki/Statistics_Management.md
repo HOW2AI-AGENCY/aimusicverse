@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/index.ts#L1) (0 connections)
+- [TierPricingSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierPricingSection.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierPricingSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierPricingSection.tsx)
 
 ## Audit Trail
 

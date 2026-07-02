@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L1) (4 connections)
-- [Accordion](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L7) (1 connections)
-- [AccordionContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L37) (1 connections)
-- [AccordionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L9) (1 connections)
-- [AccordionTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L17) (1 connections)
+- [toast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L1) (4 connections)
+- [notify](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L44) (1 connections)
+- [stableId()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L17) (1 connections)
+- [toast](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L30) (1 connections)
+- [wrap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L24) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\toast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts)
 
 ## Audit Trail
 

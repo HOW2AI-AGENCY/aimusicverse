@@ -1,14 +1,13 @@
 # Display Resolution
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L1) (4 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L4) (1 connections)
-- [Sizes](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L32) (1 connections)
-- [WithFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L14) (1 connections)
-- [WithImage](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L23) (1 connections)
+- [StructureToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L1) (3 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L106) (1 connections)
+- [STRUCTURE_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L13) (1 connections)
+- [StructureToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\StructureToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

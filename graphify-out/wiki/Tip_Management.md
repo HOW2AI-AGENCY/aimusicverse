@@ -1,23 +1,22 @@
 # Tip Management
 
-> 14 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [StudioDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L1) (13 connections)
-- [downloadableTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L59) (1 connections)
-- [downloadAllAsZip](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L124) (1 connections)
-- [[downloadedTracks, setDownloadedTracks]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L47) (1 connections)
-- [[downloadingTrackId, setDownloadingTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L46) (1 connections)
-- [[downloadProgress, setDownloadProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L45) (1 connections)
-- [downloadTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L65) (1 connections)
-- [[format, setFormat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L43) (1 connections)
-- [getTrackAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L50) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L211) (1 connections)
-- [isDownloaded](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L213) (1 connections)
-- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L44) (1 connections)
-- [isThisDownloading](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L212) (1 connections)
-- [TRACK_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L29) (1 connections)
+- [StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L1) (12 connections)
+- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L42) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L94) (1 connections)
+- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L83) (1 connections)
+- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L45) (1 connections)
+- [handlePointerMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L60) (1 connections)
+- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L73) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L34) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L36) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L37) (1 connections)
+- [knobRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L35) (1 connections)
+- [startValueRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L39) (1 connections)
+- [startYRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -25,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\melody-mixer\StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

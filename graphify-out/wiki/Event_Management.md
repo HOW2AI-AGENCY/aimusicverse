@@ -1,16 +1,15 @@
 # Event Management
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L1) (6 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L92) (1 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L42) (1 connections)
-- [categoryShortcuts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L110) (1 connections)
-- [KeyBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L54) (1 connections)
-- [ShortcutRow](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L71) (1 connections)
-- [SHORTCUTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L21) (1 connections)
+- [ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L1) (5 connections)
+- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L34) (2 connections)
+- [constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L25) (1 connections)
+- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L30) (1 connections)
+- [isDev](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L81) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L9) (1 connections)
 
 ## Relationships
 
@@ -18,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

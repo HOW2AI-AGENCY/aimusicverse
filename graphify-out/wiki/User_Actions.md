@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L1) (5 connections)
-- [[direction, setDirection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L32) (1 connections)
-- [[isSubmitting, setIsSubmitting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L34) (1 connections)
-- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L33) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx#L31) (1 connections)
+- [useMusicXmlParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L1) (4 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L17) (1 connections)
+- [PITCH_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L50) (1 connections)
+- [pitchToMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L60) (1 connections)
+- [useMusicXmlParser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\ExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ExtendDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicXmlParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 9 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

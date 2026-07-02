@@ -1,12 +1,12 @@
 # Mobile UI Redesign
 
-> 3 nodes · cohesion 0.67
+> 3 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L1) (2 connections)
-- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L24) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L25) (1 connections)
+- [usePictureInPicture.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L1) (2 connections)
+- [checkPiPSupport()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L55) (2 connections)
+- [usePictureInPicture()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L78) (2 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\workflows\ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\usePictureInPicture.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

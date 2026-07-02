@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [DrumPadGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx#L1) (1 connections)
-- [DrumPad](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx#L19) (1 connections)
+- [FirstTimeHeroCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L1) (1 connections)
+- [STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumPadGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\FirstTimeHeroCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx)
 
 ## Audit Trail
 

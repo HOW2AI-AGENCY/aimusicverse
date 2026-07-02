@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [EnhancedAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L1) (9 connections)
-- [{ data: activeUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L64) (1 connections)
-- [{ data: contentStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L66) (1 connections)
-- [{ data: errorStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L65) (1 connections)
-- [{ data: modelStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L62) (1 connections)
-- [{ data: modeStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L63) (1 connections)
-- [{ data: sourceStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L67) (1 connections)
-- [MODE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L43) (1 connections)
-- [SOURCE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L53) (1 connections)
-- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx#L60) (1 connections)
+- [UnifiedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L146) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L117) (1 connections)
+- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L134) (1 connections)
+- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L124) (1 connections)
+- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L129) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L115) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L121) (1 connections)
+- [isMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L122) (1 connections)
+- [STEM_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\EnhancedAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx)
 
 ## Audit Trail
 

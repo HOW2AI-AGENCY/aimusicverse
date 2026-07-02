@@ -4,23 +4,23 @@
 
 ## Key Concepts
 
-- [VersionTree.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L1) (16 connections)
-- [handleVersionSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L48) (2 connections)
-- [activeVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L45) (1 connections)
-- [buildTree()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L67) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L102) (1 connections)
-- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L41) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L43) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L100) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L39) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L40) (1 connections)
-- [letter](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L182) (1 connections)
-- [{ setPrimaryVersionAsync, isSettingPrimary }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L42) (1 connections)
-- [TypeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L103) (1 connections)
-- [versionCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L46) (1 connections)
-- [versionTree](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L75) (1 connections)
-- [versionType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L101) (1 connections)
-- [versionTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L29) (1 connections)
+- [beatSnap.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L1) (16 connections)
+- [beatDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L13) (1 connections)
+- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L110) (1 connections)
+- [bpm](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L11) (1 connections)
+- [currentTime](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L12) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L94) (1 connections)
+- [expectedBeats](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L96) (1 connections)
+- [expectedSnap](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L16) (1 connections)
+- [gridPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L98) (1 connections)
+- [isValidDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L126) (1 connections)
+- [measurePositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L113) (1 connections)
+- [snapDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L23) (1 connections)
+- [snapDivisions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L123) (1 connections)
+- [snapped](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L158) (1 connections)
+- [subdivisionDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L25) (1 connections)
+- [subdivisions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L135) (1 connections)
+- [testCases](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L77) (1 connections)
 
 ## Relationships
 
@@ -28,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\shared\VersionTree.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\lib\beatSnap.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 32 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

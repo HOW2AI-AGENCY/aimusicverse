@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [toggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L1) (2 connections)
-- [Toggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L28) (1 connections)
-- [toggleVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L7) (1 connections)
+- [useTelemetryStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useTelemetryStats.ts#L1) (2 connections)
+- [useErrorTrends()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useTelemetryStats.ts#L75) (1 connections)
+- [useTelemetryStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useTelemetryStats.ts#L53) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\toggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useTelemetryStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useTelemetryStats.ts)
 
 ## Audit Trail
 

@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [RecentTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L1) (6 connections)
-- [{ activeTrack, isPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L29) (1 connections)
-- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L66) (1 connections)
-- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L97) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L27) (1 connections)
-- [recentTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L31) (1 connections)
-- [{ tracks, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L28) (1 connections)
+- [LyricsFooter.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L1) (6 connections)
+- [actual](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L20) (1 connections)
+- [baseProps](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L51) (1 connections)
+- [onDelete](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L102) (1 connections)
+- [onRestore](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L101) (1 connections)
+- [sampleSection](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L31) (1 connections)
+- [sampleVersion](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\RecentTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\__tests__\LyricsFooter.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx)
 
 ## Audit Trail
 

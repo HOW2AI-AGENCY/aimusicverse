@@ -1,14 +1,13 @@
 # Text Input Handling
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [stateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L1) (4 connections)
-- [createMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L52) (1 connections)
-- [generationMachineConfig](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L295) (1 connections)
-- [lyricsWizardMachineConfig](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L213) (1 connections)
-- [useStateMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L143) (1 connections)
+- [GeneratingTrackSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L1) (3 connections)
+- [GeneratingTrackSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L27) (1 connections)
+- [ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L25) (1 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\stateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\GeneratingTrackSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

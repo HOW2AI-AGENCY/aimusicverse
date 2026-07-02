@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [MobileProjectsToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L1) (6 connections)
-- [handleCreateClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L51) (2 connections)
-- [handleSearchToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L38) (1 connections)
-- [handleViewModeChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L46) (1 connections)
-- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L29) (1 connections)
-- [[isSearchExpanded, setIsSearchExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L28) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L30) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L1) (6 connections)
+- [BATCH_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L115) (1 connections)
+- [GENRE_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L120) (1 connections)
+- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L27) (1 connections)
+- [GENRE_QUERIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L16) (1 connections)
+- [PUBLIC_CONTENT_GC_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L110) (1 connections)
+- [PUBLIC_CONTENT_STALE_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L105) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\MobileProjectsToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (92%)
-- INFERRED: 1 (8%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

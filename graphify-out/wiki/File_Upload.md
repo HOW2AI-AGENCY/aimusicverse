@@ -1,15 +1,15 @@
 # File Upload
 
-> 6 nodes · cohesion 0.33
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L1) (5 connections)
-- [ComingSoonModal()](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L22) (1 connections)
-- [[currentFeature, setCurrentFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L167) (1 connections)
-- [hideComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L192) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L166) (1 connections)
-- [showComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L174) (1 connections)
+- [stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L1) (5 connections)
+- [getActionsForStemType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L294) (2 connections)
+- [getGroupedActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L309) (2 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L327) (1 connections)
+- [normalizeTrackType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L338) (1 connections)
+- [STEM_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L64) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\beta\ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

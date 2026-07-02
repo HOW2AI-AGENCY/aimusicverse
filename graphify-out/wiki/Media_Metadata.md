@@ -1,13 +1,13 @@
 # Media Metadata
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [GenerationProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressBar.tsx#L1) (3 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressBar.tsx#L46) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressBar.tsx#L47) (1 connections)
-- [isError](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressBar.tsx#L48) (1 connections)
+- [ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L1) (3 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L29) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L18) (2 connections)
+- [{ data: parentTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

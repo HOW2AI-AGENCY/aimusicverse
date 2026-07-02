@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [GeneratingTrackSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L1) (3 connections)
-- [GeneratingTrackSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L27) (1 connections)
-- [ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L25) (1 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L16) (1 connections)
+- [avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L1) (3 connections)
+- [Avatar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L6) (1 connections)
+- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L25) (1 connections)
+- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\GeneratingTrackSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx)
 
 ## Audit Trail
 

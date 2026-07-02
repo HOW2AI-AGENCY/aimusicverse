@@ -1,26 +1,17 @@
 # Watermark Management
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [AddTrackDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L1) (8 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L87) (1 connections)
-- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L43) (1 connections)
-- [handleSuccess()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L53) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L88) (1 connections)
-- [isSuggested](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L89) (1 connections)
-- [[selectedType, setSelectedType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L30) (1 connections)
-- [[styleHint, setStyleHint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L31) (1 connections)
-- [{
-    trackContext,
-    isLoadingContext,
-    refetchContext,
-    generateStem,
-    isGenerating,
-    generationProgress,
-    lastGeneration,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L33) (1 connections)
+- [TrackDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L1) (7 connections)
+- [energyPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L47) (1 connections)
+- [hasNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L40) (1 connections)
+- [hasParams](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L37) (1 connections)
+- [hasStylePrompt](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L41) (1 connections)
+- [hasTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L39) (1 connections)
+- [LYRICS_STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L29) (1 connections)
+- [VOCAL_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -28,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddTrackDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\TrackDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

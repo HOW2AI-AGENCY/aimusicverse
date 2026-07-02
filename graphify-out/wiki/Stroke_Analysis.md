@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L6) (1 connections)
-- [useMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L8) (1 connections)
+- [useOptimizedPlayback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L1) (2 connections)
+- [DEFAULT_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L35) (1 connections)
+- [useOptimizedPlayback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L43) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimizedPlayback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts)
 
 ## Audit Trail
 

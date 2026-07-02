@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [HealthCheckPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L1) (10 connections)
-- [CheckIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L129) (1 connections)
-- [checkIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L47) (1 connections)
-- [{ data: health, isLoading, refetch, isFetching }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L57) (1 connections)
-- [[isSendingAlert, setIsSendingAlert]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L58) (1 connections)
-- [OverallIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L98) (1 connections)
-- [statusBgColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L41) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L35) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L128) (1 connections)
-- [statusIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx#L29) (1 connections)
+- [StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L1) (9 connections)
+- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L19) (1 connections)
+- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L63) (1 connections)
+- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L60) (1 connections)
+- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L67) (1 connections)
+- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L64) (1 connections)
+- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L65) (1 connections)
+- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L61) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L29) (1 connections)
+- [trackAny](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L58) (1 connections)
 
 ## Relationships
 
@@ -21,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\HealthCheckPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 19 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

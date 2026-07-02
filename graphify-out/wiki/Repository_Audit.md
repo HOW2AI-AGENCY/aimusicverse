@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/types.ts#L1) (0 connections)
+- [DialogHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/DialogHeader.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\DialogHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/DialogHeader.tsx)
 
 ## Audit Trail
 

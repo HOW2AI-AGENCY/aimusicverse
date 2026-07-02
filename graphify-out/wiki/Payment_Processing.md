@@ -1,29 +1,28 @@
 # Payment Processing
 
-> 20 nodes · cohesion 0.09
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [BotMenuItemForm.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L1) (10 connections)
-- [useGuitarAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L1) (6 connections)
-- [usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L1) (3 connections)
-- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L142) (2 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L167) (2 connections)
-- [generateStyleDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L99) (2 connections)
-- [generateTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L123) (2 connections)
-- [formatCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L26) (2 connections)
-- [usePlatformStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L70) (2 connections)
-- [ACTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L59) (1 connections)
-- [createMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L76) (1 connections)
-- [EMOJI_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L26) (1 connections)
-- [[formData, setFormData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L80) (1 connections)
-- [isSubmitting](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L199) (1 connections)
-- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L79) (1 connections)
-- [updateMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L77) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L6) (1 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L92) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L90) (1 connections)
-- [useGuitarAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L166) (1 connections)
+- [AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L1) (18 connections)
+- [analyser](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L41) (1 connections)
+- [analyserRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L21) (1 connections)
+- [animationFrameRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L22) (1 connections)
+- [audioContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L40) (1 connections)
+- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L20) (1 connections)
+- [dataArray](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L52) (1 connections)
+- [getColorClass()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L94) (1 connections)
+- [getLevelStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L101) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L123) (1 connections)
+- [isPeak](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L124) (1 connections)
+- [[level, setLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L18) (1 connections)
+- [[peakLevel, setPeakLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L19) (1 connections)
+- [segmentLevel](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L122) (1 connections)
+- [source](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L42) (1 connections)
+- [sourceRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L23) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L109) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L110) (1 connections)
+- [updateLevel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -31,14 +30,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BotMenuItemForm.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 39 (93%)
-- INFERRED: 3 (7%)
+- EXTRACTED: 36 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

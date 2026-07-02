@@ -4,20 +4,9 @@
 
 ## Key Concepts
 
-- [CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L1) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L54) (1 connections)
-- [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleKeyDown,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L32) (1 connections)
+- [useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L1) (2 connections)
+- [useOptimistic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L58) (1 connections)
+- [useOptimisticList()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L143) (1 connections)
 
 ## Relationships
 
@@ -25,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts)
 
 ## Audit Trail
 

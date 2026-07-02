@@ -1,17 +1,16 @@
 # Lyrics Visualization
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [LoadingSpinner.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L1) (7 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L30) (1 connections)
-- [Large](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L40) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L12) (1 connections)
-- [Minimal](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L65) (1 connections)
-- [MusicVariant](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L52) (1 connections)
-- [Small](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L34) (1 connections)
-- [WithText](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L46) (1 connections)
+- [StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L1) (6 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L51) (1 connections)
+- [handlePresetChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L54) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L74) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L50) (1 connections)
+- [[isHardwareMode, setIsHardwareMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L52) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\LoadingSpinner.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

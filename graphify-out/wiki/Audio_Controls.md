@@ -1,13 +1,12 @@
 # Audio Controls
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L1) (3 connections)
-- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L21) (1 connections)
-- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L18) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L6) (1 connections)
+- [RhymeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L1) (2 connections)
+- [RhymeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L30) (2 connections)
+- [COMMON_ENDINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -15,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\RhymeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (80%)
+- INFERRED: 1 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

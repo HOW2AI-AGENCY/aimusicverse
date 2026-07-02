@@ -1,15 +1,14 @@
 # Sheet Management
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L1) (5 connections)
-- [[elapsedTime, setElapsedTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L31) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L42) (1 connections)
-- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L30) (1 connections)
-- [remainingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L54) (1 connections)
-- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L41) (1 connections)
+- [ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L1) (4 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L28) (1 connections)
+- [currentArtists](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L36) (1 connections)
+- [{ data: publicArtists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L29) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -17,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

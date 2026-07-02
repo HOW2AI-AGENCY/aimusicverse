@@ -4,19 +4,8 @@
 
 ## Key Concepts
 
-- [MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L1) (1 connections)
-- [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleKeyDown,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L39) (1 connections)
+- [Checkbox](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx#L7) (1 connections)
+- [checkbox.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -24,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\checkbox.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx)
 
 ## Audit Trail
 

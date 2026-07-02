@@ -1,19 +1,18 @@
 # User Session Management
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.28
 
 ## Key Concepts
 
-- [UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L1) (9 connections)
-- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L24) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L87) (1 connections)
-- [handleLinkTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L38) (1 connections)
-- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L51) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L25) (1 connections)
-- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L52) (1 connections)
-- [selectedSlot](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L53) (1 connections)
-- [[selectedSlots, setSelectedSlots]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L26) (1 connections)
-- [{ unlinkedTracks, isLoading, linkTrackToSlot, isLinking }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L28) (1 connections)
+- [EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L1) (8 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L64) (3 connections)
+- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L53) (2 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L45) (2 connections)
+- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L33) (1 connections)
+- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L58) (1 connections)
+- [hasChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L43) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L32) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -21,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

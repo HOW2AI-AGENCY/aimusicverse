@@ -1,35 +1,31 @@
 # Report Management
 
-> 10 nodes · cohesion 0.22
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L1) (9 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L92) (2 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L100) (2 connections)
-- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L21) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L132) (1 connections)
-- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L64) (1 connections)
-- [isVisible](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L109) (1 connections)
-- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L37) (1 connections)
-- [{ selectedSection, customRange, editMode, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L63) (1 connections)
+- [ReferenceStemPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L1) (8 connections)
+- [colorClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L123) (1 connections)
+- [emoji](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L122) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L22) (1 connections)
+- [hasSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L45) (1 connections)
+- [isEffectivelyMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L120) (1 connections)
 - [{
-    startTime,
-    endTime,
-    sectionDuration,
-    maxDuration,
-    isValidDuration,
-    isSubmitting,
-    prompt,
-    setPrompt,
-    tags,
-    setTags,
-    lyrics,
-    setLyrics,
-    addPreset,
-    executeReplacement,
-    reset,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L66) (1 connections)
+    isPlaying,
+    currentTime,
+    duration,
+    masterVolume,
+    stemStates,
+    isLoading,
+    togglePlay,
+    seek,
+    setMasterVolume,
+    toggleMute,
+    toggleSolo,
+    setStemVolume,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L30) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L121) (1 connections)
+- [state](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx#L119) (1 connections)
 
 ## Relationships
 
@@ -37,11 +33,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceStemPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceStemPlayer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

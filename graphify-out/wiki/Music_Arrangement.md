@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [BotMenuPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L1) (12 connections)
-- [currentItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L29) (1 connections)
-- [[currentMenu, setCurrentMenu]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L20) (1 connections)
-- [currentMenuItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L24) (1 connections)
-- [getButtonTextLength()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L39) (1 connections)
-- [getCaption()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L110) (1 connections)
-- [getImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L104) (1 connections)
-- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L94) (1 connections)
-- [handleButtonClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L87) (1 connections)
-- [MAX_CHARS_FOR_PAIRING](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L36) (1 connections)
-- [[navigationStack, setNavigationStack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L21) (1 connections)
-- [renderCaption()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L119) (1 connections)
-- [rows](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L45) (1 connections)
+- [StudioMusicLabSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L1) (12 connections)
+- [barCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L137) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L121) (1 connections)
+- [handleRecordToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L128) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L157) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L274) (1 connections)
+- [{ isActive: isPro }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L98) (1 connections)
+- [isLocked](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L158) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L203) (1 connections)
+- [MODE_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L85) (1 connections)
+- [musicLab](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L100) (1 connections)
+- [RECORDING_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L61) (1 connections)
+- [threshold](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L273) (1 connections)
 
 ## Relationships
 
@@ -24,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BotMenuPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioMusicLabSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx)
 
 ## Audit Trail
 

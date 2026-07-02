@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [pro-badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L1) (4 connections)
-- [ProBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L38) (1 connections)
-- [ProFeatureIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L59) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L32) (1 connections)
-- [variantConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L14) (1 connections)
+- [Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L1) (4 connections)
+- [AnimatedIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L23) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L86) (1 connections)
+- [isTelegramApp](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L85) (1 connections)
+- [{ webApp }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pro-badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx)
 
 ## Audit Trail
 

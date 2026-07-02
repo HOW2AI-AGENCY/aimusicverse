@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L1) (2 connections)
-- [DEFAULT_PROVIDER_FOR_TYPE](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L200) (1 connections)
-- [PROVIDER_CAPABILITIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L189) (1 connections)
+- [StarsPaymentButton.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L1) (2 connections)
+- [button](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L20) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\StarsPaymentButton.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx)
 
 ## Audit Trail
 

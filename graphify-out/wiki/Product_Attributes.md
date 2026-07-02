@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L1) (2 connections)
-- [DesktopDashboardLayout](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L36) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L29) (1 connections)
+- [StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L1) (2 connections)
+- [hasActiveEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L54) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\effects\StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx)
 
 ## Audit Trail
 

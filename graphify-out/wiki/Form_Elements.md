@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [EnhancedMessages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L1) (6 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L397) (1 connections)
-- [failCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L282) (1 connections)
-- [LyricsGeneratedMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L40) (1 connections)
-- [passCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L280) (1 connections)
-- [statusIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L284) (1 connections)
-- [warnCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L281) (1 connections)
+- [NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L1) (6 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L19) (1 connections)
+- [Dot](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L21) (1 connections)
+- [Labels](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L45) (1 connections)
+- [MaxCount](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L25) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L5) (1 connections)
+- [StatusIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\messages\EnhancedMessages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx)
 
 ## Audit Trail
 

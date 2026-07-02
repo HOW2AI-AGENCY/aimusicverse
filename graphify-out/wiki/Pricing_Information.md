@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [DailyCheckin.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L1) (10 connections)
-- [generateStarMovements()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L11) (2 connections)
-- [checkin](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L22) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L61) (1 connections)
-- [{ data: canCheckin, isLoading: checkingStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L20) (1 connections)
-- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L21) (1 connections)
-- [handleCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L25) (1 connections)
-- [nextStreakBonus](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L40) (1 connections)
-- [{ showStreak, showCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L23) (1 connections)
-- [[starMovements]](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L19) (1 connections)
-- [streak](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L44) (1 connections)
+- [playbackSlice.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L1) (6 connections)
+- [playbackSlice.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts#L1) (3 connections)
+- [createPlaybackSlice()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L80) (2 connections)
+- [createTestStore()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts#L9) (2 connections)
+- [DEFAULT_PLAYBACK_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L63) (1 connections)
+- [LOOP_MODE_CYCLE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L76) (1 connections)
+- [selectLoopState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L178) (1 connections)
+- [selectPlaybackStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L169) (1 connections)
+- [selectProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L186) (1 connections)
+- [{ get }](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts#L22) (1 connections)
+- [state](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts#L231) (1 connections)
 
 ## Relationships
 
@@ -22,12 +22,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\DailyCheckin.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\__tests__\playbackSlice.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\slices\playbackSlice.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 18 (90%)
+- INFERRED: 2 (10%)
 - AMBIGUOUS: 0 (0%)
 
 ---

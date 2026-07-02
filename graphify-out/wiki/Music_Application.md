@@ -1,18 +1,17 @@
 # Music Application
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L1) (8 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L94) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L96) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L36) (1 connections)
-- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L37) (1 connections)
-- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L38) (1 connections)
-- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L95) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L19) (1 connections)
-- [stemTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L40) (1 connections)
+- [ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L1) (7 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L68) (1 connections)
+- [ProfileSetupStep3Social()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L47) (1 connections)
+- [SOCIAL_FIELDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L38) (1 connections)
+- [SoundCloudIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L26) (1 connections)
+- [SpotifyIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L20) (1 connections)
+- [TwitterIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L14) (1 connections)
+- [YouTubeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

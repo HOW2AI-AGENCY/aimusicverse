@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L1) (2 connections)
-- [mapStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L49) (1 connections)
-- [useSystemHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L60) (1 connections)
+- [useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L1) (2 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L41) (1 connections)
+- [useTransportSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L48) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts)
 
 ## Audit Trail
 

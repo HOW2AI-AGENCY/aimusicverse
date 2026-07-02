@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [eslint.config.js](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js#L1) (3 connections)
-- [reactHooksWarnRules](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js#L52) (1 connections)
-- [restrictedImports](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js#L9) (1 connections)
-- [techDebtWarnRules](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js#L28) (1 connections)
+- [PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L1) (3 connections)
+- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L30) (1 connections)
+- [PremiumBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L36) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\eslint.config.js](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx)
 
 ## Audit Trail
 

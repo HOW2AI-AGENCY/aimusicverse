@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [UnifiedPageHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L1) (9 connections)
-- [BreadcrumbIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L133) (1 connections)
-- [handleBack](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L59) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L56) (1 connections)
-- [isTelegramAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L57) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L54) (1 connections)
-- [safeAreaPadding](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L82) (1 connections)
-- [showNativeBackButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L92) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L86) (1 connections)
-- [{ webApp, isInitialized }](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx#L55) (1 connections)
+- [query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L1) (9 connections)
+- [prefetchTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L120) (2 connections)
+- [createOptimisticLikeUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L144) (1 connections)
+- [GC_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L32) (1 connections)
+- [invalidatePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L111) (1 connections)
+- [invalidateTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L102) (1 connections)
+- [invalidateUserTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L92) (1 connections)
+- [queryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L42) (1 connections)
+- [rollbackOptimisticUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L175) (1 connections)
+- [STALE_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\UnifiedPageHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedPageHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

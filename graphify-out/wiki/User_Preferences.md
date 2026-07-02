@@ -1,22 +1,21 @@
 # User Preferences
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [useStudioState.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L1) (12 connections)
-- [effective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L126) (1 connections)
-- [initialHasSolo](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L450) (1 connections)
-- [initialMutedIds](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L451) (1 connections)
-- [initialSoloIds](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L452) (1 connections)
-- [initialState](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L483) (1 connections)
-- [mockStems](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L11) (1 connections)
-- [newStates](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L379) (1 connections)
-- [nonSoloEffective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L273) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L20) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L443) (1 connections)
-- [soloEffective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L269) (1 connections)
-- [state](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L47) (1 connections)
+- [CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L1) (11 connections)
+- [formatRelative()](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L11) (2 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L38) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L39) (1 connections)
+- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L36) (1 connections)
+- [keepEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L83) (1 connections)
+- [pending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L79) (1 connections)
+- [pendingRelative](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L40) (1 connections)
+- [ready](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L27) (1 connections)
+- [selected](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L37) (1 connections)
+- [selectedPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L31) (1 connections)
+- [{ voices, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -24,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\studio\useStudioState.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\voice-clone\CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

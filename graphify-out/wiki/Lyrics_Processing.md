@@ -1,35 +1,35 @@
 # Lyrics Processing
 
-> 58 nodes · cohesion 0.04
+> 78 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L1) (31 connections)
-- [Sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L1) (27 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L80) (4 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L91) (2 connections)
-- [toggleSidebar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L74) (2 connections)
-- [accountNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L74) (1 connections)
-- [[accountOpen, setAccountOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L95) (1 connections)
-- [active](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L179) (1 connections)
-- [{ activeGenerations, generationCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L97) (1 connections)
-- [adminNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L83) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L119) (1 connections)
-- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L444) (1 connections)
-- [contentNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L52) (1 connections)
-- [contextValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L95) (1 connections)
-- [[generateOpen, setGenerateOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L93) (1 connections)
-- [GenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L41) (1 connections)
-- [handleMouseEnter](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L186) (1 connections)
-- [[internalCollapsed, setInternalCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L101) (1 connections)
-- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L120) (1 connections)
-- [{ isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L98) (1 connections)
-- [isCollapsed](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L109) (1 connections)
-- [isMac](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L183) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L51) (1 connections)
-- [{ isMobile, state }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L445) (1 connections)
-- [{ isMobile, state, openMobile, setOpenMobile }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L139) (1 connections)
-- *... and 33 more nodes in this community*
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L105) (18 connections)
+- [style-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts#L1) (18 connections)
+- [interactions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/interactions.ts#L1) (12 connections)
+- [design-spacing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L1) (10 connections)
+- [CreativeTools.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L1) (10 connections)
+- [overlay-colors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/overlay-colors.ts#L1) (9 connections)
+- [glass.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/glass.ts#L1) (7 connections)
+- [PageContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/PageContainer.tsx#L1) (5 connections)
+- [createGlass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/glass.ts#L192) (3 connections)
+- [handleProgressionExport()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L34) (2 connections)
+- [handleTabExport()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L40) (2 connections)
+- [cardSectionSpacing()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L124) (2 connections)
+- [containerPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L92) (2 connections)
+- [contentSpacing()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L108) (2 connections)
+- [gridGap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L100) (2 connections)
+- [heroSpacing()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L117) (2 connections)
+- [listItemSpacing()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L131) (2 connections)
+- [sectionGap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L84) (2 connections)
+- [getGlass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/glass.ts#L214) (2 connections)
+- [createInteractive()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/interactions.ts#L127) (2 connections)
+- [imageOverlay()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/overlay-colors.ts#L130) (2 connections)
+- [PageContainer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/PageContainer.tsx#L74) (2 connections)
+- [getAnimation()](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts#L78) (2 connections)
+- [getInteractiveClasses()](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts#L312) (2 connections)
+- [getTextStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts#L32) (2 connections)
+- *... and 53 more nodes in this community*
 
 ## Relationships
 
@@ -37,13 +37,18 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\Sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\PageContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/PageContainer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\design-spacing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\glass.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/glass.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\interactions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/interactions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\overlay-colors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/overlay-colors.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\CreativeTools.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\styles\style-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 119 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 142 (80%)
+- INFERRED: 36 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

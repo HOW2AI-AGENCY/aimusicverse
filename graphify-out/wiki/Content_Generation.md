@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L1) (3 connections)
-- [Collapsible](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L3) (1 connections)
-- [CollapsibleContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L7) (1 connections)
-- [CollapsibleTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L5) (1 connections)
+- [useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L1) (3 connections)
+- [OPERATION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L56) (1 connections)
+- [STEM_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L54) (1 connections)
+- [useStudioOperationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts)
 
 ## Audit Trail
 

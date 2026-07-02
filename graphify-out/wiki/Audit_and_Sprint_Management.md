@@ -1,34 +1,35 @@
 # Audit and Sprint Management
 
-> 25 nodes · cohesion 0.08
+> 27 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L1) (24 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L83) (1 connections)
-- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L121) (1 connections)
-- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L30) (1 connections)
-- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L113) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L28) (1 connections)
-- [centerX](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L78) (1 connections)
-- [centerY](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L79) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L29) (1 connections)
-- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L115) (1 connections)
-- [[dimensions, setDimensions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L38) (1 connections)
-- [[dragStart, setDragStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L36) (1 connections)
-- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L41) (1 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L204) (1 connections)
-- [handleMouseDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L193) (1 connections)
-- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L198) (1 connections)
-- [[hoveredNode, setHoveredNode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L37) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L35) (1 connections)
-- [{ nodes, edges }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L118) (1 connections)
-- [[pan, setPan]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L34) (1 connections)
-- [positions](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L119) (1 connections)
-- [positionsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L31) (1 connections)
-- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L84) (1 connections)
-- [updateDimensions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L97) (1 connections)
-- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L33) (1 connections)
+- [memory-usage.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L1) (26 connections)
+- [afterClear](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L172) (1 connections)
+- [baseMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L137) (1 connections)
+- [beforeClear](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L168) (1 connections)
+- [finalMeasurement](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L53) (1 connections)
+- [finalMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L284) (1 connections)
+- [growth](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L312) (1 connections)
+- [hasLeak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L213) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L125) (1 connections)
+- [initialMeasurement](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L38) (1 connections)
+- [initialMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L245) (1 connections)
+- [largeArray](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L307) (1 connections)
+- [measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L134) (1 connections)
+- [memoryGrowth](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L58) (1 connections)
+- [memoryReleased](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L174) (1 connections)
+- [memoryRetained](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L103) (1 connections)
+- [memoryTracker](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L13) (1 connections)
+- [memoryUsed](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L138) (1 connections)
+- [peakMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L136) (1 connections)
+- [phase1Measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L89) (1 connections)
+- [phase1Peak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L101) (1 connections)
+- [phase2Measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L99) (1 connections)
+- [phase2Peak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L102) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L42) (1 connections)
+- [{ result, unmount }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L80) (1 connections)
+- *... and 2 more nodes in this community*
 
 ## Relationships
 
@@ -36,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\performance\memory-usage.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 48 (100%)
+- EXTRACTED: 52 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

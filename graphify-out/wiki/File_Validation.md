@@ -1,19 +1,18 @@
 # File Validation
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [MidiSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L1) (9 connections)
-- [autoMidiEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L59) (1 connections)
-- [autoMidiModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L60) (1 connections)
-- [autoMidiStemsOnly](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L61) (1 connections)
-- [handleChangeModel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L69) (1 connections)
-- [handleToggleAutoMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L65) (1 connections)
-- [handleToggleStemsOnly()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L73) (1 connections)
-- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L11) (1 connections)
-- [selectedModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L63) (1 connections)
-- [{ settings, updateSettings, isUpdating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L57) (1 connections)
+- [useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L1) (3 connections)
+- [getTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L206) (3 connections)
+- [SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L1) (2 connections)
+- [TierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L21) (2 connections)
+- [EditorTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L31) (2 connections)
+- [SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L1) (1 connections)
+- [SubscriptionTierEditor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L45) (1 connections)
+- [formatPeriod()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L223) (1 connections)
+- [useSubscriptionTiers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L82) (1 connections)
 
 ## Relationships
 
@@ -21,12 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\MidiSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (75%)
+- INFERRED: 4 (25%)
 - AMBIGUOUS: 0 (0%)
 
 ---

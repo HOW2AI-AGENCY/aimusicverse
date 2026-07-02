@@ -1,14 +1,13 @@
 # Icon Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [toast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L1) (4 connections)
-- [notify](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L44) (1 connections)
-- [stableId()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L17) (1 connections)
-- [toast](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L30) (1 connections)
-- [wrap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L24) (1 connections)
+- [TimeoutIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx#L1) (3 connections)
+- [canRetry](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx#L33) (1 connections)
+- [[show, setShow]](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx#L22) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\toast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\loading\TimeoutIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

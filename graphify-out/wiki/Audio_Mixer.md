@@ -1,15 +1,15 @@
 # Audio Mixer
 
-> 6 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L1) (5 connections)
-- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L54) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L52) (2 connections)
-- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L31) (1 connections)
-- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L41) (1 connections)
-- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L61) (1 connections)
+- [CustomVoicePicker.pending.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L1) (5 connections)
+- [helper](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L71) (1 connections)
+- [mockedUseCustomVoices](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L27) (1 connections)
+- [pendingVoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L29) (1 connections)
+- [readyVoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L38) (1 connections)
+- [setVoices()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\voice-clone\CustomVoicePicker.pending.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

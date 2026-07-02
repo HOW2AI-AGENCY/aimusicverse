@@ -1,23 +1,22 @@
 # Image Cropping
 
-> 14 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.21
 
 ## Key Concepts
 
-- [ReplacementProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L1) (14 connections)
-- [[activeTasks, setActiveTasks]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L25) (1 connections)
-- [channel](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L49) (1 connections)
-- [completedTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L103) (1 connections)
-- [[elapsedTime, setElapsedTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L26) (1 connections)
-- [estimatedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L111) (1 connections)
-- [failedTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L105) (1 connections)
-- [formatElapsed()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L118) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L91) (1 connections)
-- [latestCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L107) (1 connections)
-- [latestFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L108) (1 connections)
-- [pendingTask](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L83) (1 connections)
-- [pendingTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L98) (1 connections)
-- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L89) (1 connections)
+- [UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L1) (12 connections)
+- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L76) (3 connections)
+- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L82) (3 connections)
+- [markSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L55) (3 connections)
+- [release](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L54) (3 connections)
+- [[claimed, setClaimed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L48) (1 connections)
+- [hasSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L50) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L49) (1 connections)
+- [{ isMobile, className: positionClass }](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L46) (1 connections)
+- [overlayOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L51) (1 connections)
+- [reg](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L47) (1 connections)
+- [request](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L53) (1 connections)
+- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L61) (1 connections)
 
 ## Relationships
 
@@ -25,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\ReplacementProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 27 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

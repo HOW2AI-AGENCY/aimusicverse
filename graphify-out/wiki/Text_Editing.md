@@ -1,18 +1,17 @@
 # Text Editing
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [ChipInput.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L1) (8 connections)
-- [Disabled](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L85) (1 connections)
-- [Empty](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L17) (1 connections)
-- [GENRE_SUGGESTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L15) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L5) (1 connections)
-- [WithLabel](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L57) (1 connections)
-- [WithMaxChips](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L68) (1 connections)
-- [WithSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L39) (1 connections)
-- [WithValues](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L28) (1 connections)
+- [pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L1) (7 connections)
+- [Pagination()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L7) (1 connections)
+- [PaginationContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L17) (1 connections)
+- [PaginationEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L65) (1 connections)
+- [PaginationItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L24) (1 connections)
+- [PaginationLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L34) (1 connections)
+- [PaginationNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L57) (1 connections)
+- [PaginationPrevious()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\ChipInput.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

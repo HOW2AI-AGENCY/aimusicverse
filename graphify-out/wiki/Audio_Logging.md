@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L1) (1 connections)
-- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L19) (1 connections)
+- [DesktopToolsGridLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopToolsGridLayout.tsx#L1) (1 connections)
+- [DesktopToolsGridLayout](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopToolsGridLayout.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopToolsGridLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopToolsGridLayout.tsx)
 
 ## Audit Trail
 

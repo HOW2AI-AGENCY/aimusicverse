@@ -1,17 +1,16 @@
 # User Confirmation
 
-> 8 nodes · cohesion 0.29
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [chord-detection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L1) (7 connections)
-- [computeChromagram()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L67) (2 connections)
-- [cosineSimilarity()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L105) (2 connections)
-- [detectChord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L123) (2 connections)
-- [CHORD_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L9) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L177) (1 connections)
-- [getChordNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L195) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L62) (1 connections)
+- [GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L1) (6 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L35) (1 connections)
+- [hasFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L59) (1 connections)
+- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L28) (1 connections)
+- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L69) (1 connections)
+- [toggleGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L61) (1 connections)
+- [toggleNodeType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L77) (1 connections)
 
 ## Relationships
 
@@ -19,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\chord-detection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (94%)
-- INFERRED: 1 (6%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

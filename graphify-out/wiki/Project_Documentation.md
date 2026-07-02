@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [capture-screenshots.ts](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L1) (4 connections)
-- [BASE_URL](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L17) (1 connections)
-- [MOBILE_VIEWPORT](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L18) (1 connections)
-- [SCREENSHOT_DIR](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L16) (1 connections)
-- [trackCard](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L62) (1 connections)
+- [Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L1) (4 connections)
+- [breadcrumbItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L38) (1 connections)
+- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L80) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L35) (1 connections)
+- [ROUTE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\capture-screenshots.ts](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx)
 
 ## Audit Trail
 

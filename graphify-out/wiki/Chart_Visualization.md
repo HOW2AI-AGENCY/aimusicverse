@@ -1,27 +1,22 @@
 # Chart Visualization
 
-> 14 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [UnifiedWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L1) (13 connections)
-- [{ beatGrid }](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L144) (1 connections)
-- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L157) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L121) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L117) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L116) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L148) (1 connections)
-- [handleSeek()](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L167) (1 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L118) (1 connections)
-- [MODE_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L67) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L151) (1 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L76) (1 connections)
-- [waveformData](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L147) (1 connections)
-- [{
-    waveformData: loadedData,
-    duration: loadedDuration,
-    isLoading,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L133) (1 connections)
+- [PackageComparisonTable.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L1) (12 connections)
+- [baseCredits](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L61) (1 connections)
+- [basePricePerCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L62) (1 connections)
+- [bestValueId](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L47) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L136) (1 connections)
+- [currentPricePerCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L64) (1 connections)
+- [getBestValueId()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L27) (1 connections)
+- [isBestValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L53) (1 connections)
+- [isFeatured](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L54) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L52) (1 connections)
+- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L57) (1 connections)
+- [savingsPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L68) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -29,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\UnifiedWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PackageComparisonTable.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

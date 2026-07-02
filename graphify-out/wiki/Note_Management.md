@@ -1,69 +1,30 @@
 # Note Management
 
-> 21 nodes · cohesion 0.11
+> 21 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L1) (11 connections)
-- [logError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L140) (5 connections)
-- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L8) (3 connections)
-- [isAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L99) (3 connections)
-- [.toJSON()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L25) (2 connections)
-- [AuthError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L53) (2 connections)
-- [getUserErrorMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L106) (2 connections)
-- [NetworkError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L44) (2 connections)
-- [NotFoundError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L60) (2 connections)
-- [PermissionError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L67) (2 connections)
-- [RateLimitError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L74) (2 connections)
-- [ServiceUnavailableError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L83) (2 connections)
-- [ValidationError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L37) (2 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L9) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L54) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L45) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L61) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L68) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L75) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L84) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L38) (1 connections)
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class AppError {
-        +errors.ts()
-        +.constructor()
-        +.toJSON()
-    }
-    class AuthError {
-        +errors.ts()
-        +.constructor()
-    }
-    class NetworkError {
-        +errors.ts()
-        +.constructor()
-    }
-    class NotFoundError {
-        +errors.ts()
-        +.constructor()
-    }
-    class PermissionError {
-        +errors.ts()
-        +.constructor()
-    }
-    class RateLimitError {
-        +errors.ts()
-        +.constructor()
-    }
-    class ServiceUnavailableError {
-        +errors.ts()
-        +.constructor()
-    }
-    class ValidationError {
-        +errors.ts()
-        +.constructor()
-    }
-```
+- [HardwareKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L1) (20 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L232) (1 connections)
+- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L37) (1 connections)
+- [displayValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L145) (1 connections)
+- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L76) (1 connections)
+- [handleTouchEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L130) (1 connections)
+- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L116) (1 connections)
+- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L106) (1 connections)
+- [handleWheel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L134) (1 connections)
+- [indicatorColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L70) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L65) (1 connections)
+- [knobRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L64) (1 connections)
+- [normalizedValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L73) (1 connections)
+- [{ outer, inner, indicator, fontSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L69) (1 connections)
+- [rotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L74) (1 connections)
+- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L29) (1 connections)
+- [startValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L67) (1 connections)
+- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L66) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L193) (1 connections)
+- [ticks](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L154) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx#L162) (1 connections)
 
 ## Relationships
 
@@ -71,12 +32,12 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\HardwareKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareKnob.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (96%)
-- INFERRED: 2 (4%)
+- EXTRACTED: 40 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

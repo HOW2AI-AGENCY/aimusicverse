@@ -1,12 +1,11 @@
 # Audio Playback
 
-> 3 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [telegram.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L1) (2 connections)
-- [getTelegramHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L259) (2 connections)
-- [getTelegramWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L251) (2 connections)
+- [TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L1) (1 connections)
+- [TrackDetailDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L11) (1 connections)
 
 ## Relationships
 
@@ -14,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\telegram.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

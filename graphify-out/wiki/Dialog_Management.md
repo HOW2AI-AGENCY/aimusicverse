@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L1) (2 connections)
-- [useOptimistic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L58) (1 connections)
-- [useOptimisticList()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L143) (1 connections)
+- [useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L1) (2 connections)
+- [MAX_TASKS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L17) (1 connections)
+- [useReplacementTasks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts)
 
 ## Audit Trail
 

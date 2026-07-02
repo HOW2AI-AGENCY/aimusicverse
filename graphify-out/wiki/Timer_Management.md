@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L1) (4 connections)
-- [breadcrumbItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L38) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L80) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L35) (1 connections)
-- [ROUTE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L17) (1 connections)
+- [sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L1) (4 connections)
+- [getAvailableGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L420) (2 connections)
+- [getTemplateById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L413) (1 connections)
+- [getTemplatesByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L406) (1 connections)
+- [SUNO_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (89%)
+- INFERRED: 1 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

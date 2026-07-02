@@ -1,16 +1,15 @@
 # Data Analysis Integration
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [drawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L1) (6 connections)
-- [Drawer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L8) (1 connections)
-- [DrawerClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L17) (1 connections)
-- [DrawerOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L19) (1 connections)
-- [DrawerPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L15) (1 connections)
-- [DrawerTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L13) (1 connections)
-- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L41) (1 connections)
+- [ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L1) (5 connections)
+- [ComingSoonModal()](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L22) (1 connections)
+- [[currentFeature, setCurrentFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L167) (1 connections)
+- [hideComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L192) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L166) (1 connections)
+- [showComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L174) (1 connections)
 
 ## Relationships
 
@@ -18,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\drawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\beta\ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

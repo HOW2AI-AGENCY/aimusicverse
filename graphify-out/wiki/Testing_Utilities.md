@@ -1,16 +1,15 @@
 # Testing Utilities
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L1) (6 connections)
-- [buttonSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L23) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L74) (1 connections)
-- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L51) (1 connections)
-- [isGridSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L54) (1 connections)
-- [showOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L53) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L16) (1 connections)
+- [RealTimeMetrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L1) (5 connections)
+- [formatTimeSince()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L72) (2 connections)
+- [{ data, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L28) (1 connections)
+- [[pulse, setPulse]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L26) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L61) (1 connections)
+- [unsubscribe](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -18,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RealTimeMetrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

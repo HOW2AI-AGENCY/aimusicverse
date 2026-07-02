@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L1) (1 connections)
-- [MobileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L35) (1 connections)
+- [DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L1) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx)
 
 ## Audit Trail
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L1) (2 connections)
-- [ActionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L68) (1 connections)
-- [StudioActionsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L114) (1 connections)
+- [useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L6) (1 connections)
+- [useMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx)
 
 ## Audit Trail
 

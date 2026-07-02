@@ -1,17 +1,17 @@
 # Dropdown Menu
 
-> 8 nodes · cohesion 0.25
+> 8 nodes · cohesion 0.32
 
 ## Key Concepts
 
-- [HelpCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L1) (7 connections)
-- [[expandedFaq, setExpandedFaq]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L138) (1 connections)
-- [faqItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L45) (1 connections)
-- [filteredFaq](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L140) (1 connections)
-- [helpTopics](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L88) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L298) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L136) (1 connections)
-- [[selectedTopic, setSelectedTopic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L137) (1 connections)
+- [ErrorPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L1) (7 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L17) (3 connections)
+- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L49) (2 connections)
+- [handleGoHome()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L44) (2 connections)
+- [errorDetails](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L21) (1 connections)
+- [errorMessage](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L20) (1 connections)
+- [handleRefresh()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L39) (1 connections)
+- [{ hapticFeedback, showBackButton, hideBackButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\help\HelpCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\ErrorPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

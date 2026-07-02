@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [formatPlayCount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx#L24) (1 connections)
-- [CommunityTrending.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx#L1) (1 connections)
+- [DurationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx#L1) (1 connections)
+- [DurationBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\CommunityTrending.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\shared\DurationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx)
 
 ## Audit Trail
 

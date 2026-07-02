@@ -1,16 +1,15 @@
 # User Interface Modes
 
-> 7 nodes · cohesion 0.43
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [usePublicTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L1) (6 connections)
-- [usePublicTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L31) (4 connections)
-- [useNewTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L165) (2 connections)
-- [usePopularTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L172) (2 connections)
-- [useTrendingTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L179) (2 connections)
-- [useIncrementPlayCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L150) (1 connections)
-- [useToggleTrackLike()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L118) (1 connections)
+- [ProjectDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L1) (5 connections)
+- [handleOpenProject()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L47) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L42) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L77) (1 connections)
+- [statusInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L44) (1 connections)
+- [typeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -18,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\ProjectDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

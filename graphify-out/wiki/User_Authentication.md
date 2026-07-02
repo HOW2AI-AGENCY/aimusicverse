@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Header.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.tsx#L1) (0 connections)
+- [LyricsTagsPanels.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsTagsPanels.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\Header.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\LyricsTagsPanels.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsTagsPanels.tsx)
 
 ## Audit Trail
 

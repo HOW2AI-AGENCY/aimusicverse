@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [SectionPromptInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L1) (3 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L51) (1 connections)
-- [lyricsChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L37) (1 connections)
-- [[showLyrics, setShowLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L36) (1 connections)
+- [useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L1) (3 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L22) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L30) (1 connections)
+- [useMidiSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionPromptInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts)
 
 ## Audit Trail
 

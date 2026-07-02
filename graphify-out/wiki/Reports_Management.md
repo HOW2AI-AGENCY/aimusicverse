@@ -4,52 +4,23 @@
 
 ## Key Concepts
 
-- [DrumMachineClean.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L1) (16 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L199) (1 connections)
-- [displaySteps](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L104) (1 connections)
-- [handleInit](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L55) (1 connections)
-- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L63) (1 connections)
-- [handleRecord](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L69) (1 connections)
-- [handleSendToDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L80) (1 connections)
-- [handleUseAsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L93) (1 connections)
-- [hasSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L103) (1 connections)
-- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L282) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L308) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L21) (1 connections)
-- [isMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L280) (1 connections)
-- [{
-    isReady,
-    isPlaying,
-    currentStep,
-    bpm,
-    volume,
-    currentKit,
-    pattern,
-    soloTracks,
-    mutedTracks,
-    stepLength,
-    recordingState,
-    recordedAudioBlob,
-    initialize,
-    play,
-    stop,
-    toggleStep,
-    triggerSound,
-    setBpm,
-    setVolume,
-    setKit,
-    loadPattern,
-    clearPattern,
-    toggleMute,
-    getAvailableKits,
-    getPresetPatterns,
-    startRecording,
-    stopRecording,
-    exportToMidi,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L23) (1 connections)
-- [isSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L281) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L20) (1 connections)
-- [steps](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx#L279) (1 connections)
+- [Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L1) (16 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L45) (1 connections)
+- [initialTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L44) (1 connections)
+- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L35) (1 connections)
+- [{ isGuestMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L36) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L37) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L38) (1 connections)
+- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L40) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L39) (1 connections)
+- [selectedProject](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L50) (1 connections)
+- [[selectedProjectId, setSelectedProjectId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L48) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L61) (1 connections)
+- [statusLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L19) (1 connections)
+- [tab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L54) (1 connections)
+- [typeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L27) (1 connections)
+- [urlTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L43) (1 connections)
+- [VALID_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -57,7 +28,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\DrumMachineClean.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachineClean.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx)
 
 ## Audit Trail
 

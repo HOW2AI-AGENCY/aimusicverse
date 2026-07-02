@@ -1,20 +1,19 @@
 # Theme Management
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L1) (10 connections)
-- [activeButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L43) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L146) (1 connections)
-- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L37) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L107) (1 connections)
-- [PRIMARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L32) (1 connections)
-- [primaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L48) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L38) (1 connections)
-- [SECONDARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L34) (1 connections)
-- [secondaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L49) (1 connections)
-- [toolsToShow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L50) (1 connections)
+- [PaymentCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L193) (1 connections)
+- [COHORT_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L18) (1 connections)
+- [{ data: cohorts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L40) (1 connections)
+- [formatCurrency()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L65) (1 connections)
+- [formatMonth()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L59) (1 connections)
+- [getConversionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L23) (1 connections)
+- [getRetentionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L31) (1 connections)
+- [[selectedPeriod, setSelectedPeriod]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L39) (1 connections)
+- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -22,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\PaymentCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

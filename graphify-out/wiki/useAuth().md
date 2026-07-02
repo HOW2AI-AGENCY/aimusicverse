@@ -1,6 +1,6 @@
 # useAuth()
 
-> God node · 118 connections · [D:\.MUSICVERSE\aimusicverse\src\contexts\AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L285)
+> God node · 125 connections · [D:\.MUSICVERSE\aimusicverse\src\contexts\AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L285)
 
 ## Call Trace Diagram
 
@@ -119,20 +119,27 @@ sequenceDiagram
     participant P110 as useTotalGenerationCount()
     participant P111 as useUserStats()
     participant P112 as useFeatureUsageTracking()
-    participant P113 as useComments()
-    participant P114 as useAddComment()
-    participant P115 as useDeleteComment()
-    participant P116 as useGenerationResult()
-    participant P117 as useLyricsStudio()
-    participant P118 as useBlockedUsers()
-    participant P119 as useIsBlocked()
-    participant P120 as useBlockUser()
-    participant P121 as useUnblockUser()
-    participant P122 as useBlockUser()
-    participant P123 as useBlockedUsers()
-    participant P124 as useCustomVoices()
-    participant P125 as useUserVocalStems()
-    participant P126 as useVoiceCloneWizard()
+    participant P113 as useCloudAudioList()
+    participant P114 as useComments()
+    participant P115 as useAddComment()
+    participant P116 as useDeleteComment()
+    participant P117 as useDailyActivity()
+    participant P118 as useClaimMissionReward()
+    participant P119 as useQuickStats()
+    participant P120 as useSpecialChallenges()
+    participant P121 as useStreakCalendar()
+    participant P122 as useWeeklyChallenges()
+    participant P123 as useGenerationResult()
+    participant P124 as useLyricsStudio()
+    participant P125 as useBlockedUsers()
+    participant P126 as useIsBlocked()
+    participant P127 as useBlockUser()
+    participant P128 as useUnblockUser()
+    participant P129 as useBlockUser()
+    participant P130 as useBlockedUsers()
+    participant P131 as useCustomVoices()
+    participant P132 as useUserVocalStems()
+    participant P133 as useVoiceCloneWizard()
     P0->>+ P1: calls
     P1-->>- P0: return
     P1->>+ P0: calls
@@ -403,6 +410,20 @@ sequenceDiagram
     P125-->>- P0: return
     P0->>+ P126: calls
     P126-->>- P0: return
+    P0->>+ P127: calls
+    P127-->>- P0: return
+    P0->>+ P128: calls
+    P128-->>- P0: return
+    P0->>+ P129: calls
+    P129-->>- P0: return
+    P0->>+ P130: calls
+    P130-->>- P0: return
+    P0->>+ P131: calls
+    P131-->>- P0: return
+    P0->>+ P132: calls
+    P132-->>- P0: return
+    P0->>+ P133: calls
+    P133-->>- P0: return
 ```
 
 ## Connections by Relation

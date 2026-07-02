@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [AlertHistoryPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L1) (11 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L114) (1 connections)
-- [{ data: alerts, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L30) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L31) (1 connections)
-- [isResolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L117) (1 connections)
-- [[resolutionNote, setResolutionNote]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L35) (1 connections)
-- [resolveAlert](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L32) (1 connections)
-- [[resolveDialogOpen, setResolveDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L33) (1 connections)
-- [[selectedAlertId, setSelectedAlertId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L34) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L23) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L116) (1 connections)
+- [LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L1) (11 connections)
+- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L27) (1 connections)
+- [currentWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L51) (1 connections)
+- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L36) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L143) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L144) (1 connections)
+- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L163) (1 connections)
+- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L34) (1 connections)
+- [lyricsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L28) (1 connections)
+- [lyricsText](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L37) (1 connections)
+- [wordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AlertHistoryPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx)
 
 ## Audit Trail
 

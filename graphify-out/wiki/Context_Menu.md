@@ -1,16 +1,16 @@
 # Context Menu
 
-> 7 nodes · cohesion 0.29
+> 7 nodes · cohesion 0.52
 
 ## Key Concepts
 
-- [MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L1) (6 connections)
-- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L24) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L18) (1 connections)
-- [observer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L37) (1 connections)
-- [[overflow, setOverflow]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L21) (1 connections)
-- [[shouldAnimate, setShouldAnimate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L20) (1 connections)
-- [textRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L19) (1 connections)
+- [usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L1) (6 connections)
+- [usePlaybackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L21) (6 connections)
+- [useLoopControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L53) (2 connections)
+- [usePlaybackControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L38) (2 connections)
+- [usePlaybackLoadingState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L73) (2 connections)
+- [usePlaybackProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L66) (2 connections)
+- [usePlaybackStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L27) (2 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

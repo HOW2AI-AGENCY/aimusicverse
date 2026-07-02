@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AdminTariffs()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx#L7) (1 connections)
-- [AdminTariffs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx#L1) (1 connections)
+- [useHeaderVersionSelector.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useHeaderVersionSelector.ts#L1) (1 connections)
+- [useHeaderVersionSelector()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useHeaderVersionSelector.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTariffs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\track-detail\useHeaderVersionSelector.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useHeaderVersionSelector.ts)
 
 ## Audit Trail
 

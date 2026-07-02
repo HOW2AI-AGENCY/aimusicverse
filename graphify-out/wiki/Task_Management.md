@@ -1,13 +1,12 @@
 # Task Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useReplicateMidiTranscription.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateMidiTranscription.ts#L1) (3 connections)
-- [KLANGIO_MAX_DURATION_SECONDS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateMidiTranscription.ts#L10) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateMidiTranscription.ts#L6) (1 connections)
-- [useReplicateMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateMidiTranscription.ts#L57) (1 connections)
+- [fix-library-test.js](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L1) (2 connections)
+- [content](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L2) (1 connections)
+- [fs](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js#L1) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReplicateMidiTranscription.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplicateMidiTranscription.ts)
+- [D:\.MUSICVERSE\aimusicverse\fix-library-test.js](file:///D:/.MUSICVERSE/aimusicverse/fix-library-test.js)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

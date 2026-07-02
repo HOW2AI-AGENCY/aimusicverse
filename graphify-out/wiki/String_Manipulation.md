@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L1) (2 connections)
-- [useSimpleVirtualization()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L143) (1 connections)
-- [useVirtualizedTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L36) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L1) (2 connections)
+- [ACTIVE_REFERENCE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L75) (1 connections)
+- [REFERENCE_EXPIRY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L78) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts)
 
 ## Audit Trail
 

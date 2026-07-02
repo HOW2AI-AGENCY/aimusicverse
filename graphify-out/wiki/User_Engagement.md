@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L36) (1 connections)
+- [ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L1) (1 connections)
+- [ProjectSettingsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx)
 
 ## Audit Trail
 

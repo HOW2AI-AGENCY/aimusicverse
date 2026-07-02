@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L1) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L16) (1 connections)
+- [useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L1) (1 connections)
+- [useStudioDialogState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts)
 
 ## Audit Trail
 

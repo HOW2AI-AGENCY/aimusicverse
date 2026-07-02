@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L1) (4 connections)
-- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L53) (1 connections)
-- [examples](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L73) (1 connections)
-- [extractArtistFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L32) (1 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L56) (1 connections)
+- [TrackInfo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L1) (4 connections)
+- [hasCreator](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L35) (1 connections)
+- [publicTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L34) (1 connections)
+- [styleClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L43) (1 connections)
+- [titleClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generation\ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackInfo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx)
 
 ## Audit Trail
 

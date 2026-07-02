@@ -1,16 +1,15 @@
 # User Statistics
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L1) (6 connections)
-- [displayCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L40) (1 connections)
-- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L42) (1 connections)
-- [showBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L39) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L49) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L130) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L55) (1 connections)
+- [BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L1) (5 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L38) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L35) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L147) (1 connections)
+- [getReadingTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L22) (1 connections)
+- [readingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -18,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx)
 
 ## Audit Trail
 

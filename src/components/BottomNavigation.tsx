@@ -59,10 +59,28 @@ export const BottomNavigation = memo(function BottomNavigation() {
     [hapticFeedback, navigate, user?.id],
   );
 
+  const [showCreateHint, setShowCreateHint] = useState(false);
+
+  useEffect(() => {
+    const hasSeenHint = localStorage.getItem("musicverse_seen_create_hint");
+    if (!hasSeenHint) {
+      const timer = setTimeout(() => {
+        setShowCreateHint(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const dismissHint = useCallback(() => {
+    localStorage.setItem("musicverse_seen_create_hint", "true");
+    setShowCreateHint(false);
+  }, []);
+
   const handleGenerateClick = useCallback(() => {
     hapticFeedback("medium");
     setGenerateOpen(true);
-  }, [hapticFeedback]);
+    dismissHint();
+  }, [hapticFeedback, dismissHint]);
 
   const handlePreload = useCallback((path: string) => {
     if (path.startsWith("__")) return;
@@ -88,6 +106,19 @@ export const BottomNavigation = memo(function BottomNavigation() {
             if (item.isCenter) {
               return (
                 <div key={item.path} className="relative flex-1 flex items-center justify-center overflow-visible">
+                  {showCreateHint && (
+                    <div className="absolute bottom-16 bg-popover/95 border border-primary/20 backdrop-blur px-3 py-1.5 rounded-lg shadow-lg text-[11px] font-medium text-foreground whitespace-nowrap z-50 animate-bounce flex items-center gap-1.5">
+                      <span>Создайте первый трек здесь! ✨</span>
+                      <button
+                        onClick={dismissHint}
+                        className="ml-1 p-0.5 hover:bg-muted rounded text-muted-foreground hover:text-foreground font-bold"
+                        aria-label="Закрыть"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  )}
+
                   <button
                     onClick={handleGenerateClick}
                     className={cn(

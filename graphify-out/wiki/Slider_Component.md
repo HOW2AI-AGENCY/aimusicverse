@@ -1,21 +1,20 @@
 # Slider Component
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L1) (11 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L81) (1 connections)
-- [{ data: leaderboard, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L22) (1 connections)
-- [{ data: userCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L23) (1 connections)
-- [isCurrentUser](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L61) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L21) (1 connections)
-- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L60) (1 connections)
-- [RANK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L13) (1 connections)
-- [topThree](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L43) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L20) (1 connections)
-- [userPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L26) (1 connections)
-- [xpToNextRank](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L33) (1 connections)
+- [MobileTelegramBotSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L1) (10 connections)
+- [commands](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L88) (1 connections)
+- [{ data: config, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L26) (1 connections)
+- [[localCommands, setLocalCommands]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L29) (1 connections)
+- [[localMessages, setLocalMessages]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L30) (1 connections)
+- [[localNotifications, setLocalNotifications]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L35) (1 connections)
+- [saveCommands()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L66) (1 connections)
+- [saveMessages()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L72) (1 connections)
+- [saveNotifications()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L76) (1 connections)
+- [toggleCommand()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L60) (1 connections)
+- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -23,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\MobileTelegramBotSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

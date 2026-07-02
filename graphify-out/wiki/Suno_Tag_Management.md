@@ -1,15 +1,14 @@
 # Suno Tag Management
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L1) (5 connections)
-- [DEFAULT_TITLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L80) (1 connections)
-- [INVALIDATE_QUERY_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L91) (1 connections)
-- [OPERATION_ENDPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L69) (1 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L12) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L55) (1 connections)
+- [NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L1) (4 connections)
+- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L44) (1 connections)
+- [{ hasGeneratedTrack, hasPlayedTrack, hasVisitedLibrary, completedOnboarding }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L24) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L45) (1 connections)
+- [steps](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -17,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

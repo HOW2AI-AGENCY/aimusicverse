@@ -1,25 +1,25 @@
 # Digital Audio Workstation
 
-> 16 nodes · cohesion 0.12
+> 16 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [TagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L1) (15 connections)
-- [aiSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L116) (1 connections)
-- [availableTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L298) (1 connections)
-- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L36) (1 connections)
-- [[expandedCategory, setExpandedCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L66) (1 connections)
-- [filteredCategories](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L100) (1 connections)
-- [getCategoryIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L121) (1 connections)
-- [handleAddTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L69) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L89) (1 connections)
-- [handleRemoveTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L81) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L296) (1 connections)
-- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L297) (1 connections)
-- [[newTag, setNewTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L64) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L67) (1 connections)
-- [[showPicker, setShowPicker]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L65) (1 connections)
-- [tagInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L130) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L1) (15 connections)
+- [isPlayable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L61) (3 connections)
+- [hasAudioUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L28) (2 connections)
+- [isPublicPlayable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L71) (2 connections)
+- [hasCoverUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L38) (1 connections)
+- [hasCreatorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L48) (1 connections)
+- [hasProperty()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L185) (1 connections)
+- [isISODateString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L224) (1 connections)
+- [isNonEmptyArray()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L140) (1 connections)
+- [isNonEmptyString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L111) (1 connections)
+- [isNonNegativeNumber()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L160) (1 connections)
+- [isNotNull()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L94) (1 connections)
+- [isPlainObject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L195) (1 connections)
+- [isPositiveNumber()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L150) (1 connections)
+- [isValidDate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L214) (1 connections)
+- [isValidUUID()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L121) (1 connections)
 
 ## Relationships
 
@@ -27,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\TagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\guards\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 34 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L1) (3 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L89) (1 connections)
-- [CONTINUE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L14) (1 connections)
-- [ContinueToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L21) (1 connections)
+- [LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L1) (3 connections)
+- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L36) (1 connections)
+- [containerSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L28) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx)
 
 ## Audit Trail
 

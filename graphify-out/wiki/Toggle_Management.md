@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L1) (1 connections)
-- [TracksTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L41) (1 connections)
+- [VirtualizedLyricsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx#L1) (1 connections)
+- [handleCopy](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedLyricsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx)
 
 ## Audit Trail
 

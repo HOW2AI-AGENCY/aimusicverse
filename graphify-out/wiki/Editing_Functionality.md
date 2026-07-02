@@ -1,18 +1,17 @@
 # Editing Functionality
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [CreativePresetsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L1) (8 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L39) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L116) (1 connections)
-- [handleTabChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L42) (1 connections)
-- [handleTrackPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L52) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L40) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L106) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L107) (1 connections)
-- [TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L28) (1 connections)
+- [ResizablePlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx#L1) (8 connections)
+- [{ activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume, isPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx#L15) (1 connections)
+- [CompactPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx#L9) (1 connections)
+- [FullscreenPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx#L10) (1 connections)
+- [handleMaximize](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx#L73) (1 connections)
+- [handleMinimize](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx#L78) (1 connections)
+- [preserveCurrentTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx#L18) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\CreativePresetsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ResizablePlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ResizablePlayer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

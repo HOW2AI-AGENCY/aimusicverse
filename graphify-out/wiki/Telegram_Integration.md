@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ActiveTabIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx#L8) (1 connections)
-- [ActiveTabIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx#L1) (1 connections)
+- [SwipeChevronIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/SwipeChevronIndicator.tsx#L1) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/SwipeChevronIndicator.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\ActiveTabIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\SwipeChevronIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/SwipeChevronIndicator.tsx)
 
 ## Audit Trail
 

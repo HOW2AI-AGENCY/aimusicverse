@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L1) (1 connections)
-- [NodeDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L17) (1 connections)
+- [FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L1) (1 connections)
+- [backgroundUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L9) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx)
 
 ## Audit Trail
 

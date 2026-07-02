@@ -1,14 +1,13 @@
 # Change Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useUnifiedStudio.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L1) (4 connections)
-- [mockPlayerStore](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L11) (1 connections)
-- [mockStudioStore](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L20) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L61) (1 connections)
-- [tracks](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L402) (1 connections)
+- [NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L1) (3 connections)
+- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L28) (1 connections)
+- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L16) (1 connections)
+- [NotificationCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useUnifiedStudio.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

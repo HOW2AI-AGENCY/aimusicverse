@@ -39,7 +39,9 @@
       "Bash(split -l 25 graphify-out/.graphify_uncached.txt graphify-out/.chunk_)",
       "Bash(mkdir -p \"/d/.MUSICVERSE/aimusicverse/graphify-out\")",
       "Bash(graphify export *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",

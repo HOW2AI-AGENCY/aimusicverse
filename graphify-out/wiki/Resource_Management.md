@@ -1,18 +1,17 @@
 # Resource Management
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [TrackAnalysisTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L1) (8 connections)
-- [handleAnalyze()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L28) (2 connections)
-- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L25) (1 connections)
-- [{ data: analysis, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L22) (1 connections)
-- [handleAdvancedAnalyze()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L41) (1 connections)
-- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L26) (1 connections)
-- [{ mutate: analyzeAudio, isPending }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L23) (1 connections)
-- [{ mutate: replicateAnalyze, isPending: isReplicatePending }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L24) (1 connections)
-- [[showDetails, setShowDetails]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx#L54) (1 connections)
+- [LyricsRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L47) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L67) (1 connections)
+- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L72) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L68) (1 connections)
+- [isUpcoming](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L69) (1 connections)
+- [renderWord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L36) (1 connections)
+- [WORD_TIMING_TOLERANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -20,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackAnalysisTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackAnalysisTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (94%)
-- INFERRED: 1 (6%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

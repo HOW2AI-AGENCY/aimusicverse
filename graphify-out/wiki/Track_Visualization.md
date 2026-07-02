@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L1) (2 connections)
-- [Label](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L9) (1 connections)
-- [labelVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L7) (1 connections)
+- [useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L1) (2 connections)
+- [mapStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L49) (1 connections)
+- [useSystemHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx)
 
 ## Audit Trail
 

@@ -1,23 +1,34 @@
 # Audio Application Architecture
 
-> 14 nodes · cohesion 0.25
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [ReferenceActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L1) (13 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L48) (6 connections)
-- [prepareAnalysisData()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L57) (6 connections)
-- [handleNewArrangement()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L93) (5 connections)
-- [handleNewVocal()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L110) (5 connections)
-- [handleCover()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L79) (4 connections)
-- [handleExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L86) (4 connections)
-- [handleOpenPromptDJ()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L126) (4 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L133) (1 connections)
-- [hasInstrumentalStem](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L53) (1 connections)
-- [hasStemsReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L54) (1 connections)
-- [hasVocalStem](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L52) (1 connections)
-- [[midiSheetOpen, setMidiSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L50) (1 connections)
-- [{ saveAnalysisData, buildTitleFromFileName }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L49) (1 connections)
+- [Index.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L1) (15 connections)
+- [activeTrack](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L54) (1 connections)
+- [AudioActionDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L43) (1 connections)
+- [[audioDialogOpen, setAudioDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L58) (1 connections)
+- [displayUser](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L85) (1 connections)
+- [GenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L39) (1 connections)
+- [[generateSheetOpen, setGenerateSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L56) (1 connections)
+- [{ goToProfile, handleCreate, handleTrackClick, handleQuickGenrePreset }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L75) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L53) (1 connections)
+- [{ isNewUser }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L60) (1 connections)
+- [MusicRecognitionDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L40) (1 connections)
+- [{
+    recentTracks,
+    popularTracks,
+    isLoading,
+    hasMoreRecent,
+    isLoadingMoreRecent,
+    fetchMoreRecent,
+    hasMorePopular,
+    isLoadingMorePopular,
+    fetchMorePopular,
+    refresh,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L62) (1 connections)
+- [[recognitionDialogOpen, setRecognitionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L57) (1 connections)
+- [{ user: telegramUser }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -25,12 +36,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Index.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (87%)
-- INFERRED: 7 (13%)
+- EXTRACTED: 28 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

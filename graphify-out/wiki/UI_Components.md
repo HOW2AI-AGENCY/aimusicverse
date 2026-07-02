@@ -1,12 +1,11 @@
 # UI Components
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L1) (2 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L134) (1 connections)
-- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L135) (1 connections)
+- [ActorCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L14) (1 connections)
+- [ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -14,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\actors\ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [vitest.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L1) (2 connections)
-- [__dirname](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L6) (1 connections)
-- [__filename](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L5) (1 connections)
+- [PlaylistCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L1) (2 connections)
+- [lastOne](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L148) (1 connections)
+- [lastTwo](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L147) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\vitest.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\PlaylistCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx)
 
 ## Audit Trail
 

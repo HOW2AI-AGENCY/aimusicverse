@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L1) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L46) (1 connections)
+- [StudioShellTransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx#L1) (1 connections)
+- [StudioShellTransportBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellTransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx)
 
 ## Audit Trail
 

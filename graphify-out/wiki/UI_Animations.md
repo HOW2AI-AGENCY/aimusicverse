@@ -1,27 +1,49 @@
 # UI Animations
 
-> 18 nodes · cohesion 0.12
+> 18 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L1) (18 connections)
-- [handleOpenTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L142) (2 connections)
-- [handlePlayTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L131) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L32) (2 connections)
-- [playTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L33) (2 connections)
-- [[audioWeight, setAudioWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L50) (1 connections)
-- [[continueAt, setContinueAt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L39) (1 connections)
-- [extendProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L34) (1 connections)
-- [loading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L59) (1 connections)
-- [[model, setModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L45) (1 connections)
-- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L46) (1 connections)
-- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L40) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L41) (1 connections)
-- [[styleWeight, setStyleWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L48) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L42) (1 connections)
-- [[useCustomParams, setUseCustomParams]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L36) (1 connections)
-- [[vocalGender, setVocalGender]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L47) (1 connections)
-- [[weirdnessConstraint, setWeirdnessConstraint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L49) (1 connections)
+- [SectionEditorSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L1) (17 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L415) (1 connections)
+- [{ data: lyricsData }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L90) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L178) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L92) (1 connections)
+- [handleProgressDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L127) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L228) (1 connections)
+- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L72) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L70) (1 connections)
+- [[isPreviewPlaying, setIsPreviewPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L73) (1 connections)
+- [{
+    play: playPreview,
+    pause: pausePreview,
+    seek: seekPreview,
+    isPlaying: hookIsPlaying,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L78) (1 connections)
+- [[previewCurrentTime, setPreviewCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L74) (1 connections)
+- [sectionStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L231) (1 connections)
+- [{ selectedSection, customRange, clearSelection, setCustomRange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L71) (1 connections)
+- [{
+    startTime,
+    endTime,
+    sectionDuration,
+    maxDuration,
+    isValidDuration,
+    isSubmitting,
+    prompt,
+    setPrompt,
+    tags,
+    setTags,
+    lyrics,
+    setLyrics,
+    addPreset,
+    executeReplacement,
+    reset,
+    progress: sectionProgress,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L99) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L295) (1 connections)
+- [togglePreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L149) (1 connections)
+- [wordMid](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L315) (1 connections)
 
 ## Relationships
 
@@ -29,11 +51,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\SectionEditorSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 39 (100%)
+- EXTRACTED: 34 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

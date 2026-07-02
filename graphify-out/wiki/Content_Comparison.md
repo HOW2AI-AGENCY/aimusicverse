@@ -4,19 +4,14 @@
 
 ## Key Concepts
 
-- [SystemStatusCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L1) (9 connections)
-- [checkConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L218) (1 connections)
-- [CheckIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L219) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L115) (1 connections)
-- [{
-    data: healthStatus,
-    isLoading,
-    refetch,
-    dataUpdatedAt,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L60) (1 connections)
-- [[isSendingTest, setIsSendingTest]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L58) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L33) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L117) (1 connections)
+- [stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L1) (7 connections)
+- [compressorPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L54) (1 connections)
+- [defaultCompressorSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L23) (1 connections)
+- [defaultEQSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L15) (1 connections)
+- [defaultReverbSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L32) (1 connections)
+- [defaultStemEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L38) (1 connections)
+- [eqPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L45) (1 connections)
+- [reverbPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L63) (1 connections)
 
 ## Relationships
 
@@ -24,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\SystemStatusCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

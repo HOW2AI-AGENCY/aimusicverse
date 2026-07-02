@@ -1,14 +1,13 @@
 # Character Limit
 
-> 5 nodes · cohesion 0.60
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [perfMarks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L1) (4 connections)
-- [perfMeasure()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L23) (4 connections)
-- [perfEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L36) (3 connections)
-- [perfMark()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L14) (2 connections)
-- [ENABLED](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts#L12) (1 connections)
+- [UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L1) (3 connections)
+- [is4K](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L55) (1 connections)
+- [isUltraWide](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L54) (1 connections)
+- [maxWidthClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -16,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\perfMarks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/perfMarks.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (86%)
-- INFERRED: 2 (14%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

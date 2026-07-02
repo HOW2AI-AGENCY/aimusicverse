@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [NoteTypeBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteTypeBadge.tsx#L1) (1 connections)
-- [NoteTypeBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteTypeBadge.tsx#L11) (1 connections)
+- [PlayingIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx#L1) (1 connections)
+- [PlayingIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\SectionNotesPanel\NoteTypeBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteTypeBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\PlayingIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx)
 
 ## Audit Trail
 

@@ -1,20 +1,16 @@
 # Form Styling
 
-> 7 nodes · cohesion 0.29
+> 7 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L1) (6 connections)
-- [{ data: dailyStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L141) (1 connections)
-- [{
-    data: stats,
-    isLoading: statsLoading,
-    refetch,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L85) (1 connections)
-- [{ data: topUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L196) (1 connections)
-- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L82) (1 connections)
-- [successRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L249) (1 connections)
-- [TIME_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L74) (1 connections)
+- [TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L1) (6 connections)
+- [handleTagClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L45) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L39) (2 connections)
+- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L40) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L41) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L18) (1 connections)
+- [hasHD](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -22,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

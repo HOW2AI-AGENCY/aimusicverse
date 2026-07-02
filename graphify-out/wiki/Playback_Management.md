@@ -1,17 +1,16 @@
 # Playback Management
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [OptimizedStemTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L1) (7 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L100) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L110) (1 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L41) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L30) (1 connections)
-- [StemControls](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L63) (1 connections)
-- [StemLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L51) (1 connections)
-- [waveformColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L102) (1 connections)
+- [ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L1) (6 connections)
+- [change](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L131) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L150) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L32) (1 connections)
+- [days](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L30) (1 connections)
+- [isNeutral](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L138) (1 connections)
+- [isPositive](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L137) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedStemTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

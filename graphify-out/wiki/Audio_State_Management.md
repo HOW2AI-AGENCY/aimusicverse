@@ -1,21 +1,20 @@
 # Audio State Management
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [LyricsSections.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L1) (11 connections)
-- [detectSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L101) (1 connections)
-- [getSectionVariant()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L118) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L140) (1 connections)
-- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L139) (1 connections)
-- [MAX_SECTION_LINES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L38) (1 connections)
-- [MIN_SECTION_LINES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L37) (1 connections)
-- [mins](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L178) (1 connections)
-- [secs](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L179) (1 connections)
-- [SECTION_GAP_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L36) (1 connections)
-- [sections](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L116) (1 connections)
-- [useLyricsSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L40) (1 connections)
+- [EnhancedLyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L1) (10 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L251) (1 connections)
+- [[customInstruction, setCustomInstruction]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L82) (1 connections)
+- [[editedStyle, setEditedStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L80) (1 connections)
+- [[editedTitle, setEditedTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L79) (1 connections)
+- [[editMode, setEditMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L78) (1 connections)
+- [handleCustomEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L92) (1 connections)
+- [handleQuickEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L84) (1 connections)
+- [handleSaveMetadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L100) (1 connections)
+- [QUICK_EDIT_SUGGESTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L50) (1 connections)
+- [[showQuickEdits, setShowQuickEdits]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L81) (1 connections)
 
 ## Relationships
 
@@ -23,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsSections.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\EnhancedLyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,22 +1,25 @@
 # Button Variants
 
-> 13 nodes · cohesion 0.17
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L1) (12 connections)
-- [handleActionClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L107) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L101) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L147) (1 connections)
-- [displayActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L105) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L102) (1 connections)
-- [hasProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L136) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L134) (1 connections)
-- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L103) (1 connections)
-- [professionalActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L34) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L89) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L135) (1 connections)
-- [statusIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L83) (1 connections)
+- [DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L1) (11 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L41) (1 connections)
+- [campaignData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L94) (1 connections)
+- [{ data: events, isLoading: eventsLoading, refetch: refetchEvents }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L44) (1 connections)
+- [{ data: stats, isLoading: statsLoading, refetch: refetchStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L43) (1 connections)
+- [{
+    data: summary,
+    isLoading: summaryLoading,
+    refetch: refetchSummary,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L47) (1 connections)
+- [funnelData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L107) (1 connections)
+- [heatmapData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L79) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L66) (1 connections)
+- [refetch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L60) (1 connections)
+- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L40) (1 connections)
+- [trendData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -24,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

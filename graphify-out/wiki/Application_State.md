@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [HomeSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSection.tsx#L1) (1 connections)
-- [HomeSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSection.tsx#L25) (1 connections)
+- [ViewModeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/ViewModeToggle.tsx#L1) (1 connections)
+- [ViewModeToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/ViewModeToggle.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\shared\ViewModeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/ViewModeToggle.tsx)
 
 ## Audit Trail
 

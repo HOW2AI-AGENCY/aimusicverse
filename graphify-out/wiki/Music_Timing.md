@@ -1,46 +1,34 @@
 # Music Timing
 
-> 24 nodes · cohesion 0.08
+> 25 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L1) (23 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L105) (1 connections)
-- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L108) (1 connections)
-- [handleApplyLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L253) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L243) (1 connections)
-- [handleQuickAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L226) (1 connections)
-- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L237) (1 connections)
-- [handleStartWorkflow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L218) (1 connections)
-- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L210) (1 connections)
-- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L201) (1 connections)
-- [hasAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L301) (1 connections)
-- [hasAnalysisResults](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L163) (1 connections)
-- [hasGeneratedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L159) (1 connections)
-- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L103) (1 connections)
-- [{ isRecording, isProcessing, toggleRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L151) (1 connections)
-- [latestLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L167) (1 connections)
-- [{ messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L123) (1 connections)
-- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L104) (1 connections)
-- [renderMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L295) (1 connections)
-- [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L261) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L106) (1 connections)
-- [TAB_TOOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L173) (1 connections)
-- [viewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L196) (1 connections)
-- [{
-    workflow: activeWorkflow,
-    currentStep,
-    currentStepIndex,
-    stepResults,
-    status: workflowStatus,
-    progress: workflowProgress,
-    startWorkflow,
-    pauseWorkflow,
-    resumeWorkflow,
-    skipStep,
-    cancelWorkflow,
-    isRunning: isWorkflowRunning,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L131) (1 connections)
+- [EnhancedSectionWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L1) (24 connections)
+- [bars](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L78) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L211) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L62) (1 connections)
+- [[dragStartX, setDragStartX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L64) (1 connections)
+- [endPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L92) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L297) (1 connections)
+- [getTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L96) (1 connections)
+- [handleContainerClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L166) (1 connections)
+- [handleDragStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L107) (1 connections)
+- [handleEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L149) (1 connections)
+- [handleMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L125) (1 connections)
+- [[hoveredSection, setHoveredSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L68) (1 connections)
+- [[initialEnd, setInitialEnd]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L66) (1 connections)
+- [[initialStart, setInitialStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L65) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L63) (1 connections)
+- [isHovered](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L237) (1 connections)
+- [progressPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L94) (1 connections)
+- [sectionEndPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L235) (1 connections)
+- [sectionStartPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L234) (1 connections)
+- [sectionWidthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L236) (1 connections)
+- [[showMarkers, setShowMarkers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L67) (1 connections)
+- [startPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L91) (1 connections)
+- [{ waveformData, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L71) (1 connections)
+- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L93) (1 connections)
 
 ## Relationships
 
@@ -48,11 +36,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\EnhancedSectionWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (100%)
+- EXTRACTED: 48 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

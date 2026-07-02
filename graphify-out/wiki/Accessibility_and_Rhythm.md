@@ -1,6 +1,6 @@
 # Accessibility and Rhythm
 
-> 466 nodes · cohesion 0.00
+> 406 nodes · cohesion 0.01
 
 ## Key Concepts
 
@@ -8,12 +8,10 @@
 - [WaveformWithChords.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/WaveformWithChords.tsx#L1) (33 connections)
 - [ABCompareOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/ABCompareOverlay.tsx#L1) (32 connections)
 - [SectionVariantOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionVariantOverlay.tsx#L1) (31 connections)
-- [TrimDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimDialog.tsx#L1) (22 connections)
 - [ReferenceAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L1) (21 connections)
-- [CreateArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateArtistDialog.tsx#L1) (21 connections)
 - [GuitarRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GuitarRecordDialog.tsx#L1) (21 connections)
 - [PlayerActionsBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerActionsBar.tsx#L1) (21 connections)
-- [GuitarAnalysisReportSimplified.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportSimplified.tsx#L1) (20 connections)
+- [TrimDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimDialog.tsx#L1) (21 connections)
 - [.play()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useOptimizedPlayback.test.ts#L45) (19 connections)
 - [AudioReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio/AudioReferencePreview.tsx#L1) (18 connections)
 - [PianoRollWithMidiSync.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/PianoRollWithMidiSync.tsx#L1) (18 connections)
@@ -22,14 +20,16 @@
 - [SavedRecordingsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/SavedRecordingsList.tsx#L1) (16 connections)
 - [AlbumView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AlbumView.tsx#L1) (16 connections)
 - [useOptimizedPlayback.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useOptimizedPlayback.test.ts#L1) (16 connections)
-- [InstrumentalGeneratorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/InstrumentalGeneratorPanel.tsx#L1) (15 connections)
-- [CloudAudioPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/CloudAudioPicker.tsx#L1) (14 connections)
 - [pauseAllStudioAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudio.ts#L48) (14 connections)
 - [GuitarAnalysisReport.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReport.tsx#L1) (13 connections)
-- [SFXGeneratorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/SFXGeneratorPanel.tsx#L1) (13 connections)
 - [CloudAudioPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/CloudAudioPicker.tsx#L1) (12 connections)
 - [CloudAudioSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/CloudAudioSelector.tsx#L1) (12 connections)
-- *... and 441 more nodes in this community*
+- [CloudAudioPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/CloudAudioPicker.tsx#L1) (12 connections)
+- [SavedRecordingDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/SavedRecordingDetailSheet.tsx#L1) (10 connections)
+- [SectionReplacementProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/SectionReplacementProgress.tsx#L1) (9 connections)
+- [useStudioAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudio.ts#L1) (9 connections)
+- [ReferenceAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L1) (8 connections)
+- *... and 381 more nodes in this community*
 
 ## Class Diagram
 
@@ -74,8 +74,8 @@ classDiagram
 
 ## Audit Trail
 
-- EXTRACTED: 914 (83%)
-- INFERRED: 187 (17%)
+- EXTRACTED: 793 (81%)
+- INFERRED: 183 (19%)
 - AMBIGUOUS: 0 (0%)
 
 ---

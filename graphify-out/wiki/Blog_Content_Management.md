@@ -1,20 +1,19 @@
 # Blog Content Management
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L1) (11 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L27) (1 connections)
-- [currentWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L51) (1 connections)
-- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L36) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L143) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L144) (1 connections)
-- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L163) (1 connections)
-- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L34) (1 connections)
-- [lyricsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L28) (1 connections)
-- [lyricsText](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L37) (1 connections)
-- [wordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L54) (1 connections)
+- [useTelegramSafeArea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L1) (5 connections)
+- [SafeLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx#L1) (3 connections)
+- [SafeLayout()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx#L49) (2 connections)
+- [useTelegramSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L48) (2 connections)
+- [SafeBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx#L125) (1 connections)
+- [SafeHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx#L93) (1 connections)
+- [getCSSVar()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L40) (1 connections)
+- [safeAreaClasses](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L112) (1 connections)
+- [useKeyboardSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L148) (1 connections)
+- [useTelegramSafeAreaValues()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L93) (1 connections)
 
 ## Relationships
 
@@ -22,12 +21,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SafeLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTelegramSafeArea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 16 (89%)
+- INFERRED: 2 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

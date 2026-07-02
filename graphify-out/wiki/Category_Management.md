@@ -1,13 +1,12 @@
 # Category Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useStudioTrackState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L38) (2 connections)
-- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L17) (2 connections)
-- [useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L1) (1 connections)
-- [useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L1) (1 connections)
+- [StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L1) (2 connections)
+- [StatCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L17) (1 connections)
+- [StatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -15,13 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\hooks\useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

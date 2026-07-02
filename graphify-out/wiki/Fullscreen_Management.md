@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L1) (4 connections)
-- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L18) (1 connections)
-- [categoryInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L38) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L39) (1 connections)
-- [resolvedCategory](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L37) (1 connections)
+- [touch-friendly.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L60) (1 connections)
+- [patterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L174) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L44) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-friendly.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx)
 
 ## Audit Trail
 

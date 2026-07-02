@@ -1,34 +1,34 @@
 # Lyrics Synchronization
 
-> 33 nodes · cohesion 0.06
+> 33 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [rlsPolicies.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L1) (32 connections)
-- [adminToken](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L27) (1 connections)
-- [adminUserId](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L23) (1 connections)
-- [{ data: adminSession }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L84) (1 connections)
-- [{ data: adminUser }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L52) (1 connections)
-- [{ data: allSubs }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L324) (1 connections)
-- [{ data: allTransactions }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L317) (1 connections)
-- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L127) (1 connections)
-- [{ data: product }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L94) (1 connections)
-- [{ data: session1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L66) (1 connections)
-- [{ data: session2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L75) (1 connections)
-- [{ data: sub1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L254) (1 connections)
-- [{ data: sub2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L267) (1 connections)
-- [{ data: tx1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L183) (1 connections)
-- [{ data: tx2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L197) (1 connections)
-- [{ data: user1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L37) (1 connections)
-- [{ data: user2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L44) (1 connections)
-- [{ error }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L138) (1 connections)
-- [supabaseAdmin](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L17) (1 connections)
-- [supabaseAnonKey](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L32) (1 connections)
-- [supabaseServiceKey](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L31) (1 connections)
-- [supabaseUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L30) (1 connections)
-- [supabaseUser1](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L18) (1 connections)
-- [supabaseUser2](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L19) (1 connections)
-- [testProductId](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L24) (1 connections)
+- [BlogEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L1) (22 connections)
+- [useBlog.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBlog.ts#L1) (9 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L50) (3 connections)
+- [handleTitleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L43) (3 connections)
+- [generateSlug()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBlog.ts#L191) (3 connections)
+- [handleBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L107) (2 connections)
+- [handleGenerateTitle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L98) (2 connections)
+- [aiAssistant](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L30) (1 connections)
+- [[aiPrompt, setAiPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L40) (1 connections)
+- [broadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L31) (1 connections)
+- [[content, setContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L37) (1 connections)
+- [[coverUrl, setCoverUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L38) (1 connections)
+- [createPost](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L28) (1 connections)
+- [[excerpt, setExcerpt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L36) (1 connections)
+- [generateCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L32) (1 connections)
+- [handleGenerateArticle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L71) (1 connections)
+- [handleGenerateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L118) (1 connections)
+- [handleGenerateExcerpt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L89) (1 connections)
+- [handleImproveArticle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L80) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L129) (1 connections)
+- [[isPublished, setIsPublished]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L39) (1 connections)
+- [[slug, setSlug]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L35) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L34) (1 connections)
+- [updatePost](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L29) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx#L27) (1 connections)
 - *... and 8 more nodes in this community*
 
 ## Relationships
@@ -37,12 +37,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\integration\rlsPolicies.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BlogEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BlogEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBlog.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBlog.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 64 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 66 (94%)
+- INFERRED: 4 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

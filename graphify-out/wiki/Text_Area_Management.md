@@ -1,20 +1,19 @@
 # Text Area Management
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L1) (10 connections)
-- [compact](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L59) (1 connections)
-- [compactBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L73) (1 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L66) (1 connections)
-- [last](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L71) (1 connections)
-- [lastBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L72) (1 connections)
-- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L53) (1 connections)
-- [mountCompact()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L21) (1 connections)
-- [SAMPLE_TRACK](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L10) (1 connections)
-- [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L65) (1 connections)
-- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L36) (1 connections)
+- [ChordSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L1) (9 connections)
+- [currentChordIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L62) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L30) (1 connections)
+- [handleChordClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L67) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L76) (1 connections)
+- [handleExport](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L82) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L45) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L157) (1 connections)
+- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L48) (1 connections)
+- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -22,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ChordSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

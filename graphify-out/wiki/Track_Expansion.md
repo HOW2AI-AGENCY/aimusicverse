@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L1) (3 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L29) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L30) (1 connections)
-- [isUpcoming](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L31) (1 connections)
+- [TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L1) (3 connections)
+- [TelegramThemeContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L29) (1 connections)
+- [TelegramThemeProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L37) (1 connections)
+- [useTelegramTheme()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L147) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx)
 
 ## Audit Trail
 

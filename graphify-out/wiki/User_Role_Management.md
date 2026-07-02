@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [StudioPresetsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPresetsSheet.tsx#L1) (1 connections)
-- [StudioPresetsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPresetsSheet.tsx#L30) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L1) (1 connections)
+- [VARIANT_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L174) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioPresetsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPresetsSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts)
 
 ## Audit Trail
 

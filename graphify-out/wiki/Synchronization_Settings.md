@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L1) (2 connections)
-- [hasActiveEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L54) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L51) (1 connections)
+- [useEmotionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L6) (1 connections)
+- [useEmotionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L15) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\effects\StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEmotionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts)
 
 ## Audit Trail
 

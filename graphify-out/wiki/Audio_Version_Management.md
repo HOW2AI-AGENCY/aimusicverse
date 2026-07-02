@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L1) (8 connections)
-- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L34) (1 connections)
-- [ErrorIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L49) (1 connections)
-- [handleContactSupport](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L62) (1 connections)
-- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L55) (1 connections)
-- [handleFaqClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L68) (1 connections)
-- [handleRetry](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L51) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L59) (1 connections)
-- [[showExamples, setShowExamples]](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L60) (1 connections)
+- [ChipInput.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L1) (8 connections)
+- [Disabled](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L85) (1 connections)
+- [Empty](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L17) (1 connections)
+- [GENRE_SUGGESTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L15) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L5) (1 connections)
+- [WithLabel](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L57) (1 connections)
+- [WithMaxChips](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L68) (1 connections)
+- [WithSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L39) (1 connections)
+- [WithValues](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\errors\UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\ChipInput.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx)
 
 ## Audit Trail
 

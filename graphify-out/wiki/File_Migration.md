@@ -1,23 +1,22 @@
 # File Migration
 
-> 14 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L1) (13 connections)
-- [apis](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L18) (1 connections)
-- [audioSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L172) (1 connections)
-- [dimensions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L264) (1 connections)
-- [dynamicImport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L125) (1 connections)
-- [es6Support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L75) (1 connections)
-- [fetchTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L227) (1 connections)
-- [imageSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L152) (1 connections)
-- [mediaQuerySupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L280) (1 connections)
-- [perf](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L313) (1 connections)
-- [perfSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L296) (1 connections)
-- [report](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L339) (1 connections)
-- [storageTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L190) (1 connections)
-- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L255) (1 connections)
+- [MobileSectionsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L1) (12 connections)
+- [bgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L149) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L170) (1 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L148) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L147) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L217) (1 connections)
+- [getSectionStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L83) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L145) (1 connections)
+- [isActiveSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L75) (1 connections)
+- [playSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L97) (1 connections)
+- [replacement](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L146) (1 connections)
+- [SECTION_BG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L50) (1 connections)
+- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -25,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileSectionsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

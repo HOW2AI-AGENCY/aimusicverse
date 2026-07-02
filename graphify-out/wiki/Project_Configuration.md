@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [table.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx#L1) (1 connections)
-- [Table](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx#L5) (1 connections)
+- [useHomePageEffects.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHomePageEffects.ts#L1) (1 connections)
+- [useHomePageEffects()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHomePageEffects.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\table.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useHomePageEffects.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHomePageEffects.ts)
 
 ## Audit Trail
 

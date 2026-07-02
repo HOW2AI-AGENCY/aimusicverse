@@ -1,17 +1,16 @@
 # UI Component Layout
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L1) (7 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L77) (2 connections)
-- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L64) (1 connections)
-- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L82) (1 connections)
-- [{ impact, select }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L62) (1 connections)
-- [MODES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L26) (1 connections)
-- [[selectedMode, setSelectedMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L61) (1 connections)
-- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L69) (1 connections)
+- [ChordProgressionDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L1) (6 connections)
+- [currentChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L40) (1 connections)
+- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L21) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L74) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L75) (1 connections)
+- [progressionString](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L36) (1 connections)
+- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -19,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\ChordProgressionDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (93%)
-- INFERRED: 1 (7%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

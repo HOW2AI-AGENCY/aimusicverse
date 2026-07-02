@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L1) (7 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L68) (1 connections)
-- [ProfileSetupStep3Social()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L47) (1 connections)
-- [SOCIAL_FIELDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L38) (1 connections)
-- [SoundCloudIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L26) (1 connections)
-- [SpotifyIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L20) (1 connections)
-- [TwitterIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L14) (1 connections)
-- [YouTubeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L32) (1 connections)
+- [LoadingSpinner.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L1) (7 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L30) (1 connections)
+- [Large](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L40) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L12) (1 connections)
+- [Minimal](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L65) (1 connections)
+- [MusicVariant](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L52) (1 connections)
+- [Small](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L34) (1 connections)
+- [WithText](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\LoadingSpinner.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx)
 
 ## Audit Trail
 

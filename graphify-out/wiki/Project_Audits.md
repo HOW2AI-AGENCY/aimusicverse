@@ -1,17 +1,16 @@
 # Project Audits
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L1) (7 connections)
-- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L28) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L24) (1 connections)
-- [handleBeatClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L56) (1 connections)
-- [handleTimelineClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L45) (1 connections)
-- [[hoveredBeat, setHoveredBeat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L25) (1 connections)
-- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L38) (1 connections)
-- [trackDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L35) (1 connections)
+- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L1) (5 connections)
+- [EmptyState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L106) (2 connections)
+- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L129) (1 connections)
+- [ICON_SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L99) (1 connections)
+- [SIZE_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L93) (1 connections)
+- [VARIANT_DEFAULTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

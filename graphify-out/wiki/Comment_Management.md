@@ -1,29 +1,21 @@
 # Comment Management
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [AddToPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L1) (12 connections)
-- [[creatingNew, setCreatingNew]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L23) (1 connections)
-- [filteredPlaylists](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L42) (1 connections)
-- [handleAddToPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L48) (1 connections)
-- [handleCreateNewPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L84) (1 connections)
-- [handleOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L127) (1 connections)
-- [loading](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L39) (1 connections)
-- [[newPlaylistName, setNewPlaylistName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L24) (1 connections)
-- [{
-    playlists,
-    isLoading: playlistsLoading,
-    createPlaylist,
-    addTrackToPlaylist,
-    isCreating,
-    isAdding,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L30) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L21) (1 connections)
-- [[selectedPlaylistId, setSelectedPlaylistId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L22) (1 connections)
-- [triggerSelectionHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L27) (1 connections)
-- [triggerSuccessHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L26) (1 connections)
+- [MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L1) (11 connections)
+- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L153) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L139) (2 connections)
+- [adminSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L106) (1 connections)
+- [allItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L149) (1 connections)
+- [allSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L146) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L143) (1 connections)
+- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L168) (1 connections)
+- [{ isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L142) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L140) (1 connections)
+- [menuSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L62) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L141) (1 connections)
 
 ## Relationships
 
@@ -31,7 +23,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\AddToPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx)
 
 ## Audit Trail
 

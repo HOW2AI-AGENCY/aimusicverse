@@ -1,21 +1,20 @@
 # Analytics Dashboard
 
-> 12 nodes · cohesion 0.27
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useUnifiedAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L1) (11 connections)
-- [useAnalysisByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L158) (8 connections)
-- [useBeatAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L136) (2 connections)
-- [useChordAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L143) (2 connections)
-- [useEmotionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L122) (2 connections)
-- [useFullAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L150) (2 connections)
-- [useMusicTheoryAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L115) (2 connections)
-- [useStyleAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L108) (2 connections)
-- [useTranscriptionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L129) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L20) (1 connections)
-- [useTrackAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L184) (1 connections)
-- [useUnifiedAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L26) (1 connections)
+- [VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L1) (10 connections)
+- [{ activeTrack, isPlaying, playTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L24) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L109) (1 connections)
+- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L42) (1 connections)
+- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L35) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L94) (1 connections)
+- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L95) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L93) (1 connections)
+- [originalTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L27) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L29) (1 connections)
+- [versionTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L73) (1 connections)
 
 ## Relationships
 
@@ -23,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUnifiedAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

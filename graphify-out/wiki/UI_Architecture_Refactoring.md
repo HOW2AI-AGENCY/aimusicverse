@@ -1,17 +1,16 @@
 # UI Architecture Refactoring
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L1) (7 connections)
-- [Breadcrumb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L7) (1 connections)
-- [BreadcrumbEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L69) (1 connections)
-- [BreadcrumbItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L29) (1 connections)
-- [BreadcrumbList](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L15) (1 connections)
-- [BreadcrumbPage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L48) (1 connections)
-- [BreadcrumbSeparator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L62) (1 connections)
-- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L42) (1 connections)
+- [unified-dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L1) (6 connections)
+- [AlertVariant](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L55) (1 connections)
+- [handleEscape()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L77) (1 connections)
+- [isMobile()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L60) (1 connections)
+- [ModalVariant](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L53) (1 connections)
+- [{ open, onOpenChange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L71) (1 connections)
+- [SheetVariant](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

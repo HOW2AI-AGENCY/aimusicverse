@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [LoadingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L1) (2 connections)
-- [IconComponent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L39) (2 connections)
-- [Switch](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx#L6) (2 connections)
-- [switch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx#L1) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L32) (1 connections)
+- [FeatureProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L1) (4 connections)
+- [DeferredProviders()](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L34) (1 connections)
+- [FeatureProviders](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L76) (1 connections)
+- [GamificationProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L22) (1 connections)
+- [PaywallProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -16,13 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\switch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\providers\FeatureProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (75%)
-- INFERRED: 2 (25%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

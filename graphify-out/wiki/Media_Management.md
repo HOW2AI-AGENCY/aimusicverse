@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [Button()](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.tsx#L19) (2 connections)
-- [button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.tsx#L1) (2 connections)
-- [buttonVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.tsx#L8) (1 connections)
-- [Button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.tsx#L1) (1 connections)
+- [useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L1) (2 connections)
+- [useStudioKeyboardShortcuts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L27) (2 connections)
+- [useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioKeyboardShortcuts.ts#L1) (1 connections)
+- [formatShortcut()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L79) (1 connections)
 
 ## Relationships
 
@@ -15,8 +15,8 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\stories\Button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioKeyboardShortcuts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts)
 
 ## Audit Trail
 

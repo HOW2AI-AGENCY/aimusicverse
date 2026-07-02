@@ -1,21 +1,20 @@
 # User Retention
 
-> 12 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [economy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L1) (12 connections)
-- [calculateBonusPercent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L142) (3 connections)
-- [starsToCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L107) (3 connections)
-- [calculateReferralReward()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L158) (2 connections)
-- [MODEL_COSTS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/economy.ts#L7) (2 connections)
-- [calculatePurchaseXp()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L151) (1 connections)
-- [creditsToStars()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L114) (1 connections)
-- [formatCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L135) (1 connections)
-- [formatStars()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L121) (1 connections)
-- [formatUsd()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L128) (1 connections)
-- [starsToUsd()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L93) (1 connections)
-- [usdToStars()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts#L100) (1 connections)
+- [ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L1) (10 connections)
+- [colorPalette](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L82) (1 connections)
+- [hasBasicInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L85) (1 connections)
+- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L87) (1 connections)
+- [hasVisualStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L86) (1 connections)
+- [IMAGE_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L56) (1 connections)
+- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L81) (1 connections)
+- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L34) (1 connections)
+- [PROJECT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L45) (1 connections)
+- [TYPOGRAPHY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L69) (1 connections)
+- [visualKeywords](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -23,13 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\economy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/economy.ts)
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\economy.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/economy.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

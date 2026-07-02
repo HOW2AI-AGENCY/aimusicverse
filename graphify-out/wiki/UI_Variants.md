@@ -1,16 +1,15 @@
 # UI Variants
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [presetIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L1) (6 connections)
-- [getLyricsPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L54) (1 connections)
-- [getProjectPresetIconById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L68) (1 connections)
-- [getTrackPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L38) (1 connections)
-- [LYRICS_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L43) (1 connections)
-- [PROJECT_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L59) (1 connections)
-- [TRACK_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L27) (1 connections)
+- [MusicXMLViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L1) (2 connections)
+- [useMusicXML.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L1) (2 connections)
+- [MusicXMLViewer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L30) (2 connections)
+- [useMusicXML()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L30) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L207) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -18,12 +17,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\presetIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\MusicXMLViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicXML.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (80%)
+- INFERRED: 2 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

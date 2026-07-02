@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L1) (6 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L35) (1 connections)
-- [hasFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L59) (1 connections)
-- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L28) (1 connections)
-- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L69) (1 connections)
-- [toggleGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L61) (1 connections)
-- [toggleNodeType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L77) (1 connections)
+- [TouchTarget.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L1) (6 connections)
+- [ComparisonWithoutTarget](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L59) (1 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L19) (1 connections)
+- [LargeTarget](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L40) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L5) (1 connections)
+- [SmallIcon](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L32) (1 connections)
+- [TouchIconExample](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\TouchTarget.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx)
 
 ## Audit Trail
 

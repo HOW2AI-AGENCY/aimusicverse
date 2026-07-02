@@ -1,19 +1,18 @@
 # Journey Filtering
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L1) (9 connections)
-- [DESKTOP_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L19) (1 connections)
-- [MOBILE_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L18) (1 connections)
-- [props](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L86) (1 connections)
-- [rowHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L77) (1 connections)
-- [shouldVirtualize](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L76) (1 connections)
-- [state](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L83) (1 connections)
-- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L82) (1 connections)
-- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L84) (1 connections)
-- [VIRTUALIZATION_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L15) (1 connections)
+- [BlogContentRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L1) (8 connections)
+- [BlogContentRenderer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L11) (2 connections)
+- [[, alt, src]](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L193) (1 connections)
+- [calloutStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L124) (1 connections)
+- [cells](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L147) (1 connections)
+- [flushCallout](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L71) (1 connections)
+- [flushList()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L305) (1 connections)
+- [imageMatch](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L190) (1 connections)
+- [target](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L202) (1 connections)
 
 ## Relationships
 
@@ -21,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogContentRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 16 (94%)
+- INFERRED: 1 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,10 +4,20 @@
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L1) (3 connections)
-- [GENRE_THEME_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L37) (1 connections)
-- [getContextualOptions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L71) (1 connections)
-- [INITIAL_MESSAGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L27) (1 connections)
+- [ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L1) (3 connections)
+- [handleMenuClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L60) (1 connections)
+- [handlePlayClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L51) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -15,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx)
 
 ## Audit Trail
 

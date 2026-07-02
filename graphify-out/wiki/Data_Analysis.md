@@ -1,14 +1,13 @@
 # Data Analysis
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useMidiFileParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L1) (4 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L10) (1 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L32) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L30) (1 connections)
-- [useMidiFileParser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L38) (1 connections)
+- [DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L1) (3 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L79) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L80) (1 connections)
+- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiFileParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

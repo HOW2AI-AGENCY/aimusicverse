@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [CompactPlayerButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L1) (4 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L182) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L51) (1 connections)
-- [ROUND](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L32) (1 connections)
-- [TOUCH](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L31) (1 connections)
+- [TelegramProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L1) (4 connections)
+- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L20) (1 connections)
+- [context](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L89) (1 connections)
+- [TelegramContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L15) (1 connections)
+- [{ webApp, user, platform, initData, isInitialized, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\CompactPlayerButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\TelegramProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx)
 
 ## Audit Trail
 

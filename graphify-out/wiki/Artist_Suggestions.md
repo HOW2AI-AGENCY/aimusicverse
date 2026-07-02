@@ -1,14 +1,13 @@
 # Artist Suggestions
 
-> 5 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [lazy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L1) (4 connections)
-- [batchLoad()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L103) (2 connections)
-- [createLazyRoute()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L64) (2 connections)
-- [lazyLoad()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L36) (2 connections)
-- [lazyLibrary()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L82) (1 connections)
+- [FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L1) (3 connections)
+- [FeaturedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L49) (1 connections)
+- [SKELETON_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L34) (1 connections)
+- [TrackSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -16,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lazy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (91%)
-- INFERRED: 1 (9%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

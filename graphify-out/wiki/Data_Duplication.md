@@ -1,15 +1,14 @@
 # Data Duplication
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L1) (5 connections)
-- [chordColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L85) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L139) (1 connections)
-- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L158) (1 connections)
-- [stemColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L99) (1 connections)
-- [studioAnimations](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L5) (1 connections)
+- [TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L1) (4 connections)
+- [CATEGORY_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L15) (1 connections)
+- [categoryStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L76) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L87) (1 connections)
+- [{ visible, hiddenCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L65) (1 connections)
 
 ## Relationships
 
@@ -17,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,22 +1,21 @@
 # Chip Input
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L1) (12 connections)
-- [finalTranscript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L92) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L95) (1 connections)
-- [interim](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L93) (1 connections)
-- [[interimTranscript, setInterimTranscript]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L60) (1 connections)
-- [[isListening, setIsListening]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L57) (1 connections)
-- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L58) (1 connections)
-- [isSupported](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L150) (1 connections)
-- [recognition](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L81) (1 connections)
-- [recognitionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L59) (1 connections)
-- [SpeechRecognitionClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L64) (1 connections)
-- [toggleListening](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L133) (1 connections)
-- [transcript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L96) (1 connections)
+- [RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L1) (11 connections)
+- [getRetentionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L39) (2 connections)
+- [RetentionCell()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L67) (2 connections)
+- [AverageCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L100) (1 connections)
+- [averages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L129) (1 connections)
+- [{ data: cohorts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L127) (1 connections)
+- [dateRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L118) (1 connections)
+- [formatDate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L52) (1 connections)
+- [RETENTION_COLUMNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L29) (1 connections)
+- [TIME_RANGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L22) (1 connections)
+- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L116) (1 connections)
+- [totalUsers](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L134) (1 connections)
 
 ## Relationships
 
@@ -24,7 +23,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx)
 
 ## Audit Trail
 

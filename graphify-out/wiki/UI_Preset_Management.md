@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [SpecialChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L1) (5 connections)
-- [challenges](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L79) (1 connections)
-- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L31) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L172) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L173) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx#L29) (1 connections)
+- [EmptyState.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L1) (5 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L36) (1 connections)
+- [LongDescription](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L58) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L14) (1 connections)
+- [Minimal](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L51) (1 connections)
+- [WithAction](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\SpecialChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\EmptyState.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx)
 
 ## Audit Trail
 

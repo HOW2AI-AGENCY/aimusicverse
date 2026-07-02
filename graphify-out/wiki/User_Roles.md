@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L1) (3 connections)
-- [IconTouchButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L128) (1 connections)
-- [PressableCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L91) (1 connections)
-- [TouchFeedback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L31) (1 connections)
+- [queue-schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L1) (3 connections)
+- [PlaybackQueueSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L3) (1 connections)
+- [RecentlyPlayedSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L10) (1 connections)
+- [UserPreferencesSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L24) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\validation\queue-schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts)
 
 ## Audit Trail
 

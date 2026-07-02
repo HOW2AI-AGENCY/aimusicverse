@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L1) (2 connections)
-- [stemTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L127) (1 connections)
-- [useContextualGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L45) (1 connections)
+- [historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L1) (2 connections)
+- [createHistorySlice()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L47) (1 connections)
+- [DEFAULT_EXCLUDE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\zustand\historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts)
 
 ## Audit Trail
 

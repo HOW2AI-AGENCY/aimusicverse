@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L1) (2 connections)
-- [changedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L35) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L32) (1 connections)
+- [VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L1) (2 connections)
+- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L12) (1 connections)
+- [VerificationBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx)
 
 ## Audit Trail
 

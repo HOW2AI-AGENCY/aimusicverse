@@ -1,20 +1,19 @@
 # Audio Sequencer
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [form.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L1) (10 connections)
-- [Form](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L9) (1 connections)
-- [FormControl](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L85) (1 connections)
-- [FormDescription](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L102) (1 connections)
-- [FormField](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L20) (1 connections)
-- [FormFieldContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L18) (1 connections)
-- [FormItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L62) (1 connections)
-- [FormItemContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L60) (1 connections)
-- [FormLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L75) (1 connections)
-- [FormMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L111) (1 connections)
-- [useFormField()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L33) (1 connections)
+- [LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L1) (9 connections)
+- [[activeFilters, setActiveFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L254) (1 connections)
+- [changeTypeFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L63) (1 connections)
+- [filteredVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L256) (1 connections)
+- [getChangeTypeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L74) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L346) (1 connections)
+- [{ open, onOpenChange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L347) (1 connections)
+- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L109) (1 connections)
+- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L111) (1 connections)
+- [toggleFilter()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L261) (1 connections)
 
 ## Relationships
 
@@ -22,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\form.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [WaveformProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L1) (1 connections)
-- [WaveformProgressBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L19) (1 connections)
+- [UserStatsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx#L1) (1 connections)
+- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\WaveformProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\UserStatsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx)
 
 ## Audit Trail
 

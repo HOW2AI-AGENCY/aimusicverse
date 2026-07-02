@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [{ artworkLayoutId }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/pages/CoverPage.tsx#L19) (1 connections)
-- [CoverPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/pages/CoverPage.tsx#L1) (1 connections)
+- [PrivacyTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx#L1) (1 connections)
+- [PrivacyTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\pages\CoverPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/pages/CoverPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\PrivacyTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx)
 
 ## Audit Trail
 

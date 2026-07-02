@@ -1,13 +1,12 @@
 # Pattern Handling
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [usePromptValidation.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L1) (3 connections)
-- [DEBOUNCE_MS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L4) (1 connections)
-- [EMPTY_RESULT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L6) (1 connections)
-- [usePromptValidation()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L18) (1 connections)
+- [StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L1) (2 connections)
+- [analysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L20) (1 connections)
+- [displayStrokes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\usePromptValidation.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L1) (2 connections)
-- [mood](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L34) (1 connections)
-- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L35) (1 connections)
+- [responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L1) (2 connections)
+- [ResponsiveContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L56) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\responsive-container\responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx)
 
 ## Audit Trail
 

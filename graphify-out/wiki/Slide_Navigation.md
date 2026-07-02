@@ -1,19 +1,19 @@
 # Slide Navigation
 
-> 10 nodes · cohesion 0.24
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L1) (9 connections)
-- [checkFileName()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L63) (4 connections)
-- [shouldIgnore()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L59) (2 connections)
-- [walkDirectory()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L109) (2 connections)
-- [checkedFiles](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L57) (1 connections)
-- [IGNORE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L17) (1 connections)
-- [PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L43) (1 connections)
-- [SRC_DIR](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L16) (1 connections)
-- [srcPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L130) (1 connections)
-- [violations](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L56) (1 connections)
+- [KlangioAnalysisPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L1) (9 connections)
+- [{ chords, beats, detectChords, detectBeats, resetChords, resetBeats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L53) (1 connections)
+- [[extendedChords, setExtendedChords]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L51) (1 connections)
+- [handleDetectBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L65) (1 connections)
+- [handleDetectChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L57) (1 connections)
+- [handleSaveAll](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L73) (1 connections)
+- [hasSaveableResults](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L82) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L83) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L50) (1 connections)
+- [{ saveAnalysis, isSaving }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\KlangioAnalysisPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

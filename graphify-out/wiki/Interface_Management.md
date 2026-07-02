@@ -1,15 +1,14 @@
 # Interface Management
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [CustomVoicePicker.pending.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L1) (5 connections)
-- [helper](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L71) (1 connections)
-- [mockedUseCustomVoices](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L27) (1 connections)
-- [pendingVoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L29) (1 connections)
-- [readyVoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L38) (1 connections)
-- [setVoices()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L47) (1 connections)
+- [PresetBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L1) (4 connections)
+- [[activeCategory, setActiveCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L15) (1 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L27) (1 connections)
+- [filteredPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L17) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -17,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\voice-clone\CustomVoicePicker.pending.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\PresetBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,18 +1,28 @@
 # Mobile Menu Interaction
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [useProgressTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L1) (4 connections)
-- [useAudioProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L1) (3 connections)
-- [useAudioProcessing()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L38) (2 connections)
-- [useProgressTracking()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L44) (2 connections)
-- [fileToBase64()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L26) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L21) (1 connections)
-- [createInitialState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L26) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L19) (1 connections)
-- [POLL_INTERVAL_MS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L21) (1 connections)
+- [GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L1) (7 connections)
+- [canDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L68) (1 connections)
+- [[deleteDialogOpen, setDeleteDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L52) (1 connections)
+- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L98) (1 connections)
+- [handleDrag](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L94) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L71) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isMobile,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+    isOwnTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L54) (1 connections)
+- [[swipeOffset, setSwipeOffset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -20,13 +30,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\useProgressTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAudioProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (88%)
-- INFERRED: 2 (12%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

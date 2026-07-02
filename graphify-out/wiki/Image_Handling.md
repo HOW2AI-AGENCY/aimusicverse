@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L214) (1 connections)
-- [getGreeting()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L38) (1 connections)
-- [handleMenuClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L75) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L72) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L73) (1 connections)
-- [[menuOpen, setMenuOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L70) (1 connections)
-- [MoreMenuSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L27) (1 connections)
-- [{ text, icon, gradient }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L69) (1 connections)
-- [unreadCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L71) (1 connections)
+- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L34) (2 connections)
+- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
+- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L43) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L32) (1 connections)
+- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
+- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
+- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

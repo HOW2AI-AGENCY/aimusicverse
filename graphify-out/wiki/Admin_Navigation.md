@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [SafeAreaDebugOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L1) (11 connections)
-- [bar](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L134) (1 connections)
-- [[bboxes, setBboxes]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L45) (1 connections)
-- [[container, setContainer]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L46) (1 connections)
-- [[dir, setDir]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L47) (1 connections)
-- [[enabled, setEnabled]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L36) (1 connections)
-- [flag](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L52) (1 connections)
-- [[insets, setInsets]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L37) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L119) (1 connections)
-- [params](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L51) (1 connections)
-- [probe](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx#L59) (1 connections)
+- [Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L1) (10 connections)
+- [{ data: adminAuth }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L30) (1 connections)
+- [{ data: posts, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L33) (1 connections)
+- [{ data: selectedPost, isLoading: isLoadingPost }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L34) (1 connections)
+- [deletePost](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L35) (1 connections)
+- [[editingPost, setEditingPost]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L37) (1 connections)
+- [isAdmin](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L31) (1 connections)
+- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L38) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L26) (1 connections)
+- [postSlug](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L28) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -22,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dev\SafeAreaDebugOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/SafeAreaDebugOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

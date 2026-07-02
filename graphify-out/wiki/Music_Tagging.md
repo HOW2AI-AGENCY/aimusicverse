@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L1) (12 connections)
-- [categorizedFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L210) (1 connections)
-- [categoryFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L288) (1 connections)
-- [{ data: flags, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L195) (1 connections)
-- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L151) (1 connections)
-- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L199) (1 connections)
-- [handleUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L203) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L150) (1 connections)
-- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L38) (1 connections)
-- [toggleFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L196) (1 connections)
-- [totalEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L213) (1 connections)
-- [totalFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L214) (1 connections)
-- [updateFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L197) (1 connections)
+- [StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L1) (12 connections)
+- [bgClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L141) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L137) (1 connections)
+- [displayLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L139) (1 connections)
+- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L144) (1 connections)
+- [isCustomIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L145) (1 connections)
+- [isSpinning](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L146) (1 connections)
+- [s](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L163) (1 connections)
+- [shouldPulse](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L140) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L148) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L224) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L51) (1 connections)
+- [textClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L142) (1 connections)
 
 ## Relationships
 
@@ -24,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\features\FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx)
 
 ## Audit Trail
 

@@ -1,20 +1,19 @@
 # Music Production Agents
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L1) (10 connections)
-- [colorPalette](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L82) (1 connections)
-- [hasBasicInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L85) (1 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L87) (1 connections)
-- [hasVisualStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L86) (1 connections)
-- [IMAGE_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L56) (1 connections)
-- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L81) (1 connections)
-- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L34) (1 connections)
-- [PROJECT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L45) (1 connections)
-- [TYPOGRAPHY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L69) (1 connections)
-- [visualKeywords](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L83) (1 connections)
+- [TransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L186) (2 connections)
+- [currentBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L94) (1 connections)
+- [currentBeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L95) (1 connections)
+- [handleMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L83) (1 connections)
+- [handleTapTempo](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L52) (1 connections)
+- [[isMuted, setIsMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L46) (1 connections)
+- [[prevVolume, setPrevVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L47) (1 connections)
+- [[showTapIndicator, setShowTapIndicator]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L49) (1 connections)
+- [tapTimesRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -22,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\TransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,23 +1,22 @@
 # Guitar Fingering
 
-> 14 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [LyricsAIChatAgent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L1) (13 connections)
-- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L100) (1 connections)
-- [handleApplyRecommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L169) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L152) (1 connections)
-- [handleQuickAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L162) (1 connections)
-- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L146) (1 connections)
-- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L138) (1 connections)
-- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L129) (1 connections)
-- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L96) (1 connections)
-- [{ messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L115) (1 connections)
-- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L97) (1 connections)
-- [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L177) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L98) (1 connections)
-- [viewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L124) (1 connections)
+- [FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L1) (12 connections)
+- [categorizedFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L210) (1 connections)
+- [categoryFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L288) (1 connections)
+- [{ data: flags, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L195) (1 connections)
+- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L151) (1 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L199) (1 connections)
+- [handleUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L203) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L150) (1 connections)
+- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L38) (1 connections)
+- [toggleFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L196) (1 connections)
+- [totalEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L213) (1 connections)
+- [totalFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L214) (1 connections)
+- [updateFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L197) (1 connections)
 
 ## Relationships
 
@@ -25,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsAIChatAgent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\features\FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

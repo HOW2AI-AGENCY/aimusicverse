@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [BotContextBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx#L18) (1 connections)
-- [BotContextBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx#L1) (1 connections)
+- [PullToRefreshWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/PullToRefreshWrapper.tsx#L1) (1 connections)
+- [PullToRefreshWrapper](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/PullToRefreshWrapper.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\BotContextBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\PullToRefreshWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/PullToRefreshWrapper.tsx)
 
 ## Audit Trail
 

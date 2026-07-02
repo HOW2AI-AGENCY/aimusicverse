@@ -1,13 +1,12 @@
 # Channel Settings
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [type-guards.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L1) (3 connections)
-- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L20) (1 connections)
-- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L8) (1 connections)
-- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L14) (1 connections)
+- [DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L1) (2 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L51) (1 connections)
+- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L52) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\type-guards.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

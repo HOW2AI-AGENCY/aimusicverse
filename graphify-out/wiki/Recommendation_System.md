@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L1) (2 connections)
-- [ACTIVE_REFERENCE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L75) (1 connections)
-- [REFERENCE_EXPIRY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L78) (1 connections)
+- [paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L1) (2 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L15) (1 connections)
+- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx)
 
 ## Audit Trail
 

@@ -1,20 +1,19 @@
 # Music Analysis
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [RecognizedTrackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L1) (10 connections)
-- [handleCopyLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L54) (2 connections)
-- [handleRecognizeLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L30) (2 connections)
-- [handleUseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L60) (2 connections)
-- [apiLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L27) (1 connections)
-- [[editedLyrics, setEditedLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L21) (1 connections)
-- [handleCreateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L69) (1 connections)
-- [handleUseApiLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L45) (1 connections)
-- [{ isRecognizing, result, recognizeLyrics, clearResult }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L24) (1 connections)
-- [[lyricsSource, setLyricsSource]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L22) (1 connections)
-- [[showLyricsDialog, setShowLyricsDialog]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L20) (1 connections)
+- [ConversionFunnelStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L146) (1 connections)
+- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L119) (1 connections)
+- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L62) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L117) (1 connections)
+- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L57) (1 connections)
+- [overallConversion](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L80) (1 connections)
+- [STAGE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L37) (1 connections)
+- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L49) (1 connections)
+- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L118) (1 connections)
 
 ## Relationships
 
@@ -22,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-recognition\RecognizedTrackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (87%)
-- INFERRED: 3 (13%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

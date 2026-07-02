@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [SortableProjectTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/SortableProjectTrack.tsx#L1) (1 connections)
-- [SortableProjectTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/SortableProjectTrack.tsx#L18) (1 connections)
+- [sanitizeFilename.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sanitizeFilename.ts#L1) (1 connections)
+- [sanitizeFilename()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sanitizeFilename.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\project-detail\SortableProjectTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/SortableProjectTrack.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\sanitizeFilename.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sanitizeFilename.ts)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L1) (3 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L44) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L19) (2 connections)
-- [{ data: parentTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L21) (1 connections)
+- [useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L1) (3 connections)
+- [useAudioSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L23) (2 connections)
+- [useAutoSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L104) (2 connections)
+- [DEFAULT_SYNC_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L21) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts)
 
 ## Audit Trail
 

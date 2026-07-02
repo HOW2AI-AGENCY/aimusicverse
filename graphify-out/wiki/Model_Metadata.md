@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L1) (4 connections)
-- [Tooltip](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L8) (1 connections)
-- [TooltipContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L12) (1 connections)
-- [TooltipProvider](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L6) (1 connections)
-- [TooltipTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L10) (1 connections)
+- [Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L1) (4 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L4) (1 connections)
+- [Sizes](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L32) (1 connections)
+- [WithFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L14) (1 connections)
+- [WithImage](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx)
 
 ## Audit Trail
 

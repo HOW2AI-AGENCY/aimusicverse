@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L1) (4 connections)
-- [aWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L31) (1 connections)
-- [bWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L32) (1 connections)
-- [genreA](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L34) (1 connections)
-- [genreB](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L35) (1 connections)
+- [useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L1) (4 connections)
+- [createDrumSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L98) (1 connections)
+- [defaultTrackEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L90) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L19) (1 connections)
+- [useDrumMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L115) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts)
 
 ## Audit Trail
 

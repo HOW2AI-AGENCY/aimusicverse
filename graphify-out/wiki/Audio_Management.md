@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/index.ts#L1) (0 connections)
+- [OverviewTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/OverviewTab.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\OverviewTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/OverviewTab.tsx)
 
 ## Audit Trail
 

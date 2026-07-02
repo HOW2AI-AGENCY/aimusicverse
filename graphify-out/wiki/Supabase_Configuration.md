@@ -1,12 +1,12 @@
 # Supabase Configuration
 
-> 3 nodes · cohesion 0.67
+> 3 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L1) (2 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L23) (1 connections)
-- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L39) (1 connections)
+- [usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L1) (3 connections)
+- [formatCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L26) (2 connections)
+- [usePlatformStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L70) (2 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

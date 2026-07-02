@@ -1,17 +1,16 @@
 # FAQ Management
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [Badge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L1) (7 connections)
-- [AllVariants](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L36) (1 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L20) (1 connections)
-- [Destructive](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L28) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L4) (1 connections)
-- [MusicContextBadges](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L47) (1 connections)
-- [Outline](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L32) (1 connections)
-- [Secondary](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx#L24) (1 connections)
+- [EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L1) (6 connections)
+- [activeEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L28) (1 connections)
+- [EFFECT_COLOR_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L21) (1 connections)
+- [eqActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L36) (1 connections)
+- [eqDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L38) (1 connections)
+- [ratio](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L56) (1 connections)
+- [wetDryPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L67) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Badge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Badge.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

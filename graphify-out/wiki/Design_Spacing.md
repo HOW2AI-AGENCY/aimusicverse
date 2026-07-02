@@ -1,20 +1,32 @@
 # Design Spacing
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L1) (10 connections)
-- [getDiscount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L50) (2 connections)
-- [bestValueId](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L39) (1 connections)
-- [creditsAmount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L72) (1 connections)
-- [discount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L71) (1 connections)
-- [getBestValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L20) (1 connections)
-- [getProductLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L42) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L69) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L70) (1 connections)
-- [priceRub](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L73) (1 connections)
-- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L74) (1 connections)
+- [AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L1) (9 connections)
+- [[analysisResult, setAnalysisResult]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L25) (1 connections)
+- [{ analyze, isAnalyzing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L42) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L77) (1 connections)
+- [handleAnalyze](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L62) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L57) (1 connections)
+- [handleStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L44) (1 connections)
+- [handleStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L52) (1 connections)
+- [{
+    isRecording,
+    isPaused,
+    audioUrl,
+    audioBlob,
+    duration,
+    audioLevel,
+    waveformData,
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    resumeRecording,
+    resetRecording,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L27) (1 connections)
+- [[recordingMode, setRecordingMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -22,12 +34,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

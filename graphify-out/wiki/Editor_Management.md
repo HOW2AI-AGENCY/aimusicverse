@@ -1,16 +1,15 @@
 # Editor Management
 
-> 7 nodes · cohesion 0.52
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useStemMixerStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L1) (6 connections)
-- [useStemMixerStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L21) (6 connections)
-- [useEffectiveStemVolume()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L70) (2 connections)
-- [useIsStemMuted()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L77) (2 connections)
-- [useMasterControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L56) (2 connections)
-- [useStemActions()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L42) (2 connections)
-- [useStemState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L27) (2 connections)
+- [MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L1) (5 connections)
+- [[animating, setAnimating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L55) (1 connections)
+- [MobilePageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L15) (1 connections)
+- [MobileSlideUpTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L80) (1 connections)
+- [[shouldRender, setShouldRender]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L54) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L63) (1 connections)
 
 ## Relationships
 
@@ -18,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\useStemMixerStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

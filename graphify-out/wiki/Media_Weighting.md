@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L1) (3 connections)
-- [{ minPitch, maxPitch, normalizedNotes, pitchRange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L28) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L25) (1 connections)
-- [octaveLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L63) (1 connections)
+- [NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L1) (3 connections)
+- [GAMIFICATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L73) (1 connections)
+- [GENERATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L24) (1 connections)
+- [SOCIAL_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx)
 
 ## Audit Trail
 

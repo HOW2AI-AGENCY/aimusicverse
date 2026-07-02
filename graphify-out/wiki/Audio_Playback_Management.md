@@ -1,35 +1,35 @@
 # Audio Playback Management
 
-> 32 nodes · cohesion 0.06
+> 33 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L1) (22 connections)
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L1) (7 connections)
-- [Calendar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/calendar.tsx#L10) (2 connections)
-- [buttonVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L389) (2 connections)
-- [TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L158) (2 connections)
-- [AI_TOOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L37) (1 connections)
-- [badgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L395) (1 connections)
-- [DYNAMIC_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L338) (1 connections)
-- [EMOTIONAL_CUES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L350) (1 connections)
-- [formatCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L440) (1 connections)
-- [GENRE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L233) (1 connections)
-- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L15) (1 connections)
-- [getGenreByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L404) (1 connections)
-- [getMoodByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L408) (1 connections)
-- [getSectionTypeByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L416) (1 connections)
-- [getStructureByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L412) (1 connections)
-- [getTagDefinition()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L420) (1 connections)
-- [getTagsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L424) (1 connections)
-- [messageVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L378) (1 connections)
-- [MOOD_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L222) (1 connections)
-- [MOODS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L40) (1 connections)
-- [PROMPT_BUILDERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L255) (1 connections)
-- [RHYME_SCHEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L273) (1 connections)
-- [SECTION_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L211) (1 connections)
-- [SECTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L132) (1 connections)
-- *... and 7 more nodes in this community*
+- [rlsPolicies.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L1) (32 connections)
+- [adminToken](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L27) (1 connections)
+- [adminUserId](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L23) (1 connections)
+- [{ data: adminSession }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L84) (1 connections)
+- [{ data: adminUser }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L52) (1 connections)
+- [{ data: allSubs }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L324) (1 connections)
+- [{ data: allTransactions }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L317) (1 connections)
+- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L127) (1 connections)
+- [{ data: product }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L94) (1 connections)
+- [{ data: session1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L66) (1 connections)
+- [{ data: session2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L75) (1 connections)
+- [{ data: sub1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L254) (1 connections)
+- [{ data: sub2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L267) (1 connections)
+- [{ data: tx1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L183) (1 connections)
+- [{ data: tx2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L197) (1 connections)
+- [{ data: user1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L37) (1 connections)
+- [{ data: user2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L44) (1 connections)
+- [{ error }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L138) (1 connections)
+- [supabaseAdmin](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L17) (1 connections)
+- [supabaseAnonKey](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L32) (1 connections)
+- [supabaseServiceKey](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L31) (1 connections)
+- [supabaseUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L30) (1 connections)
+- [supabaseUser1](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L18) (1 connections)
+- [supabaseUser2](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L19) (1 connections)
+- [testProductId](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts#L24) (1 connections)
+- *... and 8 more nodes in this community*
 
 ## Relationships
 
@@ -37,14 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\calendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/calendar.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\rlsPolicies.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/rlsPolicies.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 60 (97%)
-- INFERRED: 2 (3%)
+- EXTRACTED: 64 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

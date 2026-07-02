@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [ChatMessageList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageList.tsx#L1) (0 connections)
+- [VirtualizedArtistsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedArtistsList.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatMessageList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedArtistsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedArtistsList.tsx)
 
 ## Audit Trail
 

@@ -1,15 +1,14 @@
 # UI Icon Management
 
-> 6 nodes · cohesion 0.40
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [PaymentHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L1) (5 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L119) (2 connections)
-- [getProductIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L80) (2 connections)
-- [formatProductName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L88) (1 connections)
-- [PaymentHistoryItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L99) (1 connections)
-- [STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L18) (1 connections)
+- [WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L1) (4 connections)
+- [ChangeIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L15) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L39) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L52) (1 connections)
+- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -17,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

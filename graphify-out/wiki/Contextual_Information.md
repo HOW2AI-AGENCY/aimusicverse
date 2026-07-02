@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [StudioShellHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx#L128) (1 connections)
+- [EditableTrackTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx#L1) (1 connections)
+- [EditableTrackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\EditableTrackTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx)
 
 ## Audit Trail
 

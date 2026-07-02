@@ -1,35 +1,35 @@
 # Creative Content Generation
 
-> 29 nodes · cohesion 0.07
+> 30 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [CompactPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L1) (28 connections)
-- [{ artworkLayoutId }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L71) (1 connections)
-- [bottomBase](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L156) (1 connections)
-- [bottomStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L157) (1 connections)
-- [{ currentTime, duration, buffered, seek }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L60) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L44) (1 connections)
-- [{ gestureHandlers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L143) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L106) (1 connections)
-- [handleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L101) (1 connections)
-- [handleExpandKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L132) (1 connections)
-- [handleLike](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L115) (1 connections)
-- [handleNextTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L83) (1 connections)
-- [handlePlayPause](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L73) (1 connections)
-- [handlePrevTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L92) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L124) (1 connections)
-- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L59) (1 connections)
-- [hasNextTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L70) (1 connections)
-- [isDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L66) (1 connections)
-- [isLiked](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L162) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L58) (1 connections)
-- [isMidRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L65) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L64) (1 connections)
-- [isMobileLandscape](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L67) (1 connections)
-- [{ isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L54) (1 connections)
-- [playbackError](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L57) (1 connections)
-- *... and 4 more nodes in this community*
+- [schemas.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L1) (29 connections)
+- [clipSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L70) (1 connections)
+- [commentSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L285) (1 connections)
+- [createCommentSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L298) (1 connections)
+- [createProjectParamsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L180) (1 connections)
+- [createReportSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L314) (1 connections)
+- [generationParamsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L270) (1 connections)
+- [lyricsFormDataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L260) (1 connections)
+- [noteTypeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L230) (1 connections)
+- [paginationSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L22) (1 connections)
+- [projectStatusSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L132) (1 connections)
+- [reportReasonSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L309) (1 connections)
+- [schemas](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L323) (1 connections)
+- [sortSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L30) (1 connections)
+- [stemsModeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L137) (1 connections)
+- [studioLyricVersionSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L235) (1 connections)
+- [studioProjectSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L157) (1 connections)
+- [studioSectionNoteSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L247) (1 connections)
+- [studioTrackSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L97) (1 connections)
+- [trackEffectsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L88) (1 connections)
+- [trackFormDataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L119) (1 connections)
+- [trackMetadataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L50) (1 connections)
+- [trackStatusSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L45) (1 connections)
+- [trackTypeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L40) (1 connections)
+- [trackVersionSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L59) (1 connections)
+- *... and 5 more nodes in this community*
 
 ## Relationships
 
@@ -37,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\CompactPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\validation\schemas.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 56 (100%)
+- EXTRACTED: 58 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/types.ts#L1) (0 connections)
+- [KitSelectorPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/KitSelectorPro.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\KitSelectorPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/KitSelectorPro.tsx)
 
 ## Audit Trail
 

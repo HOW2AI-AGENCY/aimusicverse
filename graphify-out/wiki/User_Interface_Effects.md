@@ -1,35 +1,35 @@
 # User Interface Effects
 
-> 47 nodes · cohesion 0.04
+> 74 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [UnifiedNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L1) (45 connections)
-- [isPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L348) (2 connections)
-- [getActiveAudioSource()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudio.ts#L59) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L643) (1 connections)
-- [computedNotesDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L282) (1 connections)
-- [currentTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L347) (1 connections)
-- [defaultHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L466) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L295) (1 connections)
-- [effectiveBpm](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L303) (1 connections)
-- [effectiveMidiUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L169) (1 connections)
-- [effectiveMusicXmlUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L170) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L731) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L416) (1 connections)
-- [handleNoteClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L408) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L399) (1 connections)
-- [handleSendToTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L428) (1 connections)
-- [handleTogglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L382) (1 connections)
-- [[internalPlaying, setInternalPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L187) (1 connections)
-- [[internalTime, setInternalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L188) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L356) (1 connections)
-- [isLoadingNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L470) (1 connections)
-- [isLoud](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L634) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L143) (1 connections)
-- [{ isReady: synthReady, isMuted, volume, playNote, stopAll, setVolume, setMuted, initialize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L184) (1 connections)
-- [isSoft](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx#L635) (1 connections)
-- *... and 22 more nodes in this community*
+- [sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L1) (31 connections)
+- [Sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L1) (27 connections)
+- [StemReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L1) (6 connections)
+- [handleUseAsReference()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L41) (6 connections)
+- [handleScan()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L52) (4 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L80) (4 connections)
+- [setOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L58) (4 connections)
+- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L1) (3 connections)
+- [QRScannerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L1) (3 connections)
+- [handleNotificationClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L13) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L91) (2 connections)
+- [toggleSidebar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L74) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L36) (2 connections)
+- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L11) (1 connections)
+- [{ unreadCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L10) (1 connections)
+- [{ isSupported, isScanning, scanQR }](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L49) (1 connections)
+- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L50) (1 connections)
+- [accountNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L74) (1 connections)
+- [[accountOpen, setAccountOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L95) (1 connections)
+- [active](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L179) (1 connections)
+- [{ activeGenerations, generationCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L97) (1 connections)
+- [adminNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L83) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L119) (1 connections)
+- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L444) (1 connections)
+- [contentNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L52) (1 connections)
+- *... and 49 more nodes in this community*
 
 ## Relationships
 
@@ -37,13 +37,16 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\UnifiedNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UnifiedNotesViewer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudio.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\Sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\advanced\QRScannerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 91 (98%)
-- INFERRED: 2 (2%)
+- EXTRACTED: 146 (93%)
+- INFERRED: 11 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

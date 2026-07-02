@@ -1,18 +1,17 @@
 # Musical Notes
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.39
 
 ## Key Concepts
 
-- [useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L1) (8 connections)
-- [defaultProps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L19) (1 connections)
-- [largeTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L260) (1 connections)
-- [lineIndex](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L189) (1 connections)
-- [mockTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L11) (1 connections)
-- [onActiveLineChange](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L205) (1 connections)
-- [{ rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L207) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L32) (1 connections)
-- [seekTime](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L169) (1 connections)
+- [useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L1) (7 connections)
+- [useMusicGraphData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L152) (5 connections)
+- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L97) (2 connections)
+- [useMusicStyles()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L113) (2 connections)
+- [useStyleTagMappings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L128) (2 connections)
+- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L140) (2 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L71) (1 connections)
+- [GENRE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L84) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\lyrics\useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

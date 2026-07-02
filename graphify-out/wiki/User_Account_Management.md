@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L1) (8 connections)
-- [bgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L83) (1 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L82) (1 connections)
-- [DEVICE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L25) (1 connections)
-- [isGood](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L41) (1 connections)
-- [isPoor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L42) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L44) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L45) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L51) (1 connections)
+- [CreateActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L1) (8 connections)
+- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L32) (1 connections)
+- [showAddVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L26) (1 connections)
+- [showCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L23) (1 connections)
+- [showExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L24) (1 connections)
+- [showGenerateCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L22) (1 connections)
+- [showGenerateSimilar](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L30) (1 connections)
+- [showRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L25) (1 connections)
+- [showVideo](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\CreateActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx)
 
 ## Audit Trail
 

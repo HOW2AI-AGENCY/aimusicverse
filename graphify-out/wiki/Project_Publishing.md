@@ -1,18 +1,18 @@
 # Project Publishing
 
-> 9 nodes · cohesion 0.28
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L1) (8 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L64) (3 connections)
-- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L53) (2 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L45) (2 connections)
-- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L33) (1 connections)
-- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L58) (1 connections)
-- [hasChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L43) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L32) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L42) (1 connections)
+- [TrackDetailsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L1) (8 connections)
+- [{ data: artist }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L39) (1 connections)
+- [{ data: project }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L42) (1 connections)
+- [{ data: referenceAudio }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L45) (1 connections)
+- [{ handleGenerateVideo, isProcessing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L33) (1 connections)
+- [isCoverOrExtension](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L52) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L36) (1 connections)
+- [promptAndLyricsSame](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L48) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -20,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

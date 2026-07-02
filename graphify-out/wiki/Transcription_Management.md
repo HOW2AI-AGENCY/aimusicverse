@@ -1,12 +1,11 @@
 # Transcription Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L1) (2 connections)
-- [Content()](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L20) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L5) (1 connections)
+- [ConfirmationDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx#L22) (1 connections)
+- [ConfirmationDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -14,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ConfirmationDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

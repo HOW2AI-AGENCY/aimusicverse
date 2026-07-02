@@ -1,18 +1,17 @@
 # User Top-Up
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [FormFieldActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L1) (10 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L130) (1 connections)
-- [hasCustomActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L136) (1 connections)
-- [iconClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L71) (1 connections)
-- [isEmpty](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L133) (1 connections)
-- [[saving, setSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L131) (1 connections)
-- [shouldHideWhenEmpty](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L135) (1 connections)
-- [showCopyClear](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L178) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx#L65) (1 connections)
+- [StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L1) (7 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L77) (2 connections)
+- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L64) (1 connections)
+- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L82) (1 connections)
+- [{ impact, select }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L62) (1 connections)
+- [MODES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L26) (1 connections)
+- [[selectedMode, setSelectedMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L61) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -20,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FormFieldActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FormFieldActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

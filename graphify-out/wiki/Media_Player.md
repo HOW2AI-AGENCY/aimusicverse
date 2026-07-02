@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [AnomalyDetectionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L1) (5 connections)
-- [{ anomalies, criticalCount, warningCount, hasAnomalies, hasCritical }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L107) (1 connections)
-- [AnomalyCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L65) (1 connections)
-- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L106) (1 connections)
-- [severityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L25) (1 connections)
-- [typeIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L54) (1 connections)
+- [typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L1) (5 connections)
+- [Display](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L127) (1 connections)
+- [Heading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L38) (1 connections)
+- [Prose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L161) (1 connections)
+- [Text](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L88) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L71) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AnomalyDetectionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx)
 
 ## Audit Trail
 

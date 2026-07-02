@@ -1,21 +1,20 @@
 # UI Configuration
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [waveform-load.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L1) (11 connections)
-- [benchmarkResult](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L90) (1 connections)
-- [{ duration }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L71) (1 connections)
-- [isCached](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L240) (1 connections)
-- [largeMockWaveformData](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L164) (1 connections)
-- [mockAudioBuffer](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L17) (1 connections)
-- [mockWaveformData](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L24) (1 connections)
-- [promises](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L254) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L36) (1 connections)
-- [{ result: cachedResult, duration }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L51) (1 connections)
-- [samplesPerPixels](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L200) (1 connections)
-- [trackIds](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L224) (1 connections)
+- [InstrumentalResultHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L1) (10 connections)
+- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L99) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L108) (1 connections)
+- [handlePlayVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L82) (1 connections)
+- [hasExisting](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L116) (1 connections)
+- [hasMultipleVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L117) (1 connections)
+- [[playingVersion, setPlayingVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L51) (1 connections)
+- [{ playUrl, pause }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L55) (1 connections)
+- [[previewUrl, setPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L52) (1 connections)
+- [[saveAction, setSaveAction]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L48) (1 connections)
+- [[selectedVersion, setSelectedVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -23,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\performance\waveform-load.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\InstrumentalResultHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

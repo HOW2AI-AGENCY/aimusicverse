@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L1) (8 connections)
-- [displayUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L98) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L20) (1 connections)
-- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L99) (1 connections)
-- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L18) (1 connections)
-- [[previewUrl, setPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L19) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L17) (1 connections)
+- [useWaveformCache.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L1) (6 connections)
+- [before](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L97) (1 connections)
+- [entry](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L29) (1 connections)
+- [entryA](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L83) (1 connections)
+- [entryB](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L84) (1 connections)
+- [peaks](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L23) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\studio\useWaveformCache.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

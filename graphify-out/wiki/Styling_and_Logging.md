@@ -1,15 +1,14 @@
 # Styling and Logging
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L1) (5 connections)
-- [{ actionState, isProcessing, dialogs, closeDialog, executeAction, handleConfirmDelete, stems }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L53) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L46) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L51) (1 connections)
-- [[mobileSheetOpen, setMobileSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L47) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L48) (1 connections)
+- [PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L1) (4 connections)
+- [artistMatch](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L27) (1 connections)
+- [handleApplySuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L34) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L25) (1 connections)
+- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -17,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

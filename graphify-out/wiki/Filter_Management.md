@@ -1,19 +1,18 @@
 # Filter Management
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L1) (9 connections)
-- [prefetchTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L120) (2 connections)
-- [createOptimisticLikeUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L144) (1 connections)
-- [GC_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L32) (1 connections)
-- [invalidatePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L111) (1 connections)
-- [invalidateTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L102) (1 connections)
-- [invalidateUserTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L92) (1 connections)
-- [queryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L42) (1 connections)
-- [rollbackOptimisticUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L175) (1 connections)
-- [STALE_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L12) (1 connections)
+- [WorkflowVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L1) (8 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L165) (1 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L128) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L130) (1 connections)
+- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L131) (1 connections)
+- [isHorizontal](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L84) (1 connections)
+- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L129) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L47) (1 connections)
+- [StepIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L127) (1 connections)
 
 ## Relationships
 
@@ -21,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\WorkflowVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 16 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

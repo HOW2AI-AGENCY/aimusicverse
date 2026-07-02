@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L1) (2 connections)
-- [StatCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L17) (1 connections)
-- [StatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L47) (1 connections)
+- [ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L1) (2 connections)
+- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L19) (1 connections)
+- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx)
 
 ## Audit Trail
 

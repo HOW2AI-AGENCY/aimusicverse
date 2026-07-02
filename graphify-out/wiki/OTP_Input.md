@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L1) (1 connections)
-- [shadows](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L7) (1 connections)
+- [TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L1) (1 connections)
+- [TierDisplaySection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L1) (1 connections)
-- [useProjectDetailDialogs()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L22) (1 connections)
+- [useAddVocals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAddVocals.ts#L1) (1 connections)
+- [useAddVocals()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAddVocals.ts#L28) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\project\useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAddVocals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAddVocals.ts)
 
 ## Audit Trail
 

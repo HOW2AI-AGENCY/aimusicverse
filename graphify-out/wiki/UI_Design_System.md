@@ -1,17 +1,16 @@
 # UI Design System
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [carousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L1) (7 connections)
-- [Carousel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L41) (1 connections)
-- [CarouselContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L134) (1 connections)
-- [CarouselContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L29) (1 connections)
-- [CarouselItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L151) (1 connections)
-- [CarouselNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L196) (1 connections)
-- [CarouselPrevious](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L168) (1 connections)
-- [useCarousel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx#L31) (1 connections)
+- [AchievementsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L1) (6 connections)
+- [category](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L39) (1 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L7) (1 connections)
+- [{ data: achievements, isLoading: loadingAchievements }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L20) (1 connections)
+- [{ data: userAchievements, isLoading: loadingUserAchievements }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L21) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L23) (1 connections)
+- [isUnlocked](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L67) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\carousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/carousel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\AchievementsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

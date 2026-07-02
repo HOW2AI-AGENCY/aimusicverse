@@ -1,25 +1,39 @@
 # Generation Management
 
-> 16 nodes · cohesion 0.14
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L1) (15 connections)
-- [isPlayable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L61) (3 connections)
-- [hasAudioUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L28) (2 connections)
-- [isPublicPlayable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L71) (2 connections)
-- [hasCoverUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L38) (1 connections)
-- [hasCreatorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L48) (1 connections)
-- [hasProperty()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L185) (1 connections)
-- [isISODateString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L224) (1 connections)
-- [isNonEmptyArray()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L140) (1 connections)
-- [isNonEmptyString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L111) (1 connections)
-- [isNonNegativeNumber()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L160) (1 connections)
-- [isNotNull()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L94) (1 connections)
-- [isPlainObject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L195) (1 connections)
-- [isPositiveNumber()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L150) (1 connections)
-- [isValidDate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L214) (1 connections)
-- [isValidUUID()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L121) (1 connections)
+- [PromptDJClean.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L1) (14 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L199) (2 connections)
+- [applyPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L88) (1 connections)
+- [CHANNEL_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L44) (1 connections)
+- [{
+    channels,
+    updateChannel,
+    globalSettings,
+    updateGlobalSettings,
+    isGenerating,
+    generatedTracks,
+    generateMusic,
+    isPlaying,
+    currentTrack,
+    playTrack,
+    stopPlayback,
+    currentPrompt,
+    analyzerNode,
+    removeTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L70) (1 connections)
+- [customChannel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L142) (1 connections)
+- [{ description, bpm }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L141) (1 connections)
+- [drumData](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L138) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L121) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L109) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L67) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L66) (1 connections)
+- [QUICK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L52) (1 connections)
+- [resetChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L102) (1 connections)
+- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -27,12 +41,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\guards\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJClean.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 28 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [RevenueAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L1) (4 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L136) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L45) (1 connections)
-- [isPositiveChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L134) (1 connections)
-- [revenueChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L130) (1 connections)
+- [CompactPlayerButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L1) (4 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L182) (1 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L51) (1 connections)
+- [ROUND](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L32) (1 connections)
+- [TOUCH](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RevenueAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\CompactPlayerButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx)
 
 ## Audit Trail
 

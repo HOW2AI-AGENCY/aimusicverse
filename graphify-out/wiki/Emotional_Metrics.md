@@ -1,14 +1,14 @@
 # Emotional Metrics
 
-> 5 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [AutoSaveIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L1) (4 connections)
-- [formatTimeSince()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L18) (2 connections)
-- [getStatusConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L38) (2 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L85) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L86) (1 connections)
+- [usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L1) (4 connections)
+- [analyticsKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L71) (1 connections)
+- [useGamificationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L117) (1 connections)
+- [usePaymentAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L80) (1 connections)
+- [useQuickPaymentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L159) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AutoSaveIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [StudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx#L1) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx#L41) (1 connections)
+- [StudioShellHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx#L128) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\StudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L1) (3 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L31) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L50) (1 connections)
-- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L54) (1 connections)
+- [creator-avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L1) (3 connections)
+- [CreatorAvatar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L28) (1 connections)
+- [CreatorLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L87) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\creator-avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx)
 
 ## Audit Trail
 

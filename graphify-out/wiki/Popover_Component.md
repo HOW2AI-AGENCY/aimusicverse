@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L1) (2 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L51) (1 connections)
-- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L52) (1 connections)
+- [SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L1) (2 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L22) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx)
 
 ## Audit Trail
 

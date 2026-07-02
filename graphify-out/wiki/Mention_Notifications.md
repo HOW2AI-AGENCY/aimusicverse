@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L1) (9 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L77) (2 connections)
-- [DEFAULT_STYLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L47) (1 connections)
-- [emoji](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L259) (1 connections)
-- [getSectionStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L187) (1 connections)
-- [getTagEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L192) (1 connections)
-- [SECTION_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L32) (1 connections)
-- [StructuredLyricsDisplay()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L200) (1 connections)
-- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L247) (1 connections)
-- [TAG_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L50) (1 connections)
+- [home.navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L1) (9 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L76) (1 connections)
+- [dupes](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L48) (1 connections)
+- [EXPECTED_ORDER](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L11) (1 connections)
+- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L30) (1 connections)
+- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L31) (1 connections)
+- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L28) (1 connections)
+- [sectionIds](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L38) (1 connections)
+- [seen](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L54) (1 connections)
+- [sortedByExpected](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

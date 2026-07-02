@@ -1,13 +1,12 @@
 # Grid Layout
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useGenerateDraft.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L1) (3 connections)
-- [draft](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L47) (1 connections)
-- [DRAFT_KEY](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L9) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L18) (1 connections)
+- [PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L1) (2 connections)
+- [LoadingSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L25) (1 connections)
+- [{ transactions, isLoading, hasMore, loadMore, isLoadingMore, refetch, isRefetching }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useGenerateDraft.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,13 +1,12 @@
 # Selection Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L1) (3 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L42) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L52) (1 connections)
-- [useExtendProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L62) (1 connections)
+- [BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L1) (2 connections)
+- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L30) (1 connections)
+- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

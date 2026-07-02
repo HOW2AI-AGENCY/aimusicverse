@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L1) (3 connections)
-- [useAdminModerationReports()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L32) (1 connections)
-- [useModerationStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L111) (1 connections)
-- [useUpdateReportStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L74) (1 connections)
+- [useStudioProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts#L1) (3 connections)
+- [generateId()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts#L114) (2 connections)
+- [TRACK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts#L106) (1 connections)
+- [useStudioProjectStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts#L116) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\useStudioProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

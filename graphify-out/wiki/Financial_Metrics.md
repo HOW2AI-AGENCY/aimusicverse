@@ -1,14 +1,13 @@
 # Financial Metrics
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L1) (4 connections)
-- [useBroadcastNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L30) (1 connections)
-- [useBroadcastTemplates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L55) (1 connections)
-- [useDeleteBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L99) (1 connections)
-- [useSaveBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L70) (1 connections)
+- [PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L1) (3 connections)
+- [{ minPitch, maxPitch, normalizedNotes, pitchRange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L28) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L25) (1 connections)
+- [octaveLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L63) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

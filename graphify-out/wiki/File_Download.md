@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useLyricsHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L1) (2 connections)
-- [MAX_HISTORY](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L53) (1 connections)
-- [useLyricsHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L55) (1 connections)
+- [UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L1) (2 connections)
+- [createWrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L20) (1 connections)
+- [module](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\useLyricsHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\studio\unified\UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx)
 
 ## Audit Trail
 

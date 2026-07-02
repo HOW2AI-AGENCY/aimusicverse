@@ -1,14 +1,13 @@
 # Authentication Flow
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L1) (4 connections)
-- [AnimatedIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L23) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L86) (1 connections)
-- [isTelegramApp](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L85) (1 connections)
-- [{ webApp }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L84) (1 connections)
+- [OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L1) (3 connections)
+- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L26) (2 connections)
+- [findActiveLine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L44) (1 connections)
+- [OptimizedLyricsPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -16,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

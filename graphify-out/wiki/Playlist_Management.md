@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [FunnelVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L1) (5 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L84) (1 connections)
-- [getBarColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L52) (1 connections)
-- [STEP_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L25) (1 connections)
-- [TIME_RANGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L33) (1 connections)
-- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L49) (1 connections)
+- [DeepLinkHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L1) (5 connections)
+- [DEEP_LINK_DESCRIPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L111) (1 connections)
+- [DEEP_LINK_ROUTES](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L20) (1 connections)
+- [DeepLinkHandler()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L154) (1 connections)
+- [getDeepLinkDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L150) (1 connections)
+- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\FunnelVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\DeepLinkHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L1) (4 connections)
-- [canSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L67) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L45) (1 connections)
-- [textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L37) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L33) (1 connections)
+- [TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L1) (4 connections)
+- [hapticClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L94) (1 connections)
+- [hapticPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L13) (1 connections)
+- [useHapticPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L74) (1 connections)
+- [withHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L81) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx)
 
 ## Audit Trail
 

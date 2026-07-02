@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [TouchTarget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L1) (2 connections)
-- [TouchIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L39) (1 connections)
-- [TouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L20) (1 connections)
+- [useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L1) (2 connections)
+- [audioLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L23) (1 connections)
+- [useAudioPlayer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\TouchTarget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx)
 
 ## Audit Trail
 

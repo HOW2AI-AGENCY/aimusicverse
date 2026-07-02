@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [EditableLyricsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx#L1) (1 connections)
-- [EditableLyricsContent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx#L18) (1 connections)
+- [OnboardingStateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts#L1) (1 connections)
+- [transitionOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts#L8) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\EditableLyricsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingStateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts)
 
 ## Audit Trail
 

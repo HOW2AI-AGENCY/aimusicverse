@@ -1,32 +1,33 @@
 # Charge Management
 
-> 23 nodes · cohesion 0.09
+> 24 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [BroadcastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L1) (18 connections)
-- [SaveTemplateDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L1) (4 connections)
-- [handleFileChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L50) (2 connections)
-- [loadTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L65) (2 connections)
-- [saveTemplate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L30) (2 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L24) (2 connections)
-- [broadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L28) (1 connections)
-- [clearImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L57) (1 connections)
-- [{ data: templates }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L29) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L26) (1 connections)
-- [handleSend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L75) (1 connections)
-- [[imageFile, setImageFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L21) (1 connections)
-- [[imageUrl, setImageUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L20) (1 connections)
-- [[message, setMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L18) (1 connections)
-- [[saveAsTemplate, setSaveAsTemplate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L23) (1 connections)
-- [[targetType, setTargetType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L19) (1 connections)
-- [[templateName, setTemplateName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L24) (1 connections)
-- [[templatesOpen, setTemplatesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L25) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L17) (1 connections)
-- [[uploading, setUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L22) (1 connections)
-- [lyricsPreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L41) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L21) (1 connections)
-- [{ saveTemplate, isSaving }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L22) (1 connections)
+- [StudioTranscriptionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L1) (23 connections)
+- [autoDetectKlangioModel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L55) (1 connections)
+- [{ data: existingTranscription, isLoading: loadingExisting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L146) (1 connections)
+- [{ data: stemsList }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L114) (1 connections)
+- [detectedModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L95) (1 connections)
+- [displayResult](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L374) (1 connections)
+- [downloadFile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L353) (1 connections)
+- [[engine, setEngine]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L93) (1 connections)
+- [hasFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L391) (1 connections)
+- [[isTranscribing, setIsTranscribing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L97) (1 connections)
+- [[klangioModel, setKlangioModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L96) (1 connections)
+- [{ mutateAsync: invokeKlangio }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L91) (1 connections)
+- [{ mutateAsync: invokeReplicate }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L90) (1 connections)
+- [normalizedStemType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L102) (1 connections)
+- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L98) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L88) (1 connections)
+- [resolvedStemData](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L116) (1 connections)
+- [resolvedStemId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L142) (1 connections)
+- [resolvedStemType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L143) (1 connections)
+- [[result, setResult]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L99) (1 connections)
+- [runBasicPitch](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L152) (1 connections)
+- [runKlangio](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L223) (1 connections)
+- [{ saveTranscription }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L89) (1 connections)
+- [startTranscription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L344) (1 connections)
 
 ## Relationships
 
@@ -34,13 +35,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BroadcastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SaveTemplateDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioTranscriptionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (94%)
-- INFERRED: 3 (6%)
+- EXTRACTED: 46 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

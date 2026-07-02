@@ -1,13 +1,12 @@
 # Icon Sizing
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [queue-schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L1) (3 connections)
-- [PlaybackQueueSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L3) (1 connections)
-- [RecentlyPlayedSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L10) (1 connections)
-- [UserPreferencesSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L24) (1 connections)
+- [AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L1) (2 connections)
+- [AIProgressIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L30) (1 connections)
+- [STEP_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\validation\queue-schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

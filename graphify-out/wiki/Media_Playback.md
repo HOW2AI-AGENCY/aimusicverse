@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L1) (3 connections)
-- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L22) (1 connections)
-- [useBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L42) (1 connections)
-- [useUpdateBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L66) (1 connections)
+- [Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L1) (3 connections)
+- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L25) (1 connections)
+- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L33) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L6) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts)
 
 ## Audit Trail
 

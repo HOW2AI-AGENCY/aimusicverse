@@ -1,18 +1,17 @@
 # Drum Kits
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [BundleSizeCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L1) (8 connections)
-- [bundleSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L36) (1 connections)
-- [gzipSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L37) (1 connections)
-- [prevBundleSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L38) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L41) (1 connections)
-- [progressColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L51) (1 connections)
-- [sizeDiff](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L43) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L40) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L45) (1 connections)
+- [DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L83) (1 connections)
+- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L114) (1 connections)
+- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L45) (1 connections)
+- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L75) (1 connections)
+- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L76) (1 connections)
+- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L150) (1 connections)
+- [stepIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L117) (1 connections)
 
 ## Relationships
 
@@ -20,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\performance\BundleSizeCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

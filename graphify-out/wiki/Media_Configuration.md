@@ -1,22 +1,21 @@
 # Media Configuration
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [MobileSectionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L1) (12 connections)
-- [{ data: lyricsData, isLoading: lyricsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L67) (1 connections)
-- [{ data: replacedSections }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L76) (1 connections)
-- [{ data: sourceTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L52) (1 connections)
-- [detectedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L73) (1 connections)
-- [handleCloseEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L100) (1 connections)
-- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L89) (1 connections)
-- [mainTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L48) (1 connections)
-- [replacedRanges](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L79) (1 connections)
-- [{ selectedSection, selectedSectionIndex, selectSection, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L45) (1 connections)
-- [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L42) (1 connections)
-- [[showEditor, setShowEditor]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L43) (1 connections)
-- [sourceTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L49) (1 connections)
+- [ArtistDetailsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L1) (11 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L34) (1 connections)
+- [{ data: artistTracks, isLoading: tracksLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L51) (1 connections)
+- [{ data: canMakePrivate }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L40) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L64) (1 connections)
+- [[editDialogOpen, setEditDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L35) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L187) (1 connections)
+- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L188) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L37) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L31) (1 connections)
+- [{ playTrack, activeTrack, isPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L33) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -24,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileSectionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\ArtistDetailsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

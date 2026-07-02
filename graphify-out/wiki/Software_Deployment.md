@@ -1,35 +1,49 @@
 # Software Deployment
 
-> 33 nodes · cohesion 0.06
+> 35 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [check-css-imports.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L1) (32 connections)
-- [abs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L37) (1 connections)
-- [absPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L100) (1 connections)
-- [before](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L66) (1 connections)
-- [BOLD](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L27) (1 connections)
-- [code](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L72) (1 connections)
-- [color()](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L30) (1 connections)
-- [CYAN](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L25) (1 connections)
-- [DIM](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L26) (1 connections)
-- [__dirname](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L17) (1 connections)
-- [end](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L57) (1 connections)
-- [filePath](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L99) (1 connections)
-- [firstOtherLine](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L47) (1 connections)
-- [firstOtherText](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L48) (1 connections)
-- [GREEN](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L24) (1 connections)
-- [hasError](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L34) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L52) (1 connections)
-- [inBlockComment](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L49) (1 connections)
-- [isCharset](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L78) (1 connections)
-- [isEmptyLayer](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L79) (1 connections)
-- [isImport](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L77) (1 connections)
-- [line](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L53) (1 connections)
-- [lines](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L44) (1 connections)
-- [projectRoot](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L18) (1 connections)
-- [RED](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L22) (1 connections)
-- *... and 8 more nodes in this community*
+- [VirtualizedTrackList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L1) (29 connections)
+- [TrackItemErrorBoundary](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L28) (6 connections)
+- [.componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L38) (2 connections)
+- [canPull](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L255) (1 connections)
+- [computeItemKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L349) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L247) (1 connections)
+- [gridComponents](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L434) (1 connections)
+- [GridContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L91) (1 connections)
+- [GridFooter](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L425) (1 connections)
+- [GridItemWrapper](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L106) (1 connections)
+- [handleGridEndReached](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L417) (1 connections)
+- [handleScroll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L336) (1 connections)
+- [handleTouchEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L308) (1 connections)
+- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L283) (1 connections)
+- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L267) (1 connections)
+- [increaseViewportBy](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L264) (1 connections)
+- [[isPulling, setIsPulling]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L252) (1 connections)
+- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L176) (1 connections)
+- [[isRefreshing, setIsRefreshing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L251) (1 connections)
+- [loadingRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L246) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L25) (1 connections)
+- [MAX_PULL](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L259) (1 connections)
+- [observer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L393) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L175) (1 connections)
+- [PULL_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L258) (1 connections)
+- *... and 10 more nodes in this community*
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class TrackItemErrorBoundary {
+        +VirtualizedTrackList.tsx()
+        +.constructor()
+        +.getDerivedStateFromError()
+        +.componentDidCatch()
+        +.componentDidUpdate()
+        +.render()
+    }
+```
 
 ## Relationships
 
@@ -37,12 +51,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\check-css-imports.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\VirtualizedTrackList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 64 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 68 (99%)
+- INFERRED: 1 (1%)
 - AMBIGUOUS: 0 (0%)
 
 ---

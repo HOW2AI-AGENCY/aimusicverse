@@ -1,14 +1,13 @@
 # History Management
 
-> 5 nodes · cohesion 0.60
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [OnboardingTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L8) (3 connections)
-- [useOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L20) (3 connections)
-- [useShouldShowOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L77) (3 connections)
-- [useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L1) (2 connections)
-- [OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L1) (1 connections)
+- [unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L1) (3 connections)
+- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L170) (1 connections)
+- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L156) (1 connections)
+- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L163) (1 connections)
 
 ## Relationships
 
@@ -16,13 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (67%)
-- INFERRED: 4 (33%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

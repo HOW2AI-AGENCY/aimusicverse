@@ -1,21 +1,20 @@
 # E-commerce Transactions
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L1) (11 connections)
-- [[currentSlide, setCurrentSlide]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L225) (1 connections)
-- [currentSlideData](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L253) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L247) (1 connections)
-- [handleNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L232) (1 connections)
-- [handlePrev](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L242) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L224) (1 connections)
-- [isFirstSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L230) (1 connections)
-- [isLastSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L229) (1 connections)
-- [slides](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L228) (1 connections)
-- [tutorial](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L227) (1 connections)
-- [TUTORIALS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L49) (1 connections)
+- [InstrumentalSettingsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L1) (10 connections)
+- [[bpm, setBpm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L38) (1 connections)
+- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L39) (1 connections)
+- [DEFAULT_BPM](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L28) (1 connections)
+- [[genre, setGenre]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L36) (1 connections)
+- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L42) (1 connections)
+- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L46) (1 connections)
+- [[mood, setMood]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L37) (1 connections)
+- [selectedGenre](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L53) (1 connections)
+- [selectedMood](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L54) (1 connections)
+- [[showAdvanced, setShowAdvanced]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -23,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\InstrumentalSettingsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

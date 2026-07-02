@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L1) (2 connections)
-- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L30) (1 connections)
-- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L35) (1 connections)
+- [ProfileSetupStep1Basic.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L77) (1 connections)
+- [ProfileSetupStep1Basic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep1Basic.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx)
 
 ## Audit Trail
 

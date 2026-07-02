@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useStudioModals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L1) (2 connections)
-- [useStudioModalHandlers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L93) (1 connections)
-- [useStudioModals()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L52) (1 connections)
+- [LyricsAIPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsAIPanel.tsx#L1) (2 connections)
+- [agentBaseProps](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsAIPanel.tsx#L108) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsAIPanel.tsx#L105) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioModals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\LyricsAIPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsAIPanel.tsx)
 
 ## Audit Trail
 

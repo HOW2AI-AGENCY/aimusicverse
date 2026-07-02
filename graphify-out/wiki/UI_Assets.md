@@ -1,13 +1,12 @@
 # UI Assets
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useRAFThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L1) (3 connections)
-- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L54) (1 connections)
-- [useRAFThrottleBatch()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L189) (1 connections)
-- [useRAFThrottledState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L141) (1 connections)
+- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L1) (2 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L33) (1 connections)
+- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRAFThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\empty\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [FormSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\FormSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\branding\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/index.ts)
 
 ## Audit Trail
 

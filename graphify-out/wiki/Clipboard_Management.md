@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [StructuredLyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx#L1) (7 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx#L55) (2 connections)
-- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx#L137) (1 connections)
-- [getTagIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx#L142) (1 connections)
-- [icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx#L190) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx#L28) (1 connections)
-- [StructuredLyricsPreview()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx#L150) (1 connections)
-- [TAG_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx#L40) (1 connections)
+- [BlockedUsersPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L1) (7 connections)
+- [blockedUserIds](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L18) (1 connections)
+- [{ data: blockedUsers, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L14) (1 connections)
+- [{ data: profiles }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L19) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L13) (1 connections)
+- [profile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L74) (1 connections)
+- [profileMap](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L32) (1 connections)
+- [{ toggleBlock, isLoading: isUnblocking }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -19,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\StructuredLyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\settings\BlockedUsersPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (93%)
-- INFERRED: 1 (7%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

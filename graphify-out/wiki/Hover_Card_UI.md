@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [HomeSectionGroup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L1) (2 connections)
-- [hasHeader](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L44) (1 connections)
-- [toneToClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L30) (1 connections)
+- [TelegramTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/TelegramTab.tsx#L1) (2 connections)
+- [TelegramTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/TelegramTab.tsx#L24) (2 connections)
+- [TELEGRAM_FEATURES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/TelegramTab.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -14,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeSectionGroup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\TelegramTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/TelegramTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (80%)
+- INFERRED: 1 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

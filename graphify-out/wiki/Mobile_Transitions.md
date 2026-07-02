@@ -1,13 +1,12 @@
 # Mobile Transitions
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L1) (3 connections)
-- [getMixPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L229) (1 connections)
-- [getPresetStemSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L236) (1 connections)
-- [MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L27) (1 connections)
+- [UnifiedAnalysisCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L1) (2 connections)
+- [getInstrumentIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L34) (1 connections)
+- [instrumentIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\UnifiedAnalysisCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

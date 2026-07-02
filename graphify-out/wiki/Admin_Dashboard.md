@@ -1,22 +1,22 @@
 # Admin Dashboard
 
-> 13 nodes · cohesion 0.19
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [AddInstrumentalDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L1) (13 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L27) (3 connections)
-- [handleOpenStudio()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L132) (2 connections)
-- [handleOpenTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L125) (2 connections)
-- [handlePlayTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L114) (2 connections)
-- [playTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L28) (2 connections)
-- [[advancedSettings, setAdvancedSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L37) (1 connections)
-- [instrumentalProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L29) (1 connections)
-- [loading](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L52) (1 connections)
-- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L33) (1 connections)
-- [[openInStudio, setOpenInStudio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L34) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L31) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx#L32) (1 connections)
+- [MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L1) (12 connections)
+- [[activeMode, setActiveMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L87) (1 connections)
+- [chordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L92) (1 connections)
+- [handleRecordingSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L104) (1 connections)
+- [handleToggleChordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L114) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L84) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L161) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L222) (1 connections)
+- [{ isActive: isPro }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L85) (1 connections)
+- [promptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L101) (1 connections)
+- [RECORDING_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L55) (1 connections)
+- [[selectedRecordingType, setSelectedRecordingType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L89) (1 connections)
+- [[showRecordDrawer, setShowRecordDrawer]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L88) (1 connections)
 
 ## Relationships
 
@@ -24,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\AddInstrumentalDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddInstrumentalDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 31 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

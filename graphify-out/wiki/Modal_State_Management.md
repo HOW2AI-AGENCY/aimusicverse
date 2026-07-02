@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useAudioAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L1) (3 connections)
-- [analysisLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L6) (1 connections)
-- [useAnalyzeAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L53) (1 connections)
-- [useAudioAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L32) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L1) (3 connections)
+- [createDefaultViewSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L154) (1 connections)
+- [generateId()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L152) (1 connections)
+- [TRACK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L139) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts)
 
 ## Audit Trail
 

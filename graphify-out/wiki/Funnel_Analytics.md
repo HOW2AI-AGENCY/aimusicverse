@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx#L1) (2 connections)
-- [Card](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx#L32) (1 connections)
-- [cardVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx#L5) (1 connections)
+- [useStudioActivityLogger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L1) (2 connections)
+- [useStudioActivityLogger()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L56) (2 connections)
+- [IMPORTANT_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L47) (1 connections)
 
 ## Relationships
 
@@ -14,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioActivityLogger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (80%)
+- INFERRED: 1 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

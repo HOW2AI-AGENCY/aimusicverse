@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L1) (4 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L38) (1 connections)
-- [hasMetadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L37) (1 connections)
-- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L36) (1 connections)
-- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L24) (1 connections)
+- [useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L1) (4 connections)
+- [useBroadcastNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L30) (1 connections)
+- [useBroadcastTemplates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L55) (1 connections)
+- [useDeleteBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L99) (1 connections)
+- [useSaveBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L70) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts)
 
 ## Audit Trail
 

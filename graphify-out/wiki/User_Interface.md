@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [NetworkErrorState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/error/NetworkErrorState.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\error\NetworkErrorState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/error/NetworkErrorState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/index.ts)
 
 ## Audit Trail
 

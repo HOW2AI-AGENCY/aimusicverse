@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L1) (1 connections)
-- [LyricsAutoScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L24) (1 connections)
+- [UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L1) (1 connections)
+- [UnifiedStudioMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx)
 
 ## Audit Trail
 

@@ -1,16 +1,16 @@
 # Audio Analysis
 
-> 7 nodes · cohesion 0.29
+> 7 nodes · cohesion 0.38
 
 ## Key Concepts
 
-- [LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L1) (6 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L89) (1 connections)
-- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L111) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L109) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L50) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L108) (1 connections)
-- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L121) (1 connections)
+- [sunoTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L1) (6 connections)
+- [findSunoTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L235) (3 connections)
+- [getAllSunoTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L228) (2 connections)
+- [getTagLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L260) (2 connections)
+- [parseTagsFromText()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L252) (2 connections)
+- [formatTagForInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L243) (1 connections)
+- [SUNO_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\sunoTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 16 (94%)
+- INFERRED: 1 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

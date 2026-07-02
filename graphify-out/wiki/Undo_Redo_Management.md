@@ -1,25 +1,15 @@
 # Undo Redo Management
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L1) (6 connections)
-- [followButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L192) (1 connections)
-- [{
-    isLiked,
-    likesCount,
-    toggleLike,
-    isLikePending,
-    isFollowing,
-    toggleFollow,
-    share,
-    isSharing,
-  }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L66) (1 connections)
-- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L142) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L101) (1 connections)
-- [shareButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L160) (1 connections)
-- [user](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L133) (1 connections)
+- [GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L1) (5 connections)
+- [[elapsedTime, setElapsedTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L31) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L42) (1 connections)
+- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L30) (1 connections)
+- [remainingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L54) (1 connections)
+- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -27,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\integration\social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

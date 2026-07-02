@@ -1,22 +1,21 @@
 # Volume Control
 
-> 13 nodes · cohesion 0.23
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [branded.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L1) (12 connections)
-- [isValidUUID()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L59) (7 connections)
-- [createArtistId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L120) (2 connections)
-- [createPlaylistId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L132) (2 connections)
-- [createProjectId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L108) (2 connections)
-- [createStemId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L96) (2 connections)
-- [createTrackId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L72) (2 connections)
-- [createUserId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L84) (2 connections)
-- [brand](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L23) (1 connections)
-- [extractId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L172) (1 connections)
-- [unsafeAsStemId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L161) (1 connections)
-- [unsafeAsTrackId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L145) (1 connections)
-- [unsafeAsUserId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L153) (1 connections)
+- [QuickLikeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L1) (11 connections)
+- [BURST_ANGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L18) (1 connections)
+- [currentIsLiked](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L50) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L52) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L41) (1 connections)
+- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L90) (1 connections)
+- [[isAnimating, setIsAnimating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L43) (1 connections)
+- [{ isLiked: hookIsLiked, isLoading, toggleLike }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L47) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L84) (1 connections)
+- [{ trackLike }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L44) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L42) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -24,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\branded.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\QuickLikeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

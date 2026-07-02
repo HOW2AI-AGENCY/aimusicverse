@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L1) (1 connections)
-- [useSwipeActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L34) (1 connections)
+- [useSimulatedStemLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts#L1) (1 connections)
+- [useSimulatedStemLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useSimulatedStemLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useSimulatedStemLevels.ts)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/index.ts#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/index.ts)
 
 ## Audit Trail
 

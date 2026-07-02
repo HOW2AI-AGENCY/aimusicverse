@@ -1,21 +1,21 @@
 # Music Recording
 
-> 12 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L1) (11 connections)
-- [getRetentionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L39) (2 connections)
-- [RetentionCell()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L67) (2 connections)
-- [AverageCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L100) (1 connections)
-- [averages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L129) (1 connections)
-- [{ data: cohorts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L127) (1 connections)
-- [dateRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L118) (1 connections)
-- [formatDate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L52) (1 connections)
-- [RETENTION_COLUMNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L29) (1 connections)
-- [TIME_RANGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L22) (1 connections)
-- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L116) (1 connections)
-- [totalUsers](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L134) (1 connections)
+- [waveform-load.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L1) (11 connections)
+- [benchmarkResult](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L90) (1 connections)
+- [{ duration }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L71) (1 connections)
+- [isCached](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L240) (1 connections)
+- [largeMockWaveformData](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L164) (1 connections)
+- [mockAudioBuffer](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L17) (1 connections)
+- [mockWaveformData](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L24) (1 connections)
+- [promises](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L254) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L36) (1 connections)
+- [{ result: cachedResult, duration }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L51) (1 connections)
+- [samplesPerPixels](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L200) (1 connections)
+- [trackIds](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts#L224) (1 connections)
 
 ## Relationships
 
@@ -23,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\performance\waveform-load.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/waveform-load.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

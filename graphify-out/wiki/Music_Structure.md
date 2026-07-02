@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L1) (2 connections)
-- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L11) (1 connections)
-- [useHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L13) (1 connections)
+- [useMixExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L1) (2 connections)
+- [DEFAULT_MASTERING](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L39) (1 connections)
+- [useMixExport()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L46) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMixExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts)
 
 ## Audit Trail
 

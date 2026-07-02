@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L1) (2 connections)
-- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L12) (1 connections)
-- [VerificationBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L18) (1 connections)
+- [select.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/select.tsx#L1) (3 connections)
+- [SelectGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/select.tsx#L9) (1 connections)
+- [SelectValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/select.tsx#L11) (1 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\select.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/select.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 5 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

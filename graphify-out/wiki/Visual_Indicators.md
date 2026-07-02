@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L1) (2 connections)
-- [useWorkflowEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L95) (1 connections)
-- [WORKFLOWS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L40) (1 connections)
+- [StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L1) (2 connections)
+- [ActionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L68) (1 connections)
+- [StudioActionsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L114) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx)
 
 ## Audit Trail
 

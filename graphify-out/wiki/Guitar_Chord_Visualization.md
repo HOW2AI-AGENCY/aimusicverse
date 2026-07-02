@@ -4,59 +4,22 @@
 
 ## Key Concepts
 
-- [DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L1) (15 connections)
-- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L93) (1 connections)
-- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L25) (1 connections)
-- [getAvailableKits()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L194) (1 connections)
-- [getPresetPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L271) (1 connections)
-- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L67) (1 connections)
-- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L75) (1 connections)
-- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L104) (1 connections)
-- [handleRecord](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L118) (1 connections)
-- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L113) (1 connections)
-- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L152) (1 connections)
-- [handleTrackVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L130) (1 connections)
-- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L138) (1 connections)
-- [{
-    isReady,
-    isPlaying,
-    currentStep,
-    bpm,
-    swing,
-    volume,
-    currentKit,
-    pattern,
-    soloTracks,
-    mutedTracks,
-    stepLength,
-    recordingState,
-    recordedAudioUrl,
-    recordedAudioBlob,
-    trackEffects,
-    initialize,
-    play,
-    stop,
-    toggleStep,
-    triggerSound,
-    setBpm,
-    setSwing,
-    setVolume,
-    setKit,
-    loadPattern,
-    clearPattern,
-    toggleSolo,
-    toggleMute,
-    getAvailableKits,
-    getPresetPatterns,
-    setStepLength,
-    startRecording,
-    stopRecording,
-    clearRecording,
-    setTrackEffect,
-    exportToMidi,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L27) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L23) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L24) (1 connections)
+- [lazy-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L1) (15 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L138) (1 connections)
+- [containerStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L97) (1 connections)
+- [element](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L51) (1 connections)
+- [handleError](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L87) (1 connections)
+- [handleLoad](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L83) (1 connections)
+- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L33) (1 connections)
+- [hasFixedSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L92) (1 connections)
+- [imgRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L34) (1 connections)
+- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L32) (1 connections)
+- [observerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L35) (1 connections)
+- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L39) (1 connections)
+- [resolvedAspectRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L93) (1 connections)
+- [[shouldLoad, setShouldLoad]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L36) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L45) (1 connections)
+- [srcSet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -64,7 +27,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\lazy-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx)
 
 ## Audit Trail
 

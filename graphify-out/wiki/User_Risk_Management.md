@@ -1,16 +1,15 @@
 # User Risk Management
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L1) (6 connections)
-- [isBottomSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L82) (1 connections)
-- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L77) (1 connections)
-- [Sheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L10) (1 connections)
-- [SheetClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L14) (1 connections)
-- [SheetPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L16) (1 connections)
-- [SheetTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L12) (1 connections)
+- [FirstCommentCTA.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L1) (5 connections)
+- [DISMISSED_CTAS_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L28) (1 connections)
+- [FirstCommentCTA](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L80) (1 connections)
+- [useCommentCTA()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L313) (1 connections)
+- [useHasCommented()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L33) (1 connections)
+- [useIsDismissed()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -18,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\FirstCommentCTA.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

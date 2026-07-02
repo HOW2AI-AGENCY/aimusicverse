@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L1) (1 connections)
-- [useStemControls()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L20) (1 connections)
+- [useKlangioAnalyze.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useKlangioAnalyze.ts#L1) (1 connections)
+- [useKlangioAnalyze()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useKlangioAnalyze.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useKlangioAnalyze.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useKlangioAnalyze.ts)
 
 ## Audit Trail
 

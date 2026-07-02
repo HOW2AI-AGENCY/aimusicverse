@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [UndoRedoControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L1) (3 connections)
-- [isMac](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L23) (1 connections)
-- [modKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L24) (1 connections)
-- [{ undo, redo, canUndo, canRedo, historyLength, historyIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L21) (1 connections)
+- [useMidiVisualization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts#L1) (3 connections)
+- [generateNoteId()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts#L72) (2 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts#L64) (1 connections)
+- [useMidiVisualization()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts#L76) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\UndoRedoControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiVisualization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

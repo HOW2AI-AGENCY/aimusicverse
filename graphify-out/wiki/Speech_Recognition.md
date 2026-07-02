@@ -1,22 +1,21 @@
 # Speech Recognition
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L1) (12 connections)
-- [formatted](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L188) (1 connections)
-- [lines](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L164) (1 connections)
-- [mockAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L26) (1 connections)
-- [mockBPMResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L39) (1 connections)
-- [mockDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L27) (1 connections)
-- [mockNearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L129) (1 connections)
-- [mockPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L147) (1 connections)
-- [mockSnapResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L103) (1 connections)
-- [nearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L138) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L42) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L225) (1 connections)
-- [snapped](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L118) (1 connections)
+- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L1) (6 connections)
+- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L1) (4 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L22) (2 connections)
+- [toggleTheme](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L78) (2 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L27) (1 connections)
+- [handleThemeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L34) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L20) (1 connections)
+- [{ resolvedTheme, setTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L76) (1 connections)
+- [{ theme, resolvedTheme, setTheme, toggleTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L19) (1 connections)
+- [{ theme, setTheme, resolvedTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L32) (1 connections)
+- [ThemeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L42) (1 connections)
+- [themeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -24,12 +23,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\theme\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (91%)
+- INFERRED: 2 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

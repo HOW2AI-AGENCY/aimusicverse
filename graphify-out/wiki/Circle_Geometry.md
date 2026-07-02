@@ -1,13 +1,12 @@
 # Circle Geometry
 
-> 4 nodes · cohesion 0.67
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useMobileHaptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L1) (3 connections)
-- [isHapticSupported()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L40) (2 connections)
-- [useMobileHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L50) (2 connections)
-- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L38) (1 connections)
+- [HomeSectionGroup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L1) (2 connections)
+- [hasHeader](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L44) (1 connections)
+- [toneToClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useMobileHaptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeSectionGroup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

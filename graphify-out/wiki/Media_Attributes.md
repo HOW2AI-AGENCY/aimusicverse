@@ -1,19 +1,18 @@
 # Media Attributes
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L1) (9 connections)
-- [Z_BASE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L10) (1 connections)
-- [Z_CLASS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L20) (1 connections)
-- [Z_DEV_OVERLAY](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L17) (1 connections)
-- [Z_DRAWER](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L13) (1 connections)
-- [Z_DROPDOWN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L11) (1 connections)
-- [Z_MODAL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L14) (1 connections)
-- [Z_POPOVER](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L15) (1 connections)
-- [Z_STICKY](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L12) (1 connections)
-- [Z_TOAST](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L16) (1 connections)
+- [KnobCell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L1) (8 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L52) (1 connections)
+- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L36) (1 connections)
+- [handleLabelClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L62) (1 connections)
+- [handleOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L66) (1 connections)
+- [handlePresetSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L73) (1 connections)
+- [handleToggleEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L81) (1 connections)
+- [handleTypeChangeClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L85) (1 connections)
+- [handleWeightChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -21,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\KnobCell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [ExperimentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L1) (12 connections)
-- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L216) (1 connections)
-- [conversions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L215) (1 connections)
-- [experiments](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L65) (1 connections)
-- [isWinner](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L217) (1 connections)
-- [MOCK_RESULTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L29) (1 connections)
-- [participants](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L214) (1 connections)
-- [[selectedExperiment, setSelectedExperiment]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L62) (1 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L76) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L177) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L170) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L178) (1 connections)
-- [totalParticipants](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L180) (1 connections)
+- [StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L1) (12 connections)
+- [activeIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L71) (1 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L163) (1 connections)
+- [GAP_MERGE_THRESHOLD_S](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L31) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L167) (1 connections)
+- [isReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L168) (1 connections)
+- [isSectionReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L59) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L166) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L161) (1 connections)
+- [normalizedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L83) (1 connections)
+- [originalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L165) (1 connections)
+- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L34) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L162) (1 connections)
 
 ## Relationships
 
@@ -24,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ExperimentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx)
 
 ## Audit Trail
 

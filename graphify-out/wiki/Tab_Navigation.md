@@ -1,30 +1,16 @@
 # Tab Navigation
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [OptimizedMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L1) (7 connections)
-- [enrichedStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L50) (1 connections)
-- [handleMasterMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L83) (1 connections)
-- [handleMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L69) (1 connections)
-- [handleSoloToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L76) (1 connections)
-- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L62) (1 connections)
-- [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L87) (1 connections)
-- [{
-    stemStates,
-    masterVolume,
-    masterMuted,
-    setMasterVolume,
-    setMasterMuted,
-    setStemVolume,
-    toggleMute,
-    toggleSolo,
-    hasSoloStems,
-    resetToDefaults,
-    getEffectiveVolume,
-    isStemEffectivelyMuted,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L34) (1 connections)
+- [ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L1) (6 connections)
+- [ChurnScoreBar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L44) (1 connections)
+- [[expandedUsers, setExpandedUsers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L170) (1 connections)
+- [RISK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L30) (1 connections)
+- [RISK_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L37) (1 connections)
+- [toggleUser()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L172) (1 connections)
+- [{ users, summary, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L165) (1 connections)
 
 ## Relationships
 
@@ -32,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

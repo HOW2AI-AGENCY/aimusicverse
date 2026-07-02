@@ -1,21 +1,20 @@
 # Admin Image Management
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L1) (6 connections)
-- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L1) (4 connections)
-- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L22) (2 connections)
-- [toggleTheme](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L78) (2 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L27) (1 connections)
-- [handleThemeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L34) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L20) (1 connections)
-- [{ resolvedTheme, setTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L76) (1 connections)
-- [{ theme, resolvedTheme, setTheme, toggleTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L19) (1 connections)
-- [{ theme, setTheme, resolvedTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L32) (1 connections)
-- [ThemeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L42) (1 connections)
-- [themeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L43) (1 connections)
+- [PlayerProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L1) (10 connections)
+- [bufferedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L72) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L52) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L51) (1 connections)
+- [densityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L28) (1 connections)
+- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L59) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L48) (1 connections)
+- [[isHovering, setIsHovering]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L50) (1 connections)
+- [[localTime, setLocalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L49) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L71) (1 connections)
+- [waveformMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -23,13 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\theme\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\PlayerProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (91%)
-- INFERRED: 2 (9%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

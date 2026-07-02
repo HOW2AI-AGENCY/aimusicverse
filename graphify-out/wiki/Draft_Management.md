@@ -4,25 +4,25 @@
 
 ## Key Concepts
 
-- [AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L1) (18 connections)
-- [analyser](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L41) (1 connections)
-- [analyserRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L21) (1 connections)
-- [animationFrameRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L22) (1 connections)
-- [audioContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L40) (1 connections)
-- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L20) (1 connections)
-- [dataArray](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L52) (1 connections)
-- [getColorClass()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L94) (1 connections)
-- [getLevelStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L101) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L123) (1 connections)
-- [isPeak](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L124) (1 connections)
-- [[level, setLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L18) (1 connections)
-- [[peakLevel, setPeakLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L19) (1 connections)
-- [segmentLevel](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L122) (1 connections)
-- [source](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L42) (1 connections)
-- [sourceRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L23) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L109) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L110) (1 connections)
-- [updateLevel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L55) (1 connections)
+- [VUMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L1) (18 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L121) (2 connections)
+- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L182) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L50) (1 connections)
+- [db](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L51) (1 connections)
+- [dbScale](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L23) (1 connections)
+- [displayDb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L240) (1 connections)
+- [ledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L99) (1 connections)
+- [leds](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L101) (1 connections)
+- [peakRotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L163) (1 connections)
+- [percentage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L241) (1 connections)
+- [rotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L162) (1 connections)
+- [segments](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L276) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L31) (1 connections)
+- [toDB()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L26) (1 connections)
+- [x1](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L183) (1 connections)
+- [x2](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L185) (1 connections)
+- [y1](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L184) (1 connections)
+- [y2](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L186) (1 connections)
 
 ## Relationships
 
@@ -30,12 +30,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\VUMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 36 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

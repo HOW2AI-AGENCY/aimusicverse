@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L1) (1 connections)
-- [OnboardingStepCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L24) (1 connections)
+- [BalanceIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/BalanceIndicator.tsx#L23) (1 connections)
+- [BalanceIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/BalanceIndicator.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\BalanceIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/BalanceIndicator.tsx)
 
 ## Audit Trail
 

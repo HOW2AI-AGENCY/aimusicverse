@@ -1,20 +1,19 @@
 # Network Request
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L1) (10 connections)
-- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L61) (1 connections)
-- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L63) (1 connections)
-- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L70) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L94) (1 connections)
-- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L102) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L180) (1 connections)
-- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L92) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L88) (1 connections)
-- [projectType](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L91) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L90) (1 connections)
+- [StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L1) (9 connections)
+- [checkinDates](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L18) (1 connections)
+- [{ data: checkins, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L9) (1 connections)
+- [dayNames](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L21) (1 connections)
+- [dayNum](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L47) (1 connections)
+- [dayOfWeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L46) (1 connections)
+- [isCheckedIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L44) (1 connections)
+- [isToday](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L45) (1 connections)
+- [last7Days](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L12) (1 connections)
+- [today](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -22,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

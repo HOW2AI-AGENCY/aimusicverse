@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L1) (1 connections)
-- [TrackDetailDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L11) (1 connections)
+- [WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L1) (1 connections)
+- [WebVitalsReporter](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx)
 
 ## Audit Trail
 

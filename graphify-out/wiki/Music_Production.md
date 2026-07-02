@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/index.ts#L1) (0 connections)
+- [ServerErrorState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/error/ServerErrorState.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\help\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\error\ServerErrorState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/error/ServerErrorState.tsx)
 
 ## Audit Trail
 

@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L1) (6 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L49) (1 connections)
-- [handleLike()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L56) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L48) (1 connections)
-- [likeComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L46) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L51) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L45) (1 connections)
+- [lyricsWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L1) (4 connections)
+- [cloneSections()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L175) (2 connections)
+- [useLyricsWizardStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L182) (2 connections)
+- [useDebouncedSectionUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts#L8) (2 connections)
+- [useDebouncedSectionUpdate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts#L1) (1 connections)
+- [INITIAL_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L136) (1 connections)
+- [MAX_HISTORY_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useDebouncedSectionUpdate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\lyricsWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (77%)
+- INFERRED: 3 (23%)
 - AMBIGUOUS: 0 (0%)
 
 ---

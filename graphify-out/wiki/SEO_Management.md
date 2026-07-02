@@ -1,14 +1,13 @@
 # SEO Management
 
-> 5 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L1) (4 connections)
-- [useAIAssistant()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L169) (2 connections)
-- [useIsAIAssistantEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L180) (2 connections)
-- [AIAssistantContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L49) (1 connections)
-- [AIAssistantProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L60) (1 connections)
+- [ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L1) (3 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L43) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L29) (1 connections)
+- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

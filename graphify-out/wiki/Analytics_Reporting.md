@@ -1,25 +1,24 @@
 # Analytics Reporting
 
-> 16 nodes · cohesion 0.13
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [ScreenshotNavigator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L1) (15 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L77) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L48) (2 connections)
-- [[autoTourDelay, setAutoTourDelay]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L54) (1 connections)
-- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L57) (1 connections)
-- [currentScreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L58) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L203) (1 connections)
-- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L32) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L204) (1 connections)
-- [[isAutoTour, setIsAutoTour]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L53) (1 connections)
-- [[isCollapsed, setIsCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L51) (1 connections)
-- [[isHidden, setIsHidden]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L52) (1 connections)
-- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L205) (1 connections)
-- [{ isScreenshotMode, disableScreenshotMode }](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L47) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L49) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L64) (1 connections)
+- [MonitoringHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L1) (14 connections)
+- [{ anomalies, criticalCount, warningCount, hasCritical }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L78) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L100) (1 connections)
+- [{ data: activeUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L80) (1 connections)
+- [{ data: alertStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L77) (1 connections)
+- [{ data: generationStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L86) (1 connections)
+- [{ data: healthStatus, refetch: refetchHealth }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L83) (1 connections)
+- [isDegraded](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L90) (1 connections)
+- [isHealthy](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L89) (1 connections)
+- [overallStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L92) (1 connections)
+- [{ performanceScore, stats: perfStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L79) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L42) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L94) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L101) (1 connections)
+- [systemStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L88) (1 connections)
 
 ## Relationships
 
@@ -27,11 +26,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\screenshot\ScreenshotNavigator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\MonitoringHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

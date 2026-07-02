@@ -1,14 +1,13 @@
 # Game State
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [artistReplacements.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L1) (4 connections)
-- [ARTIST_REPLACEMENTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L16) (1 connections)
-- [findArtistReplacement()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L523) (1 connections)
-- [getGenreSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L571) (1 connections)
-- [replaceArtistsWithGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L538) (1 connections)
+- [DiscoverTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DiscoverTabs.tsx#L1) (3 connections)
+- [columns](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DiscoverTabs.tsx#L114) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DiscoverTabs.tsx#L112) (1 connections)
+- [[tab, setTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DiscoverTabs.tsx#L113) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\artistReplacements.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\DiscoverTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DiscoverTabs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

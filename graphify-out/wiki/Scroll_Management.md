@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L1) (6 connections)
-- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L75) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L77) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L78) (1 connections)
-- [isSkipped](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L76) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L74) (1 connections)
-- [WorkflowProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L24) (1 connections)
+- [LazyImage.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L1) (6 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L38) (1 connections)
+- [ErrorFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L63) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L13) (1 connections)
+- [SmallThumbnail](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L73) (1 connections)
+- [TrackCover](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L83) (1 connections)
+- [WithAspectRatio](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\LazyImage.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx)
 
 ## Audit Trail
 

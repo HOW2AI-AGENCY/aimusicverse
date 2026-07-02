@@ -1,20 +1,19 @@
 # Date Management
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [StatusBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L1) (11 connections)
-- [AllStatuses](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L44) (1 connections)
-- [Downloading](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L31) (1 connections)
-- [Error](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L28) (1 connections)
-- [Generating](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L26) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L4) (1 connections)
-- [Pending](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L30) (1 connections)
-- [Playing](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L29) (1 connections)
-- [Processing](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L32) (1 connections)
-- [Sizes](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L34) (1 connections)
-- [Success](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx#L25) (1 connections)
+- [VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L1) (9 connections)
+- [DESKTOP_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L19) (1 connections)
+- [MOBILE_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L18) (1 connections)
+- [props](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L86) (1 connections)
+- [rowHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L77) (1 connections)
+- [shouldVirtualize](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L76) (1 connections)
+- [state](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L83) (1 connections)
+- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L82) (1 connections)
+- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L84) (1 connections)
+- [VIRTUALIZATION_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -22,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\StatusBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/StatusBadge.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

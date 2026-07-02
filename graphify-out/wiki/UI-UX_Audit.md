@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [SubscriptionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionCard.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionCard.tsx#L79) (1 connections)
+- [ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L1) (1 connections)
+- [ShareProjectCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\SubscriptionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L1) (1 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L29) (1 connections)
+- [ReferenceAnalysisDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAnalysisDisplay.tsx#L1) (1 connections)
+- [renderStatusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAnalysisDisplay.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceAnalysisDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAnalysisDisplay.tsx)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [TelegramList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L1) (3 connections)
-- [columnClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L149) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L155) (1 connections)
-- [handleItemPress](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L54) (1 connections)
+- [useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L1) (3 connections)
+- [calculateRMS()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L36) (1 connections)
+- [DEFAULT_LEVELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L27) (1 connections)
+- [useStemAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L47) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts)
 
 ## Audit Trail
 

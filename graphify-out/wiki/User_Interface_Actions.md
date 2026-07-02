@@ -1,20 +1,19 @@
 # User Interface Actions
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [accessibility.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L1) (10 connections)
-- [ariaUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L340) (1 connections)
-- [contrastUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L262) (1 connections)
-- [focusUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L191) (1 connections)
-- [getSkipLinkProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L401) (1 connections)
-- [keyboardUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L301) (1 connections)
-- [srUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L235) (1 connections)
-- [TOUCH_TARGET](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L12) (1 connections)
-- [useFocusTrap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L98) (1 connections)
-- [useKeyboardNavigation()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L21) (1 connections)
-- [useLiveAnnounce()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L150) (1 connections)
+- [QuickBuyButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L1) (9 connections)
+- [{ balance, isLoading, isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L24) (1 connections)
+- [balanceColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L53) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L42) (1 connections)
+- [handleDismiss()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L47) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L26) (1 connections)
+- [[isDismissed, setIsDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L28) (1 connections)
+- [{ isFreeUser, isBalanceLimitReached }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L25) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L27) (1 connections)
+- [showButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -22,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\accessibility.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\QuickBuyButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

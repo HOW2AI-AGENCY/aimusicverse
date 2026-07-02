@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/index.ts#L1) (0 connections)
+- [TimeoutErrorState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/error/TimeoutErrorState.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\error\TimeoutErrorState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/error/TimeoutErrorState.tsx)
 
 ## Audit Trail
 

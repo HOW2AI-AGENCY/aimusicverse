@@ -1,22 +1,22 @@
 # Chat Interface
 
-> 13 nodes · cohesion 0.21
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L1) (12 connections)
-- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L76) (3 connections)
-- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L82) (3 connections)
-- [markSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L55) (3 connections)
-- [release](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L54) (3 connections)
-- [[claimed, setClaimed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L48) (1 connections)
-- [hasSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L50) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L49) (1 connections)
-- [{ isMobile, className: positionClass }](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L46) (1 connections)
-- [overlayOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L51) (1 connections)
-- [reg](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L47) (1 connections)
-- [request](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L53) (1 connections)
-- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L61) (1 connections)
+- [prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L1) (12 connections)
+- [buildEnglishPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L324) (2 connections)
+- [buildPromptFromChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L411) (1 connections)
+- [DURATION_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L317) (1 connections)
+- [GENRE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L11) (1 connections)
+- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L403) (1 connections)
+- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L38) (1 connections)
+- [KEY_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L307) (1 connections)
+- [MOOD_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L58) (1 connections)
+- [QUICK_MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L113) (1 connections)
+- [SCALE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L309) (1 connections)
+- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L77) (1 connections)
+- [TEMPO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L298) (1 connections)
 
 ## Relationships
 
@@ -24,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 24 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

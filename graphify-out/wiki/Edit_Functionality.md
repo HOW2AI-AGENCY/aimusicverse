@@ -1,18 +1,23 @@
 # Edit Functionality
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [NotationDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L1) (8 connections)
-- [availableFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L69) (1 connections)
-- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L67) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L108) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L79) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L60) (1 connections)
-- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L61) (1 connections)
-- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L65) (1 connections)
-- [safeAreaTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L64) (1 connections)
+- [RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L1) (7 connections)
+- [barProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L92) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L69) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L51) (1 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L93) (1 connections)
+- [{
+    isPlaying,
+    currentTime,
+    duration: audioDuration,
+    toggle,
+    audioRef,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L34) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L75) (1 connections)
+- [togglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -20,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\NotationDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

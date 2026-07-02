@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L114) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L165) (1 connections)
-- [TelegramMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L28) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L159) (1 connections)
+- [useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L1) (4 connections)
+- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L63) (1 connections)
+- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L42) (1 connections)
+- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L40) (1 connections)
+- [useStemAudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L78) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts)
 
 ## Audit Trail
 

@@ -1,35 +1,35 @@
 # Canvas Interaction
 
-> 32 nodes · cohesion 0.06
+> 33 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [GuitarTabEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L1) (31 connections)
-- [absolutePos](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L413) (1 connections)
-- [BEATS_PER_MEASURE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L68) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L80) (1 connections)
-- [editor](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L87) (1 connections)
-- [endPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L99) (1 connections)
-- [existing](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L108) (1 connections)
-- [handleCellClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L115) (1 connections)
-- [handleFretInput](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L163) (1 connections)
-- [handlePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L193) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L77) (1 connections)
-- [[inputDialogOpen, setInputDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L83) (1 connections)
-- [[inputPosition, setInputPosition]](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L84) (1 connections)
-- [[inputValue, setInputValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L85) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L418) (1 connections)
-- [isMeasureStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L419) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L417) (1 connections)
-- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L107) (1 connections)
-- [MEASURES_PER_PAGE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L67) (1 connections)
-- [note](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L416) (1 connections)
-- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L415) (1 connections)
-- [notesByPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L105) (1 connections)
-- [[page, setPage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L82) (1 connections)
-- [playIntervalRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L79) (1 connections)
-- [POSITIONS_PER_PAGE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L69) (1 connections)
-- *... and 7 more nodes in this community*
+- [unified-studio.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L1) (32 connections)
+- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L249) (1 connections)
+- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L154) (1 connections)
+- [button](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L175) (1 connections)
+- [buttonCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L172) (1 connections)
+- [buttons](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L171) (1 connections)
+- [content](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L151) (1 connections)
+- [createButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L112) (1 connections)
+- [dialog](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L127) (1 connections)
+- [errorBoundary](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L220) (1 connections)
+- [finalHeap](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L373) (1 connections)
+- [focusedElement](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L308) (1 connections)
+- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L253) (1 connections)
+- [hasCreateButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L115) (1 connections)
+- [hasError](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L221) (1 connections)
+- [hasIndicator](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L271) (1 connections)
+- [hasProjects](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L114) (1 connections)
+- [heapGrowth](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L382) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L66) (1 connections)
+- [initialHeap](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L351) (1 connections)
+- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L340) (1 connections)
+- [offlineIndicator](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L268) (1 connections)
+- [pauseButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L95) (1 connections)
+- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L48) (1 connections)
+- [projectsContainer](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L111) (1 connections)
+- *... and 8 more nodes in this community*
 
 ## Relationships
 
@@ -37,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\tab-editor\GuitarTabEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\studio\unified-studio.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 62 (100%)
+- EXTRACTED: 64 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [GenrePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx#L94) (1 connections)
+- [FeatureDescriptions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDescriptions.ts#L1) (1 connections)
+- [FEATURE_DESCRIPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDescriptions.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\GenrePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\FeatureDescriptions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDescriptions.ts)
 
 ## Audit Trail
 

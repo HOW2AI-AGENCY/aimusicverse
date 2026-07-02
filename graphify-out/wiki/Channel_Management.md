@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L1) (5 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L110) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L72) (1 connections)
-- [groupedHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L78) (1 connections)
-- [mockHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L37) (1 connections)
-- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L205) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L1) (5 connections)
+- [DEFAULT_TITLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L80) (1 connections)
+- [INVALIDATE_QUERY_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L91) (1 connections)
+- [OPERATION_ENDPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L69) (1 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L12) (1 connections)
+- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts)
 
 ## Audit Trail
 

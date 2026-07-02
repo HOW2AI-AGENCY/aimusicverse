@@ -1,19 +1,19 @@
 # Reward Calculation
 
-> 10 nodes · cohesion 0.20
+> 10 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L1) (9 connections)
-- [[activeFilters, setActiveFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L254) (1 connections)
-- [changeTypeFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L63) (1 connections)
-- [filteredVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L256) (1 connections)
-- [getChangeTypeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L74) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L346) (1 connections)
-- [{ open, onOpenChange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L347) (1 connections)
-- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L109) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L111) (1 connections)
-- [toggleFilter()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L261) (1 connections)
+- [breadcrumb-builder.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L1) (11 connections)
+- [createBreadcrumb()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L75) (5 connections)
+- [createLocationIndicator()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L159) (5 connections)
+- [getRouteInfo()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L47) (4 connections)
+- [appendNavigationContext()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L167) (2 connections)
+- [buildBreadcrumbPath()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L54) (2 connections)
+- [createNavigationFooter()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L125) (2 connections)
+- [getCurrentLocationLabel()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L151) (2 connections)
+- [ROUTE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L9) (1 connections)
+- [ROUTE_PARENTS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L31) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\breadcrumb-builder.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 32 (91%)
+- INFERRED: 3 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [FunnelCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L1) (8 connections)
-- [bestCohort](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L229) (1 connections)
-- [COHORT_DATA](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L40) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L110) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L109) (1 connections)
-- [maxVisitors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L225) (1 connections)
-- [sortedCohorts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L227) (1 connections)
-- [TrendIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L112) (1 connections)
-- [worstCohort](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L230) (1 connections)
+- [StudioPendingTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L1) (8 connections)
+- [[animatedProgress, setAnimatedProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L42) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L62) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L85) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L47) (1 connections)
+- [stage](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L46) (1 connections)
+- [statusMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L86) (1 connections)
+- [statusMessages](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L30) (1 connections)
+- [taskProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\FunnelCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioPendingTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx)
 
 ## Audit Trail
 

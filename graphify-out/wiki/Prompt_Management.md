@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L1) (2 connections)
-- [isDevEnvironment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L15) (1 connections)
-- [ProtectedRoute](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L32) (1 connections)
+- [PlaylistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L1) (2 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L23) (1 connections)
+- [getTrackWord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\PlaylistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx)
 
 ## Audit Trail
 

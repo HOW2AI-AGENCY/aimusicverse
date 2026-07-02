@@ -1,12 +1,11 @@
 # Navigation Components
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L1) (2 connections)
-- [createWrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L20) (1 connections)
-- [module](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L37) (1 connections)
+- [TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L1) (1 connections)
+- [TracksTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -14,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\studio\unified\UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

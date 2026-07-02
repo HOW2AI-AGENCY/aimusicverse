@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L1) (3 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L22) (1 connections)
-- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L30) (1 connections)
-- [useMidiSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L32) (1 connections)
+- [vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L1) (3 connections)
+- [originalError](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L191) (1 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L128) (1 connections)
+- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L129) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts)
 
 ## Audit Trail
 

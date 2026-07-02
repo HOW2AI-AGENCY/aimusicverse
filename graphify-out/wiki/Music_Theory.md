@@ -1,13 +1,12 @@
 # Music Theory
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L1) (3 connections)
-- [supabase](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L11) (1 connections)
-- [SUPABASE_PUBLISHABLE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L6) (1 connections)
-- [SUPABASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L5) (1 connections)
+- [DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L1) (2 connections)
+- [DesktopDashboardLayout](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L36) (1 connections)
+- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

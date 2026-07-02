@@ -1,13 +1,12 @@
 # Feature Toggles
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [VoiceLibraryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L1) (3 connections)
-- [statusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L10) (1 connections)
-- [{ voices, isLoading, deleteVoice, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L34) (1 connections)
-- [[wizardOpen, setWizardOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L35) (1 connections)
+- [useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L1) (2 connections)
+- [useWorkflowEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L95) (1 connections)
+- [WORKFLOWS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\VoiceLibraryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

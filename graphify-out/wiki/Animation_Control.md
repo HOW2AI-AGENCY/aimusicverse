@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useTelegramSecondaryButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts#L1) (1 connections)
-- [useTelegramSecondaryButton()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts#L61) (1 connections)
+- [useLoopRegion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts#L1) (1 connections)
+- [useLoopRegion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSecondaryButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useLoopRegion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts)
 
 ## Audit Trail
 

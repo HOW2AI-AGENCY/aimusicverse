@@ -1,22 +1,21 @@
 # Music File Viewer
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L1) (12 connections)
-- [buildEnglishPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L324) (2 connections)
-- [buildPromptFromChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L411) (1 connections)
-- [DURATION_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L317) (1 connections)
-- [GENRE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L11) (1 connections)
-- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L403) (1 connections)
-- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L38) (1 connections)
-- [KEY_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L307) (1 connections)
-- [MOOD_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L58) (1 connections)
-- [QUICK_MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L113) (1 connections)
-- [SCALE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L309) (1 connections)
-- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L77) (1 connections)
-- [TEMPO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L298) (1 connections)
+- [LyricsSections.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L1) (11 connections)
+- [detectSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L101) (1 connections)
+- [getSectionVariant()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L118) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L140) (1 connections)
+- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L139) (1 connections)
+- [MAX_SECTION_LINES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L38) (1 connections)
+- [MIN_SECTION_LINES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L37) (1 connections)
+- [mins](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L178) (1 connections)
+- [secs](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L179) (1 connections)
+- [SECTION_GAP_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L36) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L116) (1 connections)
+- [useLyricsSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -24,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsSections.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 22 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

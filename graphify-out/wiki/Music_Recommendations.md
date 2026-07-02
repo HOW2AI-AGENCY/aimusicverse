@@ -1,14 +1,13 @@
 # Music Recommendations
 
-> 5 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [telegramSafeArea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L1) (4 connections)
-- [getTelegramSafeAreaInsets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L9) (2 connections)
-- [wouldCollideWithSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L48) (2 connections)
-- [getTelegramHeaderPaddingTop()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L40) (1 connections)
-- [getTelegramSafeAreaCSS()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts#L27) (1 connections)
+- [LibraryFilterChips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L1) (3 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L32) (1 connections)
+- [filterOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L20) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\telegramSafeArea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegramSafeArea.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\LibraryFilterChips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

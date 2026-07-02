@@ -1,13 +1,13 @@
 # Musical Pitch
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.83
 
 ## Key Concepts
 
-- [BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L1) (3 connections)
-- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L40) (1 connections)
-- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L39) (1 connections)
-- [visibleBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L27) (1 connections)
+- [getUserActivityHeatmap()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts#L66) (4 connections)
+- [user-activity-heatmap.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts#L1) (3 connections)
+- [buildHeatmapData()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts#L29) (3 connections)
+- [timePeriodToStartDate()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts#L21) (3 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\analytics\user-activity-heatmap.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (77%)
+- INFERRED: 3 (23%)
 - AMBIGUOUS: 0 (0%)
 
 ---

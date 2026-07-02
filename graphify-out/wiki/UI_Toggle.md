@@ -1,16 +1,15 @@
 # UI Toggle
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L1) (6 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L19) (1 connections)
-- [Dot](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L21) (1 connections)
-- [Labels](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L45) (1 connections)
-- [MaxCount](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L25) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L5) (1 connections)
-- [StatusIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L34) (1 connections)
+- [PaymentHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L1) (5 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L119) (2 connections)
+- [getProductIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L80) (2 connections)
+- [formatProductName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L88) (1 connections)
+- [PaymentHistoryItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L99) (1 connections)
+- [STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -18,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistoryItem.tsx)
 
 ## Audit Trail
 

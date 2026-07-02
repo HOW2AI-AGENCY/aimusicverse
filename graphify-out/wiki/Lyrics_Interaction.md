@@ -1,16 +1,15 @@
 # Lyrics Interaction
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TouchTarget.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L1) (6 connections)
-- [ComparisonWithoutTarget](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L59) (1 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L19) (1 connections)
-- [LargeTarget](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L40) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L5) (1 connections)
-- [SmallIcon](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L32) (1 connections)
-- [TouchIconExample](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L48) (1 connections)
+- [WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L1) (5 connections)
+- [closeTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L40) (1 connections)
+- [confettiTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L37) (1 connections)
+- [fireConfetti()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L28) (1 connections)
+- [[showContent, setShowContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L20) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -18,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\TouchTarget.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\popups\WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

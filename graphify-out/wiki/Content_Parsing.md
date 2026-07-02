@@ -1,14 +1,13 @@
 # Content Parsing
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L1) (4 connections)
-- [ANALYSIS_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L6) (1 connections)
-- [PRODUCER_REVIEW_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L164) (1 connections)
-- [SUNO_TAGS_REFERENCE](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L222) (1 connections)
-- [WRITING_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L101) (1 connections)
+- [FullscreenVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx#L1) (3 connections)
+- [baseOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx#L39) (1 connections)
+- [heightPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx#L38) (1 connections)
+- [isCenter](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -16,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AdminDashboardHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L25) (1 connections)
-- [AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L1) (1 connections)
+- [DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L1) (1 connections)
+- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx)
 
 ## Audit Trail
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useReferenceAnalysisData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L1) (2 connections)
-- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L32) (1 connections)
-- [useReferenceAnalysisData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L34) (1 connections)
+- [useStemTypeTranscriptionStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L1) (2 connections)
+- [useStemTranscriptionByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L104) (1 connections)
+- [useStemTypeTranscriptionStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReferenceAnalysisData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemTypeTranscriptionStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts)
 
 ## Audit Trail
 

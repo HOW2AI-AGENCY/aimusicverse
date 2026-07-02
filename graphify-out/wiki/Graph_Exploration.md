@@ -4,23 +4,23 @@
 
 ## Key Concepts
 
-- [EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L1) (17 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L101) (2 connections)
-- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L57) (1 connections)
-- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L64) (1 connections)
-- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L36) (1 connections)
-- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L30) (1 connections)
-- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L32) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L40) (1 connections)
-- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L37) (1 connections)
-- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L33) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L29) (1 connections)
-- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L34) (1 connections)
-- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L35) (1 connections)
-- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L38) (1 connections)
-- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L31) (1 connections)
-- [{ updateArtist, isUpdating, deleteArtist, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L27) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L26) (1 connections)
+- [OptimizedTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L1) (16 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L225) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L165) (1 connections)
+- [ControlButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L115) (1 connections)
+- [effectiveMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L170) (1 connections)
+- [handleOpenMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L176) (1 connections)
+- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L173) (1 connections)
+- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L174) (1 connections)
+- [handleToggleVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L177) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L175) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L166) (1 connections)
+- [isBusy](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L171) (1 connections)
+- [[showVolume, setShowVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L163) (1 connections)
+- [STATUS_META](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L79) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L168) (1 connections)
+- [statusMeta](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L167) (1 connections)
+- [TRACK_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -28,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\artist\EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 33 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 32 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

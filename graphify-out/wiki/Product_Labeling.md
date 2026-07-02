@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ConfirmationDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx#L22) (1 connections)
-- [ConfirmationDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx#L1) (1 connections)
+- [TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L1) (1 connections)
+- [TierTelegramSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ConfirmationDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx)
 
 ## Audit Trail
 

@@ -1,15 +1,14 @@
 # Statistical Analysis
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L1) (5 connections)
-- [Display](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L127) (1 connections)
-- [Heading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L38) (1 connections)
-- [Prose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L161) (1 connections)
-- [Text](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L88) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L71) (1 connections)
+- [ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L1) (4 connections)
+- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L53) (1 connections)
+- [examples](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L73) (1 connections)
+- [extractArtistFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L32) (1 connections)
+- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -17,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

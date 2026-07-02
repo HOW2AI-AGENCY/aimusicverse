@@ -1,21 +1,20 @@
 # Onboarding Navigation
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [AddToPlaylistSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L1) (11 connections)
-- [addToPlaylistMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L49) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L211) (1 connections)
-- [createPlaylistMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L74) (1 connections)
-- [{ data: playlists, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L28) (1 connections)
-- [{ data: trackInPlaylists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L38) (1 connections)
-- [handleCreatePlaylist()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L97) (1 connections)
-- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L25) (1 connections)
-- [isInPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L172) (1 connections)
-- [[newPlaylistName, setNewPlaylistName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L24) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L23) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L22) (1 connections)
+- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
+- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
+- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L23) (3 connections)
+- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
+- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
+- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L247) (1 connections)
+- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L275) (1 connections)
+- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L157) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L136) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
 
 ## Relationships
 
@@ -23,12 +22,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\AddToPlaylistSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (87%)
+- INFERRED: 3 (13%)
 - AMBIGUOUS: 0 (0%)
 
 ---

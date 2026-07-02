@@ -1,35 +1,37 @@
 # Media Processing
 
-> 27 nodes · cohesion 0.07
+> 29 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [ExtendRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L1) (27 connections)
-- [barHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L127) (1 connections)
-- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L119) (1 connections)
-- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L105) (1 connections)
-- [canvasHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L118) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L37) (1 connections)
-- [clampedContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L46) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L204) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L36) (1 connections)
-- [continuePercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L47) (1 connections)
-- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L108) (1 connections)
-- [cutPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L120) (1 connections)
-- [cutX](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L145) (1 connections)
-- [dpr](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L111) (1 connections)
-- [effectiveMaxTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L43) (1 connections)
-- [extensionLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L182) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L166) (1 connections)
-- [handleSliderChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L157) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L40) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L39) (1 connections)
-- [mounted](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L53) (1 connections)
-- [percent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L129) (1 connections)
-- [rect](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L112) (1 connections)
-- [[waveformData, setWaveformData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L38) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L117) (1 connections)
-- *... and 2 more nodes in this community*
+- [AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L1) (14 connections)
+- [ProfilePage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L1) (14 connections)
+- [logout](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L266) (2 connections)
+- [handleLogout()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L63) (2 connections)
+- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L58) (2 connections)
+- [handleStartOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L53) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L36) (2 connections)
+- [AuthContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L25) (1 connections)
+- [authenticateWithTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L104) (1 connections)
+- [authLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L27) (1 connections)
+- [checkProfile](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L88) (1 connections)
+- [{
+      data: { subscription },
+    }](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L49) (1 connections)
+- [{ initData, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L36) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L35) (1 connections)
+- [loadingTimeout](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L40) (1 connections)
+- [[session, setSession]](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L34) (1 connections)
+- [timeoutWarningLogged](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L30) (1 connections)
+- [[user, setUser]](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L33) (1 connections)
+- [value](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L273) (1 connections)
+- [{ data: adminAuth }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L41) (1 connections)
+- [{ data: profile }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L38) (1 connections)
+- [{ data: stats, isLoading: statsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L42) (1 connections)
+- [displayUser](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L51) (1 connections)
+- [{ hapticFeedback, user: telegramUser }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L37) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L43) (1 connections)
+- *... and 4 more nodes in this community*
 
 ## Relationships
 
@@ -37,12 +39,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ExtendRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\ProfilePage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 53 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 57 (95%)
+- INFERRED: 3 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

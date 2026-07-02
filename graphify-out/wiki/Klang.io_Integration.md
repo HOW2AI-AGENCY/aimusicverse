@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L1) (2 connections)
-- [createMockWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L17) (1 connections)
-- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L12) (1 connections)
+- [useUnifiedRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L1) (2 connections)
+- [AUDIO_SETTINGS_BY_MODE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L47) (1 connections)
+- [useUnifiedRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L74) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useUnifiedRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts)
 
 ## Audit Trail
 

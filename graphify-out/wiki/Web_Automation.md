@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L1) (4 connections)
-- [BASE_DESCRIPTION](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L19) (1 connections)
-- [BASE_TITLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L18) (1 connections)
-- [SEO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L112) (1 connections)
-- [SEOHead()](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L21) (1 connections)
+- [MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L1) (4 connections)
+- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L30) (1 connections)
+- [handleClear()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L41) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L45) (1 connections)
+- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx)
 
 ## Audit Trail
 

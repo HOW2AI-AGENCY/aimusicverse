@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L1) (2 connections)
-- [roundedClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L78) (1 connections)
-- [widths](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L110) (1 connections)
+- [useHealthAlert.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L1) (2 connections)
+- [useForceHealthAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L16) (1 connections)
+- [useSendTestHealthAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useHealthAlert.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts)
 
 ## Audit Trail
 

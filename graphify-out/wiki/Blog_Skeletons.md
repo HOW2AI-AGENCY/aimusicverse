@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L1) (3 connections)
-- [MusicLabAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L18) (1 connections)
-- [MusicLabAudioProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L20) (1 connections)
-- [useMusicLabAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L37) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L1) (3 connections)
+- [computeLyricsStats](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L81) (1 connections)
+- [formatLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L86) (1 connections)
+- [parseLyricsStructure](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts#L91) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\lyrics\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/lyrics/index.ts)
 
 ## Audit Trail
 

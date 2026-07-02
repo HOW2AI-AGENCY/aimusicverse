@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [SectionLabel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionLabel.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SectionLabel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionLabel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/index.ts)
 
 ## Audit Trail
 

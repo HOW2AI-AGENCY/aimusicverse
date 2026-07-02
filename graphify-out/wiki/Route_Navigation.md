@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L1) (4 connections)
-- [handleSwipeAddToQueue](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L51) (1 connections)
-- [handleSwipeSwitchVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L55) (1 connections)
-- [{ isOwnTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L62) (1 connections)
-- [{ sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L47) (1 connections)
+- [BiometricPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx#L41) (2 connections)
+- [useTelegramBiometric.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L1) (2 connections)
+- [useTelegramBiometric()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L48) (2 connections)
+- [BiometricPrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx#L1) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L30) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\advanced\BiometricPrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramBiometric.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (75%)
+- INFERRED: 2 (25%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L1) (3 connections)
-- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L28) (1 connections)
-- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L16) (1 connections)
-- [NotificationCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L40) (1 connections)
+- [TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L1) (3 connections)
+- [IconTouchButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L128) (1 connections)
+- [PressableCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L91) (1 connections)
+- [TouchFeedback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx)
 
 ## Audit Trail
 

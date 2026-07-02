@@ -1,14 +1,14 @@
 # Content Sharing
 
-> 5 nodes · cohesion 0.40
+> 5 nodes · cohesion 0.60
 
 ## Key Concepts
 
-- [AudioLoadingProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L1) (4 connections)
-- [hasErrors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L55) (1 connections)
-- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L54) (1 connections)
-- [overallProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L42) (1 connections)
-- [STEM_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx#L27) (1 connections)
+- [OnboardingTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L8) (3 connections)
+- [useOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L20) (3 connections)
+- [useShouldShowOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L77) (3 connections)
+- [useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L1) (2 connections)
+- [OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioLoadingProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioLoadingProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (67%)
+- INFERRED: 4 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

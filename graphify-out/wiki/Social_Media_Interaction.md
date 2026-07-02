@@ -1,25 +1,24 @@
 # Social Media Interaction
 
-> 16 nodes · cohesion 0.12
+> 15 nodes · cohesion 0.16
 
 ## Key Concepts
 
-- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L1) (7 connections)
-- [touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L1) (5 connections)
-- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L1) (3 connections)
-- [touchTarget](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L12) (3 connections)
-- [circularStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L52) (1 connections)
-- [CloseButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L229) (1 connections)
-- [CompactIconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L197) (1 connections)
-- [getTouchTargetPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L47) (1 connections)
-- [IconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L161) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L46) (1 connections)
-- [TOUCH_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L30) (1 connections)
-- [TOUCH_TARGET_MIN_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L6) (1 connections)
-- [TouchableIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L78) (1 connections)
-- [TouchableLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L124) (1 connections)
-- [TouchableListItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L284) (1 connections)
-- [validateTouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L40) (1 connections)
+- [ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L1) (11 connections)
+- [ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L1) (4 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L17) (4 connections)
+- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L21) (2 connections)
+- [handleWorkflowClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L117) (2 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L19) (2 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L156) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L234) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L235) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L18) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L236) (1 connections)
+- [professionalWorkflows](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L43) (1 connections)
+- [quickStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L106) (1 connections)
+- [StepIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L233) (1 connections)
+- [WorkflowIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L187) (1 connections)
 
 ## Relationships
 
@@ -27,13 +26,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 34 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

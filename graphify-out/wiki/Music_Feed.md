@@ -1,15 +1,15 @@
 # Music Feed
 
-> 6 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L1) (5 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L38) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L35) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L147) (1 connections)
-- [getReadingTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L22) (1 connections)
-- [readingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L36) (1 connections)
+- [useStemAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L1) (5 connections)
+- [ANIMATION_FRAME_INTERVAL](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L31) (1 connections)
+- [CRITICAL_DRIFT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L28) (1 connections)
+- [DRIFT_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L25) (1 connections)
+- [MAX_CORRECTION_ATTEMPTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L34) (1 connections)
+- [useStemAudioSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

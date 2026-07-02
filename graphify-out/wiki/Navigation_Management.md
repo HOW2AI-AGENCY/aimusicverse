@@ -4,20 +4,10 @@
 
 ## Key Concepts
 
-- [voice-clone.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L1) (3 connections)
-- [VoiceApiError](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L6) (2 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L8) (1 connections)
-- [voiceCloneApi](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L24) (1 connections)
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class VoiceApiError {
-        +voice-clone.api.ts()
-        +.constructor()
-    }
-```
+- [ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L1) (3 connections)
+- [displayBio](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L20) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L13) (1 connections)
+- [shouldTruncate](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -25,11 +15,11 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\voice-clone.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

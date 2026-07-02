@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L1) (3 connections)
-- [is4K](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L55) (1 connections)
-- [isUltraWide](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L54) (1 connections)
-- [maxWidthClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L29) (1 connections)
+- [alert-dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx#L1) (3 connections)
+- [AlertDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx#L8) (1 connections)
+- [AlertDialogPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx#L12) (1 connections)
+- [AlertDialogTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx#L10) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\alert-dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx)
 
 ## Audit Trail
 

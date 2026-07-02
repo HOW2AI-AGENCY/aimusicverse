@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelegramFullscreen.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L27) (1 connections)
-- [useTelegramFullscreen()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts#L41) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L1) (2 connections)
+- [DEFAULT_PROVIDER_FOR_TYPE](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L200) (1 connections)
+- [PROVIDER_CAPABILITIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L189) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramFullscreen.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramFullscreen.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts)
 
 ## Audit Trail
 

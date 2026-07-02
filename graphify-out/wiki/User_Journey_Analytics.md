@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [useTelegramSafeArea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L1) (5 connections)
-- [SafeLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx#L1) (3 connections)
-- [SafeLayout()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx#L49) (2 connections)
-- [useTelegramSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L48) (2 connections)
-- [SafeBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx#L125) (1 connections)
-- [SafeHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx#L93) (1 connections)
-- [getCSSVar()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L40) (1 connections)
-- [safeAreaClasses](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L112) (1 connections)
-- [useKeyboardSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L148) (1 connections)
-- [useTelegramSafeAreaValues()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts#L93) (1 connections)
+- [LyricsEditor.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L1) (9 connections)
+- [baseProps](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L20) (1 connections)
+- [historyEntry](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L99) (1 connections)
+- [newSections](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L51) (1 connections)
+- [onHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L77) (1 connections)
+- [{ onHaptic: _onHaptic, ...props }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L92) (1 connections)
+- [onOpenAi](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L76) (1 connections)
+- [onRestoreFromHistory](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L98) (1 connections)
+- [props](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L79) (1 connections)
+- [sampleSection](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -21,13 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SafeLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeLayout.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTelegramSafeArea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTelegramSafeArea.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\__tests__\LyricsEditor.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (89%)
-- INFERRED: 2 (11%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

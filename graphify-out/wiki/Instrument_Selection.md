@@ -4,22 +4,22 @@
 
 ## Key Concepts
 
-- [ChordTimelineMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L1) (15 connections)
-- [activeChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L68) (1 connections)
-- [[activeChordIndex, setActiveChordIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L20) (1 connections)
-- [chordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L32) (1 connections)
-- [handleChordTap](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L40) (1 connections)
-- [handleShowDiagram](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L49) (1 connections)
-- [index](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L25) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L132) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L167) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L130) (1 connections)
-- [navigateChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L54) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L69) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L18) (1 connections)
-- [[showDiagram, setShowDiagram]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L21) (1 connections)
-- [{ tap, selectionChanged }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L19) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L131) (1 connections)
+- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L1) (7 connections)
+- [touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L1) (5 connections)
+- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L1) (3 connections)
+- [touchTarget](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L12) (3 connections)
+- [circularStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L52) (1 connections)
+- [CloseButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L229) (1 connections)
+- [CompactIconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L197) (1 connections)
+- [getTouchTargetPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L47) (1 connections)
+- [IconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L161) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L46) (1 connections)
+- [TOUCH_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L30) (1 connections)
+- [TOUCH_TARGET_MIN_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L6) (1 connections)
+- [TouchableIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L78) (1 connections)
+- [TouchableLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L124) (1 connections)
+- [TouchableListItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L284) (1 connections)
+- [validateTouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -27,7 +27,9 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordTimelineMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts)
 
 ## Audit Trail
 

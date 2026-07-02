@@ -4,20 +4,20 @@
 
 ## Key Concepts
 
-- [GamificationBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L1) (13 connections)
-- [balance](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L58) (1 connections)
-- [checkin](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L33) (1 connections)
-- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L278) (1 connections)
-- [content](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L285) (1 connections)
-- [{ data: canCheckin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L32) (1 connections)
-- [{ data: credits, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L31) (1 connections)
-- [handleCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L36) (1 connections)
-- [level](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L55) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L29) (1 connections)
-- [{ progress, current: currentXP, next: nextLevelXP }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L56) (1 connections)
-- [{ showStreak, showCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L34) (1 connections)
-- [streak](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L57) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L30) (1 connections)
+- [browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L1) (13 connections)
+- [apis](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L18) (1 connections)
+- [audioSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L172) (1 connections)
+- [dimensions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L264) (1 connections)
+- [dynamicImport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L125) (1 connections)
+- [es6Support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L75) (1 connections)
+- [fetchTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L227) (1 connections)
+- [imageSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L152) (1 connections)
+- [mediaQuerySupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L280) (1 connections)
+- [perf](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L313) (1 connections)
+- [perfSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L296) (1 connections)
+- [report](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L339) (1 connections)
+- [storageTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L190) (1 connections)
+- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L255) (1 connections)
 
 ## Relationships
 
@@ -25,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\GamificationBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts)
 
 ## Audit Trail
 

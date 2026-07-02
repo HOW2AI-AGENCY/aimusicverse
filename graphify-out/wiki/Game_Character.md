@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [shimmerAnimation.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/lib/shimmerAnimation.tsx#L1) (1 connections)
-- [ShimmerLoader](file:///D:/.MUSICVERSE/aimusicverse/src/lib/shimmerAnimation.tsx#L8) (1 connections)
+- [useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L1) (1 connections)
+- [useStemControls()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\shimmerAnimation.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/lib/shimmerAnimation.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts)
 
 ## Audit Trail
 

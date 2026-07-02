@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L1) (2 connections)
-- [analysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L20) (1 connections)
-- [displayStrokes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L84) (1 connections)
+- [ProjectCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L1) (2 connections)
+- [VARIANT_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L34) (1 connections)
+- [variantConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L59) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx)
 
 ## Audit Trail
 

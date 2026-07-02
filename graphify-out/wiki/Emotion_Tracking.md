@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L1) (2 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L52) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L44) (1 connections)
+- [RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L1) (2 connections)
+- [modes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L26) (1 connections)
+- [RecordingTypeSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx)
 
 ## Audit Trail
 

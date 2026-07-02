@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AdminTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L8) (1 connections)
-- [AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L1) (1 connections)
+- [useParentTrackLink.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useParentTrackLink.ts#L1) (1 connections)
+- [useParentTrackLink()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useParentTrackLink.ts#L9) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\track-detail\useParentTrackLink.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useParentTrackLink.ts)
 
 ## Audit Trail
 

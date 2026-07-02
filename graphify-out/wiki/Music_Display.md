@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TagMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx#L1) (1 connections)
-- [TagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx#L16) (1 connections)
+- [TrackPromptSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx#L1) (1 connections)
+- [TrackPromptSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\suno\TagMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/TagMenu.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackPromptSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx)
 
 ## Audit Trail
 

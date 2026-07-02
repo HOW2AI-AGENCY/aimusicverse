@@ -1,25 +1,24 @@
 # Chord Navigation
 
-> 16 nodes · cohesion 0.12
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [mixer-renders.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L1) (15 connections)
-- [benchmarkResult](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L125) (1 connections)
-- [finalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L42) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L185) (1 connections)
-- [initialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L34) (1 connections)
-- [renderCounter](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L12) (1 connections)
-- [reRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L43) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L26) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L147) (1 connections)
-- [stem1FinalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L101) (1 connections)
-- [stem1InitialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L93) (1 connections)
-- [stem1ReRenders](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L104) (1 connections)
-- [stem2FinalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L102) (1 connections)
-- [stem2InitialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L94) (1 connections)
-- [stem2ReRenders](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L105) (1 connections)
-- [stems](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L19) (1 connections)
+- [chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L1) (14 connections)
+- [ChartContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L32) (1 connections)
+- [ChartContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L20) (1 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L77) (1 connections)
+- [colorConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L62) (1 connections)
+- [{ config }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L135) (1 connections)
+- [configLabelKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L305) (1 connections)
+- [indicatorColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L180) (1 connections)
+- [itemConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L179) (1 connections)
+- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L178) (1 connections)
+- [nestLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L165) (1 connections)
+- [payloadPayload](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L300) (1 connections)
+- [THEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L7) (1 connections)
+- [tooltipLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L137) (1 connections)
+- [useChart()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -27,11 +26,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\performance\mixer-renders.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

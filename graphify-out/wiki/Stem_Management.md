@@ -1,17 +1,17 @@
 # Stem Management
 
-> 8 nodes · cohesion 0.25
+> 8 nodes · cohesion 0.46
 
 ## Key Concepts
 
-- [DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L1) (7 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L83) (1 connections)
-- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L114) (1 connections)
-- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L45) (1 connections)
-- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L75) (1 connections)
-- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L76) (1 connections)
-- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L150) (1 connections)
-- [stepIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L117) (1 connections)
+- [changelog.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L1) (12 connections)
+- [createChangelogEntry()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L54) (9 connections)
+- [logCoverUpdated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L155) (2 connections)
+- [logLyricsUpdated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L172) (2 connections)
+- [logMasterChanged()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L109) (2 connections)
+- [logMetadataUpdated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L126) (2 connections)
+- [logStemGenerated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L144) (2 connections)
+- [logVersionCreated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L98) (2 connections)
 
 ## Relationships
 
@@ -19,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\queries\changelog.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 31 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

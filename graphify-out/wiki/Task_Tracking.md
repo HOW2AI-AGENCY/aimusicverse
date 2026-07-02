@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L1) (1 connections)
-- [TierDisplaySection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L18) (1 connections)
+- [DrumEffects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx#L1) (1 connections)
+- [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx#L162) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumEffects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx)
 
 ## Audit Trail
 

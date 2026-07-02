@@ -1,44 +1,82 @@
 # Audio Context Management
 
-> 93 nodes · cohesion 0.02
+> 154 nodes · cohesion 0.02
 
 ## Key Concepts
 
-- [App.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L1) (71 connections)
-- [audioElementPool.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/audio/audioElementPool.test.ts#L1) (13 connections)
-- [useReferrals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferrals.ts#L1) (6 connections)
-- [useReferralStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferrals.ts#L40) (4 connections)
-- [MockAudio](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/audio/audioElementPool.test.ts#L26) (3 connections)
-- [useReferralLink()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferrals.ts#L206) (3 connections)
-- [useReferralRewards()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferrals.ts#L74) (3 connections)
-- [Rewards](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L79) (2 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/audio/audioElementPool.test.ts#L78) (2 connections)
-- [useApplyReferralCode()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferrals.ts#L112) (2 connections)
-- [useShareReferral()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferrals.ts#L218) (2 connections)
-- [AdminAlerts](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L95) (1 connections)
-- [AdminBot](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L92) (1 connections)
-- [AdminBroadcast](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L94) (1 connections)
-- [AdminDashboard](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L86) (1 connections)
-- [AdminEconomy](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L89) (1 connections)
-- [AdminFeedback](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L106) (1 connections)
-- [AdminLayout](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L87) (1 connections)
-- [AdminOverview](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L88) (1 connections)
-- [AdminTariffs](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L99) (1 connections)
-- [AdminTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L93) (1 connections)
-- [AdminTracks](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L91) (1 connections)
-- [AdminUsers](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L90) (1 connections)
-- [AlbumView](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L153) (1 connections)
-- [Analytics](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx#L85) (1 connections)
-- *... and 68 more nodes in this community*
+- [AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L1) (29 connections)
+- [AudioExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L1) (25 connections)
+- [ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L1) (19 connections)
+- [AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L1) (17 connections)
+- [errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L1) (14 connections)
+- [AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L1) (13 connections)
+- [AddVocalsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L1) (11 connections)
+- [toAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L569) (9 connections)
+- [showGenerationError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L272) (9 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L189) (8 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L163) (7 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L44) (6 connections)
+- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L253) (6 connections)
+- [getEnhancedErrorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L248) (6 connections)
+- [validatePromptForGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L782) (6 connections)
+- [handleExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L62) (5 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L65) (4 connections)
+- [tryCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L545) (4 connections)
+- [tryCatchSync()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L557) (4 connections)
+- [isRetriableError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L312) (4 connections)
+- [showErrorWithRecovery()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L807) (4 connections)
+- [APIError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L365) (3 connections)
+- [.isRetryable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L321) (3 connections)
+- [AudioError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L427) (3 connections)
+- [err()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L538) (3 connections)
+- *... and 129 more nodes in this community*
 
 ## Class Diagram
 
 ```mermaid
 classDiagram
-    class MockAudio {
-        +audioElementPool.test.ts()
-        +.play()
-        +.pause()
+    class APIError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class AppError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+        +.isRetryable()
+        +.getRetryDelayMs()
+        +.toJSON()
+    }
+    class AudioError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class GenerationError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class InsufficientCreditsError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class NetworkError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class StorageError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class ValidationError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
     }
 ```
 
@@ -48,14 +86,18 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\App.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\audio\audioElementPool.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/audio/audioElementPool.test.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReferrals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferrals.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\AddVocalsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\AudioExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errors\AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 186 (96%)
-- INFERRED: 7 (4%)
+- EXTRACTED: 330 (86%)
+- INFERRED: 53 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

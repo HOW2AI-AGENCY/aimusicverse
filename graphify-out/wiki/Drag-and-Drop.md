@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L141) (1 connections)
-- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L221) (1 connections)
-- [filteredJourneys](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L223) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L170) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L117) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L171) (1 connections)
-- [JOURNEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L45) (1 connections)
-- [OUTCOME_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L106) (1 connections)
-- [outcomeStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L118) (1 connections)
+- [editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L1) (9 connections)
+- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L37) (1 connections)
+- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L65) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L83) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L70) (1 connections)
+- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L55) (1 connections)
+- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L38) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L36) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L89) (1 connections)
+- [titleSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L95) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx)
 
 ## Audit Trail
 

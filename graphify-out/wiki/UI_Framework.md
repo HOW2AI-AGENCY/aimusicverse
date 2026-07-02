@@ -1,16 +1,15 @@
 # UI Framework
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L1) (6 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L56) (1 connections)
-- [handleOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L50) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L47) (1 connections)
-- [[sheetOpen, setSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L48) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L60) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L65) (1 connections)
+- [GenreDistributionChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L1) (5 connections)
+- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L34) (1 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L13) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L22) (1 connections)
+- [{ PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L33) (1 connections)
+- [{ recharts, isLoading: rechartsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -18,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\GenreDistributionChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
