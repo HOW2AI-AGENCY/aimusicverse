@@ -85,7 +85,7 @@ export function SheetDialog({
   }, [patterns, onOpenChange]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center">
+    <div className="fixed inset-0 z-[170] flex items-end justify-center">
       {/* Backdrop with opacity transform */}
       <motion.div
         className={cn("absolute inset-0 backdrop-blur-sm", backdrop.heavy)}
@@ -100,7 +100,7 @@ export function SheetDialog({
       <motion.div
         ref={containerRef}
         className={cn(
-          "relative z-50 bg-background rounded-t-3xl shadow-2xl w-full max-w-lg",
+          "relative z-[171] bg-background rounded-t-3xl shadow-2xl w-full max-w-lg",
           "flex flex-col overflow-hidden",
           className,
         )}

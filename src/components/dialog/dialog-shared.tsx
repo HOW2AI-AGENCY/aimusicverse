@@ -16,7 +16,7 @@ export function DialogBackdrop({
 }) {
   return (
     <motion.div
-      className={cn("fixed inset-0 z-40 bg-black", visible && "pointer-events-auto")}
+      className={cn("fixed inset-0 z-[170] bg-black", visible && "pointer-events-auto")}
       style={{
         backdropFilter: blur ? `blur(${blur})` : undefined,
         opacity: visible ? opacity : 0,
@@ -50,7 +50,7 @@ export function DialogContainer({
   return (
     <motion.div
       className={cn(
-        "relative z-50 bg-background rounded-lg shadow-lg",
+        "relative z-[171] bg-background rounded-lg shadow-lg",
         "max-h-[90vh] overflow-auto",
         sizeClass,
         className,

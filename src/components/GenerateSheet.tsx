@@ -259,7 +259,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         >
           {/* Compact Header with safe area for Telegram */}
           <div
-            className="px-5 border-b border-border/40 bg-background/95 backdrop-blur-xl flex-shrink-0"
+            className="px-4 border-b border-border/40 bg-background/95 backdrop-blur-xl flex-shrink-0"
             style={{
               paddingTop:
                 "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
@@ -298,7 +298,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           </AnimatePresence>
 
           <ScrollArea className="flex-1 overflow-x-hidden">
-            <div className="px-5 py-4 space-y-4 w-full max-w-full min-w-0 overflow-x-hidden">
+            <div className="px-4 py-3 space-y-3 w-full max-w-full min-w-0 overflow-x-hidden">
               {/* Credit Balance Warning */}
               <CreditBalanceWarning
                 balance={form.userBalance}
@@ -389,7 +389,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
           {/* Footer - keyboard-aware padding, gradient mask for premium dock feel */}
           <div
-            className="px-5 pt-3 pb-4 border-t border-border/40 bg-background/95 backdrop-blur-xl"
+            className="px-4 pt-3 pb-4 border-t border-border/40 bg-background/95 backdrop-blur-xl"
             style={{
               paddingBottom: isKeyboardOpen
                 ? `${keyboardHeight + 16}px`
