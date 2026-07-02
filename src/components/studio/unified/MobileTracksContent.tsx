@@ -215,7 +215,7 @@ const TrackCard = memo(function TrackCard({
           <Button
             variant={track.muted ? "destructive" : "ghost"}
             size="icon"
-            className="h-8 w-8"
+            className="h-8 w-8 min-h-[44px] min-w-[44px]"
             onClick={(e) => {
               e.stopPropagation();
               onToggleMute();
@@ -226,7 +226,7 @@ const TrackCard = memo(function TrackCard({
           <Button
             variant={track.solo ? "default" : "ghost"}
             size="icon"
-            className="h-8 w-8"
+            className="h-8 w-8 min-h-[44px] min-w-[44px]"
             onClick={(e) => {
               e.stopPropagation();
               onToggleSolo();
@@ -266,21 +266,26 @@ const TrackCard = memo(function TrackCard({
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-8 gap-1 text-xs"
+                    className="h-8 min-h-[44px] gap-1 text-xs"
                     onClick={() => onAction("add_vocals")}
                   >
                     <Mic2 className="w-3 h-3" />
                     Вокал
                   </Button>
                 )}
-                <Button size="sm" variant="outline" className="h-8 gap-1 text-xs" onClick={() => onAction("extend")}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-8 min-h-[44px] gap-1 text-xs"
+                  onClick={() => onAction("extend")}
+                >
                   <ArrowRightFromLine className="w-3 h-3" />
                   Продлить
                 </Button>
                 <Button
                   size="sm"
                   variant="outline"
-                  className="h-8 gap-1 text-xs"
+                  className="h-8 min-h-[44px] gap-1 text-xs"
                   onClick={() => onAction("replace_section")}
                 >
                   <Wand2 className="w-3 h-3" />
@@ -289,7 +294,7 @@ const TrackCard = memo(function TrackCard({
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0 ml-auto">
+                    <Button size="sm" variant="ghost" className="h-8 w-8 min-h-[44px] min-w-[44px] p-0 ml-auto">
                       <MoreVertical className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
