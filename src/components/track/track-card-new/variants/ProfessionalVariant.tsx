@@ -21,6 +21,7 @@ import { TrackCoverImage } from "../components/TrackCoverImage";
 import { StatusIcons } from "../components/StatusIcons";
 import { VersionPills } from "../components/VersionPills";
 import type { ProfessionalTrackCardProps } from "../types";
+import type { Track } from "@/types/track";
 
 export const ProfessionalVariant = memo(function ProfessionalVariant({
   track,
@@ -141,7 +142,7 @@ export const ProfessionalVariant = memo(function ProfessionalVariant({
       </motion.div>
 
       <UnifiedTrackSheet
-        track={track as any}
+        track={track as unknown as Track}
         open={sheetOpen}
         onOpenChange={setSheetOpen}
         onDelete={onDelete}

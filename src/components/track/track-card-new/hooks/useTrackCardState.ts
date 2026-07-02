@@ -45,12 +45,15 @@ export function useTrackCardState({ track, onPlay, isPlaying: isPlayingProp }: U
 
   // Convert to Track type for player (handles PublicTrackWithCreator)
   const trackForPlayer = useMemo((): Track => {
-    const base = track as any;
+    const base = track as Track & {
+      user_liked?: boolean;
+      like_count?: number;
+    };
     return {
       ...track,
       is_liked: base.is_liked ?? base.user_liked ?? false,
       likes_count: base.likes_count ?? base.like_count ?? 0,
-    } as Track;
+    };
   }, [track]);
 
   // Play/Pause handler
@@ -109,7 +112,7 @@ export function useTrackCardState({ track, onPlay, isPlaying: isPlayingProp }: U
     (e: React.KeyboardEvent) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        handleCardClick(e as any);
+        handleCardClick(e as unknown as React.MouseEvent);
       }
     },
     [handleCardClick],

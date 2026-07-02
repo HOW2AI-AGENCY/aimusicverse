@@ -43,7 +43,7 @@ export const StatusIcon = memo(function StatusIcon({ icon: Icon, color, label }:
 });
 
 interface StatusIconsProps {
-  track: TrackData;
+  track: TrackData & { generation_mode?: string | null };
   stemCount?: number;
   midiStatus?: MidiStatus;
   compact?: boolean;
@@ -61,7 +61,7 @@ export const StatusIcons = memo(function StatusIcons({
   const isInstrumental =
     track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true || stemCount > 0;
-  const isCover = ["remix", "cover", "upload_cover"].includes(trackAny.generation_mode || "");
+  const isCover = ["remix", "cover", "upload_cover"].includes(track.generation_mode || "");
   const isExtend = ["extend", "upload_extend"].includes(trackAny.generation_mode || "");
 
   const icons = [];

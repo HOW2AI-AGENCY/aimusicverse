@@ -26,15 +26,7 @@ import { UnifiedTrackMenu } from "@/components/track-actions/UnifiedTrackMenu";
 import { PlayerProgress } from "./PlayerProgress";
 import { LazyImage } from "@/components/ui/lazy-image";
 import { usePlayerTransition } from "./PlayerTransitionProvider";
-import {
-  PlayBtn,
-  NextBtn,
-  PrevBtn,
-  CloseBtn,
-  LikeBtn,
-  ExpandBtn,
-  VolumeControl,
-} from "./CompactPlayerButtons";
+import { PlayBtn, NextBtn, PrevBtn, CloseBtn, LikeBtn, ExpandBtn, VolumeControl } from "./CompactPlayerButtons";
 
 interface CompactPlayerProps {
   track: Track;
@@ -116,7 +108,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
     (e: React.MouseEvent) => {
       e.stopPropagation();
       hapticImpact("light");
-      toggleLike({ trackId: track.id, isLiked: Boolean((track as any).is_liked) });
+      toggleLike({ trackId: track.id, isLiked: track.is_liked });
     },
     [toggleLike, track],
   );
@@ -159,7 +151,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   };
 
   // Like state from track (may not be loaded in queue items)
-  const isLiked = Boolean((track as any).is_liked);
+  const isLiked = track.is_liked;
 
   const Cover = (
     <UnifiedTrackMenu

@@ -39,9 +39,9 @@ export function FullscreenPlayer({ track, onClose, variant = "auto" }: Fullscree
   return (
     <React.Suspense fallback={null}>
       {resolved === "mobile" ? (
-        <FullscreenMobile track={track} onClose={onClose} currentVersion={masterVersion as any} />
+        <FullscreenMobile track={track} onClose={onClose} currentVersion={masterVersion ?? undefined} />
       ) : (
-        <FullscreenDesktop track={track} currentVersion={masterVersion as any} onClose={onClose} />
+        <FullscreenDesktop track={track} currentVersion={masterVersion ?? undefined} onClose={onClose} />
       )}
     </React.Suspense>
   );

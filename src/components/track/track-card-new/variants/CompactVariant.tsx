@@ -18,6 +18,7 @@ import { UnifiedTrackSheet } from "@/components/track-actions";
 import { useTrackCardState } from "../hooks/useTrackCardState";
 import { TrackCoverImage } from "../components/TrackCoverImage";
 import type { StandardTrackCardProps } from "../types";
+import type { Track } from "@/types/track";
 
 export const CompactVariant = memo(function CompactVariant({
   track,
@@ -107,7 +108,7 @@ export const CompactVariant = memo(function CompactVariant({
       </motion.div>
 
       <UnifiedTrackSheet
-        track={track as any}
+        track={track as unknown as Track}
         open={sheetOpen}
         onOpenChange={setSheetOpen}
         onDelete={onDelete}

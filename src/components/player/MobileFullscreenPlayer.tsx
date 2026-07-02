@@ -18,7 +18,7 @@ import { FullscreenPager, type PagerPage } from "./FullscreenPager";
 import { CoverPage } from "./pages/CoverPage";
 import { LyricsPage } from "./pages/LyricsPage";
 import { DetailsPage } from "./pages/DetailsPage";
-import { Track } from "@/types/track";
+import { Track, type TrackVersionRow } from "@/types/track";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGlobalAudioPlayer } from "@/hooks/audio/useGlobalAudioPlayer";
@@ -49,11 +49,7 @@ const SEEK_AMOUNT = 10;
 interface MobileFullscreenPlayerProps {
   track: Track;
   onClose: () => void;
-  currentVersion?: {
-    suno_task_id?: string | null;
-    suno_id?: string | null;
-    lyrics?: string | null;
-  } | null;
+  currentVersion?: Pick<TrackVersionRow, "suno_task_id" | "suno_id" | "lyrics"> | null;
 }
 
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
@@ -76,7 +72,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   const [karaokeMode, setKaraokeMode] = useState(false);
 
   useTelegramBackButton({ onClick: onClose, visible: true });
-
 
   const { currentTime, duration, seek } = useAudioTime();
   const {
@@ -215,11 +210,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       initial={prefersReducedMotion ? { opacity: 0, y: 0 } : { opacity: 1, y: "100%" }}
       animate={{ opacity: 1, y: 0 }}
       exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: "100%" }}
-      transition={
-        prefersReducedMotion
-          ? { duration: 0.12 }
-          : { type: "spring", damping: 30, stiffness: 300 }
-      }
+      transition={prefersReducedMotion ? { duration: 0.12 } : { type: "spring", damping: 30, stiffness: 300 }}
       className="fixed inset-0 z-fullscreen flex flex-col overflow-hidden bg-background"
       data-testid="mobile-fullscreen-player"
       role="dialog"
@@ -347,9 +338,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       </div>
 
       {/* Queue Sheet */}
-      <Suspense fallback={null}>
-        {queueOpen && <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />}
-      </Suspense>
+      <Suspense fallback={null}>{queueOpen && <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />}</Suspense>
 
       {/* Karaoke */}
       <AnimatePresence>

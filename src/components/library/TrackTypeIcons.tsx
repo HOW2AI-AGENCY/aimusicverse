@@ -33,8 +33,8 @@ export function TrackTypeIcons({
     track.generation_mode === "remix" || track.generation_mode === "cover" || track.generation_mode === "upload_cover";
   const isExtend = track.generation_mode === "extend" || track.generation_mode === "upload_extend";
 
-  // Get model from track
-  const model = (track as any).suno_model || (track as any).model_name;
+  // Get model from track (both fields live on tracks Row)
+  const model = track.suno_model || track.model_name;
   const hasModel = showModel && !!model;
 
   const hasAnyIcon =

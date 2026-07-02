@@ -17,8 +17,8 @@ export function QualityActions({ track, state, onAction, variant, isProcessing }
   const showUpscale = isActionAvailable("upscale_hd", track, state);
 
   // Check if already has HD audio
-  const hasHdAudio = !!(track as any).audio_url_hd || (track as any).audio_quality === "hd";
-  const isUpscaling = (track as any).upscale_status === "processing";
+  const hasHdAudio = !!track.audio_url_hd || track.audio_quality === "hd";
+  const isUpscaling = track.upscale_status === "processing";
 
   if (!showUpscale) return null;
 

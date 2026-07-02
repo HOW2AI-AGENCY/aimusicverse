@@ -39,7 +39,7 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
   const navigate = useNavigate();
   const coverUrl = track.cover_url;
   const duration = track.duration_seconds ? formatDuration(track.duration_seconds) : null;
-  const hasHD = !!(track as any).audio_url_hd || (track as any).audio_quality === "hd";
+  const hasHD = !!track.audio_url_hd || track.audio_quality === "hd";
 
   // Navigate to community on tag click
   const handleTagClick = (tag: string) => {

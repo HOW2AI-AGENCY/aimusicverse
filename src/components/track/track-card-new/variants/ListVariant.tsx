@@ -28,6 +28,7 @@ import { UnifiedTipCard } from "@/components/hints";
 import { UnifiedTrackMenu, UnifiedTrackSheet } from "@/components/track-actions";
 import { useTrackCardState } from "../hooks/useTrackCardState";
 import type { StandardTrackCardProps } from "../types";
+import type { Track } from "@/types/track";
 
 export const ListVariant = memo(function ListVariant({
   track,
@@ -102,7 +103,7 @@ export const ListVariant = memo(function ListVariant({
         {/* Row 2: Type Icons */}
         <div className="flex items-center gap-1.5 mt-0.5">
           <TrackTypeIcons
-            track={track as any}
+            track={track as unknown as Track}
             compact
             showModel
             hasMidi={midiStatus?.hasMidi}
@@ -159,7 +160,9 @@ export const ListVariant = memo(function ListVariant({
             >
               {isCurrentlyPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
             </Button>
-            {showActions && <UnifiedTrackMenu track={track as any} onDelete={onDelete} onDownload={onDownload} />}
+            {showActions && (
+              <UnifiedTrackMenu track={track as unknown as Track} onDelete={onDelete} onDownload={onDownload} />
+            )}
           </div>
         )}
       </div>
@@ -190,7 +193,7 @@ export const ListVariant = memo(function ListVariant({
         />
       )}
       <UnifiedTrackSheet
-        track={track as any}
+        track={track as unknown as Track}
         open={sheetOpen}
         onOpenChange={setSheetOpen}
         onDelete={onDelete}

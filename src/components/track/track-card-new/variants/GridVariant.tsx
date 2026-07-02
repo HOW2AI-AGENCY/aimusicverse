@@ -24,6 +24,7 @@ import { QuickLikeButton } from "@/components/track/QuickLikeButton";
 import { useTrackCardState } from "../hooks/useTrackCardState";
 import { SimplifiedTagsRow } from "./SimplifiedTagsRow";
 import type { StandardTrackCardProps } from "../types";
+import type { Track } from "@/types/track";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -79,7 +80,7 @@ export const GridVariant = memo(function GridVariant({
           // Swipe left: Like/Unlike
           hapticImpact("medium");
           onToggleLike?.();
-          notify.trackLiked(!(track as any).is_liked);
+          notify.trackLiked(!(track as Track & { user_liked?: boolean }).is_liked);
         } else if (offset > threshold && canDelete) {
           // Swipe right: Delete (with confirmation) - ONLY for own tracks
           hapticImpact("heavy");
@@ -203,7 +204,12 @@ export const GridVariant = memo(function GridVariant({
 
               <div className="flex items-center gap-0.5 flex-shrink-0 -mt-1">
                 {/* Quick Like */}
-                <QuickLikeButton trackId={track.id} isLiked={(track as any).is_liked} size="sm" variant="minimal" />
+                <QuickLikeButton
+                  trackId={track.id}
+                  isLiked={(track as Track & { user_liked?: boolean }).is_liked}
+                  size="sm"
+                  variant="minimal"
+                />
 
                 {/* More menu - visible on hover (desktop) or always (mobile) */}
                 {showActions && (
@@ -235,13 +241,12 @@ export const GridVariant = memo(function GridVariant({
               className="mt-auto"
             />
           </div>
-
         </Card>
       </motion.div>
 
       {/* Track Sheet */}
       <UnifiedTrackSheet
-        track={track as any}
+        track={track as unknown as Track}
         open={sheetOpen}
         onOpenChange={setSheetOpen}
         onDelete={onDelete}

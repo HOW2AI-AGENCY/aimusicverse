@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
 import { formatTime } from "@/lib/player-utils";
+import type { Track } from "@/types/track";
 
 interface VersionComparisonProps {
   trackId: string;
@@ -163,17 +164,21 @@ export function VersionComparison({ trackId, activeVersionId, onClose }: Version
         pauseTrack();
         setPlayingVersion(null);
       } else {
-        // Create a track-like object from the version for playback
-        const versionTrack = {
+        // Create a track-like object from the version for playback.
+        // DB-only fields (style, is_public, play_count, likes_count, etc.)
+        // are not needed for the audio playback path.
+        const versionTrack: Track = {
           id: version.id,
           title: version.version_label || "Версия",
           audio_url: version.audio_url,
           cover_url: version.cover_url,
           duration_seconds: version.duration_seconds,
-          user_id: "", // Not needed for playback
+          user_id: "",
           prompt: "",
           created_at: version.created_at,
-        } as any;
+          is_liked: false,
+          likes_count: 0,
+        };
 
         playTrack(versionTrack);
         setPlayingVersion(versionId);

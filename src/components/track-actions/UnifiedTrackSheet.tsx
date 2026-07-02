@@ -126,8 +126,8 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
   const showUpscaleHd = isActionAvailable("upscale_hd", track, actionState);
 
   // HD status
-  const hasHdAudio = !!(track as any).audio_url_hd || (track as any).audio_quality === "hd";
-  const isUpscaling = (track as any).upscale_status === "processing";
+  const hasHdAudio = !!track.audio_url_hd || track.audio_quality === "hd";
+  const isUpscaling = track.upscale_status === "processing";
 
   return (
     <>

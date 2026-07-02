@@ -27,6 +27,20 @@ export interface Track extends TrackRow {
   // Optional fields from various queries
   master_version_id?: string;
   metadata?: Record<string, unknown>;
+
+  // Optional fields sourced from joined track_versions or quality pipeline
+  audio_url_hd?: string | null;
+  audio_quality?: string | null;
+  upscale_status?: string | null;
+  suno_id?: string | null;
+  suno_model?: string | null;
+  suno_task_id?: string | null;
+  bpm_target?: number | null;
+  key_signature?: string | null;
+  energy_level?: number | null;
+  vocal_style?: string | null;
+  instrumental_only?: boolean | null;
+  reference_url?: string | null;
 }
 
 /**
