@@ -192,7 +192,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 />
                 <span
                   className={cn(
-                    "relative text-[11px] leading-none tracking-tight transition-all duration-200",
+                    "relative transition-all duration-200",
                     typographyClass.caption,
                     active ? "font-semibold text-foreground" : "font-medium",
                   )}

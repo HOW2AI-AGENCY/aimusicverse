@@ -131,6 +131,8 @@ export const typographyClass = {
   caption: "text-[10px] sm:text-[11px] text-muted-foreground leading-tight",
   /** Interactive text */
   interactive: "text-sm font-medium hover:underline underline-offset-2",
+  /** Bottom-navigation tab label (small caps, tight tracking) */
+  navLabel: "text-[11px] leading-none tracking-tight",
   /** Monospace */
   mono: "font-mono text-xs sm:text-sm",
 } as const;

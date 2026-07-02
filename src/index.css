@@ -1038,7 +1038,11 @@ All colors MUST be HSL.
     animation: ripple 0.6s ease-out;
   }
 
-  /* NEW: Vinyl record rotation effect */
+  /* NEW: Vinyl record rotation effect
+   * Sprint 045 Phase C-4: motion-reduce utility disables the infinite
+   * spin for users who opted out of animation (WCAG SC 2.3.3). Element
+   * stays visually present, just stops rotating.
+   */
   @keyframes vinyl-spin {
     from {
       transform: rotate(0deg);
@@ -1055,6 +1059,13 @@ All colors MUST be HSL.
 
   .vinyl-spin-slow {
     animation: vinyl-spin 8s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vinyl-spin,
+    .vinyl-spin-slow {
+      animation: none;
+    }
   }
 
   /* NEW: Pulse ring animation */
@@ -2272,6 +2283,13 @@ select:focus-visible,
     -webkit-backdrop-filter: blur(18px) saturate(160%);
   }
 
+  /* aurora-glow (component layer) — adds an inset ring + primary drop-shadow
+   * and a mint accent shadow directly on the element. Pairs with the
+   * aurora-glow ::before radial-gradient block further down (the
+   * background-blur halo behind the element). Both layers coexist
+   * intentionally; the box-shadow frames the shape, the ::before glow
+   * bleeds light around it. Sprint 045 Phase C-3 verified they are not
+   * duplicates. */
   .aurora-glow {
     box-shadow:
       0 0 0 1px hsl(var(--primary) / 0.25) inset,
@@ -2436,7 +2454,9 @@ select:focus-visible,
   opacity: 0.05;
 }
 
-/* Aurora glow — signature radial glow behind hero/CTA elements */
+/* Aurora glow — signature radial glow behind hero/CTA elements
+ * (the ::before halo layer; box-shadow layer is declared above in the
+ * component block). Light + dark variants below. */
 .aurora-glow {
   position: relative;
 }
