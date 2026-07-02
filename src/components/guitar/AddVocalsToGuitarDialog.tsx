@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, MicVocal, Music, Sparkles } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeAddVocalsToGuitar } from "@/services/audio-reference/generation.service";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { logger } from "@/lib/logger";
@@ -78,15 +78,13 @@ export function AddVocalsToGuitarDialog({
 
       const effectiveTitle = title.trim() || `Гитарный трек с вокалом ${new Date().toLocaleDateString("ru-RU")}`;
 
-      const { data, error } = await supabase.functions.invoke("suno-add-vocals", {
-        body: {
-          audioUrl,
-          prompt,
-          customMode,
-          style: finalStyle,
-          title: effectiveTitle,
-          negativeTags: "",
-        },
+      const { data, error } = await invokeAddVocalsToGuitar({
+        audioUrl,
+        prompt,
+        customMode,
+        style: finalStyle,
+        title: effectiveTitle,
+        negativeTags: "",
       });
 
       if (error) throw error;

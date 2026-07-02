@@ -96,6 +96,31 @@ export async function invokeProcessRecordedAudio(
 }
 
 // ==========================================
+// AddVocalsToGuitarDialog
+// ==========================================
+
+export interface AddVocalsToGuitarParams {
+  audioUrl: string;
+  prompt: string;
+  customMode: boolean;
+  style: string;
+  title: string;
+  negativeTags: string;
+}
+
+export interface AddVocalsToGuitarResponse {
+  data: unknown;
+  error: { message: string } | null;
+}
+
+/**
+ * Invoke the suno-add-vocals edge function with a guitar-track payload.
+ */
+export async function invokeAddVocalsToGuitar(params: AddVocalsToGuitarParams): Promise<AddVocalsToGuitarResponse> {
+  return supabase.functions.invoke("suno-add-vocals", { body: params });
+}
+
+// ==========================================
 // ExtractLyricsButton
 // ==========================================
 
