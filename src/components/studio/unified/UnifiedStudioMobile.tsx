@@ -71,14 +71,19 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
   const mainTrackUrl = mainTrack?.audioUrl || "";
   const mainTrackTitle = studio.project?.name || "Track";
 
-  // Track object for separation
+  // Track object for separation. StudioTrack stores optional suno identifiers on the
+  // underlying Track; we fall back to undefined to satisfy the consumer type.
   const trackForSeparation = useMemo(() => {
     if (!mainTrack) return null;
+    const studioTrackWithMeta = mainTrack as typeof mainTrack & {
+      sunoId?: string | null;
+      sunoTaskId?: string | null;
+    };
     return {
       id: mainTrack.id,
       audio_url: mainTrackUrl,
-      suno_id: (mainTrack as any).sunoId || null,
-      suno_task_id: (mainTrack as any).sunoTaskId || null,
+      suno_id: studioTrackWithMeta.sunoId ?? null,
+      suno_task_id: studioTrackWithMeta.sunoTaskId ?? null,
       title: mainTrackTitle,
     };
   }, [mainTrack, mainTrackUrl, mainTrackTitle]);

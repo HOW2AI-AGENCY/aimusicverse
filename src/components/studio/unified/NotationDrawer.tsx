@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
-import { UnifiedNotesViewer } from "@/components/studio/UnifiedNotesViewer";
+import { UnifiedNotesViewer, type NoteInput } from "@/components/studio/UnifiedNotesViewer";
 
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import type { MidiNote } from "./PianoRoll";
@@ -182,7 +182,7 @@ export const NotationDrawer = memo(function NotationDrawer({
 
         <div className="flex-1 min-h-0 p-4">
           <UnifiedNotesViewer
-            notes={transcriptionData?.notes as any}
+            notes={transcriptionData?.notes as unknown as NoteInput[] | undefined}
             duration={effectiveDuration}
             bpm={transcriptionData?.bpm ?? 120}
             timeSignature={transcriptionData?.time_signature}

@@ -53,7 +53,7 @@ interface MobileDAWTimelineProps {
 // Track type colors with waveform color
 const TRACK_TYPE_CONFIG: Record<
   string,
-  { bg: string; border: string; waveColor: string; icon: React.ComponentType<any> }
+  { bg: string; border: string; waveColor: string; icon: React.ComponentType<unknown> }
 > = {
   main: { bg: "bg-primary/20", border: "border-primary", waveColor: "blue", icon: Music },
   vocal: { bg: "bg-pink-500/20", border: "border-pink-500", waveColor: "pink", icon: Mic2 },

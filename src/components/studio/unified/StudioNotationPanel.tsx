@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
-import { UnifiedNotesViewer } from "@/components/studio/UnifiedNotesViewer";
+import { UnifiedNotesViewer, type NoteInput } from "@/components/studio/UnifiedNotesViewer";
 import type { MidiNote } from "./PianoRoll";
 
 interface StudioNotationPanelProps {
@@ -243,7 +243,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
       {/* Old-studio viewer (notation + piano roll + notes list) */}
       <div className="flex-1 min-h-0 p-3">
         <UnifiedNotesViewer
-          notes={transcription.notes as any}
+          notes={transcription.notes as unknown as NoteInput[] | undefined}
           duration={durationSeconds}
           bpm={transcription.bpm ?? 120}
           timeSignature={transcription.time_signature}

@@ -21,7 +21,7 @@ export type ChannelVariant = "vertical" | "horizontal" | "compact";
 const STEM_CONFIG: Record<
   string,
   {
-    icon: React.ComponentType<any>;
+    icon: React.ComponentType<unknown>;
     label: string;
     color: string;
     shortLabel: string;

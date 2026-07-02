@@ -19,14 +19,26 @@ import { ChordSheet } from "./ChordSheet";
 import { AddInstrumentalDrawer } from "./AddInstrumentalDrawer";
 import type { RecordingType } from "./RecordTrackDrawer";
 import type { StudioModalType } from "@/hooks/studio/useStudioModals";
+import type { StudioTrack } from "@/stores/studio/types";
+import type { Track } from "@/types/track";
+
+/**
+ * Track object passed to separation dialogs. Mirrors the minimal subset of
+ * `tables<"tracks">` (or `Track`) that those dialogs actually read.
+ */
+type SeparationTrack = Pick<Track, "id" | "title"> & {
+  audio_url: string;
+  suno_id: string | null;
+  suno_task_id: string | null;
+};
 
 interface StudioDialogsProps {
   id: string;
   projectId: string;
   mainTrackUrl: string;
   mainTrackTitle: string;
-  mainTrack: any;
-  trackForSeparation: any;
+  mainTrack: StudioTrack | null;
+  trackForSeparation: SeparationTrack | null;
   tracks: Array<{ audioUrl?: string; volume: number; muted: boolean }>;
   masterVolume: number;
   currentTime: number;
@@ -37,7 +49,7 @@ interface StudioDialogsProps {
     isOpen: (type: StudioModalType) => boolean;
     getOpenChangeHandler: (type: StudioModalType) => (open: boolean) => void;
     close: () => void;
-    payload: any;
+    payload: { selectedTrack?: { transcription?: unknown; name?: string; chords?: unknown[] } | null };
   };
   onStemSeparationConfirm: (mode: "simple" | "detailed") => Promise<void>;
   onRecordingComplete: (track: {
@@ -104,7 +116,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         onOpenChange={modals.getOpenChangeHandler("saveVersion")}
         projectId={projectId}
         sourceTrackId={id}
-        tracks={tracks as any}
+        tracks={tracks as unknown as StudioTrack[]}
         masterVolume={masterVolume}
         onVersionSaved={onVersionSaved}
       />
@@ -122,7 +134,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <ExtendDialog
           open={modals.isOpen("extend")}
           onOpenChange={modals.getOpenChangeHandler("extend")}
-          track={trackForSeparation}
+          track={trackForSeparation as unknown as Track}
         />
       )}
 
@@ -131,7 +143,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <RemixDialog
           open={modals.isOpen("remix")}
           onOpenChange={modals.getOpenChangeHandler("remix")}
-          track={trackForSeparation}
+          track={trackForSeparation as unknown as Track}
         />
       )}
 
@@ -140,7 +152,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <LazyAddVocalsDrawer
           open={modals.isOpen("addVocals")}
           onOpenChange={modals.getOpenChangeHandler("addVocals")}
-          track={trackForSeparation}
+          track={trackForSeparation as unknown as Track}
         />
       )}
 
@@ -179,7 +191,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <AddInstrumentalDrawer
           open={modals.isOpen("addInstrumental")}
           onOpenChange={modals.getOpenChangeHandler("addInstrumental")}
-          track={trackForSeparation}
+          track={trackForSeparation as unknown as Track}
         />
       )}
     </>

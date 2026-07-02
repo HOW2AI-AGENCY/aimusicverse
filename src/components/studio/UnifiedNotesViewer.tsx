@@ -49,7 +49,7 @@ import { toast } from "sonner";
 
 type ViewMode = "piano" | "notation" | "list";
 
-interface NoteInput {
+export interface NoteInput {
   pitch?: number;
   midi?: number;
   time?: number;

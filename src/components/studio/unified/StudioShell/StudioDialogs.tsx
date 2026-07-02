@@ -27,8 +27,9 @@ import { LazyAddVocalsDrawer, LazyGenerateSheet } from "@/components/lazy";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "@/lib/icons";
 import type { StudioTrack, TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
-import type { StemEffects } from "@/hooks/studio/types";
+import type { StemEffects, EQSettings, CompressorSettings, ReverbSettings } from "@/hooks/studio/types";
 import type { Track } from "@/types/track";
+import type { DetectedSection } from "@/types/sections";
 
 interface StudioDialogsProps {
   isMobile: boolean;
@@ -40,7 +41,7 @@ interface StudioDialogsProps {
   duration: number;
   currentTime: number;
   isPlaying: boolean;
-  detectedSections: any[];
+  detectedSections: DetectedSection[];
 
   // Dialog states
   showMixerSheet: boolean;
@@ -117,9 +118,9 @@ interface StudioDialogsProps {
   onClearSectionSelection: () => void;
   onSeek: (time: number) => void;
   onVersionSaved: (version: { label: string }) => void;
-  onUpdateEQ: (settings: any) => void;
-  onUpdateCompressor: (settings: any) => void;
-  onUpdateReverb: (settings: any) => void;
+  onUpdateEQ: (settings: Partial<EQSettings>) => void;
+  onUpdateCompressor: (settings: Partial<CompressorSettings>) => void;
+  onUpdateReverb: (settings: Partial<ReverbSettings>) => void;
   onResetEffects: () => void;
   onInstrumentalApply: (action: string, selectedVersionLabel: string) => void;
   onArrangementSuccess: (taskId: string, title: string) => void;

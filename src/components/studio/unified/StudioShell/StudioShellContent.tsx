@@ -17,6 +17,8 @@ import { MobileAudioWarning } from "@/components/studio/MobileAudioWarning";
 import { cn } from "@/lib/utils";
 import { Plus } from "@/lib/icons";
 import type { DetectedSection, ReplacedRange } from "@/types/sections";
+import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
+import type { TrackStemRow } from "@/types/track";
 
 export interface StudioShellContentProps {
   // Timeline data
@@ -40,7 +42,7 @@ export interface StudioShellContentProps {
   } | null;
 
   // Tracks
-  tracks: any[];
+  tracks: StudioTrack[];
   hasSoloTracks: boolean;
   sourceTrackId: string | null;
   stemsExist: boolean;
@@ -57,7 +59,7 @@ export interface StudioShellContentProps {
   // Mobile audio warning
   showFallbackWarning: boolean;
   activeStemsCount: number;
-  limitedStems: any[];
+  limitedStems: TrackStemRow[];
   onDismissWarning: () => void;
 
   // Add track dialog

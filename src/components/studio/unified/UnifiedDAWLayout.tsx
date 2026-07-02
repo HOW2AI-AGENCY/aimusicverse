@@ -42,6 +42,7 @@ import { logger } from "@/lib/logger";
 import { AIActionsFAB } from "./AIActionsFAB";
 import { SortableTrackList } from "./SortableTrackList";
 import { useTelegramOrientationLock } from "@/hooks/telegram/useTelegramOrientationLock";
+import type { StudioOperation } from "@/hooks/studio/useStudioOperationLock";
 
 interface Track {
   id: string;
@@ -147,8 +148,8 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
   useTelegramOrientationLock({ lockOnMount: true, unlockOnUnmount: true });
 
   // Compute disabled operations based on state
-  const disabledOperations = useMemo(() => {
-    const disabled: string[] = [];
+  const disabledOperations = useMemo<StudioOperation[]>(() => {
+    const disabled: StudioOperation[] = [];
     if (hasStems) {
       disabled.push("extend", "replace_section", "separate_stems");
     }
@@ -168,7 +169,7 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
   }, [hasStems, hasPendingTracks]);
 
   const getDisabledReason = useCallback(
-    (op: string): string | null => {
+    (op: StudioOperation): string | null => {
       if (
         hasPendingTracks &&
         [
@@ -519,8 +520,8 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
           onSaveAsVersion={onSaveAsVersion}
           onRecord={onRecord}
           onAddInstrumental={onAddInstrumental}
-          disabledOperations={disabledOperations as any}
-          getDisabledReason={getDisabledReason as any}
+          disabledOperations={disabledOperations}
+          getDisabledReason={getDisabledReason}
           canSaveAsNewVersion={hasStems && !!onSaveAsVersion}
           className="fixed bottom-24 right-4 z-40"
         />

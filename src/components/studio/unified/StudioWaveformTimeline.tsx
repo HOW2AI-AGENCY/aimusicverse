@@ -33,10 +33,27 @@ interface StudioWaveformTimelineProps {
   onSectionClick?: (section: DetectedSection, index: number) => void;
 }
 
-// Dynamic import type for wavesurfer
-type WaveSurferCtor = { default: any } | { create: any };
+// Dynamic import type for wavesurfer. The constructor and instance APIs we use
+// are a narrow subset of the wavesurfer public surface; the `unknown` callback
+// payload reflects the variable event shapes wavesurfer emits.
+interface WaveSurferStatic {
+  default?: WaveSurferStatic;
+  create: (options: {
+    container: HTMLElement;
+    height: number;
+    waveColor: string;
+    progressColor: string;
+    cursorColor: string;
+    cursorWidth: number;
+    barWidth: number;
+    barGap: number;
+    barRadius: number;
+    normalize: boolean;
+  }) => WaveSurferInstance;
+}
+type WaveSurferCtor = WaveSurferStatic | { create: WaveSurferStatic["create"]; default?: WaveSurferStatic };
 type WaveSurferInstance = {
-  on: (event: string, callback: (data?: any) => void) => void;
+  on: (event: string, callback: (data?: unknown) => void) => void;
   load: (url: string) => void;
   destroy: () => void;
   getDuration: () => number;
@@ -83,7 +100,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
 
       try {
         const mod: WaveSurferCtor = await import("wavesurfer.js");
-        const WaveSurfer = (mod as any).default ?? (mod as any);
+        const WaveSurfer = (mod as { default?: WaveSurferCtor }).default ?? mod;
         if (!mounted) return;
 
         // Clean up previous instance
@@ -115,7 +132,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
           setIsLoading(false);
         });
 
-        wavesurfer.on("error", (err: any) => {
+        wavesurfer.on("error", (err: unknown) => {
           if (err?.name === "AbortError" || err?.message?.includes("aborted")) {
             return;
           }

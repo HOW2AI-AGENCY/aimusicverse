@@ -177,7 +177,8 @@ export const UnifiedWaveformTimeline = memo(
 
         try {
           const mod: WaveSurferCtor = await import("wavesurfer.js");
-          const WaveSurfer = (mod as any).default ?? (mod as any);
+          // ESM/CJS interop: prefer default export when present
+          const WaveSurfer = (mod as { default?: WaveSurferCtor }).default ?? mod;
           if (!mounted) return;
 
           const wavesurfer = WaveSurfer.create({
@@ -204,7 +205,7 @@ export const UnifiedWaveformTimeline = memo(
             setIsLoading(false);
           });
 
-          wavesurfer.on("error", (err: any) => {
+          wavesurfer.on("error", (err: unknown) => {
             // Suppress AbortError as it's expected during cleanup
             if (err?.name === "AbortError" || err?.message?.includes("aborted")) {
               return;
@@ -229,8 +230,8 @@ export const UnifiedWaveformTimeline = memo(
           // This should not surface as an app error.
           try {
             wavesurferRef.current.destroy();
-          } catch (e: any) {
-            if (e?.name !== "AbortError") {
+          } catch (e: unknown) {
+            if (e instanceof Error && e?.name !== "AbortError") {
               logger.error("Waveform destroy error", e);
             }
           } finally {

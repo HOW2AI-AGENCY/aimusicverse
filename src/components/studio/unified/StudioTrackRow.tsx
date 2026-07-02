@@ -38,9 +38,33 @@ import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { StemTranscriptionData } from "@/hooks/studio/useStemTypeTranscriptionStatus";
 import { getStemColor } from "@/lib/design-colors";
 
+// MIDI note shape returned by transcription engines. We accept either
+// camelCase (startTime/endTime/duration) or snake_case (start_time/end_time/dur).
+interface RawTranscriptionNote {
+  pitch?: number;
+  startTime?: number;
+  endTime?: number;
+  duration?: number;
+  start_time?: number;
+  end_time?: number;
+  dur?: number;
+}
+
+interface NormalizedNote {
+  pitch: number;
+  startTime: number;
+  endTime: number;
+}
+
+interface RenderedNote {
+  x: number;
+  width: number;
+  y: number;
+}
+
 // Mini MIDI Notes Preview component
 interface MidiNotesPreviewProps {
-  notes: any[];
+  notes: RawTranscriptionNote[];
   duration: number;
   currentTime: number;
   notesCount: number;
@@ -64,12 +88,12 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
 }: MidiNotesPreviewProps) {
   const { normalizedNotes, playheadPos } = useMemo(() => {
     if (!notes || notes.length === 0 || duration <= 0) {
-      return { normalizedNotes: [], playheadPos: 0 };
+      return { normalizedNotes: [] as RenderedNote[], playheadPos: 0 };
     }
 
     // Normalize note shape (we may store start_time/duration from transcription engines)
-    const normalizedInput = notes
-      .map((n: any) => {
+    const normalizedInput: NormalizedNote[] = notes
+      .map((n) => {
         const pitch = typeof n?.pitch === "number" ? n.pitch : 60;
         const startTime =
           typeof n?.startTime === "number" ? n.startTime : typeof n?.start_time === "number" ? n.start_time : 0;
@@ -79,7 +103,7 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
         return { pitch, startTime, endTime };
       })
       .filter(
-        (n: any) =>
+        (n): n is NormalizedNote =>
           Number.isFinite(n.pitch) &&
           Number.isFinite(n.startTime) &&
           Number.isFinite(n.endTime) &&
@@ -87,20 +111,21 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
       );
 
     if (normalizedInput.length === 0) {
-      return { normalizedNotes: [], playheadPos: (currentTime / duration) * 100 };
+      return { normalizedNotes: [] as RenderedNote[], playheadPos: (currentTime / duration) * 100 };
     }
 
-    const pitches = normalizedInput.map((n: any) => n.pitch);
+    const pitches = normalizedInput.map((n) => n.pitch);
     const min = Math.min(...pitches);
     const max = Math.max(...pitches);
     const range = max - min || 1;
 
+    const rendered: RenderedNote[] = normalizedInput.map((n) => ({
+      x: (n.startTime / duration) * 100,
+      width: ((n.endTime - n.startTime) / duration) * 100,
+      y: ((max - n.pitch) / range) * 100,
+    }));
     return {
-      normalizedNotes: normalizedInput.map((n: any) => ({
-        x: (n.startTime / duration) * 100,
-        width: ((n.endTime - n.startTime) / duration) * 100,
-        y: ((max - n.pitch) / range) * 100,
-      })),
+      normalizedNotes: rendered,
       playheadPos: (currentTime / duration) * 100,
     };
   }, [notes, duration, currentTime]);
@@ -334,7 +359,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
       if (actionId === "delete") {
         onRemove();
       } else if (onAction) {
-        onAction(actionId as any);
+        onAction(actionId as Parameters<NonNullable<typeof onAction>>[0]);
       }
     },
     [onAction, onRemove],
