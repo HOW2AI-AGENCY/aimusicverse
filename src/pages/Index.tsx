@@ -163,11 +163,7 @@ const Index = () => {
     >
       <PullToRefreshWrapper onRefresh={refresh} disabled={!isMobile} className="relative">
         <div
-          className={cn(
-            "w-full mx-auto pt-4 sm:pt-6 lg:pt-8 relative z-10",
-            sectionTokens.shellMaxWidth,
-            sectionTokens.containerPadding,
-          )}
+          className={cn("w-full mx-auto relative z-10", sectionTokens.shellMaxWidth, sectionTokens.containerPadding)}
           style={{ paddingBottom: bottomPadding }}
         >
           <SEOHead {...SEO_PRESETS.home} canonical="https://aimusicverse.lovable.app/" />

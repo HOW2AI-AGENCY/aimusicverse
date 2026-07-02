@@ -19,15 +19,7 @@ import { forwardRef, type ReactNode, type ElementType } from "react";
 import { cn } from "@/lib/utils";
 
 export type SectionDensity = "compact" | "comfortable" | "spacious" | "auto";
-export type SectionTone =
-  | "plain"
-  | "subtle"
-  | "accent"
-  | "muted"
-  | "light"
-  | "dark"
-  | "blur"
-  | "gradient";
+export type SectionTone = "plain" | "subtle" | "accent" | "muted" | "light" | "dark" | "blur" | "gradient";
 export type SectionMaxWidth = "content" | "wide" | "full";
 
 export interface SectionProps {
@@ -79,7 +71,7 @@ const densityToInnerPad: Record<SectionDensity, string> = {
   compact: "p-3 sm:p-4",
   comfortable: "p-4 sm:p-5",
   spacious: "p-5 sm:p-7",
-  auto: "p-3 sm:p-5 lg:p-6",
+  auto: "p-3 sm:p-5 md:p-6",
 };
 
 const toneToSurface: Record<SectionTone, string> = {
@@ -93,8 +85,7 @@ const toneToSurface: Record<SectionTone, string> = {
   light: "rounded-2xl bg-card/50 border border-border/30",
   dark: "rounded-2xl bg-foreground/[0.03] border border-border/40 dark:bg-black/20 dark:border-white/5",
   blur: "rounded-2xl bg-card/50 backdrop-blur-xl border border-border/40 supports-[backdrop-filter]:bg-card/30",
-  gradient:
-    "rounded-2xl border border-border/40 bg-gradient-to-br from-card/60 via-background to-muted/40",
+  gradient: "rounded-2xl border border-border/40 bg-gradient-to-br from-card/60 via-background to-muted/40",
 };
 
 const maxWidthToClass: Record<SectionMaxWidth, string> = {
@@ -142,26 +133,13 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
       )}
     >
       {hasHeader && (
-        <header
-          className={cn(
-            "flex items-end justify-between gap-3",
-            densityToHeaderGap[density],
-          )}
-        >
+        <header className={cn("flex items-end justify-between gap-3", densityToHeaderGap[density])}>
           <div className="min-w-0 space-y-1">
             {eyebrow && (
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                {eyebrow}
-              </p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
             )}
-            {title && (
-              <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">
-                {title}
-              </h2>
-            )}
-            {subtitle && (
-              <p className="text-xs sm:text-sm text-muted-foreground">{subtitle}</p>
-            )}
+            {title && <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">{title}</h2>}
+            {subtitle && <p className="text-xs sm:text-sm text-muted-foreground">{subtitle}</p>}
           </div>
           {headerRight && <div className="shrink-0">{headerRight}</div>}
         </header>

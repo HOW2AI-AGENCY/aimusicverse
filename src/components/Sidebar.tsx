@@ -328,7 +328,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                   variant="ghost"
                   size="icon"
                   onClick={toggleCollapsed}
-                  className="h-8 w-8"
+                  className="h-9 w-9 min-h-[44px] min-w-[44px]"
                   aria-label={isCollapsed ? "Развернуть боковую панель" : "Свернуть боковую панель"}
                   aria-expanded={!isCollapsed}
                 >
@@ -347,7 +347,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
         </div>
 
         {/* Create Button */}
-        <div className={cn("py-4", isCollapsed ? "px-2" : "px-3")}>
+        <div className={cn("py-4 px-3")}>
           {isCollapsed ? (
             <Tooltip>
               <TooltipTrigger asChild>

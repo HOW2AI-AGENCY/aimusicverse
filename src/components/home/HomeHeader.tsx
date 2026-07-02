@@ -87,7 +87,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
         transition={{ duration: 0.3 }}
       >
         {/* Greeting row with improved styling */}
-        <div className="flex items-center gap-4 lg:gap-5">
+        <div className="flex items-center gap-3 sm:gap-4 lg:gap-5">
           <motion.div
             className={cn(
               "flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl flex items-center justify-center",
@@ -102,7 +102,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
           </motion.div>
 
           <div className="flex-1 min-w-0">
-            <h1 className="sr-only md:not-sr-only md:text-xl md:lg:text-2xl md:xl:text-3xl md:font-bold md:leading-tight md:font-display">
+            <h1 className="sr-only md:not-sr-only md:text-xl lg:text-2xl xl:text-3xl md:font-bold md:leading-tight md:font-display">
               {userName ? `${text}, ${userName}` : text}
             </h1>
             <h2
