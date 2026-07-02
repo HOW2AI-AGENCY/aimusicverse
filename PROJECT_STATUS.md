@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-045-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-046-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-17_suites-10B981?style=for-the-badge"/>
@@ -220,6 +220,67 @@
 ### 📋 Флаг для build-agent (out of design scope)
 
 - 🟡 **Phase D-4 — ErrorBoundary home button:** требует `useNavigate()` hook (functional change, вне рамок design-audit). Передано в Phase E сборки.
+
+## 🚦 `046` Desktop Layout Polish + 4K Awareness (Q3 2026) — ЗАВЕРШЁН ✅
+
+**Прогресс: 3/3 фазы завершено (100%)** · [Audits](docs/audits/desktop-2026-07-03/)
+
+| Фаза                                                                              | Прогресс                                                          |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **A: 4K-aware tokens** (`breakpoints.ts`/`design-tokens.ts`/`Section.tsx`)        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **B: Surface alignment** (player + tracks + library + lyrics + studio, 19 файлов) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **C: Cross-cutting polish** (master-detail, header blur, rhythm tokens, 4 файла)  | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+
+### ✅ Завершено (2026-07-03, коммиты `8eb55c78` + `c0d5b942` + `6d57fa68`)
+
+**Phase A — 4K-aware tokens (`8eb55c78`)**:
+
+- ✅ `BREAKPOINTS` — добавлены `3xl: 1920`, `4xl: 2560`
+- ✅ `GRID_COLS.{cards,tracks,tools,compact}` — расширены до `2xl:grid-cols-N 3xl:grid-cols-N+1`
+- ✅ `MAX_WIDTHS` — `ultrawide: max-w-[1600px]`, `fourk: max-w-[1760px]`
+- ✅ `LAYOUT_RATIOS.{default,equal,wide}` — добавлены `xl:` и `2xl:` step-downs
+- ✅ `SIDEBAR_WIDTHS.expanded` — `xl:w-72 2xl:w-80`
+- ✅ `GAPS` — добавлены `3xl: gap-10`, `4xl: gap-12`
+- ✅ `spacingClass.cardPadding`, `spacingClass.lyricsWord` — новые семантические токены
+- ✅ `containerMax.{ultrawide,fourk}` — новый блок
+- ✅ `Section.tsx` — `SectionDensity` `4xl`/`5xl`, `SectionMaxWidth` `ultrawide`/`fourk`
+
+**Phase B — Surface alignment (`c0d5b942`, 19 файлов)**:
+
+- ✅ Player: CompactPlayer cover 14→16/72px + dock max-w-5xl→1280px на 2xl; DesktopFullscreenPlayer (outer padding xl/2xl, typography step-up, cover+controls scale); WaveformProgressBar detailed → fullscreen density; QueueSheet mobile h-[75vh] → desktop centered dialog; LyricsPanel/Pages/DetailsPage max-w-[28rem] → xl:max-w-[36rem] + `typographyClass.lyricsWord`; CoverPage 22rem → xl:96 / 2xl:28rem.
+- ✅ Track cards: VirtualizedTrackList grid xl:5 → 2xl:6 → 3xl:7; TrackDetailPanel cover 32→40/48, raw `<img>` → LazyImage; EnhancedVariant raw `<img>` → LazyImage + `line-clamp-1` → `line-clamp-2`; GridVariant title `text-xs/sm` → `xl:text-base 2xl:text-lg`.
+- ✅ Library: skeleton parity xl:6, 4 header buttons step up на lg, master-detail scale на xl/2xl, двойной border артефакт убран.
+- ✅ Filter parity: LibraryFilterChips min-h 32→36; CompactFilterBar `hidden xs:inline` → `hidden sm:inline`.
+- ✅ Lyrics + Studio: LyricsAIPanel `LYRICS_AI_PANEL_WIDTH` constant; LyricsStudioPage editor wrapped `max-w-3xl/5xl/6xl mx-auto`; StudioShell transport bar `flex-wrap` + master volume 20→32/40; StudioShellHeader tabs `hidden lg:` → `hidden sm:`.
+
+**Phase C — Cross-cutting polish (`6d57fa68`, 4 файла)**:
+
+- ✅ `DesktopContentHubLayout` — `layoutRatio.detail` token consumed; empty-state placeholder `2xl:hidden` (не тратит 40% рельса на ultra-wide).
+- ✅ `DesktopDashboardLayout` + `DesktopToolsGridLayout` — ручные `gapClasses`/`space-y-N`/`mt-N` мигрированы в `GAPS` token; column gap + bottom margins step up на lg/xl/2xl.
+- ✅ `LyricsHeader` — `bg-card/50` → `bg-background/95 backdrop-blur-md` (parity с `Projects.tsx:98` и `StudioShellHeader.tsx:75`).
+- ✅ `StudioShell.limitedStems` — pre-existing `as any` bridge-cast заменён на `unknown → ComponentProps` cast.
+
+**Общая верификация Sprint 046:**
+
+- ✅ TypeScript: `tsc --noEmit -p tsconfig.app.json` exit 0 во всех 3 коммитах
+- ✅ ESLint changed files: 0 errors (4 pre-existing `any` типизированы)
+- ✅ pre-commit hooks: Section tokens / eslint / prettier / tsc / commitlint — все ✅
+- ✅ 3 коммита в main: `8eb55c78` → `c0d5b942` → `6d57fa68`
+
+### 📋 Флаг для build-agent (out of design scope, 12 пунктов)
+
+- 🟡 **Library.tsx:122-172 keyboard nav** — нет `aria-selected`/scroll-into-view на arrow navigation.
+- 🟡 **Library.tsx:450** — `onPlay` couples select-and-play; нет отдельного handler для «play without selecting».
+- 🟡 **StudioShell.tsx:495** — master volume unmute snap к 0.85, игнорируя предыдущее non-zero значение.
+- 🟡 **StudioShell.tsx:91** — `mainAudioUrl` только на `tracks[0]`; silent если track 0 без audioUrl.
+- 🟡 **LyricsStudioPage.tsx:511** — `existingNote={null}` always — перезаписывает предыдущие notes.
+- 🟡 **LyricsStudioPage.tsx:181-190** — template param change не рефрешит sections.
+- 🟡 **LyricsStudioPage.tsx:469** — AI agent получает `notes: undefined` несмотря на существующие notes.
+- 🟡 **DesktopContentHubLayout.tsx:65-72** — empty-state placeholder убран на 2xl+ в Sprint 046 (visual choice, может конфликтовать с «use ultra-wide real estate» — пересмотреть).
+- 🟡 **Projects.tsx:115-120** — `selectedProjectId` forwarded в `ContentHubTabs` — undefined behavior если не consumed.
+- 🟡 **LyricsHeader.tsx:170** — `AppHeader showLogo={isMobile}` зависит от contract `AppHeader`.
+- 🟡 **QueueSheet.tsx:132** — misleading toast copy («Режим: все версии треков» когда собирается flip к «all»).
+- 🟡 **Library.tsx:230** — `border-r` removal от lib, но нужно убедиться что контейнер-уровень border сохранён для separation feedback.
 
 ## 🚦 `044` Type Safety Wave 2 (Q3 2026) — ЗАВЕРШЁН ✅
 

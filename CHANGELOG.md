@@ -24,6 +24,53 @@
 
 ## [Unreleased]
 
+### 🎨 Спринт 046 — Desktop Layout Polish + 4K Awareness (2026-07-03) — ЗАВЕРШЁН ✅
+
+Full-surface desktop-layout audit (40+ компонентов) на брейкпоинтах `lg`/`xl`/`2xl`/`3xl`/`4xl`. Три атомарных коммита, каждый зелёный по `tsc` + ESLint + Prettier + pre-commit hooks.
+
+#### Phase A — 4K-aware tokens (коммит `8eb55c78`)
+
+Расширена центральная token-система (`src/lib/breakpoints.ts`, `src/lib/design-tokens.ts`, `src/components/layout/Section.tsx`):
+
+- `BREAKPOINTS`: добавлены `3xl: 1920`, `4xl: 2560`
+- `GRID_COLS.{cards,tracks,tools,compact}` — расширены ступенями `2xl:grid-cols-N 3xl:grid-cols-N+1`
+- `MAX_WIDTHS`: добавлены `ultrawide: max-w-[1600px]`, `fourk: max-w-[1760px]`
+- `LAYOUT_RATIOS.{default,equal,wide}` — добавлены `xl:` и `2xl:` step-downs (60/40 → 55/45 → 50/50)
+- `SIDEBAR_WIDTHS.expanded`: добавлены `xl:w-72 2xl:w-80`
+- `GAPS`: добавлены `3xl: gap-10`, `4xl: gap-12`
+- `spacingClass.cardPadding: "p-3 sm:p-4 lg:p-5 xl:p-6"`, `spacingClass.lyricsWord: "text-base xl:text-lg 2xl:text-xl leading-[1.5]"`
+- Новый `containerMax` блок (`narrow`/`medium`/`wide`/`full`/`ultrawide`/`fourk`)
+- `Section.tsx`: `SectionDensity` `4xl` / `5xl`, `SectionMaxWidth` `ultrawide` / `fourk`
+
+Все токены обратно-совместимы — старые call-sites не сломались, `npm run build` чистый.
+
+#### Phase B — Surface alignment (коммит `c0d5b942`) — 19 файлов
+
+Применение 4K-токенов к high-traffic поверхностям:
+
+- **Player:** `CompactPlayer` (cover 14→16/72px, dock `max-w-5xl`→1280px на 2xl); `DesktopFullscreenPlayer` (outer padding xl/2xl, container cap 2xl, typography step-up, cover+controls `max-w-md`→`xl:lg`/`2xl:xl`); `WaveformProgressBar` (detailed mode → `fullscreen` density, 36→44px); `QueueSheet` (mobile `h-[75vh]` → desktop centered dialog 640px); `LyricsPanel` + `LyricsPage` + `DetailsPage` (`max-w-[28rem]` → `xl:max-w-[36rem]`, lyrics word size через `typographyClass.lyricsWord`); `CoverPage` (cover cap 22rem → xl:96 / 2xl:28rem).
+- **Track cards + Library:** `VirtualizedTrackList` (grid xl:5 → 2xl:6 → 3xl:7); `Library.tsx` (skeleton parity xl:6, 4 header buttons step up на lg, master-detail scale на xl/2xl, двойной border артефакт убран); `TrackDetailPanel` (cover 32→40/48, raw `<img>` → `LazyImage`); `EnhancedVariant` (raw `<img>` → `LazyImage`, `line-clamp-1` → `line-clamp-2` для паритета); `GridVariant` (title `text-xs/sm` → `xl:text-base 2xl:text-lg`).
+- **Filter parity:** `LibraryFilterChips` min-h 32→36 (touch baseline); `CompactFilterBar` `hidden xs:inline` → `hidden sm:inline`.
+- **Lyrics + Studio:** `LyricsAIPanel` (hard-coded `width: 400` → named constant `LYRICS_AI_PANEL_WIDTH`); `LyricsStudioPage` editor обёрнут в `max-w-3xl/5xl/6xl mx-auto` для line-length readability; `StudioShell` transport bar `flex-wrap` + `xl:gap-3`, master volume slider 20→32/40; `StudioShellHeader` tabs labels `hidden lg:` → `hidden sm:` (parity с правым actions блоком).
+- **Pre-existing type cleanup:** 4 pre-existing `@typescript-eslint/no-explicit-any` ошибки в `LyricsStudioPage.tsx` и `StudioShell.tsx` типизированы (типы, не поведение) — разблокировали pre-commit hook.
+
+#### Phase C — Polish (коммит `6d57fa68`) — 4 файла
+
+Схлопывание cross-cutting паттернов из аудита:
+
+- `DesktopContentHubLayout.tsx` — detail panel теперь использует `layoutRatio.detail` token (xl/2xl step-down); empty-state placeholder `2xl:hidden` чтобы не тратить 40% рельса на ultra-wide.
+- `DesktopDashboardLayout.tsx` + `DesktopToolsGridLayout.tsx` — ручные `gapClasses`/`space-y-N`/`mt-N` мигрированы в `GAPS` token; column gap и bottom margins step up на lg/xl/2xl.
+- `LyricsHeader.tsx` — `bg-card/50` → `bg-background/95 backdrop-blur-md` (parity с `Projects.tsx:98` и `StudioShellHeader.tsx:75`).
+
+#### Верификация Sprint 046
+
+- `npx tsc --noEmit -p tsconfig.app.json` → exit 0 во всех 3 коммитах
+- ESLint changed files → 0 errors (4 pre-existing `any` ошибки типизированы)
+- Prettier → все touched files отформатированы
+- pre-commit hooks: Section tokens / eslint / prettier / tsc / commitlint — все ✅
+- 3 коммита в main: `8eb55c78` → `c0d5b942` → `6d57fa68`
+- 12 функциональных флагов переданы build-agent (functional policy = design-only)
+
 ### 🎨 Спринт 045 — UX/UI Deep Polish (2026-07-03) — В РАБОТЕ 🟡
 
 #### Исправлено

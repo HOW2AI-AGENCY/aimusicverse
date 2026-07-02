@@ -93,9 +93,15 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### Planned
 
-- **Sprint 046** — Bundle Reduction (2.21 МБ → <950 КБ gzip, manualChunks, dead-code elimination) 🔴
+- **Sprint 047** — Bundle Reduction (2.21 МБ → <950 КБ gzip, manualChunks, dead-code elimination) 🔴
 
 ### In Progress
+
+- **Sprint 046** — Desktop Layout Polish + 4K Awareness. ✅ ЗАВЕРШЁН (3 коммита: `8eb55c78` + `c0d5b942` + `6d57fa68`):
+  - **Phase A** — 4K-aware tokens: `BREAKPOINTS 3xl/4xl`, расширены `GRID_COLS` (5→7 на 3xl), `MAX_WIDTHS ultrawide/fourk` (1600/1760), `LAYOUT_RATIOS` 60/40→55/45→50/50, `SIDEBAR_WIDTHS.expanded xl:72 2xl:80`, `GAPS 3xl/4xl`, новые `spacingClass.cardPadding`, `spacingClass.lyricsWord`, `containerMax`.
+  - **Phase B** — Surface alignment (19 файлов): player (CompactPlayer, DesktopFullscreenPlayer, QueueSheet, LyricsPanel/Pages, CoverPage), track cards (VirtualizedTrackList, GridVariant, EnhancedVariant, TrackDetailPanel — все raw `<img>` → `LazyImage`), Library (master-detail scale на xl/2xl, header buttons step-up, skeleton parity), filter parity (LibraryFilterChips, CompactFilterBar), lyrics+studio (LyricsAIPanel width token, LyricsStudioPage max-w wrap, StudioShell master volume, StudioShellHeader tabs parity).
+  - **Phase C** — Polish (4 файла): `DesktopContentHubLayout` empty-state `2xl:hidden`, `LAYOUT_RATIOS` consumer migration, `DesktopDashboardLayout/ToolsGridLayout` → `GAPS` token, `LyricsHeader` `bg-card/50` → `bg-background/95 backdrop-blur-md` (parity с 2 другими headers).
+  - 12 functional bugs флагнуты build-agent (keyboard nav, version refresh, master volume snap, notes undefined и др.) — out of design scope.
 
 - **Sprint 045** — UX/UI Deep Polish + Hygiene. ✅ ЗАВЕРШЁН (4 коммита: `0813d631` + `68cae274` + `28413a5d` + `69e652a8`):
   - **Phase A** — emoji → Lucide (11 замен), touch-target ≥ 44px (3 поверхности), raw-color → semantic.
@@ -128,6 +134,6 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 | :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :-------------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
 
-<sub>Last updated: 2026-07-03 (Sprint 045 — UX/UI Deep Polish + Hygiene ✅ ЗАВЕРШЁН)</sub>
+<sub>Last updated: 2026-07-03 (Sprint 046 — Desktop Layout Polish + 4K Awareness ✅ ЗАВЕРШЁН)</sub>
 
 </div>
