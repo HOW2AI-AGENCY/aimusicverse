@@ -587,3 +587,24 @@ export async function fetchTracksCreatedForForecast(params: { startDate: Date })
   if (error) throw new Error(error.message);
   return (data ?? []) as TrackCreatedRow[];
 }
+
+// ==========================================
+// User activity heatmap
+// ==========================================
+
+export interface AnalyticsEventCreatedRow {
+  created_at: string | null;
+}
+
+/**
+ * Fetch analytics event timestamps used by the heatmap component to
+ * aggregate activity per (weekday x hour) bucket.
+ */
+export async function fetchAnalyticsEventsForHeatmap(params: { startDate: Date }): Promise<AnalyticsEventCreatedRow[]> {
+  const { data, error } = await supabase
+    .from("user_analytics_events")
+    .select("created_at")
+    .gte("created_at", params.startDate.toISOString());
+  if (error) throw new Error(error.message);
+  return (data ?? []) as AnalyticsEventCreatedRow[];
+}

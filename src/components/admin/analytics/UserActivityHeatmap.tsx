@@ -5,76 +5,18 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Clock, Calendar } from "@/lib/icons";
+import { useUserActivityHeatmap } from "@/hooks/admin/useUserActivityHeatmap";
 
 interface UserActivityHeatmapProps {
   timePeriod: string;
-}
-
-interface HeatmapData {
-  hourlyActivity: number[][]; // 7 days x 24 hours
-  peakHour: number;
-  peakDay: number;
-  totalEvents: number;
-  avgEventsPerHour: number;
 }
 
 const DAYS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 
 export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
-  const { data, isLoading } = useQuery({
-    queryKey: ["user-activity-heatmap", timePeriod],
-    queryFn: async (): Promise<HeatmapData> => {
-      const periodDays =
-        timePeriod === "24 hours" ? 1 : timePeriod === "7 days" ? 7 : timePeriod === "30 days" ? 30 : 90;
-
-      const startDate = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
-
-      // Fetch analytics events
-      const { data: events } = await supabase
-        .from("user_analytics_events")
-        .select("created_at")
-        .gte("created_at", startDate.toISOString());
-
-      // Initialize 7x24 matrix
-      const hourlyActivity: number[][] = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => 0));
-
-      let peakValue = 0;
-      let peakHour = 0;
-      let peakDay = 0;
-
-      (events || []).forEach((event) => {
-        const date = new Date(event.created_at || Date.now());
-        // getDay returns 0 for Sunday, we want Monday = 0
-        const dayOfWeek = (date.getDay() + 6) % 7;
-        const hour = date.getHours();
-
-        hourlyActivity[dayOfWeek][hour]++;
-
-        if (hourlyActivity[dayOfWeek][hour] > peakValue) {
-          peakValue = hourlyActivity[dayOfWeek][hour];
-          peakHour = hour;
-          peakDay = dayOfWeek;
-        }
-      });
-
-      const totalEvents = (events || []).length;
-      const avgEventsPerHour = totalEvents / (7 * 24);
-
-      return {
-        hourlyActivity,
-        peakHour,
-        peakDay,
-        totalEvents,
-        avgEventsPerHour,
-      };
-    },
-    staleTime: 60000,
-    refetchInterval: 120000,
-  });
+  const { data, isLoading } = useUserActivityHeatmap(timePeriod);
 
   if (isLoading) {
     return (
