@@ -483,6 +483,42 @@ See inline JSDoc comments in source files for detailed API documentation:
 4. Add tests
 5. Update documentation
 
+### Z-Stack Cascade (Sprint 047)
+
+The player z-index story is tokenized in [tailwind.config.ts](../tailwind.config.ts#L228–L253). Cascade from bottom (always-visible chrome) to top (rare overlays):
+
+| z-index | Token class                  | Used by                                                      | Description              |
+| ------- | ---------------------------- | ------------------------------------------------------------ | ------------------------ |
+| 0       | `z-base`                     | inner wrappers that ride the parent stacking context         | Reliance on parent       |
+| 10      | `z-raised`                   | radio thumb, focused chips                                   | Slightly above content   |
+| 20      | `z-sticky`                   | MobileFullscreenPlayer drag-handle, KaraokeView close button | Touch-safe above content |
+| 30      | `z-floating`                 | reserved                                                     | floating menus           |
+| 40      | `z-overlay`                  | DesktopLibrarySidebar loading overlay                        | Above nav                |
+| 50      | `z-navigation`               | BottomNav / sidebar nav                                      | Always-visible nav       |
+| 60      | `z-player`                   | CompactPlayer                                                | Persistent bottom player |
+| 70      | `z-contextual`               | reserved                                                     | context menus            |
+| 80      | `z-dialog`                   | reserved                                                     | generic dialog           |
+| 90      | `z-fullscreen`               | MobileFullscreenPlayer, DesktopFullscreenPlayer              | Fullscreen takeover      |
+| 100     | `z-system`                   | KaraokeView (mounted inside MobileFullscreenPlayer)          | Player-system overlays   |
+| 150     | `z-sheet-backdrop`           | Radix Sheet / MobileBottomSheet backdrop                     | Sheet overlay dim        |
+| 151     | `z-sheet-content`            | Radix Sheet / MobileBottomSheet panel                        | Sheet content            |
+| 200     | `z-dropdown`                 | LyricsSectionAdvanced style dropdown                         | Floating dropdown        |
+| 200     | `z-popover`                  | PromptHistory nested dialog                                  | Popover inside sheet     |
+| 250     | `z-tooltip`                  | reserved                                                     | Tooltip                  |
+| 300     | `z-toast` / `z-notification` | Sonner toasts                                                | Toasts                   |
+| 9999    | `z-max`                      | dev overlays (LyricsEditorMetricsOverlay)                    | Maximum priority         |
+
+**Portal escape:** `QueueSheet` is a Radix `SheetPortal` — its DOM root renders in `document.body`, escaping the parent stacking context. With MobileFullscreenPlayer at `z-fullscreen=90`, opening QueueSheet (panel at `z-sheet-content=151`) renders the panel above the fullscreen player — which is the desired UX (sheet overlays fullscreen).
+
+**Safe-area single-source:** all player files now use **one** Telegram safe-area variable:
+
+```css
+paddingtop: calc(max(var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.5rem);
+paddingbottom: calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 1rem);
+```
+
+The earlier double-add of `--tg-content-safe-area-inset-top` + `--tg-safe-area-inset-top` inflated the inset by ≈2× when Telegram published both vars with the same value. Removed in Sprint 047 Phase D.
+
 ### Code Style
 
 - Use TypeScript strictly

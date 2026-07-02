@@ -24,6 +24,63 @@
 
 ## [Unreleased]
 
+### 🎨 Спринт 047 — Mobile Audit + Z-Index/Spacing/Scroll-Lock + Player Z-Stack (2026-07-03) — ЗАВЕРШЁН ✅
+
+Пять атомарных коммитов на mobile-first аудит: z-index consolidation, persona/project/generator sheets, player z-stack cascade, safe-area single-source.
+
+#### Phase A — Tokens (коммит `5d97fa1f`)
+
+- `tailwind.config.ts` L49–61 — добавлены `fontSize.overline` (0.625rem, tracking 0.08em, weight 600) и `fontSize.body-md` (0.8125rem). Дома для `text-[10px]`/`text-[13px]`.
+- `src/lib/overlay-colors.ts` — добавлен `backdrop.sheet = "bg-background/70 backdrop-blur-sm dark:bg-black/70"`. Новый единый 70% + blur backdrop для всех bottom-sheets/dialogs.
+- `src/constants/z-index.ts` и `src/lib/z-index.ts` — **удалены** (verify zero consumers → reconcile, два TS-файла конфликтовали с реальной tailwind-конфигурацией).
+- `src/lib/toast-position.ts` — inline `Z_INDEX` shim сохранён для inline-style consumers (Sonner-toast/кнопки), но Tailwind классы (`z-toast`, `z-sheet-content` и т.д.) теперь single source.
+- `src/components/dev/LyricsEditorMetricsOverlay.tsx` — `style.zIndex` → Tailwind class `z-max`.
+
+#### Phase B — Community + Track Cards (коммит `dd8e734e`) — 6 файлов
+
+- `src/components/home/CommunityTrending.tsx` — raw-white `from-white/25` → theme-aware `from-foreground/20`; `text-[17px]` / `text-[14.5px]` / `text-[12.5px]` → `text-base` / `text-sm` / `text-xs`; `w-[50px] h-[50px]` → `w-12 h-12` (44px touch baseline); `rounded-[14px]` → `rounded-xl min-h-touch`; `mt-0.5` → `mt-1`; добавлен `LazyImage` `coverSize="small"` + `Music2` fallback (cover-loading UX fix).
+- `src/components/track/track-card-new/components/TrackCoverImage.tsx` — `<PlayingIndicator color="bg-white" />` → `color="bg-primary-foreground"`; `<Play text-white fill-white>` → `text-primary-foreground fill-primary-foreground`.
+- `src/components/track/track-card-new/variants/GridVariant.tsx` — `text-[10px]` (stems badge) → `text-overline`; `line-clamp-2` → `line-clamp-2 xs:line-clamp-1` (single-word titles wrap cleanly on small phones).
+- `src/components/track/track-card-new/variants/ListVariant.tsx` — `p-2.5 sm:p-3` → `p-3` (unify с GridVariant).
+- `src/components/track/track-card-new/variants/CompactVariant.tsx` — `text-[14px]` → `text-sm`; `max-w-[140px]` → `max-w-36`; `text-[11px]` → `text-caption-sm`.
+- `src/components/track/track-card-new/variants/EnhancedVariant.tsx` — `text-[10px]` (×2) → `text-overline`; `max-w-[80px]` → `max-w-32`; `text-[8px]` → `text-overline`; `compact ? text-[11px] : text-xs` → `compact ? text-xs : text-sm`.
+
+#### Phase C — Persona + Project + Generator z-index + safe-area (коммит `c22f94c3`) — 6 файлов
+
+- `src/components/ui/sheet.tsx` — `z-[150]` → `z-sheet-backdrop`; `z-[151]` → `z-sheet-content`; `backdrop.dark` → `backdrop.sheet`; `isFullscreen` regex extended `/\bh-\[\d+(?:\.\d+)?d?vh\]/` (project-settings `h-[90dvh]` теперь попадает в safe-area path).
+- `src/components/mobile/MobileBottomSheet.tsx` — `z-[150]` / `z-[151]` → tokens; `backdrop.heavy + backdrop-blur-sm` → unified `backdrop.sheet`.
+- `src/components/library/DesktopLibrarySidebar.tsx` — loading overlay `z-50` → `z-overlay`; raw `bg-background/90 backdrop-blur-sm` → `backdrop.sheet`; collapsed toggle `h-10 w-10` → `h-11 w-11 min-h-touch min-w-touch` (44px baseline).
+- `src/components/project/ProjectSettingsSheet.tsx` — `h-[90vh]` → `h-[90dvh]` (iOS Safari bottom-bar collapse).
+- `src/components/generate-form/PromptHistory.tsx` — nested "Add New Prompt" dialog `z-10` → `z-popover` (рендерится поверх sheet content).
+- `src/components/generate-form/sections/LyricsSectionAdvanced.tsx` — dropdown `z-50` → `z-dropdown`.
+
+#### Phase D — Player z-stack + safe-area (коммит `3b38092e`) — 3 файла (highest severity)
+
+- `src/components/player/DesktopFullscreenPlayer.tsx` — `z-50` → `z-fullscreen` (**BUG**: было ниже compact `z-player=60`); safe-area single-source: drop `tg-content-safe-area-inset-top` double-add (один источник + единая `+1rem` для mobile/desktop паритета).
+- `src/components/player/MobileFullscreenPlayer.tsx` — drag-to-close strip `z-20` → `z-sticky`; `h-10` → `h-12 min-h-touch` (44px touch target); inner wrapper `z-10` → `z-base`; `text-[11px]` → `text-caption-sm`; same safe-area single-source fix.
+- `src/components/player/KaraokeView.tsx` — `z-[100]` → `z-system` (off-scale token → on-scale); inner close-btn `z-10` → `z-sticky`; `text-white` (×2) → `text-primary-foreground`; `text-white/50` → `text-primary-foreground/60`; safe-area single-source.
+
+Все коммиты зелёные по `tsc --noEmit + eslint + prettier --check + commitlint (lowercase-subject) + size check`.
+
+#### Функциональные флаги — НЕ правились в этом спринте, переданы build-агенту
+
+| ID  | Описание                                                                                                                                                                                                                                                                     |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F1  | `useScrollLock` экспортируется но не подключён ни в одном sheet/drawer/sheet-rendered-in-mobile-bottom-sheet. Body всё ещё скроллится под MobileBottomSheet, MobileNavDrawer, ProjectSettingsSheet, DesktopLibrarySidebar overlay. **Build agent** должен разово подключить. |
+| F2  | `PromptHistory` nested dialog z-fix — tokenized to `z-popover` здесь, но корневая причина (sub-dialog внутри sheet) может потребовать Dialog primitive.                                                                                                                      |
+| F3  | `usePublicTracks.ts:95` — `cover_url: activeVersion?.cover_url \|\| track.cover_url` может дать `""` → LazyImage fallback. Normalize to `undefined`.                                                                                                                         |
+| F4  | `Library.tsx:122–172` keyboard arrow nav — нет `aria-selected` / scroll-into-view.                                                                                                                                                                                           |
+| F5  | `QueueSheet` не auto-close на навигации.                                                                                                                                                                                                                                     |
+| F6  | Mobile fullscreen нет focus-trap (Tab утекает за диалог).                                                                                                                                                                                                                    |
+| F7  | Telegram BackButton race — registered в Mobile + Desktop fullscreen players, может double-fire при orientation flip.                                                                                                                                                         |
+| F8  | FOWV risk on viewport-flip — `useMediaQuery` defaults to false on first paint. SSR-aware default + noscript fallback.                                                                                                                                                        |
+| F9  | iOS Telegram WebView keyboard avoidance в `GenerateFormSimple` — нет `useVisualViewport`.                                                                                                                                                                                    |
+| F10 | `VersionComparison.tsx` — orphan dead code.                                                                                                                                                                                                                                  |
+| F11 | `LibraryFilterChips.tsx:42` min-h 32px vs `CompactFilterBar.tsx:148` 44px — touch-target baseline mismatch.                                                                                                                                                                  |
+| F12 | `LazyImage` lacks `aria-busy` / `aria-live` during shimmer.                                                                                                                                                                                                                  |
+
+---
+
 ### 🎨 Спринт 046 — Desktop Layout Polish + 4K Awareness (2026-07-03) — ЗАВЕРШЁН ✅
 
 Full-surface desktop-layout audit (40+ компонентов) на брейкпоинтах `lg`/`xl`/`2xl`/`3xl`/`4xl`. Три атомарных коммита, каждый зелёный по `tsc` + ESLint + Prettier + pre-commit hooks.

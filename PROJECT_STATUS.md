@@ -267,6 +267,50 @@
 - ✅ pre-commit hooks: Section tokens / eslint / prettier / tsc / commitlint — все ✅
 - ✅ 3 коммита в main: `8eb55c78` → `c0d5b942` → `6d57fa68`
 
+---
+
+## Sprint 047 — Mobile Audit + Z-Index/Spacing/Scroll-Lock + Player Z-Stack ✅ ЗАВЕРШЁН
+
+**Phase A — Tokens (`5d97fa1f`):**
+
+- ✅ `fontSize.overline` (0.625rem, tracking 0.08em, weight 600) — дом для 10px текста
+- ✅ `fontSize.body-md` (0.8125rem) — дом для 13px текста
+- ✅ `backdrop.sheet = "bg-background/70 backdrop-blur-sm dark:bg-black/70"` — единый 70% + blur backdrop для всех sheet/dialog
+- ✅ Z-index consolidation: 3 конфликтующих источника (`constants/z-index.ts` + `lib/z-index.ts` + `tailwind.config.ts`) → один канонический `tailwind.config.ts`. Удалены 2 dead TS-файла (zero consumers verified). Inline `Z_INDEX` shim сохранён в `toast-position.ts` для inline-style consumers (Sonner и пр.)
+
+**Phase B — Community + track cards (`dd8e734e`, 6 файлов):**
+
+- ✅ `CommunityTrending.tsx` — raw-white `from-white/25` → theme-aware `from-foreground/20`; `text-[17/14.5/12.5px]` → `text-base/sm/xs`; `w-[50px] h-[50px]` → `w-12 h-12`; `rounded-[14px]` → `rounded-xl min-h-touch`; `mt-0.5` → `mt-1`; LazyImage `coverSize="small"` + `Music2` fallback (cover-loading UX fix)
+- ✅ `TrackCoverImage.tsx` — raw white → `primary-foreground` (PlayingIndicator + Play icon, 3 violations)
+- ✅ `GridVariant.tsx` — `text-[10px]` → `text-overline`; `line-clamp-2 xs:line-clamp-1`
+- ✅ `ListVariant.tsx` — `p-2.5 sm:p-3` → `p-3` (unify с GridVariant)
+- ✅ `CompactVariant.tsx` — `text-[14px]` → `text-sm`; `max-w-[140px]` → `max-w-36`; `text-[11px]` → `text-caption-sm`
+- ✅ `EnhancedVariant.tsx` — `text-[10/8px]` → `text-overline` (×3); `max-w-[80px]` → `max-w-32`; `compact ? text-[11px] : text-xs` → `compact ? text-xs : text-sm`
+
+**Phase C — Persona/project/generator z-index + safe-area (`c22f94c3`, 6 файлов):**
+
+- ✅ `ui/sheet.tsx` — `z-[150]` → `z-sheet-backdrop`; `z-[151]` → `z-sheet-content`; `backdrop.dark` → `backdrop.sheet`; `isFullscreen` regex extended (`/\bh-\[\d+(?:\.\d+)?d?vh\]/`)
+- ✅ `mobile/MobileBottomSheet.tsx` — `z-[150]` / `z-[151]` → tokens; backdrop unified
+- ✅ `library/DesktopLibrarySidebar.tsx` — loading overlay `z-50` → `z-overlay` + `backdrop.sheet`; collapsed toggle `h-10 w-10` → `h-11 w-11 min-h-touch min-w-touch`
+- ✅ `project/ProjectSettingsSheet.tsx` — `h-[90vh]` → `h-[90dvh]` (iOS Safari)
+- ✅ `generate-form/PromptHistory.tsx` — nested dialog `z-10` → `z-popover`
+- ✅ `generate-form/sections/LyricsSectionAdvanced.tsx` — dropdown `z-50` → `z-dropdown`
+
+**Phase D — Player z-stack (`3b38092e`, 3 файла, highest severity):**
+
+- ✅ `DesktopFullscreenPlayer.tsx` — `z-50` → `z-fullscreen` (BUG FIX: было ниже compact `z-player=60`); safe-area single-source
+- ✅ `MobileFullscreenPlayer.tsx` — drag-strip `z-20 h-10` → `z-sticky h-12 min-h-touch`; inner `z-10` → `z-base`; `text-[11px]` → `text-caption-sm`; safe-area single-source
+- ✅ `KaraokeView.tsx` — `z-[100]` → `z-system`; inner `z-10` → `z-sticky`; `text-white` → `text-primary-foreground` (×3); safe-area single-source
+
+**Общая верификация Sprint 047:**
+
+- ✅ TypeScript: `tsc --noEmit -p tsconfig.app.json` exit 0 во всех 4 коммитах
+- ✅ ESLint changed files: 0 errors (1 pre-existing `useMemo`-warning в EnhancedVariant.tsx — out of scope)
+- ✅ Prettier: all files green
+- ✅ pre-commit hooks: tokens / eslint / prettier / tsc / commitlint (lowercase-subject) — все ✅
+- ✅ 4 коммита в main: `5d97fa1f` → `dd8e734e` → `c22f94c3` → `3b38092e`
+- 🟡 12 functional flags (F1–F12) — НЕ правились, переданы build-agent. Документированы в CHANGELOG.md.
+
 ### 📋 Флаг для build-agent (out of design scope, 12 пунктов)
 
 - 🟡 **Library.tsx:122-172 keyboard nav** — нет `aria-selected`/scroll-into-view на arrow navigation.
