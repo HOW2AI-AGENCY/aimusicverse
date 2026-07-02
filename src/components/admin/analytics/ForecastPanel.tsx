@@ -137,7 +137,7 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
               <LineChart data={data?.users || []}>
                 <XAxis dataKey="date" fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis fontSize={10} tickLine={false} axisLine={false} width={30} />
-                <Tooltip contentStyle={{ fontSize: 11 }} formatter={(v: number | string) => [v, "Новых"]} />
+                <Tooltip contentStyle={{ fontSize: 11 }} formatter={(v: any) => [v, "Новых"]} />
                 <Line type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
@@ -156,7 +156,7 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
               <LineChart data={data?.revenue || []}>
                 <XAxis dataKey="date" fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis fontSize={10} tickLine={false} axisLine={false} width={30} />
-                <Tooltip contentStyle={{ fontSize: 11 }} formatter={(v: number | string) => [`⭐ ${v}`, "Stars"]} />
+                <Tooltip contentStyle={{ fontSize: 11 }} formatter={(v: any) => [`⭐ ${v}`, "Stars"]} />
                 <Line type="monotone" dataKey="value" stroke="#22c55e" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
