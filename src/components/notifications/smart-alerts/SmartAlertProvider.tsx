@@ -5,7 +5,13 @@ import { SmartAlertOverlay } from "./SmartAlertOverlay";
 import { useAntiSpam } from "./useAntiSpam";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
-import { supabase } from "@/integrations/supabase/client";
+import {
+  checkProjectsCount,
+  checkTracksCount,
+  checkArtistsCount,
+  subscribeToGenerationErrors,
+  removeAlertChannel,
+} from "@/services/smart-alerts.service";
 import { logger } from "@/lib/logger";
 
 interface SmartAlertContextValue {
@@ -147,10 +153,7 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
         }
 
         // Check for no projects (only if user has been around for a while)
-        const { count: projectsCount } = await supabase
-          .from("music_projects")
-          .select("*", { count: "exact", head: true })
-          .eq("user_id", user.id);
+        const projectsCount = await checkProjectsCount(user.id);
 
         if (projectsCount === 0 && canShowAlert("no-projects")) {
           showAlert({
@@ -174,10 +177,7 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
         // Check profile completeness
         if (profile.profile_completeness && profile.profile_completeness < 50 && canShowAlert("profile-incomplete")) {
           // Only show if user has some tracks
-          const { count: tracksCount } = await supabase
-            .from("tracks")
-            .select("*", { count: "exact", head: true })
-            .eq("user_id", user.id);
+          const tracksCount = await checkTracksCount(user.id);
 
           if (tracksCount && tracksCount >= 3) {
             showAlert({
@@ -205,16 +205,10 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
         }
 
         // Check for no artists (if user has tracks)
-        const { count: artistsCount } = await supabase
-          .from("artists")
-          .select("*", { count: "exact", head: true })
-          .eq("user_id", user.id);
+        const artistsCount = await checkArtistsCount(user.id);
 
         if (artistsCount === 0 && canShowAlert("no-artists")) {
-          const { count: tracksCount } = await supabase
-            .from("tracks")
-            .select("*", { count: "exact", head: true })
-            .eq("user_id", user.id);
+          const tracksCount = await checkTracksCount(user.id);
 
           if (tracksCount && tracksCount >= 5) {
             showAlert({
@@ -239,7 +233,6 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
         // NOTE: автопоказ алёрта «Стемы готовы» удалён по требованию пользователя.
         // Информация о готовых стемах доступна в студии/библиотеке без модального оверлея.
         // Не возвращать сюда auto-show — см. mem://constraints/no-auto-stems-ready-alert.
-
       } catch (error) {
         logger.error("Error checking alert conditions", error);
       }
@@ -254,27 +247,12 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
   useEffect(() => {
     if (!user) return;
 
-    const channel = supabase
-      .channel("generation-errors")
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "generation_tasks",
-          filter: `user_id=eq.${user.id}`,
-        },
-        (payload) => {
-          const newData = payload.new as { status: string; error_message?: string };
-          if (newData.status === "failed") {
-            showGenerationError(newData.error_message);
-          }
-        },
-      )
-      .subscribe();
+    const channel = subscribeToGenerationErrors(user.id, (errorMessage) => {
+      showGenerationError(errorMessage);
+    });
 
     return () => {
-      supabase.removeChannel(channel);
+      removeAlertChannel(channel);
     };
   }, [user, showGenerationError]);
 

@@ -65,6 +65,19 @@ export async function deleteProject(projectId: string): Promise<void> {
 }
 
 /**
+ * Count the number of music projects owned by the user.
+ */
+export async function countUserProjects(userId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from("music_projects")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId);
+
+  if (error) throw new Error(error.message);
+  return count ?? 0;
+}
+
+/**
  * Check if user is premium or admin
  */
 export async function checkPremiumStatus(userId: string): Promise<boolean> {
@@ -156,7 +169,9 @@ export async function invokeProjectAi(payload: Record<string, unknown>): Promise
 /**
  * Invoke generate-cover-image edge function
  */
-export async function invokeGenerateCoverImage(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
+export async function invokeGenerateCoverImage(
+  payload: Record<string, unknown>,
+): Promise<{ data: any; error: Error | null }> {
   const { data, error } = await supabase.functions.invoke("generate-cover-image", { body: payload });
   return { data, error: error ? new Error(error.message) : null };
 }
@@ -164,7 +179,9 @@ export async function invokeGenerateCoverImage(payload: Record<string, unknown>)
 /**
  * Invoke generate-project-media edge function (banner / artwork)
  */
-export async function invokeGenerateProjectMedia(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
+export async function invokeGenerateProjectMedia(
+  payload: Record<string, unknown>,
+): Promise<{ data: any; error: Error | null }> {
   const { data, error } = await supabase.functions.invoke("generate-project-media", { body: payload });
   return { data, error: error ? new Error(error.message) : null };
 }
