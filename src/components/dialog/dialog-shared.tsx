@@ -16,7 +16,7 @@ export function DialogBackdrop({
 }) {
   return (
     <motion.div
-      className={cn("fixed inset-0 z-40 bg-black", visible && "pointer-events-auto")}
+      className={cn("fixed inset-0 z-[170] bg-black", visible && "pointer-events-auto")}
       style={{
         backdropFilter: blur ? `blur(${blur})` : undefined,
         opacity: visible ? opacity : 0,
