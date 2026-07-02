@@ -56,7 +56,7 @@ export const WORKFLOWS: Workflow[] = [
       {
         toolId: "optimize",
         label: "Оптимизация",
-        condition: (prev) => (prev?.qualityScore !== undefined ? prev.qualityScore < 85 : true),
+        condition: (prev: any) => (prev?.qualityScore !== undefined ? prev.qualityScore < 85 : true),
         autoApply: true,
       },
     ],
@@ -72,7 +72,7 @@ export const WORKFLOWS: Workflow[] = [
       {
         toolId: "optimize",
         label: "Suno оптимизация",
-        condition: (prev) => prev?.producerReview?.overallScore < 80,
+        condition: (prev: any) => prev?.producerReview?.overallScore < 80,
         autoApply: true,
       },
     ],
@@ -86,7 +86,7 @@ export const WORKFLOWS: Workflow[] = [
       {
         toolId: "style_convert",
         label: "Адаптация стиля",
-        transform: (prev) => ({ lyrics: prev?.translation?.translatedLyrics || prev?.lyrics }),
+        transform: (prev: any) => ({ lyrics: prev?.translation?.translatedLyrics || prev?.lyrics }),
       },
     ],
   },
