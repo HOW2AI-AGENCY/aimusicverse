@@ -22,6 +22,7 @@ import { AdminQuickAccess } from "./AdminQuickAccess";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { glass } from "@/lib/glass";
 import { Heading } from "@/components/ui/Heading";
+import { useMotionPreference } from "@/hooks/useReducedMotion";
 
 // Use the same menu as bottom navigation "More" button
 const MoreMenuSheet = lazy(() =>
@@ -71,6 +72,12 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
   const unreadCount = useUnreadCount();
   const { hapticFeedback } = useTelegram();
   const isMobile = useIsMobile();
+  // Sprint 045 Phase B-4: every `repeat: Infinity` transition below now goes
+  // through `safeTransition`, which collapses to an instant (duration: 0)
+  // transition when `prefers-reduced-motion: reduce` is set. Honors WCAG
+  // SC 2.3.3 (Animation from Interactions) without breaking the design when
+  // the user has motion enabled.
+  const { safeTransition } = useMotionPreference();
 
   const handleMenuClick = () => {
     hapticFeedback("light");
@@ -95,7 +102,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
               gradient,
             )}
             animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            transition={safeTransition({ duration: 6, repeat: Infinity, ease: "easeInOut" })}
             whileHover={{ scale: 1.1 }}
           >
             <span className="text-white">{icon}</span>
@@ -114,7 +121,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
               <motion.span
                 className="inline-block ml-2"
                 animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+                transition={safeTransition({ duration: 1.5, repeat: Infinity, repeatDelay: 3 })}
               >
                 👋
               </motion.span>
@@ -157,7 +164,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
               gradient,
             )}
             animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            transition={safeTransition({ duration: 6, repeat: Infinity, ease: "easeInOut" })}
           >
             <span className="text-white">{icon}</span>
           </motion.div>
@@ -174,7 +181,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
               <motion.span
                 className="inline-block ml-1"
                 animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+                transition={safeTransition({ duration: 1.5, repeat: Infinity, repeatDelay: 3 })}
               >
                 👋
               </motion.span>
@@ -231,7 +238,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
             <motion.div
               className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary via-generate to-primary opacity-0 group-hover:opacity-100"
               animate={{ rotate: 360 }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              transition={safeTransition({ duration: 8, repeat: Infinity, ease: "linear" })}
             />
             {userPhotoUrl ? (
               <LazyImage src={userPhotoUrl} alt="Avatar" className="w-full h-full object-cover relative z-10" />

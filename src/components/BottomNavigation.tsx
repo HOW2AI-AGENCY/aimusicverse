@@ -87,7 +87,12 @@ export const BottomNavigation = memo(function BottomNavigation() {
     preloadRoute(path);
   }, []);
 
-  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + "/");
+  // Sprint 045 Phase B-3: previously used `path + "/"` prefix match for all
+  // entries, which meant Home (`/`) stayed active on every nested route because
+  // every pathname starts with `/`. Use exact match for root and prefix match
+  // for nested sections so only the matching tab is highlighted.
+  const isActive = (path: string) =>
+    path === "/" ? location.pathname === "/" : location.pathname === path || location.pathname.startsWith(`${path}/`);
 
   return (
     <>
@@ -107,7 +112,12 @@ export const BottomNavigation = memo(function BottomNavigation() {
               return (
                 <div key={item.path} className="relative flex-1 flex items-center justify-center overflow-visible">
                   {showCreateHint && (
-                    <div className="absolute bottom-16 bg-popover/95 border border-primary/20 backdrop-blur px-3 py-1.5 rounded-lg shadow-lg text-[11px] font-medium text-foreground whitespace-nowrap z-50 animate-bounce flex items-center gap-1.5">
+                    <div
+                      className={cn(
+                        "absolute bottom-16 bg-popover/95 border border-primary/20 backdrop-blur px-3 py-1.5 rounded-lg shadow-lg font-medium text-foreground whitespace-nowrap z-50 animate-bounce flex items-center gap-1.5",
+                        typographyClass.caption,
+                      )}
+                    >
                       <span>Создайте первый трек здесь! ✨</span>
                       <button
                         onClick={dismissHint}

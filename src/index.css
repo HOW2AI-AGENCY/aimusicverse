@@ -2072,53 +2072,71 @@ select:focus-visible,
   animation: badge-pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Page transition animations */
+/* Page transition animations
+ * Sprint 045 Phase B-2: variants now START hidden (opacity:0 + transform offset)
+ * and animate to the visible state. Previously they began at opacity:1, so
+ * the .page-visible toggle produced no visual change (animation appeared
+ * broken). Each variant runs as a one-shot keyframe animation that forwards
+ * into the resting visible state.
+ */
 .page-fade {
-  opacity: 1;
-  transition: opacity var(--page-duration, 200ms) ease-out;
-}
-
-.page-fade.page-visible {
-  opacity: 1;
+  animation: page-fade var(--page-duration, var(--motion-base, 200ms)) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)) both;
 }
 
 .page-slide-up {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity var(--page-duration, 200ms) ease-out,
-    transform var(--page-duration, 200ms) ease-out;
-}
-
-.page-slide-up.page-visible {
-  opacity: 1;
-  transform: translateY(0);
+  animation: page-slide-up var(--page-duration, var(--motion-base, 200ms)) var(--ease-out, cubic-bezier(0, 0, 0.2, 1))
+    both;
 }
 
 .page-slide-left {
-  opacity: 1;
-  transform: translateX(0);
-  transition:
-    opacity var(--page-duration, 200ms) ease-out,
-    transform var(--page-duration, 200ms) ease-out;
-}
-
-.page-slide-left.page-visible {
-  opacity: 1;
-  transform: translateX(0);
+  animation: page-slide-left var(--page-duration, var(--motion-base, 200ms)) var(--ease-out, cubic-bezier(0, 0, 0.2, 1))
+    both;
 }
 
 .page-scale {
-  opacity: 1;
-  transform: scale(1);
-  transition:
-    opacity var(--page-duration, 200ms) ease-out,
-    transform var(--page-duration, 200ms) ease-out;
+  animation: page-scale var(--page-duration, var(--motion-base, 200ms)) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)) both;
 }
 
-.page-scale.page-visible {
-  opacity: 1;
-  transform: scale(1);
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes page-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes page-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Mobile page transitions */
