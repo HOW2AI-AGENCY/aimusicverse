@@ -52,9 +52,9 @@ export function useBotConfig() {
       data?.forEach((item) => {
         const key = item.config_key as keyof BotConfig;
         try {
-          config[key] = typeof item.config_value === "string" ? JSON.parse(item.config_value) : item.config_value;
+          (config as any)[key] = typeof item.config_value === "string" ? JSON.parse(item.config_value as string) : item.config_value;
         } catch {
-          config[key] = item.config_value as BotConfig[keyof BotConfig] | null;
+          (config as any)[key] = item.config_value;
         }
       });
 

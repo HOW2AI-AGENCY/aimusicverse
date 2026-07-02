@@ -207,7 +207,7 @@ export function useSaveTranscription() {
         // Update existing
         const { data, error } = await supabase
           .from("stem_transcriptions")
-          .update(transcriptionData)
+          .update(transcriptionData as any)
           .eq("id", existing.id)
           .select()
           .single();
@@ -217,7 +217,7 @@ export function useSaveTranscription() {
         return data as StemTranscription;
       } else {
         // Insert new
-        const { data, error } = await supabase.from("stem_transcriptions").insert(transcriptionData).select().single();
+        const { data, error } = await supabase.from("stem_transcriptions").insert(transcriptionData as any).select().single();
 
         if (error) throw error;
         log.info("Transcription saved", { stemId: params.stemId });

@@ -44,7 +44,7 @@ export function useKlangioSaveAnalysis() {
       if (chords) {
         analysisData.key_signature = chords.key || null;
         analysisData.analysis_metadata = {
-          ...(analysisData.analysis_metadata || {}),
+          ...((analysisData.analysis_metadata as any) || {}),
           chords: chords.chords,
           strumming: chords.strumming,
           chord_count: chords.chords?.length || 0,
@@ -61,7 +61,7 @@ export function useKlangioSaveAnalysis() {
         };
         if (beats.time_signature) {
           analysisData.analysis_metadata = {
-            ...(analysisData.analysis_metadata || {}),
+            ...((analysisData.analysis_metadata as any) || {}),
             time_signature: beats.time_signature,
           };
         }
@@ -70,7 +70,7 @@ export function useKlangioSaveAnalysis() {
       // Add transcription data if available
       if (transcription) {
         analysisData.analysis_metadata = {
-          ...(analysisData.analysis_metadata || {}),
+          ...((analysisData.analysis_metadata as any) || {}),
           notes_count: transcription.notes?.length || 0,
           files: transcription.files,
         };

@@ -7,7 +7,7 @@
  */
 
 import { invokeReferenceAudioAnalysis } from "@/api/analysis.api";
-import type { ReferenceAnalysis } from "@/hooks/useSectionNotes";
+type ReferenceAnalysis = any;
 
 export interface AnalyzeReferenceParams {
   audioUrl: string;

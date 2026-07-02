@@ -157,7 +157,7 @@ export function useTracks(params: UseTracksParams = {}) {
 
   if (isScreenshotMode) {
     return {
-      tracks: screenshotMockTracks as EnrichedTrack[],
+      tracks: screenshotMockTracks as unknown as import("@/services/tracks.service").EnrichedTrack[],
       totalCount: screenshotMockTracks.length,
       isLoading: false,
       error: null,

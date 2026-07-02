@@ -63,20 +63,19 @@ export function LyricsFooter({
     <>
       {/* Section Notes Panel */}
       {selectedSection && (
-        // @ts-expect-error — SectionNotesPanel from studio/unified has a
-        // narrower public type than the original LyricsStudio passed.
-        // Runtime behaviour is unchanged: extra props are ignored.
         <SectionNotesPanel
-          open={notesPanelOpen}
-          onOpenChange={onNotesOpenChange}
-          sectionId={selectedSection.id}
-          sectionType={selectedSection.type}
-          sectionContent={selectedSection.content}
-          position={sections.findIndex((s) => s.id === selectedSection.id)}
-          existingNote={existingNote}
-          lyricsTemplateId={lyricsTemplateId}
-          onSave={onSaveNote}
-          onEnrichWithTags={onEnrichWithTags}
+          {...({
+            open: notesPanelOpen,
+            onOpenChange: onNotesOpenChange,
+            sectionId: selectedSection.id,
+            sectionType: selectedSection.type,
+            sectionContent: selectedSection.content,
+            position: sections.findIndex((s) => s.id === selectedSection.id),
+            existingNote,
+            lyricsTemplateId,
+            onSave: onSaveNote,
+            onEnrichWithTags,
+          } as any)}
         />
       )}
 

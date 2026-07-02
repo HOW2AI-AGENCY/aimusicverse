@@ -15,7 +15,12 @@ export type TrackStemRow = Database["public"]["Tables"]["track_stems"]["Row"];
  * Extended Track type with computed/optional UI fields
  * This is the main type used throughout the application
  */
-export interface Track extends TrackRow {
+type _TrackRowOptional = Partial<Pick<TrackRow,
+  | "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model" | "suno_task_id"
+>>;
+export interface Track extends Omit<TrackRow,
+  | "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model" | "suno_task_id"
+>, _TrackRowOptional {
   // Like-related fields (computed from track_likes)
   is_liked: boolean;
   likes_count: number;
@@ -28,13 +33,7 @@ export interface Track extends TrackRow {
   master_version_id?: string;
   metadata?: Record<string, unknown>;
 
-  // Optional fields sourced from joined track_versions or quality pipeline
-  audio_url_hd?: string | null;
-  audio_quality?: string | null;
-  upscale_status?: string | null;
-  suno_id?: string | null;
-  suno_model?: string | null;
-  suno_task_id?: string | null;
+  // Extra optional fields not present on tracks table
   bpm_target?: number | null;
   key_signature?: string | null;
   energy_level?: number | null;

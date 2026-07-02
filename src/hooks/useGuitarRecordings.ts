@@ -113,7 +113,7 @@ export function useGuitarRecordings() {
 
       const { data, error } = await supabase
         .from("guitar_recordings")
-        .insert([recording] as GuitarRecordingInsert)
+        .insert([recording] as unknown as GuitarRecordingInsert)
         .select()
         .single();
 

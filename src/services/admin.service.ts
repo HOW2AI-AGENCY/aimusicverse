@@ -138,7 +138,7 @@ export async function changeUserSubscriptionTier(payload: {
     updates.subscription_expires_at = null;
   }
 
-  await updateUserProfile(payload.userId, updates);
+  await updateUserProfile(payload.userId, updates as any);
 
   await insertCreditTransaction({
     user_id: payload.userId,

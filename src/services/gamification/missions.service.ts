@@ -143,8 +143,8 @@ export async function fetchSpecialChallengeStats(userId: string): Promise<Specia
   return {
     totalTracks,
     totalLikes,
-    longestStreak: credits?.longest_streak ?? 0,
-    level: credits?.level ?? 1,
+    longestStreak: (credits as any)?.longest_streak ?? 0,
+    level: (credits as any)?.level ?? 1,
     artistsCount,
     achievementsCount,
   };
@@ -183,6 +183,6 @@ export async function fetchWeeklyChallengeStats(
     generations,
     shares,
     likesReceived,
-    currentStreak: credits?.current_streak ?? 0,
+    currentStreak: (credits as any)?.current_streak ?? 0,
   };
 }

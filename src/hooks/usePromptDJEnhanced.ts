@@ -253,7 +253,7 @@ export function usePromptDJEnhanced() {
       };
 
       pushTrack(newTrack, { cap: 10, makeCurrent: true });
-      setIsPlaying(true);
+      // isPlaying is derived from usePromptRecording; no direct setter
       setLiveStatus("playing");
       isGeneratingLiveRef.current = false;
 
@@ -296,7 +296,7 @@ export function usePromptDJEnhanced() {
     isGeneratingLiveRef.current = false;
     setIsLiveMode(false);
     setLiveStatus("idle");
-    setIsPlaying(false);
+    // isPlaying is derived from usePromptRecording; no direct setter
     toast.info("Live сессия остановлена");
   }, []);
 
