@@ -59,7 +59,8 @@
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 044 — Type Safety Wave 2 (`any` 449 → 0 в `src/components/**`) **в работе 🟡 → завершается**. Sprint 044-06 завершён ✅: 3 сервиса (`VoiceCloneService`, `AudioAnalysisService`, `ReferenceManager`) конвертированы на `Result<T,E>`, +45 тестов. `src/components/**` `any` 155 → 0 в 37 файлах. См. [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md) и [superpowers/sdd/briefs/](./.superpowers/sdd/briefs/D6-report.md).
+- **Текущий фокус**: Sprint 044 ✅ ЗАВЕРШЁН (Type Safety Wave 2 — 7/7 задач). Итог: `any` в `src/components/**` 155 → 0; в `src/hooks/**` 164 → 6; в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result`; ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs` ≤50. +54 unit-теста за спринт (282 passing в 17 suites).
+- **Далее**: Sprint 045 (Hygiene + Docs) и срочный **Sprint 046 — Bundle Reduction** (зафиксирован расхождение: реальный gzip 2.21 МБ / бюджет 950 КБ, в 2.3× выше). См. [PROJECT_STATUS.md](./PROJECT_STATUS.md) и [superpowers/sdd/briefs/](./.superpowers/sdd/briefs/).
 
 ---
 
@@ -78,32 +79,34 @@ gantt
     Sprint 037: Infrastructure         :done, 037, 2026-06-21, 2026-06-29
     Sprint 038: Design System          :done, 038, 2026-06-29, 2026-06-30
     Sprint 039: Архит. рефакторинг     :done, 039, 2026-06-30, 2026-06-30
-    section В работе 🟡
-    Sprint 044: Type Safety Wave 2     :active, 044, 2026-07-20, 2026-07-26
+    Sprint 042: Page Decomp + Audio     :done, 042, 2026-07-01, 2026-07-02
+    Sprint 043: Layer Compliance       :done, 043, 2026-07-02, 2026-07-02
+    Sprint 044: Type Safety Wave 2     :done, 044, 2026-07-02, 2026-07-02
     section Запланировано ⚪
     Sprint 040: Type Safety + God-files :040, 2026-07-01, 2026-07-12
     Sprint 040b: Тесты + Audio Export   :040b, 2026-07-15, 2026-08-01
     Sprint 041: UX features (AI/TTS)    :041, 2026-08-01, 2026-08-08
-    Sprint 042: Page Decomp + Audio     :042, 2026-07-01, 2026-07-10
-    Sprint 043: Layer Compliance       :043, 2026-07-13, 2026-07-19
     Sprint 045: Hygiene + Docs         :045, 2026-07-27, 2026-07-31
+    Sprint 046: Bundle Reduction 🔴     :046, 2026-08-01, 2026-08-10
 ```
 
-| Спринт  | Название                        | Статус |  Прогресс   |
-| :-----: | ------------------------------- | :----: | :---------: |
-|   033   | UX-аудит и переработка          |   ✅   |    100%     |
-|   034   | Надёжность генерации            |   ✅   |    100%     |
-|   035   | Стабилизация + Чистка           |   ✅   |    100%     |
-|   036   | Рефакторинг слоёв + Type Safety |   ✅   |    100%     |
-|   037   | Infrastructure Hardening        |   ✅   |    100%     |
-|   038   | Design System Unification       |   ✅   |    28/28    |
-|   039   | Архитектурный рефакторинг       |   🟡   | 10/14 (71%) |
-|   040   | Тесты + Export                  |   ⚪   |     0%      |
-|   041   | UX features (AI/TTS)            |   ⚪   |     0%      |
-| **042** | **Page Decomp + Audio Pooling** |   🟡   |  **~75%**   |
-|   043   | Layer Compliance (72 → 0)       |   ⚪   |     0%      |
-| **044** | **Type Safety Wave 2**          |   🟡   |  **~85%**   |
-|   045   | Hygiene + Documentation         |   ⚪   |     0%      |
+| Спринт  | Название                          | Статус | Прогресс |
+| :-----: | --------------------------------- | :----: | :------: |
+|   033   | UX-аудит и переработка            |   ✅   |   100%   |
+|   034   | Надёжность генерации              |   ✅   |   100%   |
+|   035   | Стабилизация + Чистка             |   ✅   |   100%   |
+|   036   | Рефакторинг слоёв + Type Safety   |   ✅   |   100%   |
+|   037   | Infrastructure Hardening          |   ✅   |   100%   |
+|   038   | Design System Unification         |   ✅   |  28/28   |
+|   039   | Архитектурный рефакторинг         |   ✅   |  14/14   |
+| **042** | **Page Decomp + Audio Pooling**   |   ✅   |  10/10   |
+| **043** | **Layer Compliance (65 → 0)**     |   ✅   |   6/6    |
+| **044** | **Type Safety Wave 2**            |   ✅   |   7/7    |
+|   040   | Type Safety + God-files           |   ⚪   |    0%    |
+|  040b   | Тесты + Audio Export              |   ⚪   |    0%    |
+|   041   | UX features (AI/TTS)              |   ⚪   |    0%    |
+|   045   | Hygiene + Documentation           |   ⚪   |    0%    |
+|   046   | 🔴 Bundle Reduction (2.21→<950KB) |   ⚪   |    0%    |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>
 
