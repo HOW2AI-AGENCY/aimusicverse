@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "@/lib/icons";
+import { ChevronDown, Settings2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { glass } from "@/lib/glass";
 
