@@ -85,7 +85,7 @@ export function SheetDialog({
   }, [patterns, onOpenChange]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center">
+    <div className="fixed inset-0 z-[170] flex items-end justify-center">
       {/* Backdrop with opacity transform */}
       <motion.div
         className={cn("absolute inset-0 backdrop-blur-sm", backdrop.heavy)}
