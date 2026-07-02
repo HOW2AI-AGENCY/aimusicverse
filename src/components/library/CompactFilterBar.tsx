@@ -90,7 +90,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full min-w-[28px] min-h-[28px] flex items-center justify-center"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
                 onClick={() => onSearchChange("")}
                 aria-label="Очистить поиск"
               >
@@ -220,7 +220,6 @@ export const CompactFilterBar = memo(function CompactFilterBar({
             );
           })}
       </div>
-
     </div>
   );
 });
