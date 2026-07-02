@@ -119,8 +119,8 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
             <button
               type="button"
               className={cn(
-                "absolute right-3 top-1/2 -translate-y-1/2",
-                "p-1.5 rounded-md",
+                "absolute right-1 top-1/2 -translate-y-1/2 inline-flex items-center justify-center",
+                "min-w-[44px] min-h-[44px] p-1.5 rounded-md",
                 "text-muted-foreground hover:text-foreground",
                 "transition-colors",
               )}
