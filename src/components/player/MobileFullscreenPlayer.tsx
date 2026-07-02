@@ -49,7 +49,7 @@ const SEEK_AMOUNT = 10;
 interface MobileFullscreenPlayerProps {
   track: Track;
   onClose: () => void;
-  currentVersion?: Pick<TrackVersionRow, "suno_task_id" | "suno_id" | "lyrics"> | null;
+  currentVersion?: { suno_task_id?: string | null; suno_id?: string | null; lyrics?: string | null } | null;
 }
 
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
