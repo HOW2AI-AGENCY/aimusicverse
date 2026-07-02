@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp, TrendingDown, Users, DollarSign, Music, Zap, Target } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, type TooltipValueType } from "recharts";
 import { useForecast } from "@/hooks/admin/useForecast";
 
 interface ForecastPanelProps {
@@ -137,7 +137,10 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
               <LineChart data={data?.users || []}>
                 <XAxis dataKey="date" fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis fontSize={10} tickLine={false} axisLine={false} width={30} />
-                <Tooltip contentStyle={{ fontSize: 11 }} formatter={(v: any) => [v, "Новых"]} />
+                <Tooltip
+                  contentStyle={{ fontSize: 11 }}
+                  formatter={(v: TooltipValueType | undefined) => [String(v), "Новых"]}
+                />
                 <Line type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
@@ -156,7 +159,10 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
               <LineChart data={data?.revenue || []}>
                 <XAxis dataKey="date" fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis fontSize={10} tickLine={false} axisLine={false} width={30} />
-                <Tooltip contentStyle={{ fontSize: 11 }} formatter={(v: any) => [`⭐ ${v}`, "Stars"]} />
+                <Tooltip
+                  contentStyle={{ fontSize: 11 }}
+                  formatter={(v: TooltipValueType | undefined) => [`⭐ ${v}`, "Stars"]}
+                />
                 <Line type="monotone" dataKey="value" stroke="#22c55e" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>

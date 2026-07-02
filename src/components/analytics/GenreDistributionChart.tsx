@@ -9,6 +9,7 @@ import { motion } from "@/lib/motion";
 import { useAnalyticsData } from "@/hooks/useAnalyticsData";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 
 const COLORS = [
   "hsl(var(--primary))",
@@ -75,7 +76,10 @@ export function GenreDistributionChart() {
                   borderRadius: "8px",
                   fontSize: "12px",
                 }}
-                formatter={(value: any, name: any) => [`${value} треков`, name]}
+                formatter={(value: TooltipValueType | undefined, name: number | string | undefined) => [
+                  `${value} треков`,
+                  name,
+                ]}
               />
               <Legend
                 wrapperStyle={{ fontSize: "11px" }}

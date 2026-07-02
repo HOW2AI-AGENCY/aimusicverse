@@ -143,7 +143,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 px-2 text-xs gap-1"
+                className="h-11 min-w-11 px-2 text-xs gap-1"
                 onClick={() => {
                   hapticFeedback("light");
                   setShowQuickTemplates(!showQuickTemplates);

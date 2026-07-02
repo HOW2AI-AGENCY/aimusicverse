@@ -4,7 +4,6 @@
  */
 
 import { useState, useCallback, useEffect, useId } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,7 +19,6 @@ import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
 import { useGenerateSfx } from "@/hooks/studio/useGenerateSfx";
-import { supabase } from "@/integrations/supabase/client";
 
 interface SFXGeneratorPanelProps {
   onClose: () => void;
@@ -57,35 +55,25 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
   // Регистрация в useStudioAudio координаторе и пауза при старте глобального плейера
   // уже встроены в usePreviewAudio.
 
-  const generateMutation = useMutation({
-    mutationFn: async ({ prompt, duration }: { prompt: string; duration: number }) => {
-      // Call Replicate/fal.ai SFX edge function
-      const { data, error } = await supabase.functions.invoke("generate-sfx", {
-        body: { prompt, duration },
-      });
-
-      if (error) throw error;
-      if (!data?.success || !data?.audioUrl) {
-        throw new Error(data?.error || "Failed to generate SFX");
-      }
-
-      return data.audioUrl;
-    },
-    onSuccess: (url) => {
-      setGeneratedUrl(url);
-      toast.success("SFX сгенерирован!");
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+  const generateMutation = useGenerateSfx();
 
   const handleGenerate = () => {
     if (!prompt.trim()) {
       toast.error("Введите описание звукового эффекта");
       return;
     }
-    generateMutation.mutate({ prompt, duration });
+    generateMutation.mutate(
+      { prompt, duration },
+      {
+        onSuccess: (url) => {
+          setGeneratedUrl(url);
+          toast.success("SFX сгенерирован!");
+        },
+        onError: (error) => {
+          toast.error(error.message);
+        },
+      },
+    );
   };
 
   const handlePreview = async () => {

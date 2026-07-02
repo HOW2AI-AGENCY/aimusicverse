@@ -87,7 +87,6 @@ export function GenerateFormCustom({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="space-y-4"
     >
       {/* ========== BASIC INFO GROUP ========== */}
       <FormSection>
@@ -97,7 +96,7 @@ export function GenerateFormCustom({
       <FormDivider />
 
       {/* ========== STYLE & VOCALS GROUP ========== */}
-      <FormSection>
+      <FormSection elevated>
         <StyleSection
           style={style}
           onStyleChange={onStyleChange}
@@ -125,9 +124,12 @@ export function GenerateFormCustom({
             />
           </FormSection>
           {onCustomVoiceIdChange && (
-            <FormSection>
-              <CustomVoicePicker value={customVoiceId ?? null} onChange={onCustomVoiceIdChange} />
-            </FormSection>
+            <>
+              <FormDivider />
+              <FormSection>
+                <CustomVoicePicker value={customVoiceId ?? null} onChange={onCustomVoiceIdChange} />
+              </FormSection>
+            </>
           )}
         </>
       )}

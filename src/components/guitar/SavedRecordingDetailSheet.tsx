@@ -266,11 +266,7 @@ export function SavedRecordingDetailSheet({
                 </div>
                 {/* Chord Timeline */}
                 <ChordTimelineMobile
-                  chords={recording.chords.map((c: any, idx: number) => ({
-                    chord: c.chord,
-                    startTime: c.start ?? idx * 2,
-                    endTime: c.endTime ?? (c.time ? c.time + 2 : (idx + 1) * 2),
-                  }))}
+                  chords={recording.chords}
                   duration={recording.duration_seconds || 30}
                   currentTime={0}
                 />

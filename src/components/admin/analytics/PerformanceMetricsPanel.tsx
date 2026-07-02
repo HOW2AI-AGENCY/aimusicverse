@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Gauge, Zap, Clock, MousePointer, Move, TrendingUp, TrendingDown, AlertCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { usePerformanceMetrics } from "@/hooks/admin/usePerformanceMetrics";
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, type TooltipValueType } from "recharts";
 
 interface PerformanceMetricsPanelProps {
   timePeriod: string;
@@ -196,7 +196,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                 <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} width={40} />
                 <Tooltip
                   contentStyle={{ fontSize: 12 }}
-                  formatter={(value: any) => [`${Math.round(value)}ms`, "LCP"]}
+                  formatter={(value: TooltipValueType | undefined) => [`${Math.round(Number(value))}ms`, "LCP"]}
                 />
                 <Line type="monotone" dataKey="avgLcp" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 3 }} />
               </LineChart>

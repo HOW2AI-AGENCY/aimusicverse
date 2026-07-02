@@ -5,7 +5,18 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  type TooltipValueType,
+} from "recharts";
 
 interface TelemetryData {
   total_events: number;
@@ -77,7 +88,7 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
                 <XAxis type="number" fontSize={10} />
                 <YAxis type="category" dataKey="name" width={80} fontSize={9} className="sm:text-[12px]" />
                 <Tooltip
-                  formatter={(value: any) => [value.toLocaleString(), "Событий"]}
+                  formatter={(value: TooltipValueType | undefined) => [Number(value).toLocaleString(), "Событий"]}
                   contentStyle={{
                     backgroundColor: "hsl(var(--popover))",
                     border: "1px solid hsl(var(--border))",

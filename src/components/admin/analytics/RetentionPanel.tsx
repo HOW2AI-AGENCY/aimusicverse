@@ -7,7 +7,18 @@ import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  type TooltipValueType,
+} from "recharts";
 import { Users, UserCheck, UserMinus, TrendingUp, Calendar, Repeat } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
@@ -161,14 +172,15 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
                     borderRadius: "8px",
                     fontSize: "12px",
                   }}
-                  formatter={(value: any, name: any) => {
+                  formatter={(value: TooltipValueType | undefined, name: number | string | undefined) => {
                     const labels: Record<string, string> = {
                       d1: "Day 1",
                       d7: "Day 7",
                       d14: "Day 14",
                       d30: "Day 30",
                     };
-                    return [`${value}%`, labels[name] || name];
+                    const key = String(name);
+                    return [`${value}%`, labels[key] || key];
                   }}
                 />
                 <Area

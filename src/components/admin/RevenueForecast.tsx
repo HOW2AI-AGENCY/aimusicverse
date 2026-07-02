@@ -11,7 +11,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePaymentAnalytics } from "@/hooks/usePaymentAnalytics";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine,
+  type TooltipValueType,
+} from "recharts";
 import { TrendingUp, TrendingDown, Target, AlertCircle, Calculator } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
@@ -287,14 +297,15 @@ export function RevenueForecast() {
                   borderRadius: "8px",
                   fontSize: "11px",
                 }}
-                formatter={(value: any, name: any) => {
+                formatter={(value: TooltipValueType | undefined, name: number | string | undefined) => {
                   const labels: Record<string, string> = {
                     revenue: "Факт",
                     forecast: "Прогноз",
                     upper: "Верхняя граница",
                     lower: "Нижняя граница",
                   };
-                  return [formatCurrency(value), labels[name] || name];
+                  const key = String(name);
+                  return [formatCurrency(Number(value)), labels[key] || key];
                 }}
                 labelFormatter={(label) => new Date(label).toLocaleDateString("ru-RU")}
               />

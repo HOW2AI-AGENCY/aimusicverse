@@ -1,4 +1,4 @@
-import { createContext, useContext, useId, useMemo, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useId, useMemo, type ReactNode } from "react";
 import { logger } from "@/lib/logger";
 
 interface PlayerTransitionContextValue {
@@ -26,17 +26,16 @@ let hasWarnedMissingProvider = false;
  */
 export function usePlayerTransition(): PlayerTransitionContextValue {
   const ctx = useContext(PlayerTransitionContext);
-  if (!ctx) {
-    if (!hasWarnedMissingProvider) {
+  useEffect(() => {
+    if (!ctx && !hasWarnedMissingProvider) {
       hasWarnedMissingProvider = true;
       logger.warn(
         "usePlayerTransition: no PlayerTransitionProvider in tree, using fallback ids. " +
           "Wrap the player subtree in <PlayerTransitionProvider> for shared-layout animations.",
       );
     }
-    return FALLBACK_VALUE;
-  }
-  return ctx;
+  }, [ctx]);
+  return ctx ?? FALLBACK_VALUE;
 }
 
 export function PlayerTransitionProvider({ children }: { children: ReactNode }) {

@@ -155,7 +155,7 @@ test.describe('T084 - Mixer Re-render Optimization', () => {
 
     // Rapidly change volume
     for (let i = 0; i < 10; i++) {
-      await page.fill('[data-testid="stem-volume-0']", (0.5 + i * 0.05).toFixed(2));
+      await page.fill('[data-testid="stem-volume-0"]', (0.5 + i * 0.05).toFixed(2));
     }
 
     await page.waitForTimeout(200);

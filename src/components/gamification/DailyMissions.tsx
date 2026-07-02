@@ -120,7 +120,7 @@ export function DailyMissions() {
         {missions.map((mission, index) => {
           const isCompleted = mission.current >= mission.target;
           const canClaim = isCompleted && !mission.claimed;
-          const isClaiming = claimMission.isPending && (claimMission.variables as any)?.id === mission.id;
+          const isClaiming = claimMission.isPending && claimMission.variables?.missionId === mission.id;
           const progress = Math.min((mission.current / mission.target) * 100, 100);
 
           return (
