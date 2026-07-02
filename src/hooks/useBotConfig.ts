@@ -54,7 +54,7 @@ export function useBotConfig() {
         try {
           config[key] = typeof item.config_value === "string" ? JSON.parse(item.config_value) : item.config_value;
         } catch {
-          config[key] = item.config_value as any;
+          config[key] = item.config_value as BotConfig[keyof BotConfig] | null;
         }
       });
 

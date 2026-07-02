@@ -64,9 +64,9 @@ export function useTrackActions() {
       if (error) throw error;
 
       toast.success("Ремикс начат! Трек появится в библиотеке после завершения");
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Remix error", error);
-      toast.error(error.message || "Ошибка создания ремикса");
+      toast.error(error instanceof Error ? error.message : "Ошибка создания ремикса");
     } finally {
       setIsProcessing(false);
     }
@@ -97,9 +97,9 @@ export function useTrackActions() {
       if (error) throw error;
 
       toast.success("Разделение началось! Стемы появятся после завершения");
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Separation error", error);
-      toast.error(error.message || "Ошибка разделения");
+      toast.error(error instanceof Error ? error.message : "Ошибка разделения");
     } finally {
       setIsProcessing(false);
     }
@@ -145,7 +145,7 @@ export function useTrackActions() {
       // Invalidate queries to refresh data without page reload
       await queryClient.invalidateQueries({ queryKey: ["tracks"] });
       await queryClient.invalidateQueries({ queryKey: ["track", track.id] });
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Toggle public error", error);
       toast.error("Ошибка изменения видимости");
     } finally {
@@ -170,9 +170,9 @@ export function useTrackActions() {
       toast.success("Конвертация в WAV началась!", {
         description: "Файл будет готов через несколько минут",
       });
-    } catch (error: any) {
+    } catch (error) {
       logger.error("WAV conversion error", error);
-      toast.error(error.message || "Ошибка конвертации");
+      toast.error(error instanceof Error ? error.message : "Ошибка конвертации");
     } finally {
       setIsProcessing(false);
     }
@@ -205,9 +205,9 @@ export function useTrackActions() {
       toast.success("Генерация обложки началась! 🎨", {
         description: "Новая обложка будет готова через минуту",
       });
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Cover generation error", error);
-      toast.error(error.message || "Ошибка генерации обложки");
+      toast.error(error instanceof Error ? error.message : "Ошибка генерации обложки");
     } finally {
       setIsProcessing(false);
     }
@@ -230,9 +230,9 @@ export function useTrackActions() {
       toast.success("Генерация видео началась! 🎬", {
         description: "Клип будет готов через несколько минут",
       });
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Video generation error", error);
-      toast.error(error.message || "Ошибка генерации видео");
+      toast.error(error instanceof Error ? error.message : "Ошибка генерации видео");
     } finally {
       setIsProcessing(false);
     }
@@ -268,9 +268,9 @@ export function useTrackActions() {
       if (error) throw error;
 
       toast.success("Трек отправлен в Telegram!");
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Send to Telegram error", error);
-      toast.error(error.message || "Ошибка отправки в Telegram");
+      toast.error(error instanceof Error ? error.message : "Ошибка отправки в Telegram");
     } finally {
       setIsProcessing(false);
     }

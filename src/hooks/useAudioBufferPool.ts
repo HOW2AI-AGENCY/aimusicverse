@@ -9,6 +9,11 @@ import { useCallback, useRef, useEffect } from "react";
 type ToneType = typeof import("tone");
 type ToneAudioBufferType = import("tone").ToneAudioBuffer;
 
+// Window extension for browser-only requestIdleCallback (Safari/Chrome private API)
+type WindowWithIdleCallback = Window & {
+  requestIdleCallback?: (cb: IdleRequestCallback, opts?: { timeout: number }) => number;
+};
+
 // Cached Tone module reference
 let ToneModule: ToneType | null = null;
 
@@ -119,7 +124,7 @@ class AudioBufferPool {
           const { url, key } = JSON.parse(item);
           this.preload(url, key).finally(() => {
             if ("requestIdleCallback" in window) {
-              (window as any).requestIdleCallback(processNext, { timeout: 5000 });
+              (window as WindowWithIdleCallback).requestIdleCallback?.(processNext, { timeout: 5000 });
             } else {
               setTimeout(processNext, 100);
             }
@@ -131,7 +136,7 @@ class AudioBufferPool {
     };
 
     if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(processNext, { timeout: 5000 });
+      (window as WindowWithIdleCallback).requestIdleCallback?.(processNext, { timeout: 5000 });
     } else {
       setTimeout(processNext, 100);
     }

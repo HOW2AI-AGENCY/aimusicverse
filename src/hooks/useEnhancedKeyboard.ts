@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import type { TelegramWebApp } from "@/types/telegram";
 
 interface KeyboardState {
   isOpen: boolean;
@@ -23,7 +24,7 @@ export function useEnhancedKeyboard() {
 
   useEffect(() => {
     // Check if we're in a Telegram Mini App
-    const tg = (window as any).Telegram?.WebApp;
+    const tg = (window as unknown as { Telegram?: { WebApp?: TelegramWebApp } }).Telegram?.WebApp;
 
     const handleViewportChange = () => {
       const visualViewport = window.visualViewport;

@@ -11,6 +11,22 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { PublicTrackWithCreator } from "./usePublicContent";
+import type { Database } from "@/integrations/supabase/types";
+
+type TrackRow = Pick<
+  Database["public"]["Tables"]["tracks"]["Row"],
+  | "id"
+  | "title"
+  | "cover_url"
+  | "audio_url"
+  | "play_count"
+  | "user_id"
+  | "created_at"
+  | "style"
+  | "tags"
+  | "computed_genre"
+  | "prompt"
+>;
 
 interface UseInfinitePublicTracksParams {
   /** Sort order: recent, popular, or by genre */
@@ -117,7 +133,7 @@ export function useInfinitePublicTracks({
 /**
  * Helper to enrich tracks with creator profile info
  */
-async function enrichTracksWithCreators(tracks: any[]): Promise<PublicTrackWithCreator[]> {
+async function enrichTracksWithCreators(tracks: TrackRow[]): Promise<PublicTrackWithCreator[]> {
   if (!tracks.length) return [];
 
   const userIds = [...new Set(tracks.map((t) => t.user_id))];

@@ -4,6 +4,7 @@
  */
 
 import { useCallback, useMemo } from "react";
+import type { TelegramWebApp, TelegramHapticFeedback } from "@/types/telegram";
 
 type HapticStyle = "light" | "medium" | "heavy" | "rigid" | "soft";
 type NotificationStyle = "error" | "success" | "warning";
@@ -11,9 +12,9 @@ type NotificationStyle = "error" | "success" | "warning";
 const MIN_HAPTIC_VERSION = 6.1;
 
 export function useHapticFeedback() {
-  const haptic = useMemo(() => {
+  const haptic = useMemo<TelegramHapticFeedback | null>(() => {
     if (typeof window === "undefined") return null;
-    const webApp = (window as any).Telegram?.WebApp;
+    const webApp = (window as unknown as { Telegram?: { WebApp?: TelegramWebApp } }).Telegram?.WebApp;
     if (!webApp?.HapticFeedback) return null;
     // Version guard: HapticFeedback requires 6.1+
     const version = parseFloat(webApp.version || "0");

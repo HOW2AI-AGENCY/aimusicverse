@@ -19,12 +19,12 @@ export interface AudioAnalysis {
   structure: string | null;
   style_description: string | null;
   bpm: number | null;
-  beats_data: any[] | null;
+  beats_data: Record<string, unknown>[] | null;
   arousal: number | null;
   valence: number | null;
   approachability: string | null;
   engagement: string | null;
-  analysis_metadata: any | null;
+  analysis_metadata: Record<string, unknown> | null;
   created_at: string;
   updated_at: string;
 }

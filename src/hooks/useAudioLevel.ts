@@ -32,7 +32,14 @@ export function useAudioLevel(mediaStream: MediaStream | null, isActive: boolean
 
     try {
       // Create audio context and analyser
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      type WindowWithWebkitAudio = Window & {
+        webkitAudioContext?: typeof AudioContext;
+      };
+      const AudioContextClass = window.AudioContext || (window as WindowWithWebkitAudio).webkitAudioContext;
+      if (!AudioContextClass) {
+        logger.error("AudioContext is not supported in this browser");
+        return;
+      }
       const audioContext = new AudioContextClass();
       const analyser = audioContext.createAnalyser();
       const source = audioContext.createMediaStreamSource(mediaStream);

@@ -1,6 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import type { Database } from "@/integrations/supabase/types";
+
+type GenerationHistoryInsert = Database["public"]["Tables"]["user_generation_history"]["Insert"];
 
 export interface GenerationHistoryEntry {
   id: string;
@@ -77,7 +80,7 @@ export function useAddToHistory() {
           reference_audio_id: params.reference_audio_id,
           track_id: params.track_id,
           metadata: params.metadata,
-        } as any)
+        } as GenerationHistoryInsert)
         .select()
         .single();
 

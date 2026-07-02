@@ -3,6 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import type { GuitarAnalysisResult } from "./useGuitarAnalysis";
+import type { Database } from "@/integrations/supabase/types";
+import type { BeatData, ChordData, StrumData, NoteData, StyleAnalysis } from "./useGuitarAnalysis";
+
+type GuitarRecordingInsert = Database["public"]["Tables"]["guitar_recordings"]["Insert"];
 
 const log = logger.child({ module: "GuitarRecordings" });
 
@@ -16,20 +20,20 @@ export interface GuitarRecording {
   duration_seconds: number | null;
   bpm: number | null;
   time_signature: string | null;
-  beats: any[];
+  beats: BeatData[];
   downbeats: number[];
   key: string | null;
-  chords: any[];
-  strumming: any[];
+  chords: ChordData[];
+  strumming: StrumData[];
   midi_url: string | null;
   midi_quant_url: string | null;
   pdf_url: string | null;
   gp5_url: string | null;
   musicxml_url: string | null;
-  notes: any[];
+  notes: NoteData[];
   generated_tags: string[];
   style_description: string | null;
-  style_analysis: any;
+  style_analysis: StyleAnalysis;
   analysis_status: {
     beats: boolean;
     chords: boolean;
@@ -109,7 +113,7 @@ export function useGuitarRecordings() {
 
       const { data, error } = await supabase
         .from("guitar_recordings")
-        .insert([recording] as any)
+        .insert([recording] as GuitarRecordingInsert)
         .select()
         .single();
 

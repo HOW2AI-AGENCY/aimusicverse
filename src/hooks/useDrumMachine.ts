@@ -101,14 +101,14 @@ function createDrumSynth(
 ): MembraneSynthType | MetalSynthType | NoiseSynthType | SynthType {
   switch (sound.type) {
     case "membrane":
-      return new Tone.MembraneSynth(sound.params as any);
+      return new Tone.MembraneSynth(sound.params as ConstructorParameters<typeof Tone.MembraneSynth>[0]);
     case "metal":
-      return new Tone.MetalSynth(sound.params as any);
+      return new Tone.MetalSynth(sound.params as ConstructorParameters<typeof Tone.MetalSynth>[0]);
     case "noise":
-      return new Tone.NoiseSynth(sound.params as any);
+      return new Tone.NoiseSynth(sound.params as ConstructorParameters<typeof Tone.NoiseSynth>[0]);
     case "synth":
     default:
-      return new Tone.Synth(sound.params as any);
+      return new Tone.Synth(sound.params as ConstructorParameters<typeof Tone.Synth>[0]);
   }
 }
 
