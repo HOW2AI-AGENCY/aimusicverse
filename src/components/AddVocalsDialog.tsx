@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Mic2, Info } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
@@ -13,6 +12,7 @@ import { InlineLyricsEditor } from "@/components/common/InlineLyricsEditor";
 import { GenerationAdvancedSettings, GenerationSettings } from "@/components/common/GenerationAdvancedSettings";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAddVocalsProgress } from "@/hooks/generation/useAddVocalsProgress";
+import { useAddVocals } from "@/hooks/studio/useAddVocals";
 
 interface AddVocalsDialogProps {
   open: boolean;
@@ -30,6 +30,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
 
   // Progress tracking hook
   const progress = useAddVocalsProgress();
+  const addVocalsMutation = useAddVocals();
 
   // Advanced settings
   const [advancedSettings, setAdvancedSettings] = useState<GenerationSettings>({
@@ -67,10 +68,14 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
       const effectiveTitle = title.trim() || track.title || "Трек с вокалом";
       const effectiveStyle = style.trim() || "pop, vocals";
 
-      const body: Record<string, unknown> = {
+      const {
+        trackId: newTrackId,
+        taskId,
+        error,
+      } = await addVocalsMutation.mutateAsync({
+        trackId: track.id,
         audioUrl: track.audio_url,
         prompt: lyrics,
-        customMode: true,
         style: effectiveStyle,
         title: effectiveTitle,
         negativeTags: negativeTags.trim() || "low quality, distorted, noise",
@@ -79,19 +84,13 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
         styleWeight: advancedSettings.styleWeight,
         weirdnessConstraint: advancedSettings.weirdnessConstraint,
         model: advancedSettings.model,
-      };
-
-      if (advancedSettings.vocalGender) {
-        body.vocalGender = advancedSettings.vocalGender;
-      }
-
-      const { data, error } = await supabase.functions.invoke("suno-add-vocals", { body });
+        extras: {
+          customMode: true,
+          ...(advancedSettings.vocalGender ? { vocalGender: advancedSettings.vocalGender } : {}),
+        },
+      });
 
       if (error) throw error;
-
-      // Extract task and track IDs from response
-      const taskId = data?.taskId || data?.task?.id;
-      const newTrackId = data?.trackId || data?.track?.id;
 
       if (taskId && newTrackId) {
         // Start tracking progress
@@ -125,97 +124,91 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
   };
 
   return (
-    <UnifiedDialog
-      variant="modal"
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Добавить вокал"
-      size="lg"
-    >
-        <div className="space-y-4">
-          {/* Info block */}
-          <div className="p-3 bg-muted rounded-lg">
-            <p className="text-sm">
-              <Mic2 className="w-4 h-4 inline mr-2" />
-              Инструментальный трек: <span className="font-semibold">{track.title || "Без названия"}</span>
-            </p>
-          </div>
-
-          {/* Alert about lyrics */}
-          <Alert>
-            <Info className="w-4 h-4" />
-            <AlertDescription className="text-xs">
-              Введите текст песни, который AI будет петь. Используйте теги [Verse], [Chorus], [Bridge] для структуры.
-            </AlertDescription>
-          </Alert>
-
-          {/* Lyrics editor with inline AI panel */}
-          <div>
-            <Label className="mb-2 block">Текст песни (Lyrics) *</Label>
-            <InlineLyricsEditor value={lyrics} onChange={setLyrics} onStyleChange={handleStyleChange} minRows={10} />
-          </div>
-
-          {/* Style */}
-          <div>
-            <Label htmlFor="style">Стиль вокала</Label>
-            <Input
-              id="style"
-              value={style}
-              onChange={(e) => setStyle(e.target.value)}
-              placeholder="pop, powerful vocals, energetic"
-              className="mt-2"
-            />
-          </div>
-
-          {/* Negative tags */}
-          <div>
-            <Label htmlFor="negativeTags">Исключить</Label>
-            <Input
-              id="negativeTags"
-              value={negativeTags}
-              onChange={(e) => setNegativeTags(e.target.value)}
-              placeholder="instrumental only, low quality"
-              className="mt-2"
-            />
-          </div>
-
-          {/* Title */}
-          <div>
-            <Label htmlFor="title">Название трека</Label>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Мой новый трек с вокалом"
-              className="mt-2"
-            />
-          </div>
-
-          {/* Advanced Settings - open by default */}
-          <GenerationAdvancedSettings
-            settings={advancedSettings}
-            onChange={setAdvancedSettings}
-            showVocalGender={true}
-            vocalGenderLabel="Пол вокала"
-            defaultOpen={true}
-          />
-
-          <div className="flex gap-2 justify-end pt-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Отмена
-            </Button>
-            <Button onClick={handleSubmit} disabled={loading || !track.audio_url || !lyrics.trim()}>
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Обработка...
-                </>
-              ) : (
-                "Добавить вокал"
-              )}
-            </Button>
-          </div>
+    <UnifiedDialog variant="modal" open={open} onOpenChange={onOpenChange} title="Добавить вокал" size="lg">
+      <div className="space-y-4">
+        {/* Info block */}
+        <div className="p-3 bg-muted rounded-lg">
+          <p className="text-sm">
+            <Mic2 className="w-4 h-4 inline mr-2" />
+            Инструментальный трек: <span className="font-semibold">{track.title || "Без названия"}</span>
+          </p>
         </div>
+
+        {/* Alert about lyrics */}
+        <Alert>
+          <Info className="w-4 h-4" />
+          <AlertDescription className="text-xs">
+            Введите текст песни, который AI будет петь. Используйте теги [Verse], [Chorus], [Bridge] для структуры.
+          </AlertDescription>
+        </Alert>
+
+        {/* Lyrics editor with inline AI panel */}
+        <div>
+          <Label className="mb-2 block">Текст песни (Lyrics) *</Label>
+          <InlineLyricsEditor value={lyrics} onChange={setLyrics} onStyleChange={handleStyleChange} minRows={10} />
+        </div>
+
+        {/* Style */}
+        <div>
+          <Label htmlFor="style">Стиль вокала</Label>
+          <Input
+            id="style"
+            value={style}
+            onChange={(e) => setStyle(e.target.value)}
+            placeholder="pop, powerful vocals, energetic"
+            className="mt-2"
+          />
+        </div>
+
+        {/* Negative tags */}
+        <div>
+          <Label htmlFor="negativeTags">Исключить</Label>
+          <Input
+            id="negativeTags"
+            value={negativeTags}
+            onChange={(e) => setNegativeTags(e.target.value)}
+            placeholder="instrumental only, low quality"
+            className="mt-2"
+          />
+        </div>
+
+        {/* Title */}
+        <div>
+          <Label htmlFor="title">Название трека</Label>
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Мой новый трек с вокалом"
+            className="mt-2"
+          />
+        </div>
+
+        {/* Advanced Settings - open by default */}
+        <GenerationAdvancedSettings
+          settings={advancedSettings}
+          onChange={setAdvancedSettings}
+          showVocalGender={true}
+          vocalGenderLabel="Пол вокала"
+          defaultOpen={true}
+        />
+
+        <div className="flex gap-2 justify-end pt-4">
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Отмена
+          </Button>
+          <Button onClick={handleSubmit} disabled={loading || !track.audio_url || !lyrics.trim()}>
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Обработка...
+              </>
+            ) : (
+              "Добавить вокал"
+            )}
+          </Button>
+        </div>
+      </div>
     </UnifiedDialog>
   );
 };
