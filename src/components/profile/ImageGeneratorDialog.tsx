@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Sparkles, Wand2, Crop, RotateCcw, Check, Loader2 } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeGenerateProfileImage } from "@/services/profile/profile-setup.service";
 import { uploadFile } from "@/api/storage.api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -65,14 +65,12 @@ export function ImageGeneratorDialog({
     setGeneratedImage(null);
 
     try {
-      const { data, error } = await supabase.functions.invoke("generate-profile-image", {
-        body: {
-          type: type === "cover" ? "avatar" : type, // cover uses same aspect as avatar
-          prompt,
-          displayName: context?.displayName,
-          bio: context?.bio,
-          genres: context?.genres,
-        },
+      const { data, error } = await invokeGenerateProfileImage({
+        type: type === "cover" ? "avatar" : type, // cover uses same aspect as avatar
+        prompt,
+        displayName: context?.displayName,
+        bio: context?.bio,
+        genres: context?.genres,
       });
 
       if (error) throw error;
@@ -133,7 +131,12 @@ export function ImageGeneratorDialog({
         const fileName = `${type}_cropped_${Date.now()}.png`;
         const file = new File([blob], fileName, { type: "image/png" });
 
-        const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
+        const { data: uploadData, error: uploadError } = await uploadFile({
+          bucket: "avatars",
+          path: fileName,
+          file,
+          upsert: true,
+        });
 
         if (uploadError) {
           toast.error("Ошибка сохранения");
@@ -248,11 +251,7 @@ export function ImageGeneratorDialog({
         <div className="flex gap-2">
           {!generatedImage ? (
             <Button onClick={handleGenerate} disabled={isGenerating || !prompt.trim()} className="flex-1">
-              {isGenerating ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <Sparkles className="w-4 h-4 mr-2" />
-              )}
+              {isGenerating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Sparkles className="w-4 h-4 mr-2" />}
               Сгенерировать
             </Button>
           ) : (
