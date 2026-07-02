@@ -275,7 +275,7 @@ const CompactMixerChannel = memo(function CompactMixerChannel({
         <button
           onClick={onToggleMute}
           className={cn(
-            "w-7 h-7 rounded text-[10px] font-bold transition-colors",
+            "min-w-[44px] min-h-[44px] px-2 rounded text-[10px] font-bold transition-colors",
             muted ? "bg-destructive text-destructive-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80",
           )}
         >
@@ -284,7 +284,7 @@ const CompactMixerChannel = memo(function CompactMixerChannel({
         <button
           onClick={onToggleSolo}
           className={cn(
-            "w-7 h-7 rounded text-[10px] font-bold transition-colors",
+            "min-w-[44px] min-h-[44px] px-2 rounded text-[10px] font-bold transition-colors",
             solo ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80",
           )}
         >
