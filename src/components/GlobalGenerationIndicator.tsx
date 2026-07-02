@@ -59,16 +59,19 @@ export function GlobalGenerationIndicator() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] max-w-[calc(100vw-2rem)]"
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.18 }}
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-[min(calc(100vw-2rem),22rem)]"
+      style={{ contain: "layout paint" }}
       role="region"
       aria-label="Индикатор генерации музыки"
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="bg-background/95 backdrop-blur-xl border border-primary/30 rounded-xl shadow-lg shadow-primary/10">
+      <div className="bg-background/95 backdrop-blur-xl border border-primary/30 rounded-xl shadow-lg shadow-primary/10 min-h-[44px]">
+
         {/* Main indicator button */}
         <Button
           variant="ghost"
