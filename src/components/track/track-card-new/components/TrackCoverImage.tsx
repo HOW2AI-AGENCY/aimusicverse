@@ -89,7 +89,7 @@ export const TrackCoverImage = memo(function TrackCoverImage({
                   <Pause className="w-5 h-5 text-primary-foreground" />
                 </Button>
               ) : (
-                <PlayingIndicator color="bg-white" />
+                <PlayingIndicator color="bg-primary-foreground" />
               )}
             </motion.div>
           ) : (
@@ -103,7 +103,7 @@ export const TrackCoverImage = memo(function TrackCoverImage({
                   <Play className="w-5 h-5 text-primary-foreground ml-0.5" />
                 </Button>
               ) : (
-                <Play className="w-5 h-5 text-white fill-white" />
+                <Play className="w-5 h-5 text-primary-foreground fill-primary-foreground" />
               )}
             </motion.div>
           )}

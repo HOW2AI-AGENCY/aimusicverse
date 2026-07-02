@@ -184,7 +184,7 @@ export const GridVariant = memo(function GridVariant({
             {stemCount > 0 && (
               <Badge
                 variant="secondary"
-                className="absolute top-2 right-2 text-[10px] px-1.5 py-0.5 bg-background/90 backdrop-blur-sm border-0 gap-1"
+                className="absolute top-2 right-2 text-overline px-1.5 py-0.5 bg-background/90 backdrop-blur-sm border-0 gap-1"
               >
                 <Layers className="w-3 h-3" />
                 {stemCount}
@@ -196,7 +196,7 @@ export const GridVariant = memo(function GridVariant({
           <div className="p-3 flex flex-col gap-1.5 h-[68px]">
             <div className="flex items-start justify-between gap-1.5 sm:gap-2 min-h-0">
               <h3
-                className="font-semibold text-xs sm:text-sm xl:text-base 2xl:text-lg flex-1 min-w-0 leading-tight line-clamp-2 break-words"
+                className="font-semibold text-xs sm:text-sm xl:text-base 2xl:text-lg flex-1 min-w-0 leading-tight line-clamp-2 xs:line-clamp-1 break-words"
                 title={track.title || undefined}
               >
                 {track.title || "Без названия"}

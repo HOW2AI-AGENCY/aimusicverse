@@ -224,7 +224,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
               {isCurrentlyPlaying && (
                 <div className="absolute top-2 left-2">
                   <motion.div
-                    className="flex items-center gap-1 px-2 py-1 rounded-full bg-primary text-primary-foreground text-[10px] font-medium"
+                    className="flex items-center gap-1 px-2 py-1 rounded-full bg-primary text-primary-foreground text-overline font-medium"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                   >
@@ -319,7 +319,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
               <h2
                 className={cn(
                   "font-semibold line-clamp-2 transition-colors",
-                  compact ? "text-[11px]" : "text-xs",
+                  compact ? "text-xs" : "text-sm",
                   isHovered && "text-primary",
                 )}
               >
@@ -340,12 +340,12 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                     userId={track.user_id}
                     name={track.creator_name}
                     username={track.creator_username}
-                    className="text-[10px] text-muted-foreground truncate max-w-[80px]"
+                    className="text-overline text-muted-foreground truncate max-w-32"
                   />
 
                   {/* Follow badge if following */}
                   {isFollowing && (
-                    <span className="inline-flex items-center gap-0.5 text-[8px] text-primary bg-primary/10 px-1.5 py-0.5 rounded-full font-medium">
+                    <span className="inline-flex items-center gap-0.5 text-overline text-primary bg-primary/10 px-1.5 py-0.5 rounded-full font-medium">
                       <Check className="w-2.5 h-2.5" aria-hidden="true" />
                       Подписка
                     </span>

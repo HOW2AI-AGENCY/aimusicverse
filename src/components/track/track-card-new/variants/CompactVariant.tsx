@@ -74,17 +74,15 @@ export const CompactVariant = memo(function CompactVariant({
           <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
             <h3
               className={cn(
-                "font-display text-[14px] leading-tight truncate tracking-tight",
+                "font-display text-sm leading-tight truncate tracking-tight",
                 isCurrentlyPlaying ? "text-primary font-semibold" : "text-foreground font-medium",
               )}
             >
               {track.title || "Без названия"}
             </h3>
             <div className="flex items-center gap-1.5 min-w-0">
-              {track.style && (
-                <span className="tag-chip shrink-0 max-w-[140px] truncate">{track.style.split(",")[0]}</span>
-              )}
-              <span className="text-[11px] text-muted-foreground/80 tabular-nums shrink-0">
+              {track.style && <span className="tag-chip shrink-0 max-w-36 truncate">{track.style.split(",")[0]}</span>}
+              <span className="text-caption-sm text-muted-foreground/80 tabular-nums shrink-0">
                 {track.duration_seconds ? formatDuration(track.duration_seconds) : "--:--"}
               </span>
             </div>
