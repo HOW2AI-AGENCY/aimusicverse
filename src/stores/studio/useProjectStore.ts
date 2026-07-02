@@ -10,14 +10,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Json } from "@/integrations/supabase/types";
-import {
-  createStudioProject,
-  fetchStudioProject,
-  updateStudioProject,
-  deleteStudioProject,
-} from "@/api/studio.api";
+import { createStudioProject, fetchStudioProject, updateStudioProject, deleteStudioProject } from "@/api/studio.api";
 import { logger } from "@/lib/logger";
-import type { StudioProject, CreateProjectParams, ProjectStatus, StemsMode, ViewSettings } from "./types";
+import type { StudioProject, StudioTrack, CreateProjectParams, ProjectStatus, StemsMode, ViewSettings } from "./types";
 import { createDefaultViewSettings, generateId } from "./types";
 
 const projectLogger = logger.child({ module: "ProjectStore" });
@@ -158,7 +153,7 @@ export const useProjectStore = create<ProjectState>()(
             timeSignature: data.time_signature || "4/4",
             durationSeconds: data.duration_seconds || undefined,
             masterVolume: Number(data.master_volume) || 0.85,
-            tracks: (data.tracks as unknown as any[]) || [],
+            tracks: (data.tracks as unknown as StudioTrack[]) || [],
             status: (data.status as ProjectStatus) || "draft",
             stemsMode: (data.stems_mode as StemsMode) || "none",
             viewSettings: (data.view_settings as unknown as ViewSettings) || createDefaultViewSettings(),
