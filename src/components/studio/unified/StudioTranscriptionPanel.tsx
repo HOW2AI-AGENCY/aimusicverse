@@ -191,7 +191,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
             trackId,
             midiUrl,
             model: "basic-pitch",
-            notes: Array.isArray(data?.notes) ? data.notes : null,
+            notes: (Array.isArray(data?.notes) ? data.notes : null) as any,
             notesCount: typeof notesCount === "number" ? notesCount : null,
           });
         }
@@ -299,7 +299,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
             pdfUrl: normalized.pdfUrl,
             gp5Url: normalized.gp5Url,
             model: `klangio:${klangioModel}`,
-            notes: Array.isArray(data?.notes) ? data.notes : null,
+            notes: (Array.isArray(data?.notes) ? data.notes : null) as any,
             bpm: normalized.bpm,
             keyDetected: normalized.keyDetected,
             notesCount: normalized.notesCount,
@@ -371,7 +371,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   }, []);
 
   // Merge existing transcription with new result
-  const displayResult =
+  const displayResult: any =
     result ||
     (existingTranscription
       ? {

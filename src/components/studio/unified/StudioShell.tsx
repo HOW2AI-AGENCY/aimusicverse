@@ -279,7 +279,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         if (resolvedTracks.length > 0 && project?.id) void loadProject(project.id);
       },
     },
-    loadProject,
+    loadProject: loadProject as unknown as (id: string) => Promise<void>,
   });
 
   // ── Track action handler (needs dialog setters) ───────────────────────
@@ -466,7 +466,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         onTrackAction={handleMobileTrackAction}
         showFallbackWarning={showFallbackWarning}
         activeStemsCount={activeStems.length}
-        limitedStems={limitedStems}
+        limitedStems={limitedStems as any}
         onDismissWarning={dismissWarning}
         onShowAddTrackDialog={() => dialogs.setShowAddTrackDialog(true)}
         isMobile={isMobile}

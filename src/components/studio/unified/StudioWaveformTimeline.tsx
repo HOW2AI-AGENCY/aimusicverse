@@ -99,8 +99,8 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
       setIsReady(false);
 
       try {
-        const mod: WaveSurferCtor = await import("wavesurfer.js");
-        const WaveSurfer = (mod as { default?: WaveSurferCtor }).default ?? mod;
+        const mod = await import("wavesurfer.js");
+        const WaveSurfer: any = (mod as any).default ?? mod;
         if (!mounted) return;
 
         // Clean up previous instance
@@ -132,7 +132,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
           setIsLoading(false);
         });
 
-        wavesurfer.on("error", (err: unknown) => {
+        wavesurfer.on("error", (err: any) => {
           if (err?.name === "AbortError" || err?.message?.includes("aborted")) {
             return;
           }
