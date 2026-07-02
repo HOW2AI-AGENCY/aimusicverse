@@ -97,7 +97,12 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### In Progress
 
-- **Sprint 045** — UX/UI Deep Polish + Hygiene. Phase A закрыта (коммит `0813d631`): emoji-as-icons → Lucide (11 замен), touch-target ≥ 44px (3 поверхности), raw-color → semantic. Phase B-D в работе: PageTransition `isVisible` bug, animation tokens migration.
+- **Sprint 045** — UX/UI Deep Polish + Hygiene. ✅ ЗАВЕРШЁН (4 коммита: `0813d631` + `68cae274` + `28413a5d` + `69e652a8`):
+  - **Phase A** — emoji → Lucide (11 замен), touch-target ≥ 44px (3 поверхности), raw-color → semantic.
+  - **Phase B** — motion hygiene: PageTransition keyframes fix (4 варианта), BottomNavigation `isActive()` root-prefix fix, HomeHeader 5× `repeat:Infinity` через `safeTransition()` (WCAG SC 2.3.3).
+  - **Phase C** — token consolidation: `typographyClass.navLabel` token, `aurora-glow` documented as composition, `vinyl-spin/-slow` motion-reduce guards.
+  - **Phase D** — visual polish: `.glass-card:hover` `@media (hover: hover)` guard (WCAG SC 2.5.1), shadow `rgba()` → HSL tokens, emoji → Lucide в 3 файлах (8 замен).
+  - **Phase D-4** — ErrorBoundary home button: flagged for build agent (требует `useNavigate`, вне design scope).
 
 ### Completed (recent)
 
@@ -123,6 +128,6 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 | :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :-------------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
 
-<sub>Last updated: 2026-07-03 (Sprint 045 — UX/UI Deep Polish + Hygiene 🟡)</sub>
+<sub>Last updated: 2026-07-03 (Sprint 045 — UX/UI Deep Polish + Hygiene ✅ ЗАВЕРШЁН)</sub>
 
 </div>

@@ -54,6 +54,40 @@
 - Grep подтвердил отсутствие `text-white|bg-white|text-black|bg-black|ring-white|shadow-black|from-black|from-white` и emoji-as-icons во всех изменённых файлах
 - pre-commit hooks пройдены (Section tokens / eslint / prettier / tsc / commitlint)
 
+#### Phase B — Motion Hygiene (коммит `68cae274`)
+
+- **PageTransition keyframes fix** (`src/index.css`) — 4 варианта (`page-fade`, `page-slide-up`, `page-slide-left`, `page-scale`) переписаны как `from { opacity: 0 } → to { opacity: 1 }` с `animation-fill-mode: both`. До: анимации стартовали с `opacity: 1` и мгновенно завершались — UI всегда видна без transition.
+- **BottomNavigation `isActive()` fix** — `/` использовал `path + "/"` prefix-match, который матчил любой pathname (т.к. все начинаются с `/`), из-за чего Home оставалась активной на всех маршрутах. Теперь: exact match для root, prefix match только для nested.
+- **HomeHeader `repeat: Infinity` ×5 guards** — все 5 бесконечных framer-motion переходов обёрнуты в `safeTransition({...})` из `useReducedMotion`. При `prefers-reduced-motion: reduce` коллапсирует в `duration: 0`. Соответствие WCAG SC 2.3.3.
+
+#### Phase C — Token Consolidation (коммит `28413a5d`)
+
+- **`typographyClass.navLabel`** — новый design token `"text-[11px] leading-none tracking-tight"` в `src/lib/design-tokens.ts`. BottomNavigation `<span>` подписи переведены с произвольного `text-[11px]` на семантический токен.
+- **`aurora-glow` documented as composition** — два определения в `index.css` (L2275 box-shadow, L2440 ::before radial-gradient) — намеренная двухслойная композиция (ring + halo), не дубль. Добавлены комментарии.
+- **`vinyl-spin` / `vinyl-spin-slow` motion-reduce guard** — в `@media (prefers-reduced-motion: reduce)` оба варианта получают `animation: none`. Соответствие WCAG SC 2.3.3.
+
+#### Phase D — Visual Polish (коммит `69e652a8`)
+
+- **`.glass-card:hover` hover guard** — обёрнут в `@media (hover: hover)`. Touch-only устройства (Telegram mobile, планшеты) больше не получают sticky `translateY(-2px)` после тапа. Реальные курсоры сохраняют elevation lift (WCAG SC 2.5.1).
+- **Shadow rgba() → HSL tokens** — `--shadow-elevation-{1..4}` добавлены в `:root` (light) и `.dark` (dark). 8 redundant `.dark .elevation-N` override-блоков удалены — теперь работает через token swap.
+- **Emoji-as-icons → Lucide (3 файла, 8 замен):**
+  - `VocalMapResultCard.tsx` — helper `getEffectIcon()` переписан с 7 emoji (🌊 ⏱️ 🎵 🤫 ✨ ⚡ 🎤) на Lucide (`Waves Timer Music Mic2 Sparkles Volume2 Mic`). Возвращаемый тип — `LucideIcon`. JSX рендерит `<Icon className="w-2.5 h-2.5 mr-0.5" aria-hidden />`.
+  - `HintsSettings.tsx` — футер (💡 ⏱️ 🎯 👁️) → `<Lightbulb>` `<Timer>` `<Target>` `<Eye>` с `inline w-3.5 h-3.5 mr-1 align-text-bottom`.
+  - `InstrumentalGeneratorPanel.tsx` — BPM badge ⏱️ → `<Timer className="inline w-3 h-3 mr-1" aria-hidden />`.
+
+#### Phase D-4 — Флаг для build-agent
+
+- `ErrorBoundary` home button требует `useNavigate` hook — выходит за рамки design-audit (functional change). Флаг передан в Phase E сборки.
+
+#### Верификация (Phases B + C + D)
+
+- `npx tsc --noEmit -p tsconfig.app.json` → exit 0 (0 errors) для всех трёх фаз
+- ESLint changed files → 0 errors во всех коммитах
+- WCAG SC 2.3.3 (Animation from Interactions) — `prefers-reduced-motion: reduce` honored для всех бесконечных анимаций
+- WCAG SC 2.5.1 (Target Size) — touch-target guard через `@media (hover: hover)`
+- WCAG SC 1.4.11 (Non-text Contrast) — semantic HSL shadows с одинаковой яркостью в обоих режимах
+- pre-commit hooks пройдены (Section tokens / eslint / prettier / tsc / commitlint)
+
 ### 🔧 Спринт 044 — Type Safety Wave 2 (2026-07-02)
 
 #### Изменено

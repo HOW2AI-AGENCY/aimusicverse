@@ -176,26 +176,50 @@
 
 **Прогресс: 1/4 фазы завершено (25%)** · [Sprint plan](SPRINTS/SPRINT-045-PLAN.md)
 
-| Фаза                                                       | Прогресс                                                          |
-| ---------------------------------------------------------- | ----------------------------------------------------------------- |
-| **A: Track-card variants аудит** (emoji, touch, raw-color) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| **B: Player / hints доработка** (touch-target, semantic)   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| **C: Animation audit + PageTransition fix**                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| **D: Visual polish** (elevation, aurora-glow, typography)  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Фаза                                                          | Прогресс                                                          |
+| ------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **A: Track-card variants аудит** (emoji, touch, raw-color)    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **B: Motion hygiene** (page-transition, isActive, repeats)    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **C: Token consolidation** (navLabel, aurora-glow, vinyl)     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **D: Visual polish** (hover guard, HSL shadows, emoji→Lucide) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
-### ✅ Завершено (2026-07-03, коммит `0813d631`)
+### ✅ Завершено (2026-07-03, коммиты `0813d631` + `68cae274` + `28413a5d` + `69e652a8`)
+
+**Phase A** (`0813d631`):
 
 - ✅ **Emoji-as-icons → Lucide:** `EnhancedVariant` (✓→Check), `GridVariant` (♪→Music2), `ListVariant` (🎵→Music2), `ContextualHint` (🚀/✨/📁/👤/💬/⚙️/💡 → Rocket/Sparkles/FolderOpen/User/MessageCircle/Settings/Lightbulb) — 11 замен.
 - ✅ **Touch-target ≥ 44×44px** на 3 ключевых сценариях: `CompactVariant` more-menu, `UnifiedTipCard` close+actions, `ContextualHint` close+actions+«Не показывать».
 - ✅ **Raw color tokens → semantic:** `text-white` (4×), `from-black/70 via-black/10` (overlay), `bg-red-500/20 text-red-500` (swipe-like), `ring-white/10`, `shadow-black/10` — все заменены на design tokens.
 - ✅ **ListVariant dead-code:** удалена дубль-подписка `useTrackCardState()` — был баг двойной state subscription без пользы.
-- ✅ **TypeScript:** `tsc --noEmit -p tsconfig.app.json` exit 0. ESLint 0 errors в modified files.
 
-### 📋 Открытые задачи Sprint 045
+**Phase B** (`68cae274` — motion hygiene):
 
-- 🟡 Phase B: Player/hints доработка (из UI_AUDIT_REPORT_2026-07-03.md §4 — Triaged items #1-3)
-- 🟡 Phase C: PageTransition `isVisible=true` баг (UI всегда видна → анимации не работают), `motion.ts` pulse variant без `infiniteTransition`, `index.css` дублирующиеся `@keyframes float`/`spin-slow`
-- 🟡 Phase D: `aurora-glow` определён дважды с разными стилями (2257 vs 2422), `glass-card:hover` без `@media (hover: hover)`, elevation `rgba()` вместо `hsl()`
+- ✅ **PageTransition keyframes fix** в `src/index.css` — 4 варианта (`page-fade`, `page-slide-up`, `page-slide-left`, `page-scale`) переписаны как `from→to` с `animation-fill-mode: both`. UI теперь реально проходит transition.
+- ✅ **BottomNavigation `isActive()` fix** — Home (`/`) использовал prefix-match, который матчил любой pathname; теперь exact match для root + prefix только для nested.
+- ✅ **HomeHeader 5× `repeat: Infinity` guards** через `safeTransition()` — WCAG SC 2.3.3 honored.
+
+**Phase C** (`28413a5d` — token consolidation):
+
+- ✅ **`typographyClass.navLabel`** — новый design token в `src/lib/design-tokens.ts` (`text-[11px] leading-none tracking-tight`); BottomNavigation подписи переведены на семантический токен.
+- ✅ **`aurora-glow` documented as composition** — двухслойная (box-shadow ring + ::before halo), не дубль; добавлены комментарии в `index.css`.
+- ✅ **`vinyl-spin` / `vinyl-spin-slow` motion-reduce guards** — `@media (prefers-reduced-motion: reduce) { animation: none }`. WCAG SC 2.3.3.
+
+**Phase D** (`69e652a8` — visual polish):
+
+- ✅ **`.glass-card:hover` hover guard** — обёрнут в `@media (hover: hover)`. Touch-only устройства не получают sticky translateY. WCAG SC 2.5.1.
+- ✅ **Shadow rgba() → HSL tokens** — `--shadow-elevation-{1..4}` в `:root` + `.dark`; 8 redundant `.dark .elevation-N` override-блоков удалены.
+- ✅ **Emoji → Lucide (3 файла, 8 замен):** `VocalMapResultCard` (7 emoji в `getEffectIcon` → 7 Lucide иконок), `HintsSettings` (4 emoji → 4 Lucide), `InstrumentalGeneratorPanel` (⏱️ → Timer). `aria-hidden` на всех декоративных иконках.
+
+**Общая верификация Sprint 045:**
+
+- ✅ TypeScript: `tsc --noEmit -p tsconfig.app.json` exit 0 во всех 4 коммитах
+- ✅ ESLint changed files: 0 errors
+- ✅ pre-commit hooks: Section tokens / eslint / prettier / tsc / commitlint
+- ✅ WCAG 2.3.3, 2.5.1, 1.4.11 — все три критерия соблюдены
+
+### 📋 Флаг для build-agent (out of design scope)
+
+- 🟡 **Phase D-4 — ErrorBoundary home button:** требует `useNavigate()` hook (functional change, вне рамок design-audit). Передано в Phase E сборки.
 
 ## 🚦 `044` Type Safety Wave 2 (Q3 2026) — ЗАВЕРШЁН ✅
 
