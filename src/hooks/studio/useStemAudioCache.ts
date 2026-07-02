@@ -150,7 +150,9 @@ export function useStemAudioCache(stems: TrackStem[]): UseStemAudioCacheResult {
       const response = await fetch(url);
       const arrayBuffer = await response.arrayBuffer();
 
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const audioContext = new (
+        window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+      )();
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
       audioContext.close();
 

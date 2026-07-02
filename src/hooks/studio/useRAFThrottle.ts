@@ -13,7 +13,7 @@ export interface UseRAFThrottleOptions {
   enabled?: boolean;
 }
 
-export interface UseRAFThrottleReturn<T extends (...args: any[]) => void> {
+export interface UseRAFThrottleReturn<T extends (...args: never[]) => void> {
   /**
    * Throttled callback function
    */
@@ -51,7 +51,7 @@ export interface UseRAFThrottleReturn<T extends (...args: any[]) => void> {
  * // Only last call will execute in next RAF frame
  * ```
  */
-export function useRAFThrottle<T extends (...args: any[]) => void>(
+export function useRAFThrottle<T extends (...args: never[]) => void>(
   callback: T,
   options: UseRAFThrottleOptions = {},
 ): UseRAFThrottleReturn<T> {
@@ -186,9 +186,9 @@ export function useRAFThrottledState<T>(initialValue: T, onUpdate?: (value: T) =
  * // Both will execute in the same RAF frame
  * ```
  */
-export function useRAFThrottleBatch<T extends Record<string, (...args: any[]) => void>>(callbacks: T): T {
+export function useRAFThrottleBatch<T extends Record<string, (...args: never[]) => void>>(callbacks: T): T {
   const rafIdRef = useRef<number | null>(null);
-  const pendingCallsRef = useRef<Array<{ key: string; args: any[] }>>([]);
+  const pendingCallsRef = useRef<Array<{ key: string; args: never[] }>>([]);
 
   useEffect(() => {
     return () => {
@@ -222,7 +222,7 @@ export function useRAFThrottleBatch<T extends Record<string, (...args: any[]) =>
     const result = {} as T;
 
     (Object.keys(callbacks) as Array<keyof T>).forEach((key) => {
-      result[key] = ((...args: any[]) => {
+      result[key] = ((...args: never[]) => {
         // Add to pending calls
         pendingCallsRef.current.push({ key: key as string, args });
         scheduleBatch();

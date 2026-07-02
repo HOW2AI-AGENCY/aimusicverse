@@ -63,7 +63,11 @@ export function useStudioGestures(config: GestureConfig = {}, callbacks: Gesture
   // Haptic feedback helper
   const triggerHaptic = useCallback((type: "light" | "medium" | "heavy" = "light") => {
     try {
-      const webApp = (window as any).Telegram?.WebApp;
+      const webApp = (
+        window as unknown as {
+          Telegram?: { WebApp?: { HapticFeedback?: { impactOccurred: (type: "light" | "medium" | "heavy") => void } } };
+        }
+      ).Telegram?.WebApp;
       if (webApp?.HapticFeedback) {
         webApp.HapticFeedback.impactOccurred(type);
       } else if (navigator.vibrate) {

@@ -10,6 +10,14 @@ import { logger } from "@/lib/logger";
 
 export type StemTypeTranscriptionStatus = Record<string, boolean>;
 
+export interface StemTranscriptionNote {
+  pitch?: number;
+  start?: number;
+  end?: number;
+  velocity?: number;
+  [key: string]: unknown;
+}
+
 export interface StemTranscriptionData {
   stemType: string;
   stemId: string;
@@ -17,7 +25,7 @@ export interface StemTranscriptionData {
   pdfUrl: string | null;
   gp5Url: string | null;
   mxmlUrl: string | null;
-  notes: any[] | null;
+  notes: StemTranscriptionNote[] | null;
   notesCount: number | null;
   bpm: number | null;
   keyDetected: string | null;
@@ -67,13 +75,21 @@ export function useStemTypeTranscriptionStatus(params: { sourceTrackId?: string 
       const stemTypeMap = new Map<string, string>();
       stems.forEach((s) => stemTypeMap.set(s.id, s.stem_type));
 
-      transcriptions?.forEach((row: any) => {
-        const stemId = row.stem_id;
-        const stemType = stemTypeMap.get(stemId);
-        if (!stemType) return;
-        const hasAnyFile = !!(row.midi_url || row.pdf_url || row.gp5_url || row.mxml_url);
-        if (hasAnyFile) status[stemType] = true;
-      });
+      transcriptions?.forEach(
+        (row: {
+          stem_id: string;
+          midi_url?: string | null;
+          pdf_url?: string | null;
+          gp5_url?: string | null;
+          mxml_url?: string | null;
+        }) => {
+          const stemId = row.stem_id;
+          const stemType = stemTypeMap.get(stemId);
+          if (!stemType) return;
+          const hasAnyFile = !!(row.midi_url || row.pdf_url || row.gp5_url || row.mxml_url);
+          if (hasAnyFile) status[stemType] = true;
+        },
+      );
 
       return status;
     },
@@ -123,7 +139,7 @@ export function useStemTranscriptionByType(params: { sourceTrackId?: string | nu
         pdfUrl: trans.pdf_url,
         gp5Url: trans.gp5_url,
         mxmlUrl: trans.mxml_url,
-        notes: trans.notes as any[] | null,
+        notes: trans.notes as StemTranscriptionNote[] | null,
         notesCount: trans.notes_count,
         bpm: trans.bpm ? Number(trans.bpm) : null,
         keyDetected: trans.key_detected,

@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
+import type { Database } from "@/integrations/supabase/types";
 
 // ============================================================================
 // TYPES
@@ -314,7 +315,7 @@ export function useLyricsStudio({
 
       const { data, error } = await supabase
         .from("lyrics_versions")
-        .insert(insertData as any)
+        .insert(insertData as Database["public"]["Tables"]["lyrics_versions"]["Insert"])
         .select()
         .single();
 

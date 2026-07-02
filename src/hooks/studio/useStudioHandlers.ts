@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import type { RecordingType } from "@/components/studio/unified/RecordTrackDrawer";
 import type { StudioOperation } from "@/hooks/studio/useStudioOperationLock";
+import type { Database } from "@/integrations/supabase/types";
 
 export interface StudioHandlersOptions {
   id: string;
@@ -55,7 +56,7 @@ export interface StudioHandlersOptions {
     id: string;
     suno_id: string | null;
   } | null;
-  separate: (track: any, mode: "simple" | "detailed") => Promise<void>;
+  separate: (track: { id: string; suno_id: string | null }, mode: "simple" | "detailed") => Promise<void>;
 }
 
 export function useStudioHandlers(options: StudioHandlersOptions) {
@@ -130,7 +131,7 @@ export function useStudioHandlers(options: StudioHandlersOptions) {
       }
 
       try {
-        await separate(trackForSeparation as any, stemMode);
+        await separate({ id: trackForSeparation.id, suno_id: trackForSeparation.suno_id }, stemMode);
         modals.close();
         queryClient.invalidateQueries({ queryKey: ["track-stems", id] });
       } catch (error) {
@@ -173,7 +174,7 @@ export function useStudioHandlers(options: StudioHandlersOptions) {
           metadata: recordedTrack.chords
             ? { chords: recordedTrack.chords, name: recordedTrack.name }
             : { name: recordedTrack.name },
-        } as any);
+        } as Database["public"]["Tables"]["track_stems"]["Insert"]);
 
         if (error) {
           logger.error("Failed to save recording to database", error);

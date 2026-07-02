@@ -22,7 +22,7 @@ export type StudioModalType =
 
 interface ModalPayload {
   /** Track selected for notation/chords */
-  selectedTrack?: any;
+  selectedTrack?: { id: string; title?: string; type?: string; [key: string]: unknown };
 }
 
 interface ModalState {
@@ -109,11 +109,11 @@ export function useStudioModalHandlers(modals: UseStudioModalsResult, hapticPatt
       openRemix: withHaptic(() => modals.open("remix")),
       openAddVocals: withHaptic(() => modals.open("addVocals")),
       openRecord: withHaptic(() => modals.open("record")),
-      openNotation: (track: any) => {
+      openNotation: (track: { id: string; title?: string; type?: string; [key: string]: unknown }) => {
         hapticPattern?.();
         modals.open("notation", { selectedTrack: track });
       },
-      openChordSheet: (track: any) => {
+      openChordSheet: (track: { id: string; title?: string; type?: string; [key: string]: unknown }) => {
         hapticPattern?.();
         modals.open("chordSheet", { selectedTrack: track });
       },

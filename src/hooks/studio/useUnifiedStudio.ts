@@ -143,8 +143,8 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
 
     return [...rawTracks].sort((a, b) => {
       // Check both type and stemType (some tracks may use stemType)
-      const typeA = (a as any).stemType || a.type || "other";
-      const typeB = (b as any).stemType || b.type || "other";
+      const typeA = (a as { stemType?: string }).stemType || a.type || "other";
+      const typeB = (b as { stemType?: string }).stemType || b.type || "other";
 
       // Normalize to lowercase
       const normalizedA = typeA.toLowerCase();

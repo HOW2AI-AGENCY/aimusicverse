@@ -35,7 +35,9 @@ export const useTrimExport = () => {
         setProgress(30);
 
         // Decode audio
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const audioContext = new (
+          window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+        )();
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
         setProgress(50);

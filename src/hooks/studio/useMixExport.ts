@@ -213,7 +213,7 @@ export function useMixExport() {
     const samples = audioBuffer.length;
 
     const lame = (await import("lamejs")) as unknown as LameModule;
-    const Mp3Encoder = (lame as any).Mp3Encoder;
+    const Mp3Encoder = lame.Mp3Encoder;
 
     // Get channel data
     const leftChannelData = audioBuffer.getChannelData(0);
