@@ -5,6 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import prettier from "eslint-config-prettier";
 import sectionTokens from "./eslint-rules/section-tokens.js";
+import layerBoundary from "./eslint-rules/layer-boundary.js";
 
 const restrictedImports = {
   paths: [
@@ -17,6 +18,9 @@ const restrictedImports = {
       name: "lucide-react",
       message: "Импортируйте иконки из '@/lib/icons' — централизованный реестр для оптимизации бандла.",
     },
+    // Примечание: @/integrations/supabase/client не включён в глобальный список,
+    // потому что src/api/* и src/services/* легитимно используют его.
+    // C4-запрет scoped только к src/components/** — см. override ниже.
   ],
 };
 
@@ -156,23 +160,70 @@ export default tseslint.config(
       ...techDebtWarnRules,
     },
   },
-  // Запрет прямого supabase.from() в компонентах и страницах — используем src/api или src/services
+  // Запрет прямого supabase.from() в страницах — используем src/api или src/services
+  // (pages пока вне C4 scope — только warning; компоненты см. ниже как error)
   {
-    files: ["src/components/**/*.{ts,tsx}", "src/pages/**/*.{ts,tsx}"],
+    files: ["src/pages/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-syntax": [
         "warn",
         {
           selector: "CallExpression[callee.object.name='supabase'][callee.property.name='from']",
           message:
-            "Не вызывайте supabase.from() напрямую в компонентах/страницах. Используйте слой src/api/* или src/services/*.",
+            "Не вызывайте supabase.from() напрямую в страницах. Используйте слой src/api/* или src/services/*.",
         },
       ],
+    },
+  },
+  // C4 layer-boundary guardrail: src/components/** не должны импортировать supabase client
+  // и не должны вызывать supabase.from() напрямую. Используйте слой src/api/* или src/services/*.
+  // Allowlist: провайдеры, которым нужен прямой доступ к клиенту (auth/telegram/theme/error boundaries).
+  // ESLint flat config не поддерживает `excludedFiles` в override — реализуем через
+  // отдельный `off` блок сразу после (см. ниже).
+  // Используем локальный плагин `layer-boundary` для supabase.from() — это позволяет
+  // иметь собственную severity error, не объединяясь с мобильными design-token
+  // селекторами (которые остаются на warn как tech debt, см. techDebtWarnRules).
+  {
+    files: ["src/components/**/*.{ts,tsx}"],
+    plugins: {
+      "layer-boundary": layerBoundary,
+    },
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "@/integrations/supabase/client",
+              message:
+                "Не импортируйте supabase client напрямую в компонентах. Используйте слой src/api/* или src/services/*.",
+            },
+          ],
+        },
+      ],
+      "layer-boundary/no-supabase-from-in-component": "error",
+    },
+  },
+  // C4 allowlist: переопределяем строгие правила для провайдеров, которым нужен прямой доступ.
+  {
+    files: [
+      "src/components/auth/**/*.{ts,tsx}",
+      "src/components/telegram-auth/**/*.{ts,tsx}",
+      "src/components/theme-provider/**/*.{ts,tsx}",
+      "src/components/error-boundary/**/*.{ts,tsx}",
+      "src/components/AuthGuard.tsx",
+      "src/components/TelegramAuthGate.tsx",
+      "src/components/GuestOnly.tsx",
+    ],
+    rules: {
+      "no-restricted-imports": "off",
+      "layer-boundary/no-supabase-from-in-component": "off",
     },
   },
   // Mobile-first design tokens: запрет произвольных px-пэддингов/марджинов и хардкода font-size/leading
   // в className. Используйте Tailwind spacing scale (p-2, px-4, gap-3) и type-токены (text-sm/base/lg).
   // Single source of truth — src/lib/design-tokens.ts и tailwind.config.ts.
+  // Селекторы оставлены на `warn` — это tech debt, который burn-down отдельно (см. techDebtWarnRules).
   {
     files: ["src/components/**/*.{ts,tsx}"],
     rules: {
