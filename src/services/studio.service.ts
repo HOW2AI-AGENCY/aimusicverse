@@ -494,6 +494,47 @@ export async function extendTrack(params: {
   }
 }
 
+export interface ExtendMusicParams {
+  sourceTrackId: string;
+  defaultParamFlag?: boolean;
+  continueAt?: number;
+  prompt?: string;
+  style?: string;
+  title?: string;
+  model?: string;
+  negativeTags?: string;
+  vocalGender?: string;
+  styleWeight?: number;
+  weirdnessConstraint?: number;
+  audioWeight?: number;
+  projectId?: string;
+}
+
+export async function extendMusic(params: ExtendMusicParams): Promise<{ data: unknown; error: Error | null }> {
+  try {
+    const { data, error } = await studioApi.invokeSunoMusicExtend({
+      sourceTrackId: params.sourceTrackId,
+      defaultParamFlag: params.defaultParamFlag,
+      continueAt: params.continueAt,
+      prompt: params.prompt,
+      style: params.style,
+      title: params.title,
+      model: params.model,
+      negativeTags: params.negativeTags,
+      vocalGender: params.vocalGender,
+      styleWeight: params.styleWeight,
+      weirdnessConstraint: params.weirdnessConstraint,
+      audioWeight: params.audioWeight,
+      projectId: params.projectId,
+    });
+    if (error) return { data: null, error: new Error(error.message) };
+    return { data, error: null };
+  } catch (err) {
+    logger.error("Error in extendMusic", err);
+    return { data: null, error: err as Error };
+  }
+}
+
 // ============= SFX Generation =============
 
 export async function generateSfx(params: { prompt: string; duration: number }): Promise<string> {

@@ -355,6 +355,29 @@ export async function invokeSunoExtend(payload: {
   return { data, error };
 }
 
+/**
+ * Invoke suno-music-extend edge function (track-aware extension with full custom params).
+ */
+export async function invokeSunoMusicExtend(payload: {
+  sourceTrackId: string;
+  defaultParamFlag?: boolean;
+  continueAt?: number;
+  prompt?: string;
+  style?: string;
+  title?: string;
+  model?: string;
+  negativeTags?: string;
+  vocalGender?: string;
+  styleWeight?: number;
+  weirdnessConstraint?: number;
+  audioWeight?: number;
+  projectId?: string;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-music-extend", { body: payload });
+  return { data, error };
+}
+
 // ============= SFX Generator =============
 
 export async function invokeGenerateSfx(payload: { prompt: string; duration: number }) {

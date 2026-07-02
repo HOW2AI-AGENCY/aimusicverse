@@ -8,7 +8,6 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Loader2, Plus, Sparkles } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Track } from "@/types/track";
@@ -21,6 +20,7 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
 import { validatePromptForGeneration } from "@/lib/errorHandling";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { useExtendMusic } from "@/hooks/studio/useExtendMusic";
 
 interface ExtendTrackDialogProps {
   open: boolean;
@@ -32,6 +32,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
   const navigate = useNavigate();
   const playTrack = usePlayerStore((s) => s.playTrack);
   const extendProgress = useExtendProgress();
+  const extendMusicMutation = useExtendMusic();
 
   const [useCustomParams, setUseCustomParams] = useState(true);
 
@@ -87,29 +88,28 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
 
     extendProgress.setSubmitting();
     try {
-      const { data, error } = await supabase.functions.invoke("suno-music-extend", {
-        body: {
-          sourceTrackId: track.id,
-          defaultParamFlag: useCustomParams,
-          continueAt: useCustomParams ? continueAt : undefined,
-          prompt: useCustomParams ? prompt : undefined,
-          style: useCustomParams ? style : undefined,
-          title: useCustomParams ? title : undefined,
-          model,
-          negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender === "auto" ? undefined : vocalGender,
-          styleWeight: styleWeight[0],
-          weirdnessConstraint: weirdnessConstraint[0],
-          audioWeight: audioWeight[0],
-          projectId: track.project_id,
-        },
+      const { data, error } = await extendMusicMutation.mutateAsync({
+        sourceTrackId: track.id,
+        defaultParamFlag: useCustomParams,
+        continueAt: useCustomParams ? continueAt : undefined,
+        prompt: useCustomParams ? prompt : undefined,
+        style: useCustomParams ? style : undefined,
+        title: useCustomParams ? title : undefined,
+        model,
+        negativeTags: negativeTags || undefined,
+        vocalGender: vocalGender === "auto" ? undefined : vocalGender,
+        styleWeight: styleWeight[0],
+        weirdnessConstraint: weirdnessConstraint[0],
+        audioWeight: audioWeight[0],
+        projectId: track.project_id,
       });
 
       if (error) throw error;
 
       // Start tracking the task
-      if (data?.taskId) {
-        extendProgress.startTracking(data.taskId, data.trackId || track.id);
+      const payload = data as { taskId?: string; trackId?: string; studioProjectId?: string } | null;
+      if (payload?.taskId) {
+        extendProgress.startTracking(payload.taskId, payload.trackId || track.id);
       } else {
         toast.success("Расширение началось! 🎵", {
           description: "Расширенный трек появится в библиотеке через 1-3 минуты",
