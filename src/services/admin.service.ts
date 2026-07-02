@@ -103,6 +103,59 @@ export async function sendAdminMessageToUsers(payload: {
 }
 
 // ==========================================
+// Subscription management (admin)
+// ==========================================
+
+import { updateUserProfile } from "@/api/profiles.api";
+import { insertCreditTransaction } from "@/api/payments.api";
+
+/**
+ * Change a user's subscription tier (admin operation).
+ *
+ * Updates `subscription_tier` and `subscription_expires_at` on the user's
+ * profile, then records a `credit_transactions` row describing the change
+ * so the action is visible in audit logs.
+ */
+export async function changeUserSubscriptionTier(payload: {
+  userId: string;
+  tier: string;
+  expiresAt: string | null;
+  currentTier?: string;
+  reason?: string;
+}): Promise<void> {
+  const updates: {
+    subscription_tier: string;
+    updated_at: string;
+    subscription_expires_at?: string | null;
+  } = {
+    subscription_tier: payload.tier,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (payload.tier !== "free" && payload.expiresAt) {
+    updates.subscription_expires_at = new Date(payload.expiresAt).toISOString();
+  } else if (payload.tier === "free") {
+    updates.subscription_expires_at = null;
+  }
+
+  await updateUserProfile(payload.userId, updates);
+
+  await insertCreditTransaction({
+    user_id: payload.userId,
+    amount: 0,
+    transaction_type: "admin_action",
+    action_type: "subscription_change",
+    description: `Подписка изменена на ${payload.tier}${payload.reason ? `: ${payload.reason}` : ""}`,
+    metadata: {
+      old_tier: payload.currentTier ?? null,
+      new_tier: payload.tier,
+      expires_at: payload.expiresAt ?? null,
+      reason: payload.reason ?? null,
+    },
+  });
+}
+
+// ==========================================
 // User Management
 // ==========================================
 

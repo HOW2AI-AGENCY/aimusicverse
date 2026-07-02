@@ -11,11 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
-import { insertCreditTransaction } from "@/api/payments.api";
 import { toast } from "sonner";
 import { Crown, Calendar, Loader2 } from "@/lib/icons";
-import { format, addDays, addMonths } from "@/lib/date-utils";
+import { format, addDays } from "@/lib/date-utils";
+import { useChangeUserSubscription } from "@/hooks/admin/useChangeUserSubscription";
 
 interface AdminUserSubscriptionDialogProps {
   open: boolean;
@@ -57,7 +56,8 @@ export function AdminUserSubscriptionDialog({
   const [tier, setTier] = useState(currentTier);
   const [expiresAt, setExpiresAt] = useState(currentExpires ? format(new Date(currentExpires), "yyyy-MM-dd") : "");
   const [reason, setReason] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+
+  const changeSubscription = useChangeUserSubscription();
 
   const handlePresetClick = (days: number) => {
     const newDate = addDays(new Date(), days);
@@ -67,50 +67,25 @@ export function AdminUserSubscriptionDialog({
   const handleSubmit = async () => {
     if (!user) return;
 
-    setIsLoading(true);
     try {
-      const updates: Record<string, unknown> = {
-        subscription_tier: tier,
-        updated_at: new Date().toISOString(),
-      };
-
-      if (tier !== "free" && expiresAt) {
-        updates.subscription_expires_at = new Date(expiresAt).toISOString();
-      } else if (tier === "free") {
-        updates.subscription_expires_at = null;
-      }
-
-      const { error } = await supabase
-        .from("profiles")
-        .update(updates as any)
-        .eq("user_id", user.user_id);
-
-      if (error) throw error;
-
-      // Log the action
-      await insertCreditTransaction({
-        user_id: user.user_id,
-        amount: 0,
-        transaction_type: "admin_action",
-        action_type: "subscription_change",
-        description: `Подписка изменена на ${tier}${reason ? `: ${reason}` : ""}`,
-        metadata: {
-          old_tier: currentTier,
-          new_tier: tier,
-          expires_at: expiresAt || null,
-          reason,
-        },
+      await changeSubscription.mutateAsync({
+        userId: user.user_id,
+        tier,
+        expiresAt: expiresAt || null,
+        currentTier,
+        reason: reason || undefined,
       });
 
       toast.success("Подписка обновлена");
       onSuccess?.();
       onOpenChange(false);
-    } catch (error: any) {
-      toast.error("Ошибка: " + error.message);
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      toast.error("Ошибка: " + message);
     }
   };
+
+  const isLoading = changeSubscription.isPending;
 
   if (!user) return null;
 
