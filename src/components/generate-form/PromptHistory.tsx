@@ -183,8 +183,8 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     // Update usage count in local storage
     const localHistoryRaw = localStorage.getItem("musicverse_prompt_history");
     if (localHistoryRaw) {
-      const parsed = JSON.parse(localHistoryRaw);
-      const updated = parsed.map((h: any) =>
+      const parsed = JSON.parse(localHistoryRaw) as PromptHistoryItem[];
+      const updated = parsed.map((h) =>
         h.id === item.id ? { ...h, usageCount: (h.usageCount || 0) + 1, lastUsed: new Date().toISOString() } : h,
       );
       localStorage.setItem("musicverse_prompt_history", JSON.stringify(updated));
@@ -237,8 +237,8 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     e.stopPropagation();
     const localHistoryRaw = localStorage.getItem("musicverse_prompt_history");
     if (localHistoryRaw) {
-      const parsed = JSON.parse(localHistoryRaw);
-      const updated = parsed.filter((item: any) => item.id !== id);
+      const parsed = JSON.parse(localHistoryRaw) as PromptHistoryItem[];
+      const updated = parsed.filter((item) => item.id !== id);
       localStorage.setItem("musicverse_prompt_history", JSON.stringify(updated));
       setLocalHistory((items) => items.filter((item) => item.id !== id));
     }

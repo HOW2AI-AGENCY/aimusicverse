@@ -13,6 +13,7 @@ import { Search, Palette, Sparkles, Music, Check, TrendingUp } from "@/lib/icons
 import { EmptyState } from "@/components/common/EmptyState";
 import { cn } from "@/lib/utils";
 import { useSavedStylePresets } from "@/hooks/usePromptHistorySync";
+import type { Database } from "@/integrations/supabase/types";
 import { QUICK_MIX_PRESETS, GENRE_PRESETS, MOOD_PRESETS } from "@/lib/prompt-dj-presets";
 import { glass } from "@/lib/glass";
 
@@ -22,6 +23,8 @@ interface StylePresetSelectorProps {
   onSelect: (style: string, tags?: string[]) => void;
   currentStyle?: string;
 }
+
+type SavedPreset = Database["public"]["Tables"]["prompt_templates"]["Row"];
 
 export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle }: StylePresetSelectorProps) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,7 +52,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
     if (!searchQuery) return savedPresets;
     const query = searchQuery.toLowerCase();
     return savedPresets.filter(
-      (p: any) => p.name?.toLowerCase().includes(query) || p.template_text?.toLowerCase().includes(query),
+      (p: SavedPreset) => p.name?.toLowerCase().includes(query) || p.template_text?.toLowerCase().includes(query),
     );
   }, [searchQuery, savedPresets]);
 
@@ -77,7 +80,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
     onOpenChange(false);
   };
 
-  const handleSavedSelect = (preset: any) => {
+  const handleSavedSelect = (preset: SavedPreset) => {
     onSelect(preset.template_text, preset.tags);
     onOpenChange(false);
   };
@@ -213,7 +216,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
                   animated={false}
                 />
               ) : (
-                filteredSaved.map((preset: any) => (
+                filteredSaved.map((preset: SavedPreset) => (
                   <button
                     key={preset.id}
                     onClick={() => handleSavedSelect(preset)}

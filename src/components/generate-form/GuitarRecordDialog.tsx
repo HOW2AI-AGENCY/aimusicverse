@@ -25,7 +25,7 @@ import {
   FileMusic,
 } from "@/lib/icons";
 import { useGuitarAnalysis, type GuitarAnalysisResult } from "@/hooks/useGuitarAnalysis";
-import { useGuitarRecordings } from "@/hooks/useGuitarRecordings";
+import { useGuitarRecordings, type GuitarRecording } from "@/hooks/useGuitarRecordings";
 import { GuitarAnalysisReport } from "@/components/guitar/GuitarAnalysisReport";
 import { SavedRecordingsList } from "@/components/guitar/SavedRecordingsList";
 import { cn } from "@/lib/utils";
@@ -123,7 +123,7 @@ export function GuitarRecordDialog({
   }, [isRecording]);
 
   // Cleanup on close
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+
   useEffect(() => {
     if (!open) {
       clearRecording();
@@ -179,7 +179,7 @@ export function GuitarRecordDialog({
     }
   };
 
-  const handleSelectSavedRecording = (recording: any) => {
+  const handleSelectSavedRecording = (recording: GuitarRecording) => {
     const analysis = toAnalysisResult(recording);
     onComplete?.({
       audioUrl: recording.audio_url,
@@ -198,7 +198,7 @@ export function GuitarRecordDialog({
 
   const content = (
     <div className="space-y-4">
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "record" | "saved")}>
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="record" className="gap-2">
             <Mic className="w-4 h-4" />

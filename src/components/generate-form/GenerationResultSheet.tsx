@@ -90,7 +90,9 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
           cover_url: null,
           user_id: "",
           created_at: new Date().toISOString(),
-        } as any);
+          is_liked: false,
+          likes_count: 0,
+        });
         setPlayingVersionId(version.id);
       }
     },
