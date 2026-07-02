@@ -371,6 +371,30 @@ export async function invokeHealthCheck(): Promise<Record<string, unknown>> {
   return (data as Record<string, unknown>) ?? {};
 }
 
+// ==========================================
+// Payment cohort analytics
+// ==========================================
+
+export interface CompletedTransactionRow {
+  user_id: string;
+  created_at: string | null;
+  stars_amount: number | null;
+}
+
+/**
+ * Fetch completed stars_transactions in the given window. Used by the
+ * payment-cohort analytics component to bucket paying users by month.
+ */
+export async function fetchCompletedStarsTransactions(params: { startDate: Date }): Promise<CompletedTransactionRow[]> {
+  const { data, error } = await supabase
+    .from("stars_transactions")
+    .select("user_id, created_at, stars_amount")
+    .gte("created_at", params.startDate.toISOString())
+    .eq("status", "completed");
+  if (error) throw new Error(error.message);
+  return (data ?? []) as CompletedTransactionRow[];
+}
+
 /**
  * Fetch the list of all users with current credit balances —
  * used by bulk-credit admin actions.

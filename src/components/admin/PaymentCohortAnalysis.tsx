@@ -11,127 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { Users, Calendar, TrendingUp, Percent } from "@/lib/icons";
+import { Users, Calendar, Percent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-
-interface CohortData {
-  cohort_month: string;
-  total_users: number;
-  converted_users: number;
-  conversion_rate: number;
-  total_revenue_rub: number;
-  avg_revenue_per_user: number;
-  first_payment_avg_days: number;
-  retention_30d: number;
-  retention_60d: number;
-  retention_90d: number;
-}
+import { usePaymentCohortAnalytics, type CohortData } from "@/hooks/admin/usePaymentCohortAnalytics";
 
 const COHORT_PERIODS = [
   { label: "6 мес", months: 6 },
   { label: "12 мес", months: 12 },
 ] as const;
-
-function useCohortAnalytics(months: number = 6) {
-  return useQuery({
-    queryKey: ["cohort-analytics", months],
-    queryFn: async (): Promise<CohortData[]> => {
-      // Get cohort data from database
-      // Since RPC may not exist, use direct query with fallback
-      const startDate = new Date();
-      startDate.setMonth(startDate.getMonth() - months);
-
-      try {
-        // Try to get real data from stars_transactions grouped by cohort
-        const { data: transactions, error } = await supabase
-          .from("stars_transactions")
-          .select("user_id, created_at, status, stars_amount")
-          .gte("created_at", startDate.toISOString())
-          .eq("status", "completed");
-
-        if (error || !transactions?.length) {
-          return generateMockCohortData(months);
-        }
-
-        // Group by month and calculate metrics
-        const cohortMap = new Map<
-          string,
-          {
-            users: Set<string>;
-            revenue: number;
-            transactions: number;
-          }
-        >();
-
-        transactions.forEach((tx) => {
-          if (!tx.created_at) return;
-          const date = new Date(tx.created_at);
-          const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-
-          if (!cohortMap.has(monthKey)) {
-            cohortMap.set(monthKey, { users: new Set(), revenue: 0, transactions: 0 });
-          }
-
-          const cohort = cohortMap.get(monthKey)!;
-          if (tx.user_id) cohort.users.add(tx.user_id);
-          cohort.revenue += (tx.stars_amount || 0) * 1.5; // Approximate RUB conversion
-          cohort.transactions += 1;
-        });
-
-        // Convert to array
-        const cohorts: CohortData[] = Array.from(cohortMap.entries())
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([month, data]) => ({
-            cohort_month: month,
-            total_users: data.users.size * 10, // Estimate total users
-            converted_users: data.users.size,
-            conversion_rate: Number(((data.users.size / (data.users.size * 10)) * 100).toFixed(1)),
-            total_revenue_rub: data.revenue,
-            avg_revenue_per_user: data.revenue / data.users.size,
-            first_payment_avg_days: Math.floor(3 + Math.random() * 7),
-            retention_30d: Number((50 + Math.random() * 40).toFixed(1)),
-            retention_60d: Number((35 + Math.random() * 35).toFixed(1)),
-            retention_90d: Number((20 + Math.random() * 30).toFixed(1)),
-          }));
-
-        return cohorts.length > 0 ? cohorts : generateMockCohortData(months);
-      } catch {
-        return generateMockCohortData(months);
-      }
-    },
-    staleTime: 10 * 60 * 1000,
-  });
-}
-
-function generateMockCohortData(months: number): CohortData[] {
-  const cohorts: CohortData[] = [];
-  const now = new Date();
-
-  for (let i = months - 1; i >= 0; i--) {
-    const date = new Date(now);
-    date.setMonth(date.getMonth() - i);
-
-    const baseUsers = Math.floor(100 + Math.random() * 200);
-    const convRate = 5 + Math.random() * 15;
-
-    cohorts.push({
-      cohort_month: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`,
-      total_users: baseUsers,
-      converted_users: Math.floor((baseUsers * convRate) / 100),
-      conversion_rate: Number(convRate.toFixed(1)),
-      total_revenue_rub: Math.floor(baseUsers * convRate * 35),
-      avg_revenue_per_user: Math.floor(350 + Math.random() * 400),
-      first_payment_avg_days: Math.floor(3 + Math.random() * 10),
-      retention_30d: Number((60 + Math.random() * 30).toFixed(1)),
-      retention_60d: Number((40 + Math.random() * 30).toFixed(1)),
-      retention_90d: Number((25 + Math.random() * 25).toFixed(1)),
-    });
-  }
-
-  return cohorts;
-}
 
 function getConversionColor(rate: number): string {
   if (rate >= 15) return "bg-green-500/80";
@@ -150,7 +37,7 @@ function getRetentionColor(rate: number): string {
 
 export function PaymentCohortAnalysis() {
   const [selectedPeriod, setSelectedPeriod] = useState(6);
-  const { data: cohorts, isLoading, error } = useCohortAnalytics(selectedPeriod);
+  const { data: cohorts, isLoading, error } = usePaymentCohortAnalytics(selectedPeriod);
 
   const summary = useMemo(() => {
     if (!cohorts?.length) return null;
@@ -280,7 +167,7 @@ export function PaymentCohortAnalysis() {
                     ))}
                   </div>
                 ))
-              : cohorts?.map((cohort, idx) => (
+              : cohorts?.map((cohort: CohortData, idx: number) => (
                   <div
                     key={cohort.cohort_month}
                     className={cn(
