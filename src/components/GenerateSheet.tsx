@@ -259,7 +259,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         >
           {/* Compact Header with safe area for Telegram */}
           <div
-            className="px-5 border-b border-border/40 bg-background/95 backdrop-blur-xl flex-shrink-0"
+            className="px-4 border-b border-border/40 bg-background/95 backdrop-blur-xl flex-shrink-0"
             style={{
               paddingTop:
                 "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
