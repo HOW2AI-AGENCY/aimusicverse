@@ -50,7 +50,7 @@ export function DialogContainer({
   return (
     <motion.div
       className={cn(
-        "relative z-50 bg-background rounded-lg shadow-lg",
+        "relative z-[171] bg-background rounded-lg shadow-lg",
         "max-h-[90vh] overflow-auto",
         sizeClass,
         className,
