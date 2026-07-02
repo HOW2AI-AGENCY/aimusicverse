@@ -62,6 +62,20 @@ export async function updateArtistPortrait(
 }
 
 /**
+ * Generate a portrait avatar for a new (not yet persisted) artist.
+ * Used by CreateArtistDialog to preview the AI portrait before the artist row exists.
+ */
+export async function generateArtistPortraitForPreview(artistName: string, styleDescription?: string): Promise<string> {
+  try {
+    const { imageUrl } = await artistsApi.generateArtistPortrait(artistName, styleDescription);
+    return imageUrl;
+  } catch (err) {
+    logger.error("Error generating artist portrait for preview", err);
+    throw err;
+  }
+}
+
+/**
  * Get artist statistics
  */
 export async function getArtistStats(artistId: string): Promise<{

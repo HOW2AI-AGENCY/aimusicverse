@@ -12,8 +12,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
+import { useGenerateArtistPortrait } from "@/hooks/artist/useGenerateArtistPortrait";
 import { cn } from "@/lib/utils";
 import { surface } from "@/lib/overlay-colors";
 import { LazyImage } from "@/components/ui/lazy-image";
@@ -44,6 +44,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
   const [isGeneratingPortrait, setIsGeneratingPortrait] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const isMobile = useIsMobile();
+  const generatePortraitMutation = useGenerateArtistPortrait();
 
   // Pre-fill from track data when dialog opens
   useEffect(() => {
@@ -106,17 +107,13 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
 
     setIsGeneratingPortrait(true);
     try {
-      const { data, error } = await supabase.functions.invoke("generate-artist-portrait", {
-        body: {
-          artistName: name.trim(),
-          styleDescription: styleDescription || undefined,
-        },
+      const avatarUrl = await generatePortraitMutation.mutateAsync({
+        artistName: name.trim(),
+        styleDescription: styleDescription || undefined,
       });
 
-      if (error) throw error;
-
-      if (data?.avatarUrl) {
-        setAvatarUrl(data.avatarUrl);
+      if (avatarUrl) {
+        setAvatarUrl(avatarUrl);
         toast.success("Портрет сгенерирован");
       } else {
         throw new Error("No avatar URL in response");
