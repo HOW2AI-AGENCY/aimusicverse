@@ -415,7 +415,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-8 w-8 min-h-[44px] min-w-[44px]"
                                     onClick={(e) => handleCopy(e, item.description || item.style || "")}
                                   >
                                     <Copy className="w-3.5 h-3.5" />
@@ -423,7 +423,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-8 w-8 min-h-[44px] min-w-[44px]"
                                     onClick={(e) => handleSaveToBookmarks(e, item)}
                                   >
                                     <BookmarkPlus className="w-3.5 h-3.5" />
@@ -431,7 +431,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-destructive hover:text-destructive"
+                                    className="h-8 w-8 min-h-[44px] min-w-[44px] text-destructive hover:text-destructive"
                                     onClick={(e) => handleDeleteHistory(e, item.id)}
                                   >
                                     <Trash2 className="w-3.5 h-3.5" />
@@ -494,7 +494,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  className="h-8 w-8 shrink-0"
+                                  className="h-8 w-8 min-h-[44px] min-w-[44px] shrink-0"
                                   onClick={(e) => handleCopy(e, item.description)}
                                 >
                                   <Copy className="w-3.5 h-3.5" />
@@ -539,7 +539,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-8 w-8 min-h-[44px] min-w-[44px]"
                                     onClick={(e) => handleCopy(e, item.description || item.style || "")}
                                   >
                                     <Copy className="w-3.5 h-3.5" />
@@ -547,7 +547,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-destructive hover:text-destructive"
+                                    className="h-8 w-8 min-h-[44px] min-w-[44px] text-destructive hover:text-destructive"
                                     onClick={(e) => handleDeleteSaved(e, item.id)}
                                   >
                                     <Trash2 className="w-3.5 h-3.5" />
@@ -586,7 +586,12 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   <Plus className="w-4 h-4" />
                   Новый промпт
                 </h3>
-                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setShowAddDialog(false)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 min-h-[44px] min-w-[44px]"
+                  onClick={() => setShowAddDialog(false)}
+                >
                   <X className="w-4 h-4" />
                 </Button>
               </div>
