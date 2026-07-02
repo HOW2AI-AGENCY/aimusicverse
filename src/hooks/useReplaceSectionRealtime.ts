@@ -6,6 +6,14 @@ import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 
+interface ReplaceSectionTask {
+  id: string;
+  status: string;
+  error_message?: string | null;
+  audio_clips?: unknown;
+  generation_mode?: string;
+}
+
 export function useReplaceSectionRealtime(trackId: string) {
   const queryClient = useQueryClient();
   const { setLatestCompletion } = useSectionEditorStore();
@@ -25,7 +33,7 @@ export function useReplaceSectionRealtime(trackId: string) {
           filter: `track_id=eq.${trackId}`,
         },
         async (payload) => {
-          const task = payload.new as any;
+          const task = (payload.new ?? {}) as ReplaceSectionTask;
 
           // Only handle replace_section tasks
           if (task.generation_mode !== "replace_section") return;

@@ -19,6 +19,12 @@ export interface SeparationProgress {
   receivedStems: number;
 }
 
+interface SeparationTaskRow {
+  id: string;
+  status: string;
+  mode: "simple" | "detailed";
+}
+
 export function useStemSeparationRealtime(trackId: string | null) {
   const queryClient = useQueryClient();
   const { success, error: hapticError } = useHapticFeedback();
@@ -76,11 +82,12 @@ export function useStemSeparationRealtime(trackId: string | null) {
           filter: `track_id=eq.${trackId}`,
         },
         async (payload) => {
-          const task = payload.new as any;
+          const task = (payload.new ?? null) as SeparationTaskRow | null;
+          if (!task) return;
 
           logger.debug("Stem separation task update", {
-            taskId: task?.id,
-            status: task?.status,
+            taskId: task.id,
+            status: task.status,
             event: payload.eventType,
           });
 

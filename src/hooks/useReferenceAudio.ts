@@ -1,6 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import type { Database } from "@/integrations/supabase/types";
+
+type ReferenceAudioUpdate = Database["public"]["Tables"]["reference_audio"]["Update"];
 
 export interface ReferenceAudio {
   id: string;
@@ -170,7 +173,7 @@ export function useReferenceAudio() {
 
       const { error } = await supabase
         .from("reference_audio")
-        .update(updateData as any)
+        .update(updateData as ReferenceAudioUpdate)
         .eq("id", params.id);
 
       if (error) throw error;

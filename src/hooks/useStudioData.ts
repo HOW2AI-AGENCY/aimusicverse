@@ -10,6 +10,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { waveformWorkerPool } from "@/lib/waveformWorkerPool";
 import { logger } from "@/lib/logger";
+import type { TranscriptionNote } from "@/hooks/useStemTranscription";
 
 export interface TrackStem {
   id: string;
@@ -35,7 +36,7 @@ export interface StemTranscription {
   gp5_url: string | null;
   pdf_url: string | null;
   model: string;
-  notes: any[] | null;
+  notes: TranscriptionNote[] | null;
   notes_count: number | null;
   bpm: number | null;
   key_detected: string | null;

@@ -9,6 +9,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { ChordResult, BeatResult, TranscriptionResult } from "@/hooks/useKlangioAnalysis";
 import { logger } from "@/lib/logger";
+import type { Database } from "@/integrations/supabase/types";
+
+type AudioAnalysisInsert = Database["public"]["Tables"]["audio_analysis"]["Insert"];
+type AudioAnalysisUpdate = Database["public"]["Tables"]["audio_analysis"]["Update"];
 
 interface SaveAnalysisParams {
   trackId: string;
@@ -29,7 +33,7 @@ export function useKlangioSaveAnalysis() {
       const { trackId, analysisType, chords, beats, transcription } = params;
 
       // Build the analysis data object
-      const analysisData: Record<string, any> = {
+      const analysisData: Partial<AudioAnalysisInsert> = {
         track_id: trackId,
         user_id: user.id,
         analysis_type: analysisType,
@@ -85,7 +89,7 @@ export function useKlangioSaveAnalysis() {
         // Update existing
         const { data, error } = await supabase
           .from("audio_analysis")
-          .update(analysisData as any)
+          .update(analysisData as AudioAnalysisUpdate)
           .eq("id", existing.id)
           .select()
           .single();
@@ -97,7 +101,7 @@ export function useKlangioSaveAnalysis() {
         // Insert new
         const { data, error } = await supabase
           .from("audio_analysis")
-          .insert(analysisData as any)
+          .insert(analysisData as AudioAnalysisInsert)
           .select()
           .single();
 

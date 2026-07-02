@@ -172,7 +172,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
         if (!midiModuleRef.current) {
           midiModuleRef.current = await import("@tonejs/midi");
         }
-        const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
+        const MidiClass = midiModuleRef.current.Midi;
 
         const response = await fetch(url);
         if (!response.ok) throw new Error("Failed to fetch MIDI file");
@@ -202,7 +202,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
         if (!midiModuleRef.current) {
           midiModuleRef.current = await import("@tonejs/midi");
         }
-        const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
+        const MidiClass = midiModuleRef.current.Midi;
 
         const arrayBuffer = await blob.arrayBuffer();
         const midi = new MidiClass(arrayBuffer);
@@ -395,7 +395,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     if (!midiModuleRef.current) {
       throw new Error("MIDI module not loaded - please load a MIDI file first");
     }
-    const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
+    const MidiClass = midiModuleRef.current.Midi;
 
     const midi = new MidiClass();
 

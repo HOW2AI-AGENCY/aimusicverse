@@ -11,10 +11,10 @@ export interface RecognizedTrack {
   label?: string;
   timecode?: string;
   songLink?: string;
-  appleMusic?: any;
-  spotify?: any;
-  deezer?: any;
-  lyrics?: any;
+  appleMusic?: Record<string, unknown>;
+  spotify?: Record<string, unknown>;
+  deezer?: Record<string, unknown>;
+  lyrics?: Record<string, unknown>;
 }
 
 export interface RecognitionResult {

@@ -10,6 +10,16 @@ import { toast } from "sonner";
 
 const log = logger.child({ module: "StemTranscription" });
 
+// MIDI note shape returned from transcription engines (e.g. Klangio, basic-pitch)
+export interface TranscriptionNote {
+  pitch: number;
+  startTime: number;
+  endTime: number;
+  velocity?: number;
+  noteName?: string;
+  [key: string]: unknown;
+}
+
 export interface StemTranscription {
   id: string;
   stem_id: string;
@@ -21,7 +31,7 @@ export interface StemTranscription {
   gp5_url: string | null;
   pdf_url: string | null;
   model: string;
-  notes: any[] | null;
+  notes: TranscriptionNote[] | null;
   notes_count: number | null;
   bpm: number | null;
   key_detected: string | null;
@@ -41,7 +51,7 @@ export interface SaveTranscriptionParams {
   gp5Url?: string | null;
   pdfUrl?: string | null;
   model: string;
-  notes?: any[] | null;
+  notes?: TranscriptionNote[] | null;
   notesCount?: number | null;
   bpm?: number | null;
   keyDetected?: string | null;

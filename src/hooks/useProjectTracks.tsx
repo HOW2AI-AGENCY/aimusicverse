@@ -4,6 +4,7 @@ import { useAuth } from "./useAuth";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { logger } from "@/lib/logger";
+import type { Database } from "@/integrations/supabase/types";
 
 const log = logger.child({ module: "ProjectTracks" });
 
@@ -138,7 +139,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
       toast.success("Трек добавлен");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       log.error("Error adding track", error);
       toast.error("Ошибка добавления трека");
     },
@@ -148,7 +149,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
     mutationFn: async ({ id, updates }: { id: string; updates: Partial<ProjectTrack> }) => {
       const { data, error } = await supabase
         .from("project_tracks")
-        .update(updates as any)
+        .update(updates as Database["public"]["Tables"]["project_tracks"]["Update"])
         .eq("id", id)
         .select()
         .single();
@@ -173,7 +174,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
         toast.success("Трек обновлен");
       }
     },
-    onError: (error: any) => {
+    onError: (error) => {
       log.error("Error updating track", error);
       toast.error("Ошибка обновления трека");
     },
@@ -189,7 +190,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
       toast.success("Трек удален");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       log.error("Error deleting track", error);
       toast.error("Ошибка удаления трека");
     },
@@ -207,7 +208,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
       toast.success("Порядок треков обновлен");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       log.error("Error reordering tracks", error);
       toast.error("Ошибка изменения порядка");
     },
@@ -251,7 +252,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       const count = data?.data?.insertedCount || data?.data?.tracks?.length || 0;
       toast.success(`Трек-лист создан: ${count} треков`);
     },
-    onError: (error: any) => {
+    onError: (error) => {
       toast.dismiss("tracklist-gen");
       log.error("Error generating tracklist", error);
       toast.error("Ошибка генерации трек-листа");

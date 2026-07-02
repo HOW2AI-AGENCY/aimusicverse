@@ -4,6 +4,15 @@ import { useAuth } from "./useAuth";
 import { notify } from "@/lib/notifications";
 import { logger } from "@/lib/logger";
 
+// Selected additional fields not in the generated NotificationSettings type
+type NotificationRowExtras = {
+  notify_followers?: boolean | null;
+  notify_mentions?: boolean | null;
+  auto_midi_enabled?: boolean | null;
+  auto_midi_model?: string | null;
+  auto_midi_stems_only?: boolean | null;
+};
+
 export interface NotificationSettings {
   id: string;
   user_id: string;
@@ -49,6 +58,8 @@ export function useNotificationSettings() {
 
       if (!data) return null;
 
+      const extras = data as unknown as NotificationRowExtras;
+
       // Map nullable booleans to non-nullable with defaults
       return {
         id: data.id,
@@ -62,8 +73,8 @@ export function useNotificationSettings() {
         // Social
         notify_likes: data.notify_likes ?? true,
         notify_comments: data.notify_comments ?? true,
-        notify_followers: (data as any).notify_followers ?? true,
-        notify_mentions: (data as any).notify_mentions ?? true,
+        notify_followers: extras.notify_followers ?? true,
+        notify_mentions: extras.notify_mentions ?? true,
         // Gamification
         notify_achievements: data.notify_achievements ?? true,
         notify_daily_reminder: data.notify_daily_reminder ?? false,
@@ -71,9 +82,9 @@ export function useNotificationSettings() {
         quiet_hours_start: data.quiet_hours_start,
         quiet_hours_end: data.quiet_hours_end,
         // MIDI settings
-        auto_midi_enabled: (data as any).auto_midi_enabled ?? false,
-        auto_midi_model: (data as any).auto_midi_model ?? "basic-pitch",
-        auto_midi_stems_only: (data as any).auto_midi_stems_only ?? false,
+        auto_midi_enabled: extras.auto_midi_enabled ?? false,
+        auto_midi_model: extras.auto_midi_model ?? "basic-pitch",
+        auto_midi_stems_only: extras.auto_midi_stems_only ?? false,
       };
     },
     enabled: !!user?.id,

@@ -192,9 +192,10 @@ export const useProjects = () => {
         });
       }
     },
-    onError: (error: any) => {
+    onError: (error) => {
       logger.error("Error creating project", error);
-      const errorMessage = error?.message?.includes("лимит") ? error.message : "Ошибка создания проекта";
+      const errorMessage =
+        error instanceof Error && error.message.includes("лимит") ? error.message : "Ошибка создания проекта";
       toast.error(errorMessage);
     },
   });
@@ -224,7 +225,7 @@ export const useProjects = () => {
         });
       }
     },
-    onError: (error: any) => {
+    onError: (error) => {
       logger.error("Error updating project", error);
       toast.error("Ошибка обновления проекта");
     },
@@ -250,7 +251,7 @@ export const useProjects = () => {
         notifyProjectChange(user.id, data.title, "deleted");
       }
     },
-    onError: (error: any) => {
+    onError: (error) => {
       logger.error("Error deleting project", error);
       toast.error("Ошибка удаления проекта");
     },
@@ -281,7 +282,7 @@ export const useProjects = () => {
     onSuccess: () => {
       toast.success("Концепция проекта создана");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       logger.error("Error generating concept", error);
       toast.error("Ошибка генерации концепции");
     },

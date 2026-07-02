@@ -60,11 +60,16 @@ function loadLocalHistory(): PromptHistoryItem[] {
   try {
     const stored = localStorage.getItem(HISTORY_KEY);
     if (!stored) return [];
-    const parsed = JSON.parse(stored);
-    return parsed.map((item: any) => ({
-      ...item,
-      timestamp: new Date(item.timestamp),
-    }));
+    const parsed: unknown = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map((item) => {
+      const maybeItem = item as Partial<PromptHistoryItem> & { timestamp?: string | number };
+      return {
+        ...(maybeItem as PromptHistoryItem),
+        timestamp:
+          maybeItem.timestamp instanceof Date ? maybeItem.timestamp : new Date(maybeItem.timestamp ?? Date.now()),
+      };
+    });
   } catch {
     return [];
   }
@@ -74,11 +79,16 @@ function loadLocalSaved(): SavedPrompt[] {
   try {
     const stored = localStorage.getItem(SAVED_KEY);
     if (!stored) return [];
-    const parsed = JSON.parse(stored);
-    return parsed.map((item: any) => ({
-      ...item,
-      createdAt: new Date(item.createdAt),
-    }));
+    const parsed: unknown = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map((item) => {
+      const maybeItem = item as Partial<SavedPrompt> & { createdAt?: string | number };
+      return {
+        ...(maybeItem as SavedPrompt),
+        createdAt:
+          maybeItem.createdAt instanceof Date ? maybeItem.createdAt : new Date(maybeItem.createdAt ?? Date.now()),
+      };
+    });
   } catch {
     return [];
   }
