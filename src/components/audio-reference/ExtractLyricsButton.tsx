@@ -3,11 +3,10 @@
  * Triggers lyrics extraction from vocal stem
  */
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Loader2 } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
+import { useExtractLyricsFromStem } from "@/hooks/audio-reference/useAudioReferenceGeneration";
 import { toast } from "sonner";
 
 interface ExtractLyricsButtonProps {
@@ -16,8 +15,8 @@ interface ExtractLyricsButtonProps {
 }
 
 export function ExtractLyricsButton({ referenceId, vocalStemUrl }: ExtractLyricsButtonProps) {
-  const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
+  const extractLyrics = useExtractLyricsFromStem();
 
   const handleExtract = async () => {
     if (!vocalStemUrl) {
@@ -25,30 +24,30 @@ export function ExtractLyricsButton({ referenceId, vocalStemUrl }: ExtractLyrics
       return;
     }
 
-    setIsLoading(true);
     try {
-      const { error } = await supabase.functions.invoke("extract-lyrics-from-stem", {
-        body: {
-          reference_id: referenceId,
-          vocal_stem_url: vocalStemUrl,
-        },
+      const { error } = await extractLyrics.mutateAsync({
+        referenceId,
+        vocalStemUrl,
       });
 
-      if (error) throw error;
+      if (error) throw new Error(error.message);
 
       toast.success("Извлечение текста запущено");
       // Refresh the reference data
       queryClient.invalidateQueries({ queryKey: ["reference-audio", referenceId] });
     } catch (error) {
       toast.error("Ошибка: " + (error as Error).message);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return (
-    <Button onClick={handleExtract} disabled={isLoading || !vocalStemUrl} variant="outline" className="gap-2">
-      {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+    <Button
+      onClick={handleExtract}
+      disabled={extractLyrics.isPending || !vocalStemUrl}
+      variant="outline"
+      className="gap-2"
+    >
+      {extractLyrics.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
       Извлечь текст
     </Button>
   );
