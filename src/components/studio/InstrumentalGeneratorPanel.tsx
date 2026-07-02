@@ -12,7 +12,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Music, Play, Pause, Plus, Sparkles, RefreshCw } from "@/lib/icons";
+import { Loader2, Music, Play, Pause, Plus, Sparkles, RefreshCw, Timer } from "@/lib/icons";
 import { toast } from "sonner";
 import { useStudioProjectStore } from "@/stores/useStudioProjectStore";
 import { cn } from "@/lib/utils";
@@ -181,7 +181,11 @@ export function InstrumentalGeneratorPanel({ mainTrackUrl, trackId, onClose }: I
                   🎵 {analysis.key} {analysis.scale}
                 </Badge>
               )}
-              {analysis.bpm && <Badge variant="secondary">⏱️ {analysis.bpm} BPM</Badge>}
+              {analysis.bpm && (
+                <Badge variant="secondary">
+                  <Timer className="inline w-3 h-3 mr-1" aria-hidden /> {analysis.bpm} BPM
+                </Badge>
+              )}
               {analysis.genre && <Badge variant="secondary">🎸 {analysis.genre}</Badge>}
               {analysis.mood && <Badge variant="secondary">😊 {analysis.mood}</Badge>}
             </div>

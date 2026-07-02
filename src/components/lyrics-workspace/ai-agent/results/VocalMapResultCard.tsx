@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Mic, Music, Volume2, Users, Sparkles, Copy, Check } from "@/lib/icons";
+import { Mic, Music, Volume2, Users, Sparkles, Copy, Check, Waves, Timer, Mic2, type LucideIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -62,15 +62,17 @@ export function VocalMapResultCard({ sections, onCopyAll }: VocalMapResultCardPr
     }
   };
 
-  const getEffectIcon = (effect: string) => {
+  // Sprint 045 Phase D-3: emoji-as-icon is forbidden per docs/DESIGN_TOKENS.md.
+  // Returning a LucideIcon instead so the JSX render at L157 stays token-driven.
+  const getEffectIcon = (effect: string): LucideIcon => {
     const lowerEffect = effect.toLowerCase();
-    if (lowerEffect.includes("reverb") || lowerEffect.includes("реверб")) return "🌊";
-    if (lowerEffect.includes("delay") || lowerEffect.includes("дилей")) return "⏱️";
-    if (lowerEffect.includes("auto") || lowerEffect.includes("tune")) return "🎵";
-    if (lowerEffect.includes("whisper") || lowerEffect.includes("шепот")) return "🤫";
-    if (lowerEffect.includes("falsetto") || lowerEffect.includes("фальцет")) return "✨";
-    if (lowerEffect.includes("distort") || lowerEffect.includes("искаж")) return "⚡";
-    return "🎤";
+    if (lowerEffect.includes("reverb") || lowerEffect.includes("реверб")) return Waves;
+    if (lowerEffect.includes("delay") || lowerEffect.includes("дилей")) return Timer;
+    if (lowerEffect.includes("auto") || lowerEffect.includes("tune")) return Music;
+    if (lowerEffect.includes("whisper") || lowerEffect.includes("шепот")) return Mic2;
+    if (lowerEffect.includes("falsetto") || lowerEffect.includes("фальцет")) return Sparkles;
+    if (lowerEffect.includes("distort") || lowerEffect.includes("искаж")) return Volume2;
+    return Mic;
   };
 
   return (
@@ -152,11 +154,14 @@ export function VocalMapResultCard({ sections, onCopyAll }: VocalMapResultCardPr
             {/* Effects */}
             {section.effects && section.effects.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
-                {section.effects.map((effect, effIdx) => (
-                  <Badge key={effIdx} variant="secondary" className="text-[9px] py-0 px-1.5 bg-background/50">
-                    {getEffectIcon(effect)} {effect}
-                  </Badge>
-                ))}
+                {section.effects.map((effect, effIdx) => {
+                  const Icon = getEffectIcon(effect);
+                  return (
+                    <Badge key={effIdx} variant="secondary" className="text-[9px] py-0 px-1.5 bg-background/50">
+                      <Icon className="w-2.5 h-2.5 mr-0.5" aria-hidden /> {effect}
+                    </Badge>
+                  );
+                })}
               </div>
             )}
 

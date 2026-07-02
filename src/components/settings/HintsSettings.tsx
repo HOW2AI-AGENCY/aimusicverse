@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useContextualHints, CONTEXTUAL_HINTS } from "@/hooks/useContextualHints";
-import { Lightbulb, RotateCcw, Eye, EyeOff, Sparkles } from "@/lib/icons";
+import { Lightbulb, RotateCcw, Eye, EyeOff, Sparkles, Timer, Target } from "@/lib/icons";
 import { toast } from "sonner";
 import { motion } from "@/lib/motion";
 import { hintColors } from "@/lib/design-colors";
@@ -146,10 +146,22 @@ export function HintsSettings() {
           <Separator />
 
           <div className="text-xs text-muted-foreground space-y-1">
-            <p>💡 Подсказки показываются автоматически на соответствующих страницах</p>
-            <p>⏱️ Между показами соблюдается интервал (cooldown)</p>
-            <p>🎯 Приоритетные подсказки показываются первыми</p>
-            <p>👁️ Зелёная иконка = подсказка готова к показу</p>
+            <p>
+              <Lightbulb className="inline w-3.5 h-3.5 mr-1 align-text-bottom" aria-hidden /> Подсказки показываются
+              автоматически на соответствующих страницах
+            </p>
+            <p>
+              <Timer className="inline w-3.5 h-3.5 mr-1 align-text-bottom" aria-hidden /> Между показами соблюдается
+              интервал (cooldown)
+            </p>
+            <p>
+              <Target className="inline w-3.5 h-3.5 mr-1 align-text-bottom" aria-hidden /> Приоритетные подсказки
+              показываются первыми
+            </p>
+            <p>
+              <Eye className="inline w-3.5 h-3.5 mr-1 align-text-bottom" aria-hidden /> Зелёная иконка = подсказка
+              готова к показу
+            </p>
           </div>
         </CardContent>
       </Card>
