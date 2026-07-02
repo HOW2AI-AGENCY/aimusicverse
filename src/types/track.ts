@@ -16,14 +16,10 @@ export type TrackStemRow = Database["public"]["Tables"]["track_stems"]["Row"];
  * This is the main type used throughout the application
  */
 type _TrackRowOptional = Partial<Pick<TrackRow,
-  | "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model"
-  | "suno_task_id" | "bpm_target" | "key_signature" | "energy_level"
-  | "vocal_style" | "instrumental_only" | "reference_url"
+  | "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model" | "suno_task_id"
 >>;
 export interface Track extends Omit<TrackRow,
-  | "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model"
-  | "suno_task_id" | "bpm_target" | "key_signature" | "energy_level"
-  | "vocal_style" | "instrumental_only" | "reference_url"
+  | "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model" | "suno_task_id"
 >, _TrackRowOptional {
   // Like-related fields (computed from track_likes)
   is_liked: boolean;
@@ -36,6 +32,14 @@ export interface Track extends Omit<TrackRow,
   // Optional fields from various queries
   master_version_id?: string;
   metadata?: Record<string, unknown>;
+
+  // Extra optional fields not present on tracks table
+  bpm_target?: number | null;
+  key_signature?: string | null;
+  energy_level?: number | null;
+  vocal_style?: string | null;
+  instrumental_only?: boolean | null;
+  reference_url?: string | null;
 }
 
 /**
