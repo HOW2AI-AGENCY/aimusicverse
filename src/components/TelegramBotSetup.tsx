@@ -3,46 +3,30 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle2, AlertCircle, Loader2, Send } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
+import { useSetupTelegramWebhook } from "@/hooks/telegram/useSetupTelegramWebhook";
+import type { TelegramWebhookInfo } from "@/services/telegram/webhook-setup.service";
 
 const botLogger = logger.child({ module: "TelegramBotSetup" });
 
-interface WebhookInfo {
-  webhook_url?: string;
-  webhook_info?: {
-    ok: boolean;
-    result?: {
-      url?: string;
-      pending_update_count?: number;
-      last_error_message?: string;
-    };
-  };
-}
-
 export const TelegramBotSetup = () => {
-  const [loading, setLoading] = useState(false);
-  const [webhookInfo, setWebhookInfo] = useState<WebhookInfo | null>(null);
+  const [webhookInfo, setWebhookInfo] = useState<TelegramWebhookInfo | null>(null);
+  const setupWebhookMutation = useSetupTelegramWebhook();
 
   const setupWebhook = async () => {
-    setLoading(true);
+    botLogger.info("Setting up Telegram webhook...");
     try {
-      botLogger.info("Setting up Telegram webhook...");
-
-      const { data, error } = await supabase.functions.invoke("telegram-webhook-setup");
-
+      const { info, error } = await setupWebhookMutation.mutateAsync();
       if (error) throw error;
 
       botLogger.info("Webhook configured successfully");
-      setWebhookInfo(data);
+      setWebhookInfo(info);
       toast.success("Telegram бот успешно настроен!");
     } catch (error) {
       botLogger.error("Webhook setup error", error);
       const errorMessage = error instanceof Error ? error.message : "Unknown error";
       toast.error("Ошибка настройки бота: " + errorMessage);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -90,8 +74,8 @@ export const TelegramBotSetup = () => {
           </div>
         )}
 
-        <Button onClick={setupWebhook} disabled={loading} className="w-full gap-2">
-          {loading ? (
+        <Button onClick={setupWebhook} disabled={setupWebhookMutation.isPending} className="w-full gap-2">
+          {setupWebhookMutation.isPending ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
               Настройка...

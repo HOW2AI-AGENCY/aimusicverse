@@ -95,3 +95,15 @@ export async function markAllNotificationsRead(userId: string) {
   const { error } = await supabase.from("notifications").update({ read: true }).eq("user_id", userId).eq("read", false);
   return { error };
 }
+
+/**
+ * Invoke the telegram-webhook-setup edge function. Returns the webhook configuration
+ * (webhook_url + webhook_info from Telegram's getWebhookInfo call).
+ */
+export async function invokeTelegramWebhookSetup(): Promise<{
+  data: unknown;
+  error: { message: string } | null;
+}> {
+  const { data, error } = await supabase.functions.invoke("telegram-webhook-setup");
+  return { data, error: error ? { message: error.message } : null };
+}
