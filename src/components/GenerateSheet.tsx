@@ -298,7 +298,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           </AnimatePresence>
 
           <ScrollArea className="flex-1 overflow-x-hidden">
-            <div className="px-5 py-4 space-y-4 w-full max-w-full min-w-0 overflow-x-hidden">
+            <div className="px-4 py-3 space-y-3 w-full max-w-full min-w-0 overflow-x-hidden">
               {/* Credit Balance Warning */}
               <CreditBalanceWarning
                 balance={form.userBalance}
