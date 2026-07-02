@@ -638,7 +638,13 @@ export function AudioActionDialog({
                 <p className="text-[10px] text-muted-foreground">{formatTime(Math.floor(audioDuration))}</p>
               )}
             </div>
-            <Button type="button" size="icon" variant="ghost" onClick={handleRemove} className="h-7 w-7 shrink-0">
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              onClick={handleRemove}
+              className="h-7 w-7 min-h-[44px] min-w-[44px] shrink-0"
+            >
               <X className="w-3 h-3" />
             </Button>
           </div>

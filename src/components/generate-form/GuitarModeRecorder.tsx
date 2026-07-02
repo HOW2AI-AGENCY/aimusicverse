@@ -436,7 +436,7 @@ export function GuitarModeRecorder({ onRecordingComplete, onCancel }: GuitarMode
                 size="icon"
                 variant="ghost"
                 onClick={handleClear}
-                className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0"
+                className="h-8 w-8 min-h-[44px] min-w-[44px] text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0"
               >
                 <Trash2 className="w-4 h-4" />
               </Button>

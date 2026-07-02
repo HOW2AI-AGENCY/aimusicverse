@@ -142,7 +142,7 @@ export function EnhancedLyricsPreview({
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 w-7 p-0"
+              className="h-7 w-7 min-h-[44px] min-w-[44px] p-0"
               onClick={() => (editMode ? handleSaveMetadata() : setEditMode(true))}
             >
               {editMode ? <Check className="h-3.5 w-3.5" /> : <Edit3 className="h-3.5 w-3.5" />}
