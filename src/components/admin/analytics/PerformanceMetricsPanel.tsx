@@ -196,7 +196,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                 <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} width={40} />
                 <Tooltip
                   contentStyle={{ fontSize: 12 }}
-                  formatter={(value: any) => [`${Math.round(value)}ms`, "LCP"]}
+                  formatter={(value: number | string) => [`${Math.round(value)}ms`, "LCP"]}
                 />
                 <Line type="monotone" dataKey="avgLcp" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 3 }} />
               </LineChart>

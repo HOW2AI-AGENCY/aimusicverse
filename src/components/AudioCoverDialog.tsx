@@ -233,8 +233,7 @@ export const AudioCoverDialog = ({
           type: audioFile.type,
           data: reader.result as string | ArrayBuffer | null,
         },
-        audioDuration: audioDuration ?? 0,
-
+        audioDuration,
         model,
         customMode: true,
         instrumental,

@@ -118,24 +118,18 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     enabled: karaokeMode && !!lyricsLines?.length,
   });
 
-  // Restore preserved time — only if it meaningfully differs from current position.
-  // Blindly re-seeking to the exact currentTime causes a brief playback stall on
-  // some browsers (perceived as a "freeze" on fullscreen open).
+  // Restore preserved time
   useEffect(() => {
     if (preservedTime !== null && audioElement && !isNaN(preservedTime)) {
       const timer = setTimeout(() => {
         if (audioElement && preservedTime !== null) {
-          const delta = Math.abs(audioElement.currentTime - preservedTime);
-          if (delta > 0.5) {
-            audioElement.currentTime = preservedTime;
-          }
+          audioElement.currentTime = preservedTime;
           clearPreservedTime();
         }
       }, 50);
       return () => clearTimeout(timer);
     }
   }, [preservedTime, audioElement, clearPreservedTime]);
-
 
   // Resume AudioContext + blob recovery (preserved)
   useEffect(() => {

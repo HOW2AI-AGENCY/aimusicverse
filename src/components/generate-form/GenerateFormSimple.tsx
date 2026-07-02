@@ -174,18 +174,17 @@ export function GenerateFormSimple({
                 >
                   <div
                     className="grid grid-cols-2 gap-2 p-1 bg-muted/40 rounded-2xl border border-border/50 mt-1"
-                    role="radiogroup"
+                    role="group"
                     aria-label="Тип трека"
                   >
                     <button
                       type="button"
-                      role="radio"
-                      aria-checked={hasVocals}
                       onClick={() => handleVocalsToggle(true)}
+                      aria-pressed={hasVocals}
                       className={cn(
-                        "flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-colors duration-200 motion-reduce:transition-none",
+                        "flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-all duration-200",
                         hasVocals
-                          ? "bg-primary text-primary-foreground shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45)]"
+                          ? "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45)]"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
                       )}
                     >
@@ -194,13 +193,12 @@ export function GenerateFormSimple({
                     </button>
                     <button
                       type="button"
-                      role="radio"
-                      aria-checked={!hasVocals}
                       onClick={() => handleVocalsToggle(false)}
+                      aria-pressed={!hasVocals}
                       className={cn(
-                        "flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-colors duration-200 motion-reduce:transition-none",
+                        "flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-all duration-200",
                         !hasVocals
-                          ? "bg-primary text-primary-foreground shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45)]"
+                          ? "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45)]"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
                       )}
                     >
@@ -208,7 +206,6 @@ export function GenerateFormSimple({
                       <span className="truncate">Инструментал</span>
                     </button>
                   </div>
-
                 </motion.div>
               )}
             </AnimatePresence>

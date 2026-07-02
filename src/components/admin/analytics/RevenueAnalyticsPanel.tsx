@@ -200,7 +200,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                   />
                   <YAxis tick={{ fontSize: 10 }} width={40} />
                   <Tooltip
-                    formatter={(value: any, name: any) => [
+                    formatter={(value: number | string, name: string) => [
                       value.toLocaleString(),
                       name === "stars" ? "Stars" : "Транзакции",
                     ]}
@@ -252,7 +252,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: any) => [`${value.toLocaleString()} ⭐`, "Stars"]}
+                      formatter={(value: number | string) => [`${value.toLocaleString()} ⭐`, "Stars"]}
                       contentStyle={{
                         backgroundColor: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
@@ -290,7 +290,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                   width={70}
                 />
                 <Tooltip
-                  formatter={(value: any) => [`${value.toLocaleString()} ⭐`, "Stars"]}
+                  formatter={(value: number | string) => [`${value.toLocaleString()} ⭐`, "Stars"]}
                   contentStyle={{
                     backgroundColor: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",

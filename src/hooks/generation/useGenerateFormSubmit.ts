@@ -451,9 +451,15 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
 
       if (fromQuickCreate === "true") {
         sessionStorage.removeItem("fromQuickCreate");
+        navigate("/library");
+        toast.info("Трек готовится", {
+          description: "После генерации можно открыть Stem Studio для разделения",
+          duration: 5000,
+        });
         logger.info("Quick Create flow: Track generation started, will suggest Stem Studio");
+      } else {
+        navigate("/library");
       }
-      navigate("/library");
 
       supabase.functions.invoke("suno-credits").then(({ data: creditsData }) => {
         if (creditsData?.credits !== undefined) {

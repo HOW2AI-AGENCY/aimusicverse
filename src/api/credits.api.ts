@@ -403,8 +403,13 @@ export async function countLikesForTracks(trackIds: string[]): Promise<number> {
   return count ?? 0;
 }
 
-// countUserArtists is exported from ./artists.api — kept there as the canonical source.
-
+/**
+ * Count artists owned by the user.
+ */
+export async function countUserArtists(userId: string): Promise<number> {
+  const { count } = await supabase.from("artists").select("*", { count: "exact", head: true }).eq("user_id", userId);
+  return count ?? 0;
+}
 
 // ==========================================
 // Weekly Challenges (C3 Batch B)

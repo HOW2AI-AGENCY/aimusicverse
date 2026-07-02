@@ -171,30 +171,6 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
         </button>
       )}
 
-      {userScrolling && activeLineIndex >= 0 && (
-        <button
-          type="button"
-          onClick={() => {
-            hapticImpact("light");
-            setUserScrolling(false);
-            if (userScrollTimerRef.current) clearTimeout(userScrollTimerRef.current);
-            const container = scrollRef.current;
-            const target = activeLineRef.current;
-            if (container && target) {
-              const cRect = container.getBoundingClientRect();
-              const tRect = target.getBoundingClientRect();
-              const elementTop = tRect.top - cRect.top + container.scrollTop;
-              container.scrollTo({ top: Math.max(0, elementTop - cRect.height * 0.35), behavior: "smooth" });
-            }
-          }}
-          className="fixed bottom-28 left-1/2 z-20 -translate-x-1/2 inline-flex min-h-[36px] items-center gap-1.5 rounded-full bg-primary/90 px-4 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/25 backdrop-blur-md motion-reduce:transition-none"
-          aria-label="Вернуться к текущей строке"
-        >
-          ↓ К текущей
-        </button>
-      )}
-
-
       <div className="mx-auto flex max-w-[28rem] flex-col items-stretch gap-2 pb-24 text-center">
         {lyricsLines!.map((line, lineIndex) => {
           const isActiveLine = lineIndex === activeLineIndex;

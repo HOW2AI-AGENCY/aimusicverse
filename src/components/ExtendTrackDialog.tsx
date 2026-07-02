@@ -101,7 +101,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
         styleWeight: styleWeight[0],
         weirdnessConstraint: weirdnessConstraint[0],
         audioWeight: audioWeight[0],
-        projectId: track.project_id ?? undefined,
+        projectId: track.project_id,
       });
 
       if (error) throw error;

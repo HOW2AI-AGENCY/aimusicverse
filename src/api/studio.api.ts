@@ -14,7 +14,7 @@ export type TrackChangeLog = Tables<"track_change_log">;
 
 // ============= Track Versions =============
 
-export async function fetchStudioTrackVersions(trackId: string) {
+export async function fetchTrackVersions(trackId: string) {
   const { data, error } = await supabase
     .from("track_versions")
     .select("*")
@@ -23,7 +23,6 @@ export async function fetchStudioTrackVersions(trackId: string) {
 
   return { data, error };
 }
-
 
 export async function setPrimaryVersion(trackId: string, versionId: string) {
   // First, unset all primary versions for this track

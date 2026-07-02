@@ -60,7 +60,7 @@ export function AnalyticsDashboard() {
   const { data: telemetry, isLoading: telemetryLoading } = useTelemetryStats(rpcPeriod);
   const { data: errorTrends, isLoading: errorsLoading } = useErrorTrends(rpcPeriod);
   const { data: generationStats, isLoading: generationLoading } = useGenerationAnalytics(
-    (timePeriod === "24 hours" ? "7 days" : timePeriod === "all" ? ALL_TIME_INTERVAL : timePeriod) as never,
+    timePeriod === "24 hours" ? "7 days" : timePeriod === "all" ? ALL_TIME_INTERVAL : timePeriod,
   );
 
   const isLoading = telemetryLoading || errorsLoading || generationLoading;

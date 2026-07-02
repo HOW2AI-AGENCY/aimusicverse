@@ -1,97 +1,136 @@
 
-## Аудит текущего состояния
+# План дальнейших работ
 
-**Что уже сделано** (Sprint 038–039, последние коммиты):
-- Fullscreen-плеер разбит на Cover/Lyrics/Details через `FullscreenPager`.
-- `PlayerTransitionProvider` поднят в `MainLayout`, добавлен ErrorBoundary вокруг плеера, cleanup режима на `/track/:id`.
-- Waveform: убран центрирующий `startX`, бегунок переведён с framer на CSS-transition.
-- Клик по карточке трека воспроизводит через глобальный компактный плеер, а не открывает `/track/:id`.
-- Sprint 039 закрыт: 0 layer-violations в `src/{components,stores}`, tsc зелёный.
-- Лирика: fade-маска, tap-to-seek с flash, sync через `useLyricsSynchronization`.
-
-**Что подтверждено проблемным сейчас** (по жалобам + беглому осмотру):
-- В `useGenerateForm`/toast-цепочке несколько мест выдают `toast.success` на одни и те же события.
-- Стриминг (`stream_audio_url` от Suno) не подключён в UI — юзер ждёт полной генерации.
-- `GenerationResultSheet` рендерит одну версию; вторая (`clip_index=1`) появляется позже, но UI её не подтягивает.
-- Waveform и `PlayerProgress` считают ширину независимо → микрорассинхрон на ресайзе.
-- Fullscreen открывается через анимацию, которая на первом кадре ставит `audio.pause()` из-за перерендера cover → зависание.
-- Автоскролл лирики есть, но триггерится по `activeLineIndex` без плавной прокрутки в некоторых состояниях.
+## Контекст
+По итогам аудита Sprint 039 (см. `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`):
+- Batch 1 (admin/analytics) и Batch 4 (misc) закрыты → 35 → 15 нарушений layer-архитектуры
+- `tsc --noEmit`: 0 ошибок
+- E2E workflow `.github/workflows/e2e.yml` создан (требует GitHub Secrets)
+- Остаётся: Batch 2 (project/wizard, 4 файла), Batch 3 (studio/dialogs, 4 файла), god-files, 447 `any`, E2E phase C
 
 ---
 
-## План работ (Sprint 040 — Generation & Player UX)
+## Sprint 039 — закрытие (3 дня)
 
-### Блок A. Генерация: скорость и уведомления
+### 039-03b Batch 2 — project/wizard (день 1)
+Файлы (≈9 нарушений):
+- `src/components/project/ProjectCreationWizard.tsx`
+- `src/stores/studio/useProjectStore.ts` (остатки)
+- `src/components/project/ProjectMembersPanel.tsx`
+- `src/hooks/project/useProjectInvites.ts`
 
-1. **A1. Подключить стриминг первого клипа**
-   - В `useActiveGenerations` / callback'e из Edge Function пробрасывать `stream_audio_url`, как только Suno его отдаёт (обычно через ~15–20 с вместо ~2 мин).
-   - Автоматически стартовать превью в компактном плеере при появлении `stream_audio_url` (с бейджем «Стриминг»).
-   - После получения финального `audio_url` — бесшовно переключать источник (сохранять currentTime).
+Действия:
+1. Расширить `src/api/projects.api.ts`: `createProjectWithMembers`, `fetchProjectMembers`, `inviteProjectMember`, `removeProjectMember`
+2. Убрать прямые `supabase.from/rpc` из компонентов
+3. Прогнать `tsc`, `lint`, `npm test -- project`
 
-2. **A2. Показать обе версии (A/B)**
-   - `GenerationResultSheet` + `useTrackVersionsList`: подписаться на realtime `track_versions` для активного `trackId`, отрисовывать placeholder-скелет для второй версии, заполнять при вставке.
-   - Убедиться, что `is_primary` для A выставлен сразу, B появляется в списке без ручного refetch.
+### 039-03b Batch 3 — studio/dialogs (день 2)
+Файлы (≈6 нарушений):
+- `src/components/studio/unified/SaveVersionDialog.tsx`
+- `src/components/studio/unified/LoadVersionDialog.tsx`
+- `src/components/studio/unified/StudioNotationPanel.tsx`
+- `src/components/studio/unified/StudioCollaborationPanel.tsx`
 
-3. **A3. Убрать дубли уведомлений**
-   - Ревизия toast'ов: оставить один «В работе → В библиотеке готово», остальное убрать.
-   - Удалить `toast.success` из промежуточных шагов `useGenerateForm`, `useAudioProcessing`, `useActiveGenerations`.
-   - Единая точка нотификации через `notificationsService` (уже есть) с dedupe по `taskId`.
+Действия:
+1. Расширить `src/api/studio.api.ts`: `saveStudioVersion`, `loadStudioVersions`, `fetchNotationData`, `fetchCollaborators`
+2. Замена прямых вызовов
+3. Прогон Studio smoke-test через Playwright (3 сценария: save/load/notation)
 
-4. **A4. Стабилизировать «плашку генерации»**
-   - `GenerationLoadingState` / `QueuePosition`: фиксированная min-height, `contain: layout size`, без анимации высоты. Прогресс через `transform: scaleX` вместо изменения width.
-   - Убрать `AnimatePresence` вокруг статуса, оставить кросс-фейд текста.
+### 039-11 E2E CI — финализация (день 3)
+- Добавить GitHub Secrets: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`
+- Прогнать e2e локально (`npm run test:e2e:chromium`) и через workflow_dispatch
+- Зафиксировать baseline зелёного прогона
 
-### Блок B. Плеер и waveform
+### Регрессия и документация
+- `grep -rn "supabase\.\(from\|rpc\|storage\)" src/{components,pages,stores}` → 0 ожидаемых
+- Обновить `docs/audit/SPRINT-039-AUDIT-2026-06-30.md` (финальные метрики)
+- Закрыть `SPRINTS/SPRINT-039-PLAN.md` (все задачи ✅)
+- `PROJECT_STATUS.md`: бамп до Sprint 039 complete, 96% прогресс
+- `CHANGELOG.md`: запись `[Unreleased] → 0.39.0`
+- `README.md`: обновить блок «Sprint Status» и метрики (components/hooks/stores/api/services)
 
-5. **B1. Единый источник ширины timeline**
-   - Вынести измерение в общий hook `useTimelineGeometry(ref)` c `ResizeObserver`.
-   - `WaveformCanvas` и `PlayerProgress` должны использовать один и тот же bounding rect и один `progress` (0..1). Убрать локальные вычисления pixel-позиции.
-   - Ресемплировать waveform-bars в `requestAnimationFrame` только при изменении ширины, не на каждый tick времени.
+---
 
-6. **B2. Фикс зависания при открытии fullscreen**
-   - Причина: при монтировании `FullscreenPlayer` `CoverPage` перезапрашивает `<audio>` через провайдер transition → двойной pause.
-   - Решение: `PlayerTransitionProvider` не должен трогать `audioRef` при переходе compact↔fullscreen; переход чисто визуальный (shared layout).
-   - Добавить e2e-тест `player.fullscreen-play-continues.spec.ts`.
+## Sprint 040 — Type Safety & God Files (2 недели)
 
-7. **B3. Waveform без мигания**
-   - Кэшировать сгенерированные пики в IndexedDB по `versionId` (использовать существующий `waveformCache`).
-   - При смене трека держать предыдущий canvas, пока новый не готов (без flash-to-empty).
+### 040-01 Реклассификация `any` (5 дней)
+Цель: 447 → <50 в `src/`
+- День 1: `src/hooks/` (~180 случаев) — типизация Supabase responses, generic hooks
+- День 2: `src/stores/` (~80) — Zustand slice types
+- День 3: `src/pages/` (~90) — props, route params
+- День 4: `src/components/` остатки (~90)
+- День 5: ESLint rule `@typescript-eslint/no-explicit-any: error` с whitelist
 
-### Блок C. Лирика
+### 040-02 God-file split (5 дней)
+| Файл | LOC | Цель |
+|------|-----|------|
+| `LyricsStudio.tsx` | 1092 | 3 sub-component (Editor/Preview/Toolbar) |
+| `usePromptDJEnhanced.ts` | 1071 | 4 хука (state/audio/effects/presets) |
+| `IntegratedStemTracks.tsx` | 872 | Stem rows + controls |
+| `UnifiedNotesViewer.tsx` | 855 | Viewer + Toolbar + List |
+| `ProjectDetail.tsx` | 851 | Header / Tracks / Members |
+| `LyricsVisualEditor.tsx` | 812 | Editor / Timeline / Sidebar |
 
-8. **C1. Плавный автоскролл активной строки**
-   - В `LyricsPage`: `scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' })` по изменению `activeLineIndex`.
-   - Дебаунс 80 мс, отменяемый на пользовательский scroll (флаг `userScrolling` на 3 с).
-   - При возврате в центр — кнопка «↓ К текущей строке».
+Критерий: каждый файл <500 LOC, тесты зелёные, bundle ≤ 880 KB.
 
-### Блок D. Мобильная форма генерации
+### 040-03 Bundle hardening (2 дня)
+- Замер `npm run size:why`
+- Удалить дубли design tokens (`src/lib/design-tokens.ts` vs inline)
+- Целевой бюджет: 880 KB (с текущих 918)
 
-9. **D1. Radio-переключатель Вокал/Инструментал**
-   - Заменить текущий toggle на `RadioGroup` (shadcn), два сегмента в одну строку, 44 px min-height, единые токены.
-   - Иконки `Mic` / `Music2`, подпись под сегментом, активный сегмент — акцентный fill.
+### Документация Sprint 040
+- `SPRINTS/SPRINT-040-PLAN.md` — создать с задачами 040-01/02/03
+- `ROADMAP.md` — добавить Sprint 040 в Q3 2026
+- `ARCHITECTURE_HUB.md` — обновить раздел Type Safety
 
-10. **D2. Компактная разметка формы (mobile)**
-    - Собрать все поля в один вертикальный стек с 12 px gap, secondary-настройки в `<details>`/`Accordion`.
-    - Sticky-кнопка «Сгенерировать» внизу с safe-area, без дублирующего header.
-    - Убрать вложенные карточки — один плоский лист.
+---
+
+## Sprint 041 — UX features (1 неделя)
+
+Из `docs/todo_analysis.md`:
+- `IdeaStep`: AI-подсказки (Lovable AI Gateway, `google/gemini-2.5-flash`)
+- `LyricsStep`: генерация текста по идее
+- `LyricsView`: повторное чтение лирики (TTS)
+- `useStudioAudioEngine`: loop / export / recording
+
+Документация:
+- `SPRINTS/SPRINT-041-PLAN.md` — создать
+- `KNOWN_ISSUES_TRACKED.md` — обновить с прогрессом
 
 ---
 
 ## Технические детали
 
-- **Файлы (основные):**
-  - Генерация: `src/hooks/generation/useGenerateForm.ts`, `useActiveGenerations.ts`, `useAudioProcessing.ts`, `components/generate-form/GenerationLoadingState.tsx`, `GenerationResultSheet.tsx`, `QueuePosition.tsx`.
-  - Плеер: `PlayerTransitionProvider.tsx`, `MobileFullscreenPlayer.tsx`, `pages/CoverPage.tsx`, `WaveformCanvas.tsx`, `PlayerProgress.tsx`, `WaveformProgressBar.tsx`.
-  - Лирика: `pages/LyricsPage.tsx`, `hooks/lyrics/useLyricsSynchronization.ts`.
-  - Форма: `GenerateFormSimple.tsx`, `GenerateFormCustom.tsx`, `FormSection.tsx`.
-- **Backend:** проверить, что edge-функция `suno-music-generate` возвращает `stream_audio_url` в первом callback'e и пишет его в `track_versions.stream_audio_url` (добавить колонку миграцией, если отсутствует).
-- **Тесты:** добавить e2e — стриминг стартует <30 с, обе версии в sheet, fullscreen не ставит паузу, автоскролл лирики.
+### Команды проверки
+```bash
+# layer violations
+grep -rn "supabase\.\(from\|rpc\|storage\)" src/{components,pages,stores} | wc -l
+
+# any usage
+grep -rEn ": any|as any" src/ --include="*.ts" --include="*.tsx" | wc -l
+
+# god files
+find src -name "*.ts" -o -name "*.tsx" | xargs wc -l | awk '$1 > 800'
+
+# E2E
+npm run test:e2e:chromium
+```
+
+### Файлы для обновления (итого)
+- `SPRINTS/SPRINT-039-PLAN.md` (close)
+- `SPRINTS/SPRINT-040-PLAN.md` (new)
+- `SPRINTS/SPRINT-041-PLAN.md` (new)
+- `PROJECT_STATUS.md`
+- `README.md`
+- `CHANGELOG.md`
+- `ROADMAP.md`
+- `ARCHITECTURE_HUB.md`
+- `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`
 
 ---
 
-## Порядок выполнения
+## Definition of Done
 
-1. **Сначала (быстрые победы, без миграций):** A3, A4, B2, C1, D1, D2.
-2. **Затем (требует backend/миграции):** A1, A2, B1, B3.
-
-Хотите — стартую с блока «быстрых побед» (A3+A4+B2+C1+D1+D2) прямо сейчас, это ~6 файлов и заметный визуальный эффект без риска для backend.
+**Sprint 039:** 0 layer violations, E2E зелёный, документация синхронизирована.
+**Sprint 040:** <50 `any`, все файлы <500 LOC, bundle ≤880 KB.
+**Sprint 041:** 4 UX-фичи в проде, фидбэк собран.

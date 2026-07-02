@@ -184,7 +184,7 @@ export function RevenueAnalytics() {
                         borderRadius: "8px",
                         fontSize: "11px",
                       }}
-                      formatter={(value: any, name: any) => [
+                      formatter={(value: number | string, name: string) => [
                         name === "usd" ? formatCurrency(value) : `${formatNumber(value)} ⭐`,
                         name === "usd" ? "USD" : "Stars",
                       ]}
