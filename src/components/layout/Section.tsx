@@ -18,9 +18,9 @@
 import { forwardRef, type ReactNode, type ElementType } from "react";
 import { cn } from "@/lib/utils";
 
-export type SectionDensity = "compact" | "comfortable" | "spacious" | "auto";
+export type SectionDensity = "compact" | "comfortable" | "spacious" | "auto" | "4xl" | "5xl";
 export type SectionTone = "plain" | "subtle" | "accent" | "muted" | "light" | "dark" | "blur" | "gradient";
-export type SectionMaxWidth = "content" | "wide" | "full";
+export type SectionMaxWidth = "content" | "wide" | "full" | "ultrawide" | "fourk";
 
 export interface SectionProps {
   /** Visible title (renders <h2>). Omit for headerless sections. */
@@ -58,6 +58,9 @@ const densityToBodyGap: Record<SectionDensity, string> = {
   comfortable: "space-y-4 sm:space-y-5",
   spacious: "space-y-6 sm:space-y-8",
   auto: "space-y-3 sm:space-y-5 lg:space-y-7",
+  // Ultra-wide densities — only differ from `spacious` at xl/2xl+.
+  "4xl": "space-y-8 sm:space-y-10 xl:space-y-12 2xl:space-y-14",
+  "5xl": "space-y-10 sm:space-y-12 xl:space-y-16 2xl:space-y-20",
 };
 
 const densityToHeaderGap: Record<SectionDensity, string> = {
@@ -65,6 +68,8 @@ const densityToHeaderGap: Record<SectionDensity, string> = {
   comfortable: "mb-4",
   spacious: "mb-5 sm:mb-6",
   auto: "mb-3 sm:mb-4 lg:mb-6",
+  "4xl": "mb-8 sm:mb-10 xl:mb-12",
+  "5xl": "mb-10 sm:mb-12 xl:mb-16 2xl:mb-20",
 };
 
 const densityToInnerPad: Record<SectionDensity, string> = {
@@ -72,6 +77,8 @@ const densityToInnerPad: Record<SectionDensity, string> = {
   comfortable: "p-4 sm:p-5",
   spacious: "p-5 sm:p-7",
   auto: "p-3 sm:p-5 md:p-6",
+  "4xl": "p-6 sm:p-8 xl:p-10 2xl:p-12",
+  "5xl": "p-8 sm:p-10 xl:p-12 2xl:p-16",
 };
 
 const toneToSurface: Record<SectionTone, string> = {
@@ -92,6 +99,8 @@ const maxWidthToClass: Record<SectionMaxWidth, string> = {
   content: "max-w-[1120px]",
   wide: "max-w-screen-xl",
   full: "max-w-none",
+  ultrawide: "max-w-[1600px]",
+  fourk: "max-w-[1760px]",
 };
 
 export const Section = forwardRef<HTMLElement, SectionProps>(function Section(

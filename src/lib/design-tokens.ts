@@ -44,6 +44,8 @@ export const spacingClass = {
   card: "p-3 sm:p-4",
   cardCompact: "p-2.5 sm:p-3",
   cardLarge: "p-4 sm:p-6",
+  /** Desktop-tuned card padding (lg+ scales up). Use on master-detail / dashboard cards. */
+  cardPadding: "p-3 sm:p-4 lg:p-5 xl:p-6",
   /** Gap between flex/grid items */
   gap: "gap-2 sm:gap-3",
   gapSm: "gap-1.5 sm:gap-2",
@@ -133,6 +135,11 @@ export const typographyClass = {
   interactive: "text-sm font-medium hover:underline underline-offset-2",
   /** Bottom-navigation tab label (small caps, tight tracking) */
   navLabel: "text-[11px] leading-none tracking-tight",
+  /**
+   * Synchronized lyric word — single semantic class for all surfaces.
+   * Previously duplicated as 17/19/20px across LyricsPage / LyricsPanel.
+   */
+  lyricsWord: "text-base xl:text-lg 2xl:text-xl leading-[1.5]",
   /** Monospace */
   mono: "font-mono text-xs sm:text-sm",
 } as const;
@@ -477,6 +484,22 @@ export const emptyStates = {
   /** Description text */
   description: "text-sm text-muted-foreground mb-6 max-w-sm",
 } as const;
+
+// ============================================================================
+// CONTAINER MAX-WIDTH PRESETS (4K-aware)
+// Mirrors MAX_WIDTHS in src/lib/breakpoints.ts — keep in sync.
+// ============================================================================
+
+export const containerMax = {
+  narrow: "max-w-2xl",
+  medium: "max-w-4xl",
+  wide: "max-w-6xl",
+  full: "max-w-7xl",
+  ultrawide: "max-w-[1600px]",
+  fourk: "max-w-[1760px]",
+} as const;
+
+export type ContainerMaxKey = keyof typeof containerMax;
 
 // ============================================================================
 // INTERACTIVE STATE PATTERNS

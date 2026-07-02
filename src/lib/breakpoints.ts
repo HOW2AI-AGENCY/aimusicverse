@@ -18,6 +18,10 @@ export const BREAKPOINTS = {
   lg: 1024,
   xl: 1280,
   "2xl": 1536,
+  /** Ultra-wide monitors (1920+) */
+  "3xl": 1920,
+  /** 4K monitors (2560+) */
+  "4xl": 2560,
 } as const;
 
 // ============ Grid Configurations ============
@@ -31,17 +35,20 @@ export const BREAKPOINTS = {
  * - Tablet Portrait (640-768px): 2-3 columns
  * - Tablet Landscape (768-1024px): 3-4 columns
  * - Desktop (1024-1280px): 4-5 columns
- * - Large Desktop (> 1280px): 5-6 columns
+ * - Large Desktop (1280-1536px): 5-6 columns
+ * - Ultra-wide (1536-1920px): 6-7 columns
+ * - 4K (≥1920px): 7-8 columns
  */
 export const GRID_COLS = {
   /** Dashboard stats and cards - 2 columns on desktop */
   dashboard: "grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6",
 
   /** Card grids - progressive columns based on viewport */
-  cards: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4",
+  cards: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4",
 
   /** Tool/feature grids - balanced for readability */
-  tools: "grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4",
+  tools:
+    "grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-4",
 
   /** Stats/metrics row - 2 on mobile, 3 tablet, 4 on desktop */
   stats: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3",
@@ -50,10 +57,10 @@ export const GRID_COLS = {
   menu: "grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3",
 
   /** Compact cards - more density */
-  compact: "grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2",
+  compact: "grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 gap-2",
 
   /** Track cards in library */
-  tracks: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3",
+  tracks: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-3",
 
   /** Project cards - balanced density */
   projects: "grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4",
@@ -63,6 +70,15 @@ export const GRID_COLS = {
 
 /**
  * Max-width presets for different content types
+ *
+ * Selection guide:
+ * - narrow  (672px)  — forms, dialogs, narrow content
+ * - medium  (896px)  — standard content, lists
+ * - wide    (1152px) — prose, articles
+ * - full    (1280px) — dashboards, full-screen layouts
+ * - ultrawide (1600px) — media-heavy surfaces at ≥1536px
+ * - fourk   (1760px) — ≥1920px screens (4K monitors)
+ * - none    — no max-width constraint
  */
 export const MAX_WIDTHS = {
   /** Forms, dialogs, narrow content */
@@ -76,6 +92,12 @@ export const MAX_WIDTHS = {
 
   /** Full-width layouts (Studio, graphs) */
   full: "max-w-7xl",
+
+  /** Ultra-wide media surfaces (≥1536px) */
+  ultrawide: "max-w-[1600px]",
+
+  /** 4K monitors (≥1920px) */
+  fourk: "max-w-[1760px]",
 
   /** No max-width constraint */
   none: "",
@@ -93,28 +115,34 @@ export const GAPS = {
   lg: "gap-4",
   xl: "gap-6",
   "2xl": "gap-8",
+  "3xl": "gap-10",
+  "4xl": "gap-12",
 } as const;
 
 // ============ Layout Ratios ============
 
 /**
  * Master-detail layout proportions
+ *
+ * Ratios step down at xl/2xl so the detail column doesn't dominate
+ * on ultra-wide monitors (the master grows because the eye reads
+ * vertically; detail is auxiliary).
  */
 export const LAYOUT_RATIOS = {
-  /** Default: 60% master, 40% detail */
+  /** Default: 60% master, 40% detail (lg) → 55/45 (xl) → 50/50 (2xl+) */
   default: {
-    master: "w-full lg:w-[60%]",
-    detail: "hidden lg:block lg:w-[40%]",
+    master: "w-full lg:w-[60%] xl:w-[55%] 2xl:w-[50%]",
+    detail: "hidden lg:block lg:w-[40%] xl:w-[45%] 2xl:w-[50%]",
   },
-  /** Equal split */
+  /** Equal split on lg, tighter on wider screens */
   equal: {
-    master: "w-full lg:w-1/2",
-    detail: "hidden lg:block lg:w-1/2",
+    master: "w-full lg:w-1/2 xl:w-[48%] 2xl:w-[45%]",
+    detail: "hidden lg:block lg:w-1/2 xl:w-[48%] 2xl:w-[45%]",
   },
-  /** Wide master, narrow detail */
+  /** Wide master, narrow detail (lg) → tapers as viewport grows */
   wide: {
-    master: "w-full lg:w-[70%]",
-    detail: "hidden lg:block lg:w-[30%]",
+    master: "w-full lg:w-[70%] xl:w-[65%] 2xl:w-[60%]",
+    detail: "hidden lg:block lg:w-[30%] xl:w-[35%] 2xl:w-[40%]",
   },
 } as const;
 
@@ -124,10 +152,10 @@ export const LAYOUT_RATIOS = {
  * Sidebar width configurations
  */
 export const SIDEBAR_WIDTHS = {
-  /** Collapsed mini sidebar */
+  /** Collapsed mini sidebar (64px) */
   collapsed: "w-16",
-  /** Expanded full sidebar */
-  expanded: "w-64",
+  /** Expanded sidebar (256px on lg, 280 on xl, 320 on 2xl+) */
+  expanded: "w-64 xl:w-72 2xl:w-80",
   /** Transition classes */
   transition: "transition-all duration-300 ease-in-out",
 } as const;
