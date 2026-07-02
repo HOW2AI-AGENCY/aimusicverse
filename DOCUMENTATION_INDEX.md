@@ -7,7 +7,7 @@
 <p>
   <img alt="Files" src="https://img.shields.io/badge/files-100%2B-475569?style=for-the-badge"/>
   <img alt="Categories" src="https://img.shields.io/badge/categories-8-9333EA?style=for-the-badge"/>
-  <img alt="Updated" src="https://img.shields.io/badge/updated-2026--06--28-26A5E4?style=for-the-badge"/>
+  <img alt="Updated" src="https://img.shields.io/badge/updated-2026--07--03-26A5E4?style=for-the-badge"/>
   <img alt="Audit" src="https://img.shields.io/badge/audit-architecture_complete-10B981?style=for-the-badge"/>
 </p>
 
@@ -111,16 +111,18 @@ flowchart LR
 
 ### 5️⃣ Design & UI
 
-| Doc                                                                     | Description         | Status |
-| ----------------------------------------------------------------------- | ------------------- | :----: |
-| [docs/DESIGN_SYSTEM_COMPREHENSIVE](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Full design system  |   ✅   |
-| [docs/DESIGN_TOKENS](docs/DESIGN_TOKENS.md)                             | Tokens reference    |   ✅   |
-| [docs/STYLES](docs/STYLES.md)                                           | Styling conventions |   ✅   |
-| [docs/MOBILE_COMPONENTS](docs/MOBILE_COMPONENTS.md)                     | Mobile primitives   |   ✅   |
-| [docs/HOOKS_REFERENCE](docs/HOOKS_REFERENCE.md)                         | Hook catalogue      |   ✅   |
-| [docs/FORMATTING_GUIDE](docs/FORMATTING_GUIDE.md)                       | Code formatting     |   ✅   |
-| [docs/NAVIGATION](docs/NAVIGATION.md)                                   | Navigation system   |   ✅   |
-| [docs/LANGUAGES](docs/LANGUAGES.md)                                     | i18n strategy       |   ✅   |
+| Doc                                                                     | Description                        | Status |
+| ----------------------------------------------------------------------- | ---------------------------------- | :----: |
+| [docs/DESIGN_SYSTEM_COMPREHENSIVE](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Full design system                 |   ✅   |
+| [docs/DESIGN_TOKENS](docs/DESIGN_TOKENS.md)                             | Tokens reference                   |   ✅   |
+| [docs/STYLES](docs/STYLES.md)                                           | Styling conventions                |   ✅   |
+| [docs/MOBILE_COMPONENTS](docs/MOBILE_COMPONENTS.md)                     | Mobile primitives                  |   ✅   |
+| [docs/HOOKS_REFERENCE](docs/HOOKS_REFERENCE.md)                         | Hook catalogue                     |   ✅   |
+| [docs/FORMATTING_GUIDE](docs/FORMATTING_GUIDE.md)                       | Code formatting                    |   ✅   |
+| [docs/NAVIGATION](docs/NAVIGATION.md)                                   | Navigation system                  |   ✅   |
+| [docs/LANGUAGES](docs/LANGUAGES.md)                                     | i18n strategy                      |   ✅   |
+| [DESIGN_AUDIT_2026-06-29](DESIGN_AUDIT_2026-06-29.md)                   | Design audit (Q2)                  |   ✅   |
+| [UI_AUDIT_REPORT_2026-07-03](UI_AUDIT_REPORT_2026-07-03.md)             | UI audit (WCAG 2.1 AA, 14 patches) |   ✅   |
 
 ### 6️⃣ Operations
 
@@ -197,10 +199,10 @@ graph TD
 
 ### 🔗 Related Documentation
 
-|       🏠 Home       |      🏛 Architecture       |      🗺 Roadmap       |         🤝 Contributing         |       🔒 Security       |       📝 Changelog        |
+|       🏠 Home       |       🏛 Architecture       |       🗺 Roadmap       |         🤝 Contributing         |       🔒 Security       |       📝 Changelog        |
 | :-----------------: | :------------------------: | :-------------------: | :-----------------------------: | :---------------------: | :-----------------------: |
 | [README](README.md) | [Hub](ARCHITECTURE_HUB.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
 
-<sub>Last updated: 2026-06-27</sub>
+<sub>Last updated: 2026-07-03</sub>
 
 </div>

@@ -59,8 +59,9 @@
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 044 ✅ ЗАВЕРШЁН (Type Safety Wave 2 — 7/7 задач). Итог: `any` в `src/components/**` 155 → 0; в `src/hooks/**` 164 → 6; в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result`; ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs` ≤50. +54 unit-теста за спринт (282 passing в 17 suites).
-- **Далее**: Sprint 045 (Hygiene + Docs) и срочный **Sprint 046 — Bundle Reduction** (зафиксирован расхождение: реальный gzip 2.21 МБ / бюджет 950 КБ, в 2.3× выше). См. [PROJECT_STATUS.md](./PROJECT_STATUS.md) и [superpowers/sdd/briefs/](./.superpowers/sdd/briefs/).
+- **Текущий фокус**: Sprint 045 🟡 В РАБОТЕ (UX/UI Deep Polish). Phase A закрыта (коммит `0813d631`): emoji-as-icons заменены на Lucide (11 замен в `EnhancedVariant`, `GridVariant`, `ListVariant`, `ContextualHint`); touch-target ≥ 44px восстановлен в `CompactVariant`, `UnifiedTipCard`, `ContextualHint`; raw-color tokens (`text-white`, `from-black/70`, `bg-red-500/20`, `ring-white/10`, `shadow-black/10`) переведены на semantic (`text-foreground`, `from-foreground/70`, `bg-primary/20`, `ring-border/30`, `shadow-foreground/10`).
+- **Закрыто ранее (Sprint 044 ✅):** Type Safety Wave 2 — 7/7 задач. Итог: `any` в `src/components/**` 155 → 0; в `src/hooks/**` 164 → 6; в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result`; ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs` ≤50. +54 unit-теста за спринт (282 passing в 17 suites).
+- **Далее**: Phase B-D Sprint 045 (Player/hints fixes, PageTransition `isVisible` bug, animation audit) и срочный **Sprint 046 — Bundle Reduction** (зафиксирован расхождение: реальный gzip 2.21 МБ / бюджет 950 КБ, в 2.3× выше). См. [PROJECT_STATUS.md](./PROJECT_STATUS.md) и [superpowers/sdd/briefs/](./.superpowers/sdd/briefs/).
 
 ---
 
@@ -102,10 +103,10 @@ gantt
 | **042** | **Page Decomp + Audio Pooling**   |   ✅   |  10/10   |
 | **043** | **Layer Compliance (65 → 0)**     |   ✅   |   6/6    |
 | **044** | **Type Safety Wave 2**            |   ✅   |   7/7    |
+| **045** | **UX/UI Deep Polish + Hygiene**   |   🟡   |   1/4    |
 |   040   | Type Safety + God-files           |   ⚪   |    0%    |
 |  040b   | Тесты + Audio Export              |   ⚪   |    0%    |
 |   041   | UX features (AI/TTS)              |   ⚪   |    0%    |
-|   045   | Hygiene + Documentation           |   ⚪   |    0%    |
 |   046   | 🔴 Bundle Reduction (2.21→<950KB) |   ⚪   |    0%    |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>

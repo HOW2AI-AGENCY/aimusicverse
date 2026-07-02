@@ -5,9 +5,9 @@
 **Where MusicVerse AI is going — quarter by quarter.**
 
 <p>
-  <img alt="Progress" src="https://img.shields.io/badge/2026-92%25_complete-F59E0B?style=for-the-badge"/>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-035-26A5E4?style=for-the-badge"/>
-  <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
+  <img alt="Progress" src="https://img.shields.io/badge/2026-96%25_complete-10B981?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-045-26A5E4?style=for-the-badge"/>
+  <img alt="Health" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
 </p>
 
 <p>
@@ -93,24 +93,25 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### Planned
 
-- **Sprint 038** — DX & Infrastructure (Service Worker, Lighthouse CI, Storybook, bundle gates)
-- **Sprint 037** — Test Coverage (unit 362→500+, critical hooks, API/service layers, mutation testing)
-- **Sprint 036** — Refactoring & Architecture (split giant files, store slicing, layer violations, lyrics consolidation)
+- **Sprint 046** — Bundle Reduction (2.21 МБ → <950 КБ gzip, manualChunks, dead-code elimination) 🔴
 
 ### In Progress
 
-- **Sprint 035** — E2E + Export + Type Safety (Playwright CI, export service, 484 `any` elimination)
+- **Sprint 045** — UX/UI Deep Polish + Hygiene. Phase A закрыта (коммит `0813d631`): emoji-as-icons → Lucide (11 замен), touch-target ≥ 44px (3 поверхности), raw-color → semantic. Phase B-D в работе: PageTransition `isVisible` bug, animation tokens migration.
 
-### Completed
+### Completed (recent)
 
-- **Sprint 034** — Generation Reliability (auto-retry, failure tracking, A/B experiments, queue UI)
-- **Sprint 033** — Interface Audit & UX Overhaul (18 tasks, 4 phases)
-- **Sprint 032** — Final UI/UX Audit & Polish
-- **Sprint 031** — Data Model & Optimization Phase 2
-- **Sprint 030** — Unified Studio Mobile
-- **Sprint 029** — Telegram Mobile Optimization
+- **Sprint 044** — Type Safety Wave 2 (7/7, 100%): `any` 155→0 в components/, 12→0 в stores/, 3 сервиса → `Result<T,E>`, ESLint `no-explicit-any: error`.
+- **Sprint 043** — Layer Compliance (6/6): 65 components через service layer, ESLint guardrail, mobile Playwright smoke.
+- **Sprint 042** — Page Decomposition + Audio Pooling (10/10): `usePreviewAudio` hook, 17 миграций, `LyricsStudio` 999→788 LOC, bundle audit.
+- **Sprint 041, 040** — UX features + Type Safety + God-files (см. [PROJECT_STATUS.md](./PROJECT_STATUS.md))
+- **Sprint 039** — Архитектурный рефакторинг + Type Safety (14/14)
+- **Sprint 037-038** — Infrastructure Hardening + Design System Unification (28/28)
+- **Sprint 035-036** — Стабилизация + Рефакторинг слоёв
+- **Sprint 034** — Generation Reliability (auto-retry, failure tracking, A/B experiments)
+- **Sprint 033** — Interface Audit & UX Overhaul (114 задач в 13 фазах)
 
-> 📋 Детальный план спринтов 035–038: [SPRINTS/SPRINT-035-038-PLAN.md](SPRINTS/SPRINT-035-038-PLAN.md)
+> 📋 Детальный план спринтов 042-044: [SPRINTS/SPRINT-042-043-PLAN.md](SPRINTS/SPRINT-042-043-PLAN.md); отчёты по аудиту: [UI_AUDIT_REPORT_2026-07-03.md](UI_AUDIT_REPORT_2026-07-03.md).
 
 ---
 
@@ -118,10 +119,10 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### 🔗 Related Documentation
 
-|            📚 Index             |      🏛 Architecture       |          📊 Status          |       📝 Changelog        |             🪲 Issues             |
+|            📚 Index             |       🏛 Architecture       |          📊 Status          |       📝 Changelog        |             🪲 Issues             |
 | :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :-------------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
 
-<sub>Last updated: 2026-06-28</sub>
+<sub>Last updated: 2026-07-03 (Sprint 045 — UX/UI Deep Polish + Hygiene 🟡)</sub>
 
 </div>

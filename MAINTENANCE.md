@@ -1,7 +1,7 @@
 # 🛠 Руководство по поддержке репозитория
 
 **MusicVerse AI — поддержание порядка в документации и коде**
-**Обновлено:** 29.06.2026
+**Обновлено:** 03.07.2026
 
 ---
 
@@ -107,6 +107,6 @@ git push && gh pr create --title "docs: Sprint XXX documentation update"
 
 [← Предыдущий: CONTRIBUTING.md](./CONTRIBUTING.md) · [↑ К индексу](./DOCUMENTATION_INDEX.md)
 
-<sub>Обновлено: 29.06.2026 · [История изменений](./CHANGELOG.md)</sub>
+<sub>Обновлено: 03.07.2026 · [История изменений](./CHANGELOG.md)</sub>
 
 </div>

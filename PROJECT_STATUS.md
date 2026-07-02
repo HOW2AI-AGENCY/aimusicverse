@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-044-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-045-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-17_suites-10B981?style=for-the-badge"/>
@@ -171,6 +171,31 @@
 | Result-паттерн для API обработки ошибок       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 | Service Worker + оффлайн-режим                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 | Lighthouse CI budget enforcement              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+
+## 🚦 `045` UX/UI Deep Polish + Hygiene (Q3 2026) — В РАБОТЕ 🟡
+
+**Прогресс: 1/4 фазы завершено (25%)** · [Sprint plan](SPRINTS/SPRINT-045-PLAN.md)
+
+| Фаза                                                       | Прогресс                                                          |
+| ---------------------------------------------------------- | ----------------------------------------------------------------- |
+| **A: Track-card variants аудит** (emoji, touch, raw-color) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **B: Player / hints доработка** (touch-target, semantic)   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| **C: Animation audit + PageTransition fix**                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| **D: Visual polish** (elevation, aurora-glow, typography)  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+
+### ✅ Завершено (2026-07-03, коммит `0813d631`)
+
+- ✅ **Emoji-as-icons → Lucide:** `EnhancedVariant` (✓→Check), `GridVariant` (♪→Music2), `ListVariant` (🎵→Music2), `ContextualHint` (🚀/✨/📁/👤/💬/⚙️/💡 → Rocket/Sparkles/FolderOpen/User/MessageCircle/Settings/Lightbulb) — 11 замен.
+- ✅ **Touch-target ≥ 44×44px** на 3 ключевых сценариях: `CompactVariant` more-menu, `UnifiedTipCard` close+actions, `ContextualHint` close+actions+«Не показывать».
+- ✅ **Raw color tokens → semantic:** `text-white` (4×), `from-black/70 via-black/10` (overlay), `bg-red-500/20 text-red-500` (swipe-like), `ring-white/10`, `shadow-black/10` — все заменены на design tokens.
+- ✅ **ListVariant dead-code:** удалена дубль-подписка `useTrackCardState()` — был баг двойной state subscription без пользы.
+- ✅ **TypeScript:** `tsc --noEmit -p tsconfig.app.json` exit 0. ESLint 0 errors в modified files.
+
+### 📋 Открытые задачи Sprint 045
+
+- 🟡 Phase B: Player/hints доработка (из UI_AUDIT_REPORT_2026-07-03.md §4 — Triaged items #1-3)
+- 🟡 Phase C: PageTransition `isVisible=true` баг (UI всегда видна → анимации не работают), `motion.ts` pulse variant без `infiniteTransition`, `index.css` дублирующиеся `@keyframes float`/`spin-slow`
+- 🟡 Phase D: `aurora-glow` определён дважды с разными стилями (2257 vs 2422), `glass-card:hover` без `@media (hover: hover)`, elevation `rgba()` вместо `hsl()`
 
 ## 🚦 `044` Type Safety Wave 2 (Q3 2026) — ЗАВЕРШЁН ✅
 

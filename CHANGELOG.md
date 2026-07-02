@@ -24,6 +24,36 @@
 
 ## [Unreleased]
 
+### 🎨 Спринт 045 — UX/UI Deep Polish (2026-07-03) — В РАБОТЕ 🟡
+
+#### Исправлено
+
+- **Emoji-as-icons → Lucide** в 4 файлах (коммит `0813d631`):
+  - `src/components/track/track-card-new/variants/EnhancedVariant.tsx` — символ `✓` → `<Check>` с текстом «Подписка»
+  - `src/components/track/track-card-new/variants/GridVariant.tsx` — fallback `♪` → `<Music2>`
+  - `src/components/track/track-card-new/variants/ListVariant.tsx` — fallback `🎵` → `<Music2>`
+  - `src/components/hints/ContextualHint.tsx` — категорийные emoji (`🚀 ✨ 📁 👤 💬 ⚙️ 💡`) → `<Rocket> <Sparkles> <FolderOpen> <User> <MessageCircle> <Settings> <Lightbulb>`
+- **Touch-target ≥ 44×44px** на 3 ключевых сценариях:
+  - `CompactVariant.tsx` — more-menu кнопка `w-10 h-10` → `w-11 h-11 min-w-[44px] min-h-[44px]`
+  - `UnifiedTipCard.tsx` — close-button `h-8 w-8` → `h-11 w-11 min-[44px]`; «Понятно»/«Далее» получили `min-h-[44px]` на мобиле
+  - `ContextualHint.tsx` — close + action + «Не показывать» кнопки приведены к 44px на мобиле (`md:` снижает до компактного)
+- **Raw color tokens → semantic** (`text-white`/`bg-black`/`from-black`):
+  - `EnhancedVariant.tsx` — `text-white` (4× на like/plus/follow/share) → `text-foreground`; `from-black/70 via-black/10` → `from-foreground/70 via-foreground/10`
+  - `GridVariant.tsx` — `bg-red-500/20 text-red-500` swipe-like indicator → `bg-primary/20 text-primary`
+  - `CompactPlayer.tsx` — `ring-white/10` → `ring-border/30`; `shadow-black/10` → `shadow-foreground/10`
+
+#### Изменено
+
+- `src/components/track/track-card-new/variants/ListVariant.tsx` — удалён дубль `useTrackCardState()` (две подписки на один стейт вместо одной); `isOwnTrack` теперь из основной деструктуризации
+- `src/components/track/track-card-new/types.ts` — без изменений (типы уже правильные после Sprint 038)
+
+#### Верификация
+
+- `npx tsc --noEmit -p tsconfig.app.json` → exit 0 (0 errors)
+- ESLint changed files → 0 errors, 13 pre-existing warnings (не связаны с правками)
+- Grep подтвердил отсутствие `text-white|bg-white|text-black|bg-black|ring-white|shadow-black|from-black|from-white` и emoji-as-icons во всех изменённых файлах
+- pre-commit hooks пройдены (Section tokens / eslint / prettier / tsc / commitlint)
+
 ### 🔧 Спринт 044 — Type Safety Wave 2 (2026-07-02)
 
 #### Изменено
