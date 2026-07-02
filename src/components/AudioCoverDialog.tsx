@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload, Loader2, Mic, ChevronDown, ChevronUp, Disc } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -23,6 +22,7 @@ import { PromptValidationAlert } from "@/components/generate-form/PromptValidati
 import { AudioReferencePreview } from "@/components/audio/AudioReferencePreview";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
+import { useSunoUploadCover } from "@/hooks/studio/useSunoUploadCover";
 interface AudioCoverDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -82,6 +82,8 @@ export const AudioCoverDialog = ({
     enabled: !isSubmitDisabled,
     visible: open,
   });
+
+  const uploadCoverMutation = useSunoUploadCover();
 
   async function handleSubmitWithProgress() {
     showProgress(true);
@@ -225,24 +227,22 @@ export const AudioCoverDialog = ({
         reader.onerror = reject;
       });
 
-      const { data, error } = await supabase.functions.invoke("suno-upload-cover", {
-        body: {
-          audioFile: {
-            name: audioFile.name,
-            type: audioFile.type,
-            data: reader.result,
-          },
-          audioDuration,
-          model,
-          customMode: true,
-          instrumental,
-          style,
-          title: title || "Кавер",
-          prompt: instrumental ? undefined : lyrics,
-          negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender === "auto" ? undefined : vocalGender,
-          projectId,
+      const { error } = await uploadCoverMutation.mutateAsync({
+        audioFile: {
+          name: audioFile.name,
+          type: audioFile.type,
+          data: reader.result as string | ArrayBuffer | null,
         },
+        audioDuration,
+        model,
+        customMode: true,
+        instrumental,
+        style,
+        title: title || "Кавер",
+        prompt: instrumental ? undefined : lyrics,
+        negativeTags: negativeTags || undefined,
+        vocalGender: vocalGender === "auto" ? undefined : vocalGender,
+        projectId,
       });
 
       if (error) throw error;

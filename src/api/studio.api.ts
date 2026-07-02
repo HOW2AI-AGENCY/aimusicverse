@@ -473,6 +473,51 @@ export async function invokeAddVocals(payload: {
   return { data, error };
 }
 
+// ============= Upload Cover / Extend (Suno file uploads) =============
+
+export interface SunoUploadAudioFile {
+  name: string;
+  type: string;
+  data: string | ArrayBuffer | null;
+}
+
+export async function invokeSunoUploadCover(payload: {
+  audioFile: SunoUploadAudioFile;
+  audioDuration: number;
+  model?: string;
+  customMode?: boolean;
+  instrumental?: boolean;
+  style?: string;
+  title?: string;
+  prompt?: string;
+  negativeTags?: string;
+  vocalGender?: string;
+  projectId?: string;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-upload-cover", { body: payload });
+  return { data, error };
+}
+
+export async function invokeSunoUploadExtend(payload: {
+  audioFile: SunoUploadAudioFile;
+  audioDuration: number;
+  model?: string;
+  customMode?: boolean;
+  instrumental?: boolean;
+  style?: string;
+  title?: string;
+  prompt?: string;
+  continueAt: number;
+  negativeTags?: string;
+  vocalGender?: string;
+  projectId?: string;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-upload-extend", { body: payload });
+  return { data, error };
+}
+
 // ============= MIDI Export =============
 
 export async function invokeExportMidi(payload: {

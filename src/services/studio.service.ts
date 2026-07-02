@@ -598,6 +598,75 @@ export async function addVocals(
   }
 }
 
+// ============= Upload Cover / Extend =============
+
+export interface SunoUploadParams {
+  audioFile: studioApi.SunoUploadAudioFile;
+  audioDuration: number;
+  model?: string;
+  customMode?: boolean;
+  instrumental?: boolean;
+  style?: string;
+  title?: string;
+  prompt?: string;
+  negativeTags?: string;
+  vocalGender?: string;
+  projectId?: string;
+}
+
+export interface SunoUploadExtendParams extends SunoUploadParams {
+  continueAt: number;
+}
+
+export async function sunoUploadCover(params: SunoUploadParams): Promise<{ data: unknown; error: Error | null }> {
+  try {
+    const { data, error } = await studioApi.invokeSunoUploadCover({
+      audioFile: params.audioFile,
+      audioDuration: params.audioDuration,
+      model: params.model,
+      customMode: params.customMode,
+      instrumental: params.instrumental,
+      style: params.style,
+      title: params.title,
+      prompt: params.prompt,
+      negativeTags: params.negativeTags,
+      vocalGender: params.vocalGender,
+      projectId: params.projectId,
+    });
+    if (error) return { data: null, error: new Error(error.message) };
+    return { data, error: null };
+  } catch (err) {
+    logger.error("Error in sunoUploadCover", err);
+    return { data: null, error: err as Error };
+  }
+}
+
+export async function sunoUploadExtend(
+  params: SunoUploadExtendParams,
+): Promise<{ data: unknown; error: Error | null }> {
+  try {
+    const { data, error } = await studioApi.invokeSunoUploadExtend({
+      audioFile: params.audioFile,
+      audioDuration: params.audioDuration,
+      model: params.model,
+      customMode: params.customMode,
+      instrumental: params.instrumental,
+      style: params.style,
+      title: params.title,
+      prompt: params.prompt,
+      continueAt: params.continueAt,
+      negativeTags: params.negativeTags,
+      vocalGender: params.vocalGender,
+      projectId: params.projectId,
+    });
+    if (error) return { data: null, error: new Error(error.message) };
+    return { data, error: null };
+  } catch (err) {
+    logger.error("Error in sunoUploadExtend", err);
+    return { data: null, error: err as Error };
+  }
+}
+
 // ============= Telegram Notifications (from midi/notes card) =============
 
 export interface TelegramDocumentSharePayload {
