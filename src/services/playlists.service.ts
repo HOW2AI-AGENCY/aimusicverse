@@ -81,3 +81,34 @@ export async function duplicatePlaylist(
 
   return newPlaylist;
 }
+
+// ==========================================
+// EditPlaylistDialog — generate playlist cover
+// ==========================================
+
+import { supabase } from "@/integrations/supabase/client";
+
+export interface GeneratePlaylistCoverParams {
+  playlistTitle: string;
+  trackCount?: number | null;
+}
+
+export interface GeneratePlaylistCoverResponse {
+  data: { imageUrl?: string } | null;
+  error: { message: string } | null;
+}
+
+/**
+ * Invoke the generate-playlist-cover edge function to create a cover
+ * image for a playlist.
+ */
+export async function invokeGeneratePlaylistCover(
+  params: GeneratePlaylistCoverParams,
+): Promise<GeneratePlaylistCoverResponse> {
+  return supabase.functions.invoke("generate-playlist-cover", {
+    body: {
+      playlistTitle: params.playlistTitle,
+      trackCount: params.trackCount,
+    },
+  });
+}

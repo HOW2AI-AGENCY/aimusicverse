@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { usePlaylists, type Playlist } from "@/hooks/usePlaylists";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeGeneratePlaylistCover } from "@/services/playlists.service";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 
@@ -43,11 +43,9 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
 
     setIsGeneratingCover(true);
     try {
-      const { data, error } = await supabase.functions.invoke("generate-playlist-cover", {
-        body: {
-          playlistTitle: title,
-          trackCount: playlist?.track_count,
-        },
+      const { data, error } = await invokeGeneratePlaylistCover({
+        playlistTitle: title,
+        trackCount: playlist?.track_count,
       });
 
       if (error) throw error;
@@ -96,11 +94,7 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             Отмена
           </Button>
-          <Button
-            type="submit"
-            form="edit-playlist-form"
-            disabled={!title.trim() || isSubmitting}
-          >
+          <Button type="submit" form="edit-playlist-form" disabled={!title.trim() || isSubmitting}>
             {isSubmitting ? "Сохранение..." : "Сохранить"}
           </Button>
         </div>
