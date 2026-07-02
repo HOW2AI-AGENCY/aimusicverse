@@ -78,6 +78,31 @@ export async function isCurrentUserAdmin(): Promise<boolean> {
 }
 
 // ==========================================
+// Admin messaging
+// ==========================================
+
+/**
+ * Send an admin-authored message to a list of selected users.
+ *
+ * Returns the number of recipients the server reported as sent. When the
+ * server omits the count we fall back to the request size so the caller can
+ * still display a meaningful toast.
+ */
+export async function sendAdminMessageToUsers(payload: {
+  userIds: string[];
+  title?: string;
+  message: string;
+}): Promise<{ sent: number }> {
+  const data = await adminApi.invokeSendAdminMessage({
+    userIds: payload.userIds,
+    title: payload.title,
+    message: payload.message,
+  });
+  const sent = (data as { sent?: number }).sent ?? payload.userIds.length;
+  return { sent };
+}
+
+// ==========================================
 // User Management
 // ==========================================
 

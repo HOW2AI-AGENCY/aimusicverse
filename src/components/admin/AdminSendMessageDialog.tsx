@@ -5,12 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Send, MessageSquare, X } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { logger } from "@/lib/logger";
+import { useSendAdminMessage } from "@/hooks/admin/useSendAdminMessage";
 
 interface User {
   user_id: string;
@@ -36,7 +36,8 @@ export function AdminSendMessageDialog({
 }: AdminSendMessageDialogProps) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+
+  const sendMessage = useSendAdminMessage();
 
   const handleSubmit = async () => {
     if (!message.trim()) {
@@ -49,22 +50,13 @@ export function AdminSendMessageDialog({
       return;
     }
 
-    setIsLoading(true);
     try {
-      // Send messages via edge function — the function resolves
-      // telegram_chat_id server-side using service role; the client never
-      // touches that sensitive column.
-      const { data, error } = await supabase.functions.invoke("send-admin-message", {
-        body: {
-          user_ids: selectedUsers.map((u) => u.user_id),
-          title: title.trim() || undefined,
-          message: message.trim(),
-        },
+      const { sent } = await sendMessage.mutateAsync({
+        userIds: selectedUsers.map((u) => u.user_id),
+        title: title.trim() || undefined,
+        message: message.trim(),
       });
 
-      if (error) throw error;
-
-      const sent = (data as { sent?: number } | null)?.sent ?? selectedUsers.length;
       toast.success(`Сообщение отправлено ${sent} пользователям`);
       setTitle("");
       setMessage("");
@@ -73,10 +65,10 @@ export function AdminSendMessageDialog({
     } catch (error: unknown) {
       logger.error("Send message error", error instanceof Error ? error : new Error(String(error)));
       toast.error("Ошибка при отправке сообщения");
-    } finally {
-      setIsLoading(false);
     }
   };
+
+  const isLoading = sendMessage.isPending;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

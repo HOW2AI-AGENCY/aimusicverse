@@ -241,6 +241,27 @@ export async function invokeAdminBroadcast(payload: {
 }
 
 /**
+ * Send an admin-authored message to a list of selected users via the
+ * send-admin-message edge function. The server resolves telegram_chat_id
+ * using its service-role key; the client only passes user_ids.
+ */
+export async function invokeSendAdminMessage(payload: {
+  userIds: string[];
+  title?: string;
+  message: string;
+}): Promise<{ sent?: number } & Record<string, unknown>> {
+  const { data, error } = await supabase.functions.invoke("send-admin-message", {
+    body: {
+      user_ids: payload.userIds,
+      title: payload.title,
+      message: payload.message,
+    },
+  });
+  if (error) throw new Error(error.message);
+  return (data as { sent?: number } & Record<string, unknown>) ?? {};
+}
+
+/**
  * Fetch the list of all users with current credit balances —
  * used by bulk-credit admin actions.
  */
