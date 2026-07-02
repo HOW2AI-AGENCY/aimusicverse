@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Loader2, Music, Mic2, Volume2, FileText, Info } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Track } from "@/types/track";
 import { TrackStem } from "@/hooks/useTrackStems";
@@ -15,6 +14,7 @@ import { logger } from "@/lib/logger";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useAddInstrumental } from "@/hooks/studio/useAddInstrumental";
 
 interface NewArrangementDialogProps {
   open: boolean;
@@ -25,6 +25,7 @@ interface NewArrangementDialogProps {
 
 export const NewArrangementDialog = ({ open, onOpenChange, track, vocalStem }: NewArrangementDialogProps) => {
   const isMobile = useIsMobile();
+  const addInstrumentalMutation = useAddInstrumental();
   const [prompt, setPrompt] = useState("");
   const [customMode, setCustomMode] = useState(false);
   const [style, setStyle] = useState(track.style || "");
@@ -67,21 +68,20 @@ export const NewArrangementDialog = ({ open, onOpenChange, track, vocalStem }: N
       const effectiveStyle = customMode && style ? style : track.style || "pop, instrumental";
       const effectivePrompt = prompt || "Создать новую профессиональную аранжировку для этого вокала";
 
-      const { data, error } = await supabase.functions.invoke("suno-add-instrumental", {
-        body: {
-          audioUrl: vocalStem.audio_url,
+      const { error } = await addInstrumentalMutation.mutateAsync({
+        audioUrl: vocalStem.audio_url,
+        style: effectiveStyle,
+        title: effectiveTitle,
+        negativeTags: "acapella, vocals only, karaoke, low quality",
+        audioWeight: 0.8,
+        styleWeight: 0.55,
+        weirdnessConstraint: 0.25,
+        model: "V4_5PLUS",
+        extras: {
           prompt: effectivePrompt,
           customMode,
-          style: effectiveStyle,
-          title: effectiveTitle,
-          negativeTags: "acapella, vocals only, karaoke, low quality",
           projectId: track.project_id,
           originalTrackId: track.id,
-          // Critical weights for following the vocal
-          audioWeight: 0.8,
-          styleWeight: 0.55,
-          weirdnessConstraint: 0.25,
-          model: "V4_5PLUS",
         },
       });
 
