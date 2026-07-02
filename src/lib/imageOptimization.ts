@@ -406,7 +406,7 @@ export function preloadImages(urls: string[], priority = false): Promise<void[]>
 
           // Use fetchpriority for critical images
           if (priority && "fetchPriority" in img) {
-            (img as any).fetchPriority = "high";
+            (img as any).fetchPriority = "high"; // eslint-disable-line @typescript-eslint/no-explicit-any -- fetchPriority not in TS HTMLImageElement type yet
           }
 
           img.onload = async () => {
@@ -439,6 +439,7 @@ export function preloadNextImages(currentIndex: number, allUrls: string[], count
     // Use requestIdleCallback for non-critical preloading
     if ("requestIdleCallback" in window) {
       (window as any).requestIdleCallback(() => {
+        // eslint-disable-line @typescript-eslint/no-explicit-any -- requestIdleCallback not yet in TS lib.dom
         preloadImages(nextUrls, false).catch(() => {});
       });
     } else {

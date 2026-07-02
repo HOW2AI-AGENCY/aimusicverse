@@ -24,6 +24,32 @@
 
 ## [Unreleased]
 
+### 🔧 Спринт 044 — Type Safety Wave 2 (2026-07-02)
+
+#### Изменено
+
+- **`any` в `src/components/**` 155 → 0** в 37 файлах (5 коммитов):
+  - `1016b3db` — `src/components/ui` примитивы (LazyImage, GlowButton, …)
+  - `996f0846` — `src/components/{player, track-card, track-actions}`
+  - `927d22f3` — `src/components/studio/**`
+  - `7f344eed` — `src/components/generate-form/**`
+  - `134231b8` — `src/components/{project, prompt-dj, shared, lyrics-ai-agent}`
+  - `cd2c759d` — оставшиеся 23 файла в `src/components/**`
+- **3 сервиса → `Result<T,E>`** (`@/lib/result`), throwing-обёртки сохранены для backward compat:
+  - `991566ce` — `VoiceCloneService` (8 публичных методов, новый `VoiceCloneServiceError`)
+  - `6074e64e` — `AudioAnalysisService` (4 публичных + 1 internal метод, новый `AudioAnalysisServiceError`; хук `useUnifiedAnalysis` обновлён)
+  - `0852cb8c` — `ReferenceManager` (3 публичных метода, новый `ReferenceManagerError`)
+
+#### Добавлено
+
+- **+45 unit-тестов** для сервисов с `Result<T,E>`:
+  - `src/services/voice/__tests__/VoiceCloneService.test.ts` — 23 теста
+  - `src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts` — 11 тестов
+  - `src/services/audio-reference/__tests__/ReferenceManager.test.ts` — 11 тестов
+- **Доменные error-классы** с `code`, `operation`/`provider`/`mode`, `details`, `cause`: `VoiceCloneServiceError`, `AudioAnalysisServiceError`, `ReferenceManagerError`
+- **`.superpowers/sdd/briefs/D5-report.md`** — отчёт по сужению `any` в `src/components/**`
+- **`.superpowers/sdd/briefs/D6-report.md`** — отчёт по конвертации 3 сервисов на `Result<T,E>`
+
 ### 🏗 Спринт 039 — Layer Architecture & Type Safety (2026-06-30)
 
 #### Изменено
@@ -44,8 +70,6 @@
 #### Исправлено
 
 - Pre-existing TS-поломки (`withHistory`, `useProjectStore`, `StudioNotationPanel`, `ProjectSettingsSheet`, `studio.api`, `profiles.api`) — `tsc --noEmit` снова зелёный.
-
-
 
 ### 🎨 Спринт 038 — Design System Unification (2026-06-30)
 
@@ -265,10 +289,10 @@
 
 ### 🔗 Связанная документация
 
-|            📚 Указатель             |      🗺 Дорожная карта       |          📊 Статус          |             🪲 Проблемы             |         🤝 Контрибуция         |
+|            📚 Указатель             |       🗺 Дорожная карта       |          📊 Статус          |             🪲 Проблемы             |         🤝 Контрибуция         |
 | :---------------------------------: | :--------------------------: | :-------------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Статус](PROJECT_STATUS.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-06-29</sub>
+<sub>Последнее обновление: 2026-07-02</sub>
 
 </div>

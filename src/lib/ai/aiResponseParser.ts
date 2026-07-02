@@ -88,6 +88,7 @@ export function extractJSON<T>(content: string): T | null {
  * Parse full analysis response with validation
  */
 export function parseFullAnalysis(content: string): ExpandedAnalysisData | null {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Untyped JSON shape from LLM; we narrow field-by-field below
   const data = extractJSON<any>(content);
   if (!data) return null;
 
@@ -134,6 +135,7 @@ export function parseFullAnalysis(content: string): ExpandedAnalysisData | null 
  * Parse producer review response with validation
  */
 export function parseProducerReview(content: string): ProducerReviewData | null {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Untyped JSON shape from LLM; we narrow field-by-field below
   const data = extractJSON<any>(content);
   if (!data) return null;
 
@@ -178,6 +180,7 @@ export function parseProducerReview(content: string): ProducerReviewData | null 
  */
 export function parseLyricsResponse(content: string): ParsedLyricsResponse | null {
   // First try to extract JSON
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Untyped JSON shape from LLM; we narrow field-by-field below
   const data = extractJSON<any>(content);
 
   if (data?.lyrics) {
@@ -206,12 +209,14 @@ export function parseLyricsResponse(content: string): ParsedLyricsResponse | nul
  * Universal AI response parser based on action type
  */
 export function parseAIResponse(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Universal parser accepts heterogeneous LLM payloads
   data: any,
   action: string,
 ): {
   type: string;
   message: string;
   lyrics?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Returned passthrough of caller-supplied payload
   data?: any;
   expandedAnalysis?: ExpandedAnalysisData;
   keyInsights?: string[];
@@ -268,6 +273,7 @@ export function parseAIResponse(
 
   // If data is string, try to parse
   if (typeof data === "string") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Recursive parse of LLM-provided string content; shape unknown
     const parsed = extractJSON<any>(data);
     if (parsed) {
       return parseAIResponse(parsed, action);
@@ -298,6 +304,7 @@ export function parseChatResponse(content: string): {
   stylePrompt?: string;
   changes?: string[];
 } {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Untyped JSON shape from chat LLM; we narrow field-by-field below
   const data = extractJSON<any>(content);
 
   if (data) {

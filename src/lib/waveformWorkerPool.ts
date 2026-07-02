@@ -177,7 +177,7 @@ class WaveformWorkerPool {
       const response = await fetch(audioUrl);
       const arrayBuffer = await response.arrayBuffer();
 
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Webkit fallback lacks types in TS lib
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
       audioContext.close();
 

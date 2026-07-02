@@ -48,7 +48,9 @@ bootLog(`URL: ${window.location.href}`);
 bootLog(`Telegram WebApp available: ${!!window.Telegram?.WebApp}`);
 
 // Expose boot log globally for debugging
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Debug-only window augmentation for DevTools hooks
 (window as any).__BOOT_LOG = BOOT_LOG;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Debug-only window augmentation for DevTools hooks
 (window as any).__getBootLog = () => BOOT_LOG.join("\n");
 
 // Initialize error tracking

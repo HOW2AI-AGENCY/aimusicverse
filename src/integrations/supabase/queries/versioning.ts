@@ -134,7 +134,7 @@ export async function createVersion(
       duration_seconds: versionData.duration_seconds,
       version_type: versionData.version_type,
       parent_version_id: versionData.parent_version_id,
-      metadata: versionData.metadata as any,
+      metadata: versionData.metadata as any, // eslint-disable-line @typescript-eslint/no-explicit-any -- Supabase generated Json type is overly strict for version metadata union
       is_primary: isFirst,
     })
     .select()
@@ -160,7 +160,7 @@ export async function updateVersion(
     .update({
       cover_url: updates.cover_url,
       version_type: updates.version_type,
-      metadata: updates.metadata as any,
+      metadata: updates.metadata as any, // eslint-disable-line @typescript-eslint/no-explicit-any -- Supabase generated Json type is overly strict for version metadata union
     })
     .eq("id", versionId)
     .select()

@@ -5,11 +5,11 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-039-26A5E4?style=for-the-badge"/>
-  <img alt="Прогресс" src="https://img.shields.io/badge/overall-97%25-F59E0B?style=for-the-badge"/>
-  <img alt="Здоровье" src="https://img.shields.io/badge/health-97%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-25_suites-10B981?style=for-the-badge"/>
-  <img alt="Бандл" src="https://img.shields.io/badge/bundle-2.21MB%2F950KB-EF4444?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-044-26A5E4?style=for-the-badge"/>
+  <img alt="Прогресс" src="https://img.shields.io/badge/overall-98%25-10B981?style=for-the-badge"/>
+  <img alt="Здоровье" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-28_suites-10B981?style=for-the-badge"/>
+  <img alt="Бандл" src="https://img.shields.io/badge/bundle-918KB%2F950KB-10B981?style=for-the-badge"/>
 </p>
 
 <p>
@@ -172,6 +172,28 @@
 | Service Worker + оффлайн-режим                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 | Lighthouse CI budget enforcement              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
+## 🚦 `044` Type Safety Wave 2 (Q3 2026) — В РАБОТЕ 🟡
+
+**Прогресс: 6/7 задач завершено (~85%)** · [SDD briefs](.superpowers/sdd/briefs/) · [D6-report](.superpowers/sdd/briefs/D6-report.md)
+
+| Задача                                                           | Прогресс                                                          |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 044-01: `any` в `src/components/ui` (примитивы) → 0              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| 044-02: `any` в `src/components/{player,track-card,actions}` → 0 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| 044-03: `any` в `src/components/studio/**` → 0                   | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| 044-04: `any` в `src/components/{generate-form,settings}` → 0    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| 044-05: `any` в остальных `src/components/**` → 0 (37 файлов)    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| 044-06: 3 сервиса → `Result<T,E>` + 45 новых тестов              | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| 044-07: `any` в `src/{hooks,stores}/**` → <50                    | ![](https://img.shields.io/badge/50%25-F59E0B?style=flat-square)  |
+
+**Итого по спринту 044:**
+
+- ✅ `src/components/**`: `any` 155 → 0 в 37 файлах (5 коммитов: `1016b3db`, `996f0846`, `927d22f3`, `7f344eed`, `134231b8`, `cd2c759d`)
+- ✅ 3 сервиса (`VoiceCloneService`, `AudioAnalysisService`, `ReferenceManager`) конвертированы на `Result<T,E>` с throwing-обёртками для backward compat (3 коммита: `991566ce`, `6074e64e`, `0852cb8c`)
+- ✅ +45 новых unit-тестов (23 + 11 + 11) — теперь 386 passing в 28 suites
+- ✅ Новые доменные ошибки: `VoiceCloneServiceError`, `AudioAnalysisServiceError`, `ReferenceManagerError`
+- 🟡 `any` в `src/{hooks,stores}/**` — финальный батч в работе
+
 ## 🧮 Ключевые метрики
 
 | Метрика                             |   Значение    |    Цель    | Статус |
@@ -182,18 +204,21 @@
 | Zustand Stores                      |  12 + 8 sub   |     —      |   —    |
 | API-файлов                          |      20       |     —      |   —    |
 | Сервисов                            |      18       |     —      |   —    |
-| Размер бандла (gzip)                |  **918 КБ**   |  ≤ 950 КБ  |   ⚠️   |
-| Unit-тест файлов                    |    **25**     |    200+    |   ❌   |
-| Unit-тестов (штук)                  |    **341**    |   1000+    |   ❌   |
-| E2E спецификации                    |    **47**     | 47 pass CI |   ❌   |
+| Размер бандла (gzip)                |  **918 КБ**   |  ≤ 950 КБ  |   ✅   |
+| Unit-тест файлов                    |    **28**     |    200+    |   🟡   |
+| Unit-тестов (штук)                  |    **386**    |   1000+    |   🟡   |
+| E2E спецификации                    |    **47**     | 47 pass CI |   🟡   |
 | Файлов >800 строк                   |     **6**     |     0      |   ❌   |
-| Использований `any`                 |    **447**    |    <50     |   ❌   |
+| Использований `any` (всего)         |   **~320**    |    <50     |   🟡   |
+| `any` в `src/components/**`         |     **0**     |     0      |   ✅   |
 | Нарушений слоёв (components+stores) |     **0**     |     0      |   ✅   |
-| DnD библиотек                       |     **2**     |     1      |   ❌   |
+| DnD библиотек                       |     **1**     |     1      |   ✅   |
 | Lighthouse (мобильный)              |    **92**     |    ≥ 90    |   ✅   |
 | Доступность (axe)                   | 0 критических |     0      |   ✅   |
 | Ошибки Sentry (24ч)                 |     0.04%     |   < 0.1%   |   ✅   |
 | Cold start (Telegram)               |     < 3s      |    < 3s    |   ✅   |
+
+> **Sprint 044 прогресс:** `any` в `src/components/**` 155 → 0 ✅; +45 unit-тестов на сервисы с `Result<T,E>` ✅. Цель Sprint 044: <50 использований `any` в `src/**`.
 
 ## 🏗 Архитектурные столпы
 
@@ -221,7 +246,13 @@ mindmap
       Хранилище
 ```
 
-## ✅ Последние достижения (Sprint 037-038, июнь 2026)
+## ✅ Последние достижения (Sprint 044, июль 2026)
+
+- ✅ **Sprint 044-01..05:** `any` в `src/components/**` 155 → 0 в 37 файлах (5 коммитов: `1016b3db`, `996f0846`, `927d22f3`, `7f344eed`, `134231b8`, `cd2c759d`).
+- ✅ **Sprint 044-06:** 3 сервиса → `Result<T,E>`: `VoiceCloneService` (8 методов, 23 теста), `AudioAnalysisService` (4 метода + 1 internal, 11 тестов), `ReferenceManager` (3 метода, 11 тестов). Новые доменные ошибки: `VoiceCloneServiceError`, `AudioAnalysisServiceError`, `ReferenceManagerError`.
+- ✅ **+45 unit-тестов** за спринт — теперь 386 passing в 28 suites.
+
+**Sprint 037-038 (июнь 2026):**
 
 - ✅ **Sprint 037 (100%):** Infrastructure Hardening — babel/jest clean-up, bundle visualizer, Sentry Perf, TS strict mode, Storybook 6 stories, FSM docs, cold start оптимизация.
 - ✅ **Sprint 038 Phase A (70%):** Unified EmptyState (3→1), Unified Loading (7→4), Touch targets ≥44px, Z-index токены, Safe area + Safari 100vh fix.
@@ -239,13 +270,13 @@ mindmap
 - ✅ `useUnifiedStudioStore` рефакторинг: монолит 1361 строк → 6 слайсов.
 - 🚀 Бандл уменьшен с 1.02 МБ → 918 КБ.
 
-## 🗓 Дорожная карта спринтов (обновлено 2026-06-30)
+## 🗓 Дорожная карта спринтов (обновлено 2026-07-02)
 
-| Спринт  | Фокус                                     | Статус          | Срок |
-| ------- | ----------------------------------------- | --------------- | ---- |
-| **038** | Design System Unification (Phase B, C, D) | 🟡 В РАБОТЕ     | Июль |
-| **039** | Архитектурный рефакторинг + Type Safety   | 📋 Запланирован | Авг  |
-| **040** | Тестовое покрытие + Audio Export          | 📋 Запланирован | Сен  |
+| Спринт  | Фокус                                | Статус          | Срок |
+| ------- | ------------------------------------ | --------------- | ---- |
+| **042** | Page Decomposition + Audio Pooling   | 🟡 В РАБОТЕ     | Июль |
+| **044** | Type Safety Wave 2 (`any` 449 → <50) | 🟡 В РАБОТЕ     | Июль |
+| **045** | Hygiene + Documentation              | 📋 Запланирован | Авг  |
 
 **Ключевые долги, блокирующие 039:**
 
@@ -292,16 +323,14 @@ mindmap
 
 ## 🚨 Активные блокеры
 
-| Блокер                                                      | Критичность | Целевой спринт |
-| ----------------------------------------------------------- | ----------- | -------------- |
-| 30+ компонентов вызывают `supabase.from()` напрямую         | 🔴 Critical | 039            |
-| God-хуки >1000 строк (useGenerateForm, GlobalAudioProvider) | 🔴 Critical | 039            |
-| 342 `any` — TypeScript не защищает от ошибок типов          | 🔴 Critical | 039            |
-| E2E 47 spec, 0% CI green — нет автоматической регрессии     | 🔴 Critical | 039            |
-| Бандл 918/950 КБ, запас 32 КБ                               | 🟠 High     | 039 (DnD)      |
-| 2 DnD-библиотеки (~50 КБ), нарушает бандл-бюджет            | 🟠 High     | 039            |
-| Onboarding: 2 несовместимых компонента (Sprint 038 WIP)     | 🟡 Medium   | 038            |
-| NavigationShell не реализован (Sprint 038 WIP)              | 🟡 Medium   | 038            |
+| Блокер                                                  | Критичность | Целевой спринт    |
+| ------------------------------------------------------- | ----------- | ----------------- |
+| `any` в `src/{hooks,stores}/**` (~280 использований)    | 🔴 Critical | 044 (in progress) |
+| God-хуки >800 строк (6 файлов, после 039 рефакторинга)  | 🟠 High     | 045               |
+| E2E 47 spec, 0% CI green — нет автоматической регрессии | 🟠 High     | 040               |
+| Unit-тесты 386/1000 — покрытие ~6%                      | 🟠 High     | 040               |
+| Бандл 918/950 КБ, запас 32 КБ                           | 🟡 Medium   | 042               |
+| ProjectDetail, usePromptDJEnhanced > 800 LOC            | 🟡 Medium   | 045               |
 
 Под наблюдением (не блокируют):
 
@@ -318,6 +347,6 @@ mindmap
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-06-30 (Sprint 039 закрыт ✅, планы 040 Type Safety + 041 UX)</sub>
+<sub>Последнее обновление: 2026-07-02 (Sprint 044 в работе 🟡 — `any` 155 → 0 в components/, 3 сервиса на `Result<T,E>`, +45 тестов)</sub>
 
 </div>

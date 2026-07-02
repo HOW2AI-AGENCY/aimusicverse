@@ -85,7 +85,9 @@ interface TelegramWebApp {
   disableVerticalSwipes?: () => void;
 
   // Events
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp event payloads are not typed in @twa-dev/sdk 8.x
   onEvent?: (eventType: string, callback: (data?: any) => void) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp event payloads are not typed in @twa-dev/sdk 8.x
   offEvent?: (eventType: string, callback: (data?: any) => void) => void;
 
   // Popups

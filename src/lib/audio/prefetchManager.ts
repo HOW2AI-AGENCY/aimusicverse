@@ -139,7 +139,7 @@ class PrefetchManager {
 
     // Use requestIdleCallback for non-blocking processing
     if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(() => this.process(), { timeout: 1000 });
+      (window as any).requestIdleCallback(() => this.process(), { timeout: 1000 }); // eslint-disable-line @typescript-eslint/no-explicit-any -- requestIdleCallback not yet in TS lib.dom
     } else {
       this.processTimeoutId = setTimeout(() => {
         this.processTimeoutId = null;

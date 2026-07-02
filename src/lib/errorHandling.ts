@@ -349,6 +349,7 @@ export function getErrorCodeInfo(errorCode: string): ErrorCodeInfo | null {
 /**
  * Parse error response from generation API
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Generation API error responses have heterogeneous shapes; we narrow field-by-field
 export function parseGenerationError(response: any): GenerationErrorResponse {
   return {
     success: false,

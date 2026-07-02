@@ -53,8 +53,11 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
       const previousStart = new Date(startDate.getTime() - periodDays * 24 * 60 * 60 * 1000);
 
       // Fetch Stars transactions via API layer
-      const { current: transactions, previousSum: previousStars, newUsersInRange: newUsers } =
-        await fetchRevenueAnalyticsRaw({ startDate, previousStart });
+      const {
+        current: transactions,
+        previousSum: previousStars,
+        newUsersInRange: newUsers,
+      } = await fetchRevenueAnalyticsRaw({ startDate, previousStart });
 
       // Calculate metrics
       const totalStars = transactions.reduce((sum, t) => sum + (t.stars_amount || 0), 0);
@@ -197,7 +200,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                   />
                   <YAxis tick={{ fontSize: 10 }} width={40} />
                   <Tooltip
-                    formatter={(value: any, name: any) => [
+                    formatter={(value: number | string, name: string) => [
                       value.toLocaleString(),
                       name === "stars" ? "Stars" : "Транзакции",
                     ]}
@@ -249,7 +252,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: any) => [`${value.toLocaleString()} ⭐`, "Stars"]}
+                      formatter={(value: number | string) => [`${value.toLocaleString()} ⭐`, "Stars"]}
                       contentStyle={{
                         backgroundColor: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
@@ -287,7 +290,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                   width={70}
                 />
                 <Tooltip
-                  formatter={(value: any) => [`${value.toLocaleString()} ⭐`, "Stars"]}
+                  formatter={(value: number | string) => [`${value.toLocaleString()} ⭐`, "Stars"]}
                   contentStyle={{
                     backgroundColor: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",

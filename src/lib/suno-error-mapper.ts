@@ -352,6 +352,7 @@ const ERROR_MESSAGES: Record<SunoErrorCode, Omit<UserFriendlyError, "code" | "te
 /**
  * Detect error code from error object or message
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Accepts any thrown value (Error, string, plain object) for code detection
 export function detectErrorCode(error: any): SunoErrorCode {
   // Error code explicitly provided
   if (error.code && Object.values(SunoErrorCode).includes(error.code)) {
@@ -407,6 +408,7 @@ export function detectErrorCode(error: any): SunoErrorCode {
  * Map error to user-friendly format
  */
 export function mapSunoError(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Accepts any thrown value for Suno error mapping
   error: any,
   context?: {
     requiredCredits?: number;
@@ -446,6 +448,7 @@ export function mapSunoError(
 /**
  * Check if error is retryable
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Accepts any thrown value to test retryability
 export function isRetryableError(error: any): boolean {
   const mapped = mapSunoError(error);
   return mapped.retryable;
@@ -466,6 +469,7 @@ export class SunoError extends Error {
   constructor(
     public code: SunoErrorCode,
     message?: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Preserves original thrown value for diagnostics
     public originalError?: any,
   ) {
     super(message || ERROR_MESSAGES[code].message);
@@ -476,6 +480,7 @@ export class SunoError extends Error {
 /**
  * Create a SunoError from any error
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Accepts any thrown value for SunoError wrapping
 export function createSunoError(error: any): SunoError {
   const code = detectErrorCode(error);
   return new SunoError(code, error.message, error);

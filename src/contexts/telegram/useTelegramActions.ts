@@ -124,9 +124,10 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
 
   const showSettingsButton = (onClick: () => void) => {
     if (webApp && webApp.isVersionAtLeast?.("6.10") && (webApp as any).SettingsButton) {
+      // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type in @twa-dev/sdk 8.x
       try {
-        (webApp as any).SettingsButton.show();
-        (webApp as any).SettingsButton.onClick(onClick);
+        (webApp as any).SettingsButton.show(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
+        (webApp as any).SettingsButton.onClick(onClick); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
       } catch (error) {
         telegramLogger.debug("showSettingsButton failed", {
           error: error instanceof Error ? error.message : String(error),
@@ -137,9 +138,10 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
 
   const hideSettingsButton = () => {
     if (webApp && webApp.isVersionAtLeast?.("6.10") && (webApp as any).SettingsButton) {
+      // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
       try {
-        (webApp as any).SettingsButton.hide();
-        (webApp as any).SettingsButton.offClick(() => {});
+        (webApp as any).SettingsButton.hide(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
+        (webApp as any).SettingsButton.offClick(() => {}); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
       } catch (error) {
         telegramLogger.debug("hideSettingsButton failed", {
           error: error instanceof Error ? error.message : String(error),
@@ -383,7 +385,9 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
     options?: { text?: string; widget_link?: { url: string; name?: string } },
   ) => {
     if (webApp && (webApp as any).shareToStory) {
+      // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks shareToStory type
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks shareToStory type
         (webApp as any).shareToStory(mediaUrl, options);
       } catch (error) {
         telegramLogger.warn("shareToStory failed", {

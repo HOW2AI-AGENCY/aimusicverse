@@ -123,8 +123,9 @@ export function useTelegramInit(): UseTelegramInitResult {
 
       // Disable vertical swipes (requires SDK 7.7+)
       if (tg.isVersionAtLeast?.("7.7") && typeof (tg as any).disableVerticalSwipes === "function") {
+        // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableVerticalSwipes type
         try {
-          (tg as any).disableVerticalSwipes();
+          (tg as any).disableVerticalSwipes(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableVerticalSwipes type
           bootLog("Vertical swipes disabled");
         } catch (e) {
           bootLog(`disableVerticalSwipes error: ${e}`);
@@ -133,8 +134,9 @@ export function useTelegramInit(): UseTelegramInitResult {
 
       // Lock orientation (requires SDK 8.0+)
       if (tg.isVersionAtLeast?.("8.0") && typeof (tg as any).lockOrientation === "function") {
+        // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks lockOrientation type
         try {
-          (tg as any).lockOrientation();
+          (tg as any).lockOrientation(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks lockOrientation type
           bootLog("Orientation locked");
         } catch (e) {
           bootLog(`lockOrientation error: ${e}`);
@@ -144,8 +146,9 @@ export function useTelegramInit(): UseTelegramInitResult {
       // Disable closing confirmation (requires SDK 6.2+)
       // Phase 1.2: Added version check to prevent "not supported in version 6.0" warning
       if (tg.isVersionAtLeast?.("6.2") && typeof (tg as any).disableClosingConfirmation === "function") {
+        // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableClosingConfirmation type
         try {
-          (tg as any).disableClosingConfirmation();
+          (tg as any).disableClosingConfirmation(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableClosingConfirmation type
           bootLog("Closing confirmation disabled");
         } catch (e) {
           bootLog(`disableClosingConfirmation error: ${e}`);
@@ -154,8 +157,9 @@ export function useTelegramInit(): UseTelegramInitResult {
 
       // Request fullscreen (Mini App 8.0+)
       if (tg.isVersionAtLeast?.("8.0") && typeof (tg as any).requestFullscreen === "function") {
+        // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks requestFullscreen type
         try {
-          (tg as any).requestFullscreen();
+          (tg as any).requestFullscreen(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks requestFullscreen type
           bootLog("Fullscreen requested");
         } catch (e) {
           bootLog(`Fullscreen error: ${e}`);
@@ -284,7 +288,9 @@ function setupSafeAreaHandlers(tg: TelegramWebApp): SafeAreaHandlers {
       isApplyingInsets = true;
 
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks contentSafeAreaInset type
         const contentSafeArea = (tg as any).contentSafeAreaInset || { top: 0, bottom: 0, left: 0, right: 0 };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks safeAreaInset type
         const safeArea = (tg as any).safeAreaInset || { top: 0, bottom: 0, left: 0, right: 0 };
 
         if (
@@ -350,10 +356,12 @@ function setupSafeAreaHandlers(tg: TelegramWebApp): SafeAreaHandlers {
   const handleContentSafeAreaChanged = () => applySafeAreaInsets();
 
   if ((tg as any).viewportHeight) {
-    root.style.setProperty("--tg-viewport-height", `${(tg as any).viewportHeight}px`);
+    // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportHeight type
+    root.style.setProperty("--tg-viewport-height", `${(tg as any).viewportHeight}px`); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportHeight type
   }
   if ((tg as any).viewportStableHeight) {
-    root.style.setProperty("--tg-viewport-stable-height", `${(tg as any).viewportStableHeight}px`);
+    // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportStableHeight type
+    root.style.setProperty("--tg-viewport-stable-height", `${(tg as any).viewportStableHeight}px`); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportStableHeight type
   }
 
   tg.onEvent?.("viewportChanged", handleViewportChanged);

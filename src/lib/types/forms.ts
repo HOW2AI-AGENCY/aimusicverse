@@ -98,6 +98,7 @@ export interface AssistantFormActions {
   setStep: (step: number) => void;
   nextStep: () => void;
   previousStep: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Form field values are heterogeneous (string/number/array/object); narrowed at call sites
   updateField: (field: string, value: any) => void;
   updateOptions: (options: Partial<GenerationOptions>) => void;
   setReference: (reference: GenerationReference | null) => void;

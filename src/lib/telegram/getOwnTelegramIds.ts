@@ -20,7 +20,7 @@ export interface OwnTelegramIds {
 export async function getOwnTelegramIds(): Promise<OwnTelegramIds | null> {
   try {
     const { data, error } = await supabase
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase typed client lacks get_own_telegram_ids RPC overload
       .rpc("get_own_telegram_ids" as any);
 
     if (error) {

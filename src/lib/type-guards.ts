@@ -5,6 +5,7 @@
  */
 
 // Dialog type guards
+
 export function isModalDialogProps(
   props: any,
 ): props is import("@/components/dialog/unified-dialog.types").ModalDialogProps {

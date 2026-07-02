@@ -105,6 +105,7 @@ export function getActionIcon(
   actionId: ActionId,
   track: Track,
   state: TrackActionState,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Icon components accept arbitrary Lucide props; any keeps the type open for all icon variants
 ): { icon: React.ComponentType<any>; className?: string } | null {
   switch (actionId) {
     case "toggle_public":

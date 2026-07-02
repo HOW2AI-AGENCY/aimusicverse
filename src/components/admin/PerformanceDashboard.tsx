@@ -291,7 +291,7 @@ export function PerformanceDashboard() {
                       borderRadius: "8px",
                       fontSize: "12px",
                     }}
-                    formatter={(value: any) => [`${value.toFixed(0)} ms`, "Avg LCP"]}
+                    formatter={(value: number | string) => [`${value.toFixed(0)} ms`, "Avg LCP"]}
                   />
                   <Bar dataKey="avgLcp" radius={[0, 4, 4, 0]}>
                     {deviceBreakdown.map((entry, index) => (

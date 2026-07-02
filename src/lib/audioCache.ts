@@ -449,6 +449,7 @@ interface NetworkInformation {
  * Check network connection quality and suggest audio quality
  */
 export function getRecommendedQuality(): "high" | "medium" | "low" {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- NetworkInformation API is not yet in TypeScript lib.dom
   const connection = (navigator as any).connection as NetworkInformation | undefined;
   if (!connection) return "high";
 
@@ -463,6 +464,7 @@ export function getRecommendedQuality(): "high" | "medium" | "low" {
  * Check if we should prefetch based on network conditions
  */
 export function shouldPrefetch(): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- NetworkInformation API is not yet in TypeScript lib.dom
   const connection = (navigator as any).connection as NetworkInformation | undefined;
   if (!connection) return true;
 

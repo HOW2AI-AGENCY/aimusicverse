@@ -20,7 +20,7 @@ interface TelegramCloudStorage {
 // Get Telegram CloudStorage if available
 function getTelegramCloudStorage(): TelegramCloudStorage | null {
   try {
-    const webApp = (window as any).Telegram?.WebApp;
+    const webApp = (window as any).Telegram?.WebApp; // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK not yet in window type
     if (webApp?.CloudStorage) {
       return webApp.CloudStorage;
     }

@@ -2,12 +2,7 @@
 // Types for activity feed system
 
 export type ActivityType =
-  | "track_created"
-  | "track_liked"
-  | "comment_posted"
-  | "user_followed"
-  | "playlist_created"
-  | "track_added_to_playlist";
+  "track_created" | "track_liked" | "comment_posted" | "user_followed" | "playlist_created" | "track_added_to_playlist";
 
 export type EntityType = "track" | "comment" | "user" | "playlist";
 
@@ -17,6 +12,7 @@ export interface ActivityMetadata {
   commentContent?: string;
   playlistName?: string;
   playlistCoverUrl?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Activity metadata is heterogeneous; field-by-field typing would bloat the schema
   [key: string]: any;
 }
 

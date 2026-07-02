@@ -139,7 +139,7 @@ export function BotMenuItemForm({ open, onOpenChange, item, parentKey, existingK
     }
   }, [item, parentKey]);
 
-  const handleChange = (field: keyof CreateMenuItemInput, value: any) => {
+  const handleChange = (field: keyof CreateMenuItemInput, value: string | number | boolean | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 

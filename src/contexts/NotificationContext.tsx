@@ -72,7 +72,7 @@ function getGenerationStage(status: string): { stage: string; progress: number }
 function createNotificationSound(): () => void {
   return () => {
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Webkit fallback lacks types in TS lib
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -122,6 +122,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     if (!error && data) {
       // Filter out expired notifications client-side and cast to extended type
       const now = new Date();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase untyped select returns generic rows; narrowing via NotificationItem[]
       const validNotifications = (data as any[]).filter((n) => {
         if (!n.expires_at) return true;
         return new Date(n.expires_at) > now;
@@ -315,6 +316,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase realtime payload rows not yet typed by generated types
           const task = payload.new as any;
           const oldStatus = lastGenerationStatus.current.get(task.id);
 
@@ -472,7 +474,9 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase realtime payload rows not yet typed by generated types
           const track = payload.new as any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase realtime payload rows not yet typed by generated types
           const oldTrack = payload.old as any;
 
           // Check if streaming_url was just set (wasn't there before, is there now)

@@ -29,6 +29,7 @@ export interface GestureConfig {
   type: GestureType;
   priority: number;
   exclusive: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Gesture event payloads are heterogeneous across providers (pan/pinch/swipe)
   handler: (data: any) => void;
 }
 

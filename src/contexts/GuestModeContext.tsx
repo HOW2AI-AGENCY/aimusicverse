@@ -92,17 +92,22 @@ export const GuestModeProvider = ({ children }: { children: ReactNode }) => {
 
   // Expose to window for DevTools
   useEffect(() => {
+    // DevTools-only debug helpers attached to window. Not part of the public API.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Debug-only window augmentation for DevTools hooks
     (window as any).enableScreenshotMode = () => {
       setIsScreenshotMode(true);
       guestLogger.info("Screenshot mode enabled via DevTools");
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Debug-only window augmentation for DevTools hooks
     (window as any).disableScreenshotMode = () => {
       setIsScreenshotMode(false);
       guestLogger.info("Screenshot mode disabled via DevTools");
     };
 
     return () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Debug-only window augmentation for DevTools hooks
       delete (window as any).enableScreenshotMode;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Debug-only window augmentation for DevTools hooks
       delete (window as any).disableScreenshotMode;
     };
   }, []);
