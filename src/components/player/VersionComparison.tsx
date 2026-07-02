@@ -180,7 +180,7 @@ export function VersionComparison({ trackId, activeVersionId, onClose }: Version
           likes_count: 0,
         };
 
-        playTrack(versionTrack);
+        playTrack(versionTrack as unknown as Track);
         setPlayingVersion(versionId);
       }
     },

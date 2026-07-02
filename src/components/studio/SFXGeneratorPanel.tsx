@@ -20,6 +20,7 @@ import { pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
 import { useGenerateSfx } from "@/hooks/studio/useGenerateSfx";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SFXGeneratorPanelProps {
   onClose: () => void;
