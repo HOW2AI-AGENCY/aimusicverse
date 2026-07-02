@@ -25,21 +25,30 @@ const ActionChip = memo(function ActionChip({ icon: Icon, label, onClick, ariaLa
       onClick={onClick}
       aria-label={ariaLabel}
       className={cn(
-        "group flex flex-col items-center justify-center gap-1 min-h-[56px] px-2 rounded-xl",
-        "border transition-all duration-200 active:scale-[0.97] touch-manipulation",
+        "group relative flex flex-col items-center justify-center gap-1 min-h-[60px] px-2 rounded-xl",
+        "border transition-all duration-200 active:scale-[0.96] touch-manipulation",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "hover:-translate-y-0.5 hover:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.35)]",
         accent
-          ? "bg-primary/8 border-primary/25 hover:bg-primary/12 hover:border-primary/40"
-          : "bg-muted/30 border-border/50 hover:bg-muted/50 hover:border-border",
+          ? "bg-primary/10 border-primary/30 hover:bg-primary/15 hover:border-primary/50"
+          : "bg-muted/30 border-border/50 hover:bg-primary/8 hover:border-primary/40",
       )}
     >
       <Icon
         className={cn(
-          "w-[18px] h-[18px] transition-transform group-hover:scale-110",
-          accent ? "text-primary" : "text-muted-foreground",
+          "w-[18px] h-[18px] transition-transform duration-200 group-hover:scale-110 group-active:scale-95",
+          accent ? "text-primary" : "text-muted-foreground group-hover:text-primary",
         )}
         aria-hidden="true"
       />
-      <span className="text-[11px] leading-none font-semibold text-foreground/90 truncate max-w-full">{label}</span>
+      <span
+        className={cn(
+          "text-[11px] leading-none font-semibold truncate max-w-full transition-colors",
+          accent ? "text-foreground" : "text-foreground/90 group-hover:text-foreground",
+        )}
+      >
+        {label}
+      </span>
     </button>
   );
 });
