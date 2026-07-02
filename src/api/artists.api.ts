@@ -100,9 +100,10 @@ export async function deleteArtist(artistId: string): Promise<void> {
 export async function generateArtistPortrait(
   artistName: string,
   styleDescription?: string,
+  referenceImageUrl?: string,
 ): Promise<{ imageUrl: string }> {
   const { data, error } = await supabase.functions.invoke("generate-artist-portrait", {
-    body: { artistName, styleDescription },
+    body: { artistName, styleDescription, referenceImageUrl },
   });
 
   if (error) throw new Error(error.message);

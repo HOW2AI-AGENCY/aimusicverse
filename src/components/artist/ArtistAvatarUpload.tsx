@@ -2,12 +2,12 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Camera, Upload, Sparkles, Loader2, X, Image as ImageIcon } from "@/lib/icons";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { useGenerateArtistPortrait } from "@/hooks/artist/useGenerateArtistPortrait";
 
 interface ArtistAvatarUploadProps {
   avatarUrl: string | null;
@@ -32,6 +32,7 @@ export function ArtistAvatarUpload({
   const [isUploading, setIsUploading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [referenceImage, setReferenceImage] = useState<string | null>(null);
+  const generatePortraitMutation = useGenerateArtistPortrait();
 
   const handleFileUpload = async (file: File, isReference = false) => {
     if (!user?.id) {
@@ -44,7 +45,12 @@ export function ArtistAvatarUpload({
       const fileExt = file.name.split(".").pop();
       const fileName = `${user.id}/artist-avatar-${Date.now()}.${fileExt}`;
 
-      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "project-assets", path: fileName, file, upsert: true });
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "project-assets",
+        path: fileName,
+        file,
+        upsert: true,
+      });
 
       if (uploadError) throw uploadError;
 
@@ -73,18 +79,14 @@ export function ArtistAvatarUpload({
 
     setIsGenerating(true);
     try {
-      const { data, error } = await supabase.functions.invoke("generate-artist-portrait", {
-        body: {
-          artistName: artistName.trim(),
-          styleDescription: styleDescription || undefined,
-          referenceImageUrl: referenceImage || undefined,
-        },
+      const avatarUrl = await generatePortraitMutation.mutateAsync({
+        artistName: artistName.trim(),
+        styleDescription: styleDescription || undefined,
+        referenceImageUrl: referenceImage || undefined,
       });
 
-      if (error) throw error;
-
-      if (data?.avatarUrl) {
-        onAvatarChange(data.avatarUrl);
+      if (avatarUrl) {
+        onAvatarChange(avatarUrl);
         setReferenceImage(null);
         toast.success("Портрет сгенерирован");
       } else {

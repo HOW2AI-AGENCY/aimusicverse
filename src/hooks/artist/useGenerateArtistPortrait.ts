@@ -10,11 +10,12 @@ import { generateArtistPortraitForPreview } from "@/services/artists.service";
 export interface GenerateArtistPortraitInput {
   artistName: string;
   styleDescription?: string;
+  referenceImageUrl?: string;
 }
 
 export function useGenerateArtistPortrait() {
   return useMutation({
     mutationFn: (input: GenerateArtistPortraitInput) =>
-      generateArtistPortraitForPreview(input.artistName, input.styleDescription),
+      generateArtistPortraitForPreview(input.artistName, input.styleDescription, input.referenceImageUrl),
   });
 }
