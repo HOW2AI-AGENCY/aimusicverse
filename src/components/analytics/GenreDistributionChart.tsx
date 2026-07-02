@@ -75,7 +75,7 @@ export function GenreDistributionChart() {
                   borderRadius: "8px",
                   fontSize: "12px",
                 }}
-                formatter={(value: number | string, name: string) => [`${value} треков`, name]}
+                formatter={(value: any, name: string) => [`${value} треков`, name]}
               />
               <Legend
                 wrapperStyle={{ fontSize: "11px" }}

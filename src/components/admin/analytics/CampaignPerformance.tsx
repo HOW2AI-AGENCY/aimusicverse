@@ -150,7 +150,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
                         borderRadius: "8px",
                         fontSize: "12px",
                       }}
-                      formatter={(value: number | string, name: string) => {
+                      formatter={(value: any, name: string) => {
                         const labels: Record<string, string> = {
                           conversions: "Конверсии",
                           visits: "Визиты",
