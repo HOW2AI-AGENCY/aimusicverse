@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import type { Analyser } from "tone";
 
 interface LiveVisualizerProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  analyzerNode: any;
+  analyzerNode: Analyser | null;
   isActive: boolean;
   className?: string;
 }

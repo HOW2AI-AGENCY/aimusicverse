@@ -214,11 +214,11 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
             {/* Visual Style Tab */}
             <TabsContent value="style" className="mt-0">
               <VisualStyleEditor
-                visualAesthetic={(project as any).visual_aesthetic}
-                colorPalette={(project as any).color_palette}
-                typographyStyle={(project as any).typography_style}
-                imageStyle={(project as any).image_style}
-                visualKeywords={(project as any).visual_keywords}
+                visualAesthetic={project.visual_aesthetic ?? undefined}
+                colorPalette={project.color_palette ?? undefined}
+                typographyStyle={project.typography_style ?? undefined}
+                imageStyle={project.image_style ?? undefined}
+                visualKeywords={project.visual_keywords ?? undefined}
                 onSave={handleVisualStyleSave}
                 isSaving={isSavingStyle}
               />

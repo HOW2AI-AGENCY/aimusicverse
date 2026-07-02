@@ -57,7 +57,7 @@ export const ProjectDialogs = memo(function ProjectDialogs({
       <LyricsPreviewSheet
         open={state.lyricsSheetOpen}
         onOpenChange={state.setLyricsSheetOpen}
-        track={state.selectedTrackForLyrics as any}
+        track={state.selectedTrackForLyrics}
         onSaveLyrics={state.handleSaveLyrics}
         onSaveNotes={state.handleSaveNotes}
         onOpenWizard={() => {
@@ -116,11 +116,7 @@ export const ProjectDialogs = memo(function ProjectDialogs({
                 notes: state.selectedTrackForLyrics.notes || undefined,
                 lyrics: state.selectedTrackForLyrics.lyrics || undefined,
                 lyricsStatus: state.selectedTrackForLyrics.lyrics_status as
-                  | "draft"
-                  | "prompt"
-                  | "generated"
-                  | "approved"
-                  | undefined,
+                  "draft" | "prompt" | "generated" | "approved" | undefined,
               }
             : undefined
         }
@@ -158,7 +154,7 @@ export const ProjectDialogs = memo(function ProjectDialogs({
         open={state.publishDialogOpen}
         onOpenChange={state.setPublishDialogOpen}
         project={project}
-        tracks={(tracks as any) || []}
+        tracks={tracks || []}
       />
     </>
   );

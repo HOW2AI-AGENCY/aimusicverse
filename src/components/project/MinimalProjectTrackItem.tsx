@@ -39,6 +39,8 @@ import { EditTrackDialog } from "./EditTrackDialog";
 import { TrackVersionsPanel } from "./TrackVersionsPanel";
 import { motion } from "@/lib/motion";
 import { LazyImage } from "@/components/ui/lazy-image";
+import type { DraggableAttributes } from "@dnd-kit/core";
+import type { SyntheticListenerMap } from "@dnd-kit/core";
 
 interface GenerationStatus {
   progress: number;
@@ -47,7 +49,7 @@ interface GenerationStatus {
 
 interface MinimalProjectTrackItemProps {
   track: ProjectTrack;
-  dragHandleProps?: any;
+  dragHandleProps?: DraggableAttributes & SyntheticListenerMap;
   isDragging?: boolean;
   onGenerate: () => void;
   onOpenLyrics?: () => void;
@@ -179,7 +181,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
         cover_url: linkedTrack.cover_url,
         duration_seconds: linkedTrack.duration_seconds,
         lyrics: linkedTrack.lyrics,
-      } as any);
+      } as unknown as Parameters<typeof playTrack>[0]);
     }
   };
 

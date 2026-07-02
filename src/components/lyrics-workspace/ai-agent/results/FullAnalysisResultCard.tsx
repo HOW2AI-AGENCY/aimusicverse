@@ -223,7 +223,7 @@ export function FullAnalysisResultCard({
       {/* Section Scores Summary */}
       <div className="p-3 border-b border-border/30 grid grid-cols-4 gap-2">
         {Object.entries(SECTION_CONFIG).map(([key, config]) => {
-          const sectionData = analysis[key as keyof typeof analysis] as any;
+          const sectionData = analysis[key as keyof typeof analysis] as { score?: number } | undefined;
           const score = sectionData?.score || 0;
           const Icon = config.icon;
           return (

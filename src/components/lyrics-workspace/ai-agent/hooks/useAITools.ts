@@ -248,7 +248,7 @@ export function useAITools({
           responseType = "hooks";
         }
         // Handle vocal map response (legacy - now merged into producer)
-        else if (data.sections && (data as any).vocalType) {
+        else if (data.sections && "vocalType" in data && data.vocalType) {
           responseData.vocalMap = data.sections;
           responseType = "vocal_map";
         }

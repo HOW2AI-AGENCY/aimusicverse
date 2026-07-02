@@ -35,12 +35,12 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
   });
 
   const [trackParams, setTrackParams] = useState<TrackParams>({
-    bpm_target: (track as any).bpm_target || null,
-    key_signature: (track as any).key_signature || null,
-    energy_level: (track as any).energy_level || null,
-    vocal_style: (track as any).vocal_style || null,
-    instrumental_only: (track as any).instrumental_only || false,
-    reference_url: (track as any).reference_url || null,
+    bpm_target: track.bpm_target,
+    key_signature: track.key_signature,
+    energy_level: track.energy_level,
+    vocal_style: track.vocal_style,
+    instrumental_only: track.instrumental_only ?? false,
+    reference_url: track.reference_url,
   });
 
   useEffect(() => {
@@ -51,12 +51,12 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
         notes: track.notes || "",
       });
       setTrackParams({
-        bpm_target: (track as any).bpm_target || null,
-        key_signature: (track as any).key_signature || null,
-        energy_level: (track as any).energy_level || null,
-        vocal_style: (track as any).vocal_style || null,
-        instrumental_only: (track as any).instrumental_only || false,
-        reference_url: (track as any).reference_url || null,
+        bpm_target: track.bpm_target,
+        key_signature: track.key_signature,
+        energy_level: track.energy_level,
+        vocal_style: track.vocal_style,
+        instrumental_only: track.instrumental_only ?? false,
+        reference_url: track.reference_url,
       });
     }
   }, [open, track]);

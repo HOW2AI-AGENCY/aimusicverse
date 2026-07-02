@@ -144,7 +144,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
             ...activeTrack,
             audio_url: version.audioUrl,
             cover_url: version.coverUrl || activeTrack.cover_url,
-          } as any);
+          } as unknown as Parameters<typeof playTrack>[0]);
         }
 
         onVersionChange?.(version);
@@ -182,7 +182,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
           audio_url: version.audioUrl,
           cover_url: version.coverUrl,
           duration: version.duration || 0,
-        } as any);
+        } as unknown as Parameters<typeof playTrack>[0]);
         setPreviewingId(version.id);
       }
     },

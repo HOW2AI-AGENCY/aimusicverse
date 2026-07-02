@@ -9,8 +9,8 @@ export interface WorkflowStep {
   toolId: AIToolId;
   label: string;
   autoApply?: boolean;
-  condition?: (prevResult: any, context: AIAgentContext) => boolean;
-  transform?: (prevResult: any) => Record<string, any>;
+  condition?: (prevResult: unknown, context: AIAgentContext) => boolean;
+  transform?: (prevResult: unknown) => Record<string, unknown>;
 }
 
 export interface Workflow {
@@ -23,16 +23,16 @@ export interface Workflow {
 export interface WorkflowState {
   workflow: Workflow | null;
   currentStepIndex: number;
-  stepResults: Record<number, any>;
+  stepResults: Record<number, unknown>;
   status: "idle" | "running" | "paused" | "completed" | "error";
   error?: string;
 }
 
 interface UseWorkflowEngineOptions {
   context: AIAgentContext;
-  executeTool: (toolId: AIToolId, input: Record<string, any>) => Promise<any>;
-  onStepComplete?: (step: WorkflowStep, result: any) => void;
-  onWorkflowComplete?: (results: Record<number, any>) => void;
+  executeTool: (toolId: AIToolId, input: Record<string, unknown>) => Promise<unknown>;
+  onStepComplete?: (step: WorkflowStep, result: unknown) => void;
+  onWorkflowComplete?: (results: Record<number, unknown>) => void;
   onError?: (error: string) => void;
 }
 
@@ -124,8 +124,8 @@ export function useWorkflowEngine({
         status: "running",
       });
 
-      let stepResults: Record<number, any> = {};
-      let lastResult: any = initialInput || {};
+      const stepResults: Record<number, unknown> = {};
+      let lastResult: unknown = initialInput || {};
 
       for (let i = 0; i < workflow.steps.length; i++) {
         if (abortRef.current) {

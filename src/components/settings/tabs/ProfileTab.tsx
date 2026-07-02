@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { User, Loader2, CheckCircle2 } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { AvatarUpload } from "@/components/settings/AvatarUpload";
+import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 
 interface ProfileTabProps {
   profile: { photo_url?: string | null } | null | undefined;
@@ -22,7 +23,7 @@ interface ProfileTabProps {
   onAvatarUpload: (url: string | null) => void;
   onSave: () => void;
   isSaving: boolean;
-  createFocusHandler: (options?: any) => (event: React.FocusEvent<HTMLElement>) => void;
+  createFocusHandler: ReturnType<typeof useKeyboardAware>["createFocusHandler"];
 }
 
 export function ProfileTab({

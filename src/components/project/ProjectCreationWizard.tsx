@@ -25,12 +25,7 @@ import {
 import { useProjects } from "@/hooks/useProjects";
 import { useProjectTracks } from "@/hooks/useProjectTracks";
 import { useAuth } from "@/hooks/useAuth";
-import {
-  checkPremiumStatus,
-  invokeProjectAi,
-  invokeGenerateCoverImage,
-  updateProjectFields,
-} from "@/api/projects.api";
+import { checkPremiumStatus, invokeProjectAi, invokeGenerateCoverImage, updateProjectFields } from "@/api/projects.api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -167,7 +162,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
       createProject(
         {
           title,
-          project_type: projectType as any,
+          project_type: projectType as "single" | "ep" | "album",
           genre: genre || null,
           mood: mood || null,
           description: description || null,
@@ -289,11 +284,12 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     setProgress(100);
                     setStatusMessage("Проект готов!");
                   }, 800);
-                } catch (error: any) {
+                } catch (error: unknown) {
                   logger.error("Error generating full project", error);
-                  const errorMessage = error.message?.includes("429")
+                  const errorMsg = error instanceof Error ? error.message : String(error);
+                  const errorMessage = errorMsg.includes("429")
                     ? "Превышен лимит AI запросов"
-                    : error.message?.includes("402")
+                    : errorMsg.includes("402")
                       ? "Необходимо пополнить баланс"
                       : "Ошибка генерации";
                   toast.error(errorMessage);

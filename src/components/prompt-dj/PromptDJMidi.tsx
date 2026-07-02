@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Play, Square, Loader2, Sparkles, Volume2, VolumeX, Download, Music, Trash2, Drum } from "@/lib/icons";
-import { usePromptDJ, type PromptChannel, type GlobalSettings } from "@/hooks/usePromptDJ";
+import { usePromptDJ, type PromptChannel, type GlobalSettings, type GeneratedTrack } from "@/hooks/usePromptDJ";
 import { ChannelCard } from "./ChannelCard";
 import { StyleCrossfader } from "./StyleCrossfader";
 import { ControlPanel } from "./ControlPanel";
@@ -39,8 +39,7 @@ export function PromptDJMidi() {
     currentPrompt,
     analyzerNode,
     removeTrack,
-  } = dj as any;
-
+  } = dj;
 
   const handleUseAsReference = (track: (typeof generatedTracks)[0]) => {
     ReferenceManager.createFromCreativeTool("dj", track.audioUrl, {
@@ -197,7 +196,7 @@ export function PromptDJMidi() {
 
       {/* Channels grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {channels.map((channel: any) => (
+        {channels.map((channel: PromptChannel) => (
           <ChannelCard key={channel.id} channel={channel} onUpdate={(updates) => updateChannel(channel.id, updates)} />
         ))}
       </div>
@@ -221,7 +220,7 @@ export function PromptDJMidi() {
           <CardContent className="p-0">
             <ScrollArea className="max-h-64">
               <div className="p-3 space-y-2">
-                {generatedTracks.map((track: any) => (
+                {generatedTracks.map((track: GeneratedTrack) => (
                   <div
                     key={track.id}
                     className={cn(

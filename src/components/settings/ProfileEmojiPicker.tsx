@@ -59,7 +59,7 @@ interface ProfileEmojiPickerProps {
 }
 
 export function ProfileEmojiPicker({ onUpgrade }: ProfileEmojiPickerProps) {
-  const webApp = (window as any).Telegram?.WebApp;
+  const webApp = (window as unknown as { Telegram?: { WebApp?: unknown } }).Telegram?.WebApp;
   const isTelegram = !!webApp;
 
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);

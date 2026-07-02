@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Music, Clock, Heart, MessageCircle, Users } from "@/lib/icons";
 import { motion } from "@/lib/motion";
+import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 
 interface NotificationSetting {
   key: string;
@@ -85,11 +86,11 @@ const GAMIFICATION_TOGGLES: NotificationSetting[] = [
 ];
 
 interface NotificationsTabProps {
-  settings: Record<string, any> | null | undefined;
+  settings: Record<string, unknown> | null | undefined;
   isUpdating: boolean;
   onToggle: (key: string, value: boolean) => void;
-  onUpdateSettings: (updates: Record<string, any>) => void;
-  createFocusHandler: (options?: any) => (event: React.FocusEvent<HTMLElement>) => void;
+  onUpdateSettings: (updates: Record<string, unknown>) => void;
+  createFocusHandler: ReturnType<typeof useKeyboardAware>["createFocusHandler"];
 }
 
 function NotificationToggleList({
@@ -99,7 +100,7 @@ function NotificationToggleList({
   onToggle,
 }: {
   toggles: NotificationSetting[];
-  settings: Record<string, any> | null | undefined;
+  settings: Record<string, unknown> | null | undefined;
   isUpdating: boolean;
   onToggle: (key: string, value: boolean) => void;
 }) {
@@ -114,7 +115,7 @@ function NotificationToggleList({
               <p className="text-sm text-muted-foreground">{toggle.description}</p>
             </div>
             <Switch
-              checked={(settings as any)?.[toggle.key] ?? toggle.defaultValue}
+              checked={Boolean(settings?.[toggle.key] ?? toggle.defaultValue)}
               onCheckedChange={(v) => onToggle(toggle.key, v)}
               disabled={isUpdating}
             />
@@ -213,7 +214,7 @@ export function NotificationsTab({
                 <Label>Начало</Label>
                 <Input
                   type="time"
-                  value={(settings as any)?.quiet_hours_start || ""}
+                  value={(typeof settings?.quiet_hours_start === "string" ? settings.quiet_hours_start : "") || ""}
                   onChange={(e) => onUpdateSettings({ quiet_hours_start: e.target.value || null })}
                   onFocus={createFocusHandler()}
                   disabled={isUpdating}
@@ -223,7 +224,7 @@ export function NotificationsTab({
                 <Label>Конец</Label>
                 <Input
                   type="time"
-                  value={(settings as any)?.quiet_hours_end || ""}
+                  value={(typeof settings?.quiet_hours_end === "string" ? settings.quiet_hours_end : "") || ""}
                   onChange={(e) => onUpdateSettings({ quiet_hours_end: e.target.value || null })}
                   onFocus={createFocusHandler()}
                   disabled={isUpdating}
