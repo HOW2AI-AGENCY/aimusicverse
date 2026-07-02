@@ -172,10 +172,16 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("framer-motion")) {
               return "vendor-framer";
             }
-            // Audio/Media
+            // Audio/Media — tone + @tonejs/* MUST live in the SAME chunk.
+            // Splitting them caused a TDZ crash ("Cannot access 'vt' before
+            // initialization") in Tone.js's AudioContext setup, because
+            // @tonejs/midi re-imports from `tone` and Rollup produces
+            // chunk-level circular references when they're separated.
             if (id.includes("tone")) {
               return "vendor-tone";
             }
+            // wavesurfer + audiomotion are independent of Tone.js — safe to
+            // keep in their own chunks (each is loaded only from audio code).
             if (id.includes("wavesurfer")) {
               return "vendor-wavesurfer";
             }
@@ -249,7 +255,10 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("web-audio-beat-detector") || id.includes("music-tempo")) {
               return "vendor-bpm";
             }
-            if (id.includes("@tonejs")) return "vendor-tonejs-midi";
+            // Note: @tonejs/* intentionally NOT chunked separately.
+            // Manual chunking caused a TDZ crash in Tone.js's AudioContext
+            // setup because @tonejs/midi re-imports from `tone`. The unified
+            // `tone` rule above merges them into vendor-tone.
             if (id.includes("dompurify")) return "vendor-dompurify";
             if (id.includes("fast-check")) return "vendor-fastcheck";
             // Small shared utilities safe to keep bundled together
