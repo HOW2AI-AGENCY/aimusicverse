@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Loader2, Music, Info, ExternalLink } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
@@ -16,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useAddInstrumentalProgress } from "@/hooks/generation/useAddInstrumentalProgress";
 import { GenerationProgressBar } from "@/components/generation/GenerationProgressBar";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useAddInstrumental } from "@/hooks/studio/useAddInstrumental";
 
 interface AddInstrumentalDialogProps {
   open: boolean;
@@ -27,6 +27,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
   const navigate = useNavigate();
   const playTrack = usePlayerStore((s) => s.playTrack);
   const instrumentalProgress = useAddInstrumentalProgress();
+  const addInstrumentalMutation = useAddInstrumental();
 
   const [style, setStyle] = useState(track.style || "full band arrangement, professional backing track");
   const [title, setTitle] = useState("");
@@ -66,32 +67,33 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
     try {
       const effectiveTitle = title.trim() || `${track.title || "Трек"} с инструменталом`;
 
-      const body: Record<string, unknown> = {
+      const {
+        trackId: newTrackId,
+        taskId,
+        error,
+      } = await addInstrumentalMutation.mutateAsync({
         audioUrl: track.audio_url,
-        customMode: true,
         style: style.trim(),
         title: effectiveTitle,
         negativeTags: negativeTags.trim() || "low quality, distorted, noise",
-        projectId: track.project_id,
         audioWeight: advancedSettings.audioWeight,
         styleWeight: advancedSettings.styleWeight,
         weirdnessConstraint: advancedSettings.weirdnessConstraint,
         model: advancedSettings.model,
-        openInStudio, // Flag to open in studio after generation
-        originalTrackId: track.id, // For creating studio project
-      };
-
-      if (advancedSettings.vocalGender) {
-        body.vocalGender = advancedSettings.vocalGender;
-      }
-
-      const { data, error } = await supabase.functions.invoke("suno-add-instrumental", { body });
+        extras: {
+          customMode: true,
+          projectId: track.project_id,
+          openInStudio, // Flag to open in studio after generation
+          originalTrackId: track.id, // For creating studio project
+          ...(advancedSettings.vocalGender ? { vocalGender: advancedSettings.vocalGender } : {}),
+        },
+      });
 
       if (error) throw error;
 
       // Start tracking the task
-      if (data?.taskId) {
-        instrumentalProgress.startTracking(data.taskId, data.trackId || track.id, data.studioProjectId);
+      if (taskId) {
+        instrumentalProgress.startTracking(taskId, newTrackId || track.id, undefined);
       } else {
         if (openInStudio) {
           toast.success("Генерация началась! 🎸", {
@@ -137,135 +139,128 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
   };
 
   return (
-    <UnifiedDialog
-      variant="modal"
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Добавить инструментал"
-      size="lg"
-    >
+    <UnifiedDialog variant="modal" open={open} onOpenChange={onOpenChange} title="Добавить инструментал" size="lg">
+      <div className="space-y-4">
+        {/* Progress indicator */}
+        {instrumentalProgress.status !== "idle" && (
+          <GenerationProgressBar
+            status={instrumentalProgress.status}
+            progress={instrumentalProgress.progress}
+            message={instrumentalProgress.message}
+            error={instrumentalProgress.error}
+            completedTrack={instrumentalProgress.completedTrack}
+            onPlayTrack={handlePlayTrack}
+            onOpenTrack={handleOpenTrack}
+            onOpenStudio={instrumentalProgress.studioProjectId ? handleOpenStudio : undefined}
+            onRetry={handleSubmit}
+            onDismiss={() => {
+              instrumentalProgress.reset();
+              if (instrumentalProgress.isCompleted) onOpenChange(false);
+            }}
+          />
+        )}
 
-        <div className="space-y-4">
-          {/* Progress indicator */}
-          {instrumentalProgress.status !== "idle" && (
-            <GenerationProgressBar
-              status={instrumentalProgress.status}
-              progress={instrumentalProgress.progress}
-              message={instrumentalProgress.message}
-              error={instrumentalProgress.error}
-              completedTrack={instrumentalProgress.completedTrack}
-              onPlayTrack={handlePlayTrack}
-              onOpenTrack={handleOpenTrack}
-              onOpenStudio={instrumentalProgress.studioProjectId ? handleOpenStudio : undefined}
-              onRetry={handleSubmit}
-              onDismiss={() => {
-                instrumentalProgress.reset();
-                if (instrumentalProgress.isCompleted) onOpenChange(false);
-              }}
-            />
-          )}
+        {/* Info block */}
+        <div className="p-3 bg-muted rounded-lg">
+          <p className="text-sm">
+            <Music className="w-4 h-4 inline mr-2" />
+            Вокальный трек: <span className="font-semibold">{track.title || "Без названия"}</span>
+          </p>
+        </div>
 
-          {/* Info block */}
-          <div className="p-3 bg-muted rounded-lg">
-            <p className="text-sm">
-              <Music className="w-4 h-4 inline mr-2" />
-              Вокальный трек: <span className="font-semibold">{track.title || "Без названия"}</span>
+        {/* Important info about result */}
+        <Alert variant="default" className="border-amber-500/50 bg-amber-500/10">
+          <Info className="w-4 h-4 text-amber-500" />
+          <AlertTitle className="text-sm">Важно о результате</AlertTitle>
+          <AlertDescription className="text-xs space-y-1">
+            <p>
+              AI сгенерирует инструментал, синхронизированный с вашим вокалом.
+              <strong> Результат — отдельная дорожка инструментала</strong>, не смешанная с вокалом.
+            </p>
+            <p>Для получения готовой песни рекомендуем использовать Stem Studio для сведения.</p>
+            <p className="text-amber-600 dark:text-amber-400 mt-1">
+              💡 Если вокал искажается, увеличьте "Вес аудио" до 0.9+ в расширенных настройках
+            </p>
+          </AlertDescription>
+        </Alert>
+
+        {/* Open in studio option */}
+        <div className="flex items-center justify-between p-3 rounded-lg border bg-card">
+          <div className="space-y-0.5">
+            <Label className="text-sm font-medium">Открыть в студии после генерации</Label>
+            <p className="text-xs text-muted-foreground">
+              Автоматически создаст проект с вокалом и инструменталом для сведения
             </p>
           </div>
-
-          {/* Important info about result */}
-          <Alert variant="default" className="border-amber-500/50 bg-amber-500/10">
-            <Info className="w-4 h-4 text-amber-500" />
-            <AlertTitle className="text-sm">Важно о результате</AlertTitle>
-            <AlertDescription className="text-xs space-y-1">
-              <p>
-                AI сгенерирует инструментал, синхронизированный с вашим вокалом.
-                <strong> Результат — отдельная дорожка инструментала</strong>, не смешанная с вокалом.
-              </p>
-              <p>Для получения готовой песни рекомендуем использовать Stem Studio для сведения.</p>
-              <p className="text-amber-600 dark:text-amber-400 mt-1">
-                💡 Если вокал искажается, увеличьте "Вес аудио" до 0.9+ в расширенных настройках
-              </p>
-            </AlertDescription>
-          </Alert>
-
-          {/* Open in studio option */}
-          <div className="flex items-center justify-between p-3 rounded-lg border bg-card">
-            <div className="space-y-0.5">
-              <Label className="text-sm font-medium">Открыть в студии после генерации</Label>
-              <p className="text-xs text-muted-foreground">
-                Автоматически создаст проект с вокалом и инструменталом для сведения
-              </p>
-            </div>
-            <Switch checked={openInStudio} onCheckedChange={setOpenInStudio} />
-          </div>
-
-          {/* Style */}
-          <div>
-            <Label htmlFor="style">Стиль инструментала *</Label>
-            <Textarea
-              id="style"
-              value={style}
-              onChange={(e) => setStyle(e.target.value)}
-              placeholder="rock, electric guitars, powerful drums, full band arrangement"
-              rows={3}
-              className="mt-2 resize-none"
-            />
-            <p className="text-xs text-muted-foreground mt-1">Опишите желаемые инструменты и стиль аранжировки</p>
-          </div>
-
-          {/* Negative tags */}
-          <div>
-            <Label htmlFor="negativeTags">Исключить стили</Label>
-            <Input
-              id="negativeTags"
-              value={negativeTags}
-              onChange={(e) => setNegativeTags(e.target.value)}
-              placeholder="acapella, vocals only, karaoke"
-              className="mt-2"
-            />
-          </div>
-
-          {/* Title */}
-          <div>
-            <Label htmlFor="title">Название трека</Label>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Мой новый трек с инструменталом"
-              className="mt-2"
-            />
-          </div>
-
-          {/* Advanced Settings - open by default */}
-          <GenerationAdvancedSettings
-            settings={advancedSettings}
-            onChange={setAdvancedSettings}
-            showVocalGender={true}
-            vocalGenderLabel="Пол вокала (если есть)"
-            defaultOpen={true}
-          />
-
-          <div className="flex gap-2 justify-end pt-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Отмена
-            </Button>
-            <Button
-              onClick={handleSubmit}
-              disabled={loading || instrumentalProgress.isActive || !track.audio_url || !style.trim()}
-            >
-              {loading || instrumentalProgress.isActive ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  {instrumentalProgress.message || "Обработка..."}
-                </>
-              ) : (
-                "Добавить инструментал"
-              )}
-            </Button>
-          </div>
+          <Switch checked={openInStudio} onCheckedChange={setOpenInStudio} />
         </div>
+
+        {/* Style */}
+        <div>
+          <Label htmlFor="style">Стиль инструментала *</Label>
+          <Textarea
+            id="style"
+            value={style}
+            onChange={(e) => setStyle(e.target.value)}
+            placeholder="rock, electric guitars, powerful drums, full band arrangement"
+            rows={3}
+            className="mt-2 resize-none"
+          />
+          <p className="text-xs text-muted-foreground mt-1">Опишите желаемые инструменты и стиль аранжировки</p>
+        </div>
+
+        {/* Negative tags */}
+        <div>
+          <Label htmlFor="negativeTags">Исключить стили</Label>
+          <Input
+            id="negativeTags"
+            value={negativeTags}
+            onChange={(e) => setNegativeTags(e.target.value)}
+            placeholder="acapella, vocals only, karaoke"
+            className="mt-2"
+          />
+        </div>
+
+        {/* Title */}
+        <div>
+          <Label htmlFor="title">Название трека</Label>
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Мой новый трек с инструменталом"
+            className="mt-2"
+          />
+        </div>
+
+        {/* Advanced Settings - open by default */}
+        <GenerationAdvancedSettings
+          settings={advancedSettings}
+          onChange={setAdvancedSettings}
+          showVocalGender={true}
+          vocalGenderLabel="Пол вокала (если есть)"
+          defaultOpen={true}
+        />
+
+        <div className="flex gap-2 justify-end pt-4">
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Отмена
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            disabled={loading || instrumentalProgress.isActive || !track.audio_url || !style.trim()}
+          >
+            {loading || instrumentalProgress.isActive ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                {instrumentalProgress.message || "Обработка..."}
+              </>
+            ) : (
+              "Добавить инструментал"
+            )}
+          </Button>
+        </div>
+      </div>
     </UnifiedDialog>
   );
 };

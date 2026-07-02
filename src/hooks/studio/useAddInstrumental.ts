@@ -8,7 +8,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { addInstrumental } from "@/services/studio.service";
 
-interface AddInstrumentalInput {
+export interface AddInstrumentalInput {
   trackId?: string;
   audioUrl?: string | null;
   style: string;
@@ -18,21 +18,18 @@ interface AddInstrumentalInput {
   styleWeight?: number;
   weirdnessConstraint?: number;
   model?: string;
+  /** Extra fields forwarded to the edge function (e.g. customMode, projectId, openInStudio, originalTrackId). */
+  extras?: Record<string, unknown>;
 }
 
 export function useAddInstrumental() {
   return useMutation({
-    mutationFn: (input: AddInstrumentalInput) =>
-      addInstrumental({
-        trackId: input.trackId,
-        audioUrl: input.audioUrl,
-        style: input.style,
-        title: input.title,
-        negativeTags: input.negativeTags,
-        audioWeight: input.audioWeight,
-        styleWeight: input.styleWeight,
-        weirdnessConstraint: input.weirdnessConstraint,
-        model: input.model,
-      }),
+    mutationFn: (input: AddInstrumentalInput) => {
+      const { extras, ...rest } = input;
+      return addInstrumental({
+        ...rest,
+        ...(extras ?? {}),
+      }) as ReturnType<typeof addInstrumental>;
+    },
   });
 }
