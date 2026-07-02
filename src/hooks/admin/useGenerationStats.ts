@@ -28,3 +28,15 @@ export function useTopGenerationUsers(days: number) {
     staleTime: 60_000,
   });
 }
+
+import { getTodayGenerationStats } from "@/services/admin.service";
+import type { TodayGenerationStats } from "@/api/admin.api";
+
+export function useTodayGenerationStats() {
+  return useQuery<TodayGenerationStats>({
+    queryKey: ["monitoring-hub-generations"],
+    queryFn: () => getTodayGenerationStats(),
+    refetchInterval: 30_000,
+    staleTime: 30_000,
+  });
+}

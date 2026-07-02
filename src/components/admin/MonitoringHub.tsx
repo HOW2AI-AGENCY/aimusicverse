@@ -10,8 +10,8 @@ import { useAlertStats } from "@/hooks/useHealthAlerts";
 import { useAnomalyDetection } from "@/hooks/admin/useAnomalyDetection";
 import { usePerformanceMetrics } from "@/hooks/admin/usePerformanceMetrics";
 import { useActiveUsersStats } from "@/hooks/useEnhancedAnalytics";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useMonitoringHealthStatus } from "@/hooks/admin/useMonitoringHealth";
+import { useTodayGenerationStats } from "@/hooks/admin/useGenerationStats";
 import {
   Activity,
   AlertTriangle,
@@ -80,39 +80,10 @@ export function MonitoringHub({ onNavigateToTab }: MonitoringHubProps) {
   const { data: activeUsers } = useActiveUsersStats();
 
   // Get system health status
-  const { data: healthStatus, refetch: refetchHealth } = useQuery({
-    queryKey: ["monitoring-hub-health"],
-    queryFn: async () => {
-      const { data, error } = await supabase.functions.invoke("health-check");
-      if (error) throw error;
-      return data;
-    },
-    refetchInterval: 60000,
-    staleTime: 30000,
-  });
+  const { data: healthStatus, refetch: refetchHealth } = useMonitoringHealthStatus();
 
   // Get generation stats for today
-  const { data: generationStats } = useQuery({
-    queryKey: ["monitoring-hub-generations"],
-    queryFn: async () => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const { data, error } = await supabase
-        .from("generation_tasks")
-        .select("status")
-        .gte("created_at", today.toISOString());
-
-      if (error) throw error;
-
-      const total = data?.length || 0;
-      const completed = data?.filter((t) => t.status === "completed").length || 0;
-      const failed = data?.filter((t) => t.status === "failed").length || 0;
-
-      return { total, completed, failed, successRate: total > 0 ? (completed / total) * 100 : 100 };
-    },
-    refetchInterval: 30000,
-  });
+  const { data: generationStats } = useTodayGenerationStats();
 
   const systemStatus = healthStatus?.overall_status || "unknown";
   const isHealthy = systemStatus === "healthy";

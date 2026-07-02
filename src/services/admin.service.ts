@@ -357,6 +357,29 @@ export async function forceHealthAlert(): Promise<Record<string, unknown>> {
 }
 
 // ==========================================
+// Monitoring hub (today's generation stats)
+// ==========================================
+
+/**
+ * Roll up today's generation_tasks counts for the monitoring hub widget.
+ * Pure pass-through to the api; kept here so the component layer never
+ * imports from `@/integrations/supabase`.
+ */
+export async function getTodayGenerationStats(): Promise<adminApi.TodayGenerationStats> {
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  return adminApi.fetchTodayGenerationStats(todayStart);
+}
+
+/**
+ * Invoke the `health-check` edge function. Returns the raw payload — the
+ * MonitoringHub consumer maps this to its own UI status fields.
+ */
+export async function invokeHealthCheck(): Promise<Record<string, unknown>> {
+  return adminApi.invokeHealthCheck();
+}
+
+// ==========================================
 // User Management
 // ==========================================
 

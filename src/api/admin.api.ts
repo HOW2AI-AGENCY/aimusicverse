@@ -332,6 +332,45 @@ export async function invokeHealthAlert(payload: {
   return (data as Record<string, unknown>) ?? {};
 }
 
+// ==========================================
+// Today's generation tasks (monitoring hub)
+// ==========================================
+
+export interface TodayGenerationStats {
+  total: number;
+  completed: number;
+  failed: number;
+  successRate: number;
+}
+
+/**
+ * Fetch today's generation_tasks and roll up counts for the monitoring hub.
+ */
+export async function fetchTodayGenerationStats(todayStart: Date): Promise<TodayGenerationStats> {
+  const { data, error } = await supabase
+    .from("generation_tasks")
+    .select("status")
+    .gte("created_at", todayStart.toISOString());
+  if (error) throw new Error(error.message);
+
+  const rows = data ?? [];
+  const total = rows.length;
+  const completed = rows.filter((r) => r.status === "completed").length;
+  const failed = rows.filter((r) => r.status === "failed").length;
+  const successRate = total > 0 ? (completed / total) * 100 : 100;
+  return { total, completed, failed, successRate };
+}
+
+/**
+ * Invoke the `health-check` edge function and return the raw payload.
+ * The caller decides how to shape the response into UI status fields.
+ */
+export async function invokeHealthCheck(): Promise<Record<string, unknown>> {
+  const { data, error } = await supabase.functions.invoke("health-check");
+  if (error) throw new Error(error.message);
+  return (data as Record<string, unknown>) ?? {};
+}
+
 /**
  * Fetch the list of all users with current credit balances —
  * used by bulk-credit admin actions.
