@@ -473,7 +473,7 @@ export default function LyricsStudio() {
           }
           globalTags={globalTags}
           allSectionNotesForAgent={
-            sectionNotes?.map((n) => ({
+            sectionNotes?.map((n: any) => ({
               type: n.section_type || "",
               notes: n.notes || "",
               tags: n.tags || [],
