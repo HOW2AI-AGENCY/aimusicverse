@@ -102,10 +102,10 @@ export function GenerateFormSimple({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-      className="space-y-3 w-full max-w-full min-w-0 overflow-x-hidden"
+      className="w-full max-w-full min-w-0 overflow-x-hidden"
     >
       {/* ========== DESCRIPTION SECTION ========== */}
-      <FormSection>
+      <FormSection elevated>
         <div className="space-y-2">
           {/* Header row */}
           <div className="flex items-center justify-between gap-2">
@@ -131,6 +131,7 @@ export function GenerateFormSimple({
                 disabled={boostLoading || !description}
                 className="h-9 px-2.5 gap-1 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-40"
                 aria-label="Улучшить описание с помощью AI"
+                title={!description ? "Введите описание, чтобы использовать AI Boost" : undefined}
               >
                 {boostLoading ? (
                   <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
@@ -164,25 +165,25 @@ export function GenerateFormSimple({
           <div className="flex items-center justify-between gap-2 px-1">
             <span
               className={cn(
-                "text-[11px] font-medium tabular-nums",
+                "text-[11px] tabular-nums transition-all duration-200",
                 overLimit
-                  ? "text-destructive"
+                  ? "text-destructive font-bold"
                   : description.length > 400
-                    ? "text-yellow-500"
-                    : "text-muted-foreground",
+                    ? "text-yellow-500 font-semibold"
+                    : "text-muted-foreground/70 font-medium",
               )}
             >
               {description.length}/500
             </span>
 
-            <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-1">
               {description && (
                 <>
                   <Button
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 min-w-8 p-0 text-muted-foreground hover:text-foreground rounded-lg"
+                    className="h-11 w-11 min-w-11 p-0 text-muted-foreground hover:text-foreground rounded-lg"
                     onClick={handleCopy}
                     aria-label="Копировать описание"
                   >
@@ -192,7 +193,7 @@ export function GenerateFormSimple({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 min-w-8 p-0 text-muted-foreground hover:text-destructive rounded-lg"
+                    className="h-11 w-11 min-w-11 p-0 text-muted-foreground hover:text-destructive rounded-lg"
                     onClick={handleClear}
                     aria-label="Очистить описание"
                   >
@@ -205,7 +206,7 @@ export function GenerateFormSimple({
                 context="description"
                 currentValue={description}
                 appendMode
-                className="h-8 w-8 min-w-8 p-0 rounded-lg"
+                className="h-11 w-11 min-w-11 p-0 rounded-lg"
               />
             </div>
           </div>
@@ -235,34 +236,51 @@ export function GenerateFormSimple({
 
       <FormDivider />
 
-      {/* ========== TRACK TYPE — single toggle (radio) ========== */}
+      {/* ========== TRACK TYPE — segmented control ========== */}
       <FormSection>
-        <div className="flex items-center justify-between gap-3 min-h-[44px]">
-          <div className="flex items-center gap-2 min-w-0">
-            <SectionLabel label="Тип трека" hint={SECTION_HINTS.trackType} />
-          </div>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={hasVocals}
-            aria-label={hasVocals ? "Вокал включён — нажмите для инструментала" : "Инструментал — нажмите для вокала"}
-            onClick={() => handleVocalsToggle(!hasVocals)}
-            className={cn(
-              "relative inline-flex items-center gap-2 h-10 pl-3 pr-4 rounded-full font-semibold text-[13px]",
-              "border transition-all duration-200 active:scale-[0.97]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              hasVocals
-                ? "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground border-transparent shadow-[0_4px_14px_-4px_hsl(var(--primary)/0.5)]"
-                : "bg-muted/40 text-muted-foreground border-border/60 hover:border-primary/40 hover:text-foreground",
-            )}
+        <div className="space-y-2">
+          <SectionLabel label="Тип трека" hint={SECTION_HINTS.trackType} />
+          <div
+            className="relative grid grid-cols-2 gap-1 p-1 h-11 bg-muted/40 rounded-full border border-border/50"
+            role="radiogroup"
+            aria-label="Тип трека"
           >
-            {hasVocals ? (
+            <motion.div
+              layout
+              transition={{ type: "spring", stiffness: 400, damping: 32 }}
+              className="absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full bg-gradient-to-br from-primary to-primary/85 shadow-[0_4px_14px_-4px_hsl(var(--primary)/0.5)]"
+              style={{ x: hasVocals ? 0 : "calc(100% + 4px)" }}
+              aria-hidden="true"
+            />
+            <button
+              type="button"
+              role="radio"
+              aria-checked={hasVocals}
+              onClick={() => handleVocalsToggle(true)}
+              className={cn(
+                "relative z-10 flex items-center justify-center gap-1.5 h-full rounded-full text-[13px] font-semibold transition-colors",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                hasVocals ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+              )}
+            >
               <Mic className="w-4 h-4" aria-hidden="true" />
-            ) : (
+              Вокал
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={!hasVocals}
+              onClick={() => handleVocalsToggle(false)}
+              className={cn(
+                "relative z-10 flex items-center justify-center gap-1.5 h-full rounded-full text-[13px] font-semibold transition-colors",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                !hasVocals ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+              )}
+            >
               <Music2 className="w-4 h-4" aria-hidden="true" />
-            )}
-            <span className="uppercase tracking-wide">{hasVocals ? "Вокал" : "Инструментал"}</span>
-          </button>
+              Инструментал
+            </button>
+          </div>
         </div>
       </FormSection>
 
@@ -282,11 +300,7 @@ export function GenerateFormSimple({
             aria-describedby={titleValidation ? "simple-title-error" : undefined}
           />
           {titleValidation && (
-            <ValidationMessage
-              message={titleValidation.message}
-              level={titleValidation.level}
-              fieldId="simple-title"
-            />
+            <ValidationMessage message={titleValidation.message} level={titleValidation.level} fieldId="simple-title" />
           )}
         </div>
       </FormSection>
