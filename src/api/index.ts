@@ -12,6 +12,11 @@ export * from "./studio.api";
 export * from "./admin.api";
 export * from "./analytics.api";
 export * from "./generation.api";
+// Disambiguate name collisions from `export *` (TS2308):
+// - `countUserArtists` also lives in credits.api (legacy) → prefer artists.api
+// - `fetchTrackVersions` also lives in studio.api (legacy) → prefer tracks.api
+export { countUserArtists } from "./artists.api";
+export { fetchTrackVersions } from "./tracks.api";
 // Note: analysis.api exports GuitarRecording which conflicts with studio.api
 // Import directly from analysis.api when needed
 export {
