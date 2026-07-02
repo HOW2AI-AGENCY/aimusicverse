@@ -10,7 +10,7 @@ import { UnifiedDialog } from "@/components/dialog";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeAnalyzeAudio } from "@/services/audio-reference/cloud-audio.service";
 import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { useReferenceAudio } from "@/hooks/useReferenceAudio";
@@ -83,11 +83,9 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
 
       // Auto-trigger analysis
       try {
-        const { data, error } = await supabase.functions.invoke("analyze-audio-flamingo", {
-          body: {
-            audio_url: publicUrl,
-            reference_id: savedAudio.id,
-          },
+        const { data, error } = await invokeAnalyzeAudio({
+          audioUrl: publicUrl,
+          referenceId: savedAudio.id,
         });
 
         if (!error && data?.parsed) {
