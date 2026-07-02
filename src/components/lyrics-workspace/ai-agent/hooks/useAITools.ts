@@ -361,7 +361,9 @@ export function useAITools({
           })),
         };
 
-        const { data, error } = await sendAiChatMessage({ message, context: fullContext });
+        const { data: rawChatData, error } = await sendAiChatMessage({ message, context: fullContext });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data: any = rawChatData ?? {};
 
         if (error) {
           if (error.message?.includes("429")) toast.error("Превышен лимит запросов.");
