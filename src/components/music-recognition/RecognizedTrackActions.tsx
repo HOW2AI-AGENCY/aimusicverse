@@ -24,7 +24,7 @@ export function RecognizedTrackActions({ track, audioUrl, onUseLyrics, onCreateC
   const { isRecognizing, result, recognizeLyrics, clearResult } = useLyricsRecognition();
 
   // Get lyrics from track data (if available from AuDD)
-  const apiLyrics = track.lyrics?.lyrics || "";
+  const apiLyrics: string = (track as any).lyrics?.lyrics || "";
 
   // Handle recognize lyrics from audio
   const handleRecognizeLyrics = async () => {
