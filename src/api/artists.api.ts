@@ -50,6 +50,22 @@ export async function fetchArtistById(artistId: string): Promise<ArtistRow | nul
 }
 
 /**
+ * Fetch a minimal artist summary (id, name, avatar_url, genre_tags).
+ */
+export async function fetchArtistSummary(
+  artistId: string,
+): Promise<{ id: string; name: string; avatar_url: string | null; genre_tags: string[] | null } | null> {
+  const { data, error } = await supabase
+    .from("artists")
+    .select("id, name, avatar_url, genre_tags")
+    .eq("id", artistId)
+    .maybeSingle();
+
+  if (error) return null;
+  return data ?? null;
+}
+
+/**
  * Create a new artist
  */
 export async function createArtist(artist: ArtistInsert): Promise<ArtistRow> {

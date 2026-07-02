@@ -317,3 +317,57 @@ export async function fetchTrackVersions(trackId: string): Promise<TrackVersionR
   if (error) throw new Error(error.message);
   return data ?? [];
 }
+
+// ==========================================
+// Track Versions — full details (C3 Batch B)
+// ==========================================
+
+export interface TrackVersionDetailRow {
+  id: string;
+  version_label: string | null;
+  audio_url: string;
+  cover_url: string | null;
+  duration_seconds: number | null;
+  is_primary: boolean | null;
+  created_at: string | null;
+}
+
+/**
+ * Fetch full track version details (including cover_url and created_at) ordered by clip_index.
+ */
+export async function fetchTrackVersionsDetailed(trackId: string): Promise<TrackVersionDetailRow[]> {
+  const { data, error } = await supabase
+    .from("track_versions")
+    .select("id, version_label, audio_url, cover_url, duration_seconds, is_primary, created_at")
+    .eq("track_id", trackId)
+    .order("clip_index", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return (data ?? []) as TrackVersionDetailRow[];
+}
+
+// ==========================================
+// Parent Track Lookup (C3 Batch B)
+// ==========================================
+
+export interface ParentTrackRow {
+  id: string;
+  title: string | null;
+  cover_url: string | null;
+  style: string | null;
+  user_id: string;
+}
+
+/**
+ * Fetch minimal parent track info for the ParentTrackLink component.
+ */
+export async function fetchParentTrack(parentTrackId: string): Promise<ParentTrackRow | null> {
+  const { data, error } = await supabase
+    .from("tracks")
+    .select("id, title, cover_url, style, user_id")
+    .eq("id", parentTrackId)
+    .maybeSingle();
+
+  if (error) return null;
+  return (data ?? null) as ParentTrackRow | null;
+}

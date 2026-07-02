@@ -5,8 +5,8 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
 import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
+import { useHeaderVersionSelector, type TrackVersionDetail } from "@/hooks/track-detail/useHeaderVersionSelector";
 import { Loader2, GitBranch } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,16 +18,6 @@ import {
 import { toast } from "sonner";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 import { logger } from "@/lib/logger";
-
-interface Version {
-  id: string;
-  version_label: string | null;
-  audio_url: string;
-  cover_url: string | null;
-  duration_seconds: number | null;
-  is_primary: boolean | null;
-  created_at: string | null;
-}
 
 interface HeaderVersionSelectorProps {
   trackId: string;
@@ -42,43 +32,22 @@ export function HeaderVersionSelector({
   onVersionChange,
   className,
 }: HeaderVersionSelectorProps) {
-  const [versions, setVersions] = useState<Version[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: versions = [], isLoading: isLoadingQuery } = useHeaderVersionSelector(trackId);
   const [isUpdating, setIsUpdating] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(activeVersionId || null);
   const { setPrimaryVersionAsync, isSettingPrimary } = useVersionSwitcher();
 
   useEffect(() => {
-    const fetchVersions = async () => {
-      setIsLoading(true);
-      const { data, error } = await supabase
-        .from("track_versions")
-        .select("id, version_label, audio_url, cover_url, duration_seconds, is_primary, created_at")
-        .eq("track_id", trackId)
-        .order("clip_index", { ascending: true });
+    if (isLoadingQuery) return;
+    if (activeVersionId) {
+      setActiveId(activeVersionId);
+      return;
+    }
+    const primary = versions.find((v) => v.is_primary);
+    setActiveId(primary?.id || versions[0]?.id || null);
+  }, [versions, activeVersionId, isLoadingQuery]);
 
-      if (error) {
-        logger.error("Error fetching versions for selector", { error });
-        setIsLoading(false);
-        return;
-      }
-
-      setVersions(data || []);
-
-      if (activeVersionId) {
-        setActiveId(activeVersionId);
-      } else {
-        const primary = data?.find((v) => v.is_primary);
-        setActiveId(primary?.id || data?.[0]?.id || null);
-      }
-
-      setIsLoading(false);
-    };
-
-    fetchVersions();
-  }, [trackId, activeVersionId]);
-
-  const handleVersionSelect = async (version: Version) => {
+  const handleVersionSelect = async (version: TrackVersionDetail) => {
     if (version.id === activeId || isUpdating) return;
 
     triggerHapticFeedback("light");
@@ -98,7 +67,7 @@ export function HeaderVersionSelector({
   };
 
   // Don't render if single version or less
-  if (isLoading) {
+  if (isLoadingQuery) {
     return (
       <div className={cn("flex items-center gap-1.5", className)}>
         <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground" />
