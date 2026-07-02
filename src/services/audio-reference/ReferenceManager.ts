@@ -1,10 +1,24 @@
 /**
  * Reference Manager Service
- * Centralized management of audio references from all sources
+ * Centralized management of audio references from all sources.
+ *
+ * As of the D6 refactor (sprints-042-045), the methods that have a real
+ * failure path (`createFromUpload`, `createFromRecording`,
+ * `persistToDatabase`) return `Result<T, ReferenceManagerError>` instead of
+ * swallowing or throwing. Pure data-shape builders (sync `createFromCloud`,
+ * `createFromStem`, `createFromCreativeTool`, `createFromGuitar`,
+ * `createFromTrack`) cannot fail and keep their original signature.
+ *
+ * Backwards-compatible throwing wrappers (`tryCreateFromUpload`, etc.) are
+ * exported for callers that have not migrated to Result pattern-matching.
+ *
+ * @see src/lib/result.ts for the Result contract
  */
 
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
+import { ok, err } from "@/lib/result";
+import type { Result } from "@/lib/result";
 import {
   UnifiedAudioReference,
   ReferenceSource,
@@ -14,6 +28,31 @@ import {
   ACTIVE_REFERENCE_KEY,
   REFERENCE_EXPIRY_MS,
 } from "./types";
+
+// ==========================================
+// Custom error class
+// ==========================================
+
+/**
+ * Domain error for ReferenceManager. Carries the failing operation and
+ * the original underlying error for diagnostics.
+ */
+export class ReferenceManagerError extends Error {
+  public code: string;
+  public operation: string;
+  public details?: unknown;
+
+  constructor(message: string, code: string, operation: string, options: { details?: unknown; cause?: unknown } = {}) {
+    super(message);
+    this.name = "ReferenceManagerError";
+    this.code = code;
+    this.operation = operation;
+    this.details = options.details;
+    if (options.cause !== undefined) {
+      (this as Error & { cause?: unknown }).cause = options.cause;
+    }
+  }
+}
 
 class ReferenceManagerService {
   private static instance: ReferenceManagerService;
@@ -36,7 +75,9 @@ class ReferenceManagerService {
    */
   subscribe(callback: (ref: UnifiedAudioReference | null) => void): () => void {
     this.listeners.add(callback);
-    return () => this.listeners.delete(callback);
+    return () => {
+      this.listeners.delete(callback);
+    };
   }
 
   private notifyListeners(ref: UnifiedAudioReference | null): void {
@@ -67,7 +108,10 @@ class ReferenceManagerService {
   }
 
   /**
-   * Set the active reference
+   * Set the active reference.
+   *
+   * Kept as void because sessionStorage.setItem either succeeds or throws,
+   * and we already log + swallow; migrating this to Result is overkill.
    */
   setActive(reference: UnifiedAudioReference): void {
     try {
@@ -102,56 +146,217 @@ class ReferenceManagerService {
     }
   }
 
+  // ============================================================================
+  // Result-returning methods (preferred API)
+  // ============================================================================
+
   /**
-   * Create reference from file upload
+   * Create reference from file upload — Result variant.
    */
-  async createFromUpload(file: File, mode?: ReferenceMode): Promise<UnifiedAudioReference> {
-    const audioUrl = URL.createObjectURL(file);
-    const duration = await this.calculateDuration(audioUrl);
+  async createFromUpload(
+    file: File,
+    mode?: ReferenceMode,
+  ): Promise<Result<UnifiedAudioReference, ReferenceManagerError>> {
+    try {
+      const audioUrl = URL.createObjectURL(file);
+      const duration = await this.calculateDuration(audioUrl);
 
-    const reference: UnifiedAudioReference = {
-      id: crypto.randomUUID(),
-      source: "upload",
-      audioUrl,
-      fileName: file.name,
-      fileSize: file.size,
-      mimeType: file.type,
-      durationSeconds: duration,
-      intendedMode: mode,
-      createdAt: Date.now(),
-      analysisStatus: "pending",
-    };
+      const reference: UnifiedAudioReference = {
+        id: crypto.randomUUID(),
+        source: "upload",
+        audioUrl,
+        fileName: file.name,
+        fileSize: file.size,
+        mimeType: file.type,
+        durationSeconds: duration,
+        intendedMode: mode,
+        createdAt: Date.now(),
+        analysisStatus: "pending",
+      };
 
-    this.setActive(reference);
-    return reference;
+      this.setActive(reference);
+      return ok(reference);
+    } catch (error) {
+      return err(
+        new ReferenceManagerError(
+          error instanceof Error ? error.message : "createFromUpload failed",
+          "CREATE_FROM_UPLOAD_FAILED",
+          "createFromUpload",
+          { cause: error, details: { fileName: file.name, fileSize: file.size } },
+        ),
+      );
+    }
   }
 
   /**
-   * Create reference from recording blob
+   * Throwing wrapper for {@link createFromUpload}.
    */
-  async createFromRecording(blob: Blob, fileName?: string, mode?: ReferenceMode): Promise<UnifiedAudioReference> {
-    const audioUrl = URL.createObjectURL(blob);
-    const duration = await this.calculateDuration(audioUrl);
-
-    const reference: UnifiedAudioReference = {
-      id: crypto.randomUUID(),
-      source: "record",
-      audioUrl,
-      fileName: fileName || `recording-${Date.now()}.webm`,
-      fileSize: blob.size,
-      mimeType: blob.type,
-      durationSeconds: duration,
-      intendedMode: mode,
-      createdAt: Date.now(),
-      analysisStatus: "pending",
-    };
-
-    this.setActive(reference);
-    return reference;
+  async tryCreateFromUpload(file: File, mode?: ReferenceMode): Promise<UnifiedAudioReference> {
+    const r = await this.createFromUpload(file, mode);
+    if (r.kind === "err") throw r.error;
+    return r.value;
   }
 
   /**
-   * Create reference from cloud storage (reference_audio table)
+   * Create reference from recording blob — Result variant.
+   */
+  async createFromRecording(
+    blob: Blob,
+    fileName?: string,
+    mode?: ReferenceMode,
+  ): Promise<Result<UnifiedAudioReference, ReferenceManagerError>> {
+    try {
+      const audioUrl = URL.createObjectURL(blob);
+      const duration = await this.calculateDuration(audioUrl);
+
+      const reference: UnifiedAudioReference = {
+        id: crypto.randomUUID(),
+        source: "record",
+        audioUrl,
+        fileName: fileName || `recording-${Date.now()}.webm`,
+        fileSize: blob.size,
+        mimeType: blob.type,
+        durationSeconds: duration,
+        intendedMode: mode,
+        createdAt: Date.now(),
+        analysisStatus: "pending",
+      };
+
+      this.setActive(reference);
+      return ok(reference);
+    } catch (error) {
+      return err(
+        new ReferenceManagerError(
+          error instanceof Error ? error.message : "createFromRecording failed",
+          "CREATE_FROM_RECORDING_FAILED",
+          "createFromRecording",
+          { cause: error, details: { fileName, blobSize: blob.size } },
+        ),
+      );
+    }
+  }
+
+  /**
+   * Throwing wrapper for {@link createFromRecording}.
+   */
+  async tryCreateFromRecording(blob: Blob, fileName?: string, mode?: ReferenceMode): Promise<UnifiedAudioReference> {
+    const r = await this.createFromRecording(blob, fileName, mode);
+    if (r.kind === "err") throw r.error;
+    return r.value;
+  }
+
+  /**
+   * Save current reference to database — Result variant.
+   *
+   * `Ok(null>` is also a possibility (no active reference). It is NOT an
+   * error — historically this returned `string | null`. Callers that want
+   * to distinguish "no active" from "upload failed" should pattern-match.
+   */
+  async persistToDatabase(userId: string): Promise<Result<string | null, ReferenceManagerError>> {
+    const active = this.getActive();
+    if (!active) return ok(null);
+
+    try {
+      // If already has dbId, return it
+      if (active.dbId) return ok(active.dbId);
+
+      // For blob URLs, we need to upload first
+      if (active.audioUrl.startsWith("blob:")) {
+        const response = await fetch(active.audioUrl);
+        const blob = await response.blob();
+
+        const fileName = `${userId}/${active.id}-${active.fileName}`;
+        const { error: uploadError } = await supabase.storage
+          .from("reference-audio")
+          .upload(fileName, blob, { contentType: active.mimeType || "audio/mpeg" });
+
+        if (uploadError) {
+          return err(
+            new ReferenceManagerError("Reference upload failed", "STORAGE_UPLOAD_FAILED", "persistToDatabase", {
+              cause: uploadError,
+              details: { userId, fileName },
+            }),
+          );
+        }
+
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("reference-audio").getPublicUrl(fileName);
+
+        active.audioUrl = publicUrl;
+      }
+
+      const { data, error } = await supabase
+        .from("reference_audio")
+        .insert({
+          user_id: userId,
+          file_name: active.fileName,
+          file_url: active.audioUrl,
+          file_size: active.fileSize,
+          mime_type: active.mimeType,
+          duration_seconds: active.durationSeconds,
+          source: active.source,
+          genre: active.analysis?.genre,
+          mood: active.analysis?.mood,
+          bpm: active.analysis?.bpm,
+          tempo: active.analysis?.tempo,
+          energy: active.analysis?.energy,
+          has_vocals: active.analysis?.hasVocals,
+          has_instrumentals: active.analysis?.hasInstrumentals,
+          vocal_style: active.analysis?.vocalStyle,
+          style_description: active.analysis?.styleDescription,
+          transcription: active.analysis?.transcription,
+          instruments: active.analysis?.instruments,
+          analysis_status: active.analysisStatus || "pending",
+        })
+        .select("id")
+        .single();
+
+      if (error) {
+        return err(
+          new ReferenceManagerError("Database insert failed", "DB_INSERT_FAILED", "persistToDatabase", {
+            cause: error,
+            details: { userId },
+          }),
+        );
+      }
+
+      // Update active with dbId
+      this.setActive({ ...active, dbId: data.id });
+
+      return ok(data.id);
+    } catch (error) {
+      return err(
+        new ReferenceManagerError(
+          error instanceof Error ? error.message : "persistToDatabase threw",
+          "PERSIST_THREW",
+          "persistToDatabase",
+          { cause: error, details: { userId } },
+        ),
+      );
+    }
+  }
+
+  /**
+   * Throwing wrapper for {@link persistToDatabase}.
+   *
+   * Preserves the historical `string | null` API: returns the new dbId or
+   * `null` if there is no active reference. Real failures throw.
+   */
+  async tryPersistToDatabase(userId: string): Promise<string | null> {
+    const r = await this.persistToDatabase(userId);
+    if (r.kind === "err") throw r.error;
+    return r.value;
+  }
+
+  // ============================================================================
+  // Pure data-shape builders (cannot fail — kept as-is)
+  // ============================================================================
+
+  /**
+   * Create reference from cloud storage (reference_audio table).
+   *
+   * Pure data shape — no I/O, no failure path.
    */
   createFromCloud(
     data: {
@@ -203,7 +408,9 @@ class ReferenceManagerService {
   }
 
   /**
-   * Create reference from stem studio
+   * Create reference from stem studio.
+   *
+   * Pure data shape — no I/O, no failure path.
    */
   createFromStem(
     data: {
@@ -244,7 +451,9 @@ class ReferenceManagerService {
   }
 
   /**
-   * Create reference from creative tools (drums, dj)
+   * Create reference from creative tools (drums, dj).
+   *
+   * Pure data shape — no I/O, no failure path.
    */
   createFromCreativeTool(
     source: "drums" | "dj",
@@ -273,7 +482,9 @@ class ReferenceManagerService {
   }
 
   /**
-   * Create reference from guitar recording/analysis
+   * Create reference from guitar recording/analysis.
+   *
+   * Pure data shape — no I/O, no failure path.
    */
   createFromGuitar(data: {
     audioUrl: string;
@@ -303,7 +514,9 @@ class ReferenceManagerService {
   }
 
   /**
-   * Create reference from existing track
+   * Create reference from existing track.
+   *
+   * Pure data shape — no I/O, no failure path.
    */
   createFromTrack(
     track: {
@@ -354,73 +567,9 @@ class ReferenceManagerService {
     this.setActive(updated);
   }
 
-  /**
-   * Save current reference to database
-   */
-  async persistToDatabase(userId: string): Promise<string | null> {
-    const active = this.getActive();
-    if (!active) return null;
-
-    try {
-      // If already has dbId, return it
-      if (active.dbId) return active.dbId;
-
-      // For blob URLs, we need to upload first
-      if (active.audioUrl.startsWith("blob:")) {
-        const response = await fetch(active.audioUrl);
-        const blob = await response.blob();
-
-        const fileName = `${userId}/${active.id}-${active.fileName}`;
-        const { error: uploadError } = await supabase.storage
-          .from("reference-audio")
-          .upload(fileName, blob, { contentType: active.mimeType || "audio/mpeg" });
-
-        if (uploadError) throw uploadError;
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("reference-audio").getPublicUrl(fileName);
-
-        active.audioUrl = publicUrl;
-      }
-
-      const { data, error } = await supabase
-        .from("reference_audio")
-        .insert({
-          user_id: userId,
-          file_name: active.fileName,
-          file_url: active.audioUrl,
-          file_size: active.fileSize,
-          mime_type: active.mimeType,
-          duration_seconds: active.durationSeconds,
-          source: active.source,
-          genre: active.analysis?.genre,
-          mood: active.analysis?.mood,
-          bpm: active.analysis?.bpm,
-          tempo: active.analysis?.tempo,
-          energy: active.analysis?.energy,
-          has_vocals: active.analysis?.hasVocals,
-          has_instrumentals: active.analysis?.hasInstrumentals,
-          vocal_style: active.analysis?.vocalStyle,
-          style_description: active.analysis?.styleDescription,
-          transcription: active.analysis?.transcription,
-          instruments: active.analysis?.instruments,
-          analysis_status: active.analysisStatus || "pending",
-        })
-        .select("id")
-        .single();
-
-      if (error) throw error;
-
-      // Update active with dbId
-      this.setActive({ ...active, dbId: data.id });
-
-      return data.id;
-    } catch (error) {
-      logger.error("Failed to persist reference to database", { error });
-      return null;
-    }
-  }
+  // ============================================================================
+  // Private Helpers
+  // ============================================================================
 
   /**
    * Calculate audio duration from URL
