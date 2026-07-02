@@ -12,7 +12,6 @@ import { Crown, Zap, Check, Sparkles, Music, TrendingUp, Gift, Star, Loader2 } f
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { navigateTo, getGlobalNavigate } from "@/hooks/useAppNavigate";
 import type { PaywallTriggerReason } from "@/hooks/usePaywallTrigger";
@@ -229,11 +228,7 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
                 disabled={isLoading}
                 className="w-full bg-gradient-to-r from-primary to-primary/80"
               >
-                {isLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                ) : (
-                  <Sparkles className="w-4 h-4 mr-2" />
-                )}
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Sparkles className="w-4 h-4 mr-2" />}
                 Начать бесплатно
               </Button>
             </motion.div>
