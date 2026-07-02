@@ -40,6 +40,62 @@ export async function invokeAddVocalsToReference(
 }
 
 // ==========================================
+// AudioRecordDialog
+// ==========================================
+
+export type AudioRecordAction = "instrumental" | "vocals";
+
+export interface ProcessRecordedAudioParams {
+  action: AudioRecordAction;
+  audioUrl: string;
+  title: string;
+  prompt: string;
+  style: string;
+  negativeTags: string;
+  genre?: string;
+  mood?: string;
+  bpm?: number;
+  customStyle?: string;
+  studioProjectId?: string | null;
+  pendingTrackId?: string | null;
+}
+
+export interface ProcessRecordedAudioResponse {
+  data: { taskId?: string; [k: string]: unknown } | null;
+  error: { message: string } | null;
+}
+
+/**
+ * Invoke suno-add-instrumental or suno-add-vocals edge function from the
+ * audio-record dialog with the supplied settings payload.
+ */
+export async function invokeProcessRecordedAudio(
+  params: ProcessRecordedAudioParams,
+): Promise<ProcessRecordedAudioResponse> {
+  const functionName = params.action === "instrumental" ? "suno-add-instrumental" : "suno-add-vocals";
+  return supabase.functions.invoke(functionName, {
+    body: {
+      audioUrl: params.audioUrl,
+      prompt: params.prompt,
+      customMode: true,
+      style: params.style,
+      negativeTags: params.negativeTags,
+      title: params.title,
+      genre: params.genre,
+      mood: params.mood,
+      bpm: params.bpm,
+      customStyle: params.customStyle,
+      audioWeight: 0.8,
+      styleWeight: 0.55,
+      weirdnessConstraint: 0.25,
+      model: "V4_5PLUS",
+      studioProjectId: params.studioProjectId,
+      pendingTrackId: params.pendingTrackId,
+    },
+  });
+}
+
+// ==========================================
 // ExtractLyricsButton
 // ==========================================
 

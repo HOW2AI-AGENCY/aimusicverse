@@ -7,12 +7,12 @@ import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { CloudAudioPicker } from "./CloudAudioPicker";
 import { ReferenceManager } from "@/services/audio-reference/ReferenceManager";
+import { invokeProcessRecordedAudio } from "@/services/audio-reference/generation.service";
 import type { ReferenceAudio } from "@/hooks/useReferenceAudio";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { useRecordingUpload } from "@/hooks/useRecordingUpload";
@@ -231,7 +231,11 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
       const actionLabel = action === "vocals" ? "vocal" : action === "instrumental" ? "inst" : action;
       const fileName = `recordings/${user.id}/rec_${actionLabel}_${dateStr}_${timeStr}.webm`;
 
-      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "audio", path: fileName, file: audioBlob });
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "audio",
+        path: fileName,
+        file: audioBlob,
+      });
 
       if (uploadError) throw uploadError;
 
@@ -340,34 +344,25 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
         }
       }
 
-      const { data, error: functionError } = await supabase.functions.invoke(functionName, {
-        body: {
-          audioUrl,
-          prompt:
-            action === "instrumental"
-              ? "" // Not required for add-instrumental
-              : "Добавить профессиональный вокал к этому инструменталу",
-          customMode: true,
-          style: action === "instrumental" ? stylePrompt : "professional vocal performance, clear singing",
-          negativeTags:
-            action === "instrumental"
-              ? "acapella, vocals only, karaoke, low quality"
-              : "instrumental only, low quality, distorted",
-          title,
-          // Instrumental settings
-          genre: settings?.genre,
-          mood: settings?.mood,
-          bpm: settings?.bpm,
-          customStyle: settings?.customStyle,
-          // Critical weights for following the input audio
-          audioWeight: 0.8, // High to sync with input
-          styleWeight: 0.55, // Moderate style adherence
-          weirdnessConstraint: 0.25, // Low for predictable result
-          model: "V4_5PLUS",
-          // Studio project info
-          studioProjectId,
-          pendingTrackId,
-        },
+      const { data, error: functionError } = await invokeProcessRecordedAudio({
+        action,
+        audioUrl,
+        title,
+        prompt:
+          action === "instrumental"
+            ? "" // Not required for add-instrumental
+            : "Добавить профессиональный вокал к этому инструменталу",
+        style: action === "instrumental" ? stylePrompt : "professional vocal performance, clear singing",
+        negativeTags:
+          action === "instrumental"
+            ? "acapella, vocals only, karaoke, low quality"
+            : "instrumental only, low quality, distorted",
+        genre: settings?.genre,
+        mood: settings?.mood,
+        bpm: settings?.bpm,
+        customStyle: settings?.customStyle,
+        studioProjectId,
+        pendingTrackId,
       });
 
       if (functionError) {
