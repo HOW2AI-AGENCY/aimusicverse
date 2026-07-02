@@ -147,19 +147,19 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
                 )}
               </Button>
 
-              <Button variant="outline" size="icon" className="h-8 w-8">
+              <Button variant="outline" size="icon" className="h-8 w-8 min-h-[44px] min-w-[44px]">
                 <Heart className={cn("w-4 h-4", track.is_liked && "fill-red-500 text-red-500")} />
               </Button>
 
-              <Button variant="outline" size="icon" className="h-8 w-8">
+              <Button variant="outline" size="icon" className="h-8 w-8 min-h-[44px] min-w-[44px]">
                 <Share2 className="w-4 h-4" />
               </Button>
 
-              <Button variant="outline" size="icon" className="h-8 w-8">
+              <Button variant="outline" size="icon" className="h-8 w-8 min-h-[44px] min-w-[44px]">
                 <Download className="w-4 h-4" />
               </Button>
 
-              <Button variant="outline" size="icon" className="h-8 w-8">
+              <Button variant="outline" size="icon" className="h-8 w-8 min-h-[44px] min-w-[44px]">
                 <MoreHorizontal className="w-4 h-4" />
               </Button>
             </div>
