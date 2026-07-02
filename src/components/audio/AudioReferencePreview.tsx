@@ -13,8 +13,8 @@ import { logger } from "@/lib/logger";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
-type WaveSurferCtor = typeof import("wavesurfer.js").default;
-type WaveSurferInstance = ReturnType<WaveSurferCtor["create"]>;
+type WaveSurferCtor = (typeof import("wavesurfer.js"))["default"];
+type WaveSurferInstance = InstanceType<WaveSurferCtor>;
 
 interface AudioReferencePreviewProps {
   file: File;
