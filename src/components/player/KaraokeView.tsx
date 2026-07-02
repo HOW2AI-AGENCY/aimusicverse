@@ -67,7 +67,7 @@ export function KaraokeView({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center gap-3 px-6 text-center"
+        className="fixed inset-0 z-system bg-background flex flex-col items-center justify-center gap-3 px-6 text-center"
         data-testid="karaoke-view-empty"
       >
         <Mic2 className="w-10 h-10 text-muted-foreground/60" aria-hidden />
@@ -96,7 +96,7 @@ export function KaraokeView({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black flex flex-col"
+      className="fixed inset-0 z-system bg-black flex flex-col"
       style={{
         paddingTop:
           "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))",
@@ -105,10 +105,9 @@ export function KaraokeView({
     >
       {/* Minimal header */}
       <div
-        className="absolute top-4 right-4 z-10"
+        className="absolute top-4 right-4 z-sticky"
         style={{
-          marginTop:
-            "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))",
+          marginTop: "calc(max(var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.5rem)",
         }}
       >
         <Button
@@ -121,7 +120,7 @@ export function KaraokeView({
           aria-label="Закрыть караоке"
           className={cn("h-11 w-11 min-h-11 min-w-11 rounded-full", glassButton.default, surface.light)}
         >
-          <X className="h-5 w-5 text-white" />
+          <X className="h-5 w-5 text-primary-foreground" />
         </Button>
       </div>
 
@@ -170,7 +169,7 @@ export function KaraokeView({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/50"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-primary-foreground/60"
         style={{
           marginBottom: "calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))",
         }}

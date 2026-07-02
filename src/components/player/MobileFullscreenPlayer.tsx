@@ -225,7 +225,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={{ top: 0.1, bottom: 0.5 }}
         onDragEnd={handleVerticalDragEnd}
-        className="absolute top-0 left-0 right-0 z-20 flex h-10 cursor-grab items-start justify-center pt-2 active:cursor-grabbing"
+        className="absolute top-0 left-0 right-0 z-sticky flex h-12 min-h-touch cursor-grab items-start justify-center pt-3 active:cursor-grabbing"
         role="button"
         tabIndex={-1}
         aria-label="Потяните вниз чтобы закрыть"
@@ -233,13 +233,12 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
         <div className="h-1 w-10 rounded-full bg-muted-foreground/40" aria-hidden="true" />
       </motion.div>
 
-      <div className="relative z-10 flex flex-1 flex-col min-h-0">
+      <div className="relative z-base flex flex-1 flex-col min-h-0">
         {/* Header — symmetric 44 / 1fr / 44+44 */}
         <header
           className="grid grid-cols-[44px_minmax(0,1fr)_92px] items-center gap-2 px-4 pb-1 pt-3"
           style={{
-            paddingTop:
-              "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.75rem)",
+            paddingTop: "calc(max(var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.75rem)",
           }}
         >
           <Button
@@ -257,7 +256,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           </Button>
 
           <div className="min-w-0 text-center" aria-live="polite">
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/60">
+            <p className="text-caption-sm font-medium uppercase tracking-[0.18em] text-muted-foreground/60">
               {page === "cover" ? "Сейчас играет" : page === "lyrics" ? "Текст" : "О треке"}
             </p>
           </div>
