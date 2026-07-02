@@ -167,7 +167,7 @@ export function VersionComparison({ trackId, activeVersionId, onClose }: Version
         // Create a track-like object from the version for playback.
         // DB-only fields (style, is_public, play_count, likes_count, etc.)
         // are not needed for the audio playback path.
-        const versionTrack: Track = {
+        const versionTrack = {
           id: version.id,
           title: version.version_label || "Версия",
           audio_url: version.audio_url,

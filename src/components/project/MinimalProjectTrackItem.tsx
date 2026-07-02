@@ -40,7 +40,8 @@ import { TrackVersionsPanel } from "./TrackVersionsPanel";
 import { motion } from "@/lib/motion";
 import { LazyImage } from "@/components/ui/lazy-image";
 import type { DraggableAttributes } from "@dnd-kit/core";
-import type { SyntheticListenerMap } from "@dnd-kit/core";
+// SyntheticListenerMap moved to internal types; alias locally
+type SyntheticListenerMap = Record<string, (...args: any[]) => void>;
 
 interface GenerationStatus {
   progress: number;

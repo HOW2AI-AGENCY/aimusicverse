@@ -57,7 +57,7 @@ export const ProjectDialogs = memo(function ProjectDialogs({
       <LyricsPreviewSheet
         open={state.lyricsSheetOpen}
         onOpenChange={state.setLyricsSheetOpen}
-        track={state.selectedTrackForLyrics}
+        track={state.selectedTrackForLyrics as never}
         onSaveLyrics={state.handleSaveLyrics}
         onSaveNotes={state.handleSaveNotes}
         onOpenWizard={() => {

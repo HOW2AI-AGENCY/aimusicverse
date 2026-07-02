@@ -105,7 +105,7 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
         bio: formData.bio,
         avatarUrl: formData.avatarUrl,
         bannerUrl: formData.bannerUrl,
-        socialLinks: formData.socialLinks,
+        socialLinks: formData.socialLinks as unknown as Record<string, string>,
       });
 
       // Invalidate profile cache to trigger needsSetup recalculation
