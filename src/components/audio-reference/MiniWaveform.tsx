@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 type WaveSurferCtor = typeof import("wavesurfer.js");
-type WaveSurferInstance = any;
+type WaveSurferInstance = ReturnType<WaveSurferCtor["create"]>;
 
 interface MiniWaveformProps {
   audioUrl: string;
@@ -46,7 +46,7 @@ export const MiniWaveform = memo(function MiniWaveform({
       setIsReady(false);
 
       const mod: WaveSurferCtor = await import("wavesurfer.js");
-      const WaveSurfer = (mod as any).default ?? (mod as any);
+      const WaveSurfer = (mod.default ?? mod) as unknown as { create: (opts: unknown) => WaveSurferInstance };
       if (!mounted) return;
 
       const wavesurfer = WaveSurfer.create({

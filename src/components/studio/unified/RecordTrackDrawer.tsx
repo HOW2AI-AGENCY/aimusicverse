@@ -124,7 +124,8 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
   // Audio level monitoring
   const startAudioLevelMonitoring = useCallback((stream: MediaStream) => {
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass =
+        window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       const audioContext = new AudioContextClass();
       const analyser = audioContext.createAnalyser();
       const source = audioContext.createMediaStreamSource(stream);
@@ -294,7 +295,11 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
         try {
           const fileName = `${user?.id}/${Date.now()}-${recordingType}.webm`;
 
-          const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "reference-audio", path: fileName, file: audioBlob });
+          const { data: uploadData, error: uploadError } = await uploadFile({
+            bucket: "reference-audio",
+            path: fileName,
+            file: audioBlob,
+          });
 
           if (uploadError) throw uploadError;
 

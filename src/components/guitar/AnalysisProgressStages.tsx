@@ -8,24 +8,17 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Upload, Activity, Music, FileMusic, CheckCircle2, Loader2, Clock, Zap } from "@/lib/icons";
+import { Upload, Activity, Music, FileMusic, CheckCircle2, Loader2, Clock, Zap, type LucideIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 export type AnalysisStage =
-  | "idle"
-  | "uploading"
-  | "beat-tracking"
-  | "chord-recognition"
-  | "transcription"
-  | "processing"
-  | "complete"
-  | "error";
+  "idle" | "uploading" | "beat-tracking" | "chord-recognition" | "transcription" | "processing" | "complete" | "error";
 
 interface StageInfo {
   id: AnalysisStage;
   label: string;
   description: string;
-  icon: any;
+  icon: LucideIcon;
   color: string;
   estimatedTime: number; // seconds
 }

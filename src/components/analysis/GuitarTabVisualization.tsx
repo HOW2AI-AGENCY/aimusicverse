@@ -172,7 +172,7 @@ export function GuitarTabVisualization({ notes, bpm = 120, className = "", onExp
       </div>
 
       {/* View Toggle */}
-      <Tabs value={activeView} onValueChange={(v) => setActiveView(v as any)}>
+      <Tabs value={activeView} onValueChange={(v) => setActiveView(v as "tab" | "fretboard")}>
         <TabsList className="grid w-full grid-cols-2 h-9">
           <TabsTrigger value="tab" className="text-xs gap-1.5">
             <Music className="w-3.5 h-3.5" />

@@ -55,14 +55,14 @@ export const StatusIcons = memo(function StatusIcons({
   midiStatus,
   compact = false,
 }: StatusIconsProps) {
-  const trackAny = track as any;
+  const trackAny = track;
 
   const hasVocals = track.has_vocals === true;
   const isInstrumental =
     track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true || stemCount > 0;
   const isCover = ["remix", "cover", "upload_cover"].includes(track.generation_mode || "");
-  const isExtend = ["extend", "upload_extend"].includes(trackAny.generation_mode || "");
+  const isExtend = ["extend", "upload_extend"].includes(track.generation_mode || "");
 
   const icons = [];
 

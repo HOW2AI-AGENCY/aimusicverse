@@ -163,7 +163,11 @@ export function NotesViewerDialog({
     }
 
     return (
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="flex-1 flex flex-col">
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as "piano" | "pdf" | "guitar" | "xml")}
+        className="flex-1 flex flex-col"
+      >
         {availableTabs.length > 1 && (
           <TabsList className={cn("mb-4", isMobile ? "grid-cols-2" : `grid-cols-${availableTabs.length}`)}>
             {availableTabs.map((tab) => {

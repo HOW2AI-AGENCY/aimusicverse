@@ -117,9 +117,9 @@ export function InlineLyricsEditor({
         setActiveTab("write");
         toast.success("Текст сгенерирован!");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       logger.error("Generate lyrics error", { error });
-      toast.error(error.message || "Ошибка генерации");
+      toast.error(error instanceof Error ? error.message : String(error) || "Ошибка генерации");
     } finally {
       setLoading(false);
     }
@@ -144,9 +144,9 @@ export function InlineLyricsEditor({
         onChange(data.lyrics);
         toast.success("Текст улучшен!");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       logger.error("Improve lyrics error", { error });
-      toast.error(error.message || "Ошибка улучшения");
+      toast.error(error instanceof Error ? error.message : String(error) || "Ошибка улучшения");
     } finally {
       setLoading(false);
     }
@@ -170,9 +170,9 @@ export function InlineLyricsEditor({
         onChange(data.lyrics);
         toast.success("Теги добавлены!");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       logger.error("Add tags error", { error });
-      toast.error(error.message || "Ошибка добавления тегов");
+      toast.error(error instanceof Error ? error.message : String(error) || "Ошибка добавления тегов");
     } finally {
       setLoading(false);
     }
@@ -193,7 +193,7 @@ export function InlineLyricsEditor({
 
   return (
     <div className={cn("space-y-3", className)}>
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "write" | "ai" | "templates")}>
         <div className="flex items-center justify-between gap-2 mb-2">
           <TabsList className="h-8">
             <TabsTrigger value="write" className="text-xs gap-1 px-2 h-6">

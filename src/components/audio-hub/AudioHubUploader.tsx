@@ -21,7 +21,7 @@ interface UploadedFile {
   url: string;
   status: "pending" | "analyzing" | "done" | "error";
   progress?: number;
-  analysisResult?: any;
+  analysisResult?: { bpm?: number; key?: string; scale?: string; [key: string]: unknown };
   error?: string;
 }
 

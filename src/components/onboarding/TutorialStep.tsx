@@ -1,5 +1,5 @@
 import { motion } from "@/lib/motion";
-import { Check, Play, ChevronRight, Info } from "@/lib/icons";
+import { Check, Play, ChevronRight, Info, type LucideIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -8,7 +8,7 @@ interface TutorialStepProps {
     id: string;
     title: string;
     description: string;
-    icon: any;
+    icon: LucideIcon;
     features?: string[];
     tip?: string;
     route?: string;

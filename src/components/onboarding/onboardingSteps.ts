@@ -1,10 +1,10 @@
-import { Music2, Library, Sparkles, Trophy, Wand2 } from "@/lib/icons";
+import { Music2, Library, Sparkles, Trophy, Wand2, type LucideIcon } from "@/lib/icons";
 
 export interface OnboardingStep {
   id: string;
   title: string;
   description: string;
-  icon: any;
+  icon: LucideIcon;
   highlightSelector?: string;
   route?: string;
   features?: string[];

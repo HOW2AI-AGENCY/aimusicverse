@@ -60,7 +60,7 @@ export function DialogContainer({
       exit={{ scale: 0.95, opacity: 0 }}
       transition={{
         duration: DIALOG_CONFIG.animations.open.duration / 1000,
-        ease: DIALOG_CONFIG.animations.open.easing as any,
+        ease: DIALOG_CONFIG.animations.open.easing as [number, number, number, number],
       }}
     >
       {children}

@@ -194,7 +194,7 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                           "p-3 cursor-pointer hover:bg-accent/50 transition-colors",
                           isActive && "ring-1 ring-primary",
                         )}
-                        onClick={() => playTrack(track as any)}
+                        onClick={() => playTrack(track as unknown as Parameters<typeof playTrack>[0])}
                       >
                         <div className="flex items-center gap-3">
                           {/* Cover */}

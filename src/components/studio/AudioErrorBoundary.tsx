@@ -205,9 +205,8 @@ export function useAudioErrorHandler() {
 
     // Check if it's a recoverable error
     const errorType = getAudioErrorType(err);
-    const isRecoverable = [AUDIO_ERROR_TYPES.CONTEXT_CLOSED, AUDIO_ERROR_TYPES.AUTOPLAY_BLOCKED].includes(
-      errorType as any,
-    );
+    const isRecoverable =
+      errorType === AUDIO_ERROR_TYPES.CONTEXT_CLOSED || errorType === AUDIO_ERROR_TYPES.AUTOPLAY_BLOCKED;
 
     return { error: err, errorType, isRecoverable };
   }, []);

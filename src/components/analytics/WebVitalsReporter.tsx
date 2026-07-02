@@ -32,7 +32,7 @@ export const WebVitalsReporter = memo(function WebVitalsReporter({ debug = false
     // Import web-vitals dynamically
     import("web-vitals")
       .then(({ onCLS, onFID, onLCP, onTTFB, onINP }) => {
-        const handleMetric = ({ name, value, rating, navigationType }: any) => {
+        const handleMetric = ({ name, value, rating, navigationType }: import("web-vitals").Metric) => {
           const metric: PerformanceMetric = {
             name,
             value: Math.round(value),

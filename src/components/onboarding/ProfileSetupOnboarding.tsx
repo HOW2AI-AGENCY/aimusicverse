@@ -436,7 +436,7 @@ export function ProfileSetupOnboarding({ userId, initialProfile, onComplete, onS
 export function useProfileSetupCheck() {
   const { user } = useAuth();
   const [needsSetup, setNeedsSetup] = useState(false);
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<unknown>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [isChecking, setIsChecking] = useState(true);
 

@@ -78,7 +78,7 @@ export function useHapticPatterns() {
 /**
  * HOC to add haptic feedback to any handler
  */
-export function withHaptic<T extends (...args: any[]) => any>(
+export function withHaptic<T extends (...args: readonly unknown[]) => unknown>(
   handler: T,
   pattern: keyof typeof hapticPatterns = "buttonPress",
 ): T {

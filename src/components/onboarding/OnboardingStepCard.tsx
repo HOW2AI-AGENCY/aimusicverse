@@ -1,5 +1,5 @@
 import { motion } from "@/lib/motion";
-import { Check, Play, ArrowRight } from "@/lib/icons";
+import { Check, Play, ArrowRight, type LucideIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,7 @@ interface OnboardingStepCardProps {
     id: string;
     title: string;
     description: string;
-    icon: any;
+    icon: LucideIcon;
     route?: string;
     features?: string[];
     tip?: string;

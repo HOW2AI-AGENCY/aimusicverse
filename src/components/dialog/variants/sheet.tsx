@@ -62,7 +62,7 @@ export function SheetDialog({
 
   // Handle drag to close with haptic feedback
   const handleDragEnd = useCallback(
-    (_: any, info: PanInfo) => {
+    (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
       const { velocity, offset } = info;
 
       // Close if dragged down far enough or with high velocity
