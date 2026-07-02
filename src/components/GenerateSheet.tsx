@@ -389,7 +389,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
           {/* Footer - keyboard-aware padding, gradient mask for premium dock feel */}
           <div
-            className="px-5 pt-3 pb-4 border-t border-border/40 bg-background/95 backdrop-blur-xl"
+            className="px-4 pt-3 pb-4 border-t border-border/40 bg-background/95 backdrop-blur-xl"
             style={{
               paddingBottom: isKeyboardOpen
                 ? `${keyboardHeight + 16}px`
