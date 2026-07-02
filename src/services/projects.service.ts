@@ -3,6 +3,7 @@
  * Business logic for music project operations
  */
 
+import { supabase } from "@/integrations/supabase/client";
 import * as projectsApi from "@/api/projects.api";
 
 export type { ProjectRow, ProjectTrackRow } from "@/api/projects.api";
@@ -47,14 +48,7 @@ export const IMAGE_STYLES: Record<ImageStyle, { label: string; description: stri
 };
 
 export type TypographyStyle =
-  | "modern"
-  | "classic"
-  | "handwritten"
-  | "bold"
-  | "minimal"
-  | "grunge"
-  | "elegant"
-  | "retro";
+  "modern" | "classic" | "handwritten" | "bold" | "minimal" | "grunge" | "elegant" | "retro";
 
 export const TYPOGRAPHY_STYLES: Record<TypographyStyle, { label: string; description: string }> = {
   modern: { label: "Современный", description: "Чистые sans-serif шрифты" },
@@ -189,4 +183,28 @@ export async function getProjectProgress(projectId: string): Promise<{
   const progressPercent = totalTracks > 0 ? Math.round((completedTracks / totalTracks) * 100) : 0;
 
   return { totalTracks, completedTracks, progressPercent };
+}
+
+// ==========================================
+// AIActionsDialog — project-ai-actions edge function
+// ==========================================
+
+export interface ProjectAiActionOptions {
+  action: "improve_options" | "translate";
+  projectId: string;
+  field?: string;
+  language?: "en" | "ru";
+}
+
+export interface ProjectAiActionResponse {
+  data: { result?: { options?: unknown[] } & Record<string, unknown> } | null;
+  error: { message: string } | null;
+}
+
+/**
+ * Invoke the project-ai-actions edge function. Used by AIActionsDialog to
+ * get improvement options and to translate project content.
+ */
+export async function invokeProjectAiActions(params: ProjectAiActionOptions): Promise<ProjectAiActionResponse> {
+  return supabase.functions.invoke("project-ai-actions", { body: params });
 }

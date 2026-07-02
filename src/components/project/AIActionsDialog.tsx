@@ -3,7 +3,7 @@ import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, Languages, Check } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeProjectAiActions } from "@/services/projects.service";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 
@@ -35,12 +35,10 @@ export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply 
     setMode("options");
 
     try {
-      const { data, error } = await supabase.functions.invoke("project-ai-actions", {
-        body: {
-          action: "improve_options",
-          projectId,
-          field,
-        },
+      const { data, error } = await invokeProjectAiActions({
+        action: "improve_options",
+        projectId,
+        field,
       });
 
       if (error) throw error;
@@ -79,12 +77,10 @@ export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply 
     setMode("translate");
 
     try {
-      const { data, error } = await supabase.functions.invoke("project-ai-actions", {
-        body: {
-          action: "translate",
-          projectId,
-          language,
-        },
+      const { data, error } = await invokeProjectAiActions({
+        action: "translate",
+        projectId,
+        language,
       });
 
       if (error) throw error;
@@ -116,13 +112,7 @@ export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply 
   };
 
   return (
-    <UnifiedDialog
-      variant="modal"
-      open={open}
-      onOpenChange={handleClose}
-      title="AI Actions"
-      size="xl"
-    >
+    <UnifiedDialog variant="modal" open={open} onOpenChange={handleClose} title="AI Actions" size="xl">
       {mode === "menu" && (
         <div className="space-y-4">
           {!field && (
@@ -132,20 +122,10 @@ export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply 
                 Перевод проекта
               </h3>
               <div className="flex gap-2">
-                <Button
-                  onClick={() => handleTranslate("en")}
-                  disabled={isLoading}
-                  variant="outline"
-                  className="flex-1"
-                >
+                <Button onClick={() => handleTranslate("en")} disabled={isLoading} variant="outline" className="flex-1">
                   На английский
                 </Button>
-                <Button
-                  onClick={() => handleTranslate("ru")}
-                  disabled={isLoading}
-                  variant="outline"
-                  className="flex-1"
-                >
+                <Button onClick={() => handleTranslate("ru")} disabled={isLoading} variant="outline" className="flex-1">
                   На русский
                 </Button>
               </div>
@@ -190,9 +170,7 @@ export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply 
                   <div
                     key={index}
                     className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                      selectedOption === index
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50"
+                      selectedOption === index ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
                     }`}
                     onClick={() => setSelectedOption(index)}
                   >
