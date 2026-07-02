@@ -8,6 +8,26 @@ import type { Database } from "@/integrations/supabase/types";
 
 type NotificationSettingsUpdate = Database["public"]["Tables"]["user_notification_settings"]["Update"];
 
+// ==========================================
+// Telegram edge-function invocations (C3 Batch B)
+// ==========================================
+
+export interface VideoSharePayload {
+  type: "video_share";
+  trackId: string;
+  videoUrl: string;
+  title: string;
+}
+
+/**
+ * Send a video share notification to the user's Telegram chat via the
+ * send-telegram-notification edge function.
+ */
+export async function sendVideoShareNotification(payload: VideoSharePayload): Promise<void> {
+  const { error } = await supabase.functions.invoke("send-telegram-notification", { body: payload });
+  if (error) throw new Error(error.message);
+}
+
 export async function getNotificationSettings(userId: string) {
   const { data, error } = await supabase.from("user_notification_settings").select("*").eq("user_id", userId).single();
   return { data, error };

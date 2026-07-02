@@ -2,11 +2,12 @@
  * useTrackDetailsTab — TanStack Query wrappers for the track-details panel.
  * Fetches artist, project, and reference audio for the displayed track.
  */
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   fetchTrackArtist,
   fetchTrackProject,
   fetchTrackReferenceAudio,
+  sendTrackVideoToTelegram,
   type TrackArtistSummary,
   type TrackProjectSummary,
   type ReferenceAudioSummary,
@@ -38,5 +39,17 @@ export function useTrackReferenceAudio(trackId: string) {
     queryFn: () => fetchTrackReferenceAudio(trackId),
     enabled: !!trackId,
     staleTime: 30_000,
+  });
+}
+
+export interface SendVideoVariables {
+  trackId: string;
+  videoUrl: string;
+  title: string;
+}
+
+export function useSendTrackVideoToTelegram() {
+  return useMutation<void, Error, SendVideoVariables>({
+    mutationFn: ({ trackId, videoUrl, title }) => sendTrackVideoToTelegram(trackId, videoUrl, title),
   });
 }

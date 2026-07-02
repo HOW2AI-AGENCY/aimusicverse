@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Play, Pause, Download, Maximize2, Send, Loader2, Video, AlertCircle, RefreshCw } from "@/lib/icons";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { useVideoGenerationStatus } from "@/hooks/useVideoGenerationStatus";
+import { useSendTrackVideoToTelegram } from "@/hooks/track-detail/useTrackDetailsTab";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 import { Track } from "@/types/track";
 import { cn } from "@/lib/utils";
@@ -20,11 +20,11 @@ interface VideoSectionProps {
 export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isSendingToTelegram, setIsSendingToTelegram] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { isGenerating, hasVideo, videoUrl, status, error } = useVideoGenerationStatus(track.id);
+  const sendToTelegram = useSendTrackVideoToTelegram();
 
   const handlePlayPause = () => {
     if (!videoRef.current) return;
@@ -80,25 +80,17 @@ export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
   const handleSendToTelegram = async () => {
     if (!videoUrl) return;
     triggerHapticFeedback("light");
-    setIsSendingToTelegram(true);
 
     try {
-      const { error } = await supabase.functions.invoke("send-telegram-notification", {
-        body: {
-          type: "video_share",
-          trackId: track.id,
-          videoUrl,
-          title: track.title || "Видео клип",
-        },
+      await sendToTelegram.mutateAsync({
+        trackId: track.id,
+        videoUrl,
+        title: track.title || "Видео клип",
       });
-
-      if (error) throw error;
       toast.success("Видео отправлено в Telegram");
     } catch (err) {
       logger.error("Telegram send error", err);
       toast.error("Ошибка отправки в Telegram");
-    } finally {
-      setIsSendingToTelegram(false);
     }
   };
 
@@ -225,10 +217,11 @@ export function VideoSection({ track, onGenerateVideo }: VideoSectionProps) {
           variant="outline"
           size="sm"
           onClick={handleSendToTelegram}
-          disabled={isSendingToTelegram}
+          disabled={sendToTelegram.isPending}
           className="gap-1.5"
         >
-          {isSendingToTelegram ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}В Telegram
+          {sendToTelegram.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}В
+          Telegram
         </Button>
       </div>
     </div>

@@ -5,6 +5,7 @@
 
 import * as tracksApi from "@/api/tracks.api";
 import * as artistsApi from "@/api/artists.api";
+import * as notificationsApi from "@/api/notifications.api";
 import type { Database } from "@/integrations/supabase/types";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -128,4 +129,15 @@ export async function fetchTrackReferenceAudio(trackId: string): Promise<Referen
 
   if (error || !refAudio) return null;
   return refAudio as ReferenceAudioSummary;
+}
+
+// ==========================================
+// Video Section
+// ==========================================
+
+/**
+ * Send a video share notification to the user's Telegram chat.
+ */
+export async function sendTrackVideoToTelegram(trackId: string, videoUrl: string, title: string): Promise<void> {
+  await notificationsApi.sendVideoShareNotification({ type: "video_share", trackId, videoUrl, title });
 }
