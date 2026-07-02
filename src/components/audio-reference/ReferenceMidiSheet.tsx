@@ -8,12 +8,11 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Mic2, Guitar, Drum, Music, FileAudio, Download, Loader2, CheckCircle2, XCircle } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { useTranscribeMidi } from "@/hooks/audio-reference/useAudioReferenceGeneration";
 import { logger } from "@/lib/logger";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -68,10 +67,11 @@ export function ReferenceMidiSheet({ reference, onClose }: ReferenceMidiSheetPro
   const [selectedStem, setSelectedStem] = useState<StemType | null>(null);
   const [selectedFormat, setSelectedFormat] = useState<OutputFormat>("midi");
   const [selectedModel, setSelectedModel] = useState<TranscriptionModel>("basic-pitch");
-  const [isTranscribing, setIsTranscribing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<TranscriptionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const transcribeMidi = useTranscribeMidi();
 
   // Get available stems
   const availableStems: { type: StemType; url: string }[] = [];
@@ -94,25 +94,21 @@ export function ReferenceMidiSheet({ reference, onClose }: ReferenceMidiSheetPro
       return;
     }
 
-    setIsTranscribing(true);
     setProgress(10);
     setError(null);
     setResult(null);
 
     try {
-      // Call transcribe-midi edge function
-      const { data, error: fnError } = await supabase.functions.invoke("transcribe-midi", {
-        body: {
-          audio_url: stemUrl,
-          user_id: user.id,
-          model: selectedModel,
-          output_formats: [selectedFormat],
-          reference_id: reference.id,
-          stem_type: selectedStem,
-        },
+      const { data, error: fnError } = await transcribeMidi.mutateAsync({
+        audioUrl: stemUrl,
+        userId: user.id,
+        model: selectedModel,
+        outputFormats: [selectedFormat],
+        referenceId: reference.id,
+        stemType: selectedStem,
       });
 
-      if (fnError) throw fnError;
+      if (fnError) throw new Error(fnError.message);
       if (data?.error) throw new Error(data.error);
 
       setProgress(100);
@@ -130,8 +126,6 @@ export function ReferenceMidiSheet({ reference, onClose }: ReferenceMidiSheetPro
       logger.error("Transcription error", err instanceof Error ? err : new Error(String(err)));
       setError(err instanceof Error ? err.message : "Ошибка транскрипции");
       toast.error("Ошибка транскрипции");
-    } finally {
-      setIsTranscribing(false);
     }
   };
 
@@ -237,7 +231,7 @@ export function ReferenceMidiSheet({ reference, onClose }: ReferenceMidiSheetPro
         )}
 
         {/* Progress */}
-        {isTranscribing && (
+        {transcribeMidi.isPending && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
             <Progress value={progress} className="w-full" />
             <p className="text-sm text-muted-foreground text-center">Транскрипция... это может занять 1-2 минуты</p>
@@ -297,8 +291,8 @@ export function ReferenceMidiSheet({ reference, onClose }: ReferenceMidiSheetPro
           <Button variant="outline" className="flex-1" onClick={onClose}>
             Закрыть
           </Button>
-          <Button className="flex-1" onClick={handleTranscribe} disabled={!selectedStem || isTranscribing}>
-            {isTranscribing ? (
+          <Button className="flex-1" onClick={handleTranscribe} disabled={!selectedStem || transcribeMidi.isPending}>
+            {transcribeMidi.isPending ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                 Обработка...
