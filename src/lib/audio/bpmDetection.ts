@@ -65,6 +65,7 @@ export async function detectBPM(
     const startTime = performance.now();
 
     // Use web-audio-beat-detector package - guess() returns { bpm, offset, tempo }
+    const { guess } = await loadBeatDetector();
     const result = await guess(audioBuffer);
 
     const endTime = performance.now();
