@@ -16,7 +16,7 @@ interface FormSectionProps {
 }
 
 export const FormSection = memo(function FormSection({ children, className, elevated = false }: FormSectionProps) {
-  return <div className={cn("space-y-3", elevated && cn("p-3 rounded-xl", glass.subtle), className)}>{children}</div>;
+  return <div className={cn("space-y-2.5", elevated && cn("p-3 rounded-xl", glass.subtle), className)}>{children}</div>;
 });
 
 /**
