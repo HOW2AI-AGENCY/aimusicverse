@@ -59,3 +59,31 @@ export async function getTrackVersionsForSwitcher(trackId: string): Promise<Trac
     is_primary: r.is_primary,
   }));
 }
+
+export interface TrackVersionForUnifiedSelector {
+  id: string;
+  version_label: string | null;
+  audio_url: string;
+  cover_url: string | null;
+  duration_seconds: number | null;
+  is_primary: boolean | null;
+  version_type: string | null;
+  created_at: string | null;
+}
+
+/**
+ * Fetch versions in the exact shape required by UnifiedVersionSelector.
+ */
+export async function getTrackVersionsForUnifiedSelector(trackId: string): Promise<TrackVersionForUnifiedSelector[]> {
+  const rows = await fetchTrackVersionsDetailed(trackId);
+  return rows.map((r: TrackVersionDetailRow) => ({
+    id: r.id,
+    version_label: r.version_label,
+    audio_url: r.audio_url,
+    cover_url: r.cover_url,
+    duration_seconds: r.duration_seconds,
+    is_primary: r.is_primary,
+    version_type: r.version_type,
+    created_at: r.created_at,
+  }));
+}

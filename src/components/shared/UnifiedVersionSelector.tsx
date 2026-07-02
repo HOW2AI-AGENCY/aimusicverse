@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Check, Star, Play, Pause, Loader2 } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { getTrackVersionsForUnifiedSelector } from "@/services/generation/track-versions.service";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -86,13 +86,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
     setHasFetched(true);
 
     try {
-      const { data, error } = await supabase
-        .from("track_versions")
-        .select("id, version_label, audio_url, cover_url, duration_seconds, is_primary, version_type, created_at")
-        .eq("track_id", trackId)
-        .order("clip_index", { ascending: true });
-
-      if (error) throw error;
+      const data = await getTrackVersionsForUnifiedSelector(trackId);
 
       const mappedVersions: TrackVersion[] = (data || []).map((v, index) => ({
         id: v.id,
