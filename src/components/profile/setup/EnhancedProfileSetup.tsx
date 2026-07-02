@@ -5,7 +5,7 @@ import { Sparkles, ChevronRight, ChevronLeft } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { completeProfileSetup } from "@/services/profile/profile-setup.service";
 import { useProfile } from "@/hooks/useProfile";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
@@ -98,28 +98,15 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
 
     setIsSaving(true);
     try {
-      // Filter out empty social links
-      const filteredSocialLinks = Object.fromEntries(
-        Object.entries(formData.socialLinks).filter(([_, value]) => value && value.trim()),
-      );
-
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          first_name: formData.displayName.split(" ")[0] || formData.displayName,
-          last_name: formData.displayName.split(" ").slice(1).join(" ") || null,
-          display_name: formData.displayName.trim(),
-          username: formData.username.trim() || null,
-          photo_url: formData.avatarUrl || null,
-          bio: formData.bio.trim() || null,
-          social_links: filteredSocialLinks,
-          banner_url: formData.bannerUrl || null,
-          is_public: true, // Always public for free users
-          updated_at: new Date().toISOString(),
-        })
-        .eq("user_id", user.id);
-
-      if (error) throw error;
+      await completeProfileSetup({
+        userId: user.id,
+        displayName: formData.displayName,
+        username: formData.username,
+        bio: formData.bio,
+        avatarUrl: formData.avatarUrl,
+        bannerUrl: formData.bannerUrl,
+        socialLinks: formData.socialLinks,
+      });
 
       // Invalidate profile cache to trigger needsSetup recalculation
       await queryClient.invalidateQueries({ queryKey: ["profile"] });
