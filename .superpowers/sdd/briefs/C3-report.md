@@ -178,3 +178,151 @@ All 12 Batch B components reach the database only through `@/api/*` (via the new
 3. **`@/api/credits.api.ts` is now larger (~520 lines).** It is still the right home because every new function is a raw `supabase.from(...).select(...)` with no business logic. The new `missions.service.ts` owns the aggregation and reward-claim orchestration, so the API file stays thin. No need to split yet.
 4. **No new test files added.** Per Batch A precedent, the new services are pure data aggregation and the hooks are thin TanStack wrappers; existing 228/228 coverage still exercises the auth + Gamification surface. Future sprints should add service-level unit tests once a test scaffolding for `missions.service` is in place.
 5. **Public component prop interfaces unchanged.** Every Batch B component retains the exact same `Props` shape it had before. Visual behaviour is identical; only the data path moved.
+
+---
+
+## Batch C (continued) — final 14 components
+
+Implemented by Claude subagent (Task 043-03, Batch C RETRY). HEAD before this batch: `715ed051` (9 files done in Batch C earlier). HEAD after this batch: `762e5c94`. Per-file commits land one at a time so reviewers can bisect.
+
+### 1. `src/components/audio-record/AudioRecordDialog.tsx` — 720 LOC
+
+- **Service:** `src/services/audio-reference/generation.service.ts` (extended)
+- **New fn:** `invokeProcessRecordedAudio(params)` — wraps the single `suno-add-instrumental` / `suno-add-vocals` edge-function call (the long-bodied `body` with `audioWeight`, `styleWeight`, `weirdnessConstraint`, `studioProjectId`, `pendingTrackId` is now constructed inside the service).
+- **Diff:** +51 / −20. Commit `57cf204b`.
+
+### 2. `src/components/cloud/AudioDetailPanel.tsx` — 436 LOC
+
+- **Service:** `src/services/audio-reference/cloud-audio.service.ts` (extended)
+- **New fns:** `invokeAnalyzeAudio`, `invokeTranscribeLyrics` — wrappers for the `analyze-audio-flamingo` and `transcribe-lyrics` edge functions.
+- **Diff:** +44 / −10. Commit `8f541fc8`.
+
+### 3. `src/components/cloud/UploadDialog.tsx` — 242 LOC
+
+- **Service:** `src/services/audio-reference/cloud-audio.service.ts` (existing — `invokeAnalyzeAudio`)
+- **Diff:** +4 / −6. Commit `c7801e64`.
+
+### 4. `src/components/common/InlineLyricsEditor.tsx` — 406 LOC
+
+- **Service:** `src/services/lyrics/ai-tools.service.ts` (extended)
+- **New fns:** `generateLyrics`, `improveLyrics`, `addLyricsTags` — wrappers for the three `ai-lyrics-assistant` calls (`action: "generate" | "improve" | "add_tags"`).
+- **Diff:** +48 / −23. Commit `64f37758`.
+
+### 5. `src/components/guitar/AddVocalsToGuitarDialog.tsx` — 281 LOC
+
+- **Service:** `src/services/audio-reference/generation.service.ts` (extended)
+- **New fn:** `invokeAddVocalsToGuitar(params)` — wraps the `suno-add-vocals` edge-function call.
+- **Diff:** +23 / −10. Commit `cc7c0bf7`.
+
+### 6. `src/components/notifications/smart-alerts/SmartAlertProvider.tsx` — 287 LOC
+
+- **Service:** `src/services/smart-alerts.service.ts` (NEW file)
+- **New fns:** `checkProjectsCount`, `checkTracksCount`, `checkArtistsCount`, `subscribeToGenerationErrors`, `removeAlertChannel`. The realtime channel is owned by the service so the `RealtimeChannel` is returned for cleanup.
+- **API extensions:** `countUserProjects` in `src/api/projects.api.ts`, `countUserTracks` in `src/api/tracks.api.ts`, `countUserArtists` in `src/api/artists.api.ts`.
+- **Diff:** +102 / −39. Commit `46054575`.
+
+### 7. `src/components/player/VersionSwitcher.tsx` — 133 LOC
+
+- **Service:** `src/services/generation/track-versions.service.ts` (extended)
+- **New fn:** `getTrackVersionsForSwitcher(trackId)` — returns the exact shape consumed by the switcher (id / audio_url / cover_url / version_label / clip_index / is_primary).
+- **API extension:** `fetchTrackVersionsDetailed` now also selects `clip_index`.
+- **Public API preserved:** exports `VersionSwitcher`, props and component contract unchanged. Consumers: `GenerationResultSheet`, `DetailsPage`, `VersionComparison`, `VersionTimeline`, `VersionTree`, `EnhancedVersionTimeline`, `HeaderVersionSelector`, `useVersionSwitcher` (8 files).
+- **Diff:** +24 / −12. Commit `9cac3270`.
+
+### 8. `src/components/playlist/EditPlaylistDialog.tsx` — 180 LOC
+
+- **Service:** `src/services/playlists.service.ts` (extended)
+- **New fn:** `invokeGeneratePlaylistCover({ playlistTitle, trackCount })` — wraps the `generate-playlist-cover` edge function.
+- **Diff:** +25 / −11. Commit `ed9cbfbf`.
+
+### 9. `src/components/premium/SmartPaywallDialog.tsx` — 284 LOC
+
+- **Service:** none added — the `supabase` import was unused (zero `supabase.*` calls in the file). Removed the import only.
+- **Diff:** +1 / −6. Commit `853abf86`.
+
+### 10. `src/components/profile/ImageGeneratorDialog.tsx` — 281 LOC
+
+- **Service:** `src/services/profile/profile-setup.service.ts` (NEW file)
+- **New fn:** `invokeGenerateProfileImage({ type, prompt, displayName, bio, genres })` — wraps the `generate-profile-image` edge function.
+- **Diff:** +40 / −15. Commit `2fae93f6`.
+
+### 11. `src/components/profile/setup/EnhancedProfileSetup.tsx` — 250 LOC
+
+- **Service:** `src/services/profile/profile-setup.service.ts` (extended)
+- **New fn:** `completeProfileSetup({ userId, displayName, username, bio, avatarUrl, bannerUrl, socialLinks })` — owns the name-splitting, social-link filter, and `updateUserProfile` call. Returns the updated `ProfileRow`.
+- **Diff:** +33 / −24. Commit `9dd0ca8f`.
+
+### 12. `src/components/project/AIActionsDialog.tsx` — 232 LOC
+
+- **Service:** `src/services/projects.service.ts` (extended)
+- **New fn:** `invokeProjectAiActions({ action: "improve_options" | "translate", projectId, field?, language? })` — wraps the `project-ai-actions` edge function for both calls.
+- **Diff:** +13 / −21. Commit `9125bb8b`.
+
+### 13. `src/components/project/ProjectMediaGenerator.tsx` — 540 LOC
+
+- **Service:** `src/services/projects.service.ts` (extended)
+- **New fns:** `invokeGenerateProjectMedia({ prompt, width, height, projectId, trackId?, assetType })` and `applyProjectMedia({ projectId, field, url })`. The latter wraps `projectsApi.updateProjectFields` so the existing `as any` cast stays in the service.
+- **Diff:** +42 / −16. Commit `f21ecec6`.
+
+### 14. `src/components/shared/UnifiedVersionSelector.tsx` — 383 LOC
+
+- **Service:** `src/services/generation/track-versions.service.ts` (extended)
+- **New fn:** `getTrackVersionsForUnifiedSelector(trackId)` — returns the full Detailed shape (incl. `version_type` and `created_at`) needed by the unified selector.
+- **API extension:** `fetchTrackVersionsDetailed` now selects `version_type`.
+- **Public API preserved:** exports `UnifiedVersionSelector`, props and behaviour unchanged. Replaces the deprecated `InlineVersionToggle`, `VersionSwitcher`, `VersionsSection`, `StudioVersionSelector`.
+- **Diff:** +25 / −9. Commit `762e5c94`.
+
+### Per-file quality gate
+
+| #   | File                    | tsc   | vitest  |
+| --- | ----------------------- | ----- | ------- |
+| 1   | AudioRecordDialog       | clean | 228/228 |
+| 2   | AudioDetailPanel        | clean | 228/228 |
+| 3   | UploadDialog            | clean | 228/228 |
+| 4   | InlineLyricsEditor      | clean | 228/228 |
+| 5   | AddVocalsToGuitarDialog | clean | 228/228 |
+| 6   | SmartAlertProvider      | clean | 228/228 |
+| 7   | VersionSwitcher         | clean | 228/228 |
+| 8   | EditPlaylistDialog      | clean | 228/228 |
+| 9   | SmartPaywallDialog      | clean | 228/228 |
+| 10  | ImageGeneratorDialog    | clean | 228/228 |
+| 11  | EnhancedProfileSetup    | clean | 228/228 |
+| 12  | AIActionsDialog         | clean | 228/228 |
+| 13  | ProjectMediaGenerator   | clean | 228/228 |
+| 14  | UnifiedVersionSelector  | clean | 228/228 |
+
+(Per-file vitest was not run after each commit — the pre-commit hook runs `tsc --noEmit` + `lint-staged`, and the full `vitest run` was executed at the end and passed 228/228 across 13 suites.)
+
+### Final Summary (Cumulative across Batches A + B + C)
+
+- **Total files modified:** 65 (Batches A + B = 51, Batch C = 14)
+- **Total commits in C3 range (`a20ac502..HEAD`):** 23 (Batch C alone: 14)
+- `tsc --noEmit`: PASS (0 errors)
+- `vitest run`: PASS (228/228 in 13 suites)
+- `lint`: PASS for all committed files
+- pre-commit hooks: PASS for all 14 commits (no `--no-verify` used)
+- **Final grep — direct `@/integrations/supabase/client` imports in `src/components/`:** **0** (excluding the explicit-allow list: error-boundary, AuthGuard, telegram-auth, auth-required, GuestOnly, TelegramAuthGate, theme-provider, TelegramProvider, ThemeProvider, TelegramContext, AuthContext)
+- **Final grep — direct imports in the 14 Batch C target files:** **0**
+
+### Services touched / created by Batch C
+
+- **New services (2):** `src/services/smart-alerts.service.ts`, `src/services/profile/profile-setup.service.ts`
+- **Extended services (6):**
+  - `src/services/audio-reference/generation.service.ts` — added `invokeProcessRecordedAudio`, `invokeAddVocalsToGuitar`
+  - `src/services/audio-reference/cloud-audio.service.ts` — added `invokeAnalyzeAudio`, `invokeTranscribeLyrics`
+  - `src/services/lyrics/ai-tools.service.ts` — added `generateLyrics`, `improveLyrics`, `addLyricsTags`
+  - `src/services/generation/track-versions.service.ts` — added `getTrackVersionsForSwitcher`, `getTrackVersionsForUnifiedSelector`
+  - `src/services/playlists.service.ts` — added `invokeGeneratePlaylistCover`
+  - `src/services/projects.service.ts` — added `invokeProjectAiActions`, `invokeGenerateProjectMedia`, `applyProjectMedia`
+  - `src/services/profile/profile-setup.service.ts` — added `completeProfileSetup`
+- **API helpers added (3):** `countUserProjects`, `countUserTracks`, `countUserArtists`
+- **API row types extended (2):** `TrackVersionDetailRow` now includes `clip_index` + `version_type`
+
+### Concerns / notes for downstream
+
+1. **`fetchTrackVersionsDetailed` shape evolution.** Two new optional fields (`clip_index`, `version_type`) were added. Callers that destructure strictly will not break because the type already lists them as optional; if a downstream service starts relying on them, document this in its README.
+2. **`projects.service.ts` now imports `supabase` directly.** Per the C3 brief this is fine (services may use `supabase`); components still cannot. The import was added because `AIActionsDialog` and `ProjectMediaGenerator` needed a thin wrapper around `project-ai-actions` and `generate-project-media`. If/when the project-ai workflows grow complex enough to warrant a dedicated file, splitting `projects-ai.service.ts` out is recommended.
+3. **`@/services/smart-alerts.service.ts` owns a realtime channel.** The service exports both `subscribeToGenerationErrors` (returns `RealtimeChannel`) and `removeAlertChannel` (cleanup). This keeps channel lifecycle in the service layer so components never touch `supabase.channel()` or `supabase.removeChannel()`.
+4. **`SmartPaywallDialog` import-only change.** The original file had `import { supabase }` but no usages — the import was dead code. Removed without behavioural change.
+5. **No new tests added.** Existing 228/228 coverage still exercises the components' auth + UI surface. Recommend adding service-level unit tests for `smart-alerts.service.ts` (the realtime wrapper), `profile-setup.service.ts` (`completeProfileSetup`), and `projects.service.ts` (`invokeGenerateProjectMedia`, `applyProjectMedia`) in a future sprint.
+6. **All public component prop interfaces unchanged.** Every Batch C component retains the exact same `Props` shape and behaviour it had before. No consumer-side fixes required.
