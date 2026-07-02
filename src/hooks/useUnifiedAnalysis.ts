@@ -43,7 +43,7 @@ export function useUnifiedAnalysis() {
     mutationFn: async (request: AnalysisRequest) => {
       setState({ status: "pending", result: null, error: null });
 
-      return audioAnalysisService.analyze({
+      return audioAnalysisService.tryAnalyze({
         ...request,
         onProgress: handleProgress,
       });
@@ -160,7 +160,7 @@ function useAnalysisByType(types: AnalysisType[]) {
 
   return useMutation({
     mutationFn: async (params: { audioUrl?: string; trackId?: string; userId?: string }) => {
-      return audioAnalysisService.analyze({
+      return audioAnalysisService.tryAnalyze({
         ...params,
         analysisTypes: types,
       });
