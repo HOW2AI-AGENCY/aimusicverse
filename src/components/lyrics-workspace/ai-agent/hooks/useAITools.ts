@@ -111,6 +111,7 @@ export function useAITools({
   }, []);
 
   const executeTool = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- AI tool input is heterogeneous; tool-specific types own the schema
     async (toolId: AIToolId, input: Record<string, any> = {}) => {
       const tool = getToolById(toolId);
       if (!tool) {
@@ -127,6 +128,7 @@ export function useAITools({
       addMessage({ role: "assistant", content: "", toolId, isLoading: true });
 
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- AI tool request body is heterogeneous; tool-specific types own the schema
         const requestBody: Record<string, any> = {
           action: tool.action,
           ...input,

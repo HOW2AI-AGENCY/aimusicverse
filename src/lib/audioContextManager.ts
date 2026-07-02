@@ -31,6 +31,7 @@ let audioNodesResult: AudioNodesResult | null = null;
  */
 export function getAudioContext(): AudioContext {
   if (!audioContext) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Webkit fallback lacks types in TS lib
     audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     logger.debug("AudioContext created", {
       state: audioContext.state,

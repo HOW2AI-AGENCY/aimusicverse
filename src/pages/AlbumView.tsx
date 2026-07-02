@@ -120,6 +120,7 @@ export default function AlbumView() {
         audio_url: firstTrack.audio_url,
         cover_url: firstTrack.cover_url || album?.cover_url || undefined,
         duration_seconds: firstTrack.duration_seconds,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- First-track shape from album join; player accepts a narrow subset
       } as any);
       setPlayingAll(true);
     }
@@ -139,6 +140,7 @@ export default function AlbumView() {
         audio_url: track.audio_url,
         cover_url: track.cover_url || album?.cover_url,
         duration_seconds: track.duration_seconds,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Track shape from album join; player accepts a narrow subset
       } as any);
     }
   };

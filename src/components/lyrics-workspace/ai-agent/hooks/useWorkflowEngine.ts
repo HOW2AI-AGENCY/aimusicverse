@@ -109,6 +109,7 @@ export function useWorkflowEngine({
   const abortRef = useRef(false);
 
   const startWorkflow = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Workflow initial input is heterogeneous across workflow definitions
     async (workflowId: string, initialInput?: Record<string, any>) => {
       const workflow = WORKFLOWS.find((w) => w.id === workflowId);
       if (!workflow) {

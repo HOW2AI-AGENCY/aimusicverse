@@ -122,8 +122,8 @@ export function useTelegramInit(): UseTelegramInitResult {
       }
 
       // Disable vertical swipes (requires SDK 7.7+)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableVerticalSwipes type
       if (tg.isVersionAtLeast?.("7.7") && typeof (tg as any).disableVerticalSwipes === "function") {
-        // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableVerticalSwipes type
         try {
           (tg as any).disableVerticalSwipes(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableVerticalSwipes type
           bootLog("Vertical swipes disabled");
@@ -133,8 +133,8 @@ export function useTelegramInit(): UseTelegramInitResult {
       }
 
       // Lock orientation (requires SDK 8.0+)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks lockOrientation type
       if (tg.isVersionAtLeast?.("8.0") && typeof (tg as any).lockOrientation === "function") {
-        // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks lockOrientation type
         try {
           (tg as any).lockOrientation(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks lockOrientation type
           bootLog("Orientation locked");
@@ -145,8 +145,8 @@ export function useTelegramInit(): UseTelegramInitResult {
 
       // Disable closing confirmation (requires SDK 6.2+)
       // Phase 1.2: Added version check to prevent "not supported in version 6.0" warning
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableClosingConfirmation type
       if (tg.isVersionAtLeast?.("6.2") && typeof (tg as any).disableClosingConfirmation === "function") {
-        // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableClosingConfirmation type
         try {
           (tg as any).disableClosingConfirmation(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks disableClosingConfirmation type
           bootLog("Closing confirmation disabled");
@@ -156,8 +156,8 @@ export function useTelegramInit(): UseTelegramInitResult {
       }
 
       // Request fullscreen (Mini App 8.0+)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks requestFullscreen type
       if (tg.isVersionAtLeast?.("8.0") && typeof (tg as any).requestFullscreen === "function") {
-        // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks requestFullscreen type
         try {
           (tg as any).requestFullscreen(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks requestFullscreen type
           bootLog("Fullscreen requested");
@@ -355,12 +355,12 @@ function setupSafeAreaHandlers(tg: TelegramWebApp): SafeAreaHandlers {
   const handleSafeAreaChanged = () => applySafeAreaInsets();
   const handleContentSafeAreaChanged = () => applySafeAreaInsets();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportHeight type
   if ((tg as any).viewportHeight) {
-    // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportHeight type
     root.style.setProperty("--tg-viewport-height", `${(tg as any).viewportHeight}px`); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportHeight type
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportStableHeight type
   if ((tg as any).viewportStableHeight) {
-    // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportStableHeight type
     root.style.setProperty("--tg-viewport-stable-height", `${(tg as any).viewportStableHeight}px`); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks viewportStableHeight type
   }
 

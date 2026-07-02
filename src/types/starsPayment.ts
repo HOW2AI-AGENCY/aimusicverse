@@ -28,6 +28,7 @@ export interface StarsProduct {
   display_order: number;
   is_featured: boolean;
   is_active: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Stars payment metadata is heterogeneous provider-side
   metadata?: Record<string, any>;
   created_at: string;
   updated_at: string;
@@ -46,6 +47,7 @@ export interface StarsTransaction {
   telegram_user_id?: number;
   idempotency_key?: string;
   error_message?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Stars payment metadata is heterogeneous provider-side
   metadata?: Record<string, any>;
   created_at: string;
   updated_at: string;
@@ -63,6 +65,7 @@ export interface SubscriptionHistory {
   stars_transaction_id?: string | null;
   previous_tier?: SubscriptionTier;
   expires_at?: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Stars payment metadata is heterogeneous provider-side
   metadata?: Record<string, any>;
   created_at: string;
 }
@@ -147,6 +150,7 @@ export type PaymentErrorCode =
 export interface PaymentError {
   code: PaymentErrorCode;
   message: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Stars payment error details are heterogeneous provider-side
   details?: Record<string, any>;
 }
 

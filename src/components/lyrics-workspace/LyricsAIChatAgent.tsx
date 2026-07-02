@@ -136,6 +136,7 @@ export function LyricsAIChatAgent({
   );
 
   const handleToolExecute = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- AI tool input is heterogeneous; tool-specific types own the schema
     (toolId: AIToolId, input: Record<string, any>) => {
       setOpenToolPanel(null);
       executeTool(toolId, input);
@@ -179,6 +180,7 @@ export function LyricsAIChatAgent({
 
     const panelProps = {
       context,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- AI tool input is heterogeneous; tool-specific types own the schema
       onExecute: (input: Record<string, any>) => handleToolExecute(openToolPanel, input),
       onClose: () => setOpenToolPanel(null),
       isLoading,

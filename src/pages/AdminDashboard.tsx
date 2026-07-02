@@ -285,6 +285,7 @@ export default function AdminDashboard() {
       <AdminTrackDetailsDialog
         open={!!dashboard.dialogs.selectedTrack}
         onOpenChange={(open) => !open && dashboard.closeTrackDetails()}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Admin dialog state holds track union narrowed at dialog layer
         track={dashboard.dialogs.selectedTrack as any}
       />
     </div>

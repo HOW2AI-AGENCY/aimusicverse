@@ -123,8 +123,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
   };
 
   const showSettingsButton = (onClick: () => void) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type in @twa-dev/sdk 8.x
     if (webApp && webApp.isVersionAtLeast?.("6.10") && (webApp as any).SettingsButton) {
-      // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type in @twa-dev/sdk 8.x
       try {
         (webApp as any).SettingsButton.show(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
         (webApp as any).SettingsButton.onClick(onClick); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
@@ -137,8 +137,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
   };
 
   const hideSettingsButton = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type in @twa-dev/sdk 8.x
     if (webApp && webApp.isVersionAtLeast?.("6.10") && (webApp as any).SettingsButton) {
-      // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
       try {
         (webApp as any).SettingsButton.hide(); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
         (webApp as any).SettingsButton.offClick(() => {}); // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks SettingsButton type
@@ -384,8 +384,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
     mediaUrl: string,
     options?: { text?: string; widget_link?: { url: string; name?: string } },
   ) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks shareToStory type
     if (webApp && (webApp as any).shareToStory) {
-      // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks shareToStory type
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK lacks shareToStory type
         (webApp as any).shareToStory(mediaUrl, options);

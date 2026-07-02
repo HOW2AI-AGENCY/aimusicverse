@@ -151,6 +151,7 @@ export function LyricsChatAssistant({
   );
 
   const handleToolExecute = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- AI tool input is heterogeneous; tool-specific types own the schema
     (toolId: AIToolId, toolInput: Record<string, any>) => {
       setOpenToolPanel(null);
       executeTool(toolId, toolInput);
@@ -252,6 +253,7 @@ export function LyricsChatAssistant({
 
     const panelProps = {
       context: aiContext,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- AI tool input is heterogeneous; tool-specific types own the schema
       onExecute: (toolInput: Record<string, any>) => handleToolExecute(openToolPanel, toolInput),
       onClose: () => setOpenToolPanel(null),
       isLoading,

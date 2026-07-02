@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Generic constraint pattern: T extends ComponentType<any> is required for the lazy/retry factory. */
 /**
  * Performance optimization utilities
  * Bundle size reduction and runtime performance helpers
@@ -9,7 +10,7 @@ import { lazy, ComponentType, LazyExoticComponent, Suspense, ReactNode } from "r
  * Enhanced lazy loading with retry logic
  * Handles chunk loading failures during deployments by triggering a page reload
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export function lazyWithRetry<T extends ComponentType<any>>(
   importFn: () => Promise<{ default: T }>,
   retries = 3,

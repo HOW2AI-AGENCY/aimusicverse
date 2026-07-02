@@ -309,8 +309,8 @@ export function triggerHapticFeedback(type: HapticFeedbackType = "light"): boole
   if (typeof window === "undefined") return false;
 
   // Check if Telegram WebApp is available
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK not yet in window type
   if ((window as any).Telegram?.WebApp?.HapticFeedback) {
-    // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK not yet in window type
     const haptic = (window as any).Telegram.WebApp.HapticFeedback; // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK not yet in window type
 
     switch (type) {

@@ -14,6 +14,7 @@ import { LazyImage } from "@/components/ui/lazy-image";
 
 export default function AdminTracks() {
   const [trackSearch, setTrackSearch] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Admin track shape comes from heterogeneous query results; typed via Track | null at consumers
   const [selectedTrack, setSelectedTrack] = useState<any>(null);
   const isMobile = useIsMobile();
 

@@ -15,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { logger } from "@/lib/logger";
 
 type WaveSurferCtor = typeof import("wavesurfer.js");
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Wavesurfer.js instance type is not exposed as a named export
 type WaveSurferInstance = any;
 
 interface UnifiedWaveformTimelineProps {

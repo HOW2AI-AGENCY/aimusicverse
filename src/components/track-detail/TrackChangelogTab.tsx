@@ -11,6 +11,7 @@ export function TrackChangelogTab({ trackId }: TrackChangelogTabProps) {
   const { data: changelog, isLoading } = useTrackChangelog(trackId);
 
   const getChangeIcon = (type: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Change-type → icon map; values are React components
     const icons: Record<string, any> = {
       edit: FileEdit,
       ai_generation: Sparkles,

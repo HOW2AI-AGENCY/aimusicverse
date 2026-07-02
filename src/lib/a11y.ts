@@ -60,6 +60,7 @@ export function usePrefersReducedMotion(): boolean {
  * <motion.div animate={animation} />
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Generic constraint: T extends Record<string, any> is the canonical TS utility for this hook signature
 export function useReducedMotionConfig<T extends Record<string, any>>(config: { normal: T; reduced?: T }): T {
   const prefersReduced = usePrefersReducedMotion();
 

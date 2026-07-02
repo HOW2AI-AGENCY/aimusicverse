@@ -51,6 +51,7 @@
     "typecheck": "tsc --build --force",
     "typecheck:app": "tsc --noEmit --project tsconfig.app.json",
     "typecheck:strict": "tsc --noEmit --project tsconfig.app.json --strict",
+    "typecheck:any-count": "node scripts/count-any.mjs",
     "check-all": "npm run lint && npm run format:check && npm run typecheck && npm run test",
     "clean": "rm -rf dist coverage storybook-static node_modules",
     "ci:build": "npm run lint && npm run build && npm run test:coverage",

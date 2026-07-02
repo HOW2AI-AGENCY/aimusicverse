@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Generic constraint pattern: T extends (...args: any[]) => any is the canonical TS debounce/throttle signature. */
 /**
  * Performance Utility Functions
  *

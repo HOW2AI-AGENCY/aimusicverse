@@ -315,6 +315,7 @@ export async function logTrackActivity(params: {
 /**
  * Invoke merge-stems edge function
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Edge function return type is heterogeneous; callers narrow via service layer
 export async function invokeMergeStems(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
   const { data, error } = await supabase.functions.invoke("merge-stems", { body: payload });
   return { data, error: error ? new Error(error.message) : null };

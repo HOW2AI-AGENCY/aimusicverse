@@ -12,6 +12,7 @@ import { WorkflowStep, Workflow } from "./hooks/useWorkflowEngine";
 interface WorkflowProgressProps {
   workflow: Workflow;
   currentStepIndex: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Workflow step results are heterogeneous (analysis / generation / transcription)
   stepResults: Record<number, any>;
   status: "idle" | "running" | "paused" | "completed" | "error";
   progress: number;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Generic constraint pattern: T extends ComponentType<any> is required for the lazy route factory. */
 /**
  * Dynamic import utilities for code splitting
  *

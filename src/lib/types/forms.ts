@@ -57,6 +57,7 @@ export interface AssistantFormState {
   options: GenerationOptions;
 
   // Metadata
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Form metadata is heterogeneous; field-by-field typing adds friction
   metadata: Record<string, any>;
 
   // Validation state

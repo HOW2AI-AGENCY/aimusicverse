@@ -16,11 +16,13 @@ import { glass } from "@/lib/glass";
 interface EmptyLibraryStateProps {
   searchQuery?: string;
   className?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- React Router navigate options state is loosely typed upstream
   navigate?: (path: string, options?: { state?: Record<string, any> }) => void;
 }
 
 export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLibraryStateProps) {
   // Fallback if navigate is not provided
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- React Router navigate options state is loosely typed upstream
   const handleNavigate = (path: string, options?: { state?: Record<string, any> }) => {
     if (navigate) {
       navigate(path, options);

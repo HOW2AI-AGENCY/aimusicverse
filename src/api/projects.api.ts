@@ -161,6 +161,7 @@ export async function updateProjectBanner(
 /**
  * Invoke project-ai edge function with arbitrary action payload
  */
+/* eslint-disable @typescript-eslint/no-explicit-any -- Edge function return type is heterogeneous; callers narrow via service layer */
 export async function invokeProjectAi(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
   const { data, error } = await supabase.functions.invoke("project-ai", { body: payload });
   return { data, error: error ? new Error(error.message) : null };
@@ -185,3 +186,4 @@ export async function invokeGenerateProjectMedia(
   const { data, error } = await supabase.functions.invoke("generate-project-media", { body: payload });
   return { data, error: error ? new Error(error.message) : null };
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

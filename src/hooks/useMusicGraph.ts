@@ -49,6 +49,7 @@ export interface GraphNode {
   genre?: string;
   size: number;
   color: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Music graph node metadata is heterogeneous
   metadata?: Record<string, any>;
 }
 

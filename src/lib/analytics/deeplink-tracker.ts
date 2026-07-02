@@ -206,8 +206,8 @@ export function detectSource(referrer?: string, utmParams?: UTMParams): Deeplink
   }
 
   // Check if in Telegram Mini App
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK not yet in window type
   if (typeof window !== "undefined" && (window as any).Telegram?.WebApp?.initData) {
-    // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK not yet in window type
     return "telegram_miniapp";
   }
 

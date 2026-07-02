@@ -33,7 +33,6 @@ const techDebtWarnRules = {
   // Promoted to "error" after the lucide-react/framer-motion codemod (814 files).
   // Wrapper files src/lib/icons.ts and src/lib/motion.ts are exempted via override below.
   "no-restricted-imports": ["error", restrictedImports],
-  "@typescript-eslint/no-explicit-any": "warn",
   "@typescript-eslint/ban-ts-comment": "warn",
   "@typescript-eslint/no-unused-vars": "off",
   "@typescript-eslint/no-unused-expressions": "warn",
@@ -84,6 +83,8 @@ export default tseslint.config(
       // several contain JSX in .ts files and are not parseable here. Re-include
       // after renaming those to .tsx (tracked as follow-up).
       "tests/**",
+      // Co-located unit tests under src/__tests__ — same rationale as tests/**.
+      "**/__tests__/**",
     ],
   },
   {
@@ -110,6 +111,11 @@ export default tseslint.config(
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "react-hooks/refs": "off",
       "no-console": ["warn", { allow: ["warn", "error"] }],
+      // Type-safety: `any` is now an error. The remaining ~99 intentional uses
+      // are documented in docs/TYPE_SAFETY_WHITELIST.md and gated by inline
+      // disable comments. New `any` introductions must be justified inline or
+      // added to the whitelist. Budget: 50 (see scripts/count-any.mjs).
+      "@typescript-eslint/no-explicit-any": ["error", { fixToUnknown: false }],
       // Tech-debt rules downgraded to warnings (see techDebtWarnRules above)
       ...techDebtWarnRules,
       ...reactHooksWarnRules,

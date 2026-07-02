@@ -68,6 +68,7 @@ const PRIORITY_CONFIG = {
   low: { color: "bg-blue-500", text: "text-blue-400", label: "Мелочь", icon: Sparkles },
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Icon component map keyed by action id; values are React components
 const QUICK_ACTION_ICONS: Record<string, any> = {
   translate: Languages,
   rhythm: Music2,

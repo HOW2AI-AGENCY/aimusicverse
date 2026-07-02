@@ -114,6 +114,7 @@ export interface SaveLyricsRequest {
   trackId: string;
   content: string;
   authorId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Lyrics metadata is heterogeneous; field-by-field typing adds friction
   metadata?: Record<string, any>;
 }
 

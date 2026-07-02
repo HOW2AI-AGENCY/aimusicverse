@@ -229,6 +229,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     } = aiData;
 
                     // Save all AI-generated fields
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Partial update payload built field-by-field; type is loose by design
                     const updateData: Record<string, any> = {};
                     if (concept) updateData.concept = concept;
                     if (visualAesthetic) updateData.visual_aesthetic = visualAesthetic;

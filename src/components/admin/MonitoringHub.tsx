@@ -240,6 +240,7 @@ export function MonitoringHub({ onNavigateToTab }: MonitoringHubProps) {
               <div className="py-6 text-center text-muted-foreground text-sm">Загрузка...</div>
             ) : (
               <div className="grid grid-cols-2 gap-2">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any -- Health check value type is heterogeneous; rendered generically below */}
                 {Object.entries(healthStatus.checks).map(([key, check]: [string, any]) => (
                   <div
                     key={key}

@@ -227,6 +227,7 @@ export default function Community() {
       track.title?.toLowerCase().includes(query) ||
       track.style?.toLowerCase().includes(query) ||
       track.tags?.toLowerCase().includes(query) ||
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Optional prompt field not on base Track type; legacy data has it
       (track as any).prompt?.toLowerCase().includes(query);
     const matchesGenre = !selectedGenre || track.style?.toLowerCase().includes(selectedGenre.toLowerCase());
     return matchesSearch && matchesGenre;
@@ -405,6 +406,7 @@ export default function Community() {
                       Item: GridItemWrapper,
                     }}
                     itemContent={(index, track) => (
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Virtuoso itemData row may include extra fields
                       <UnifiedTrackCard key={track.id} variant="compact" track={track as any} />
                     )}
                   />
@@ -470,6 +472,7 @@ export default function Community() {
                         Item: GridItemWrapper,
                       }}
                       itemContent={(index, track) => (
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Virtuoso itemData row may include extra fields
                         <UnifiedTrackCard key={track.id} variant="compact" track={track as any} />
                       )}
                     />

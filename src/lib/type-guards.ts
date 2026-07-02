@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Discriminated-union type guards: input is unknown, narrowed via variant === "..." */
 /**
  * Type Guards for Unified Components
  *

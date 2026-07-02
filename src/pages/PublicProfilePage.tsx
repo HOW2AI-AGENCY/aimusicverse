@@ -491,6 +491,7 @@ export default function PublicProfilePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
                 >
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any -- Profile track may include public-only fields not on base Track type */}
                   <UnifiedTrackCard variant="compact" track={track as any} />
                 </motion.div>
               ))}

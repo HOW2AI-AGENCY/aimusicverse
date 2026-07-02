@@ -79,6 +79,7 @@ export default function VoiceHistoryPage() {
       } else {
         toast.error("Невозможно повторить: нет данных верификации");
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Catch-all unknown error from retry RPC
     } catch (e: any) {
       logger.error("Retry failed", e);
       toast.error(e?.message || "Ошибка повтора");

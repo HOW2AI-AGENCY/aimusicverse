@@ -438,8 +438,8 @@ export function preloadNextImages(currentIndex: number, allUrls: string[], count
   if (nextUrls.length > 0) {
     // Use requestIdleCallback for non-critical preloading
     if ("requestIdleCallback" in window) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- requestIdleCallback not yet in TS lib.dom
       (window as any).requestIdleCallback(() => {
-        // eslint-disable-line @typescript-eslint/no-explicit-any -- requestIdleCallback not yet in TS lib.dom
         preloadImages(nextUrls, false).catch(() => {});
       });
     } else {
