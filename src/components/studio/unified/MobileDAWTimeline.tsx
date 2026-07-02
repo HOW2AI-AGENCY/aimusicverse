@@ -494,7 +494,7 @@ const MobileTrackRow = memo(function MobileTrackRow({
           {/* Mute */}
           <button
             className={cn(
-              "w-8 h-8 rounded-lg flex items-center justify-center transition-colors touch-manipulation",
+              "w-8 h-8 min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center transition-colors touch-manipulation",
               "border",
               track.muted
                 ? "bg-destructive/20 border-destructive/50 text-destructive"
@@ -509,7 +509,7 @@ const MobileTrackRow = memo(function MobileTrackRow({
           {/* Solo */}
           <button
             className={cn(
-              "w-8 h-8 rounded-lg flex items-center justify-center transition-colors touch-manipulation",
+              "w-8 h-8 min-w-[44px] min-h-[44px] rounded-lg flex items-center justify-center transition-colors touch-manipulation",
               "border",
               track.solo
                 ? "bg-amber-500/20 border-amber-500/50 text-amber-400"
