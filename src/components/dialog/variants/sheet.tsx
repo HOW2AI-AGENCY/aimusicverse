@@ -100,7 +100,7 @@ export function SheetDialog({
       <motion.div
         ref={containerRef}
         className={cn(
-          "relative z-50 bg-background rounded-t-3xl shadow-2xl w-full max-w-lg",
+          "relative z-[171] bg-background rounded-t-3xl shadow-2xl w-full max-w-lg",
           "flex flex-col overflow-hidden",
           className,
         )}
