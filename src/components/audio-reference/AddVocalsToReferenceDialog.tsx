@@ -10,8 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, Music, Mic2, Guitar, Volume2 } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { Loader2, Music, Mic2, Guitar } from "@/lib/icons";
+import { useAddVocalsToReference } from "@/hooks/audio-reference/useAudioReferenceGeneration";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -41,7 +41,8 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
   const [customMode, setCustomMode] = useState(false);
   const [style, setStyle] = useState(audio.style_description || audio.genre || "");
   const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  const addVocals = useAddVocalsToReference();
 
   // Determine default mode based on audio type
   useEffect(() => {
@@ -73,29 +74,25 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
       return;
     }
 
-    setLoading(true);
+    const effectiveTitle =
+      customMode && title ? title : `${audio.file_name} (${mode === "add_vocals" ? "с вокалом" : "новая аранжировка"})`;
+    const effectiveStyle = customMode && style ? style : audio.style_description || audio.genre || "pop";
+    const effectivePrompt =
+      prompt ||
+      (mode === "add_vocals"
+        ? "Добавить профессиональный вокал к этому инструменталу"
+        : "Создать новую профессиональную аранжировку для этого вокала");
+
+    // Default negativeTags based on mode
+    const defaultNegativeTags =
+      mode === "add_vocals"
+        ? "instrumental only, no vocals, karaoke, low quality"
+        : "acapella, vocals only, karaoke, low quality";
+
     try {
-      const effectiveTitle =
-        customMode && title
-          ? title
-          : `${audio.file_name} (${mode === "add_vocals" ? "с вокалом" : "новая аранжировка"})`;
-      const effectiveStyle = customMode && style ? style : audio.style_description || audio.genre || "pop";
-      const effectivePrompt =
-        prompt ||
-        (mode === "add_vocals"
-          ? "Добавить профессиональный вокал к этому инструменталу"
-          : "Создать новую профессиональную аранжировку для этого вокала");
-
-      const functionName = mode === "add_vocals" ? "suno-add-vocals" : "suno-add-instrumental";
-
-      // Default negativeTags based on mode
-      const defaultNegativeTags =
-        mode === "add_vocals"
-          ? "instrumental only, no vocals, karaoke, low quality"
-          : "acapella, vocals only, karaoke, low quality";
-
-      const { data, error } = await supabase.functions.invoke(functionName, {
-        body: {
+      const { error } = await addVocals.mutateAsync({
+        mode,
+        params: {
           audioUrl: audio.file_url,
           prompt: effectivePrompt,
           customMode,
@@ -106,7 +103,7 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
         },
       });
 
-      if (error) throw error;
+      if (error) throw new Error(error.message);
 
       const successMessage =
         mode === "add_vocals" ? "Добавление вокала началось! 🎤" : "Создание новой аранжировки началось! 🎸";
@@ -120,8 +117,6 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
       logger.error("Add vocals/instrumental error", { error });
       const errorMessage = error instanceof Error ? error.message : "Ошибка обработки";
       toast.error(errorMessage);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -213,8 +208,8 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
       )}
 
       {/* Submit button */}
-      <Button onClick={handleSubmit} disabled={loading} className="w-full gap-2" size="lg">
-        {loading ? (
+      <Button onClick={handleSubmit} disabled={addVocals.isPending} className="w-full gap-2" size="lg">
+        {addVocals.isPending ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
             Обработка...
