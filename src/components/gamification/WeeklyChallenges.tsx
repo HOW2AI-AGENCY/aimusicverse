@@ -2,11 +2,7 @@ import { motion } from "@/lib/motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { fetchTracks } from "@/api/tracks.api";
-import { getUserCredits } from "@/api/payments.api";
+import { useWeeklyChallenges } from "@/hooks/gamification/useWeeklyChallenges";
 import { Trophy, Clock, Star, Flame, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { differenceInDays, endOfWeek, startOfWeek, format, ru } from "@/lib/date-utils";
@@ -23,65 +19,11 @@ interface Challenge {
 }
 
 export function WeeklyChallenges() {
-  const { user } = useAuth();
-
   const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
   const weekEnd = endOfWeek(new Date(), { weekStartsOn: 1 });
   const daysLeft = differenceInDays(weekEnd, new Date()) + 1;
 
-  const { data: stats, isLoading } = useQuery({
-    queryKey: ["weekly-stats", user?.id],
-    queryFn: async () => {
-      if (!user?.id) return null;
-
-      const weekStartStr = weekStart.toISOString();
-      const weekEndStr = weekEnd.toISOString();
-
-      // Get week's generation count
-      const { count: generationsCount } = await supabase
-        .from("tracks")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id)
-        .gte("created_at", weekStartStr)
-        .lte("created_at", weekEndStr);
-
-      // Get week's share count
-      const { count: sharesCount } = await supabase
-        .from("user_activity")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id)
-        .eq("action_type", "share")
-        .gte("created_at", weekStartStr)
-        .lte("created_at", weekEndStr);
-
-      // Get week's likes received
-      const { data: userTracksData } = await fetchTracks({ userId: user.id });
-      const trackIds = userTracksData?.map((t) => t.id) || [];
-      let likesReceived = 0;
-
-      if (trackIds.length > 0) {
-        const { count } = await supabase
-          .from("track_likes")
-          .select("*", { count: "exact", head: true })
-          .in("track_id", trackIds)
-          .gte("created_at", weekStartStr)
-          .lte("created_at", weekEndStr);
-        likesReceived = count || 0;
-      }
-
-      // Get streak
-      const { data: credits } = await getUserCredits(user.id);
-
-      return {
-        generations: generationsCount || 0,
-        shares: sharesCount || 0,
-        likesReceived,
-        currentStreak: credits?.current_streak || 0,
-      };
-    },
-    enabled: !!user?.id,
-    staleTime: 60000,
-  });
+  const { data: stats, isLoading } = useWeeklyChallenges(weekStart.toISOString(), weekEnd.toISOString());
 
   const challenges: Challenge[] = [
     {
