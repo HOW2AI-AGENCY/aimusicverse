@@ -477,3 +477,35 @@ export async function upsertBotMenuImagesConfig(params: {
   );
   if (error) throw new Error(error.message);
 }
+
+// ==========================================
+// Content analytics (tracks)
+// ==========================================
+
+export interface CompletedTrackRow {
+  computed_genre: string | null;
+  computed_mood: string | null;
+  style: string | null;
+  tags: string | null;
+  lyrics_language: string | null;
+  duration_seconds: number | null;
+  lyrics: string | null;
+  is_public: boolean | null;
+  status: string | null;
+}
+
+/**
+ * Fetch completed tracks for content-analytics roll-ups (genre / mood /
+ * language / tags / instrumental ratio).
+ */
+export async function fetchCompletedTracksForContentAnalytics(params: {
+  startDate: Date;
+}): Promise<CompletedTrackRow[]> {
+  const { data, error } = await supabase
+    .from("tracks")
+    .select("computed_genre, computed_mood, style, tags, lyrics_language, duration_seconds, lyrics, is_public, status")
+    .gte("created_at", params.startDate.toISOString())
+    .eq("status", "completed");
+  if (error) throw new Error(error.message);
+  return (data ?? []) as CompletedTrackRow[];
+}

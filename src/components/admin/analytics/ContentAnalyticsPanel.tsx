@@ -6,15 +6,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import {
   BarChart,
   Bar,
   PieChart,
   Pie,
   Cell,
-  Treemap,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -22,124 +19,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Music, Palette, Hash, TrendingUp, Mic2, Disc3 } from "@/lib/icons";
+import { useContentAnalytics } from "@/hooks/admin/useContentAnalytics";
 
 interface ContentAnalyticsPanelProps {
   timePeriod: string;
 }
 
-interface ContentStats {
-  total_tracks: number;
-  public_tracks: number;
-  avg_duration_sec: number;
-  genres: Array<{ name: string; count: number }>;
-  moods: Array<{ name: string; count: number }>;
-  styles: Array<{ name: string; count: number }>;
-  languages: Array<{ name: string; count: number }>;
-  top_tags: Array<{ tag: string; count: number }>;
-  instrumental_ratio: number;
-  with_lyrics_ratio: number;
-}
-
 export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps) {
-  const { data, isLoading } = useQuery({
-    queryKey: ["content-analytics", timePeriod],
-    queryFn: async (): Promise<ContentStats> => {
-      const periodDays =
-        timePeriod === "24 hours" ? 1 : timePeriod === "7 days" ? 7 : timePeriod === "30 days" ? 30 : 90;
-
-      const startDate = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
-
-      const { data: tracks } = await supabase
-        .from("tracks")
-        .select(
-          "computed_genre, computed_mood, style, tags, lyrics_language, duration_seconds, lyrics, is_public, status",
-        )
-        .gte("created_at", startDate.toISOString())
-        .eq("status", "completed");
-
-      const allTracks = tracks || [];
-
-      // Count by genre
-      const genreMap = new Map<string, number>();
-      const moodMap = new Map<string, number>();
-      const styleMap = new Map<string, number>();
-      const languageMap = new Map<string, number>();
-      const tagMap = new Map<string, number>();
-
-      let totalDuration = 0;
-      let instrumentalCount = 0;
-      let withLyricsCount = 0;
-
-      allTracks.forEach((track) => {
-        // Genre
-        if (track.computed_genre) {
-          genreMap.set(track.computed_genre, (genreMap.get(track.computed_genre) || 0) + 1);
-        }
-
-        // Mood
-        if (track.computed_mood) {
-          moodMap.set(track.computed_mood, (moodMap.get(track.computed_mood) || 0) + 1);
-        }
-
-        // Style
-        if (track.style) {
-          styleMap.set(track.style, (styleMap.get(track.style) || 0) + 1);
-        }
-
-        // Language
-        if (track.lyrics_language) {
-          languageMap.set(track.lyrics_language, (languageMap.get(track.lyrics_language) || 0) + 1);
-        }
-
-        // Tags - it's a string, not array, so parse it
-        if (track.tags) {
-          const tagsArray = track.tags
-            .split(",")
-            .map((t: string) => t.trim())
-            .filter(Boolean);
-          tagsArray.forEach((tag: string) => {
-            tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
-          });
-        }
-
-        // Duration
-        if (track.duration_seconds) {
-          totalDuration += track.duration_seconds;
-        }
-
-        // Instrumental vs Lyrics
-        if (track.lyrics && track.lyrics.trim().length > 0) {
-          withLyricsCount++;
-        } else {
-          instrumentalCount++;
-        }
-      });
-
-      const mapToArray = (map: Map<string, number>) =>
-        Array.from(map.entries())
-          .map(([name, count]) => ({ name, count }))
-          .sort((a, b) => b.count - a.count)
-          .slice(0, 10);
-
-      return {
-        total_tracks: allTracks.length,
-        public_tracks: allTracks.filter((t) => t.is_public).length,
-        avg_duration_sec: allTracks.length > 0 ? totalDuration / allTracks.length : 0,
-        genres: mapToArray(genreMap),
-        moods: mapToArray(moodMap),
-        styles: mapToArray(styleMap),
-        languages: mapToArray(languageMap),
-        top_tags: Array.from(tagMap.entries())
-          .map(([tag, count]) => ({ tag, count }))
-          .sort((a, b) => b.count - a.count)
-          .slice(0, 20),
-        instrumental_ratio: allTracks.length > 0 ? (instrumentalCount / allTracks.length) * 100 : 0,
-        with_lyrics_ratio: allTracks.length > 0 ? (withLyricsCount / allTracks.length) * 100 : 0,
-      };
-    },
-    staleTime: 60000,
-    refetchInterval: 120000,
-  });
+  const { data, isLoading } = useContentAnalytics(timePeriod);
 
   if (isLoading) {
     return <ContentAnalyticsSkeleton />;
