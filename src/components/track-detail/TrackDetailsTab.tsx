@@ -6,8 +6,7 @@
 
 import type { Track } from "@/types/track";
 import { Separator } from "@/components/ui/separator";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useTrackArtist, useTrackProject, useTrackReferenceAudio } from "@/hooks/track-detail/useTrackDetailsTab";
 import { VideoSection } from "./VideoSection";
 import { useTrackActions } from "@/hooks/useTrackActions";
 import { ParentTrackLink } from "./ParentTrackLink";
@@ -37,64 +36,13 @@ export function TrackDetailsTab({ track }: TrackDetailsTabProps) {
   const isOwner = user?.id === track.user_id;
 
   // Fetch artist info if track has artist_id
-  const { data: artist } = useQuery({
-    queryKey: ["artist", track.artist_id],
-    queryFn: async () => {
-      if (!track.artist_id) return null;
-      const { data, error } = await supabase
-        .from("artists")
-        .select("id, name, avatar_url, genre_tags")
-        .eq("id", track.artist_id)
-        .single();
-      if (error) return null;
-      return data;
-    },
-    enabled: !!track.artist_id,
-  });
+  const { data: artist } = useTrackArtist(track.artist_id);
 
   // Fetch project info if track has project_id
-  const { data: project } = useQuery({
-    queryKey: ["project", track.project_id],
-    queryFn: async () => {
-      if (!track.project_id) return null;
-      const { data, error } = await supabase
-        .from("music_projects")
-        .select("id, title, cover_url, genre")
-        .eq("id", track.project_id)
-        .single();
-      if (error) return null;
-      return data;
-    },
-    enabled: !!track.project_id,
-  });
+  const { data: project } = useTrackProject(track.project_id);
 
   // Fetch reference audio if track was generated with a reference
-  const { data: referenceAudio } = useQuery({
-    queryKey: ["track-reference-audio", track.id],
-    queryFn: async () => {
-      const { data: historyData } = await supabase
-        .from("user_generation_history")
-        .select("reference_audio_id")
-        .eq("track_id", track.id)
-        .not("reference_audio_id", "is", null)
-        .maybeSingle();
-
-      if (historyData?.reference_audio_id) {
-        const { data: refAudio, error } = await supabase
-          .from("reference_audio")
-          .select("id, file_name, file_url, genre, mood, bpm, style_description, duration_seconds")
-          .eq("id", historyData.reference_audio_id)
-          .single();
-
-        if (!error && refAudio) {
-          return refAudio;
-        }
-      }
-
-      return null;
-    },
-    enabled: !!track.id,
-  });
+  const { data: referenceAudio } = useTrackReferenceAudio(track.id);
 
   // Check if prompt and lyrics are the same (to avoid duplication)
   const promptAndLyricsSame =
