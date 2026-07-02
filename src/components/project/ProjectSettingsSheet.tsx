@@ -89,7 +89,7 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="h-[90vh] flex flex-col">
+      <SheetContent side="bottom" className="h-[90dvh] flex flex-col">
         <SheetHeader className="pb-4 shrink-0">
           <SheetTitle>Настройки проекта</SheetTitle>
         </SheetHeader>

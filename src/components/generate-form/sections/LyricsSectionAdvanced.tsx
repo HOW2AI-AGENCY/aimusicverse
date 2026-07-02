@@ -162,7 +162,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                     exit={{ opacity: 0, y: -4, scale: 0.95 }}
                     transition={{ duration: 0.15 }}
                     className={cn(
-                      "absolute right-0 top-full mt-1 z-50",
+                      "absolute right-0 top-full mt-1 z-dropdown",
                       "w-44 p-1 rounded-xl",
                       "bg-popover border border-border shadow-xl",
                     )}

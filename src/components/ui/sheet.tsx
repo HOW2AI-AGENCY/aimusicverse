@@ -21,8 +21,8 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-[150] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-      backdrop.dark,
+      "fixed inset-0 z-sheet-backdrop data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      backdrop.sheet,
       className,
     )}
     {...props}
@@ -32,7 +32,7 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-  "fixed z-[151] gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
+  "fixed z-sheet-content gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
   {
     variants: {
       side: {
@@ -73,10 +73,11 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
     },
     ref,
   ) => {
-    // Check if this is a fullscreen sheet (has h-full, h-screen, or h-[100dvh] in className)
+    // Check if this is a fullscreen sheet (matches h-full, h-screen, h-[N(N)?vh|dvh], h-[100vh|dvh])
     const isFullscreen =
       className?.includes("h-full") ||
       className?.includes("h-screen") ||
+      /\bh-\[\d+(?:\.\d+)?d?vh\]/.test(className ?? "") ||
       className?.includes("h-[100dvh]") ||
       className?.includes("h-[100vh]");
     const isBottomSheet = side === "bottom";

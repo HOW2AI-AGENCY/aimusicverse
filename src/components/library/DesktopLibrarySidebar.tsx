@@ -6,6 +6,7 @@
 import { useState, useCallback, useRef, Suspense, lazy } from "react";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -112,7 +113,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
           variant="ghost"
           size="icon"
           onClick={onToggleCollapse}
-          className="h-10 w-10 rounded-xl bg-primary/10 hover:bg-primary/20"
+          className="h-11 w-11 min-h-touch min-w-touch rounded-xl bg-primary/10 hover:bg-primary/20"
           title="Открыть форму генерации"
         >
           <Sparkles className="w-5 h-5 text-primary" />
@@ -159,7 +160,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center"
+              className={cn("absolute inset-0 z-overlay flex items-center justify-center", backdrop.sheet)}
             >
               <GenerationLoadingState stage="processing" showCancel={false} compact={true} />
             </motion.div>

@@ -96,7 +96,7 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             style={{ opacity: backdropOpacity }}
-            className={cn("fixed inset-0 z-[150] backdrop-blur-sm", backdrop.heavy)}
+            className={cn("fixed inset-0 z-sheet-backdrop", backdrop.sheet)}
             onClick={handleBackdropClick}
           />
 
@@ -122,7 +122,7 @@ export const MobileBottomSheet = memo(function MobileBottomSheet({
               paddingBottom: "max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
             }}
             className={cn(
-              "fixed bottom-0 left-0 right-0 z-[151]",
+              "fixed bottom-0 left-0 right-0 z-sheet-content",
               "bg-background rounded-t-3xl",
               "shadow-2xl shadow-black/20",
               "flex flex-col overflow-hidden",

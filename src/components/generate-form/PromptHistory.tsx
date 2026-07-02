@@ -580,7 +580,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 
           {/* Add New Prompt Dialog */}
           {showAddDialog && (
-            <div className="absolute inset-0 bg-background/95 backdrop-blur-sm z-10 flex flex-col">
+            <div className="absolute inset-0 bg-background/95 backdrop-blur-sm z-popover flex flex-col">
               <div className="flex items-center justify-between p-4 border-b">
                 <h3 className="font-semibold flex items-center gap-2 text-base">
                   <Plus className="w-4 h-4" />
