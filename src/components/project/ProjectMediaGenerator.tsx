@@ -20,7 +20,7 @@ import {
   Music,
   RefreshCw,
 } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeGenerateProjectMedia, applyProjectMedia } from "@/services/projects.service";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -202,15 +202,13 @@ export function ProjectMediaGenerator({
       const assetConfig = ASSET_TYPES.find((a) => a.value === assetType)!;
       const [width, height] = assetConfig.dimensions.split("x").map(Number);
 
-      const { data, error } = await supabase.functions.invoke("generate-project-media", {
-        body: {
-          prompt,
-          width,
-          height,
-          projectId: project.id,
-          trackId: track?.id,
-          assetType,
-        },
+      const { data, error } = await invokeGenerateProjectMedia({
+        prompt,
+        width,
+        height,
+        projectId: project.id,
+        trackId: track?.id,
+        assetType,
       });
 
       if (error) throw error;
@@ -238,12 +236,11 @@ export function ProjectMediaGenerator({
       } else {
         // Apply to project based on asset type
         const updateField = assetType === "banner" ? "banner_url" : "cover_url";
-        const { error } = await supabase
-          .from("music_projects")
-          .update({ [updateField]: generatedUrl } as any)
-          .eq("id", project.id);
-
-        if (error) throw error;
+        await applyProjectMedia({
+          projectId: project.id,
+          field: updateField,
+          url: generatedUrl,
+        });
 
         const successMessage =
           assetType === "banner"

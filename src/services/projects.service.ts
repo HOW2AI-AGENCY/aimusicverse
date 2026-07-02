@@ -208,3 +208,48 @@ export interface ProjectAiActionResponse {
 export async function invokeProjectAiActions(params: ProjectAiActionOptions): Promise<ProjectAiActionResponse> {
   return supabase.functions.invoke("project-ai-actions", { body: params });
 }
+
+// ==========================================
+// ProjectMediaGenerator
+// ==========================================
+
+export type ProjectAssetType = "cover" | "banner" | "story" | "track_cover";
+
+export interface GenerateProjectMediaParams {
+  prompt: string;
+  width: number;
+  height: number;
+  projectId: string;
+  trackId?: string;
+  assetType: ProjectAssetType;
+}
+
+export interface GenerateProjectMediaResponse {
+  data: { url?: string } | null;
+  error: { message: string } | null;
+}
+
+/**
+ * Invoke the generate-project-media edge function to create a project
+ * cover / banner / story / track-cover image.
+ */
+export async function invokeGenerateProjectMedia(
+  params: GenerateProjectMediaParams,
+): Promise<GenerateProjectMediaResponse> {
+  return supabase.functions.invoke("generate-project-media", { body: params });
+}
+
+export type ProjectMediaField = "cover_url" | "banner_url";
+
+export interface ApplyProjectMediaParams {
+  projectId: string;
+  field: ProjectMediaField;
+  url: string;
+}
+
+/**
+ * Persist the generated project media URL to the music_projects row.
+ */
+export async function applyProjectMedia(params: ApplyProjectMediaParams): Promise<void> {
+  await projectsApi.updateProjectFields(params.projectId, { [params.field]: params.url });
+}
