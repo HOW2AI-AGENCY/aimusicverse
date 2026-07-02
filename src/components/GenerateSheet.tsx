@@ -125,7 +125,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     onOpenChange,
     initialProjectId,
     projects,
-    artists,
+    artists: artists as never,
     allTracks,
   });
 

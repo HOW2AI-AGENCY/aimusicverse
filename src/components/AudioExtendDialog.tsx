@@ -208,7 +208,8 @@ export const AudioExtendDialog = ({
           type: audioFile.type,
           data: reader.result as string | ArrayBuffer | null,
         },
-        audioDuration,
+        audioDuration: audioDuration ?? 0,
+
         model,
         customMode: true,
         instrumental,
