@@ -6,6 +6,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
+import type { Database } from "@/integrations/supabase/types";
 
 export interface FunnelStep {
   step_name: string;
@@ -37,7 +38,7 @@ export function useFunnelAnalytics(options: UseFunnelAnalyticsOptions = {}) {
         throw error;
       }
 
-      return (data || []).map((row: any) => ({
+      return (data || []).map((row: Database["public"]["Functions"]["get_funnel_analytics"]["Returns"][number]) => ({
         step_name: row.step_name,
         step_order: Number(row.step_order),
         users_count: Number(row.users_count),

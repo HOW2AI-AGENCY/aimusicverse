@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { ProfileUpdateInput } from "@/types/profile";
 import { logger } from "@/lib/logger";
-import type { Json } from "@/integrations/supabase/types";
+import type { Database, Json } from "@/integrations/supabase/types";
 
 interface UpdateProfileParams {
   userId: string;
@@ -76,7 +76,7 @@ export function useUpdateProfile() {
       // Update profile
       const { data, error } = await supabase
         .from("profiles")
-        .update(updateData as any)
+        .update(updateData as Database["public"]["Tables"]["profiles"]["Update"])
         .eq("user_id", userId)
         .select()
         .single();

@@ -13,6 +13,7 @@ import { logger } from "@/lib/logger";
 import { usePlanTrackStore } from "@/stores/planTrackStore";
 import { useTelegram } from "@/contexts/TelegramContext";
 import type { ProjectTrack } from "@/hooks/useProjectTracks";
+import type { Database } from "@/integrations/supabase/types";
 
 interface UseProjectDetailHandlersProps {
   projectId?: string;
@@ -53,7 +54,7 @@ export function useProjectDetailHandlers({
       try {
         const { error } = await supabase
           .from("music_projects")
-          .update(updates as any)
+          .update(updates as Database["public"]["Tables"]["music_projects"]["Update"])
           .eq("id", project.id);
 
         if (error) throw error;

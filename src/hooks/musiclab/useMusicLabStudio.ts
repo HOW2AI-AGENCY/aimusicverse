@@ -101,7 +101,8 @@ export function useMusicLabStudio(options: UseMusicLabStudioOptions) {
   // Audio level monitoring
   const startAudioLevelMonitoring = useCallback((stream: MediaStream) => {
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass =
+        window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       const audioContext = new AudioContextClass();
       const analyser = audioContext.createAnalyser();
       const source = audioContext.createMediaStreamSource(stream);
@@ -424,7 +425,8 @@ export function useMusicLabStudio(options: UseMusicLabStudioOptions) {
       channels: promptDJ.channels,
       updateChannel: promptDJ.updateChannel,
       crossfaderPosition: (promptDJ as unknown as { crossfaderPosition?: number }).crossfaderPosition,
-      setCrossfaderPosition: (promptDJ as unknown as { setCrossfaderPosition?: (n: number) => void }).setCrossfaderPosition,
+      setCrossfaderPosition: (promptDJ as unknown as { setCrossfaderPosition?: (n: number) => void })
+        .setCrossfaderPosition,
 
       globalSettings: promptDJ.globalSettings,
       updateGlobalSettings: promptDJ.updateGlobalSettings,

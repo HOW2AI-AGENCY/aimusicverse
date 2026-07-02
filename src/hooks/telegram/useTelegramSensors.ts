@@ -1,5 +1,5 @@
 // @ts-nocheck - Telegram WebApp API types are dynamic
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * Telegram Sensors Hook
  *
@@ -255,7 +255,7 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
   useEffect(() => {
     if (!webApp) return;
 
-    const handleAccelerometerChanged = (data: any) => {
+    const handleAccelerometerChanged = (_data: unknown) => {
       if (webApp.Accelerometer) {
         setAccelerometer({
           x: webApp.Accelerometer.x,
@@ -265,7 +265,7 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
       }
     };
 
-    const handleGyroscopeChanged = (data: any) => {
+    const handleGyroscopeChanged = (_data: unknown) => {
       if (webApp.Gyroscope) {
         setGyroscope({
           x: webApp.Gyroscope.x,
@@ -275,7 +275,7 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
       }
     };
 
-    const handleOrientationChanged = (data: any) => {
+    const handleOrientationChanged = (_data: unknown) => {
       if (webApp.DeviceOrientation) {
         setOrientation({
           alpha: webApp.DeviceOrientation.alpha,

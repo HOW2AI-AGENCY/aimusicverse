@@ -42,15 +42,15 @@ export function useTelegramFullscreen(): UseTelegramFullscreenReturn {
   const { webApp } = useTelegram();
   const [isFullscreen, setIsFullscreen] = useState(() => {
     // Initialize from current webApp state
-    return (webApp as any)?.isFullscreen || false;
+    return webApp?.isFullscreen || false;
   });
   const [isFullscreenFailed, setIsFullscreenFailed] = useState(false);
   const [fullscreenError, setFullscreenError] = useState<string | null>(null);
 
-  const isSupported = !!(webApp && typeof (webApp as any).requestFullscreen === "function");
+  const isSupported = !!(webApp && typeof webApp.requestFullscreen === "function");
 
   const enterFullscreen = useCallback(() => {
-    if (!webApp || typeof (webApp as any).requestFullscreen !== "function") {
+    if (!webApp || typeof webApp.requestFullscreen !== "function") {
       log.warn("Fullscreen not supported");
       return;
     }
@@ -60,7 +60,7 @@ export function useTelegramFullscreen(): UseTelegramFullscreenReturn {
     setFullscreenError(null);
 
     try {
-      (webApp as any).requestFullscreen();
+      webApp.requestFullscreen();
       log.info("Requested fullscreen mode");
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
@@ -71,13 +71,13 @@ export function useTelegramFullscreen(): UseTelegramFullscreenReturn {
   }, [webApp]);
 
   const exitFullscreen = useCallback(() => {
-    if (!webApp || typeof (webApp as any).exitFullscreen !== "function") {
+    if (!webApp || typeof webApp.exitFullscreen !== "function") {
       log.warn("Fullscreen exit not supported");
       return;
     }
 
     try {
-      (webApp as any).exitFullscreen();
+      webApp.exitFullscreen();
       log.info("Exited fullscreen mode");
     } catch (error) {
       log.error("Error exiting fullscreen", { error: String(error) });
@@ -97,7 +97,7 @@ export function useTelegramFullscreen(): UseTelegramFullscreenReturn {
     if (!webApp) return;
 
     const handleFullscreenChanged = () => {
-      const newState = (webApp as any).isFullscreen || false;
+      const newState = webApp.isFullscreen || false;
       setIsFullscreen(newState);
       // Clear error state on successful change
       if (newState) {
@@ -122,7 +122,7 @@ export function useTelegramFullscreen(): UseTelegramFullscreenReturn {
     }
 
     // Initialize state from current webApp
-    setIsFullscreen((webApp as any).isFullscreen || false);
+    setIsFullscreen(webApp.isFullscreen || false);
 
     return () => {
       if (typeof webApp.offEvent === "function") {

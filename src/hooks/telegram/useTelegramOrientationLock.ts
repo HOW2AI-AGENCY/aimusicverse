@@ -47,16 +47,16 @@ export function useTelegramOrientationLock(
   // Track if we locked orientation (to properly unlock on unmount)
   const didLockRef = useRef(false);
 
-  const isSupported = !!(webApp && typeof (webApp as any).lockOrientation === "function");
+  const isSupported = !!(webApp && typeof webApp.lockOrientation === "function");
 
   const lock = useCallback(() => {
-    if (!webApp || typeof (webApp as any).lockOrientation !== "function") {
+    if (!webApp || typeof webApp.lockOrientation !== "function") {
       log.debug("Orientation lock not supported");
       return;
     }
 
     try {
-      (webApp as any).lockOrientation();
+      webApp.lockOrientation();
       setIsLocked(true);
       didLockRef.current = true;
       log.info("Orientation locked");
@@ -66,13 +66,13 @@ export function useTelegramOrientationLock(
   }, [webApp]);
 
   const unlock = useCallback(() => {
-    if (!webApp || typeof (webApp as any).unlockOrientation !== "function") {
+    if (!webApp || typeof webApp.unlockOrientation !== "function") {
       log.debug("Orientation unlock not supported");
       return;
     }
 
     try {
-      (webApp as any).unlockOrientation();
+      webApp.unlockOrientation();
       setIsLocked(false);
       didLockRef.current = false;
       log.info("Orientation unlocked");
@@ -101,7 +101,7 @@ export function useTelegramOrientationLock(
     return () => {
       if (unlockOnUnmount && didLockRef.current && webApp) {
         try {
-          (webApp as any).unlockOrientation?.();
+          webApp.unlockOrientation?.();
           log.info("Orientation unlocked on unmount");
         } catch (error) {
           log.warn("Failed to unlock orientation on unmount", { error: String(error) });

@@ -220,7 +220,17 @@ export function useWebVitalsReporter() {
     // Import web-vitals dynamically
     import("web-vitals")
       .then(({ onCLS, onFID, onLCP, onTTFB, onINP }) => {
-        const handleMetric = ({ name, value, rating, navigationType }: any) => {
+        const handleMetric = ({
+          name,
+          value,
+          rating,
+          navigationType,
+        }: {
+          name: string;
+          value: number;
+          rating: "good" | "needs-improvement" | "poor";
+          navigationType?: string;
+        }) => {
           reportWebVital({
             name,
             value: Math.round(value),
