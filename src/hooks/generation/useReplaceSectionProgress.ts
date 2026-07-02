@@ -171,11 +171,16 @@ export function useReplaceSectionProgress() {
               const clips = typeof task.audio_clips === "string" ? JSON.parse(task.audio_clips) : task.audio_clips;
 
               if (Array.isArray(clips) && clips.length > 0) {
-                const variants: SectionVariant[] = clips.map((clip: any, idx: number) => ({
-                  label: String.fromCharCode(65 + idx), // A, B, C...
-                  audioUrl: clip.audio_url || clip.audioUrl,
-                  duration: clip.duration_seconds || clip.duration,
-                }));
+                const variants: SectionVariant[] = clips.map(
+                  (
+                    clip: { audio_url?: string; audioUrl?: string; duration_seconds?: number; duration?: number },
+                    idx: number,
+                  ) => ({
+                    label: String.fromCharCode(65 + idx), // A, B, C...
+                    audioUrl: clip.audio_url || clip.audioUrl || "",
+                    duration: clip.duration_seconds ?? clip.duration,
+                  }),
+                );
 
                 setState((prev) => ({
                   ...prev,
@@ -232,11 +237,16 @@ export function useReplaceSectionProgress() {
           const clips = typeof task.audio_clips === "string" ? JSON.parse(task.audio_clips) : task.audio_clips;
 
           if (Array.isArray(clips) && clips.length > 0) {
-            const variants: SectionVariant[] = clips.map((clip: any, idx: number) => ({
-              label: String.fromCharCode(65 + idx),
-              audioUrl: clip.audio_url || clip.audioUrl,
-              duration: clip.duration_seconds || clip.duration,
-            }));
+            const variants: SectionVariant[] = clips.map(
+              (
+                clip: { audio_url?: string; audioUrl?: string; duration_seconds?: number; duration?: number },
+                idx: number,
+              ) => ({
+                label: String.fromCharCode(65 + idx),
+                audioUrl: clip.audio_url || clip.audioUrl || "",
+                duration: clip.duration_seconds ?? clip.duration,
+              }),
+            );
 
             setState((prev) => ({
               ...prev,

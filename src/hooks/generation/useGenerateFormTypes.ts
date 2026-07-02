@@ -1,4 +1,7 @@
 import { type FailureCategory } from "@/api/generation.api";
+import type { ProjectRow } from "@/api/projects.api";
+import type { ArtistRow } from "@/api/artists.api";
+import type { TrackRow } from "@/api/tracks.api";
 
 // Wizard mode removed for UX simplification - only 2 modes now
 export type GenerationMode = "simple" | "custom";
@@ -27,9 +30,9 @@ export interface UseGenerateFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   initialProjectId?: string;
-  projects?: any[];
-  artists?: any[];
-  allTracks?: any[];
+  projects?: ProjectRow[];
+  artists?: ArtistRow[];
+  allTracks?: TrackRow[];
 }
 
 export function classifyFailure(error: unknown): FailureCategory {

@@ -75,9 +75,10 @@ export function useSyncStaleTasks() {
         }
 
         return result;
-      } catch (error: any) {
-        log.error("Sync error", { error: error.message });
-        return { success: false, error: error.message };
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        log.error("Sync error", { error: message });
+        return { success: false, error: message };
       } finally {
         isSyncingRef.current = false;
       }

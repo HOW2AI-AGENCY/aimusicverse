@@ -8,6 +8,9 @@ import { useAutomaticRetry } from "@/hooks/useAutomaticRetry";
 import { toast } from "sonner";
 import { DEFAULT_STYLE_WEIGHT, DEFAULT_WEIRDNESS, DEFAULT_AUDIO_WEIGHT } from "@/constants/generationConstants";
 import { addUserActionBreadcrumb } from "@/lib/sentry";
+import type { ProjectRow } from "@/api/projects.api";
+import type { ArtistRow } from "@/api/artists.api";
+import type { TrackRow } from "@/api/tracks.api";
 
 // Wizard mode removed for UX simplification - only 2 modes now
 export type GenerationMode = "simple" | "custom";
@@ -36,9 +39,9 @@ export interface UseGenerateFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   initialProjectId?: string;
-  projects?: any[];
-  artists?: any[];
-  allTracks?: any[];
+  projects?: ProjectRow[];
+  artists?: ArtistRow[];
+  allTracks?: TrackRow[];
 }
 
 /**
