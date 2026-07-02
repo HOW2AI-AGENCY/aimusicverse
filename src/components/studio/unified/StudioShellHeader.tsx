@@ -104,11 +104,11 @@ export const StudioShellHeader = memo(function StudioShellHeader({
           <TabsList className="h-8">
             <TabsTrigger value="timeline" className="h-7 px-2 gap-1">
               <Rows3 className="h-4 w-4" />
-              <span className="hidden lg:inline">Дорожки</span>
+              <span className="hidden sm:inline">Дорожки</span>
             </TabsTrigger>
             <TabsTrigger value="mixer" className="h-7 px-2 gap-1">
               <Sliders className="h-4 w-4" />
-              <span className="hidden lg:inline">Микшер</span>
+              <span className="hidden sm:inline">Микшер</span>
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -127,10 +127,24 @@ export const StudioShellHeader = memo(function StudioShellHeader({
       <div className="flex items-center gap-1">
         {!isMobile && (
           <>
-            <Button variant="ghost" size="icon" className="h-8 w-8" disabled={!canUndo} onClick={onUndo} title="Отменить (Ctrl+Z)">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              disabled={!canUndo}
+              onClick={onUndo}
+              title="Отменить (Ctrl+Z)"
+            >
               <Undo2 className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8" disabled={!canRedo} onClick={onRedo} title="Повторить (Ctrl+Shift+Z)">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              disabled={!canRedo}
+              onClick={onRedo}
+              title="Повторить (Ctrl+Shift+Z)"
+            >
               <Redo2 className="h-4 w-4" />
             </Button>
 
@@ -146,7 +160,13 @@ export const StudioShellHeader = memo(function StudioShellHeader({
               </div>
             )}
 
-            <Button variant="outline" size="sm" className="h-8 gap-1" onClick={onSave} disabled={isSaving || !hasUnsavedChanges}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1"
+              onClick={onSave}
+              disabled={isSaving || !hasUnsavedChanges}
+            >
               {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
               <span className="hidden sm:inline">Сохранить</span>
             </Button>

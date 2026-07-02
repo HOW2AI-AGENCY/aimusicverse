@@ -151,9 +151,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
       });
 
       // Add tracks to playlist
-      await Promise.all(
-        queue.map((track, index) => addTrackToPlaylist(playlist.id, track.id, index)),
-      );
+      await Promise.all(queue.map((track, index) => addTrackToPlaylist(playlist.id, track.id, index)));
 
       toast.success("Плейлист создан", {
         description: `${queue.length} треков сохранено`,
@@ -184,7 +182,13 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className={cn("h-[75vh] rounded-t-3xl p-0", glass.overlay)}>
+      <SheetContent
+        side="bottom"
+        className={cn(
+          "h-[75vh] lg:h-auto lg:max-h-[640px] lg:max-w-md lg:mx-auto lg:rounded-2xl lg:bottom-1/2 lg:translate-y-1/2 p-0",
+          glass.overlay,
+        )}
+      >
         {/* Header */}
         <div className={cn("sticky top-0 z-10 border-b border-border/30 p-4 pb-3", glass.card)}>
           <SheetHeader className="space-y-0">

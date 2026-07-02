@@ -15,6 +15,9 @@ import { Bot, Music2, Sparkles, X } from "@/lib/icons";
 import { LyricsAIChatAgent } from "@/components/lyrics-workspace/LyricsAIChatAgent";
 import { MobileAIAgentPanel } from "@/components/lyrics-workspace/ai-agent/MobileAIAgentPanel";
 
+/** Lyrics AI slide-in width (px) — single source, used by motion + inner wrapper. */
+const LYRICS_AI_PANEL_WIDTH = 400;
+
 export interface ProjectDataForAI {
   id: string;
   title: string;
@@ -149,7 +152,7 @@ export function LyricsAIPanel({
           {open && (
             <motion.div
               initial={{ width: 0, opacity: 0 }}
-              animate={{ width: 400, opacity: 1 }}
+              animate={{ width: LYRICS_AI_PANEL_WIDTH, opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="border-l border-border/50 overflow-hidden bg-gradient-to-b from-muted/30 to-background flex flex-col"

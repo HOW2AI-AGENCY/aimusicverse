@@ -143,7 +143,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
         className="lyrics-fade-mask h-full overflow-y-auto px-4 py-6"
         style={{ overscrollBehavior: "contain" }}
       >
-        <p className="mx-auto max-w-[28rem] whitespace-pre-wrap text-center text-[17px] font-medium leading-[1.65] text-foreground/85 pb-24">
+        <p className="mx-auto max-w-[28rem] xl:max-w-[36rem] whitespace-pre-wrap text-center text-base xl:text-lg font-medium leading-[1.65] text-foreground/85 pb-24">
           {plainLyrics}
         </p>
       </div>
@@ -171,7 +171,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
         </button>
       )}
 
-      <div className="mx-auto flex max-w-[28rem] flex-col items-stretch gap-2 pb-24 text-center">
+      <div className="mx-auto flex max-w-[28rem] xl:max-w-[36rem] flex-col items-stretch gap-2 pb-24 text-center">
         {lyricsLines!.map((line, lineIndex) => {
           const isActiveLine = lineIndex === activeLineIndex;
           const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;

@@ -115,7 +115,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               aria-label={`Сортировка: ${SORTS.find((s) => s.id === sortBy)?.label || ""}`}
             >
               <ArrowUpDown className="w-3.5 h-3.5" />
-              <span className="hidden xs:inline">{SORTS.find((s) => s.id === sortBy)?.label}</span>
+              <span className="hidden sm:inline">{SORTS.find((s) => s.id === sortBy)?.label}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[140px]">

@@ -21,7 +21,7 @@ export function CoverPage({ track }: CoverPageProps) {
     <div className="flex h-full w-full flex-col items-center justify-center px-6">
       <motion.div
         layoutId={artworkLayoutId}
-        className="relative aspect-square w-[min(72vw,22rem)] overflow-hidden rounded-3xl bg-muted/40 ring-1 ring-border/40 shadow-2xl shadow-black/25"
+        className="relative aspect-square w-[min(72vw,22rem)] xl:w-96 2xl:w-[28rem] overflow-hidden rounded-3xl bg-muted/40 ring-1 ring-border/40 shadow-2xl shadow-black/25"
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         {track.cover_url ? (
@@ -49,9 +49,7 @@ export function CoverPage({ track }: CoverPageProps) {
         <h1 className="truncate font-display text-[20px] font-semibold leading-tight text-foreground">
           {track.title || "Без названия"}
         </h1>
-        {track.style && (
-          <p className="mt-1 truncate text-[13px] text-muted-foreground/80">{track.style}</p>
-        )}
+        {track.style && <p className="mt-1 truncate text-[13px] text-muted-foreground/80">{track.style}</p>}
       </div>
     </div>
   );

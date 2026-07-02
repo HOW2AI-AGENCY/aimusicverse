@@ -466,7 +466,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         onTrackAction={handleMobileTrackAction}
         showFallbackWarning={showFallbackWarning}
         activeStemsCount={activeStems.length}
-        limitedStems={limitedStems as any}
+        limitedStems={limitedStems as unknown as React.ComponentProps<typeof StudioShellContent>["limitedStems"]}
         onDismissWarning={dismissWarning}
         onShowAddTrackDialog={() => dialogs.setShowAddTrackDialog(true)}
         isMobile={isMobile}
@@ -474,7 +474,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
       {/* Desktop transport bar */}
       {!isMobile && (
-        <div className="flex items-center gap-2 px-3 py-2 border-b border-border/50 bg-card/50 shrink-0 overflow-hidden">
+        <div className="flex items-center gap-2 xl:gap-3 px-3 py-2 border-b border-border/50 bg-card/50 shrink-0 overflow-hidden flex-wrap">
           <OptimizedTransport
             isPlaying={isPlaying}
             currentTime={currentTime}
@@ -501,7 +501,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
               max={1}
               step={0.01}
               onValueChange={(v) => setMasterVolume(v[0])}
-              className="w-20"
+              className="w-20 xl:w-32 2xl:w-40"
             />
             <span className="text-xs font-mono text-muted-foreground w-6">
               {Math.round(project.masterVolume * 100)}

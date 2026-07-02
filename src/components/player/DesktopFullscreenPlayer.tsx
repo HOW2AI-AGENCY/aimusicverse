@@ -229,11 +229,14 @@ export function DesktopFullscreenPlayer({
       animate={{ y: "0%" }}
       exit={{ y: "100%" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className={cn("fixed inset-0 z-50 bg-background/95 backdrop-blur-xl", isMaximized ? "p-0" : "p-4 md:p-8")}
+      className={cn(
+        "fixed inset-0 z-50 bg-background/95 backdrop-blur-xl",
+        isMaximized ? "p-0" : "p-4 md:p-8 xl:p-10 2xl:p-12",
+      )}
       data-testid="desktop-fullscreen-player"
     >
       <div
-        className="h-full flex flex-col max-w-7xl mx-auto"
+        className="h-full flex flex-col max-w-7xl 2xl:max-w-[1536px] mx-auto"
         style={{
           paddingTop:
             "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))",
@@ -244,8 +247,8 @@ export function DesktopFullscreenPlayer({
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex-1">
-            <h2 className="text-2xl md:text-3xl font-bold truncate">{track.title || "Без названия"}</h2>
-            {track.style && <p className="text-muted-foreground text-sm md:text-base">{track.style}</p>}
+            <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold truncate">{track.title || "Без названия"}</h2>
+            {track.style && <p className="text-muted-foreground text-sm md:text-base xl:text-lg">{track.style}</p>}
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -264,11 +267,11 @@ export function DesktopFullscreenPlayer({
         </div>
 
         {/* Main Content - Two column layout */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-8 2xl:gap-10 overflow-hidden">
           {/* Left: Album Art & Controls */}
           <div className="flex flex-col items-center justify-center space-y-6">
             {/* Album Art */}
-            <Card className="relative aspect-square w-full max-w-md overflow-hidden glass-card border-primary/20">
+            <Card className="relative aspect-square w-full max-w-md xl:max-w-lg 2xl:max-w-xl overflow-hidden glass-card border-primary/20">
               {coverUrl ? (
                 <LazyImage
                   src={coverUrl}
@@ -314,7 +317,7 @@ export function DesktopFullscreenPlayer({
             )}
 
             {/* Controls Card */}
-            <Card className="w-full max-w-md glass-card border-primary/20 p-6 space-y-4">
+            <Card className="w-full max-w-md xl:max-w-lg 2xl:max-w-xl glass-card border-primary/20 p-6 space-y-4">
               {/* Waveform Progress Bar */}
               <div data-testid="player-timeline">
                 <WaveformProgressBar

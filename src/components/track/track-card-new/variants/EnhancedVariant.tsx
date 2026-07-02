@@ -13,6 +13,7 @@ import { memo, useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
 import { Play, Pause, Share2, Music2, Plus, UserPlus, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -168,13 +169,14 @@ export const EnhancedVariant = memo(function EnhancedVariant({
             {/* Cover Image */}
             <div className="relative overflow-hidden rounded-t-lg aspect-square">
               {coverUrl ? (
-                <img
+                <LazyImage
                   src={coverUrl}
                   alt={track.title || "Track cover"}
+                  coverSize="medium"
+                  aspectRatio="1/1"
+                  containerClassName="w-full h-full"
                   className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
-                  onError={() => setImageError(true)}
-                  loading="lazy"
-                  decoding="async"
+                  fallback={<Music2 className="w-8 h-8 sm:w-10 sm:h-10 text-primary/40" aria-hidden />}
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/10 flex items-center justify-center">
@@ -316,7 +318,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
             <div className={cn("relative", compact ? "p-2.5" : "p-3 sm:p-2.5")}>
               <h2
                 className={cn(
-                  "font-semibold line-clamp-1 transition-colors",
+                  "font-semibold line-clamp-2 transition-colors",
                   compact ? "text-[11px]" : "text-xs",
                   isHovered && "text-primary",
                 )}

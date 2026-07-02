@@ -222,12 +222,12 @@ export default function Library() {
         )}
 
         {/* Main Content - with master-detail layout on desktop */}
-        <div className={cn("flex-1 min-w-0 flex", !isMobile && selectedTrackId && "gap-8")}>
+        <div className={cn("flex-1 min-w-0 flex", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
           {/* Track List Section */}
           <div
             className={cn(
               "flex-1 min-w-0 flex flex-col",
-              !isMobile && selectedTrackId && "max-w-[60%] border-r border-border/40",
+              !isMobile && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
             )}
           >
             {/* SR-only H1 for page-has-heading-one / heading uniqueness */}
@@ -250,7 +250,7 @@ export default function Library() {
                       variant="default"
                       size="icon"
                       onClick={handlePlayAll}
-                      className="min-h-[44px] min-w-[44px] h-11 w-11 rounded-md lg:rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-sm hover:shadow-md transition-shadow"
+                      className="min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px] rounded-md lg:rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-sm hover:shadow-md transition-shadow"
                       aria-label="Воспроизвести все"
                     >
                       <Play className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
@@ -261,7 +261,7 @@ export default function Library() {
                       variant="ghost"
                       size="icon"
                       onClick={handleShuffleAll}
-                      className="min-h-[44px] min-w-[44px] h-11 w-11 rounded-md lg:rounded-lg hover:bg-muted/80 transition-colors"
+                      className="min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px] rounded-md lg:rounded-lg hover:bg-muted/80 transition-colors"
                       aria-label="Перемешать"
                     >
                       <Shuffle className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
@@ -274,7 +274,7 @@ export default function Library() {
                       size="icon"
                       onClick={() => setViewMode("grid")}
                       className={cn(
-                        "min-h-[44px] min-w-[44px] h-11 w-11 rounded lg:rounded-md transition-all",
+                        "min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px] rounded lg:rounded-md transition-all",
                         viewMode === "grid" && "shadow-sm",
                       )}
                       aria-label="Сетка"
@@ -286,7 +286,7 @@ export default function Library() {
                       size="icon"
                       onClick={() => setViewMode("list")}
                       className={cn(
-                        "min-h-[44px] min-w-[44px] h-11 w-11 rounded lg:rounded-md transition-all",
+                        "min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px] rounded lg:rounded-md transition-all",
                         viewMode === "list" && "shadow-sm",
                       )}
                       aria-label="Список"
@@ -425,7 +425,7 @@ export default function Library() {
                     <div
                       className={
                         viewMode === "grid"
-                          ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 gap-4 @sm:gap-5 @lg:gap-6"
+                          ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 @xl:grid-cols-6 gap-4 @sm:gap-5 @lg:gap-6"
                           : "flex flex-col gap-3 sm:gap-4"
                       }
                     >
@@ -470,7 +470,7 @@ export default function Library() {
 
           {/* Desktop: Track Detail Panel */}
           {!isMobile && selectedTrack && (
-            <div className="w-[40%] min-w-[320px] max-w-[480px] bg-card/50 border-l border-border/30 flex-shrink-0">
+            <div className="lg:w-[40%] xl:w-[45%] 2xl:w-[50%] min-w-[320px] max-w-[480px] xl:max-w-[560px] 2xl:max-w-[640px] bg-card/50 flex-shrink-0">
               <TrackDetailPanel track={selectedTrack} onPlay={handlePlay} onClose={() => setSelectedTrackId(null)} />
             </div>
           )}

@@ -266,7 +266,9 @@ export const LyricsPanel = memo(function LyricsPanel({
   );
 
   const isMobile = variant === "mobile";
-  const textSize = isMobile ? "text-lg" : "text-xl";
+  // Unified across player modules via typographyClass.lyricsWord; mobile keeps
+  // tighter line spacing for thumb-scroll ergonomics.
+  const textSize = isMobile ? "text-base" : "text-base xl:text-lg 2xl:text-xl";
   const lineSpacing = isMobile ? "space-y-1" : "space-y-3";
 
   return (

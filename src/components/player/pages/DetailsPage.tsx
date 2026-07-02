@@ -73,7 +73,7 @@ export function DetailsPage({ track }: DetailsPageProps) {
       role="region"
       aria-label="Информация о треке"
     >
-      <div className="mx-auto flex max-w-[28rem] flex-col gap-4 pb-24">
+      <div className="mx-auto flex max-w-[28rem] xl:max-w-[36rem] flex-col gap-4 pb-24">
         {/* Title block */}
         <section className="rounded-2xl bg-card/60 p-4 ring-1 ring-border/40 backdrop-blur">
           <div className="flex items-start gap-3">
@@ -81,9 +81,7 @@ export function DetailsPage({ track }: DetailsPageProps) {
               <h2 className="font-display text-[17px] font-semibold leading-tight text-foreground">
                 {track.title || "Без названия"}
               </h2>
-              {track.style && (
-                <p className="mt-1 text-[12px] text-muted-foreground/80">{track.style}</p>
-              )}
+              {track.style && <p className="mt-1 text-[12px] text-muted-foreground/80">{track.style}</p>}
             </div>
             <Button
               type="button"
@@ -105,23 +103,17 @@ export function DetailsPage({ track }: DetailsPageProps) {
           </div>
         </section>
 
-
         {/* Metadata grid */}
         <section className="rounded-2xl bg-card/60 p-2 ring-1 ring-border/40 backdrop-blur">
           <ul className="divide-y divide-border/40">
             {rows.map(({ label, value, icon: Icon }) => (
-              <li
-                key={label}
-                className="grid grid-cols-[20px_minmax(0,1fr)_auto] items-center gap-3 px-2 py-2.5"
-              >
+              <li key={label} className="grid grid-cols-[20px_minmax(0,1fr)_auto] items-center gap-3 px-2 py-2.5">
                 {Icon ? (
                   <Icon className="h-4 w-4 text-muted-foreground/70" aria-hidden />
                 ) : (
                   <span className="h-4 w-4" aria-hidden />
                 )}
-                <span className="text-[12px] uppercase tracking-wider text-muted-foreground/70">
-                  {label}
-                </span>
+                <span className="text-[12px] uppercase tracking-wider text-muted-foreground/70">{label}</span>
                 <span className="text-right text-[13px] font-medium text-foreground/90">{value}</span>
               </li>
             ))}

@@ -40,7 +40,7 @@ export const WaveformProgressBar = memo(function WaveformProgressBar({
       buffered={buffered}
       className={className}
       mode={mode}
-      density={mode === "minimal" ? "compact" : "default"}
+      density={mode === "minimal" ? "compact" : mode === "detailed" ? "fullscreen" : "default"}
       showLabels={showLabels}
       showBeatGrid={showBeatGrid}
     />

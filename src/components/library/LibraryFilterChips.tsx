@@ -40,7 +40,7 @@ export function LibraryFilterChips({ activeFilter, onFilterChange, counts }: Lib
             whileTap={{ scale: 0.95 }}
             className={cn(
               "relative flex items-center gap-1 px-2.5 py-1.5 rounded-md whitespace-nowrap transition-all flex-shrink-0",
-              "text-[11px] font-medium touch-manipulation min-h-[32px]",
+              "text-[11px] font-medium touch-manipulation min-h-[36px]",
               isActive
                 ? `bg-gradient-to-r ${option.gradient} text-primary-foreground shadow-sm`
                 : "bg-card/80 text-muted-foreground hover:text-foreground border border-border/50",

@@ -176,18 +176,26 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               aspectRatio="1/1"
               containerClassName={cn(
                 "rounded-xl bg-muted/40 ring-1 ring-border/40 group-hover:ring-primary/30 transition-all",
-                variant === "desktop" ? "w-14 h-14" : variant === "mid" ? "w-11 h-11" : "w-12 h-12",
+                variant === "desktop"
+                  ? "w-14 h-14 xl:w-16 xl:h-16 2xl:w-[72px] 2xl:h-[72px]"
+                  : variant === "mid"
+                    ? "w-11 h-11"
+                    : "w-12 h-12",
               )}
               className="h-full w-full rounded-xl object-cover"
-              width={variant === "desktop" ? 56 : 48}
-              height={variant === "desktop" ? 56 : 48}
+              width={variant === "desktop" ? 72 : 48}
+              height={variant === "desktop" ? 72 : 48}
               fallback={<Music2 className="w-5 h-5 text-primary/60" aria-hidden="true" />}
             />
           ) : (
             <div
               className={cn(
                 "rounded-xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-border/30 group-hover:ring-primary/30 transition-all",
-                variant === "desktop" ? "w-14 h-14" : variant === "mid" ? "w-11 h-11" : "w-12 h-12",
+                variant === "desktop"
+                  ? "w-14 h-14 xl:w-16 xl:h-16 2xl:w-[72px] 2xl:h-[72px]"
+                  : variant === "mid"
+                    ? "w-11 h-11"
+                    : "w-12 h-12",
               )}
             >
               <Music2 className="w-5 h-5 text-primary/60" aria-hidden="true" />
@@ -341,7 +349,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       </div>
     );
   } else {
-    maxWidth = "max-w-5xl";
+    maxWidth = "max-w-5xl 2xl:max-w-[1280px]";
     body = (
       <div className="flex items-center gap-4 px-4 py-2.5">
         {Cover}

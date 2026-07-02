@@ -20,7 +20,9 @@ import { useLyricsTemplates } from "@/hooks/useLyricsTemplates";
 import { useLyricsVersioning } from "@/hooks/useLyricsVersioning";
 import { useLyricsHistoryStore } from "@/stores/useLyricsHistoryStore";
 import { useSectionNotes } from "@/hooks/useSectionNotes";
-type SaveSectionNoteData = any;
+// NOTE: saveSectionNote was removed from useSectionNotes — this type
+// remains only as a placeholder signature for the dormant save path.
+type SaveSectionNoteData = unknown;
 void ({} as SaveSectionNoteData);
 import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -84,7 +86,14 @@ export default function LyricsStudio() {
 
   const { user } = useAuth();
   const { templates, saveTemplate, isLoading: templatesLoading } = useLyricsTemplates();
-  const { sectionNotes, saveSectionNote, getAllSuggestedTags } = useSectionNotes(templateId || undefined) as any;
+  const { sectionNotes, saveSectionNote, getAllSuggestedTags } = useSectionNotes(
+    templateId || undefined,
+  ) as unknown as {
+    sectionNotes: Array<{ section_type?: string; notes?: string; tags?: string[] }>;
+    saveSectionNote: (data: SaveSectionNoteData) => Promise<unknown>;
+    getAllSuggestedTags: () => string[];
+  };
+  void saveSectionNote;
 
   const [sections, setSections] = useState<LyricsSection[]>([]);
   const [globalTags, setGlobalTags] = useState<string[]>([]);
@@ -434,70 +443,72 @@ export default function LyricsStudio() {
 
       {/* Main Content with AI Panel */}
       <div className="flex-1 overflow-hidden flex">
-        <LyricsEditor
-          sections={sections}
-          globalTags={globalTags}
-          isSaving={isSavingLyrics}
-          isMobile={isMobile}
-          aiPanelOpen={aiPanelOpen}
-          onSectionsChange={handleSectionsChange}
-          onSelectSection={(section) => {
-            setSelectedSection(section);
-            if (section) handleOpenNotes(section);
-          }}
-          onSave={handleSave}
-          onPushHistory={lyricsHistory.pushSnapshot}
-          onRestoreFromHistory={handleRestoreFromHistory}
-          onOpenVersions={() => setVersionsPanelOpen(true)}
-          onOpenAi={() => setAiPanelOpen(true)}
-          onHaptic={() => hapticImpact("light")}
-        />
+        <div className="flex-1 min-w-0 max-w-3xl xl:max-w-5xl 2xl:max-w-6xl mx-auto w-full">
+          <LyricsEditor
+            sections={sections}
+            globalTags={globalTags}
+            isSaving={isSavingLyrics}
+            isMobile={isMobile}
+            aiPanelOpen={aiPanelOpen}
+            onSectionsChange={handleSectionsChange}
+            onSelectSection={(section) => {
+              setSelectedSection(section);
+              if (section) handleOpenNotes(section);
+            }}
+            onSave={handleSave}
+            onPushHistory={lyricsHistory.pushSnapshot}
+            onRestoreFromHistory={handleRestoreFromHistory}
+            onOpenVersions={() => setVersionsPanelOpen(true)}
+            onOpenAi={() => setAiPanelOpen(true)}
+            onHaptic={() => hapticImpact("light")}
+          />
 
-        <LyricsAIPanel
-          open={aiPanelOpen}
-          isMobile={isMobile}
-          isSaving={isSavingLyrics}
-          isProjectTrackMode={isProjectTrackMode}
-          existingLyrics={sectionsToLyrics(sections)}
-          selectedSectionForAgent={
-            selectedSection
-              ? {
-                  type: selectedSection.type,
-                  content: selectedSection.content,
-                  // getNoteForSection was removed from useSectionNotes but
-                  // the field is still consumed by the AI agent.
-                  notes: undefined,
-                  tags: selectedSection.tags,
-                }
-              : null
-          }
-          globalTags={globalTags}
-          allSectionNotesForAgent={
-            sectionNotes?.map((n: any) => ({
-              type: n.section_type || "",
-              notes: n.notes || "",
-              tags: n.tags || [],
-            })) ?? []
-          }
-          projectData={projectData}
-          projectTrack={projectTrack}
-          title={title}
-          tracklist={tracklist.map((t) => ({
-            position: t.position,
-            title: t.title,
-            hasLyrics: !!t.lyrics,
-            status: t.status || undefined,
-          }))}
-          onClose={() => setAiPanelOpen(false)}
-          onInsertLyrics={handleInsertLyrics}
-          onReplaceLyrics={(text) => {
-            handleReplaceLyrics(text);
-            if (isMobile) setAiPanelOpen(false);
-          }}
-          onAddTags={handleAddTags}
-          onOpen={() => setAiPanelOpen(true)}
-          onHaptic={() => hapticImpact("medium")}
-        />
+          <LyricsAIPanel
+            open={aiPanelOpen}
+            isMobile={isMobile}
+            isSaving={isSavingLyrics}
+            isProjectTrackMode={isProjectTrackMode}
+            existingLyrics={sectionsToLyrics(sections)}
+            selectedSectionForAgent={
+              selectedSection
+                ? {
+                    type: selectedSection.type,
+                    content: selectedSection.content,
+                    // getNoteForSection was removed from useSectionNotes but
+                    // the field is still consumed by the AI agent.
+                    notes: undefined,
+                    tags: selectedSection.tags,
+                  }
+                : null
+            }
+            globalTags={globalTags}
+            allSectionNotesForAgent={
+              sectionNotes?.map((n: { section_type?: string; notes?: string; tags?: string[] }) => ({
+                type: n.section_type || "",
+                notes: n.notes || "",
+                tags: n.tags || [],
+              })) ?? []
+            }
+            projectData={projectData}
+            projectTrack={projectTrack}
+            title={title}
+            tracklist={tracklist.map((t) => ({
+              position: t.position,
+              title: t.title,
+              hasLyrics: !!t.lyrics,
+              status: t.status || undefined,
+            }))}
+            onClose={() => setAiPanelOpen(false)}
+            onInsertLyrics={handleInsertLyrics}
+            onReplaceLyrics={(text) => {
+              handleReplaceLyrics(text);
+              if (isMobile) setAiPanelOpen(false);
+            }}
+            onAddTags={handleAddTags}
+            onOpen={() => setAiPanelOpen(true)}
+            onHaptic={() => hapticImpact("medium")}
+          />
+        </div>
       </div>
 
       <LyricsFooter

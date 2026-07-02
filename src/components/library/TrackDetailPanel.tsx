@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { LazyImage } from "@/components/ui/lazy-image";
 import {
   Play,
   Pause,
@@ -76,14 +77,23 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
         {/* Cover and Info */}
         <div className="flex gap-4">
           {/* Cover */}
-          <div className={cn("relative w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden", glass.subtle)}>
+          <div
+            className={cn(
+              "relative w-32 h-32 xl:w-40 xl:h-40 2xl:w-48 2xl:h-48 flex-shrink-0 rounded-lg overflow-hidden",
+              glass.subtle,
+            )}
+          >
             {track.cover_url ? (
-              <img
-                loading="lazy"
-                decoding="async"
+              <LazyImage
                 src={track.cover_url}
                 alt={track.title || "Track cover"}
+                coverSize="medium"
+                aspectRatio="1/1"
+                containerClassName="w-full h-full"
                 className="w-full h-full object-cover"
+                width={192}
+                height={192}
+                fallback={<Music2 className="w-12 h-12 text-primary/40" aria-hidden />}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
