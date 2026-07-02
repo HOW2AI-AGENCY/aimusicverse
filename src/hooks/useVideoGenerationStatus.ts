@@ -119,7 +119,7 @@ export function useVideoGenerationStatus(trackId: string | undefined): VideoGene
           table: "tracks",
           filter: `id=eq.${trackId}`,
         },
-        (payload: any) => {
+        (payload: { new?: { video_url?: string | null; local_video_url?: string | null } | null }) => {
           if (payload.new?.video_url || payload.new?.local_video_url) {
             queryClient.invalidateQueries({ queryKey: ["video-generation-status", trackId] });
             queryClient.invalidateQueries({ queryKey: ["tracks"] });

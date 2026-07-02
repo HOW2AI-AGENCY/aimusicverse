@@ -18,7 +18,7 @@ export interface Artist {
   is_ai_generated: boolean;
   is_public: boolean | null;
   suno_persona_id: string | null;
-  metadata: any | null;
+  metadata: Record<string, unknown> | null;
   created_at: string;
   updated_at: string;
 }
@@ -74,7 +74,7 @@ export const useArtists = () => {
         isAiGenerated: data.is_ai_generated,
       });
     },
-    onError: (error: any) => {
+    onError: (error) => {
       logger.error("Error creating artist", error);
       toast.error("Ошибка создания артиста");
     },
@@ -91,7 +91,7 @@ export const useArtists = () => {
       queryClient.invalidateQueries({ queryKey: ["artists", user?.id] });
       toast.success("Артист обновлен");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       logger.error("Error updating artist", error);
       toast.error("Ошибка обновления артиста");
     },
@@ -107,7 +107,7 @@ export const useArtists = () => {
       queryClient.invalidateQueries({ queryKey: ["artists", user?.id] });
       toast.success("Артист удален");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       logger.error("Error deleting artist", error);
       toast.error("Ошибка удаления артиста");
     },

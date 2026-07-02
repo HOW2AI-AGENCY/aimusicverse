@@ -5,8 +5,19 @@ import { useAuth } from "@/hooks/useAuth";
 import { notify } from "@/lib/notifications";
 import { logger } from "@/lib/logger";
 import { TELEGRAM_BOT_USERNAME, getTrackDeepLink } from "@/lib/telegram";
+import type { TelegramWebApp } from "@/types/telegram";
 
 const log = logger.child({ module: "TelegramIntegration" });
+
+// Telegram WebApp extras not in the standard TelegramWebApp type
+// - addToHomeScreen (Android v6.4+, iOS soon)
+// - shareURL (deprecated 7.x but kept for fallback)
+// - shareToStory (v7.x+)
+type TelegramWebAppExtras = TelegramWebApp & {
+  addToHomeScreen?: () => void;
+  shareURL?: (url: string, text?: string) => void;
+  shareToStory?: (mediaUrl: string, params?: { text?: string; widget_link?: { url: string; name?: string } }) => void;
+};
 
 interface UseTelegramIntegrationReturn {
   // Music on Profile
@@ -96,8 +107,9 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
     const shortcut = shortcuts[type];
 
     // Use Telegram's addToHomeScreen if available
-    if ((webApp as any).addToHomeScreen) {
-      (webApp as any).addToHomeScreen();
+    const extras = webApp as TelegramWebAppExtras;
+    if (extras.addToHomeScreen) {
+      extras.addToHomeScreen();
       notify.success(`Ярлык "${shortcut.name}" добавлен`, { dedupe: true, dedupeKey: "home-shortcut" });
     } else {
       notify.info("Добавьте приложение на главный экран через меню браузера", {
@@ -127,8 +139,8 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
     // Use Telegram's share
     const deepLink = getTrackDeepLink(trackId);
 
-    if ((webApp as any).shareURL) {
-      (webApp as any).shareURL(deepLink, `Послушай мой трек "${trackTitle}"!`);
+    if (extras.shareURL) {
+      extras.shareURL(deepLink, `Послушай мой трек "${trackTitle}"!`);
     } else if (webApp.openTelegramLink) {
       webApp.openTelegramLink(
         `https://t.me/share/url?url=${encodeURIComponent(deepLink)}&text=${encodeURIComponent(`Послушай мой трек "${trackTitle}"!`)}`,
@@ -137,13 +149,13 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
   };
 
   const shareToStory = async (trackId: string, coverUrl: string): Promise<boolean> => {
-    if (!webApp || !(webApp as any).shareToStory) {
+    if (!webApp || !extras.shareToStory) {
       notify.error("Истории доступны только в Telegram", { dedupe: true, dedupeKey: "stories-tg-only" });
       return false;
     }
 
     try {
-      (webApp as any).shareToStory(coverUrl, {
+      extras.shareToStory(coverUrl, {
         text: "Создано в MusicVerse 🎵",
         widget_link: {
           url: getTrackDeepLink(trackId),

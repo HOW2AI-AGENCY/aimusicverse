@@ -13,7 +13,7 @@ export interface TrackChangeLog {
   new_value: string | null;
   ai_model_used: string | null;
   prompt_used: string | null;
-  metadata: any;
+  metadata: Record<string, unknown> | null;
   created_at: string;
 }
 

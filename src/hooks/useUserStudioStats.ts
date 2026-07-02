@@ -120,20 +120,20 @@ export function useUserStudioStats() {
         supabase
           .from("track_stems")
           .select("id, tracks!inner(user_id)", { count: "exact", head: true })
-          .eq("tracks.user_id" as any, user.id),
+          .eq("tracks.user_id" as never, user.id),
 
         // Stems this week
         supabase
           .from("track_stems")
           .select("id, tracks!inner(user_id)", { count: "exact", head: true })
-          .eq("tracks.user_id" as any, user.id)
+          .eq("tracks.user_id" as never, user.id)
           .gte("created_at", weekAgo.toISOString()),
 
         // Stems previous week
         supabase
           .from("track_stems")
           .select("id, tracks!inner(user_id)", { count: "exact", head: true })
-          .eq("tracks.user_id" as any, user.id)
+          .eq("tracks.user_id" as never, user.id)
           .gte("created_at", twoWeeksAgo.toISOString())
           .lt("created_at", weekAgo.toISOString()),
 

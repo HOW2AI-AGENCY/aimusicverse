@@ -55,7 +55,7 @@ export function useTrackVersionManagement() {
       if (error) throw error;
 
       toast.success("Версия создана из основного трека");
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Create version error", error);
       toast.error(error.message || "Ошибка создания версии");
     } finally {
@@ -92,7 +92,7 @@ export function useTrackVersionManagement() {
       if (setPrimaryError) throw setPrimaryError;
 
       // Update main track with version data including title and metadata
-      const metadata = version.metadata as any;
+      const metadata = (version.metadata ?? null) as VersionMetadata | null;
       const versionTitle =
         metadata?.title || (typeof metadata?.prompt === "string" ? metadata.prompt.split("\n")[0] : null) || null;
 
@@ -138,7 +138,7 @@ export function useTrackVersionManagement() {
       await queryClient.invalidateQueries({ queryKey: ["tracks"] });
       await queryClient.invalidateQueries({ queryKey: ["track", trackId] });
       await queryClient.invalidateQueries({ queryKey: ["track-versions", trackId] });
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Set primary error", error);
       toast.error(error.message || "Ошибка установки версии");
     } finally {
@@ -154,7 +154,7 @@ export function useTrackVersionManagement() {
       if (error) throw error;
 
       toast.success("Версия удалена");
-    } catch (error: any) {
+    } catch (error) {
       logger.error("Delete version error", error);
       toast.error(error.message || "Ошибка удаления версии");
     } finally {

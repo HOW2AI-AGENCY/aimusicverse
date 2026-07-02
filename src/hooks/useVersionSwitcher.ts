@@ -87,7 +87,7 @@ export function useVersionSwitcher() {
 
       const { error: trackError } = await supabase
         .from("tracks")
-        .update(trackUpdate as any)
+        .update(trackUpdate as Database["public"]["Tables"]["tracks"]["Update"])
         .eq("id", trackId);
 
       if (trackError) throw trackError;

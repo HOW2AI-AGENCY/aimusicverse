@@ -1,10 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { logger } from "@/lib/logger";
+import type { TelegramWebApp } from "@/types/telegram";
 
 interface StorageOptions {
   fallbackToLocalStorage?: boolean;
 }
+
+type TelegramWithCloudStorage = TelegramWebApp & {
+  CloudStorage?: {
+    getItem: (key: string, callback: (error: Error | null, result: string | null) => void) => void;
+    setItem: (key: string, value: string, callback?: (error: Error | null) => void) => void;
+    removeItem: (key: string, callback?: (error: Error | null) => void) => void;
+  };
+};
 
 export function useTelegramStorage<T>(
   key: string,
@@ -16,15 +25,16 @@ export function useTelegramStorage<T>(
   const [isLoading, setIsLoading] = useState(true);
 
   // Check if CloudStorage is available
-  const hasCloudStorage = isInitialized && (webApp as any)?.CloudStorage;
+  const cloudStorage = (webApp as TelegramWithCloudStorage | null)?.CloudStorage;
+  const hasCloudStorage = isInitialized && !!cloudStorage;
 
   // Load initial value
   useEffect(() => {
     const loadValue = async () => {
       try {
-        if (hasCloudStorage) {
+        if (hasCloudStorage && cloudStorage) {
           // Use Telegram CloudStorage
-          (webApp as any).CloudStorage.getItem(key, (error: Error | null, result: string) => {
+          cloudStorage.getItem(key, (error: Error | null, result: string | null) => {
             if (error) {
               logger.error("CloudStorage getItem error", error);
               if (options.fallbackToLocalStorage) {
@@ -74,7 +84,7 @@ export function useTelegramStorage<T>(
         // Save to Telegram CloudStorage
         const stringValue = typeof newValue === "string" ? newValue : JSON.stringify(newValue);
 
-        (webApp as any).CloudStorage.setItem(key, stringValue, (error: Error | null) => {
+        cloudStorage.setItem(key, stringValue, (error: Error | null) => {
           if (error) {
             logger.error("CloudStorage setItem error", error);
             if (options.fallbackToLocalStorage) {
@@ -96,7 +106,7 @@ export function useTelegramStorage<T>(
     setValue(initialValue);
 
     if (hasCloudStorage) {
-      (webApp as any).CloudStorage.removeItem(key, (error: Error | null) => {
+      cloudStorage.removeItem(key, (error: Error | null) => {
         if (error) {
           logger.error("CloudStorage removeItem error", error);
           if (options.fallbackToLocalStorage) {
