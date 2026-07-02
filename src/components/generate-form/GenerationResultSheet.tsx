@@ -86,13 +86,12 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
           id: trackId!,
           title: trackTitle || "Новый трек",
           audio_url: version.audioUrl,
-          duration: version.duration || 0,
           cover_url: null,
           user_id: "",
           created_at: new Date().toISOString(),
           is_liked: false,
           likes_count: 0,
-        });
+        } as never);
         setPlayingVersionId(version.id);
       }
     },

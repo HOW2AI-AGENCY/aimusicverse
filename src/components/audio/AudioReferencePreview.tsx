@@ -13,8 +13,9 @@ import { logger } from "@/lib/logger";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
-type WaveSurferCtor = typeof import("wavesurfer.js");
-type WaveSurferInstance = ReturnType<WaveSurferCtor["create"]>;
+type WaveSurferModule = typeof import("wavesurfer.js");
+type WaveSurferCtor = WaveSurferModule["default"];
+type WaveSurferInstance = InstanceType<WaveSurferCtor>;
 
 interface AudioReferencePreviewProps {
   file: File;
@@ -106,8 +107,8 @@ export const AudioReferencePreview = memo(function AudioReferencePreview({
       setWaveformError(false);
 
       try {
-        const mod: WaveSurferCtor = await import("wavesurfer.js");
-        const WaveSurfer = (mod.default ?? mod) as unknown as { create: (opts: unknown) => WaveSurferInstance };
+        const mod: WaveSurferModule = await import("wavesurfer.js");
+        const WaveSurfer = ((mod as any).default ?? mod) as unknown as { create: (opts: unknown) => WaveSurferInstance };
 
         if (!mounted) return;
 

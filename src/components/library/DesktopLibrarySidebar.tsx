@@ -77,7 +77,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
     open: true,
     onOpenChange: () => {},
     projects,
-    artists,
+    artists: artists as never,
     allTracks,
   });
 

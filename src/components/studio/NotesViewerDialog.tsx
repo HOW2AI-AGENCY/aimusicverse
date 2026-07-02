@@ -88,7 +88,7 @@ export function NotesViewerDialog({
     }
     // Fallback to stored notes
     if (transcription?.notes && Array.isArray(transcription.notes)) {
-      return transcription.notes as ParsedMidiNote[];
+      return transcription.notes as unknown as ParsedMidiNote[];
     }
     return [];
   }, [parsedMidi, transcription]);

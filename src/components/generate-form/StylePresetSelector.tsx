@@ -231,7 +231,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
                         <h4 className="text-sm font-medium truncate">{preset.name}</h4>
                         <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{preset.template_text}</p>
                       </div>
-                      {preset.usage_count > 0 && (
+                      {(preset.usage_count ?? 0) > 0 && (
                         <Badge variant="outline" className="text-[10px] h-5 shrink-0">
                           {preset.usage_count}×
                         </Badge>

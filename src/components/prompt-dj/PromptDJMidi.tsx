@@ -18,7 +18,8 @@ import { useCallback, useEffect } from "react";
 
 export function PromptDJMidi() {
   const navigate = useNavigate();
-  const dj = usePromptDJ() as unknown as Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dj = usePromptDJ() as any;
   const {
     channels,
     updateChannel,

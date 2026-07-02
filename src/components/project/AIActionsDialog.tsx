@@ -43,7 +43,7 @@ export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply 
 
       if (error) throw error;
 
-      setOptions(data.result.options || []);
+      setOptions(((data as any)?.result?.options || []) as AIOption[]);
     } catch (error) {
       logger.error("Error getting AI options", error);
       toast.error("Ошибка получения вариантов улучшений");
@@ -85,7 +85,7 @@ export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply 
 
       if (error) throw error;
 
-      onApply(data.result);
+      onApply(((data as any)?.result ?? {}) as Record<string, string | number | boolean | null>);
       toast.success(`Проект переведен на ${language === "en" ? "английский" : "русский"}`);
       onOpenChange(false);
       resetState();

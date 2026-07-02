@@ -365,7 +365,7 @@ export function AudioActionDialog({
         publicUrl = await uploadAndGetUrl(audioFile);
       }
 
-      const data = await runTranscribeLyrics({ publicUrl });
+      const data = await runTranscribeLyrics({ publicUrl: publicUrl ?? "" });
 
       setHasVocals(data.hasVocals);
 
