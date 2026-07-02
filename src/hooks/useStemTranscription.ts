@@ -207,7 +207,7 @@ export function useSaveTranscription() {
         // Update existing
         const { data, error } = await supabase
           .from("stem_transcriptions")
-          .update(transcriptionData)
+          .update(transcriptionData as any)
           .eq("id", existing.id)
           .select()
           .single();

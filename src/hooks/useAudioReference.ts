@@ -227,7 +227,7 @@ export function useAudioReference(): UseAudioReferenceReturn {
       toast.error("Необходима авторизация");
       return null;
     }
-    return ReferenceManager.persistToDatabase(user.id);
+    return (await ReferenceManager.persistToDatabase(user.id)) as any;
   }, [user]);
 
   // Navigate to generate page with reference

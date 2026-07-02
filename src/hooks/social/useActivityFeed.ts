@@ -143,62 +143,24 @@ export function useActivityFeed(options?: { filter?: "all" | "following" | "like
 
       if (error) throw error;
 
-      const tracks: FeedTrack[] = ((data || []) as any[]).map(
-        (track: any) => {
-          const t = track as {
-            id: string;
-            title: string | null;
-            style: string | null;
-            cover_url: string | null;
-            audio_url: string | null;
-            telegram_file_id: string | null;
-            duration_seconds: number | null;
-            created_at: string;
-            likes_count: number | null;
-            play_count: number | null;
-            user_id: string;
-            profiles?: any;
-          };
-          return { track: t } as any;
+      const tracks: FeedTrack[] = ((data || []) as any[]).map((track: any) => ({
+        id: track.id,
+        title: track.title || "Без названия",
+        style: track.style,
+        coverUrl: track.cover_url,
+        audioUrl: track.audio_url || track.telegram_file_id,
+        durationSeconds: track.duration_seconds,
+        createdAt: track.created_at,
+        likesCount: track.likes_count || 0,
+        playCount: track.play_count || 0,
+        creator: {
+          userId: track.profiles?.user_id || track.user_id,
+          displayName: track.profiles?.display_name ?? null,
+          username: track.profiles?.username ?? null,
+          photoUrl: track.profiles?.photo_url ?? null,
         },
-      ).map((x: any) => x.track) as any;
-      void ((): any => (track: any) => track);
-          id: string;
-          title: string | null;
-          style: string | null;
-          cover_url: string | null;
-          audio_url: string | null;
-          telegram_file_id: string | null;
-          duration_seconds: number | null;
-          created_at: string;
-          likes_count: number | null;
-          play_count: number | null;
-          user_id: string;
-          profiles?: {
-            user_id: string;
-            display_name: string | null;
-            username: string | null;
-            photo_url: string | null;
-          } | null;
-        }) => ({
-          id: track.id,
-          title: track.title || "Без названия",
-          style: track.style,
-          coverUrl: track.cover_url,
-          audioUrl: track.audio_url || track.telegram_file_id,
-          durationSeconds: track.duration_seconds,
-          createdAt: track.created_at,
-          likesCount: track.likes_count || 0,
-          playCount: track.play_count || 0,
-          creator: {
-            userId: track.profiles?.user_id || track.user_id,
-            displayName: track.profiles?.display_name,
-            username: track.profiles?.username,
-            photoUrl: track.profiles?.photo_url,
-          },
-          source: followingIds.includes(track.user_id) ? "following" : "liked_creator",
-        }),
-      );
+        source: followingIds.includes(track.user_id) ? "following" : "liked_creator",
+      })) as FeedTrack[];
 
       return {
         tracks,

@@ -15,6 +15,6 @@ export interface ReplicateMidiInput {
 
 export function useReplicateMidiTranscription() {
   return useMutation({
-    mutationFn: (input: ReplicateMidiInput) => invokeReplicateMidiTranscription(input),
+    mutationFn: (input: ReplicateMidiInput) => invokeReplicateMidiTranscription(input as any),
   });
 }

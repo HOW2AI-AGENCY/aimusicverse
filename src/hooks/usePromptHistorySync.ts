@@ -67,7 +67,7 @@ function loadLocalHistory(): PromptHistoryItem[] {
       return {
         ...(maybeItem as PromptHistoryItem),
         timestamp:
-          maybeItem.timestamp instanceof Date ? maybeItem.timestamp : new Date(maybeItem.timestamp ?? Date.now()),
+          (maybeItem.timestamp as any) instanceof Date ? (maybeItem.timestamp as any) : new Date(maybeItem.timestamp ?? Date.now()),
       };
     });
   } catch {
@@ -86,7 +86,7 @@ function loadLocalSaved(): SavedPrompt[] {
       return {
         ...(maybeItem as SavedPrompt),
         createdAt:
-          maybeItem.createdAt instanceof Date ? maybeItem.createdAt : new Date(maybeItem.createdAt ?? Date.now()),
+          (maybeItem.createdAt as any) instanceof Date ? (maybeItem.createdAt as any) : new Date(maybeItem.createdAt ?? Date.now()),
       };
     });
   } catch {
