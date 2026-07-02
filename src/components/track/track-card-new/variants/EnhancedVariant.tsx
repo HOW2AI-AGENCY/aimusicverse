@@ -11,7 +11,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Play, Pause, Share2, Music2, Plus, UserPlus } from "@/lib/icons";
+import { Play, Pause, Share2, Music2, Plus, UserPlus, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -182,10 +182,10 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 </div>
               )}
 
-              {/* Gradient Overlay */}
+              {/* Gradient Overlay — uses foreground tokens (no raw black) */}
               <div
                 className={cn(
-                  "absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent",
+                  "absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-transparent",
                   "opacity-50 group-hover:opacity-70 transition-opacity duration-300",
                 )}
               />
@@ -249,7 +249,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                   size="sm"
                   variant="glass"
                   showCount={(track.like_count || 0) > 0}
-                  className="h-7 min-w-[28px] rounded-full text-white"
+                  className="h-7 min-w-[28px] rounded-full text-foreground"
                 />
               </div>
 
@@ -275,7 +275,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                     onClick={handleAddToPlaylist}
                     aria-label="Добавить в плейлист"
                   >
-                    <Plus className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-white" />
+                    <Plus className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-foreground" />
                   </Button>
                 )}
 
@@ -292,7 +292,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                     disabled={isFollowLoading}
                     aria-label="Подписаться на автора"
                   >
-                    <UserPlus className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-white" />
+                    <UserPlus className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-foreground" />
                   </Button>
                 )}
 
@@ -307,7 +307,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                   onClick={handleShare}
                   aria-label="Поделиться"
                 >
-                  <Share2 className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-white" />
+                  <Share2 className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-foreground" />
                 </Button>
               </motion.div>
             </div>
@@ -343,8 +343,9 @@ export const EnhancedVariant = memo(function EnhancedVariant({
 
                   {/* Follow badge if following */}
                   {isFollowing && (
-                    <span className="text-[8px] text-primary bg-primary/10 px-1.5 py-0.5 rounded-full font-medium">
-                      ✓
+                    <span className="inline-flex items-center gap-0.5 text-[8px] text-primary bg-primary/10 px-1.5 py-0.5 rounded-full font-medium">
+                      <Check className="w-2.5 h-2.5" aria-hidden="true" />
+                      Подписка
                     </span>
                   )}
                 </div>

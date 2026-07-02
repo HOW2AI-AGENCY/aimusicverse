@@ -12,7 +12,7 @@
  */
 
 import { memo, useCallback } from "react";
-import { MoreHorizontal, Play, Pause } from "@/lib/icons";
+import { MoreHorizontal, Play, Pause, Music2 } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -45,7 +45,7 @@ export const ListVariant = memo(function ListVariant({
   showActions = true,
   isFirstSwipeableItem = false,
 }: StandardTrackCardProps) {
-  const { sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet } =
+  const { sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet, isOwnTrack } =
     useTrackCardState({ track, onPlay, isPlaying: isPlayingProp });
 
   // Swipe action handlers
@@ -58,9 +58,6 @@ export const ListVariant = memo(function ListVariant({
     // Cycle to next version
     onVersionSwitch("next");
   }, [versionCount, onVersionSwitch]);
-
-  // Check if user owns this track
-  const { isOwnTrack } = useTrackCardState({ track, onPlay, isPlaying: isPlayingProp });
 
   const listContent = (
     <Card
@@ -83,8 +80,8 @@ export const ListVariant = memo(function ListVariant({
           containerClassName="w-full h-full"
           coverSize="small"
           fallback={
-            <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary/30">
-              🎵
+            <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+              <Music2 className="w-6 h-6 text-primary/40" aria-hidden="true" />
             </div>
           }
         />

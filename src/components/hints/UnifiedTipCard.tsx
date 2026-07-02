@@ -11,7 +11,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "@/lib/motion";
-import { X, ChevronRight } from "@/lib/icons";
+import { X, ChevronRight, Lightbulb } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useHintRegistry } from "./HintRegistry";
@@ -109,8 +109,14 @@ export function UnifiedTipCard({
 
             <div className="p-4">
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg">
-                  <span aria-hidden="true">{emoji ?? "💡"}</span>
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  {emoji ? (
+                    <span aria-hidden="true" className="text-lg">
+                      {emoji}
+                    </span>
+                  ) : (
+                    <Lightbulb className="h-5 w-5 text-primary" aria-hidden="true" />
+                  )}
                 </div>
                 <div className="min-w-0 flex-1">
                   <h4 className="mb-1 text-sm font-semibold leading-tight">{title}</h4>
@@ -120,7 +126,7 @@ export function UnifiedTipCard({
                   variant="ghost"
                   size="icon"
                   onClick={handleClose}
-                  className="h-8 w-8 flex-shrink-0 rounded-full hover:bg-muted/80"
+                  className="h-11 w-11 min-w-[44px] min-h-[44px] flex-shrink-0 rounded-full hover:bg-muted/80"
                   aria-label="Закрыть подсказку"
                 >
                   <X className="h-4 w-4" />
@@ -128,11 +134,21 @@ export function UnifiedTipCard({
               </div>
 
               <div className="mt-3 flex items-center justify-end gap-2 border-t border-border/40 pt-3">
-                <Button variant="ghost" size="sm" onClick={handleClose} className="h-8 text-xs text-muted-foreground">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleClose}
+                  className="h-11 sm:h-9 min-h-[44px] sm:min-h-0 text-xs text-muted-foreground"
+                >
                   Понятно
                 </Button>
                 {hasNext && onNext && (
-                  <Button variant="default" size="sm" onClick={handleNext} className="h-8 gap-1 text-xs">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={handleNext}
+                    className="h-11 sm:h-9 min-h-[44px] sm:min-h-0 gap-1 text-xs"
+                  >
                     Далее
                     <ChevronRight className="h-3 w-3" />
                   </Button>

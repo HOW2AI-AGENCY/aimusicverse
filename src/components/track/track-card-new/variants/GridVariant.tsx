@@ -10,7 +10,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { motion, PanInfo } from "@/lib/motion";
-import { Heart, Trash2, MoreHorizontal, Layers } from "@/lib/icons";
+import { Heart, Trash2, MoreHorizontal, Layers, Music2 } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -119,11 +119,11 @@ export const GridVariant = memo(function GridVariant({
           <>
             {/* Left swipe indicator (Like) */}
             <motion.div
-              className="absolute left-0 top-0 bottom-0 w-16 bg-red-500/20 flex items-center justify-center rounded-l-2xl"
+              className="absolute left-0 top-0 bottom-0 w-16 bg-primary/20 flex items-center justify-center rounded-l-2xl"
               initial={{ opacity: 0 }}
               animate={{ opacity: swipeOffset < -20 ? 1 : 0 }}
             >
-              <Heart className="w-6 h-6 text-red-500" />
+              <Heart className="w-6 h-6 text-primary" />
             </motion.div>
 
             {/* Right swipe indicator (Delete) - only for own tracks */}
@@ -172,7 +172,7 @@ export const GridVariant = memo(function GridVariant({
               }}
               fallback={
                 <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                  <span className="text-4xl">{track.title?.charAt(0) || "♪"}</span>
+                  <Music2 className="w-10 h-10 text-primary/40" aria-hidden="true" />
                 </div>
               }
             />

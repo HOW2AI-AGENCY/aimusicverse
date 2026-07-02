@@ -94,7 +94,7 @@ export const CompactVariant = memo(function CompactVariant({
             <Button
               size="icon"
               variant="ghost"
-              className="w-10 h-10 rounded-full opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 hover:bg-foreground/[0.06]"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 hover:bg-foreground/[0.06]"
               onClick={(e) => {
                 e.stopPropagation();
                 openSheet();

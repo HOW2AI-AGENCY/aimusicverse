@@ -186,7 +186,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           ) : (
             <div
               className={cn(
-                "rounded-xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-white/10 group-hover:ring-primary/30 transition-all",
+                "rounded-xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-border/30 group-hover:ring-primary/30 transition-all",
                 variant === "desktop" ? "w-14 h-14" : variant === "mid" ? "w-11 h-11" : "w-12 h-12",
               )}
             >
@@ -398,7 +398,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           "w-full mx-auto",
           maxWidth,
           glass.card,
-          "shadow-lg shadow-black/10",
+          "shadow-lg shadow-foreground/10",
           "flex flex-col overflow-hidden",
           "touch-manipulation",
         )}

@@ -15,7 +15,18 @@
  */
 
 import { motion, AnimatePresence } from "@/lib/motion";
-import { X, ArrowRight, Lightbulb } from "@/lib/icons";
+import {
+  X,
+  ArrowRight,
+  Lightbulb,
+  Rocket,
+  Sparkles,
+  FolderOpen,
+  User,
+  MessageCircle,
+  Settings,
+  type LucideIcon,
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -38,14 +49,14 @@ const categoryColors = {
   tip: "border-indigo-500/50 bg-indigo-50 dark:bg-indigo-950/20",
 };
 
-const categoryIcons = {
-  model: "🚀",
-  "ai-feature": "✨",
-  project: "📁",
-  artist: "👤",
-  social: "💬",
-  advanced: "⚙️",
-  tip: "💡",
+const categoryIcons: Record<ContextualHintType["category"], LucideIcon> = {
+  model: Rocket,
+  "ai-feature": Sparkles,
+  project: FolderOpen,
+  artist: User,
+  social: MessageCircle,
+  advanced: Settings,
+  tip: Lightbulb,
 };
 
 export function ContextualHint({ hint, onDismiss, position = "bottom" }: ContextualHintProps) {
@@ -86,10 +97,13 @@ export function ContextualHint({ hint, onDismiss, position = "bottom" }: Context
             {/* Header */}
             <div className="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
               <div
-                className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl bg-background/50 flex items-center justify-center text-xl md:text-2xl"
+                className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl bg-background/50 flex items-center justify-center"
                 aria-hidden="true"
               >
-                {hint.icon || categoryIcons[hint.category]}
+                {(() => {
+                  const Icon = categoryIcons[hint.category];
+                  return <Icon className="w-5 h-5 md:w-6 md:h-6 text-foreground" />;
+                })()}
               </div>
 
               <div className="flex-1 min-w-0">
@@ -101,7 +115,7 @@ export function ContextualHint({ hint, onDismiss, position = "bottom" }: Context
                 variant="ghost"
                 size="icon"
                 onClick={() => onDismiss(false)}
-                className="flex-shrink-0 h-7 w-7 md:h-8 md:w-8 rounded-full hover:bg-background/50"
+                className="flex-shrink-0 h-11 w-11 min-w-[44px] min-h-[44px] md:h-9 md:w-9 md:min-w-0 md:min-h-0 rounded-full hover:bg-background/50"
               >
                 <X className="h-3.5 w-3.5 md:h-4 md:w-4" />
                 <span className="sr-only">Закрыть</span>
@@ -112,7 +126,7 @@ export function ContextualHint({ hint, onDismiss, position = "bottom" }: Context
             <div className="flex items-center justify-between gap-2 mt-2 md:mt-3 pt-2 md:pt-3 border-t border-border/50">
               <button
                 onClick={() => onDismiss(true)}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+                className="min-h-[44px] md:min-h-0 text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap px-2"
               >
                 Не показывать
               </button>
@@ -121,7 +135,7 @@ export function ContextualHint({ hint, onDismiss, position = "bottom" }: Context
                 <Button
                   size="sm"
                   onClick={handleAction}
-                  className="h-7 md:h-8 text-xs gap-1 bg-primary hover:bg-primary/90 px-3"
+                  className="h-11 md:h-8 min-h-[44px] md:min-h-0 text-xs gap-1 bg-primary hover:bg-primary/90 px-3"
                 >
                   {hint.action.label}
                   <ArrowRight className="w-3 h-3" />
@@ -157,7 +171,10 @@ export function InlineHint({ hint, onDismiss }: InlineHintProps) {
           <p className="text-xs font-medium text-foreground mb-1">{hint.title}</p>
           <p className="text-xs text-muted-foreground">{hint.description}</p>
         </div>
-        <button onClick={onDismiss} className="flex-shrink-0 p-1 hover:bg-background/50 rounded">
+        <button
+          onClick={onDismiss}
+          className="flex-shrink-0 min-h-[44px] min-w-[44px] p-1 hover:bg-background/50 rounded inline-flex items-center justify-center"
+        >
           <X className="w-3 h-3" />
         </button>
       </div>
