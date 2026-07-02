@@ -225,3 +225,210 @@ export async function recordCheckin(userId: string, creditsEarned: number, strea
 
   if (error) throw new Error(error.message);
 }
+
+// ==========================================
+// Daily Missions (C3 Batch B)
+// ==========================================
+
+export interface CheckinRow {
+  id: string;
+}
+
+/**
+ * Fetch today's checkin row (if any) for the user.
+ */
+export async function fetchTodayCheckin(userId: string, todayDate: string): Promise<CheckinRow | null> {
+  const { data } = await supabase
+    .from("user_checkins")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("checkin_date", todayDate)
+    .maybeSingle();
+  return data ?? null;
+}
+
+export interface CountedRowsResult {
+  count: number;
+}
+
+/**
+ * Count tracks created by user within a date range (inclusive).
+ */
+export async function countTracksCreatedBetween(
+  userId: string,
+  startIso: string,
+  endIso: string,
+  status: string = "completed",
+): Promise<number> {
+  const { count } = await supabase
+    .from("tracks")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("status", status)
+    .gte("created_at", startIso)
+    .lte("created_at", endIso);
+  return count ?? 0;
+}
+
+/**
+ * Count user_activity rows for a given action_type in a date range.
+ */
+export async function countUserActivityBetween(
+  userId: string,
+  actionType: string,
+  startIso: string,
+  endIso: string,
+): Promise<number> {
+  const { count } = await supabase
+    .from("user_activity")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("action_type", actionType)
+    .gte("created_at", startIso)
+    .lte("created_at", endIso);
+  return count ?? 0;
+}
+
+/**
+ * Count track_likes created by user within a date range.
+ */
+export async function countUserTrackLikesBetween(userId: string, startIso: string, endIso: string): Promise<number> {
+  const { count } = await supabase
+    .from("track_likes")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .gte("created_at", startIso)
+    .lte("created_at", endIso);
+  return count ?? 0;
+}
+
+export interface ClaimedMissionAction {
+  action_type: string;
+}
+
+/**
+ * Fetch claimed mission actions (action_type LIKE 'mission_%') within a date range.
+ */
+export async function fetchClaimedMissionActions(
+  userId: string,
+  startIso: string,
+  endIso: string,
+): Promise<ClaimedMissionAction[]> {
+  const { data } = await supabase
+    .from("user_activity")
+    .select("action_type")
+    .eq("user_id", userId)
+    .like("action_type", "mission_%")
+    .gte("created_at", startIso)
+    .lte("created_at", endIso);
+  return (data ?? []) as ClaimedMissionAction[];
+}
+
+/**
+ * Invoke the reward-action edge function to grant credits/XP for a mission claim.
+ */
+export async function invokeRewardAction(body: {
+  userId: string;
+  actionType: string;
+  customCredits: number;
+  customExperience: number;
+  description: string;
+}): Promise<{ data: unknown; error: { message: string } | null }> {
+  return supabase.functions.invoke("reward-action", { body });
+}
+
+// ==========================================
+// Streak Calendar (C3 Batch B)
+// ==========================================
+
+export interface CheckinCalendarRow {
+  checkin_date: string;
+  credits_earned: number;
+  streak_day: number;
+}
+
+/**
+ * Fetch last N days of user_checkins for calendar rendering.
+ */
+export async function fetchCheckinsSince(userId: string, sinceDate: string): Promise<CheckinCalendarRow[]> {
+  const { data } = await supabase
+    .from("user_checkins")
+    .select("checkin_date, credits_earned, streak_day")
+    .eq("user_id", userId)
+    .gte("checkin_date", sinceDate)
+    .order("checkin_date", { ascending: true });
+  return (data ?? []) as CheckinCalendarRow[];
+}
+
+// ==========================================
+// Quick Stats (C3 Batch B)
+// ==========================================
+
+/**
+ * Count completed tracks for a user (all time).
+ */
+export async function countCompletedTracks(userId: string): Promise<number> {
+  const { count } = await supabase
+    .from("tracks")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("status", "completed");
+  return count ?? 0;
+}
+
+/**
+ * Count user achievements.
+ */
+export async function countUserAchievements(userId: string): Promise<number> {
+  const { count } = await supabase
+    .from("user_achievements")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId);
+  return count ?? 0;
+}
+
+// ==========================================
+// Special Challenges (C3 Batch B)
+// ==========================================
+
+/**
+ * Count likes received across a set of track ids.
+ */
+export async function countLikesForTracks(trackIds: string[]): Promise<number> {
+  if (trackIds.length === 0) return 0;
+  const { count } = await supabase
+    .from("track_likes")
+    .select("*", { count: "exact", head: true })
+    .in("track_id", trackIds);
+  return count ?? 0;
+}
+
+/**
+ * Count artists owned by the user.
+ */
+export async function countUserArtists(userId: string): Promise<number> {
+  const { count } = await supabase.from("artists").select("*", { count: "exact", head: true }).eq("user_id", userId);
+  return count ?? 0;
+}
+
+// ==========================================
+// Weekly Challenges (C3 Batch B)
+// ==========================================
+
+/**
+ * Count track_likes on a set of track ids within a date range.
+ */
+export async function countLikesForTracksBetween(
+  trackIds: string[],
+  startIso: string,
+  endIso: string,
+): Promise<number> {
+  if (trackIds.length === 0) return 0;
+  const { count } = await supabase
+    .from("track_likes")
+    .select("*", { count: "exact", head: true })
+    .in("track_id", trackIds)
+    .gte("created_at", startIso)
+    .lte("created_at", endIso);
+  return count ?? 0;
+}

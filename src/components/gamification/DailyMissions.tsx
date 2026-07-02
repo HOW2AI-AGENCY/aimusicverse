@@ -3,15 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/hooks/useAuth";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useDailyActivity, useClaimMissionReward } from "@/hooks/gamification/useDailyMissions";
 import { Target, Music, Share2, Heart, Zap, Check, Gift, Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
-import { toast } from "sonner";
-import { logger } from "@/lib/logger";
 
 interface Mission {
   id: string;
@@ -27,108 +23,10 @@ interface Mission {
 }
 
 export function DailyMissions() {
-  const { user } = useAuth();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
-  // Get today's activity counts and claimed missions
-  const { data: activity, isLoading } = useQuery({
-    queryKey: ["daily-activity", user?.id],
-    queryFn: async () => {
-      if (!user?.id) return null;
-
-      const today = new Date().toISOString().split("T")[0];
-      const todayStart = `${today}T00:00:00.000Z`;
-      const todayEnd = `${today}T23:59:59.999Z`;
-
-      // Get today's generation count
-      const { count: generationsCount } = await supabase
-        .from("tracks")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id)
-        .gte("created_at", todayStart)
-        .lte("created_at", todayEnd);
-
-      // Get today's share count (from user_activity)
-      const { count: sharesCount } = await supabase
-        .from("user_activity")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id)
-        .eq("action_type", "share")
-        .gte("created_at", todayStart)
-        .lte("created_at", todayEnd);
-
-      // Get today's likes given
-      const { count: likesCount } = await supabase
-        .from("track_likes")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id)
-        .gte("created_at", todayStart)
-        .lte("created_at", todayEnd);
-
-      // Check if checked in today
-      const { data: checkin } = await supabase
-        .from("user_checkins")
-        .select("id")
-        .eq("user_id", user.id)
-        .eq("checkin_date", today)
-        .maybeSingle();
-
-      // Get claimed missions for today (from user_activity with mission_ prefix)
-      const { data: claimedMissions } = await supabase
-        .from("user_activity")
-        .select("action_type")
-        .eq("user_id", user.id)
-        .like("action_type", "mission_%")
-        .gte("created_at", todayStart)
-        .lte("created_at", todayEnd);
-
-      const claimedIds = new Set(
-        (claimedMissions || []).map((m: { action_type: string }) => m.action_type.replace("mission_", "")),
-      );
-
-      return {
-        generations: generationsCount || 0,
-        shares: sharesCount || 0,
-        likes: likesCount || 0,
-        checkedIn: !!checkin,
-        claimedIds,
-      };
-    },
-    enabled: !!user?.id,
-    staleTime: 30000,
-    refetchInterval: 60000, // Refresh every minute
-  });
-
-  // Claim mission reward mutation
-  const claimMission = useMutation({
-    mutationFn: async (mission: Mission) => {
-      if (!user?.id) throw new Error("Not authenticated");
-
-      const { error } = await supabase.functions.invoke("reward-action", {
-        body: {
-          userId: user.id,
-          actionType: `mission_${mission.id}`,
-          customCredits: mission.reward.credits,
-          customExperience: mission.reward.xp,
-          description: `Миссия: ${mission.title}`,
-        },
-      });
-
-      if (error) throw error;
-      return mission;
-    },
-    onSuccess: (mission) => {
-      triggerHapticFeedback("success");
-      toast.success(`+${mission.reward.credits} кредитов за миссию "${mission.title}"!`);
-      queryClient.invalidateQueries({ queryKey: ["daily-activity"] });
-      queryClient.invalidateQueries({ queryKey: ["user-credits"] });
-    },
-    onError: (error: unknown) => {
-      logger.error("Failed to claim mission", error instanceof Error ? error : new Error(String(error)));
-      toast.error("Не удалось получить награду");
-    },
-  });
+  const { data: activity, isLoading } = useDailyActivity();
+  const claimMission = useClaimMissionReward();
 
   // Boosted mission rewards for faster progression
   const missions: Mission[] = [
@@ -179,7 +77,12 @@ export function DailyMissions() {
 
   const handleClaimReward = (mission: Mission) => {
     if (mission.current >= mission.target && !mission.claimed) {
-      claimMission.mutate(mission);
+      claimMission.mutate({
+        missionId: mission.id,
+        title: mission.title,
+        credits: mission.reward.credits,
+        xp: mission.reward.xp,
+      });
     }
   };
 
