@@ -38,16 +38,16 @@ export const DesktopToolsGridLayout = memo(function DesktopToolsGridLayout({
   return (
     <div className={cn("w-full mx-auto px-4 lg:px-6 py-4 lg:py-6", MAX_WIDTHS[maxWidth], className)}>
       {/* Header */}
-      {header && <div className="mb-4 lg:mb-6">{header}</div>}
+      {header && <div className="mb-4 lg:mb-6 2xl:mb-8">{header}</div>}
 
       {/* Quick actions bar */}
-      {quickActions && <div className="mb-4 lg:mb-6 flex flex-wrap gap-2 lg:gap-3">{quickActions}</div>}
+      {quickActions && <div className="mb-4 lg:mb-6 2xl:mb-8 flex flex-wrap gap-2 lg:gap-3">{quickActions}</div>}
 
       {/* Tools grid */}
       <div className={cn("grid", GRID_COLS[gridType])}>{children}</div>
 
       {/* Bottom section */}
-      {bottomSection && <div className="mt-6 lg:mt-8">{bottomSection}</div>}
+      {bottomSection && <div className="mt-6 lg:mt-8 2xl:mt-10">{bottomSection}</div>}
     </div>
   );
 });

@@ -7,7 +7,7 @@
 
 import { memo, ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { GRID_COLS, MAX_WIDTHS } from "@/lib/breakpoints";
+import { GRID_COLS, MAX_WIDTHS, GAPS } from "@/lib/breakpoints";
 
 interface DesktopDashboardLayoutProps {
   /** Header section (full width) */
@@ -23,15 +23,8 @@ interface DesktopDashboardLayoutProps {
   /** Custom className for the container */
   className?: string;
   /** Gap between columns */
-  gap?: "sm" | "md" | "lg" | "xl";
+  gap?: keyof typeof GAPS;
 }
-
-const gapClasses = {
-  sm: "gap-3",
-  md: "gap-4",
-  lg: "gap-6",
-  xl: "gap-8",
-};
 
 export const DesktopDashboardLayout = memo(function DesktopDashboardLayout({
   header,
@@ -45,19 +38,19 @@ export const DesktopDashboardLayout = memo(function DesktopDashboardLayout({
   return (
     <div className={cn("w-full mx-auto px-4 lg:px-6 py-4 lg:py-6", MAX_WIDTHS[maxWidth], className)}>
       {/* Header - full width */}
-      {header && <div className="mb-6">{header}</div>}
+      {header && <div className={cn("mb-6", "2xl:mb-8")}>{header}</div>}
 
       {/* Two-column grid */}
-      <div className={cn("grid", rightColumn ? GRID_COLS.dashboard : "grid-cols-1", gapClasses[gap])}>
+      <div className={cn("grid", rightColumn ? GRID_COLS.dashboard : "grid-cols-1", GAPS[gap])}>
         {/* Left column */}
-        <div className="space-y-4 lg:space-y-6">{leftColumn}</div>
+        <div className={cn(GAPS.md, "lg:gap-6 xl:gap-8")}>{leftColumn}</div>
 
         {/* Right column */}
-        {rightColumn && <div className="space-y-4 lg:space-y-6">{rightColumn}</div>}
+        {rightColumn && <div className={cn(GAPS.md, "lg:gap-6 xl:gap-8")}>{rightColumn}</div>}
       </div>
 
       {/* Bottom section - full width */}
-      {bottomSection && <div className="mt-6 lg:mt-8">{bottomSection}</div>}
+      {bottomSection && <div className={cn("mt-6 lg:mt-8 2xl:mt-10")}>{bottomSection}</div>}
     </div>
   );
 });

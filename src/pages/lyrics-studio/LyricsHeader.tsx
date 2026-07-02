@@ -84,7 +84,7 @@ export function LyricsHeader({
   // Project Header для project mode
   if (isProjectTrackMode && projectData) {
     return (
-      <div className="border-b border-border/50 bg-card/50">
+      <div className="border-b border-border/50 bg-background/95 backdrop-blur-md">
         {/* Compact header row */}
         <div className="flex items-center gap-3 px-3 py-2.5">
           <Button variant="ghost" size="icon" onClick={onBack} className="h-8 w-8 shrink-0">
