@@ -89,7 +89,17 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
         });
 
         if (!error && data?.parsed) {
-          const parsed = data.parsed as Record<string, any>;
+          const parsed = data.parsed as {
+            genre?: string;
+            mood?: string;
+            style_description?: string;
+            tempo?: string;
+            energy?: string;
+            bpm?: string | number;
+            vocal_style?: string;
+            instruments?: string[];
+            has_vocals?: boolean;
+          };
           await updateAnalysis({
             id: savedAudio.id,
             genre: parsed.genre,

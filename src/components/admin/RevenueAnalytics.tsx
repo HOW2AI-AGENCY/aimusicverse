@@ -33,6 +33,7 @@ import {
   Cell,
   PieChart,
   Pie,
+  type TooltipValueType,
 } from "recharts";
 
 type TimePeriod = "7 days" | "30 days" | "90 days";
@@ -184,8 +185,8 @@ export function RevenueAnalytics() {
                         borderRadius: "8px",
                         fontSize: "11px",
                       }}
-                      formatter={(value: any, name: any) => [
-                        name === "usd" ? formatCurrency(value) : `${formatNumber(value)} ⭐`,
+                      formatter={(value: TooltipValueType | undefined, name: number | string | undefined) => [
+                        name === "usd" ? formatCurrency(Number(value)) : `${formatNumber(Number(value))} ⭐`,
                         name === "usd" ? "USD" : "Stars",
                       ]}
                       labelFormatter={(label) => new Date(label).toLocaleDateString("ru-RU")}

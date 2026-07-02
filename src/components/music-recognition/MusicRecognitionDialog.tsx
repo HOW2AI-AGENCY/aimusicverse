@@ -194,11 +194,12 @@ function RecognitionContent({
 }
 
 function TrackResult({ track }: { track: RecognizedTrack }) {
-  const t = track as any;
-  const spotifyUrl = t.spotify?.external_urls?.spotify;
-  const appleMusicUrl = t.appleMusic?.url;
-  const artworkUrl =
-    t.spotify?.album?.images?.[0]?.url || t.appleMusic?.artwork?.url?.replace("{w}x{h}", "300x300");
+  const spotify = track.spotify as
+    { external_urls?: { spotify?: string }; album?: { images?: { url?: string }[] } } | undefined;
+  const appleMusic = track.appleMusic as { url?: string; artwork?: { url?: string } } | undefined;
+  const spotifyUrl = spotify?.external_urls?.spotify;
+  const appleMusicUrl = appleMusic?.url;
+  const artworkUrl = spotify?.album?.images?.[0]?.url || appleMusic?.artwork?.url?.replace("{w}x{h}", "300x300");
 
   return (
     <div className="flex gap-4">

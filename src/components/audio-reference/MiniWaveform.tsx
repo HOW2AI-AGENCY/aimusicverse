@@ -47,7 +47,7 @@ export const MiniWaveform = memo(function MiniWaveform({
       setIsReady(false);
 
       const mod: WaveSurferModule = await import("wavesurfer.js");
-      const WaveSurfer = ((mod as any).default ?? mod) as unknown as { create: (opts: unknown) => WaveSurferInstance };
+      const WaveSurfer = (mod.default ?? mod) as unknown as { create: (opts: unknown) => WaveSurferInstance };
       if (!mounted) return;
 
       const wavesurfer = WaveSurfer.create({

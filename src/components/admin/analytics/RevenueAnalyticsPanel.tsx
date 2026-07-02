@@ -22,6 +22,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  type TooltipValueType,
 } from "recharts";
 import { DollarSign, TrendingUp, Star, CreditCard, Coins, ArrowUpRight, ArrowDownRight } from "@/lib/icons";
 
@@ -200,8 +201,8 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                   />
                   <YAxis tick={{ fontSize: 10 }} width={40} />
                   <Tooltip
-                    formatter={(value: any, name: any) => [
-                      value.toLocaleString(),
+                    formatter={(value: TooltipValueType | undefined, name: number | string | undefined) => [
+                      Number(value).toLocaleString(),
                       name === "stars" ? "Stars" : "Транзакции",
                     ]}
                     labelFormatter={(label) => new Date(label).toLocaleDateString("ru")}
@@ -252,7 +253,10 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: any) => [`${value.toLocaleString()} ⭐`, "Stars"]}
+                      formatter={(value: TooltipValueType | undefined) => [
+                        `${Number(value).toLocaleString()} ⭐`,
+                        "Stars",
+                      ]}
                       contentStyle={{
                         backgroundColor: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
@@ -290,7 +294,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                   width={70}
                 />
                 <Tooltip
-                  formatter={(value: any) => [`${value.toLocaleString()} ⭐`, "Stars"]}
+                  formatter={(value: TooltipValueType | undefined) => [`${Number(value).toLocaleString()} ⭐`, "Stars"]}
                   contentStyle={{
                     backgroundColor: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",

@@ -197,6 +197,9 @@ export const LazyGenerationLogsPanel = lazy(() =>
  * Preload a lazy component before it's needed
  * Call this on hover or when you anticipate navigation
  */
+// React's own `LazyExoticComponent<T extends ComponentType<any>>` constraint requires this;
+// the body never touches props, so it's safe for any component shape.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function preloadComponent<T extends React.ComponentType<any>>(component: React.LazyExoticComponent<T>) {
   // React internal lazy chunk payload; not exposed in the public API.
   const internal = component as unknown as { _payload?: { _result?: () => void } };

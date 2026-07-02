@@ -17,6 +17,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  type TooltipValueType,
 } from "recharts";
 import { Gauge, Zap, Clock, Monitor, Smartphone, Tablet, TrendingUp, AlertTriangle, CheckCircle2 } from "@/lib/icons";
 import { useState } from "react";
@@ -291,7 +292,7 @@ export function PerformanceDashboard() {
                       borderRadius: "8px",
                       fontSize: "12px",
                     }}
-                    formatter={(value: any) => [`${value.toFixed(0)} ms`, "Avg LCP"]}
+                    formatter={(value: TooltipValueType | undefined) => [`${Number(value).toFixed(0)} ms`, "Avg LCP"]}
                   />
                   <Bar dataKey="avgLcp" radius={[0, 4, 4, 0]}>
                     {deviceBreakdown.map((entry, index) => (

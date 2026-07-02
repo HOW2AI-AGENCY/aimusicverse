@@ -215,7 +215,7 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
             <TabsContent value="style" className="mt-0">
               <VisualStyleEditor
                 visualAesthetic={project.visual_aesthetic ?? undefined}
-                colorPalette={(project.color_palette ?? undefined) as any}
+                colorPalette={project.color_palette as Record<string, string | undefined> | null | undefined}
                 typographyStyle={project.typography_style ?? undefined}
                 imageStyle={project.image_style ?? undefined}
                 visualKeywords={project.visual_keywords ?? undefined}

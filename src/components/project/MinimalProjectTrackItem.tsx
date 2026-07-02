@@ -40,8 +40,10 @@ import { TrackVersionsPanel } from "./TrackVersionsPanel";
 import { motion } from "@/lib/motion";
 import { LazyImage } from "@/components/ui/lazy-image";
 import type { DraggableAttributes } from "@dnd-kit/core";
-// SyntheticListenerMap moved to internal types; alias locally
-type SyntheticListenerMap = Record<string, any>;
+// dnd-kit's SyntheticListenerMap (Record<string, Function>) isn't exported from the
+// package root, and callers merge it with DraggableAttributes into one spread object
+// (`{ ...listeners, ...attributes }`), so a strict Function-valued map doesn't fit.
+type SyntheticListenerMap = Record<string, unknown>;
 
 interface GenerationStatus {
   progress: number;

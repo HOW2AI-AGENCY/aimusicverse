@@ -6,7 +6,17 @@
 
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  type TooltipValueType,
+} from "recharts";
 import { TrendingUp, TrendingDown, Minus } from "@/lib/icons";
 import { format, subDays, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
@@ -111,13 +121,14 @@ export function DeeplinkTrendsChart({ data, timeRange, isLoading }: DeeplinkTren
                   fontSize: "12px",
                 }}
                 labelStyle={{ color: "hsl(var(--popover-foreground))" }}
-                formatter={(value: any, name: any) => {
+                formatter={(value: TooltipValueType | undefined, name: number | string | undefined) => {
                   const labels: Record<string, string> = {
                     visits: "Визитов",
                     conversions: "Конверсий",
                     unique_users: "Уникальных",
                   };
-                  return [value, labels[name] || name];
+                  const key = String(name);
+                  return [String(value), labels[key] || key];
                 }}
               />
               <Legend

@@ -17,6 +17,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  type TooltipValueType,
 } from "recharts";
 import { Music, Palette, Hash, TrendingUp, Mic2, Disc3 } from "@/lib/icons";
 import { useContentAnalytics } from "@/hooks/admin/useContentAnalytics";
@@ -106,7 +107,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                     <XAxis type="number" tick={{ fontSize: 10 }} />
                     <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} width={60} />
                     <Tooltip
-                      formatter={(value: any) => [value, "Треков"]}
+                      formatter={(value: TooltipValueType | undefined) => [String(value), "Треков"]}
                       contentStyle={{
                         backgroundColor: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
@@ -153,7 +154,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: any) => [value, "Треков"]}
+                      formatter={(value: TooltipValueType | undefined) => [String(value), "Треков"]}
                       contentStyle={{
                         backgroundColor: "hsl(var(--card))",
                         border: "1px solid hsl(var(--border))",
@@ -227,7 +228,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                     <Cell fill="hsl(var(--secondary))" />
                   </Pie>
                   <Tooltip
-                    formatter={(value: any) => [`${value.toFixed(1)}%`, ""]}
+                    formatter={(value: TooltipValueType | undefined) => [`${Number(value).toFixed(1)}%`, ""]}
                     contentStyle={{
                       backgroundColor: "hsl(var(--card))",
                       border: "1px solid hsl(var(--border))",
