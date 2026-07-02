@@ -134,7 +134,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <ExtendDialog
           open={modals.isOpen("extend")}
           onOpenChange={modals.getOpenChangeHandler("extend")}
-          track={trackForSeparation as unknown as Track}
+          track={trackForSeparation as any}
         />
       )}
 
@@ -143,7 +143,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <RemixDialog
           open={modals.isOpen("remix")}
           onOpenChange={modals.getOpenChangeHandler("remix")}
-          track={trackForSeparation as unknown as Track}
+          track={trackForSeparation as any}
         />
       )}
 
@@ -152,7 +152,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <LazyAddVocalsDrawer
           open={modals.isOpen("addVocals")}
           onOpenChange={modals.getOpenChangeHandler("addVocals")}
-          track={trackForSeparation as unknown as Track}
+          track={trackForSeparation as any}
         />
       )}
 
@@ -191,7 +191,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <AddInstrumentalDrawer
           open={modals.isOpen("addInstrumental")}
           onOpenChange={modals.getOpenChangeHandler("addInstrumental")}
-          track={trackForSeparation as unknown as Track}
+          track={trackForSeparation as any}
         />
       )}
     </>
