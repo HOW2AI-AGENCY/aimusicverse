@@ -16,6 +16,7 @@ describe("cnInteractive", () => {
   it("omits hover classes when hover=false", () => {
     const classes = cnInteractive({ hover: false });
     expect(classes).not.toContain("hover:-translate-y-0.5");
+    expect(classes).not.toContain("hover:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.35)]");
     expect(classes).toContain("active:scale-[0.97]");
   });
 
