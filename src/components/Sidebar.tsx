@@ -409,7 +409,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                   variant="ghost"
                   size="icon"
                   aria-label={`${generationCount} активных генераций, открыть библиотеку`}
-                  className="w-full h-10 relative"
+                  className="w-full h-11 min-h-[44px] relative"
                   onClick={() => navigate("/library")}
                 >
                   <Loader2 className="w-4 h-4 animate-spin text-primary" />

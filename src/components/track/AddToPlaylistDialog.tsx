@@ -7,7 +7,7 @@ import type { Track } from "@/types/track";
 import { ListMusic, Plus, Search, Check, Loader2 } from "@/lib/icons";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useHapticFeedback } from "@/lib/mobile-utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { logger } from "@/lib/logger";
 import { usePlaylists } from "@/hooks/usePlaylists";
 
@@ -23,8 +23,7 @@ export function AddToPlaylistDialog({ open, onOpenChange, track }: AddToPlaylist
   const [creatingNew, setCreatingNew] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState("");
 
-  const triggerSuccessHaptic = useHapticFeedback("success");
-  const triggerSelectionHaptic = useHapticFeedback("selection");
+  const { success: triggerSuccessHaptic, select: triggerSelectionHaptic } = useHapticFeedback();
 
   // Real playlists data from Supabase
   const {

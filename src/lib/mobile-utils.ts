@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect, useCallback, type TouchEvent } from "react";
+import { hapticImpact, hapticNotification, hapticSelectionChanged, isHapticAvailable } from "./haptic";
 
 /**
  * Breakpoint constants (matching Tailwind CSS defaults)
@@ -308,32 +309,19 @@ export type HapticFeedbackType = "light" | "medium" | "heavy" | "selection" | "s
 export function triggerHapticFeedback(type: HapticFeedbackType = "light"): boolean {
   if (typeof window === "undefined") return false;
 
-  // Check if Telegram WebApp is available
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK not yet in window type
-  if ((window as any).Telegram?.WebApp?.HapticFeedback) {
-    const haptic = (window as any).Telegram.WebApp.HapticFeedback; // eslint-disable-line @typescript-eslint/no-explicit-any -- Telegram WebApp SDK not yet in window type
-
+  // Delegate to the canonical haptic utilities (version-guarded for Telegram < 6.1)
+  if (isHapticAvailable()) {
     switch (type) {
-      case "light":
-        haptic.impactOccurred("light");
-        return true;
-      case "medium":
-        haptic.impactOccurred("medium");
-        return true;
-      case "heavy":
-        haptic.impactOccurred("heavy");
-        return true;
       case "selection":
-        haptic.selectionChanged();
+        hapticSelectionChanged();
         return true;
       case "success":
-        haptic.notificationOccurred("success");
-        return true;
       case "warning":
-        haptic.notificationOccurred("warning");
-        return true;
       case "error":
-        haptic.notificationOccurred("error");
+        hapticNotification(type);
+        return true;
+      default:
+        hapticImpact(type);
         return true;
     }
   }
@@ -346,15 +334,4 @@ export function triggerHapticFeedback(type: HapticFeedbackType = "light"): boole
   }
 
   return false;
-}
-
-/**
- * Hook for haptic feedback with memoized callback
- * @param type - Type of haptic feedback
- * @returns Callback to trigger haptic feedback
- */
-export function useHapticFeedback(type: HapticFeedbackType = "light") {
-  return useCallback(() => {
-    triggerHapticFeedback(type);
-  }, [type]);
 }
