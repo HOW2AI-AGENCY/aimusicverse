@@ -339,6 +339,24 @@ export async function getTopGenerationUsers(days: number, limit: number = 10): P
 }
 
 // ==========================================
+// Health alerts
+// ==========================================
+
+/**
+ * Send a test alert via the health-alert edge function.
+ */
+export async function sendTestHealthAlert(): Promise<Record<string, unknown>> {
+  return adminApi.invokeHealthAlert({ test: true });
+}
+
+/**
+ * Force a health check + alert dispatch (bypasses the "healthy -> skip" gate).
+ */
+export async function forceHealthAlert(): Promise<Record<string, unknown>> {
+  return adminApi.invokeHealthAlert({ force: true });
+}
+
+// ==========================================
 // User Management
 // ==========================================
 

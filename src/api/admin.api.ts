@@ -312,6 +312,26 @@ export async function fetchProfilesSummary(
   return data ?? [];
 }
 
+// ==========================================
+// System health / alerts
+// ==========================================
+
+/**
+ * Trigger the health-alert edge function. Body can be `{ test: true }` to
+ * send a test alert, `{ force: true }` to bypass health gating, or empty
+ * to send only when the system is unhealthy.
+ */
+export async function invokeHealthAlert(payload: {
+  test?: boolean;
+  force?: boolean;
+}): Promise<Record<string, unknown>> {
+  const { data, error } = await supabase.functions.invoke("health-alert", {
+    body: payload,
+  });
+  if (error) throw new Error(error.message);
+  return (data as Record<string, unknown>) ?? {};
+}
+
 /**
  * Fetch the list of all users with current credit balances —
  * used by bulk-credit admin actions.

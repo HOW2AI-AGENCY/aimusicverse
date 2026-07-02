@@ -22,9 +22,8 @@ import {
   AlertOctagon,
 } from "@/lib/icons";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useSendTestHealthAlert } from "@/hooks/admin/useHealthAlert";
 
 const statusIcons = {
   healthy: CheckCircle2,
@@ -55,23 +54,18 @@ const checkIcons: Record<string, React.ComponentType<{ className?: string }>> = 
 
 export function HealthCheckPanel() {
   const { data: health, isLoading, refetch, isFetching } = useSystemHealth();
-  const [isSendingAlert, setIsSendingAlert] = useState(false);
+  const sendTestAlertMutation = useSendTestHealthAlert();
 
   const sendTestAlert = async () => {
-    setIsSendingAlert(true);
     try {
-      const { error } = await supabase.functions.invoke("health-alert", {
-        body: { test: true },
-      });
-
-      if (error) throw error;
+      await sendTestAlertMutation.mutateAsync();
       toast.success("Тестовый алерт отправлен в Telegram");
     } catch (err) {
       toast.error("Ошибка отправки алерта");
-    } finally {
-      setIsSendingAlert(false);
     }
   };
+
+  const isSendingAlert = sendTestAlertMutation.isPending;
 
   if (isLoading) {
     return (
