@@ -342,6 +342,7 @@ export interface TrackVersionDetailRow {
   cover_url: string | null;
   duration_seconds: number | null;
   is_primary: boolean | null;
+  clip_index: number | null;
   created_at: string | null;
 }
 
@@ -351,7 +352,7 @@ export interface TrackVersionDetailRow {
 export async function fetchTrackVersionsDetailed(trackId: string): Promise<TrackVersionDetailRow[]> {
   const { data, error } = await supabase
     .from("track_versions")
-    .select("id, version_label, audio_url, cover_url, duration_seconds, is_primary, created_at")
+    .select("id, version_label, audio_url, cover_url, duration_seconds, is_primary, clip_index, created_at")
     .eq("track_id", trackId)
     .order("clip_index", { ascending: true });
 

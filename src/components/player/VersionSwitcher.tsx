@@ -6,7 +6,7 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getTrackVersionsForSwitcher } from "@/services/generation/track-versions.service";
 import { Button } from "@/components/ui/button";
 import type { Track } from "@/types/track";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -42,14 +42,7 @@ export function VersionSwitcher({ track, size = "medium", className }: VersionSw
   const { data: versions, isLoading } = useQuery({
     queryKey: ["track-versions-switcher", originalTrackId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("track_versions")
-        .select("id, audio_url, cover_url, version_label, clip_index, is_primary")
-        .eq("track_id", originalTrackId)
-        .order("clip_index", { ascending: true });
-
-      if (error) throw error;
-      return data;
+      return getTrackVersionsForSwitcher(originalTrackId);
     },
     enabled: !!originalTrackId,
     staleTime: 5 * 60 * 1000,
