@@ -509,3 +509,81 @@ export async function fetchCompletedTracksForContentAnalytics(params: {
   if (error) throw new Error(error.message);
   return (data ?? []) as CompletedTrackRow[];
 }
+
+// ==========================================
+// Forecast panel — daily series for users / revenue / generations / tracks
+// ==========================================
+
+export interface ProfileSignupRow {
+  created_at: string;
+}
+
+export interface StarsTransactionRevenueRow {
+  created_at: string;
+  stars_amount: number | null;
+}
+
+export interface GenerationTaskCreatedRow {
+  created_at: string;
+}
+
+export interface TrackCreatedRow {
+  created_at: string;
+}
+
+/**
+ * Fetch profile signups within a window (used to forecast new-user growth).
+ */
+export async function fetchProfileSignupsForForecast(params: { startDate: Date }): Promise<ProfileSignupRow[]> {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("created_at")
+    .gte("created_at", params.startDate.toISOString())
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as ProfileSignupRow[];
+}
+
+/**
+ * Fetch completed stars_transactions within a window (revenue forecast).
+ */
+export async function fetchCompletedStarsRevenueForForecast(params: {
+  startDate: Date;
+}): Promise<StarsTransactionRevenueRow[]> {
+  const { data, error } = await supabase
+    .from("stars_transactions")
+    .select("created_at, stars_amount")
+    .gte("created_at", params.startDate.toISOString())
+    .eq("status", "completed")
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as StarsTransactionRevenueRow[];
+}
+
+/**
+ * Fetch generation_tasks created within a window (generation forecast).
+ */
+export async function fetchGenerationTaskCreatedForForecast(params: {
+  startDate: Date;
+}): Promise<GenerationTaskCreatedRow[]> {
+  const { data, error } = await supabase
+    .from("generation_tasks")
+    .select("created_at")
+    .gte("created_at", params.startDate.toISOString())
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as GenerationTaskCreatedRow[];
+}
+
+/**
+ * Fetch tracks created within a window (track forecast).
+ */
+export async function fetchTracksCreatedForForecast(params: { startDate: Date }): Promise<TrackCreatedRow[]> {
+  const { data, error } = await supabase
+    .from("tracks")
+    .select("created_at")
+    .gte("created_at", params.startDate.toISOString())
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as TrackCreatedRow[];
+}
