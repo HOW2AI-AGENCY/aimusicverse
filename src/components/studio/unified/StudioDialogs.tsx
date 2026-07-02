@@ -134,7 +134,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <ExtendDialog
           open={modals.isOpen("extend")}
           onOpenChange={modals.getOpenChangeHandler("extend")}
-          track={trackForSeparation as unknown as Track}
+          track={trackForSeparation as any}
         />
       )}
 
@@ -143,7 +143,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <RemixDialog
           open={modals.isOpen("remix")}
           onOpenChange={modals.getOpenChangeHandler("remix")}
-          track={trackForSeparation as unknown as Track}
+          track={trackForSeparation as any}
         />
       )}
 
@@ -152,7 +152,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <LazyAddVocalsDrawer
           open={modals.isOpen("addVocals")}
           onOpenChange={modals.getOpenChangeHandler("addVocals")}
-          track={trackForSeparation as unknown as Track}
+          track={trackForSeparation as any}
         />
       )}
 
@@ -168,8 +168,8 @@ export const StudioDialogs = memo(function StudioDialogs({
       <NotationDrawer
         open={modals.isOpen("notation")}
         onClose={modals.close}
-        track={modals.payload.selectedTrack}
-        transcriptionData={modals.payload.selectedTrack?.transcription}
+        track={(modals.payload.selectedTrack ?? null) as any}
+        transcriptionData={(modals.payload.selectedTrack as any)?.transcription}
         currentTime={currentTime}
         duration={duration}
         isPlaying={isPlaying}
@@ -181,7 +181,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         open={modals.isOpen("chordSheet")}
         onClose={modals.close}
         trackName={modals.payload.selectedTrack?.name || "Track"}
-        chords={modals.payload.selectedTrack?.chords || []}
+        chords={(modals.payload.selectedTrack?.chords || []) as any}
         currentTime={currentTime}
         onSeekToChord={onSeek}
       />
@@ -191,7 +191,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <AddInstrumentalDrawer
           open={modals.isOpen("addInstrumental")}
           onOpenChange={modals.getOpenChangeHandler("addInstrumental")}
-          track={trackForSeparation as unknown as Track}
+          track={trackForSeparation as any}
         />
       )}
     </>
