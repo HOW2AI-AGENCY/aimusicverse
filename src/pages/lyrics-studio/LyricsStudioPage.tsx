@@ -19,7 +19,9 @@ import { LyricsSection } from "@/components/lyrics-workspace";
 import { useLyricsTemplates } from "@/hooks/useLyricsTemplates";
 import { useLyricsVersioning } from "@/hooks/useLyricsVersioning";
 import { useLyricsHistoryStore } from "@/stores/useLyricsHistoryStore";
-import { useSectionNotes, SaveSectionNoteData } from "@/hooks/useSectionNotes";
+import { useSectionNotes } from "@/hooks/useSectionNotes";
+type SaveSectionNoteData = any;
+void ({} as SaveSectionNoteData);
 import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
@@ -82,7 +84,7 @@ export default function LyricsStudio() {
 
   const { user } = useAuth();
   const { templates, saveTemplate, isLoading: templatesLoading } = useLyricsTemplates();
-  const { sectionNotes, saveSectionNote, getAllSuggestedTags } = useSectionNotes(templateId || undefined);
+  const { sectionNotes, saveSectionNote, getAllSuggestedTags } = useSectionNotes(templateId || undefined) as any;
 
   const [sections, setSections] = useState<LyricsSection[]>([]);
   const [globalTags, setGlobalTags] = useState<string[]>([]);

@@ -15,7 +15,7 @@ export type TrackStemRow = Database["public"]["Tables"]["track_stems"]["Row"];
  * Extended Track type with computed/optional UI fields
  * This is the main type used throughout the application
  */
-export interface Track extends TrackRow {
+export interface Track extends Omit<TrackRow, "audio_quality"> {
   // Like-related fields (computed from track_likes)
   is_liked: boolean;
   likes_count: number;
