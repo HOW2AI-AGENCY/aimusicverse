@@ -120,6 +120,7 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
   };
 
   const shareToTelegram = (trackId: string, trackTitle: string) => {
+    const extras = webApp as TelegramWebAppExtras;
     if (!webApp) {
       // Fallback to web share
       const url = `${window.location.origin}/library?track=${trackId}`;
@@ -149,6 +150,7 @@ export function useTelegramIntegration(): UseTelegramIntegrationReturn {
   };
 
   const shareToStory = async (trackId: string, coverUrl: string): Promise<boolean> => {
+    const extras = webApp as TelegramWebAppExtras;
     if (!webApp || !extras.shareToStory) {
       notify.error("Истории доступны только в Telegram", { dedupe: true, dedupeKey: "stories-tg-only" });
       return false;

@@ -95,7 +95,7 @@ export default function Settings() {
       case "notifications":
         return (
           <NotificationsTab
-            settings={settings.notificationSettings}
+            settings={settings.notificationSettings as any}
             isUpdating={settings.isUpdating}
             onToggle={settings.toggleNotification}
             onUpdateSettings={settings.updateSettings}

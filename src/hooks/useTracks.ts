@@ -157,7 +157,7 @@ export function useTracks(params: UseTracksParams = {}) {
 
   if (isScreenshotMode) {
     return {
-      tracks: screenshotMockTracks as EnrichedTrack[],
+      tracks: screenshotMockTracks as any,
       totalCount: screenshotMockTracks.length,
       isLoading: false,
       error: null,
