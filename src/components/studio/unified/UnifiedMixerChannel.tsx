@@ -295,7 +295,7 @@ export const UnifiedMixerChannel = memo(function UnifiedMixerChannel({
           <button
             onClick={handleMute}
             className={cn(
-              "w-7 h-7 rounded text-[10px] font-bold transition-colors",
+              "min-w-[44px] min-h-[44px] px-2 rounded text-[10px] font-bold transition-colors",
               muted ? "bg-destructive text-destructive-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80",
             )}
           >
@@ -304,7 +304,7 @@ export const UnifiedMixerChannel = memo(function UnifiedMixerChannel({
           <button
             onClick={handleSolo}
             className={cn(
-              "w-7 h-7 rounded text-[10px] font-bold transition-colors",
+              "min-w-[44px] min-h-[44px] px-2 rounded text-[10px] font-bold transition-colors",
               solo ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80",
             )}
           >
@@ -358,11 +358,19 @@ export const UnifiedMixerChannel = memo(function UnifiedMixerChannel({
             variant={solo ? "default" : "outline"}
             size="sm"
             onClick={handleSolo}
-            className={cn("h-8 w-8 p-0 text-xs font-bold", solo && "bg-primary text-primary-foreground")}
+            className={cn(
+              "h-8 w-8 min-h-[44px] min-w-[44px] p-0 text-xs font-bold",
+              solo && "bg-primary text-primary-foreground",
+            )}
           >
             S
           </Button>
-          <Button variant={muted ? "destructive" : "outline"} size="sm" onClick={handleMute} className="h-8 w-8 p-0">
+          <Button
+            variant={muted ? "destructive" : "outline"}
+            size="sm"
+            onClick={handleMute}
+            className="h-8 w-8 min-h-[44px] min-w-[44px] p-0"
+          >
             {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </Button>
         </div>
