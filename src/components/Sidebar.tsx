@@ -302,7 +302,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
   return (
     <TooltipProvider>
       <aside
-        aria-label="Главная навигация"
+        aria-label="Боковая навигация"
         className={cn(
           "h-full flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-all duration-300 z-navigation",
           isCollapsed ? "w-16" : "w-64",
@@ -315,7 +315,11 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             isCollapsed ? "justify-center" : "justify-between",
           )}
         >
-          {!isCollapsed && <h1 className="text-xl font-bold text-sidebar-primary">MusicVerse</h1>}
+          {!isCollapsed && (
+            <span aria-label="MusicVerse" className="text-xl font-bold text-sidebar-primary">
+              MusicVerse
+            </span>
+          )}
           <div className="flex items-center gap-1">
             {!isCollapsed && <NotificationCenter />}
             <Tooltip>
@@ -349,6 +353,8 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
               <TooltipTrigger asChild>
                 <Button
                   onClick={() => setGenerateOpen(true)}
+                  aria-label="Создать трек"
+                  aria-haspopup="dialog"
                   className="w-full h-11 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
                   size="icon"
                 >
@@ -402,6 +408,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label={`${generationCount} активных генераций, открыть библиотеку`}
                   className="w-full h-10 relative"
                   onClick={() => navigate("/library")}
                 >

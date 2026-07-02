@@ -6,6 +6,12 @@
 import { memo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Search, ArrowUpDown, X, Music2, Mic, Volume2, Layers, CheckCircle2, AlertCircle } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -67,7 +73,6 @@ export const CompactFilterBar = memo(function CompactFilterBar({
   className,
 }: CompactFilterBarProps) {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [showSortMenu, setShowSortMenu] = useState(false);
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -100,55 +105,34 @@ export const CompactFilterBar = memo(function CompactFilterBar({
           </AnimatePresence>
         </div>
 
-        {/* Sort Button — inline dropdown on all viewports */}
-        <div className="relative">
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-9 gap-1.5 px-2.5 text-xs min-h-[44px] min-w-[44px]"
-            onClick={() => setShowSortMenu(!showSortMenu)}
-            aria-label="Сортировка"
-          >
-            <ArrowUpDown className="w-3.5 h-3.5" />
-            <span className="hidden xs:inline">{SORTS.find((s) => s.id === sortBy)?.label}</span>
-          </Button>
-
-          <AnimatePresence>
-            {showSortMenu && (
-              <>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-40"
-                  onClick={() => setShowSortMenu(false)}
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: -5 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -5 }}
-                  className="absolute right-0 top-full mt-1 z-50 bg-popover border rounded-lg shadow-lg p-1 min-w-[120px]"
-                >
-                  {SORTS.map((sort) => (
-                    <button
-                      key={sort.id}
-                      className={cn(
-                        "w-full text-left px-3 py-2.5 text-xs rounded-md transition-colors min-h-[44px]",
-                        sortBy === sort.id ? "bg-primary text-primary-foreground" : "hover:bg-muted",
-                      )}
-                      onClick={() => {
-                        onSortChange(sort.id);
-                        setShowSortMenu(false);
-                      }}
-                    >
-                      {sort.label}
-                    </button>
-                  ))}
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
+        {/* Sort Menu — uses shadcn DropdownMenu for proper ARIA (role=menu/menuitem, roving tabindex, ESC) */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9 gap-1.5 px-2.5 text-xs min-h-[44px] min-w-[44px]"
+              aria-label={`Сортировка: ${SORTS.find((s) => s.id === sortBy)?.label || ""}`}
+            >
+              <ArrowUpDown className="w-3.5 h-3.5" />
+              <span className="hidden xs:inline">{SORTS.find((s) => s.id === sortBy)?.label}</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="min-w-[140px]">
+            {SORTS.map((sort) => (
+              <DropdownMenuItem
+                key={sort.id}
+                onSelect={() => onSortChange(sort.id)}
+                className={cn(
+                  "min-h-[44px] cursor-pointer",
+                  sortBy === sort.id && "bg-primary text-primary-foreground focus:bg-primary/90",
+                )}
+              >
+                {sort.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Filter Chips - Horizontal Scroll, unified pill style */}

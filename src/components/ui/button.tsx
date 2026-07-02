@@ -40,11 +40,11 @@ const buttonVariants = cva(
         success:
           "bg-gradient-to-br from-success to-success/90 text-white hover:from-success/90 hover:to-success/80 shadow-sm shadow-success/20",
         glass:
-          "bg-background/60 backdrop-blur-md border border-border/60 hover:bg-background/80 hover:border-primary/40 shadow-sm",
+          "bg-background/85 backdrop-blur-md border border-border/60 hover:bg-background/95 hover:border-primary/40 shadow-sm",
       },
       size: {
         default: "h-11 px-5 py-2", // 44px - meets touch target
-        sm: "h-10 rounded-lg px-3.5", // 40px - acceptable for non-primary actions
+        sm: "h-11 rounded-lg px-3.5", // 44px - meets touch target (WCAG 2.5.8)
         lg: "h-12 rounded-xl px-8", // 48px - comfortable
         xl: "h-14 rounded-2xl px-10 text-base", // 56px - very comfortable
         icon: "h-11 w-11", // 44px - meets touch target for icons

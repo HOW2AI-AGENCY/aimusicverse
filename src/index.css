@@ -80,7 +80,7 @@ All colors MUST be HSL.
     --secondary-foreground: 220 20% 20%;
 
     --muted: 220 15% 94%;
-    --muted-foreground: 220 10% 45%;
+    --muted-foreground: 220 12% 38%;
 
     --accent: 207 80% 95%;
     --accent-foreground: 207 90% 45%;
@@ -270,7 +270,7 @@ All colors MUST be HSL.
     --secondary-foreground: 220 20% 92%;
 
     --muted: 222 30% 18%;
-    --muted-foreground: 220 14% 65%;
+    --muted-foreground: 220 12% 70%;
 
     --accent: 255 92% 76%;
     /* #a78bfa lavender */
@@ -2309,28 +2309,44 @@ select:focus-visible,
     box-shadow: none;
   }
   .elevation-1 {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      0 1px 2px rgba(0, 0, 0, 0.06);
   }
   .elevation-2 {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.12),
+      0 2px 4px rgba(0, 0, 0, 0.08);
   }
   .elevation-3 {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16), 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.16),
+      0 4px 8px rgba(0, 0, 0, 0.1);
   }
   .elevation-4 {
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.12);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.2),
+      0 8px 16px rgba(0, 0, 0, 0.12);
   }
   .dark .elevation-1 {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 1px 2px rgba(0, 0, 0, 0.2);
   }
   .dark .elevation-2 {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.25);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.35),
+      0 2px 4px rgba(0, 0, 0, 0.25);
   }
   .dark .elevation-3 {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.4),
+      0 4px 8px rgba(0, 0, 0, 0.3);
   }
   .dark .elevation-4 {
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(0, 0, 0, 0.35);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.5),
+      0 8px 16px rgba(0, 0, 0, 0.35);
   }
 
   /* Glass surface — used with elevation utilities */

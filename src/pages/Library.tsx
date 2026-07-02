@@ -230,6 +230,9 @@ export default function Library() {
               !isMobile && selectedTrackId && "max-w-[60%] border-r border-border/40",
             )}
           >
+            {/* SR-only H1 for page-has-heading-one / heading uniqueness */}
+            <h1 className="sr-only">Моя библиотека — MusicVerse</h1>
+
             {/* Unified Header */}
             <AppHeader
               title="Библиотека"
@@ -247,7 +250,7 @@ export default function Library() {
                       variant="default"
                       size="icon"
                       onClick={handlePlayAll}
-                      className="h-8 w-8 lg:h-9 lg:w-9 rounded-md lg:rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-sm hover:shadow-md transition-shadow"
+                      className="min-h-[44px] min-w-[44px] h-11 w-11 rounded-md lg:rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-sm hover:shadow-md transition-shadow"
                       aria-label="Воспроизвести все"
                     >
                       <Play className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
@@ -258,7 +261,7 @@ export default function Library() {
                       variant="ghost"
                       size="icon"
                       onClick={handleShuffleAll}
-                      className="h-8 w-8 lg:h-9 lg:w-9 rounded-md lg:rounded-lg hover:bg-muted/80 transition-colors"
+                      className="min-h-[44px] min-w-[44px] h-11 w-11 rounded-md lg:rounded-lg hover:bg-muted/80 transition-colors"
                       aria-label="Перемешать"
                     >
                       <Shuffle className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
@@ -271,7 +274,7 @@ export default function Library() {
                       size="icon"
                       onClick={() => setViewMode("grid")}
                       className={cn(
-                        "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all",
+                        "min-h-[44px] min-w-[44px] h-11 w-11 rounded lg:rounded-md transition-all",
                         viewMode === "grid" && "shadow-sm",
                       )}
                       aria-label="Сетка"
@@ -283,7 +286,7 @@ export default function Library() {
                       size="icon"
                       onClick={() => setViewMode("list")}
                       className={cn(
-                        "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all",
+                        "min-h-[44px] min-w-[44px] h-11 w-11 rounded lg:rounded-md transition-all",
                         viewMode === "list" && "shadow-sm",
                       )}
                       aria-label="Список"
@@ -315,6 +318,8 @@ export default function Library() {
                     <div className="relative flex-1 group">
                       <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground w-3.5 h-3.5 group-focus-within:text-primary" />
                       <Input
+                        type="search"
+                        aria-label="Поиск треков"
                         placeholder="Поиск..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -381,7 +386,7 @@ export default function Library() {
               {hasActiveGenerations && (
                 <div className="mb-8 @container">
                   <Heading
-                    level="h4"
+                    level="h3"
                     className="text-xs font-medium text-muted-foreground mb-4 flex items-center gap-2"
                   >
                     <Loader2 className="w-4 h-4 animate-spin" />

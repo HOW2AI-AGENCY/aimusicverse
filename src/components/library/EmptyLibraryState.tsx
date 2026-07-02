@@ -5,13 +5,14 @@
  * Uses design system glass tokens
  */
 
-import { motion } from "@/lib/motion";
+import { motion, infiniteTransition } from "@/lib/motion";
 import { Sparkles, Music2, Wand2, Upload, ArrowRight, Zap, Star } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { typographyClass, spacingClass, textBalance, touchTargetClass } from "@/lib/design-tokens";
 import { glass } from "@/lib/glass";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface EmptyLibraryStateProps {
   searchQuery?: string;
@@ -21,6 +22,8 @@ interface EmptyLibraryStateProps {
 }
 
 export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLibraryStateProps) {
+  const reducedMotion = useReducedMotion();
+
   // Fallback if navigate is not provided
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- React Router navigate options state is loosely typed upstream
   const handleNavigate = (path: string, options?: { state?: Record<string, any> }) => {
@@ -46,7 +49,7 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
             "bg-gradient-to-br from-muted/80 to-muted/40",
           )}
           animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity }}
+          transition={infiniteTransition({ duration: 2.5, repeat: Infinity }, reducedMotion)}
         >
           <Music2 className="w-10 h-10 text-muted-foreground/50" />
         </motion.div>
@@ -75,12 +78,12 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         <motion.div
           className="absolute top-10 left-10 w-32 h-32 rounded-full bg-primary/10 blur-3xl"
           animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity }}
+          transition={infiniteTransition({ duration: 4, repeat: Infinity }, reducedMotion)}
         />
         <motion.div
           className="absolute bottom-10 right-10 w-40 h-40 rounded-full bg-generate/10 blur-3xl"
           animate={{ scale: [1.2, 1, 1.2], opacity: [0.4, 0.2, 0.4] }}
-          transition={{ duration: 5, repeat: Infinity }}
+          transition={infiniteTransition({ duration: 5, repeat: Infinity }, reducedMotion)}
         />
       </div>
 
@@ -98,9 +101,12 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
             "bg-gradient-to-br from-primary/30 to-generate/20",
           )}
           animate={{ rotate: [0, 5, -5, 0] }}
-          transition={{ duration: 4, repeat: Infinity }}
+          transition={infiniteTransition({ duration: 4, repeat: Infinity }, reducedMotion)}
         >
-          <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={infiniteTransition({ duration: 2, repeat: Infinity }, reducedMotion)}
+          >
             <Sparkles className="w-12 h-12 text-primary" />
           </motion.div>
         </motion.div>
@@ -119,7 +125,7 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
               opacity: [0.4, 0.8, 0.4],
               scale: [1, 1.2, 1],
             }}
-            transition={{ duration: 2 + i * 0.5, repeat: Infinity }}
+            transition={infiniteTransition({ duration: 2 + i * 0.5, repeat: Infinity }, reducedMotion)}
           />
         ))}
       </motion.div>

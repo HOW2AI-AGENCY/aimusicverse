@@ -99,7 +99,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
       <nav
         className={cn("island-nav z-navigation nav-slide-up", isVisible && "nav-visible")}
         role="navigation"
-        aria-label="Главная навигация"
+        aria-label="Нижняя навигация"
       >
         <div className="flex items-center justify-between h-14 px-1">
           {navItems.map((item, index) => {

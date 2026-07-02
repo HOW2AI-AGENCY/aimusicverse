@@ -112,103 +112,105 @@ export const MainLayout = () => {
     <SmartAlertProvider>
       <PlayerTransitionProvider>
         <KeyboardShortcutsProvider onOpenGenerateSheet={() => setGenerateSheetOpen(true)}>
-        <div className="flex flex-col h-screen bg-background noise-overlay">
-          <div className="flex flex-1 min-h-0 overflow-hidden">
-            <SkipToContent />
-            {isGuestMode && <GuestModeBanner />}
-            <ScreenshotModeBanner />
-            <ScreenshotNavigator />
-            <OfflineBanner />
+          <div className="flex flex-col h-screen bg-background noise-overlay">
+            <div className="flex flex-1 min-h-0 overflow-hidden">
+              <SkipToContent />
+              {isGuestMode && <GuestModeBanner />}
+              <ScreenshotModeBanner />
+              <ScreenshotNavigator />
+              <OfflineBanner />
 
-            {/* Onboarding flow: QuickStart → optional TelegramOnboarding tour */}
-            <OnboardingFlow
-              onGenerateSheetOpen={() => setGenerateSheetOpen(true)}
-              onNavigateHome={() => navigate("/")}
-            />
+              {/* Onboarding flow: QuickStart → optional TelegramOnboarding tour */}
+              <OnboardingFlow
+                onGenerateSheetOpen={() => setGenerateSheetOpen(true)}
+                onNavigateHome={() => navigate("/")}
+              />
 
-            {/* Subscription Required Dialog */}
-            {subscriptionDialogOpen && (
-              <Suspense fallback={null}>
-                <SubscriptionRequiredDialog open={subscriptionDialogOpen} onOpenChange={setSubscriptionDialogOpen} />
-              </Suspense>
-            )}
+              {/* Subscription Required Dialog */}
+              {subscriptionDialogOpen && (
+                <Suspense fallback={null}>
+                  <SubscriptionRequiredDialog open={subscriptionDialogOpen} onOpenChange={setSubscriptionDialogOpen} />
+                </Suspense>
+              )}
 
-            {/* Gamification Onboarding */}
-            {gamificationOnboardingOpen && (
-              <Suspense fallback={null}>
-                <GamificationOnboarding
-                  open={gamificationOnboardingOpen}
-                  onComplete={handleGamificationOnboardingComplete}
-                />
-              </Suspense>
-            )}
+              {/* Gamification Onboarding */}
+              {gamificationOnboardingOpen && (
+                <Suspense fallback={null}>
+                  <GamificationOnboarding
+                    open={gamificationOnboardingOpen}
+                    onComplete={handleGamificationOnboardingComplete}
+                  />
+                </Suspense>
+              )}
 
-            {/* Welcome Bonus Popup */}
-            {welcomeBonusOpen && (
-              <Suspense fallback={null}>
-                <WelcomeBonusPopup open={welcomeBonusOpen} onClose={handleWelcomeBonusClose} />
-              </Suspense>
-            )}
+              {/* Welcome Bonus Popup */}
+              {welcomeBonusOpen && (
+                <Suspense fallback={null}>
+                  <WelcomeBonusPopup open={welcomeBonusOpen} onClose={handleWelcomeBonusClose} />
+                </Suspense>
+              )}
 
-            {/* NavigationShell: owns sidebar/bottom-nav orchestration + CSS var publishing */}
-            <NavigationShell hasActiveTrack={hasActiveTrack}>
-              {({ mainMarginClass, isDesktop, isMobileLandscape }) => (
-                <>
-                  <main
-                    id="main-content"
-                    className={cn(
-                      "flex-1 flex flex-col overflow-y-auto relative transition-all duration-300",
-                      mainMarginClass,
-                      isGuestMode && "pt-9",
-                    )}
-                    style={{
-                      minHeight: "var(--tg-viewport-stable-height, 100vh)",
-                      paddingBottom:
-                        "calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)) + 0.75rem)",
-                    }}
-                  >
-                    <SafeAreaContainer
-                      sides={isDesktop ? [] : ["left", "right"]}
-                      minPaddingRem={1}
-                      className={cn("flex-1", isDesktop ? "p-6" : "py-3")}
+              {/* NavigationShell: owns sidebar/bottom-nav orchestration + CSS var publishing */}
+              <NavigationShell hasActiveTrack={hasActiveTrack}>
+                {({ mainMarginClass, isDesktop, isMobileLandscape }) => (
+                  <>
+                    <main
+                      id="main-content"
+                      aria-label="Основное содержимое"
+                      tabIndex={-1}
+                      className={cn(
+                        "flex-1 flex flex-col overflow-y-auto relative transition-all duration-300",
+                        mainMarginClass,
+                        isGuestMode && "pt-9",
+                      )}
+                      style={{
+                        minHeight: "var(--tg-viewport-stable-height, 100vh)",
+                        paddingBottom:
+                          "calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)) + 0.75rem)",
+                      }}
                     >
-                      <div className="mx-auto w-full max-w-screen-2xl">
-                        <Outlet />
-                      </div>
-                    </SafeAreaContainer>
-                  </main>
-                  {/* ResizablePlayer is rendered OUTSIDE <main> because #main-content has
+                      <SafeAreaContainer
+                        sides={isDesktop ? [] : ["left", "right"]}
+                        minPaddingRem={1}
+                        className={cn("flex-1", isDesktop ? "p-6" : "py-3")}
+                      >
+                        <div className="mx-auto w-full max-w-screen-2xl">
+                          <Outlet />
+                        </div>
+                      </SafeAreaContainer>
+                    </main>
+                    {/* ResizablePlayer is rendered OUTSIDE <main> because #main-content has
                       `contain: layout style` which creates a containing block for
                       position:fixed descendants, breaking the bottom dock on mobile. */}
-                  <ResizablePlayer />
-                </>
+                    <ResizablePlayer />
+                  </>
+                )}
+              </NavigationShell>
+
+              {/* Generate Sheet - triggered from Quick Start / keyboard */}
+              {generateSheetOpen && (
+                <Suspense fallback={null}>
+                  <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
+                </Suspense>
               )}
-            </NavigationShell>
 
-            {/* Generate Sheet - triggered from Quick Start / keyboard */}
-            {generateSheetOpen && (
+              {/* Generation Result Sheet - shows A/B versions after track creation */}
+              {resultOpen && resultTrackId && (
+                <Suspense fallback={null}>
+                  <GenerationResultSheet
+                    open={resultOpen}
+                    onOpenChange={setResultOpen}
+                    trackId={resultTrackId}
+                    trackTitle={resultTrackTitle || undefined}
+                  />
+                </Suspense>
+              )}
+
               <Suspense fallback={null}>
-                <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
+                <SafeAreaDebugOverlay />
               </Suspense>
-            )}
-
-            {/* Generation Result Sheet - shows A/B versions after track creation */}
-            {resultOpen && resultTrackId && (
-              <Suspense fallback={null}>
-                <GenerationResultSheet
-                  open={resultOpen}
-                  onOpenChange={setResultOpen}
-                  trackId={resultTrackId}
-                  trackTitle={resultTrackTitle || undefined}
-                />
-              </Suspense>
-            )}
-
-            <Suspense fallback={null}>
-              <SafeAreaDebugOverlay />
-            </Suspense>
+            </div>
           </div>
-        </div>
         </KeyboardShortcutsProvider>
       </PlayerTransitionProvider>
     </SmartAlertProvider>

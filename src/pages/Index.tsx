@@ -87,11 +87,7 @@ const Index = () => {
   // === 4 semantic clusters — every one wrapped in <Section/> ===
   const heroBlock = (
     <Section sectionId="hero" density="comfortable" tone="plain">
-      {isNewUser ? (
-        <FirstTimeHeroCard onCreateClick={handleCreate} />
-      ) : (
-        <ContinueDraftCard onContinue={handleCreate} />
-      )}
+      {isNewUser ? <FirstTimeHeroCard onCreateClick={handleCreate} /> : <ContinueDraftCard onContinue={handleCreate} />}
     </Section>
   );
 
@@ -133,10 +129,7 @@ const Index = () => {
 
   const trendingBlock = (
     <Section sectionId="trending" density="comfortable" tone="plain">
-      <CommunityTrending
-        tracks={popularTracks}
-        onTrackClick={handleTrackClick}
-      />
+      <CommunityTrending tracks={popularTracks} onTrackClick={handleTrackClick} />
     </Section>
   );
 
@@ -178,7 +171,7 @@ const Index = () => {
           style={{ paddingBottom: bottomPadding }}
         >
           <SEOHead {...SEO_PRESETS.home} canonical="https://aimusicverse.lovable.app/" />
-          <h1 className="sr-only">MusicVerse — Платформа для генерации музыки с AI</h1>
+          <span className="sr-only">MusicVerse — Платформа для генерации музыки с AI</span>
 
           <HomeHeader
             userName={displayUser?.first_name || displayUser?.username?.split("@")[0]}
@@ -198,9 +191,7 @@ const Index = () => {
               {aiSuggestBlock}
             </div>
 
-            <aside className={cn("xl:col-span-4 min-w-0 xl:sticky xl:top-8", sectionTokens.blockGap)}>
-              {youBlock}
-            </aside>
+            <aside className={cn("xl:col-span-4 min-w-0 xl:sticky xl:top-8", sectionTokens.blockGap)}>{youBlock}</aside>
           </div>
         </div>
 

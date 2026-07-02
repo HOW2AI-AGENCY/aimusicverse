@@ -102,6 +102,29 @@ export const pulse: import("framer-motion").Variants = {
   },
 };
 
+/**
+ * Wrap an inline `transition` so that `repeat: Infinity` loops
+ * automatically become no-ops when the user prefers reduced motion.
+ *
+ * Usage:
+ *   const reduced = useReducedMotion();
+ *   <motion.div animate={{ rotate: [0, 360] }}
+ *     transition={infiniteTransition({ duration: 6, repeat: Infinity }, reduced)} />
+ *
+ * Implements WCAG 2.3.3 (Animation from Interactions, AAA).
+ */
+export function infiniteTransition(
+  transition: import("framer-motion").Transition,
+  prefersReducedMotion: boolean,
+): import("framer-motion").Transition {
+  if (!prefersReducedMotion) return transition;
+  // Strip repeat/loop but preserve single-play timing where possible.
+  const { repeat: _repeat, repeatType: _repeatType, ...rest } = transition as Record<string, unknown>;
+  void _repeat;
+  void _repeatType;
+  return { ...rest, duration: 0 } as import("framer-motion").Transition;
+}
+
 // Shake animation for errors
 export const shake: import("framer-motion").Variants = {
   initial: { x: 0 },

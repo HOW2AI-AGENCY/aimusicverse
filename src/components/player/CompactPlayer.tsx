@@ -19,7 +19,8 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useTracks } from "@/hooks/useTracks";
 import type { Track } from "@/types/track";
 import { cn } from "@/lib/utils";
-import { motion } from "@/lib/motion";
+import { motion, infiniteTransition } from "@/lib/motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { hapticImpact } from "@/lib/haptic";
 import { glass } from "@/lib/glass";
 import { UnifiedTrackMenu } from "@/components/track-actions/UnifiedTrackMenu";
@@ -43,6 +44,7 @@ const formatTime = (s: number) => {
 };
 
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
+  const reducedMotion = useReducedMotion();
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume } =
     usePlayerStore();
   const playbackStatus = usePlayerStore((s) => s.playbackStatus);
@@ -203,7 +205,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                   key={i}
                   className="w-0.5 bg-primary rounded-full"
                   animate={{ height: [3, 8, 3] }}
-                  transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.1 }}
+                  transition={infiniteTransition({ duration: 0.5, repeat: Infinity, delay: i * 0.1 }, reducedMotion)}
                 />
               ))}
             </motion.div>
@@ -349,11 +351,17 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           {PlayButton}
           {NextButton}
         </div>
-        <span className="text-xs text-muted-foreground tabular-nums w-10 text-right flex-shrink-0">
-          {formatTime(currentTime)}
+        <span
+          className="text-xs text-muted-foreground tabular-nums w-10 text-right flex-shrink-0"
+          role="timer"
+          aria-label={`Текущее время воспроизведения: ${formatTime(currentTime)}`}
+        >
+          <span aria-hidden="true">{formatTime(currentTime)}</span>
         </span>
         <Waveform heightClass="h-8" />
-        <span className="text-xs text-muted-foreground tabular-nums w-10 flex-shrink-0">{formatTime(duration)}</span>
+        <span className="text-xs text-muted-foreground tabular-nums w-10 flex-shrink-0" aria-hidden="true">
+          {formatTime(duration)}
+        </span>
         <div className="flex items-center gap-0.5 flex-shrink-0">
           {LikeButton}
           {VolumePopover}
