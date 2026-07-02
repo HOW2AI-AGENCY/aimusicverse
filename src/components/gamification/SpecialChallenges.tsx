@@ -2,12 +2,7 @@ import { motion } from "@/lib/motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { fetchTracks } from "@/api/tracks.api";
-import { getUserCredits } from "@/api/payments.api";
+import { useSpecialChallenges } from "@/hooks/gamification/useSpecialChallenges";
 import { Rocket, Crown, Gem, Zap, Lock, Gift, Timer } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { differenceInHours } from "@/lib/date-utils";
@@ -26,55 +21,7 @@ interface SpecialChallenge {
 }
 
 export function SpecialChallenges() {
-  const { user } = useAuth();
-
-  const { data: stats, isLoading } = useQuery({
-    queryKey: ["special-challenge-stats", user?.id],
-    queryFn: async () => {
-      if (!user?.id) return null;
-
-      // Get total tracks
-      const { data: allUserTracks, count: totalTracks } = await fetchTracks({ userId: user.id });
-
-      // Get total likes received
-      const trackIds = allUserTracks?.map((t) => t.id) || [];
-      let totalLikes = 0;
-
-      if (trackIds.length > 0) {
-        const { count } = await supabase
-          .from("track_likes")
-          .select("*", { count: "exact", head: true })
-          .in("track_id", trackIds);
-        totalLikes = count || 0;
-      }
-
-      // Get credits data
-      const { data: credits } = await getUserCredits(user.id);
-
-      // Get artists count
-      const { count: artistsCount } = await supabase
-        .from("artists")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id);
-
-      // Get achievements count
-      const { count: achievementsCount } = await supabase
-        .from("user_achievements")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id);
-
-      return {
-        totalTracks: totalTracks || 0,
-        totalLikes,
-        longestStreak: credits?.longest_streak || 0,
-        level: credits?.level || 1,
-        artistsCount: artistsCount || 0,
-        achievementsCount: achievementsCount || 0,
-      };
-    },
-    enabled: !!user?.id,
-    staleTime: 60000,
-  });
+  const { data: stats, isLoading } = useSpecialChallenges();
 
   const challenges: SpecialChallenge[] = [
     {
