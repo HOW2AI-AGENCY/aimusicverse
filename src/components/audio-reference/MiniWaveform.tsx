@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, memo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
-type WaveSurferCtor = typeof import("wavesurfer.js");
+type WaveSurferCtor = typeof import("wavesurfer.js").default;
 type WaveSurferInstance = ReturnType<WaveSurferCtor["create"]>;
 
 interface MiniWaveformProps {

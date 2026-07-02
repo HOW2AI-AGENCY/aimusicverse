@@ -99,7 +99,7 @@ export function AudioDetailPanel({
 
       if (error) throw error;
 
-      const parsed = data?.parsed || {};
+      const parsed = (data?.parsed || {}) as Record<string, any>;
 
       await updateAnalysis({
         id: audio.id,
@@ -142,7 +142,7 @@ export function AudioDetailPanel({
 
       if (error) throw error;
 
-      const lyrics = data.transcription || data.lyrics || "";
+      const lyrics = (data?.transcription || data?.lyrics || "") as string;
       setEditedLyrics(lyrics);
 
       await updateAnalysis({

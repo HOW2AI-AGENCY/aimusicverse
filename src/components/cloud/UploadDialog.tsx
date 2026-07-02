@@ -89,17 +89,18 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
         });
 
         if (!error && data?.parsed) {
+          const parsed = data.parsed as Record<string, any>;
           await updateAnalysis({
             id: savedAudio.id,
-            genre: data.parsed.genre,
-            mood: data.parsed.mood,
-            styleDescription: data.parsed.style_description,
-            tempo: data.parsed.tempo,
-            energy: data.parsed.energy,
-            bpm: data.parsed.bpm ? Number(data.parsed.bpm) : undefined,
-            instruments: data.parsed.instruments,
-            vocalStyle: data.parsed.vocal_style,
-            hasVocals: data.parsed.has_vocals ?? true,
+            genre: parsed.genre,
+            mood: parsed.mood,
+            styleDescription: parsed.style_description,
+            tempo: parsed.tempo,
+            energy: parsed.energy,
+            bpm: parsed.bpm ? Number(parsed.bpm) : undefined,
+            instruments: parsed.instruments,
+            vocalStyle: parsed.vocal_style,
+            hasVocals: parsed.has_vocals ?? true,
             analysisStatus: "completed",
           });
           toast.success("Анализ завершен");

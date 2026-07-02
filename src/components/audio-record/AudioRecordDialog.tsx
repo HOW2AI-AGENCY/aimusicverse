@@ -357,8 +357,8 @@ export const AudioRecordDialog = ({ open, onOpenChange }: AudioRecordDialogProps
           action === "instrumental"
             ? "acapella, vocals only, karaoke, low quality"
             : "instrumental only, low quality, distorted",
-        genre: settings?.genre,
-        mood: settings?.mood,
+        genre: settings?.genre ?? undefined,
+        mood: settings?.mood ?? undefined,
         bpm: settings?.bpm,
         customStyle: settings?.customStyle,
         studioProjectId,

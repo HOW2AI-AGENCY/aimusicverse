@@ -197,7 +197,7 @@ export const LazyGenerationLogsPanel = lazy(() =>
  * Preload a lazy component before it's needed
  * Call this on hover or when you anticipate navigation
  */
-export function preloadComponent<T extends React.ComponentType<unknown>>(component: React.LazyExoticComponent<T>) {
+export function preloadComponent<T extends React.ComponentType<any>>(component: React.LazyExoticComponent<T>) {
   // React internal lazy chunk payload; not exposed in the public API.
   const internal = component as unknown as { _payload?: { _result?: () => void } };
   const promise = internal._payload?._result;
