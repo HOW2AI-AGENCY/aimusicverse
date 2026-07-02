@@ -237,24 +237,30 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("lodash") || id.includes("immer")) {
               return "vendor-utils";
             }
-            // Everything else - but Sentry + large libs go to vendor-other
+            // Heavy libs that must stay in isolated chunks so that
+            // dynamic imports actually split them out of the initial bundle.
+            // (When manualChunks assigns them to a shared "vendor-other",
+            // Rollup pulls that whole shared chunk into the initial graph.)
+            if (id.includes("@sentry")) return "vendor-sentry";
+            if (id.includes("canvas-confetti")) return "vendor-confetti";
+            if (id.includes("qrcode")) return "vendor-qrcode";
+            if (id.includes("jszip")) return "vendor-jszip";
+            if (id.includes("lamejs")) return "vendor-lamejs";
+            if (id.includes("web-audio-beat-detector") || id.includes("music-tempo")) {
+              return "vendor-bpm";
+            }
+            if (id.includes("@tonejs")) return "vendor-tonejs-midi";
+            if (id.includes("dompurify")) return "vendor-dompurify";
+            if (id.includes("fast-check")) return "vendor-fastcheck";
+            // Small shared utilities safe to keep bundled together
             if (
-              id.includes("@sentry") ||
-              id.includes("canvas-confetti") ||
-              id.includes("qrcode") ||
-              id.includes("dompurify") ||
               id.includes("use-debounce") ||
               id.includes("@use-gesture") ||
               id.includes("class-variance-authority") ||
               id.includes("tailwind-merge") ||
               id.includes("clsx") ||
               id.includes("input-otp") ||
-              id.includes("lovable-tagger") ||
-              id.includes("@tonejs") ||
-              id.includes("fast-check") ||
-              id.includes("jszip") ||
-              id.includes("lamejs") ||
-              id.includes("web-audio-beat-detector")
+              id.includes("lovable-tagger")
             ) {
               return "vendor-other";
             }

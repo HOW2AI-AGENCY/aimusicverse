@@ -3,7 +3,16 @@
  * Uses web-audio-beat-detector package for tempo detection
  */
 
-import { analyze, guess } from "web-audio-beat-detector";
+// Lazy: keep `web-audio-beat-detector` out of the initial bundle.
+// It's only needed when the user triggers BPM detection.
+type BeatDetectorModule = typeof import("web-audio-beat-detector");
+let beatDetectorPromise: Promise<BeatDetectorModule> | null = null;
+function loadBeatDetector(): Promise<BeatDetectorModule> {
+  if (!beatDetectorPromise) {
+    beatDetectorPromise = import("web-audio-beat-detector");
+  }
+  return beatDetectorPromise;
+}
 import { logger } from "@/lib/logger";
 
 const log = logger.child({ module: "bpmDetection" });
@@ -56,6 +65,7 @@ export async function detectBPM(
     const startTime = performance.now();
 
     // Use web-audio-beat-detector package - guess() returns { bpm, offset, tempo }
+    const { guess } = await loadBeatDetector();
     const result = await guess(audioBuffer);
 
     const endTime = performance.now();
