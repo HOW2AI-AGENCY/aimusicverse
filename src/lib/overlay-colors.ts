@@ -21,6 +21,8 @@ export const backdrop = {
   heavy: "bg-background/60 dark:bg-black/60",
   /** Dark backdrop (80% opacity) - for drawers */
   dark: "bg-background/80 dark:bg-black/80",
+  /** Unified sheet/dialog backdrop (Sprint 047) — 70% + blur, theme-aware */
+  sheet: "bg-background/70 backdrop-blur-sm dark:bg-black/70",
 } as const;
 
 /**

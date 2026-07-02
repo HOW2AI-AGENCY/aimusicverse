@@ -58,6 +58,9 @@ export default {
         "body-sm": ["0.8125rem", { lineHeight: "1.5" }],
         caption: ["0.75rem", { lineHeight: "1.4" }],
         "caption-sm": ["0.6875rem", { lineHeight: "1.3" }],
+        // Sprint 047 — small-text tokens
+        overline: ["0.625rem", { lineHeight: "1.2", letterSpacing: "0.08em", fontWeight: "600" }],
+        "body-md": ["0.8125rem", { lineHeight: "1.5" }],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -1,12 +1,39 @@
 /**
  * Centralized Toast/Notification Positioning
  * Ensures consistent positioning across all notification types
+ *
+ * Z-index tokens live in tailwind.config.ts (z-toast, z-notification) — the
+ * single source of truth. Use those class names instead of importing numbers.
+ * The Z_INDEX shim below is kept for inline-style consumers (where Tailwind
+ * classes don't apply). Any change here MUST be mirrored in tailwind.config.ts.
  */
 
-// Re-export canonical z-index constants so existing imports keep working.
-// The single source of truth lives in @/constants/z-index (which mirrors
-// tailwind.config.ts).
-export { Z_INDEX } from "@/constants/z-index";
+/**
+ * Inline-style z-index shim — mirrors tailwind.config.ts theme.extend.zIndex.
+ * Use Tailwind classes (z-toast, z-notification, z-max, etc.) in className;
+ * use this only where you must set zIndex via the style prop.
+ */
+export const Z_INDEX = {
+  base: 0,
+  raised: 10,
+  sticky: 20,
+  floating: 30,
+  overlay: 40,
+  navigation: 50,
+  player: 60,
+  contextual: 70,
+  dialog: 80,
+  fullscreen: 90,
+  system: 100,
+  sheetBackdrop: 150,
+  sheetContent: 151,
+  dropdown: 200,
+  popover: 200,
+  tooltip: 250,
+  toast: 300,
+  notification: 300,
+  max: 9999,
+} as const;
 
 /**
  * Get CSS position styles for toasts
@@ -56,8 +83,10 @@ export function getToastClasses(isMobile: boolean): string {
   return "fixed left-1/2 -translate-x-1/2 z-50 max-w-sm w-auto";
 }
 
-// Legacy z-index aliases removed — use Z_INDEX from @/constants/z-index
-// (re-exported at the top of this file).
+// Z-index tokens live in tailwind.config.ts (single source of truth).
+// Use the z-* Tailwind classes directly (z-toast, z-notification, z-max).
+// The Z_INDEX shim at the top of this file is the only exception — it's
+// for inline-style consumers where Tailwind classes don't apply.
 /**
  * Get safe area padding styles for fullscreen overlays
  */

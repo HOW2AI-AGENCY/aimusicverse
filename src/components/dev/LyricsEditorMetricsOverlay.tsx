@@ -14,11 +14,7 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { Z_INDEX } from "@/constants/z-index";
-import type {
-  LyricsEditorMetrics,
-  SyncSnapshot,
-} from "@/components/generate-form/LyricsVisualEditorCompact";
+import type { LyricsEditorMetrics, SyncSnapshot } from "@/components/generate-form/LyricsVisualEditorCompact";
 
 const VISIBLE_KEY = "lv:metrics:visible";
 const COLLAPSED_KEY = "lv:metrics:collapsed";
@@ -38,9 +34,7 @@ interface HistoryPoint {
 
 function readMetrics(): LyricsEditorMetrics | null {
   if (typeof window === "undefined") return null;
-  return (
-    (window as unknown as { __lyricsEditorMetrics?: LyricsEditorMetrics }).__lyricsEditorMetrics ?? null
-  );
+  return (window as unknown as { __lyricsEditorMetrics?: LyricsEditorMetrics }).__lyricsEditorMetrics ?? null;
 }
 
 function downloadBlob(content: string, filename: string, mime: string) {
@@ -58,8 +52,7 @@ function downloadBlob(content: string, filename: string, mime: string) {
 function toCSV(history: HistoryPoint[]): string {
   const head = "ts_iso,ts_ms,renders,syncs,d_renders,d_syncs";
   const rows = history.map(
-    (p) =>
-      `${new Date(p.ts).toISOString()},${p.ts},${p.renders},${p.syncs},${p.dRenders},${p.dSyncs}`,
+    (p) => `${new Date(p.ts).toISOString()},${p.ts},${p.renders},${p.syncs},${p.dRenders},${p.dSyncs}`,
   );
   return [head, ...rows].join("\n");
 }
@@ -108,9 +101,7 @@ function Sparkline({
         preserveAspectRatio="none"
         aria-hidden
       >
-        {path && (
-          <path d={path} fill="none" stroke={color} strokeWidth={1.25} strokeLinejoin="round" />
-        )}
+        {path && <path d={path} fill="none" stroke={color} strokeWidth={1.25} strokeLinejoin="round" />}
       </svg>
     </div>
   );
@@ -189,12 +180,7 @@ export function LyricsEditorMetricsOverlay() {
       if (e.repeat || e.isComposing) return;
       const t = e.target as HTMLElement | null;
       const tag = t?.tagName;
-      if (
-        tag === "INPUT" ||
-        tag === "TEXTAREA" ||
-        tag === "SELECT" ||
-        t?.isContentEditable
-      ) {
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || t?.isContentEditable) {
         return;
       }
       e.preventDefault();
@@ -257,9 +243,7 @@ export function LyricsEditorMetricsOverlay() {
       const snaps = m.snapshots ?? [];
       // Cheap length-based change check; snapshots is a ring buffer so length plateaus.
       setSnapshots((prev) =>
-        prev.length === snaps.length && prev[prev.length - 1] === snaps[snaps.length - 1]
-          ? prev
-          : snaps.slice(-20),
+        prev.length === snaps.length && prev[prev.length - 1] === snaps[snaps.length - 1] ? prev : snaps.slice(-20),
       );
     };
 
@@ -321,11 +305,7 @@ export function LyricsEditorMetricsOverlay() {
       history,
       snapshots: m?.snapshots ?? snapshots,
     };
-    downloadBlob(
-      JSON.stringify(payload, null, 2),
-      `lyrics-metrics-${Date.now()}.json`,
-      "application/json",
-    );
+    downloadBlob(JSON.stringify(payload, null, 2), `lyrics-metrics-${Date.now()}.json`, "application/json");
   }, [history, snapshots, renders, syncs]);
 
   const exportCSV = useCallback(() => {
@@ -342,14 +322,13 @@ export function LyricsEditorMetricsOverlay() {
       role="status"
       aria-label="Lyrics editor render metrics (dev)"
       className={cn(
-        "fixed bottom-4 right-4 select-none pointer-events-auto",
+        "fixed bottom-4 right-4 z-max select-none pointer-events-auto",
         "rounded-lg border border-border/60 bg-background/85 backdrop-blur-md shadow-lg",
         "font-mono text-[11px] text-foreground",
         "transition-colors duration-200",
         flashing && "border-amber-500/70 bg-amber-500/15",
         collapsed ? "max-w-[260px]" : "w-[260px]",
       )}
-      style={{ zIndex: Z_INDEX.debug }}
     >
       <div className="flex items-center gap-2 px-2 py-1.5">
         <button
@@ -365,12 +344,7 @@ export function LyricsEditorMetricsOverlay() {
         <span className="text-muted-foreground">r</span>
         <span className="tabular-nums font-semibold">{renders}</span>
         <span className="text-muted-foreground">s</span>
-        <span
-          className={cn(
-            "tabular-nums font-semibold",
-            syncs > 0 ? "text-amber-500" : "text-emerald-500",
-          )}
-        >
+        <span className={cn("tabular-nums font-semibold", syncs > 0 ? "text-amber-500" : "text-emerald-500")}>
           {syncs}
         </span>
         <span className="flex-1" />
@@ -388,18 +362,8 @@ export function LyricsEditorMetricsOverlay() {
       {!collapsed && (
         <div className="px-2 pb-2 space-y-2 border-t border-border/40 pt-2">
           {/* Charts */}
-          <Sparkline
-            data={history}
-            accessor={(p) => p.dRenders}
-            color="hsl(var(--primary))"
-            label="renders/s · 5min"
-          />
-          <Sparkline
-            data={history}
-            accessor={(p) => p.dSyncs}
-            color="rgb(245 158 11)"
-            label="syncs/s · 5min"
-          />
+          <Sparkline data={history} accessor={(p) => p.dRenders} color="hsl(var(--primary))" label="renders/s · 5min" />
+          <Sparkline data={history} accessor={(p) => p.dSyncs} color="rgb(245 158 11)" label="syncs/s · 5min" />
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-1">
@@ -440,9 +404,7 @@ export function LyricsEditorMetricsOverlay() {
           {snapshotsOpen && (
             <div className="max-h-[180px] overflow-y-auto rounded border border-border/40 bg-muted/20">
               {snapshots.length === 0 ? (
-                <div className="px-2 py-1.5 text-[10px] text-muted-foreground">
-                  no external syncs captured yet
-                </div>
+                <div className="px-2 py-1.5 text-[10px] text-muted-foreground">no external syncs captured yet</div>
               ) : (
                 <ul className="divide-y divide-border/30">
                   {snapshots
@@ -459,17 +421,12 @@ export function LyricsEditorMetricsOverlay() {
                           >
                             #{s.syncIndex} {s.phase}
                           </span>
-                          <span className="text-muted-foreground">
-                            {new Date(s.ts).toLocaleTimeString()}
-                          </span>
-                          <span className="ml-auto text-muted-foreground">
-                            {s.sections.length} sec
-                          </span>
+                          <span className="text-muted-foreground">{new Date(s.ts).toLocaleTimeString()}</span>
+                          <span className="ml-auto text-muted-foreground">{s.sections.length} sec</span>
                         </div>
                         <div className="text-muted-foreground truncate">
                           focus: {s.focus.sectionId ? s.focus.sectionId.slice(0, 14) : "—"}
-                          {s.focus.selectionStart != null &&
-                            ` [${s.focus.selectionStart}:${s.focus.selectionEnd}]`}
+                          {s.focus.selectionStart != null && ` [${s.focus.selectionStart}:${s.focus.selectionEnd}]`}
                         </div>
                       </li>
                     ))}
