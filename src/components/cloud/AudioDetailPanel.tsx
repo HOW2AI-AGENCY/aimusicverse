@@ -29,7 +29,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { AddVocalsToReferenceDialog } from "@/components/audio-reference/AddVocalsToReferenceDialog";
 import { useReferenceAudio, type ReferenceAudio } from "@/hooks/useReferenceAudio";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeAnalyzeAudio, invokeTranscribeLyrics } from "@/services/audio-reference/cloud-audio.service";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 
@@ -92,11 +92,9 @@ export function AudioDetailPanel({
     }, 500);
 
     try {
-      const { data, error } = await supabase.functions.invoke("analyze-audio-flamingo", {
-        body: {
-          audio_url: audio.file_url,
-          reference_id: audio.id,
-        },
+      const { data, error } = await invokeAnalyzeAudio({
+        audioUrl: audio.file_url,
+        referenceId: audio.id,
       });
 
       if (error) throw error;
@@ -138,8 +136,8 @@ export function AudioDetailPanel({
     }, 600);
 
     try {
-      const { data, error } = await supabase.functions.invoke("transcribe-lyrics", {
-        body: { audio_url: audio.file_url },
+      const { data, error } = await invokeTranscribeLyrics({
+        audioUrl: audio.file_url,
       });
 
       if (error) throw error;
