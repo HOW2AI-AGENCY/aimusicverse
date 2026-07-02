@@ -65,10 +65,30 @@ export function GenerateFormActions({
   }, []);
   return (
     <div className="grid grid-cols-4 gap-2" role="group" aria-label="Источники и референсы">
-      <ActionChip icon={AudioLines} label="Аудио" onClick={() => log("audio", onOpenAudioDialog)} ariaLabel="Добавить аудио референс" />
-      <ActionChip icon={MicVocal} label="Голос" onClick={() => log("voice", onOpenVoiceClone)} ariaLabel="Клонировать голос" accent />
-      <ActionChip icon={Music} label="Персона" onClick={() => log("artist", onOpenArtistDialog)} ariaLabel="Выбрать AI персону" />
-      <ActionChip icon={FolderOpen} label="Проект" onClick={() => log("project", onOpenProjectDialog)} ariaLabel="Выбрать проект" />
+      <ActionChip
+        icon={AudioLines}
+        label="Аудио"
+        onClick={() => log("audio", onOpenAudioDialog)}
+        ariaLabel="Добавить аудио референс"
+      />
+      <ActionChip
+        icon={MicVocal}
+        label="Голос"
+        onClick={() => log("voice", onOpenVoiceClone)}
+        ariaLabel="Клонировать голос"
+      />
+      <ActionChip
+        icon={Music}
+        label="Персона"
+        onClick={() => log("artist", onOpenArtistDialog)}
+        ariaLabel="Выбрать AI персону"
+      />
+      <ActionChip
+        icon={FolderOpen}
+        label="Проект"
+        onClick={() => log("project", onOpenProjectDialog)}
+        ariaLabel="Выбрать проект"
+      />
     </div>
   );
 }

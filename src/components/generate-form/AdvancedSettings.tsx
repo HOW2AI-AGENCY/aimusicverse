@@ -78,18 +78,14 @@ export function AdvancedSettings({
             <Settings2 className="w-3.5 h-3.5 text-muted-foreground" />
             Продвинутые настройки
           </span>
-          <ChevronDown
-            className={cn("w-4 h-4 text-muted-foreground transition-transform", open && "rotate-180")}
-          />
+          <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", open && "rotate-180")} />
         </Button>
       </CollapsibleTrigger>
 
       <CollapsibleContent className={cn("space-y-4 p-3.5 mt-2 rounded-xl", glass.subtle)}>
         {/* Group: Vocal */}
         <section className="space-y-2">
-          <Label className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
-            Вокал
-          </Label>
+          <Label className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">Вокал</Label>
           <div className="grid grid-cols-3 gap-1.5">
             {[
               { v: "" as const, label: "Любой" },
@@ -123,13 +119,11 @@ export function AdvancedSettings({
                 {Math.round(styleWeight[0] * 100)}%
               </span>
             </div>
-            <Slider
-              value={styleWeight}
-              onValueChange={onStyleWeightChange}
-              min={0}
-              max={1}
-              step={0.05}
-            />
+            <Slider value={styleWeight} onValueChange={onStyleWeightChange} min={0} max={1} step={0.05} />
+            <div className="flex items-center justify-between text-[10px] text-muted-foreground/60">
+              <span>Слабее</span>
+              <span>Точнее описанию</span>
+            </div>
           </div>
 
           <div className="space-y-1.5">
@@ -146,6 +140,10 @@ export function AdvancedSettings({
               max={1}
               step={0.05}
             />
+            <div className="flex items-center justify-between text-[10px] text-muted-foreground/60">
+              <span>Предсказуемо</span>
+              <span>Экспериментально</span>
+            </div>
           </div>
 
           {(hasReferenceAudio || hasPersona) && (
@@ -158,13 +156,7 @@ export function AdvancedSettings({
                   {Math.round(audioWeight[0] * 100)}%
                 </span>
               </div>
-              <Slider
-                value={audioWeight}
-                onValueChange={onAudioWeightChange}
-                min={0}
-                max={1}
-                step={0.05}
-              />
+              <Slider value={audioWeight} onValueChange={onAudioWeightChange} min={0} max={1} step={0.05} />
               <p className="text-[11px] text-muted-foreground leading-snug">
                 {getAudioWeightDescription(hasReferenceAudio, hasPersona)}
               </p>
