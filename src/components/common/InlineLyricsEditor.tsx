@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PenLine, Sparkles, FileText, Mic, Loader2, Wand2, Tags, Clock, Tag, Check, Search } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { generateLyrics, improveLyrics, addLyricsTags } from "@/services/lyrics/ai-tools.service";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { useLyricsTemplates, LyricsTemplate } from "@/hooks/useLyricsTemplates";
@@ -102,15 +102,12 @@ export function InlineLyricsEditor({
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
-        body: {
-          action: "generate",
-          theme,
-          genre,
-          mood,
-          structure,
-          language,
-        },
+      const { data, error } = await generateLyrics({
+        theme,
+        genre,
+        mood,
+        structure,
+        language,
       });
 
       if (error) throw error;
@@ -136,12 +133,9 @@ export function InlineLyricsEditor({
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
-        body: {
-          action: "improve",
-          existingLyrics: value,
-          language,
-        },
+      const { data, error } = await improveLyrics({
+        existingLyrics: value,
+        language,
       });
 
       if (error) throw error;
@@ -166,11 +160,8 @@ export function InlineLyricsEditor({
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
-        body: {
-          action: "add_tags",
-          existingLyrics: value,
-        },
+      const { data, error } = await addLyricsTags({
+        existingLyrics: value,
       });
 
       if (error) throw error;
