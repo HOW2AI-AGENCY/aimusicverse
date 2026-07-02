@@ -3,8 +3,7 @@
  * Shows a clickable link to the original track this was remixed from
  */
 
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useParentTrackLink } from "@/hooks/track-detail/useParentTrackLink";
 import { Music2, ExternalLink, Disc3 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
@@ -17,21 +16,7 @@ interface ParentTrackLinkProps {
 
 export function ParentTrackLink({ parentTrackId, className, onTrackClick }: ParentTrackLinkProps) {
   const navigate = useNavigate();
-
-  const { data: parentTrack, isLoading } = useQuery({
-    queryKey: ["parent-track", parentTrackId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("tracks")
-        .select("id, title, cover_url, style, user_id")
-        .eq("id", parentTrackId)
-        .single();
-
-      if (error) return null;
-      return data;
-    },
-    enabled: !!parentTrackId,
-  });
+  const { data: parentTrack, isLoading } = useParentTrackLink(parentTrackId);
 
   if (isLoading) {
     return <div className={cn("animate-pulse h-16 rounded-lg bg-muted/50", className)} />;
