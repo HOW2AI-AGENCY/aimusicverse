@@ -207,7 +207,7 @@ export function LabelBadge({
         <button
           onClick={onRemove}
           className={cn(
-            "ml-0.5 rounded-full p-0.5",
+            "ml-0.5 rounded-full min-w-[44px] min-h-[44px] inline-flex items-center justify-center p-1",
             "hover:bg-foreground/10 transition-colors",
             "focus:outline-none focus:ring-1 focus:ring-primary",
           )}
