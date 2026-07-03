@@ -33,7 +33,7 @@ What is **closed** in this PR (each row → axe rule, file:line, before/after, t
 | 13  | `useInfiniteMotion` + 4 файла  | `src/lib/motion.ts:106-122` + `EmptyLibraryState.tsx` (7 sites) + `CompactPlayer.tsx:206` (eq-bars) | `repeat: Infinity` без проверки `prefers-reduced-motion` → `infiniteTransition(t, reducedMotion)` (новый хелпер)                                                     | SC 2.3.3                                | `hints.reduced-motion.spec.ts` (existing) |
 | 14  | Player time + badge aria-live  | `CompactPlayer.tsx:352-360` + `GenerationProgressBadge.tsx:31-37`                                   | Time display шумит 4 Hz; badge без live-region → `role="timer" aria-label` + `aria-live="polite" aria-atomic="true" role="status"`                                   | SC 4.1.3                                | `a11y.axe.spec.ts`                        |
 
-## 3. Cross-check vs DESIGN_AUDIT_2026-06-29.md
+## 3. Cross-check vs docs/archive/audits/DESIGN_AUDIT_2026-06-29.md
 
 | Audit item (2026-06-29)                | Status before                 | Status now                                                 |
 | -------------------------------------- | ----------------------------- | ---------------------------------------------------------- |

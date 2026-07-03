@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/HOW2AI-AGENCY/aimusicverse/security/policy
+    about: Do not open a public issue for security vulnerabilities — see SECURITY.md for the private disclosure process.
+  - name: 📚 Documentation & navigation
+    url: https://github.com/HOW2AI-AGENCY/aimusicverse/blob/main/DOCUMENTATION_INDEX.md
+    about: Browse the full documentation index before filing an issue — your question may already be answered.
+  - name: 🤝 Contributing guide
+    url: https://github.com/HOW2AI-AGENCY/aimusicverse/blob/main/CONTRIBUTING.md
+    about: Read this before opening a pull request.
