@@ -354,13 +354,9 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
       <SheetContent className={cn("w-full overflow-y-auto", isMobile ? "max-w-full" : "sm:max-w-lg")}>
         <SheetHeader className="pb-4">
           <SheetTitle className="flex items-center gap-2">
-            <motion.span
-              animate={{ rotate: [0, 12, -8, 0], scale: [1, 1.12, 1] }}
-              transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 1.2, ease: "easeInOut" }}
-              className="inline-flex"
-            >
-              <Sparkles className="w-5 h-5 text-primary" />
-            </motion.span>
+            {/* Pure CSS opacity pulse — a JS-driven rotate+scale loop here was an
+                always-on cost for a purely decorative flourish */}
+            <Sparkles className="w-5 h-5 text-primary animate-pulse" />
             Новый проект
           </SheetTitle>
         </SheetHeader>
@@ -400,10 +396,9 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                           key={type.value}
                           type="button"
                           onClick={() => setProjectType(type.value)}
-                          whileHover={{ y: -2 }}
                           whileTap={{ scale: 0.97 }}
                           className={cn(
-                            "relative p-3 rounded-lg border-2 text-left transition-colors",
+                            "relative p-3 rounded-lg border-2 text-left transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5",
                             selected ? "border-primary bg-primary/10" : "border-border hover:border-primary/50",
                           )}
                         >

@@ -67,11 +67,11 @@ export function ArtistSelector({ open, onOpenChange, artists, selectedArtistId, 
         {artistList.map((artist) => {
           const selected = selectedArtistId === artist.id;
           return (
-            <motion.div key={artist.id} variants={listItem} whileHover={{ x: 2 }} whileTap={{ scale: 0.98 }}>
+            <motion.div key={artist.id} variants={listItem} whileTap={{ scale: 0.98 }}>
               <Button
                 type="button"
                 variant={selected ? "default" : "outline"}
-                className="h-auto p-3 justify-start w-full transition-shadow"
+                className="h-auto p-3 justify-start w-full transition-[box-shadow,transform] hover:translate-x-0.5"
                 onClick={() => handleSelect(artist.id)}
               >
                 <div className="flex items-center gap-3 w-full">

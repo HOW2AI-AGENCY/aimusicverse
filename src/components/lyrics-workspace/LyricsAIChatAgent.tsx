@@ -12,15 +12,17 @@ import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 import { EASE_SPRING } from "@/lib/motion-presets";
 
+// Pure CSS (animate-bounce is a stock Tailwind keyframe) so the typing indicator
+// costs nothing on the JS thread — three concurrent framer-motion loops here were
+// a measurable contributor to mobile jank.
 function TypingDots() {
   return (
     <div className="flex items-center gap-1 py-1 px-0.5">
-      {[0, 1, 2].map((i) => (
-        <motion.span
-          key={i}
-          className="w-1.5 h-1.5 rounded-full bg-primary/70"
-          animate={{ y: [0, -4, 0], opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
+      {[0, 150, 300].map((delayMs) => (
+        <span
+          key={delayMs}
+          className="w-1.5 h-1.5 rounded-full bg-primary/70 animate-bounce"
+          style={{ animationDelay: `${delayMs}ms` }}
         />
       ))}
     </div>
@@ -138,7 +140,10 @@ export function LyricsAIChatAgent({
   useEffect(() => {
     if (scrollRef.current) {
       const viewport = scrollRef.current.querySelector("[data-radix-scroll-area-viewport]");
-      if (viewport) viewport.scrollTo({ top: viewport.scrollHeight, behavior: "smooth" });
+      // Instant, not smooth: this fires on every message/streaming update, and a
+      // smooth-scroll animation retriggered mid-flight fights the user's own touch
+      // scroll on mobile (felt like scroll "glitching").
+      if (viewport) viewport.scrollTop = viewport.scrollHeight;
     }
   }, [messages]);
 
@@ -247,14 +252,12 @@ export function LyricsAIChatAgent({
               >
                 {message.role === "assistant" && (
                   <div className="relative shrink-0">
-                    {message.isLoading && (
-                      <motion.div
-                        className="absolute -inset-0.5 rounded-lg bg-primary/40 blur-[3px]"
-                        animate={{ opacity: [0.3, 0.7, 0.3] }}
-                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                      />
-                    )}
-                    <div className="relative w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border border-primary/20">
+                    <div
+                      className={cn(
+                        "relative w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border border-primary/20",
+                        message.isLoading && "animate-pulse-glow",
+                      )}
+                    >
                       <Bot className="w-3.5 h-3.5 text-primary" />
                     </div>
                   </div>

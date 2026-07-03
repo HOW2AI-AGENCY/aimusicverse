@@ -6,6 +6,7 @@ import { FolderOpen, Music, Play } from "@/lib/icons";
 import { LazyImage } from "@/components/ui/lazy-image";
 import { motion } from "@/lib/motion";
 import { EASE_OUT } from "@/lib/motion-presets";
+import { cn } from "@/lib/utils";
 
 const listContainer = {
   hidden: { opacity: 0 },
@@ -94,11 +95,11 @@ export function ProjectTrackSelector({
         {type === "project" && projects && projects.length > 0 && (
           <motion.div variants={listContainer} initial="hidden" animate="show" className="grid gap-3">
             {projects.map((project) => (
-              <motion.div key={project.id} variants={listItem} whileHover={{ x: 2 }} whileTap={{ scale: 0.98 }}>
+              <motion.div key={project.id} variants={listItem} whileTap={{ scale: 0.98 }}>
                 <Button
                   type="button"
                   variant={selectedId === project.id ? "default" : "outline"}
-                  className="h-auto p-4 justify-start w-full"
+                  className="h-auto p-4 justify-start w-full transition-transform hover:translate-x-0.5"
                   onClick={() => handleSelect(project.id)}
                 >
                   <div className="flex items-center gap-3 w-full">
@@ -142,13 +143,15 @@ export function ProjectTrackSelector({
               <motion.div
                 key={track.id}
                 variants={listItem}
-                whileHover={track.status === "completed" ? { x: 2 } : undefined}
                 whileTap={track.status === "completed" ? { scale: 0.98 } : undefined}
               >
                 <Button
                   type="button"
                   variant={selectedId === track.id ? "default" : "outline"}
-                  className="h-auto p-4 justify-start w-full"
+                  className={cn(
+                    "h-auto p-4 justify-start w-full transition-transform",
+                    track.status === "completed" && "hover:translate-x-0.5",
+                  )}
                   onClick={() => handleSelect(track.id)}
                   disabled={track.status !== "completed"}
                 >

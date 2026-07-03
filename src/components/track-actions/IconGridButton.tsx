@@ -55,14 +55,15 @@ export const IconGridButton = forwardRef<HTMLButtonElement, IconGridButtonProps>
         type="button"
         onClick={handleClick}
         disabled={disabled || loading}
-        whileHover={disabled || loading ? undefined : { y: -1 }}
         whileTap={disabled || loading ? undefined : { scale: 0.92 }}
         transition={EASE_SPRING}
         className={cn(
           "flex flex-col items-center justify-center gap-0.5 group",
           "p-1.5 min-h-[56px] rounded-xl",
           "touch-manipulation",
-          "hover:bg-muted/50 transition-colors",
+          // Pure CSS hover (desktop-only by nature) instead of a JS whileHover
+          // gesture recognizer — the latter can compete with native touch scroll.
+          "hover:bg-muted/50 hover:-translate-y-px transition-[background-color,transform] duration-200",
           disabled && "opacity-40 pointer-events-none",
           className,
         )}

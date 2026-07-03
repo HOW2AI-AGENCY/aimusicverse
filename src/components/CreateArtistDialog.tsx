@@ -242,13 +242,10 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
         )}
       >
         <div className="relative">
-          {/* Pulsing ring while generating */}
+          {/* Pulsing ring while generating — pure CSS (pulse-ring), not a JS-driven
+              framer-motion loop, to avoid janking scroll/tap response on mobile */}
           {isGeneratingPortrait && (
-            <motion.div
-              className="absolute -inset-1.5 rounded-full border-2 border-primary/50"
-              animate={{ scale: [1, 1.08, 1], opacity: [0.6, 0.15, 0.6] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            />
+            <div className="absolute -inset-1.5 rounded-full border-2 border-primary/50 pulse-ring" />
           )}
           <AnimatePresence mode="wait" initial={false}>
             {avatarUrl ? (
