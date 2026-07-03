@@ -60,9 +60,31 @@ export function usePullToRefresh({
   useEffect(() => {
     if (!container || !enabled) return;
 
+    // `container` is just a layout wrapper — it has no overflow/scroll of its
+    // own, so its scrollTop is always 0. The page actually scrolls on the
+    // nearest scrollable ancestor (e.g. <main id="main-content"> in
+    // MainLayout). Checking container.scrollTop here always reads "at top",
+    // so preventDefault() below used to fire on every downward touchmove
+    // anywhere on the page, not just when genuinely scrolled to top —
+    // breaking native scrolling on mobile. Resolve the real scroll parent
+    // once and read its scrollTop instead.
+    const getScrollParent = (el: HTMLElement): HTMLElement => {
+      let node: HTMLElement | null = el.parentElement;
+      while (node && node !== document.body) {
+        const style = getComputedStyle(node);
+        if (/(auto|scroll)/.test(style.overflowY) && node.scrollHeight > node.clientHeight) {
+          return node;
+        }
+        node = node.parentElement;
+      }
+      return (document.scrollingElement as HTMLElement | null) || document.documentElement;
+    };
+
+    const scrollParent = getScrollParent(container);
+
     const handleTouchStart = (e: TouchEvent) => {
       // Only enable when scrolled to top
-      if (container.scrollTop > 0) return;
+      if (scrollParent.scrollTop > 0) return;
 
       startYRef.current = e.touches[0].clientY;
       isPullingRef.current = true;
@@ -71,7 +93,7 @@ export function usePullToRefresh({
 
     const handleTouchMove = (e: TouchEvent) => {
       // Use ref for immediate value check
-      if (!isPullingRef.current || container.scrollTop > 0) return;
+      if (!isPullingRef.current || scrollParent.scrollTop > 0) return;
 
       currentYRef.current = e.touches[0].clientY;
       const distance = Math.max(0, currentYRef.current - startYRef.current);
