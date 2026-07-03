@@ -8,7 +8,7 @@
  */
 
 import { memo, useCallback, useState } from "react";
-import { motion } from "@/lib/motion";
+import { motion, AnimatePresence } from "@/lib/motion";
 import { Sparkles, Plus, Music2, Mic2, Guitar, Wand2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
@@ -119,14 +119,43 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
         </div>
 
         {/* Expanded options */}
-        {isExpanded && (
-          <div className="mt-3 lg:mt-4 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3">
-            <QuickCreateOption Icon={Music2} label="Трек" description="Полный трек" onClick={handleCreate} />
-            <QuickCreateOption Icon={Guitar} label="Рифф" description="Инструментал" onClick={handleCreate} />
-            <QuickCreateOption Icon={Mic2} label="Кавер" description="Переделка" onClick={handleCreate} />
-            <QuickCreateOption Icon={Wand2} label="Ремикс" description="Новый звук" onClick={handleCreate} />
-          </div>
-        )}
+        <AnimatePresence initial={false}>
+          {isExpanded && (
+            <motion.div
+              initial={reducedMotion ? undefined : { height: 0, opacity: 0 }}
+              animate={reducedMotion ? undefined : { height: "auto", opacity: 1 }}
+              exit={reducedMotion ? undefined : { height: 0, opacity: 0 }}
+              transition={{
+                height: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+                opacity: { duration: 0.2 },
+              }}
+              className="overflow-hidden"
+            >
+              <div className="mt-3 lg:mt-4 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3">
+                {[
+                  { Icon: Music2, label: "Трек", description: "Полный трек" },
+                  { Icon: Guitar, label: "Рифф", description: "Инструментал" },
+                  { Icon: Mic2, label: "Кавер", description: "Переделка" },
+                  { Icon: Wand2, label: "Ремикс", description: "Новый звук" },
+                ].map((opt, i) => (
+                  <motion.div
+                    key={opt.label}
+                    initial={reducedMotion ? undefined : { opacity: 0, y: 8 }}
+                    animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+                    transition={{ delay: reducedMotion ? 0 : 0.08 + i * 0.04, duration: 0.25 }}
+                  >
+                    <QuickCreateOption
+                      Icon={opt.Icon}
+                      label={opt.label}
+                      description={opt.description}
+                      onClick={handleCreate}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
