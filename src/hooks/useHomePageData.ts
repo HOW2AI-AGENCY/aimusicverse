@@ -89,6 +89,7 @@ export function useHomePageData(options: UseHomePageDataOptions = {}) {
     publicContent,
     recentTracks,
     popularTracks,
+    tracksByGenre: publicContent?.tracksByGenre ?? {},
 
     // Loading states
     isLoading,

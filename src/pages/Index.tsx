@@ -32,7 +32,8 @@ import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
 import { YouStrip } from "@/components/home/YouStrip";
-import { CommunityTrending } from "@/components/home/CommunityTrending";
+import { FeaturedSection } from "@/components/home/FeaturedSection";
+import { GenreTabsSection } from "@/components/home/GenreTabsSection";
 import { AiSuggestions } from "@/components/home/AiSuggestions";
 import { Section, sectionTokens } from "@/components/layout/Section";
 
@@ -62,6 +63,7 @@ const Index = () => {
   const {
     recentTracks,
     popularTracks,
+    tracksByGenre,
     isLoading,
     hasMoreRecent,
     isLoadingMoreRecent,
@@ -129,7 +131,20 @@ const Index = () => {
 
   const trendingBlock = (
     <Section sectionId="trending" density="comfortable" tone="plain">
-      <CommunityTrending tracks={popularTracks} onTrackClick={handleTrackClick} />
+      <FeaturedSection
+        tracks={popularTracks}
+        isLoading={isLoading}
+        onTrackClick={handleTrackClick}
+        hasMore={hasMorePopular}
+        isLoadingMore={isLoadingMorePopular}
+        onLoadMore={fetchMorePopular}
+      />
+    </Section>
+  );
+
+  const genresBlock = (
+    <Section sectionId="genres" eyebrow="Жанры" title="По жанрам" density="comfortable">
+      <GenreTabsSection tracks={popularTracks} tracksByGenre={tracksByGenre} isLoading={isLoading} />
     </Section>
   );
 
@@ -183,6 +198,7 @@ const Index = () => {
               {heroBlock}
               {createBlock}
               {trendingBlock}
+              {genresBlock}
               {discoverBlock}
               {aiSuggestBlock}
             </div>
