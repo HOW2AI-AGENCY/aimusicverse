@@ -17,6 +17,18 @@ import { useGenerateArtistPortrait } from "@/hooks/artist/useGenerateArtistPortr
 import { cn } from "@/lib/utils";
 import { surface } from "@/lib/overlay-colors";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { EASE_SPRING, EASE_OUT } from "@/lib/motion-presets";
+
+const fieldContainer = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.06 } },
+};
+
+const fieldItem = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: EASE_OUT },
+};
 
 interface TrackData {
   title?: string | null;
@@ -168,10 +180,13 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
   };
 
   const formContent = (
-    <div className="space-y-4">
+    <motion.div className="space-y-4" variants={fieldContainer} initial="hidden" animate="show">
       {/* Track Preview (if from track) */}
       {fromTrack && (
-        <div className="flex items-center gap-3 p-3 rounded-lg border border-border/50 bg-muted/30">
+        <motion.div
+          variants={fieldItem}
+          className="flex items-center gap-3 p-3 rounded-lg border border-border/50 bg-muted/30"
+        >
           <div className="relative shrink-0">
             {fromTrack.cover_url ? (
               <LazyImage
@@ -215,56 +230,79 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
               </Button>
             )}
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Avatar Section */}
-      <div
+      <motion.div
+        variants={fieldItem}
         className={cn(
           "flex flex-col items-center gap-3 p-4 rounded-lg border border-border/50 bg-muted/30",
           isMobile && "p-3",
         )}
       >
-        {avatarUrl ? (
-          <div
-            className={cn(
-              "relative rounded-full overflow-hidden border-4 border-primary/20",
-              isMobile ? "w-24 h-24" : "w-32 h-32",
+        <div className="relative">
+          {/* Pulsing ring while generating */}
+          {isGeneratingPortrait && (
+            <motion.div
+              className="absolute -inset-1.5 rounded-full border-2 border-primary/50"
+              animate={{ scale: [1, 1.08, 1], opacity: [0.6, 0.15, 0.6] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            />
+          )}
+          <AnimatePresence mode="wait" initial={false}>
+            {avatarUrl ? (
+              <motion.div
+                key="avatar"
+                initial={{ opacity: 0, scale: 0.7, rotate: -8 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={EASE_SPRING}
+                className={cn(
+                  "relative rounded-full overflow-hidden border-4 border-primary/20",
+                  isMobile ? "w-24 h-24" : "w-32 h-32",
+                )}
+              >
+                <LazyImage src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                <button
+                  onClick={() => setAvatarUrl(null)}
+                  className="absolute top-0.5 right-0.5 p-1 rounded-full bg-background/80 hover:bg-background transition-transform hover:scale-110"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="placeholder"
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={EASE_SPRING}
+                className={cn(
+                  "rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border-4 border-primary/20",
+                  isMobile ? "w-24 h-24" : "w-32 h-32",
+                )}
+              >
+                <User className={cn(isMobile ? "w-12 h-12" : "w-16 h-16", "text-primary/50")} />
+              </motion.div>
             )}
-          >
-            <LazyImage src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-            <button
-              onClick={() => setAvatarUrl(null)}
-              className="absolute top-0.5 right-0.5 p-1 rounded-full bg-background/80 hover:bg-background"
-            >
-              <X className="w-3 h-3" />
-            </button>
-          </div>
-        ) : (
-          <div
-            className={cn(
-              "rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border-4 border-primary/20",
-              isMobile ? "w-24 h-24" : "w-32 h-32",
-            )}
-          >
-            <User className={cn(isMobile ? "w-12 h-12" : "w-16 h-16", "text-primary/50")} />
-          </div>
-        )}
+          </AnimatePresence>
+        </div>
 
         <Button
           onClick={handleGeneratePortrait}
           disabled={isGeneratingPortrait || !name.trim()}
-          className="w-full"
+          className={cn("w-full transition-all", isGeneratingPortrait && "animate-pulse-glow")}
           variant="outline"
           size={isMobile ? "sm" : "default"}
         >
-          <ImageIcon className="w-4 h-4 mr-2" />
+          <ImageIcon className={cn("w-4 h-4 mr-2", isGeneratingPortrait && "animate-pulse")} />
           {isGeneratingPortrait ? "Генерация..." : "Сгенерировать портрет"}
         </Button>
-      </div>
+      </motion.div>
 
       {/* Name */}
-      <div>
+      <motion.div variants={fieldItem}>
         <Label htmlFor="name" className="text-xs font-medium">
           Имя артиста *
         </Label>
@@ -275,10 +313,10 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
           placeholder="Например: DJ Вibe Master"
           className="mt-1 h-9"
         />
-      </div>
+      </motion.div>
 
       {/* Bio */}
-      <div>
+      <motion.div variants={fieldItem}>
         <Label htmlFor="bio" className="text-xs font-medium">
           Биография
         </Label>
@@ -290,10 +328,10 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
           rows={2}
           className="mt-1 text-sm"
         />
-      </div>
+      </motion.div>
 
       {/* Style Description */}
-      <div>
+      <motion.div variants={fieldItem}>
         <Label htmlFor="style" className="text-xs font-medium">
           Описание стиля
         </Label>
@@ -305,10 +343,10 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
           rows={2}
           className="mt-1 text-sm"
         />
-      </div>
+      </motion.div>
 
       {/* Genre Tags */}
-      <div>
+      <motion.div variants={fieldItem}>
         <Label className="text-xs font-medium">Жанры</Label>
         <div className="flex gap-2 mt-1">
           <Input
@@ -322,22 +360,33 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
             <Plus className="w-4 h-4" />
           </Button>
         </div>
-        {genreTags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-2">
-            {genreTags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="gap-1 text-xs h-6">
-                {tag}
-                <button onClick={() => setGenreTags(genreTags.filter((t) => t !== tag))}>
-                  <X className="w-3 h-3" />
-                </button>
-              </Badge>
-            ))}
-          </div>
-        )}
-      </div>
+        <AnimatePresence initial={false}>
+          {genreTags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {genreTags.map((tag) => (
+                <motion.div
+                  key={tag}
+                  layout
+                  initial={{ opacity: 0, scale: 0.6 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.6 }}
+                  transition={EASE_SPRING}
+                >
+                  <Badge variant="secondary" className="gap-1 text-xs h-6">
+                    {tag}
+                    <button onClick={() => setGenreTags(genreTags.filter((t) => t !== tag))}>
+                      <X className="w-3 h-3" />
+                    </button>
+                  </Badge>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </AnimatePresence>
+      </motion.div>
 
       {/* Mood Tags */}
-      <div>
+      <motion.div variants={fieldItem}>
         <Label className="text-xs font-medium">Настроение</Label>
         <div className="flex gap-2 mt-1">
           <Input
@@ -351,20 +400,31 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
             <Plus className="w-4 h-4" />
           </Button>
         </div>
-        {moodTags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-2">
-            {moodTags.map((tag) => (
-              <Badge key={tag} variant="outline" className="gap-1 text-xs h-6">
-                {tag}
-                <button onClick={() => setMoodTags(moodTags.filter((t) => t !== tag))}>
-                  <X className="w-3 h-3" />
-                </button>
-              </Badge>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+        <AnimatePresence initial={false}>
+          {moodTags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {moodTags.map((tag) => (
+                <motion.div
+                  key={tag}
+                  layout
+                  initial={{ opacity: 0, scale: 0.6 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.6 }}
+                  transition={EASE_SPRING}
+                >
+                  <Badge variant="outline" className="gap-1 text-xs h-6">
+                    {tag}
+                    <button onClick={() => setMoodTags(moodTags.filter((t) => t !== tag))}>
+                      <X className="w-3 h-3" />
+                    </button>
+                  </Badge>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 
   const actionButtons = (

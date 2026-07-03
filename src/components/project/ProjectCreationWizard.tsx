@@ -30,7 +30,18 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "@/lib/motion";
+import { EASE_SPRING, EASE_OUT } from "@/lib/motion-presets";
 import { logger } from "@/lib/logger";
+
+const fieldContainer = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } },
+};
+
+const fieldItem = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: EASE_OUT },
+};
 
 interface ProjectCreationWizardProps {
   open: boolean;
@@ -343,7 +354,13 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
       <SheetContent className={cn("w-full overflow-y-auto", isMobile ? "max-w-full" : "sm:max-w-lg")}>
         <SheetHeader className="pb-4">
           <SheetTitle className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
+            <motion.span
+              animate={{ rotate: [0, 12, -8, 0], scale: [1, 1.12, 1] }}
+              transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 1.2, ease: "easeInOut" }}
+              className="inline-flex"
+            >
+              <Sparkles className="w-5 h-5 text-primary" />
+            </motion.span>
             Новый проект
           </SheetTitle>
         </SheetHeader>
@@ -358,158 +375,184 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
               exit={{ opacity: 0, x: -20 }}
               className="space-y-4"
             >
-              {/* Title */}
-              <div className="space-y-2">
-                <Label htmlFor="title">Название *</Label>
-                <Input
-                  id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Мой новый альбом..."
-                  className="bg-background"
-                  autoFocus
-                />
-              </div>
+              <motion.div variants={fieldContainer} initial="hidden" animate="show" className="space-y-4">
+                {/* Title */}
+                <motion.div variants={fieldItem} className="space-y-2">
+                  <Label htmlFor="title">Название *</Label>
+                  <Input
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Мой новый альбом..."
+                    className="bg-background"
+                    autoFocus
+                  />
+                </motion.div>
 
-              {/* Project Type Cards */}
-              <div className="space-y-2">
-                <Label>Тип проекта</Label>
-                <div className="grid grid-cols-2 gap-2">
-                  {PROJECT_TYPES.map((type) => (
-                    <button
-                      key={type.value}
-                      type="button"
-                      onClick={() => setProjectType(type.value)}
-                      className={cn(
-                        "p-3 rounded-lg border-2 text-left transition-all",
-                        projectType === type.value
-                          ? "border-primary bg-primary/10"
-                          : "border-border hover:border-primary/50",
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg">{type.icon}</span>
-                        <div>
-                          <div className="font-medium text-sm">{type.label}</div>
-                          <div className="text-xs text-muted-foreground">{type.tracks} треков</div>
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Genre & Mood */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <Label>Жанр</Label>
-                  <Select value={genre} onValueChange={setGenre}>
-                    <SelectTrigger className="bg-background">
-                      <SelectValue placeholder="Выберите..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {GENRES.map((g) => (
-                        <SelectItem key={g} value={g}>
-                          {g}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label>Настроение</Label>
-                  <Select value={mood} onValueChange={setMood}>
-                    <SelectTrigger className="bg-background">
-                      <SelectValue placeholder="Выберите..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {MOODS.map((m) => (
-                        <SelectItem key={m} value={m}>
-                          {m}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Language */}
-              <div className="space-y-2">
-                <Label>Язык</Label>
-                <div className="flex gap-2">
-                  <Button
-                    type="button"
-                    variant={language === "ru" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setLanguage("ru")}
-                    className="flex-1"
-                  >
-                    🇷🇺 Русский
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={language === "en" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setLanguage("en")}
-                    className="flex-1"
-                  >
-                    🇬🇧 English
-                  </Button>
-                </div>
-              </div>
-
-              {/* Concept */}
-              <div className="space-y-2">
-                <Label>Концепция / Тема</Label>
-                <Textarea
-                  value={description}
-                  onChange={(e) => setConcept(e.target.value)}
-                  placeholder="О чём будет ваш проект..."
-                  rows={3}
-                  className="bg-background resize-none"
-                />
-              </div>
-
-              {/* Auto-generate tracklist toggle */}
-              <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/30">
-                <div className="flex items-center gap-3">
-                  <ListMusic className="w-5 h-5 text-primary" />
-                  <div>
-                    <Label className="cursor-pointer">AI Трек-лист</Label>
-                    <p className="text-xs text-muted-foreground">Автоматически создать структуру альбома</p>
+                {/* Project Type Cards */}
+                <motion.div variants={fieldItem} className="space-y-2">
+                  <Label>Тип проекта</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {PROJECT_TYPES.map((type) => {
+                      const selected = projectType === type.value;
+                      return (
+                        <motion.button
+                          key={type.value}
+                          type="button"
+                          onClick={() => setProjectType(type.value)}
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.97 }}
+                          className={cn(
+                            "relative p-3 rounded-lg border-2 text-left transition-colors",
+                            selected ? "border-primary bg-primary/10" : "border-border hover:border-primary/50",
+                          )}
+                        >
+                          <AnimatePresence>
+                            {selected && (
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.4 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.4 }}
+                                transition={EASE_SPRING}
+                                className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center shadow-[0_2px_8px_-2px_hsl(var(--primary)/0.6)]"
+                              >
+                                <Check className="w-3 h-3 text-primary-foreground" />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{type.icon}</span>
+                            <div>
+                              <div className="font-medium text-sm">{type.label}</div>
+                              <div className="text-xs text-muted-foreground">{type.tracks} треков</div>
+                            </div>
+                          </div>
+                        </motion.button>
+                      );
+                    })}
                   </div>
-                </div>
-                <Switch checked={autoGenerateTracklist} onCheckedChange={setAutoGenerateTracklist} />
-              </div>
+                </motion.div>
 
-              {/* Privacy toggle */}
-              {isPremiumUser && (
-                <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/30">
+                {/* Genre & Mood */}
+                <motion.div variants={fieldItem} className="grid grid-cols-2 gap-3">
+                  <div className="space-y-2">
+                    <Label>Жанр</Label>
+                    <Select value={genre} onValueChange={setGenre}>
+                      <SelectTrigger className="bg-background">
+                        <SelectValue placeholder="Выберите..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {GENRES.map((g) => (
+                          <SelectItem key={g} value={g}>
+                            {g}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Настроение</Label>
+                    <Select value={mood} onValueChange={setMood}>
+                      <SelectTrigger className="bg-background">
+                        <SelectValue placeholder="Выберите..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {MOODS.map((m) => (
+                          <SelectItem key={m} value={m}>
+                            {m}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </motion.div>
+
+                {/* Language */}
+                <motion.div variants={fieldItem} className="space-y-2">
+                  <Label>Язык</Label>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant={language === "ru" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setLanguage("ru")}
+                      className="flex-1 transition-transform active:scale-95"
+                    >
+                      🇷🇺 Русский
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={language === "en" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setLanguage("en")}
+                      className="flex-1 transition-transform active:scale-95"
+                    >
+                      🇬🇧 English
+                    </Button>
+                  </div>
+                </motion.div>
+
+                {/* Concept */}
+                <motion.div variants={fieldItem} className="space-y-2">
+                  <Label>Концепция / Тема</Label>
+                  <Textarea
+                    value={description}
+                    onChange={(e) => setConcept(e.target.value)}
+                    placeholder="О чём будет ваш проект..."
+                    rows={3}
+                    className="bg-background resize-none"
+                  />
+                </motion.div>
+
+                {/* Auto-generate tracklist toggle */}
+                <motion.div
+                  variants={fieldItem}
+                  className="flex items-center justify-between p-3 border rounded-lg bg-muted/30"
+                >
                   <div className="flex items-center gap-3">
-                    {isPublic ? (
-                      <Globe className="w-5 h-5 text-green-500" />
-                    ) : (
-                      <Lock className="w-5 h-5 text-orange-500" />
-                    )}
+                    <ListMusic className="w-5 h-5 text-primary" />
                     <div>
-                      <Label className="cursor-pointer">{isPublic ? "Публичный" : "Приватный"}</Label>
-                      <p className="text-xs text-muted-foreground">{isPublic ? "Виден всем" : "Только для вас"}</p>
+                      <Label className="cursor-pointer">AI Трек-лист</Label>
+                      <p className="text-xs text-muted-foreground">Автоматически создать структуру альбома</p>
                     </div>
                   </div>
-                  <Switch checked={isPublic} onCheckedChange={setIsPublic} />
-                </div>
-              )}
+                  <Switch checked={autoGenerateTracklist} onCheckedChange={setAutoGenerateTracklist} />
+                </motion.div>
 
-              {/* Create Button */}
-              <Button
-                onClick={handleCreateProject}
-                disabled={!title.trim() || isCreating}
-                className="w-full gap-2"
-                size="lg"
-              >
-                Создать проект
-                <ChevronRight className="w-4 h-4" />
-              </Button>
+                {/* Privacy toggle */}
+                {isPremiumUser && (
+                  <motion.div
+                    variants={fieldItem}
+                    className="flex items-center justify-between p-3 border rounded-lg bg-muted/30"
+                  >
+                    <div className="flex items-center gap-3">
+                      {isPublic ? (
+                        <Globe className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <Lock className="w-5 h-5 text-orange-500" />
+                      )}
+                      <div>
+                        <Label className="cursor-pointer">{isPublic ? "Публичный" : "Приватный"}</Label>
+                        <p className="text-xs text-muted-foreground">{isPublic ? "Виден всем" : "Только для вас"}</p>
+                      </div>
+                    </div>
+                    <Switch checked={isPublic} onCheckedChange={setIsPublic} />
+                  </motion.div>
+                )}
+
+                {/* Create Button */}
+                <motion.div variants={fieldItem}>
+                  <Button
+                    onClick={handleCreateProject}
+                    disabled={!title.trim() || isCreating}
+                    className="w-full gap-2 transition-transform active:scale-[0.98]"
+                    size="lg"
+                  >
+                    Создать проект
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </motion.div>
+              </motion.div>
             </motion.div>
           )}
 
@@ -525,20 +568,30 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
               {/* Progress visualization */}
               <div className="flex flex-col items-center text-center space-y-4">
                 {/* Icon */}
-                <div
+                <motion.div
+                  key={step}
+                  initial={{ scale: 0.6, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={EASE_SPRING}
                   className={cn(
                     "w-20 h-20 rounded-full flex items-center justify-center",
                     step === "complete" ? "bg-green-500/20" : "bg-primary/20",
                   )}
                 >
                   {step === "complete" ? (
-                    <Check className="w-10 h-10 text-green-500" />
+                    <motion.div
+                      initial={{ rotate: -30, scale: 0.5 }}
+                      animate={{ rotate: 0, scale: 1 }}
+                      transition={{ ...EASE_SPRING, delay: 0.1 }}
+                    >
+                      <Check className="w-10 h-10 text-green-500" />
+                    </motion.div>
                   ) : step === "tracklist" ? (
                     <ListMusic className="w-10 h-10 text-primary animate-pulse" />
                   ) : (
                     <Loader2 className="w-10 h-10 text-primary animate-spin" />
                   )}
-                </div>
+                </motion.div>
 
                 {/* Title */}
                 <div>

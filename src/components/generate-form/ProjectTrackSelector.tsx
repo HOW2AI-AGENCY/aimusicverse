@@ -4,6 +4,18 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { FolderOpen, Music, Play } from "@/lib/icons";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { motion } from "@/lib/motion";
+import { EASE_OUT } from "@/lib/motion-presets";
+
+const listContainer = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.04 } },
+};
+
+const listItem = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: EASE_OUT },
+};
 
 interface Project {
   id: string;
@@ -80,85 +92,100 @@ export function ProjectTrackSelector({
         )}
 
         {type === "project" && projects && projects.length > 0 && (
-          <div className="grid gap-3">
+          <motion.div variants={listContainer} initial="hidden" animate="show" className="grid gap-3">
             {projects.map((project) => (
-              <Button
-                key={project.id}
-                type="button"
-                variant={selectedId === project.id ? "default" : "outline"}
-                className="h-auto p-4 justify-start"
-                onClick={() => handleSelect(project.id)}
-              >
-                <div className="flex items-center gap-3 w-full">
-                  <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    {project.cover_url ? (
-                      <LazyImage src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
-                    ) : (
-                      <FolderOpen className="w-8 h-8 text-primary" />
-                    )}
-                  </div>
-
-                  <div className="flex-1 text-left">
-                    <div className="font-medium mb-1">{project.title}</div>
-                    <div className="flex gap-1 flex-wrap">
-                      {project.project_type && (
-                        <Badge variant="secondary" className="text-xs capitalize">
-                          {project.project_type.replace("_", " ")}
-                        </Badge>
-                      )}
-                      {project.genre && (
-                        <Badge variant="outline" className="text-xs">
-                          {project.genre}
-                        </Badge>
+              <motion.div key={project.id} variants={listItem} whileHover={{ x: 2 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  type="button"
+                  variant={selectedId === project.id ? "default" : "outline"}
+                  className="h-auto p-4 justify-start w-full"
+                  onClick={() => handleSelect(project.id)}
+                >
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {project.cover_url ? (
+                        <LazyImage
+                          src={project.cover_url}
+                          alt={project.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <FolderOpen className="w-8 h-8 text-primary" />
                       )}
                     </div>
+
+                    <div className="flex-1 text-left">
+                      <div className="font-medium mb-1">{project.title}</div>
+                      <div className="flex gap-1 flex-wrap">
+                        {project.project_type && (
+                          <Badge variant="secondary" className="text-xs capitalize">
+                            {project.project_type.replace("_", " ")}
+                          </Badge>
+                        )}
+                        {project.genre && (
+                          <Badge variant="outline" className="text-xs">
+                            {project.genre}
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Button>
+                </Button>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
         {type === "track" && tracks && tracks.length > 0 && (
-          <div className="grid gap-3">
+          <motion.div variants={listContainer} initial="hidden" animate="show" className="grid gap-3">
             {tracks.map((track) => (
-              <Button
+              <motion.div
                 key={track.id}
-                type="button"
-                variant={selectedId === track.id ? "default" : "outline"}
-                className="h-auto p-4 justify-start"
-                onClick={() => handleSelect(track.id)}
-                disabled={track.status !== "completed"}
+                variants={listItem}
+                whileHover={track.status === "completed" ? { x: 2 } : undefined}
+                whileTap={track.status === "completed" ? { scale: 0.98 } : undefined}
               >
-                <div className="flex items-center gap-3 w-full">
-                  <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    {track.cover_url ? (
-                      <LazyImage src={track.cover_url} alt={track.title || "Track"} className="w-full h-full object-cover" />
-                    ) : (
-                      <Music className="w-8 h-8 text-primary" />
-                    )}
-                  </div>
-
-                  <div className="flex-1 text-left">
-                    <div className="font-medium mb-1 flex items-center gap-2">
-                      {track.title || "Без названия"}
-                      {track.audio_url && <Play className="w-3 h-3 text-muted-foreground" />}
-                    </div>
-                    <div className="flex gap-2 items-center">
-                      <Badge variant="secondary" className="text-xs">
-                        {formatDuration(track.duration_seconds)}
-                      </Badge>
-                      {track.status && (
-                        <Badge variant={track.status === "completed" ? "default" : "outline"} className="text-xs">
-                          {track.status}
-                        </Badge>
+                <Button
+                  type="button"
+                  variant={selectedId === track.id ? "default" : "outline"}
+                  className="h-auto p-4 justify-start w-full"
+                  onClick={() => handleSelect(track.id)}
+                  disabled={track.status !== "completed"}
+                >
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {track.cover_url ? (
+                        <LazyImage
+                          src={track.cover_url}
+                          alt={track.title || "Track"}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Music className="w-8 h-8 text-primary" />
                       )}
                     </div>
+
+                    <div className="flex-1 text-left">
+                      <div className="font-medium mb-1 flex items-center gap-2">
+                        {track.title || "Без названия"}
+                        {track.audio_url && <Play className="w-3 h-3 text-muted-foreground" />}
+                      </div>
+                      <div className="flex gap-2 items-center">
+                        <Badge variant="secondary" className="text-xs">
+                          {formatDuration(track.duration_seconds)}
+                        </Badge>
+                        {track.status && (
+                          <Badge variant={track.status === "completed" ? "default" : "outline"} className="text-xs">
+                            {track.status}
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Button>
+                </Button>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </ScrollArea>
     </UnifiedDialog>
