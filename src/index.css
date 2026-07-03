@@ -535,15 +535,19 @@ All colors MUST be HSL.
   /* Button Enhancements - More tactile and premium with improved touch feedback */
   .btn-enhanced {
     position: relative;
-    overflow: hidden;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     touch-action: manipulation;
   }
 
+  /* Shine overlay clips itself to the button's own corner radius via border-radius:
+     inherit, so .btn-enhanced no longer needs overflow:hidden. That overflow:hidden
+     was clipping any badge/ring positioned near a corner (e.g. NotificationBadge's
+     count badge at -top-1 -right-1) against the rounded-corner curve. */
   .btn-enhanced::before {
     content: "";
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: linear-gradient(135deg, hsl(0 0% 100% / 0.15), hsl(0 0% 100% / 0));
     opacity: 0;
     transition: opacity 0.25s ease;

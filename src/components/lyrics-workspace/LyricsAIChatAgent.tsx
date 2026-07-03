@@ -10,6 +10,24 @@ import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
+import { EASE_SPRING } from "@/lib/motion-presets";
+
+// Pure CSS (animate-bounce is a stock Tailwind keyframe) so the typing indicator
+// costs nothing on the JS thread — three concurrent framer-motion loops here were
+// a measurable contributor to mobile jank.
+function TypingDots() {
+  return (
+    <div className="flex items-center gap-1 py-1 px-0.5">
+      {[0, 150, 300].map((delayMs) => (
+        <span
+          key={delayMs}
+          className="w-1.5 h-1.5 rounded-full bg-primary/70 animate-bounce"
+          style={{ animationDelay: `${delayMs}ms` }}
+        />
+      ))}
+    </div>
+  );
+}
 
 import { AIToolbar } from "./ai-agent/AIToolbar";
 import { useAITools } from "./ai-agent/hooks/useAITools";
@@ -122,6 +140,9 @@ export function LyricsAIChatAgent({
   useEffect(() => {
     if (scrollRef.current) {
       const viewport = scrollRef.current.querySelector("[data-radix-scroll-area-viewport]");
+      // Instant, not smooth: this fires on every message/streaming update, and a
+      // smooth-scroll animation retriggered mid-flight fights the user's own touch
+      // scroll on mobile (felt like scroll "glitching").
       if (viewport) viewport.scrollTop = viewport.scrollHeight;
     }
   }, [messages]);
@@ -230,8 +251,15 @@ export function LyricsAIChatAgent({
                 className={cn("flex gap-2", message.role === "user" ? "justify-end" : "justify-start")}
               >
                 {message.role === "assistant" && (
-                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
-                    <Bot className="w-3.5 h-3.5 text-primary" />
+                  <div className="relative shrink-0">
+                    <div
+                      className={cn(
+                        "relative w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border border-primary/20",
+                        message.isLoading && "animate-pulse-glow",
+                      )}
+                    >
+                      <Bot className="w-3.5 h-3.5 text-primary" />
+                    </div>
                   </div>
                 )}
 
@@ -244,8 +272,8 @@ export function LyricsAIChatAgent({
                   )}
                 >
                   {message.isLoading ? (
-                    <div className="flex items-center gap-2 py-1">
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                    <div className="flex items-center gap-2 py-0.5">
+                      <TypingDots />
                       <span className="text-sm text-muted-foreground">Думаю...</span>
                     </div>
                   ) : (
@@ -304,7 +332,12 @@ export function LyricsAIChatAgent({
         }}
       >
         <div className="flex gap-2">
-          <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0" onClick={clearMessages}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 shrink-0 transition-transform active:scale-90"
+            onClick={clearMessages}
+          >
             <Trash2 className="w-4 h-4 text-muted-foreground" />
           </Button>
           <Textarea
@@ -315,9 +348,11 @@ export function LyricsAIChatAgent({
             className="min-h-[36px] max-h-[100px] resize-none text-sm"
             rows={1}
           />
-          <Button size="icon" className="h-9 w-9 shrink-0" onClick={handleSend} disabled={isLoading || !input.trim()}>
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-          </Button>
+          <motion.div whileTap={input.trim() && !isLoading ? { scale: 0.88 } : undefined} transition={EASE_SPRING}>
+            <Button size="icon" className="h-9 w-9 shrink-0" onClick={handleSend} disabled={isLoading || !input.trim()}>
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            </Button>
+          </motion.div>
         </div>
       </div>
     </div>

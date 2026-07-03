@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-046-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-047-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-17_suites-10B981?style=for-the-badge"/>
@@ -220,6 +220,27 @@
 ### 📋 Флаг для build-agent (out of design scope)
 
 - 🟡 **Phase D-4 — ErrorBoundary home button:** требует `useNavigate()` hook (functional change, вне рамок design-audit). Передано в Phase E сборки.
+
+## 🚦 `047` Creation-Flow Motion Pass + Mobile Perf Fixes (Q3 2026) — ЗАВЕРШЁН ✅
+
+**Прогресс: 2/2 (100%)** — motion pass по четырём сценариям + баг-фикс проход после мобильного QA.
+
+| Фаза                                                    | Прогресс                                                          |
+| -------------------------------------------------------- | ------------------------------------------------------------------ |
+| **1: Motion pass** (создание проекта/артиста, AI-чат, создание трека) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **2: Mobile perf/scroll/clipping fixes**                 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+
+### ✅ Завершено (2026-07-03)
+
+**Фаза 1 — анимации:** `ProjectCreationWizard` (spring-check на карточках типа проекта, staggered поля, bounce-in завершение), `CreateArtistDialog` (staggered секции, spring-reveal аватара, анимированные тег-чипы), `LyricsAIChatAgent` (bouncing-dot индикатор набора, пульсирующий аватар ассистента, spring send-кнопка), `IconGridButton`/`MobileQuickActionsGrid` (staggered 2×2 грид, spring tap), `ArtistSelector`/`ProjectTrackSelector` (staggered списки, анимированное кольцо выбора).
+
+**Фаза 2 — баги, найденные в мобильном QA сразу после Фазы 1:**
+
+- 🐛 **Обрезка бейджей** — корневая причина найдена в `.btn-enhanced` (`src/index.css`): `overflow: hidden` на **каждой** кнопке приложения (нужен был только для shine-оверлея) в паре с `rounded-xl` обрезал любой бейдж/кольцо у угла кнопки — системная проблема, не только в новых компонентах (пример: счётчик в `NotificationBadge.tsx`). Исправлено на уровне CSS-примитива: `overflow: hidden` убран, `::before` получил `border-radius: inherit`.
+- 🐛 **Лаги анимаций на мобильных** — убраны JS-driven continuous анимации (`blur()`-фильтр на аватаре чата, 3 параллельных framer-motion цикла в typing-индикаторе, rotate+scale loop на иконке заголовка, scale+opacity loop на кольце портрета) в пользу дешёвых CSS keyframes (`animate-pulse-glow`, `animate-bounce`, `animate-pulse`, `.pulse-ring`).
+- 🐛 **Глюки скролла на мобильных** — `scrollTo({behavior:"smooth"})` в авто-скролле AI-чата конфликтовал с тач-скроллом при частых re-render (возвращён на мгновенный `scrollTop =`); JS `whileHover` pointer-listeners убраны с элементов внутри скролл-контейнеров в пользу чистого CSS `:hover`.
+
+**Верификация:** `tsc --noEmit -p tsconfig.json` — 0 ошибок.
 
 ## 🚦 `046` Desktop Layout Polish + 4K Awareness (Q3 2026) — ЗАВЕРШЁН ✅
 
@@ -512,6 +533,6 @@ mindmap
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-07-02 (Sprint 044 в работе 🟡 — `any` 155 → 0 в components/, 3 сервиса на `Result<T,E>`, +45 тестов)</sub>
+<sub>Последнее обновление: 2026-07-03 (Sprint 047 ✅ — Creation-Flow Motion Pass + Mobile Perf Fixes: badge-clipping root cause, JS-driven animation lag, scroll glitches)</sub>
 
 </div>

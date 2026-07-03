@@ -8,6 +8,8 @@ import { forwardRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { LucideIcon, Loader2 } from "@/lib/icons";
 import { hapticImpact } from "@/lib/haptic";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { EASE_SPRING } from "@/lib/motion-presets";
 
 interface IconGridButtonProps {
   icon: LucideIcon;
@@ -48,17 +50,20 @@ export const IconGridButton = forwardRef<HTMLButtonElement, IconGridButtonProps>
     }, [haptic, onClick]);
 
     return (
-      <button
+      <motion.button
         ref={ref}
         type="button"
         onClick={handleClick}
         disabled={disabled || loading}
+        whileTap={disabled || loading ? undefined : { scale: 0.92 }}
+        transition={EASE_SPRING}
         className={cn(
-          "flex flex-col items-center justify-center gap-0.5",
+          "flex flex-col items-center justify-center gap-0.5 group",
           "p-1.5 min-h-[56px] rounded-xl",
-          "transition-all active:scale-95",
           "touch-manipulation",
-          "hover:bg-muted/50",
+          // Pure CSS hover (desktop-only by nature) instead of a JS whileHover
+          // gesture recognizer — the latter can compete with native touch scroll.
+          "hover:bg-muted/50 hover:-translate-y-px transition-[background-color,transform] duration-200",
           disabled && "opacity-40 pointer-events-none",
           className,
         )}
@@ -68,22 +73,32 @@ export const IconGridButton = forwardRef<HTMLButtonElement, IconGridButtonProps>
           {loading ? (
             <Loader2 className={cn("w-4 h-4 animate-spin", styles.text)} />
           ) : (
-            <Icon className={cn("w-4 h-4", styles.text)} />
+            <Icon
+              className={cn("w-4 h-4 transition-transform duration-200 group-hover:scale-110", styles.text)}
+            />
           )}
 
           {/* Badge overlay */}
-          {badge !== undefined && !loading && (
-            <span className="absolute -top-1 -right-1 h-3.5 min-w-3.5 px-0.5 text-[9px] font-bold bg-primary text-primary-foreground rounded-full flex items-center justify-center leading-none">
-              {badge}
-            </span>
-          )}
+          <AnimatePresence>
+            {badge !== undefined && !loading && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.3 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.3 }}
+                transition={EASE_SPRING}
+                className="absolute -top-1 -right-1 h-3.5 min-w-3.5 px-0.5 text-[9px] font-bold bg-primary text-primary-foreground rounded-full flex items-center justify-center leading-none"
+              >
+                {badge}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Label */}
         <span className="text-[10px] font-medium text-foreground/70 text-center leading-tight truncate max-w-full px-0.5">
           {label}
         </span>
-      </button>
+      </motion.button>
     );
   },
 );

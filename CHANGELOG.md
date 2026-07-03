@@ -24,6 +24,24 @@
 
 ## [Unreleased]
 
+### 🎨 Спринт 048 — Creation-Flow Motion Pass + Mobile Perf Fixes (2026-07-03) — ЗАВЕРШЁН ✅
+
+Анимации и полировка UX для четырёх ключевых сценариев (создание проекта, создание артиста, AI-чат ассистента, создание трека в проекте), затем три бага, найденные на реальном мобильном устройстве после первого прохода, устранены отдельным коммитом.
+
+#### Added — motion pass
+
+- `src/components/project/ProjectCreationWizard.tsx` — анимированный выбор карточки типа проекта (spring-check бейдж), staggered появление полей формы, bounce-in иконка завершения.
+- `src/components/CreateArtistDialog.tsx` — staggered появление секций формы, spring-реveal аватара, анимированные жанр/mood чипы (`AnimatePresence`).
+- `src/components/lyrics-workspace/LyricsAIChatAgent.tsx` — bouncing-dot индикатор набора текста, пульсация аватара ассистента во время ответа, spring-фидбек на кнопке отправки.
+- `src/components/track-actions/IconGridButton.tsx`, `src/components/project/detail/MobileQuickActionsGrid.tsx` — staggered появление 2×2 грида быстрых действий, spring tap-фидбек, анимированный бейдж-счётчик.
+- `src/components/generate-form/ArtistSelector.tsx`, `src/components/generate-form/ProjectTrackSelector.tsx` — staggered появление списков выбора артиста/проекта/трека, анимированное кольцо выбора.
+
+#### Fixed — found in mobile QA после motion pass
+
+- **Обрезка бейджей рядом с скруглёнными углами `Button`** — `.btn-enhanced` (`src/index.css`) ставил `overflow: hidden` на **каждую** кнопку в приложении ради shine-оверлея; в паре с `rounded-xl` это обрезало любой бейдж/кольцо у угла кнопки (классический пример — счётчик уведомлений в `NotificationBadge.tsx` на `-top-1 -right-1`). Исправлено на уровне корня: `overflow: hidden` убран, `::before`-оверлей получил `border-radius: inherit` и сам клипуется по скруглению — бейджи больше не обрезаются нигде в приложении, где они лежат внутри `<Button>`.
+- **Лаги анимаций на мобильных** — убраны все continuous JS-driven анимации, добавленные в motion pass, которые давали заметную нагрузку на low-end Android: анимированный `blur()`-фильтр на аватаре AI-чата (заменён на `animate-pulse-glow`, чистый box-shadow), 3 параллельных framer-motion цикла в индикаторе набора текста (заменены на CSS `animate-bounce`), JS rotate+scale loop на иконке в шапке `ProjectCreationWizard` (заменён на CSS `animate-pulse`), JS scale+opacity loop на кольце генерации портрета (заменён на существующий CSS-класс `.pulse-ring`).
+- **Глюки скролла на мобильных** — авто-скролл чата AI-ассистента (`LyricsAIChatAgent`) использовал `scrollTo({behavior:"smooth"})`, повторный вызов которого на каждое обновление сообщения конфликтовал с тач-скроллом пользователя; возвращено на мгновенный `scrollTop =`. Также убраны JS `whileHover`-жесты (Framer Motion pointer-listeners) с элементов списков внутри скролл-контейнеров (`IconGridButton`, `ArtistSelector`, `ProjectTrackSelector`, карточки типа проекта) — hover-фидбек на десктопе теперь чистый CSS (`hover:-translate-y-px` / `hover:translate-x-0.5`), без активных pointer-слушателей, которые могли конкурировать с нативным скроллом на тач-устройствах.
+
 ### 🎨 Спринт 047 — Mobile Audit + Z-Index/Spacing/Scroll-Lock + Player Z-Stack (2026-07-03) — ЗАВЕРШЁН ✅
 
 Пять атомарных коммитов на mobile-first аудит: z-index consolidation, persona/project/generator sheets, player z-stack cascade, safe-area single-source.
