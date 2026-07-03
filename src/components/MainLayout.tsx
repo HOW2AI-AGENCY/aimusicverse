@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { setSubscriptionDialogCallback } from "@/hooks/useTrackActions";
 import { useTelegramSettingsButton } from "@/hooks/telegram";
 import { SmartAlertProvider } from "./notifications/smart-alerts";
-import { useGenerationResult } from "@/hooks/generation";
+import { useGenerationResult } from "@/hooks/generation/useGenerationResult";
 import { useWelcomeBonusCheck } from "@/hooks/useCreditsLimits";
 import { useAdminDailyStats } from "@/hooks/useAdminDailyStats";
 import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvider";

@@ -14,6 +14,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { UnifiedTrackCard } from "@/components/track/track-card-new";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/common/SectionHeader";
+import { HorizontalScrollSkeleton } from "@/components/ui/skeleton-components";
 
 import type { TrackData } from "@/components/track/track-card-new/types";
 import { homeSectionColors } from "@/lib/design-colors";
@@ -32,19 +33,6 @@ interface FeaturedSectionProps {
 }
 
 const SKELETON_COUNT = 4;
-
-// Lightweight skeleton component - optimized for scroll performance
-const TrackSkeleton = memo(function TrackSkeleton() {
-  return (
-    <div className="flex-shrink-0 w-[165px] sm:w-[180px] lg:w-[200px] xl:w-[220px]" style={{ contain: "layout paint" }}>
-      <div className="aspect-square rounded-xl bg-muted/20 animate-pulse" />
-      <div className="mt-3 space-y-2">
-        <div className="h-3.5 w-4/5 bg-muted/15 rounded animate-pulse" />
-        <div className="h-3 w-1/2 bg-muted/10 rounded animate-pulse" />
-      </div>
-    </div>
-  );
-});
 
 export const FeaturedSection = memo(function FeaturedSection({
   tracks,
@@ -87,14 +75,11 @@ export const FeaturedSection = memo(function FeaturedSection({
             <div className="h-3.5 w-40 bg-muted/15 rounded" />
           </div>
         </div>
-        <div
-          className="flex gap-5 overflow-x-auto pb-4 scroll-smooth touch-pan-x"
-          style={{ WebkitOverflowScrolling: "touch" }}
-        >
-          {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-            <TrackSkeleton key={i} />
-          ))}
-        </div>
+        <HorizontalScrollSkeleton
+          count={SKELETON_COUNT}
+          itemWidth={180}
+          className="pb-4 scroll-smooth touch-pan-x -mx-0 px-0"
+        />
       </section>
     );
   }

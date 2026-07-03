@@ -9,6 +9,7 @@
 
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchProfilesMap, enrichTrackWithProfile } from "@/lib/enrichTracksWithProfiles";
 import { useAuth } from "../useAuth";
 import type { PublicContentData, PublicTrackWithCreator } from "./types";
 import {
@@ -99,39 +100,20 @@ export function usePublicContentBatch() {
         };
       }
 
-      // Collect all unique user IDs from all tracks
+      // Collect all unique user IDs from all tracks and fetch profiles once
       const allTrackArrays = [tracks, ...Object.values(tracksByGenre)];
-      const userIds = [...new Set(allTrackArrays.flat().map((t) => t.user_id))];
-
-      // Fetch profiles for all creators
-      const { data: profiles } = await supabase
-        .from("profiles")
-        .select("user_id, username, photo_url, first_name")
-        .in("user_id", userIds);
-
-      // Create lookup map
-      const profileMap = new Map(profiles?.map((p) => [p.user_id, p]) || []);
-
-      // Helper to enrich tracks with creator info
-      const enrichTrack = (track: (typeof tracks)[0]): PublicTrackWithCreator => {
-        const profile = profileMap.get(track.user_id);
-        return {
-          ...track,
-          creator_name: profile?.first_name || profile?.username || undefined,
-          creator_username: profile?.username || undefined,
-          creator_photo_url: profile?.photo_url || undefined,
-          like_count: 0,
-          user_liked: false,
-        } as PublicTrackWithCreator;
-      };
+      const userIds = allTrackArrays.flat().map((t) => t.user_id);
+      const profileMap = await fetchProfilesMap(userIds);
 
       // Enrich main tracks
-      const enrichedTracks = tracks.map(enrichTrack);
+      const enrichedTracks = tracks.map((t) => enrichTrackWithProfile(t, profileMap)) as PublicTrackWithCreator[];
 
       // Enrich genre tracks
       const enrichedByGenre: Record<string, PublicTrackWithCreator[]> = {};
       for (const [genreId, genreTracks] of Object.entries(tracksByGenre)) {
-        enrichedByGenre[genreId] = genreTracks.map(enrichTrack);
+        enrichedByGenre[genreId] = genreTracks.map((t) =>
+          enrichTrackWithProfile(t, profileMap),
+        ) as PublicTrackWithCreator[];
       }
 
       // Sort main tracks for different views

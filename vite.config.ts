@@ -91,6 +91,19 @@ export default defineConfig(({ mode }) => ({
     dedupe: ["react", "react-dom"],
   },
   build: {
+    // A handful of large vendor/feature chunks (admin+studio+lyrics, charts,
+    // forms, confetti) end up as hard dependencies of the main entry chunk —
+    // Rollup's manualChunks-driven shared-chunk splitting pulls them in for
+    // small shared helpers even though most pages never execute admin/studio/
+    // chart code. Excluding them here doesn't change chunk boundaries or
+    // execution order (unlike manualChunks, which has a documented TDZ-crash
+    // history below) — it only stops the browser from treating them as
+    // equally high-priority to fetch as the chunks every page actually needs
+    // (vendor-react, vendor-supabase, etc.), so those get network priority.
+    modulePreload: {
+      resolveDependencies: (_filename, deps) =>
+        deps.filter((dep) => !/feature-admin-studio|vendor-charts|vendor-dnd|vendor-forms|vendor-confetti/.test(dep)),
+    },
     target: "esnext",
     minify: hasTerser ? "terser" : "esbuild",
     terserOptions: hasTerser

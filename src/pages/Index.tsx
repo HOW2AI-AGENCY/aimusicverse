@@ -10,7 +10,7 @@
  * Single layout function for desktop (12-col grid) and mobile (stack).
  */
 
-import { useState, lazy, Suspense } from "react";
+import { useState, useCallback, lazy, Suspense } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useProfile } from "@/hooks/useProfile.tsx";
@@ -58,6 +58,14 @@ const Index = () => {
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
   const [audioDialogOpen, setAudioDialogOpen] = useState(false);
 
+  // Stable across renders (setState functions are guaranteed stable) so the
+  // memoized handlers in useHomePageHandlers/useHomePageEffects don't get
+  // recreated on every Index render, which would defeat memo() on their
+  // consumers (FirstTimeHeroCard, HomeQuickCreate, AiSuggestions, DiscoverTabs).
+  const openGenerateSheet = useCallback(() => setGenerateSheetOpen(true), []);
+  const openAudioDialog = useCallback(() => setAudioDialogOpen(true), []);
+  const openRecognitionDialog = useCallback(() => setRecognitionDialogOpen(true), []);
+
   const { isNewUser } = useUserJourneyState();
 
   const {
@@ -75,13 +83,13 @@ const Index = () => {
   } = useHomePageData();
 
   const { goToProfile, handleCreate, handleTrackClick, handleQuickGenrePreset } = useHomePageHandlers({
-    onOpenGenerateSheet: () => setGenerateSheetOpen(true),
-    onOpenAudioDialog: () => setAudioDialogOpen(true),
+    onOpenGenerateSheet: openGenerateSheet,
+    onOpenAudioDialog: openAudioDialog,
   });
 
   useHomePageEffects({
-    onOpenGenerateSheet: () => setGenerateSheetOpen(true),
-    onOpenRecognitionDialog: () => setRecognitionDialogOpen(true),
+    onOpenGenerateSheet: openGenerateSheet,
+    onOpenRecognitionDialog: openRecognitionDialog,
   });
 
   const displayUser = profile || telegramUser;

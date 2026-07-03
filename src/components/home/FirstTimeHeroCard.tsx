@@ -12,6 +12,7 @@ import { Sparkles, Music2, Headphones } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { glass, gradientGlass } from "@/lib/glass";
+import { useMotionPreference } from "@/hooks/useReducedMotion";
 
 interface FirstTimeHeroCardProps {
   onCreateClick: () => void;
@@ -40,6 +41,8 @@ const STEPS = [
 ];
 
 export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({ onCreateClick, className }: FirstTimeHeroCardProps) {
+  const { safeTransition } = useMotionPreference();
+
   return (
     <section className={cn("relative overflow-hidden rounded-2xl noise-overlay mesh-hero", className)}>
       {/* Gradient background */}
@@ -52,7 +55,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({ onCreateClick
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        transition={safeTransition({ duration: 4, repeat: Infinity, ease: "easeInOut" })}
       />
 
       {/* Content */}

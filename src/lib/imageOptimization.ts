@@ -187,6 +187,18 @@ export function useLazyImage(
 }
 
 /**
+ * Rewrites a Supabase Storage object URL to the image-transform ("render")
+ * endpoint. Appending width/height/quality params to the plain object URL
+ * (`/storage/v1/object/public/...`) is a no-op — Supabase ignores those
+ * params on that endpoint and serves the original file. Only the render
+ * endpoint (`/storage/v1/render/image/public/...`) actually resizes/optimizes.
+ * See https://supabase.com/docs/guides/storage/serving/image-transformations
+ */
+function toSupabaseRenderUrl(url: string): string {
+  return url.replace(/\/storage\/v1\/object\/(public|sign)\//, "/storage/v1/render/image/$1/");
+}
+
+/**
  * Generate responsive image srcset with optimized widths
  */
 export function generateSrcSet(baseUrl: string, widths: number[] = [160, 320, 480, 640, 960, 1280]): string {
@@ -194,8 +206,9 @@ export function generateSrcSet(baseUrl: string, widths: number[] = [160, 320, 48
 
   // If URL is from Supabase storage, use its transformation params
   if (baseUrl.includes("supabase") && baseUrl.includes("/storage/")) {
-    const separator = baseUrl.includes("?") ? "&" : "?";
-    return widths.map((w) => `${baseUrl}${separator}width=${w}&quality=80 ${w}w`).join(", ");
+    const renderUrl = toSupabaseRenderUrl(baseUrl);
+    const separator = renderUrl.includes("?") ? "&" : "?";
+    return widths.map((w) => `${renderUrl}${separator}width=${w}&quality=80 ${w}w`).join(", ");
   }
 
   // For Suno CDN images
@@ -227,36 +240,15 @@ export function getOptimalImageSize(
 }
 
 /**
- * Image format detection and optimization
- */
-let cachedFormat: "avif" | "webp" | "jpg" | null = null;
-
-export function getSupportedImageFormat(): "avif" | "webp" | "jpg" {
-  if (cachedFormat) return cachedFormat;
-  if (typeof document === "undefined") return "jpg";
-
-  // Check for AVIF support
-  const canvas = document.createElement("canvas");
-  canvas.width = 1;
-  canvas.height = 1;
-
-  if (canvas.toDataURL("image/avif").indexOf("data:image/avif") === 0) {
-    cachedFormat = "avif";
-    return "avif";
-  }
-
-  // Check for WebP support
-  if (canvas.toDataURL("image/webp").indexOf("data:image/webp") === 0) {
-    cachedFormat = "webp";
-    return "webp";
-  }
-
-  cachedFormat = "jpg";
-  return "jpg";
-}
-
-/**
  * Generate optimized image URL with format, size, and quality
+ *
+ * Note on format negotiation: Supabase Storage's render endpoint already
+ * auto-detects and serves WebP to clients that support it (via the Accept
+ * header) with zero query params required — AVIF isn't supported yet, and
+ * there's no query param to force a specific format, only `format=origin`
+ * to opt OUT of the automatic optimization. So `format: "jpg"` here maps to
+ * `format=origin`; any other value just lets Supabase auto-negotiate.
+ * https://supabase.com/docs/guides/storage/serving/image-transformations
  */
 export function getOptimizedImageUrl(
   originalUrl: string,
@@ -273,10 +265,12 @@ export function getOptimizedImageUrl(
 
   // If it's a Supabase storage URL, use its transformation
   if (originalUrl.includes("supabase") && originalUrl.includes("/storage/")) {
+    const renderUrl = toSupabaseRenderUrl(originalUrl);
     const params = new URLSearchParams();
     if (width) params.set("width", width.toString());
     if (height) params.set("height", height.toString());
     if (quality) params.set("quality", quality.toString());
+    if (format === "jpg") params.set("format", "origin");
 
     // Supabase supports resize mode
     if (width || height) {
@@ -284,10 +278,10 @@ export function getOptimizedImageUrl(
     }
 
     const paramString = params.toString();
-    if (!paramString) return originalUrl;
+    if (!paramString) return renderUrl;
 
-    const separator = originalUrl.includes("?") ? "&" : "?";
-    return `${originalUrl}${separator}${paramString}`;
+    const separator = renderUrl.includes("?") ? "&" : "?";
+    return `${renderUrl}${separator}${paramString}`;
   }
 
   // For other URLs, return as-is

@@ -42,14 +42,8 @@ const FormSkeleton = () => (
 );
 
 // Dialogs
-import { AudioActionDialog } from "./generate-form/AudioActionDialog";
-import { ArtistSelector } from "./generate-form/ArtistSelector";
-import { ProjectTrackSelector } from "./generate-form/ProjectTrackSelector";
-import { PromptHistory } from "./generate-form/PromptHistory";
-import { LyricsChatAssistant } from "./generate-form/LyricsChatAssistant";
-import { StylePresetSelector } from "./generate-form/StylePresetSelector";
 import { CreditBalanceWarning } from "./generate-form/CreditBalanceWarning";
-import { VoiceCloneWizard } from "./voice-clone/VoiceCloneWizard";
+import { GenerateSheetDialogs } from "./generate-sheet/GenerateSheetDialogs";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 // UploadAudioDialog removed - now using unified form for cover/extend
@@ -313,7 +307,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 onOpenVoiceClone={() => setVoiceCloneOpen(true)}
               />
 
-
               {/* Selected References Indicators */}
               <GenerateFormReferences
                 planTrackId={form.planTrackId}
@@ -455,211 +448,34 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         </SheetContent>
 
         {/* Dialogs */}
-        <ProjectTrackSelector
-          type={projectTrackStep}
-          open={projectDialogOpen}
-          onOpenChange={(open) => {
-            setProjectDialogOpen(open);
-            if (!open) {
-              setProjectTrackStep("project");
-            }
-          }}
+        <GenerateSheetDialogs
+          form={form}
           projects={projects}
-          tracks={projectTrackStep === "track" ? projectTracks : undefined}
-          selectedId={projectTrackStep === "project" ? form.selectedProjectId : form.selectedTrackId}
-          onSelect={projectTrackStep === "project" ? handleProjectSelect : form.handleTrackSelect}
-        />
-
-        <ArtistSelector
-          open={artistDialogOpen}
-          onOpenChange={setArtistDialogOpen}
           artists={artists}
-          selectedArtistId={form.selectedArtistId}
-          onSelect={form.handleArtistSelect}
-        />
-
-        <VoiceCloneWizard
-          open={voiceCloneOpen}
-          onOpenChange={setVoiceCloneOpen}
-          onComplete={(voiceId) => {
-            form.setCustomVoiceId(voiceId);
-            form.setMode("custom");
-            handleAdvancedToggle(true);
-            qc.invalidateQueries({ queryKey: ["custom-voices", user?.id] });
-            notify.success("Голос подключён к генерации", {
-              description: "Выбран в разделе «Кастомный голос».",
-            });
-          }}
-        />
-
-        {/* Audio Action Dialog - for cover/extend operations */}
-        <AudioActionDialog
-          open={audioActionDialogOpen}
-          onOpenChange={setAudioActionDialogOpen}
-          onAudioSelected={(file, mode) => {
-            form.setAudioFile(file);
-            form.setMode("custom");
-            // Set mode-specific audio weight based on cover/extend selection
-            if (mode === "extend") {
-              // High audio weight for extending - preserves original characteristics
-              form.setAudioWeight([0.9]);
-            } else {
-              // Moderate audio weight for cover - allows more creative variation
-              form.setAudioWeight([0.5]);
-            }
-            notify.success(mode === "cover" ? "Аудио для кавера добавлено" : "Аудио для расширения добавлено");
-          }}
-          onAnalysisComplete={(styleDescription) => {
-            form.setMode("custom");
-            form.setStyle((prevStyle) => {
-              const newStyle = prevStyle ? `${prevStyle}\n\n${styleDescription}` : styleDescription;
-              return newStyle;
-            });
-          }}
-          onLyricsExtracted={(lyrics) => {
-            form.setMode("custom");
-            form.setHasVocals(true);
-            form.setLyrics(lyrics);
-          }}
-          onChordsDetected={(chords, progression) => {
-            form.setMode("custom");
-            // Add chord progression to style description
-            const chordInfo = `Guitar chord progression: ${progression}`;
-            form.setStyle((prevStyle) => {
-              return prevStyle ? `${prevStyle}\n\n${chordInfo}` : chordInfo;
-            });
-            notify.success(`Обнаружено ${chords.length} аккордов`);
-          }}
-          onOpenCoverDialog={(file, mode) => {
-            // Instead of opening legacy UploadAudioDialog,
-            // use unified audio reference system and switch form to custom mode
-            hapticFeedback?.("light");
-
-            // Close the audio action dialog
-            setAudioActionDialogOpen(false);
-
-            // Switch form to custom mode with appropriate audio weight
-            form.setMode("custom");
-            if (mode === "extend") {
-              form.setAudioWeight([0.9]);
-            } else {
-              form.setAudioWeight([0.5]);
-            }
-
-            // Open advanced settings to show provider selector
-            setAdvancedOpen(true);
-
-            notify.success(mode === "cover" ? "Режим кавера активирован" : "Режим расширения активирован", {
-              description: "Настройте параметры в форме генерации",
-            });
-          }}
-        />
-
-        <LyricsChatAssistant
-          open={lyricsAssistantOpen}
-          onOpenChange={setLyricsAssistantOpen}
-          onLyricsGenerated={(newLyrics: string) => {
-            form.setMode("custom");
-            form.setHasVocals(true);
-            form.setLyrics(newLyrics);
-            notify.success("Текст песни добавлен! 🎤", {
-              description: "Лирика с профессиональными тегами Suno готова к генерации",
-            });
-          }}
-          onStyleGenerated={(generatedStyle: string) => {
-            if (generatedStyle && generatedStyle.trim()) {
-              form.setStyle(generatedStyle);
-            }
-          }}
-          onTitleGenerated={(generatedTitle: string) => {
-            if (generatedTitle && generatedTitle.trim()) {
-              form.setTitle(generatedTitle);
-            }
-          }}
-          initialGenre={projects?.find((p) => p.id === form.selectedProjectId)?.genre || undefined}
-          initialMood={
-            projects?.find((p) => p.id === form.selectedProjectId)?.mood
-              ? [projects.find((p) => p.id === form.selectedProjectId)!.mood!]
-              : undefined
-          }
-          initialLanguage={(projects?.find((p) => p.id === form.selectedProjectId)?.language as "ru" | "en") || "ru"}
-          projectContext={
-            form.selectedProjectId
-              ? (() => {
-                  const project = projects?.find((p) => p.id === form.selectedProjectId);
-                  if (!project) return undefined;
-                  return {
-                    projectId: project.id,
-                    projectTitle: project.title,
-                    genre: project.genre || undefined,
-                    mood: project.mood || undefined,
-                    language: project.language as "ru" | "en" | undefined,
-                    concept: project.concept || undefined,
-                    targetAudience: project.target_audience || undefined,
-                    referenceArtists: project.reference_artists || undefined,
-                    projectType: project.project_type || undefined,
-                    existingTracks: allTracks
-                      ?.filter((t) => t.project_id === project.id)
-                      .map((t, index) => ({
-                        title: t.title || "Untitled",
-                        position: index + 1,
-                        stylePrompt: t.style || undefined,
-                        generatedLyrics: t.lyrics || undefined,
-                        draftLyrics: undefined,
-                      })),
-                  };
-                })()
-              : undefined
-          }
-          trackContext={
-            form.selectedTrackId
-              ? (() => {
-                  const track = allTracks?.find((t) => t.id === form.selectedTrackId);
-                  if (!track) return undefined;
-                  return {
-                    title: track.title || "Untitled",
-                    position: 1,
-                    stylePrompt: track.style || undefined,
-                    draftLyrics: undefined,
-                    generatedLyrics: track.lyrics || undefined,
-                  };
-                })()
-              : undefined
-          }
-        />
-
-        <PromptHistory
-          open={historyOpen}
-          onOpenChange={setHistoryOpen}
-          onSelectPrompt={(prompt) => {
-            // Map wizard to custom if it exists in old history
-            const mode = prompt.mode === "wizard" ? "custom" : prompt.mode;
-            form.setMode(mode as "simple" | "custom");
-            if (mode === "simple") {
-              form.setDescription(prompt.description || "");
-            } else {
-              form.setTitle(prompt.title || "");
-              form.setStyle(prompt.style || "");
-              form.setLyrics(prompt.lyrics || "");
-            }
-            if (prompt.model) form.setModel(prompt.model);
-          }}
-        />
-
-        <StylePresetSelector
-          open={stylesOpen}
-          onOpenChange={setStylesOpen}
-          currentStyle={form.style}
-          onSelect={(style, tags) => {
-            form.setMode("custom");
-            form.setStyle((prevStyle) => {
-              if (prevStyle && prevStyle.trim()) {
-                return `${prevStyle}, ${style}`;
-              }
-              return style;
-            });
-            notify.success("Стиль применён");
-          }}
+          allTracks={allTracks}
+          user={user}
+          hapticFeedback={hapticFeedback}
+          queryClient={qc}
+          projectDialogOpen={projectDialogOpen}
+          setProjectDialogOpen={setProjectDialogOpen}
+          projectTrackStep={projectTrackStep}
+          setProjectTrackStep={setProjectTrackStep}
+          projectTracks={projectTracks}
+          onProjectSelect={handleProjectSelect}
+          artistDialogOpen={artistDialogOpen}
+          setArtistDialogOpen={setArtistDialogOpen}
+          voiceCloneOpen={voiceCloneOpen}
+          setVoiceCloneOpen={setVoiceCloneOpen}
+          onAdvancedToggle={handleAdvancedToggle}
+          audioActionDialogOpen={audioActionDialogOpen}
+          setAudioActionDialogOpen={setAudioActionDialogOpen}
+          setAdvancedOpen={setAdvancedOpen}
+          lyricsAssistantOpen={lyricsAssistantOpen}
+          setLyricsAssistantOpen={setLyricsAssistantOpen}
+          historyOpen={historyOpen}
+          setHistoryOpen={setHistoryOpen}
+          stylesOpen={stylesOpen}
+          setStylesOpen={setStylesOpen}
         />
       </Sheet>
     </>
