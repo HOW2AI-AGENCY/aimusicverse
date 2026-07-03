@@ -114,6 +114,7 @@ export function GenreTabsSection({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isLoading: isActiveGenreLoading,
   } = useInfiniteGenreTracks({
     genre: activeGenre,
     pageSize: 20,
@@ -236,7 +237,7 @@ export function GenreTabsSection({
               iconColor={genre.color}
               iconGradient={genre.gradient}
               tracks={tracksByGenre[genre.id] || []}
-              isLoading={isLoading}
+              isLoading={isLoading || (genre.id === activeGenre && isActiveGenreLoading)}
               maxTracks={20}
               columns={2}
               showMoreLink={`/community?genre=${genre.id}`}
