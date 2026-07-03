@@ -15,7 +15,19 @@ import { Button } from "@/components/ui/button";
 import { Loader2, TrendingUp, Sparkles, Clock } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { motion, type Variants } from "@/lib/motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import type { TrackData } from "@/components/track/track-card-new/types";
+
+const gridVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.035 } },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 18, scale: 0.96 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] } },
+};
 
 interface DiscoverTabsProps {
   popularTracks: TrackData[];
@@ -47,39 +59,40 @@ const Grid = memo(function Grid({
   onTrackClick?: (track: TrackData) => void;
   onRemix?: (id: string) => void;
 }) {
+  const prefersReducedMotion = useReducedMotion();
+
   if (!tracks.length) {
-    return (
-      <p className="text-sm text-muted-foreground text-center py-8">Пока ничего нет</p>
-    );
+    return <p className="text-sm text-muted-foreground text-center py-8">Пока ничего нет</p>;
   }
   return (
-    <div
+    <motion.div
       className="grid gap-3 sm:gap-4"
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+      initial={prefersReducedMotion ? undefined : "hidden"}
+      animate={prefersReducedMotion ? undefined : "visible"}
+      variants={prefersReducedMotion ? undefined : gridVariants}
     >
       {tracks.map((track) => (
-        <UnifiedTrackCard
+        <motion.div
           key={track.id}
-          track={track}
-          variant="grid"
-          onPlay={() => onTrackClick?.(track)}
-          showActions={false}
-          data-onremix={onRemix ? "true" : undefined}
-        />
+          variants={prefersReducedMotion ? undefined : cardVariants}
+          whileHover={prefersReducedMotion ? undefined : { y: -3 }}
+          whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
+        >
+          <UnifiedTrackCard
+            track={track}
+            variant="grid"
+            onPlay={() => onTrackClick?.(track)}
+            showActions={false}
+            data-onremix={onRemix ? "true" : undefined}
+          />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 });
 
-const LoadMore = ({
-  visible,
-  loading,
-  onClick,
-}: {
-  visible?: boolean;
-  loading?: boolean;
-  onClick?: () => void;
-}) => {
+const LoadMore = ({ visible, loading, onClick }: { visible?: boolean; loading?: boolean; onClick?: () => void }) => {
   if (!visible || !onClick) return null;
   return (
     <div className="flex justify-center pt-4">
@@ -114,11 +127,7 @@ export const DiscoverTabs = memo(function DiscoverTabs({
   const columns = isMobile ? 2 : 4;
 
   return (
-    <Tabs
-      value={tab}
-      onValueChange={(v) => setTab(v as "popular" | "new")}
-      className="w-full space-y-4"
-    >
+    <Tabs value={tab} onValueChange={(v) => setTab(v as "popular" | "new")} className="w-full space-y-4">
       <TabsList className="w-full sm:w-auto grid grid-cols-2 sm:inline-grid sm:grid-cols-2 h-9">
         <TabsTrigger value="popular" className="text-xs sm:text-sm gap-1.5">
           <TrendingUp className="h-3.5 w-3.5" />

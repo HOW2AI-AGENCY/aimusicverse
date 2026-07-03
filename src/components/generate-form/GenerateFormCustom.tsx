@@ -3,6 +3,7 @@ import { TitleSection, StyleSection, VocalsToggle, LyricsSectionAdvanced, Privac
 import { AdvancedSettings } from "./AdvancedSettings";
 import { FormSection, FormDivider } from "./FormSection";
 import { CustomVoicePicker } from "@/components/voice-clone/CustomVoicePicker";
+import { FileText, Palette, Mic2, AudioLines, Settings2 } from "@/lib/icons";
 
 interface GenerateFormCustomProps {
   title: string;
@@ -89,14 +90,20 @@ export function GenerateFormCustom({
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
       {/* ========== BASIC INFO GROUP ========== */}
-      <FormSection>
+      <FormSection step={1} title="Основное" icon={<FileText className="w-3.5 h-3.5" />} tone="default">
         <TitleSection title={title} onTitleChange={onTitleChange} />
       </FormSection>
 
       <FormDivider />
 
       {/* ========== STYLE & VOCALS GROUP ========== */}
-      <FormSection elevated>
+      <FormSection
+        step={2}
+        title="Стиль и вокал"
+        description="Опишите звучание и выберите, нужен ли голос"
+        icon={<Palette className="w-3.5 h-3.5" />}
+        tone="style"
+      >
         <StyleSection
           style={style}
           onStyleChange={onStyleChange}
@@ -112,7 +119,13 @@ export function GenerateFormCustom({
       {hasVocals && (
         <>
           <FormDivider />
-          <FormSection>
+          <FormSection
+            step={3}
+            title="Текст песни"
+            description="Структурируйте по секциям или напишите текст целиком"
+            icon={<Mic2 className="w-3.5 h-3.5" />}
+            tone="lyrics"
+          >
             <LyricsSectionAdvanced
               lyrics={lyrics}
               onLyricsChange={onLyricsChange}
@@ -126,7 +139,13 @@ export function GenerateFormCustom({
           {onCustomVoiceIdChange && (
             <>
               <FormDivider />
-              <FormSection>
+              <FormSection
+                step={4}
+                title="Кастомный голос"
+                description="Опционально — клонированный голос для вокала"
+                icon={<AudioLines className="w-3.5 h-3.5" />}
+                tone="voice"
+              >
                 <CustomVoicePicker value={customVoiceId ?? null} onChange={onCustomVoiceIdChange} />
               </FormSection>
             </>
@@ -137,7 +156,13 @@ export function GenerateFormCustom({
       {/* ========== SETTINGS GROUP ========== */}
       <FormDivider />
 
-      <FormSection>
+      <FormSection
+        step={hasVocals ? (onCustomVoiceIdChange ? 5 : 4) : 3}
+        title="Настройки"
+        description="Приватность и точная настройка генерации"
+        icon={<Settings2 className="w-3.5 h-3.5" />}
+        tone="settings"
+      >
         {onIsPublicChange && (
           <PrivacyToggle isPublic={isPublic} onIsPublicChange={onIsPublicChange} canMakePrivate={canMakePrivate} />
         )}

@@ -134,8 +134,9 @@ export const BottomNavigation = memo(function BottomNavigation() {
                     className={cn(
                       "relative flex items-center justify-center w-12 h-12 rounded-2xl",
                       "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground",
-                      "aurora-glow",
-                      "active:scale-92 hover:scale-105 transition-all duration-200",
+                      "aurora-glow glow-primary motion-reduce:animate-none",
+                      "active:scale-90 hover:scale-105 transition-transform duration-300",
+                      "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                       activeGenCount > 0 && "sheen ring-2 ring-primary/40 ring-offset-2 ring-offset-background",
                     )}
@@ -178,23 +179,32 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 aria-current={active ? "page" : undefined}
                 title={item.label}
               >
-                {/* Subtle pill indicator behind icon when active */}
+                {/* Subtle pill indicator behind icon when active — bounce-eased pop */}
                 <span
                   className={cn(
-                    "absolute top-1 h-7 w-10 rounded-full bg-primary/12 ring-1 ring-primary/25 transition-all duration-200",
+                    "absolute top-1 h-7 w-10 rounded-full bg-primary/12 ring-1 ring-primary/25",
+                    "transition-all duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
+                    "motion-reduce:transition-none",
                     active ? "opacity-100 scale-100" : "opacity-0 scale-75",
                   )}
                   aria-hidden
                 />
                 <item.icon
-                  className={cn("relative w-5 h-5 transition-transform duration-200", active && "text-primary")}
+                  className={cn(
+                    "relative w-5 h-5 transition-transform duration-300",
+                    "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
+                    "motion-reduce:transition-none",
+                    active && "text-primary scale-110 -translate-y-0.5",
+                  )}
                   strokeWidth={active ? 2.4 : 2}
                 />
                 <span
                   className={cn(
-                    "relative transition-all duration-200",
+                    "relative transition-all duration-300",
+                    "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
+                    "motion-reduce:transition-none",
                     typographyClass.caption,
-                    active ? "font-semibold text-foreground" : "font-medium",
+                    active ? "font-semibold text-foreground -translate-y-0.5" : "font-medium",
                   )}
                 >
                   {item.label}

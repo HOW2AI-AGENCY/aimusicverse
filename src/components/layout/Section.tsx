@@ -15,7 +15,9 @@
  * Do not introduce additional spacing scales in home/* — extend this file.
  */
 
-import { forwardRef, type ReactNode, type ElementType } from "react";
+import { forwardRef, useMemo, type ReactNode, type ElementType } from "react";
+import { motion } from "@/lib/motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
 export type SectionDensity = "compact" | "comfortable" | "spacious" | "auto" | "4xl" | "5xl";
@@ -124,9 +126,14 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
   const Tag = (as ?? "section") as ElementType;
   const hasHeader = Boolean(title || eyebrow || headerRight);
   const hasSurface = tone !== "plain";
+  const prefersReducedMotion = useReducedMotion();
+
+  // Scroll-reveal wrapper — memoized per tag so repeated renders don't
+  // recreate the component type (which would force a DOM remount).
+  const MotionTag = useMemo(() => motion(Tag as never), [Tag]);
 
   return (
-    <Tag
+    <MotionTag
       ref={ref as never}
       id={sectionId ? `section-${sectionId}` : undefined}
       data-section-id={sectionId}
@@ -140,9 +147,19 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
         hasSurface && densityToInnerPad[density],
         className,
       )}
+      initial={prefersReducedMotion ? undefined : { opacity: 0, y: 28 }}
+      whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2, margin: "0px 0px -72px 0px" }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
     >
       {hasHeader && (
-        <header className={cn("flex items-end justify-between gap-3", densityToHeaderGap[density])}>
+        <motion.header
+          className={cn("flex items-end justify-between gap-3", densityToHeaderGap[density])}
+          initial={prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
+          whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+        >
           <div className="min-w-0 space-y-1">
             {eyebrow && (
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
@@ -151,10 +168,18 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
             {subtitle && <p className="text-xs sm:text-sm text-muted-foreground">{subtitle}</p>}
           </div>
           {headerRight && <div className="shrink-0">{headerRight}</div>}
-        </header>
+        </motion.header>
       )}
-      <div className={cn(densityToBodyGap[density], bodyClassName)}>{children}</div>
-    </Tag>
+      <motion.div
+        className={cn(densityToBodyGap[density], bodyClassName)}
+        initial={prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
+        whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 0.45, delay: hasHeader ? 0.1 : 0.05, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {children}
+      </motion.div>
+    </MotionTag>
   );
 });
 
