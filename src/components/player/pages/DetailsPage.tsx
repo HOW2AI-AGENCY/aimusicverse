@@ -14,6 +14,17 @@ import { Button } from "@/components/ui/button";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { hapticImpact } from "@/lib/haptic";
 import { cn } from "@/lib/utils";
+import { getDisplayTags, type TagCategory } from "@/lib/styleTagParser";
+import { tagColors } from "@/lib/design-colors";
+
+const TAG_CATEGORY_COLORS: Record<TagCategory, string> = {
+  genre: `${tagColors.genre.bg} ${tagColors.genre.text}`,
+  mood: `${tagColors.mood.bg} ${tagColors.mood.text}`,
+  instrument: `${tagColors.instrument.bg} ${tagColors.instrument.text}`,
+  vocal: `${tagColors.vocal.bg} ${tagColors.vocal.text}`,
+  tempo: `${tagColors.tempo.bg} ${tagColors.tempo.text}`,
+  structure: `${tagColors.structure.bg} ${tagColors.structure.text}`,
+};
 
 interface DetailsPageProps {
   track: Track;
@@ -66,6 +77,11 @@ export function DetailsPage({ track }: DetailsPageProps) {
     return list;
   }, [track]);
 
+  // Full wrapping tag list — unlike cards, the details page has room to show
+  // (almost) everything. Tags come off the tracks row, which the version
+  // switcher now keeps in sync with the active version.
+  const displayTags = useMemo(() => getDisplayTags(track.style, track.tags, 12), [track.style, track.tags]);
+
   return (
     <div
       className="h-full overflow-y-auto px-4 py-4"
@@ -98,6 +114,27 @@ export function DetailsPage({ track }: DetailsPageProps) {
               {showAsPlaying ? <Pause className="h-5 w-5" /> : <Play className="ml-0.5 h-5 w-5" />}
             </Button>
           </div>
+          {displayTags.visible.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Теги трека">
+              {displayTags.visible.map((tag, i) => (
+                <span
+                  key={`${tag.normalized}-${i}`}
+                  title={tag.value}
+                  className={cn(
+                    "max-w-[10rem] truncate rounded-md px-2 py-1 text-[11px] font-medium leading-none",
+                    TAG_CATEGORY_COLORS[tag.category],
+                  )}
+                >
+                  {tag.value}
+                </span>
+              ))}
+              {displayTags.hiddenCount > 0 && (
+                <span className="rounded-md px-2 py-1 text-[11px] leading-none text-muted-foreground tabular-nums">
+                  +{displayTags.hiddenCount}
+                </span>
+              )}
+            </div>
+          )}
           <div className="mt-3">
             <VersionSwitcher track={track} size="compact" />
           </div>
