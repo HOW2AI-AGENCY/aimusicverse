@@ -4,6 +4,12 @@ import { useAuth } from "./useAuth";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { useAuditLog } from "./useAuditLog";
+import type { Database } from "@/integrations/supabase/types";
+
+// App-level Artist uses Record metadata; DB rows use the opaque Json type,
+// hence the single documented cast at each write below.
+type ArtistInsert = Database["public"]["Tables"]["artists"]["Insert"];
+type ArtistUpdate = Database["public"]["Tables"]["artists"]["Update"];
 
 export interface Artist {
   id: string;
@@ -55,8 +61,8 @@ export const useArtists = () => {
           {
             user_id: user.id,
             ...artistData,
-          },
-        ] as any)
+          } as unknown as ArtistInsert,
+        ])
         .select()
         .single();
 
@@ -82,7 +88,12 @@ export const useArtists = () => {
 
   const updateArtist = useMutation({
     mutationFn: async ({ id, updates }: { id: string; updates: Partial<Artist> }) => {
-      const { data, error } = await supabase.from("artists").update(updates as any).eq("id", id).select().single();
+      const { data, error } = await supabase
+        .from("artists")
+        .update(updates as unknown as ArtistUpdate)
+        .eq("id", id)
+        .select()
+        .single();
 
       if (error) throw error;
       return data;

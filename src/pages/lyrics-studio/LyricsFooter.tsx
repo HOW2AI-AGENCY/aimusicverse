@@ -61,23 +61,10 @@ export function LyricsFooter({
 }: LyricsFooterProps) {
   return (
     <>
-      {/* Section Notes Panel */}
-      {selectedSection && (
-        <SectionNotesPanel
-          {...({
-            open: notesPanelOpen,
-            onOpenChange: onNotesOpenChange,
-            sectionId: selectedSection.id,
-            sectionType: selectedSection.type,
-            sectionContent: selectedSection.content,
-            position: sections.findIndex((s) => s.id === selectedSection.id),
-            existingNote,
-            lyricsTemplateId,
-            onSave: onSaveNote,
-            onEnrichWithTags,
-          } as any)}
-        />
-      )}
+      {/* Section Notes Panel. Its public API is only {sectionId, className, maxHeight};
+          the legacy extra props (open, onSave, …) were always silently ignored, so they
+          are no longer forwarded — runtime behaviour is unchanged. */}
+      {selectedSection && <SectionNotesPanel sectionId={selectedSection.id} />}
 
       {/* Versions Panel */}
       <LyricsVersionsPanel

@@ -4,6 +4,9 @@
  */
 
 import { useState, useCallback, useMemo } from "react";
+import type { StudioTrack } from "@/stores/studio/types";
+import type { NotationDrawerProps } from "@/components/studio/unified/NotationDrawer";
+import type { ChordData } from "@/components/studio/unified/ChordOverlay";
 
 // All possible modal types
 export type StudioModalType =
@@ -20,9 +23,18 @@ export type StudioModalType =
   | "chordSheet"
   | "addInstrumental";
 
-interface ModalPayload {
+/**
+ * Studio track enriched with optional analysis artifacts that notation/chord
+ * modals consume. Producers attach them when transcription has completed.
+ */
+export type ModalSelectedTrack = StudioTrack & {
+  transcription?: NotationDrawerProps["transcriptionData"];
+  chords?: ChordData[];
+};
+
+export interface ModalPayload {
   /** Track selected for notation/chords */
-  selectedTrack?: { id: string; title?: string; type?: string; [key: string]: unknown };
+  selectedTrack?: ModalSelectedTrack;
 }
 
 interface ModalState {
@@ -30,7 +42,7 @@ interface ModalState {
   payload: ModalPayload;
 }
 
-interface UseStudioModalsResult {
+export interface UseStudioModalsResult {
   /** Current active modal */
   activeModal: StudioModalType;
   /** Payload data for modal */
@@ -109,11 +121,11 @@ export function useStudioModalHandlers(modals: UseStudioModalsResult, hapticPatt
       openRemix: withHaptic(() => modals.open("remix")),
       openAddVocals: withHaptic(() => modals.open("addVocals")),
       openRecord: withHaptic(() => modals.open("record")),
-      openNotation: (track: { id: string; title?: string; type?: string; [key: string]: unknown }) => {
+      openNotation: (track: ModalSelectedTrack) => {
         hapticPattern?.();
         modals.open("notation", { selectedTrack: track });
       },
-      openChordSheet: (track: { id: string; title?: string; type?: string; [key: string]: unknown }) => {
+      openChordSheet: (track: ModalSelectedTrack) => {
         hapticPattern?.();
         modals.open("chordSheet", { selectedTrack: track });
       },

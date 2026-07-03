@@ -32,7 +32,9 @@ export function useKlangioSaveAnalysis() {
 
       const { trackId, analysisType, chords, beats, transcription } = params;
 
-      // Build the analysis data object
+      // Build the analysis data object; metadata is accumulated separately
+      // and assigned once (analysis_metadata column is a Json blob).
+      const metadata: Record<string, unknown> = {};
       const analysisData: Partial<AudioAnalysisInsert> = {
         track_id: trackId,
         user_id: user.id,
@@ -43,12 +45,9 @@ export function useKlangioSaveAnalysis() {
       // Add chord data if available
       if (chords) {
         analysisData.key_signature = chords.key || null;
-        analysisData.analysis_metadata = {
-          ...((analysisData.analysis_metadata as any) || {}),
-          chords: chords.chords,
-          strumming: chords.strumming,
-          chord_count: chords.chords?.length || 0,
-        };
+        metadata.chords = chords.chords;
+        metadata.strumming = chords.strumming;
+        metadata.chord_count = chords.chords?.length || 0;
       }
 
       // Add beat data if available
@@ -60,20 +59,18 @@ export function useKlangioSaveAnalysis() {
           time_signature: beats.time_signature,
         };
         if (beats.time_signature) {
-          analysisData.analysis_metadata = {
-            ...((analysisData.analysis_metadata as any) || {}),
-            time_signature: beats.time_signature,
-          };
+          metadata.time_signature = beats.time_signature;
         }
       }
 
       // Add transcription data if available
       if (transcription) {
-        analysisData.analysis_metadata = {
-          ...((analysisData.analysis_metadata as any) || {}),
-          notes_count: transcription.notes?.length || 0,
-          files: transcription.files,
-        };
+        metadata.notes_count = transcription.notes?.length || 0;
+        metadata.files = transcription.files;
+      }
+
+      if (Object.keys(metadata).length > 0) {
+        analysisData.analysis_metadata = metadata as AudioAnalysisInsert["analysis_metadata"];
       }
 
       // Check if analysis already exists for this track

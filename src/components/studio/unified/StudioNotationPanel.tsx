@@ -67,7 +67,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
   const isMobile = useIsMobile();
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
 
-  const durationSeconds = (track as any).duration ?? track.clips?.[0]?.duration ?? 60;
+  const durationSeconds = (track as StudioTrack & { duration?: number }).duration ?? track.clips?.[0]?.duration ?? 60;
 
   const {
     data: rawTranscription,

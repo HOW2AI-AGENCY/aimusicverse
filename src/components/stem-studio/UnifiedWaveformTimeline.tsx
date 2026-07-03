@@ -14,9 +14,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Skeleton } from "@/components/ui/skeleton";
 import { logger } from "@/lib/logger";
 
-type WaveSurferCtor = typeof import("wavesurfer.js");
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Wavesurfer.js instance type is not exposed as a named export
-type WaveSurferInstance = any;
+type WaveSurferModule = typeof import("wavesurfer.js");
+type WaveSurferInstance = InstanceType<WaveSurferModule["default"]>;
 
 interface UnifiedWaveformTimelineProps {
   audioUrl: string;
@@ -179,7 +178,7 @@ export const UnifiedWaveformTimeline = memo(
         try {
           const mod = await import("wavesurfer.js");
           // ESM/CJS interop: prefer default export when present
-          const WaveSurfer: any = (mod as any).default ?? mod;
+          const WaveSurfer = (mod.default ?? mod) as WaveSurferModule["default"];
           if (!mounted) return;
 
           const wavesurfer = WaveSurfer.create({
@@ -206,7 +205,7 @@ export const UnifiedWaveformTimeline = memo(
             setIsLoading(false);
           });
 
-          wavesurfer.on("error", (err: any) => {
+          wavesurfer.on("error", (err: Error) => {
             // Suppress AbortError as it's expected during cleanup
             if (err?.name === "AbortError" || err?.message?.includes("aborted")) {
               return;

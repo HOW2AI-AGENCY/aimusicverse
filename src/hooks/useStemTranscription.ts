@@ -7,6 +7,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { toast } from "sonner";
+import type { Database } from "@/integrations/supabase/types";
+
+type StemTranscriptionInsert = Database["public"]["Tables"]["stem_transcriptions"]["Insert"];
 
 const log = logger.child({ module: "StemTranscription" });
 
@@ -183,7 +186,7 @@ export function useSaveTranscription() {
         .eq("model", params.model)
         .maybeSingle();
 
-      const transcriptionData = {
+      const transcriptionData: StemTranscriptionInsert = {
         stem_id: params.stemId,
         track_id: params.trackId,
         user_id: user.id,
@@ -193,7 +196,9 @@ export function useSaveTranscription() {
         gp5_url: params.gp5Url,
         pdf_url: params.pdfUrl,
         model: params.model,
-        notes: params.notes,
+        // TranscriptionNote[] is structurally Json-compatible; the generated
+        // column type is the opaque Json union, hence the single cast here.
+        notes: (params.notes ?? null) as StemTranscriptionInsert["notes"],
         notes_count: params.notesCount,
         bpm: params.bpm,
         key_detected: params.keyDetected,
@@ -207,7 +212,7 @@ export function useSaveTranscription() {
         // Update existing
         const { data, error } = await supabase
           .from("stem_transcriptions")
-          .update(transcriptionData as any)
+          .update(transcriptionData)
           .eq("id", existing.id)
           .select()
           .single();
@@ -217,7 +222,7 @@ export function useSaveTranscription() {
         return data as StemTranscription;
       } else {
         // Insert new
-        const { data, error } = await supabase.from("stem_transcriptions").insert(transcriptionData as any).select().single();
+        const { data, error } = await supabase.from("stem_transcriptions").insert(transcriptionData).select().single();
 
         if (error) throw error;
         log.info("Transcription saved", { stemId: params.stemId });

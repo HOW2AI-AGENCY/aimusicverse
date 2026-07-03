@@ -47,18 +47,20 @@ export function useBotConfig() {
 
       if (error) throw error;
 
-      const config: Partial<BotConfig> = {};
+      // Values arrive as JSON strings or raw Json; parsed per-key and merged
+      // over defaults, so the unknown-typed accumulator is narrowed at return.
+      const config: Partial<Record<keyof BotConfig, unknown>> = {};
 
       data?.forEach((item) => {
         const key = item.config_key as keyof BotConfig;
         try {
-          (config as any)[key] = typeof item.config_value === "string" ? JSON.parse(item.config_value as string) : item.config_value;
+          config[key] = typeof item.config_value === "string" ? JSON.parse(item.config_value) : item.config_value;
         } catch {
-          (config as any)[key] = item.config_value;
+          config[key] = item.config_value;
         }
       });
 
-      return { ...DEFAULT_CONFIG, ...config } as BotConfig;
+      return { ...DEFAULT_CONFIG, ...(config as Partial<BotConfig>) };
     },
   });
 }

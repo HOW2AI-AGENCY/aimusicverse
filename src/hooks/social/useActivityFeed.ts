@@ -30,6 +30,27 @@ interface FeedPage {
   nextCursor: number | null;
 }
 
+/** Row shape returned by the feed select below (tracks + joined profile). */
+interface FeedTrackRow {
+  id: string;
+  title: string | null;
+  style: string | null;
+  cover_url: string | null;
+  audio_url: string | null;
+  telegram_file_id: string | null;
+  duration_seconds: number | null;
+  created_at: string;
+  likes_count: number | null;
+  play_count: number | null;
+  user_id: string;
+  profiles: {
+    user_id: string;
+    display_name: string | null;
+    username: string | null;
+    photo_url: string | null;
+  } | null;
+}
+
 const PAGE_SIZE = 20;
 
 /**
@@ -143,7 +164,7 @@ export function useActivityFeed(options?: { filter?: "all" | "following" | "like
 
       if (error) throw error;
 
-      const tracks: FeedTrack[] = ((data || []) as any[]).map((track: any) => ({
+      const tracks: FeedTrack[] = ((data || []) as unknown as FeedTrackRow[]).map((track) => ({
         id: track.id,
         title: track.title || "Без названия",
         style: track.style,

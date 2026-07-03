@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
-import { useSaveTranscription } from "@/hooks/useStemTranscription";
+import { useSaveTranscription, type TranscriptionNote } from "@/hooks/useStemTranscription";
 import { useStudioTrackStems } from "@/hooks/studio/useStudioTrackStems";
 import { useLatestStemTranscription } from "@/hooks/studio/useLatestStemTranscription";
 import { useReplicateMidiTranscription } from "@/hooks/studio/useReplicateMidiTranscription";
@@ -191,7 +191,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
             trackId,
             midiUrl,
             model: "basic-pitch",
-            notes: (Array.isArray(data?.notes) ? data.notes : null) as any,
+            notes: (Array.isArray(data?.notes) ? data.notes : null) as TranscriptionNote[] | null,
             notesCount: typeof notesCount === "number" ? notesCount : null,
           });
         }
@@ -251,8 +251,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
       const normalized = {
         midiUrl: (data?.files?.midi || data?.files?.midi_url || data?.midi_url || null) as string | null,
         midiQuantUrl: (data?.files?.midi_quant || data?.files?.midi_quant_url || data?.midi_quant_url || null) as
-          | string
-          | null,
+          string | null,
         mxmlUrl: (data?.files?.mxml ||
           data?.files?.musicxml ||
           data?.files?.musicxml_url ||
@@ -299,7 +298,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
             pdfUrl: normalized.pdfUrl,
             gp5Url: normalized.gp5Url,
             model: `klangio:${klangioModel}`,
-            notes: (Array.isArray(data?.notes) ? data.notes : null) as any,
+            notes: (Array.isArray(data?.notes) ? data.notes : null) as TranscriptionNote[] | null,
             bpm: normalized.bpm,
             keyDetected: normalized.keyDetected,
             notesCount: normalized.notesCount,
@@ -371,17 +370,17 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   }, []);
 
   // Merge existing transcription with new result
-  const displayResult: any =
+  const displayResult: TranscriptionResult | null =
     result ||
     (existingTranscription
       ? {
-          midi_url: existingTranscription.midi_url,
-          midi_quant_url: existingTranscription.midi_quant_url,
-          musicxml_url: existingTranscription.mxml_url,
-          pdf_url: existingTranscription.pdf_url,
-          gp5_url: existingTranscription.gp5_url,
-          bpm: existingTranscription.bpm,
-          key: existingTranscription.key_detected,
+          midi_url: existingTranscription.midi_url ?? undefined,
+          midi_quant_url: existingTranscription.midi_quant_url ?? undefined,
+          musicxml_url: existingTranscription.mxml_url ?? undefined,
+          pdf_url: existingTranscription.pdf_url ?? undefined,
+          gp5_url: existingTranscription.gp5_url ?? undefined,
+          bpm: existingTranscription.bpm ?? undefined,
+          key: existingTranscription.key_detected ?? undefined,
           notes_count:
             existingTranscription.notes_count ??
             (Array.isArray(existingTranscription.notes) ? existingTranscription.notes.length : undefined),

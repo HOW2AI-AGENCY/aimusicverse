@@ -64,7 +64,8 @@ export const NotationDrawer = memo(function NotationDrawer({
   const safeAreaTop = `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.5rem, env(safe-area-inset-top, 0px) + 0.5rem))`;
   const safeAreaBottom = `calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))`;
 
-  const effectiveDuration = duration ?? (track as any)?.duration ?? track?.clips?.[0]?.duration ?? 60;
+  const effectiveDuration =
+    duration ?? (track as (StudioTrack & { duration?: number }) | null)?.duration ?? track?.clips?.[0]?.duration ?? 60;
 
   const availableFiles = useMemo(() => {
     if (!transcriptionData) return [];

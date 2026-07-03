@@ -10,8 +10,8 @@ import { useMutation } from "@tanstack/react-query";
 import {
   analyzeReferenceAudio,
   type AnalyzeReferenceParams,
+  type ReferenceAnalysis,
 } from "@/services/audio-reference/reference-analysis.service";
-type ReferenceAnalysis = any;
 
 export function useReferenceAudioAnalysis() {
   const mutation = useMutation<ReferenceAnalysis | null, Error, AnalyzeReferenceParams>({

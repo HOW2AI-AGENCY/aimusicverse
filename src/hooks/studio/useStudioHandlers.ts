@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import type { RecordingType } from "@/components/studio/unified/RecordTrackDrawer";
 import type { StudioOperation } from "@/hooks/studio/useStudioOperationLock";
+import type { SeparableTrack } from "@/hooks/useStemSeparation";
 import type { Database } from "@/integrations/supabase/types";
 
 export interface StudioHandlersOptions {
@@ -52,11 +53,8 @@ export interface StudioHandlersOptions {
     seek: (time: number) => void;
     isPlaying: boolean;
   };
-  trackForSeparation: {
-    id: string;
-    suno_id: string | null;
-  } | null;
-  separate: (track: { id: string; suno_id: string | null }, mode: "simple" | "detailed") => Promise<void>;
+  trackForSeparation: SeparableTrack | null;
+  separate: (track: SeparableTrack, mode: "simple" | "detailed") => Promise<unknown>;
 }
 
 export function useStudioHandlers(options: StudioHandlersOptions) {
@@ -131,7 +129,9 @@ export function useStudioHandlers(options: StudioHandlersOptions) {
       }
 
       try {
-        await separate({ id: trackForSeparation.id, suno_id: trackForSeparation.suno_id }, stemMode);
+        // Pass the full object: the mutation validates audio_url and sends
+        // suno_task_id to the edge function — a narrowed {id, suno_id} fails.
+        await separate(trackForSeparation, stemMode);
         modals.close();
         queryClient.invalidateQueries({ queryKey: ["track-stems", id] });
       } catch (error) {

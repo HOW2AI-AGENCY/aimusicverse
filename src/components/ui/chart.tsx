@@ -1,5 +1,7 @@
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
+import type { Payload as TooltipPayload } from "recharts/types/component/DefaultTooltipContent";
+import type { LegendPayload } from "recharts/types/component/DefaultLegendContent";
 
 import { cn } from "@/lib/utils";
 
@@ -89,7 +91,7 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
-type ChartTooltipPayloadItem = NonNullable<(RechartsPrimitive.TooltipProps<number, string> & { payload?: any[] })["payload"]>[number];
+type ChartTooltipPayloadItem = TooltipPayload<number, string>;
 
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
@@ -241,7 +243,7 @@ ChartTooltipContent.displayName = "ChartTooltip";
 
 const ChartLegend = RechartsPrimitive.Legend;
 
-type ChartLegendPayloadItem = NonNullable<(RechartsPrimitive.LegendProps & { payload?: any[] })["payload"]>[number];
+type ChartLegendPayloadItem = LegendPayload;
 
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
