@@ -7,7 +7,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Trash2, Sparkles, ChevronDown, Eraser, CornerDownLeft } from "@/lib/icons";
+import { Plus, Trash2, Sparkles, ChevronDown, ChevronUp, Eraser, CornerDownLeft, Wand2, PenLine } from "@/lib/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +16,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
 interface LyricSection {
@@ -197,7 +199,6 @@ function pushSnapshot(snap: SyncSnapshot) {
   if (arr.length > MAX_SNAPSHOTS) arr.splice(0, arr.length - MAX_SNAPSHOTS);
 }
 
-
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
   // Track the last lyrics string we emitted, so external changes (mode switch, AI, templates)
@@ -295,27 +296,50 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
     updateSections(sections.filter((s) => s.id !== id));
   };
 
+  const moveSection = (id: string, direction: "up" | "down") => {
+    const index = sections.findIndex((s) => s.id === id);
+    if (index === -1) return;
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= sections.length) return;
+    const next = [...sections];
+    [next[index], next[targetIndex]] = [next[targetIndex], next[index]];
+    updateSections(next);
+  };
+
   const applyTemplate = (sectionTypes: string[]) => {
     updateSections(applyTemplateToSections(sections, sectionTypes));
   };
 
   const charCount = useMemo(() => value.replace(/\[.*?\]/g, "").trim().length, [value]);
+  const prefersReducedMotion = useReducedMotion();
+  const sectionRefs = useRef<Record<string, HTMLTextAreaElement | null>>({});
+
+  const scrollToSection = (id: string) => {
+    const el = sectionRefs.current[id];
+    if (!el) return;
+    el.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
+    el.focus();
+  };
 
   return (
     <div className="space-y-2">
-      {/* Timeline - compact badges */}
+      {/* Timeline - clickable badges, jump to section */}
       {sections.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {sections.map((section) => {
             const typeInfo = SECTION_TYPES.find((t) => t.value === section.type);
             return (
-              <Badge
-                key={section.id}
-                variant="outline"
-                className={cn("text-[10px] px-1.5 py-0 h-5 cursor-default", typeInfo?.color)}
-              >
-                {typeInfo?.icon} {typeInfo?.label}
-              </Badge>
+              <button key={section.id} type="button" onClick={() => scrollToSection(section.id)}>
+                <Badge
+                  variant="outline"
+                  className={cn(
+                    "text-[10px] px-1.5 py-0 h-5 cursor-pointer transition-transform active:scale-95 hover:brightness-110",
+                    typeInfo?.color,
+                  )}
+                >
+                  {typeInfo?.icon} {typeInfo?.label}
+                </Badge>
+              </button>
             );
           })}
         </div>
@@ -323,101 +347,164 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
 
       {/* Sections */}
       <div className="space-y-2 max-h-[280px] overflow-y-auto">
-        {sections.map((section) => {
-          const typeInfo = SECTION_TYPES.find((t) => t.value === section.type);
-          return (
-            <div
-              key={section.id}
-              className={cn(
-                "rounded-lg border border-border/40 overflow-hidden",
-                "bg-gradient-to-br from-muted/30 to-transparent",
+        {sections.length === 0 && (
+          <div className="rounded-xl border border-dashed border-border/60 bg-muted/20 p-4 text-center space-y-3">
+            <p className="text-xs text-muted-foreground">
+              Пока нет ни одной секции. Начните с шаблона или добавьте секцию вручную.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-1.5">
+              {QUICK_TEMPLATES.map((t) => (
+                <Button
+                  key={t.name}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-9 min-h-[44px] px-3 text-xs gap-1.5 rounded-full"
+                  onClick={() => applyTemplate(t.sections)}
+                >
+                  <span aria-hidden>{t.icon}</span>
+                  {t.name}
+                </Button>
+              ))}
+              {onAIGenerate && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-9 min-h-[44px] px-3 text-xs gap-1.5 rounded-full border-dashed border-primary/40 text-primary hover:text-primary hover:bg-primary/10"
+                  onClick={onAIGenerate}
+                >
+                  <Wand2 className="w-3.5 h-3.5" />
+                  Создать с AI
+                </Button>
               )}
-            >
-              {/* Section header */}
-              <div className="flex items-center justify-between gap-2 px-2 py-1.5 bg-muted/30">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button
-                      type="button"
-                      aria-label={`Тип секции: ${typeInfo?.label}`}
-                      className={cn(
-                        "flex items-center gap-1 text-xs font-medium rounded-md px-2 py-1 min-h-[32px]",
-                        typeInfo?.color,
-                      )}
-                    >
-                      <span aria-hidden>{typeInfo?.icon}</span>
-                      <span>{typeInfo?.label}</span>
-                      <ChevronDown className="w-3 h-3 opacity-60" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="min-w-[140px]">
-                    {SECTION_TYPES.map((t) => (
-                      <DropdownMenuItem
-                        key={t.value}
-                        onClick={() => changeSectionType(section.id, t.value)}
-                        className={cn("text-xs", section.type === t.value && "bg-primary/10")}
-                      >
-                        <span className="mr-2">{t.icon}</span>
-                        {t.label}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <div className="flex items-center gap-0.5">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Добавить строку"
-                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-primary"
-                    onClick={() =>
-                      updateSectionContent(
-                        section.id,
-                        section.content ? section.content + "\n" : "",
-                      )
-                    }
-                  >
-                    <CornerDownLeft className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Очистить секцию"
-                    disabled={!section.content}
-                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-foreground disabled:opacity-40"
-                    onClick={() => updateSectionContent(section.id, "")}
-                  >
-                    <Eraser className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Удалить секцию"
-                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-destructive"
-                    onClick={() => deleteSection(section.id)}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-
-              {/* Content */}
-              <Textarea
-                value={section.content}
-                onChange={(e) => updateSectionContent(section.id, e.target.value)}
-                placeholder="Текст секции — каждая строка с новой строки..."
-                rows={3}
-                data-section-id={section.id}
-                className="border-0 rounded-none bg-transparent text-sm leading-relaxed resize-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
-              />
-              <div className="flex items-center justify-between px-2 py-1 text-[10px] text-muted-foreground/70 bg-muted/10 border-t border-border/30">
-                <span>
-                  {section.content.split("\n").filter((l) => l.trim()).length} стр · {section.content.length} симв
-                </span>
-              </div>
             </div>
-          );
-        })}
+          </div>
+        )}
+
+        <AnimatePresence initial={false}>
+          {sections.map((section, index) => {
+            const typeInfo = SECTION_TYPES.find((t) => t.value === section.type);
+            return (
+              <motion.div
+                key={section.id}
+                layout={prefersReducedMotion ? undefined : "position"}
+                initial={prefersReducedMotion ? undefined : { opacity: 0, y: -8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className={cn(
+                  "relative rounded-lg border border-border/40 overflow-hidden pl-1",
+                  "bg-gradient-to-br from-muted/30 to-transparent",
+                )}
+              >
+                {/* Left accent bar matching section type */}
+                <div className={cn("absolute left-0 top-0 bottom-0 w-1", typeInfo?.color.split(" ")[0])} aria-hidden />
+
+                {/* Section header */}
+                <div className="flex items-center justify-between gap-2 px-2 py-1.5 bg-muted/30">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        type="button"
+                        aria-label={`Тип секции: ${typeInfo?.label}`}
+                        className={cn(
+                          "flex items-center gap-1 text-xs font-medium rounded-md px-2 py-1 min-h-[32px]",
+                          typeInfo?.color,
+                        )}
+                      >
+                        <span aria-hidden>{typeInfo?.icon}</span>
+                        <span>{typeInfo?.label}</span>
+                        <ChevronDown className="w-3 h-3 opacity-60" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="min-w-[140px]">
+                      {SECTION_TYPES.map((t) => (
+                        <DropdownMenuItem
+                          key={t.value}
+                          onClick={() => changeSectionType(section.id, t.value)}
+                          className={cn("text-xs", section.type === t.value && "bg-primary/10")}
+                        >
+                          <span className="mr-2">{t.icon}</span>
+                          {t.label}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+
+                  <div className="flex items-center gap-0.5">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Переместить вверх"
+                      disabled={index === 0}
+                      className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-primary disabled:opacity-30"
+                      onClick={() => moveSection(section.id, "up")}
+                    >
+                      <ChevronUp className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Переместить вниз"
+                      disabled={index === sections.length - 1}
+                      className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-primary disabled:opacity-30"
+                      onClick={() => moveSection(section.id, "down")}
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Добавить строку"
+                      className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-primary"
+                      onClick={() => updateSectionContent(section.id, section.content ? section.content + "\n" : "")}
+                    >
+                      <CornerDownLeft className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Очистить секцию"
+                      disabled={!section.content}
+                      className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-foreground disabled:opacity-40"
+                      onClick={() => updateSectionContent(section.id, "")}
+                    >
+                      <Eraser className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Удалить секцию"
+                      className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-destructive"
+                      onClick={() => deleteSection(section.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <Textarea
+                  ref={(el) => {
+                    sectionRefs.current[section.id] = el;
+                  }}
+                  value={section.content}
+                  onChange={(e) => updateSectionContent(section.id, e.target.value)}
+                  placeholder="Текст секции — каждая строка с новой строки..."
+                  rows={3}
+                  data-section-id={section.id}
+                  className="border-0 rounded-none bg-transparent text-sm leading-relaxed resize-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
+                />
+                <div className="flex items-center justify-between px-2 py-1 text-[10px] text-muted-foreground/70 bg-muted/10 border-t border-border/30">
+                  <span>
+                    {section.content.split("\n").filter((l) => l.trim()).length} стр · {section.content.length} симв
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
 
       {/* Actions */}
@@ -426,8 +513,8 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
           {/* Add section */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-7 px-2 text-xs gap-1">
-                <Plus className="w-3 h-3" />
+              <Button variant="outline" size="sm" className="h-9 min-h-[44px] px-2.5 text-xs gap-1">
+                <Plus className="w-3.5 h-3.5" />
                 Секция
               </Button>
             </DropdownMenuTrigger>
@@ -452,14 +539,14 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
           </DropdownMenu>
 
           {/* AI Generate */}
-          {onAIGenerate && (
+          {onAIGenerate && sections.length > 0 && (
             <Button
               variant="outline"
               size="sm"
-              className="h-7 px-2 text-xs gap-1 text-primary hover:text-primary"
+              className="h-9 min-h-[44px] px-2.5 text-xs gap-1 text-primary hover:text-primary"
               onClick={onAIGenerate}
             >
-              <Sparkles className="w-3 h-3" />
+              <Sparkles className="w-3.5 h-3.5" />
               AI
             </Button>
           )}
