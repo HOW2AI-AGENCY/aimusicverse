@@ -106,7 +106,7 @@ export async function sendAdminMessageToUsers(payload: {
 // Subscription management (admin)
 // ==========================================
 
-import { updateUserProfile } from "@/api/profiles.api";
+import { updateUserProfile, type ProfileUpdate } from "@/api/profiles.api";
 import { insertCreditTransaction } from "@/api/payments.api";
 
 /**
@@ -123,12 +123,9 @@ export async function changeUserSubscriptionTier(payload: {
   currentTier?: string;
   reason?: string;
 }): Promise<void> {
-  const updates: {
-    subscription_tier: string;
-    updated_at: string;
-    subscription_expires_at?: string | null;
-  } = {
-    subscription_tier: payload.tier,
+  const updates: ProfileUpdate = {
+    // Callers pass validated tier strings; the column type is the DB enum.
+    subscription_tier: payload.tier as ProfileUpdate["subscription_tier"],
     updated_at: new Date().toISOString(),
   };
 
@@ -138,7 +135,7 @@ export async function changeUserSubscriptionTier(payload: {
     updates.subscription_expires_at = null;
   }
 
-  await updateUserProfile(payload.userId, updates as any);
+  await updateUserProfile(payload.userId, updates);
 
   await insertCreditTransaction({
     user_id: payload.userId,

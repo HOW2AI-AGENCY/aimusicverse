@@ -52,9 +52,11 @@ export function useStemAudioLevels(
   const [levels, setLevels] = useState<StemLevels>(DEFAULT_LEVELS);
   const nodesRef = useRef<AudioNodes | null>(null);
   const rafRef = useRef<number | null>(null);
-  const dataArrayRef = useRef<Uint8Array | null>(null);
-  const leftDataRef = useRef<Uint8Array | null>(null);
-  const rightDataRef = useRef<Uint8Array | null>(null);
+  // Uint8Array<ArrayBuffer> matches getByteFrequencyData's parameter type
+  // (a bare Uint8Array widens to ArrayBufferLike, which SharedArrayBuffer breaks).
+  const dataArrayRef = useRef<Uint8Array<ArrayBuffer> | null>(null);
+  const leftDataRef = useRef<Uint8Array<ArrayBuffer> | null>(null);
+  const rightDataRef = useRef<Uint8Array<ArrayBuffer> | null>(null);
 
   // Memoize stem volume ratios for level simulation
   const volumeRatios = useMemo(
@@ -133,9 +135,9 @@ export function useStemAudioLevels(
     }
 
     // Get frequency data
-    nodes.analyser.getByteFrequencyData(dataArrayRef.current as any);
-    nodes.leftAnalyser.getByteFrequencyData(leftDataRef.current as any);
-    nodes.rightAnalyser.getByteFrequencyData(rightDataRef.current as any);
+    nodes.analyser.getByteFrequencyData(dataArrayRef.current);
+    nodes.leftAnalyser.getByteFrequencyData(leftDataRef.current);
+    nodes.rightAnalyser.getByteFrequencyData(rightDataRef.current);
 
     // Calculate overall RMS
     const overallRMS = calculateRMS(dataArrayRef.current);

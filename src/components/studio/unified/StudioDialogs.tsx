@@ -18,9 +18,10 @@ import { NotationDrawer } from "./NotationDrawer";
 import { ChordSheet } from "./ChordSheet";
 import { AddInstrumentalDrawer } from "./AddInstrumentalDrawer";
 import type { RecordingType } from "./RecordTrackDrawer";
-import type { StudioModalType } from "@/hooks/studio/useStudioModals";
+import type { UseStudioModalsResult } from "@/hooks/studio/useStudioModals";
 import type { StudioTrack } from "@/stores/studio/types";
 import type { Track } from "@/types/track";
+import type { Tables } from "@/integrations/supabase/types";
 
 /**
  * Track object passed to separation dialogs. Mirrors the minimal subset of
@@ -31,6 +32,13 @@ type SeparationTrack = Pick<Track, "id" | "title"> & {
   suno_id: string | null;
   suno_task_id: string | null;
 };
+
+/**
+ * Separation dialogs declare full DB-row / Track props but only read the
+ * SeparationTrack subset. Single documented widening instead of scattered
+ * `as any` casts at each call site.
+ */
+const asDialogTrack = (track: SeparationTrack) => track as unknown as Tables<"tracks"> & Track;
 
 interface StudioDialogsProps {
   id: string;
@@ -45,12 +53,7 @@ interface StudioDialogsProps {
   duration: number;
   isPlaying: boolean;
   isSeparating: boolean;
-  modals: {
-    isOpen: (type: StudioModalType) => boolean;
-    getOpenChangeHandler: (type: StudioModalType) => (open: boolean) => void;
-    close: () => void;
-    payload: { selectedTrack?: { transcription?: unknown; name?: string; chords?: unknown[] } | null };
-  };
+  modals: Pick<UseStudioModalsResult, "isOpen" | "getOpenChangeHandler" | "close" | "payload">;
   onStemSeparationConfirm: (mode: "simple" | "detailed") => Promise<void>;
   onRecordingComplete: (track: {
     id: string;
@@ -134,7 +137,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <ExtendDialog
           open={modals.isOpen("extend")}
           onOpenChange={modals.getOpenChangeHandler("extend")}
-          track={trackForSeparation as any}
+          track={asDialogTrack(trackForSeparation)}
         />
       )}
 
@@ -143,7 +146,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <RemixDialog
           open={modals.isOpen("remix")}
           onOpenChange={modals.getOpenChangeHandler("remix")}
-          track={trackForSeparation as any}
+          track={asDialogTrack(trackForSeparation)}
         />
       )}
 
@@ -152,7 +155,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <LazyAddVocalsDrawer
           open={modals.isOpen("addVocals")}
           onOpenChange={modals.getOpenChangeHandler("addVocals")}
-          track={trackForSeparation as any}
+          track={asDialogTrack(trackForSeparation)}
         />
       )}
 
@@ -168,8 +171,8 @@ export const StudioDialogs = memo(function StudioDialogs({
       <NotationDrawer
         open={modals.isOpen("notation")}
         onClose={modals.close}
-        track={(modals.payload.selectedTrack ?? null) as any}
-        transcriptionData={(modals.payload.selectedTrack as any)?.transcription}
+        track={modals.payload.selectedTrack ?? null}
+        transcriptionData={modals.payload.selectedTrack?.transcription}
         currentTime={currentTime}
         duration={duration}
         isPlaying={isPlaying}
@@ -181,7 +184,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         open={modals.isOpen("chordSheet")}
         onClose={modals.close}
         trackName={modals.payload.selectedTrack?.name || "Track"}
-        chords={(modals.payload.selectedTrack?.chords || []) as any}
+        chords={modals.payload.selectedTrack?.chords ?? []}
         currentTime={currentTime}
         onSeekToChord={onSeek}
       />
@@ -191,7 +194,7 @@ export const StudioDialogs = memo(function StudioDialogs({
         <AddInstrumentalDrawer
           open={modals.isOpen("addInstrumental")}
           onOpenChange={modals.getOpenChangeHandler("addInstrumental")}
-          track={trackForSeparation as any}
+          track={asDialogTrack(trackForSeparation)}
         />
       )}
     </>

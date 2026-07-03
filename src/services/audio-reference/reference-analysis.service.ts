@@ -7,7 +7,20 @@
  */
 
 import { invokeReferenceAudioAnalysis } from "@/api/analysis.api";
-type ReferenceAnalysis = any;
+
+/** Normalized analysis result extracted from the analyze-reference-audio edge function. */
+export interface ReferenceAnalysis {
+  bpm?: number;
+  key?: string;
+  genre?: string;
+  mood?: string;
+  energy?: string;
+  instruments?: string[];
+  chords?: string[];
+  style_description?: string;
+  vocal_style?: string;
+  suggested_tags?: string[];
+}
 
 export interface AnalyzeReferenceParams {
   audioUrl: string;

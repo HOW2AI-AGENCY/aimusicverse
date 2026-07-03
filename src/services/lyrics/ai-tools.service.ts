@@ -35,7 +35,7 @@ export async function sendAiChatMessage({ message, context }: ChatParams) {
     action: "chat",
     message,
     context,
-  } as any);
+  });
   return { data, error };
 }
 
@@ -71,7 +71,7 @@ export async function generateLyrics(params: GenerateLyricsParams) {
     mood: params.mood,
     structure: params.structure,
     language: params.language,
-  } as any);
+  });
 }
 
 /**

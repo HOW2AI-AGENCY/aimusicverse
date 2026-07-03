@@ -3,12 +3,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
-import { Track } from "@/types/track";
-
 type SeparationMode = "simple" | "detailed";
 
+/**
+ * Minimal track shape required for stem separation. Full `Track` objects
+ * satisfy this structurally, so callers with narrowed studio objects don't
+ * need casts. The mutation reads audio_url/suno_id for validation and
+ * suno_task_id for the edge function payload.
+ */
+export interface SeparableTrack {
+  id: string;
+  audio_url: string | null;
+  suno_id?: string | null;
+  suno_task_id?: string | null;
+}
+
 interface SeparationParams {
-  track: Track;
+  track: SeparableTrack;
   mode: SeparationMode;
 }
 
@@ -61,13 +72,13 @@ export const useStemSeparation = () => {
   });
 
   const separate = useCallback(
-    (track: Track, mode: SeparationMode) => {
+    (track: SeparableTrack, mode: SeparationMode) => {
       return separateMutation.mutateAsync({ track, mode });
     },
     [separateMutation],
   );
 
-  const canSeparate = useCallback((track: Track) => {
+  const canSeparate = useCallback((track: SeparableTrack) => {
     return !!track.suno_id && !!track.audio_url;
   }, []);
 

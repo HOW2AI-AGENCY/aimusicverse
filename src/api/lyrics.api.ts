@@ -634,6 +634,9 @@ export async function invokeLyricsAssistant(body: {
   lyrics?: string;
   section?: string;
   style?: string;
+  structure?: string;
+  message?: string;
+  context?: Record<string, unknown>;
 }): Promise<{
   data: { lyrics?: string; suggestions?: string[]; error?: string } | null;
   error: Error | null;

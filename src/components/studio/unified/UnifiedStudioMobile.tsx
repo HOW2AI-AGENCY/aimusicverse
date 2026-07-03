@@ -106,7 +106,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
       isPlaying: studio.isPlaying,
     },
     trackForSeparation,
-    separate: separate as any,
+    separate,
   });
 
   // Convert to DAW format
@@ -245,7 +245,7 @@ export const UnifiedStudioMobile = memo(function UnifiedStudioMobile({
         duration={studio.duration}
         isPlaying={studio.isPlaying}
         isSeparating={isSeparating}
-        modals={modals as any}
+        modals={modals}
         onStemSeparationConfirm={handlers.handleStemSeparationConfirm}
         onRecordingComplete={handlers.handleRecordingComplete}
         onVersionSaved={handleVersionSaved}

@@ -90,11 +90,15 @@ describe("LyricsFooter", () => {
     expect(props.open).toBe(true);
   });
 
-  it("passes notesPanelOpen=true to SectionNotesPanel", () => {
+  it("passes only the supported sectionId prop to SectionNotesPanel", () => {
+    // SectionNotesPanel's public API is {sectionId, className, maxHeight};
+    // legacy extra props (open, onSave, …) were always ignored by the panel
+    // and are no longer forwarded.
     render(<LyricsFooter {...baseProps} notesPanelOpen={true} />);
     const panel = screen.getByTestId("section-notes-panel");
     const props = JSON.parse(panel.getAttribute("data-props") || "{}");
-    expect(props.open).toBe(true);
+    expect(props.sectionId).toBe(sampleSection.id);
+    expect(props.open).toBeUndefined();
   });
 
   it("forwards restore and delete callbacks to LyricsVersionsPanel", () => {
