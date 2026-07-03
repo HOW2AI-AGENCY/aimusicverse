@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Music2, Disc3, Lock } from "@/lib/icons";
 import type { Track } from "@/types/track";
@@ -7,9 +7,14 @@ import { HeaderVersionSelector } from "./track-detail/HeaderVersionSelector";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
 import { FloatingMainButton } from "@/components/ui/FloatingMainButton";
-import { GenerateSheet } from "@/components/GenerateSheet";
 import { setRemixData, clearRemixData, RemixData } from "@/lib/remix-storage";
 import { toast } from "sonner";
+
+// Lazy: GenerateSheet pulls in the huge admin/studio/generate-form chunk.
+// TrackDetailSheet is reached from UnifiedTrackMenu, which renders on every
+// track card app-wide, so a static import here forces that whole chunk to be
+// preloaded on every page. See AudioActionDialog for the same pattern.
+const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
 
 interface TrackDetailSheetProps {
   open: boolean;
@@ -92,15 +97,19 @@ export function TrackDetailSheet({ open, onOpenChange, track }: TrackDetailSheet
         />
       )}
 
-      <GenerateSheet
-        open={generateOpen}
-        onOpenChange={(open) => {
-          setGenerateOpen(open);
-          if (!open) {
-            clearRemixData();
-          }
-        }}
-      />
+      {generateOpen && (
+        <Suspense fallback={null}>
+          <GenerateSheet
+            open={generateOpen}
+            onOpenChange={(open) => {
+              setGenerateOpen(open);
+              if (!open) {
+                clearRemixData();
+              }
+            }}
+          />
+        </Suspense>
+      )}
     </>
   );
 }

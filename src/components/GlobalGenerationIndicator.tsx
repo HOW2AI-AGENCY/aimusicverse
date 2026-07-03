@@ -5,7 +5,7 @@ import { Loader2, Music2, ChevronDown, ChevronUp, AlertCircle, Trash2, X } from 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { useActiveGenerations } from "@/hooks/generation";
+import { useActiveGenerations } from "@/hooks/generation/useActiveGenerations";
 import { useFailedGenerations } from "@/hooks/generation/useFailedGenerations";
 import { deleteGenerationTask, dismissGenerationTask } from "@/api/generation.api";
 import { deleteTrack } from "@/api/tracks.api";
