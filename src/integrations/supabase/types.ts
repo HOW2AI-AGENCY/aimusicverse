@@ -6148,6 +6148,14 @@ export type Database = {
       }
       archive_old_api_usage_logs: { Args: never; Returns: Json }
       archive_old_error_logs: { Args: never; Returns: Json }
+      backfill_missing_track_versions: {
+        Args: { p_limit?: number }
+        Returns: {
+          status: string
+          track_id: string
+          versions_created: number
+        }[]
+      }
       build_suno_prompt: {
         Args: { _style_id?: string; _tag_ids: string[] }
         Returns: string
