@@ -260,7 +260,7 @@
 
 **Верификация:** `tsc --noEmit -p tsconfig.json` — 0 ошибок во всех 3 коммитах.
 
-## 🚦 `047` Creation-Flow Motion Pass + Mobile Perf Fixes (Q3 2026) — ЗАВЕРШЁН ✅
+## 🚦 `048` Creation-Flow Motion Pass + Mobile Perf Fixes (Q3 2026) — ЗАВЕРШЁН ✅
 
 **Прогресс: 2/2 (100%)** — motion pass по четырём сценариям + баг-фикс проход после мобильного QA.
 
@@ -446,7 +446,7 @@
 >
 > **2026-07-03 (commit `64c9d1d`, #568):** то, что реально грузится на холодном старте главной (и любой другой страницы), сокращено с **~1.19 МБ до ~508 КБ gzip** — устранены лишние `modulePreload` тяжёлых admin/studio/charts/dnd/forms чанков и barrel-импорт, тянувший `PromptHistory` в общий чанк. `size-limit`'s "Total Bundle" (2.11 МБ) по-прежнему суммирует **все** JS-чанки, включая admin/studio/lazy-страницы, которые обычный пользователь не грузит — это не то же самое, что реальный вес главной страницы. Подробности: [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md).
 
-> **⚠️ Бандл 2.21 МБ / 950 КБ** — bundle-size audit (Sprint 042-B5) выявил расхождение с ранее публикуемой цифрой 918 КБ: реальный размер gzip 2.21 МБ превышает бюджет 950 КБ в 2.3×. Требуется срочный Sprint 046 — bundle reduction (manualChunks split, lazy chunks, dead-code elimination).
+> **✅ Разрешено (было: ⚠️ Бандл 2.21 МБ / 950 КБ):** bundle-size audit (Sprint 042-B5) в своё время выявил расхождение с ранее публикуемой цифрой 918 КБ и требовал срочного bundle reduction. Sprint 046 адресовал desktop layout, не бандл — фактическое исправление приземлилось позже, вне спринт-нумерации, коммитом `64c9d1d` (#568, см. выше): eager-load сокращён до ~508 КБ gzip. `size-limit`'s "Total Bundle" (2.11 МБ, все чанки включая admin/studio) остаётся отдельным, менее приоритетным follow-up — см. [ROADMAP.md](ROADMAP.md#-sprint-history).
 
 ## 🏗 Архитектурные столпы
 
@@ -500,14 +500,19 @@ mindmap
 - ✅ `useUnifiedStudioStore` рефакторинг: монолит 1361 строк → 6 слайсов.
 - 🚀 Бандл уменьшен с 1.02 МБ → 918 КБ.
 
-## 🗓 Дорожная карта спринтов (обновлено 2026-07-02)
+## 🗓 Дорожная карта спринтов (обновлено 2026-07-03)
 
-| Спринт  | Фокус                               | Статус          | Срок |
-| ------- | ----------------------------------- | --------------- | ---- |
-| **042** | Page Decomposition + Audio Pooling  | ✅ ЗАВЕРШЁН     | Июль |
-| **043** | Layer Pass #2 + A11y                | ✅ ЗАВЕРШЁН     | Июль |
-| **044** | Type Safety Wave 2 (`any` 449 → 85) | ✅ ЗАВЕРШЁН     | Июль |
-| **045** | Hygiene + Documentation             | 🟡 В работе     | Авг  |
+| Спринт  | Фокус                                        | Статус      | Срок |
+| ------- | --------------------------------------------- | ----------- | ---- |
+| **042** | Page Decomposition + Audio Pooling            | ✅ ЗАВЕРШЁН | Июль |
+| **043** | Layer Pass #2 + A11y                          | ✅ ЗАВЕРШЁН | Июль |
+| **044** | Type Safety Wave 2 (`any` 342 → 0, финально)  | ✅ ЗАВЕРШЁН | Июль |
+| **045** | UX/UI Deep Polish + Hygiene                   | 🟡 В работе | Авг  |
+| **046** | Desktop Layout Polish + 4K Awareness          | ✅ ЗАВЕРШЁН | Июль |
+| **047** | Mobile Audit + Z-Index/Spacing/Scroll-Lock    | ✅ ЗАВЕРШЁН | Июль |
+| **048** | Creation-Flow Motion Pass + Mobile Perf Fixes | ✅ ЗАВЕРШЁН | Июль |
+| **049** | Mobile UX: A/B версии, per-version лайки      | ✅ ЗАВЕРШЁН | Июль |
+| **050** | Mobile Audit F1–F12 follow-up (build-agent)   | 📋 Запланирован | —    |
 | —       | Eager-load bundle fix (1.19 МБ → 508 КБ gzip, вне спринт-нумерации, #568) | ✅ ЗАВЕРШЁН | Июль |
 
 **Открытые долги / риски (обновлено 2026-07-03, #567/#568):**

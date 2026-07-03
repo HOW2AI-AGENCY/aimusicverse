@@ -12,7 +12,9 @@
   <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
 </p>
 
+<!-- BADGES:START -->
 ![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat-square) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=flat-square) ![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?style=flat-square) ![Tailwind](https://img.shields.io/badge/Tailwind-3.4.18-06B6D4?style=flat-square) ![Vitest](https://img.shields.io/badge/Vitest-4.0.14-6E9F18?style=flat-square) ![Playwright](https://img.shields.io/badge/Playwright-1.61.1-2EAD33?style=flat-square)
+<!-- BADGES:END -->
 
 <p>
   <a href="#-быстрый-старт"><img src="https://img.shields.io/badge/🚀-Быстрый_старт-26A5E4?style=for-the-badge"/></a>
