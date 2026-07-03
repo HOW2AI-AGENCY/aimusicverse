@@ -121,8 +121,8 @@ flowchart LR
 | [docs/FORMATTING_GUIDE](docs/FORMATTING_GUIDE.md)                       | Code formatting                    |   ✅   |
 | [docs/NAVIGATION](docs/NAVIGATION.md)                                   | Navigation system                  |   ✅   |
 | [docs/LANGUAGES](docs/LANGUAGES.md)                                     | i18n strategy                      |   ✅   |
-| [DESIGN_AUDIT_2026-06-29](DESIGN_AUDIT_2026-06-29.md)                   | Design audit (Q2)                  |   ✅   |
-| [UI_AUDIT_REPORT_2026-07-03](UI_AUDIT_REPORT_2026-07-03.md)             | UI audit (WCAG 2.1 AA, 14 patches) |   ✅   |
+| [DESIGN_AUDIT_2026-06-29](docs/archive/audits/DESIGN_AUDIT_2026-06-29.md) (archived) | Design audit (Q2)                  |   ✅   |
+| [UI_AUDIT_REPORT_2026-07-03](docs/archive/audits/UI_AUDIT_REPORT_2026-07-03.md) (archived) | UI audit (WCAG 2.1 AA, 14 patches) |   ✅   |
 
 ### 6️⃣ Operations
 
@@ -167,7 +167,7 @@ flowchart LR
 
 ## 🗄 Archive
 
-Historical docs live under [`docs/archive/`](docs/archive/). The 2026-06-27 cleanup moved 9 duplicate files there — see [`docs/_audit/REPO_DOCS_AUDIT_2026-06-27.md`](docs/_audit/REPO_DOCS_AUDIT_2026-06-27.md).
+Historical docs live under [`docs/archive/`](docs/archive/). The 2026-06-27 cleanup moved 9 duplicate files there — see [`docs/_audit/REPO_DOCS_AUDIT_2026-06-27.md`](docs/_audit/REPO_DOCS_AUDIT_2026-06-27.md). A 2026-07-03 pass archived 5 more dated, point-in-time root reports into [`docs/archive/audits/`](docs/archive/audits/): `AUDIT_SPRINTS_COMPLETE_REPORT_2026-06-27.md`, `QUALITY_IMPROVEMENT_PLAN_2026-06-29.md`, `DESIGN_AUDIT_2026-06-29.md`, `UI_AUDIT_REPORT_2026-07-03.md`, `UX_AUDIT_2026-07-02.md` — these were superseded snapshots, not deleted (git history preserved via `git mv`).
 
 ---
 
@@ -177,14 +177,13 @@ Historical docs live under [`docs/archive/`](docs/archive/). The 2026-06-27 clea
 graph TD
     README --> INDEX[DOCUMENTATION_INDEX]
     INDEX --> HUB[ARCHITECTURE_HUB]
-    INDEX --> KB[KNOWLEDGE_BASE]
     HUB --> ARCH[docs/ARCHITECTURE]
     HUB --> DIAG[docs/ARCHITECTURE_DIAGRAMS]
     HUB --> PLAYER[docs/PLAYER_ARCHITECTURE]
     HUB --> BOT[docs/TELEGRAM_BOT_ARCHITECTURE]
-    KB --> DB[docs/DATABASE]
-    KB --> API[docs/API]
-    KB --> GEN[docs/GENERATION_SYSTEM]
+    HUB --> DB[docs/DATABASE]
+    HUB --> API[docs/API]
+    HUB --> GEN[docs/GENERATION_SYSTEM]
     INDEX --> ROAD[ROADMAP]
     INDEX --> STATUS[PROJECT_STATUS]
     INDEX --> CHANGE[CHANGELOG]

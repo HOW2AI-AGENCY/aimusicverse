@@ -496,7 +496,6 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 - [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) - Complete documentation map
 - [PROJECT_STATUS.md](PROJECT_STATUS.md) - Current sprint status and progress
-- [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) - Project knowledge base
 - [docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md) - Visual architecture diagrams
 - [docs/DATABASE.md](docs/DATABASE.md) - Database schema and ERD
 - [docs/PLAYER_ARCHITECTURE.md](docs/PLAYER_ARCHITECTURE.md) - Audio player architecture

@@ -24,6 +24,24 @@
 
 ## [Unreleased]
 
+### ⚡ Bundle & Type Safety — eager-load fix, `any`-cleanup complete (2026-07-03)
+
+#### Fixed
+
+- **Eager-load bundle (#568, `64c9d1d`)** — what the homepage (and every other page) actually fetches on cold load dropped from **~1.19 MB gzip to ~508 KB gzip**. Root cause: `feature-admin-studio`, `vendor-charts`, `vendor-dnd`, `vendor-forms`, and `vendor-confetti` were unconditionally `<link rel="modulepreload">`'d into every page via a static import in `TrackDetailSheet.tsx` (now `React.lazy()`) and a barrel-import in `MainLayout.tsx`/`GlobalGenerationIndicator.tsx` that transitively pulled in `PromptHistory.tsx`. `build.modulePreload.resolveDependencies` added in `vite.config.ts` to stop the browser from speculatively preloading the remaining genuine hard dependencies. Full write-up: [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md).
+- **`getOptimizedImageUrl()`/`generateSrcSet()`** (`src/lib/imageOptimization.ts`) — were appending resize params to the Supabase **object** storage endpoint, which silently ignores them (no resize/optimization was ever happening). Rewritten to the **render** endpoint.
+
+#### Changed
+
+- **All remaining `no-explicit-any` ESLint errors eliminated (#567, `6e58dda`)** — 58 → 0, mostly in `src/hooks/**`. Repository now sits at **0 uses of `any`** in `src/` (down from 342 at the start of Sprint 044's type-safety push). `scripts/count-any.mjs` budget (≤50) now passes with large margin. Fixing the casts surfaced and fixed **2 real bugs** that had been hidden behind `any`.
+
+### 🎨 Redesign — mobile track cards + homepage reconnect (2026-07-03)
+
+#### Changed
+
+- **Mobile track cards redesigned + homepage sections reconnected (#566/#562, `f94b3e1`/`6960e4f`)** — track card variants on the mobile homepage restyled; previously-disconnected homepage sections wired back into the page.
+- **Scroll-reveal + micro-interactions on mobile home UI (#559, `2164b06`)** — scroll-triggered reveal animations and micro-interactions added to the mobile homepage.
+
 ### 🎛 Спринт 049 — Mobile UX: A/B версии, per-version лайки, плеер, главная (2026-07-03) — ЗАВЕРШЁН ✅
 
 Аудит мобильных экранов по багрепорту: главная страница, переключение A/B версий, система лайков, полноэкранный плеер с лирикой. Ветка `claude/mobile-screens-layout-audit-um3hwx`, коммиты `7904ce9b` → `3d428a7c` → `304ee287`.

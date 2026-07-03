@@ -94,7 +94,7 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 ### Planned
 
 - **Sprint 048** — Mobile Audit F1–F12 follow-up (build-agent): `useScrollLock` wiring в 4 surfaces, `PromptHistory` sub-dialog root cause, `usePublicTracks` cover_url normalization, Library keyboard nav, QueueSheet auto-close, focus-trap, Telegram BackButton race, `useMediaQuery` SSR, `useVisualViewport` keyboard avoidance, `VersionComparison.tsx` dead-code removal, `LibraryFilterChips` parity, `LazyImage` a11y.
-- **Sprint 047** — Bundle Reduction (2.21 МБ → <950 КБ gzip, manualChunks, dead-code elimination) 🔴
+- **Bundle follow-up** (unscheduled) — eager-load fix already landed 2026-07-03 (~1.19 МБ → ~508 КБ gzip, see [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)); remaining work is reducing the `size-limit` "Total Bundle" check (2.11 МБ across all chunks including admin/studio) via `manualChunks` boundary rework 🟡
 
 ### In Progress
 
@@ -129,7 +129,7 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 - **Sprint 034** — Generation Reliability (auto-retry, failure tracking, A/B experiments)
 - **Sprint 033** — Interface Audit & UX Overhaul (114 задач в 13 фазах)
 
-> 📋 Детальный план спринтов 042-044: [SPRINTS/SPRINT-042-043-PLAN.md](SPRINTS/SPRINT-042-043-PLAN.md); отчёты по аудиту: [UI_AUDIT_REPORT_2026-07-03.md](UI_AUDIT_REPORT_2026-07-03.md).
+> 📋 Детальный план спринтов 042-044: [SPRINTS/SPRINT-042-043-PLAN.md](SPRINTS/SPRINT-042-043-PLAN.md); отчёты по аудиту (архив): [UI_AUDIT_REPORT_2026-07-03.md](docs/archive/audits/UI_AUDIT_REPORT_2026-07-03.md).
 
 ---
 

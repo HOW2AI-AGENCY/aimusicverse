@@ -181,7 +181,6 @@ UnifiedDAWLayout (единый интерфейс без табов)
 
 - [SPRINT-030-UNIFIED-STUDIO-MOBILE.md](../SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md)
 - [STEM_STUDIO.md](../docs/STEM_STUDIO.md)
-- [KNOWLEDGE_BASE.md](../KNOWLEDGE_BASE.md)
 
 ---
 
