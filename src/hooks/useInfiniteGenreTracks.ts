@@ -7,23 +7,8 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { enrichTracksWithProfiles } from "@/lib/enrichTracksWithProfiles";
 import type { PublicTrackWithCreator } from "./usePublicContent";
-import type { Database } from "@/integrations/supabase/types";
-
-type TrackRow = Pick<
-  Database["public"]["Tables"]["tracks"]["Row"],
-  | "id"
-  | "title"
-  | "cover_url"
-  | "audio_url"
-  | "play_count"
-  | "user_id"
-  | "created_at"
-  | "style"
-  | "tags"
-  | "computed_genre"
-  | "prompt"
->;
 
 // Genre to computed_genre DB values mapping
 const GENRE_DB_VALUES: Record<string, string[]> = {
@@ -105,7 +90,7 @@ export function useInfiniteGenreTracks({
       }
 
       // Enrich tracks with creator info
-      const enrichedTracks = await enrichTracksWithCreators(resultTracks);
+      const enrichedTracks = await enrichTracksWithProfiles(resultTracks);
 
       return {
         tracks: enrichedTracks,
@@ -136,34 +121,6 @@ export function useInfiniteGenreTracks({
           },
         }
       : {}),
-  });
-}
-
-/**
- * Helper to enrich tracks with creator profile info
- */
-async function enrichTracksWithCreators(tracks: TrackRow[]): Promise<PublicTrackWithCreator[]> {
-  if (!tracks.length) return [];
-
-  const userIds = [...new Set(tracks.map((t) => t.user_id))];
-
-  const { data: profiles } = await supabase
-    .from("profiles")
-    .select("user_id, username, photo_url, first_name")
-    .in("user_id", userIds);
-
-  const profileMap = new Map(profiles?.map((p) => [p.user_id, p]) || []);
-
-  return tracks.map((track) => {
-    const profile = profileMap.get(track.user_id);
-    return {
-      ...track,
-      creator_name: profile?.first_name || profile?.username || undefined,
-      creator_username: profile?.username || undefined,
-      creator_photo_url: profile?.photo_url || undefined,
-      like_count: 0,
-      user_liked: false,
-    } as PublicTrackWithCreator;
   });
 }
 

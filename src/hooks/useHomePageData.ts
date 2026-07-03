@@ -37,6 +37,7 @@ export function useHomePageData(options: UseHomePageDataOptions = {}) {
     sortBy: "recent",
     pageSize,
     enabled: !contentLoading,
+    initialData: publicContent?.recentTracks,
   });
 
   // Infinite scroll for "Popular Tracks" section
@@ -49,6 +50,7 @@ export function useHomePageData(options: UseHomePageDataOptions = {}) {
     sortBy: "popular",
     pageSize,
     enabled: !contentLoading,
+    initialData: publicContent?.popularTracks,
   });
 
   // Flatten infinite pages into single arrays, with batch data as fallback
