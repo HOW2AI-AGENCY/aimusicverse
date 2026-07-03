@@ -5,13 +5,13 @@
  * - DoubleTapLike
  * - Creator info
  * - Follow button
- * - Add to playlist
+ * - Add to queue
  * - Share
  */
 
 import { memo, useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Play, Pause, Share2, Music2, Plus, UserPlus, Check } from "@/lib/icons";
+import { Play, Pause, Share2, Music2, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { LazyImage } from "@/components/ui/lazy-image";
 import { Card } from "@/components/ui/card";
@@ -21,11 +21,13 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useFollow } from "@/hooks/social/useFollow";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { LikeButton } from "@/components/ui/like-button";
+import { QuickQueueButton } from "@/components/track/QuickQueueButton";
+import { CardFollowButton } from "../components/CardFollowButton";
 import { DoubleTapLike } from "@/components/engagement/DoubleTapLike";
 import { CreatorAvatar, CreatorLink } from "@/components/ui/creator-avatar";
 import { PublicTrackDetailSheet } from "@/components/home/PublicTrackDetailSheet";
-import { AddToPlaylistSheet } from "@/components/home/AddToPlaylistSheet";
 import type { EnhancedTrackCardProps } from "../types";
 import type { Track } from "@/types/track";
 import { pill } from "@/lib/overlay-colors";
@@ -33,9 +35,7 @@ import { pill } from "@/lib/overlay-colors";
 export const EnhancedVariant = memo(function EnhancedVariant({
   track,
   onRemix,
-  onFollow,
   onShare,
-  onAddToPlaylist,
   showFollowButton = true,
   compact = false,
   className,
@@ -43,13 +43,13 @@ export const EnhancedVariant = memo(function EnhancedVariant({
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
+  const isMobile = useIsMobile();
   const [imageError, setImageError] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [playlistSheetOpen, setPlaylistSheetOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const isOwnTrack = user?.id === track.user_id;
-  const { isFollowing, toggleFollow, isLoading: isFollowLoading } = useFollow(track.user_id);
+  const { isFollowing } = useFollow(track.user_id);
 
   const isCurrentTrack = activeTrack?.id === track.id;
   const isCurrentlyPlaying = isCurrentTrack && isPlaying;
@@ -108,32 +108,6 @@ export const EnhancedVariant = memo(function EnhancedVariant({
       }
     },
     [track.id, track.title, onShare],
-  );
-
-  const handleAddToPlaylist = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      hapticFeedback("light");
-      if (onAddToPlaylist) {
-        onAddToPlaylist(track.id);
-      } else {
-        setPlaylistSheetOpen(true);
-      }
-    },
-    [hapticFeedback, onAddToPlaylist, track.id],
-  );
-
-  const handleFollow = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      hapticFeedback("light");
-      if (onFollow) {
-        onFollow(track.user_id);
-      } else {
-        toggleFollow();
-      }
-    },
-    [hapticFeedback, onFollow, track.user_id, toggleFollow],
   );
 
   // Cover URL priority
@@ -255,48 +229,21 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 />
               </div>
 
-              {/* Bottom Actions on Hover */}
+              {/* Bottom Actions - always visible on mobile (touch), hover-reveal on desktop */}
               <motion.div
                 className="absolute bottom-2 left-2 right-2 flex items-center gap-1.5"
-                initial={{ opacity: 0, y: 10 }}
+                initial={false}
                 animate={{
-                  opacity: isHovered ? 1 : 0,
-                  y: isHovered ? 0 : 10,
+                  opacity: isMobile || isHovered ? 1 : 0,
+                  y: isMobile || isHovered ? 0 : 10,
                 }}
                 transition={{ duration: 0.2 }}
               >
-                {/* Add to Playlist - 44px touch target */}
-                {user && (
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className={cn(
-                      "h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0",
-                      pill.glassDark,
-                    )}
-                    onClick={handleAddToPlaylist}
-                    aria-label="Добавить в плейлист"
-                  >
-                    <Plus className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-foreground" />
-                  </Button>
-                )}
+                {/* Add to Queue - 44px touch target */}
+                {user && <QuickQueueButton track={trackForPlayer} size="md" variant="overlay" />}
 
                 {/* Follow Creator */}
-                {user && showFollowButton && !isOwnTrack && !isFollowing && (
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className={cn(
-                      "h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0",
-                      pill.glassDark,
-                    )}
-                    onClick={handleFollow}
-                    disabled={isFollowLoading}
-                    aria-label="Подписаться на автора"
-                  >
-                    <UserPlus className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-foreground" />
-                  </Button>
-                )}
+                <CardFollowButton userId={track.user_id} isOwnTrack={isOwnTrack} show={showFollowButton} size="md" />
 
                 {/* Share */}
                 <Button
@@ -358,13 +305,6 @@ export const EnhancedVariant = memo(function EnhancedVariant({
       </DoubleTapLike>
 
       <PublicTrackDetailSheet open={detailsOpen} onOpenChange={setDetailsOpen} track={track} />
-
-      <AddToPlaylistSheet
-        open={playlistSheetOpen}
-        onOpenChange={setPlaylistSheetOpen}
-        trackId={track.id}
-        trackTitle={track.title || undefined}
-      />
     </>
   );
 });

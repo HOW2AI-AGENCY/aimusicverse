@@ -384,9 +384,6 @@ All colors MUST be HSL.
     /* Скрытие нативных скроллбаров на мобильных */
     -ms-overflow-style: none;
     scrollbar-width: none;
-    /* GPU acceleration hint for smooth scrolling */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
   }
 
   body::-webkit-scrollbar {

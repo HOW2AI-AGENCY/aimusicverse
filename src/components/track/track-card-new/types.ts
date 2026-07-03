@@ -88,6 +88,9 @@ export interface StandardTrackCardProps extends BaseTrackCardProps {
   /** Whether to show action menu */
   showActions?: boolean;
 
+  /** Whether to show the "follow author" button (only relevant for public tracks by other users) */
+  showFollowButton?: boolean;
+
   /** Is first swipeable item (for onboarding) */
   isFirstSwipeableItem?: boolean;
 }

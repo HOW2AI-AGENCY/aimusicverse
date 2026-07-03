@@ -21,8 +21,12 @@ import { LazyImage } from "@/components/ui/lazy-image";
 import { PlayOverlay } from "@/components/library/shared";
 import { UnifiedTrackSheet } from "@/components/track-actions";
 import { QuickLikeButton } from "@/components/track/QuickLikeButton";
+import { QuickQueueButton } from "@/components/track/QuickQueueButton";
+import { UnifiedVersionSelector } from "@/components/shared/UnifiedVersionSelector";
 import { useTrackCardState } from "../hooks/useTrackCardState";
 import { SimplifiedTagsRow } from "./SimplifiedTagsRow";
+import { CardCoverActionBar } from "../components/CardCoverActionBar";
+import { CardFollowButton } from "../components/CardFollowButton";
 import type { StandardTrackCardProps } from "../types";
 import type { Track } from "@/types/track";
 import {
@@ -44,9 +48,11 @@ export const GridVariant = memo(function GridVariant({
   onToggleLike,
   onTagClick,
   stemCount = 0,
+  versionCount = 0,
   isPlaying: isPlayingProp,
   className,
   showActions = true,
+  showFollowButton = true,
 }: StandardTrackCardProps) {
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -180,11 +186,27 @@ export const GridVariant = memo(function GridVariant({
             {/* Play Overlay */}
             <PlayOverlay isPlaying={isCurrentlyPlaying} isMobile={isMobile} onPlay={handlePlay} />
 
-            {/* Stem badge - only when stems available */}
+            {/* Top action bar - Like / Queue / Follow, always visible on the cover */}
+            <CardCoverActionBar position="top" align="between">
+              <QuickLikeButton
+                trackId={track.id}
+                isLiked={(track as Track & { user_liked?: boolean }).is_liked}
+                size="sm"
+                variant="overlay"
+              />
+              <div className="flex items-center gap-1.5">
+                <QuickQueueButton track={track as unknown as Track} size="sm" variant="overlay" />
+                {!isOwnTrack && (
+                  <CardFollowButton userId={track.user_id} isOwnTrack={isOwnTrack} show={showFollowButton} size="sm" />
+                )}
+              </div>
+            </CardCoverActionBar>
+
+            {/* Stem badge - only when stems available, kept off the action row */}
             {stemCount > 0 && (
               <Badge
                 variant="secondary"
-                className="absolute top-2 right-2 text-overline px-1.5 py-0.5 bg-background/90 backdrop-blur-sm border-0 gap-1"
+                className="absolute bottom-2 left-2 text-overline px-1.5 py-0.5 bg-background/90 backdrop-blur-sm border-0 gap-1"
               >
                 <Layers className="w-3 h-3" />
                 {stemCount}
@@ -192,44 +214,34 @@ export const GridVariant = memo(function GridVariant({
             )}
           </div>
 
-          {/* Content - fixed height so tag length never changes card size */}
-          <div className="p-3 flex flex-col gap-1.5 h-[68px]">
+          {/* Content */}
+          <div className="p-3 flex flex-col gap-1.5 min-h-[84px]">
             <div className="flex items-start justify-between gap-1.5 sm:gap-2 min-h-0">
               <h3
-                className="font-semibold text-xs sm:text-sm xl:text-base 2xl:text-lg flex-1 min-w-0 leading-tight line-clamp-2 xs:line-clamp-1 break-words"
+                className="font-semibold text-xs sm:text-sm xl:text-base 2xl:text-lg flex-1 min-w-0 leading-tight line-clamp-2 break-words"
                 title={track.title || undefined}
               >
                 {track.title || "Без названия"}
               </h3>
 
-              <div className="flex items-center gap-0.5 flex-shrink-0 -mt-1">
-                {/* Quick Like */}
-                <QuickLikeButton
-                  trackId={track.id}
-                  isLiked={(track as Track & { user_liked?: boolean }).is_liked}
-                  size="sm"
-                  variant="minimal"
-                />
-
-                {/* More menu - visible on hover (desktop) or always (mobile) */}
-                {showActions && (
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className={cn(
-                      "w-9 h-9 min-w-[44px] min-h-[44px] flex-shrink-0 transition-opacity rounded-full",
-                      isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100",
-                    )}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openSheet();
-                    }}
-                    aria-label="Дополнительные действия"
-                  >
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Button>
-                )}
-              </div>
+              {/* More menu - visible on hover (desktop) or always (mobile) */}
+              {showActions && (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className={cn(
+                    "w-9 h-9 min-w-[44px] min-h-[44px] flex-shrink-0 -mt-1 transition-opacity rounded-full",
+                    isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+                  )}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openSheet();
+                  }}
+                  aria-label="Дополнительные действия"
+                >
+                  <MoreHorizontal className="w-4 h-4" />
+                </Button>
+              )}
             </div>
 
             {/* Tags - single row, capped width, never wraps */}
@@ -237,9 +249,19 @@ export const GridVariant = memo(function GridVariant({
               style={track.style}
               tags={track.tags}
               onClick={onTagClick}
-              maxTags={2}
+              maxTags={3}
               className="mt-auto"
             />
+
+            {/* Version switcher - only when multiple versions exist */}
+            {versionCount > 1 && (
+              <UnifiedVersionSelector
+                trackId={track.id}
+                variant="inline"
+                showLabels={false}
+                className="flex-shrink-0"
+              />
+            )}
           </div>
         </Card>
       </motion.div>

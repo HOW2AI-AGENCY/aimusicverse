@@ -26,6 +26,8 @@ import { MarqueeTitle } from "@/components/library/MarqueeTitle";
 import { SwipeableTrackItem } from "@/components/library/SwipeableTrackItem";
 import { UnifiedTipCard } from "@/components/hints";
 import { UnifiedTrackMenu, UnifiedTrackSheet } from "@/components/track-actions";
+import { usePlaybackQueue } from "@/hooks/audio/usePlaybackQueue";
+import { toast } from "sonner";
 import { useTrackCardState } from "../hooks/useTrackCardState";
 import type { StandardTrackCardProps } from "../types";
 import type { Track } from "@/types/track";
@@ -47,11 +49,14 @@ export const ListVariant = memo(function ListVariant({
 }: StandardTrackCardProps) {
   const { sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet, isOwnTrack } =
     useTrackCardState({ track, onPlay, isPlaying: isPlayingProp });
+  const { addTrack } = usePlaybackQueue();
 
   // Swipe action handlers
   const handleSwipeAddToQueue = useCallback(() => {
-    // Import addToQueue from store if needed
-  }, []);
+    triggerHapticFeedback("light");
+    addTrack(track as unknown as Track, false);
+    toast.success("Добавлено в очередь", { description: track.title || undefined });
+  }, [addTrack, track]);
 
   const handleSwipeSwitchVersion = useCallback(() => {
     if (versionCount <= 1 || !onVersionSwitch) return;

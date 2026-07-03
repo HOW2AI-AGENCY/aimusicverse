@@ -15,8 +15,11 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatDuration } from "@/lib/player-utils";
 import { UnifiedTrackSheet } from "@/components/track-actions";
+import { QuickLikeButton } from "@/components/track/QuickLikeButton";
+import { QuickQueueButton } from "@/components/track/QuickQueueButton";
 import { useTrackCardState } from "../hooks/useTrackCardState";
 import { TrackCoverImage } from "../components/TrackCoverImage";
+import { CardFollowButton } from "../components/CardFollowButton";
 import type { StandardTrackCardProps } from "../types";
 import type { Track } from "@/types/track";
 
@@ -29,6 +32,7 @@ export const CompactVariant = memo(function CompactVariant({
   index = 0,
   className,
   showActions = true,
+  showFollowButton = true,
 }: StandardTrackCardProps) {
   const {
     sheetOpen,
@@ -41,6 +45,7 @@ export const CompactVariant = memo(function CompactVariant({
     handleMouseEnter,
     handleMouseLeave,
     openSheet,
+    isOwnTrack,
   } = useTrackCardState({ track, onPlay, isPlaying: isPlayingProp });
 
   return (
@@ -88,20 +93,33 @@ export const CompactVariant = memo(function CompactVariant({
             </div>
           </div>
 
-          {showActions && (
-            <Button
-              size="icon"
-              variant="ghost"
-              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 hover:bg-foreground/[0.06]"
-              onClick={(e) => {
-                e.stopPropagation();
-                openSheet();
-              }}
-              aria-label="Открыть меню трека"
-            >
-              <MoreHorizontal className="w-5 h-5" />
-            </Button>
-          )}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
+            <QuickLikeButton
+              trackId={track.id}
+              isLiked={(track as Track & { user_liked?: boolean }).is_liked}
+              size="sm"
+              variant="minimal"
+            />
+            <QuickQueueButton track={track as unknown as Track} size="sm" variant="minimal" />
+            {!isOwnTrack && (
+              <CardFollowButton userId={track.user_id} isOwnTrack={isOwnTrack} show={showFollowButton} size="sm" />
+            )}
+
+            {showActions && (
+              <Button
+                size="icon"
+                variant="ghost"
+                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-foreground/[0.06]"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openSheet();
+                }}
+                aria-label="Открыть меню трека"
+              >
+                <MoreHorizontal className="w-5 h-5" />
+              </Button>
+            )}
+          </div>
         </div>
       </motion.div>
 
