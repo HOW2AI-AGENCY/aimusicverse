@@ -50,7 +50,7 @@
 | 📦 Размер бандла      | ![](https://img.shields.io/badge/bundle-918_KB_%2F_950_KB_limit-10B981?style=flat-square&logo=webpack) |
 | 🧪 Покрытие кода      |     ![](https://img.shields.io/badge/unit_tests-386_passing-10B981?style=flat-square&logo=vitest)      |
 | 🔒 Безопасность       |            ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)             |
-| 📊 Спринтов завершено |                                                 **41**                                                 |
+| 📊 Спринтов завершено |                                                 **42**                                                 |
 | 🏗 Компонентов         |                                      **993** (+6 project-detail)                                       |
 | 🔧 Хуков              |                                                **347**                                                 |
 | 🚀 Стадия             |                                   **Pre-Seed / Active Development**                                    |
@@ -60,7 +60,8 @@
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
 - **Текущий фокус**: Sprint 045 🟡 В РАБОТЕ (UX/UI Deep Polish). Phase A закрыта (коммит `0813d631`): emoji-as-icons заменены на Lucide (11 замен в `EnhancedVariant`, `GridVariant`, `ListVariant`, `ContextualHint`); touch-target ≥ 44px восстановлен в `CompactVariant`, `UnifiedTipCard`, `ContextualHint`; raw-color tokens (`text-white`, `from-black/70`, `bg-red-500/20`, `ring-white/10`, `shadow-black/10`) переведены на semantic (`text-foreground`, `from-foreground/70`, `bg-primary/20`, `ring-border/30`, `shadow-foreground/10`).
-- **Закрыто (Sprint 047 ✅):** Creation-Flow Motion Pass + Mobile Perf Fixes — анимации для создания проекта/артиста, AI-чата ассистента и создания трека в проекте, затем баг-фикс проход по итогам мобильного QA: обрезка бейджей у скруглённых углов `Button` (корневая причина — `overflow: hidden` в `.btn-enhanced`, исправлено на уровне CSS-примитива для всего приложения), лаги JS-driven анимаций на мобильных (заменены на CSS keyframes), глюки скролла (убран `smooth`-скролл в чате, JS `whileHover` заменён на CSS `:hover`). См. [CHANGELOG.md](./CHANGELOG.md#unreleased) и [PROJECT_STATUS.md](./PROJECT_STATUS.md).
+- **Закрыто (Sprint 049 ✅):** Mobile UX по багрепорту — залипание скролла на главной (guard `usePullToRefresh` читал `scrollTop` не с того элемента и глушил нативный скролл), исчезающие жанровые секции, переключение A/B версий теперь обновляет карточку целиком (обложка/теги/время/текст из `track_versions.metadata`), лайки переведены на per-version схему (`track_likes.track_version_id`, миграция ждёт применения на прод БД), полноэкранный плеер: починен «залипший» свайп страниц (`dragConstraints`), фрагментированные теги Suno больше не протекают в лирику, автоскролл с пилюлей «К текущей строке», теги-чипы на «О треке». См. [CHANGELOG.md](./CHANGELOG.md#unreleased) и [PROJECT_STATUS.md](./PROJECT_STATUS.md).
+- **Закрыто ранее (Sprint 047 ✅):** Creation-Flow Motion Pass + Mobile Perf Fixes — анимации для создания проекта/артиста, AI-чата ассистента и создания трека в проекте, затем баг-фикс проход по итогам мобильного QA: обрезка бейджей у скруглённых углов `Button` (корневая причина — `overflow: hidden` в `.btn-enhanced`, исправлено на уровне CSS-примитива для всего приложения), лаги JS-driven анимаций на мобильных (заменены на CSS keyframes), глюки скролла (убран `smooth`-скролл в чате, JS `whileHover` заменён на CSS `:hover`). См. [CHANGELOG.md](./CHANGELOG.md#unreleased) и [PROJECT_STATUS.md](./PROJECT_STATUS.md).
 - **Закрыто ранее (Sprint 044 ✅):** Type Safety Wave 2 — 7/7 задач. Итог: `any` в `src/components/**` 155 → 0; в `src/hooks/**` 164 → 6; в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result`; ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs` ≤50. +54 unit-теста за спринт (282 passing в 17 suites).
 - **Далее**: Phase B-D Sprint 045 (Player/hints fixes, PageTransition `isVisible` bug, animation audit) и срочный **Sprint 046 — Bundle Reduction** (зафиксирован расхождение: реальный gzip 2.21 МБ / бюджет 950 КБ, в 2.3× выше). См. [PROJECT_STATUS.md](./PROJECT_STATUS.md) и [superpowers/sdd/briefs/](./.superpowers/sdd/briefs/).
 
@@ -85,6 +86,7 @@ gantt
     Sprint 043: Layer Compliance       :done, 043, 2026-07-02, 2026-07-02
     Sprint 044: Type Safety Wave 2     :done, 044, 2026-07-02, 2026-07-02
     Sprint 047: Creation-Flow Motion   :done, 047, 2026-07-03, 2026-07-03
+    Sprint 049: Mobile UX fixes        :done, 049, 2026-07-03, 2026-07-03
     section Запланировано ⚪
     Sprint 040: Type Safety + God-files :040, 2026-07-01, 2026-07-12
     Sprint 040b: Тесты + Audio Export   :040b, 2026-07-15, 2026-08-01
@@ -106,6 +108,7 @@ gantt
 | **043** | **Layer Compliance (65 → 0)**     |   ✅   |   6/6    |
 | **044** | **Type Safety Wave 2**            |   ✅   |   7/7    |
 | **047** | **Creation-Flow Motion + Mobile Perf Fixes** |   ✅   |   2/2    |
+| **049** | **Mobile UX: A/B версии, лайки, плеер, главная** |   ✅   |   4/4    |
 | **045** | **UX/UI Deep Polish + Hygiene**   |   🟡   |   1/4    |
 |   040   | Type Safety + God-files           |   ⚪   |    0%    |
 |  040b   | Тесты + Audio Export              |   ⚪   |    0%    |

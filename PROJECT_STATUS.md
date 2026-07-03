@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-047-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-049-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-17_suites-10B981?style=for-the-badge"/>
@@ -220,6 +220,30 @@
 ### 📋 Флаг для build-agent (out of design scope)
 
 - 🟡 **Phase D-4 — ErrorBoundary home button:** требует `useNavigate()` hook (functional change, вне рамок design-audit). Передано в Phase E сборки.
+
+## 🚦 `049` Mobile UX: A/B версии, per-version лайки, плеер, главная (Q3 2026) — ЗАВЕРШЁН ✅
+
+**Прогресс: 4/4 (100%)** — аудит мобильных экранов по багрепорту. Ветка `claude/mobile-screens-layout-audit-um3hwx`, коммиты `7904ce9b` → `3d428a7c` → `304ee287`.
+
+| Блок                                                        | Прогресс                                                          |
+| ----------------------------------------------------------- | ----------------------------------------------------------------- |
+| **1: Главная** (залипание скролла, исчезающие жанровые секции) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **2: A/B версии** (карточка обновляется при переключении)     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **3: Per-version лайки** (миграция + version-aware хук)       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| **4: Полноэкранный плеер** (пейджер, лирика, автоскролл, теги) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+
+### ✅ Завершено (2026-07-03)
+
+- 🐛 **Залипание скролла (Home/Library)** — `usePullToRefresh` читал `scrollTop` у нескроллящейся обёртки (реальный скролл — `<main id="main-content">`), guard «только наверху» не работал, `preventDefault()` глушил нативный скролл на каждом свайпе вниз. Резолвится реальный скроллящийся предок.
+- 🐛 **Исчезающие секции «По жанрам»** — page-level `isLoading` не учитывал fetch-состояние `useInfiniteGenreTracks` активного таба → `TracksGridSection` возвращал `null` во время загрузки первой страницы. Состояния объединены.
+- 🐛 **Переключение A/B не обновляло карточку** — `setPrimaryVersionMutation` копировал на `tracks` только `audio_url`/`cover_url`/`duration`; per-version `tags`/`title`/`lyrics` из `track_versions.metadata` не копировались. Теперь карточка отражает активную версию целиком.
+- 🐛 **VersionSwitcher в плеере** — не вызывал реальную мутацию, а подменял `id` играющего трека на id версии (рассинхрон лайков, play/pause, suno-ids лирики). Переведён на `useVersionSwitcher`.
+- 🐛 **«Глючит переключение» страниц плеера** — `FullscreenPager` имел `dragConstraints [0,0]` при ленте на `x=-index*width`: свайпы на страницах 2–3 гасились elastic-overdrag до ~12% движения пальца. Constraints расширены на весь диапазон.
+- 🐛 **Теги в лирике** — фрагментированные секционные теги (`"["`, `"Verse"`, `"]"` отдельными токенами Suno) протекали в текст; добавлен стриппер `[...]`-спанов. Слушатели паузы автоскролла не подключались после скелетона (`[]`-deps); караоке-кнопка уезжала при скролле (absolute внутри scroll-контейнера); двойной sync-loop при караоке.
+- ✨ **Per-version лайки** — миграция `20260703120000_per_version_track_likes.sql`: `track_likes.track_version_id` + backfill + unique `(user_id, track_version_id)` + BEFORE INSERT авто-резолв версии для легаси call-sites + `track_versions.likes_count`. `useLikeTrack` version-aware. ⚠️ **Миграция не применена на прод БД** — ждёт деплой-пайплайна.
+- ✨ **Дизайн плеера** — пилюля «К текущей строке» при ручном скролле лирики; теги-чипы на «О треке»; локализованные aria-подписи пейджера.
+
+**Верификация:** `tsc --noEmit -p tsconfig.json` — 0 ошибок во всех 3 коммитах.
 
 ## 🚦 `047` Creation-Flow Motion Pass + Mobile Perf Fixes (Q3 2026) — ЗАВЕРШЁН ✅
 
@@ -533,6 +557,6 @@ mindmap
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-07-03 (Sprint 047 ✅ — Creation-Flow Motion Pass + Mobile Perf Fixes: badge-clipping root cause, JS-driven animation lag, scroll glitches)</sub>
+<sub>Последнее обновление: 2026-07-03 (Sprint 049 ✅ — Mobile UX: залипание скролла + жанровые секции, A/B версии обновляют карточку, per-version лайки, пейджер/лирика полноэкранного плеера)</sub>
 
 </div>
