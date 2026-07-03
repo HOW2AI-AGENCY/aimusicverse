@@ -55,8 +55,6 @@ export function BotContextBanner() {
     }
   }, [webApp]);
 
-  if (!context.type || dismissed) return null;
-
   const contextConfig = {
     generate: {
       icon: Sparkles,
@@ -104,35 +102,41 @@ export function BotContextBanner() {
     },
   };
 
-  const config = contextConfig[context.type];
-  const Icon = config.icon;
+  const shouldShow = Boolean(context.type) && !dismissed;
+  const config = context.type ? contextConfig[context.type] : null;
+  const Icon = config?.icon;
 
+  // AnimatePresence must stay mounted with a conditional child (rather than
+  // the whole component early-returning null) so the exit animation below
+  // actually plays when the banner is dismissed or the context clears.
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, y: -20, height: 0 }}
-        animate={{ opacity: 1, y: 0, height: "auto" }}
-        exit={{ opacity: 0, y: -20, height: 0 }}
-        className={cn(
-          "relative overflow-hidden rounded-xl bg-gradient-to-r border border-border/50 mb-4",
-          config.color,
-        )}
-      >
-        <div className="flex items-center gap-3 p-3">
-          <div className={`p-2 rounded-lg bg-background/50 ${config.iconColor}`}>
-            <Icon className="h-5 w-5" />
-          </div>
+      {shouldShow && config && Icon && (
+        <motion.div
+          initial={{ opacity: 0, y: -20, height: 0 }}
+          animate={{ opacity: 1, y: 0, height: "auto" }}
+          exit={{ opacity: 0, y: -20, height: 0 }}
+          className={cn(
+            "relative overflow-hidden rounded-xl bg-gradient-to-r border border-border/50 mb-4",
+            config.color,
+          )}
+        >
+          <div className="flex items-center gap-3 p-3">
+            <div className={`p-2 rounded-lg bg-background/50 ${config.iconColor}`}>
+              <Icon className="h-5 w-5" />
+            </div>
 
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-foreground">{config.title}</p>
-            <p className="text-xs text-muted-foreground truncate">{config.description}</p>
-          </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-foreground">{config.title}</p>
+              <p className="text-xs text-muted-foreground truncate">{config.description}</p>
+            </div>
 
-          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => setDismissed(true)}>
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-      </motion.div>
+            <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => setDismissed(true)}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 }

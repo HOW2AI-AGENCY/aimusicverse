@@ -209,7 +209,14 @@ const App = () => (
                             </ProtectedRoute>
                           }
                         >
-                          <Route path="/" element={<Index />} />
+                          <Route
+                            path="/"
+                            element={
+                              <ErrorBoundary>
+                                <Index />
+                              </ErrorBoundary>
+                            }
+                          />
                           <Route path="/studio" element={<Navigate to="/studio-v2" replace />} />
                           <Route path="/profile" element={<ProfilePage />} />
                           <Route path="/profile/:userId" element={<PublicProfilePage />} />

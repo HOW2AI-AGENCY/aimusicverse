@@ -32,6 +32,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { LikeButton } from "@/components/ui/like-button";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { TrackCommentsSection } from "@/components/track/TrackCommentsSection";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { toast } from "sonner";
@@ -162,12 +163,11 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                 transition={{ type: "spring", duration: 0.5 }}
               >
                 {coverUrl ? (
-                  <img
+                  <LazyImage
                     src={coverUrl}
                     alt={track.title || "Track cover"}
                     className="w-48 h-48 sm:w-44 sm:h-44 rounded-2xl object-cover shadow-2xl ring-4 ring-background/50"
-                    loading="lazy"
-                    decoding="async"
+                    coverSize="large"
                     onError={() => setImageError(true)}
                   />
                 ) : (
