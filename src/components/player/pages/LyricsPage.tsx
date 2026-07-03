@@ -7,8 +7,8 @@
  */
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Mic2 } from "@/lib/icons";
-import { motion } from "@/lib/motion";
+import { Mic2, ChevronDown } from "@/lib/icons";
+import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
@@ -79,10 +79,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaoke
     enabled: !!lyricsLines?.length && !karaokeMode,
   });
 
-  // Auto-scroll the active line into the upper third of the visible area
-  useEffect(() => {
-    if (!isActive || !isPlaying || userScrolling) return;
-    if (activeLineIndex < 0) return;
+  const scrollToActiveLine = useCallback(() => {
     const container = scrollRef.current;
     const target = activeLineRef.current;
     if (!container || !target) return;
@@ -92,7 +89,24 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaoke
     const elementTop = tRect.top - cRect.top + container.scrollTop;
     const desired = elementTop - cRect.height * 0.35;
     container.scrollTo({ top: Math.max(0, desired), behavior: "smooth" });
-  }, [activeLineIndex, isActive, isPlaying, userScrolling]);
+  }, []);
+
+  // Auto-scroll the active line into the upper third of the visible area
+  useEffect(() => {
+    if (!isActive || !isPlaying || userScrolling) return;
+    if (activeLineIndex < 0) return;
+    scrollToActiveLine();
+  }, [activeLineIndex, isActive, isPlaying, userScrolling, scrollToActiveLine]);
+
+  // "Resume" pill: cancel the manual-scroll pause and recenter immediately.
+  // Programmatic smooth-scroll doesn't fire touchstart/wheel, so it won't
+  // re-flag userScrolling.
+  const resumeAutoScroll = useCallback(() => {
+    hapticImpact("light");
+    if (userScrollTimerRef.current) clearTimeout(userScrollTimerRef.current);
+    setUserScrolling(false);
+    scrollToActiveLine();
+  }, [scrollToActiveLine]);
 
   // Mark user scrolling on touch/wheel for 4s
   useEffect(() => {
@@ -110,7 +124,11 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaoke
       el.removeEventListener("wheel", flag);
       if (userScrollTimerRef.current) clearTimeout(userScrollTimerRef.current);
     };
-  }, []);
+    // Re-attach when the scroll container (re)mounts: on first render this
+    // component often shows the loading skeleton, where scrollRef is null —
+    // with [] deps the listeners never attached and autoscroll fought the
+    // user's manual scrolling.
+  }, [lyricsLines, plainLyrics]);
 
   // Loading state — shimmer lines of consistent height
   if (isLoading && !lyricsLines && !plainLyrics) {
@@ -157,11 +175,11 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaoke
   // Synchronized lyrics
   let globalWordIndex = 0;
   return (
-    <div
-      ref={scrollRef}
-      className="lyrics-fade-mask relative h-full overflow-y-auto px-4 py-6"
-      style={{ overscrollBehavior: "contain", touchAction: "pan-y" }}
-    >
+    // Outer wrapper is the positioning context: overlay controls (Karaoke,
+    // resume-autoscroll) are siblings of the scroll container, not children —
+    // absolute children of an overflow-y-auto element scroll away with the
+    // content, which is why the Karaoke pill used to disappear on scroll.
+    <div className="relative h-full">
       {onOpenKaraoke && (
         <button
           type="button"
@@ -175,7 +193,12 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaoke
         </button>
       )}
 
-      <div className="mx-auto flex max-w-[28rem] xl:max-w-[36rem] flex-col items-stretch gap-2 pb-24 text-center">
+      <div
+        ref={scrollRef}
+        className="lyrics-fade-mask h-full overflow-y-auto px-4 py-6"
+        style={{ overscrollBehavior: "contain", touchAction: "pan-y" }}
+      >
+        <div className="mx-auto flex max-w-[28rem] xl:max-w-[36rem] flex-col items-stretch gap-2 pb-24 text-center">
         {lyricsLines!.map((line, lineIndex) => {
           const isActiveLine = lineIndex === activeLineIndex;
           const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
@@ -221,7 +244,33 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaoke
             </motion.div>
           );
         })}
+        </div>
       </div>
+
+      {/* Resume-autoscroll pill — appears while manual scrolling pauses sync */}
+      <AnimatePresence>
+        {userScrolling && activeLineIndex >= 0 && (
+          <motion.button
+            type="button"
+            onClick={resumeAutoScroll}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className={cn(
+              "absolute bottom-4 left-0 right-0 z-10 mx-auto w-fit",
+              "inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-4 py-2",
+              "bg-primary/15 text-primary text-[12px] font-medium",
+              "backdrop-blur-md ring-1 ring-primary/30",
+              "active:scale-95 transition-transform",
+            )}
+            aria-label="Вернуться к текущей строке"
+          >
+            <ChevronDown className="h-4 w-4" aria-hidden />
+            К текущей строке
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -13,6 +13,11 @@ import { hapticImpact } from "@/lib/haptic";
 
 export type PagerPage = "cover" | "lyrics" | "details";
 const ORDER: PagerPage[] = ["cover", "lyrics", "details"];
+const PAGE_LABELS: Record<PagerPage, string> = {
+  cover: "Обложка",
+  lyrics: "Текст",
+  details: "О треке",
+};
 
 interface FullscreenPagerProps {
   page: PagerPage;
@@ -70,7 +75,11 @@ export function FullscreenPager({ page, onChange, cover, lyrics, details }: Full
         style={{ width: width ? width * 3 : "300%" }}
         drag="x"
         dragElastic={0.12}
-        dragConstraints={{ left: 0, right: 0 }}
+        // Constraints must span the whole strip: the strip rests at
+        // x = -index * width, so a [0,0] range put pages 2-3 permanently
+        // "out of bounds" — every drag there was elastic-dampened to ~12%
+        // finger travel and felt stuck. onDragEnd still snaps ±1 page.
+        dragConstraints={{ left: width ? -(ORDER.length - 1) * width : 0, right: 0 }}
         onDragEnd={handleDragEnd}
         animate={{ x: width ? -index * width : `-${index * 100}%` }}
         transition={{ type: "spring", damping: 32, stiffness: 280 }}
@@ -92,7 +101,8 @@ export function FullscreenPager({ page, onChange, cover, lyrics, details }: Full
           <button
             key={p}
             type="button"
-            aria-label={`Перейти к: ${p}`}
+            aria-label={`Перейти к: ${PAGE_LABELS[p]}`}
+            aria-current={p === page ? "true" : undefined}
             onClick={() => goTo(p)}
             className={cn(
               "pointer-events-auto inline-flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full transition-all duration-200",
