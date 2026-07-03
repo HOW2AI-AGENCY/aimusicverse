@@ -5,14 +5,18 @@
  * Shows version badges (A, B, etc.) for fast switching without opening versions tab.
  */
 
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTrackVersionsForSwitcher } from "@/services/generation/track-versions.service";
 import { Button } from "@/components/ui/button";
 import type { Track } from "@/types/track";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
+import { toast } from "sonner";
+import { Loader2 } from "@/lib/icons";
 
 interface VersionSwitcherProps {
   track: Track;
@@ -22,6 +26,12 @@ interface VersionSwitcherProps {
 
 export function VersionSwitcher({ track, size = "medium", className }: VersionSwitcherProps) {
   const { activeTrack, isPlaying, playTrack } = usePlayerStore();
+  const { setPrimaryVersionAsync, isSettingPrimary } = useVersionSwitcher();
+  const queryClient = useQueryClient();
+  // Optimistic override — the versions list (is_primary) is cached for 5min
+  // and isn't in useVersionSwitcher's invalidation list, so without this the
+  // active badge would keep pointing at the old version after a switch.
+  const [pendingActiveId, setPendingActiveId] = useState<string | null>(null);
 
   // Extract original track ID if current track is a version
   const originalTrackId = track.id?.includes("_v") ? track.id.split("_v")[0] : track.id;
@@ -65,26 +75,41 @@ export function VersionSwitcher({ track, size = "medium", className }: VersionSw
     return null;
   }
 
-  const handleVersionClick = (version: (typeof versions)[0]) => {
+  const activeVersionId = pendingActiveId ?? versions.find((v) => v.is_primary)?.id ?? versions[0]?.id;
+
+  const handleVersionClick = async (version: (typeof versions)[0]) => {
+    if (isSettingPrimary || version.id === activeVersionId) return;
+
     hapticImpact("light");
+    setPendingActiveId(version.id);
 
-    // Create track object for this version with proper audio URLs
-    // CRITICAL: Use audio_url for playback - it's the source URL
-    const versionTrack: Track = {
-      ...track,
-      id: version.id,
-      audio_url: version.audio_url,
-      streaming_url: version.audio_url, // Use audio_url as streaming source
-      local_audio_url: null, // Clear local URL to use streaming
-      cover_url: version.cover_url || track.cover_url,
-    };
+    try {
+      // Persist as the track's primary version (real trackId, not the version
+      // id) — previously this called playTrack() with `id: version.id`, which
+      // masqueraded the version as the track everywhere downstream (likes,
+      // details pane "is this playing" check, lyrics sync) without ever
+      // updating tracks.active_version_id, causing the switch to desync.
+      await setPrimaryVersionAsync({ trackId: originalTrackId, versionId: version.id });
 
-    playTrack(versionTrack);
+      // Keep playback in sync with the new primary, preserving the real track id.
+      if (activeTrack?.id === originalTrackId) {
+        playTrack({
+          ...activeTrack,
+          audio_url: version.audio_url,
+          streaming_url: version.audio_url,
+          local_audio_url: null,
+          cover_url: version.cover_url || activeTrack.cover_url,
+        } as Track);
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["track-versions-switcher", originalTrackId] });
+    } catch {
+      setPendingActiveId(null);
+      toast.error("Не удалось переключить версию");
+    }
   };
 
-  const isVersionActive = (versionId: string) => {
-    return activeTrack?.id === versionId;
-  };
+  const isVersionActive = (versionId: string) => versionId === activeVersionId;
 
   return (
     <div className={cn("flex items-center", gapClasses[size], className)}>
@@ -92,7 +117,8 @@ export function VersionSwitcher({ track, size = "medium", className }: VersionSw
         {versions.map((version, index) => {
           const label = version.version_label || String.fromCharCode(65 + index);
           const isActive = isVersionActive(version.id);
-          const isCurrentlyPlaying = isActive && isPlaying;
+          const isCurrentlyPlaying = isActive && isPlaying && activeTrack?.id === originalTrackId;
+          const isThisSwitching = isSettingPrimary && pendingActiveId === version.id;
 
           return (
             <motion.div
@@ -106,16 +132,18 @@ export function VersionSwitcher({ track, size = "medium", className }: VersionSw
                 variant={isActive ? "default" : "outline"}
                 size="icon"
                 onClick={() => handleVersionClick(version)}
+                disabled={isSettingPrimary}
                 className={cn(
                   sizeClasses[size],
                   "rounded-full font-semibold transition-all",
                   isActive && "ring-2 ring-primary ring-offset-2 ring-offset-background",
                   isCurrentlyPlaying && "animate-pulse",
                   !isActive && "opacity-60 hover:opacity-100",
+                  isSettingPrimary && "cursor-not-allowed",
                 )}
                 title={`Версия ${label}${version.is_primary ? " (мастер)" : ""}`}
               >
-                {label}
+                {isThisSwitching ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : label}
               </Button>
             </motion.div>
           );
