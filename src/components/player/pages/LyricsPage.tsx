@@ -27,10 +27,14 @@ interface LyricsPageProps {
   } | null;
   isActive: boolean;
   isPlaying: boolean;
+  /** True while the Karaoke overlay is open — it runs its own sync loop over
+   *  the same words, so this page must yield its loop to avoid two RAF loops
+   *  fighting over the shared time smoother (see MobileFullscreenPlayer). */
+  karaokeMode?: boolean;
   onOpenKaraoke?: () => void;
 }
 
-export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenKaraoke }: LyricsPageProps) {
+export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaokeMode, onOpenKaraoke }: LyricsPageProps) {
   const { seek } = useAudioTime();
   const scrollRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
@@ -72,7 +76,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, onOpenK
     constants,
   } = useLyricsSynchronization({
     words: flat,
-    enabled: !!lyricsLines?.length,
+    enabled: !!lyricsLines?.length && !karaokeMode,
   });
 
   // Auto-scroll the active line into the upper third of the visible area

@@ -31,6 +31,31 @@ const cleanLyrics = (text: string) => {
     .trim();
 };
 
+// Suno's aligned-words API sometimes tokenizes a section tag as separate
+// words per bracket — e.g. "[", "Verse", "]" instead of one "[Verse]" token.
+// isStructuralTag alone only matches a single self-contained token, so a
+// fragmented tag leaks "[", "Verse", "]" through as three literal lyric
+// words/lines. Strip any run of tokens that opens with "[" until its
+// closing "]" is seen, regardless of how many words the tag spans.
+const stripFragmentedTags = (input: AlignedWord[]): AlignedWord[] => {
+  const result: AlignedWord[] = [];
+  let insideTag = false;
+  for (const w of input) {
+    const t = w.word.trim();
+    if (!t) continue;
+    if (insideTag) {
+      if (t.includes("]")) insideTag = false;
+      continue;
+    }
+    if (t.startsWith("[") && !isStructuralTag(t)) {
+      if (!t.includes("]")) insideTag = true;
+      continue;
+    }
+    result.push(w);
+  }
+  return result;
+};
+
 const isValidAlignedWord = (w: unknown): w is AlignedWord => {
   if (!w || typeof w !== "object") return false;
   const obj = w as Record<string, unknown>;
@@ -52,13 +77,15 @@ export function useParsedLyrics(
 
     try {
       if (alignedWords && Array.isArray(alignedWords) && alignedWords.length > 0) {
-        words = alignedWords.filter(isValidAlignedWord).filter((w) => !isStructuralTag(w.word));
+        words = stripFragmentedTags(alignedWords.filter(isValidAlignedWord)).filter((w) => !isStructuralTag(w.word));
       } else if (trackLyrics) {
         try {
           if (trackLyrics.trim().startsWith("{") || trackLyrics.trim().startsWith("[")) {
             const parsed = JSON.parse(trackLyrics);
             if (parsed?.alignedWords && Array.isArray(parsed.alignedWords)) {
-              words = (parsed.alignedWords as unknown[]).filter(isValidAlignedWord).filter((w) => !isStructuralTag(w.word));
+              words = stripFragmentedTags((parsed.alignedWords as unknown[]).filter(isValidAlignedWord)).filter(
+                (w) => !isStructuralTag(w.word),
+              );
             }
           }
         } catch {

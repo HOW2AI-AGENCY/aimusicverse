@@ -290,6 +290,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
               currentVersion={currentVersion}
               isActive={page === "lyrics"}
               isPlaying={isPlaying}
+              karaokeMode={karaokeMode}
               onOpenKaraoke={() => setKaraokeMode(true)}
             />
           }

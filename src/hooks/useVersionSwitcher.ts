@@ -40,10 +40,16 @@ export function useVersionSwitcher() {
       if (fetchError) throw fetchError;
       if (!versionData?.audio_url) throw new Error("Version has no audio URL");
 
-      // Extract suno IDs from version metadata for lyrics sync
+      // Extract suno IDs + per-version content (tags/title/lyrics are only ever
+      // stored in track_versions.metadata, never as their own columns — see
+      // suno-music-callback which writes them there per clip) for lyrics sync
+      // and so the parent track row reflects the version actually playing.
       const versionMetadata = versionData.metadata as {
         suno_task_id?: string;
         suno_id?: string;
+        tags?: string;
+        title?: string;
+        lyrics?: string;
       } | null;
 
       // Step 2: Unset is_primary for ALL versions of this track
@@ -83,6 +89,18 @@ export function useVersionSwitcher() {
       }
       if (versionMetadata?.suno_id) {
         trackUpdate.suno_id = versionMetadata.suno_id;
+      }
+      // Cards/detail views read title/tags/lyrics off the tracks row, not the
+      // version — without this, switching versions kept showing version A's
+      // tags/title/lyrics forever since only clip index 0 ever wrote them.
+      if (versionMetadata?.tags) {
+        trackUpdate.tags = versionMetadata.tags;
+      }
+      if (versionMetadata?.title) {
+        trackUpdate.title = versionMetadata.title;
+      }
+      if (versionMetadata?.lyrics) {
+        trackUpdate.lyrics = versionMetadata.lyrics;
       }
 
       const { error: trackError } = await supabase
