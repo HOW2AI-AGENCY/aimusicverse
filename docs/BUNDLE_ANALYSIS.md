@@ -2,12 +2,26 @@
 
 <div align="center">
 
-**Дата**: 2026-06-25  
+**Дата**: 2026-06-25 (см. апдейт 2026-07-03 ниже)  
 **Статус**: 🟢 Build successful  
 **Build time**: 52.83s  
 **Modules**: 6,435 transformed
 
 </div>
+
+---
+
+## 🔄 Update 2026-07-03 — homepage/bundle investigation
+
+Chunk names below (`feature-generation-form`, `feature-studio-unified`, `page-admin`) no longer exist in `vite.config.ts` — they were merged into a single `feature-admin-studio` chunk (2 MB raw / ~524 KB gzip) to fix documented TDZ crashes. Numbers below are historical; current ground truth:
+
+- **`size-limit`'s "Total Bundle" check sums every JS chunk in `dist/assets/*.js`** — including admin/studio/lazy pages nobody but admins visit. That's why it reports **2.11 MB gzip**, not the previously-cited 918 KB (stale) or the older "~1.8 MB" in this doc. This metric doesn't reflect what any single page actually downloads.
+- **What the homepage (and every other page) actually fetches eagerly on cold load** dropped from **~1.19 MB gzip to ~508 KB gzip**. Root cause: `feature-admin-studio`, `vendor-charts`, `vendor-dnd`, `vendor-forms`, and `vendor-confetti` were being unconditionally `<link rel="modulepreload">`'d into every page's HTML, because:
+  1. `TrackDetailSheet.tsx` (opened from `UnifiedTrackMenu`, rendered on every track card app-wide) statically imported `GenerateSheet` → `AudioActionDialog` instead of lazy-loading it — fixed by converting to `React.lazy()` + `Suspense`, matching the pattern already used in `Index.tsx`. This alone eliminated `vendor-dnd` as a real dependency.
+  2. `MainLayout.tsx` / `GlobalGenerationIndicator.tsx` imported single hooks through the `@/hooks/generation` barrel, which transitively pulled in `PromptHistory.tsx` (assigned to the merged admin/studio chunk) — fixed by importing the hooks directly from their own files, bypassing the barrel.
+  3. `feature-admin-studio` and `vendor-charts` remain genuine hard dependencies of the entry chunk (confirmed via Rollup's `getModuleInfo().importers` graph — not a source-level leak, but a shared-chunk artifact of merging ~15 directories into one chunk). Added `build.modulePreload.resolveDependencies` in `vite.config.ts` to stop the browser from _speculatively_ preloading them — doesn't remove the bytes, but stops them competing for network priority with resources every page actually needs.
+- A **full elimination** of `feature-admin-studio`/`vendor-charts` from the entry would require restructuring the merged-chunk boundaries in `vite.config.ts` — out of scope here given the documented TDZ-crash history around that exact chunking strategy; flagged as a dedicated follow-up if further reduction is wanted.
+- Also fixed in the same pass: `getOptimizedImageUrl()`/`generateSrcSet()` in `src/lib/imageOptimization.ts` were appending `?width=&height=&quality=` to the plain Supabase **object** endpoint (`/storage/v1/object/public/...`), which silently ignores those params — no resize/optimization was ever actually happening. Fixed by rewriting to the **render** endpoint (`/storage/v1/render/image/public/...`) first. Confirmed via Supabase's own docs that WebP is already auto-negotiated by that endpoint (no explicit format param needed); AVIF isn't supported yet.
 
 ---
 

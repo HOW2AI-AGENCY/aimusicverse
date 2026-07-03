@@ -1,27 +1,8 @@
 import { useState, useRef, useEffect, useId } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import {
-  FileAudio,
-  Mic,
-  X,
-  Play,
-  Pause,
-  Sparkles,
-  Upload,
-  Disc,
-  ArrowRight,
-  Loader2,
-  FileText,
-  Check,
-  Rocket,
-  Guitar,
-} from "@/lib/icons";
+import { FileAudio } from "@/lib/icons";
 import { toast } from "sonner";
 import { uploadFile } from "@/api/storage.api";
 import { logger } from "@/lib/logger";
@@ -30,16 +11,17 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useReferenceAudio, ReferenceAudio } from "@/hooks/useReferenceAudio";
 import { useAudioReference } from "@/hooks/useAudioReference";
 import { useAudioActionAnalysis } from "@/hooks/audio-reference/useAudioActionAnalysis";
-import { cn } from "@/lib/utils";
-import { formatTime } from "@/lib/player-utils";
 import { GuitarModeRecorder } from "./GuitarModeRecorder";
-import { CloudAudioSelector } from "@/components/audio-reference";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
+import { useAudioRecording } from "./audio-action-dialog/useAudioRecording";
+import { AudioActionModeTabsSection, type AudioMode } from "./audio-action-dialog/AudioActionModeTabsSection";
+import { AudioActionAnalyzingState } from "./audio-action-dialog/AudioActionAnalyzingState";
+import { AudioActionUploadSection } from "./audio-action-dialog/AudioActionUploadSection";
+import { AudioActionPreviewSection } from "./audio-action-dialog/AudioActionPreviewSection";
 
-type AudioMode = "cover" | "extend";
 type RecordingMode = "standard" | "guitar";
 
 interface AudioActionDialogProps {
@@ -53,13 +35,6 @@ interface AudioActionDialogProps {
   /** Callback to open UploadAudioDialog for direct cover/extend generation */
   onOpenCoverDialog?: (file: File, mode: AudioMode) => void;
 }
-
-const ANALYSIS_STEPS = [
-  "Загружаем аудио...",
-  "Анализируем стиль...",
-  "Определяем жанр и настроение...",
-  "Завершаем анализ...",
-];
 
 export function AudioActionDialog({
   open,
@@ -82,13 +57,19 @@ export function AudioActionDialog({
   const [mode, setMode] = useState<AudioMode>(initialMode);
   const [recordingMode, setRecordingMode] = useState<RecordingMode>("standard");
   const [showGuitarMode, setShowGuitarMode] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordingTime, setRecordingTime] = useState(0);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [savedAudioId, setSavedAudioId] = useState<string | null>(null);
+
+  const { isRecording, recordingTime, startRecording, stopRecording } = useAudioRecording({
+    onRecorded: (file, url) => {
+      setAudioUrl(url);
+      setAudioFile(file);
+      analyzeAudio(file);
+    },
+  });
 
   // Register for studio audio coordination
   useEffect(() => {
@@ -138,10 +119,7 @@ export function AudioActionDialog({
   const [extractedLyrics, setExtractedLyrics] = useState<string | null>(null);
   const [hasVocals, setHasVocals] = useState<boolean | null>(null);
 
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
-  const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const analysisIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Reset on close
@@ -196,25 +174,6 @@ export function AudioActionDialog({
       toast.success("Аудио референс готов");
     }
   };
-
-  // Recording timer
-  useEffect(() => {
-    if (isRecording) {
-      recordingIntervalRef.current = setInterval(() => {
-        setRecordingTime((prev) => prev + 1);
-      }, 1000);
-    } else {
-      if (recordingIntervalRef.current) {
-        clearInterval(recordingIntervalRef.current);
-      }
-      setRecordingTime(0);
-    }
-    return () => {
-      if (recordingIntervalRef.current) {
-        clearInterval(recordingIntervalRef.current);
-      }
-    };
-  }, [isRecording]);
 
   // Analysis progress animation
   useEffect(() => {
@@ -394,58 +353,6 @@ export function AudioActionDialog({
     }
   };
 
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          sampleRate: 44100,
-        },
-      });
-
-      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? "audio/webm;codecs=opus" : "audio/mp4";
-
-      const mediaRecorder = new MediaRecorder(stream, { mimeType });
-      mediaRecorderRef.current = mediaRecorder;
-      chunksRef.current = [];
-
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunksRef.current.push(e.data);
-        }
-      };
-
-      mediaRecorder.onstop = async () => {
-        const blob = new Blob(chunksRef.current, { type: mimeType });
-        const ext = mimeType.includes("webm") ? "webm" : "mp4";
-        const file = new File([blob], `recording-${Date.now()}.${ext}`, { type: mimeType });
-        const url = URL.createObjectURL(blob);
-
-        // Duration is read by the usePreviewAudio probe at the top of this file.
-        setAudioUrl(url);
-        setAudioFile(file);
-
-        stream.getTracks().forEach((track) => track.stop());
-        await analyzeAudio(file);
-      };
-
-      mediaRecorder.start(1000);
-      setIsRecording(true);
-      toast.success("Запись началась");
-    } catch (error) {
-      logger.error("Recording error", { error });
-      toast.error("Не удалось получить доступ к микрофону");
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-    }
-  };
-
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -505,9 +412,11 @@ export function AudioActionDialog({
     onOpenChange(false);
   };
 
-  const modeConfig = {
-    cover: { icon: Disc, label: "Кавер", desc: "Новая версия в другом стиле" },
-    extend: { icon: ArrowRight, label: "Расширить", desc: "Продолжить композицию" },
+  const handleDirectGenerate = () => {
+    if (audioFile && onOpenCoverDialog) {
+      onOpenCoverDialog(audioFile, mode);
+      onOpenChange(false);
+    }
   };
 
   // Check if audio is ready for mode selection (analyzed)
@@ -516,52 +425,10 @@ export function AudioActionDialog({
   const content = (
     <div className="space-y-3">
       {/* Mode Tabs - Show ONLY after audio is analyzed */}
-      {isAudioReady && (
-        <>
-          <div className="text-center text-xs text-muted-foreground mb-2">Выберите действие:</div>
-          <Tabs value={mode} onValueChange={(v) => setMode(v as AudioMode)} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 h-10">
-              {(["cover", "extend"] as const).map((m) => {
-                const cfg = modeConfig[m];
-                const Icon = cfg.icon;
-                return (
-                  <TabsTrigger
-                    key={m}
-                    value={m}
-                    className="flex items-center gap-2 text-sm data-[state=active]:bg-primary/10"
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span>{cfg.label}</span>
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-          </Tabs>
-          <p className="text-xs text-muted-foreground text-center">{modeConfig[mode].desc}</p>
-        </>
-      )}
+      {isAudioReady && <AudioActionModeTabsSection mode={mode} onModeChange={setMode} />}
 
       {/* Analysis Loading State - Animated */}
-      {isAnalyzing && (
-        <div className="py-6 space-y-4">
-          <div className="flex items-center justify-center">
-            <div className="relative">
-              <Sparkles className="w-10 h-10 text-primary animate-pulse" />
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse" />
-            </div>
-          </div>
-
-          <div className="space-y-2 px-4">
-            <div className="flex justify-between text-xs">
-              <span className="text-muted-foreground">{ANALYSIS_STEPS[analysisStep]}</span>
-              <span className="text-primary font-medium">{Math.round(analysisProgress)}%</span>
-            </div>
-            <Progress value={analysisProgress} className="h-2" />
-          </div>
-
-          <p className="text-xs text-center text-muted-foreground">Это может занять 10-30 секунд</p>
-        </div>
-      )}
+      {isAnalyzing && <AudioActionAnalyzingState analysisStep={analysisStep} analysisProgress={analysisProgress} />}
 
       {/* Upload/Record/History */}
       {/* Guitar Mode */}
@@ -574,183 +441,40 @@ export function AudioActionDialog({
 
       {/* Upload/Record/History */}
       {!isAnalyzing && !audioFile && !showGuitarMode && (
-        <div className="space-y-2">
-          {/* Cloud Audio Selector - integrated with unified reference system */}
-          <CloudAudioSelector selectedMode={mode} onSelect={(audio) => handleCloudSelect(audio)} maxItems={5} compact />
-
-          {/* Upload/Record Buttons */}
-          <div className="grid grid-cols-3 gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="h-14 flex-col gap-1"
-              onClick={() => document.getElementById("audio-file-input-dialog")?.click()}
-            >
-              <Upload className="w-5 h-5" />
-              <span className="text-xs">Загрузить</span>
-            </Button>
-            <input
-              id="audio-file-input-dialog"
-              type="file"
-              accept="audio/*"
-              className="hidden"
-              onChange={handleFileUpload}
-            />
-
-            <Button
-              type="button"
-              variant={isRecording ? "destructive" : "outline"}
-              className="h-14 flex-col gap-1"
-              onClick={isRecording ? stopRecording : startRecording}
-            >
-              <Mic className={cn("w-5 h-5", isRecording && "animate-pulse")} />
-              <span className="text-xs">{isRecording ? formatTime(recordingTime) : "Записать"}</span>
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="h-14 flex-col gap-1 border-primary/30 hover:border-primary hover:bg-primary/5"
-              onClick={() => setShowGuitarMode(true)}
-            >
-              <Guitar className="w-5 h-5 text-primary" />
-              <span className="text-xs">Гитара</span>
-            </Button>
-          </div>
-
-          <p className="text-[10px] text-muted-foreground text-center">
-            WAV, MP3, WebM • до 20 МБ • Гитара: детектирование аккордов
-          </p>
-        </div>
+        <AudioActionUploadSection
+          mode={mode}
+          onCloudSelect={handleCloudSelect}
+          onFileUpload={handleFileUpload}
+          isRecording={isRecording}
+          recordingTime={recordingTime}
+          onStartRecording={startRecording}
+          onStopRecording={stopRecording}
+          onGuitarMode={() => setShowGuitarMode(true)}
+        />
       )}
 
       {/* Audio Preview & Analysis */}
       {!isAnalyzing && audioFile && (
-        <div className="space-y-3">
-          {/* Audio Player - Compact */}
-          <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 border">
-            <Button type="button" size="icon" variant="ghost" onClick={togglePlayback} className="h-11 w-11 shrink-0">
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-            </Button>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium truncate">{audioFile.name}</p>
-              {audioDuration && (
-                <p className="text-[10px] text-muted-foreground">{formatTime(Math.floor(audioDuration))}</p>
-              )}
-            </div>
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              onClick={handleRemove}
-              className="h-7 w-7 min-h-[44px] min-w-[44px] shrink-0"
-            >
-              <X className="w-3 h-3" />
-            </Button>
-          </div>
-
-          {audioUrl && <audio ref={audioRef} src={audioUrl} onEnded={() => setIsPlaying(false)} className="hidden" />}
-
-          {/* Analysis Result - Compact */}
-          {analysisResult && (
-            <div className="p-2 rounded-lg bg-primary/5 border border-primary/20 space-y-1.5">
-              <div className="flex items-center gap-1.5">
-                <Check className="w-3 h-3 text-primary" />
-                <span className="text-xs font-medium">Анализ завершён</span>
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {analysisResult.genre && (
-                  <Badge variant="secondary" className="text-[10px] h-5">
-                    {analysisResult.genre}
-                  </Badge>
-                )}
-                {analysisResult.mood && (
-                  <Badge variant="secondary" className="text-[10px] h-5">
-                    {analysisResult.mood}
-                  </Badge>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Waiting for analysis */}
-          {!analysisResult && !isAnalyzing && (
-            <div className="p-2 rounded-lg bg-muted/50 border space-y-1.5 text-center">
-              <Loader2 className="w-4 h-4 animate-spin mx-auto text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">Ожидание анализа...</span>
-            </div>
-          )}
-
-          {/* Lyrics Extraction - Compact */}
-          {mode !== "extend" && (
-            <div className="space-y-2">
-              {!extractedLyrics && hasVocals !== false && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="w-full h-11 gap-2 text-xs"
-                  onClick={extractLyrics}
-                  disabled={isExtractingLyrics}
-                >
-                  {isExtractingLyrics ? (
-                    <>
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                      Извлекаем текст...
-                    </>
-                  ) : (
-                    <>
-                      <FileText className="w-3 h-3" />
-                      Извлечь текст
-                    </>
-                  )}
-                </Button>
-              )}
-
-              {hasVocals === false && (
-                <p className="text-[10px] text-muted-foreground text-center">Инструментальный трек</p>
-              )}
-
-              {extractedLyrics && (
-                <div className="p-2 rounded-lg bg-muted/50 border max-h-24 overflow-y-auto">
-                  <p className="text-[10px] font-mono whitespace-pre-wrap line-clamp-6">{extractedLyrics}</p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Actions - Compact */}
-          <div className="space-y-2 pt-1">
-            {/* Direct generation button - primary action - only show after analysis */}
-            {onOpenCoverDialog && analysisResult && (
-              <Button
-                type="button"
-                size="sm"
-                onClick={() => {
-                  if (audioFile) {
-                    onOpenCoverDialog(audioFile, mode);
-                    onOpenChange(false);
-                  }
-                }}
-                className="w-full h-10 gap-2 bg-gradient-to-r from-primary to-primary/80"
-              >
-                <Rocket className="w-4 h-4" />
-                {mode === "cover" ? "Создать кавер" : "Расширить трек"}
-              </Button>
-            )}
-
-            <div className="flex gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={handleRemove} className="flex-1 h-11">
-                Отменить
-              </Button>
-              {analysisResult && (
-                <Button type="button" variant="secondary" size="sm" onClick={handleConfirm} className="flex-1 h-11">
-                  В форму генерации
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
+        <AudioActionPreviewSection
+          mode={mode}
+          audioFile={audioFile}
+          audioUrl={audioUrl}
+          audioDuration={audioDuration}
+          audioRef={audioRef}
+          isPlaying={isPlaying}
+          onTogglePlayback={togglePlayback}
+          onRemove={handleRemove}
+          onEnded={() => setIsPlaying(false)}
+          isAnalyzing={isAnalyzing}
+          analysisResult={analysisResult}
+          extractedLyrics={extractedLyrics}
+          hasVocals={hasVocals}
+          isExtractingLyrics={isExtractingLyrics}
+          onExtractLyrics={extractLyrics}
+          onOpenCoverDialog={onOpenCoverDialog}
+          onDirectGenerate={handleDirectGenerate}
+          onConfirm={handleConfirm}
+        />
       )}
     </div>
   );

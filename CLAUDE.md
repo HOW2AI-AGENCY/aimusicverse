@@ -509,9 +509,9 @@ Logger persists to sessionStorage and integrates with Sentry.
 - Sprint: 035 (Стабилизация + Чистка) - in progress
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
 - Components: 987, Hooks: 347, Stores: 20, API files: 20, Services: 18
-- Bundle Size: 918 KB / 950 KB limit
+- Bundle Size: 2.11 MB gzip total across all chunks (`size-limit`'s "Total Bundle" check sums every chunk including admin/studio/lazy pages, not just what a given page loads — the previously-cited "918 KB" figure was stale). Real eager JS on cold page load (what actually competes for bandwidth on first paint): ~508 KB gzip after the 2026-07-03 homepage/bundle fixes (down from ~1.19 MB) — see `docs/BUNDLE_ANALYSIS.md`
 - Unit Tests: 341 passing (25 test suites), Storybook: 4 stories, E2E: 47 specs
-- Key Issues: 30+ layer violations, 6 code duplicates, 342 `any` types, 33 files >500 LOC, rules-of-hooks now enforced as error
+- Key Issues: 30+ layer violations, 6 code duplicates, 0/50 `any` budget (was 342, cleaned up in Sprint 044), 33 files >500 LOC, rules-of-hooks now enforced as error
 - Overall Progress: 94% (35 sprints complete incl. Sprint 037)
 
 ## Telegram Bot Integration
