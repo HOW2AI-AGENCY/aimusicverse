@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [EmptyState.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L1) (5 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L36) (1 connections)
-- [LongDescription](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L58) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L14) (1 connections)
-- [Minimal](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L51) (1 connections)
-- [WithAction](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L43) (1 connections)
+- [StatsHighlightBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L1) (5 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L88) (1 connections)
+- [{ formatted, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L44) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L87) (1 connections)
+- [statColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L19) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\EmptyState.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\StatsHighlightBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx)
 
 ## Audit Trail
 

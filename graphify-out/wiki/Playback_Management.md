@@ -1,16 +1,17 @@
 # Playback Management
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L1) (6 connections)
-- [change](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L131) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L150) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L32) (1 connections)
-- [days](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L30) (1 connections)
-- [isNeutral](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L138) (1 connections)
-- [isPositive](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L137) (1 connections)
+- [BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L1) (7 connections)
+- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L28) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L24) (1 connections)
+- [handleBeatClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L56) (1 connections)
+- [handleTimelineClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L45) (1 connections)
+- [[hoveredBeat, setHoveredBeat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L25) (1 connections)
+- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L38) (1 connections)
+- [trackDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [useStudioState.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L1) (12 connections)
-- [effective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L126) (1 connections)
-- [initialHasSolo](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L450) (1 connections)
-- [initialMutedIds](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L451) (1 connections)
-- [initialSoloIds](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L452) (1 connections)
-- [initialState](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L483) (1 connections)
-- [mockStems](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L11) (1 connections)
-- [newStates](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L379) (1 connections)
-- [nonSoloEffective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L273) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L20) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L443) (1 connections)
-- [soloEffective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L269) (1 connections)
-- [state](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L47) (1 connections)
+- [EnhancedGenerationIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L1) (12 connections)
+- [{ activeGenerations, generationCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L98) (1 connections)
+- [currentGenerationIds](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L105) (1 connections)
+- [[dismissed, setDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L100) (1 connections)
+- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L99) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L27) (1 connections)
+- [GenerationCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L34) (1 connections)
+- [[lastGenerationIds, setLastGenerationIds]](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L103) (1 connections)
+- [mainGeneration](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L126) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L97) (1 connections)
+- [overallProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L127) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L11) (1 connections)
+- [statusLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -24,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\studio\useStudioState.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\EnhancedGenerationIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx)
 
 ## Audit Trail
 

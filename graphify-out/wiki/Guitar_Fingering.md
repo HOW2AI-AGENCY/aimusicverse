@@ -1,22 +1,23 @@
 # Guitar Fingering
 
-> 13 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L1) (12 connections)
-- [categorizedFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L210) (1 connections)
-- [categoryFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L288) (1 connections)
-- [{ data: flags, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L195) (1 connections)
-- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L151) (1 connections)
-- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L199) (1 connections)
-- [handleUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L203) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L150) (1 connections)
-- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L38) (1 connections)
-- [toggleFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L196) (1 connections)
-- [totalEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L213) (1 connections)
-- [totalFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L214) (1 connections)
-- [updateFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L197) (1 connections)
+- [GenerateFormSimple.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L1) (13 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L159) (1 connections)
+- [descriptionValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L98) (1 connections)
+- [handleBoostStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L86) (1 connections)
+- [handleClear](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L73) (1 connections)
+- [handleCopy](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L62) (1 connections)
+- [handleOpenStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L92) (1 connections)
+- [handleVocalsToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L78) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L43) (1 connections)
+- [hasTrackedView](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L45) (1 connections)
+- [{ isControl: hidePromptSuggestions, trackConversion: trackSuggestionConversion }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L46) (1 connections)
+- [overLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L100) (1 connections)
+- [titleValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L99) (1 connections)
+- [{ trackFeature, trackAction }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -24,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\features\FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerateFormSimple.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormSimple.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

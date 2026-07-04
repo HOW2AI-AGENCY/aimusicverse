@@ -1,33 +1,46 @@
 # Memory Management
 
-> 24 nodes · cohesion 0.08
+> 25 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L1) (24 connections)
-- [ACCEPTED_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L40) (1 connections)
-- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L45) (1 connections)
-- [[audioUrl, setAudioUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L49) (1 connections)
-- [{ duration: probedDuration }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L58) (1 connections)
-- [[duration, setDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L50) (1 connections)
-- [[file, setFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L48) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L44) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L85) (1 connections)
-- [handleDragLeave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L132) (1 connections)
-- [handleDragOver](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L126) (1 connections)
-- [handleDrop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L138) (1 connections)
-- [handleFileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L95) (1 connections)
-- [handleInputChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L152) (1 connections)
-- [[isComplete, setIsComplete]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L55) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L47) (1 connections)
-- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L53) (1 connections)
-- [MAX_FILE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L39) (1 connections)
-- [resetState](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L70) (1 connections)
-- [TRACK_TYPE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L30) (1 connections)
-- [[trackName, setTrackName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L51) (1 connections)
-- [[trackType, setTrackType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L52) (1 connections)
-- [[uploadProgress, setUploadProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L54) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L43) (1 connections)
+- [Index.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L1) (26 connections)
+- [activeTrack](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L55) (1 connections)
+- [aiSuggestBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L159) (1 connections)
+- [AudioActionDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L44) (1 connections)
+- [[audioDialogOpen, setAudioDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L59) (1 connections)
+- [bottomPadding](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L171) (1 connections)
+- [createBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L104) (1 connections)
+- [discoverBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L117) (1 connections)
+- [displayUser](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L95) (1 connections)
+- [GenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L40) (1 connections)
+- [[generateSheetOpen, setGenerateSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L57) (1 connections)
+- [genresBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L153) (1 connections)
+- [{ goToProfile, handleCreate, handleTrackClick, handleQuickGenrePreset }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L85) (1 connections)
+- [heroBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L98) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L54) (1 connections)
+- [{ isNewUser }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L69) (1 connections)
+- [MusicRecognitionDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L41) (1 connections)
+- [openAudioDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L66) (1 connections)
+- [openGenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L65) (1 connections)
+- [openRecognitionDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L67) (1 connections)
+- [{
+    recentTracks,
+    popularTracks,
+    tracksByGenre,
+    isLoading,
+    hasMoreRecent,
+    isLoadingMoreRecent,
+    fetchMoreRecent,
+    hasMorePopular,
+    isLoadingMorePopular,
+    fetchMorePopular,
+    refresh,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L71) (1 connections)
+- [[recognitionDialogOpen, setRecognitionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L58) (1 connections)
+- [trendingBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L140) (1 connections)
+- [{ user: telegramUser }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L52) (1 connections)
+- [youBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L165) (1 connections)
 
 ## Relationships
 
@@ -35,11 +48,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Index.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 47 (100%)
+- EXTRACTED: 50 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

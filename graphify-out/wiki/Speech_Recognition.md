@@ -1,21 +1,22 @@
 # Speech Recognition
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L1) (6 connections)
-- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L1) (4 connections)
-- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L22) (2 connections)
-- [toggleTheme](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L78) (2 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L27) (1 connections)
-- [handleThemeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L34) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L20) (1 connections)
-- [{ resolvedTheme, setTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L76) (1 connections)
-- [{ theme, resolvedTheme, setTheme, toggleTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L19) (1 connections)
-- [{ theme, setTheme, resolvedTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L32) (1 connections)
-- [ThemeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L42) (1 connections)
-- [themeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L43) (1 connections)
+- [NotFound.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L1) (12 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L203) (3 connections)
+- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L239) (2 connections)
+- [handlePrimaryAction()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L234) (2 connections)
+- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L211) (1 connections)
+- [content](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L209) (1 connections)
+- [ContentIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L210) (1 connections)
+- [getNotFoundContent()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L39) (1 connections)
+- [[glitchEffect, setGlitchEffect]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L206) (1 connections)
+- [glitchInterval](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L223) (1 connections)
+- [{ hapticFeedback, showBackButton, hideBackButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L205) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L204) (1 connections)
+- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L145) (1 connections)
 
 ## Relationships
 
@@ -23,13 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\theme\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\NotFound.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (91%)
-- INFERRED: 2 (9%)
+- EXTRACTED: 28 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

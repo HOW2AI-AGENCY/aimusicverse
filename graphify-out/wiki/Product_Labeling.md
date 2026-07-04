@@ -1,11 +1,12 @@
 # Product Labeling
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L1) (1 connections)
-- [TierTelegramSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L20) (1 connections)
+- [useAuth.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useAuth.test.ts#L1) (2 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useAuth.test.ts#L37) (1 connections)
+- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useAuth.test.ts#L25) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useAuth.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useAuth.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

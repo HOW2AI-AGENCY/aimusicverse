@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [QuickStartSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx#L1) (1 connections)
-- [QUICK_START_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx#L23) (1 connections)
+- [FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L1) (1 connections)
+- [backgroundUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L9) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\QuickStartSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx)
 
 ## Audit Trail
 

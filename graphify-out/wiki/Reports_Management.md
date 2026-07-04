@@ -1,26 +1,27 @@
 # Reports Management
 
-> 17 nodes · cohesion 0.12
+> 18 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L1) (16 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L45) (1 connections)
-- [initialTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L44) (1 connections)
-- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L35) (1 connections)
-- [{ isGuestMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L36) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L37) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L38) (1 connections)
-- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L40) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L39) (1 connections)
-- [selectedProject](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L50) (1 connections)
-- [[selectedProjectId, setSelectedProjectId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L48) (1 connections)
-- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L61) (1 connections)
-- [statusLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L19) (1 connections)
-- [tab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L54) (1 connections)
-- [typeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L27) (1 connections)
-- [urlTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L43) (1 connections)
-- [VALID_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L17) (1 connections)
+- [Feedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L1) (21 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L66) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L74) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L238) (1 connections)
+- [[detailSheetOpen, setDetailSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L76) (1 connections)
+- [[feedback, setFeedback]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L69) (1 connections)
+- [[isAdmin, setIsAdmin]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L75) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L67) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L70) (1 connections)
+- [[replyText, setReplyText]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L72) (1 connections)
+- [[selectedFeedback, setSelectedFeedback]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L71) (1 connections)
+- [selectFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L195) (1 connections)
+- [[sending, setSending]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L73) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L399) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L56) (1 connections)
+- [typeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L49) (1 connections)
+- [TypeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L239) (1 connections)
+- [{ user, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -28,11 +29,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\Feedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
+- EXTRACTED: 39 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

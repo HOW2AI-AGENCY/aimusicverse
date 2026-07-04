@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [VoiceCloneWizard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L1) (30 connections)
-- [active](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L274) (1 connections)
-- [[audioDuration, setAudioDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L39) (1 connections)
-- [close()](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L127) (1 connections)
-- [description](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L111) (1 connections)
-- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L41) (1 connections)
-- [{ duration: probedDuration }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L76) (1 connections)
-- [[file, setFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L35) (1 connections)
-- [[language, setLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L44) (1 connections)
-- [lastStepRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L95) (1 connections)
-- [MAX_SEGMENT_SEC](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L25) (1 connections)
-- [MIN_PHRASE_REC_SEC](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L26) (1 connections)
-- [MIN_SOURCE_SEC](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L24) (1 connections)
-- [phraseRecorder](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L32) (1 connections)
-- [phraseUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L64) (1 connections)
-- [progressPct](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L162) (1 connections)
-- [[selectedStem, setSelectedStem]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L37) (1 connections)
-- [sourceBlob](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L49) (1 connections)
-- [sourceRecorder](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L33) (1 connections)
-- [[sourceTab, setSourceTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L34) (1 connections)
-- [sourceUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L53) (1 connections)
-- [[stemBlob, setStemBlob]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L36) (1 connections)
-- [[stemLoading, setStemLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L38) (1 connections)
-- [stemsQuery](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L46) (1 connections)
-- [{ step, voice, isWorking, lastError, canRetry, startValidation, submitRecording, retryLast, reset }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L29) (1 connections)
+- [CompactPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L1) (29 connections)
+- [{ artworkLayoutId }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L65) (1 connections)
+- [bottomBase](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L150) (1 connections)
+- [bottomStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L151) (1 connections)
+- [{ currentTime, duration, buffered, seek }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L54) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L37) (1 connections)
+- [{ gestureHandlers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L137) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L100) (1 connections)
+- [handleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L95) (1 connections)
+- [handleExpandKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L126) (1 connections)
+- [handleLike](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L109) (1 connections)
+- [handleNextTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L77) (1 connections)
+- [handlePlayPause](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L67) (1 connections)
+- [handlePrevTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L86) (1 connections)
+- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L118) (1 connections)
+- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L53) (1 connections)
+- [hasNextTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L64) (1 connections)
+- [isDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L60) (1 connections)
+- [isLiked](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L156) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L52) (1 connections)
+- [isMidRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L59) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L58) (1 connections)
+- [isMobileLandscape](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L61) (1 connections)
+- [{ isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L48) (1 connections)
+- [playbackError](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx#L51) (1 connections)
 - *... and 5 more nodes in this community*
 
 ## Relationships
@@ -37,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\voice-clone\VoiceCloneWizard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\CompactPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 59 (100%)
+- EXTRACTED: 58 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

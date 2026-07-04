@@ -1,15 +1,16 @@
 # User Statistics
 
-> 6 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L1) (5 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L38) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L35) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L147) (1 connections)
-- [getReadingTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L22) (1 connections)
-- [readingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L36) (1 connections)
+- [useBasicQueries.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L1) (6 connections)
+- [useFeaturedContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L233) (1 connections)
+- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L109) (1 connections)
+- [usePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L145) (1 connections)
+- [usePublicProjects()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L73) (1 connections)
+- [usePublicTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L28) (1 connections)
+- [useSearchPublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L272) (1 connections)
 
 ## Relationships
 
@@ -17,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\useBasicQueries.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts)
 
 ## Audit Trail
 

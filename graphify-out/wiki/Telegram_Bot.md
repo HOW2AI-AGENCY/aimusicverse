@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ProfileStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx#L1) (1 connections)
-- [ProfileStats()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx#L14) (1 connections)
+- [OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L1) (1 connections)
+- [OnboardingStepCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx)
 
 ## Audit Trail
 

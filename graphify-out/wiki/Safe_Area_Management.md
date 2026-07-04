@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useRAFThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L1) (3 connections)
-- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L54) (1 connections)
-- [useRAFThrottleBatch()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L189) (1 connections)
-- [useRAFThrottledState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts#L141) (1 connections)
+- [LEDIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L1) (3 connections)
+- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L19) (1 connections)
+- [LEDIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L59) (1 connections)
+- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L52) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRAFThrottle.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRAFThrottle.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\LEDIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx)
 
 ## Audit Trail
 

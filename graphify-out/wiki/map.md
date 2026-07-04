@@ -120,268 +120,268 @@ sequenceDiagram
     participant P111 as getPublicTracksForGuests()
     participant P112 as buildSearchQuery()
     participant P113 as searchTracksAndProjects()
-    participant P114 as handleMidiTrackCallback()
-    participant P115 as handlePlaylistAdd()
-    participant P116 as handleRemix()
-    participant P117 as handleAddVocals()
-    participant P118 as handleAddInstrumental()
-    participant P119 as handleTrackDetails()
-    participant P120 as handleDownloadStems()
-    participant P121 as handleShowLyrics()
-    participant P122 as getPendingUpload()
-    participant P123 as consumePendingAudio()
-    participant P124 as .saveState()
-    participant P125 as .getUserTracks()
-    participant P126 as handleArtistEdit()
-    participant P127 as showStemFiles()
-    participant P128 as showMidiFiles()
-    participant P129 as showStorageInfo()
-    participant P130 as deleteFile()
-    participant P131 as handleProjectEdit()
-    participant P132 as handleProjectStatusChange()
-    participant P133 as loadCustomImages()
-    participant P134 as storeFailedNotification()
-    participant P135 as fetchGenerationLogs()
-    participant P136 as getPresetById()
-    participant P137 as fetchStemTranscriptions()
-    participant P138 as fetchTracksWithTagJoin()
-    participant P139 as fetchTrackVersionsDetailed()
-    participant P140 as flushBufferedDeeplinkTracks()
-    participant P141 as handleReply()
-    participant P142 as getProductsByType()
-    participant P143 as aggregateByDay()
-    participant P144 as .saveToDatabase()
-    participant P145 as downloadAndUploadStem()
-    participant P146 as searchProjects()
-    participant P147 as handleShareTrack()
-    participant P148 as handleSeparateStems()
-    participant P149 as handleDownloadStems()
-    participant P150 as handleDeleteReference()
-    participant P151 as setPendingAudio()
-    participant P152 as updatePendingAudioAnalysis()
-    participant P153 as setWizardState()
-    participant P154 as .getUserByTelegramId()
-    participant P155 as handleArtistTogglePublic()
-    participant P156 as handleArtistDeleteConfirm()
-    participant P157 as getUserProfile()
-    participant P158 as updatePendingClassification()
-    participant P159 as loadTariffTiers()
-    participant P160 as processUploadAction()
-    participant P161 as handleLikeTrack()
-    participant P162 as completeOnboarding()
-    participant P163 as handleBuyCreditPackages()
-    participant P164 as handleBuySubscriptions()
-    participant P165 as handleProjectDeleteConfirm()
-    participant P166 as handleVoiceToTrack()
-    participant P167 as checkUserQuota()
-    participant P168 as fetchUserFeedback()
-    participant P169 as fetchUserGenerationStats()
-    participant P170 as fetchDeeplinkEvents()
-    participant P171 as createArtist()
-    participant P172 as updateArtist()
-    participant P173 as upsertUserCredits()
-    participant P174 as createLyricVersion()
-    participant P175 as restoreLyricVersion()
-    participant P176 as fetchPlaylistTracks()
-    participant P177 as getMaxPosition()
-    participant P178 as incrementPresetUsage()
-    participant P179 as updateUserProfile()
-    participant P180 as listReferenceAudioForUser()
-    participant P181 as fetchLatestStemTranscription()
-    participant P182 as fetchSectionReplacementLogs()
-    participant P183 as fetchReplacementTasks()
-    participant P184 as updateTrack()
-    participant P185 as generateWaveform()
+    participant P114 as handleMashup()
+    participant P115 as handleMidiTrackCallback()
+    participant P116 as handlePlaylistAdd()
+    participant P117 as handleRemix()
+    participant P118 as handleAddVocals()
+    participant P119 as handleAddInstrumental()
+    participant P120 as handleTrackDetails()
+    participant P121 as handleDownloadStems()
+    participant P122 as handleShowLyrics()
+    participant P123 as getPendingUpload()
+    participant P124 as consumePendingAudio()
+    participant P125 as .saveState()
+    participant P126 as .getUserTracks()
+    participant P127 as handleArtistEdit()
+    participant P128 as showStemFiles()
+    participant P129 as showMidiFiles()
+    participant P130 as showStorageInfo()
+    participant P131 as deleteFile()
+    participant P132 as handleProjectEdit()
+    participant P133 as handleProjectStatusChange()
+    participant P134 as loadCustomImages()
+    participant P135 as storeFailedNotification()
+    participant P136 as fetchGenerationLogs()
+    participant P137 as getPresetById()
+    participant P138 as fetchStemTranscriptions()
+    participant P139 as fetchTracksWithTagJoin()
+    participant P140 as fetchTrackVersionsDetailed()
+    participant P141 as flushBufferedDeeplinkTracks()
+    participant P142 as handleReply()
+    participant P143 as getProductsByType()
+    participant P144 as aggregateByDay()
+    participant P145 as .saveToDatabase()
+    participant P146 as downloadAndUploadStem()
+    participant P147 as searchProjects()
+    participant P148 as handleShareTrack()
+    participant P149 as handleSeparateStems()
+    participant P150 as handleDownloadStems()
+    participant P151 as handleDeleteReference()
+    participant P152 as setPendingAudio()
+    participant P153 as updatePendingAudioAnalysis()
+    participant P154 as setWizardState()
+    participant P155 as .getUserByTelegramId()
+    participant P156 as handleArtistTogglePublic()
+    participant P157 as handleArtistDeleteConfirm()
+    participant P158 as getUserProfile()
+    participant P159 as updatePendingClassification()
+    participant P160 as loadTariffTiers()
+    participant P161 as processUploadAction()
+    participant P162 as handleLikeTrack()
+    participant P163 as completeOnboarding()
+    participant P164 as handleBuyCreditPackages()
+    participant P165 as handleBuySubscriptions()
+    participant P166 as handleProjectDeleteConfirm()
+    participant P167 as handleVoiceToTrack()
+    participant P168 as checkUserQuota()
+    participant P169 as fetchUserFeedback()
+    participant P170 as fetchUserGenerationStats()
+    participant P171 as fetchDeeplinkEvents()
+    participant P172 as createArtist()
+    participant P173 as updateArtist()
+    participant P174 as upsertUserCredits()
+    participant P175 as createLyricVersion()
+    participant P176 as restoreLyricVersion()
+    participant P177 as fetchPlaylistTracks()
+    participant P178 as getMaxPosition()
+    participant P179 as incrementPresetUsage()
+    participant P180 as updateUserProfile()
+    participant P181 as listReferenceAudioForUser()
+    participant P182 as fetchLatestStemTranscription()
+    participant P183 as fetchSectionReplacementLogs()
+    participant P184 as fetchReplacementTasks()
+    participant P185 as updateTrack()
     participant P186 as generateWaveform()
-    participant P187 as uploadMenuItemImage()
-    participant P188 as fetchPublicTracks()
-    participant P189 as fetchPublicArtists()
-    participant P190 as fetchFeaturedContent()
-    participant P191 as fetchDeeplinkAnalyticsSummary()
-    participant P192 as .extractInlineTags()
-    participant P193 as loadUserTracks()
-    participant P194 as getProducts()
-    participant P195 as getPaymentHistory()
-    participant P196 as getUserPaymentTransactions()
-    participant P197 as getActiveSubscription()
-    participant P198 as deleteStorageFiles()
-    participant P199 as cleanupTable()
-    participant P200 as clearActiveMenu()
-    participant P201 as getBotCommands()
-    participant P202 as setPendingUpload()
-    participant P203 as consumePendingUpload()
-    participant P204 as getPendingAudioWithoutConsuming()
-    participant P205 as updatePendingUpload()
-    participant P206 as .getActiveTasks()
-    participant P207 as handleArtistDelete()
-    participant P208 as setWaitingForInput()
-    participant P209 as setPendingClassification()
-    participant P210 as getPendingClassification()
-    participant P211 as consumePendingClassification()
-    participant P212 as getUserByTelegramId()
-    participant P213 as handleRating()
-    participant P214 as startInlineGeneration()
-    participant P215 as handleProjectDelete()
-    participant P216 as showCustomPromptInput()
-    participant P217 as handleDownloadMidi()
-    participant P218 as handleVoiceToArrangement()
-    participant P219 as handleVoiceToCover()
-    participant P220 as handleVoiceToStems()
-    participant P221 as flushLogBuffer()
-    participant P222 as .deleteExpired()
-    participant P223 as flushMetrics()
-    participant P224 as deductCredits()
-    participant P225 as scheduleRetry()
-    participant P226 as getWizardState()
-    participant P227 as logApiCall()
-    participant P228 as getSubscriptionStatus()
-    participant P229 as handleSubmit()
-    participant P230 as handleApply()
-    participant P231 as fetchRecentBotEvents()
-    participant P232 as fetchProfileSignupsForForecast()
-    participant P233 as fetchCompletedStarsRevenueForForecast()
-    participant P234 as fetchGenerationTaskCreatedForForecast()
-    participant P235 as fetchTracksCreatedForForecast()
-    participant P236 as fetchTrackAnalysis()
-    participant P237 as uploadAudioForAnalysis()
-    participant P238 as fetchFunnelMetricsRaw()
-    participant P239 as fetchRealTimeMetricsRaw()
-    participant P240 as fetchPublicArtists()
-    participant P241 as getTrackBatches()
-    participant P242 as retryBatch()
-    participant P243 as getActiveUserBatches()
-    participant P244 as logCreditTransaction()
-    participant P245 as fetchCreditTransactions()
-    participant P246 as countTracksCreatedBetween()
-    participant P247 as countUserActivityBetween()
-    participant P248 as fetchCheckinsSince()
-    participant P249 as countUserAchievements()
-    participant P250 as countUserArtists()
-    participant P251 as getLyricVersions()
-    participant P252 as getSectionNotes()
-    participant P253 as getNotifications()
-    participant P254 as insertCreditTransaction()
-    participant P255 as upsertUserCredits()
-    participant P256 as getUserCredits()
-    participant P257 as getStarsTransactions()
-    participant P258 as updatePlaylist()
-    participant P259 as getPresetsWithAuthors()
-    participant P260 as updatePreset()
-    participant P261 as updateProject()
-    participant P262 as fetchProjectTracks()
-    participant P263 as updateProjectCover()
-    participant P264 as fetchReplacedSectionTasks()
-    participant P265 as fetchSectionReplacementsHistory()
-    participant P266 as fetchLatestStemTranscriptionByStemId()
-    participant P267 as fetchLatestStemTranscriptionByTrackId()
-    participant P268 as fetchTrackLikesWithUser()
-    participant P269 as writeSeen()
-    participant P270 as fetchDBHistory()
-    participant P271 as saveGuitarAnalysisForTrack()
-    participant P272 as fetchTrackChangelog()
-    participant P273 as fetchVersionChangelog()
-    participant P274 as fetchUserRecentChanges()
-    participant P275 as fetchChangesByType()
-    participant P276 as fetchPublicProjects()
-    participant P277 as fetchTrackDetails()
-    participant P278 as fetchTrackChangelog()
-    participant P279 as fetchTrackVersions()
-    participant P280 as fetchPrimaryVersion()
-    participant P281 as fetchTracksWithPrimaryVersions()
-    participant P282 as .startGesture()
-    participant P283 as getTopGenerationUsers()
-    participant P284 as getProductByCode()
-    participant P285 as getFeaturedProducts()
-    participant P286 as getPaymentTransaction()
-    participant P287 as getUserTinkoffSubscriptions()
-    participant P288 as rollupContentAnalytics()
-    participant P289 as hashContentFromUrl()
-    participant P290 as sendNotifications()
-    participant P291 as checkDatabase()
-    participant P292 as verifySignature()
-    participant P293 as loadConfigFromDatabase()
-    participant P294 as getProjectResult()
-    participant P295 as getTrackResult()
-    participant P296 as getActiveMenuMessageId()
-    participant P297 as saveBotCommands()
-    participant P298 as cancelPendingUpload()
-    participant P299 as setConversationContext()
-    participant P300 as getWizardState()
-    participant P301 as .deleteState()
-    participant P302 as getUserByTelegramId()
-    participant P303 as getDashboardData()
-    participant P304 as storeMediaGroupSession()
-    participant P305 as getProfileData()
-    participant P306 as saveRecentStyle()
-    participant P307 as handleToggleLike()
-    participant P308 as getUserByTelegramId()
-    participant P309 as storeVoiceTranscription()
-    participant P310 as markNotificationSuccess()
-    participant P311 as markNotificationFailed()
-    participant P312 as generateTinkoffToken()
-    participant P313 as closeFeedbackItem()
-    participant P314 as fetchProfilesSummary()
-    participant P315 as fetchTodayGenerationStats()
-    participant P316 as fetchCompletedStarsTransactions()
-    participant P317 as fetchAllUserCreditsList()
-    participant P318 as bulkAwardCredits()
-    participant P319 as fetchCompletedTracksForContentAnalytics()
-    participant P320 as fetchAnalyticsEventsForHeatmap()
-    participant P321 as createTempAnalysisTrack()
-    participant P322 as markDeeplinkConversion()
-    participant P323 as fetchPeriodComparison()
-    participant P324 as fetchRevenueAnalyticsRaw()
-    participant P325 as fetchUserArtists()
-    participant P326 as fetchArtistSummary()
-    participant P327 as fetchArtistTrackStats()
-    participant P328 as getUserBatchStats()
-    participant P329 as fetchAchievements()
-    participant P330 as fetchUserAchievements()
-    participant P331 as hasCheckedInToday()
-    participant P332 as fetchTodayCheckin()
-    participant P333 as countUserTrackLikesBetween()
-    participant P334 as fetchClaimedMissionActions()
-    participant P335 as countCompletedTracks()
-    participant P336 as countLikesForTracks()
-    participant P337 as countLikesForTracksBetween()
-    participant P338 as updateSectionNote()
-    participant P339 as getLyricVersionsBatch()
-    participant P340 as updateUserCreditsBalance()
-    participant P341 as fetchUserPlaylists()
-    participant P342 as fetchPlaylistById()
-    participant P343 as fetchPlaylistTracksWithDetails()
-    participant P344 as fetchPlaylistsContainingTrack()
-    participant P345 as getPresets()
-    participant P346 as createPreset()
-    participant P347 as fetchUserPromptTemplates()
-    participant P348 as fetchProfileByUserId()
-    participant P349 as fetchProfileCount()
-    participant P350 as fetchUserProjects()
-    participant P351 as deleteProject()
-    participant P352 as countUserProjects()
-    participant P353 as updateProjectFields()
-    participant P354 as updateProjectBanner()
-    participant P355 as updateShortcuts()
-    participant P356 as uploadFile()
-    participant P357 as deleteFile()
-    participant P358 as listFiles()
-    participant P359 as fetchTrackVersions()
-    participant P360 as setPrimaryVersion()
-    participant P361 as fetchTrackStems()
-    participant P362 as fetchTrackStemsByTypes()
-    participant P363 as fetchTrackStemByType()
-    participant P364 as fetchVersionTranscriptionData()
-    participant P365 as fetchSourceTrackForStudio()
-    participant P366 as fetchStemTranscriptionsByStemIds()
-    participant P367 as updateStudioProject()
-    participant P368 as fetchTrackById()
-    participant P369 as deleteTrack()
-    participant P370 as countUserTracks()
-    participant P371 as fetchTrackVersions()
-    participant P372 as fetchParentTrack()
-    participant P373 as parseLyrics()
-    participant P374 as enrichTracksWithCreators()
-    participant P375 as enrichTracksWithCreators()
+    participant P187 as generateWaveform()
+    participant P188 as uploadMenuItemImage()
+    participant P189 as fetchPublicTracks()
+    participant P190 as fetchPublicArtists()
+    participant P191 as fetchFeaturedContent()
+    participant P192 as fetchDeeplinkAnalyticsSummary()
+    participant P193 as .extractInlineTags()
+    participant P194 as loadUserTracks()
+    participant P195 as getProducts()
+    participant P196 as getPaymentHistory()
+    participant P197 as getUserPaymentTransactions()
+    participant P198 as getActiveSubscription()
+    participant P199 as deleteStorageFiles()
+    participant P200 as cleanupTable()
+    participant P201 as clearActiveMenu()
+    participant P202 as getBotCommands()
+    participant P203 as setPendingUpload()
+    participant P204 as consumePendingUpload()
+    participant P205 as getPendingAudioWithoutConsuming()
+    participant P206 as updatePendingUpload()
+    participant P207 as .getActiveTasks()
+    participant P208 as handleArtistDelete()
+    participant P209 as setWaitingForInput()
+    participant P210 as setPendingClassification()
+    participant P211 as getPendingClassification()
+    participant P212 as consumePendingClassification()
+    participant P213 as getUserByTelegramId()
+    participant P214 as handleRating()
+    participant P215 as startInlineGeneration()
+    participant P216 as handleProjectDelete()
+    participant P217 as showCustomPromptInput()
+    participant P218 as handleDownloadMidi()
+    participant P219 as handleVoiceToArrangement()
+    participant P220 as handleVoiceToCover()
+    participant P221 as handleVoiceToStems()
+    participant P222 as flushLogBuffer()
+    participant P223 as .deleteExpired()
+    participant P224 as flushMetrics()
+    participant P225 as deductCredits()
+    participant P226 as scheduleRetry()
+    participant P227 as getWizardState()
+    participant P228 as logApiCall()
+    participant P229 as getSubscriptionStatus()
+    participant P230 as handleSubmit()
+    participant P231 as handleApply()
+    participant P232 as fetchRecentBotEvents()
+    participant P233 as fetchProfileSignupsForForecast()
+    participant P234 as fetchCompletedStarsRevenueForForecast()
+    participant P235 as fetchGenerationTaskCreatedForForecast()
+    participant P236 as fetchTracksCreatedForForecast()
+    participant P237 as fetchTrackAnalysis()
+    participant P238 as uploadAudioForAnalysis()
+    participant P239 as fetchFunnelMetricsRaw()
+    participant P240 as fetchRealTimeMetricsRaw()
+    participant P241 as fetchPublicArtists()
+    participant P242 as getTrackBatches()
+    participant P243 as retryBatch()
+    participant P244 as getActiveUserBatches()
+    participant P245 as logCreditTransaction()
+    participant P246 as fetchCreditTransactions()
+    participant P247 as countTracksCreatedBetween()
+    participant P248 as countUserActivityBetween()
+    participant P249 as fetchClaimedMissionActions()
+    participant P250 as fetchCheckinsSince()
+    participant P251 as countUserAchievements()
+    participant P252 as countUserArtists()
+    participant P253 as getLyricVersions()
+    participant P254 as getSectionNotes()
+    participant P255 as getNotifications()
+    participant P256 as insertCreditTransaction()
+    participant P257 as upsertUserCredits()
+    participant P258 as getUserCredits()
+    participant P259 as getStarsTransactions()
+    participant P260 as updatePlaylist()
+    participant P261 as getPresetsWithAuthors()
+    participant P262 as updatePreset()
+    participant P263 as updateProject()
+    participant P264 as fetchProjectTracks()
+    participant P265 as updateProjectCover()
+    participant P266 as fetchReplacedSectionTasks()
+    participant P267 as fetchSectionReplacementsHistory()
+    participant P268 as fetchLatestStemTranscriptionByStemId()
+    participant P269 as fetchLatestStemTranscriptionByTrackId()
+    participant P270 as fetchTrackLikesWithUser()
+    participant P271 as writeSeen()
+    participant P272 as fetchDBHistory()
+    participant P273 as saveGuitarAnalysisForTrack()
+    participant P274 as fetchTrackChangelog()
+    participant P275 as fetchVersionChangelog()
+    participant P276 as fetchUserRecentChanges()
+    participant P277 as fetchChangesByType()
+    participant P278 as fetchPublicProjects()
+    participant P279 as fetchTrackDetails()
+    participant P280 as fetchTrackChangelog()
+    participant P281 as fetchTrackVersions()
+    participant P282 as fetchPrimaryVersion()
+    participant P283 as fetchTracksWithPrimaryVersions()
+    participant P284 as fetchProfilesMap()
+    participant P285 as .startGesture()
+    participant P286 as getTopGenerationUsers()
+    participant P287 as getProductByCode()
+    participant P288 as getFeaturedProducts()
+    participant P289 as getPaymentTransaction()
+    participant P290 as getUserTinkoffSubscriptions()
+    participant P291 as rollupContentAnalytics()
+    participant P292 as hashContentFromUrl()
+    participant P293 as sendNotifications()
+    participant P294 as checkDatabase()
+    participant P295 as verifySignature()
+    participant P296 as loadConfigFromDatabase()
+    participant P297 as getProjectResult()
+    participant P298 as getTrackResult()
+    participant P299 as getActiveMenuMessageId()
+    participant P300 as saveBotCommands()
+    participant P301 as cancelPendingUpload()
+    participant P302 as setConversationContext()
+    participant P303 as getWizardState()
+    participant P304 as .deleteState()
+    participant P305 as getUserByTelegramId()
+    participant P306 as getDashboardData()
+    participant P307 as storeMediaGroupSession()
+    participant P308 as getProfileData()
+    participant P309 as saveRecentStyle()
+    participant P310 as handleToggleLike()
+    participant P311 as getUserByTelegramId()
+    participant P312 as storeVoiceTranscription()
+    participant P313 as markNotificationSuccess()
+    participant P314 as markNotificationFailed()
+    participant P315 as generateTinkoffToken()
+    participant P316 as closeFeedbackItem()
+    participant P317 as fetchProfilesSummary()
+    participant P318 as fetchTodayGenerationStats()
+    participant P319 as fetchCompletedStarsTransactions()
+    participant P320 as fetchAllUserCreditsList()
+    participant P321 as bulkAwardCredits()
+    participant P322 as fetchCompletedTracksForContentAnalytics()
+    participant P323 as fetchAnalyticsEventsForHeatmap()
+    participant P324 as createTempAnalysisTrack()
+    participant P325 as markDeeplinkConversion()
+    participant P326 as fetchPeriodComparison()
+    participant P327 as fetchRevenueAnalyticsRaw()
+    participant P328 as fetchUserArtists()
+    participant P329 as fetchArtistSummary()
+    participant P330 as fetchArtistTrackStats()
+    participant P331 as getUserBatchStats()
+    participant P332 as fetchAchievements()
+    participant P333 as fetchUserAchievements()
+    participant P334 as hasCheckedInToday()
+    participant P335 as fetchTodayCheckin()
+    participant P336 as countUserTrackLikesBetween()
+    participant P337 as countCompletedTracks()
+    participant P338 as countLikesForTracks()
+    participant P339 as countLikesForTracksBetween()
+    participant P340 as updateSectionNote()
+    participant P341 as getLyricVersionsBatch()
+    participant P342 as updateUserCreditsBalance()
+    participant P343 as fetchUserPlaylists()
+    participant P344 as fetchPlaylistById()
+    participant P345 as fetchPlaylistTracksWithDetails()
+    participant P346 as fetchPlaylistsContainingTrack()
+    participant P347 as getPresets()
+    participant P348 as createPreset()
+    participant P349 as fetchUserPromptTemplates()
+    participant P350 as fetchProfileByUserId()
+    participant P351 as fetchProfileCount()
+    participant P352 as fetchUserProjects()
+    participant P353 as deleteProject()
+    participant P354 as countUserProjects()
+    participant P355 as updateProjectFields()
+    participant P356 as updateProjectBanner()
+    participant P357 as updateShortcuts()
+    participant P358 as uploadFile()
+    participant P359 as deleteFile()
+    participant P360 as listFiles()
+    participant P361 as fetchTrackVersions()
+    participant P362 as setPrimaryVersion()
+    participant P363 as fetchTrackStems()
+    participant P364 as fetchTrackStemsByTypes()
+    participant P365 as fetchTrackStemByType()
+    participant P366 as fetchVersionTranscriptionData()
+    participant P367 as fetchSourceTrackForStudio()
+    participant P368 as fetchStemTranscriptionsByStemIds()
+    participant P369 as updateStudioProject()
+    participant P370 as fetchTrackById()
+    participant P371 as deleteTrack()
+    participant P372 as countUserTracks()
+    participant P373 as fetchTrackVersions()
+    participant P374 as fetchParentTrack()
+    participant P375 as parseLyrics()
     participant P376 as savePositions()
     participant P377 as searchPublicContent()
     participant P378 as fetchTrackVersions()
@@ -521,7 +521,7 @@ sequenceDiagram
     participant P512 as cn()
     participant P513 as .getActiveGestures()
     participant P514 as .getPendingGestures()
-    participant P515 as error
+    participant P515 as { error }
     participant P516 as Select
     participant P517 as now
     participant P518 as .info()
@@ -576,22 +576,22 @@ sequenceDiagram
     participant P567 as updateBotCommands()
     participant P568 as handleSubmit()
     participant P569 as read()
-    participant P570 as applyTemplateToSections()
-    participant P571 as loadData()
-    participant P572 as getAvailableModels()
-    participant P573 as loadLocalSaved()
-    participant P574 as logAudioDiagnostics()
-    participant P575 as attemptAudioRecovery()
-    participant P576 as generateWaveformFromAudioBuffer()
-    participant P577 as detectSectionsFromGaps()
-    participant P578 as parseTag()
-    participant P579 as fetchTracksWithLikes()
-    participant P580 as executeSearch()
-    participant P581 as buildTrackCaption()
-    participant P582 as createBreadcrumb()
-    participant P583 as capitalizeTitle()
-    participant P584 as fetchFunnelDropoffStats()
-    participant P585 as reorderPlaylistTracks()
+    participant P570 as loadData()
+    participant P571 as getAvailableModels()
+    participant P572 as loadLocalSaved()
+    participant P573 as logAudioDiagnostics()
+    participant P574 as attemptAudioRecovery()
+    participant P575 as generateWaveformFromAudioBuffer()
+    participant P576 as detectSectionsFromGaps()
+    participant P577 as parseTag()
+    participant P578 as fetchTracksWithLikes()
+    participant P579 as executeSearch()
+    participant P580 as buildTrackCaption()
+    participant P581 as createBreadcrumb()
+    participant P582 as capitalizeTitle()
+    participant P583 as fetchFunnelDropoffStats()
+    participant P584 as reorderPlaylistTracks()
+    participant P585 as applyTemplateToSections()
     participant P586 as PerformanceDashboard()
     participant P587 as handleCopy()
     participant P588 as loadLocalHistory()
@@ -621,55 +621,55 @@ sequenceDiagram
     participant P612 as ReportCommentDialog()
     participant P613 as ContentHubTabs()
     participant P614 as handleComplete()
-    participant P615 as sectionsToLyrics()
-    participant P616 as updateSectionContent()
-    participant P617 as changeSectionType()
-    participant P618 as QuickActions()
-    participant P619 as toMidiNotes()
-    participant P620 as parseLyrics()
-    participant P621 as analyzeLine()
-    participant P622 as analyzeRhythm()
-    participant P623 as PresetCard()
-    participant P624 as groupWordsIntoLines()
-    participant P625 as groupLinesIntoSections()
-    participant P626 as MidiTranscriptionActions()
-    participant P627 as calculateStdDev()
-    participant P628 as getConfigByCategory()
-    participant P629 as getFlagsByCategory()
-    participant P630 as generatePeaksMainThread()
-    participant P631 as prefetchQueue()
-    participant P632 as getItems()
-    participant P633 as preloadImages()
-    participant P634 as batchLoad()
-    participant P635 as preloadCriticalRoutes()
-    participant P636 as .prefetchMany()
-    participant P637 as parseFullAnalysis()
-    participant P638 as parseProducerReview()
-    participant P639 as toCSV()
-    participant P640 as createMusicalSections()
-    participant P641 as .validateTags()
-    participant P642 as .detectRhymeScheme()
-    participant P643 as .suggestStylePrompt()
-    participant P644 as aggregateGenerationStats()
-    participant P645 as identifyChord()
-    participant P646 as generateTagsFromAnalysis()
-    participant P647 as fetchReplacementTasksForTrack()
-    participant P648 as getTrackVersions()
-    participant P649 as getTrackVersionsForSwitcher()
-    participant P650 as getTrackVersionsForUnifiedSelector()
-    participant P651 as .normalizeKlangioResult()
-    participant P652 as parseTextResponse()
-    participant P653 as createGenerationResults()
-    participant P654 as createProjectListKeyboard()
-    participant P655 as measureFrame()
-    participant P656 as normalizePeaks()
-    participant P657 as batchApplyPresetToTracks()
-    participant P658 as calculateForecast()
-    participant P659 as SourcesHeatmap()
-    participant P660 as BlogContentRenderer()
-    participant P661 as toCSV()
+    participant P615 as QuickActions()
+    participant P616 as toMidiNotes()
+    participant P617 as parseLyrics()
+    participant P618 as analyzeLine()
+    participant P619 as analyzeRhythm()
+    participant P620 as PresetCard()
+    participant P621 as groupWordsIntoLines()
+    participant P622 as groupLinesIntoSections()
+    participant P623 as MidiTranscriptionActions()
+    participant P624 as calculateStdDev()
+    participant P625 as getConfigByCategory()
+    participant P626 as getFlagsByCategory()
+    participant P627 as generatePeaksMainThread()
+    participant P628 as prefetchQueue()
+    participant P629 as getItems()
+    participant P630 as enrichTracksWithProfiles()
+    participant P631 as generateSrcSet()
+    participant P632 as preloadImages()
+    participant P633 as batchLoad()
+    participant P634 as preloadCriticalRoutes()
+    participant P635 as .prefetchMany()
+    participant P636 as parseFullAnalysis()
+    participant P637 as parseProducerReview()
+    participant P638 as toCSV()
+    participant P639 as createMusicalSections()
+    participant P640 as .validateTags()
+    participant P641 as .detectRhymeScheme()
+    participant P642 as .suggestStylePrompt()
+    participant P643 as aggregateGenerationStats()
+    participant P644 as identifyChord()
+    participant P645 as generateTagsFromAnalysis()
+    participant P646 as fetchReplacementTasksForTrack()
+    participant P647 as getTrackVersions()
+    participant P648 as getTrackVersionsForSwitcher()
+    participant P649 as getTrackVersionsForUnifiedSelector()
+    participant P650 as .normalizeKlangioResult()
+    participant P651 as parseTextResponse()
+    participant P652 as createGenerationResults()
+    participant P653 as createProjectListKeyboard()
+    participant P654 as measureFrame()
+    participant P655 as normalizePeaks()
+    participant P656 as batchApplyPresetToTracks()
+    participant P657 as calculateForecast()
+    participant P658 as SourcesHeatmap()
+    participant P659 as BlogContentRenderer()
+    participant P660 as toCSV()
+    participant P661 as sectionsToLyrics()
     participant P662 as sectionsToLyrics()
-    participant P663 as AiSuggestions()
+    participant P663 as AudioActionModeTabsSection()
     participant P664 as parseLyrics()
     participant P665 as renderSectionTags()
     participant P666 as ParaphraseResultCard()
@@ -693,36 +693,37 @@ sequenceDiagram
     participant P684 as getRegisteredShortcuts()
     participant P685 as computeScaleNotes()
     participant P686 as getGenrePlaylists()
-    participant P687 as generateSrcSet()
-    participant P688 as splitWordByLineBreaks()
-    participant P689 as parseTimeToSeconds()
-    participant P690 as buildEnglishPrompt()
-    participant P691 as parseTagsFromText()
-    participant P692 as setPrimaryVersionOptimistic()
-    participant P693 as formatErrorsForExport()
-    participant P694 as formatDeeplinksForExport()
-    participant P695 as .formatFinal()
-    participant P696 as .formatSectionForDisplay()
-    participant P697 as .parseCompoundTag()
-    participant P698 as .validateLine()
-    participant P699 as groupIntoEnhancedLines()
-    participant P700 as extractLyricsForTimeRange()
-    participant P701 as studioProjectToDAWProject()
-    participant P702 as toggleSelectAll()
-    participant P703 as sectionsToLyrics()
-    participant P704 as analyzeGenerationDurations()
-    participant P705 as fetchSectionReplacementsHistory()
-    participant P706 as formatLyricsForKaraoke()
-    participant P707 as compressLyrics()
-    participant P708 as cloneSections()
-    participant P709 as detectTimeSignature()
-    participant P710 as getDownbeats()
-    participant P711 as .addButtons()
-    participant P712 as createList()
-    participant P713 as addLineNumbers()
-    participant P714 as formatList()
-    participant P715 as createTable()
-    participant P716 as .getPeakMemory()
+    participant P687 as splitWordByLineBreaks()
+    participant P688 as parseTimeToSeconds()
+    participant P689 as buildEnglishPrompt()
+    participant P690 as parseTagsFromText()
+    participant P691 as setPrimaryVersionOptimistic()
+    participant P692 as formatErrorsForExport()
+    participant P693 as formatDeeplinksForExport()
+    participant P694 as .formatFinal()
+    participant P695 as .formatSectionForDisplay()
+    participant P696 as .parseCompoundTag()
+    participant P697 as .validateLine()
+    participant P698 as groupIntoEnhancedLines()
+    participant P699 as extractLyricsForTimeRange()
+    participant P700 as studioProjectToDAWProject()
+    participant P701 as toggleSelectAll()
+    participant P702 as sectionsToLyrics()
+    participant P703 as analyzeGenerationDurations()
+    participant P704 as fetchSectionReplacementsHistory()
+    participant P705 as formatLyricsForKaraoke()
+    participant P706 as compressLyrics()
+    participant P707 as cloneSections()
+    participant P708 as detectTimeSignature()
+    participant P709 as getDownbeats()
+    participant P710 as .addButtons()
+    participant P711 as createList()
+    participant P712 as addLineNumbers()
+    participant P713 as formatList()
+    participant P714 as createTable()
+    participant P715 as .getPeakMemory()
+    participant P716 as updateSectionContent
+    participant P717 as changeSectionType
     P0->>+ P1: calls
     P1-->>- P0: return
     P1->>+ P2: calls
@@ -1777,22 +1778,22 @@ sequenceDiagram
     P524-->>- P1: return
     P1->>+ P4: calls
     P4-->>- P1: return
-    P1->>+ P8: calls
-    P8-->>- P1: return
     P1->>+ P525: calls
     P525-->>- P1: return
+    P1->>+ P8: calls
+    P8-->>- P1: return
     P1->>+ P11: calls
     P11-->>- P1: return
     P1->>+ P526: calls
     P526-->>- P1: return
     P1->>+ P527: calls
     P527-->>- P1: return
-    P1->>+ P158: calls
-    P158-->>- P1: return
+    P1->>+ P159: calls
+    P159-->>- P1: return
     P1->>+ P528: calls
     P528-->>- P1: return
-    P1->>+ P211: calls
-    P211-->>- P1: return
+    P1->>+ P212: calls
+    P212-->>- P1: return
     P1->>+ P529: calls
     P529-->>- P1: return
     P1->>+ P530: calls
@@ -1891,28 +1892,28 @@ sequenceDiagram
     P111-->>- P0: return
     P0->>+ P113: calls
     P113-->>- P0: return
-    P0->>+ P120: calls
-    P120-->>- P0: return
+    P0->>+ P121: calls
+    P121-->>- P0: return
     P0->>+ P548: calls
     P548-->>- P0: return
     P0->>+ P549: calls
     P549-->>- P0: return
     P0->>+ P550: calls
     P550-->>- P0: return
-    P0->>+ P138: calls
-    P138-->>- P0: return
+    P0->>+ P139: calls
+    P139-->>- P0: return
     P0->>+ P551: calls
     P551-->>- P0: return
     P0->>+ P552: calls
     P552-->>- P0: return
     P0->>+ P553: calls
     P553-->>- P0: return
-    P0->>+ P142: calls
-    P142-->>- P0: return
     P0->>+ P143: calls
     P143-->>- P0: return
-    P0->>+ P146: calls
-    P146-->>- P0: return
+    P0->>+ P144: calls
+    P144-->>- P0: return
+    P0->>+ P147: calls
+    P147-->>- P0: return
     P0->>+ P554: calls
     P554-->>- P0: return
     P0->>+ P555: calls
@@ -1925,8 +1926,8 @@ sequenceDiagram
     P558-->>- P0: return
     P0->>+ P559: calls
     P559-->>- P0: return
-    P0->>+ P185: calls
-    P185-->>- P0: return
+    P0->>+ P186: calls
+    P186-->>- P0: return
     P0->>+ P560: calls
     P560-->>- P0: return
     P0->>+ P561: calls
@@ -1937,40 +1938,40 @@ sequenceDiagram
     P563-->>- P0: return
     P0->>+ P564: calls
     P564-->>- P0: return
-    P0->>+ P186: calls
-    P186-->>- P0: return
+    P0->>+ P187: calls
+    P187-->>- P0: return
     P0->>+ P565: calls
     P565-->>- P0: return
-    P0->>+ P188: calls
-    P188-->>- P0: return
-    P0->>+ P190: calls
-    P190-->>- P0: return
+    P0->>+ P189: calls
+    P189-->>- P0: return
     P0->>+ P191: calls
     P191-->>- P0: return
     P0->>+ P192: calls
     P192-->>- P0: return
-    P0->>+ P194: calls
-    P194-->>- P0: return
+    P0->>+ P193: calls
+    P193-->>- P0: return
     P0->>+ P195: calls
     P195-->>- P0: return
-    P0->>+ P199: calls
-    P199-->>- P0: return
+    P0->>+ P196: calls
+    P196-->>- P0: return
+    P0->>+ P200: calls
+    P200-->>- P0: return
     P0->>+ P566: calls
     P566-->>- P0: return
     P0->>+ P567: calls
     P567-->>- P0: return
-    P0->>+ P223: calls
-    P223-->>- P0: return
-    P0->>+ P241: calls
-    P241-->>- P0: return
-    P0->>+ P243: calls
-    P243-->>- P0: return
-    P0->>+ P251: calls
-    P251-->>- P0: return
-    P0->>+ P252: calls
-    P252-->>- P0: return
-    P0->>+ P259: calls
-    P259-->>- P0: return
+    P0->>+ P224: calls
+    P224-->>- P0: return
+    P0->>+ P242: calls
+    P242-->>- P0: return
+    P0->>+ P244: calls
+    P244-->>- P0: return
+    P0->>+ P253: calls
+    P253-->>- P0: return
+    P0->>+ P254: calls
+    P254-->>- P0: return
+    P0->>+ P261: calls
+    P261-->>- P0: return
     P0->>+ P568: calls
     P568-->>- P0: return
     P0->>+ P569: calls
@@ -1985,52 +1986,50 @@ sequenceDiagram
     P573-->>- P0: return
     P0->>+ P574: calls
     P574-->>- P0: return
+    P0->>+ P284: calls
+    P284-->>- P0: return
     P0->>+ P575: calls
     P575-->>- P0: return
     P0->>+ P576: calls
     P576-->>- P0: return
     P0->>+ P577: calls
     P577-->>- P0: return
-    P0->>+ P578: calls
-    P578-->>- P0: return
-    P0->>+ P283: calls
-    P283-->>- P0: return
-    P0->>+ P285: calls
-    P285-->>- P0: return
-    P0->>+ P579: calls
-    P579-->>- P0: return
+    P0->>+ P286: calls
+    P286-->>- P0: return
     P0->>+ P288: calls
     P288-->>- P0: return
-    P0->>+ P289: calls
-    P289-->>- P0: return
+    P0->>+ P578: calls
+    P578-->>- P0: return
+    P0->>+ P291: calls
+    P291-->>- P0: return
     P0->>+ P292: calls
     P292-->>- P0: return
+    P0->>+ P295: calls
+    P295-->>- P0: return
+    P0->>+ P579: calls
+    P579-->>- P0: return
     P0->>+ P580: calls
     P580-->>- P0: return
     P0->>+ P581: calls
     P581-->>- P0: return
+    P0->>+ P315: calls
+    P315-->>- P0: return
     P0->>+ P582: calls
     P582-->>- P0: return
-    P0->>+ P312: calls
-    P312-->>- P0: return
     P0->>+ P583: calls
     P583-->>- P0: return
     P0->>+ P584: calls
     P584-->>- P0: return
+    P0->>+ P346: calls
+    P346-->>- P0: return
+    P0->>+ P375: calls
+    P375-->>- P0: return
     P0->>+ P585: calls
     P585-->>- P0: return
-    P0->>+ P344: calls
-    P344-->>- P0: return
-    P0->>+ P373: calls
-    P373-->>- P0: return
     P0->>+ P586: calls
     P586-->>- P0: return
     P0->>+ P587: calls
     P587-->>- P0: return
-    P0->>+ P374: calls
-    P374-->>- P0: return
-    P0->>+ P375: calls
-    P375-->>- P0: return
     P0->>+ P588: calls
     P588-->>- P0: return
     P0->>+ P589: calls
@@ -2103,30 +2102,30 @@ sequenceDiagram
     P618-->>- P0: return
     P0->>+ P619: calls
     P619-->>- P0: return
+    P0->>+ P462: calls
+    P462-->>- P0: return
     P0->>+ P620: calls
     P620-->>- P0: return
+    P0->>+ P463: calls
+    P463-->>- P0: return
     P0->>+ P621: calls
     P621-->>- P0: return
     P0->>+ P622: calls
     P622-->>- P0: return
-    P0->>+ P462: calls
-    P462-->>- P0: return
     P0->>+ P623: calls
     P623-->>- P0: return
-    P0->>+ P463: calls
-    P463-->>- P0: return
-    P0->>+ P624: calls
-    P624-->>- P0: return
-    P0->>+ P625: calls
-    P625-->>- P0: return
-    P0->>+ P626: calls
-    P626-->>- P0: return
     P0->>+ P464: calls
     P464-->>- P0: return
     P0->>+ P465: calls
     P465-->>- P0: return
     P0->>+ P466: calls
     P466-->>- P0: return
+    P0->>+ P624: calls
+    P624-->>- P0: return
+    P0->>+ P625: calls
+    P625-->>- P0: return
+    P0->>+ P626: calls
+    P626-->>- P0: return
     P0->>+ P627: calls
     P627-->>- P0: return
     P0->>+ P628: calls
@@ -2159,12 +2158,12 @@ sequenceDiagram
     P641-->>- P0: return
     P0->>+ P642: calls
     P642-->>- P0: return
-    P0->>+ P643: calls
-    P643-->>- P0: return
     P0->>+ P480: calls
     P480-->>- P0: return
     P0->>+ P481: calls
     P481-->>- P0: return
+    P0->>+ P643: calls
+    P643-->>- P0: return
     P0->>+ P644: calls
     P644-->>- P0: return
     P0->>+ P645: calls
@@ -2181,12 +2180,12 @@ sequenceDiagram
     P650-->>- P0: return
     P0->>+ P651: calls
     P651-->>- P0: return
-    P0->>+ P652: calls
-    P652-->>- P0: return
     P0->>+ P488: calls
     P488-->>- P0: return
     P0->>+ P489: calls
     P489-->>- P0: return
+    P0->>+ P652: calls
+    P652-->>- P0: return
     P0->>+ P653: calls
     P653-->>- P0: return
     P0->>+ P654: calls
@@ -2315,6 +2314,8 @@ sequenceDiagram
     P715-->>- P0: return
     P0->>+ P716: calls
     P716-->>- P0: return
+    P0->>+ P717: calls
+    P717-->>- P0: return
 ```
 
 ## Connections by Relation

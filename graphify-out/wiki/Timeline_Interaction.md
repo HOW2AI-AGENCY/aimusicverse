@@ -1,33 +1,34 @@
 # Timeline Interaction
 
-> 24 nodes · cohesion 0.08
+> 25 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L1) (23 connections)
-- [handleProjectSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L86) (2 connections)
-- [{ activeReference }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L60) (1 connections)
-- [[advancedOpen, setAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L71) (1 connections)
-- [[artistDialogOpen, setArtistDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L64) (1 connections)
-- [{ artists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L58) (1 connections)
-- [[audioActionDialogOpen, setAudioActionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L65) (1 connections)
-- [chordInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L331) (1 connections)
-- [form](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L76) (1 connections)
-- [FormSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L42) (1 connections)
-- [GenerateFormCustom](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L37) (1 connections)
-- [GenerateFormSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L34) (1 connections)
-- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L99) (1 connections)
-- [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L67) (1 connections)
-- [[lyricsAssistantOpen, setLyricsAssistantOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L68) (1 connections)
-- [[projectDialogOpen, setProjectDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L63) (1 connections)
-- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L57) (1 connections)
-- [projectTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L84) (1 connections)
-- [[projectTrackStep, setProjectTrackStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L70) (1 connections)
-- [qc](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L72) (1 connections)
-- [[stylesOpen, setStylesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L69) (1 connections)
-- [{ tracks: allTracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L59) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L73) (1 connections)
-- [[voiceCloneOpen, setVoiceCloneOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L66) (1 connections)
+- [CrossfadePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L1) (24 connections)
+- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L63) (1 connections)
+- [applyCrossfade](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L96) (1 connections)
+- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L68) (1 connections)
+- [{ audioRef: originalHookRef }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L49) (1 connections)
+- [{ audioRef: replacementHookRef }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L54) (1 connections)
+- [crossfadePoint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L76) (1 connections)
+- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L42) (1 connections)
+- [effectiveVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L90) (1 connections)
+- [gainNodesRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L64) (1 connections)
+- [instanceId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L46) (1 connections)
+- [isCrossfading](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L203) (1 connections)
+- [[isMuted, setIsMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L44) (1 connections)
+- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L41) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L40) (1 connections)
+- [originalAudioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L61) (1 connections)
+- [pause](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L182) (1 connections)
+- [play](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L163) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L202) (1 connections)
+- [replacementAudioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L62) (1 connections)
+- [restart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L191) (1 connections)
+- [sectionDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L75) (1 connections)
+- [togglePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L197) (1 connections)
+- [updatePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L141) (1 connections)
+- [[volume, setVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -35,12 +36,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\CrossfadePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 48 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

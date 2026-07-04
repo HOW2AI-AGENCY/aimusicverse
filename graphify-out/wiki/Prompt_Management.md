@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [PlaylistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L1) (2 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L23) (1 connections)
-- [getTrackWord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx#L32) (1 connections)
+- [StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L1) (2 connections)
+- [analysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L20) (1 connections)
+- [displayStrokes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\PlaylistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistDetailPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx)
 
 ## Audit Trail
 

@@ -1,27 +1,28 @@
 # Media Interaction
 
-> 18 nodes · cohesion 0.11
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [mixer-renders.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L1) (15 connections)
-- [stems](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L19) (2 connections)
-- [useStudioTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioTrackStems.ts#L17) (2 connections)
-- [useStudioTrackStems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioTrackStems.ts#L1) (1 connections)
-- [benchmarkResult](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L125) (1 connections)
-- [finalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L42) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L185) (1 connections)
-- [initialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L34) (1 connections)
-- [renderCounter](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L12) (1 connections)
-- [reRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L43) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L26) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L147) (1 connections)
-- [stem1FinalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L101) (1 connections)
-- [stem1InitialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L93) (1 connections)
-- [stem1ReRenders](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L104) (1 connections)
-- [stem2FinalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L102) (1 connections)
-- [stem2InitialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L94) (1 connections)
-- [stem2ReRenders](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L105) (1 connections)
+- [VUMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L1) (18 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L121) (2 connections)
+- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L182) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L50) (1 connections)
+- [db](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L51) (1 connections)
+- [dbScale](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L23) (1 connections)
+- [displayDb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L240) (1 connections)
+- [ledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L99) (1 connections)
+- [leds](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L101) (1 connections)
+- [peakRotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L163) (1 connections)
+- [percentage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L241) (1 connections)
+- [rotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L162) (1 connections)
+- [segments](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L276) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L31) (1 connections)
+- [toDB()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L26) (1 connections)
+- [x1](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L183) (1 connections)
+- [x2](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L185) (1 connections)
+- [y1](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L184) (1 connections)
+- [y2](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L186) (1 connections)
 
 ## Relationships
 
@@ -29,13 +30,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioTrackStems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioTrackStems.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\performance\mixer-renders.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\VUMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (94%)
-- INFERRED: 2 (6%)
+- EXTRACTED: 36 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

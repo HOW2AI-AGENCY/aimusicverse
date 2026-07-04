@@ -1,15 +1,16 @@
 # User Interface Modes
 
-> 6 nodes · cohesion 0.40
+> 7 nodes · cohesion 0.38
 
 ## Key Concepts
 
-- [ProjectDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L1) (5 connections)
-- [handleOpenProject()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L47) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L42) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L77) (1 connections)
-- [statusInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L44) (1 connections)
-- [typeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L45) (1 connections)
+- [sunoTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L1) (6 connections)
+- [findSunoTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L235) (3 connections)
+- [getAllSunoTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L228) (2 connections)
+- [getTagLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L260) (2 connections)
+- [parseTagsFromText()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L252) (2 connections)
+- [formatTagForInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L243) (1 connections)
+- [SUNO_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -17,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\ProjectDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\sunoTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 16 (94%)
+- INFERRED: 1 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

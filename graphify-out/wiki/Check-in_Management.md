@@ -1,19 +1,20 @@
 # Check-in Management
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L1) (9 connections)
-- [ALERT_COOLDOWNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L51) (1 connections)
-- [ALERT_PRIORITIES](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L60) (1 connections)
-- [LAST_ALERT_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L72) (1 connections)
-- [MAX_ALERTS_ON_PAGE_LOAD](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L46) (1 connections)
-- [MAX_ALERTS_PER_SESSION](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L45) (1 connections)
-- [MIN_ALERT_INTERVAL](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L44) (1 connections)
-- [QUIET_ROUTES](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L49) (1 connections)
-- [SESSION_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L71) (1 connections)
-- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L70) (1 connections)
+- [FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L1) (10 connections)
+- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L184) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L74) (1 connections)
+- [hasValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L44) (1 connections)
+- [inputPaddingTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L60) (1 connections)
+- [isFloating](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L45) (1 connections)
+- [[isFocused, setIsFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L41) (1 connections)
+- [isPassword](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L46) (1 connections)
+- [labelSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L54) (1 connections)
+- [[showPassword, setShowPassword]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L42) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

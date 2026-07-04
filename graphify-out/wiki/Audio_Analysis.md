@@ -1,16 +1,16 @@
 # Audio Analysis
 
-> 7 nodes · cohesion 0.38
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [sunoTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L1) (6 connections)
-- [findSunoTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L235) (3 connections)
-- [getAllSunoTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L228) (2 connections)
-- [getTagLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L260) (2 connections)
-- [parseTagsFromText()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L252) (2 connections)
-- [formatTagForInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L243) (1 connections)
-- [SUNO_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L29) (1 connections)
+- [WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L1) (6 connections)
+- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L76) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L78) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L79) (1 connections)
+- [isSkipped](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L77) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L75) (1 connections)
+- [WorkflowProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\sunoTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (94%)
-- INFERRED: 1 (6%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

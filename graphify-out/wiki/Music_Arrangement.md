@@ -1,22 +1,23 @@
 # Music Arrangement
 
-> 13 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [StudioMusicLabSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L1) (12 connections)
-- [barCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L137) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L121) (1 connections)
-- [handleRecordToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L128) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L157) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L274) (1 connections)
-- [{ isActive: isPro }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L98) (1 connections)
-- [isLocked](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L158) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L203) (1 connections)
-- [MODE_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L85) (1 connections)
-- [musicLab](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L100) (1 connections)
-- [RECORDING_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L61) (1 connections)
-- [threshold](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L273) (1 connections)
+- [browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L1) (13 connections)
+- [apis](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L18) (1 connections)
+- [audioSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L172) (1 connections)
+- [dimensions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L264) (1 connections)
+- [dynamicImport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L125) (1 connections)
+- [es6Support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L75) (1 connections)
+- [fetchTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L227) (1 connections)
+- [imageSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L152) (1 connections)
+- [mediaQuerySupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L280) (1 connections)
+- [perf](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L313) (1 connections)
+- [perfSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L296) (1 connections)
+- [report](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L339) (1 connections)
+- [storageTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L190) (1 connections)
+- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L255) (1 connections)
 
 ## Relationships
 
@@ -24,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioMusicLabSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useStudioProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts#L1) (3 connections)
-- [generateId()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts#L114) (2 connections)
-- [TRACK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts#L106) (1 connections)
-- [useStudioProjectStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts#L116) (1 connections)
+- [useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L1) (3 connections)
+- [calculateRMS()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L36) (1 connections)
+- [DEFAULT_LEVELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L27) (1 connections)
+- [useStemAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L47) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\useStudioProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStudioProjectStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

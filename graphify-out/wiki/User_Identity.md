@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L1) (2 connections)
-- [Content()](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L20) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L5) (1 connections)
+- [historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L1) (2 connections)
+- [createHistorySlice()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L47) (1 connections)
+- [DEFAULT_EXCLUDE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\zustand\historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts)
 
 ## Audit Trail
 

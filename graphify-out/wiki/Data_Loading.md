@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useTinkoffPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts#L1) (1 connections)
-- [useTinkoffPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts#L22) (1 connections)
+- [useAdminDailyStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts#L1) (1 connections)
+- [useAdminDailyStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTinkoffPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTinkoffPayment.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminDailyStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts)
 
 ## Audit Trail
 

@@ -1,15 +1,16 @@
 # Testing Utilities
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [RealTimeMetrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L1) (5 connections)
-- [formatTimeSince()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L72) (2 connections)
-- [{ data, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L28) (1 connections)
-- [[pulse, setPulse]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L26) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L61) (1 connections)
-- [unsubscribe](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L68) (1 connections)
+- [useEnhancedAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L1) (6 connections)
+- [useActiveUsersStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L143) (1 connections)
+- [useContentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L247) (1 connections)
+- [useErrorDistribution()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L184) (1 connections)
+- [useGenerationModeStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L99) (1 connections)
+- [useModelUsageStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L47) (1 connections)
+- [useSourceDistribution()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L273) (1 connections)
 
 ## Relationships
 
@@ -17,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RealTimeMetrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEnhancedAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (91%)
-- INFERRED: 1 (9%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

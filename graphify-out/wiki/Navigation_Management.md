@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L1) (3 connections)
-- [displayBio](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L20) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L13) (1 connections)
-- [shouldTruncate](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L19) (1 connections)
+- [DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L1) (3 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L79) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L80) (1 connections)
+- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx)
 
 ## Audit Trail
 

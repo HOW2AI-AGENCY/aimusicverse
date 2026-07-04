@@ -1,22 +1,22 @@
 # Music Generation
 
-> 13 nodes · cohesion 0.23
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [branded.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L1) (12 connections)
-- [isValidUUID()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L59) (7 connections)
-- [createArtistId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L120) (2 connections)
-- [createPlaylistId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L132) (2 connections)
-- [createProjectId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L108) (2 connections)
-- [createStemId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L96) (2 connections)
-- [createTrackId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L72) (2 connections)
-- [createUserId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L84) (2 connections)
-- [brand](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L23) (1 connections)
-- [extractId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L172) (1 connections)
-- [unsafeAsStemId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L161) (1 connections)
-- [unsafeAsTrackId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L145) (1 connections)
-- [unsafeAsUserId()](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts#L153) (1 connections)
+- [DailyTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L1) (12 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L168) (1 connections)
+- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L78) (1 connections)
+- [FeatureTutorialDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L19) (1 connections)
+- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L126) (1 connections)
+- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L131) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L112) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L124) (1 connections)
+- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L120) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L123) (1 connections)
+- [TIPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L28) (1 connections)
+- [todaysTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L115) (1 connections)
+- [[tutorialOpen, setTutorialOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L121) (1 connections)
 
 ## Relationships
 
@@ -24,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\branded.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/branded.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\DailyTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useTelegramDocumentShare.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTelegramDocumentShare.ts#L1) (1 connections)
-- [useTelegramDocumentShare()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTelegramDocumentShare.ts#L11) (1 connections)
+- [useGenerateSfx.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts#L1) (1 connections)
+- [useGenerateSfx()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTelegramDocumentShare.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTelegramDocumentShare.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useGenerateSfx.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts)
 
 ## Audit Trail
 

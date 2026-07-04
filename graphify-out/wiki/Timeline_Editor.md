@@ -1,23 +1,24 @@
 # Timeline Editor
 
-> 14 nodes · cohesion 0.14
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L1) (13 connections)
-- [handleMouseLeave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L55) (2 connections)
-- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L44) (2 connections)
-- [cardRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L25) (1 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L60) (1 connections)
-- [[isFlipped, setIsFlipped]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L26) (1 connections)
-- [rotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L33) (1 connections)
-- [rotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L34) (1 connections)
-- [shineX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L41) (1 connections)
-- [shineY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L42) (1 connections)
-- [springRotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L37) (1 connections)
-- [springRotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L38) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L29) (1 connections)
-- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L30) (1 connections)
+- [ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L1) (14 connections)
+- [baseFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L214) (1 connections)
+- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L10) (1 connections)
+- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L184) (1 connections)
+- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L194) (1 connections)
+- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L213) (1 connections)
+- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L212) (1 connections)
+- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L139) (1 connections)
+- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L183) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L186) (1 connections)
+- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L195) (1 connections)
+- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L196) (1 connections)
+- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L193) (1 connections)
+- [{ width, height, fontSize, dotSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L192) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L273) (1 connections)
 
 ## Relationships
 
@@ -25,12 +26,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (93%)
-- INFERRED: 2 (7%)
+- EXTRACTED: 28 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

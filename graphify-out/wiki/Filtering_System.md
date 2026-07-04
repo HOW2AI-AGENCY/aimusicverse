@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L1) (5 connections)
-- [{ actionState, isProcessing, dialogs, closeDialog, executeAction, handleConfirmDelete, stems }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L53) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L46) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L51) (1 connections)
-- [[mobileSheetOpen, setMobileSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L47) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L48) (1 connections)
+- [AnomalyDetectionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L1) (5 connections)
+- [{ anomalies, criticalCount, warningCount, hasAnomalies, hasCritical }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L107) (1 connections)
+- [AnomalyCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L65) (1 connections)
+- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L106) (1 connections)
+- [severityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L25) (1 connections)
+- [typeIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AnomalyDetectionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx)
 
 ## Audit Trail
 

@@ -1,12 +1,13 @@
 # Pattern Handling
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L1) (2 connections)
-- [analysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L20) (1 connections)
-- [displayStrokes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L84) (1 connections)
+- [type-guards.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L1) (3 connections)
+- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L22) (1 connections)
+- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L10) (1 connections)
+- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L16) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\type-guards.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

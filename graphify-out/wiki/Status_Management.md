@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelegramActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L1) (2 connections)
-- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L14) (1 connections)
-- [useTelegramActions()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L19) (1 connections)
+- [StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L1) (2 connections)
+- [ActionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L68) (1 connections)
+- [StudioActionsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L114) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\useTelegramActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx)
 
 ## Audit Trail
 

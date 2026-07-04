@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L1) (3 connections)
-- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L28) (1 connections)
-- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L16) (1 connections)
-- [NotificationCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L40) (1 connections)
+- [RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L1) (3 connections)
+- [MOCK_COHORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L56) (1 connections)
+- [MOCK_RETENTION_TREND](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L48) (1 connections)
+- [summaryStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L66) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx)
 
 ## Audit Trail
 

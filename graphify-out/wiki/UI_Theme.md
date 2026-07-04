@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
-- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
-- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
-- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
-- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
+- [TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L1) (4 connections)
+- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L18) (1 connections)
+- [categoryInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L38) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L39) (1 connections)
+- [resolvedCategory](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx)
 
 ## Audit Trail
 

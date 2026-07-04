@@ -1,15 +1,16 @@
 # Editor Management
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L1) (5 connections)
-- [[animating, setAnimating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L55) (1 connections)
-- [MobilePageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L15) (1 connections)
-- [MobileSlideUpTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L80) (1 connections)
-- [[shouldRender, setShouldRender]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L54) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L63) (1 connections)
+- [NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L1) (6 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L19) (1 connections)
+- [Dot](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L21) (1 connections)
+- [Labels](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L45) (1 connections)
+- [MaxCount](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L25) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L5) (1 connections)
+- [StatusIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

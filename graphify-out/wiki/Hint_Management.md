@@ -1,13 +1,14 @@
 # Hint Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L1) (3 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L31) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L50) (1 connections)
-- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L54) (1 connections)
+- [dev-overlay.force-visible.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L1) (4 connections)
+- [btn](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L42) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L66) (1 connections)
+- [probe](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L62) (1 connections)
+- [top](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L77) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\dev-overlay.force-visible.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

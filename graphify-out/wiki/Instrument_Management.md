@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [UserStatsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx#L1) (1 connections)
-- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx#L15) (1 connections)
+- [VersionBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionBadge.tsx#L1) (1 connections)
+- [VersionBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionBadge.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\UserStatsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\VersionBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionBadge.tsx)
 
 ## Audit Trail
 

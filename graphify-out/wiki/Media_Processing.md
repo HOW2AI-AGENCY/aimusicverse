@@ -4,33 +4,31 @@
 
 ## Key Concepts
 
-- [AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L1) (14 connections)
-- [ProfilePage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L1) (14 connections)
-- [logout](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L266) (2 connections)
-- [handleLogout()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L63) (2 connections)
-- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L58) (2 connections)
-- [handleStartOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L53) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L36) (2 connections)
-- [AuthContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L25) (1 connections)
-- [authenticateWithTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L104) (1 connections)
-- [authLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L27) (1 connections)
-- [checkProfile](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L88) (1 connections)
-- [{
-      data: { subscription },
-    }](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L49) (1 connections)
-- [{ initData, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L36) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L35) (1 connections)
-- [loadingTimeout](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L40) (1 connections)
-- [[session, setSession]](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L34) (1 connections)
-- [timeoutWarningLogged](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L30) (1 connections)
-- [[user, setUser]](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L33) (1 connections)
-- [value](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L273) (1 connections)
-- [{ data: adminAuth }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L41) (1 connections)
-- [{ data: profile }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L38) (1 connections)
-- [{ data: stats, isLoading: statsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L42) (1 connections)
-- [displayUser](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L51) (1 connections)
-- [{ hapticFeedback, user: telegramUser }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L37) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx#L43) (1 connections)
+- [GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L1) (28 connections)
+- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L59) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L276) (1 connections)
+- [{ data: versions = [], isLoading: loading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L70) (1 connections)
+- [durMin](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L244) (1 connections)
+- [durSec](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L245) (1 connections)
+- [handleGoToLibrary](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L188) (1 connections)
+- [handleGoToStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L180) (1 connections)
+- [handlePreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L128) (1 connections)
+- [handleSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L154) (1 connections)
+- [handleSetPrimary](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L163) (1 connections)
+- [handleTrainPersona](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L94) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L58) (1 connections)
+- [hasMultipleVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L196) (1 connections)
+- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L242) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L241) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L57) (1 connections)
+- [[personaDescription, setPersonaDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L67) (1 connections)
+- [[personaDialogOpen, setPersonaDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L65) (1 connections)
+- [personaMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L69) (1 connections)
+- [[personaName, setPersonaName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L66) (1 connections)
+- [personaStrings](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L92) (1 connections)
+- [[playingVersionId, setPlayingVersionId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L62) (1 connections)
+- [primary](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L81) (1 connections)
+- [[selectedVersion, setSelectedVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L61) (1 connections)
 - *... and 4 more nodes in this community*
 
 ## Relationships
@@ -39,13 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\AuthContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\ProfilePage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfilePage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 57 (95%)
-- INFERRED: 3 (5%)
+- EXTRACTED: 56 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

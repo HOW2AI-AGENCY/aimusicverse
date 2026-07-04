@@ -1,12 +1,13 @@
 # Value Commitment
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [unified-dialog.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L1) (2 connections)
-- [DIALOG_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L7) (1 connections)
-- [DIALOG_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts#L63) (1 connections)
+- [typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L1) (3 connections)
+- [studioProjectToDAWProject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L56) (2 connections)
+- [dawTrackToStudioTrackUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L68) (1 connections)
+- [studioTrackToDAWTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -14,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\studio\typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

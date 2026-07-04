@@ -4,27 +4,27 @@
 
 ## Key Concepts
 
-- [motion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L1) (20 connections)
-- [bounceTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L141) (1 connections)
-- [fadeIn](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L41) (1 connections)
-- [getReducedMotionVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L167) (1 connections)
-- [MOTION_DURATION](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L147) (1 connections)
-- [MOTION_EASING](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L157) (1 connections)
-- [pulse](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L97) (1 connections)
-- [quickTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L126) (1 connections)
-- [scaleIn](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L71) (1 connections)
-- [scaleUp](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L77) (1 connections)
-- [shake](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L106) (1 connections)
-- [slideDown](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L53) (1 connections)
-- [slideInFromLeft](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L65) (1 connections)
-- [slideInFromRight](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L59) (1 connections)
-- [slideUp](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L47) (1 connections)
-- [slowerTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L136) (1 connections)
-- [slowTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L131) (1 connections)
-- [smoothTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L121) (1 connections)
-- [springTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L115) (1 connections)
-- [staggerContainer](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L83) (1 connections)
-- [staggerItem](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L91) (1 connections)
+- [BotMenuEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L1) (20 connections)
+- [getActionIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L39) (2 connections)
+- [getActionLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L53) (2 connections)
+- [getChildCount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L167) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L133) (1 connections)
+- [currentItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L165) (1 connections)
+- [{ data: items = [], isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L129) (1 connections)
+- [[deleteItem, setDeleteItem]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L137) (1 connections)
+- [deleteMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L131) (1 connections)
+- [[editingItem, setEditingItem]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L135) (1 connections)
+- [groupedItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L140) (1 connections)
+- [handleCreate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L176) (1 connections)
+- [handleDeleteConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L190) (1 connections)
+- [handleEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L171) (1 connections)
+- [handleFormClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L181) (1 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L186) (1 connections)
+- [[isFormOpen, setIsFormOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L136) (1 connections)
+- [MenuItemRow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L76) (1 connections)
+- [parentItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L160) (1 connections)
+- [[selectedParent, setSelectedParent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L134) (1 connections)
+- [toggleMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx#L130) (1 connections)
 
 ## Relationships
 
@@ -32,12 +32,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\motion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BotMenuEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 40 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 42 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

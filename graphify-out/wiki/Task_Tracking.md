@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [DrumEffects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx#L1) (1 connections)
-- [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx#L162) (1 connections)
+- [TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L1) (1 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumEffects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx)
 
 ## Audit Trail
 

@@ -1,11 +1,12 @@
 # Navigation Components
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L1) (1 connections)
-- [TracksTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L41) (1 connections)
+- [paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L1) (2 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L15) (1 connections)
+- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

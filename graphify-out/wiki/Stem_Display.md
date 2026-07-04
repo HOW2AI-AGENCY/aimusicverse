@@ -1,11 +1,12 @@
 # Stem Display
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L1) (1 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L29) (1 connections)
+- [track.page.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L1) (2 connections)
+- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L27) (1 connections)
+- [consoleErrors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L15) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\track.page.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

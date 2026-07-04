@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L1) (2 connections)
-- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L12) (1 connections)
-- [VerificationBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L18) (1 connections)
+- [DrumStepLengthSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumStepLengthSelector.tsx#L1) (2 connections)
+- [DrumStepLengthSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumStepLengthSelector.tsx#L14) (1 connections)
+- [stepLengths](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumStepLengthSelector.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumStepLengthSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumStepLengthSelector.tsx)
 
 ## Audit Trail
 

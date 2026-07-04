@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L1) (6 connections)
-- [BATCH_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L115) (1 connections)
-- [GENRE_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L120) (1 connections)
-- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L27) (1 connections)
-- [GENRE_QUERIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L16) (1 connections)
-- [PUBLIC_CONTENT_GC_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L110) (1 connections)
-- [PUBLIC_CONTENT_STALE_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L105) (1 connections)
+- [ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L136) (1 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L80) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L78) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L77) (1 connections)
+- [ProjectPresetCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L22) (1 connections)
+- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L90) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx)
 
 ## Audit Trail
 

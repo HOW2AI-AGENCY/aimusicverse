@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L1) (5 connections)
-- [ChannelControls](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L68) (1 connections)
-- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L124) (1 connections)
-- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L132) (1 connections)
-- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L113) (1 connections)
-- [VolumeFader](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L35) (1 connections)
+- [useRoutePreloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L1) (3 connections)
+- [NavigationProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx#L13) (2 connections)
+- [useRoutePreloader()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L23) (2 connections)
+- [NavigationProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx#L1) (1 connections)
+- [adjacentRoutes](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L11) (1 connections)
+- [usePreloadOnHover()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L53) (1 connections)
 
 ## Relationships
 
@@ -17,12 +17,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\NavigationProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useRoutePreloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (80%)
+- INFERRED: 2 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,19 +1,20 @@
 # Music Settings
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [QuickStartCards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L1) (9 connections)
-- [FeatureTutorialDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L19) (1 connections)
-- [handleCardClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L100) (1 connections)
-- [handleTutorialAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L112) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L95) (1 connections)
-- [[pendingPreset, setPendingPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L98) (1 connections)
-- [presets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L119) (1 connections)
-- [QuickStartCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L35) (1 connections)
-- [[selectedTutorial, setSelectedTutorial]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L97) (1 connections)
-- [[tutorialOpen, setTutorialOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L96) (1 connections)
+- [TrimRegionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L1) (10 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L25) (1 connections)
+- [[dragStartRegion, setDragStartRegion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L24) (1 connections)
+- [[dragStartX, setDragStartX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L23) (1 connections)
+- [getPositionFromTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L37) (1 connections)
+- [getTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L27) (1 connections)
+- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L45) (1 connections)
+- [handleMouseMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L75) (1 connections)
+- [handleMouseUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L111) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L22) (1 connections)
+- [[region, setRegion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\QuickStartCards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\TrimRegionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

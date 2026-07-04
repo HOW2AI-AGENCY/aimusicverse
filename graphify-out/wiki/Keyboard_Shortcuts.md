@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L6) (1 connections)
-- [useMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L8) (1 connections)
+- [alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L1) (2 connections)
+- [Alert](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L21) (1 connections)
+- [alertVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L6) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx)
 
 ## Audit Trail
 

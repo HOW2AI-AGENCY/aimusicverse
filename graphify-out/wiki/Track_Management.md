@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useProjectDetailState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailState.ts#L1) (1 connections)
-- [useProjectDetailState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailState.ts#L61) (1 connections)
+- [useSendAdminMessage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSendAdminMessage.ts#L1) (1 connections)
+- [useSendAdminMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSendAdminMessage.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\project\useProjectDetailState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useSendAdminMessage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSendAdminMessage.ts)
 
 ## Audit Trail
 

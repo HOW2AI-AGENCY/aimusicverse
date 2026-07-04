@@ -1,17 +1,18 @@
 # Watermark Management
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [TrackDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L1) (7 connections)
-- [energyPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L47) (1 connections)
-- [hasNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L40) (1 connections)
-- [hasParams](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L37) (1 connections)
-- [hasStylePrompt](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L41) (1 connections)
-- [hasTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L39) (1 connections)
-- [LYRICS_STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L29) (1 connections)
-- [VOCAL_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L18) (1 connections)
+- [usePerformanceOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L1) (8 connections)
+- [useIntersectionObserver()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L45) (2 connections)
+- [useLazyImage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L158) (2 connections)
+- [useThrottledValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L202) (2 connections)
+- [useBatchedUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L187) (1 connections)
+- [usePerformanceMonitor()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L134) (1 connections)
+- [usePrefetch()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L83) (1 connections)
+- [useReducedMotion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L13) (1 connections)
+- [useResizeObserver()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L105) (1 connections)
 
 ## Relationships
 
@@ -19,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\TrackDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePerformanceOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

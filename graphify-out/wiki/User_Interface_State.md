@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [preview-audio.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L1) (5 connections)
-- [audioInfo](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L49) (1 connections)
-- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L41) (1 connections)
-- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L42) (1 connections)
-- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L40) (1 connections)
-- [srcAudios](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts#L89) (1 connections)
+- [MobileSkeletons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L1) (6 connections)
+- [MobileFormFieldSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L197) (1 connections)
+- [MobilePlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L169) (1 connections)
+- [MobileStudioTrackSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L140) (1 connections)
+- [MobileTrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L17) (1 connections)
+- [MobileTrackListSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\preview-audio.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/preview-audio.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSkeletons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 11 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,22 +4,10 @@
 
 ## Key Concepts
 
-- [lamejs.d.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts#L1) (3 connections)
-- [lamejs](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts#L38) (1 connections)
-- [Mp3Encoder](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts#L9) (1 connections)
-- [WavHeader](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts#L27) (1 connections)
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class Mp3Encoder {
-        +lamejs.d.ts()
-    }
-    class WavHeader {
-        +lamejs.d.ts()
-    }
-```
+- [mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L1) (3 connections)
+- [getMixPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L229) (1 connections)
+- [getPresetStemSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L236) (1 connections)
+- [MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -27,7 +15,7 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\lamejs.d.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/lamejs.d.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts)
 
 ## Audit Trail
 

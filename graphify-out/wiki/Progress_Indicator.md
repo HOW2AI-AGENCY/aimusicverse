@@ -4,29 +4,29 @@
 
 ## Key Concepts
 
-- [PresetManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L1) (22 connections)
-- [[appliedId, setAppliedId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L87) (1 connections)
-- [{ applyPreset, isApplying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L97) (1 connections)
-- [badge](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L138) (1 connections)
-- [BadgeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L139) (1 connections)
-- [CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L43) (1 connections)
-- [[category, setCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L85) (1 connections)
-- [{ clonePreset, isCloning }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L99) (1 connections)
-- [{ deletePreset, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L98) (1 connections)
-- [grouped](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L102) (1 connections)
-- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L114) (1 connections)
-- [handleClone](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L129) (1 connections)
-- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L123) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L83) (1 connections)
-- [isApplied](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L141) (1 connections)
-- [isOwn](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L140) (1 connections)
-- [ownershipBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L67) (1 connections)
-- [[pendingDelete, setPendingDelete]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L88) (1 connections)
-- [{ presets, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L91) (1 connections)
-- [renderGroup()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L286) (1 connections)
-- [[saveOpen, setSaveOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L89) (1 connections)
-- [[search, setSearch]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L86) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx#L82) (1 connections)
+- [QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L1) (22 connections)
+- [handleBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L95) (2 connections)
+- [handleCostChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L135) (2 connections)
+- [handleCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L115) (2 connections)
+- [handleFeatureToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L154) (2 connections)
+- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L174) (1 connections)
+- [[broadcastMessage, setBroadcastMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L77) (1 connections)
+- [[broadcastOpen, setBroadcastOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L70) (1 connections)
+- [[broadcastTitle, setBroadcastTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L76) (1 connections)
+- [[costOpen, setCostOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L72) (1 connections)
+- [[creditAmount, setCreditAmount]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L80) (1 connections)
+- [[creditOpen, setCreditOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L71) (1 connections)
+- [[creditReason, setCreditReason]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L81) (1 connections)
+- [{ data: features }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L93) (1 connections)
+- [[featureOpen, setFeatureOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L73) (1 connections)
+- [[newCost, setNewCost]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L84) (1 connections)
+- [quickBroadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L89) (1 connections)
+- [quickCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L90) (1 connections)
+- [[selectedFeature, setSelectedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L87) (1 connections)
+- [toggleFeature](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L92) (1 connections)
+- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L91) (1 connections)
+- [useQuickBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L32) (1 connections)
+- [useQuickCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -34,12 +34,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\PresetManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/PresetManager.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 44 (92%)
+- INFERRED: 4 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

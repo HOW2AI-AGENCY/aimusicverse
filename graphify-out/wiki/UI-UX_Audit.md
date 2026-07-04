@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L1) (1 connections)
-- [ShareProjectCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L24) (1 connections)
+- [StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L1) (1 connections)
+- [StarsPaymentButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx)
 
 ## Audit Trail
 

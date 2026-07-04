@@ -1,16 +1,28 @@
 # Tab Navigation
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L1) (6 connections)
-- [ChurnScoreBar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L44) (1 connections)
-- [[expandedUsers, setExpandedUsers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L170) (1 connections)
-- [RISK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L30) (1 connections)
-- [RISK_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L37) (1 connections)
-- [toggleUser()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L172) (1 connections)
-- [{ users, summary, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L165) (1 connections)
+- [GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L1) (7 connections)
+- [canDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L74) (1 connections)
+- [[deleteDialogOpen, setDeleteDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L58) (1 connections)
+- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L104) (1 connections)
+- [handleDrag](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L100) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L77) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isMobile,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+    isOwnTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L60) (1 connections)
+- [[swipeOffset, setSwipeOffset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L57) (1 connections)
 
 ## Relationships
 
@@ -18,11 +30,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

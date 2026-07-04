@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L1) (2 connections)
-- [html](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L47) (1 connections)
-- [response](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L34) (1 connections)
+- [AnalyticsProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L1) (2 connections)
+- [AnalyticsProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L30) (1 connections)
+- [WebVitalsReporter](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\providers\AnalyticsProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [StudioVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L56) (1 connections)
-- [handleSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L35) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L33) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L49) (1 connections)
+- [GenerationStepper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L67) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L59) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L24) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationStepper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx)
 
 ## Audit Trail
 

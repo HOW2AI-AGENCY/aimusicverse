@@ -1,13 +1,14 @@
 # Webhook Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.60
 
 ## Key Concepts
 
-- [RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L1) (3 connections)
-- [MOCK_COHORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L45) (1 connections)
-- [MOCK_RETENTION_TREND](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L37) (1 connections)
-- [summaryStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L55) (1 connections)
+- [OnboardingTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L8) (3 connections)
+- [useOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L20) (3 connections)
+- [useShouldShowOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L77) (3 connections)
+- [useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L1) (2 connections)
+- [OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -15,12 +16,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (67%)
+- INFERRED: 4 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

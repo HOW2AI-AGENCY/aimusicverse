@@ -1,12 +1,13 @@
 # Mobile Transitions
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [UnifiedAnalysisCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L1) (2 connections)
-- [getInstrumentIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L34) (1 connections)
-- [instrumentIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L24) (1 connections)
+- [search-public-tracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/search-public-tracks.ts#L1) (3 connections)
+- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/search-public-tracks.ts#L20) (1 connections)
+- [like](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/search-public-tracks.ts#L19) (1 connections)
+- [supabase](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/search-public-tracks.ts#L16) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\UnifiedAnalysisCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\mcp\tools\search-public-tracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/search-public-tracks.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

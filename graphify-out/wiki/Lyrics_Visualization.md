@@ -1,16 +1,17 @@
 # Lyrics Visualization
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L1) (6 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L51) (1 connections)
-- [handlePresetChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L54) (1 connections)
-- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L74) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L50) (1 connections)
-- [[isHardwareMode, setIsHardwareMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L52) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L49) (1 connections)
+- [useSunoMidi.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L1) (7 connections)
+- [createTestQueryClient()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L48) (1 connections)
+- [createWrapper()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L57) (1 connections)
+- [out](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L106) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L82) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L83) (1 connections)
+- [TEST_USER_ID](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L45) (1 connections)
+- [TEST_VERSION_ID](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useSunoMidi.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

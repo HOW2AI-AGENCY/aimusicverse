@@ -1,14 +1,15 @@
 # Suno Tag Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L1) (4 connections)
-- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L44) (1 connections)
-- [{ hasGeneratedTrack, hasPlayedTrack, hasVisitedLibrary, completedOnboarding }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L24) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L45) (1 connections)
-- [steps](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L26) (1 connections)
+- [EmptyState.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L1) (5 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L36) (1 connections)
+- [LongDescription](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L58) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L14) (1 connections)
+- [Minimal](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L51) (1 connections)
+- [WithAction](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\EmptyState.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

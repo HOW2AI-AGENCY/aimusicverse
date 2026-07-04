@@ -1,15 +1,16 @@
 # Track Display
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L1) (5 connections)
-- [{ data: masterVersion }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L35) (1 connections)
-- [FullscreenDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L22) (1 connections)
-- [FullscreenMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L18) (1 connections)
-- [isMobileViewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L34) (1 connections)
-- [resolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L37) (1 connections)
+- [visual.blank-frame.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L1) (6 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L20) (1 connections)
+- [rootHTML](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L39) (1 connections)
+- [ROUTES](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L9) (1 connections)
+- [shot](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L31) (1 connections)
+- [TICKS_MS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L15) (1 connections)
+- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\visual.blank-frame.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

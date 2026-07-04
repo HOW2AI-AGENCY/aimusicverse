@@ -1,49 +1,28 @@
 # UI Animations
 
-> 18 nodes · cohesion 0.11
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [SectionEditorSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L1) (17 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L415) (1 connections)
-- [{ data: lyricsData }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L90) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L178) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L92) (1 connections)
-- [handleProgressDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L127) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L228) (1 connections)
-- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L72) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L70) (1 connections)
-- [[isPreviewPlaying, setIsPreviewPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L73) (1 connections)
-- [{
-    play: playPreview,
-    pause: pausePreview,
-    seek: seekPreview,
-    isPlaying: hookIsPlaying,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L78) (1 connections)
-- [[previewCurrentTime, setPreviewCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L74) (1 connections)
-- [sectionStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L231) (1 connections)
-- [{ selectedSection, customRange, clearSelection, setCustomRange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L71) (1 connections)
-- [{
-    startTime,
-    endTime,
-    sectionDuration,
-    maxDuration,
-    isValidDuration,
-    isSubmitting,
-    prompt,
-    setPrompt,
-    tags,
-    setTags,
-    lyrics,
-    setLyrics,
-    addPreset,
-    executeReplacement,
-    reset,
-    progress: sectionProgress,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L99) (1 connections)
-- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L295) (1 connections)
-- [togglePreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L149) (1 connections)
-- [wordMid](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L315) (1 connections)
+- [MobileGraphView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L1) (18 connections)
+- [handleBack](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L117) (2 connections)
+- [handleSwipe()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L138) (2 connections)
+- [currentItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L102) (1 connections)
+- [[drillLevel, setDrillLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L41) (1 connections)
+- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L47) (1 connections)
+- [GroupCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L390) (1 connections)
+- [groupedData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L80) (1 connections)
+- [groups](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L177) (1 connections)
+- [handleClusterSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L128) (1 connections)
+- [handleGroupSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L133) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L306) (1 connections)
+- [NODE_TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L26) (1 connections)
+- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L33) (1 connections)
+- [related](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L326) (1 connections)
+- [relatedId](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L325) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L44) (1 connections)
+- [[selectedCluster, setSelectedCluster]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L42) (1 connections)
+- [[selectedGroup, setSelectedGroup]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -51,11 +30,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\SectionEditorSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\MobileGraphView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 38 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

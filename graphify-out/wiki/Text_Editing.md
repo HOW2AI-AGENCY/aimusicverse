@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L1) (7 connections)
-- [Pagination()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L7) (1 connections)
-- [PaginationContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L17) (1 connections)
-- [PaginationEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L65) (1 connections)
-- [PaginationItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L24) (1 connections)
-- [PaginationLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L34) (1 connections)
-- [PaginationNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L57) (1 connections)
-- [PaginationPrevious()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L49) (1 connections)
+- [ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L1) (8 connections)
+- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L153) (1 connections)
+- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L154) (1 connections)
+- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L112) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L63) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L152) (1 connections)
+- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L123) (1 connections)
+- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

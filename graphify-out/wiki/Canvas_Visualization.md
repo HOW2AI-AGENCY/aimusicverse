@@ -1,32 +1,46 @@
 # Canvas Visualization
 
-> 23 nodes · cohesion 0.09
+> 24 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L1) (22 connections)
-- [handleBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L95) (2 connections)
-- [handleCostChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L135) (2 connections)
-- [handleCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L115) (2 connections)
-- [handleFeatureToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L154) (2 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L174) (1 connections)
-- [[broadcastMessage, setBroadcastMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L77) (1 connections)
-- [[broadcastOpen, setBroadcastOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L70) (1 connections)
-- [[broadcastTitle, setBroadcastTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L76) (1 connections)
-- [[costOpen, setCostOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L72) (1 connections)
-- [[creditAmount, setCreditAmount]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L80) (1 connections)
-- [[creditOpen, setCreditOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L71) (1 connections)
-- [[creditReason, setCreditReason]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L81) (1 connections)
-- [{ data: features }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L93) (1 connections)
-- [[featureOpen, setFeatureOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L73) (1 connections)
-- [[newCost, setNewCost]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L84) (1 connections)
-- [quickBroadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L89) (1 connections)
-- [quickCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L90) (1 connections)
-- [[selectedFeature, setSelectedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L87) (1 connections)
-- [toggleFeature](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L92) (1 connections)
-- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L91) (1 connections)
-- [useQuickBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L32) (1 connections)
-- [useQuickCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L51) (1 connections)
+- [MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L1) (23 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L105) (1 connections)
+- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L108) (1 connections)
+- [handleApplyLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L253) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L243) (1 connections)
+- [handleQuickAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L226) (1 connections)
+- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L237) (1 connections)
+- [handleStartWorkflow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L218) (1 connections)
+- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L210) (1 connections)
+- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L201) (1 connections)
+- [hasAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L301) (1 connections)
+- [hasAnalysisResults](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L163) (1 connections)
+- [hasGeneratedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L159) (1 connections)
+- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L103) (1 connections)
+- [{ isRecording, isProcessing, toggleRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L151) (1 connections)
+- [latestLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L167) (1 connections)
+- [{ messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L123) (1 connections)
+- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L104) (1 connections)
+- [renderMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L295) (1 connections)
+- [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L261) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L106) (1 connections)
+- [TAB_TOOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L173) (1 connections)
+- [viewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L196) (1 connections)
+- [{
+    workflow: activeWorkflow,
+    currentStep,
+    currentStepIndex,
+    stepResults,
+    status: workflowStatus,
+    progress: workflowProgress,
+    startWorkflow,
+    pauseWorkflow,
+    resumeWorkflow,
+    skipStep,
+    cancelWorkflow,
+    isRunning: isWorkflowRunning,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L131) (1 connections)
 
 ## Relationships
 
@@ -34,12 +48,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (92%)
-- INFERRED: 4 (8%)
+- EXTRACTED: 46 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

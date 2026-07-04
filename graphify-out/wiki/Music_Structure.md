@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useMixExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L1) (2 connections)
-- [DEFAULT_MASTERING](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L39) (1 connections)
-- [useMixExport()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L46) (1 connections)
+- [useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L1) (2 connections)
+- [mapStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L49) (1 connections)
+- [useSystemHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMixExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx)
 
 ## Audit Trail
 

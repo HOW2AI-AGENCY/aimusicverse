@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [VocalMapResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L1) (2 connections)
-- [getEffectIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L157) (1 connections)
-- [VocalMapResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L28) (1 connections)
+- [sound-effects.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/sound-effects.api.ts#L1) (2 connections)
+- [generateSunoSounds()](file:///D:/.MUSICVERSE/aimusicverse/src/api/sound-effects.api.ts#L36) (1 connections)
+- [getSunoSoundsStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/api/sound-effects.api.ts#L45) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\VocalMapResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\api\sound-effects.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/sound-effects.api.ts)
 
 ## Audit Trail
 

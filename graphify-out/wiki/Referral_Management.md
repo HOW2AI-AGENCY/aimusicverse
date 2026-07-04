@@ -1,23 +1,24 @@
 # Referral Management
 
-> 14 nodes · cohesion 0.14
+> 15 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L1) (13 connections)
-- [handleLockedClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L66) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L43) (1 connections)
-- [{ hasAccess: canReplaceSection, requiredTier: replaceTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L53) (1 connections)
-- [{ hasAccess: canStemDetailed, requiredTier: stemDetailedTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L54) (1 connections)
-- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L62) (1 connections)
-- [[lockedFeature, setLockedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L45) (1 connections)
-- [showMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L60) (1 connections)
-- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L48) (1 connections)
-- [showStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L57) (1 connections)
-- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L50) (1 connections)
-- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L49) (1 connections)
-- [showStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L47) (1 connections)
-- [[upgradePopupOpen, setUpgradePopupOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L44) (1 connections)
+- [StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L1) (8 connections)
+- [StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L1) (7 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L177) (2 connections)
+- [stemType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L47) (2 connections)
+- [emojiMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L224) (1 connections)
+- [groupedActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L48) (1 connections)
+- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L50) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L46) (1 connections)
+- [isDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L176) (1 connections)
+- [isGuitar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L97) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L89) (1 connections)
+- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L46) (1 connections)
+- [midiModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L96) (1 connections)
+- [[selectedMidiModel, setSelectedMidiModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L90) (1 connections)
+- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L67) (1 connections)
 
 ## Relationships
 
@@ -25,11 +26,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\actions\StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

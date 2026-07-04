@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L1) (1 connections)
-- [useMultiTrackAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L26) (1 connections)
+- [useThemeIdea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts#L1) (1 connections)
+- [useThemeIdea()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useThemeIdea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts)
 
 ## Audit Trail
 

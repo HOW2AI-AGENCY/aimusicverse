@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [payment_transactions](file:///D:/.MUSICVERSE/aimusicverse/supabase/migrations/20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql) (0 connections)
+- [Discord Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/discord.svg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [supabase\migrations\20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql](file:///D:/.MUSICVERSE/aimusicverse/supabase/migrations/20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql)
+- [stories/assets/discord.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/discord.svg)
 
 ## Audit Trail
 

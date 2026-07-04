@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [TouchTarget.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L1) (6 connections)
-- [ComparisonWithoutTarget](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L59) (1 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L19) (1 connections)
-- [LargeTarget](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L40) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L5) (1 connections)
-- [SmallIcon](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L32) (1 connections)
-- [TouchIconExample](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx#L48) (1 connections)
+- [KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L1) (6 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L92) (1 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L42) (1 connections)
+- [categoryShortcuts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L110) (1 connections)
+- [KeyBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L54) (1 connections)
+- [ShortcutRow](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L71) (1 connections)
+- [SHORTCUTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\TouchTarget.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/TouchTarget.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx)
 
 ## Audit Trail
 

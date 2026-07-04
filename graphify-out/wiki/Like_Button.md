@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L1) (9 connections)
-- [prefetchTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L120) (2 connections)
-- [createOptimisticLikeUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L144) (1 connections)
-- [GC_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L32) (1 connections)
-- [invalidatePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L111) (1 connections)
-- [invalidateTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L102) (1 connections)
-- [invalidateUserTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L92) (1 connections)
-- [queryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L42) (1 connections)
-- [rollbackOptimisticUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L175) (1 connections)
-- [STALE_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L12) (1 connections)
+- [EconomyConfigEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L1) (9 connections)
+- [categorizedItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L79) (1 connections)
+- [{ data: configItems, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L61) (1 connections)
+- [DEFAULT_VALUES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L24) (1 connections)
+- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L69) (1 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L64) (1 connections)
+- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L171) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L59) (1 connections)
+- [totalChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L82) (1 connections)
+- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

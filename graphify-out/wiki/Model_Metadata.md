@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L1) (4 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L4) (1 connections)
-- [Sizes](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L32) (1 connections)
-- [WithFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L14) (1 connections)
-- [WithImage](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L23) (1 connections)
+- [quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L1) (4 connections)
+- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L151) (1 connections)
+- [getPresetsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L158) (1 connections)
+- [QUICK_CREATE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L25) (1 connections)
+- [searchPresetsByTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L165) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts)
 
 ## Audit Trail
 

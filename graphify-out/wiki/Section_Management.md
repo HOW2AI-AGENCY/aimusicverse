@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [useGuitarAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L1) (6 connections)
-- [generateStyleDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L99) (2 connections)
-- [generateTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L123) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L6) (1 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L92) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L90) (1 connections)
-- [useGuitarAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L166) (1 connections)
+- [CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L1) (6 connections)
+- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L49) (1 connections)
+- [handleLike()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L56) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L48) (1 connections)
+- [likeComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L46) (1 connections)
+- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L51) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (86%)
-- INFERRED: 2 (14%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [LyricsEditor.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L1) (9 connections)
-- [baseProps](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L20) (1 connections)
-- [historyEntry](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L99) (1 connections)
-- [newSections](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L51) (1 connections)
-- [onHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L77) (1 connections)
-- [{ onHaptic: _onHaptic, ...props }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L92) (1 connections)
-- [onOpenAi](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L76) (1 connections)
-- [onRestoreFromHistory](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L98) (1 connections)
-- [props](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L79) (1 connections)
-- [sampleSection](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L13) (1 connections)
+- [StylePresetSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L1) (9 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L31) (1 connections)
+- [filteredGenres](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L45) (1 connections)
+- [filteredQuickMixes](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L34) (1 connections)
+- [filteredSaved](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L51) (1 connections)
+- [handleGenreSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L78) (1 connections)
+- [handleQuickMixSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L59) (1 connections)
+- [handleSavedSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L83) (1 connections)
+- [{ presets: savedPresets, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L32) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\__tests__\LyricsEditor.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\StylePresetSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/StylePresetSelector.tsx)
 
 ## Audit Trail
 

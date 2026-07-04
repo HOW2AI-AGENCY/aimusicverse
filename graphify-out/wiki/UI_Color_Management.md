@@ -1,16 +1,16 @@
 # UI Color Management
 
-> 7 nodes · cohesion 0.29
+> 7 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [lyricsWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L1) (4 connections)
-- [cloneSections()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L175) (2 connections)
-- [useLyricsWizardStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L182) (2 connections)
-- [useDebouncedSectionUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts#L8) (2 connections)
-- [useDebouncedSectionUpdate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts#L1) (1 connections)
-- [INITIAL_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L136) (1 connections)
-- [MAX_HISTORY_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L29) (1 connections)
+- [ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L1) (6 connections)
+- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L65) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L63) (2 connections)
+- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L42) (1 connections)
+- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L52) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L104) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L72) (1 connections)
 
 ## Relationships
 
@@ -18,13 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useDebouncedSectionUpdate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\stores\lyricsWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (77%)
-- INFERRED: 3 (23%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

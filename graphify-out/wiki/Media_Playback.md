@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L1) (3 connections)
-- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L25) (1 connections)
-- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L33) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L6) (1 connections)
+- [useAddVocalsProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts#L1) (3 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts#L42) (1 connections)
+- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts#L52) (1 connections)
+- [useAddVocalsProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts#L62) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAddVocalsProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts)
 
 ## Audit Trail
 

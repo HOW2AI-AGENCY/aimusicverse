@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/constants.ts#L1) (2 connections)
-- [CHANNEL_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/constants.ts#L16) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/constants.ts#L124) (1 connections)
+- [useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L6) (1 connections)
+- [useMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\prompt-dj\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx)
 
 ## Audit Trail
 

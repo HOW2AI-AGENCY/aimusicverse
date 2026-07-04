@@ -1,12 +1,12 @@
 # Size Management
 
-> 3 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [telegram.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L1) (2 connections)
-- [getTelegramHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L259) (2 connections)
-- [getTelegramWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts#L251) (2 connections)
+- [Privacy.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L1) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L12) (1 connections)
+- [{ showBackButton, hideBackButton, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\telegram.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Privacy.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

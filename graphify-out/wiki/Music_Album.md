@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [ProjectReadinessIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L1) (3 connections)
-- [hasAnyMaster](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L23) (1 connections)
-- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L22) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L21) (1 connections)
+- [unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L1) (3 connections)
+- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L170) (1 connections)
+- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L156) (1 connections)
+- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L163) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectReadinessIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts)
 
 ## Audit Trail
 

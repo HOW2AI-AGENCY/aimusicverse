@@ -1,15 +1,15 @@
 # File Upload
 
-> 6 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L1) (5 connections)
-- [getActionsForStemType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L294) (2 connections)
-- [getGroupedActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L309) (2 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L327) (1 connections)
-- [normalizeTrackType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L338) (1 connections)
-- [STEM_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L64) (1 connections)
+- [ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L1) (5 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L147) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L65) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L57) (1 connections)
+- [listContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L11) (1 connections)
+- [listItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [Checkbox](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx#L7) (1 connections)
-- [checkbox.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx#L1) (1 connections)
+- [CardFollowButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardFollowButton.tsx#L25) (1 connections)
+- [CardFollowButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardFollowButton.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\checkbox.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\CardFollowButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardFollowButton.tsx)
 
 ## Audit Trail
 

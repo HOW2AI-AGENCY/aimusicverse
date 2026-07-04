@@ -4,9 +4,21 @@
 
 ## Key Concepts
 
-- [useEmotionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L6) (1 connections)
-- [useEmotionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L15) (1 connections)
+- [CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L60) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+    isOwnTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -14,7 +26,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEmotionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx)
 
 ## Audit Trail
 

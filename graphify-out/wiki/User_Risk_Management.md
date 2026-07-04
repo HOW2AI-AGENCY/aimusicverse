@@ -1,15 +1,16 @@
 # User Risk Management
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [FirstCommentCTA.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L1) (5 connections)
-- [DISMISSED_CTAS_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L28) (1 connections)
-- [FirstCommentCTA](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L80) (1 connections)
-- [useCommentCTA()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L313) (1 connections)
-- [useHasCommented()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L33) (1 connections)
-- [useIsDismissed()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx#L48) (1 connections)
+- [drum-kits.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.test.ts#L1) (6 connections)
+- [genreSet](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.test.ts#L123) (1 connections)
+- [ids](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.test.ts#L23) (1 connections)
+- [kit](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.test.ts#L70) (1 connections)
+- [knownIds](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.test.ts#L68) (1 connections)
+- [requiredFields](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.test.ts#L14) (1 connections)
+- [validTypes](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.test.ts#L34) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\FirstCommentCTA.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/FirstCommentCTA.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\drum-kits.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

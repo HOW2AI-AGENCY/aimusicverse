@@ -1,13 +1,14 @@
 # Artist Suggestions
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L1) (3 connections)
-- [FeaturedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L49) (1 connections)
-- [SKELETON_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L34) (1 connections)
-- [TrackSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L37) (1 connections)
+- [Card.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L1) (4 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L17) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L7) (1 connections)
+- [TrackCard](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L51) (1 connections)
+- [WithFooter](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Card.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

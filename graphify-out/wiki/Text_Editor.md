@@ -1,24 +1,25 @@
 # Text Editor
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L1) (12 connections)
-- [usePromptDJStore](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L161) (2 connections)
-- [usePromptHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L27) (2 connections)
-- [usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L1) (1 connections)
-- [dbPromise](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L57) (1 connections)
-- [DEFAULT_CHANNELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L80) (1 connections)
-- [DEFAULT_SETTINGS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L92) (1 connections)
-- [indexedDBStorage](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L11) (1 connections)
-- [openDB()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L58) (1 connections)
-- [selectChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L278) (1 connections)
-- [selectHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L280) (1 connections)
-- [selectPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L281) (1 connections)
-- [selectRecentPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L287) (1 connections)
-- [selectSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L279) (1 connections)
-- [selectTopRatedPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L284) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L1) (15 connections)
+- [isPlayable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L61) (3 connections)
+- [hasAudioUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L28) (2 connections)
+- [isPublicPlayable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L71) (2 connections)
+- [hasCoverUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L38) (1 connections)
+- [hasCreatorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L48) (1 connections)
+- [hasProperty()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L185) (1 connections)
+- [isISODateString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L224) (1 connections)
+- [isNonEmptyArray()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L140) (1 connections)
+- [isNonEmptyString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L111) (1 connections)
+- [isNonNegativeNumber()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L160) (1 connections)
+- [isNotNull()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L94) (1 connections)
+- [isPlainObject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L195) (1 connections)
+- [isPositiveNumber()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L150) (1 connections)
+- [isValidDate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L214) (1 connections)
+- [isValidUUID()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L121) (1 connections)
 
 ## Relationships
 
@@ -26,13 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\guards\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (93%)
-- INFERRED: 2 (7%)
+- EXTRACTED: 34 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

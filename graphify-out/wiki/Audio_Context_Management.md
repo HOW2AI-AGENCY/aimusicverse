@@ -1,82 +1,87 @@
 # Audio Context Management
 
-> 154 nodes · cohesion 0.02
+> 118 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L1) (29 connections)
-- [AudioExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L1) (25 connections)
-- [ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L1) (19 connections)
-- [AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L1) (17 connections)
-- [errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L1) (14 connections)
-- [AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L1) (13 connections)
-- [AddVocalsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L1) (11 connections)
-- [toAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L569) (9 connections)
-- [showGenerationError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L272) (9 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L189) (8 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx#L163) (7 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L44) (6 connections)
-- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L253) (6 connections)
-- [getEnhancedErrorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L248) (6 connections)
-- [validatePromptForGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L782) (6 connections)
-- [handleExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L62) (5 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L65) (4 connections)
-- [tryCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L545) (4 connections)
-- [tryCatchSync()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L557) (4 connections)
-- [isRetriableError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L312) (4 connections)
-- [showErrorWithRecovery()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L807) (4 connections)
-- [APIError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L365) (3 connections)
-- [.isRetryable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L321) (3 connections)
-- [AudioError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L427) (3 connections)
-- [err()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L538) (3 connections)
-- *... and 129 more nodes in this community*
+- [err](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/suno-voice-validate-info/index.ts#L52) (25 connections)
+- [AudioAnalysisService](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L70) (22 connections)
+- [ReferenceManagerService](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts#L57) (22 connections)
+- [ok](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile-smoke.spec.ts#L210) (19 connections)
+- [VoiceCloneService](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/VoiceCloneService.ts#L102) (16 connections)
+- [.setActive()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts#L116) (15 connections)
+- [.analyze()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L89) (13 connections)
+- [.routeToProviders()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L471) (12 connections)
+- [AudioDetailPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/AudioDetailPanel.tsx#L1) (11 connections)
+- [NewStudioProjectPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L1) (11 connections)
+- [.persistToDatabase()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts#L255) (11 connections)
+- [PromptDJMidi.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMidi.tsx#L1) (9 connections)
+- [VoiceCloneService.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/VoiceCloneService.ts#L1) (9 connections)
+- [.analyzeWithFlamingo()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L149) (8 connections)
+- [.analyzeWithKlangio()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L287) (8 connections)
+- [.analyzeWithLovableAI()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L220) (8 connections)
+- [.detectBPMLocal()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L366) (8 connections)
+- [.resolveAudioUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L397) (8 connections)
+- [.getActive()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts#L90) (8 connections)
+- [.updateAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts#L557) (8 connections)
+- [.createFromRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts#L203) (7 connections)
+- [.createFromUpload()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts#L156) (7 connections)
+- [.getValidatePhrase()](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/VoiceCloneService.ts#L168) (7 connections)
+- [.getVoiceId()](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/VoiceCloneService.ts#L344) (7 connections)
+- [.handleError()](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/VoiceCloneService.ts#L595) (7 connections)
+- *... and 93 more nodes in this community*
 
 ## Class Diagram
 
 ```mermaid
 classDiagram
-    class APIError {
-        +AppError.ts()
+    class AudioAnalysisService {
+        +AudioAnalysisService.ts()
         +.constructor()
-        +.toUserMessage()
+        +.getInstance()
+        +.analyze()
+        +.tryAnalyze()
+        +.analyzeWithFlamingo()
+        +.tryAnalyzeWithFlamingo()
+        +.analyzeWithLovableAI()
+        +.tryAnalyzeWithLovableAI()
+        +.analyzeWithKlangio()
     }
-    class AppError {
-        +AppError.ts()
+    class AudioAnalysisServiceError {
+        +AudioAnalysisService.ts()
         +.constructor()
-        +.toUserMessage()
-        +.isRetryable()
-        +.getRetryDelayMs()
-        +.toJSON()
     }
-    class AudioError {
-        +AppError.ts()
+    class ReferenceManagerError {
+        +ReferenceManager.ts()
         +.constructor()
-        +.toUserMessage()
     }
-    class GenerationError {
-        +AppError.ts()
+    class ReferenceManagerService {
+        +ReferenceManager.ts()
         +.constructor()
-        +.toUserMessage()
+        +.getInstance()
+        +.subscribe()
+        +.notifyListeners()
+        +.getActive()
+        +.setActive()
+        +.clearActive()
+        +.createFromUpload()
+        +.tryCreateFromUpload()
     }
-    class InsufficientCreditsError {
-        +AppError.ts()
+    class VoiceCloneService {
+        +VoiceCloneService.ts()
         +.constructor()
-        +.toUserMessage()
+        +.validateVoice()
+        +.getValidatePhrase()
+        +.regeneratePhrase()
+        +.pollValidateInfo()
+        +.generateVoice()
+        +.getVoiceId()
+        +.pollRecordInfo()
+        +.checkVoiceAvailability()
     }
-    class NetworkError {
-        +AppError.ts()
+    class VoiceCloneServiceError {
+        +VoiceCloneService.ts()
         +.constructor()
-        +.toUserMessage()
-    }
-    class StorageError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-    }
-    class ValidationError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
     }
 ```
 
@@ -86,18 +91,21 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\AddVocalsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\AudioExtendDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioExtendDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errors\AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\AnalyzeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalyzeButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\cloud\AudioDetailPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/AudioDetailPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJMidi.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMidi.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\studio-v2\NewStudioProjectPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\ReferenceManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/ReferenceManager.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\cloud-audio.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/cloud-audio.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\AudioAnalysisService.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\voice\VoiceCloneService.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/VoiceCloneService.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\suno-voice-validate-info\index.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/suno-voice-validate-info/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\mobile-smoke.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile-smoke.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 330 (86%)
-- INFERRED: 53 (14%)
+- EXTRACTED: 332 (67%)
+- INFERRED: 167 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

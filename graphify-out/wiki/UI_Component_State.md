@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [GlowButton.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx#L1) (7 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx#L42) (1 connections)
-- [Disabled](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx#L64) (1 connections)
-- [Glow](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx#L34) (1 connections)
-- [LargeGlow](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx#L56) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx#L13) (1 connections)
-- [Small](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx#L49) (1 connections)
-- [WithIcon](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx#L71) (1 connections)
+- [VisualStyleEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L1) (7 connections)
+- [[formData, setFormData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L65) (1 connections)
+- [handleAddKeyword()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L80) (1 connections)
+- [handleRemoveKeyword()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L90) (1 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L97) (1 connections)
+- [IMAGE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L45) (1 connections)
+- [[newKeyword, setNewKeyword]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L78) (1 connections)
+- [TYPOGRAPHY_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\GlowButton.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/GlowButton.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\VisualStyleEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx)
 
 ## Audit Trail
 

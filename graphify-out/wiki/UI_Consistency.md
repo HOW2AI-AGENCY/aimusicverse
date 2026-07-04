@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/index.ts#L1) (0 connections)
+- [vite-env.d.ts](file:///D:/.MUSICVERSE/aimusicverse/src/vite-env.d.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\cloud\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\vite-env.d.ts](file:///D:/.MUSICVERSE/aimusicverse/src/vite-env.d.ts)
 
 ## Audit Trail
 

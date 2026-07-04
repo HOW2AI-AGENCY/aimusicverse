@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useLoopRegion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts#L1) (1 connections)
-- [useLoopRegion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts#L55) (1 connections)
+- [useLyricsSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSync.ts#L1) (1 connections)
+- [useLyricsSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSync.ts#L39) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useLoopRegion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useLyricsSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSync.ts)
 
 ## Audit Trail
 

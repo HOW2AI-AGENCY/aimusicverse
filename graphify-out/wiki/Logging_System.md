@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [MobileFormField.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileFormField.tsx#L1) (1 connections)
-- [MobileFormField](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileFormField.tsx#L24) (1 connections)
+- [DurationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx#L1) (1 connections)
+- [DurationBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileFormField.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileFormField.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\shared\DurationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx)
 
 ## Audit Trail
 

@@ -1,14 +1,15 @@
 # Copy and Share
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [capture-screenshots.ts](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L1) (4 connections)
-- [BASE_URL](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L17) (1 connections)
-- [MOBILE_VIEWPORT](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L18) (1 connections)
-- [SCREENSHOT_DIR](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L16) (1 connections)
-- [trackCard](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts#L62) (1 connections)
+- [FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L1) (5 connections)
+- [{ data: masterVersion }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L35) (1 connections)
+- [FullscreenDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L22) (1 connections)
+- [FullscreenMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L18) (1 connections)
+- [isMobileViewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L34) (1 connections)
+- [resolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\capture-screenshots.ts](file:///D:/.MUSICVERSE/aimusicverse/scripts/capture-screenshots.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

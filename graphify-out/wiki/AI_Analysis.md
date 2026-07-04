@@ -1,19 +1,20 @@
 # AI Analysis
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [UnifiedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L146) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L117) (1 connections)
-- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L134) (1 connections)
-- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L124) (1 connections)
-- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L129) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L115) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L121) (1 connections)
-- [isMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L122) (1 connections)
-- [STEM_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L21) (1 connections)
+- [SfxGeneratorSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L1) (12 connections)
+- [[duration, setDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L51) (1 connections)
+- [{ generate, isGenerating, sfx, error, reset }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L53) (1 connections)
+- [isTerminal](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L85) (1 connections)
+- [[key, setKey]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L50) (1 connections)
+- [[model, setModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L48) (1 connections)
+- [preview](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L54) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L47) (1 connections)
+- [SFX_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L39) (1 connections)
+- [SFX_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L32) (1 connections)
+- [[tempo, setTempo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\SfxGeneratorSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SfxGeneratorSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

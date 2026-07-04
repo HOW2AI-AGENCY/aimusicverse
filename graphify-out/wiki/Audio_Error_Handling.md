@@ -1,19 +1,20 @@
 # Audio Error Handling
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L1) (5 connections)
-- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L1) (4 connections)
-- [PageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L68) (2 connections)
-- [AnimatedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L108) (1 connections)
-- [FadeIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L144) (1 connections)
-- [getVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L26) (1 connections)
-- [ScaleIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L160) (1 connections)
-- [StaggerContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L68) (1 connections)
-- [StaggerItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L92) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L18) (1 connections)
+- [WeeklyChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L1) (10 connections)
+- [challenges](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L28) (1 connections)
+- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L26) (1 connections)
+- [daysLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L24) (1 connections)
+- [format()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L128) (1 connections)
+- [getDifficultyColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L71) (1 connections)
+- [getDifficultyLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L82) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L133) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L134) (1 connections)
+- [weekEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L23) (1 connections)
+- [weekStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -21,12 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\WeeklyChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

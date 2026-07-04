@@ -1,13 +1,14 @@
 # Text Input Handling
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [GeneratingTrackSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L1) (3 connections)
-- [GeneratingTrackSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L27) (1 connections)
-- [ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L25) (1 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx#L16) (1 connections)
+- [useSunoSounds.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoSounds.test.tsx#L1) (4 connections)
+- [makeWrapper()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoSounds.test.tsx#L49) (1 connections)
+- [mockInvoke](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoSounds.test.tsx#L46) (1 connections)
+- [mockUseAuth](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoSounds.test.tsx#L47) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoSounds.test.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\GeneratingTrackSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/GeneratingTrackSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useSunoSounds.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoSounds.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

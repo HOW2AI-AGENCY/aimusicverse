@@ -1,11 +1,12 @@
 # UI Sizing
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L1) (1 connections)
-- [WebVitalsReporter](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L23) (1 connections)
+- [useGenerationResult.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerationResult.test.ts#L1) (2 connections)
+- [EXPECT_RESULT_KEY](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerationResult.test.ts#L18) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerationResult.test.ts#L50) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useGenerationResult.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerationResult.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

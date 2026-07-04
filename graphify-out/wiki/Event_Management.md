@@ -1,15 +1,16 @@
 # Event Management
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L1) (5 connections)
-- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L34) (2 connections)
-- [constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L25) (1 connections)
-- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L30) (1 connections)
-- [isDev](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L81) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L9) (1 connections)
+- [TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L1) (6 connections)
+- [handleTagClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L45) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L39) (2 connections)
+- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L40) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L41) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L18) (1 connections)
+- [hasHD](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -17,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (91%)
-- INFERRED: 1 (9%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

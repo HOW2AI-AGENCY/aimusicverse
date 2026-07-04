@@ -1,14 +1,15 @@
 # Menu Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [ResponsiveGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L1) (4 connections)
-- [GAP_SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L43) (1 connections)
-- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L33) (1 connections)
-- [GRID_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L80) (1 connections)
-- [ResponsiveGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L52) (1 connections)
+- [UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L1) (5 connections)
+- [{ actionState, isProcessing, dialogs, closeDialog, executeAction, handleConfirmDelete, stems }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L53) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L46) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L51) (1 connections)
+- [[mobileSheetOpen, setMobileSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L47) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\ResponsiveGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

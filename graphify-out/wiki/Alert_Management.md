@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ProjectCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L1) (2 connections)
-- [VARIANT_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L34) (1 connections)
-- [variantConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L59) (1 connections)
+- [useAudioRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts#L20) (2 connections)
+- [useAudioRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/audio-action-dialog/useAudioRecording.ts#L1) (1 connections)
+- [useAudioRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts#L1) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,8 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\audio-action-dialog\useAudioRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/audio-action-dialog/useAudioRecording.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioRecording.ts)
 
 ## Audit Trail
 

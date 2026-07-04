@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L1) (2 connections)
-- [createWrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L20) (1 connections)
-- [module](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L37) (1 connections)
+- [stemReferenceStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L1) (2 connections)
+- [EXPIRY_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L24) (1 connections)
+- [useStemReferenceStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\studio\unified\UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\stemReferenceStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts)
 
 ## Audit Trail
 

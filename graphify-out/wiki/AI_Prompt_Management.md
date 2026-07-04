@@ -1,25 +1,25 @@
 # AI Prompt Management
 
-> 16 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [safe-area.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L1) (10 connections)
-- [FixedOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L1) (4 connections)
-- [FixedOverlay()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L59) (3 connections)
-- [getSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L99) (2 connections)
-- [getSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L86) (2 connections)
-- [backgroundMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L49) (1 connections)
-- [BottomSheetContainer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L115) (1 connections)
-- [zIndexMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx#L42) (1 connections)
-- [getMinimalSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L114) (1 connections)
-- [getMinimalSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L107) (1 connections)
-- [getSafeAreaClass()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L220) (1 connections)
-- [LAYOUT_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L179) (1 connections)
-- [LAYOUT_SPACING](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L190) (1 connections)
-- [SAFE_AREA_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L206) (1 connections)
-- [SAFE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L126) (1 connections)
-- [TELEGRAM_SAFE_AREA](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts#L31) (1 connections)
+- [seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L1) (15 connections)
+- [canonical](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L50) (1 connections)
+- [checks](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L30) (1 connections)
+- [DIST](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L10) (1 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L12) (1 connections)
+- [fail()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L15) (1 connections)
+- [html](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L29) (1 connections)
+- [indexPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L22) (1 connections)
+- [ogUrl](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L52) (1 connections)
+- [PUBLIC](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L11) (1 connections)
+- [robots](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L67) (1 connections)
+- [sitemap](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L59) (1 connections)
+- [txt](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L70) (1 connections)
+- [warn](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L13) (1 connections)
+- [warnMsg()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L18) (1 connections)
+- [xml](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L62) (1 connections)
 
 ## Relationships
 
@@ -27,13 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\FixedOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/FixedOverlay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\constants\safe-area.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/safe-area.ts)
+- [D:\.MUSICVERSE\aimusicverse\scripts\seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (88%)
-- INFERRED: 4 (12%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

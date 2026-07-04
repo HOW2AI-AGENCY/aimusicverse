@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [LyricsAIPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsAIPanel.tsx#L1) (2 connections)
-- [agentBaseProps](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsAIPanel.tsx#L108) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsAIPanel.tsx#L105) (1 connections)
+- [useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L1) (2 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L41) (1 connections)
+- [useTransportSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L48) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\LyricsAIPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsAIPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts)
 
 ## Audit Trail
 

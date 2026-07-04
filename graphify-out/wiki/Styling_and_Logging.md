@@ -1,14 +1,15 @@
 # Styling and Logging
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L1) (4 connections)
-- [artistMatch](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L27) (1 connections)
-- [handleApplySuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L34) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L25) (1 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L29) (1 connections)
+- [useStudioPerformance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L1) (5 connections)
+- [MAX_RENDER_SAMPLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L24) (1 connections)
+- [MEMORY_WARNING_THRESHOLD_MB](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L23) (1 connections)
+- [useCustomDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L148) (1 connections)
+- [useStudioPerformance()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L26) (1 connections)
+- [useThrottledCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L109) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioPerformance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

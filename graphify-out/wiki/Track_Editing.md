@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useEnhancedKeyboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts#L1) (1 connections)
-- [useEnhancedKeyboard()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts#L15) (1 connections)
+- [separator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx#L1) (1 connections)
+- [Separator](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx#L6) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEnhancedKeyboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\separator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx)
 
 ## Audit Trail
 

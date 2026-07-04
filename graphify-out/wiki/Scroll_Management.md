@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [LazyImage.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L1) (6 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L38) (1 connections)
-- [ErrorFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L63) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L13) (1 connections)
-- [SmallThumbnail](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L73) (1 connections)
-- [TrackCover](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L83) (1 connections)
-- [WithAspectRatio](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L48) (1 connections)
+- [EssentialsKnobGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L1) (6 connections)
+- [advancedChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L46) (1 connections)
+- [ESSENTIAL_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L27) (1 connections)
+- [essentialChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L43) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L40) (1 connections)
+- [knobSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L48) (1 connections)
+- [[showAll, setShowAll]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\LazyImage.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\EssentialsKnobGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx)
 
 ## Audit Trail
 

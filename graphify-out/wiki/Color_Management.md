@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [StudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx#L1) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx#L41) (1 connections)
+- [ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L1) (1 connections)
+- [ShareProjectCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\StudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx)
 
 ## Audit Trail
 

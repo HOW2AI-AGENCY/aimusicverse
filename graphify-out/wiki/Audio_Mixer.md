@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [CustomVoicePicker.pending.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L1) (5 connections)
-- [helper](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L71) (1 connections)
-- [mockedUseCustomVoices](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L27) (1 connections)
-- [pendingVoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L29) (1 connections)
-- [readyVoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L38) (1 connections)
-- [setVoices()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx#L47) (1 connections)
+- [OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L1) (5 connections)
+- [{ isOnline }](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L17) (1 connections)
+- [showBanner](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L41) (1 connections)
+- [[showReconnected, setShowReconnected]](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L18) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L33) (1 connections)
+- [wasOfflineRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\voice-clone\CustomVoicePicker.pending.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/voice-clone/CustomVoicePicker.pending.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\offline\OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx)
 
 ## Audit Trail
 

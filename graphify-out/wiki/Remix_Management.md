@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [seo.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L1) (9 connections)
-- [canonical](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L31) (1 connections)
-- [desc](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L26) (1 connections)
-- [lang](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L45) (1 connections)
-- [ogUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L39) (1 connections)
-- [resp](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L19) (1 connections)
-- [ROUTES](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L15) (1 connections)
-- [title](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L22) (1 connections)
-- [v](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L36) (1 connections)
-- [viewport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts#L42) (1 connections)
+- [TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L1) (9 connections)
+- [hasAnyIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L40) (1 connections)
+- [hasModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L38) (1 connections)
+- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L29) (1 connections)
+- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L25) (1 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L47) (1 connections)
+- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L32) (1 connections)
+- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L34) (1 connections)
+- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L27) (1 connections)
+- [model](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\seo.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/seo.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx)
 
 ## Audit Trail
 

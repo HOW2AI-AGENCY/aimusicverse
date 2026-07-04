@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L1) (2 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L41) (1 connections)
-- [visibleLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L44) (1 connections)
+- [TierFeaturesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierFeaturesSection.tsx#L1) (2 connections)
+- [FeatureToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierFeaturesSection.tsx#L23) (1 connections)
+- [TierFeaturesSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierFeaturesSection.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierFeaturesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierFeaturesSection.tsx)
 
 ## Audit Trail
 

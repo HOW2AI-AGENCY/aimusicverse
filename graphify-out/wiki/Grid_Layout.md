@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L1) (2 connections)
-- [LoadingSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L25) (1 connections)
-- [{ transactions, isLoading, hasMore, loadMore, isLoadingMore, refetch, isRefetching }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L48) (1 connections)
+- [EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L1) (2 connections)
+- [changedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L35) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx)
 
 ## Audit Trail
 

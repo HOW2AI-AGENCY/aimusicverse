@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L1) (3 connections)
-- [MusicLabAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L18) (1 connections)
-- [MusicLabAudioProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L20) (1 connections)
-- [useMusicLabAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L37) (1 connections)
+- [useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L1) (2 connections)
+- [useStudioKeyboardShortcuts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L27) (2 connections)
+- [useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioKeyboardShortcuts.ts#L1) (1 connections)
+- [formatShortcut()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L79) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,8 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioKeyboardShortcuts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts)
 
 ## Audit Trail
 

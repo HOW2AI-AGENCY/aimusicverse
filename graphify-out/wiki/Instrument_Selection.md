@@ -1,25 +1,26 @@
 # Instrument Selection
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L1) (7 connections)
-- [touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L1) (5 connections)
-- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L1) (3 connections)
-- [touchTarget](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L12) (3 connections)
-- [circularStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L52) (1 connections)
-- [CloseButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L229) (1 connections)
-- [CompactIconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L197) (1 connections)
-- [getTouchTargetPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L47) (1 connections)
-- [IconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L161) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L46) (1 connections)
-- [TOUCH_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L30) (1 connections)
-- [TOUCH_TARGET_MIN_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L6) (1 connections)
-- [TouchableIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L78) (1 connections)
-- [TouchableLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L124) (1 connections)
-- [TouchableListItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L284) (1 connections)
-- [validateTouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L40) (1 connections)
+- [beatSnap.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L1) (16 connections)
+- [beatDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L13) (1 connections)
+- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L110) (1 connections)
+- [bpm](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L11) (1 connections)
+- [currentTime](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L12) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L94) (1 connections)
+- [expectedBeats](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L96) (1 connections)
+- [expectedSnap](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L16) (1 connections)
+- [gridPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L98) (1 connections)
+- [isValidDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L126) (1 connections)
+- [measurePositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L113) (1 connections)
+- [snapDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L23) (1 connections)
+- [snapDivisions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L123) (1 connections)
+- [snapped](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L158) (1 connections)
+- [subdivisionDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L25) (1 connections)
+- [subdivisions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L135) (1 connections)
+- [testCases](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L77) (1 connections)
 
 ## Relationships
 
@@ -27,13 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\lib\beatSnap.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

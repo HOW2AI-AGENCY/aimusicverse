@@ -1,13 +1,13 @@
 # Musical Pitch
 
-> 4 nodes · cohesion 0.83
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [getUserActivityHeatmap()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts#L66) (4 connections)
-- [user-activity-heatmap.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts#L1) (3 connections)
-- [buildHeatmapData()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts#L29) (3 connections)
-- [timePeriodToStartDate()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts#L21) (3 connections)
+- [useStudioTrackState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L38) (2 connections)
+- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L17) (2 connections)
+- [useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L1) (1 connections)
+- [useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\analytics\user-activity-heatmap.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/user-activity-heatmap.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\hooks\useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (77%)
-- INFERRED: 3 (23%)
+- EXTRACTED: 4 (67%)
+- INFERRED: 2 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

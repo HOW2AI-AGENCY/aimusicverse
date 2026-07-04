@@ -1,34 +1,35 @@
 # Web Accessibility
 
-> 25 nodes · cohesion 0.08
+> 26 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L1) (24 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L83) (1 connections)
-- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L121) (1 connections)
-- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L30) (1 connections)
-- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L113) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L28) (1 connections)
-- [centerX](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L78) (1 connections)
-- [centerY](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L79) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L29) (1 connections)
-- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L115) (1 connections)
-- [[dimensions, setDimensions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L38) (1 connections)
-- [[dragStart, setDragStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L36) (1 connections)
-- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L41) (1 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L204) (1 connections)
-- [handleMouseDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L193) (1 connections)
-- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L198) (1 connections)
-- [[hoveredNode, setHoveredNode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L37) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L35) (1 connections)
-- [{ nodes, edges }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L118) (1 connections)
-- [[pan, setPan]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L34) (1 connections)
-- [positions](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L119) (1 connections)
-- [positionsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L31) (1 connections)
-- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L84) (1 connections)
-- [updateDimensions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L97) (1 connections)
-- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L33) (1 connections)
+- [TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L1) (13 connections)
+- [styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L1) (11 connections)
+- [parseStyleTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L80) (4 connections)
+- [parseTrackTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L196) (3 connections)
+- [cleanTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L46) (2 connections)
+- [getDisplayTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L215) (2 connections)
+- [isValidTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L58) (2 connections)
+- [addTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L123) (2 connections)
+- [detectCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L31) (1 connections)
+- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L23) (1 connections)
+- [MOOD_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L18) (1 connections)
+- [STRUCTURE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L25) (1 connections)
+- [TEMPO_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L22) (1 connections)
+- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L20) (1 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L121) (1 connections)
+- [addBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L136) (1 connections)
+- [ADVANCED_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L112) (1 connections)
+- [BACK_VOCAL_EFFECTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L98) (1 connections)
+- [[backVocals, setBackVocals]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L120) (1 connections)
+- [clearAll](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L176) (1 connections)
+- [copyToClipboard](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L167) (1 connections)
+- [generateCompoundTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L149) (1 connections)
+- [removeBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L145) (1 connections)
+- [removeTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L132) (1 connections)
+- [[selectedTags, setSelectedTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L119) (1 connections)
+- *... and 1 more nodes in this community*
 
 ## Relationships
 
@@ -36,12 +37,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 48 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 54 (95%)
+- INFERRED: 3 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

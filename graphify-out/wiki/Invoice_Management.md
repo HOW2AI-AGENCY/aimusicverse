@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useUnifiedStudio.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L1) (4 connections)
-- [mockPlayerStore](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L11) (1 connections)
-- [mockStudioStore](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L20) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L61) (1 connections)
-- [tracks](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L402) (1 connections)
+- [TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L1) (4 connections)
+- [TrackListContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L16) (1 connections)
+- [TrackListProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L27) (1 connections)
+- [useTrackInList()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L51) (1 connections)
+- [useTrackListContext()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useUnifiedStudio.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L1) (3 connections)
-- [Avatar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L6) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L25) (1 connections)
-- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L28) (1 connections)
+- [PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L1) (3 connections)
+- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L30) (1 connections)
+- [PremiumBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L36) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx)
 
 ## Audit Trail
 

@@ -4,14 +4,20 @@
 
 ## Key Concepts
 
-- [LoadingSpinner.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L1) (7 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L30) (1 connections)
-- [Large](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L40) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L12) (1 connections)
-- [Minimal](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L65) (1 connections)
-- [MusicVariant](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L52) (1 connections)
-- [Small](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L34) (1 connections)
-- [WithText](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx#L46) (1 connections)
+- [RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L1) (7 connections)
+- [barProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L92) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L69) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L51) (1 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L93) (1 connections)
+- [{
+    isPlaying,
+    currentTime,
+    duration: audioDuration,
+    toggle,
+    audioRef,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L34) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L75) (1 connections)
+- [togglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -19,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\LoadingSpinner.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingSpinner.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx)
 
 ## Audit Trail
 

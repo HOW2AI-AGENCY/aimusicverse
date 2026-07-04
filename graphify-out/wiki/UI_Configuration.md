@@ -1,20 +1,21 @@
 # UI Configuration
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [InstrumentalResultHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L1) (10 connections)
-- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L99) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L108) (1 connections)
-- [handlePlayVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L82) (1 connections)
-- [hasExisting](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L116) (1 connections)
-- [hasMultipleVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L117) (1 connections)
-- [[playingVersion, setPlayingVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L51) (1 connections)
-- [{ playUrl, pause }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L55) (1 connections)
-- [[previewUrl, setPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L52) (1 connections)
-- [[saveAction, setSaveAction]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L48) (1 connections)
-- [[selectedVersion, setSelectedVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L47) (1 connections)
+- [CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L1) (11 connections)
+- [formatRelative()](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L11) (2 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L36) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L37) (1 connections)
+- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L34) (1 connections)
+- [keepEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L81) (1 connections)
+- [pending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L77) (1 connections)
+- [pendingRelative](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L38) (1 connections)
+- [ready](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L27) (1 connections)
+- [selected](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L35) (1 connections)
+- [selectedPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L31) (1 connections)
+- [{ voices, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -22,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\InstrumentalResultHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\voice-clone\CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

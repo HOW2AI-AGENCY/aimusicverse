@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L1) (4 connections)
-- [useDeeplinkAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L11) (1 connections)
-- [useDeeplinkEvents()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L81) (1 connections)
-- [useDeeplinkStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L58) (1 connections)
-- [useTrackDeeplink()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L93) (1 connections)
+- [MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L1) (4 connections)
+- [[expandedTrack, setExpandedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L60) (1 connections)
+- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L66) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L169) (1 connections)
+- [toggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx)
 
 ## Audit Trail
 

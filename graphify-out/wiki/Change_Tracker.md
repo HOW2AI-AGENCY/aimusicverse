@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [CompactVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L1) (4 connections)
-- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L34) (1 connections)
-- [idleInterval](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L28) (1 connections)
-- [[levels, setLevels]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L22) (1 connections)
-- [rafRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx#L23) (1 connections)
+- [FormSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L1) (4 connections)
+- [isGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L64) (1 connections)
+- [prefersReducedMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L63) (1 connections)
+- [TONE_ACCENT](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L20) (1 connections)
+- [TONE_BAR](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\CompactVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/CompactVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\FormSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx)
 
 ## Audit Trail
 

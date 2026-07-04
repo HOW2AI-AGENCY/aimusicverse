@@ -1,15 +1,15 @@
 # Channel Management
 
-> 6 nodes · cohesion 0.33
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L1) (5 connections)
-- [DEFAULT_TITLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L80) (1 connections)
-- [INVALIDATE_QUERY_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L91) (1 connections)
-- [OPERATION_ENDPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L69) (1 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L12) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L55) (1 connections)
+- [ProjectDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L1) (5 connections)
+- [handleOpenProject()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L47) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L42) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L77) (1 connections)
+- [statusInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L44) (1 connections)
+- [typeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\ProjectDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

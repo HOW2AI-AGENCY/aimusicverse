@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [queue-schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L1) (3 connections)
-- [PlaybackQueueSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L3) (1 connections)
-- [RecentlyPlayedSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L10) (1 connections)
-- [UserPreferencesSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts#L24) (1 connections)
+- [useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L1) (3 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L22) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L30) (1 connections)
+- [useMidiSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\validation\queue-schema.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/queue-schema.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts)
 
 ## Audit Trail
 

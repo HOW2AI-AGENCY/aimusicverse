@@ -1,29 +1,69 @@
 # Broadcast Management
 
-> 20 nodes · cohesion 0.12
+> 21 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [TelegramOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L1) (19 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L147) (4 connections)
-- [handleSkip](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L124) (2 connections)
-- [nextSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L108) (2 connections)
-- [prevSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L118) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L200) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L92) (1 connections)
-- [[currentSlide, setCurrentSlide]](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L90) (1 connections)
-- [[direction, setDirection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L91) (1 connections)
-- [goToSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L98) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L130) (1 connections)
-- [{ isActive, skipOnboarding, completeOnboarding }](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L89) (1 connections)
-- [isLastSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L95) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L88) (1 connections)
-- [slide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L96) (1 connections)
-- [SlideIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L163) (1 connections)
-- [SLIDES](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L27) (1 connections)
-- [SWIPE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L84) (1 connections)
-- [SWIPE_VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L85) (1 connections)
-- [totalSlides](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx#L94) (1 connections)
+- [errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L1) (11 connections)
+- [logError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L140) (5 connections)
+- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L8) (3 connections)
+- [isAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L99) (3 connections)
+- [.toJSON()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L25) (2 connections)
+- [AuthError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L53) (2 connections)
+- [getUserErrorMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L106) (2 connections)
+- [NetworkError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L44) (2 connections)
+- [NotFoundError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L60) (2 connections)
+- [PermissionError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L67) (2 connections)
+- [RateLimitError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L74) (2 connections)
+- [ServiceUnavailableError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L83) (2 connections)
+- [ValidationError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L37) (2 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L9) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L54) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L45) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L61) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L68) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L75) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L84) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L38) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class AppError {
+        +errors.ts()
+        +.constructor()
+        +.toJSON()
+    }
+    class AuthError {
+        +errors.ts()
+        +.constructor()
+    }
+    class NetworkError {
+        +errors.ts()
+        +.constructor()
+    }
+    class NotFoundError {
+        +errors.ts()
+        +.constructor()
+    }
+    class PermissionError {
+        +errors.ts()
+        +.constructor()
+    }
+    class RateLimitError {
+        +errors.ts()
+        +.constructor()
+    }
+    class ServiceUnavailableError {
+        +errors.ts()
+        +.constructor()
+    }
+    class ValidationError {
+        +errors.ts()
+        +.constructor()
+    }
+```
 
 ## Relationships
 
@@ -31,12 +71,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\TelegramOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TelegramOnboarding.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 46 (96%)
+- INFERRED: 2 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

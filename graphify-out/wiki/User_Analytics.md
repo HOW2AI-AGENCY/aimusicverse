@@ -1,13 +1,14 @@
 # User Analytics
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L1) (3 connections)
-- [GENRE_THEME_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L37) (1 connections)
-- [getContextualOptions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L71) (1 connections)
-- [INITIAL_MESSAGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts#L27) (1 connections)
+- [Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L1) (4 connections)
+- [AnimatedIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L23) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L86) (1 connections)
+- [isTelegramApp](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L85) (1 connections)
+- [{ webApp }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

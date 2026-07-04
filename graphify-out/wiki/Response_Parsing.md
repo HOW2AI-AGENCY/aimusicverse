@@ -1,16 +1,17 @@
 # Response Parsing
 
-> 7 nodes · cohesion 0.33
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [shortcuts.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/shortcuts.api.ts#L1) (8 connections)
-- [updateShortcuts()](file:///D:/.MUSICVERSE/aimusicverse/src/api/shortcuts.api.ts#L183) (4 connections)
-- [validateShortcutsConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/api/shortcuts.api.ts#L248) (2 connections)
-- [DEFAULT_SHORTCUTS](file:///D:/.MUSICVERSE/aimusicverse/src/api/shortcuts.api.ts#L91) (1 connections)
-- [formatShortcut()](file:///D:/.MUSICVERSE/aimusicverse/src/api/shortcuts.api.ts#L337) (1 connections)
-- [matchesShortcut()](file:///D:/.MUSICVERSE/aimusicverse/src/api/shortcuts.api.ts#L312) (1 connections)
-- [mergeShortcuts()](file:///D:/.MUSICVERSE/aimusicverse/src/api/shortcuts.api.ts#L365) (1 connections)
+- [utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L1) (7 connections)
+- [countSyllables()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L29) (1 connections)
+- [generateSunoPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L41) (1 connections)
+- [insertTagAtCursor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L111) (1 connections)
+- [parseTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L4) (1 connections)
+- [parseTextToSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L62) (1 connections)
+- [translateTagsToEnglish()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L20) (1 connections)
+- [translateTagsToRussian()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -18,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\shortcuts.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/shortcuts.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (89%)
-- INFERRED: 2 (11%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L1) (9 connections)
-- [Z_BASE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L10) (1 connections)
-- [Z_CLASS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L20) (1 connections)
-- [Z_DEV_OVERLAY](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L17) (1 connections)
-- [Z_DRAWER](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L13) (1 connections)
-- [Z_DROPDOWN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L11) (1 connections)
-- [Z_MODAL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L14) (1 connections)
-- [Z_POPOVER](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L15) (1 connections)
-- [Z_STICKY](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L12) (1 connections)
-- [Z_TOAST](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L16) (1 connections)
+- [DrumRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L1) (9 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L81) (2 connections)
+- [audio](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L39) (1 connections)
+- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L31) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L73) (1 connections)
+- [handleUseAsReference()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L89) (1 connections)
+- [{ pauseTrack, isPlaying: globalIsPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L33) (1 connections)
+- [[recordingTime, setRecordingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L34) (1 connections)
+- [sourceId](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L32) (1 connections)
+- [timerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

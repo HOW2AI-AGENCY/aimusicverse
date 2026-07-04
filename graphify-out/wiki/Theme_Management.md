@@ -1,19 +1,20 @@
 # Theme Management
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [PaymentCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L193) (1 connections)
-- [COHORT_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L18) (1 connections)
-- [{ data: cohorts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L40) (1 connections)
-- [formatCurrency()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L65) (1 connections)
-- [formatMonth()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L59) (1 connections)
-- [getConversionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L23) (1 connections)
-- [getRetentionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L31) (1 connections)
-- [[selectedPeriod, setSelectedPeriod]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L39) (1 connections)
-- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx#L42) (1 connections)
+- [GenerationProgressStage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L1) (10 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L97) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L39) (1 connections)
+- [getStageInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L28) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L48) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L132) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L49) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L50) (1 connections)
+- [StageIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L133) (1 connections)
+- [stageInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L47) (1 connections)
+- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\PaymentCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PaymentCohortAnalysis.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationProgressStage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

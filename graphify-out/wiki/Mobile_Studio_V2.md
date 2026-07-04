@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [dev-overlay.force-visible.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L1) (4 connections)
-- [btn](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L42) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L66) (1 connections)
-- [probe](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L62) (1 connections)
-- [top](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L77) (1 connections)
+- [useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L1) (4 connections)
+- [useBroadcastNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L30) (1 connections)
+- [useBroadcastTemplates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L55) (1 connections)
+- [useDeleteBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L99) (1 connections)
+- [useSaveBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L70) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\dev-overlay.force-visible.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts)
 
 ## Audit Trail
 

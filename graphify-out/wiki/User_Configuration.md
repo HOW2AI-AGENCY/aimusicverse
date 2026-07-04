@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useReplacedSections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts#L1) (1 connections)
-- [useReplacedSections()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts#L14) (1 connections)
+- [voice-input-button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/voice-input-button.tsx#L1) (1 connections)
+- [{ isRecording, isProcessing, toggleRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/voice-input-button.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReplacedSections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\voice-input-button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/voice-input-button.tsx)
 
 ## Audit Trail
 

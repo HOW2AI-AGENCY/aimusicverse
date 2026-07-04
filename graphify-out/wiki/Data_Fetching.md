@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useLyricsStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L1) (2 connections)
-- [lyricsLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L17) (1 connections)
-- [useLyricsStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L49) (1 connections)
+- [queryKeys.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L1) (2 connections)
+- [createKeys()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L20) (1 connections)
+- [queryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L30) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useLyricsStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\queryKeys.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts)
 
 ## Audit Trail
 

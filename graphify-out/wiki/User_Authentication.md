@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [LyricsTagsPanels.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsTagsPanels.tsx#L1) (0 connections)
+- [GitHub Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/github.svg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\LyricsTagsPanels.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/LyricsTagsPanels.tsx)
+- [stories/assets/github.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/github.svg)
 
 ## Audit Trail
 

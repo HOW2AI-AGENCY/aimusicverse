@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L1) (1 connections)
-- [ProjectSettingsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L29) (1 connections)
+- [TutorialStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TutorialStep.tsx#L1) (1 connections)
+- [StepIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TutorialStep.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\TutorialStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TutorialStep.tsx)
 
 ## Audit Trail
 

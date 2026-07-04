@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [useStemAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L1) (5 connections)
-- [ANIMATION_FRAME_INTERVAL](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L31) (1 connections)
-- [CRITICAL_DRIFT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L28) (1 connections)
-- [DRIFT_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L25) (1 connections)
-- [MAX_CORRECTION_ATTEMPTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L34) (1 connections)
-- [useStemAudioSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L36) (1 connections)
+- [SavedLyricsSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L1) (5 connections)
+- [filteredTemplates](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L29) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L40) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L26) (1 connections)
+- [[selectedId, setSelectedId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L27) (1 connections)
+- [{ templates, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SavedLyricsSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx)
 
 ## Audit Trail
 

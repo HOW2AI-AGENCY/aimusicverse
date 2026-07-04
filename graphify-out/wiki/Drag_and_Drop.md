@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [result.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L1) (6 connections)
-- [e](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L25) (1 connections)
-- [failure](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L62) (1 connections)
-- [invoked](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L78) (1 connections)
-- [original](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L91) (1 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L16) (1 connections)
-- [r2](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L65) (1 connections)
+- [EnhancedMessages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L397) (1 connections)
+- [failCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L282) (1 connections)
+- [LyricsGeneratedMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L40) (1 connections)
+- [passCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L280) (1 connections)
+- [statusIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L284) (1 connections)
+- [warnCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L281) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\__tests__\result.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\messages\EnhancedMessages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx)
 
 ## Audit Trail
 

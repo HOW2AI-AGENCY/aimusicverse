@@ -1,16 +1,16 @@
 # Music Metadata
 
-> 7 nodes · cohesion 0.43
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ai-intent.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L1) (7 connections)
-- [detectIntent()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L163) (5 connections)
-- [extractMusicStyle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L135) (2 connections)
-- [getSuggestedAction()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L226) (2 connections)
-- [getSuggestedResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L247) (2 connections)
-- [isMusicPrompt()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L286) (2 connections)
-- [INTENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts#L37) (1 connections)
+- [StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L1) (6 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L51) (1 connections)
+- [handlePresetChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L54) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L74) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L50) (1 connections)
+- [[isHardwareMode, setIsHardwareMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L52) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\ai-intent.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/ai-intent.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 19 (90%)
-- INFERRED: 2 (10%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [cdn.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L1) (7 connections)
-- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L28) (1 connections)
-- [observerSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L181) (1 connections)
-- [providers](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L64) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L35) (1 connections)
-- [support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L160) (1 connections)
-- [timing](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L269) (1 connections)
-- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L196) (1 connections)
+- [StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L1) (7 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L77) (2 connections)
+- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L64) (1 connections)
+- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L82) (1 connections)
+- [{ impact, select }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L62) (1 connections)
+- [MODES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L26) (1 connections)
+- [[selectedMode, setSelectedMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L61) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -19,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\cdn.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

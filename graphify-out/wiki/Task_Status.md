@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L1) (2 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L134) (1 connections)
-- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L135) (1 connections)
+- [Terms.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L1) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L12) (1 connections)
+- [{ showBackButton, hideBackButton, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Terms.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx)
 
 ## Audit Trail
 

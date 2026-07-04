@@ -1,21 +1,22 @@
 # Media Configuration
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [ArtistDetailsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L1) (11 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L34) (1 connections)
-- [{ data: artistTracks, isLoading: tracksLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L51) (1 connections)
-- [{ data: canMakePrivate }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L40) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L64) (1 connections)
-- [[editDialogOpen, setEditDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L35) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L187) (1 connections)
-- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L188) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L37) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L31) (1 connections)
-- [{ playTrack, activeTrack, isPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L33) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L32) (1 connections)
+- [FullscreenPager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L1) (13 connections)
+- [index](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L36) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L107) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L34) (1 connections)
+- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L39) (1 connections)
+- [goTo](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L48) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L57) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L16) (1 connections)
+- [ro](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L43) (1 connections)
+- [SWIPE_DISTANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L30) (1 connections)
+- [SWIPE_VELOCITY](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L31) (1 connections)
+- [update()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L41) (1 connections)
+- [[width, setWidth]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -23,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\artist\ArtistDetailsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenPager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 25 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

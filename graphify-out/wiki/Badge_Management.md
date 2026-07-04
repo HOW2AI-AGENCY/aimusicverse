@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L1) (1 connections)
-- [useOptimisticVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L36) (1 connections)
+- [useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L1) (1 connections)
+- [useProjectDetailDialogs()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\project\useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts)
 
 ## Audit Trail
 

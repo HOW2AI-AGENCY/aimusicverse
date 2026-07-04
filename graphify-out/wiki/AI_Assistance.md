@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [supabase_functions_telegram_bot_telegram_api](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/telegram-api.ts) (0 connections)
+- [Accessibility Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/accessibility.svg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\telegram-api.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/telegram-api.ts)
+- [stories/assets/accessibility.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/accessibility.svg)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

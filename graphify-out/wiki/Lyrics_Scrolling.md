@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [design-colors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L1) (24 connections)
-- [Leaderboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/Leaderboard.tsx#L1) (12 connections)
-- [getRankColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L361) (3 connections)
-- [getRankBg()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/Leaderboard.tsx#L27) (2 connections)
-- [getRankIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/Leaderboard.tsx#L13) (2 connections)
-- [analysisColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L630) (1 connections)
-- [chordColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L676) (1 connections)
-- [effectColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L597) (1 connections)
-- [emotionalColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L661) (1 connections)
-- [errorCodeColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L511) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L686) (1 connections)
-- [getErrorColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L525) (1 connections)
-- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L246) (1 connections)
-- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L125) (1 connections)
-- [getTierInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L427) (1 connections)
-- [getVuMeterColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L616) (1 connections)
-- [hintColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L309) (1 connections)
-- [homeSectionColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L699) (1 connections)
-- [overlayColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L538) (1 connections)
-- [rankColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L327) (1 connections)
-- [sectionColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L139) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L556) (1 connections)
-- [stemColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L25) (1 connections)
-- [streakColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L486) (1 connections)
-- [tagColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts#L260) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L1) (37 connections)
+- [LazyAddTrackDrawer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L128) (1 connections)
+- [LazyAddVocalsDrawer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L140) (1 connections)
+- [LazyAdvancedSettings](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L164) (1 connections)
+- [LazyAudioCoverDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L26) (1 connections)
+- [LazyAudioExtendDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L30) (1 connections)
+- [LazyAudioVisualizer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L54) (1 connections)
+- [LazyBroadcastPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L184) (1 connections)
+- [LazyDesktopFullscreenPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L84) (1 connections)
+- [LazyExtendDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L112) (1 connections)
+- [LazyFullscreenPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L96) (1 connections)
+- [LazyGamificationOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L76) (1 connections)
+- [LazyGenerateFormCustom](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L148) (1 connections)
+- [LazyGenerateFormSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L152) (1 connections)
+- [LazyGenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L14) (1 connections)
+- [LazyGenerationLogsPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L188) (1 connections)
+- [LazyInteractiveChordWheel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L62) (1 connections)
+- [LazyKlangioAnalysisPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L136) (1 connections)
+- [LazyLyricsChatAssistant](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L18) (1 connections)
+- [LazyLyricsVisualEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L156) (1 connections)
+- [LazyLyricsWorkspace](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L172) (1 connections)
+- [LazyMobileFullscreenPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L92) (1 connections)
+- [LazyMusicGraph](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L58) (1 connections)
+- [LazyNoteFlowVisualization](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L66) (1 connections)
+- [LazyRemixDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L108) (1 connections)
 - *... and 13 more nodes in this community*
 
 ## Relationships
@@ -37,13 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\Leaderboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/Leaderboard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\design-colors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-colors.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lazy\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 72 (95%)
-- INFERRED: 4 (5%)
+- EXTRACTED: 74 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

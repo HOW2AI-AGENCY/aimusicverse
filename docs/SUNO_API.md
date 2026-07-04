@@ -601,6 +601,203 @@ create policy "Users manage own personas" on public.track_personas
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 ```
 
+### 2026-07-04 — Sprint 053 + 054: Sounds + MIDI + Details Suite + Boost Style (28/28 ✅)
+
+**Suno API покрытие достигло 28/28 (100%).** Sprint 053 закрыл 3 ранее-gap категории (Sounds, MIDI direct, Boost Style); Sprint 054 закрыл оставшийся gap (Details suite × 6 → 7) + cleanup dead code.
+
+#### Новые edge functions (Supabase)
+
+| Edge                      | Endpoint Suno                        | Sprint | Назначение                                                                                                                                                                                                |
+| ------------------------- | ------------------------------------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `suno-sounds`             | `POST /api/v1/sound/generate`        | 053-A1 | SFX generation: `prompt` + `model` + `tempo` (60–200) + `key` + `duration` (≤60s). Всегда instrumental. Callback пишет в `sound_effects` (новая таблица).                                                 |
+| `suno-sounds-callback`    | Suno callback                        | 053-A2 | Создаёт/обновляет запись `sound_effects` с `is_sound_effect=true`, `audio_url`, `image_url`, `duration`.                                                                                                  |
+| `suno-sounds-status`      | (DB read)                            | 053-A1 | Читает `sound_effects` по `taskId` для клиентского polling.                                                                                                                                               |
+| `suno-midi`               | `POST /api/v1/generate/midi`         | 053-A3 | MIDI transcription напрямую через Suno. Принимает `trackVersionId`, резолвит `audio_url` из Supabase Storage, маркирует `midi_generation_source='suno'`. Cost: 5 credits.                                 |
+| `suno-midi-callback`      | Suno callback                        | 053-A3 | Скачивает `.mid`, загружает в Storage bucket `midi` (`tracks/{versionId}.mid`), обновляет `track_versions.midi_url`. На FAILED — откатывает `midi_generation_source` в NULL (Replicate может подхватить). |
+| `suno-midi-details`       | `POST /api/v1/generate/midi/details` | 053-A3 | Polling для MIDI generation.                                                                                                                                                                              |
+| `suno-music-details`      | `POST /api/v1/generate/details`      | 054-A1 | Polling для music. Возвращает `{ taskId, status, clips }`.                                                                                                                                                |
+| `suno-cover-details`      | `POST /api/v1/image/details`         | 054-A2 | Polling для cover. Возвращает `{ taskId, status, imageUrl }`.                                                                                                                                             |
+| `suno-video-details`      | `POST /api/v1/mp4/details`           | 054-A3 | Polling для video. Возвращает `{ taskId, status, videoUrl, imageUrl, duration }`.                                                                                                                         |
+| `suno-wav-details`        | `POST /api/v1/generate/wav/details`  | 054-A4 | Polling для WAV conversion. Возвращает `{ taskId, status, wavUrl, audioUrl }`.                                                                                                                            |
+| `suno-lyrics-details`     | `POST /api/v1/lyrics/details`        | 054-A5 | Polling для lyrics. **Важно:** Suno возвращает массив в `response.data[0]` — каждый item имеет `{ text, title, status, errorMessage }`. Edge пробрасывает `text`/`title`/`itemStatus`.                    |
+| `suno-separation-details` | `POST /api/v1/vocal-removal/details` | 054-A6 | Polling для vocal removal. Возвращает `{ taskId, status, vocalUrl, instrumentalUrl }` (полный Suno payload даёт 12+ stem URLs).                                                                           |
+
+#### Shared helper
+
+[supabase/functions/_shared/suno-details.ts](../supabase/functions/_shared/suno-details.ts) — единая точка для всех 7 details-endpoints:
+
+```typescript
+// Endpoint map (per https://docs.sunoapi.org/llms.txt):
+//   music       → /api/v1/generate/details
+//   cover       → /api/v1/image/details
+//   video       → /api/v1/mp4/details
+//   wav         → /api/v1/generate/wav/details
+//   midi        → /api/v1/generate/midi/details
+//   lyrics      → /api/v1/lyrics/details
+//   separation  → /api/v1/vocal-removal/details
+
+export type SunoTaskType = "music" | "cover" | "video" | "wav" | "midi" | "lyrics" | "separation";
+
+export const BACKOFF_MS_BY_TYPE: Record<SunoTaskType, number> = {
+  lyrics: 1500,
+  cover: 2000,
+  music: 2000,
+  wav: 3000,
+  video: 3000,
+  separation: 4000,
+  midi: 5000,
+};
+
+export async function fetchSunoTaskDetails(taskType: SunoTaskType, taskId: string): Promise<SunoTaskDetails> {
+  /* POST + normalize status */
+}
+```
+
+Каждый `*-details` edge — это 15-30 строк thin-wrapper над `fetchSunoTaskDetails(taskType, taskId)`, который маппит `data` в UI-friendly payload.
+
+#### Cleanup dead code (054-A7')
+
+**Удалено:** [supabase/functions/suno-check-status/index.ts](../supabase/functions/suno-check-status/index.ts) (449 LOC) + alias `[functions.suno-check-status]` в `supabase/config.toml`.
+
+**Причина:** graphify + grep подтвердили — **zero client callers**. Callbacks (`suno-music-callback`, `suno-cover-callback`, и т.д.) уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. Polling edge был пережитком Sprint 052 retro. Теперь клиентский polling идёт напрямую через `useSunoTaskDetails` generic hook (см. ниже).
+
+#### Клиентский generic polling hook
+
+[src/hooks/generation/useSunoTaskDetails.ts](../src/hooks/generation/useSunoTaskDetails.ts) — единый entry point для Suno polling (заменяет планировавшийся dispatcher в `suno-check-status`):
+
+```typescript
+const { data } = useSunoTaskDetails<MyShape>(taskId, "music");
+// queryKey: ["suno-task-details", "music", taskId]
+// refetchInterval: per-type (lyrics 1500ms … midi 5000ms)
+// stops polling on SUCCESS / FAILED
+```
+
+Edge-bridge pattern: [src/api/suno-task-details.api.ts](../src/api/suno-task-details.api.ts) экспортирует `EDGE_FUNCTION_BY_TYPE`, `POLL_INTERVAL_MS_BY_TYPE`, `isSunoTaskType()` для клиентского narrowing.
+
+#### UI
+
+- **SfxGeneratorSheet** ([src/components/library/SfxGeneratorSheet.tsx](../src/components/library/SfxGeneratorSheet.tsx)) — MobileBottomSheet (Vaul) с полями: prompt + tempo slider (60–200) + key picker + duration slider (≤60s). После генерации — превью-аудио через `usePreviewAudio`. Hook: `useSunoSounds()`.
+- **BoostStyleMenuItem** — 8 unit-тестов подтвердили, что `suno-boost-style` уже подключён end-to-end через `StyleSection → FormFieldActions.onAIAssist → useGenerateFormValidation.handleBoostStyle`. Edge является Lovable AI gateway proxy (НЕ Suno endpoint). Решение: **CONNECT** (а не deprecate).
+
+#### Telegram bot
+
+- `/sfx` команда — wizard prompt→tempo/key→генерация→отправка в чат. Deep-link `startapp=sfx_<draftId>`.
+
+#### DB миграции
+
+**`sound_effects` таблица** (новая):
+
+```sql
+create table public.sound_effects (
+  id              uuid primary key default gen_random_uuid(),
+  user_id         uuid not null references auth.users(id) on delete cascade,
+  task_id         text not null,
+  prompt          text not null,
+  audio_url       text,
+  image_url       text,
+  duration        numeric,
+  status          text not null default 'processing'
+                  check (status in ('processing', 'completed', 'failed')),
+  error_message   text,
+  metadata        jsonb default '{}'::jsonb,
+  created_at      timestamptz not null default now(),
+  updated_at      timestamptz not null default now()
+);
+create index idx_sound_effects_task_id on public.sound_effects(task_id);
+create index idx_sound_effects_user_status on public.sound_effects(user_id, status);
+alter table public.sound_effects enable row level security;
+create policy "Users manage own sound effects" on public.sound_effects
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+```
+
+**`track_versions.midi_*`** (MIDI direct + Replicate fallback):
+
+```sql
+alter table public.track_versions
+  add column if not exists midi_url text,
+  add column if not exists midi_generation_source text
+    check (midi_generation_source in ('suno', 'replicate'));
+
+create index idx_track_versions_midi_source
+  on public.track_versions(midi_generation_source)
+  where midi_generation_source is not null;
+```
+
+#### Edge-bridge pattern (новый конвенциональный паттерн)
+
+Таблицы, **отсутствующие в сгенерированных TypeScript-типах** ([src/integrations/supabase/types.ts](../src/integrations/supabase/types.ts)) после применения миграции, **не должны** использоваться напрямую из клиента через `supabase.from('sound_effects').select(...)`. Вместо этого:
+
+1. Edge function делает `.select()` с untyped возвратом → возвращает typed JSON через `Response`.
+2. Клиент вызывает edge через `supabase.functions.invoke<T>()` — тип фиксируется на стороне клиента.
+
+Это исключает ESLint `no-explicit-any: error` budget 0/50 в production и сохраняет typed-контракт.
+
+#### Graceful degradation (Suno MIDI → Replicate fallback)
+
+[src/hooks/studio/useSunoMidiTranscription.ts](../src/hooks/studio/useSunoMidiTranscription.ts):
+
+```typescript
+// Suno primary, timeout 60s → Replicate fallback
+const SUNO_TIMEOUT_MS = 60_000;
+
+useSunoMidiTranscription() → tries Suno first; on timeout/error,
+// falls back to useReplicateMidiTranscription (sentinel url: replicate://<versionId>)
+```
+
+Suno MIDI маркирует `midi_generation_source='suno'` (только если `midi_url IS NULL`); на FAILED — откатывает в NULL, чтобы Replicate мог подхватить. Race-condition protection.
+
+#### Mermaid: callback flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant SunoEdge
+    participant Suno
+    participant Storage
+    participant DB
+
+    Client->>SunoEdge: POST /suno-{type} (params)
+    SunoEdge->>Suno: POST /api/v1/{type} (Bearer)
+    Suno-->>SunoEdge: { taskId }
+    SunoEdge-->>Client: { taskId } (immediate)
+
+    Note over Suno,SunoEdge: Async — Suno обрабатывает
+    Suno->>SunoEdge: callbackUrl (webhook)
+    SunoEdge->>Storage: download + upload (track / midi / cover)
+    SunoEdge->>DB: upsert tracks / track_versions / track_change_log / notifications
+    DB-->>Client: postgres_changes (realtime)
+
+    Client->>SunoEdge: GET useSunoTaskDetails(taskId, type)
+    SunoEdge->>Suno: POST /api/v1/{type}/details
+    Suno-->>SunoEdge: { status, data }
+    SunoEdge-->>Client: { status, ...taskTypeSpecific }
+```
+
+Клиент polling = дополнительный safety net на случай если callback потерялся (network blip, Suno rate-limit).
+
+#### Метрики Sprint 053/054
+
+| Метрика                     | До (Sprint 052 close)   | После (Sprint 053+054)                                     |
+| --------------------------- | ----------------------- | ---------------------------------------------------------- |
+| Suno API покрытие           | 24/28 (86%)             | **28/28 (100%)**                                           |
+| `supabase/functions/suno-*` | 21 edge                 | **30 edge** (+9)                                           |
+| `suno-*-details` endpoints  | 0                       | **7** (music, cover, video, wav, midi, lyrics, separation) |
+| Unit tests (Vitest)         | 292 passing (20 suites) | **320 passing (24 suites)** (+28)                          |
+| Dead code LOC               | —                       | **−449 LOC** (`suno-check-status` deleted)                 |
+| Graph nodes                 | 17921                   | **17929**                                                  |
+
+#### Sprint 054-A9 — NOT APPLICABLE
+
+План ссылался на 5 polling hooks (`useGenerationStatus`, `useVideoGenerationStatus`, `useStemSeparation`, `useLyricsVersioning`, `useWavConversion`). Verification через graphify + grep + Read подтвердила:
+
+- `useGenerationStatus` — **не существует** (заменён на `useActiveGenerations` в Sprint 051, polls `generation_tasks` напрямую).
+- `useWavConversion` — **не существует**.
+- `useVideoGenerationStatus` — polls DB `video_generation_tasks` (НЕ `suno-check-status`).
+- `useStemSeparation` — `useMutation` (НЕ polling). Polling делает `useStemSeparationRealtime` через Postgres realtime channels.
+- `useLyricsVersioning` — CRUD для `lyrics_versions` (никакого Suno).
+
+**Вывод:** миграция 5 hooks на `useSunoTaskDetails` — бессмысленна. Hook готов для **будущих** Suno polling use-cases (например, lyrics generation без callback). См. [SPRINTS/SPRINT-054-RETRO.md](../SPRINTS/SPRINT-054-RETRO.md).
+
 ### 2025-12-08
 
 - **BREAKING**: Параметр `mv` заменен на `model`

@@ -1,20 +1,42 @@
 # Analytics Dashboard
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L1) (10 connections)
-- [{ activeTrack, isPlaying, playTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L24) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L109) (1 connections)
-- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L42) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L35) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L94) (1 connections)
-- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L95) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L93) (1 connections)
-- [originalTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L27) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L29) (1 connections)
-- [versionTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L73) (1 connections)
+- [StudioShellDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L1) (11 connections)
+- [{
+    addTrack,
+    addClip,
+    addPendingTrack,
+    resolvePendingTrack,
+    removeTrack: removeTrackFromStore,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L149) (1 connections)
+- [clearSelection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L158) (1 connections)
+- [currentVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L543) (1 connections)
+- [existingTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L542) (1 connections)
+- [firstTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L174) (1 connections)
+- [{
+    isMobile,
+    project,
+    sourceTrackId,
+    sourceTrack,
+    duration,
+    currentTime,
+    isPlaying,
+    audioTracks,
+    detectedSections,
+    hasUnsavedChanges,
+    isSaving,
+    isSeparating,
+    trackEffects,
+    setTrackEffects,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L132) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L156) (1 connections)
+- [{ newTrackId, existingInstrumentalId, versions }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L526) (1 connections)
+- [nextLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L544) (1 connections)
+- [{ replaceTrackAudio, addTrackVersion, removeTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L530) (1 connections)
+- [selectedVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L527) (1 connections)
 
 ## Relationships
 
@@ -22,11 +44,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShellDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

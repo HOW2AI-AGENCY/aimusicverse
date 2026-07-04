@@ -1,19 +1,20 @@
 # Slide Navigation
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [KlangioAnalysisPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L1) (9 connections)
-- [{ chords, beats, detectChords, detectBeats, resetChords, resetBeats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L53) (1 connections)
-- [[extendedChords, setExtendedChords]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L51) (1 connections)
-- [handleDetectBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L65) (1 connections)
-- [handleDetectChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L57) (1 connections)
-- [handleSaveAll](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L73) (1 connections)
-- [hasSaveableResults](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L82) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L83) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L50) (1 connections)
-- [{ saveAnalysis, isSaving }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx#L55) (1 connections)
+- [layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L1) (10 connections)
+- [compact](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L59) (1 connections)
+- [compactBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L73) (1 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L66) (1 connections)
+- [last](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L71) (1 connections)
+- [lastBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L72) (1 connections)
+- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L53) (1 connections)
+- [mountCompact()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L21) (1 connections)
+- [SAMPLE_TRACK](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L10) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L65) (1 connections)
+- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\KlangioAnalysisPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/KlangioAnalysisPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

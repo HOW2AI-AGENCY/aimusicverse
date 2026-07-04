@@ -1,23 +1,25 @@
 # Tour Navigation
 
-> 14 nodes · cohesion 0.14
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L1) (13 connections)
-- [{ activeReference, clearActive, analysisStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L50) (1 connections)
-- [defaultContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L97) (1 connections)
-- [effectiveDur](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L96) (1 connections)
-- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L149) (1 connections)
-- [getModeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L136) (1 connections)
-- [getModeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L130) (1 connections)
-- [getSourceIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L107) (1 connections)
-- [handleContinueAtChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L81) (1 connections)
-- [handleModeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L63) (1 connections)
-- [handleRemove](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L58) (1 connections)
-- [hasAnalysisData](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L142) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L52) (1 connections)
-- [{ isPlaying, currentTime, duration, isLoading, isBuffering, togglePlay, seek }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L54) (1 connections)
+- [MusicLab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L1) (15 connections)
+- [handleProgressionExport()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L63) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L54) (1 connections)
+- [AudioHubRecorder](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L35) (1 connections)
+- [AudioHubUploader](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L38) (1 connections)
+- [AudioRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L20) (1 connections)
+- [[guitarDialogOpen, setGuitarDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L56) (1 connections)
+- [GuitarRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L23) (1 connections)
+- [{ hasAccess: hasGuitarStudio }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L59) (1 connections)
+- [{ hasAccess: hasPromptDJ }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L58) (1 connections)
+- [LyricsAIChatAgent](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L26) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L53) (1 connections)
+- [PromptDJMixer](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L29) (1 connections)
+- [RealtimeChordVisualizer](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L30) (1 connections)
+- [TabLoadingSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L42) (1 connections)
+- [[vocalDialogOpen, setVocalDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -25,12 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\MusicLab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicLab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 30 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

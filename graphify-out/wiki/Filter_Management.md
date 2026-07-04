@@ -1,18 +1,19 @@
 # Filter Management
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [WorkflowVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L165) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L128) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L130) (1 connections)
-- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L131) (1 connections)
-- [isHorizontal](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L84) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L129) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L47) (1 connections)
-- [StepIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx#L127) (1 connections)
+- [drum-kits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L1) (9 connections)
+- [drumKits](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L654) (1 connections)
+- [getKitById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L656) (1 connections)
+- [kit808](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L23) (1 connections)
+- [kit909](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L133) (1 connections)
+- [kitAcoustic](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L243) (1 connections)
+- [kitEthnic](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L549) (1 connections)
+- [kitLoFi](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L353) (1 connections)
+- [kitTrap](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L451) (1 connections)
+- [presetPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L667) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\WorkflowVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/WorkflowVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\drum-kits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

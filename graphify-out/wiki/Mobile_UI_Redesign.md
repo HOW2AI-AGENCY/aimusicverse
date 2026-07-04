@@ -1,12 +1,12 @@
 # Mobile UI Redesign
 
-> 3 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [usePictureInPicture.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L1) (2 connections)
-- [checkPiPSupport()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L55) (2 connections)
-- [usePictureInPicture()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L78) (2 connections)
+- [useGenerationAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L1) (2 connections)
+- [fetchGenerationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L81) (1 connections)
+- [useGenerationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L128) (1 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\usePictureInPicture.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGenerationAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [VirtualizedLyricsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx#L1) (1 connections)
-- [handleCopy](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx#L23) (1 connections)
+- [AdminUserCreditsDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L31) (1 connections)
+- [AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedLyricsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedLyricsList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx)
 
 ## Audit Trail
 

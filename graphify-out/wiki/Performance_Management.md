@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useMonitoringHealth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useMonitoringHealth.ts#L1) (2 connections)
-- [useMonitoringHealthStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useMonitoringHealth.ts#L9) (1 connections)
-- [useSystemHealthStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useMonitoringHealth.ts#L23) (1 connections)
+- [mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L1) (2 connections)
+- [createMockWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L17) (1 connections)
+- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useMonitoringHealth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useMonitoringHealth.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts)
 
 ## Audit Trail
 

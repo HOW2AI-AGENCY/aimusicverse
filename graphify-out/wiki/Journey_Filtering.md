@@ -1,18 +1,35 @@
 # Journey Filtering
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [BlogContentRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L1) (8 connections)
-- [BlogContentRenderer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L11) (2 connections)
-- [[, alt, src]](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L193) (1 connections)
-- [calloutStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L124) (1 connections)
-- [cells](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L147) (1 connections)
-- [flushCallout](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L71) (1 connections)
-- [flushList()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L305) (1 connections)
-- [imageMatch](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L190) (1 connections)
-- [target](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx#L202) (1 connections)
+- [IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L1) (9 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L92) (2 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L100) (2 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L21) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L132) (1 connections)
+- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L64) (1 connections)
+- [isVisible](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L109) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L37) (1 connections)
+- [{ selectedSection, customRange, editMode, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L63) (1 connections)
+- [{
+    startTime,
+    endTime,
+    sectionDuration,
+    maxDuration,
+    isValidDuration,
+    isSubmitting,
+    prompt,
+    setPrompt,
+    tags,
+    setTags,
+    lyrics,
+    setLyrics,
+    addPreset,
+    executeReplacement,
+    reset,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L66) (1 connections)
 
 ## Relationships
 
@@ -20,12 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogContentRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogContentRenderer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (94%)
-- INFERRED: 1 (6%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

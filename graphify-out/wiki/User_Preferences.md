@@ -1,21 +1,26 @@
 # User Preferences
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L1) (11 connections)
-- [formatRelative()](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L11) (2 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L38) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L39) (1 connections)
-- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L36) (1 connections)
-- [keepEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L83) (1 connections)
-- [pending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L79) (1 connections)
-- [pendingRelative](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L40) (1 connections)
-- [ready](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L27) (1 connections)
-- [selected](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L37) (1 connections)
-- [selectedPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L31) (1 connections)
-- [{ voices, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L26) (1 connections)
+- [Pricing.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L1) (13 connections)
+- [{
+    data: products,
+    isLoading,
+    error,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L69) (1 connections)
+- [err](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L145) (1 connections)
+- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L50) (1 connections)
+- [mapToStarsProduct()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L32) (1 connections)
+- [[purchasingProduct, setPurchasingProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L53) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L51) (1 connections)
+- [response](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L127) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L136) (1 connections)
+- [token](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L120) (1 connections)
+- [{ user, session }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L49) (1 connections)
+- [userId](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L52) (1 connections)
+- [{ webApp, showAlert }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -23,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\voice-clone\CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Pricing.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 25 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

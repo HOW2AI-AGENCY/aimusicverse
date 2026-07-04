@@ -1,12 +1,13 @@
 # Icon Sizing
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L1) (2 connections)
-- [AIProgressIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L30) (1 connections)
-- [STEP_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L16) (1 connections)
+- [vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L1) (3 connections)
+- [originalError](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L191) (1 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L128) (1 connections)
+- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L129) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

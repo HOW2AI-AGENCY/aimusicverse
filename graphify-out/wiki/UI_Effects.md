@@ -4,20 +4,9 @@
 
 ## Key Concepts
 
-- [CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L1) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L55) (1 connections)
-- [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleKeyDown,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L33) (1 connections)
+- [PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L1) (2 connections)
+- [LoadingSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L25) (1 connections)
+- [{ transactions, isLoading, hasMore, loadMore, isLoadingMore, refetch, isRefetching }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -25,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx)
 
 ## Audit Trail
 

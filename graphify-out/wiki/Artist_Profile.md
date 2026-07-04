@@ -1,25 +1,37 @@
 # Artist Profile
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [StudioArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L1) (15 connections)
-- [addInstrumentalMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L49) (1 connections)
-- [[audioWeight, setAudioWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L60) (1 connections)
-- [handleGenerate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L66) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L51) (1 connections)
-- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L56) (1 connections)
-- [PRESET_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L30) (1 connections)
-- [selectPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L119) (1 connections)
-- [{ session }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L48) (1 connections)
-- [[showAdvanced, setShowAdvanced]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L59) (1 connections)
-- [[step, setStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L50) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L55) (1 connections)
-- [[styleWeight, setStyleWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L61) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L54) (1 connections)
-- [vocalAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L64) (1 connections)
-- [[weirdness, setWeirdness]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L62) (1 connections)
+- [Subscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L1) (17 connections)
+- [BenefitItem()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L75) (1 connections)
+- [benefits](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L171) (1 connections)
+- [bestValueProduct](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L125) (1 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L42) (1 connections)
+- [{
+    data: subscriptionProducts,
+    isLoading: isLoadingProducts,
+    error: productsError,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L104) (1 connections)
+- [handleSubscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L157) (1 connections)
+- [{ initiatePayment, flowState, resetFlow }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L122) (1 connections)
+- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L99) (1 connections)
+- [isCurrentTier()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L164) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L52) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L100) (1 connections)
+- [[selectedProduct, setSelectedProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L102) (1 connections)
+- [showExpirationWarning](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L169) (1 connections)
+- [showTrialHighlight](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L101) (1 connections)
+- [{
+    subscription,
+    isLoading: isLoadingStatus,
+    isActive,
+    tier,
+    expiresAt,
+    daysRemaining,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L110) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L98) (1 connections)
 
 ## Relationships
 
@@ -27,11 +39,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\Subscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 33 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

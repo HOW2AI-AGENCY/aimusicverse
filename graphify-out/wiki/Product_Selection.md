@@ -1,22 +1,27 @@
 # Product Selection
 
-> 13 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L1) (12 connections)
-- [finalTranscript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L92) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L95) (1 connections)
-- [interim](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L93) (1 connections)
-- [[interimTranscript, setInterimTranscript]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L60) (1 connections)
-- [[isListening, setIsListening]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L57) (1 connections)
-- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L58) (1 connections)
-- [isSupported](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L150) (1 connections)
-- [recognition](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L81) (1 connections)
-- [recognitionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L59) (1 connections)
-- [SpeechRecognitionClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L64) (1 connections)
-- [toggleListening](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L133) (1 connections)
-- [transcript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L96) (1 connections)
+- [UnifiedWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L1) (13 connections)
+- [{ beatGrid }](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L144) (1 connections)
+- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L157) (1 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L121) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L117) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L116) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L148) (1 connections)
+- [handleSeek()](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L167) (1 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L118) (1 connections)
+- [MODE_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L67) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L151) (1 connections)
+- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L76) (1 connections)
+- [waveformData](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L147) (1 connections)
+- [{
+    waveformData: loadedData,
+    duration: loadedDuration,
+    isLoading,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L133) (1 connections)
 
 ## Relationships
 
@@ -24,11 +29,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\UnifiedWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

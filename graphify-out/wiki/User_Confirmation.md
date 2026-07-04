@@ -1,16 +1,17 @@
 # User Confirmation
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L1) (6 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L35) (1 connections)
-- [hasFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L59) (1 connections)
-- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L28) (1 connections)
-- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L69) (1 connections)
-- [toggleGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L61) (1 connections)
-- [toggleNodeType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L77) (1 connections)
+- [BlockedUsersPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L1) (7 connections)
+- [blockedUserIds](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L18) (1 connections)
+- [{ data: blockedUsers, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L14) (1 connections)
+- [{ data: profiles }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L19) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L13) (1 connections)
+- [profile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L74) (1 connections)
+- [profileMap](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L32) (1 connections)
+- [{ toggleBlock, isLoading: isUnblocking }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\settings\BlockedUsersPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,17 +1,18 @@
 # Drum Kits
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L1) (7 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L83) (1 connections)
-- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L114) (1 connections)
-- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L45) (1 connections)
-- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L75) (1 connections)
-- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L76) (1 connections)
-- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L150) (1 connections)
-- [stepIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L117) (1 connections)
+- [KnobCell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L1) (8 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L52) (1 connections)
+- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L36) (1 connections)
+- [handleLabelClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L62) (1 connections)
+- [handleOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L66) (1 connections)
+- [handlePresetSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L73) (1 connections)
+- [handleToggleEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L81) (1 connections)
+- [handleTypeChangeClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L85) (1 connections)
+- [handleWeightChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\KnobCell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

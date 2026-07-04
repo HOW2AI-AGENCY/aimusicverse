@@ -1,25 +1,26 @@
 # Guitar Chord Visualization
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [lazy-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L1) (15 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L138) (1 connections)
-- [containerStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L97) (1 connections)
-- [element](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L51) (1 connections)
-- [handleError](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L87) (1 connections)
-- [handleLoad](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L83) (1 connections)
-- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L33) (1 connections)
-- [hasFixedSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L92) (1 connections)
-- [imgRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L34) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L32) (1 connections)
-- [observerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L35) (1 connections)
-- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L39) (1 connections)
-- [resolvedAspectRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L93) (1 connections)
-- [[shouldLoad, setShouldLoad]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L36) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L45) (1 connections)
-- [srcSet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L42) (1 connections)
+- [track-card-gestures.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L1) (16 connections)
+- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L39) (1 connections)
+- [centerX](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L92) (1 connections)
+- [centerY](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L93) (1 connections)
+- [initialLikeCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L36) (1 connections)
+- [initialLikeState](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L87) (1 connections)
+- [likeBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L160) (1 connections)
+- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L151) (1 connections)
+- [MOBILE_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L18) (1 connections)
+- [MOBILE_WIDTH](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L17) (1 connections)
+- [moreBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L165) (1 connections)
+- [moreButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L152) (1 connections)
+- [newLikeCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L54) (1 connections)
+- [newLikeState](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L102) (1 connections)
+- [playBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L155) (1 connections)
+- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L150) (1 connections)
+- [trackCard](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L33) (1 connections)
 
 ## Relationships
 
@@ -27,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\lazy-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\mobile\track-card-gestures.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

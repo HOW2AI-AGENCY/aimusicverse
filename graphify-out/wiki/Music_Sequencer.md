@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L1) (12 connections)
-- [activeIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L71) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L163) (1 connections)
-- [GAP_MERGE_THRESHOLD_S](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L31) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L167) (1 connections)
-- [isReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L168) (1 connections)
-- [isSectionReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L59) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L166) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L161) (1 connections)
-- [normalizedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L83) (1 connections)
-- [originalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L165) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L34) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L162) (1 connections)
+- [AdminBotImagesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L1) (14 connections)
+- [accessHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L104) (1 connections)
+- [canManage](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L102) (1 connections)
+- [{ data: adminAuth, isLoading: adminAuthLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L101) (1 connections)
+- [{ data: imageConfig, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L111) (1 connections)
+- [fileInputRefs](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L98) (1 connections)
+- [getImageUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L210) (1 connections)
+- [isCustomImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L215) (1 connections)
+- [MENU_IMAGE_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L22) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L99) (1 connections)
+- [saveConfigMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L118) (1 connections)
+- [[uploadingKey, setUploadingKey]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L97) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -24,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminBotImagesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

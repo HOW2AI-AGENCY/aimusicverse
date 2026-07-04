@@ -1,17 +1,18 @@
 # Layout Configuration
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [UnifiedListRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L1) (7 connections)
-- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L189) (1 connections)
-- [BadgeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L165) (1 connections)
-- [coverSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L86) (1 connections)
-- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L83) (1 connections)
-- [isDraggable](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L84) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L82) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L87) (1 connections)
+- [EditablePromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L1) (8 connections)
+- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L29) (1 connections)
+- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L53) (1 connections)
+- [handleCopy](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L58) (1 connections)
+- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L45) (1 connections)
+- [handleStartEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L39) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L28) (1 connections)
+- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L64) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\UnifiedListRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\EditablePromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

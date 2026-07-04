@@ -1,17 +1,17 @@
 # Stem Management
 
-> 8 nodes · cohesion 0.46
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [changelog.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L1) (12 connections)
-- [createChangelogEntry()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L54) (9 connections)
-- [logCoverUpdated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L155) (2 connections)
-- [logLyricsUpdated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L172) (2 connections)
-- [logMasterChanged()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L109) (2 connections)
-- [logMetadataUpdated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L126) (2 connections)
-- [logStemGenerated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L144) (2 connections)
-- [logVersionCreated()](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts#L98) (2 connections)
+- [HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L106) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L179) (1 connections)
+- [handleCreate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L29) (1 connections)
+- [handleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L34) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L25) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L27) (1 connections)
+- [reducedMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -19,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\queries\changelog.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/queries/changelog.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 31 (94%)
-- INFERRED: 2 (6%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

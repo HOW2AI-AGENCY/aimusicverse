@@ -24,6 +24,47 @@
 
 ## [Unreleased]
 
+### 🎯 Sprint 053 + 054 — Suno API completion: 24/28 → 28/28 (100%) ✅ (2026-07-04)
+
+> Commits `c896baf1` … `6dc90af5` в `claude/sprint-053-054-suno-completion-pilot` (5 коммитов, merge в main ниже в этом релизе). **Suno API покрытие достигло 100%** — Sprint 053 закрыл Sounds + MIDI direct + Boost Style, Sprint 054 закрыл Details suite × 6 + cleanup dead code.
+
+#### Added
+
+- **Edge functions (Supabase) — 9 новых:**
+  - `suno-sounds` + `suno-sounds-callback` + `suno-sounds-status` — `POST /api/v1/sound/generate` (SFX: prompt + model + tempo 60-200 + key + duration ≤60s). Callback пишет в `sound_effects`.
+  - `suno-midi` + `suno-midi-callback` + `suno-midi-details` — `POST /api/v1/generate/midi` (прямая MIDI-транскрипция через Suno, 5 credits). Callback загружает `.mid` в Storage bucket `midi` (`tracks/{versionId}.mid`). Replicate fallback при FAILED (race-condition protection: `midi_generation_source` сбрасывается в NULL).
+  - `suno-music-details` + `suno-cover-details` + `suno-video-details` + `suno-wav-details` + `suno-lyrics-details` + `suno-separation-details` — Details suite × 6: каждый 15-30 LOC thin-wrapper над shared `fetchSunoTaskDetails(taskType, taskId)` в `_shared/suno-details.ts`. Per-type backoff: lyrics 1500ms / cover+music 2000ms / wav+video 3000ms / separation 4000ms / midi 5000ms.
+- **Shared helper** [supabase/functions/_shared/suno-details.ts](supabase/functions/_shared/suno-details.ts) — единая точка для всех 7 details-endpoints: `SunoTaskType` (7 типов), `fetchSunoTaskDetails()`, `BACKOFF_MS_BY_TYPE`, `isSunoTaskType()`.
+- **DB миграции:**
+  - **`sound_effects`** — новая таблица (`user_id`, `task_id`, `prompt`, `audio_url`, `image_url`, `duration`, `status`, `metadata`, timestamps). RLS: пользователи видят только свои SFX.
+  - **`track_versions.midi_url` + `midi_generation_source`** — `text` + `text check (in ('suno','replicate'))`. Partial index на непустые sources. Поддержка Suno primary + Replicate fallback.
+- **UI:**
+  - **SfxGeneratorSheet** ([src/components/library/SfxGeneratorSheet.tsx](src/components/library/SfxGeneratorSheet.tsx)) — MobileBottomSheet (Vaul) с prompt + tempo slider 60-200 + key picker + duration slider ≤60s. Превью-аудио через `usePreviewAudio`.
+  - **BoostStyleMenuItem wiring** — подтверждён 8 unit-тестами: `StyleSection → FormFieldActions.onAIAssist → useGenerateFormValidation.handleBoostStyle → supabase.functions.invoke('suno-boost-style')`. Edge — Lovable AI gateway proxy (НЕ Suno endpoint). Решение: CONNECT (а не deprecate).
+- **Telegram bot:** `/sfx` команда — wizard prompt→tempo/key→генерация→отправка в чат.
+- **Generic polling hook** [src/hooks/generation/useSunoTaskDetails.ts](src/hooks/generation/useSunoTaskDetails.ts) — единый entry point для Suno polling. Edge-bridge в [src/api/suno-task-details.api.ts](src/api/suno-task-details.api.ts): `EDGE_FUNCTION_BY_TYPE`, `POLL_INTERVAL_MS_BY_TYPE`, `isSunoTaskType()`. Per-type polling interval, stops on SUCCESS/FAILED, 7 unit-тестов.
+
+#### Changed
+
+- **i18n** + **edge-bridge pattern** — new convention: tables missing в generated Supabase types после миграции НЕ должны использоваться напрямую из клиента. Edge делает untyped `.select()` → returns typed JSON. Исключает ESLint `no-explicit-any: error` budget 0/50 в production.
+
+#### Removed
+
+- **`supabase/functions/suno-check-status/`** (449 LOC dead code) — graphify + grep подтвердили zero client callers. Callbacks уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. Alias `[functions.suno-check-status]` удалён из `supabase/config.toml`. **054-A9 (миграция 5 hooks) — NOT APPLICABLE** per [memory/sprint-054-a7-a9-plan-mismatch.md](memory/sprint-054-a7-a9-plan-mismatch.md): 3 хука не существуют, 2 не используют `suno-check-status`. Hook `useSunoTaskDetails` готов для **будущих** Suno polling use-cases.
+
+#### Tests
+
+- **+28 unit-тестов:** `useSunoSounds` (+6), `useSunoMidi` (+7), `useGenerateFormValidation` (+8), `useSunoTaskDetails` (+7). Итого **320/320 passing в 24 suites** (было 292/20).
+- **E2E:** Storybook story для `SfxGeneratorSheet` (3 state — default / generating / success).
+
+#### Docs
+
+- [docs/sunO_API.md → История изменений → Sprint 053/054](docs/SUNO_API.md) — full diff: edge functions, shared helper, cleanup, generic hook, UI, Telegram bot, DB миграции, edge-bridge pattern, graceful degradation, Mermaid callback diagram, метрики.
+- [PROJECT_STATUS.md → Suno API gap-анализ](PROJECT_STATUS.md) — таблица 28/28 ✅, секции Sprint 053 / 054, метрики.
+- [docs/sprints/SPRINT-053-RETRO.md](docs/sprints/SPRINT-053-RETRO.md) + [docs/sprints/SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md) — ретро (TTankup 052 lessons applied).
+
+---
+
 ### 🔧 P0 hotfix: typecheck на main + план закрытия спринтов (2026-07-04, вечер)
 
 > PR #576/#577 (влиты) + ветка `claude/sprint-closure-planning-m6skuk`. План: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).

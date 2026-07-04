@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L1) (3 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L22) (1 connections)
-- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L30) (1 connections)
-- [useMidiSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L32) (1 connections)
+- [TrackChangelogTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx#L1) (3 connections)
+- [{ data: changelog, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx#L11) (1 connections)
+- [getChangeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx#L13) (1 connections)
+- [getChangeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackChangelogTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx)
 
 ## Audit Trail
 

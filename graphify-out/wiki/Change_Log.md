@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L1) (4 connections)
-- [useBroadcastNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L30) (1 connections)
-- [useBroadcastTemplates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L55) (1 connections)
-- [useDeleteBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L99) (1 connections)
-- [useSaveBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L70) (1 connections)
+- [MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L1) (4 connections)
+- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L67) (1 connections)
+- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L57) (1 connections)
+- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L62) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx)
 
 ## Audit Trail
 

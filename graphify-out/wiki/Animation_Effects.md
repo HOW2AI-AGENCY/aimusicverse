@@ -1,17 +1,18 @@
 # Animation Effects
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L1) (8 connections)
-- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L153) (1 connections)
-- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L154) (1 connections)
-- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L112) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L63) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L152) (1 connections)
-- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L123) (1 connections)
-- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L69) (1 connections)
+- [BundleSizeCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L1) (8 connections)
+- [bundleSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L36) (1 connections)
+- [gzipSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L37) (1 connections)
+- [prevBundleSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L38) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L41) (1 connections)
+- [progressColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L51) (1 connections)
+- [sizeDiff](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L43) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L40) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\performance\BundleSizeCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

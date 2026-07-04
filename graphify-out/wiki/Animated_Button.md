@@ -1,19 +1,32 @@
 # Animated Button
 
-> 10 nodes · cohesion 0.29
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L1) (9 connections)
-- [getStemDisplayInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L186) (5 connections)
-- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L156) (2 connections)
-- [getStemEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L166) (2 connections)
-- [getStemIconName()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L176) (2 connections)
-- [getStemLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L146) (2 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L55) (1 connections)
-- [STEM_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L84) (1 connections)
-- [STEM_ICON_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L113) (1 connections)
-- [STEM_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L9) (1 connections)
+- [AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L1) (9 connections)
+- [[analysisResult, setAnalysisResult]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L25) (1 connections)
+- [{ analyze, isAnalyzing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L42) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L77) (1 connections)
+- [handleAnalyze](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L62) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L57) (1 connections)
+- [handleStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L44) (1 connections)
+- [handleStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L52) (1 connections)
+- [{
+    isRecording,
+    isPaused,
+    audioUrl,
+    audioBlob,
+    duration,
+    audioLevel,
+    waveformData,
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    resumeRecording,
+    resetRecording,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L27) (1 connections)
+- [[recordingMode, setRecordingMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -21,11 +34,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

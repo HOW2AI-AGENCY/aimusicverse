@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [DialogHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/DialogHeader.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\DialogHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/DialogHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/index.ts)
 
 ## Audit Trail
 

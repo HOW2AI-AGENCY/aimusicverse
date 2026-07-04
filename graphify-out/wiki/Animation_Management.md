@@ -1,22 +1,23 @@
 # Animation Management
 
-> 13 nodes · cohesion 0.17
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L1) (12 connections)
-- [handleActionClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L107) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L101) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L147) (1 connections)
-- [displayActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L105) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L102) (1 connections)
-- [hasProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L136) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L134) (1 connections)
-- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L103) (1 connections)
-- [professionalActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L34) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L89) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L135) (1 connections)
-- [statusIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L83) (1 connections)
+- [StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L1) (13 connections)
+- [handleLockedClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L66) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L43) (1 connections)
+- [{ hasAccess: canReplaceSection, requiredTier: replaceTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L53) (1 connections)
+- [{ hasAccess: canStemDetailed, requiredTier: stemDetailedTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L54) (1 connections)
+- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L62) (1 connections)
+- [[lockedFeature, setLockedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L45) (1 connections)
+- [showMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L60) (1 connections)
+- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L48) (1 connections)
+- [showStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L57) (1 connections)
+- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L50) (1 connections)
+- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L49) (1 connections)
+- [showStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L47) (1 connections)
+- [[upgradePopupOpen, setUpgradePopupOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -24,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx)
 
 ## Audit Trail
 

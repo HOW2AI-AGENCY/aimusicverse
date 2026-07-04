@@ -1,35 +1,35 @@
 # Lyrics Processing
 
-> 78 nodes · cohesion 0.03
+> 74 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L105) (18 connections)
-- [style-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts#L1) (18 connections)
-- [interactions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/interactions.ts#L1) (12 connections)
-- [design-spacing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L1) (10 connections)
-- [CreativeTools.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L1) (10 connections)
-- [overlay-colors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/overlay-colors.ts#L1) (9 connections)
-- [glass.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/glass.ts#L1) (7 connections)
-- [PageContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/PageContainer.tsx#L1) (5 connections)
-- [createGlass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/glass.ts#L192) (3 connections)
-- [handleProgressionExport()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L34) (2 connections)
-- [handleTabExport()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L40) (2 connections)
-- [cardSectionSpacing()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L124) (2 connections)
-- [containerPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L92) (2 connections)
-- [contentSpacing()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L108) (2 connections)
-- [gridGap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L100) (2 connections)
-- [heroSpacing()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L117) (2 connections)
-- [listItemSpacing()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L131) (2 connections)
-- [sectionGap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts#L84) (2 connections)
-- [getGlass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/glass.ts#L214) (2 connections)
-- [createInteractive()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/interactions.ts#L127) (2 connections)
-- [imageOverlay()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/overlay-colors.ts#L130) (2 connections)
-- [PageContainer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/PageContainer.tsx#L74) (2 connections)
-- [getAnimation()](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts#L78) (2 connections)
-- [getInteractiveClasses()](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts#L312) (2 connections)
-- [getTextStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts#L32) (2 connections)
-- *... and 53 more nodes in this community*
+- [sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L1) (31 connections)
+- [Sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L1) (28 connections)
+- [StemReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L1) (6 connections)
+- [handleUseAsReference()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L41) (6 connections)
+- [handleScan()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L52) (4 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L80) (4 connections)
+- [setOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L58) (4 connections)
+- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L1) (3 connections)
+- [QRScannerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L1) (3 connections)
+- [handleNotificationClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L13) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L119) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L91) (2 connections)
+- [toggleSidebar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L74) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L36) (2 connections)
+- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L11) (1 connections)
+- [{ unreadCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L10) (1 connections)
+- [{ isSupported, isScanning, scanQR }](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L49) (1 connections)
+- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L50) (1 connections)
+- [accountNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L74) (1 connections)
+- [[accountOpen, setAccountOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L95) (1 connections)
+- [active](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L179) (1 connections)
+- [{ activeGenerations, generationCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L97) (1 connections)
+- [adminNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L83) (1 connections)
+- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L444) (1 connections)
+- [contentNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L52) (1 connections)
+- *... and 49 more nodes in this community*
 
 ## Relationships
 
@@ -37,18 +37,16 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\PageContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/PageContainer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\design-spacing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/design-spacing.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\glass.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/glass.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\interactions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/interactions.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\overlay-colors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/overlay-colors.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\CreativeTools.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\styles\style-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/styles/style-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\Sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\advanced\QRScannerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 142 (80%)
-- INFERRED: 36 (20%)
+- EXTRACTED: 148 (93%)
+- INFERRED: 11 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

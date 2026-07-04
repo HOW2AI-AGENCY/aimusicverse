@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [AdvancedMusicAnalytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L1) (5 connections)
-- [arousalPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L23) (1 connections)
-- [emotionQuadrant](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L36) (1 connections)
-- [getEmotionQuadrant()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L27) (1 connections)
-- [hasAdvancedData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L11) (1 connections)
-- [valencePercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L24) (1 connections)
+- [AdminTabSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L1) (5 connections)
+- [CurrentIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L93) (1 connections)
+- [currentTab](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L92) (1 connections)
+- [getIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L67) (1 connections)
+- [ICON_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L51) (1 connections)
+- [TabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L105) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\AdvancedMusicAnalytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\AdminTabSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx)
 
 ## Audit Trail
 

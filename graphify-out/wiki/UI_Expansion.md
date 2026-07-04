@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L1) (3 connections)
-- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L30) (1 connections)
-- [PremiumBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L36) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L24) (1 connections)
+- [BlogSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L1) (3 connections)
+- [BlogCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L5) (1 connections)
+- [BlogFeaturedSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L24) (1 connections)
+- [BlogListSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx)
 
 ## Audit Trail
 

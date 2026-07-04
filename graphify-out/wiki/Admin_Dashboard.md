@@ -1,22 +1,23 @@
 # Admin Dashboard
 
-> 13 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L1) (12 connections)
-- [[activeMode, setActiveMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L87) (1 connections)
-- [chordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L92) (1 connections)
-- [handleRecordingSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L104) (1 connections)
-- [handleToggleChordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L114) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L84) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L161) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L222) (1 connections)
-- [{ isActive: isPro }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L85) (1 connections)
-- [promptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L101) (1 connections)
-- [RECORDING_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L55) (1 connections)
-- [[selectedRecordingType, setSelectedRecordingType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L89) (1 connections)
-- [[showRecordDrawer, setShowRecordDrawer]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L88) (1 connections)
+- [OAuthConsent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L1) (13 connections)
+- [decide()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L66) (2 connections)
+- [next](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L44) (2 connections)
+- [oauthApi()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L26) (2 connections)
+- [active](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L36) (1 connections)
+- [authorizationId](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L30) (1 connections)
+- [[busy, setBusy]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L33) (1 connections)
+- [clientName](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L104) (1 connections)
+- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L48) (1 connections)
+- [{ data: sess }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L42) (1 connections)
+- [[details, setDetails]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L31) (1 connections)
+- [[error, setError]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L32) (1 connections)
+- [immediate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L54) (1 connections)
+- [[params]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -24,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\OAuthConsent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/OAuthConsent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 28 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

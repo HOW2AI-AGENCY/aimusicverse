@@ -1,22 +1,22 @@
 # Music Genre Management
 
-> 13 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [HintsSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L1) (4 connections)
-- [useContextualHints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L1) (4 connections)
-- [useCloudStorage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L37) (3 connections)
-- [useCloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L1) (2 connections)
-- [HintsSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L29) (2 connections)
-- [isAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L125) (2 connections)
-- [useCloudStorageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L112) (2 connections)
-- [useContextualHints()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L317) (2 connections)
-- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L27) (1 connections)
-- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L17) (1 connections)
-- [CONTEXTUAL_HINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L43) (1 connections)
-- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L314) (1 connections)
-- [VISITS_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L315) (1 connections)
+- [FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L1) (12 connections)
+- [categorizedFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L210) (1 connections)
+- [categoryFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L288) (1 connections)
+- [{ data: flags, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L195) (1 connections)
+- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L151) (1 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L199) (1 connections)
+- [handleUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L203) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L150) (1 connections)
+- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L38) (1 connections)
+- [toggleFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L196) (1 connections)
+- [totalEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L213) (1 connections)
+- [totalFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L214) (1 connections)
+- [updateFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L197) (1 connections)
 
 ## Relationships
 
@@ -24,14 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\HintsSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useCloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useContextualHints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\features\FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (85%)
-- INFERRED: 4 (15%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

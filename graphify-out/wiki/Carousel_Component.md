@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [LyricsFooter.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L1) (6 connections)
-- [actual](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L20) (1 connections)
-- [baseProps](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L51) (1 connections)
-- [onDelete](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L102) (1 connections)
-- [onRestore](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L101) (1 connections)
-- [sampleSection](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L31) (1 connections)
-- [sampleVersion](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx#L38) (1 connections)
+- [TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L1) (6 connections)
+- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L27) (1 connections)
+- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L22) (1 connections)
+- [LANGUAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L13) (1 connections)
+- [[preserveSyllables, setPreserveSyllables]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L20) (1 connections)
+- [sourceLanguage](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L25) (1 connections)
+- [[targetLanguage, setTargetLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\__tests__\LyricsFooter.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsFooter.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx)
 
 ## Audit Trail
 

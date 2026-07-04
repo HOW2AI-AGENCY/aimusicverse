@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L1) (12 connections)
-- [buildEnglishPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L324) (2 connections)
-- [buildPromptFromChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L411) (1 connections)
-- [DURATION_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L317) (1 connections)
-- [GENRE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L11) (1 connections)
-- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L403) (1 connections)
-- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L38) (1 connections)
-- [KEY_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L307) (1 connections)
-- [MOOD_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L58) (1 connections)
-- [QUICK_MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L113) (1 connections)
-- [SCALE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L309) (1 connections)
-- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L77) (1 connections)
-- [TEMPO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L298) (1 connections)
+- [CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L1) (12 connections)
+- [addComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L31) (1 connections)
+- [{ data: comments = [], isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L30) (1 connections)
+- [deleteComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L32) (1 connections)
+- [formInput](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L123) (1 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L56) (1 connections)
+- [handleReply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L46) (1 connections)
+- [handleReport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L60) (1 connections)
+- [handleSubmitComment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L41) (1 connections)
+- [mappedComments](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L72) (1 connections)
+- [[replyTo, setReplyTo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L34) (1 connections)
+- [[reportTarget, setReportTarget]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L35) (1 connections)
+- [title](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -24,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

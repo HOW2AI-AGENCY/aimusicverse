@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [BalanceIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/BalanceIndicator.tsx#L23) (1 connections)
-- [BalanceIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/BalanceIndicator.tsx#L1) (1 connections)
+- [OnboardingStateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts#L1) (1 connections)
+- [transitionOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\BalanceIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/BalanceIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingStateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts)
 
 ## Audit Trail
 

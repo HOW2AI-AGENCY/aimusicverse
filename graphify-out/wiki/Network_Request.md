@@ -1,19 +1,20 @@
 # Network Request
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L1) (9 connections)
-- [checkinDates](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L18) (1 connections)
-- [{ data: checkins, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L9) (1 connections)
-- [dayNames](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L21) (1 connections)
-- [dayNum](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L47) (1 connections)
-- [dayOfWeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L46) (1 connections)
-- [isCheckedIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L44) (1 connections)
-- [isToday](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L45) (1 connections)
-- [last7Days](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L12) (1 connections)
-- [today](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L19) (1 connections)
+- [PlayerProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L1) (10 connections)
+- [bufferedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L72) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L52) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L51) (1 connections)
+- [densityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L28) (1 connections)
+- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L59) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L48) (1 connections)
+- [[isHovering, setIsHovering]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L50) (1 connections)
+- [[localTime, setLocalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L49) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L71) (1 connections)
+- [waveformMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\PlayerProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

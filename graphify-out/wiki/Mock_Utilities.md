@@ -1,17 +1,18 @@
 # Mock Utilities
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [StyleConvertToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L1) (7 connections)
-- [ARTIST_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L25) (1 connections)
-- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L39) (1 connections)
-- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L43) (1 connections)
-- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L41) (1 connections)
-- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L37) (1 connections)
-- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L38) (1 connections)
-- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L14) (1 connections)
+- [NotationDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L1) (8 connections)
+- [availableFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L70) (1 connections)
+- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L67) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L109) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L80) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L60) (1 connections)
+- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L61) (1 connections)
+- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L65) (1 connections)
+- [safeAreaTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx#L64) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\StyleConvertToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\NotationDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/NotationDrawer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

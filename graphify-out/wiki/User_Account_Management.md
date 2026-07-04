@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [CreateActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L1) (8 connections)
-- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L32) (1 connections)
-- [showAddVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L26) (1 connections)
-- [showCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L23) (1 connections)
-- [showExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L24) (1 connections)
-- [showGenerateCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L22) (1 connections)
-- [showGenerateSimilar](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L30) (1 connections)
-- [showRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L25) (1 connections)
-- [showVideo](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L28) (1 connections)
+- [FunnelCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L1) (8 connections)
+- [bestCohort](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L229) (1 connections)
+- [COHORT_DATA](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L40) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L110) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L109) (1 connections)
+- [maxVisitors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L225) (1 connections)
+- [sortedCohorts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L227) (1 connections)
+- [TrendIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L112) (1 connections)
+- [worstCohort](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx#L230) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\CreateActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\FunnelCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx)
 
 ## Audit Trail
 

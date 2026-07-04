@@ -1,19 +1,20 @@
 # Music Production Agents
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [TransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L186) (2 connections)
-- [currentBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L94) (1 connections)
-- [currentBeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L95) (1 connections)
-- [handleMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L83) (1 connections)
-- [handleTapTempo](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L52) (1 connections)
-- [[isMuted, setIsMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L46) (1 connections)
-- [[prevVolume, setPrevVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L47) (1 connections)
-- [[showTapIndicator, setShowTapIndicator]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L49) (1 connections)
-- [tapTimesRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L48) (1 connections)
+- [PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L1) (10 connections)
+- [getDiscount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L50) (2 connections)
+- [bestValueId](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L39) (1 connections)
+- [creditsAmount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L72) (1 connections)
+- [discount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L71) (1 connections)
+- [getBestValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L20) (1 connections)
+- [getProductLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L42) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L69) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L70) (1 connections)
+- [priceRub](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L73) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L74) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\TransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
+- EXTRACTED: 20 (95%)
 - INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 

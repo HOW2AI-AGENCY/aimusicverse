@@ -1,16 +1,17 @@
 # FAQ Management
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L1) (6 connections)
-- [activeEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L28) (1 connections)
-- [EFFECT_COLOR_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L21) (1 connections)
-- [eqActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L36) (1 connections)
-- [eqDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L38) (1 connections)
-- [ratio](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L56) (1 connections)
-- [wetDryPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L67) (1 connections)
+- [useGenerateFormValidation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L1) (7 connections)
+- [boosted](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L99) (1 connections)
+- [boostPromise](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L155) (1 connections)
+- [resolveInvoke()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L144) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L87) (1 connections)
+- [{ result, setDescription, setStyle }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L105) (1 connections)
+- [{ result, setStyle }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L187) (1 connections)
+- [setupValidationHook()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L51) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useGenerateFormValidation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

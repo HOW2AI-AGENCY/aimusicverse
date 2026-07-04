@@ -1,20 +1,25 @@
 # Slider Component
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [MobileTelegramBotSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L1) (10 connections)
-- [commands](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L88) (1 connections)
-- [{ data: config, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L26) (1 connections)
-- [[localCommands, setLocalCommands]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L29) (1 connections)
-- [[localMessages, setLocalMessages]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L30) (1 connections)
-- [[localNotifications, setLocalNotifications]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L35) (1 connections)
-- [saveCommands()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L66) (1 connections)
-- [saveMessages()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L72) (1 connections)
-- [saveNotifications()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L76) (1 connections)
-- [toggleCommand()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L60) (1 connections)
-- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx#L27) (1 connections)
+- [DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L1) (11 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L41) (1 connections)
+- [campaignData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L94) (1 connections)
+- [{ data: events, isLoading: eventsLoading, refetch: refetchEvents }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L44) (1 connections)
+- [{ data: stats, isLoading: statsLoading, refetch: refetchStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L43) (1 connections)
+- [{
+    data: summary,
+    isLoading: summaryLoading,
+    refetch: refetchSummary,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L47) (1 connections)
+- [funnelData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L107) (1 connections)
+- [heatmapData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L79) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L66) (1 connections)
+- [refetch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L60) (1 connections)
+- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L40) (1 connections)
+- [trendData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -22,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\MobileTelegramBotSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MobileTelegramBotSettings.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [skeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L1) (2 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L131) (1 connections)
-- [skeletonVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L4) (1 connections)
+- [RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L1) (2 connections)
+- [modes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L26) (1 connections)
+- [RecordingTypeSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx)
 
 ## Audit Trail
 

@@ -1,11 +1,12 @@
 # Technical Information
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AdminDashboardHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L25) (1 connections)
-- [AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L1) (1 connections)
+- [voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L1) (2 connections)
+- [html](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L47) (1 connections)
+- [response](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L34) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

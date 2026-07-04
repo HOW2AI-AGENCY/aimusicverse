@@ -1,14 +1,14 @@
 # Navigation Menu
 
-> 5 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [usePerformanceTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L1) (4 connections)
-- [usePerformanceTracking()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L55) (2 connections)
-- [useWebVitalsReporter()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L213) (2 connections)
-- [getRating()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L43) (1 connections)
-- [THRESHOLDS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts#L26) (1 connections)
+- [AnalysisQuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L1) (4 connections)
+- [normalizeAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L52) (1 connections)
+- [normalized](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L75) (1 connections)
+- [StatCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L34) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L77) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\usePerformanceTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/usePerformanceTracking.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\AnalysisQuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

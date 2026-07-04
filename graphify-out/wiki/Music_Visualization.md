@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [FeatureProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L1) (4 connections)
-- [DeferredProviders()](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L34) (1 connections)
-- [FeatureProviders](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L76) (1 connections)
-- [GamificationProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L22) (1 connections)
-- [PaywallProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L25) (1 connections)
+- [projectPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L1) (4 connections)
+- [getProjectPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L143) (1 connections)
+- [getProjectPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L123) (1 connections)
+- [getProjectTypeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L148) (1 connections)
+- [PROJECT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\providers\FeatureProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\projectPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts)
 
 ## Audit Trail
 

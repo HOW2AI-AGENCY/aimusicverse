@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [profile.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/profile.ts#L1) (0 connections)
+- [telegram.d.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.d.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\profile.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/profile.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\types\telegram.d.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/telegram.d.ts)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

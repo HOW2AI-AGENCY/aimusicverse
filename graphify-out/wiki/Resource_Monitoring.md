@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [LoadingOverlay.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingOverlay.stories.tsx#L1) (3 connections)
-- [Card()](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingOverlay.stories.tsx#L20) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingOverlay.stories.tsx#L4) (1 connections)
-- [SpinnerOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingOverlay.stories.tsx#L27) (1 connections)
+- [usePromptValidation.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L1) (3 connections)
+- [DEBOUNCE_MS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L4) (1 connections)
+- [EMPTY_RESULT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L6) (1 connections)
+- [usePromptValidation()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\LoadingOverlay.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LoadingOverlay.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\usePromptValidation.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/usePromptValidation.ts)
 
 ## Audit Trail
 

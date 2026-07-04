@@ -1,13 +1,13 @@
 # Telegram Payments
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [lazy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L1) (4 connections)
-- [createLazyRoute()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L65) (2 connections)
-- [lazyLoad()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L37) (2 connections)
-- [lazyLibrary()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L83) (1 connections)
+- [useConfirm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L1) (3 connections)
+- [ConfirmContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L43) (1 connections)
+- [ConfirmProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L50) (1 connections)
+- [useConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L96) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lazy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useConfirm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 9 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

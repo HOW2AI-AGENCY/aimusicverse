@@ -1,14 +1,14 @@
 # Content Sharing
 
-> 5 nodes · cohesion 0.60
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [OnboardingTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L8) (3 connections)
-- [useOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L20) (3 connections)
-- [useShouldShowOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L77) (3 connections)
-- [useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L1) (2 connections)
-- [OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L1) (1 connections)
+- [TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L1) (4 connections)
+- [hapticClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L94) (1 connections)
+- [hapticPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L13) (1 connections)
+- [useHapticPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L74) (1 connections)
+- [withHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L81) (1 connections)
 
 ## Relationships
 
@@ -16,13 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (67%)
-- INFERRED: 4 (33%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

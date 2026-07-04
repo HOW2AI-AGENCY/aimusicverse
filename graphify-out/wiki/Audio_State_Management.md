@@ -1,20 +1,21 @@
 # Audio State Management
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [EnhancedLyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L1) (10 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L251) (1 connections)
-- [[customInstruction, setCustomInstruction]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L82) (1 connections)
-- [[editedStyle, setEditedStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L80) (1 connections)
-- [[editedTitle, setEditedTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L79) (1 connections)
-- [[editMode, setEditMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L78) (1 connections)
-- [handleCustomEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L92) (1 connections)
-- [handleQuickEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L84) (1 connections)
-- [handleSaveMetadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L100) (1 connections)
-- [QUICK_EDIT_SUGGESTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L50) (1 connections)
-- [[showQuickEdits, setShowQuickEdits]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L81) (1 connections)
+- [LibraryFilterModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L1) (11 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L109) (1 connections)
+- [FILTERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L38) (1 connections)
+- [handleApply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L74) (1 connections)
+- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L82) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L69) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L108) (1 connections)
+- [[localFilter, setLocalFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L70) (1 connections)
+- [[localSort, setLocalSort]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L71) (1 connections)
+- [[localStatus, setLocalStatus]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L72) (1 connections)
+- [SORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L45) (1 connections)
+- [STATUS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\EnhancedLyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\LibraryFilterModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

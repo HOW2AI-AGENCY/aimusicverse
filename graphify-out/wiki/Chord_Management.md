@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [AudioAnalysisService.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L1) (8 connections)
-- [fromMaybeSingleMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L16) (1 connections)
-- [fromSelectMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L15) (1 connections)
-- [fromSingleMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L17) (1 connections)
-- [invokeMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L12) (1 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L62) (1 connections)
-- [resetAll()](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L38) (1 connections)
-- [storageGetPublicUrlMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L14) (1 connections)
-- [storageUploadMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts#L13) (1 connections)
+- [UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L1) (8 connections)
+- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L34) (1 connections)
+- [ErrorIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L49) (1 connections)
+- [handleContactSupport](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L62) (1 connections)
+- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L55) (1 connections)
+- [handleFaqClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L68) (1 connections)
+- [handleRetry](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L51) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L59) (1 connections)
+- [[showExamples, setShowExamples]](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\__tests__\AudioAnalysisService.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/__tests__/AudioAnalysisService.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\errors\UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx)
 
 ## Audit Trail
 

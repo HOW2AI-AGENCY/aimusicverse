@@ -1,20 +1,20 @@
 # Pricing Information
 
-> 11 nodes · cohesion 0.18
+> 11 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [playbackSlice.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L1) (6 connections)
-- [playbackSlice.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts#L1) (3 connections)
-- [createPlaybackSlice()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L80) (2 connections)
-- [createTestStore()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts#L9) (2 connections)
-- [DEFAULT_PLAYBACK_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L63) (1 connections)
-- [LOOP_MODE_CYCLE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L76) (1 connections)
-- [selectLoopState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L178) (1 connections)
-- [selectPlaybackStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L169) (1 connections)
-- [selectProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L186) (1 connections)
-- [{ get }](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts#L22) (1 connections)
-- [state](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts#L231) (1 connections)
+- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
+- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
+- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L23) (3 connections)
+- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
+- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
+- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L247) (1 connections)
+- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L275) (1 connections)
+- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L157) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L136) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
 
 ## Relationships
 
@@ -22,13 +22,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\__tests__\playbackSlice.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/playbackSlice.test.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\stores\slices\playbackSlice.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (90%)
-- INFERRED: 2 (10%)
+- EXTRACTED: 20 (87%)
+- INFERRED: 3 (13%)
 - AMBIGUOUS: 0 (0%)
 
 ---

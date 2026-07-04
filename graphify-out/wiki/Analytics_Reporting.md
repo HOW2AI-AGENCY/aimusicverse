@@ -1,24 +1,25 @@
 # Analytics Reporting
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [MonitoringHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L1) (14 connections)
-- [{ anomalies, criticalCount, warningCount, hasCritical }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L78) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L100) (1 connections)
-- [{ data: activeUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L80) (1 connections)
-- [{ data: alertStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L77) (1 connections)
-- [{ data: generationStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L86) (1 connections)
-- [{ data: healthStatus, refetch: refetchHealth }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L83) (1 connections)
-- [isDegraded](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L90) (1 connections)
-- [isHealthy](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L89) (1 connections)
-- [overallStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L92) (1 connections)
-- [{ performanceScore, stats: perfStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L79) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L42) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L94) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L101) (1 connections)
-- [systemStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L88) (1 connections)
+- [TagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L1) (15 connections)
+- [aiSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L116) (1 connections)
+- [availableTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L298) (1 connections)
+- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L36) (1 connections)
+- [[expandedCategory, setExpandedCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L66) (1 connections)
+- [filteredCategories](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L100) (1 connections)
+- [getCategoryIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L121) (1 connections)
+- [handleAddTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L69) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L89) (1 connections)
+- [handleRemoveTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L81) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L296) (1 connections)
+- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L297) (1 connections)
+- [[newTag, setNewTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L64) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L67) (1 connections)
+- [[showPicker, setShowPicker]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L65) (1 connections)
+- [tagInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx#L130) (1 connections)
 
 ## Relationships
 
@@ -26,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\MonitoringHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\TagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/TagsEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

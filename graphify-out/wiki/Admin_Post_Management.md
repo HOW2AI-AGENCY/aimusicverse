@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [tab-switching.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L1) (9 connections)
-- [ComponentWithPersistence()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L293) (1 connections)
-- [createTestWrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L93) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L278) (1 connections)
-- [localStorageMock](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L18) (1 connections)
-- [mockPlayerState](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L46) (1 connections)
-- [mockUnifiedStudioState](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L79) (1 connections)
-- [ModeTestComponent()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L352) (1 connections)
-- [tab](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L343) (1 connections)
-- [TabSwitchingTestComponent](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L111) (1 connections)
+- [LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L1) (9 connections)
+- [[activeFilters, setActiveFilters]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L254) (1 connections)
+- [changeTypeFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L63) (1 connections)
+- [filteredVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L256) (1 connections)
+- [getChangeTypeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L74) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L346) (1 connections)
+- [{ open, onOpenChange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L347) (1 connections)
+- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L109) (1 connections)
+- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L111) (1 connections)
+- [toggleFilter()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L261) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\integration\studio\tab-switching.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx)
 
 ## Audit Trail
 

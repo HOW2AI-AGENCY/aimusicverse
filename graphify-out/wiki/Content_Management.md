@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [badgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L6) (1 connections)
-- [badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L1) (1 connections)
+- [CardCoverActionBar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardCoverActionBar.tsx#L18) (1 connections)
+- [CardCoverActionBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardCoverActionBar.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\CardCoverActionBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardCoverActionBar.tsx)
 
 ## Audit Trail
 

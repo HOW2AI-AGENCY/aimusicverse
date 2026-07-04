@@ -1,20 +1,21 @@
 # User Retention
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L1) (10 connections)
-- [colorPalette](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L82) (1 connections)
-- [hasBasicInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L85) (1 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L87) (1 connections)
-- [hasVisualStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L86) (1 connections)
-- [IMAGE_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L56) (1 connections)
-- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L81) (1 connections)
-- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L34) (1 connections)
-- [PROJECT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L45) (1 connections)
-- [TYPOGRAPHY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L69) (1 connections)
-- [visualKeywords](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L83) (1 connections)
+- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L1) (6 connections)
+- [ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L1) (4 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L22) (2 connections)
+- [toggleTheme](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L78) (2 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L27) (1 connections)
+- [handleThemeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L34) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L20) (1 connections)
+- [{ resolvedTheme, setTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L76) (1 connections)
+- [{ theme, resolvedTheme, setTheme, toggleTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx#L19) (1 connections)
+- [{ theme, setTheme, resolvedTheme }](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L32) (1 connections)
+- [ThemeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L42) (1 connections)
+- [themeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -22,12 +23,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\theme\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/theme/ThemeToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ThemeToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ThemeToggle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (91%)
+- INFERRED: 2 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

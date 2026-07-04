@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [RhymeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L1) (2 connections)
-- [RhymeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L30) (2 connections)
-- [COMMON_ENDINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L15) (1 connections)
+- [MashupDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/MashupDialog.tsx#L1) (2 connections)
+- [MashupDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/MashupDialog.tsx#L43) (1 connections)
+- [MODEL_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/MashupDialog.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -14,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\RhymeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\MashupDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/MashupDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (80%)
-- INFERRED: 1 (20%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

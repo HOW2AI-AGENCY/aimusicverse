@@ -1,16 +1,17 @@
 # Tier Management
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L1) (6 connections)
-- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L76) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L78) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L79) (1 connections)
-- [isSkipped](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L77) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L75) (1 connections)
-- [WorkflowProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L25) (1 connections)
+- [versioning.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts#L1) (8 connections)
+- [setPrimaryVersionOptimistic()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts#L72) (2 connections)
+- [compareVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts#L132) (1 connections)
+- [formatVersionLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts#L96) (1 connections)
+- [getPrimaryVersion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts#L157) (1 connections)
+- [getVersionIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts#L49) (1 connections)
+- [getVersionMetadata()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts#L199) (1 connections)
+- [isPrimaryVersion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts#L179) (1 connections)
 
 ## Relationships
 
@@ -18,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\versioning.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/versioning.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 15 (94%)
+- INFERRED: 1 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,17 +1,18 @@
 # Input Field
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L1) (7 connections)
-- [{ data: dailyStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L47) (1 connections)
-- [{ data: stats, isLoading: statsLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L46) (1 connections)
-- [{ data: topUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L48) (1 connections)
-- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L43) (1 connections)
-- [daysNumber](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L44) (1 connections)
-- [successRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L50) (1 connections)
-- [TIME_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L35) (1 connections)
+- [genreMoodIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L1) (6 connections)
+- [PresetCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetCard.tsx#L16) (3 connections)
+- [getCategoryIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L67) (2 connections)
+- [PresetCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetCard.tsx#L1) (1 connections)
+- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L48) (1 connections)
+- [GENRE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L25) (1 connections)
+- [getGenreIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L57) (1 connections)
+- [getMoodIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L62) (1 connections)
+- [MOOD_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L37) (1 connections)
 
 ## Relationships
 
@@ -19,12 +20,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\PresetCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\genreMoodIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (82%)
+- INFERRED: 3 (18%)
 - AMBIGUOUS: 0 (0%)
 
 ---

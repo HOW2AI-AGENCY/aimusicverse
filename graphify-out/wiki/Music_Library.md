@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [VersionsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/VersionsSection.tsx#L1) (1 connections)
-- [VersionsSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/VersionsSection.tsx#L15) (1 connections)
+- [useStudioShellState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts#L1) (1 connections)
+- [useStudioShellState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\VersionsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/VersionsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioShellState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts)
 
 ## Audit Trail
 

@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L1) (7 connections)
-- [compressorPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L54) (1 connections)
-- [defaultCompressorSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L23) (1 connections)
-- [defaultEQSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L15) (1 connections)
-- [defaultReverbSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L32) (1 connections)
-- [defaultStemEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L38) (1 connections)
-- [eqPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L45) (1 connections)
-- [reverbPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L63) (1 connections)
+- [DoubleTapLike.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L1) (7 connections)
+- [handleTap](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L27) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L21) (1 connections)
+- [{ isLiked, toggleLike }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L22) (1 connections)
+- [lastTapRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L24) (1 connections)
+- [[showHeart, setShowHeart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L23) (1 connections)
+- [singleTapTimeoutRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L25) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\engagement\DoubleTapLike.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx)
 
 ## Audit Trail
 

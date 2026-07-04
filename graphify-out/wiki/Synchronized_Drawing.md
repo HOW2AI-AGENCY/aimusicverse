@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [waveformWorkerPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/waveformWorkerPool.ts#L1) (3 connections)
-- [SAMPLES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/waveformWorkerPool.ts#L16) (1 connections)
-- [WORKER_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/lib/waveformWorkerPool.ts#L15) (1 connections)
+- [useOptimizedPlayback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L1) (2 connections)
+- [DEFAULT_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L35) (1 connections)
+- [useOptimizedPlayback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L43) (1 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\waveformWorkerPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/waveformWorkerPool.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimizedPlayback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 5 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

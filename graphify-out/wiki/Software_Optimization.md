@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/index.ts#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/index.ts)
 
 ## Audit Trail
 

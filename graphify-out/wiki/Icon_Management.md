@@ -1,13 +1,14 @@
 # Icon Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [TimeoutIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx#L1) (3 connections)
-- [canRetry](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx#L33) (1 connections)
-- [[show, setShow]](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx#L22) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx#L29) (1 connections)
+- [ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L1) (4 connections)
+- [ANALYSIS_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L6) (1 connections)
+- [PRODUCER_REVIEW_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L164) (1 connections)
+- [SUNO_TAGS_REFERENCE](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L222) (1 connections)
+- [WRITING_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L101) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\loading\TimeoutIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/TimeoutIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

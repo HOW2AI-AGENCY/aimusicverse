@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L1) (1 connections)
-- [useOffline()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L18) (1 connections)
+- [tabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx#L1) (1 connections)
+- [Tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx#L6) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\tabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx)
 
 ## Audit Trail
 

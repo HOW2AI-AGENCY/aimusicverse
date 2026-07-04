@@ -1,16 +1,17 @@
 # Project Audits
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L1) (5 connections)
-- [EmptyState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L106) (2 connections)
-- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L129) (1 connections)
-- [ICON_SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L99) (1 connections)
-- [SIZE_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L93) (1 connections)
-- [VARIANT_DEFAULTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L49) (1 connections)
+- [pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L1) (7 connections)
+- [Pagination()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L7) (1 connections)
+- [PaginationContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L17) (1 connections)
+- [PaginationEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L65) (1 connections)
+- [PaginationItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L24) (1 connections)
+- [PaginationLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L34) (1 connections)
+- [PaginationNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L57) (1 connections)
+- [PaginationPrevious()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -18,12 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

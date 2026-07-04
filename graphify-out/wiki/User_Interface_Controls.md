@@ -1,35 +1,35 @@
 # User Interface Controls
 
-> 73 nodes · cohesion 0.03
+> 67 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [mobile-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts#L1) (11 connections)
-- [useIsMobile()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts#L29) (10 connections)
-- [useAdminDashboard()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAdminDashboard.ts#L193) (9 connections)
-- [LikeEncouragementToast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/LikeEncouragementToast.tsx#L1) (6 connections)
-- [ContentHubTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ContentHubTabs.tsx#L1) (5 connections)
-- [ProjectLyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectLyricsTab.tsx#L1) (5 connections)
-- [Toaster()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sonner.tsx#L27) (5 connections)
-- [ThemeSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ThemeSettings.tsx#L1) (4 connections)
-- [useTheme.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTheme.ts#L1) (4 connections)
-- [toast-position.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast-position.ts#L1) (4 connections)
-- [useAdminAuth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminAuth.ts#L4) (4 connections)
-- [useTrackCardState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/hooks/useTrackCardState.ts#L27) (4 connections)
-- [AdminTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTracks.tsx#L15) (3 connections)
-- [AdminUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminUsers.tsx#L35) (3 connections)
-- [ContentHubTabs()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ContentHubTabs.tsx#L38) (3 connections)
-- [useAdminUsers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminUsers.ts#L1) (3 connections)
-- [EncouragementToast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/LikeEncouragementToast.tsx#L125) (3 connections)
-- [getToastStyles()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast-position.ts#L16) (3 connections)
-- [useAdminTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminTracks.ts#L20) (3 connections)
-- [useAdminUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminUsers.ts#L22) (3 connections)
-- [useToggleUserRole()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminUsers.ts#L113) (3 connections)
-- [useTheme()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTheme.ts#L53) (3 connections)
-- [AdminRoute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AdminRoute.tsx#L10) (2 connections)
-- [sonner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sonner.tsx#L1) (2 connections)
-- [useAdminDashboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAdminDashboard.ts#L1) (2 connections)
-- *... and 48 more nodes in this community*
+- [ProjectBannerEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx#L1) (28 connections)
+- [ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L1) (18 connections)
+- [projects.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L1) (11 connections)
+- [AIActionsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L1) (9 connections)
+- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L196) (7 connections)
+- [handleTranslate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L75) (6 connections)
+- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx#L114) (6 connections)
+- [handleApplyOption()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L56) (4 connections)
+- [handleGetOptions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L31) (4 connections)
+- [resetState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L101) (4 connections)
+- [invokeGenerateProjectMedia()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L236) (4 connections)
+- [invokeProjectAiActions()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L208) (4 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx#L282) (3 connections)
+- [invokeGenerateProjectMedia()](file:///D:/.MUSICVERSE/aimusicverse/src/api/projects.api.ts#L183) (3 connections)
+- [getProjectProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L175) (3 connections)
+- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L107) (2 connections)
+- [buildPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx#L84) (2 connections)
+- [handleFileSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx#L144) (2 connections)
+- [buildPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L151) (2 connections)
+- [checkPremiumStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/api/projects.api.ts#L83) (2 connections)
+- [createProject()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L106) (2 connections)
+- [updateVisualStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L139) (2 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L26) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L29) (1 connections)
+- [[options, setOptions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx#L27) (1 connections)
+- *... and 42 more nodes in this community*
 
 ## Relationships
 
@@ -37,30 +37,16 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\AdminRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AdminRoute.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\ContentHubTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ContentHubTabs.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\engagement\LikeEncouragementToast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/LikeEncouragementToast.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectLyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectLyricsTab.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\ThemeSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ThemeSettings.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\hooks\useTrackCardState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/hooks/useTrackCardState.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skip-to-content.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skip-to-content.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sonner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sonner.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useAdminDashboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAdminDashboard.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminAuth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminAuth.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminBalance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminBalance.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminTracks.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminUsers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminUsers.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMetrics.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTheme.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTheme.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\mobile-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\toast-position.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast-position.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTracks.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTracks.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminUsers.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminUsers.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\api\projects.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/projects.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\AIActionsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AIActionsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectBannerEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\projects.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 114 (68%)
-- INFERRED: 54 (32%)
+- EXTRACTED: 139 (80%)
+- INFERRED: 34 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

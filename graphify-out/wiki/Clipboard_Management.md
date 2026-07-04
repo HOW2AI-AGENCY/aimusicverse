@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [BlockedUsersPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L1) (7 connections)
-- [blockedUserIds](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L18) (1 connections)
-- [{ data: blockedUsers, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L14) (1 connections)
-- [{ data: profiles }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L19) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L13) (1 connections)
-- [profile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L74) (1 connections)
-- [profileMap](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L32) (1 connections)
-- [{ toggleBlock, isLoading: isUnblocking }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L15) (1 connections)
+- [ProjectMeta.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L1) (7 connections)
+- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L36) (1 connections)
+- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L38) (1 connections)
+- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L45) (1 connections)
+- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L64) (1 connections)
+- [ProjectStatusBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L152) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L62) (1 connections)
+- [typeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L63) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\settings\BlockedUsersPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMeta.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx)
 
 ## Audit Trail
 

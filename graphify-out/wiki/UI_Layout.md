@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/types.ts#L1) (1 connections)
-- [NOTE_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/types.ts#L23) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx#L54) (1 connections)
+- [CleanStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\SectionNotesPanel\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\CleanStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx)
 
 ## Audit Trail
 

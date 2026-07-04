@@ -1,12 +1,13 @@
 # Selection Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L1) (2 connections)
-- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L30) (1 connections)
-- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L35) (1 connections)
+- [lazy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L1) (4 connections)
+- [createLazyRoute()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L65) (2 connections)
+- [lazyLoad()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L37) (2 connections)
+- [lazyLibrary()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts#L83) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lazy.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lazy.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 9 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

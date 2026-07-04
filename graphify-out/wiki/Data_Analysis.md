@@ -1,13 +1,14 @@
 # Data Analysis
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L1) (3 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L79) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L80) (1 connections)
-- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L44) (1 connections)
+- [useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L1) (4 connections)
+- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L63) (1 connections)
+- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L42) (1 connections)
+- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L40) (1 connections)
+- [useStemAudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L78) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

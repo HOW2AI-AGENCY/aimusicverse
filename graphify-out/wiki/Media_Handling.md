@@ -1,21 +1,22 @@
 # Media Handling
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L1) (11 connections)
-- [[currentSlide, setCurrentSlide]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L225) (1 connections)
-- [currentSlideData](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L253) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L247) (1 connections)
-- [handleNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L232) (1 connections)
-- [handlePrev](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L242) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L224) (1 connections)
-- [isFirstSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L230) (1 connections)
-- [isLastSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L229) (1 connections)
-- [slides](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L228) (1 connections)
-- [tutorial](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L227) (1 connections)
-- [TUTORIALS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L49) (1 connections)
+- [ReplacementProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L1) (12 connections)
+- [completedTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L43) (1 connections)
+- [{ data: activeTasks = [] }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L18) (1 connections)
+- [[elapsedTime, setElapsedTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L19) (1 connections)
+- [estimatedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L51) (1 connections)
+- [failedTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L45) (1 connections)
+- [formatElapsed()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L58) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L31) (1 connections)
+- [latestCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L47) (1 connections)
+- [latestFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L48) (1 connections)
+- [pendingTask](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L23) (1 connections)
+- [pendingTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L38) (1 connections)
+- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -23,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\ReplacementProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

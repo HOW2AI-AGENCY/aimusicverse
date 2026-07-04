@@ -1,15 +1,16 @@
 # Achievements Management
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L1) (5 connections)
-- [ANALYSIS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L12) (1 connections)
-- [AnalyzeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L19) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L101) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L95) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L96) (1 connections)
+- [LazyImage.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L1) (6 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L38) (1 connections)
+- [ErrorFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L63) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L13) (1 connections)
+- [SmallThumbnail](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L73) (1 connections)
+- [TrackCover](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L83) (1 connections)
+- [WithAspectRatio](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\LazyImage.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

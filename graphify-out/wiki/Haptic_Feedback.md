@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L1) (1 connections)
-- [TitleSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L11) (1 connections)
+- [AudioRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L33) (1 connections)
+- [AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx)
 
 ## Audit Trail
 

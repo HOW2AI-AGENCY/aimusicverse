@@ -1,18 +1,19 @@
 # Media Attributes
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [KnobCell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L1) (8 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L52) (1 connections)
-- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L36) (1 connections)
-- [handleLabelClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L62) (1 connections)
-- [handleOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L66) (1 connections)
-- [handlePresetSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L73) (1 connections)
-- [handleToggleEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L81) (1 connections)
-- [handleTypeChangeClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L85) (1 connections)
-- [handleWeightChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L55) (1 connections)
+- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L34) (2 connections)
+- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
+- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L43) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L32) (1 connections)
+- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
+- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
+- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -20,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\KnobCell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L1) (2 connections)
-- [useOptimistic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L58) (1 connections)
-- [useOptimisticList()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L143) (1 connections)
+- [card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx#L1) (2 connections)
+- [Card](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx#L32) (1 connections)
+- [cardVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx#L5) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx)
 
 ## Audit Trail
 

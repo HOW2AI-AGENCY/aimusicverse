@@ -4,10 +4,22 @@
 
 ## Key Concepts
 
-- [BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L1) (3 connections)
-- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L40) (1 connections)
-- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L39) (1 connections)
-- [visibleBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L27) (1 connections)
+- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L1) (3 connections)
+- [audioTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L149) (1 connections)
+- [firstTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L432) (1 connections)
+- [{
+    isMobile,
+    projectId,
+    projectName,
+    sourceTrackId,
+    tracks,
+    masterVolume,
+    duration,
+    currentTime,
+    isPlaying,
+    detectedSections,
+    TRACK_COLORS,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L134) (1 connections)
 
 ## Relationships
 
@@ -15,7 +27,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx)
 
 ## Audit Trail
 

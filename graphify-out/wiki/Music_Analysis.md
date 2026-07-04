@@ -1,19 +1,20 @@
 # Music Analysis
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [ConversionFunnelStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L146) (1 connections)
-- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L119) (1 connections)
-- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L62) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L117) (1 connections)
-- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L57) (1 connections)
-- [overallConversion](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L80) (1 connections)
-- [STAGE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L37) (1 connections)
-- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L49) (1 connections)
-- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L118) (1 connections)
+- [HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L1) (10 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L227) (1 connections)
+- [getGreeting()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L39) (1 connections)
+- [handleMenuClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L82) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L73) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L74) (1 connections)
+- [[menuOpen, setMenuOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L71) (1 connections)
+- [MoreMenuSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L28) (1 connections)
+- [{ safeTransition }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L80) (1 connections)
+- [{ text, icon, gradient }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L70) (1 connections)
+- [unreadCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L72) (1 connections)
 
 ## Relationships
 
@@ -21,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

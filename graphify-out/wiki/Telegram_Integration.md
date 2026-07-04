@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [SwipeChevronIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/SwipeChevronIndicator.tsx#L1) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/SwipeChevronIndicator.tsx#L15) (1 connections)
+- [NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L1) (1 connections)
+- [NodeDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\SwipeChevronIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/SwipeChevronIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx)
 
 ## Audit Trail
 

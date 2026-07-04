@@ -1,20 +1,21 @@
 # Creator Management
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L1) (11 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L27) (1 connections)
-- [currentWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L51) (1 connections)
-- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L36) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L143) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L144) (1 connections)
-- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L163) (1 connections)
-- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L34) (1 connections)
-- [lyricsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L28) (1 connections)
-- [lyricsText](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L37) (1 connections)
-- [wordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L54) (1 connections)
+- [VoiceHistoryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L1) (12 connections)
+- [filtered](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L54) (1 connections)
+- [isInProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L43) (1 connections)
+- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L51) (1 connections)
+- [[retryingId, setRetryingId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L52) (1 connections)
+- [statusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L16) (1 connections)
+- [[statusFilter, setStatusFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L50) (1 connections)
+- [t](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L143) (1 connections)
+- [taskId](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L144) (1 connections)
+- [[typeFilter, setTypeFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L49) (1 connections)
+- [typeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L39) (1 connections)
+- [{ voices, isLoading, deleteVoice }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\VoiceHistoryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 23 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

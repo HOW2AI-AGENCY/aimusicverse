@@ -1,19 +1,38 @@
 # Cohort Management
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L214) (1 connections)
-- [getGreeting()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L38) (1 connections)
-- [handleMenuClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L75) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L72) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L73) (1 connections)
-- [[menuOpen, setMenuOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L70) (1 connections)
-- [MoreMenuSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L27) (1 connections)
-- [{ text, icon, gradient }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L69) (1 connections)
-- [unreadCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L71) (1 connections)
+- [SectionEditorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L1) (10 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L30) (1 connections)
+- [{ data: history = [] }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L109) (1 connections)
+- [handleApplyComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L129) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L123) (1 connections)
+- [handleDiscardComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L137) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L52) (1 connections)
+- [[replacedSections, setReplacedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L81) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L112) (1 connections)
+- [{ selectedSection, customRange, clearSelection, latestCompletion, setLatestCompletion, editMode }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L78) (1 connections)
+- [{
+    startTime,
+    endTime,
+    sectionDuration,
+    maxDuration,
+    hasSelection,
+    isValidDuration,
+    isSubmitting,
+    prompt,
+    setPrompt,
+    tags,
+    setTags,
+    lyrics,
+    setLyrics,
+    updateRange,
+    addPreset,
+    executeReplacement,
+    reset,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -21,11 +40,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\SectionEditorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

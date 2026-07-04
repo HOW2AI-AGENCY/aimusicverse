@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [track.page.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L1) (2 connections)
-- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L27) (1 connections)
-- [consoleErrors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L15) (1 connections)
+- [AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L1) (2 connections)
+- [{ data: metrics }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L11) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\track.page.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx)
 
 ## Audit Trail
 

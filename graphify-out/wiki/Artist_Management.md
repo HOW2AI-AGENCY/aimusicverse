@@ -1,13 +1,13 @@
 # Artist Management
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L1) (3 connections)
-- [useAudioSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L23) (2 connections)
-- [useAutoSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L104) (2 connections)
-- [DEFAULT_SYNC_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L21) (1 connections)
+- [toggle-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle-group.tsx#L1) (3 connections)
+- [ToggleGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle-group.tsx#L13) (1 connections)
+- [ToggleGroupContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle-group.tsx#L8) (1 connections)
+- [ToggleGroupItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle-group.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\toggle-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle-group.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,16 +1,17 @@
 # Deeplink Analytics
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ScrollableTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L1) (6 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L23) (1 connections)
-- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L46) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L38) (1 connections)
-- [contentRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L39) (1 connections)
-- [[isOverflowing, setIsOverflowing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L40) (1 connections)
-- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L42) (1 connections)
+- [chord-detection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L1) (7 connections)
+- [computeChromagram()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L67) (2 connections)
+- [cosineSimilarity()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L105) (2 connections)
+- [detectChord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L123) (2 connections)
+- [CHORD_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L9) (1 connections)
+- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L177) (1 connections)
+- [getChordNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L195) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts#L62) (1 connections)
 
 ## Relationships
 
@@ -18,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\ScrollableTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\chord-detection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-detection.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 16 (94%)
+- INFERRED: 1 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

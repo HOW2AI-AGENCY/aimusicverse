@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [KNOWN_ISSUES_TRACKED.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/SESSION_REPORT_2026-01-04.md) (0 connections)
+- [payment_transactions](file:///D:/.MUSICVERSE/aimusicverse/supabase/migrations/20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2026-01/SESSION_REPORT_2026-01-04.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/SESSION_REPORT_2026-01-04.md)
+- [supabase\migrations\20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql](file:///D:/.MUSICVERSE/aimusicverse/supabase/migrations/20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L1) (2 connections)
-- [{ data: metrics }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L11) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L12) (1 connections)
+- [useStudioState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L1) (2 connections)
+- [DEFAULT_STEM_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L61) (1 connections)
+- [useStudioState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts)
 
 ## Audit Trail
 

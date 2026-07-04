@@ -1,46 +1,75 @@
 # Feedback Management
 
-> 16 nodes · cohesion 0.16
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [Storybook Configure Page](file:///D:/.MUSICVERSE/aimusicverse/stories/Configure.mdx) (7 connections)
-- [Design System/Colors](file:///D:/.MUSICVERSE/aimusicverse/Colors.mdx) (4 connections)
-- [Design System/Typography](file:///D:/.MUSICVERSE/aimusicverse/Typography.mdx) (4 connections)
-- [CSS Variables Theming (light/dark)](file:///D:/.MUSICVERSE/aimusicverse/Colors.mdx) (3 connections)
-- [Design System/Introduction](file:///D:/.MUSICVERSE/aimusicverse/Introduction.mdx) (3 connections)
-- [Design System Sections (Design System / UI / Components / Pages)](file:///D:/.MUSICVERSE/aimusicverse/Introduction.mdx) (3 connections)
-- [Design Principles (Consistent / Reusable / Accessible / Efficient)](file:///D:/.MUSICVERSE/aimusicverse/Introduction.mdx) (2 connections)
-- [Inter Font Family](file:///D:/.MUSICVERSE/aimusicverse/Typography.mdx) (2 connections)
-- [Accessibility SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/accessibility.svg) (2 connections)
-- [Storybook Advanced Features](file:///D:/.MUSICVERSE/aimusicverse/stories/Configure.mdx) (2 connections)
-- [MusicVerse AI Color Palette](file:///D:/.MUSICVERSE/aimusicverse/Colors.mdx) (1 connections)
-- [Typography Heading Hierarchy (h1-h4)](file:///D:/.MUSICVERSE/aimusicverse/Typography.mdx) (1 connections)
-- [Discord Brand SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/discord.svg) (1 connections)
-- [GitHub Brand SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/github.svg) (1 connections)
-- [Tutorials Book SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/tutorials.svg) (1 connections)
-- [YouTube Brand SVG Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/youtube.svg) (1 connections)
+- [DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L1) (15 connections)
+- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L93) (1 connections)
+- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L25) (1 connections)
+- [getAvailableKits()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L194) (1 connections)
+- [getPresetPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L271) (1 connections)
+- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L67) (1 connections)
+- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L75) (1 connections)
+- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L104) (1 connections)
+- [handleRecord](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L118) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L113) (1 connections)
+- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L152) (1 connections)
+- [handleTrackVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L130) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L138) (1 connections)
+- [{
+    isReady,
+    isPlaying,
+    currentStep,
+    bpm,
+    swing,
+    volume,
+    currentKit,
+    pattern,
+    soloTracks,
+    mutedTracks,
+    stepLength,
+    recordingState,
+    recordedAudioUrl,
+    recordedAudioBlob,
+    trackEffects,
+    initialize,
+    play,
+    stop,
+    toggleStep,
+    triggerSound,
+    setBpm,
+    setSwing,
+    setVolume,
+    setKit,
+    loadPattern,
+    clearPattern,
+    toggleSolo,
+    toggleMute,
+    getAvailableKits,
+    getPresetPatterns,
+    setStepLength,
+    startRecording,
+    stopRecording,
+    clearRecording,
+    setTrackEffect,
+    exportToMidi,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L27) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L23) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L24) (1 connections)
 
 ## Relationships
 
-- [[Text Editor]] (38 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [Colors.mdx](file:///D:/.MUSICVERSE/aimusicverse/Colors.mdx)
-- [Introduction.mdx](file:///D:/.MUSICVERSE/aimusicverse/Introduction.mdx)
-- [Typography.mdx](file:///D:/.MUSICVERSE/aimusicverse/Typography.mdx)
-- [stories/Configure.mdx](file:///D:/.MUSICVERSE/aimusicverse/stories/Configure.mdx)
-- [stories/assets/accessibility.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/accessibility.svg)
-- [stories/assets/discord.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/discord.svg)
-- [stories/assets/github.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/github.svg)
-- [stories/assets/tutorials.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/tutorials.svg)
-- [stories/assets/youtube.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/youtube.svg)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (63%)
-- INFERRED: 14 (37%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

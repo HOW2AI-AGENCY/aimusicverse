@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L1) (2 connections)
-- [ActionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L68) (1 connections)
-- [StudioActionsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L114) (1 connections)
+- [FeatureDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L1) (2 connections)
+- [feature](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L25) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\FeatureDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx)
 
 ## Audit Trail
 

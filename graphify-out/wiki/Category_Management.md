@@ -1,12 +1,13 @@
 # Category Management
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L1) (2 connections)
-- [StatCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L17) (1 connections)
-- [StatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L47) (1 connections)
+- [useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L1) (3 connections)
+- [OPERATION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L56) (1 connections)
+- [STEM_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L54) (1 connections)
+- [useStudioOperationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

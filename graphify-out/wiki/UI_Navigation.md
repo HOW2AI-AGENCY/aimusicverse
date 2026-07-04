@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [SectionQuickPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionQuickPicker.tsx#L1) (2 connections)
-- [SectionQuickPicker()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionQuickPicker.tsx#L35) (2 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionQuickPicker.tsx#L20) (1 connections)
+- [VocalMapResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L1) (2 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L158) (1 connections)
+- [VocalMapResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -14,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionQuickPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionQuickPicker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\VocalMapResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (80%)
-- INFERRED: 1 (20%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

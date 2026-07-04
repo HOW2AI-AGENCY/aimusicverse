@@ -1,16 +1,17 @@
 # Health Metrics
 
-> 7 nodes · cohesion 0.38
+> 8 nodes · cohesion 0.43
 
 ## Key Concepts
 
-- [LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L1) (6 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L46) (3 connections)
-- [handleRedo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L34) (2 connections)
-- [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L24) (2 connections)
-- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L75) (1 connections)
-- [historyLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L74) (1 connections)
-- [{ undo, redo, canUndo, canRedo, getHistoryLength, getHistoryIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L22) (1 connections)
+- [result.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts#L1) (7 connections)
+- [isOk()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts#L90) (3 connections)
+- [map()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts#L109) (3 connections)
+- [mapErr()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts#L139) (3 connections)
+- [andThen()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts#L124) (2 connections)
+- [err()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts#L82) (2 connections)
+- [isErr()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts#L98) (2 connections)
+- [ok()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts#L73) (2 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\result.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/result.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

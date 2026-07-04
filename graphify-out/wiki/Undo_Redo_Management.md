@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L1) (5 connections)
-- [[elapsedTime, setElapsedTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L31) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L42) (1 connections)
-- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L30) (1 connections)
-- [remainingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L54) (1 connections)
-- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L41) (1 connections)
+- [ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L1) (5 connections)
+- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L34) (2 connections)
+- [constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L25) (1 connections)
+- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L30) (1 connections)
+- [isDev](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L81) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L9) (1 connections)
 
 ## Relationships
 
@@ -17,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

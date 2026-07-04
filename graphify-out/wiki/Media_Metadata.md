@@ -1,13 +1,13 @@
 # Media Metadata
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L1) (3 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L29) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L18) (2 connections)
-- [{ data: parentTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L19) (1 connections)
+- [CollapsibleMenuSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/CollapsibleMenuSection.tsx#L1) (3 connections)
+- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/CollapsibleMenuSection.tsx#L38) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/CollapsibleMenuSection.tsx#L39) (1 connections)
+- [toggleExpanded()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/CollapsibleMenuSection.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\CollapsibleMenuSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/CollapsibleMenuSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useBatchStemProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L1) (2 connections)
-- [initialState](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L41) (1 connections)
-- [useBatchStemProcessing()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L50) (1 connections)
+- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L1) (2 connections)
+- [asDialogTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L41) (1 connections)
+- [exportTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L90) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBatchStemProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx)
 
 ## Audit Trail
 

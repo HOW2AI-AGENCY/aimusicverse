@@ -1,12 +1,13 @@
 # UI Assets
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L1) (2 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L33) (1 connections)
-- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L17) (1 connections)
+- [Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L1) (3 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L51) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L50) (1 connections)
+- [settings](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\empty\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

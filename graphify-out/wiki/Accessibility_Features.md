@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useVoiceRecorder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts#L1) (1 connections)
-- [useVoiceRecorder()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts#L5) (1 connections)
+- [useRemixTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts#L1) (1 connections)
+- [useRemixTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\voice\useVoiceRecorder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/voice/useVoiceRecorder.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRemixTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts)
 
 ## Audit Trail
 

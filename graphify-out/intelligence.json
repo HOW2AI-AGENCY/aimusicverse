@@ -28,7 +28,7 @@
   ],
   "blast_radius": {
     "from": 514,
-    "error": 483,
+    "{ error }": 489,
     "Select": 370,
     "map": 259,
     "now": 215

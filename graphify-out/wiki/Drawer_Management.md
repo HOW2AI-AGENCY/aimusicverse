@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L1) (4 connections)
-- [TABLET_MAX](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L24) (1 connections)
-- [TABLET_MIN](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L23) (1 connections)
-- [useIsTablet()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L26) (1 connections)
-- [useResponsive()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L55) (1 connections)
+- [ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L1) (4 connections)
+- [{ addTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L52) (1 connections)
+- [handleSwipeAddToQueue](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L55) (1 connections)
+- [handleSwipeSwitchVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L61) (1 connections)
+- [{ sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet, isOwnTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx)
 
 ## Audit Trail
 

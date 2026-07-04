@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useParentTrackLink.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useParentTrackLink.ts#L1) (1 connections)
-- [useParentTrackLink()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useParentTrackLink.ts#L9) (1 connections)
+- [useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L1) (1 connections)
+- [useOptimisticVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\track-detail\useParentTrackLink.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useParentTrackLink.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts)
 
 ## Audit Trail
 

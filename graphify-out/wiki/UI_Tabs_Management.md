@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [alert-dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx#L1) (3 connections)
-- [AlertDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx#L8) (1 connections)
-- [AlertDialogPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx#L12) (1 connections)
-- [AlertDialogTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx#L10) (1 connections)
+- [QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L1) (3 connections)
+- [{ attributes, listeners, setNodeRef, transform, transition, isDragging }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L19) (1 connections)
+- [hasVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L27) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\alert-dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert-dialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx)
 
 ## Audit Trail
 

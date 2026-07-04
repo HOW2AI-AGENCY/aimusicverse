@@ -1,24 +1,37 @@
 # Social Media Interaction
 
-> 15 nodes · cohesion 0.16
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L1) (11 connections)
-- [ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L1) (4 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L17) (4 connections)
-- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L21) (2 connections)
-- [handleWorkflowClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L117) (2 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L19) (2 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L156) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L234) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L235) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L18) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L236) (1 connections)
-- [professionalWorkflows](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L43) (1 connections)
-- [quickStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L106) (1 connections)
-- [StepIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L233) (1 connections)
-- [WorkflowIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L187) (1 connections)
+- [MultiTrackTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L1) (15 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L22) (1 connections)
+- [containerWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L52) (1 connections)
+- [{
+    currentProject,
+    currentTime,
+    isPlaying,
+    zoom,
+    snapToGrid,
+    selectedClipId,
+    setCurrentTime,
+    setZoom,
+    setSnapToGrid,
+    selectClip,
+    moveClip,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L26) (1 connections)
+- [[dragClipId, setDragClipId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L41) (1 connections)
+- [[dragOffset, setDragOffset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L42) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L44) (1 connections)
+- [handleClipDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L88) (1 connections)
+- [handleClipDragStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L74) (1 connections)
+- [handleTimelineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L60) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L40) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L24) (1 connections)
+- [playheadPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L50) (1 connections)
+- [scrollLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L51) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L23) (1 connections)
+- [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -26,12 +39,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\MultiTrackTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

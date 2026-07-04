@@ -1,14 +1,14 @@
 # Suggestion Management
 
-> 5 nodes · cohesion 0.40
+> 5 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L1) (4 connections)
-- [hapticClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L94) (1 connections)
-- [hapticPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L13) (1 connections)
-- [useHapticPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L74) (1 connections)
-- [withHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L81) (1 connections)
+- [AdminQuickAccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L1) (4 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L31) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L22) (2 connections)
+- [{ data: adminAuth, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L24) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\AdminQuickAccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

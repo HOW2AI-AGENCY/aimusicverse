@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useMusicXmlParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L1) (4 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L17) (1 connections)
-- [PITCH_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L50) (1 connections)
-- [pitchToMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L60) (1 connections)
-- [useMusicXmlParser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L68) (1 connections)
+- [TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L114) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L165) (1 connections)
+- [TelegramMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L28) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L159) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicXmlParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx)
 
 ## Audit Trail
 

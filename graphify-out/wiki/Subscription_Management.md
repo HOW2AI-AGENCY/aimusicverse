@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L1) (2 connections)
-- [roundedClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L78) (1 connections)
-- [widths](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L110) (1 connections)
+- [TrackHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/TrackHistoryItem.tsx#L1) (2 connections)
+- [generateWaveformData()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/TrackHistoryItem.tsx#L34) (1 connections)
+- [TrackHistoryItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/TrackHistoryItem.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\TrackHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/TrackHistoryItem.tsx)
 
 ## Audit Trail
 

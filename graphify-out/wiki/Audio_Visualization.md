@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/index.ts#L1) (0 connections)
+- [contract_unified-skeleton-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-skeleton.types.ts) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\branding\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-skeleton.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-skeleton.types.ts)
 
 ## Audit Trail
 

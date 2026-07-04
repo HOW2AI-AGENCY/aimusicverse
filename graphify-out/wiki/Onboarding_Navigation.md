@@ -1,20 +1,21 @@
 # Onboarding Navigation
 
-> 11 nodes · cohesion 0.20
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
-- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
-- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L23) (3 connections)
-- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
-- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
-- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L247) (1 connections)
-- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L275) (1 connections)
-- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L157) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L136) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
+- [MobileNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L1) (11 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L258) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L132) (1 connections)
+- [handleNoteClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L127) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L43) (1 connections)
+- [NOTE_NAMES_RU](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L44) (1 connections)
+- [parsedTimeSignature](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L74) (1 connections)
+- [parseTimeSignature()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L46) (1 connections)
+- [processedNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L77) (1 connections)
+- [[selectedNoteIndex, setSelectedNoteIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L72) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L103) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L71) (1 connections)
 
 ## Relationships
 
@@ -22,13 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\MobileNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (87%)
-- INFERRED: 3 (13%)
+- EXTRACTED: 22 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

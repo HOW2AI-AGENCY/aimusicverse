@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TutorialStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TutorialStep.tsx#L1) (1 connections)
-- [StepIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TutorialStep.tsx#L24) (1 connections)
+- [TagsResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx#L1) (1 connections)
+- [TagsResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\TutorialStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/TutorialStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TagsResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx)
 
 ## Audit Trail
 

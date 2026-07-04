@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L1) (2 connections)
-- [ACTIVE_REFERENCE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L75) (1 connections)
-- [REFERENCE_EXPIRY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L78) (1 connections)
+- [useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L18) (1 connections)
+- [useTelegramOrientationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts)
 
 ## Audit Trail
 

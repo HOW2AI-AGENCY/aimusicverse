@@ -1,23 +1,18 @@
 # Edit Functionality
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L1) (7 connections)
-- [barProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L92) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L69) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L51) (1 connections)
-- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L93) (1 connections)
-- [{
-    isPlaying,
-    currentTime,
-    duration: audioDuration,
-    toggle,
-    audioRef,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L34) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L75) (1 connections)
-- [togglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L46) (1 connections)
+- [useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L1) (8 connections)
+- [useTagRecommendations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L114) (5 connections)
+- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L281) (2 connections)
+- [useTagPopularity()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L58) (2 connections)
+- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L96) (2 connections)
+- [useTagUsageHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L37) (2 connections)
+- [getCurrentUser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L6) (1 connections)
+- [useSuccessfulCombinations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L295) (1 connections)
+- [useTrackTagUsage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L242) (1 connections)
 
 ## Relationships
 
@@ -25,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L1) (7 connections)
-- [useBatchedUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L12) (1 connections)
-- [useDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L106) (1 connections)
-- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L56) (1 connections)
-- [useRenderTracker()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L150) (1 connections)
-- [useShallowMemo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L88) (1 connections)
-- [useStableCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L140) (1 connections)
-- [useStableObject()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L176) (1 connections)
+- [LinkToTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L1) (8 connections)
+- [filteredTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L36) (1 connections)
+- [[isSaving, setIsSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L32) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L153) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L34) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L30) (1 connections)
+- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L31) (1 connections)
+- [{ tracks, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\LinkToTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

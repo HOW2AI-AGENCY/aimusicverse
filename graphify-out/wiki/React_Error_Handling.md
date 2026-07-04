@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelemetryStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useTelemetryStats.ts#L1) (2 connections)
-- [useErrorTrends()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useTelemetryStats.ts#L75) (1 connections)
-- [useTelemetryStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useTelemetryStats.ts#L53) (1 connections)
+- [useTelegramActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L1) (2 connections)
+- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L14) (1 connections)
+- [useTelegramActions()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useTelemetryStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useTelemetryStats.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\useTelegramActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts)
 
 ## Audit Trail
 

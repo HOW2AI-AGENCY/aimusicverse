@@ -1,17 +1,17 @@
 # Dropdown Menu
 
-> 8 nodes · cohesion 0.32
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [ErrorPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L1) (7 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L17) (3 connections)
-- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L49) (2 connections)
-- [handleGoHome()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L44) (2 connections)
-- [errorDetails](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L21) (1 connections)
-- [errorMessage](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L20) (1 connections)
-- [handleRefresh()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L39) (1 connections)
-- [{ hapticFeedback, showBackButton, hideBackButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L18) (1 connections)
+- [ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L1) (7 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L68) (1 connections)
+- [ProfileSetupStep3Social()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L47) (1 connections)
+- [SOCIAL_FIELDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L38) (1 connections)
+- [SoundCloudIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L26) (1 connections)
+- [SpotifyIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L20) (1 connections)
+- [TwitterIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L14) (1 connections)
+- [YouTubeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\ErrorPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

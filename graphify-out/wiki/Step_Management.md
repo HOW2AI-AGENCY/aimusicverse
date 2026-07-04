@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L1) (2 connections)
-- [createHistorySlice()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L47) (1 connections)
-- [DEFAULT_EXCLUDE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L29) (1 connections)
+- [useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L1) (2 connections)
+- [MAX_TASKS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L17) (1 connections)
+- [useReplacementTasks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\zustand\historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts)
 
 ## Audit Trail
 

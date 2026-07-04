@@ -1,13 +1,14 @@
 # History Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.60
 
 ## Key Concepts
 
-- [unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L1) (3 connections)
-- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L170) (1 connections)
-- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L156) (1 connections)
-- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L163) (1 connections)
+- [useStudioGestures.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L1) (4 connections)
+- [useStudioGestures()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L56) (3 connections)
+- [usePinchZoom()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L236) (2 connections)
+- [useSwipeNavigation()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L251) (2 connections)
+- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L45) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioGestures.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

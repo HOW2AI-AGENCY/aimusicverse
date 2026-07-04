@@ -1,21 +1,22 @@
 # Interactive UI Controls
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [RefinedCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L1) (11 connections)
-- [CardContent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L187) (1 connections)
-- [CardFooter()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L198) (1 connections)
-- [CardHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L169) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L312) (1 connections)
-- [FeatureCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L221) (1 connections)
-- [iconColorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L268) (1 connections)
-- [paddingStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L52) (1 connections)
-- [RefinedCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L66) (1 connections)
-- [roundedStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L59) (1 connections)
-- [trendColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L306) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx#L41) (1 connections)
+- [prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L1) (12 connections)
+- [buildEnglishPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L324) (2 connections)
+- [buildPromptFromChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L411) (1 connections)
+- [DURATION_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L317) (1 connections)
+- [GENRE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L11) (1 connections)
+- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L403) (1 connections)
+- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L38) (1 connections)
+- [KEY_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L307) (1 connections)
+- [MOOD_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L58) (1 connections)
+- [QUICK_MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L113) (1 connections)
+- [SCALE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L309) (1 connections)
+- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L77) (1 connections)
+- [TEMPO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L298) (1 connections)
 
 ## Relationships
 
@@ -23,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\RefinedCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 24 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

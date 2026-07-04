@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Bot Settings Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/settings.jpg) (0 connections)
+- [YouTube Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/youtube.svg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [public/images/bot/settings.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/settings.jpg)
+- [stories/assets/youtube.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/youtube.svg)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

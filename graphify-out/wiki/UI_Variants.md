@@ -1,15 +1,16 @@
 # UI Variants
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.52
 
 ## Key Concepts
 
-- [MusicXMLViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L1) (2 connections)
-- [useMusicXML.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L1) (2 connections)
-- [MusicXMLViewer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L30) (2 connections)
-- [useMusicXML()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L30) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L207) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L12) (1 connections)
+- [usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L1) (6 connections)
+- [usePlaybackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L21) (6 connections)
+- [useLoopControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L53) (2 connections)
+- [usePlaybackControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L38) (2 connections)
+- [usePlaybackLoadingState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L73) (2 connections)
+- [usePlaybackProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L66) (2 connections)
+- [usePlaybackStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L27) (2 connections)
 
 ## Relationships
 
@@ -17,13 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\MusicXMLViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicXML.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (80%)
-- INFERRED: 2 (20%)
+- EXTRACTED: 22 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

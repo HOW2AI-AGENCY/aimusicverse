@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [ChipInput.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L1) (8 connections)
-- [Disabled](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L85) (1 connections)
-- [Empty](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L17) (1 connections)
-- [GENRE_SUGGESTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L15) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L5) (1 connections)
-- [WithLabel](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L57) (1 connections)
-- [WithMaxChips](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L68) (1 connections)
-- [WithSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L39) (1 connections)
-- [WithValues](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx#L28) (1 connections)
+- [ValidationMessage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L1) (8 connections)
+- [artistCheck](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L208) (1 connections)
+- [blockedArtist](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L140) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L64) (1 connections)
+- [hasExtras](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L67) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L65) (1 connections)
+- [levelConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L27) (1 connections)
+- [[showExamples, setShowExamples]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L66) (1 connections)
+- [styleSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L143) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\ChipInput.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ChipInput.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ValidationMessage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx)
 
 ## Audit Trail
 

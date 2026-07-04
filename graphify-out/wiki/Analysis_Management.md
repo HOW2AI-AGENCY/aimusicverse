@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useGenerateDraft.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L1) (3 connections)
-- [draft](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L47) (1 connections)
-- [DRAFT_KEY](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L9) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L18) (1 connections)
+- [useMidiSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L1) (3 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L37) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L14) (1 connections)
+- [useMidiSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L44) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useGenerateDraft.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMidiSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts)
 
 ## Audit Trail
 

@@ -1,23 +1,24 @@
 # Rendering Metrics
 
-> 14 nodes · cohesion 0.24
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L1) (13 connections)
-- [parseTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L207) (5 connections)
-- [detectTagType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L157) (4 connections)
-- [isStructuralTagValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L144) (4 connections)
-- [parseFullLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L351) (4 connections)
-- [parseLine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L238) (4 connections)
-- [extractTagFromWord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L442) (2 connections)
-- [extractTimingDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L196) (2 connections)
-- [getSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L424) (2 connections)
-- [DYNAMIC_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L104) (1 connections)
-- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L118) (1 connections)
-- [STRUCTURAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L33) (1 connections)
-- [TIMED_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L139) (1 connections)
-- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L83) (1 connections)
+- [screenshotMockData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L1) (14 connections)
+- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L94) (1 connections)
+- [mockAchievements](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L237) (1 connections)
+- [mockArtists](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L203) (1 connections)
+- [mockCredits](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L64) (1 connections)
+- [mockGenerationFormData](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L250) (1 connections)
+- [mockLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L259) (1 connections)
+- [mockPlaylists](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L163) (1 connections)
+- [mockProfile](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L24) (1 connections)
+- [mockProjects](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L117) (1 connections)
+- [mockStats](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L49) (1 connections)
+- [mockTracks](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L97) (1 connections)
+- [moods](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L95) (1 connections)
+- [screenshotScreens](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L278) (1 connections)
+- [trackTitles](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L76) (1 connections)
 
 ## Relationships
 
@@ -25,12 +26,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\screenshotMockData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 28 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

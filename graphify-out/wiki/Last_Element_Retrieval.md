@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L1) (2 connections)
-- [trackLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L16) (1 connections)
-- [useTrackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L61) (1 connections)
+- [get-track.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/get-track.ts#L1) (2 connections)
+- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/get-track.ts#L17) (1 connections)
+- [supabase](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/get-track.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\mcp\tools\get-track.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mcp/tools/get-track.ts)
 
 ## Audit Trail
 

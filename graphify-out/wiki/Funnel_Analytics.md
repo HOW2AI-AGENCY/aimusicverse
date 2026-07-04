@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useStudioActivityLogger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L1) (2 connections)
-- [useStudioActivityLogger()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L56) (2 connections)
-- [IMPORTANT_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L47) (1 connections)
+- [Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L1) (2 connections)
+- [roundedClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L78) (1 connections)
+- [widths](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L110) (1 connections)
 
 ## Relationships
 
@@ -14,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioActivityLogger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (80%)
-- INFERRED: 1 (20%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

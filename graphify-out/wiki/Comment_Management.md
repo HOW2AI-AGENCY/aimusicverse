@@ -1,21 +1,22 @@
 # Comment Management
 
-> 12 nodes · cohesion 0.18
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L1) (11 connections)
-- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L153) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L139) (2 connections)
-- [adminSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L106) (1 connections)
-- [allItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L149) (1 connections)
-- [allSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L146) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L143) (1 connections)
-- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L168) (1 connections)
-- [{ isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L142) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L140) (1 connections)
-- [menuSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L62) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L141) (1 connections)
+- [MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L1) (12 connections)
+- [[activeMode, setActiveMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L87) (1 connections)
+- [chordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L92) (1 connections)
+- [handleRecordingSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L104) (1 connections)
+- [handleToggleChordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L114) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L84) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L161) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L222) (1 connections)
+- [{ isActive: isPro }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L85) (1 connections)
+- [promptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L101) (1 connections)
+- [RECORDING_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L55) (1 connections)
+- [[selectedRecordingType, setSelectedRecordingType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L89) (1 connections)
+- [[showRecordDrawer, setShowRecordDrawer]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L88) (1 connections)
 
 ## Relationships
 
@@ -23,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx)
 
 ## Audit Trail
 

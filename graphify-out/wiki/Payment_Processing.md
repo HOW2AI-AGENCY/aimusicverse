@@ -1,28 +1,29 @@
 # Payment Processing
 
-> 19 nodes · cohesion 0.11
+> 20 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L1) (18 connections)
-- [analyser](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L41) (1 connections)
-- [analyserRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L21) (1 connections)
-- [animationFrameRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L22) (1 connections)
-- [audioContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L40) (1 connections)
-- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L20) (1 connections)
-- [dataArray](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L52) (1 connections)
-- [getColorClass()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L94) (1 connections)
-- [getLevelStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L101) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L123) (1 connections)
-- [isPeak](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L124) (1 connections)
-- [[level, setLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L18) (1 connections)
-- [[peakLevel, setPeakLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L19) (1 connections)
-- [segmentLevel](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L122) (1 connections)
-- [source](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L42) (1 connections)
-- [sourceRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L23) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L109) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L110) (1 connections)
-- [updateLevel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L55) (1 connections)
+- [MusicGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L1) (19 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L34) (1 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L42) (1 connections)
+- [categoryTags](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L246) (1 connections)
+- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L68) (1 connections)
+- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L37) (1 connections)
+- [genreStyles](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L285) (1 connections)
+- [{ graphData, isLoading, tags, styles }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L21) (1 connections)
+- [graphFilter](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L45) (1 connections)
+- [handleNodeClick()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L86) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L20) (1 connections)
+- [relatedNodes](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L55) (1 connections)
+- [resetFilters()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L90) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L25) (1 connections)
+- [[selectedCategories, setSelectedCategories]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L27) (1 connections)
+- [[selectedGenres, setSelectedGenres]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L26) (1 connections)
+- [[selectedNode, setSelectedNode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L24) (1 connections)
+- [[selectedNodeTypes, setSelectedNodeTypes]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L28) (1 connections)
+- [selectedTags](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L80) (1 connections)
+- [{ showOnboarding, setShowOnboarding, resetOnboarding }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -30,11 +31,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\MusicGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
+- EXTRACTED: 38 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

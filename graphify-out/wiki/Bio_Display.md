@@ -1,12 +1,13 @@
 # Bio Display
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [AiSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L28) (2 connections)
-- [AiSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L1) (2 connections)
-- [defaultSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L15) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L1) (3 connections)
+- [createDefaultViewSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L154) (1 connections)
+- [generateId()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L152) (1 connections)
+- [TRACK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L139) (1 connections)
 
 ## Relationships
 
@@ -14,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\AiSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (80%)
-- INFERRED: 1 (20%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

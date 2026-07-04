@@ -1,37 +1,26 @@
 # Guitar Tablature
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [MultiTrackTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L1) (15 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L22) (1 connections)
-- [containerWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L52) (1 connections)
-- [{
-    currentProject,
-    currentTime,
-    isPlaying,
-    zoom,
-    snapToGrid,
-    selectedClipId,
-    setCurrentTime,
-    setZoom,
-    setSnapToGrid,
-    selectClip,
-    moveClip,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L26) (1 connections)
-- [[dragClipId, setDragClipId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L41) (1 connections)
-- [[dragOffset, setDragOffset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L42) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L44) (1 connections)
-- [handleClipDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L88) (1 connections)
-- [handleClipDragStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L74) (1 connections)
-- [handleTimelineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L60) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L40) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L24) (1 connections)
-- [playheadPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L50) (1 connections)
-- [scrollLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L51) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L23) (1 connections)
-- [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L45) (1 connections)
+- [BuyCredits.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L1) (17 connections)
+- [CreditInfoItem()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L48) (1 connections)
+- [{ data: groupedProducts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L83) (1 connections)
+- [displayProducts](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L108) (1 connections)
+- [handleProductClick()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L110) (1 connections)
+- [handlePurchase()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L115) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L78) (1 connections)
+- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L77) (1 connections)
+- [isBestValue](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L250) (1 connections)
+- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L121) (1 connections)
+- [{ pay: payWithTinkoff, isLoading: isTinkoffLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L84) (1 connections)
+- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L247) (1 connections)
+- [[selectedProduct, setSelectedProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L80) (1 connections)
+- [[showPurchasePanel, setShowPurchasePanel]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L81) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L123) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L76) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L79) (1 connections)
 
 ## Relationships
 
@@ -39,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\MultiTrackTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\BuyCredits.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 33 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

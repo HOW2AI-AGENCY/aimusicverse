@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [DurationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx#L1) (1 connections)
-- [DurationBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx#L21) (1 connections)
+- [VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L1) (1 connections)
+- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\shared\DurationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/DurationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx)
 
 ## Audit Trail
 

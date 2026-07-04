@@ -4,10 +4,20 @@
 
 ## Key Concepts
 
-- [StructureToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L1) (3 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L106) (1 connections)
-- [STRUCTURE_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L13) (1 connections)
-- [StructureToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L53) (1 connections)
+- [voice-clone.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L1) (3 connections)
+- [VoiceApiError](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L6) (2 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L8) (1 connections)
+- [voiceCloneApi](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L24) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class VoiceApiError {
+        +voice-clone.api.ts()
+        +.constructor()
+    }
+```
 
 ## Relationships
 
@@ -15,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\StructureToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\api\voice-clone.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

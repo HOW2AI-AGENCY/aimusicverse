@@ -1,32 +1,20 @@
 # Design Spacing
 
-> 10 nodes · cohesion 0.20
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L1) (9 connections)
-- [[analysisResult, setAnalysisResult]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L25) (1 connections)
-- [{ analyze, isAnalyzing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L42) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L77) (1 connections)
-- [handleAnalyze](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L62) (1 connections)
-- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L57) (1 connections)
-- [handleStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L44) (1 connections)
-- [handleStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L52) (1 connections)
-- [{
-    isRecording,
-    isPaused,
-    audioUrl,
-    audioBlob,
-    duration,
-    audioLevel,
-    waveformData,
-    startRecording,
-    stopRecording,
-    pauseRecording,
-    resumeRecording,
-    resetRecording,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L27) (1 connections)
-- [[recordingMode, setRecordingMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L24) (1 connections)
+- [KaraokeWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L1) (10 connections)
+- [cleanWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L50) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L53) (1 connections)
+- [isFuture](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L55) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L54) (1 connections)
+- [nextActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L110) (1 connections)
+- [nextPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L122) (1 connections)
+- [prevActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L109) (1 connections)
+- [prevPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L121) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L40) (1 connections)
+- [showProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L58) (1 connections)
 
 ## Relationships
 
@@ -34,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\KaraokeWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

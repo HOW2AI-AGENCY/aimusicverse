@@ -1,32 +1,32 @@
 # UI Layout Management
 
-> 23 nodes · cohesion 0.11
+> 23 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L1) (15 connections)
-- [getMiniAppDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L37) (9 connections)
-- [useEconomyConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L1) (6 connections)
-- [getConfigByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L236) (3 connections)
-- [getArtistDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L77) (2 connections)
-- [getGenerateDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L85) (2 connections)
-- [getInviteDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L100) (2 connections)
-- [getPlaylistDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L53) (2 connections)
-- [getProfileDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L69) (2 connections)
-- [getProjectDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L61) (2 connections)
-- [getRecognizeDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L92) (2 connections)
-- [getTelegramShareUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L117) (2 connections)
-- [getTrackDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L45) (2 connections)
-- [getBotMention()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L108) (1 connections)
-- [TELEGRAM_APP_SHORT_NAME](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L20) (1 connections)
-- [TELEGRAM_BOT_START_URL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L30) (1 connections)
-- [TELEGRAM_BOT_USERNAME](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L14) (1 connections)
-- [TELEGRAM_MINI_APP_BASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L25) (1 connections)
-- [CONFIG_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L84) (1 connections)
-- [ECONOMY_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L26) (1 connections)
-- [useBulkUpdateEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L196) (1 connections)
-- [useEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L119) (1 connections)
-- [useUpdateEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L140) (1 connections)
+- [LyricsSectionAdvanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L1) (23 connections)
+- [charCountColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L110) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L250) (1 connections)
+- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L92) (1 connections)
+- [end](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L97) (1 connections)
+- [handleApplyTemplate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L116) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L78) (1 connections)
+- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L107) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L171) (1 connections)
+- [lyricsValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L106) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L77) (1 connections)
+- [QUICK_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L51) (1 connections)
+- [[saveDialogOpen, setSaveDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L82) (1 connections)
+- [sel](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L93) (1 connections)
+- [selectionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L88) (1 connections)
+- [showPreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L81) (1 connections)
+- [[showQuickTemplates, setShowQuickTemplates]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L84) (1 connections)
+- [showVisualEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L80) (1 connections)
+- [start](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L96) (1 connections)
+- [switchView](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L125) (1 connections)
+- [[templateSelectorOpen, setTemplateSelectorOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L83) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L87) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L79) (1 connections)
 
 ## Relationships
 
@@ -34,13 +34,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useEconomyConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\telegram\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\LyricsSectionAdvanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 58 (95%)
-- INFERRED: 3 (5%)
+- EXTRACTED: 45 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,25 +1,25 @@
 # Digital Audio Workstation
 
-> 16 nodes · cohesion 0.14
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L1) (15 connections)
-- [isPlayable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L61) (3 connections)
-- [hasAudioUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L28) (2 connections)
-- [isPublicPlayable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L71) (2 connections)
-- [hasCoverUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L38) (1 connections)
-- [hasCreatorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L48) (1 connections)
-- [hasProperty()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L185) (1 connections)
-- [isISODateString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L224) (1 connections)
-- [isNonEmptyArray()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L140) (1 connections)
-- [isNonEmptyString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L111) (1 connections)
-- [isNonNegativeNumber()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L160) (1 connections)
-- [isNotNull()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L94) (1 connections)
-- [isPlainObject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L195) (1 connections)
-- [isPositiveNumber()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L150) (1 connections)
-- [isValidDate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L214) (1 connections)
-- [isValidUUID()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts#L121) (1 connections)
+- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L1) (15 connections)
+- [backdropOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L58) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L91) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L53) (1 connections)
+- [[currentSnapPoint, setCurrentSnapPoint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L52) (1 connections)
+- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L34) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L82) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L64) (1 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L55) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L47) (1 connections)
+- [rawSnapRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L59) (1 connections)
+- [safeDefaultSnap](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L51) (1 connections)
+- [snapHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L61) (1 connections)
+- [snapRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L60) (1 connections)
+- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L35) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -27,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\guards\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/guards/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

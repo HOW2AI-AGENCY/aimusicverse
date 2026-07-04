@@ -1,11 +1,12 @@
 # Type Limitation
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [layer-boundary.js](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js#L1) (1 connections)
-- [noSupabaseFromInComponent](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js#L14) (1 connections)
+- [useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L1) (2 connections)
+- [trackLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L16) (1 connections)
+- [useTrackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L61) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\eslint-rules\layer-boundary.js](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L1) (8 connections)
-- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L22) (1 connections)
-- [header](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L12) (1 connections)
-- [headerBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L38) (1 connections)
-- [overflow](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L29) (1 connections)
-- [tab](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L20) (1 connections)
-- [tablist](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L15) (1 connections)
-- [tablistBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L39) (1 connections)
-- [WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L3) (1 connections)
+- [CreativePresetsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L1) (8 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L39) (1 connections)
+- [handleTabChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L42) (1 connections)
+- [handleTabKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L52) (1 connections)
+- [handleTrackPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L74) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L40) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L128) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L129) (1 connections)
+- [TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\CreativePresetsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CreativePresetsSection.tsx)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [BlogHeroSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogHeroSection.tsx#L1) (0 connections)
+- [contract_unified-form-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-form.types.ts) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogHeroSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogHeroSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-form.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-form.types.ts)
 
 ## Audit Trail
 

@@ -4,23 +4,23 @@
 
 ## Key Concepts
 
-- [beatSnap.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L1) (16 connections)
-- [beatDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L13) (1 connections)
-- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L110) (1 connections)
-- [bpm](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L11) (1 connections)
-- [currentTime](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L12) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L94) (1 connections)
-- [expectedBeats](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L96) (1 connections)
-- [expectedSnap](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L16) (1 connections)
-- [gridPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L98) (1 connections)
-- [isValidDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L126) (1 connections)
-- [measurePositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L113) (1 connections)
-- [snapDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L23) (1 connections)
-- [snapDivisions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L123) (1 connections)
-- [snapped](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L158) (1 connections)
-- [subdivisionDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L25) (1 connections)
-- [subdivisions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L135) (1 connections)
-- [testCases](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts#L77) (1 connections)
+- [EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L1) (17 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L101) (2 connections)
+- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L57) (1 connections)
+- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L64) (1 connections)
+- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L36) (1 connections)
+- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L30) (1 connections)
+- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L32) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L40) (1 connections)
+- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L37) (1 connections)
+- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L33) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L29) (1 connections)
+- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L34) (1 connections)
+- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L35) (1 connections)
+- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L38) (1 connections)
+- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L31) (1 connections)
+- [{ updateArtist, isUpdating, deleteArtist, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L27) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -28,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\lib\beatSnap.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/lib/beatSnap.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 33 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

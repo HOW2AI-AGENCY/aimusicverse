@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [select.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/select.tsx#L1) (3 connections)
-- [SelectGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/select.tsx#L9) (1 connections)
-- [SelectValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/select.tsx#L11) (1 connections)
+- [SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L1) (2 connections)
+- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L201) (1 connections)
+- [SUGGESTIONS_RULES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\select.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/select.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 5 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

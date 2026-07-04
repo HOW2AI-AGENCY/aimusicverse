@@ -1,13 +1,13 @@
 # Tablet Limits
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L1) (3 connections)
-- [useSectionNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L158) (2 connections)
-- [useSectionNotesData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L97) (2 connections)
-- [sectionNotesKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L35) (1 connections)
+- [avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L1) (3 connections)
+- [Avatar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L6) (1 connections)
+- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L25) (1 connections)
+- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

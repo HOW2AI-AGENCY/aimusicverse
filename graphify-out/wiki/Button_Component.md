@@ -1,14 +1,15 @@
 # Button Component
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L1) (4 connections)
-- [BASE_DESCRIPTION](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L19) (1 connections)
-- [BASE_TITLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L18) (1 connections)
-- [SEO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L112) (1 connections)
-- [SEOHead()](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L21) (1 connections)
+- [WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L1) (5 connections)
+- [closeTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L40) (1 connections)
+- [confettiTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L37) (1 connections)
+- [fireConfetti()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L28) (1 connections)
+- [[showContent, setShowContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L20) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\popups\WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

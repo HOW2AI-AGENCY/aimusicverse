@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [sanitizeFilename.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sanitizeFilename.ts#L1) (1 connections)
-- [sanitizeFilename()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sanitizeFilename.ts#L5) (1 connections)
+- [useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L1) (1 connections)
+- [useStemControls()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\sanitizeFilename.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sanitizeFilename.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts)
 
 ## Audit Trail
 

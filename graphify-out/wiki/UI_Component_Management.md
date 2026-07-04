@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L1) (4 connections)
-- [createDrumSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L98) (1 connections)
-- [defaultTrackEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L90) (1 connections)
-- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L19) (1 connections)
-- [useDrumMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L115) (1 connections)
+- [StudioVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L56) (1 connections)
+- [handleSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L35) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L33) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioVersionSelector.tsx)
 
 ## Audit Trail
 

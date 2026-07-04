@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [StudioPendingTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L1) (8 connections)
-- [[animatedProgress, setAnimatedProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L42) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L62) (1 connections)
-- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L85) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L47) (1 connections)
-- [stage](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L46) (1 connections)
-- [statusMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L86) (1 connections)
-- [statusMessages](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L30) (1 connections)
-- [taskProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L45) (1 connections)
+- [AlertAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L1) (8 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L24) (1 connections)
+- [dailyTrends](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L43) (1 connections)
+- [{ data: alerts = [], isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L40) (1 connections)
+- [hourlyDistribution](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L92) (1 connections)
+- [resolutionStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L109) (1 connections)
+- [SERVICE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L30) (1 connections)
+- [serviceBreakdown](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L74) (1 connections)
+- [weeklyPattern](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx#L140) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioPendingTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AlertAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertAnalyticsPanel.tsx)
 
 ## Audit Trail
 

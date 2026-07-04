@@ -1,28 +1,29 @@
 # Music Project Management
 
-> 19 nodes · cohesion 0.13
+> 20 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [lyricsParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L1) (7 connections)
-- [detectSectionsFromGaps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts#L174) (5 connections)
-- [useSectionDetection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts#L1) (3 connections)
-- [musicalStructure.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts#L1) (3 connections)
-- [matchSectionToTimestamps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L98) (3 connections)
-- [createMusicalSections()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts#L21) (3 connections)
-- [getSectionLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/types/sections.ts#L73) (3 connections)
-- [buildSectionsFromParsedLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts#L61) (3 connections)
-- [sections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/sections.ts#L1) (2 connections)
-- [getTypeFromTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L19) (2 connections)
-- [normalizeText()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L87) (2 connections)
-- [parseSectionsFromLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L39) (2 connections)
-- [inferSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts#L94) (2 connections)
-- [filterTagWords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L80) (1 connections)
-- [TAG_FILTER_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L13) (1 connections)
-- [TAG_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts#L10) (1 connections)
-- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/types/sections.ts#L55) (1 connections)
-- [makeSectionsContinuous()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts#L30) (1 connections)
-- [useSectionDetection()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts#L114) (1 connections)
+- [mixer-optimization.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L1) (19 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L213) (1 connections)
+- [event](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L81) (1 connections)
+- [finalCounts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L118) (1 connections)
+- [{ fps }](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L176) (1 connections)
+- [getMixerRenderCounts()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L13) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L157) (1 connections)
+- [initialCounts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L107) (1 connections)
+- [measureVolumeChangeFPS()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L32) (1 connections)
+- [meterUpdates](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L362) (1 connections)
+- [renderTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L95) (1 connections)
+- [reRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L123) (1 connections)
+- [slider](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L264) (1 connections)
+- [startTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L77) (1 connections)
+- [stem0Final](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L122) (1 connections)
+- [stem0Initial](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L121) (1 connections)
+- [stem1Final](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L144) (1 connections)
+- [stem1Initial](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L143) (1 connections)
+- [STUDIO_URL](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L8) (1 connections)
+- [volume](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts#L303) (1 connections)
 
 ## Relationships
 
@@ -30,15 +31,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSectionDetection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionDetection.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\lyricsParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/lyricsParser.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\musicalStructure.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/musicalStructure.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\types\sections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/sections.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\studio\mixer-optimization.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/mixer-optimization.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 38 (83%)
-- INFERRED: 8 (17%)
+- EXTRACTED: 38 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

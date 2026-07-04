@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L1) (3 connections)
-- [TelegramThemeContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L29) (1 connections)
-- [TelegramThemeProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L37) (1 connections)
-- [useTelegramTheme()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L147) (1 connections)
+- [ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L1) (3 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L89) (1 connections)
+- [CONTINUE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L14) (1 connections)
+- [ContinueToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx)
 
 ## Audit Trail
 

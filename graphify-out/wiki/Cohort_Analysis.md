@@ -1,13 +1,13 @@
 # Cohort Analysis
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [VoiceLibraryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L1) (3 connections)
-- [statusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L10) (1 connections)
-- [{ voices, isLoading, deleteVoice, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L34) (1 connections)
-- [[wizardOpen, setWizardOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L35) (1 connections)
+- [useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L1) (3 connections)
+- [useSectionNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L158) (2 connections)
+- [useSectionNotesData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L97) (2 connections)
+- [sectionNotesKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\VoiceLibraryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

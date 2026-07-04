@@ -1,15 +1,16 @@
 # Step Navigation
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [MobileSkeletons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L1) (6 connections)
-- [MobileFormFieldSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L197) (1 connections)
-- [MobilePlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L169) (1 connections)
-- [MobileStudioTrackSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L140) (1 connections)
-- [MobileTrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L17) (1 connections)
-- [MobileTrackListSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L42) (1 connections)
+- [Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L1) (6 connections)
+- [AvatarPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L22) (1 connections)
+- [CardPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L18) (1 connections)
+- [Inactive](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L48) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L4) (1 connections)
+- [TextLinePlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L26) (1 connections)
+- [TrackCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSkeletons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 11 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

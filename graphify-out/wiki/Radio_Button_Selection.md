@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailPreview.tsx#L33) (1 connections)
-- [ArtistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailPreview.tsx#L1) (1 connections)
+- [tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L1) (1 connections)
+- [shadows](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L7) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\artist\ArtistDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts)
 
 ## Audit Trail
 

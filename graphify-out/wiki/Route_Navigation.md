@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [BiometricPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx#L41) (2 connections)
-- [useTelegramBiometric.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L1) (2 connections)
-- [useTelegramBiometric()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L48) (2 connections)
-- [BiometricPrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx#L1) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L30) (1 connections)
+- [pro-badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L1) (4 connections)
+- [ProBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L38) (1 connections)
+- [ProFeatureIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L59) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L32) (1 connections)
+- [variantConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -16,13 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\advanced\BiometricPrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramBiometric.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pro-badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (75%)
-- INFERRED: 2 (25%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

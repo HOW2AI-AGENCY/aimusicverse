@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L1) (1 connections)
-- [VARIANT_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L174) (1 connections)
+- [UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L1) (1 connections)
+- [UnifiedStudioMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx)
 
 ## Audit Trail
 

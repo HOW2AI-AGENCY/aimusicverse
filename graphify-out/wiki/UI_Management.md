@@ -1,45 +1,35 @@
 # UI Management
 
-> 156 nodes · cohesion 0.02
+> 121 nodes · cohesion 0.02
 
 ## Key Concepts
 
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L32) (34 connections)
-- [LyricsEditorMetricsOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L1) (21 connections)
-- [GuitarTuner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarTuner.tsx#L1) (17 connections)
-- [performance-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance-utils.ts#L1) (14 connections)
-- [migrate-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L1) (13 connections)
-- [ExportMixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L1) (13 connections)
-- [lyricsCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L1) (12 connections)
-- [update-badges.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/update-badges.mjs#L1) (11 connections)
-- [track-bundle-size.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/track-bundle-size.js#L1) (8 connections)
-- [formatters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/formatters.ts#L1) (8 connections)
-- [storage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/storage.ts#L1) (8 connections)
-- [validate-sprint-002.ts](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L1) (8 connections)
-- [analyzeBundleSizes()](file:///D:/.MUSICVERSE/aimusicverse/scripts/track-bundle-size.js#L70) (7 connections)
-- [main()](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L380) (7 connections)
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/debug/index.ts#L1) (6 connections)
-- [getDB()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L28) (6 connections)
-- [memoize()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance-utils.ts#L115) (6 connections)
-- [getCacheKey()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L61) (5 connections)
-- [setCachedLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L112) (5 connections)
-- [addResult()](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L31) (5 connections)
-- [checkLinks()](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-links.js#L36) (4 connections)
-- [getCachedLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L68) (4 connections)
-- [migrateFile()](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L92) (4 connections)
-- [printResults()](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L323) (4 connections)
-- [validateCodeStructure()](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L111) (4 connections)
-- *... and 131 more nodes in this community*
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class AudioAnalysisServiceError {
-        +AudioAnalysisService.ts()
-        +.constructor()
-    }
-```
+- [sentry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sentry.ts#L1) (22 connections)
+- [PublicTrackDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PublicTrackDetailSheet.tsx#L1) (20 connections)
+- [StudioWaveformTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L1) (20 connections)
+- [GenerationLoadingState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationLoadingState.tsx#L1) (16 connections)
+- [useRAFThrottle.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useRAFThrottle.test.ts#L1) (15 connections)
+- [TrackVersionsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackVersionsTab.tsx#L1) (12 connections)
+- [player-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/player-utils.ts#L1) (10 connections)
+- [formatTime](file:///D:/.MUSICVERSE/aimusicverse/src/lib/player-utils.ts#L15) (4 connections)
+- [setUserContext()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sentry.ts#L453) (4 connections)
+- [init()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L69) (4 connections)
+- [detectPlatform()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sentry.ts#L92) (3 connections)
+- [initSentry()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sentry.ts#L29) (3 connections)
+- [callback](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useRAFThrottle.test.ts#L27) (3 connections)
+- [end](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useRAFThrottle.test.ts#L144) (3 connections)
+- [formatRemainingTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationLoadingState.tsx#L86) (2 connections)
+- [.group()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/logger.ts#L244) (2 connections)
+- [getBufferedPercentage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/player-utils.ts#L216) (2 connections)
+- [parseTimeToSeconds()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/player-utils.ts#L176) (2 connections)
+- [formatDurationValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PublicTrackDetailSheet.tsx#L113) (2 connections)
+- [handleCopyLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PublicTrackDetailSheet.tsx#L100) (2 connections)
+- [handleCreatorClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PublicTrackDetailSheet.tsx#L107) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PublicTrackDetailSheet.tsx#L55) (2 connections)
+- [captureAudioError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sentry.ts#L181) (2 connections)
+- [captureError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sentry.ts#L112) (2 connections)
+- [setTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sentry.ts#L482) (2 connections)
+- *... and 96 more nodes in this community*
 
 ## Relationships
 
@@ -47,26 +37,19 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\check-links.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-links.js)
-- [D:\.MUSICVERSE\aimusicverse\scripts\migrate-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js)
-- [D:\.MUSICVERSE\aimusicverse\scripts\track-bundle-size.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/track-bundle-size.js)
-- [D:\.MUSICVERSE\aimusicverse\scripts\update-badges.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/update-badges.mjs)
-- [D:\.MUSICVERSE\aimusicverse\src\components\dev\LyricsEditorMetricsOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarTuner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarTuner.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ExportMixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\debug\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/debug/index.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\formatters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/formatters.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyricsCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\performance-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance-utils.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\storage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/storage.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\AudioAnalysisService.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts)
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\klangio-analyze\index.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/klangio-analyze/index.ts)
-- [D:\.MUSICVERSE\aimusicverse\verification\validate-sprint-002.ts](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationLoadingState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationLoadingState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\PublicTrackDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PublicTrackDetailSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioWaveformTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackVersionsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackVersionsTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\logger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/logger.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\player-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/player-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\sentry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sentry.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\studio\useRAFThrottle.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useRAFThrottle.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 344 (81%)
-- INFERRED: 80 (19%)
+- EXTRACTED: 239 (92%)
+- INFERRED: 21 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

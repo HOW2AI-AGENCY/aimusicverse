@@ -1,14 +1,15 @@
 # Modal Management
 
-> 5 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [RevenueAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L1) (4 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L139) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L45) (1 connections)
-- [isPositiveChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L137) (1 connections)
-- [revenueChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L133) (1 connections)
+- [TierComparisonCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L1) (5 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L90) (1 connections)
+- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L91) (1 connections)
+- [renderValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L66) (1 connections)
+- [TIER_FEATURES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L18) (1 connections)
+- [TIERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -16,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RevenueAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\TierComparisonCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

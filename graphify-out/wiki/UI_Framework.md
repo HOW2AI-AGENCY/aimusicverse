@@ -1,15 +1,16 @@
 # UI Framework
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [GenreDistributionChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L1) (5 connections)
-- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L34) (1 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L13) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L22) (1 connections)
-- [{ PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L33) (1 connections)
-- [{ recharts, isLoading: rechartsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx#L23) (1 connections)
+- [useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L1) (6 connections)
+- [getFlagsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L158) (3 connections)
+- [useFeatureFlags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L44) (2 connections)
+- [useIsFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L151) (2 connections)
+- [FLAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L35) (1 connections)
+- [useToggleFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L62) (1 connections)
+- [useUpdateFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L111) (1 connections)
 
 ## Relationships
 
@@ -17,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\GenreDistributionChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/GenreDistributionChart.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (88%)
+- INFERRED: 2 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,12 +1,13 @@
 # Circle Geometry
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [HomeSectionGroup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L1) (2 connections)
-- [hasHeader](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L44) (1 connections)
-- [toneToClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx#L30) (1 connections)
+- [Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L1) (3 connections)
+- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L25) (1 connections)
+- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L33) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L6) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeSectionGroup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSectionGroup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

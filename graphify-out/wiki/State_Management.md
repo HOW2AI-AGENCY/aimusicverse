@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [EditableLyricsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx#L1) (1 connections)
-- [EditableLyricsContent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx#L18) (1 connections)
+- [SafeAreaContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx#L1) (1 connections)
+- [SafeAreaContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\EditableLyricsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SafeAreaContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx)
 
 ## Audit Trail
 

@@ -1,13 +1,14 @@
 # SEO Management
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L1) (3 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L43) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L29) (1 connections)
-- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L54) (1 connections)
+- [useMusicXmlParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L1) (4 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L17) (1 connections)
+- [PITCH_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L50) (1 connections)
+- [pitchToMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L60) (1 connections)
+- [useMusicXmlParser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicXmlParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

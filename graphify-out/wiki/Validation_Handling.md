@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelegramQRScanner.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L32) (1 connections)
-- [useTelegramQRScanner()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L41) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/constants.ts#L1) (2 connections)
+- [CHANNEL_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/constants.ts#L16) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/constants.ts#L124) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramQRScanner.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\prompt-dj\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/prompt-dj/constants.ts)
 
 ## Audit Trail
 

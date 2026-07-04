@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [spec-driven-developer agent](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/spec-driven-developer.md) (0 connections)
+- [Music and Sound Wave Banner Image](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.claude/agents/spec-driven-developer.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/spec-driven-developer.md)
+- [assets/banner.jpg](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L1) (6 connections)
-- [AvatarPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L22) (1 connections)
-- [CardPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L18) (1 connections)
-- [Inactive](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L48) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L4) (1 connections)
-- [TextLinePlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L26) (1 connections)
-- [TrackCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L36) (1 connections)
+- [EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L1) (6 connections)
+- [activeEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L28) (1 connections)
+- [EFFECT_COLOR_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L21) (1 connections)
+- [eqActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L36) (1 connections)
+- [eqDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L38) (1 connections)
+- [ratio](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L56) (1 connections)
+- [wetDryPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L67) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx)
 
 ## Audit Trail
 

@@ -1,18 +1,19 @@
 # Conversion Metrics
 
-> 9 nodes · cohesion 0.25
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [LyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L1) (8 connections)
-- [handleEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L32) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L26) (2 connections)
-- [[deleteConfirmId, setDeleteConfirmId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L30) (1 connections)
-- [filteredTemplates](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L36) (1 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L43) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L28) (1 connections)
-- [[selectedTemplate, setSelectedTemplate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L29) (1 connections)
-- [{ templates, isLoading, deleteTemplate }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L27) (1 connections)
+- [VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L1) (9 connections)
+- [DESKTOP_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L19) (1 connections)
+- [MOBILE_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L18) (1 connections)
+- [props](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L86) (1 connections)
+- [rowHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L77) (1 connections)
+- [shouldVirtualize](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L76) (1 connections)
+- [state](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L83) (1 connections)
+- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L82) (1 connections)
+- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L84) (1 connections)
+- [VIRTUALIZATION_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -20,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\tabs\LyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx)
 
 ## Audit Trail
 

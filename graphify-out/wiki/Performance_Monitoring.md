@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L1) (1 connections)
-- [SmartAlertProviderWrapper()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L8) (1 connections)
+- [StructurePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/StructurePicker.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/StructurePicker.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\StructurePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/StructurePicker.tsx)
 
 ## Audit Trail
 

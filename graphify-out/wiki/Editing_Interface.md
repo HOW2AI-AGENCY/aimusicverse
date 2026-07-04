@@ -1,18 +1,19 @@
 # Editing Interface
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [BundleSizeCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L1) (8 connections)
-- [bundleSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L36) (1 connections)
-- [gzipSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L37) (1 connections)
-- [prevBundleSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L38) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L41) (1 connections)
-- [progressColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L51) (1 connections)
-- [sizeDiff](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L43) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L40) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx#L45) (1 connections)
+- [ProgressSteps.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L68) (1 connections)
+- [handleStepClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L40) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L53) (1 connections)
+- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L52) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L38) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L50) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L51) (1 connections)
+- [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L37) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L164) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\performance\BundleSizeCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/BundleSizeCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ProgressSteps.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,23 +1,24 @@
 # Notification System
 
-> 14 nodes · cohesion 0.14
+> 15 nodes · cohesion 0.16
 
 ## Key Concepts
 
-- [browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L1) (13 connections)
-- [apis](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L18) (1 connections)
-- [audioSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L172) (1 connections)
-- [dimensions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L264) (1 connections)
-- [dynamicImport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L125) (1 connections)
-- [es6Support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L75) (1 connections)
-- [fetchTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L227) (1 connections)
-- [imageSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L152) (1 connections)
-- [mediaQuerySupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L280) (1 connections)
-- [perf](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L313) (1 connections)
-- [perfSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L296) (1 connections)
-- [report](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L339) (1 connections)
-- [storageTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L190) (1 connections)
-- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L255) (1 connections)
+- [ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L1) (11 connections)
+- [ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L1) (4 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L17) (4 connections)
+- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L21) (2 connections)
+- [handleWorkflowClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L117) (2 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L19) (2 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L156) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L234) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L235) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx#L18) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L236) (1 connections)
+- [professionalWorkflows](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L43) (1 connections)
+- [quickStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L106) (1 connections)
+- [StepIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L233) (1 connections)
+- [WorkflowIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L187) (1 connections)
 
 ## Relationships
 
@@ -25,11 +26,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProfessionalDashboard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 34 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

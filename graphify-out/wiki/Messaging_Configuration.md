@@ -1,13 +1,13 @@
 # Messaging Configuration
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L1) (3 connections)
-- [originalError](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L191) (1 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L128) (1 connections)
-- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L129) (1 connections)
+- [useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L1) (3 connections)
+- [useAudioSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L23) (2 connections)
+- [useAutoSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L104) (2 connections)
+- [DEFAULT_SYNC_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L21) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

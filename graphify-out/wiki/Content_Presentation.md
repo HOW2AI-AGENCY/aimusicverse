@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L1) (4 connections)
-- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L63) (1 connections)
-- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L42) (1 connections)
-- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L40) (1 connections)
-- [useStemAudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L78) (1 connections)
+- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
+- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
+- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
+- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
+- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
 
 ## Audit Trail
 

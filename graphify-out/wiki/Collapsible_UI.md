@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L1) (2 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L201) (1 connections)
-- [SUGGESTIONS_RULES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L36) (1 connections)
+- [CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L1) (2 connections)
+- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L17) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\loading\CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx)
 
 ## Audit Trail
 

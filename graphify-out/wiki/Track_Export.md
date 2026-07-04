@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useWaveform.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts#L1) (1 connections)
-- [useWaveform()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts#L31) (1 connections)
+- [useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L1) (1 connections)
+- [useSwipeActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L34) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useWaveform.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts)
 
 ## Audit Trail
 

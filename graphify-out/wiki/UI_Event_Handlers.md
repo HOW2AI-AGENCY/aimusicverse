@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L1) (8 connections)
-- [aspectClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L273) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L493) (1 connections)
-- [ListItemSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L193) (1 connections)
-- [PlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L151) (1 connections)
-- [TrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L34) (1 connections)
-- [TrackCardSkeletonCompact()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L132) (1 connections)
-- [WAVEFORM_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L14) (1 connections)
+- [UnifiedFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L1) (7 connections)
+- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L134) (1 connections)
+- [bottomStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L81) (1 connections)
+- [handleActionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L72) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L63) (1 connections)
+- [{ impact }](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L61) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L60) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\UnifiedFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedFAB.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

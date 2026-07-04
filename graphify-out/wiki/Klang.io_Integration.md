@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useUnifiedRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L1) (2 connections)
-- [AUDIO_SETTINGS_BY_MODE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L47) (1 connections)
-- [useUnifiedRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L74) (1 connections)
+- [useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L11) (1 connections)
+- [useGuitarRecordings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L45) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useUnifiedRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L1) (3 connections)
-- [createDefaultViewSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L154) (1 connections)
-- [generateId()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L152) (1 connections)
-- [TRACK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L139) (1 connections)
+- [useAddInstrumentalProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L1) (3 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L43) (1 connections)
+- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L53) (1 connections)
+- [useAddInstrumentalProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts#L63) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAddInstrumentalProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddInstrumentalProgress.ts)
 
 ## Audit Trail
 

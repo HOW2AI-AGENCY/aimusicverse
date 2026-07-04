@@ -1,22 +1,23 @@
 # Image Cropping
 
-> 13 nodes · cohesion 0.21
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L1) (12 connections)
-- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L76) (3 connections)
-- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L82) (3 connections)
-- [markSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L55) (3 connections)
-- [release](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L54) (3 connections)
-- [[claimed, setClaimed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L48) (1 connections)
-- [hasSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L50) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L49) (1 connections)
-- [{ isMobile, className: positionClass }](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L46) (1 connections)
-- [overlayOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L51) (1 connections)
-- [reg](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L47) (1 connections)
-- [request](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L53) (1 connections)
-- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L61) (1 connections)
+- [Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L1) (13 connections)
+- [handleMouseLeave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L55) (2 connections)
+- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L44) (2 connections)
+- [cardRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L25) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L60) (1 connections)
+- [[isFlipped, setIsFlipped]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L26) (1 connections)
+- [rotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L33) (1 connections)
+- [rotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L34) (1 connections)
+- [shineX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L41) (1 connections)
+- [shineY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L42) (1 connections)
+- [springRotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L37) (1 connections)
+- [springRotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L38) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L29) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -24,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 26 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

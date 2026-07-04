@@ -1,13 +1,14 @@
 # Dialog Properties
 
-> 4 nodes · cohesion 0.83
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L1) (5 connections)
-- [watermarkAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L29) (3 connections)
-- [applyWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L52) (2 connections)
-- [detectWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L59) (2 connections)
+- [useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L1) (4 connections)
+- [createDrumSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L98) (1 connections)
+- [defaultTrackEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L90) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L19) (1 connections)
+- [useDrumMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L115) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

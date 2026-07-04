@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L1) (2 connections)
-- [RadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L7) (1 connections)
-- [RadioGroupItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L15) (1 connections)
+- [ProjectDialogs()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/ProjectDialogs.tsx#L27) (2 connections)
+- [ProjectDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectDialogs.tsx#L1) (1 connections)
+- [ProjectDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/ProjectDialogs.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,8 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\ProjectDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectDialogs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\project-detail\ProjectDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/project-detail/ProjectDialogs.tsx)
 
 ## Audit Trail
 

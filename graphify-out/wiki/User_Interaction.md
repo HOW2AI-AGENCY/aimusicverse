@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useExtendTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useExtendTrack.ts#L1) (1 connections)
-- [useExtendTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useExtendTrack.ts#L17) (1 connections)
+- [useAudioActionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useAudioActionAnalysis.ts#L1) (1 connections)
+- [useAudioActionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useAudioActionAnalysis.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useExtendTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useExtendTrack.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio-reference\useAudioActionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useAudioActionAnalysis.ts)
 
 ## Audit Trail
 

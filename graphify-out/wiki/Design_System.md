@@ -1,20 +1,21 @@
 # Design System
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [AnalysisProgressStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L1) (10 connections)
-- [completedStages](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L70) (1 connections)
-- [currentStageIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L69) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L131) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L127) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L128) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L129) (1 connections)
-- [overallProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L74) (1 connections)
-- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L26) (1 connections)
-- [timeRemaining](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L77) (1 connections)
-- [totalStages](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx#L71) (1 connections)
+- [MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L1) (11 connections)
+- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L153) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L139) (2 connections)
+- [adminSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L106) (1 connections)
+- [allItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L149) (1 connections)
+- [allSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L146) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L143) (1 connections)
+- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L168) (1 connections)
+- [{ isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L142) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L140) (1 connections)
+- [menuSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L62) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L141) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AnalysisProgressStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AnalysisProgressStages.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

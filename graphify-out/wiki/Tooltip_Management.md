@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [SwipeableListItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L1) (3 connections)
-- [hasLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L45) (1 connections)
-- [hasRight](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L46) (1 connections)
-- [{ offset, isOpen, activeAction, handlers, executeAction, close }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L38) (1 connections)
+- [RecordingControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L1) (3 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L54) (1 connections)
+- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L33) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\SwipeableListItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useHeaderVersionSelector.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useHeaderVersionSelector.ts#L1) (1 connections)
-- [useHeaderVersionSelector()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useHeaderVersionSelector.ts#L10) (1 connections)
+- [useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L1) (1 connections)
+- [useMultiTrackAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\track-detail\useHeaderVersionSelector.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/track-detail/useHeaderVersionSelector.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts)
 
 ## Audit Trail
 

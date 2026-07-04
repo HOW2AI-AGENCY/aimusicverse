@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L1) (4 connections)
-- [analyticsKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L71) (1 connections)
-- [useGamificationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L117) (1 connections)
-- [usePaymentAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L80) (1 connections)
-- [useQuickPaymentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L159) (1 connections)
+- [BiometricPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx#L41) (2 connections)
+- [useTelegramBiometric.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L1) (2 connections)
+- [useTelegramBiometric()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L48) (2 connections)
+- [BiometricPrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx#L1) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L30) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\advanced\BiometricPrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramBiometric.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (75%)
+- INFERRED: 2 (25%)
 - AMBIGUOUS: 0 (0%)
 
 ---

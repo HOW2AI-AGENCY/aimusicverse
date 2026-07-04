@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L1) (2 connections)
-- [DEFAULT_PROVIDER_FOR_TYPE](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L200) (1 connections)
-- [PROVIDER_CAPABILITIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L189) (1 connections)
+- [useTelegramQRScanner.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L32) (1 connections)
+- [useTelegramQRScanner()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L41) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramQRScanner.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts)
 
 ## Audit Trail
 

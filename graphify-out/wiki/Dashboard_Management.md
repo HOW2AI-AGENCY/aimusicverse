@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/index.ts#L1) (0 connections)
+- [vitest.shims.d.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.shims.d.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\vitest.shims.d.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.shims.d.ts)
 
 ## Audit Trail
 

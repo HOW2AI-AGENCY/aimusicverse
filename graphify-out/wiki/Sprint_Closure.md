@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ProfileSetupStep4Banner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx#L1) (1 connections)
-- [ProfileSetupStep4Banner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx#L21) (1 connections)
+- [onboardingSteps.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts#L1) (1 connections)
+- [ONBOARDING_STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep4Banner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\onboardingSteps.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts)
 
 ## Audit Trail
 

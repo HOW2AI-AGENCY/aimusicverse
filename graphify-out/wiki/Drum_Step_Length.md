@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useStemTypeTranscriptionStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L1) (2 connections)
-- [useStemTranscriptionByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L104) (1 connections)
-- [useStemTypeTranscriptionStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts#L35) (1 connections)
+- [useHealthAlert.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L1) (2 connections)
+- [useForceHealthAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L16) (1 connections)
+- [useSendTestHealthAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemTypeTranscriptionStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemTypeTranscriptionStatus.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useHealthAlert.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts)
 
 ## Audit Trail
 

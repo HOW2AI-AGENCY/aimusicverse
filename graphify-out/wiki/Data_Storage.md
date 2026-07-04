@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [FirstTimeHeroCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L1) (1 connections)
-- [STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L21) (1 connections)
+- [dialog-shared.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/dialog-shared.tsx#L1) (1 connections)
+- [DialogBackdrop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/dialog-shared.tsx#L6) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\FirstTimeHeroCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\dialog-shared.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/dialog-shared.tsx)
 
 ## Audit Trail
 

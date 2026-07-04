@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L1) (4 connections)
-- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L30) (1 connections)
-- [handleClear()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L41) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L45) (1 connections)
-- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L28) (1 connections)
+- [WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L1) (4 connections)
+- [ChangeIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L15) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L39) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L52) (1 connections)
+- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx)
 
 ## Audit Trail
 

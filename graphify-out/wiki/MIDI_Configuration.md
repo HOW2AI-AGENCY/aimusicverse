@@ -1,18 +1,18 @@
 # MIDI Configuration
 
-> 9 nodes · cohesion 0.22
+> 9 nodes · cohesion 0.28
 
 ## Key Concepts
 
-- [dropdown-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L1) (8 connections)
-- [DropdownMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L7) (1 connections)
-- [DropdownMenuGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L11) (1 connections)
-- [DropdownMenuPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L13) (1 connections)
-- [DropdownMenuRadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L17) (1 connections)
-- [DropdownMenuSub](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L15) (1 connections)
-- [DropdownMenuSubContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L40) (1 connections)
-- [DropdownMenuSubTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L19) (1 connections)
-- [DropdownMenuTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L9) (1 connections)
+- [EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L1) (8 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L64) (3 connections)
+- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L53) (2 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L45) (2 connections)
+- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L33) (1 connections)
+- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L58) (1 connections)
+- [hasChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L43) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L32) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -20,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\dropdown-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

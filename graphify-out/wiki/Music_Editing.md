@@ -1,16 +1,16 @@
 # Music Editing
 
-> 7 nodes · cohesion 0.29
+> 7 nodes · cohesion 0.38
 
 ## Key Concepts
 
-- [presetIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L1) (6 connections)
-- [getLyricsPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L54) (1 connections)
-- [getProjectPresetIconById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L68) (1 connections)
-- [getTrackPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L38) (1 connections)
-- [LYRICS_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L43) (1 connections)
-- [PROJECT_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L59) (1 connections)
-- [TRACK_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L27) (1 connections)
+- [LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L1) (6 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L46) (3 connections)
+- [handleRedo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L34) (2 connections)
+- [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L24) (2 connections)
+- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L75) (1 connections)
+- [historyLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L74) (1 connections)
+- [{ undo, redo, canUndo, canRedo, getHistoryLength, getHistoryIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\presetIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

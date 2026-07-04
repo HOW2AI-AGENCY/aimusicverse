@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useAudioVisualizer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts#L1) (1 connections)
-- [useAudioVisualizer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts#L34) (1 connections)
+- [useScrollLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollLock.ts#L1) (1 connections)
+- [useScrollLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollLock.ts#L8) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useAudioVisualizer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useScrollLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollLock.ts)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [CompactPlayerButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L1) (4 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L182) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L51) (1 connections)
-- [ROUND](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L32) (1 connections)
-- [TOUCH](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx#L31) (1 connections)
+- [PatternBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L1) (4 connections)
+- [genreColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L17) (1 connections)
+- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L102) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L99) (1 connections)
+- [PatternCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\CompactPlayerButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/CompactPlayerButtons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\PatternBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx)
 
 ## Audit Trail
 

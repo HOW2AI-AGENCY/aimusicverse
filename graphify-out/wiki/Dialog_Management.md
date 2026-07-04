@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L1) (2 connections)
-- [MAX_TASKS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L17) (1 connections)
-- [useReplacementTasks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L19) (1 connections)
+- [useUserBalanceSummary.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L1) (2 connections)
+- [useUserBalanceSummary()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L5) (1 connections)
+- [useUsersWithBalances()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L13) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUserBalanceSummary.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts)
 
 ## Audit Trail
 

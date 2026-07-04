@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L1) (1 connections)
-- [useSwipeActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L34) (1 connections)
+- [WaveformCanvas.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx#L1) (1 connections)
+- [WaveformCanvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\WaveformCanvas.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx)
 
 ## Audit Trail
 

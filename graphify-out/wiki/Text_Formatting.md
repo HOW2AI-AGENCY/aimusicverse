@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [creator-avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L1) (3 connections)
-- [CreatorAvatar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L28) (1 connections)
-- [CreatorLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L87) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L21) (1 connections)
+- [ProjectReadinessIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L1) (3 connections)
+- [hasAnyMaster](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L23) (1 connections)
+- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L22) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\creator-avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectReadinessIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectReadinessIndicator.tsx)
 
 ## Audit Trail
 

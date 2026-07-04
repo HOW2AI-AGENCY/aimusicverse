@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L1) (2 connections)
-- [projectLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L18) (1 connections)
-- [useProjectStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L47) (1 connections)
+- [utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts#L4) (1 connections)
+- [cnInteractive()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts#L16) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts)
 
 ## Audit Trail
 

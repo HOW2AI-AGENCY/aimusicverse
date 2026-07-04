@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/index.ts#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\api\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/index.ts)
 
 ## Audit Trail
 

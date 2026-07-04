@@ -1,24 +1,25 @@
 # Chord Navigation
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L1) (14 connections)
-- [ChartContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L32) (1 connections)
-- [ChartContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L20) (1 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L77) (1 connections)
-- [colorConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L62) (1 connections)
-- [{ config }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L135) (1 connections)
-- [configLabelKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L305) (1 connections)
-- [indicatorColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L180) (1 connections)
-- [itemConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L179) (1 connections)
-- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L178) (1 connections)
-- [nestLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L165) (1 connections)
-- [payloadPayload](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L300) (1 connections)
-- [THEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L7) (1 connections)
-- [tooltipLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L137) (1 connections)
-- [useChart()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L22) (1 connections)
+- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L1) (7 connections)
+- [touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L1) (5 connections)
+- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L1) (3 connections)
+- [touchTarget](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L12) (3 connections)
+- [circularStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L52) (1 connections)
+- [CloseButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L229) (1 connections)
+- [CompactIconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L197) (1 connections)
+- [getTouchTargetPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L47) (1 connections)
+- [IconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L161) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L46) (1 connections)
+- [TOUCH_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L30) (1 connections)
+- [TOUCH_TARGET_MIN_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L6) (1 connections)
+- [TouchableIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L78) (1 connections)
+- [TouchableLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L124) (1 connections)
+- [TouchableListItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L284) (1 connections)
+- [validateTouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -26,11 +27,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

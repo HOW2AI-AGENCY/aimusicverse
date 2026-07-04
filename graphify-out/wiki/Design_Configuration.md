@@ -1,19 +1,19 @@
 # Design Configuration
 
-> 10 nodes · cohesion 0.20
+> 10 nodes · cohesion 0.24
 
 ## Key Concepts
 
-- [StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L1) (9 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L19) (1 connections)
-- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L63) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L60) (1 connections)
-- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L67) (1 connections)
-- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L64) (1 connections)
-- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L65) (1 connections)
-- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L61) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L29) (1 connections)
-- [trackAny](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L58) (1 connections)
+- [lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L1) (9 connections)
+- [checkFileName()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L63) (4 connections)
+- [shouldIgnore()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L59) (2 connections)
+- [walkDirectory()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L109) (2 connections)
+- [checkedFiles](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L57) (1 connections)
+- [IGNORE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L17) (1 connections)
+- [PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L43) (1 connections)
+- [SRC_DIR](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L16) (1 connections)
+- [srcPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L130) (1 connections)
+- [violations](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L56) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

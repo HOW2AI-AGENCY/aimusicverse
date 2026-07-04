@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L1) (3 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L36) (1 connections)
-- [containerSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L28) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L20) (1 connections)
+- [ProjectTracklistSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectTracklistSection.tsx#L1) (3 connections)
+- [{ attributes, listeners, setNodeRef, transform, isDragging }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectTracklistSection.tsx#L45) (1 connections)
+- [sensors](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectTracklistSection.tsx#L75) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectTracklistSection.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\ProjectTracklistSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectTracklistSection.tsx)
 
 ## Audit Trail
 

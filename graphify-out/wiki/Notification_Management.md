@@ -1,21 +1,22 @@
 # Notification Management
 
-> 12 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [AddToPlaylistSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L1) (11 connections)
-- [addToPlaylistMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L49) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L211) (1 connections)
-- [createPlaylistMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L74) (1 connections)
-- [{ data: playlists, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L28) (1 connections)
-- [{ data: trackInPlaylists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L38) (1 connections)
-- [handleCreatePlaylist()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L97) (1 connections)
-- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L25) (1 connections)
-- [isInPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L172) (1 connections)
-- [[newPlaylistName, setNewPlaylistName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L24) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L23) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L22) (1 connections)
+- [VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L1) (12 connections)
+- [finalTranscript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L92) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L95) (1 connections)
+- [interim](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L93) (1 connections)
+- [[interimTranscript, setInterimTranscript]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L60) (1 connections)
+- [[isListening, setIsListening]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L57) (1 connections)
+- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L58) (1 connections)
+- [isSupported](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L150) (1 connections)
+- [recognition](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L81) (1 connections)
+- [recognitionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L59) (1 connections)
+- [SpeechRecognitionClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L64) (1 connections)
+- [toggleListening](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L133) (1 connections)
+- [transcript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -23,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\AddToPlaylistSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [PlaylistCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L1) (2 connections)
-- [lastOne](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L148) (1 connections)
-- [lastTwo](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L147) (1 connections)
+- [BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L1) (2 connections)
+- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L30) (1 connections)
+- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\PlaylistCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx)
 
 ## Audit Trail
 

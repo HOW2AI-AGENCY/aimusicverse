@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [DeleteActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/DeleteActions.tsx#L1) (1 connections)
-- [DeleteActions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/DeleteActions.tsx#L25) (1 connections)
+- [useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L1) (1 connections)
+- [useStudioDialogState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\DeleteActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/DeleteActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts)
 
 ## Audit Trail
 

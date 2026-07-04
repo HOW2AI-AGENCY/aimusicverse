@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L1) (2 connections)
-- [mapStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L49) (1 connections)
-- [useSystemHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L60) (1 connections)
+- [skeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L1) (2 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L131) (1 connections)
+- [skeletonVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx#L4) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton.tsx)
 
 ## Audit Trail
 

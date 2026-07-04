@@ -1,11 +1,12 @@
 # Visibility Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ForecastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx#L1) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx#L19) (1 connections)
+- [a11y.axe.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/a11y.axe.spec.ts#L1) (2 connections)
+- [criticalOrSerious](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/a11y.axe.spec.ts#L26) (1 connections)
+- [results](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/a11y.axe.spec.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ForecastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ForecastPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\a11y.axe.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/a11y.axe.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

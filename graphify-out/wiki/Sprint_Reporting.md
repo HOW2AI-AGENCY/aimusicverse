@@ -1,13 +1,14 @@
 # Sprint Reporting
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [eslint.config.js](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js#L1) (3 connections)
-- [reactHooksWarnRules](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js#L55) (1 connections)
-- [restrictedImports](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js#L10) (1 connections)
-- [techDebtWarnRules](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js#L32) (1 connections)
+- [useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L1) (4 connections)
+- [useDeeplinkAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L11) (1 connections)
+- [useDeeplinkEvents()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L81) (1 connections)
+- [useDeeplinkStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L58) (1 connections)
+- [useTrackDeeplink()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L93) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\eslint.config.js](file:///D:/.MUSICVERSE/aimusicverse/eslint.config.js)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

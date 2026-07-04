@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/index.ts#L1) (0 connections)
+- [playwright.config.ts](file:///D:/.MUSICVERSE/aimusicverse/playwright.config.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\playwright.config.ts](file:///D:/.MUSICVERSE/aimusicverse/playwright.config.ts)
 
 ## Audit Trail
 

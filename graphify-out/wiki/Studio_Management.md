@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [VirtualizedProjectsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedProjectsList.tsx#L1) (0 connections)
+- [BotTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/BotTab.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedProjectsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedProjectsList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\BotTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/BotTab.tsx)
 
 ## Audit Trail
 

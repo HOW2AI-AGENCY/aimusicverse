@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useGenerateSfx.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts#L1) (1 connections)
-- [useGenerateSfx()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts#L10) (1 connections)
+- [useReferenceAudioAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useReferenceAudioAnalysis.ts#L1) (1 connections)
+- [useReferenceAudioAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useReferenceAudioAnalysis.ts#L16) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useGenerateSfx.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerateSfx.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio-reference\useReferenceAudioAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useReferenceAudioAnalysis.ts)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L1) (1 connections)
-- [backgroundUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L9) (1 connections)
+- [MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L1) (1 connections)
+- [MobileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx)
 
 ## Audit Trail
 

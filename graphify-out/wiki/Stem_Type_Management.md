@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [SafeAreaContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx#L1) (1 connections)
-- [SafeAreaContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx#L25) (1 connections)
+- [PatternBank.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx#L1) (1 connections)
+- [PatternBank](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SafeAreaContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\PatternBank.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx)
 
 ## Audit Trail
 

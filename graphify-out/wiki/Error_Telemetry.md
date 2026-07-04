@@ -1,16 +1,17 @@
 # Error Telemetry
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [RecentTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L1) (6 connections)
-- [{ activeTrack, isPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L29) (1 connections)
-- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L66) (1 connections)
-- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L97) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L27) (1 connections)
-- [recentTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L31) (1 connections)
-- [{ tracks, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx#L28) (1 connections)
+- [useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L1) (7 connections)
+- [useBatchedUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L12) (1 connections)
+- [useDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L106) (1 connections)
+- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L56) (1 connections)
+- [useRenderTracker()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L150) (1 connections)
+- [useShallowMemo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L88) (1 connections)
+- [useStableCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L140) (1 connections)
+- [useStableObject()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L176) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\RecentTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/RecentTracksSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

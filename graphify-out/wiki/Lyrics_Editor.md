@@ -1,21 +1,22 @@
 # Lyrics Editor
 
-> 12 nodes · cohesion 0.27
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [useUnifiedAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L1) (11 connections)
-- [useAnalysisByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L158) (8 connections)
-- [useBeatAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L136) (2 connections)
-- [useChordAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L143) (2 connections)
-- [useEmotionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L122) (2 connections)
-- [useFullAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L150) (2 connections)
-- [useMusicTheoryAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L115) (2 connections)
-- [useStyleAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L108) (2 connections)
-- [useTranscriptionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L129) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L20) (1 connections)
-- [useTrackAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L184) (1 connections)
-- [useUnifiedAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts#L26) (1 connections)
+- [stemMixerSlice.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts#L1) (6 connections)
+- [stemMixerSlice.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/stemMixerSlice.test.ts#L1) (5 connections)
+- [createStemMixerSlice()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts#L81) (2 connections)
+- [createTestStore()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/stemMixerSlice.test.ts#L13) (2 connections)
+- [DEFAULT_MIXER_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts#L71) (1 connections)
+- [DEFAULT_STEM_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts#L64) (1 connections)
+- [selectHasSoloStems()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts#L291) (1 connections)
+- [selectMasterControls()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts#L285) (1 connections)
+- [selectStemState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts#L282) (1 connections)
+- [defaultSelector](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/stemMixerSlice.test.ts#L240) (1 connections)
+- [{ get }](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/stemMixerSlice.test.ts#L26) (1 connections)
+- [selector](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/stemMixerSlice.test.ts#L232) (1 connections)
+- [state](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/stemMixerSlice.test.ts#L228) (1 connections)
 
 ## Relationships
 
@@ -23,12 +24,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUnifiedAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUnifiedAnalysis.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\__tests__\stemMixerSlice.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/stemMixerSlice.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\slices\stemMixerSlice.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (92%)
+- INFERRED: 2 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

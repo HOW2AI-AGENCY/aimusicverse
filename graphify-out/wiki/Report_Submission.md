@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useMidiFileParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L1) (4 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L10) (1 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L32) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L30) (1 connections)
-- [useMidiFileParser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts#L38) (1 connections)
+- [NoteCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L1) (4 connections)
+- [[editContent, setEditContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L45) (1 connections)
+- [[editType, setEditType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L46) (1 connections)
+- [handleSaveEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L49) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiFileParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiFileParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\SectionNotesPanel\NoteCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel/NoteCard.tsx)
 
 ## Audit Trail
 

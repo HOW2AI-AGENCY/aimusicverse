@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [unified-studio-perf.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L1) (29 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L212) (1 connections)
-- [{ avgFPS }](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L164) (1 connections)
-- [delta](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L380) (1 connections)
-- [droppedFramePercentage](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L328) (1 connections)
-- [event](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L337) (1 connections)
-- [finalMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L228) (1 connections)
-- [frameDrops](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L286) (1 connections)
-- [growthMB](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L264) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L220) (1 connections)
-- [initialMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L202) (1 connections)
-- [interactionFrameDrops](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L289) (1 connections)
-- [iterations](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L238) (1 connections)
-- [jsSize](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L274) (1 connections)
-- [latency](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L183) (1 connections)
-- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L149) (1 connections)
-- [lyricsSelector](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L170) (1 connections)
-- [measureInteractionLatency()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L94) (1 connections)
-- [measureLoadPerformance()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L13) (1 connections)
-- [measureScrollFPS()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L37) (1 connections)
-- [memory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L242) (1 connections)
-- [memoryGrowthMB](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L232) (1 connections)
-- [memorySamples](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L239) (1 connections)
-- [metrics](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L155) (1 connections)
-- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L178) (1 connections)
+- [library.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L1) (29 connections)
+- [accessibleCards](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L331) (1 connections)
+- [accessibleCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L335) (1 connections)
+- [actionsButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L194) (1 connections)
+- [actionsCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L198) (1 connections)
+- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L32) (1 connections)
+- [bodyBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L265) (1 connections)
+- [contentCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L40) (1 connections)
+- [emptyCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L80) (1 connections)
+- [emptyState](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L75) (1 connections)
+- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L22) (1 connections)
+- [filterCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L63) (1 connections)
+- [filters](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L59) (1 connections)
+- [focusedElement](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L322) (1 connections)
+- [h1](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L310) (1 connections)
+- [h1Count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L311) (1 connections)
+- [hasFocus](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L323) (1 connections)
+- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L23) (1 connections)
+- [hasSearch](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L112) (1 connections)
+- [hasTrack](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L169) (1 connections)
+- [inputCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L51) (1 connections)
+- [libraryContent](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L36) (1 connections)
+- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L183) (1 connections)
+- [playCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L187) (1 connections)
+- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L20) (1 connections)
 - *... and 5 more nodes in this community*
 
 ## Relationships
@@ -37,7 +37,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\studio\unified-studio-perf.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\library.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts)
 
 ## Audit Trail
 

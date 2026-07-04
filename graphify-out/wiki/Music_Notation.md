@@ -1,20 +1,28 @@
 # Music Notation
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L1) (10 connections)
-- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L61) (1 connections)
-- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L63) (1 connections)
-- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L70) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L94) (1 connections)
-- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L102) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L180) (1 connections)
-- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L92) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L88) (1 connections)
-- [projectType](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L91) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L90) (1 connections)
+- [AddToPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L1) (11 connections)
+- [[creatingNew, setCreatingNew]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L23) (1 connections)
+- [filteredPlaylists](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L41) (1 connections)
+- [handleAddToPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L47) (1 connections)
+- [handleCreateNewPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L83) (1 connections)
+- [handleOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L126) (1 connections)
+- [loading](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L38) (1 connections)
+- [[newPlaylistName, setNewPlaylistName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L24) (1 connections)
+- [{
+    playlists,
+    isLoading: playlistsLoading,
+    createPlaylist,
+    addTrackToPlaylist,
+    isCreating,
+    isAdding,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L29) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L21) (1 connections)
+- [[selectedPlaylistId, setSelectedPlaylistId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L22) (1 connections)
+- [{ success: triggerSuccessHaptic, select: triggerSelectionHaptic }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -22,11 +30,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\AddToPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,18 +1,19 @@
 # Item Management
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L82) (1 connections)
-- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L178) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L242) (1 connections)
-- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L57) (1 connections)
-- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L129) (1 connections)
-- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L130) (1 connections)
-- [isGroupStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L131) (1 connections)
-- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L241) (1 connections)
+- [ChordSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L1) (9 connections)
+- [currentChordIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L62) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L30) (1 connections)
+- [handleChordClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L67) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L76) (1 connections)
+- [handleExport](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L82) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L45) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L157) (1 connections)
+- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L48) (1 connections)
+- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ChordSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

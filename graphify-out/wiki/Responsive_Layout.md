@@ -1,13 +1,14 @@
 # Responsive Layout
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [LevelProgressCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx#L1) (3 connections)
-- [{ level, current, next, progress }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx#L21) (1 connections)
-- [tierInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx#L25) (1 connections)
-- [xpToNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx#L22) (1 connections)
+- [stateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L1) (4 connections)
+- [createMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L52) (1 connections)
+- [generationMachineConfig](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L295) (1 connections)
+- [lyricsWizardMachineConfig](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L213) (1 connections)
+- [useStateMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L143) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LevelProgressCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\stateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

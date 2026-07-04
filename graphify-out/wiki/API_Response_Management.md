@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [toast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L1) (4 connections)
-- [notify](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L44) (1 connections)
-- [stableId()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L17) (1 connections)
-- [toast](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L30) (1 connections)
-- [wrap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts#L24) (1 connections)
+- [app.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L1) (4 connections)
+- [getComingSoonFeatures()](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L65) (2 connections)
+- [APP_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L6) (1 connections)
+- [FEATURE_METADATA](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L74) (1 connections)
+- [isFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L58) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\toast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\config\app.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (89%)
+- INFERRED: 1 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

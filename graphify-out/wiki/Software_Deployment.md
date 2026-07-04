@@ -4,46 +4,32 @@
 
 ## Key Concepts
 
-- [VirtualizedTrackList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L1) (29 connections)
-- [TrackItemErrorBoundary](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L28) (6 connections)
-- [.componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L38) (2 connections)
-- [canPull](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L255) (1 connections)
-- [computeItemKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L349) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L247) (1 connections)
-- [gridComponents](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L434) (1 connections)
-- [GridContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L91) (1 connections)
-- [GridFooter](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L425) (1 connections)
-- [GridItemWrapper](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L106) (1 connections)
-- [handleGridEndReached](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L417) (1 connections)
-- [handleScroll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L336) (1 connections)
-- [handleTouchEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L308) (1 connections)
-- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L283) (1 connections)
-- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L267) (1 connections)
-- [increaseViewportBy](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L264) (1 connections)
-- [[isPulling, setIsPulling]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L252) (1 connections)
-- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L176) (1 connections)
-- [[isRefreshing, setIsRefreshing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L251) (1 connections)
-- [loadingRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L246) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L25) (1 connections)
-- [MAX_PULL](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L259) (1 connections)
-- [observer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L393) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L175) (1 connections)
-- [PULL_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L258) (1 connections)
+- [LyricsChatAssistant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L1) (28 connections)
+- [quickActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/quickActions.ts#L1) (4 connections)
+- [QuickActions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/QuickActions.tsx#L22) (3 connections)
+- [QuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/QuickActions.tsx#L1) (2 connections)
+- [getContextualQuickActions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/quickActions.ts#L171) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L63) (1 connections)
+- [aiContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L78) (1 connections)
+- [[generatedLyrics, setGeneratedLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L68) (1 connections)
+- [handleApplyLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L232) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L178) (1 connections)
+- [handleQuickActionSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L189) (1 connections)
+- [handleRecommendationSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L213) (1 connections)
+- [handleScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L137) (1 connections)
+- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L166) (1 connections)
+- [handleTagsGenerated](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L198) (1 connections)
+- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L153) (1 connections)
+- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L144) (1 connections)
+- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L65) (1 connections)
+- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L163) (1 connections)
+- [isIOS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L62) (1 connections)
+- [[isLoadingRecs, setIsLoadingRecs]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L67) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L60) (1 connections)
+- [{ keyboardHeight, isKeyboardOpen, createFocusHandler }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L75) (1 connections)
+- [{ messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L106) (1 connections)
+- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx#L64) (1 connections)
 - *... and 10 more nodes in this community*
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class TrackItemErrorBoundary {
-        +VirtualizedTrackList.tsx()
-        +.constructor()
-        +.getDerivedStateFromError()
-        +.componentDidCatch()
-        +.componentDidUpdate()
-        +.render()
-    }
-```
 
 ## Relationships
 
@@ -51,12 +37,14 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\VirtualizedTrackList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\LyricsChatAssistant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsChatAssistant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\QuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/QuickActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\quickActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/quickActions.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 68 (99%)
-- INFERRED: 1 (1%)
+- EXTRACTED: 66 (96%)
+- INFERRED: 3 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

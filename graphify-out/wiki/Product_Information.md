@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useGenerationTaskProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerationTaskProgress.ts#L1) (2 connections)
-- [INITIAL](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerationTaskProgress.ts#L17) (1 connections)
-- [useGenerationTaskProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerationTaskProgress.ts#L23) (1 connections)
+- [useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L1) (2 connections)
+- [useScrollReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L44) (1 connections)
+- [useStaggeredReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L119) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useGenerationTaskProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useGenerationTaskProgress.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts)
 
 ## Audit Trail
 

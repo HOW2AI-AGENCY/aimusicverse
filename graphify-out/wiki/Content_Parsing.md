@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [FullscreenVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx#L1) (3 connections)
-- [baseOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx#L39) (1 connections)
-- [heightPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx#L38) (1 connections)
-- [isCenter](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx#L37) (1 connections)
+- [AnalysisResultsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L1) (3 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L53) (1 connections)
+- [availableTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L57) (1 connections)
+- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\AnalysisResultsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx)
 
 ## Audit Trail
 

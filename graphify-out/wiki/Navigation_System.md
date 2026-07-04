@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [usePaymentCohortAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePaymentCohortAnalytics.ts#L1) (1 connections)
-- [usePaymentCohortAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePaymentCohortAnalytics.ts#L12) (1 connections)
+- [useMusicRecognition.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts#L1) (1 connections)
+- [useMusicRecognition()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\usePaymentCohortAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/usePaymentCohortAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicRecognition.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts)
 
 ## Audit Trail
 

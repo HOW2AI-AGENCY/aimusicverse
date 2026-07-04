@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx#L54) (1 connections)
-- [CleanStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx#L1) (1 connections)
+- [ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L1) (1 connections)
+- [ProjectSettingsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\CleanStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/CleanStudioLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx)
 
 ## Audit Trail
 

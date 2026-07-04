@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L1) (2 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L23) (1 connections)
-- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L39) (1 connections)
+- [KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L1) (2 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L41) (1 connections)
+- [visibleLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx)
 
 ## Audit Trail
 

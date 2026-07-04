@@ -1,18 +1,19 @@
 # File Validation
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L1) (3 connections)
-- [getTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L206) (3 connections)
-- [SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L1) (2 connections)
-- [TierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L21) (2 connections)
-- [EditorTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L31) (2 connections)
-- [SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L1) (1 connections)
-- [SubscriptionTierEditor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L45) (1 connections)
-- [formatPeriod()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L223) (1 connections)
-- [useSubscriptionTiers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L82) (1 connections)
+- [UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L1) (9 connections)
+- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L24) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L87) (1 connections)
+- [handleLinkTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L38) (1 connections)
+- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L51) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L25) (1 connections)
+- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L52) (1 connections)
+- [selectedSlot](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L53) (1 connections)
+- [[selectedSlots, setSelectedSlots]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L26) (1 connections)
+- [{ unlinkedTracks, isLoading, linkTrackToSlot, isLinking }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -20,14 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (75%)
-- INFERRED: 4 (25%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

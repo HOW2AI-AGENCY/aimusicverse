@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useHealthAlert.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L1) (2 connections)
-- [useForceHealthAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L16) (1 connections)
-- [useSendTestHealthAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L10) (1 connections)
+- [ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L1) (2 connections)
+- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L24) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useHealthAlert.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\workflows\ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx)
 
 ## Audit Trail
 

@@ -1,11 +1,12 @@
 # Audio Playback
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L1) (1 connections)
-- [TrackDetailDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L11) (1 connections)
+- [CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L1) (2 connections)
+- [Content()](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L20) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L5) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L1) (3 connections)
-- [calculateRMS()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L36) (1 connections)
-- [DEFAULT_LEVELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L27) (1 connections)
-- [useStemAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L47) (1 connections)
+- [collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L1) (3 connections)
+- [Collapsible](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L3) (1 connections)
+- [CollapsibleContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L7) (1 connections)
+- [CollapsibleTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L5) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx)
 
 ## Audit Trail
 

@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [CrossfadePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L1) (24 connections)
-- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L63) (1 connections)
-- [applyCrossfade](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L96) (1 connections)
-- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L68) (1 connections)
-- [{ audioRef: originalHookRef }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L49) (1 connections)
-- [{ audioRef: replacementHookRef }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L54) (1 connections)
-- [crossfadePoint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L76) (1 connections)
-- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L42) (1 connections)
-- [effectiveVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L90) (1 connections)
-- [gainNodesRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L64) (1 connections)
-- [instanceId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L46) (1 connections)
-- [isCrossfading](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L203) (1 connections)
-- [[isMuted, setIsMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L44) (1 connections)
-- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L41) (1 connections)
-- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L40) (1 connections)
-- [originalAudioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L61) (1 connections)
-- [pause](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L182) (1 connections)
-- [play](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L163) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L202) (1 connections)
-- [replacementAudioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L62) (1 connections)
-- [restart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L191) (1 connections)
-- [sectionDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L75) (1 connections)
-- [togglePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L197) (1 connections)
-- [updatePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L141) (1 connections)
-- [[volume, setVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx#L43) (1 connections)
+- [EnhancedSectionWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L1) (24 connections)
+- [bars](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L78) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L211) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L62) (1 connections)
+- [[dragStartX, setDragStartX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L64) (1 connections)
+- [endPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L92) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L297) (1 connections)
+- [getTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L96) (1 connections)
+- [handleContainerClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L166) (1 connections)
+- [handleDragStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L107) (1 connections)
+- [handleEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L149) (1 connections)
+- [handleMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L125) (1 connections)
+- [[hoveredSection, setHoveredSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L68) (1 connections)
+- [[initialEnd, setInitialEnd]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L66) (1 connections)
+- [[initialStart, setInitialStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L65) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L63) (1 connections)
+- [isHovered](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L237) (1 connections)
+- [progressPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L94) (1 connections)
+- [sectionEndPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L235) (1 connections)
+- [sectionStartPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L234) (1 connections)
+- [sectionWidthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L236) (1 connections)
+- [[showMarkers, setShowMarkers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L67) (1 connections)
+- [startPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L91) (1 connections)
+- [{ waveformData, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L71) (1 connections)
+- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx#L93) (1 connections)
 
 ## Relationships
 
@@ -36,7 +36,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\CrossfadePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/CrossfadePreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\EnhancedSectionWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/EnhancedSectionWaveform.tsx)
 
 ## Audit Trail
 

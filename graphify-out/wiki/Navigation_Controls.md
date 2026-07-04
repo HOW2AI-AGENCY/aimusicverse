@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ActiveTabIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx#L8) (1 connections)
-- [ActiveTabIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx#L1) (1 connections)
+- [SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L1) (1 connections)
+- [cleanWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\ActiveTabIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx)
 
 ## Audit Trail
 

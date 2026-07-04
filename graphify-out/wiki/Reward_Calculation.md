@@ -1,19 +1,19 @@
 # Reward Calculation
 
-> 10 nodes · cohesion 0.33
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [breadcrumb-builder.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L1) (11 connections)
-- [createBreadcrumb()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L75) (5 connections)
-- [createLocationIndicator()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L159) (5 connections)
-- [getRouteInfo()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L47) (4 connections)
-- [appendNavigationContext()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L167) (2 connections)
-- [buildBreadcrumbPath()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L54) (2 connections)
-- [createNavigationFooter()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L125) (2 connections)
-- [getCurrentLocationLabel()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L151) (2 connections)
-- [ROUTE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L9) (1 connections)
-- [ROUTE_PARENTS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts#L31) (1 connections)
+- [QuickStartCards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L1) (9 connections)
+- [FeatureTutorialDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L19) (1 connections)
+- [handleCardClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L100) (1 connections)
+- [handleTutorialAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L112) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L95) (1 connections)
+- [[pendingPreset, setPendingPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L98) (1 connections)
+- [presets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L119) (1 connections)
+- [QuickStartCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L35) (1 connections)
+- [[selectedTutorial, setSelectedTutorial]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L97) (1 connections)
+- [[tutorialOpen, setTutorialOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\breadcrumb-builder.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/breadcrumb-builder.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\QuickStartCards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (91%)
-- INFERRED: 3 (9%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

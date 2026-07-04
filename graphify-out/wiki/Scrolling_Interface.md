@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AudioRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L33) (1 connections)
-- [AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L1) (1 connections)
+- [layer-boundary.js](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js#L1) (1 connections)
+- [noSupabaseFromInComponent](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js#L14) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\eslint-rules\layer-boundary.js](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js)
 
 ## Audit Trail
 

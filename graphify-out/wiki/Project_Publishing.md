@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [TrackDetailsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L1) (8 connections)
-- [{ data: artist }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L39) (1 connections)
-- [{ data: project }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L42) (1 connections)
-- [{ data: referenceAudio }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L45) (1 connections)
-- [{ handleGenerateVideo, isProcessing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L33) (1 connections)
-- [isCoverOrExtension](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L52) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L36) (1 connections)
-- [promptAndLyricsSame](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L48) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx#L32) (1 connections)
+- [PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L1) (8 connections)
+- [bgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L84) (1 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L83) (1 connections)
+- [DEVICE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L26) (1 connections)
+- [isGood](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L42) (1 connections)
+- [isPoor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L43) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L45) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L46) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L52) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailsTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx)
 
 ## Audit Trail
 

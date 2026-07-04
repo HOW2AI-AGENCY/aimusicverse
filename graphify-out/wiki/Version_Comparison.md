@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [Heading.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L1) (4 connections)
-- [classes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L69) (1 connections)
-- [levelStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L35) (1 connections)
-- [Tag](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L67) (1 connections)
-- [truncateStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L43) (1 connections)
+- [StructureResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L1) (4 connections)
+- [parseStructureContent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L22) (2 connections)
+- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L91) (1 connections)
+- [getSectionIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L70) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L121) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Heading.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\StructureResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (89%)
+- INFERRED: 1 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

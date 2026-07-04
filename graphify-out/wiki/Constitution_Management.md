@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Bot Main Menu Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/main-menu.jpg) (0 connections)
+- [studio-entities.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/studio-entities.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [public/images/bot/main-menu.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/main-menu.jpg)
+- [D:\.MUSICVERSE\aimusicverse\src\types\studio-entities.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/studio-entities.ts)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

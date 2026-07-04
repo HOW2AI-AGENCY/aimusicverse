@@ -1,13 +1,14 @@
 # Authentication Flow
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L1) (3 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L26) (2 connections)
-- [findActiveLine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L44) (1 connections)
-- [OptimizedLyricsPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L60) (1 connections)
+- [suno-mashup.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/suno-mashup.spec.ts#L1) (4 connections)
+- [bodyText](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/suno-mashup.spec.ts#L24) (1 connections)
+- [mashupMenuItem](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/suno-mashup.spec.ts#L46) (1 connections)
+- [menuButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/suno-mashup.spec.ts#L43) (1 connections)
+- [trackCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/suno-mashup.spec.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -15,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\suno-mashup.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/suno-mashup.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

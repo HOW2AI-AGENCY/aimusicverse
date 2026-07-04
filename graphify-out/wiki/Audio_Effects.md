@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [useMixerHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L1) (3 connections)
-- [useMixerHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L70) (2 connections)
-- [useUndoRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts#L27) (2 connections)
-- [useUndoRedo.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts#L1) (1 connections)
-- [DEFAULT_STEM_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L61) (1 connections)
-- [MAX_HISTORY](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L68) (1 connections)
+- [SmartPromptSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SmartPromptSuggestions.tsx#L1) (5 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SmartPromptSuggestions.tsx#L153) (1 connections)
+- [filteredTemplates](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SmartPromptSuggestions.tsx#L148) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SmartPromptSuggestions.tsx#L172) (1 connections)
+- [PROMPT_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SmartPromptSuggestions.tsx#L31) (1 connections)
+- [[selectedCategory, setSelectedCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SmartPromptSuggestions.tsx#L146) (1 connections)
 
 ## Relationships
 
@@ -17,13 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useUndoRedo.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\stores\useMixerHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SmartPromptSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SmartPromptSuggestions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (80%)
-- INFERRED: 2 (20%)
+- EXTRACTED: 10 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

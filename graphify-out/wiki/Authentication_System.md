@@ -1,25 +1,26 @@
 # Authentication System
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [NavigationShell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L1) (15 connections)
-- [children()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L115) (1 connections)
-- [handleSidebarCollapsedChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L83) (1 connections)
-- [hasOwnBottomNav](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L50) (1 connections)
-- [isCompactDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L48) (1 connections)
-- [isDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L47) (1 connections)
-- [isMobileLandscape](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L49) (1 connections)
-- [mainMarginClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L89) (1 connections)
-- [navH](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L71) (1 connections)
-- [playerH](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L72) (1 connections)
-- [root](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L69) (1 connections)
-- [showBottomNav](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L70) (1 connections)
-- [SIDEBAR_COLLAPSED_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L22) (1 connections)
-- [[sidebarCollapsed, setSidebarCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L52) (1 connections)
-- [sidebarWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L88) (1 connections)
-- [useHasOwnBottomNav()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L25) (1 connections)
+- [VersionTree.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L1) (16 connections)
+- [handleVersionSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L48) (2 connections)
+- [activeVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L45) (1 connections)
+- [buildTree()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L67) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L102) (1 connections)
+- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L41) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L43) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L100) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L39) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L40) (1 connections)
+- [letter](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L182) (1 connections)
+- [{ setPrimaryVersionAsync, isSettingPrimary }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L42) (1 connections)
+- [TypeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L103) (1 connections)
+- [versionCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L46) (1 connections)
+- [versionTree](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L75) (1 connections)
+- [versionType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L101) (1 connections)
+- [versionTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -27,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\NavigationShell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\shared\VersionTree.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 32 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

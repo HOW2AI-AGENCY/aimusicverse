@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L1) (2 connections)
-- [mood](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L34) (1 connections)
-- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L35) (1 connections)
+- [FirstTimeHeroCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L1) (2 connections)
+- [{ safeTransition }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L44) (1 connections)
+- [STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\FirstTimeHeroCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx)
 
 ## Audit Trail
 

@@ -1,34 +1,43 @@
 # Media Editing
 
-> 26 nodes · cohesion 0.09
+> 26 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L1) (13 connections)
-- [styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L1) (11 connections)
-- [parseStyleTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L80) (4 connections)
-- [parseTrackTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L196) (3 connections)
-- [cleanTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L46) (2 connections)
-- [getDisplayTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L215) (2 connections)
-- [isValidTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L58) (2 connections)
-- [addTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L123) (2 connections)
-- [detectCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L31) (1 connections)
-- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L23) (1 connections)
-- [MOOD_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L18) (1 connections)
-- [STRUCTURE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L25) (1 connections)
-- [TEMPO_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L22) (1 connections)
-- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L20) (1 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L121) (1 connections)
-- [addBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L136) (1 connections)
-- [ADVANCED_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L112) (1 connections)
-- [BACK_VOCAL_EFFECTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L98) (1 connections)
-- [[backVocals, setBackVocals]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L120) (1 connections)
-- [clearAll](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L176) (1 connections)
-- [copyToClipboard](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L167) (1 connections)
-- [generateCompoundTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L149) (1 connections)
-- [removeBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L145) (1 connections)
-- [removeTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L132) (1 connections)
-- [[selectedTags, setSelectedTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L119) (1 connections)
+- [UnifiedTrackSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L1) (25 connections)
+- [fetchStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L91) (2 connections)
+- [{
+    actionState,
+    isProcessing,
+    dialogs,
+    closeDialog,
+    executeAction,
+    handleConfirmDelete,
+    stems,
+    enableVideoStatusFetch,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L64) (1 connections)
+- [hasHdAudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L129) (1 connections)
+- [isUpscaling](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L130) (1 connections)
+- [showAddInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L112) (1 connections)
+- [showAddVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L111) (1 connections)
+- [showCopyLink](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L121) (1 connections)
+- [showCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L108) (1 connections)
+- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L124) (1 connections)
+- [showDownloadStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L119) (1 connections)
+- [showExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L109) (1 connections)
+- [showGenerateCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L107) (1 connections)
+- [showMp3](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L117) (1 connections)
+- [showPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L122) (1 connections)
+- [showProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L123) (1 connections)
+- [showRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L110) (1 connections)
+- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L114) (1 connections)
+- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L116) (1 connections)
+- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L115) (1 connections)
+- [showStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L113) (1 connections)
+- [showTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L120) (1 connections)
+- [showTogglePublic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L125) (1 connections)
+- [showUpscaleHd](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L126) (1 connections)
+- [showWav](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L118) (1 connections)
 - *... and 1 more nodes in this community*
 
 ## Relationships
@@ -37,13 +46,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\UnifiedTrackSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 54 (95%)
-- INFERRED: 3 (5%)
+- EXTRACTED: 50 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

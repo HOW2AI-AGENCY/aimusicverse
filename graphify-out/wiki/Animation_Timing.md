@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L1) (4 connections)
-- [AnimatedIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L23) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L86) (1 connections)
-- [isTelegramApp](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L85) (1 connections)
-- [{ webApp }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L84) (1 connections)
+- [lyricsPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L1) (4 connections)
+- [getLyricsPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L151) (1 connections)
+- [getLyricsPresetsByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L156) (1 connections)
+- [getQuickLyricsPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L161) (1 connections)
+- [LYRICS_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\lyricsPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts)
 
 ## Audit Trail
 

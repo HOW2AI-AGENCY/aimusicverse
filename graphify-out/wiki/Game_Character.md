@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L1) (1 connections)
-- [useStemControls()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L20) (1 connections)
+- [useAddInstrumental.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAddInstrumental.ts#L1) (1 connections)
+- [useAddInstrumental()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAddInstrumental.ts#L25) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAddInstrumental.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAddInstrumental.ts)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [stateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L1) (4 connections)
-- [createMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L52) (1 connections)
-- [generationMachineConfig](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L295) (1 connections)
-- [lyricsWizardMachineConfig](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L213) (1 connections)
-- [useStateMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts#L143) (1 connections)
+- [tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L1) (4 connections)
+- [Tooltip](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L8) (1 connections)
+- [TooltipContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L12) (1 connections)
+- [TooltipProvider](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L6) (1 connections)
+- [TooltipTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L10) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\stateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stateMachine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx)
 
 ## Audit Trail
 

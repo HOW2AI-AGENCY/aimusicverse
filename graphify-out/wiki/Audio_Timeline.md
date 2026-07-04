@@ -1,62 +1,26 @@
 # Audio Timeline
 
-> 16 nodes · cohesion 0.12
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L1) (15 connections)
-- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L93) (1 connections)
-- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L25) (1 connections)
-- [getAvailableKits()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L194) (1 connections)
-- [getPresetPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L271) (1 connections)
-- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L67) (1 connections)
-- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L75) (1 connections)
-- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L104) (1 connections)
-- [handleRecord](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L118) (1 connections)
-- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L113) (1 connections)
-- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L152) (1 connections)
-- [handleTrackVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L130) (1 connections)
-- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L138) (1 connections)
-- [{
-    isReady,
-    isPlaying,
-    currentStep,
-    bpm,
-    swing,
-    volume,
-    currentKit,
-    pattern,
-    soloTracks,
-    mutedTracks,
-    stepLength,
-    recordingState,
-    recordedAudioUrl,
-    recordedAudioBlob,
-    trackEffects,
-    initialize,
-    play,
-    stop,
-    toggleStep,
-    triggerSound,
-    setBpm,
-    setSwing,
-    setVolume,
-    setKit,
-    loadPattern,
-    clearPattern,
-    toggleSolo,
-    toggleMute,
-    getAvailableKits,
-    getPresetPatterns,
-    setStepLength,
-    startRecording,
-    stopRecording,
-    clearRecording,
-    setTrackEffect,
-    exportToMidi,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L27) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L23) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L24) (1 connections)
+- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L1) (15 connections)
+- [handleCopy()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L103) (3 connections)
+- [getSectionTypeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L36) (2 connections)
+- [renderSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L114) (2 connections)
+- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/services/studio.service.ts#L58) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L92) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L335) (1 connections)
+- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L91) (1 connections)
+- [hasNoTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L101) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L257) (1 connections)
+- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L256) (1 connections)
+- [parsed](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L95) (1 connections)
+- [proAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L98) (1 connections)
+- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L139) (1 connections)
+- [TAG_TYPE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L24) (1 connections)
+- [TAG_TYPE_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L41) (1 connections)
+- [tagType](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L255) (1 connections)
 
 ## Relationships
 
@@ -64,12 +28,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\studio.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/studio.service.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 31 (86%)
+- INFERRED: 5 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [useWaveformCache.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L1) (6 connections)
-- [before](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L97) (1 connections)
-- [entry](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L29) (1 connections)
-- [entryA](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L83) (1 connections)
-- [entryB](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L84) (1 connections)
-- [peaks](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L23) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts#L22) (1 connections)
+- [VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L1) (6 connections)
+- [buttonSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L44) (1 connections)
+- [currentLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L42) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L29) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L48) (1 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L43) (1 connections)
+- [isStudioVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\studio\useWaveformCache.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useWaveformCache.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [TrackInfo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L1) (4 connections)
-- [hasCreator](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L35) (1 connections)
-- [publicTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L34) (1 connections)
-- [styleClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L43) (1 connections)
-- [titleClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx#L37) (1 connections)
+- [AiSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L1) (4 connections)
+- [defaultSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L17) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L35) (1 connections)
+- [listVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L30) (1 connections)
+- [prefersReducedMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackInfo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackInfo.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\AiSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AiSuggestions.tsx)
 
 ## Audit Trail
 

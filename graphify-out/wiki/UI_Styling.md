@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ReferenceAnalysisDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAnalysisDisplay.tsx#L1) (1 connections)
-- [renderStatusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAnalysisDisplay.tsx#L28) (1 connections)
+- [TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L1) (1 connections)
+- [TrackDetailDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L11) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceAnalysisDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAnalysisDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx)
 
 ## Audit Trail
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [TelegramTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/TelegramTab.tsx#L1) (2 connections)
-- [TelegramTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/TelegramTab.tsx#L24) (2 connections)
-- [TELEGRAM_FEATURES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/TelegramTab.tsx#L15) (1 connections)
+- [useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L1) (2 connections)
+- [useWorkflowEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L104) (1 connections)
+- [WORKFLOWS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -14,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\TelegramTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/TelegramTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (80%)
-- INFERRED: 1 (20%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

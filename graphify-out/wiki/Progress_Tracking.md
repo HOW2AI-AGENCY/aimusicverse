@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useSunoUploadCover.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadCover.ts#L1) (1 connections)
-- [useSunoUploadCover()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadCover.ts#L12) (1 connections)
+- [useExtendMusic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useExtendMusic.ts#L1) (1 connections)
+- [useExtendMusic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useExtendMusic.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useSunoUploadCover.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSunoUploadCover.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useExtendMusic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useExtendMusic.ts)
 
 ## Audit Trail
 

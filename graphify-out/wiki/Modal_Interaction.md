@@ -1,17 +1,18 @@
 # Modal Interaction
 
-> 8 nodes · cohesion 0.25
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L1) (7 connections)
-- [Breadcrumb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L7) (1 connections)
-- [BreadcrumbEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L69) (1 connections)
-- [BreadcrumbItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L29) (1 connections)
-- [BreadcrumbList](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L15) (1 connections)
-- [BreadcrumbPage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L48) (1 connections)
-- [BreadcrumbSeparator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L62) (1 connections)
-- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L42) (1 connections)
+- [useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L1) (8 connections)
+- [defaultProps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L19) (1 connections)
+- [largeTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L260) (1 connections)
+- [lineIndex](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L189) (1 connections)
+- [mockTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L11) (1 connections)
+- [onActiveLineChange](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L205) (1 connections)
+- [{ rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L207) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L32) (1 connections)
+- [seekTime](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L169) (1 connections)
 
 ## Relationships
 
@@ -19,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\lyrics\useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

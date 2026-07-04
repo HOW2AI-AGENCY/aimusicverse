@@ -1,16 +1,17 @@
 # Configuration Health
 
-> 7 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L1) (6 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L136) (1 connections)
-- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L80) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L78) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L77) (1 connections)
-- [ProjectPresetCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L22) (1 connections)
-- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L90) (1 connections)
+- [useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L1) (7 connections)
+- [cacheHits](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L50) (1 connections)
+- [cacheMisses](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L51) (1 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L40) (1 connections)
+- [formatCacheSize()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L280) (1 connections)
+- [globalCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L48) (1 connections)
+- [totalCacheSize](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L49) (1 connections)
+- [useAudioBufferCache()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L53) (1 connections)
 
 ## Relationships
 
@@ -18,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L1) (2 connections)
-- [ResponsiveContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L56) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx#L47) (1 connections)
+- [SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L1) (2 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L22) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\responsive-container\responsive-container.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/responsive-container/responsive-container.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx)
 
 ## Audit Trail
 

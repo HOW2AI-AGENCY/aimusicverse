@@ -1,24 +1,25 @@
 # Musical Timing
 
-> 15 nodes · cohesion 0.13
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [TipsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L1) (14 connections)
-- [allTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L44) (1 connections)
-- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L102) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L193) (1 connections)
-- [[completedTips, setCompletedTips]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L124) (1 connections)
-- [currentTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L129) (1 connections)
-- [[currentTipIndex, setCurrentTipIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L122) (1 connections)
-- [filteredTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L127) (1 connections)
-- [handleMarkComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L136) (1 connections)
-- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L132) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L253) (1 connections)
-- [isCarousel](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L130) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L254) (1 connections)
-- [[isDismissed, setIsDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L123) (1 connections)
-- [levelBadgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx#L109) (1 connections)
+- [StudioArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L1) (15 connections)
+- [addInstrumentalMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L49) (1 connections)
+- [[audioWeight, setAudioWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L60) (1 connections)
+- [handleGenerate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L66) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L51) (1 connections)
+- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L56) (1 connections)
+- [PRESET_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L30) (1 connections)
+- [selectPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L119) (1 connections)
+- [{ session }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L48) (1 connections)
+- [[showAdvanced, setShowAdvanced]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L59) (1 connections)
+- [[step, setStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L50) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L55) (1 connections)
+- [[styleWeight, setStyleWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L61) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L54) (1 connections)
+- [vocalAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L64) (1 connections)
+- [[weirdness, setWeirdness]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -26,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\TipsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/TipsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

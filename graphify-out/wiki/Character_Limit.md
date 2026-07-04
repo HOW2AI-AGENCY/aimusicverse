@@ -1,13 +1,14 @@
 # Character Limit
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L1) (3 connections)
-- [is4K](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L55) (1 connections)
-- [isUltraWide](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L54) (1 connections)
-- [maxWidthClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L29) (1 connections)
+- [Skeleton.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L1) (4 connections)
+- [Card](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L22) (1 connections)
+- [Circle](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L18) (1 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L14) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L4) (1 connections)
 
 ## Relationships
 
@@ -15,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Skeleton.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

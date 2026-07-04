@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [NotificationBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationBanner.tsx#L1) (2 connections)
-- [{ id, title, message, action, type, priority }](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationBanner.tsx#L20) (1 connections)
-- [typeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationBanner.tsx#L22) (1 connections)
+- [StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L1) (2 connections)
+- [StatCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L17) (1 connections)
+- [StatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\StatCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StatCard.tsx)
 
 ## Audit Trail
 

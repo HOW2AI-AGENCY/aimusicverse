@@ -1,69 +1,30 @@
 # LED Display Control
 
-> 21 nodes · cohesion 0.11
+> 21 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L1) (11 connections)
-- [logError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L140) (5 connections)
-- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L8) (3 connections)
-- [isAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L99) (3 connections)
-- [.toJSON()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L25) (2 connections)
-- [AuthError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L53) (2 connections)
-- [getUserErrorMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L106) (2 connections)
-- [NetworkError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L44) (2 connections)
-- [NotFoundError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L60) (2 connections)
-- [PermissionError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L67) (2 connections)
-- [RateLimitError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L74) (2 connections)
-- [ServiceUnavailableError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L83) (2 connections)
-- [ValidationError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L37) (2 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L9) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L54) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L45) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L61) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L68) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L75) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L84) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L38) (1 connections)
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class AppError {
-        +errors.ts()
-        +.constructor()
-        +.toJSON()
-    }
-    class AuthError {
-        +errors.ts()
-        +.constructor()
-    }
-    class NetworkError {
-        +errors.ts()
-        +.constructor()
-    }
-    class NotFoundError {
-        +errors.ts()
-        +.constructor()
-    }
-    class PermissionError {
-        +errors.ts()
-        +.constructor()
-    }
-    class RateLimitError {
-        +errors.ts()
-        +.constructor()
-    }
-    class ServiceUnavailableError {
-        +errors.ts()
-        +.constructor()
-    }
-    class ValidationError {
-        +errors.ts()
-        +.constructor()
-    }
-```
+- [BottomNavigation.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L1) (20 connections)
+- [activeGenCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L42) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L184) (1 connections)
+- [{ data: activeGenerations = [] }](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L41) (1 connections)
+- [dismissHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L74) (1 connections)
+- [frame](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L46) (1 connections)
+- [[generateOpen, setGenerateOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L39) (1 connections)
+- [GenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L14) (1 connections)
+- [handleGenerateClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L79) (1 connections)
+- [handleNavigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L50) (1 connections)
+- [handlePreload](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L85) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L37) (1 connections)
+- [hasSeenHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L65) (1 connections)
+- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L94) (1 connections)
+- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L40) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L36) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L35) (1 connections)
+- [navItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L26) (1 connections)
+- [[showCreateHint, setShowCreateHint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L62) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L67) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -71,12 +32,12 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\BottomNavigation.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (96%)
-- INFERRED: 2 (4%)
+- EXTRACTED: 40 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

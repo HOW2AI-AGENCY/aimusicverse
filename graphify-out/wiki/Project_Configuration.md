@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useHomePageEffects.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHomePageEffects.ts#L1) (1 connections)
-- [useHomePageEffects()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHomePageEffects.ts#L18) (1 connections)
+- [SkeletonPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SkeletonPage.tsx#L1) (1 connections)
+- [PageHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SkeletonPage.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useHomePageEffects.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHomePageEffects.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\SkeletonPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SkeletonPage.tsx)
 
 ## Audit Trail
 

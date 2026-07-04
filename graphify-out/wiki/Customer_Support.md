@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [comment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/comment.ts#L1) (0 connections)
+- [starsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/starsPayment.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\comment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/comment.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\types\starsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/starsPayment.ts)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

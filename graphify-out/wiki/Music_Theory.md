@@ -1,12 +1,13 @@
 # Music Theory
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L1) (2 connections)
-- [DesktopDashboardLayout](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L36) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L29) (1 connections)
+- [Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L1) (3 connections)
+- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L21) (1 connections)
+- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L18) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L6) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

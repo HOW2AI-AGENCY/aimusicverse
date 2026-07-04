@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L1) (9 connections)
-- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L37) (1 connections)
-- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L65) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L83) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L70) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L55) (1 connections)
-- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L38) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L36) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L89) (1 connections)
-- [titleSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L95) (1 connections)
+- [ModerationReportsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L1) (9 connections)
+- [{ data: reports, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L42) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L43) (1 connections)
+- [handleQuickAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L46) (1 connections)
+- [REASON_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L32) (1 connections)
+- [STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L25) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L124) (1 connections)
+- [[statusFilter, setStatusFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L41) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L126) (1 connections)
+- [updateStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\ModerationReportsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx)
 
 ## Audit Trail
 

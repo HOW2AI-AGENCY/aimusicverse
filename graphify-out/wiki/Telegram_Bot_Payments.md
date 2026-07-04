@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [KitSelectorPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/KitSelectorPro.tsx#L1) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\KitSelectorPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/KitSelectorPro.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\features\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/index.ts)
 
 ## Audit Trail
 

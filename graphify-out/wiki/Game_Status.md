@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useThemeIdea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts#L1) (1 connections)
-- [useThemeIdea()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts#L11) (1 connections)
+- [useContentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useContentAnalytics.ts#L1) (1 connections)
+- [useContentAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useContentAnalytics.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useThemeIdea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useContentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useContentAnalytics.ts)
 
 ## Audit Trail
 

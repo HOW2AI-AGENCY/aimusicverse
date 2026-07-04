@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useStemStudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L1) (4 connections)
-- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L25) (1 connections)
-- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L17) (1 connections)
-- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L15) (1 connections)
-- [useStemStudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L58) (1 connections)
+- [accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L1) (4 connections)
+- [Accordion](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L7) (1 connections)
+- [AccordionContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L37) (1 connections)
+- [AccordionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L9) (1 connections)
+- [AccordionTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemStudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx)
 
 ## Audit Trail
 

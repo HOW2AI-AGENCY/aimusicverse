@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Backend & Database Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/backend.agent.md) (0 connections)
+- [Storybook Banner Image](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/agents/backend.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/backend.agent.md)
+- [assets/banner.jpg](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

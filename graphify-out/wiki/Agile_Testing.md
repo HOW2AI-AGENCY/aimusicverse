@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [useUnifiedStudioStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useUnifiedStudioStore.ts#L1) (0 connections)
+- [Tutorials Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/tutorials.svg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\useUnifiedStudioStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useUnifiedStudioStore.ts)
+- [stories/assets/tutorials.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/tutorials.svg)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

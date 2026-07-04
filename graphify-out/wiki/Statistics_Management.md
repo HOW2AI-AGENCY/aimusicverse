@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [TierPricingSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierPricingSection.tsx#L1) (0 connections)
+- [useTrackData.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackData.contract.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierPricingSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierPricingSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\specs\001-ui-refactor\contracts\useTrackData.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackData.contract.ts)
 
 ## Audit Trail
 

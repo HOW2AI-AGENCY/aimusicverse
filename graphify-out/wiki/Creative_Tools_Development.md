@@ -1,20 +1,21 @@
 # Creative Tools Development
 
-> 11 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [GenerationProgressStage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L1) (10 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L91) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L33) (1 connections)
-- [getStageInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L22) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L42) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L128) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L43) (1 connections)
-- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L44) (1 connections)
-- [StageIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L129) (1 connections)
-- [stageInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L41) (1 connections)
-- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx#L14) (1 connections)
+- [MobileBottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L1) (11 connections)
+- [backdropOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L46) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L124) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L42) (1 connections)
+- [currentHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L48) (1 connections)
+- [[currentSnap, setCurrentSnap]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L43) (1 connections)
+- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L26) (1 connections)
+- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L84) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L50) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L41) (1 connections)
+- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L27) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -22,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationProgressStage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationProgressStage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileBottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

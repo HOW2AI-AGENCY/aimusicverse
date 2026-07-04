@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [VoiceCloneService.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L1) (9 connections)
-- [BASE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L12) (1 connections)
-- [calls](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L171) (1 connections)
-- [controller](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L146) (1 connections)
-- [{ getRecommendedSegmentTimes }](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L340) (1 connections)
-- [mockFetch()](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L21) (1 connections)
-- [originalFetch](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L31) (1 connections)
-- [out](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L341) (1 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L47) (1 connections)
-- [svc](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts#L45) (1 connections)
+- [SmartSuggestionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L1) (9 connections)
+- [energy](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L55) (1 connections)
+- [ENERGY_BADGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L40) (1 connections)
+- [energyBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L56) (1 connections)
+- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L58) (1 connections)
+- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L62) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L53) (1 connections)
+- [iconColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L54) (1 connections)
+- [TYPE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L32) (1 connections)
+- [TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\voice\__tests__\VoiceCloneService.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/voice/__tests__/VoiceCloneService.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\SmartSuggestionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartSuggestionCard.tsx)
 
 ## Audit Trail
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StarsPaymentButton.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L1) (2 connections)
-- [button](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L20) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L17) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L1) (2 connections)
+- [ACTIVE_REFERENCE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L75) (1 connections)
+- [REFERENCE_EXPIRY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L78) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\StarsPaymentButton.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts)
 
 ## Audit Trail
 

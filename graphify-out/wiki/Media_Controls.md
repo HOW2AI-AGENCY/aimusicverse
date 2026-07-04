@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L1) (2 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L19) (1 connections)
-- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L20) (1 connections)
+- [UnifiedAnalysisCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L1) (2 connections)
+- [getInstrumentIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L34) (1 connections)
+- [instrumentIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\UnifiedAnalysisCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx)
 
 ## Audit Trail
 

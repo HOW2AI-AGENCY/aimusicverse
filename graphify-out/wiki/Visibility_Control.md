@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L1) (6 connections)
-- [EXCLUDED_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L17) (1 connections)
-- [historyLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L14) (1 connections)
-- [selectCanRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L94) (1 connections)
-- [selectCanUndo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L89) (1 connections)
-- [selectHistoryState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L79) (1 connections)
-- [useStudioHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L28) (1 connections)
+- [ProfileSetupStep2About.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep2About.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep2About.tsx#L101) (1 connections)
+- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep2About.tsx#L19) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep2About.tsx#L70) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep2About.tsx#L71) (1 connections)
+- [ProfileSetupStep2About()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep2About.tsx#L34) (1 connections)
+- [ROLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep2About.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep2About.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep2About.tsx)
 
 ## Audit Trail
 

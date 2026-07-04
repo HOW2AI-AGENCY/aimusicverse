@@ -1,15 +1,16 @@
 # User Blocking
 
-> 6 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [CampaignPerformance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L1) (5 connections)
-- [CHART_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L32) (1 connections)
-- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L47) (1 connections)
-- [labels](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L154) (1 connections)
-- [sortedCampaigns](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L42) (1 connections)
-- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx#L58) (1 connections)
+- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L1) (6 connections)
+- [displayCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L40) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L42) (1 connections)
+- [showBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L39) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L49) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L130) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -17,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\CampaignPerformance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

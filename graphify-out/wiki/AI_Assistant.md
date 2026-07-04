@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L1) (3 connections)
-- [useAdminModerationReports()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L32) (1 connections)
-- [useModerationStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L111) (1 connections)
-- [useUpdateReportStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L74) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L1) (3 connections)
+- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L68) (1 connections)
+- [TAG_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L82) (1 connections)
+- [UI_TRANSLATIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts)
 
 ## Audit Trail
 

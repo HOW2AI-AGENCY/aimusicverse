@@ -1,13 +1,13 @@
 # Session Management
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useMobileHaptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L1) (3 connections)
-- [isHapticSupported()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L40) (2 connections)
-- [useMobileHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L50) (2 connections)
-- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L38) (1 connections)
+- [useAudioWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts#L24) (2 connections)
+- [WatermarkActions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L17) (2 connections)
+- [WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L1) (1 connections)
+- [useAudioWatermark.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts#L1) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useMobileHaptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioWatermark.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioWatermark.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (67%)
+- INFERRED: 2 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

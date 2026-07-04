@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/index.ts#L1) (0 connections)
+- [UnifiedScreenLayout.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/UnifiedScreenLayout.contract.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\specs\001-unified-interface\contracts\UnifiedScreenLayout.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/UnifiedScreenLayout.contract.ts)
 
 ## Audit Trail
 

@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L1) (12 connections)
-- [bgClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L141) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L137) (1 connections)
-- [displayLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L139) (1 connections)
-- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L144) (1 connections)
-- [isCustomIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L145) (1 connections)
-- [isSpinning](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L146) (1 connections)
-- [s](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L163) (1 connections)
-- [shouldPulse](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L140) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L148) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L224) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L51) (1 connections)
-- [textClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L142) (1 connections)
+- [ExperimentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L1) (12 connections)
+- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L216) (1 connections)
+- [conversions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L215) (1 connections)
+- [experiments](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L65) (1 connections)
+- [isWinner](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L217) (1 connections)
+- [MOCK_RESULTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L29) (1 connections)
+- [participants](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L214) (1 connections)
+- [[selectedExperiment, setSelectedExperiment]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L62) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L76) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L177) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L170) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L178) (1 connections)
+- [totalParticipants](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L180) (1 connections)
 
 ## Relationships
 
@@ -24,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ExperimentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx)
 
 ## Audit Trail
 

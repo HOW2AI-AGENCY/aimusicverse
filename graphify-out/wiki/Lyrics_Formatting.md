@@ -1,18 +1,19 @@
 # Lyrics Formatting
 
-> 9 nodes · cohesion 0.22
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L1) (8 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L94) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L96) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L36) (1 connections)
-- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L37) (1 connections)
-- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L38) (1 connections)
-- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L95) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L19) (1 connections)
-- [stemTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L40) (1 connections)
+- [LyricsEditor.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L1) (9 connections)
+- [baseProps](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L20) (1 connections)
+- [historyEntry](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L99) (1 connections)
+- [newSections](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L51) (1 connections)
+- [onHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L77) (1 connections)
+- [{ onHaptic: _onHaptic, ...props }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L92) (1 connections)
+- [onOpenAi](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L76) (1 connections)
+- [onRestoreFromHistory](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L98) (1 connections)
+- [props](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L79) (1 connections)
+- [sampleSection](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -20,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\__tests__\LyricsEditor.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

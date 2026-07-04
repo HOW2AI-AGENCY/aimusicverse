@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L1) (3 connections)
-- [GAMIFICATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L73) (1 connections)
-- [GENERATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L24) (1 connections)
-- [SOCIAL_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L51) (1 connections)
+- [GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L1) (3 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L29) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L30) (1 connections)
+- [isUpcoming](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx)
 
 ## Audit Trail
 
