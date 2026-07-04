@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useGuestMode } from "@/contexts/GuestModeContext";
@@ -13,11 +13,15 @@ import { LazyImage } from "@/components/ui/lazy-image";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { isAuthenticated, loading, authenticateWithTelegram } = useAuth();
   const { webApp, user, isInitialized, isDevelopmentMode } = useTelegram();
   const { enableGuestMode } = useGuestMode();
-  // Removed showSplash - splash is handled by index.html fallback + Suspense
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  // Preserve `next` for OAuth consent round-trips. Only same-origin relative paths.
+  const rawNext = searchParams.get("next");
+  const nextPath = rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
 
   const handleAuth = async () => {
     setIsAuthenticating(true);
@@ -25,21 +29,20 @@ const Auth = () => {
     setIsAuthenticating(false);
 
     if (result?.session) {
-      // Navigate to main page - onboarding is handled via OnboardingOverlay
-      navigate("/", { replace: true });
+      navigate(nextPath, { replace: true });
     }
   };
 
   const handleGuestMode = () => {
     enableGuestMode();
-    navigate("/", { replace: true });
+    navigate(nextPath, { replace: true });
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/", { replace: true });
+      navigate(nextPath, { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, nextPath]);
 
   // Splash logic removed - handled by index.html + Suspense fallback
 
