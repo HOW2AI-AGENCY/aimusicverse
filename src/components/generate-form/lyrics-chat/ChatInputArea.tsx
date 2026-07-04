@@ -16,6 +16,13 @@ interface ChatInputAreaProps {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  /**
+   * Optional callback used by callers (e.g. LyricsAssistantSheet in
+   * Sprint 056) that want to be notified when the input applies its
+   * content. Not invoked by this component — purely a pass-through
+   * so consumers can read `onApply` from props if needed.
+   */
+  onApply?: (text: string, targetSectionId?: string) => void;
 }
 
 export const ChatInputArea = memo(
@@ -29,6 +36,7 @@ export const ChatInputArea = memo(
     placeholder = "Напишите о чём песня...",
     disabled = false,
     className,
+    onApply: _onApply,
   }: ChatInputAreaProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
