@@ -3,7 +3,13 @@ import type { FeatureKey } from "./FeatureDescriptions";
 export type AlertType = "error" | "warning" | "info" | "success" | "onboarding";
 
 export type AlertIllustration =
-  "server-busy" | "empty-projects" | "profile-setup" | "stems-ready" | "artist-create" | "reward" | "welcome-back";
+  | "server-busy"
+  | "empty-projects"
+  | "profile-setup"
+  | "stems-ready"
+  | "artist-create"
+  | "reward"
+  | "welcome-back";
 
 export interface AlertAction {
   label: string;

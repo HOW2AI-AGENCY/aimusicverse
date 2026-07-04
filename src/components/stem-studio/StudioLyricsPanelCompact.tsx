@@ -39,7 +39,15 @@ interface LyricLine {
 
 // Section tag types for styling
 type SectionTagType =
-  "verse" | "chorus" | "bridge" | "intro" | "outro" | "pre-chorus" | "hook" | "instrumental" | "unknown";
+  | "verse"
+  | "chorus"
+  | "bridge"
+  | "intro"
+  | "outro"
+  | "pre-chorus"
+  | "hook"
+  | "instrumental"
+  | "unknown";
 
 const SECTION_TAG_COLORS: Record<SectionTagType, string> = {
   verse: "bg-blue-500/20 text-blue-400 border-blue-500/30",

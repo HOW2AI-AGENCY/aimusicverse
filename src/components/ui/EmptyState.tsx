@@ -12,7 +12,14 @@ import { Search, Library, Music2, FolderOpen, Disc3, ListMusic, AlertTriangle, t
 
 // ── Types ──────────────────────────────────────────────────────────
 export type EmptyStateVariant =
-  "search" | "library" | "tracks" | "projects" | "generations" | "artists" | "playlists" | "error";
+  | "search"
+  | "library"
+  | "tracks"
+  | "projects"
+  | "generations"
+  | "artists"
+  | "playlists"
+  | "error";
 
 export interface EmptyStateAction {
   label: string;

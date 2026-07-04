@@ -254,7 +254,8 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
       const normalized = {
         midiUrl: (data?.files?.midi || data?.files?.midi_url || data?.midi_url || null) as string | null,
         midiQuantUrl: (data?.files?.midi_quant || data?.files?.midi_quant_url || data?.midi_quant_url || null) as
-          string | null,
+          | string
+          | null,
         mxmlUrl: (data?.files?.mxml ||
           data?.files?.musicxml ||
           data?.files?.musicxml_url ||
