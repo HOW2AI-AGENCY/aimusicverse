@@ -1,245 +1,92 @@
-import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { usePlanTrackStore } from "@/stores/planTrackStore";
-import { useGenerateDraft, useAudioReference } from "@/hooks/generation";
-import { useUserCredits } from "@/hooks/useUserCredits";
-import { useAnalyticsTracking } from "@/hooks/useAnalyticsTracking";
-import { useAutomaticRetry } from "@/hooks/useAutomaticRetry";
-import { toast } from "sonner";
-import { DEFAULT_STYLE_WEIGHT, DEFAULT_WEIRDNESS, DEFAULT_AUDIO_WEIGHT } from "@/constants/generationConstants";
-import { addUserActionBreadcrumb } from "@/lib/sentry";
-import type { ProjectRow } from "@/api/projects.api";
-import type { ArtistRow } from "@/api/artists.api";
-import type { TrackRow } from "@/api/tracks.api";
-
-// Wizard mode removed for UX simplification - only 2 modes now
-export type GenerationMode = "simple" | "custom";
-
-export interface GenerateFormState {
-  mode: GenerationMode;
-  description: string;
-  title: string;
-  lyrics: string;
-  style: string;
-  hasVocals: boolean;
-  model: string;
-  negativeTags: string;
-  vocalGender: "" | "m" | "f";
-  styleWeight: number[];
-  weirdnessConstraint: number[];
-  audioWeight: number[];
-  selectedProjectId?: string;
-  selectedTrackId?: string;
-  selectedArtistId?: string;
-  audioFile: File | null;
-  planTrackId?: string;
-}
-
-export interface UseGenerateFormProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  initialProjectId?: string;
-  projects?: ProjectRow[];
-  artists?: ArtistRow[];
-  allTracks?: TrackRow[];
-}
-
 /**
- * Core state management for the generation form.
- * Returns all state variables, setters, and external hook integrations.
+ * Sprint 056 — Generate Sheet UX Redesign (Task 1).
+ *
+ * State slice of the generation form.
+ *
+ * Wraps the existing internal `useGenerateFormStateInternal` hook and
+ * re-shapes its return to match the brief's `UseGenerateFormStateReturn`
+ * contract. The internal hook already wires navigation, plan-track
+ * context, audio references, retry state, analytics, and the user-
+ * credits query — those reads remain unchanged so behavior is preserved.
+ *
+ * Note: `setAudioFile` here is the raw setter. The legacy composer wraps
+ * it with `handleSetAudioFile` (from `useGenerateFormBoostStyle`) which
+ * also computes audio duration. That wrap stays in the composer.
  */
-export function useGenerateFormState({
-  open,
-  onOpenChange,
-  initialProjectId,
-  projects,
-  artists,
-  allTracks,
-}: UseGenerateFormProps) {
-  const navigate = useNavigate();
-  const { planTrackContext, clearPlanTrackContext } = usePlanTrackStore();
-  const { draft, hasDraft, saveDraft, clearDraft } = useGenerateDraft();
-  const { trackGeneration } = useAnalyticsTracking();
 
-  const {
-    retry,
-    cancelRetry,
-    isRetrying,
-    retryCount,
-    nextRetryIn,
-    canRetry,
-    reset: resetRetry,
-  } = useAutomaticRetry({
-    maxRetries: 2,
-    onRetry: (attempt) => {
-      addUserActionBreadcrumb(`generation_retry_attempt_${attempt}`, "generation");
-      toast.loading(`Повторная попытка ${attempt}/2...`, {
-        id: "generation-retry",
-      });
-    },
-    onRetrySuccess: (attempt) => {
-      addUserActionBreadcrumb(`generation_retry_success_attempt_${attempt}`, "generation");
-      toast.dismiss("generation-retry");
-    },
-    onRetryFailed: (error, attempts) => {
-      addUserActionBreadcrumb("generation_retry_exhausted", "generation", { attempts });
-      toast.dismiss("generation-retry");
-    },
-  });
+import { useGenerateFormStateInternal } from "./useGenerateFormStateInternal";
+import type { UseGenerateFormParams, UseGenerateFormStateReturn } from "./useGenerateForm.types";
 
-  // Unified audio reference hook
-  const { activeReference, clearActive: clearAudioReference } = useAudioReference();
+export function useGenerateFormState(params: UseGenerateFormParams): UseGenerateFormStateReturn {
+  const s = useGenerateFormStateInternal(params);
 
-  // Advanced settings - model first for dynamic cost calculation
-  const [model, setModel] = useState("V4_5ALL");
-
-  // User credits hook with model-specific cost
-  const {
-    balance: userBalance,
-    canGenerate,
-    generationCost,
-    invalidate: invalidateCredits,
-    isAdmin,
-    apiBalance,
-  } = useUserCredits(model);
-
-  // Form state
-  const [mode, setMode] = useState<GenerationMode>("simple");
-  const [loading, setLoading] = useState(false);
-  const [boostLoading, setBoostLoading] = useState(false);
-  const [apiCredits, setApiCredits] = useState<number | null>(null);
-
-  // Simple mode state
-  const [description, setDescription] = useState("");
-
-  // Custom mode state
-  const [title, setTitle] = useState("");
-  const [lyrics, setLyrics] = useState("");
-  const [style, setStyle] = useState("");
-  const [hasVocals, setHasVocals] = useState(true);
-
-  // Advanced settings (model already defined above for dynamic cost)
-  const [negativeTags, setNegativeTags] = useState("");
-  const [vocalGender, setVocalGender] = useState<"m" | "f" | "">("");
-  const [styleWeight, setStyleWeight] = useState([DEFAULT_STYLE_WEIGHT]);
-  const [weirdnessConstraint, setWeirdnessConstraint] = useState([DEFAULT_WEIRDNESS]);
-  const [audioWeight, setAudioWeight] = useState([DEFAULT_AUDIO_WEIGHT]);
-
-  // Reference data
-  const [selectedProjectId, setSelectedProjectId] = useState<string | undefined>(initialProjectId);
-  const [selectedTrackId, setSelectedTrackId] = useState<string | undefined>();
-  const [selectedArtistId, setSelectedArtistId] = useState<string | undefined>();
-  const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [audioDuration, setAudioDuration] = useState<number | null>(null);
-  const [planTrackId, setPlanTrackId] = useState<string | undefined>();
-  const [customVoiceId, setCustomVoiceId] = useState<string | null>(null);
-  const [isPublic, setIsPublic] = useState(true);
-
-  // Reset form
-  const resetForm = useCallback(() => {
-    setDescription("");
-    setTitle("");
-    setLyrics("");
-    setStyle("");
-    setNegativeTags("");
-    setVocalGender("");
-    setStyleWeight([DEFAULT_STYLE_WEIGHT]);
-    setWeirdnessConstraint([DEFAULT_WEIRDNESS]);
-    setAudioWeight([DEFAULT_AUDIO_WEIGHT]);
-    setSelectedProjectId(initialProjectId);
-    setSelectedTrackId(undefined);
-    setSelectedArtistId(undefined);
-    setAudioFile(null);
-    setAudioDuration(null);
-    clearDraft();
-    setPlanTrackId(undefined);
-    setCustomVoiceId(null);
-    setIsPublic(true);
-  }, [initialProjectId, clearDraft]);
+  // The brief asks the state hook to expose `hasUnsavedData`. Until the
+  // redesign lands, we treat it as a constant `false` to preserve behavior.
+  const hasUnsavedData = false;
 
   return {
-    // Navigation & external hooks
-    navigate,
-    planTrackContext,
-    clearPlanTrackContext,
-    draft,
-    hasDraft,
-    saveDraft,
-    clearDraft,
-    trackGeneration,
-    retry,
-    cancelRetry,
-    isRetrying,
-    retryCount,
-    nextRetryIn,
-    canRetry,
-    resetRetry,
-    activeReference,
-    clearAudioReference,
-    userBalance,
-    canGenerate,
-    generationCost,
-    invalidateCredits,
-    isAdmin,
-    apiBalance,
+    // ─── mode + loading flags ───────────────────────────────────────
+    mode: s.mode,
+    setMode: s.setMode,
+    loading: s.loading,
+    setLoading: s.setLoading,
+    boostLoading: s.boostLoading,
+    audioReferenceLoading: false,
+    setAudioReferenceLoading: () => {
+      // Reserved for the redesign sheet-loading UI. No-op until wired.
+    },
 
-    // Props pass-through
-    open,
-    onOpenChange,
-    initialProjectId,
-    projects,
-    artists,
-    allTracks,
+    // ─── simple-mode ────────────────────────────────────────────────
+    description: s.description,
+    setDescription: s.setDescription,
 
-    // Form state
-    mode,
-    setMode,
-    loading,
-    setLoading,
-    boostLoading,
-    setBoostLoading,
-    apiCredits,
-    setApiCredits,
-    description,
-    setDescription,
-    title,
-    setTitle,
-    lyrics,
-    setLyrics,
-    style,
-    setStyle,
-    hasVocals,
-    setHasVocals,
-    model,
-    setModel,
-    negativeTags,
-    setNegativeTags,
-    vocalGender,
-    setVocalGender,
-    styleWeight,
-    setStyleWeight,
-    weirdnessConstraint,
-    setWeirdnessConstraint,
-    audioWeight,
-    setAudioWeight,
-    selectedProjectId,
-    setSelectedProjectId,
-    selectedTrackId,
-    setSelectedTrackId,
-    selectedArtistId,
-    setSelectedArtistId,
-    audioFile,
-    setAudioFile,
-    audioDuration,
-    setAudioDuration,
-    planTrackId,
-    setPlanTrackId,
-    customVoiceId,
-    setCustomVoiceId,
-    isPublic,
-    setIsPublic,
-    resetForm,
+    // ─── custom-mode ────────────────────────────────────────────────
+    title: s.title,
+    setTitle: s.setTitle,
+    lyrics: s.lyrics,
+    setLyrics: s.setLyrics,
+    style: s.style,
+    setStyle: s.setStyle,
+    hasVocals: s.hasVocals,
+    setHasVocals: s.setHasVocals,
+
+    // ─── advanced ──────────────────────────────────────────────────
+    model: s.model,
+    setModel: s.setModel,
+    vocalGender: s.vocalGender,
+    setVocalGender: s.setVocalGender,
+    styleWeight: s.styleWeight,
+    setStyleWeight: s.setStyleWeight,
+    weirdnessConstraint: s.weirdnessConstraint,
+    setWeirdnessConstraint: s.setWeirdnessConstraint,
+    audioWeight: s.audioWeight,
+    setAudioWeight: s.setAudioWeight,
+    negativeTags: s.negativeTags,
+    setNegativeTags: s.setNegativeTags,
+
+    // ─── references ────────────────────────────────────────────────
+    customVoiceId: s.customVoiceId,
+    setCustomVoiceId: s.setCustomVoiceId,
+    audioFile: s.audioFile,
+    setAudioFile: s.setAudioFile,
+    audioDuration: s.audioDuration,
+    selectedProjectId: s.selectedProjectId,
+    setSelectedProjectId: s.setSelectedProjectId,
+    selectedTrackId: s.selectedTrackId,
+    setSelectedTrackId: s.setSelectedTrackId,
+    selectedArtistId: s.selectedArtistId,
+    setSelectedArtistId: s.setSelectedArtistId,
+    planTrackId: s.planTrackId,
+    setPlanTrackId: s.setPlanTrackId,
+
+    // ─── public toggle ─────────────────────────────────────────────
+    isPublic: s.isPublic,
+    setIsPublic: s.setIsPublic,
+
+    // ─── derived ───────────────────────────────────────────────────
+    hasUnsavedData,
+
+    // ─── reset ─────────────────────────────────────────────────────
+    resetForm: s.resetForm,
   };
 }
-
-export type GenerateFormStateReturn = ReturnType<typeof useGenerateFormState>;

@@ -19,7 +19,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useGenerateFormValidation } from "@/hooks/generation/useGenerateFormValidation";
+import { useGenerateFormValidation } from "@/hooks/generation/useGenerateFormBoostStyle";
 
 // Mocks
 vi.mock("@/integrations/supabase/client", () => ({
