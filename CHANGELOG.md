@@ -24,9 +24,15 @@
 
 ## [Unreleased]
 
-### 🟢 Sprint 050-A1/A2 — main-green фиксы после лендинга 055 + полный lychee-инвентарь (2026-07-04, ночь)
+### 🟢 Sprint 050-A1/A2/B6 — main-green фиксы после лендинга 055 + полный lychee-инвентарь (2026-07-04, ночь)
+
+#### Performance
+
+- **050-B6:** `canvas-confetti` (~20 КБ gzip) переведён на dynamic import через новый враппер [src/lib/confetti.ts](src/lib/confetti.ts) — 5 компонентов (reward notification, welcome bonus, subscription/payment success) больше не тянут его в свои чанки; `lamejs` и `qrcode` уже были динамическими. size-limit: все 10 бюджетов зелёные (Total 2.22 МБ / 2.3 МБ).
 
 #### Fixed
+
+- **`vite build` был сломан вне Lovable-песочницы** (включая CI build-джобу): `vite.config.ts` статически импортировал `@lovable.dev/mcp-js`, который резолвится только в приватный реестр Lovable (`europe-west1-npm.pkg.dev`). Переведён на существующий optional-dependency паттерн (try/await + `mcpPlugin?.()`).
 
 - **5 ошибок `tsc` на `main`** из Sprint 055: `'feature_usage'` не входит в `EventType` (канонично `'feature_used'`) — `useSunoCancel`, `useOpenGenerateFromDeeplink`, `useCreditsLimits` + 2 теста. Unit 340/340.
 - **Prettier-дрейф** в `.lovable/mcp/manifest.json` и `supabase/functions/mcp/index.ts` (прямые коммиты мимо хуков).

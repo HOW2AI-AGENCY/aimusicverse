@@ -32,9 +32,11 @@
 | A3  | Сверка прод-миграций (`20260703120000` vs `20260704014859`, пересекающиеся likes)       | ✅ **ЗАКРЫТА (репо-часть) 2026-07-04** — реальная накатка на локальный PG16, отчёт: [docs/audit/MIGRATIONS-RECONCILIATION-2026-07-04.md](../docs/audit/MIGRATIONS-RECONCILIATION-2026-07-04.md). Перекрытие likes-миграций идемпотентно (конфликта нет); попутно найдены и починены: `CONCURRENTLY` в `130000` (ломал накатку с нуля — воспроизведено), дубль версии `20260708000000_*` (053/054), опечатка `timestamstz` в `sound_effects`, регрессия `stats_likes_received` (восстановлена миграцией `20260709000000` с backfill). Остаток: применить `20260709000000` на прод + сверить прод-`schema_migrations` |
 | A5  | `bun.lock` vs `package-lock.json` — один источник истины                                | ⏳ Ждёт решения по A4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 
-### Фаза B: F1–F12 (после зелёной фазы A) — без изменений
+### Фаза B: F1–F12 (после зелёной фазы A)
 
-B1 scroll/viewport (F1, F8, F9) → B2 focus/keyboard (F3, F6, F7) → B3 поверхности (F2, F5, F11) → B4 данные/чистка (F4, F10, F12) → B5 ErrorBoundary home button → B6 bundle quick wins (lamejs/canvas-confetti/qrcode → dynamic import).
+B1 scroll/viewport (F1, F8, F9) → B2 focus/keyboard (F3, F6, F7) → B3 поверхности (F2, F5, F11) → B4 данные/чистка (F4, F10, F12) → B5 ErrorBoundary home button.
+
+**B6 ✅ ЗАКРЫТА (коммит `79167e3`)** — bundle quick wins: `canvas-confetti` → dynamic import через `src/lib/confetti.ts` (5 компонентов); `lamejs`/`qrcode` уже были динамическими. Попутно починен **сломанный `vite build` вне Lovable-песочницы** (статический импорт `@lovable.dev/mcp-js` из приватного реестра → optional try/await). size-limit: 10/10 бюджетов, Total 2.22/2.3 МБ.
 
 ### DoD закрытия 050
 
