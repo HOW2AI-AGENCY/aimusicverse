@@ -294,7 +294,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             }}
           >
             <CollapsibleFormHeader
-              balance={form.userBalance}
+              balance={form.userBalance ?? undefined}
               cost={form.generationCost}
               mode={form.mode}
               onModeChange={form.setMode}
@@ -334,7 +334,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             <div className="px-4 py-3 space-y-3 w-full max-w-full min-w-0 overflow-x-hidden">
               {/* Credit Balance Warning */}
               <CreditBalanceWarning
-                balance={form.userBalance}
+                balance={form.userBalance ?? 0}
                 cost={form.generationCost}
                 onClose={() => onOpenChange(false)}
               />

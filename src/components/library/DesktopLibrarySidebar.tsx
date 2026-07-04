@@ -139,7 +139,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
           </div>
           <div className="flex items-center gap-1">
             <CollapsibleFormHeader
-              balance={form.userBalance}
+              balance={form.userBalance ?? undefined}
               cost={form.generationCost}
               mode={form.mode}
               onModeChange={form.setMode}
@@ -320,7 +320,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         }}
         onAnalysisComplete={(styleDescription) => {
           form.setMode("custom");
-          form.setStyle((prev) => (prev ? `${prev}\n\n${styleDescription}` : styleDescription));
+          form.setStyle(form.style ? `${form.style}\n\n${styleDescription}` : styleDescription);
         }}
         onLyricsExtracted={(lyrics) => {
           form.setMode("custom");
@@ -330,7 +330,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         onChordsDetected={(chords, progression) => {
           form.setMode("custom");
           const chordInfo = `Guitar chord progression: ${progression}`;
-          form.setStyle((prev) => (prev ? `${prev}\n\n${chordInfo}` : chordInfo));
+          form.setStyle(form.style ? `${form.style}\n\n${chordInfo}` : chordInfo);
         }}
         onOpenCoverDialog={(file, mode) => {
           setAudioActionDialogOpen(false);
@@ -380,7 +380,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         currentStyle={form.style}
         onSelect={(style, tags) => {
           form.setMode("custom");
-          form.setStyle((prev) => (prev?.trim() ? `${prev}, ${style}` : style));
+          form.setStyle(form.style?.trim() ? `${form.style}, ${style}` : style);
           toast.success("Стиль применён");
         }}
       />

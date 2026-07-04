@@ -125,7 +125,7 @@ export function useGenerateSheetController({
   });
 
   // Sheet-level validation reasons (passes form slice + balance/cost).
-  const validation = useGenerateSheetValidation(form, form.userBalance, form.generationCost);
+  const validation = useGenerateSheetValidation(form, form.userBalance ?? 0, form.generationCost);
 
   // Dialog state.
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
