@@ -9,7 +9,7 @@
 import { describe, it, expect } from "vitest";
 import { renderHook } from "@testing-library/react";
 
-import { useGenerateSheetValidation } from "@/hooks/generation/useGenerateSheetValidation";
+import { useGenerateSheetValidation, type ValidationFormSlice } from "@/hooks/generation/useGenerateSheetValidation";
 
 const emptyForm = {
   title: "",
@@ -59,6 +59,7 @@ describe("useGenerateSheetValidation", () => {
     const { result } = renderHook(() => useGenerateSheetValidation(valid, 100, 8));
     expect(result.current.canGenerate).toBe(true);
     expect(result.current.hasWarnings).toBe(false);
+    expect(result.current.reasons).toHaveLength(0);
   });
 
   it("hasWarnings=true when only warnings present (no errors)", () => {
@@ -66,5 +67,21 @@ describe("useGenerateSheetValidation", () => {
     const { result } = renderHook(() => useGenerateSheetValidation(noTitle, 100, 8));
     expect(result.current.canGenerate).toBe(true);
     expect(result.current.hasWarnings).toBe(true);
+  });
+
+  it("accepts a realistic UseGenerateFormReturn-shape object without 'as never'", () => {
+    const realisticForm = {
+      mode: "custom" as const,
+      style: "rock",
+      description: "",
+      lyrics: "Hello",
+      title: "Song",
+      hasVocals: true,
+      vocalGender: "",
+      audioFile: null,
+    } satisfies ValidationFormSlice;
+    const { result } = renderHook(() => useGenerateSheetValidation(realisticForm, 100, 8));
+    expect(result.current.canGenerate).toBe(true);
+    expect(result.current.reasons).toHaveLength(0);
   });
 });
