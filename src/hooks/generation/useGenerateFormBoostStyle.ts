@@ -122,3 +122,6 @@ export function useGenerateFormValidation({
 
   return { boostLoading, handleBoostStyle, handleSetAudioFile };
 }
+
+// Sprint 056 alias — composer imports as useGenerateFormBoostStyle
+export { useGenerateFormValidation as useGenerateFormBoostStyle };

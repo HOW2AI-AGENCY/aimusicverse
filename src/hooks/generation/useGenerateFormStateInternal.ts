@@ -48,7 +48,7 @@ export interface UseGenerateFormProps {
  * Core state management for the generation form.
  * Returns all state variables, setters, and external hook integrations.
  */
-export function useGenerateFormState({
+export function useGenerateFormStateInternal({
   open,
   onOpenChange,
   initialProjectId,
@@ -242,4 +242,4 @@ export function useGenerateFormState({
   };
 }
 
-export type GenerateFormStateReturn = ReturnType<typeof useGenerateFormState>;
+export type GenerateFormStateInternalReturn = ReturnType<typeof useGenerateFormStateInternal>;
