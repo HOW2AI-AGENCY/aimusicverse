@@ -12,12 +12,23 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Play, Pause } from "@/lib/icons";
+import { Play, Pause, Mic, Loader2 } from "@/lib/icons";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 import { useTrackVersionsList } from "@/hooks/generation/useTrackVersionsList";
+import { useSunoPersona } from "@/hooks/studio/useSunoPersona";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 
@@ -49,7 +60,12 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
   const [selectedVersion, setSelectedVersion] = useState<string | null>(null);
   const [playingVersionId, setPlayingVersionId] = useState<string | null>(null);
   const [settingPrimary, setSettingPrimary] = useState(false);
+  // Sprint 052-B5 — Suno Persona training from a freshly generated track.
+  const [personaDialogOpen, setPersonaDialogOpen] = useState(false);
+  const [personaName, setPersonaName] = useState("");
+  const [personaDescription, setPersonaDescription] = useState("");
   const { setPrimaryVersionAsync } = useVersionSwitcher();
+  const personaMutation = useSunoPersona();
   const { data: versions = [], isLoading: loading } = useTrackVersionsList({
     trackId,
     enabled: open,
@@ -68,6 +84,42 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
       setSelectedVersion(versions[0].id);
     }
   }, [open, trackId, versions, selectedVersion]);
+
+  // Sprint 052-B5 — kick off Persona training. Track must have at least one
+  // ready version (selectedVersionData has an audioUrl below — we check
+  // against that when the user actually clicks "Train Persona").
+  const handleTrainPersona = useCallback(async () => {
+    if (!trackId) return;
+    const trimmed = personaName.trim();
+    if (!trimmed) {
+      toast.error("Укажите имя персоны");
+      return;
+    }
+    if (trimmed.length > 80) {
+      toast.error("Имя персоны — максимум 80 символов");
+      return;
+    }
+    try {
+      const result = await personaMutation.mutateAsync({
+        trackId,
+        name: trimmed,
+        description: personaDescription.trim() || undefined,
+      });
+      logger.info("Persona training started", { personaId: result.personaId, status: result.status });
+      toast.success("Persona обучается 🎙️", {
+        description:
+          result.status === "pending"
+            ? "Suno готовит персону — обычно 1-2 минуты. Мы сообщим, когда она будет готова."
+            : "Persona готова к использованию.",
+      });
+      setPersonaDialogOpen(false);
+      setPersonaName("");
+      setPersonaDescription("");
+    } catch (err) {
+      logger.error("Persona training failed", { err });
+      toast.error("Не удалось запустить обучение персоны");
+    }
+  }, [trackId, personaName, personaDescription, personaMutation]);
 
   // Handle version preview (play/pause)
   const handlePreview = useCallback(
@@ -344,7 +396,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
             </button>
           )}
 
-          <div className="grid grid-cols-2 gap-px bg-border/60 border border-border/60">
+          <div className="grid grid-cols-3 gap-px bg-border/60 border border-border/60">
             <button
               type="button"
               onClick={handleGoToLibrary}
@@ -371,13 +423,84 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
               </span>
               <span className="font-display text-heading-3">Studio →</span>
             </button>
+            <button
+              type="button"
+              onClick={() => setPersonaDialogOpen(true)}
+              disabled={!trackId}
+              className={cn(
+                "group flex flex-col items-start gap-1 bg-background px-4 py-4 text-left",
+                "hover:bg-foreground hover:text-background transition-colors",
+                !trackId && "opacity-50 cursor-not-allowed",
+              )}
+            >
+              <span className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground group-hover:text-background/70">
+                04 · voice
+              </span>
+              <span className="font-display text-heading-3 flex items-center gap-2">
+                <Mic className="w-4 h-4" />
+                Persona
+              </span>
+            </button>
           </div>
 
           <p className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground/70">
-            stems · mix · arrange · master — all in studio
+            stems · mix · arrange · master · persona — all in studio
           </p>
         </footer>
       </SheetContent>
+
+      {/* Sprint 052-B5 — Train Persona dialog. */}
+      <Dialog open={personaDialogOpen} onOpenChange={setPersonaDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Mic className="w-5 h-5 text-primary" />
+              Обучить Persona
+            </DialogTitle>
+            <DialogDescription>
+              Suno создаст переиспользуемую персону из этого трека — её можно будет выбирать при следующих генерациях.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <Label className="text-sm">Имя персоны *</Label>
+              <Input
+                value={personaName}
+                onChange={(e) => setPersonaName(e.target.value)}
+                placeholder="Например: мой вокал"
+                maxLength={80}
+                className="mt-1.5"
+                autoFocus
+              />
+            </div>
+            <div>
+              <Label className="text-sm">Описание (необязательно)</Label>
+              <Input
+                value={personaDescription}
+                onChange={(e) => setPersonaDescription(e.target.value)}
+                placeholder="Тёплый женский голос, поп-стиль"
+                maxLength={500}
+                className="mt-1.5"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setPersonaDialogOpen(false)} disabled={personaMutation.isPending}>
+              Отмена
+            </Button>
+            <Button onClick={handleTrainPersona} disabled={personaMutation.isPending || !personaName.trim()}>
+              {personaMutation.isPending ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  Запуск…
+                </>
+              ) : (
+                "Обучить"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Sheet>
   );
 });

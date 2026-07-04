@@ -24,6 +24,22 @@
 
 ## [Unreleased]
 
+### 🎼 Editorial lyrics editor + tag picker for advanced generation (2026-07-04)
+
+> Sprint 052-A5. Landed in commit `18b1e80e` as part of the broader Suno-file-upload refactor.
+
+#### Changed
+
+- **`LyricsVisualEditorCompact`** — replaced the flat list with an editorial-spread layout per section: numbered glyph marker (`font-display`, `text-[40-48px]`), mono overline header with ordinal counter, 9-button type strip (intro / verse / pre-chorus / chorus / hook / bridge / drop / breakdown / outro), hairline textarea, and a 5-button action tray (clear, duplicate, AI-fill, delete, move). Empty state now offers 3 template tiles (Pop · Рэп · EDM) + 9 single-section tiles + an AI pull-quote. The component publishes focus + DOM sync snapshots to `window.__lyricsEditorMetrics` so the dev-only `LyricsEditorMetricsOverlay` can render the round-trip behaviour live.
+- **`SectionTagSelector`** — collapsed the four `Tabs` into a single vertical numbered category stack (`01 · Вокал (3 / 12)` … `04 · Эмоции (2 / 12)`) with inverted selected chips (foreground fill, background text), a selected tray (`выбрано · NN` + `clear · NN`), and a bottom-anchored custom-tag input. Compact mode keeps the same body inside a `Sheet`, so behaviour does not fork between inline and modal.
+- All editorial tokens (`font-display`, `font-mono`, `text-overline`, `text-caption`, `text-body-sm`, `tracking-[0.18em]`, hairline `border-foreground/15`) follow the same spec already used by `GenerationResultSheet` so the form looks like one magazine spread.
+
+#### Preserved
+
+- Public API of both components is byte-stable: `<LyricsVisualEditorCompact value onChange onAIGenerate? disabled? />` and `<SectionTagSelector selectedTags onChange sectionName? compact? />`.
+- Existing utilities (`parseLyrics`, `sectionsToLyrics`, `sectionsEqual`, `applyTemplateToSections`, `getSectionColor`) keep their semantics and signatures; `applyTemplateToSections` keeps per-type content pools.
+- Test surface green: 12/12 unit tests pass (`LyricsVisualEditorCompact.test.tsx` + `LyricsVisualEditorCompact.templates.test.tsx`); `tsc` clean; `prettier` clean; only expected `react-refresh/only-export-components` warnings for the helper exports the tests rely on, plus one `no-restricted-syntax` warning on the intentional `text-[40px]` glyph marker.
+
 ### 🔧 Progress audit — E2E dependency fix + status-doc corrections (2026-07-04)
 
 #### Fixed
