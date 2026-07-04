@@ -252,6 +252,29 @@
 
 - 🟡 **Phase D-4 — ErrorBoundary home button:** требует `useNavigate()` hook (functional change, вне рамок design-audit). Передано в Phase E сборки.
 
+## 🚦 `052` Suno API: Mashup + Persona + File Upload (Q3 2026) — ЗАВЕРШЁН ✅ (8/10)
+
+**Детальный план:** [SPRINTS/SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md). Commits `916cd72a` → `5895b5b3` → `a9d12426` → `37ca8264` → `18b1e80e` → `d0296177` → `998980bc` → `8a4bc8a4` → `b778bf98`.
+
+**Phase A — Edge + DB (5/5 ✅):**
+
+- `suno-mashup` (`/api/v1/generate/mashup`) — проксирует `/api/v1/generate/mashup`; callback через существующий `suno-music-callback` (signature совпадает → отдельный `suno-mashup-callback` НЕ создавался).
+- `suno-persona` + `suno-persona-callback` — обучение голосовой персоны + обновление `track_personas` после готовности.
+- `suno-file-upload` — multi-action прокси base64/url; лимит 50 МБ; `expires_in_days: 3`.
+- DB миграция `track_personas` (id, user_id, suno_persona_id, name, description, audio_url, image_url, status enum, task_id, timestamps) + `track_versions.persona_id` (FK) + RLS.
+- Рефакторинг `suno-upload-cover/extend` на общий `_shared/suno-file-uploader.ts` (`forwardBase64ToSuno`) — экономия ~80 строк дублирования.
+
+**Phase B — UI + Telegram + Docs (5/10 ✅):**
+
+- ✅ Хуки `useSunoMashup`/`useSunoPersona`/`useSunoFileUpload` (TanStack Query mutations, `src/hooks/studio/`).
+- ✅ `MashupDialog` (`src/components/MashupDialog.tsx`) — мобильный/десктоп variants через `useIsMobile`; пикеры 2 треков из библиотеки (`useTracks({ statusFilter: ["completed"] })`); model select (V5/V4_5PLUS/V4_5/V4/V3_5); интеграция в track-actions (ActionId `mashup`, `DialogStates.mashup`).
+- ✅ Кнопка «Create Persona» в `GenerationResultSheet` (footer-grid 3 cols) + Dialog с name/description → `useSunoPersona`.
+- ✅ Telegram `/mashup` команда + deep-link `startapp=mashup_<id>` + keyboard button `mashup_<trackId>` callback.
+- ✅ E2E: `tests/e2e/suno-mashup.spec.ts` (deep-link smoke + dialog render).
+- ⏸ Storybook stories для MashupDialog и i18n strings (en/ru) — deferred в Sprint 052-C (cleanup).
+
+**Документация:** `docs/SUNO_API.md` — раздел «История изменений → Sprint 052» + 3 новых curl-примера (mashup/persona/upload). Suno API gap-анализ актуализирован (3 категории закрыты: Mashup, Persona, File Upload).
+
 ## 🚦 `049` Mobile UX: A/B версии, per-version лайки, плеер, главная (Q3 2026) — ЗАВЕРШЁН ✅
 
 **Прогресс: 4/4 (100%)** — аудит мобильных экранов по багрепорту. Ветка `claude/mobile-screens-layout-audit-um3hwx`, коммиты `7904ce9b` → `3d428a7c` → `304ee287`.
@@ -490,8 +513,9 @@ mindmap
       Хранилище
 ```
 
-## ✅ Последние достижения (Sprint 044, июль 2026)
+## ✅ Последние достижения (Sprint 052, июль 2026)
 
+- ✅ **Sprint 052 (8/10, 2 deferred в 052-C):** Suno API gap closure — 3 категории закрыты: Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + `suno-persona-callback` + «Create Persona» кнопка в `GenerationResultSheet`), File Upload (`suno-file-upload` + рефакторинг `suno-upload-cover/extend` через общий `_shared/suno-file-uploader.ts` → экономия ~80 строк дублей). DB миграция `track_personas` + RLS. Telegram `/mashup` команда + deep-link `startapp=mashup_<id>`. E2E `tests/e2e/suno-mashup.spec.ts`. Deferred: Storybook stories + i18n strings.
 - ✅ **Sprint 044 (7/7 100%):** Type Safety Wave 2 — `any` в `src/hooks/**` 164 → 6, в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result` (`VoiceCloneService`, `AudioAnalysisService`, `ReferenceManager`); ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs`.
 - ✅ **Sprint 043 (6/6 100%):** Layer Pass #2 — 65 компонентов через service layer; ESLint guardrail `no-direct-supabase-client-imports` для `src/components/**`; touch-target миграция 391→0 в touched layers; mobile Playwright smoke (6 tests × 7 projects).
 - ✅ **Sprint 042 (10/10 100%):** Page Decomposition + Audio Pooling — `usePreviewAudio` hook + 17 миграций; `LyricsStudio` 999→788 LOC; `ProjectDetail` 851→286 LOC; `usePromptDJEnhanced` 1071→882 LOC; bundle audit (2.21 МБ / 950 КБ).
@@ -548,40 +572,40 @@ mindmap
 
 ## 🔌 Suno API — gap-анализ (2026-07-04)
 
-Полная матрица покрытия sunoapi.org (по [llms.txt](https://docs.sunoapi.org/llms.txt)) → MusicVerse AI. Всего 28 категорий Suno API; 21 реализована (Sprint 001–045), 3 в работе Sprint 052–053, 4 запланированы Sprint 053–054.
+Полная матрица покрытия sunoapi.org (по [llms.txt](https://docs.sunoapi.org/llms.txt)) → MusicVerse AI. Всего 28 категорий Suno API; 24 реализованы (Sprint 001–052), 1 в работе Sprint 053, 3 запланированы Sprint 053–054.
 
-| Категория                                       | Path Suno API                             | Edge в коде                                         | UI       | Sprint  |
-| ----------------------------------------------- | ----------------------------------------- | --------------------------------------------------- | -------- | ------- |
-| Music Generation                                | `/api/v1/generate`                        | `suno-music-generate`, `suno-generate`              | ✅       | ✅ done |
-| Get Music Generation Details                    | `/api/v1/generate/get`                    | `suno-check-status`                                 | ⚠️ общий | **054** |
-| Extend Music                                    | `/api/v1/generate/extend`                 | `suno-music-extend`, `suno-extend-audio`            | ✅       | ✅ done |
-| Replace Section                                 | `/api/v1/generate/replace-section`        | `suno-replace-section`                              | ✅       | ✅ done |
-| **Mashup** 🆕                                   | `/api/v1/generate/mashup`                 | ❌                                                  | ❌       | **052** |
-| **Sounds (loop/tempo/key)** 🆕                  | `/api/v1/sound/generate`                  | ❌ (есть Replicate в `generate-sfx`)                | ❌       | **053** |
-| **Boost Music Style** 🆕                        | `/api/v1/generate/boost-style`            | ✅ `suno-boost-style` (есть, не подключён к UI)     | ❌       | **053** |
-| Upload And Cover Audio                          | `/api/v1/generate/upload-cover`           | `suno-upload-cover`, `suno-remix`                   | ✅       | ✅ done |
-| Upload And Extend Audio                         | `/api/v1/generate/upload-extend`          | `suno-upload-extend`                                | ✅       | ✅ done |
-| Add Instrumental                                | `/api/v1/generate/add-instrumental`       | `suno-add-instrumental`                             | ✅       | ✅ done |
-| Add Vocals                                      | `/api/v1/generate/add-vocals`             | `suno-add-vocals`                                   | ✅       | ✅ done |
-| Generate Lyrics                                 | `/api/v1/lyrics`                          | `generate-lyrics`, `ai-lyrics-assistant`            | ✅       | ✅ done |
-| Get Timestamped Lyrics                          | `/api/v1/generate/get-timestamped-lyrics` | `get-timestamped-lyrics`                            | ✅       | ✅ done |
-| **Get Lyrics Details**                          | `/api/v1/lyrics/details`                  | ❌                                                  | ❌       | **054** |
-| Convert to WAV                                  | `/api/v1/generate/convert-to-wav`         | `suno-convert-wav`                                  | ✅       | ✅ done |
-| **Get WAV Details**                             | `/api/v1/generate/wav/details`            | ❌                                                  | ❌       | **054** |
-| Vocal & Instrument Separation                   | `/api/v1/vocal-removal/generate`          | `suno-separate-vocals`                              | ✅       | ✅ done |
-| **Get Separation Details**                      | `/api/v1/vocal-removal/details`           | ❌                                                  | ❌       | **054** |
-| **Generate MIDI (Suno direct)** 🆕              | `/api/v1/generate/midi`                   | ❌ (есть Replicate в `transcribe-midi`)             | ❌       | **053** |
-| **Get MIDI Details**                            | `/api/v1/generate/midi/details`           | ❌                                                  | ❌       | **053** |
-| Create Music Video                              | `/api/v1/mp4/generate`                    | `suno-generate-video`                               | ✅       | ✅ done |
-| **Get Video Details**                           | `/api/v1/mp4/details`                     | ❌                                                  | ❌       | **054** |
-| Generate Music Cover                            | `/api/v1/image/generate`                  | `suno-generate-cover-image`, `generate-track-cover` | ✅       | ✅ done |
-| **Get Cover Details**                           | `/api/v1/image/details`                   | ❌                                                  | ❌       | **054** |
-| **Generate Persona** 🆕                         | `/api/v1/generate/persona`                | ❌                                                  | ❌       | **052** |
-| Suno Voice (validate/generate/regenerate/check) | `/api/v1/voice/*`                         | `suno-voice-*` (полный набор)                       | ✅       | ✅ done |
-| Get Remaining Credits                           | `/api/v1/generate/credit`                 | `suno-credits`                                      | ✅       | ✅ done |
-| **File Upload (base64/stream/url)** 🆕          | `/api/v1/files/*`                         | ❌ (multipart inline в `suno-upload-*`)             | ❌       | **052** |
+| Категория                                       | Path Suno API                             | Edge в коде                                                                                 | UI                           | Sprint     |
+| ----------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------- | ---------- |
+| Music Generation                                | `/api/v1/generate`                        | `suno-music-generate`, `suno-generate`                                                      | ✅                           | ✅ done    |
+| Get Music Generation Details                    | `/api/v1/generate/get`                    | `suno-check-status`                                                                         | ⚠️ общий                     | **054**    |
+| Extend Music                                    | `/api/v1/generate/extend`                 | `suno-music-extend`, `suno-extend-audio`                                                    | ✅                           | ✅ done    |
+| Replace Section                                 | `/api/v1/generate/replace-section`        | `suno-replace-section`                                                                      | ✅                           | ✅ done    |
+| **Mashup** ✅                                   | `/api/v1/generate/mashup`                 | `suno-mashup`                                                                               | ✅ (`MashupDialog`)          | ✅ **052** |
+| **Sounds (loop/tempo/key)**                     | `/api/v1/sound/generate`                  | ❌ (есть Replicate в `generate-sfx`)                                                        | ❌                           | **053**    |
+| **Boost Music Style**                           | `/api/v1/generate/boost-style`            | ✅ `suno-boost-style` (есть, не подключён к UI)                                             | ❌                           | **053**    |
+| Upload And Cover Audio                          | `/api/v1/generate/upload-cover`           | `suno-upload-cover`, `suno-remix`                                                           | ✅                           | ✅ done    |
+| Upload And Extend Audio                         | `/api/v1/generate/upload-extend`          | `suno-upload-extend`                                                                        | ✅                           | ✅ done    |
+| Add Instrumental                                | `/api/v1/generate/add-instrumental`       | `suno-add-instrumental`                                                                     | ✅                           | ✅ done    |
+| Add Vocals                                      | `/api/v1/generate/add-vocals`             | `suno-add-vocals`                                                                           | ✅                           | ✅ done    |
+| Generate Lyrics                                 | `/api/v1/lyrics`                          | `generate-lyrics`, `ai-lyrics-assistant`                                                    | ✅                           | ✅ done    |
+| Get Timestamped Lyrics                          | `/api/v1/generate/get-timestamped-lyrics` | `get-timestamped-lyrics`                                                                    | ✅                           | ✅ done    |
+| **Get Lyrics Details**                          | `/api/v1/lyrics/details`                  | ❌                                                                                          | ❌                           | **054**    |
+| Convert to WAV                                  | `/api/v1/generate/convert-to-wav`         | `suno-convert-wav`                                                                          | ✅                           | ✅ done    |
+| **Get WAV Details**                             | `/api/v1/generate/wav/details`            | ❌                                                                                          | ❌                           | **054**    |
+| Vocal & Instrument Separation                   | `/api/v1/vocal-removal/generate`          | `suno-separate-vocals`                                                                      | ✅                           | ✅ done    |
+| **Get Separation Details**                      | `/api/v1/vocal-removal/details`           | ❌                                                                                          | ❌                           | **054**    |
+| **Generate MIDI (Suno direct)**                 | `/api/v1/generate/midi`                   | ❌ (есть Replicate в `transcribe-midi`)                                                     | ❌                           | **053**    |
+| **Get MIDI Details**                            | `/api/v1/generate/midi/details`           | ❌                                                                                          | ❌                           | **053**    |
+| Create Music Video                              | `/api/v1/mp4/generate`                    | `suno-generate-video`                                                                       | ✅                           | ✅ done    |
+| **Get Video Details**                           | `/api/v1/mp4/details`                     | ❌                                                                                          | ❌                           | **054**    |
+| Generate Music Cover                            | `/api/v1/image/generate`                  | `suno-generate-cover-image`, `generate-track-cover`                                         | ✅                           | ✅ done    |
+| **Get Cover Details**                           | `/api/v1/image/details`                   | ❌                                                                                          | ❌                           | **054**    |
+| **Generate Persona** ✅                         | `/api/v1/generate/persona`                | `suno-persona` + `suno-persona-callback`                                                    | ✅ (`GenerationResultSheet`) | ✅ **052** |
+| Suno Voice (validate/generate/regenerate/check) | `/api/v1/voice/*`                         | `suno-voice-*` (полный набор)                                                               | ✅                           | ✅ done    |
+| Get Remaining Credits                           | `/api/v1/generate/credit`                 | `suno-credits`                                                                              | ✅                           | ✅ done    |
+| **File Upload (base64/stream/url)** ✅          | `/api/v1/files/*`                         | `suno-file-upload` (+ upload-cover/extend используют общий `_shared/suno-file-uploader.ts`) | ✅                           | ✅ **052** |
 
-**Сводка:** 21 done / 7 в Sprint 052–054 (Mashup, Persona, File Upload, Sounds, MIDI, Boost, Details suite × 6). Полное закрытие Suno API → конец Sprint 054 (~конец сентября 2026).
+**Сводка:** 24 done / 1 в Sprint 053 (Boost Music Style) / 3 запланированы Sprint 053–054 (Sounds, MIDI, Details suite × 6). Полное закрытие Suno API → конец Sprint 054 (~конец сентября 2026). **Sprint 052 закрыл 3 категории** (Mashup, Persona, File Upload) — см. [SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md) и [CHANGELOG.md](CHANGELOG.md#unreleased).
 
 Подробные планы: [SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md) · [SPRINT-053-PLAN.md](SPRINTS/SPRINT-053-PLAN.md) · [SPRINT-054-PLAN.md](SPRINTS/SPRINT-054-PLAN.md).
 
@@ -645,6 +669,6 @@ mindmap
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-07-04 (аудит прогресса — [отчёт](docs/audit/PROGRESS-AUDIT-2026-07-04.md); хотфиксы Lovable 2026-07-04 задокументированы; блокеры актуализированы; план Sprint 050–052 — [SPRINTS/SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md); **Sprint 052/053/054 added 2026-07-04 — Suno API gap closure**: [052-PLAN](SPRINTS/SPRINT-052-PLAN.md) [053-PLAN](SPRINTS/SPRINT-053-PLAN.md) [054-PLAN](SPRINTS/SPRINT-054-PLAN.md))</sub>
+<sub>Последнее обновление: 2026-07-04 (Sprint 052 завершён 8/10 — Suno Mashup/Persona/File Upload закрыты, deferred B9/B10 в Sprint 052-C; docs синхронизированы [CHANGELOG](CHANGELOG.md) · [ROADMAP](ROADMAP.md) · [SUNO_API](docs/SUNO_API.md). План Sprint 050–054 — [SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md) · [052](SPRINTS/SPRINT-052-PLAN.md) · [053](SPRINTS/SPRINT-053-PLAN.md) · [054](SPRINTS/SPRINT-054-PLAN.md))</sub>
 
 </div>

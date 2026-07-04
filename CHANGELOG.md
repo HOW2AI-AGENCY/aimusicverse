@@ -24,6 +24,35 @@
 
 ## [Unreleased]
 
+### 🎛️ Sprint 052 — Suno Mashup + Persona + File Upload Proxy (2026-07-04)
+
+> Commits `916cd72a` … `b778bf98`. Реализует категории #1, #2, #3 из аудита Suno API (см. `docs/SUNO_API.md` → История изменений → Sprint 052).
+
+#### Added
+
+- **Edge functions (Supabase):**
+  - `suno-mashup` — проксирует `POST /api/v1/generate/mashup`; принимает `trackAId + trackBId` + Suno-параметры (`customMode`, `prompt`, `style`, `title`, `model`, `vocalGender`, `styleWeight`, `weirdnessConstraint`, `audioWeight`); валидация лимитов Suno (3000/5000 prompt, 200/1000 style, 80/100 title); callback через существующий `suno-music-callback`.
+  - `suno-persona` — проксирует `POST /api/v1/generate/persona`; принимает `trackId` или `mashupTaskId` + `name` + `description`; стартует обучение голоса.
+  - `suno-persona-callback` — обновляет `track_personas` (`status = 'ready'`, заполняет `suno_persona_id`) после того как Suno завершит обучение.
+  - `suno-file-upload` — multi-action прокси для `POST /api/v1/files/base64` и `POST /api/v1/files/url`; лимит 50 МБ; возвращает `{ file_url, expires_in_days: 3 }`.
+- **DB migration:** новая таблица `public.track_personas` (`id`, `user_id`, `suno_persona_id`, `name`, `description`, `audio_url`, `image_url`, `status` enum `pending|ready|failed`, `task_id`, `created_at`, `updated_at`) + колонка `track_versions.persona_id` (FK nullable). RLS: пользователь видит/редактирует только свои персоны.
+- **UI hooks (TanStack Query mutations):** `useSunoMashup`, `useSunoPersona`, `useSunoFileUpload` (расположение: `src/hooks/studio/`).
+- **`MashupDialog`** (`src/components/MashupDialog.tsx`) — мобильная + десктоп версии через `useIsMobile`; пикеры двух треков из библиотеки (`useTracks({ statusFilter: ["completed"] })`); фильтр trackB исключает trackA; model select V5/V4_5PLUS/V4_5/V4/V3_5; custom-mode toggle; валидация (80-char name, prompt по модели через `validatePromptForGeneration`).
+- **Track actions integration:** добавлен `ActionId 'mashup'` в `trackActionsConfig.ts` (label: «Mashup с другим треком», icon `Disc`, priority 48, `requiresCompleted + requiresAudio`); `DialogStates.mashup` в `useTrackActionsState.ts`; кнопка в `CreateActions.tsx` (sheet + dropdown-menu variants).
+- **GenerationResultSheet:** кнопка «Create Persona» в footer-grid (3 cols); Dialog с name (80-char limit) + description; вызывает `useSunoPersona`.
+- **Telegram bot:** команда `/mashup` → deep-link `?startapp=mashup_<trackId>` через `web_app` кнопку; callback `mashup_<trackId>` → `handleMashup` (`telegram-bot/commands/mashup.ts`); добавлена кнопка «Mashup с другим треком» в keyboard `createTrackDetailsKeyboard`.
+- **E2E:** `tests/e2e/suno-mashup.spec.ts` — два smoke-теста (deep-link не крашит mini app; MashupDialog рендерится из track actions menu; skips при пустой library).
+- **Docs:** `docs/SUNO_API.md` — раздел «История изменений → Sprint 052» (DB schema, edge contracts, curl-примеры mashup/persona/upload); 3 новых curl-примера в секции «Примеры использования» (Пример 5/6/7).
+
+#### Changed
+
+- **`suno-upload-cover` и `suno-upload-extend`** — рефакторинг: убрана собственная multipart-логика (~80 строк дублирования); теперь вызывают общий `_shared/suno-file-uploader.ts → forwardBase64ToSuno`.
+
+#### Deferred (Sprint 052-C)
+
+- **Storybook stories** для `MashupDialog` (states: empty / loading / error / success).
+- **i18n strings** (en/ru) для mashup/persona flows — добавлю в отдельном cleanup-спринте.
+
 ### 🎼 Editorial lyrics editor + tag picker for advanced generation (2026-07-04)
 
 > Sprint 052-A5. Landed in commit `18b1e80e` as part of the broader Suno-file-upload refactor.

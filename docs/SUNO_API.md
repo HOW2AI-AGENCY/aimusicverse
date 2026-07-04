@@ -369,6 +369,99 @@ Unity, Unidad, Единство`,
 };
 ```
 
+### Пример 5: Mashup двух треков (Sprint 052)
+
+```bash
+curl -X POST "$SUPABASE_URL/functions/v1/suno-mashup" \
+  -H "Authorization: Bearer $USER_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "trackAId": "uuid-track-a",
+    "trackBId": "uuid-track-b",
+    "customMode": true,
+    "prompt": "[Verse] Soft piano\n[Chorus] Driving bassline\n[Outro] Fade",
+    "style": "Electronic Pop",
+    "title": "Fusion Mashup",
+    "model": "V5",
+    "vocalGender": "f",
+    "styleWeight": 0.7,
+    "instrumental": false
+  }'
+```
+
+**Ответ (202 Accepted):**
+
+```json
+{
+  "taskId": "suno-task-uuid",
+  "clipIds": ["clip-1", "clip-2"],
+  "model": "V5",
+  "creditsUsed": 20,
+  "status": "queued"
+}
+```
+
+Параметр `clipIds` появится после callback `suno-music-callback`; polling через стандартный `suno-check-status`.
+
+### Пример 6: Persona из готового трека (Sprint 052)
+
+```bash
+curl -X POST "$SUPABASE_URL/functions/v1/suno-persona" \
+  -H "Authorization: Bearer $USER_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "trackId": "uuid-completed-track",
+    "name": "My Voice",
+    "description": "Warm alto, breathy"
+  }'
+```
+
+**Ответ (200 OK):**
+
+```json
+{
+  "personaId": "track-personas-row-uuid",
+  "sunoPersonaId": "pending:task-uuid",
+  "status": "pending"
+}
+```
+
+После того как Suno завершит обучение (`suno-persona-callback` дернётся автоматически), `sunoPersonaId` обновится на реальный идентификатор и `status` сменится на `ready`.
+
+### Пример 7: File Upload Proxy (Sprint 052)
+
+```bash
+# base64
+curl -X POST "$SUPABASE_URL/functions/v1/suno-file-upload" \
+  -H "Authorization: Bearer $USER_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "action": "base64",
+    "fileBase64": "<base64 mp3 без префикса data:...;base64,>",
+    "filename": "vocal.mp3"
+  }'
+
+# url (Suno сам скачает)
+curl -X POST "$SUPABASE_URL/functions/v1/suno-file-upload" \
+  -H "Authorization: Bearer $USER_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "action": "url",
+    "fileUrl": "https://example.com/sample.mp3"
+  }'
+```
+
+**Ответ:**
+
+```json
+{
+  "file_url": "https://cdn.suno.com/files/<uuid>.mp3",
+  "expires_in_days": 3
+}
+```
+
+**Лимит размера:** 50 МБ (валидация на стороне edge function; превышение → `413 Payload Too Large`).
+
 ## Rate Limits
 
 - **Бесплатный план**: 10 генераций/день
@@ -455,6 +548,58 @@ async function pollTrackStatus(taskId: string): Promise<Track> {
 ```
 
 ## История изменений
+
+### 2026-07-04 — Sprint 052: Mashup + Persona + File Upload Proxy
+
+**Новые edge functions (Supabase):**
+
+- `suno-mashup` (`/functions/v1/suno-mashup`) — проксирует `POST /api/v1/generate/mashup`. Принимает `trackAId` + `trackBId` (резолвит `audio_url` из Supabase Storage), `customMode`, `prompt`, `style`, `title`, `model`, опциональные `vocalGender`, `styleWeight`, `weirdnessConstraint`, `audioWeight`. Callback: `suno-music-callback` (signalatura совпадает со стандартной генерацией).
+- `suno-persona` (`/functions/v1/suno-persona`) — проксирует `POST /api/v1/generate/persona`. Принимает `trackId` или `mashupTaskId` (резолвит `audio_url`), `name`, `description`. Callback создаёт запись в `track_personas` (suno_persona_id заполняется после обучения).
+- `suno-persona-callback` (`/functions/v1/suno-persona-callback`) — обновляет `track_personas.status = 'ready'` и `suno_persona_id` после того, как Suno завершит обучение.
+- `suno-file-upload` (`/functions/v1/suno-file-upload`) — multi-action прокси для `POST /api/v1/files/base64` и `POST /api/v1/files/url`. Возвращает `{ file_url, expires_in_days: 3 }`. Лимит 50 МБ.
+
+**Рефакторинг:**
+
+- `suno-upload-cover` и `suno-upload-extend` теперь используют общий `_shared/suno-file-uploader.ts` (`forwardBase64ToSuno`) вместо собственной multipart-логики — экономит ~80 строк дублирования.
+
+**UI:**
+
+- `src/components/MashupDialog.tsx` (мобильная + десктоп версии через `useIsMobile`) — выбор двух треков из библиотеки, model select (V5/V4_5PLUS/V4_5/V4/V3_5), custom mode toggle, валидация (80-char name, prompt по модели).
+- `src/hooks/studio/useSunoMashup.ts`, `useSunoPersona.ts`, `useSunoFileUpload.ts` — TanStack Query мутации.
+- `GenerationResultSheet` — кнопка «Create Persona» (Grid col-3) + Dialog с name/description → `suno-persona`.
+
+**Telegram bot:**
+
+- Команда `/mashup` (`telegram-bot/commands/mashup.ts`) — отправляет deep-link `?startapp=mashup_<trackId>` web-app кнопкой.
+- Callback `mashup_<trackId>` → `handleMashup` (через `media.ts`).
+- Deep-link handler `startapp=mashup_<id>` → отправляет mashup-диалог в mini app.
+
+**DB миграция (`track_personas`):**
+
+```sql
+create table public.track_personas (
+  id              uuid primary key default gen_random_uuid(),
+  user_id         uuid not null references auth.users(id) on delete cascade,
+  suno_persona_id text,
+  name            text not null,
+  description     text,
+  audio_url       text,
+  image_url       text,
+  status          text not null default 'pending'
+                  check (status in ('pending', 'ready', 'failed')),
+  task_id         text,
+  created_at      timestamptz not null default now(),
+  updated_at      timestamptz not null default now()
+);
+
+alter table public.track_versions
+  add column persona_id uuid references public.track_personas(id) on delete set null;
+
+-- RLS: пользователи видят/редактируют только свои персоны
+alter table public.track_personas enable row level security;
+create policy "Users manage own personas" on public.track_personas
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+```
 
 ### 2025-12-08
 
