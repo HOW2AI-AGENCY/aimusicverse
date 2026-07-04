@@ -61,6 +61,7 @@ function GenerateRedirect() {
 // Lazy load pages - prioritize critical paths with retry
 const Index = lazyWithRetry(() => import("./pages/Index"));
 const Auth = lazyWithRetry(() => import("./pages/Auth")); // Critical: auth flow
+const OAuthConsent = lazyWithRetry(() => import("./pages/OAuthConsent")); // MCP OAuth consent
 // Generate page removed - redirect functionality moved to Index.tsx
 const Library = lazyWithRetry(() => import("./pages/Library")); // Critical: main navigation
 
@@ -198,6 +199,7 @@ const App = () => (
                     <RouteWithTransition>
                       <Routes>
                         <Route path="/auth" element={<Auth />} />
+                        <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
 
                         {/* Routes with BottomNavigation */}
                         <Route
