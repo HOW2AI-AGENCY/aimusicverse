@@ -13,6 +13,10 @@
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
 </p>
 
+<sub>📌 <strong>Метрика `any`</strong>: 0 нарушений ESLint-правила <code>no-explicit-any</code> в production-коде. Whitelist (~85 слотов для типизированных interop-границ: Supabase generated types, JSON-парсеры, audio-context, внешние SDK) живёт в <code>scripts/count-any.mjs</code> и ESLint-конфиге. Сырой <code>grep -E "(\bas any\b|: any\b|<any>|\bany\[\])"</code> по <code>src/</code> даёт ~124 вхождения — большинство из них текстовые (комментарии, JSDoc) или входят в whitelist.</sub>
+
+<sub>📌 <strong>Нумерация спринтов</strong>: в этом документе используется сквозная (049 = последний завершённый). <a href="SPRINTS/SPRINT-PROGRESS.md">SPRINT-PROGRESS.md</a> и <a href="ROADMAP.md">ROADMAP.md</a> используют компактную шкалу (последний — 045). Детальные планы лежат в <code>SPRINTS/SPRINT-*.md</code> с реальными номерами (последний актуальный — <a href="SPRINTS/SPRINT-050-PLAN.md">SPRINT-050-PLAN.md</a>).</sub>
+
 <p>
   <a href="README.md">🏠 Главная</a> ·
   <a href="DOCUMENTATION_INDEX.md">📚 Документация</a> ·

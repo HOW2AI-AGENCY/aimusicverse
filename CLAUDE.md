@@ -56,17 +56,17 @@ The application follows a layered architecture:
 
 ```
 ┌─────────────────────────────────────────────┐
-│  Pages (40+)                                │  Route-level components with lazy loading
+│  Pages (76)                                 │  Route-level components with lazy loading
 ├─────────────────────────────────────────────┤
-│  Components (935+)                          │  Feature-specific & UI components
+│  Components (1136)                          │  Feature-specific & UI components
 ├─────────────────────────────────────────────┤
-│  Hooks (340+)                               │  Reusable React logic
+│  Hooks (419)                                │  Reusable React logic
 ├─────────────────────────────────────────────┤
-│  Services (13)                              │  Business logic & data transformation
+│  Services (56)                              │  Business logic & data transformation
 ├─────────────────────────────────────────────┤
-│  API Layer (13)                             │  Direct Supabase queries
+│  API Layer (24)                             │  Direct Supabase queries
 ├─────────────────────────────────────────────┤
-│  Stores (8 Zustand)                         │  Global state (player, studio, lyrics)
+│  Stores (27 Zustand)                        │  Global state (player, studio, lyrics)
 └─────────────────────────────────────────────┘
 ```
 
@@ -79,11 +79,11 @@ The application follows a layered architecture:
 
 ### Critical Directory Purposes
 
-- **`src/api/`** (13 files) - Direct Supabase database operations, type-safe queries
-- **`src/services/`** (13 files) - Business logic layer, data transformation, complex operations
-- **`src/hooks/`** (200+ files) - Custom React hooks for UI logic and state management
-- **`src/stores/`** (8 files) - Zustand stores for complex global state (player, unified studio, lyrics)
-- **`src/components/`** (890+ files) - React components organized by feature
+- **`src/api/`** (24 files) - Direct Supabase database operations, type-safe queries
+- **`src/services/`** (56 files) - Business logic layer, data transformation, complex operations
+- **`src/hooks/`** (419 files) - Custom React hooks for UI logic and state management
+- **`src/stores/`** (27 files) - Zustand stores for complex global state (player, unified studio, lyrics)
+- **`src/components/`** (1136 files) - React components organized by feature
   - `ui/` - shadcn/ui base components + custom components (LazyImage, GlowButton, etc.)
   - `player/` - Audio player (CompactPlayer, ExpandedPlayer, MobileFullscreenPlayer)
   - `generate-form/` - Music generation form modules
@@ -92,7 +92,7 @@ The application follows a layered architecture:
   - `library/` - Track library with virtualization
   - `track-actions/` - Unified action menus
 - **`src/lib/`** (60+ files) - Utility functions (audio, logging, performance, error handling)
-- **`src/pages/`** (40+ files) - Route pages with code splitting
+- **`src/pages/`** (76 files) - Route pages with code splitting
 - **`src/contexts/`** (10 files) - React Context providers (Auth, Theme, Telegram, Notification)
 
 ### Key Architecture Files
@@ -505,13 +505,13 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: 035 (Стабилизация + Чистка) - in progress
+- Sprint: 049 (Per-version likes + Mobile reconnect) — завершён. Текущий план — [Sprint 050](SPRINTS/SPRINT-050-PLAN.md) (Main Green + Mobile Audit F1–F12). См. сноску о нумерации в [PROJECT_STATUS.md](PROJECT_STATUS.md)
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
-- Components: 987, Hooks: 347, Stores: 20, API files: 20, Services: 18
+- Components: 1136, Hooks: 419, Stores: 27, API files: 24, Services: 56 (verified 2026-07-04)
 - Bundle Size: 2.11 MB gzip total across all chunks (`size-limit`'s "Total Bundle" check sums every chunk including admin/studio/lazy pages, not just what a given page loads — the previously-cited "918 KB" figure was stale). Real eager JS on cold page load (what actually competes for bandwidth on first paint): ~508 KB gzip after the 2026-07-03 homepage/bundle fixes (down from ~1.19 MB) — see `docs/BUNDLE_ANALYSIS.md`
-- Unit Tests: 341 passing (25 test suites), Storybook: 4 stories, E2E: 47 specs
-- Key Issues: 30+ layer violations, 6 code duplicates, 0/50 `any` budget (was 342, cleaned up in Sprint 044), 33 files >500 LOC, rules-of-hooks now enforced as error
-- Overall Progress: 94% (35 sprints complete incl. Sprint 037)
+- Unit Tests: 282 passing (17 test suites per PROJECT_STATUS badge; файлов: 101 в `src/__tests__`+`tests/`), Storybook: 4 stories, E2E: 47 specs
+- Key Issues: 0 layer-boundary violations (после Sprint 043), 0/50 `any` budget в production (`no-explicit-any: error` в ESLint; whitelist ~85 слотов в `scripts/count-any.mjs` — см. сноску в [PROJECT_STATUS.md](PROJECT_STATUS.md)), 9 файлов >800 LOC (Sprint 051 — декомпозиция под защитой тестов), rules-of-hooks теперь `"error"`
+- Overall Progress: 99% (49 sprints complete in PROJECT_STATUS; в SPRINT-PROGRESS.md — компактная нумерация до 045)
 
 ## Telegram Bot Integration
 
@@ -610,7 +610,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-06-29 (Sprint 037 — Infrastructure Hardening & Developer Experience)
+**Last Updated:** 2026-07-04 (sync метрик с реальным кодом — audit прогресса)
 
 ## graphify
 
