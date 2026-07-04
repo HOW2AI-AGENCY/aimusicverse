@@ -105,7 +105,7 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### In Progress
 
-_(none — Sprint 045 closed out below; Sprint 050 not yet started, see Planned)_
+- **Sprint 050 — Main Green + Mobile Audit F1–F12** 🔄 (начат 2026-07-04, вечер). **A0 ✅** — P0-хотфикс typecheck влит в main (PR #576/#577: `MashupDialog` деструктуризация `tracks` + implicit index signature для `SunoMashupParams`/`SunoPersonaParams`; +4 регрессионных теста; Quality & Build зелёный). **A2 🔄** — lychee сужен до 7 ссылок `docs/VOICE_CLONING_INTEGRATION.md`, починены в ветке `claude/sprint-closure-planning-m6skuk`. Главный блокер — **A4** (force-push в `main` продолжается; нужна branch protection — решение владельца). Операционный чеклист закрытия: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
 
 ### Completed (recent)
 
@@ -157,6 +157,6 @@ _(none — Sprint 045 closed out below; Sprint 050 not yet started, see Planned)
 | :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :-------------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
 
-<sub>Last updated: 2026-07-04 (progress audit — [report](docs/audit/PROGRESS-AUDIT-2026-07-04.md); Sprint 050 re-scoped to «Main Green + F1–F12», Sprint 051/052 outlined — [SPRINTS/SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md))</sub>
+<sub>Last updated: 2026-07-04, вечер (Sprint 050 начат — A0 P0-хотфикс влит, PR #576/#577; план закрытия спринтов — [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md); ранее: progress audit — [report](docs/audit/PROGRESS-AUDIT-2026-07-04.md))</sub>
 
 </div>

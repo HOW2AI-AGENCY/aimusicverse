@@ -751,15 +751,15 @@ logger.warn("Voice quality issues detected", {
 
 ### Documentation
 
-- [Voice Cloning README](./VOICE_CLONING_README.md) - Полное руководство
-- [API Documentation](https://docs.sunoapi.org/suno-voice) - Suno API docs
+- [Suno API Reference](./SUNO_API.md) - Внутренняя документация Suno API
+- [API Documentation](https://docs.sunoapi.org/) - Suno API docs
 - [Troubleshooting](./TROUBLESHOOTING_GUIDE.md) - Общие troubleshooting
 
 ### Code Examples
 
-- [VoiceCloneService](../../services/voice/VoiceCloneService.ts) - Сервис
-- [useVoiceCloning](../../hooks/useVoiceCloning.ts) - React хук
-- [VoiceCloningStudio](../../components/studio/voice-cloning/VoiceCloningStudio.tsx) - UI компонент
+- [VoiceCloneService](../src/services/voice/VoiceCloneService.ts) - Сервис
+- [useVoiceCloneWizard](../src/hooks/voice/useVoiceCloneWizard.ts) - React хук
+- [VoiceCloneWizard](../src/components/voice-clone/VoiceCloneWizard.tsx) - UI компонент
 
 ---
 
@@ -792,5 +792,5 @@ logger.warn("Voice quality issues detected", {
 
 ---
 
-**Для вопросов**: [Support](../../docs/SUPPORT.md) • [Development](../../CONTRIBUTING.md)  
+**Для вопросов**: [GitHub Issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues) • [Development](../CONTRIBUTING.md)  
 **Баг-трекер**: [GitHub Issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)

@@ -5,17 +5,17 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-049-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-050_in_progress-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-17_suites-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-292_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
 </p>
 
 <sub>📌 <strong>Метрика `any`</strong>: 0 нарушений ESLint-правила <code>no-explicit-any</code> в production-коде. Whitelist (~85 слотов для типизированных interop-границ: Supabase generated types, JSON-парсеры, audio-context, внешние SDK) живёт в <code>scripts/count-any.mjs</code> и ESLint-конфиге. Сырой <code>grep -E "(\bas any\b|: any\b|<any>|\bany\[\])"</code> по <code>src/</code> даёт ~124 вхождения — большинство из них текстовые (комментарии, JSDoc) или входят в whitelist.</sub>
 
-<sub>📌 <strong>Нумерация спринтов</strong>: в этом документе используется сквозная (049 = последний завершённый). <a href="SPRINTS/SPRINT-PROGRESS.md">SPRINT-PROGRESS.md</a> и <a href="ROADMAP.md">ROADMAP.md</a> используют компактную шкалу (последний — 045). Детальные планы лежат в <code>SPRINTS/SPRINT-*.md</code> с реальными номерами (последний актуальный — <a href="SPRINTS/SPRINT-050-PLAN.md">SPRINT-050-PLAN.md</a>).</sub>
+<sub>📌 <strong>Нумерация спринтов</strong>: в этом документе используется сквозная (052 = последний завершённый, 050 «Main Green» в работе — нумерация не строго хронологическая). <a href="SPRINTS/SPRINT-PROGRESS.md">SPRINT-PROGRESS.md</a> и <a href="ROADMAP.md">ROADMAP.md</a> используют компактную шкалу. Детальные планы лежат в <code>SPRINTS/SPRINT-*.md</code>; операционный план закрытия — <a href="SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md">SPRINT-CLOSURE-PLAN-2026-07.md</a>.</sub>
 
 <p>
   <a href="README.md">🏠 Главная</a> ·
@@ -42,6 +42,15 @@
 | `68c2867` | Миграция `20260704015640`: security-hardening RLS (api_usage_logs, запрет обхода модерации комментариев, storage-политики `reference-audio` → authenticated)                                               |
 
 **Побочные эффекты** (исправлены в ветке `claude/progress-audit-plan-fpobal`): prettier-дрейф в 24 файлах ронял Format check в CI на каждый пуш; build-артефакты `*.tsbuildinfo` попали в git. Открыто: `bun.lock` рядом с `package-lock.json`, сверка прод-миграций — см. Sprint 050 (050-A3/A5).
+
+## 🆕 P0-хотфикс typecheck влит в main (2026-07-04, вечер) ✅
+
+Sprint 052 влился в `main` с 8 ошибками `tsc` — Quality & Build был красным, unit-тесты в CI не запускались вовсе (step skipped). Закрыто тем же днём (PR #576 + #577, план: [SPRINTS/WORK-PLAN-2026-07-04.md](SPRINTS/WORK-PLAN-2026-07-04.md) §2):
+
+- `MashupDialog.tsx` — деструктуризация `data` из `useTracks()` (хук возвращает `tracks`): это был ещё и **runtime-баг** — пикеры треков Mashup всегда оставались пустыми. +4 регрессионных теста.
+- `SunoMashupParams`/`SunoPersonaParams` — `interface` → `type` (implicit index signature для `invoke`-обёртки).
+
+**Результат:** Quality & Build на мерж-коммите `0ea8603` — ✅ success; unit 292/292 (20 suites). Дальнейшее закрытие CI (Docs/E2E/процесс Lovable) — [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
 
 ## 🆕 Недавно смержено, вне спринт-нумерации (2026-07-03)
 
@@ -542,22 +551,22 @@ mindmap
 
 ## 🗓 Дорожная карта спринтов (обновлено 2026-07-03)
 
-| Спринт  | Фокус                                                                                 | Статус          | Срок |
-| ------- | ------------------------------------------------------------------------------------- | --------------- | ---- |
-| **042** | Page Decomposition + Audio Pooling                                                    | ✅ ЗАВЕРШЁН     | Июль |
-| **043** | Layer Pass #2 + A11y                                                                  | ✅ ЗАВЕРШЁН     | Июль |
-| **044** | Type Safety Wave 2 (`any` 342 → 0, финально)                                          | ✅ ЗАВЕРШЁН     | Июль |
-| **045** | UX/UI Deep Polish + Hygiene                                                           | ✅ ЗАВЕРШЁН     | Авг  |
-| **046** | Desktop Layout Polish + 4K Awareness                                                  | ✅ ЗАВЕРШЁН     | Июль |
-| **047** | Mobile Audit + Z-Index/Spacing/Scroll-Lock                                            | ✅ ЗАВЕРШЁН     | Июль |
-| **048** | Creation-Flow Motion Pass + Mobile Perf Fixes                                         | ✅ ЗАВЕРШЁН     | Июль |
-| **049** | Mobile UX: A/B версии, per-version лайки                                              | ✅ ЗАВЕРШЁН     | Июль |
-| **050** | Main Green + Mobile Audit F1–F12 ([план](SPRINTS/SPRINT-050-PLAN.md))                 | 📋 Запланирован | Июль |
-| **051** | Test Debt + God Files (tests-first декомпозиция)                                      | 📋 Запланирован | Июль |
-| **052** | Suno API: Mashup + Persona + File Upload ([план](SPRINTS/SPRINT-052-PLAN.md))         | 📋 Запланирован | Авг  |
-| **053** | Suno API: Sounds + MIDI Direct + Boost Style ([план](SPRINTS/SPRINT-053-PLAN.md))     | 📋 Запланирован | Авг  |
-| **054** | Suno API: Details Suite + Per-Task Introspection ([план](SPRINTS/SPRINT-054-PLAN.md)) | 📋 Запланирован | Сен  |
-| —       | Eager-load bundle fix (1.19 МБ → 508 КБ gzip, вне спринт-нумерации, #568)             | ✅ ЗАВЕРШЁН     | Июль |
+| Спринт  | Фокус                                                                                                                     | Статус                            | Срок |
+| ------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ---- |
+| **042** | Page Decomposition + Audio Pooling                                                                                        | ✅ ЗАВЕРШЁН                       | Июль |
+| **043** | Layer Pass #2 + A11y                                                                                                      | ✅ ЗАВЕРШЁН                       | Июль |
+| **044** | Type Safety Wave 2 (`any` 342 → 0, финально)                                                                              | ✅ ЗАВЕРШЁН                       | Июль |
+| **045** | UX/UI Deep Polish + Hygiene                                                                                               | ✅ ЗАВЕРШЁН                       | Авг  |
+| **046** | Desktop Layout Polish + 4K Awareness                                                                                      | ✅ ЗАВЕРШЁН                       | Июль |
+| **047** | Mobile Audit + Z-Index/Spacing/Scroll-Lock                                                                                | ✅ ЗАВЕРШЁН                       | Июль |
+| **048** | Creation-Flow Motion Pass + Mobile Perf Fixes                                                                             | ✅ ЗАВЕРШЁН                       | Июль |
+| **049** | Mobile UX: A/B версии, per-version лайки                                                                                  | ✅ ЗАВЕРШЁН                       | Июль |
+| **050** | Main Green + Mobile Audit F1–F12 ([план](SPRINTS/SPRINT-050-PLAN.md), [закрытие](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md)) | 🔄 В работе (A0 ✅, A2 🔄)        | Июль |
+| **051** | Test Debt + God Files (tests-first декомпозиция)                                                                          | 📋 Запланирован                   | Июль |
+| **052** | Suno API: Mashup + Persona + File Upload ([план](SPRINTS/SPRINT-052-PLAN.md))                                             | ✅ ЗАВЕРШЁН (8/10, хвост в 052-C) | Июль |
+| **053** | Suno API: Sounds + MIDI Direct + Boost Style ([план](SPRINTS/SPRINT-053-PLAN.md))                                         | 📋 Запланирован                   | Авг  |
+| **054** | Suno API: Details Suite + Per-Task Introspection ([план](SPRINTS/SPRINT-054-PLAN.md))                                     | 📋 Запланирован                   | Сен  |
+| —       | Eager-load bundle fix (1.19 МБ → 508 КБ gzip, вне спринт-нумерации, #568)                                                 | ✅ ЗАВЕРШЁН                       | Июль |
 
 **Открытые долги / риски (обновлено 2026-07-03, #567/#568):**
 
@@ -643,15 +652,15 @@ mindmap
 
 ## 🚨 Активные блокеры
 
-| Блокер                                                                                                                           | Критичность | Целевой спринт                                         |
-| -------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------ |
-| CI/CD Pipeline на `main` красный — prettier-дрейф от прямых Lovable-коммитов (24 файла)                                          | 🔴 Critical | фикс готов в ветке `claude/progress-audit-plan-fpobal` |
-| Прямые коммиты в `main` мимо хуков — системная причина красного CI (нужен auto-format workflow или branch protection)            | 🔴 Critical | 050-A4                                                 |
-| Docs workflow падает на link-check (lychee)                                                                                      | 🟠 High     | 050-A2                                                 |
-| E2E — статус не подтверждён в реальном CI после фикса зависимости `@axe-core/playwright` (run #115 in progress на момент аудита) | 🟠 High     | 050-A1                                                 |
-| Прод-миграции не сверены (две пересекающиеся likes-миграции: `20260703120000` + `20260704014859`)                                | 🟠 High     | 050-A3                                                 |
-| Файлы >800 строк (9, список пересмотрен 2026-07-04 — см. выше)                                                                   | 🟠 High     | 051                                                    |
-| Unit-тесты 282/1000 — покрытие невелико                                                                                          | 🟠 High     | 051                                                    |
+| Блокер                                                                                                                                                       | Критичность | Целевой спринт |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- | -------------- |
+| ~~Typecheck на `main` красный (8 ошибок `tsc` из Sprint 052)~~ ✅ закрыт 2026-07-04 вечером — PR #576/#577, Q&B зелёный                                      | ✅ Resolved | 050-A0 ✅      |
+| Прямые коммиты + **force-push** в `main` мимо хуков (повторно зафиксирован `4ec3684...02fa511`) — системная причина красного CI                              | 🔴 Critical | 050-A4         |
+| Docs workflow падает на link-check (lychee) — сужено до 7 ссылок в `docs/VOICE_CLONING_INTEGRATION.md`, фикс в ветке `claude/sprint-closure-planning-m6skuk` | 🟠 High     | 050-A2         |
+| E2E — статус не подтверждён в реальном CI после фикса зависимости `@axe-core/playwright` (run на `02fa511` in progress)                                      | 🟠 High     | 050-A1         |
+| Прод-миграции не сверены (две пересекающиеся likes-миграции: `20260703120000` + `20260704014859`)                                                            | 🟠 High     | 050-A3         |
+| Файлы >800 строк (9, список пересмотрен 2026-07-04 — см. выше)                                                                                               | 🟠 High     | 051            |
+| Unit-тесты 292/1000 — покрытие невелико; 25 файлов в `tests/unit/` не исполняются vitest include                                                             | 🟠 High     | 051            |
 
 Под наблюдением (не блокируют):
 
@@ -669,6 +678,6 @@ mindmap
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-07-04 (Sprint 052 завершён 8/10 — Suno Mashup/Persona/File Upload закрыты, deferred B9/B10 в Sprint 052-C; docs синхронизированы [CHANGELOG](CHANGELOG.md) · [ROADMAP](ROADMAP.md) · [SUNO_API](docs/SUNO_API.md). План Sprint 050–054 — [SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md) · [052](SPRINTS/SPRINT-052-PLAN.md) · [053](SPRINTS/SPRINT-053-PLAN.md) · [054](SPRINTS/SPRINT-054-PLAN.md))</sub>
+<sub>Последнее обновление: 2026-07-04, поздний вечер (P0-хотфикс typecheck влит — PR #576/#577, Q&B на main зелёный; Sprint 050 в работе (A0 ✅); план закрытия спринтов — [SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md). Планы: [SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md) · [052](SPRINTS/SPRINT-052-PLAN.md) · [053](SPRINTS/SPRINT-053-PLAN.md) · [054](SPRINTS/SPRINT-054-PLAN.md))</sub>
 
 </div>

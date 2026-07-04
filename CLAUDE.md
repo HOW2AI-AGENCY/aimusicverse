@@ -505,11 +505,11 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: 049 (Per-version likes + Mobile reconnect) — завершён. Текущий план — [Sprint 050](SPRINTS/SPRINT-050-PLAN.md) (Main Green + Mobile Audit F1–F12). См. сноску о нумерации в [PROJECT_STATUS.md](PROJECT_STATUS.md)
+- Sprint: 052 (Suno Mashup/Persona/Upload) — завершён 8/10; Sprint 050 (Main Green + Mobile Audit F1–F12) — в работе, A0 (P0-хотфикс typecheck, PR #576/#577) закрыта. Операционный план закрытия спринтов — [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md). См. сноску о нумерации в [PROJECT_STATUS.md](PROJECT_STATUS.md)
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
 - Components: 1136, Hooks: 419, Stores: 27, API files: 24, Services: 56 (verified 2026-07-04)
 - Bundle Size: 2.11 MB gzip total across all chunks (`size-limit`'s "Total Bundle" check sums every chunk including admin/studio/lazy pages, not just what a given page loads — the previously-cited "918 KB" figure was stale). Real eager JS on cold page load (what actually competes for bandwidth on first paint): ~508 KB gzip after the 2026-07-03 homepage/bundle fixes (down from ~1.19 MB) — see `docs/BUNDLE_ANALYSIS.md`
-- Unit Tests: 282 passing (17 test suites per PROJECT_STATUS badge; файлов: 101 в `src/__tests__`+`tests/`), Storybook: 4 stories, E2E: 47 specs
+- Unit Tests: 292 passing (20 test files — фактический прогон `npm test` 2026-07-04; ещё 25 файлов в `tests/unit/` не исполняются vitest include — задача Sprint 051), Storybook: 4 stories, E2E: 47 specs
 - Key Issues: 0 layer-boundary violations (после Sprint 043), 0/50 `any` budget в production (`no-explicit-any: error` в ESLint; whitelist ~85 слотов в `scripts/count-any.mjs` — см. сноску в [PROJECT_STATUS.md](PROJECT_STATUS.md)), 9 файлов >800 LOC (Sprint 051 — декомпозиция под защитой тестов), rules-of-hooks теперь `"error"`
 - Overall Progress: 99% (49 sprints complete in PROJECT_STATUS; в SPRINT-PROGRESS.md — компактная нумерация до 045)
 
@@ -610,7 +610,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-07-04 (sync метрик с реальным кодом — audit прогресса)
+**Last Updated:** 2026-07-04, вечер (P0-хотфикс влит в main, Sprint 050 в работе, план закрытия спринтов — SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md)
 
 ## graphify
 
