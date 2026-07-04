@@ -54,7 +54,7 @@ export function useSunoCancel(): UseSunoCancelResult {
       // Sprint 055 analytics: cancel success.
       void trackEvent(
         {
-          eventType: "feature_usage",
+          eventType: "feature_used",
           pagePath: "generation",
           metadata: { action: "cancel_complete", task_id: taskId, succeeded: true },
         },
@@ -70,7 +70,7 @@ export function useSunoCancel(): UseSunoCancelResult {
       logger.error("Suno cancel failed", error, { taskId });
       void trackEvent(
         {
-          eventType: "feature_usage",
+          eventType: "feature_used",
           pagePath: "generation",
           metadata: { action: "cancel_complete", task_id: taskId, succeeded: false, error: message },
         },
