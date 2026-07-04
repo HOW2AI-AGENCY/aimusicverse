@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/supabase/vite";
 import type { Plugin } from "vite";
 
 let visualizer: ((opts: Record<string, unknown>) => Plugin) | undefined;
@@ -62,6 +63,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
+    mcpPlugin(),
     mode === "development" && componentTagger(),
     mode === "production" && reactPriorityPlugin(),
     mode === "production" &&
