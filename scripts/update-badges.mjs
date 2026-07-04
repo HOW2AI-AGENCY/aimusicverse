@@ -18,9 +18,10 @@ const clean = (v) => (v ? String(v).replace(/^[\^~>=<\s]+/, "") : "unknown");
 
 let latestTag = null;
 try {
-  latestTag = execSync("git describe --tags --abbrev=0", { stdio: ["ignore", "pipe", "ignore"] })
-    .toString()
-    .trim() || null;
+  latestTag =
+    execSync("git describe --tags --abbrev=0", { stdio: ["ignore", "pipe", "ignore"] })
+      .toString()
+      .trim() || null;
 } catch {
   // no tags yet — omit the Release badge below rather than show a fake v0.0.0
 }
