@@ -145,7 +145,7 @@ _(none — Sprint 045 closed out below; Sprint 050 not yet started, see Planned)
 
 ### 🔗 Related Documentation
 
-|            📚 Index             |      🏛 Architecture       |          📊 Status          |       📝 Changelog        |             🪲 Issues             |
+|            📚 Index             |       🏛 Architecture       |          📊 Status          |       📝 Changelog        |             🪲 Issues             |
 | :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :-------------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
 

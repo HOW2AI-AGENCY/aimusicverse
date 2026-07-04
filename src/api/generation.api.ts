@@ -179,13 +179,7 @@ export async function retryGenerationTask(taskId: string): Promise<void> {
 // ==========================================
 
 export type FailureCategory =
-  | "api_error"
-  | "rate_limit"
-  | "content_policy"
-  | "timeout"
-  | "network"
-  | "validation"
-  | "unknown";
+  "api_error" | "rate_limit" | "content_policy" | "timeout" | "network" | "validation" | "unknown";
 
 export interface FailurePattern {
   failure_category: string;

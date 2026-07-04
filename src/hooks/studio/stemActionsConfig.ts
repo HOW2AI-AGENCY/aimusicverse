@@ -35,16 +35,7 @@ import {
 } from "@/lib/icons";
 
 export type StemType =
-  | "vocal"
-  | "instrumental"
-  | "drums"
-  | "bass"
-  | "guitar"
-  | "piano"
-  | "other"
-  | "main"
-  | "stem"
-  | "sfx";
+  "vocal" | "instrumental" | "drums" | "bass" | "guitar" | "piano" | "other" | "main" | "stem" | "sfx";
 
 export interface StemAction {
   id: string;

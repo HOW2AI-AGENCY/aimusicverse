@@ -9,15 +9,7 @@ import { logger } from "@/lib/logger";
 const log = logger.child({ module: "NotificationManager" });
 
 export type NotificationType =
-  | "info"
-  | "success"
-  | "warning"
-  | "error"
-  | "generation"
-  | "project"
-  | "social"
-  | "achievement"
-  | "system";
+  "info" | "success" | "warning" | "error" | "generation" | "project" | "social" | "achievement" | "system";
 
 export interface NotificationOptions {
   userId: string;

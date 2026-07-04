@@ -2,7 +2,7 @@
 
 **Последнее обновление**: 2026-07-02
 
-> 📌 **Важно**: Это документ отслеживает все спринты и их статусы. Для детального плана задач смотрите [SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md).
+> 📌 **Важно**: Это документ отслеживает все спринты и их статусы. Для детального плана задач смотрите [BACKLOG.md](BACKLOG.md).
 
 ## 📊 Общий статус
 
@@ -291,7 +291,7 @@ All sprints 001-034 are completed. Sprint 037 completed 2026-06-29. Sprint 038 c
 
 - [PROJECT_STATUS.md](../PROJECT_STATUS.md) — Статус проекта
 - [ROADMAP.md](../ROADMAP.md) — Дорожная карта
-- [KNOWLEDGE_BASE.md](../KNOWLEDGE_BASE.md) — База знаний
+- [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) — Указатель документации
 - [docs/FSM_STATE_SCHEMA.md](../docs/FSM_STATE_SCHEMA.md) — FSM state schema (new)
 
 ---

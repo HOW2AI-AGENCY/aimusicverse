@@ -24,13 +24,7 @@ import { backdrop, pill } from "@/lib/overlay-colors";
 // ============= Types =============
 
 export type RewardNotificationType =
-  | "level_up"
-  | "achievement"
-  | "credits"
-  | "experience"
-  | "streak"
-  | "welcome_bonus"
-  | "subscription";
+  "level_up" | "achievement" | "credits" | "experience" | "streak" | "welcome_bonus" | "subscription";
 
 export interface RewardNotificationData {
   type: RewardNotificationType;

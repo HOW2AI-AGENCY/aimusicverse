@@ -6,15 +6,7 @@ import { LucideIcon } from "@/lib/icons";
 
 // Phase 4: Streamlined from 17 to 9 core tool IDs
 export type AIToolId =
-  | "write"
-  | "continue"
-  | "analyze"
-  | "producer"
-  | "optimize"
-  | "rhyme"
-  | "structure"
-  | "style_convert"
-  | "translate";
+  "write" | "continue" | "analyze" | "producer" | "optimize" | "rhyme" | "structure" | "style_convert" | "translate";
 
 export type BackendAction =
   | "generate"

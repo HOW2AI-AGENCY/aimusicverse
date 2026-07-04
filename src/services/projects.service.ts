@@ -48,14 +48,7 @@ export const IMAGE_STYLES: Record<ImageStyle, { label: string; description: stri
 };
 
 export type TypographyStyle =
-  | "modern"
-  | "classic"
-  | "handwritten"
-  | "bold"
-  | "minimal"
-  | "grunge"
-  | "elegant"
-  | "retro";
+  "modern" | "classic" | "handwritten" | "bold" | "minimal" | "grunge" | "elegant" | "retro";
 
 export const TYPOGRAPHY_STYLES: Record<TypographyStyle, { label: string; description: string }> = {
   modern: { label: "Современный", description: "Чистые sans-serif шрифты" },

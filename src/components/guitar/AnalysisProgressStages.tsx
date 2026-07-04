@@ -12,14 +12,7 @@ import { Upload, Activity, Music, FileMusic, CheckCircle2, Loader2, Clock, Zap, 
 import { cn } from "@/lib/utils";
 
 export type AnalysisStage =
-  | "idle"
-  | "uploading"
-  | "beat-tracking"
-  | "chord-recognition"
-  | "transcription"
-  | "processing"
-  | "complete"
-  | "error";
+  "idle" | "uploading" | "beat-tracking" | "chord-recognition" | "transcription" | "processing" | "complete" | "error";
 
 interface StageInfo {
   id: AnalysisStage;
