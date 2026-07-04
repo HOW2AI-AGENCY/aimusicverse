@@ -88,5 +88,8 @@ export function useGenerateFormState(params: UseGenerateFormParams): UseGenerate
 
     // ─── reset ─────────────────────────────────────────────────────
     resetForm: s.resetForm,
+
+    // ─── draft (forwarded from useGenerateDraft via internal state) ──
+    saveDraft: s.saveDraft,
   };
 }

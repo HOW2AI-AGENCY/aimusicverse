@@ -119,13 +119,16 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
 
   // Real saveDraft / clearDraft — wrap useGenerateDraft from inside the
   // existing internals. We expose them on the public surface.
-  const saveDraft = useCallback(() => {
-    // The legacy composer persists via useGenerateDraft; that hook is
-    // already wired through useGenerateFormStateInternal. For backwards
-    // compat we keep an explicit callable here. No-op implementation
-    // because the auto-save effect in useGenerateFormDraft persists on
-    // its own.
-  }, []);
+  // saveDraft is forwarded from the state slice (which already pulls the
+  // real impl from `useGenerateDraft` via useGenerateFormStateInternal).
+  // Was a no-op before Finding #1 — any caller (e.g. GenerationResultSheet,
+  // a manual "Save draft" button) silently did nothing.
+  const saveDraft = useCallback(
+    (payload?: unknown) => {
+      state.saveDraft(payload);
+    },
+    [state],
+  );
 
   // Track and artist selection handlers — preserve the legacy toast /
   // setter chain so callers see no behavior change.

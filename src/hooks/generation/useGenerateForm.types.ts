@@ -79,6 +79,16 @@ export interface UseGenerateFormStateReturn {
   planTrackId?: string;
   setPlanTrackId: (v: string | undefined) => void;
 
+  /**
+   * Real saveDraft pulled from `useGenerateDraft` (via the internal hook).
+   * Exposed on the state slice so the composer can wire it through to
+   * the public surface instead of using a no-op placeholder.
+   *
+   * Signature mirrors `useGenerateDraft().saveDraft` (accepts an optional
+   * payload; the brief types it as `() => void` for back-compat).
+   */
+  saveDraft: (payload?: unknown) => void;
+
   // public toggle
   isPublic: boolean;
   setIsPublic: (v: boolean) => void;
