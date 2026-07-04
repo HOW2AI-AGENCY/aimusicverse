@@ -24,6 +24,16 @@
 
 ## [Unreleased]
 
+### 🔧 Progress audit — E2E dependency fix + status-doc corrections (2026-07-04)
+
+#### Fixed
+
+- **Missing `@axe-core/playwright` dependency** — `tests/e2e/a11y.axe.spec.ts` imports `@axe-core/playwright`, but only the unrelated `axe-core` package was declared in `package.json`. This crashed Playwright's test collection for the **entire** E2E suite, not just the a11y spec. Added `@axe-core/playwright` to `devDependencies`.
+
+#### Changed
+
+- Corrected several stale claims in `PROJECT_STATUS.md`/`ROADMAP.md`: Sprint 045 marked as complete (header previously contradicted its own phase table); the ">800 LOC" file list updated from 6 to the actual 9 files (`ProjectDetail.tsx`/`usePromptDJEnhanced.ts`/`useUnifiedStudioStore.ts` had already been decomposed in Sprint 042 and no longer qualify); the documented E2E blocker (a syntax error at `tests/e2e/studio/mixer-optimization.spec.ts:158`, attributed to a commit that doesn't exist in history) replaced with the actual root cause above.
+
 ### ⚡ Bundle & Type Safety — eager-load fix, `any`-cleanup complete (2026-07-03)
 
 #### Fixed

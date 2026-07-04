@@ -187,9 +187,9 @@
 | Service Worker + оффлайн-режим                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 | Lighthouse CI budget enforcement              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
-## 🚦 `045` UX/UI Deep Polish + Hygiene (Q3 2026) — В РАБОТЕ 🟡
+## 🚦 `045` UX/UI Deep Polish + Hygiene (Q3 2026) — ЗАВЕРШЁН ✅
 
-**Прогресс: 1/4 фазы завершено (25%)** · Детальный план для Sprint 045 ещё не заведён в `SPRINTS/` (последний актуальный файл — [SPRINTS/SPRINT-042-043-PLAN.md](SPRINTS/SPRINT-042-043-PLAN.md))
+**Прогресс: 4/4 фазы завершено (100%)** · Единственный оставшийся пункт (Phase D-4, ErrorBoundary `useNavigate()`) перенесён в Sprint 050 как функциональное изменение вне рамок design-audit. Детальный план для Sprint 045 ещё не заведён в `SPRINTS/` (последний актуальный файл — [SPRINTS/SPRINT-042-043-PLAN.md](SPRINTS/SPRINT-042-043-PLAN.md))
 
 | Фаза                                                          | Прогресс                                                          |
 | ------------------------------------------------------------- | ----------------------------------------------------------------- |
@@ -425,7 +425,7 @@
 | Unit-тест файлов                     |    **17**     |    200+    |   🟡   |
 | Unit-тестов (штук)                   |    **282**    |   1000+    |   🟡   |
 | E2E спецификации                     |    **48**     | 48 pass CI |   🟡   |
-| Файлов >800 строк                    |     **6**     |     0      |   ❌   |
+| Файлов >800 строк                    |     **9**     |     0      |   ❌   |
 | Использований `any` (всего)          |     **0**     |    ≤50     |   ✅   |
 | `any` в `src/components/**`          |     **0**     |     0      |   ✅   |
 | `any` в `src/hooks/**`               |     **0**     |    ≤50     |   ✅   |
@@ -507,7 +507,7 @@ mindmap
 | **042** | Page Decomposition + Audio Pooling                                        | ✅ ЗАВЕРШЁН     | Июль |
 | **043** | Layer Pass #2 + A11y                                                      | ✅ ЗАВЕРШЁН     | Июль |
 | **044** | Type Safety Wave 2 (`any` 342 → 0, финально)                              | ✅ ЗАВЕРШЁН     | Июль |
-| **045** | UX/UI Deep Polish + Hygiene                                               | 🟡 В работе     | Авг  |
+| **045** | UX/UI Deep Polish + Hygiene                                               | ✅ ЗАВЕРШЁН     | Авг  |
 | **046** | Desktop Layout Polish + 4K Awareness                                      | ✅ ЗАВЕРШЁН     | Июль |
 | **047** | Mobile Audit + Z-Index/Spacing/Scroll-Lock                                | ✅ ЗАВЕРШЁН     | Июль |
 | **048** | Creation-Flow Motion Pass + Mobile Perf Fixes                             | ✅ ЗАВЕРШЁН     | Июль |
@@ -519,8 +519,8 @@ mindmap
 
 - ✅ **Any-cleanup завершён** — 342 → 0 использований `any` в `src/` (commit `6e58dda`, #567); бюджет `count-any.mjs` (≤50) выполняется. Third-party SDK gaps по-прежнему задокументированы в `docs/TYPE_SAFETY_WHITELIST.md` для будущих сужений.
 - ✅ **Eager-load бандл сокращён** — то, что реально грузится на холодном старте, упало с ~1.19 МБ до ~508 КБ gzip (commit `64c9d1d`, #568). `size-limit`'s "Total Bundle" (2.11 МБ) по-прежнему суммирует все чанки, включая admin/studio — дальнейшее сокращение этой цифры требует пересмотра границ `manualChunks`, отслеживается как отдельный follow-up.
-- 🟡 6 файлов >800 строк (god-компоненты ещё ждут декомпозиции)
-- 🟡 E2E CI suite не запускается автоматически (pre-existing syntax error в `tests/e2e/studio/mixer-optimization.spec.ts:158` из коммита `bf81b9d0` — вне scope Sprints 042-044)
+- 🟡 9 файлов >800 строк (god-компоненты ещё ждут декомпозиции; список пересмотрен 2026-07-04 — `ProjectDetail.tsx` и `usePromptDJEnhanced.ts` уже декомпозированы Sprint 042, актуальный список: `src/services/studio.service.ts`, `src/lib/lyrics/LyricsParser.ts`, `src/api/studio.api.ts`, `src/components/studio/unified/IntegratedStemTracks.tsx`, `src/components/studio/UnifiedNotesViewer.tsx`, `src/lib/analytics/deeplink-tracker.ts`, `src/lib/errorHandling.ts`, `src/services/unified-analysis/AudioAnalysisService.ts`, `src/components/generate-form/LyricsVisualEditor.tsx`)
+- 🟡 **E2E CI suite — старая причина блокировки была неверной, найдена и исправлена другая реальная проблема** (2026-07-04): syntax error в `tests/e2e/studio/mixer-optimization.spec.ts:158` (коммит `bf81b9d0`) не подтвердился — коммит не существует в истории, файл синтаксически корректен, `playwright test --list` собирает 98 тестов без ошибок. При этом обнаружена настоящая проблема: `tests/e2e/a11y.axe.spec.ts` импортирует `@axe-core/playwright`, который отсутствовал в `package.json` (там был только `axe-core` — другой пакет) — это роняло сбор **всего** test-run. Зависимость добавлена. Полный прогон (`npm run test:e2e`) в среде проверки не дал финального вердикта — установленный там Chromium (rev. 1194) не совпадает с версией, которую ожидает pinned `@playwright/test@^1.61.1` (rev. 1228), что является ограничением конкретной среды проверки, а не признаком состояния кода. Итоговый статус CI нужно подтвердить прогоном в реальном GitHub Actions pipeline.
 - ✅ 0 нарушений слоёв в `src/components/**` (Sprint 043 + ESLint guardrail заблокировали регрессию)
 - ✅ 0 `any` в `src/components/**` и `src/stores/**` (Sprint 044 D5/D3)
 
@@ -560,12 +560,11 @@ mindmap
 
 ## 🚨 Активные блокеры
 
-| Блокер                                                  | Критичность | Целевой спринт |
-| ------------------------------------------------------- | ----------- | -------------- |
-| God-хуки >800 строк (6 файлов, после 039 рефакторинга)  | 🟠 High     | 045            |
-| E2E 47 spec, 0% CI green — нет автоматической регрессии | 🟠 High     | 040            |
-| Unit-тесты 282/1000 — покрытие невелико                 | 🟠 High     | 040            |
-| ProjectDetail, usePromptDJEnhanced > 800 LOC            | 🟡 Medium   | 045            |
+| Блокер                                                                                                | Критичность | Целевой спринт                   |
+| ----------------------------------------------------------------------------------------------------- | ----------- | -------------------------------- |
+| Файлы >800 строк (9, список пересмотрен 2026-07-04 — см. выше)                                        | 🟠 High     | 051                              |
+| E2E — статус не подтверждён в реальном CI после фикса зависимости `@axe-core/playwright` (2026-07-04) | 🟠 High     | требует прогона в GitHub Actions |
+| Unit-тесты 282/1000 — покрытие невелико                                                               | 🟠 High     | 051                              |
 
 Под наблюдением (не блокируют):
 

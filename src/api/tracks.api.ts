@@ -298,7 +298,11 @@ export async function toggleTrackLike(trackId: string, userId: string, isCurrent
     // (resolve_track_like_version) to the track's active/primary version.
     const { error } = await supabase
       .from("track_likes")
-      .insert({ track_id: trackId, user_id: userId } as unknown as { track_id: string; user_id: string; track_version_id: string });
+      .insert({ track_id: trackId, user_id: userId } as unknown as {
+        track_id: string;
+        user_id: string;
+        track_version_id: string;
+      });
     if (error) throw new Error(error.message);
   }
 }

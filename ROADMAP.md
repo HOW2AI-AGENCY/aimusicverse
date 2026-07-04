@@ -80,7 +80,7 @@ gantt
 
 ## 🧱 Tech debt & infra
 
-- [ ] Split `useUnifiedStudioStore` (38 KB) into domain slices
+- [x] Split `useUnifiedStudioStore` (38 KB) into domain slices — done: 29-line facade over `src/stores/studio/{useProjectStore,useLyricsStore,useTrackStore}.ts` (verified 2026-07-04)
 - [ ] Migrate remaining legacy generators to `suno-music-generate`
 - [ ] Full WCAG AA pass on Library + Studio
 - [ ] Lighthouse perf budget enforcement in CI
@@ -93,19 +93,22 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### Planned
 
-- **Sprint 050** — Mobile Audit F1–F12 follow-up (build-agent): `useScrollLock` wiring в 4 surfaces, `PromptHistory` sub-dialog root cause, `usePublicTracks` cover_url normalization, Library keyboard nav, QueueSheet auto-close, focus-trap, Telegram BackButton race, `useMediaQuery` SSR, `useVisualViewport` keyboard avoidance, `VersionComparison.tsx` dead-code removal, `LibraryFilterChips` parity, `LazyImage` a11y. (Renumbered from a prior "Sprint 048" label that collided with the already-completed Creation-Flow Motion Pass sprint — see CHANGELOG.md/PROJECT_STATUS.md Sprint 048.)
+- **Sprint 050** — Mobile Audit F1–F12 follow-up (build-agent): `useScrollLock` wiring в 4 surfaces, `PromptHistory` sub-dialog root cause, `usePublicTracks` cover_url normalization, Library keyboard nav, QueueSheet auto-close, focus-trap, Telegram BackButton race, `useMediaQuery` SSR, `useVisualViewport` keyboard avoidance, `VersionComparison.tsx` dead-code removal, `LibraryFilterChips` parity, `LazyImage` a11y. Plus: Sprint 045 Phase D-4 (ErrorBoundary home button → `useNavigate`); three low-effort lazy-import wins from `docs/BUNDLE_ANALYSIS.md` (`lamejs` ~100KB, `canvas-confetti` ~20KB, `qrcode` ~30KB out of `vendor-other`). (Renumbered from a prior "Sprint 048" label that collided with the already-completed Creation-Flow Motion Pass sprint — see CHANGELOG.md/PROJECT_STATUS.md Sprint 048.)
+- **Sprint 051** — Test debt + god-file decomposition, tests-first: unit tests for the 9 files >800 LOC (see PROJECT_STATUS.md metrics) plus the 20 `src/api/*.api.ts` + 18 `src/services/*.service.ts` files, then decompose the top 3 largest (`studio.service.ts`, `LyricsParser.ts`, `studio.api.ts`) using the new tests as a safety net.
 - **Bundle follow-up** (unscheduled) — eager-load fix already landed 2026-07-03 (~1.19 МБ → ~508 КБ gzip, see [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)); remaining work is reducing the `size-limit` "Total Bundle" check (2.11 МБ across all chunks including admin/studio) via `manualChunks` boundary rework 🟡
 
 ### In Progress
 
-- **Sprint 045** — UX/UI Deep Polish + Hygiene. 🟡 В работе (4 коммита landed so far: `0813d631` + `68cae274` + `28413a5d` + `69e652a8` — see PROJECT_STATUS.md for the current open items):
+_(none — Sprint 045 closed out below; Sprint 050 not yet started, see Planned)_
+
+### Completed (recent)
+
+- **Sprint 045** — UX/UI Deep Polish + Hygiene. ✅ ЗАВЕРШЁН (4/4 фазы, 4 коммита: `0813d631` + `68cae274` + `28413a5d` + `69e652a8`):
   - **Phase A** — emoji → Lucide (11 замен), touch-target ≥ 44px (3 поверхности), raw-color → semantic.
   - **Phase B** — motion hygiene: PageTransition keyframes fix (4 варианта), BottomNavigation `isActive()` root-prefix fix, HomeHeader 5× `repeat:Infinity` через `safeTransition()` (WCAG SC 2.3.3).
   - **Phase C** — token consolidation: `typographyClass.navLabel` token, `aurora-glow` documented as composition, `vinyl-spin/-slow` motion-reduce guards.
   - **Phase D** — visual polish: `.glass-card:hover` `@media (hover: hover)` guard (WCAG SC 2.5.1), shadow `rgba()` → HSL tokens, emoji → Lucide в 3 файлах (8 замен).
-  - **Phase D-4** — ErrorBoundary home button: flagged for build agent (требует `useNavigate`, вне design scope).
-
-### Completed (recent)
+  - **Phase D-4** — ErrorBoundary home button (`useNavigate`) перенесён в Sprint 050 как функциональное изменение вне design scope.
 
 - **Sprint 046** — Desktop Layout Polish + 4K Awareness. ✅ ЗАВЕРШЁН (3 коммита: `8eb55c78` + `c0d5b942` + `6d57fa68`):
   - **Phase A** — 4K-aware tokens: `BREAKPOINTS 3xl/4xl`, расширены `GRID_COLS` (5→7 на 3xl), `MAX_WIDTHS ultrawide/fourk` (1600/1760), `LAYOUT_RATIOS` 60/40→55/45→50/50, `SIDEBAR_WIDTHS.expanded xl:72 2xl:80`, `GAPS 3xl/4xl`, новые `spacingClass.cardPadding`, `spacingClass.lyricsWord`, `containerMax`.
