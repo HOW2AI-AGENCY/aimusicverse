@@ -12,17 +12,14 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Play, Pause, Check, Sliders, Library, Sparkles, Volume2 } from "@/lib/icons";
+import { Play, Pause } from "@/lib/icons";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 import { useTrackVersionsList } from "@/hooks/generation/useTrackVersionsList";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
-import { glass } from "@/lib/glass";
 
 interface TrackVersion {
   id: string;
@@ -147,157 +144,239 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className={cn("h-auto max-h-[80dvh] flex flex-col p-0", glass.overlay)}
+        className={cn(
+          "h-auto max-h-[85dvh] flex flex-col p-0 overflow-hidden",
+          "bg-background text-foreground border-t border-border/60",
+        )}
         hideCloseButton={false}
       >
         <SheetTitle className="sr-only">Результат генерации</SheetTitle>
 
-        {/* Header */}
-        <div className="flex items-center gap-3 p-4 border-b border-border/50">
-          <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", glass.subtle)}>
-            <Sparkles className="w-5 h-5 text-primary" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h2 className="font-semibold truncate">{trackTitle || "Трек готов!"}</h2>
-            <p className="text-sm text-muted-foreground">
-              {hasMultipleVersions ? `${versions.length} версии • выберите основную` : "Трек успешно создан"}
+        {/* Masthead — editorial header */}
+        <header className="px-6 pt-7 pb-5 border-b border-border/40">
+          <div className="flex items-baseline justify-between gap-4">
+            <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+              {hasMultipleVersions
+                ? `№ 001 · ${String(versions.length).padStart(2, "0")} takes`
+                : "№ 001 · single take"}
+            </p>
+            <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+              {new Date().toLocaleDateString("ru-RU", { day: "2-digit", month: "short" })}
             </p>
           </div>
-        </div>
+          <h2 className="mt-3 font-display text-display-2 leading-[0.95] tracking-tight truncate">
+            {trackTitle || "Untitled"}
+          </h2>
+          <p className="mt-2 font-mono text-caption uppercase tracking-[0.22em] text-muted-foreground">
+            {hasMultipleVersions ? "A / B · choose your take" : "ready to ship"}
+          </p>
+        </header>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Versions — magazine spread */}
+        <div className="flex-1 overflow-y-auto">
           {loading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-20 w-full rounded-xl" />
-              <Skeleton className="h-20 w-full rounded-xl" />
+            <div className="px-6 py-8 space-y-6">
+              <Skeleton className="h-24 w-full rounded-none" />
+              <Skeleton className="h-24 w-full rounded-none" />
             </div>
           ) : (
-            <AnimatePresence mode="popLayout">
-              {versions.map((version, index) => {
-                const isSelected = version.id === selectedVersion;
-                const isCurrentlyPlaying = playingVersionId === version.id && isPlaying;
+            <ol className="divide-y divide-border/30">
+              <AnimatePresence initial={false} mode="popLayout">
+                {versions.map((version, index) => {
+                  const isSelected = version.id === selectedVersion;
+                  const isCurrentlyPlaying = playingVersionId === version.id && isPlaying;
+                  const totalLabel = versions.length;
+                  const durMin = Math.floor((version.duration ?? 0) / 60);
+                  const durSec = String(Math.floor((version.duration ?? 0) % 60)).padStart(2, "0");
 
-                return (
-                  <motion.div
-                    key={version.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Card
+                  return (
+                    <motion.li
+                      key={version.id}
+                      initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
+                      animate={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
+                      exit={{ opacity: 0, clipPath: "inset(0 0 0 100%)" }}
+                      transition={{ delay: index * 0.12, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                       className={cn(
-                        "p-4 cursor-pointer transition-all border-2",
-                        isSelected
-                          ? "border-primary bg-primary/5"
-                          : "border-transparent hover:border-muted-foreground/20",
+                        "relative cursor-pointer transition-colors",
+                        "hover:bg-foreground/[0.02]",
+                        isSelected && "bg-foreground/[0.03]",
                       )}
                       onClick={() => handleSelect(version.id)}
                     >
-                      <div className="flex items-center gap-3">
-                        {/* Play button */}
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className={cn(
-                            "h-12 w-12 rounded-full shrink-0",
-                            isCurrentlyPlaying && "bg-primary text-primary-foreground",
-                          )}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handlePreview(version);
-                          }}
-                        >
-                          {isCurrentlyPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
-                        </Button>
+                      <span
+                        aria-hidden
+                        className={cn(
+                          "absolute left-0 top-0 bottom-0 w-[2px] transition-opacity duration-300",
+                          isSelected ? "bg-primary opacity-100" : "opacity-0",
+                        )}
+                      />
 
-                        {/* Version info */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono font-bold text-lg">Версия {version.label}</span>
-                            {version.isPrimary && (
-                              <Badge variant="secondary" className="text-xs">
-                                Основная
-                              </Badge>
+                      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-5 px-6 py-6">
+                        {/* Big letter — Unbounded */}
+                        <div className="flex items-baseline gap-2">
+                          <span className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+                            {String(index + 1).padStart(2, "0")}/{String(totalLabel).padStart(2, "0")}
+                          </span>
+                          <span
+                            className={cn(
+                              "font-display leading-[0.85] tabular-nums",
+                              "text-[64px] sm:text-[72px]",
+                              isSelected ? "text-foreground" : "text-foreground/70",
                             )}
-                          </div>
-                          {version.duration && (
-                            <span className="text-sm text-muted-foreground">
-                              {Math.floor(version.duration / 60)}:
-                              {String(Math.floor(version.duration % 60)).padStart(2, "0")}
-                            </span>
-                          )}
+                          >
+                            {version.label}
+                          </span>
                         </div>
 
-                        {/* Selection indicator */}
-                        <div
-                          className={cn(
-                            "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors",
-                            isSelected
-                              ? "border-primary bg-primary text-primary-foreground"
-                              : "border-muted-foreground/30",
-                          )}
-                        >
-                          {isSelected && <Check className="w-4 h-4" />}
+                        {/* Centre column — metadata + status */}
+                        <div className="flex flex-col gap-1.5 min-w-0">
+                          <div className="flex items-center gap-3 font-mono text-caption uppercase tracking-[0.18em] text-muted-foreground">
+                            <span>Stereo</span>
+                            <span aria-hidden>·</span>
+                            <span>44.1 kHz</span>
+                            <span aria-hidden>·</span>
+                            <span>{version.duration ? `${durMin}:${durSec}` : "—:—"}</span>
+                          </div>
+                          <div className="flex items-center gap-2 font-mono text-overline uppercase tracking-[0.18em]">
+                            {version.isPrimary && <span className="text-primary">★ Master take</span>}
+                            {isCurrentlyPlaying && (
+                              <motion.span
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: [0.4, 1, 0.4] }}
+                                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                                className="text-foreground"
+                              >
+                                ▮▮ playing
+                              </motion.span>
+                            )}
+                            {!version.isPrimary && !isCurrentlyPlaying && (
+                              <span className="text-muted-foreground/60">take · listen &amp; choose</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Play + select — stacked, square */}
+                        <div className="flex flex-col items-end gap-3">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={isCurrentlyPlaying ? "Пауза" : "Воспроизвести"}
+                            className={cn(
+                              "h-12 w-12 rounded-none border border-foreground/20",
+                              "hover:bg-foreground hover:text-background",
+                              isCurrentlyPlaying && "bg-foreground text-background border-foreground",
+                            )}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handlePreview(version);
+                            }}
+                          >
+                            {isCurrentlyPlaying ? (
+                              <Pause className="h-5 w-5" />
+                            ) : (
+                              <Play className="h-5 w-5 translate-x-[1px]" />
+                            )}
+                          </Button>
+                          <span
+                            className={cn(
+                              "font-mono text-overline uppercase tracking-[0.22em] transition-colors",
+                              isSelected ? "text-foreground" : "text-muted-foreground/40",
+                            )}
+                          >
+                            {isSelected ? "✓ chosen" : "select"}
+                          </span>
                         </div>
                       </div>
 
-                      {/* Waveform hint when playing */}
                       {isCurrentlyPlaying && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
-                          className="mt-3 flex items-center gap-2 text-sm text-primary"
+                          exit={{ opacity: 0, height: 0 }}
+                          className="overflow-hidden"
                         >
-                          <Volume2 className="w-4 h-4 animate-pulse" />
-                          <span>Воспроизведение...</span>
+                          <div className="px-6 pb-5 flex items-end gap-[3px] h-10">
+                            {Array.from({ length: 48 }).map((_, i) => (
+                              <motion.span
+                                key={i}
+                                className="w-[2px] bg-foreground/70 block"
+                                animate={{
+                                  height: [`${20 + Math.sin(i * 0.7) * 12}%`, `${20 + Math.sin(i * 0.7 + 1) * 12}%`],
+                                }}
+                                transition={{
+                                  duration: 0.8 + (i % 5) * 0.1,
+                                  repeat: Infinity,
+                                  repeatType: "reverse",
+                                  delay: i * 0.02,
+                                }}
+                                style={{ height: "20%" }}
+                              />
+                            ))}
+                          </div>
                         </motion.div>
                       )}
-                    </Card>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
+                    </motion.li>
+                  );
+                })}
+              </AnimatePresence>
+            </ol>
           )}
         </div>
 
-        {/* Actions */}
-        <div className={cn("p-4 border-t border-border/50 space-y-3", glass.card)}>
-          {/* Set primary button - only show if selection differs from current primary */}
+        {/* Colophon — footer */}
+        <footer className="border-t border-border/60 px-6 pt-5 pb-[calc(1.25rem+var(--safe-area-inset-bottom,0px))] space-y-5 bg-background">
           {hasMultipleVersions && selectedVersionData && !selectedVersionData.isPrimary && (
-            <Button className="w-full" onClick={handleSetPrimary} disabled={settingPrimary}>
-              {settingPrimary ? (
-                <>Сохранение...</>
-              ) : (
-                <>
-                  <Check className="w-4 h-4 mr-2" />
-                  Сделать версию {selectedVersionData.label} основной
-                </>
+            <button
+              type="button"
+              onClick={handleSetPrimary}
+              disabled={settingPrimary}
+              className={cn(
+                "group w-full text-left",
+                "flex items-baseline justify-between gap-4",
+                "py-3 border-b border-foreground/30 hover:border-primary",
+                "transition-colors",
               )}
-            </Button>
+            >
+              <span className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground">
+                {settingPrimary ? "saving…" : "promote to master"}
+              </span>
+              <span className="font-display text-heading-3 text-foreground">Version {selectedVersionData.label} →</span>
+            </button>
           )}
 
-          {/* Navigation buttons - Studio is primary CTA */}
-          <div className="flex gap-2">
-            <Button variant="outline" className="flex-1" onClick={handleGoToLibrary}>
-              <Library className="w-4 h-4 mr-2" />В библиотеку
-            </Button>
-            <Button
-              variant="default"
-              className="flex-1 bg-gradient-to-r from-primary to-primary/80 shadow-lg"
-              onClick={handleGoToStudio}
+          <div className="grid grid-cols-2 gap-px bg-border/60 border border-border/60">
+            <button
+              type="button"
+              onClick={handleGoToLibrary}
+              className={cn(
+                "group flex flex-col items-start gap-1 bg-background px-4 py-4 text-left",
+                "hover:bg-foreground/[0.03] transition-colors",
+              )}
             >
-              <Sliders className="w-4 h-4 mr-2" />
-              Студия
-            </Button>
+              <span className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground">
+                02 · archive
+              </span>
+              <span className="font-display text-heading-3 text-foreground">Library →</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleGoToStudio}
+              className={cn(
+                "group flex flex-col items-start gap-1 bg-background px-4 py-4 text-left",
+                "hover:bg-foreground hover:text-background transition-colors",
+              )}
+            >
+              <span className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground group-hover:text-background/70">
+                03 · open
+              </span>
+              <span className="font-display text-heading-3">Studio →</span>
+            </button>
           </div>
 
-          {/* Hint about studio */}
-          <p className="text-xs text-center text-muted-foreground">
-            В студии можно редактировать стемы, добавлять эффекты и создавать ремиксы
+          <p className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground/70">
+            stems · mix · arrange · master — all in studio
           </p>
-        </div>
+        </footer>
       </SheetContent>
     </Sheet>
   );
