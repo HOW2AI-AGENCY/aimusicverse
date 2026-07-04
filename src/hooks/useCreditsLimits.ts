@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { ECONOMY } from "@/lib/economy";
+import { trackEvent } from "@/services/analytics/events.service";
 
 type SubscriptionTierType = "free" | "pro" | "premium" | "enterprise";
 
@@ -138,7 +139,13 @@ export function useCreditsLimits() {
 }
 
 /**
- * Hook to check if welcome bonus should be shown
+ * Hook to check if welcome bonus should be shown.
+ *
+ * Sprint 055 P0-5 (idempotency): the localStorage flag is now a JSON envelope
+ * `{ shownAt: <iso8601> }` instead of bare `"true"`, so we can let the bonus
+ * re-show after TTL_DAYS expire (default 30). Legacy `"true"` strings are
+ * treated as shown a long time ago, so users with the old flag get a single
+ * re-offer — bounded at one per TTL window, never per-session flood.
  */
 export function useWelcomeBonusCheck() {
   const { user } = useAuth();
@@ -148,9 +155,11 @@ export function useWelcomeBonusCheck() {
     queryFn: async () => {
       if (!user?.id) return false;
 
-      // Check if user has seen the welcome popup
-      const welcomeShown = localStorage.getItem(`welcome_bonus_shown_${user.id}`);
-      if (welcomeShown) return false;
+      // Sprint 055 P0-5: parse TTL-aware envelope; missing/invalid → not shown yet.
+      const shownEntry = parseWelcomeBonusEntry(localStorage.getItem(`welcome_bonus_shown_${user.id}`));
+      if (shownEntry && !isWelcomeBonusExpired(shownEntry, WELCOME_BONUS_TTL_MS)) {
+        return false;
+      }
 
       // Check if user just registered (within last 5 minutes)
       const { data: transactions } = await supabase
@@ -173,9 +182,21 @@ export function useWelcomeBonusCheck() {
   });
 
   const markWelcomeBonusShown = useCallback(() => {
-    if (user?.id) {
-      localStorage.setItem(`welcome_bonus_shown_${user.id}`, "true");
-    }
+    if (!user?.id) return;
+    // Sprint 055 P0-5: write JSON envelope with shownAt = now.
+    const entry: WelcomeBonusEntry = { shownAt: new Date().toISOString() };
+    localStorage.setItem(`welcome_bonus_shown_${user.id}`, JSON.stringify(entry));
+
+    // Sprint 055 P0-5 analytics: lets us measure re-offer cadence
+    // (post-TTL window). Errors are swallowed by trackEvent itself.
+    void trackEvent(
+      {
+        eventType: "feature_usage",
+        pagePath: "welcome_bonus",
+        metadata: { action: "mark_shown", ttl_days: WELCOME_BONUS_TTL_MS / (24 * 60 * 60 * 1000) },
+      },
+      user.id,
+    );
   }, [user?.id]);
 
   return {
@@ -183,4 +204,44 @@ export function useWelcomeBonusCheck() {
     isLoading,
     markWelcomeBonusShown,
   };
+}
+
+/**
+ * Welcome Bonus TTL — re-show after 30 days from last shownAt.
+ * Exposed for tests. Kept in this module because the constant is part of the
+ * contract advertised in SPRINT-055-PLAN.md (DoD: max 1 / 30 days).
+ */
+export const WELCOME_BONUS_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+
+/**
+ * Envelope shape stored in localStorage. Versioned so future fields don't
+ * break old reads — unknown versions fall back to "not shown".
+ */
+interface WelcomeBonusEntry {
+  shownAt: string; // ISO 8601, set by `new Date().toISOString()`
+}
+
+function parseWelcomeBonusEntry(raw: string | null): WelcomeBonusEntry | null {
+  if (!raw) return null;
+  // Legacy bare-flag from before Sprint 055: treat as "shown a long time ago"
+  // so the user gets one re-offer on the next eligible session, then the new
+  // TTL timer starts ticking.
+  if (raw === "true") {
+    return { shownAt: new Date(0).toISOString() };
+  }
+  try {
+    const parsed = JSON.parse(raw) as Partial<WelcomeBonusEntry>;
+    if (typeof parsed?.shownAt === "string") {
+      return { shownAt: parsed.shownAt };
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function isWelcomeBonusExpired(entry: WelcomeBonusEntry, ttlMs: number): boolean {
+  const shownAt = new Date(entry.shownAt).getTime();
+  if (Number.isNaN(shownAt)) return true;
+  return Date.now() - shownAt > ttlMs;
 }

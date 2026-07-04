@@ -63,7 +63,7 @@ export function useGenerateForm({
   const [customVoiceId, setCustomVoiceId] = useState<string | null>(null);
   const [isPublic, setIsPublic] = useState(true);
 
-  const { clearDraft: clearDraftFn } = useGenerateDraft();
+  const { saveDraft: saveDraftFn, clearDraft: clearDraftFn } = useGenerateDraft();
 
   // Reset form
   const resetForm = useCallback(() => {
@@ -124,43 +124,44 @@ export function useGenerateForm({
   });
 
   // Submission
-  const { handleGenerate, isRetrying, retryCount, nextRetryIn, canRetry, cancelRetry } = useGenerateFormSubmit({
-    mode,
-    description,
-    title,
-    lyrics,
-    style,
-    hasVocals,
-    model,
-    negativeTags,
-    vocalGender,
-    styleWeight,
-    weirdnessConstraint,
-    audioWeight,
-    audioFile,
-    audioDuration,
-    selectedArtistId,
-    selectedProjectId,
-    initialProjectId,
-    planTrackId,
-    customVoiceId,
-    isPublic,
-    artists,
-    activeReference,
-    clearAudioReference,
-    loading,
-    setLoading,
-    setModel,
-    setApiCredits,
-    canGenerate,
-    isAdmin,
-    apiBalance,
-    userBalance,
-    generationCost,
-    invalidateCredits,
-    resetForm,
-    onOpenChange,
-  });
+  const { handleGenerate, isRetrying, retryCount, nextRetryIn, canRetry, cancelRetry, currentTaskId } =
+    useGenerateFormSubmit({
+      mode,
+      description,
+      title,
+      lyrics,
+      style,
+      hasVocals,
+      model,
+      negativeTags,
+      vocalGender,
+      styleWeight,
+      weirdnessConstraint,
+      audioWeight,
+      audioFile,
+      audioDuration,
+      selectedArtistId,
+      selectedProjectId,
+      initialProjectId,
+      planTrackId,
+      customVoiceId,
+      isPublic,
+      artists,
+      activeReference,
+      clearAudioReference,
+      loading,
+      setLoading,
+      setModel,
+      setApiCredits,
+      canGenerate,
+      isAdmin,
+      apiBalance,
+      userBalance,
+      generationCost,
+      invalidateCredits,
+      resetForm,
+      onOpenChange,
+    });
 
   // Handle track selection
   const handleTrackSelect = useCallback(
@@ -276,5 +277,8 @@ export function useGenerateForm({
     handleArtistSelect,
     resetForm,
     clearDraft,
+    saveDraft: saveDraftFn,
+    // Sprint 055 P0-4: latest in-flight generation taskId for the cancel button.
+    currentTaskId,
   };
 }

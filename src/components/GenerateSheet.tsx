@@ -12,10 +12,12 @@ import { useArtists } from "@/hooks/useArtists";
 import { AppLogo } from "@/components/branding/AppLogo";
 import { useTracks } from "@/hooks/useTracks";
 import { useGenerateForm, useAudioReference } from "@/hooks/generation";
+import { useSunoCancel } from "@/hooks/generation/useSunoCancel";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from "@/hooks/telegram";
 import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useFeatureUsageTracking } from "@/hooks/analytics/useFeatureUsageTracking";
 
 // Form components - lazy loaded for bundle optimization
 // GenerateFormHeaderCompact removed - using CollapsibleFormHeader only
@@ -71,6 +73,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { hapticFeedback, enableClosingConfirmation, disableClosingConfirmation } = useTelegram();
   const qc = useQueryClient();
   const { user } = useAuth();
+  // Sprint 055 P0-3: analytics for Save Draft success rate metric
+  const { trackAction } = useFeatureUsageTracking();
 
   // Get active audio reference for hasReferenceAudio check
   const { activeReference } = useAudioReference();
@@ -125,6 +129,23 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
 
   // Check if form has unsaved data
   const hasUnsavedData = Boolean(form.style.trim() || form.lyrics.trim() || form.title.trim());
+
+  // Sprint 055 P0-4: cancel button wires through useSunoCancel + currentTaskId.
+  // The cancel succeeds when the taskId exists in our DB; the in-flight Suno
+  // compute continues server-side and is ignored when (if) the callback fires.
+  const { cancel: cancelGeneration, isCancelling } = useSunoCancel();
+  const handleCancelGeneration = async () => {
+    if (!form.currentTaskId) return;
+    try {
+      await cancelGeneration(form.currentTaskId);
+      // Reset form to clear currentTaskId + loading flag, then close sheet.
+      form.resetForm();
+      onOpenChange(false);
+    } catch {
+      // Error toast already shown by useSunoCancel; keep sheet open so
+      // the user can retry.
+    }
+  };
 
   // Enable/disable Telegram closing confirmation based on form state
   useEffect(() => {
@@ -190,12 +211,25 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
     visible: open && !lyricsAssistantOpen,
   });
 
-  // Telegram SecondaryButton for "Save Draft" - NEW FEATURE
-  // Only show when there's unsaved data
+  // Telegram SecondaryButton for "Save Draft" - wires to real useGenerateDraft.saveDraft
+  // Sprint 055 P0-3: previous no-op (only toast) caused data loss
   const { shouldShowUIButton: shouldShowSecondaryUIButton } = useTelegramSecondaryButton({
     text: "Сохранить черновик",
     onClick: () => {
       hapticFeedback("light");
+      trackAction("form_save_draft", "generation", "click", { source: "telegram_secondary_button" });
+      form.saveDraft({
+        mode: form.mode,
+        description: form.description,
+        title: form.title,
+        lyrics: form.lyrics,
+        style: form.style,
+        hasVocals: form.hasVocals,
+        model: form.model,
+        negativeTags: form.negativeTags,
+        vocalGender: form.vocalGender,
+      });
+      trackAction("form_save_draft", "generation", "complete", { source: "telegram_secondary_button" });
       notify.success("Черновик сохранён");
     },
     enabled: hasUnsavedData && !form.loading,
@@ -286,7 +320,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     "max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
                 }}
               >
-                <GenerationLoadingState stage="processing" showCancel={false} compact={false} />
+                <GenerationLoadingState
+                  stage="processing"
+                  showCancel={!!form.currentTaskId}
+                  onCancel={isCancelling ? undefined : handleCancelGeneration}
+                  compact={false}
+                />
               </motion.div>
             )}
           </AnimatePresence>
@@ -398,11 +437,24 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             )}
 
             <div className="flex gap-2">
-              {/* SecondaryButton fallback - Save Draft */}
+              {/* SecondaryButton fallback - Save Draft (Sprint 055 P0-3: real persistence + analytics) */}
               {shouldShowSecondaryUIButton && (
                 <Button
                   onClick={() => {
                     hapticFeedback("light");
+                    trackAction("form_save_draft", "generation", "click", { source: "ui_fallback_button" });
+                    form.saveDraft({
+                      mode: form.mode,
+                      description: form.description,
+                      title: form.title,
+                      lyrics: form.lyrics,
+                      style: form.style,
+                      hasVocals: form.hasVocals,
+                      model: form.model,
+                      negativeTags: form.negativeTags,
+                      vocalGender: form.vocalGender,
+                    });
+                    trackAction("form_save_draft", "generation", "complete", { source: "ui_fallback_button" });
                     notify.success("Черновик сохранён");
                   }}
                   variant="outline"

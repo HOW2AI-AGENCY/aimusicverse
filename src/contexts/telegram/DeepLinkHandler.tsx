@@ -67,6 +67,9 @@ const DEEP_LINK_ROUTES: [RegExp | string, (match: RegExpMatchArray | null) => st
   // Simple routes
   ["buy", () => "/buy-credits", "buy"],
   ["credits", () => "/buy-credits", "credits"],
+  // Sprint 055 P0-1: `startapp=generate` теперь открывает GenerateSheet.
+  // Index.tsx на mount читает `?openGenerate=1` через useSearchParams и триггерит sheet.
+  ["generate", () => "/?openGenerate=1", "generate"],
   ["subscribe", () => "/buy-credits?tab=subscriptions", "subscribe"],
   ["subscription", () => "/subscription", "subscription"],
   ["leaderboard", () => "/rewards?tab=leaderboard", "leaderboard"],

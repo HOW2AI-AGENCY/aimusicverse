@@ -263,3 +263,30 @@ export async function dismissGenerationTask(taskId: string) {
   const { error } = await supabase.from("generation_tasks").update({ status: "dismissed" }).eq("id", taskId);
   if (error) throw new Error(error.message);
 }
+
+/**
+ * Sprint 055 P0-4 (055-A4): Soft-cancel an in-flight generation task.
+ *
+ * Suno API does NOT expose a /cancel endpoint (verified 2026-07-04 via
+ * gcui-art/suno-api README), so we cannot abort the upstream compute. Instead
+ * we flip the local row to terminal `cancelled`, which:
+ *   1. Exits the polling loop in useGenerateFormSubmit (sees terminal status).
+ *   2. Frees the UI to show "Генерация отменена" + redirect.
+ *   3. Leaves the Suno task running on Suno's side — it will simply be
+ *      ignored when (if) the callback eventually fires.
+ *
+ * Idempotent: re-calling on a row that's already `cancelled` is a no-op
+ * (eq filter narrows to the same row, status remains `cancelled`).
+ */
+export async function cancelGenerationTask(taskId: string, reason: string = "user_cancelled"): Promise<void> {
+  const { error } = await supabase
+    .from("generation_tasks")
+    .update({
+      status: "cancelled",
+      cancelled_at: new Date().toISOString(),
+      abort_reason: reason,
+      updated_at: new Date().toISOString(),
+    } as never)
+    .eq("id", taskId);
+  if (error) throw new Error(error.message);
+}

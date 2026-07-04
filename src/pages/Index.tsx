@@ -18,6 +18,7 @@ import { useUserJourneyState } from "@/hooks/useUserJourneyState";
 import { useHomePageData } from "@/hooks/useHomePageData";
 import { useHomePageHandlers } from "@/hooks/useHomePageHandlers";
 import { useHomePageEffects } from "@/hooks/useHomePageEffects";
+import { useOpenGenerateFromDeeplink } from "@/hooks/useOpenGenerateFromDeeplink";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
@@ -65,6 +66,11 @@ const Index = () => {
   const openGenerateSheet = useCallback(() => setGenerateSheetOpen(true), []);
   const openAudioDialog = useCallback(() => setAudioDialogOpen(true), []);
   const openRecognitionDialog = useCallback(() => setRecognitionDialogOpen(true), []);
+
+  // Sprint 055 P0-1: Telegram `startapp=generate` deeplink → open GenerateSheet.
+  // DeepLinkHandler navigates here with `?openGenerate=1`; the hook below opens
+  // the sheet and strips the param so reload doesn't reopen it.
+  useOpenGenerateFromDeeplink(openGenerateSheet);
 
   const { isNewUser } = useUserJourneyState();
 

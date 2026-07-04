@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -67,6 +67,14 @@ interface UseGenerateFormSubmitParams {
 export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
   const navigate = useNavigate();
   const { trackGeneration } = useAnalyticsTracking();
+
+  // Sprint 055 P0-4: track the latest taskId so the UI can soft-cancel it
+  // before the user is redirected to /library. Using a ref (not state) keeps
+  // the polling loop — if any is added later — from re-rendering on writes.
+  const currentTaskIdRef = useRef<string | null>(null);
+  // State mirror so consumers can render the cancel button on the change.
+  // Reset is exposed via the `clearCurrentTaskId` callback below.
+  const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
 
   const {
     retry,
@@ -424,6 +432,14 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
 
       const data = await retry(invokeGeneration);
 
+      // Sprint 055 P0-4: capture taskId for the soft-cancel button.
+      // The shape is `{ taskId: string, ... }` from suno-music-generate / suno-upload-extend / suno-generate.
+      const taskIdFromResponse = (data as { taskId?: unknown } | undefined)?.taskId;
+      if (typeof taskIdFromResponse === "string") {
+        currentTaskIdRef.current = taskIdFromResponse;
+        setCurrentTaskId(taskIdFromResponse);
+      }
+
       trackGeneration("started", {
         mode,
         hasVocals,
@@ -539,6 +555,11 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
       }
     } finally {
       setLoading(false);
+      // Sprint 055 P0-4: clear taskId so the cancel button does not leak
+      // across re-opens of the sheet. The mutation hook can still complete
+      // its DB update asynchronously.
+      currentTaskIdRef.current = null;
+      setCurrentTaskId(null);
     }
   }, [params, retry, retryCount, resetRetry, navigate, trackGeneration]);
 
@@ -549,5 +570,7 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
     nextRetryIn,
     canRetry,
     cancelRetry,
+    // Sprint 055 P0-4: exposed so the UI can render a cancel button.
+    currentTaskId,
   };
 }
