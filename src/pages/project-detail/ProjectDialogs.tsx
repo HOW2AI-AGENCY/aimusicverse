@@ -101,11 +101,7 @@ export function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient
                 notes: dialogs.selectedTrackForLyrics.notes || undefined,
                 lyrics: dialogs.selectedTrackForLyrics.lyrics || undefined,
                 lyricsStatus: dialogs.selectedTrackForLyrics.lyrics_status as
-                  | "draft"
-                  | "prompt"
-                  | "generated"
-                  | "approved"
-                  | undefined,
+                  "draft" | "prompt" | "generated" | "approved" | undefined,
               }
             : undefined
         }

@@ -116,11 +116,7 @@ export const ProjectDialogs = memo(function ProjectDialogs({
                 notes: state.selectedTrackForLyrics.notes || undefined,
                 lyrics: state.selectedTrackForLyrics.lyrics || undefined,
                 lyricsStatus: state.selectedTrackForLyrics.lyrics_status as
-                  | "draft"
-                  | "prompt"
-                  | "generated"
-                  | "approved"
-                  | undefined,
+                  "draft" | "prompt" | "generated" | "approved" | undefined,
               }
             : undefined
         }
