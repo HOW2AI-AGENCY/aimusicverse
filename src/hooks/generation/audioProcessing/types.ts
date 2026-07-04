@@ -14,7 +14,13 @@ export type AudioProcessingOperation = "extend" | "cover" | "add_vocals" | "add_
 // ==========================================
 
 export type ProcessingStatus =
-  "idle" | "submitting" | "pending" | "processing" | "streaming_ready" | "completed" | "error";
+  | "idle"
+  | "submitting"
+  | "pending"
+  | "processing"
+  | "streaming_ready"
+  | "completed"
+  | "error";
 
 // ==========================================
 // Completed Track

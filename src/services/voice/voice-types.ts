@@ -303,7 +303,10 @@ export interface VoiceGenerateFailWebhook {
  * Union type for all webhook types
  */
 export type VoiceWebhookPayload =
-  VoiceValidateSuccessWebhook | VoiceGenerateSuccessWebhook | VoiceValidateFailWebhook | VoiceGenerateFailWebhook;
+  | VoiceValidateSuccessWebhook
+  | VoiceGenerateSuccessWebhook
+  | VoiceValidateFailWebhook
+  | VoiceGenerateFailWebhook;
 
 // ============================================================================
 // ERROR TYPES

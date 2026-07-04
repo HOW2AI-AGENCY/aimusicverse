@@ -195,7 +195,8 @@ function RecognitionContent({
 
 function TrackResult({ track }: { track: RecognizedTrack }) {
   const spotify = track.spotify as
-    { external_urls?: { spotify?: string }; album?: { images?: { url?: string }[] } } | undefined;
+    | { external_urls?: { spotify?: string }; album?: { images?: { url?: string }[] } }
+    | undefined;
   const appleMusic = track.appleMusic as { url?: string; artwork?: { url?: string } } | undefined;
   const spotifyUrl = spotify?.external_urls?.spotify;
   const appleMusicUrl = appleMusic?.url;

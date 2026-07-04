@@ -93,9 +93,12 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### Planned
 
-- **Sprint 050** — Mobile Audit F1–F12 follow-up (build-agent): `useScrollLock` wiring в 4 surfaces, `PromptHistory` sub-dialog root cause, `usePublicTracks` cover_url normalization, Library keyboard nav, QueueSheet auto-close, focus-trap, Telegram BackButton race, `useMediaQuery` SSR, `useVisualViewport` keyboard avoidance, `VersionComparison.tsx` dead-code removal, `LibraryFilterChips` parity, `LazyImage` a11y. Plus: Sprint 045 Phase D-4 (ErrorBoundary home button → `useNavigate`); three low-effort lazy-import wins from `docs/BUNDLE_ANALYSIS.md` (`lamejs` ~100KB, `canvas-confetti` ~20KB, `qrcode` ~30KB out of `vendor-other`). (Renumbered from a prior "Sprint 048" label that collided with the already-completed Creation-Flow Motion Pass sprint — see CHANGELOG.md/PROJECT_STATUS.md Sprint 048.)
-- **Sprint 051** — Test debt + god-file decomposition, tests-first: unit tests for the 9 files >800 LOC (see PROJECT_STATUS.md metrics) plus the 20 `src/api/*.api.ts` + 18 `src/services/*.service.ts` files, then decompose the top 3 largest (`studio.service.ts`, `LyricsParser.ts`, `studio.api.ts`) using the new tests as a safety net.
-- **Bundle follow-up** (unscheduled) — eager-load fix already landed 2026-07-03 (~1.19 МБ → ~508 КБ gzip, see [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)); remaining work is reducing the `size-limit` "Total Bundle" check (2.11 МБ across all chunks including admin/studio) via `manualChunks` boundary rework 🟡
+> Приоритеты пересмотрены по итогам [аудита прогресса 2026-07-04](docs/audit/PROGRESS-AUDIT-2026-07-04.md): перед фичами — зелёный `main` и процессный фикс для прямых Lovable-коммитов.
+
+- **Sprint 050 — Main Green + Mobile Audit F1–F12** ([детальный план](SPRINTS/SPRINT-050-PLAN.md)). **Фаза A (Main Green):** E2E вердикт по run #115 и дочинка по фактическим падениям; фикс lychee link-check в Docs workflow; сверка прод-миграций (две пересекающиеся likes-миграции `20260703120000` + `20260704014859`); процессное решение для Lovable-коммитов (auto-format workflow или branch protection); судьба `bun.lock` vs `package-lock.json`. **Фаза B (F1–F12 + переносы):** `useScrollLock` wiring в 4 surfaces, `PromptHistory` sub-dialog root cause, `usePublicTracks` cover_url normalization, Library keyboard nav, QueueSheet auto-close, focus-trap, Telegram BackButton race, `useMediaQuery` SSR, `useVisualViewport` keyboard avoidance, `VersionComparison.tsx` dead-code removal, `LibraryFilterChips` parity, `LazyImage` a11y; Sprint 045 Phase D-4 (ErrorBoundary home button → `useNavigate`); три lazy-import quick wins из `docs/BUNDLE_ANALYSIS.md` (`lamejs` ~100KB, `canvas-confetti` ~20KB, `qrcode` ~30KB из `vendor-other`).
+- **Sprint 051 — Test Debt + God Files**, tests-first: unit-тесты для 9 файлов >800 LOC (см. метрики PROJECT_STATUS.md) + 20 `src/api/*.api.ts` + 18 `src/services/*.service.ts`, затем декомпозиция топ-3 (`studio.service.ts` 1028, `LyricsParser.ts` 903, `studio.api.ts` 891) под защитой новых тестов. Цель: 282 → 450+ юнит-тестов, 0 файлов >1000 строк.
+- **Sprint 052 — Q4 Platform** (черновик): Export service (WAV/MP3/FLAC), Service Worker + оффлайн-режим, Lighthouse CI budget enforcement, ревизия `manualChunks` (total bundle 2.11 МБ → ≤1.8 МБ, включает bundle follow-up ниже), подготовка i18n (EN/RU) — консолидирует Sprint 040-план и Q4-цели.
+- **Bundle follow-up** (→ Sprint 052) — eager-load fix already landed 2026-07-03 (~1.19 МБ → ~508 КБ gzip, see [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)); remaining work is reducing the `size-limit` "Total Bundle" check (2.11 МБ across all chunks including admin/studio) via `manualChunks` boundary rework 🟡
 
 ### In Progress
 
@@ -142,10 +145,10 @@ _(none — Sprint 045 closed out below; Sprint 050 not yet started, see Planned)
 
 ### 🔗 Related Documentation
 
-|            📚 Index             |       🏛 Architecture       |          📊 Status          |       📝 Changelog        |             🪲 Issues             |
+|            📚 Index             |      🏛 Architecture       |          📊 Status          |       📝 Changelog        |             🪲 Issues             |
 | :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :-------------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
 
-<sub>Last updated: 2026-07-03 (Sprint 049 ✅ + eager-load bundle fix #568 + any-cleanup #567, вне спринт-нумерации)</sub>
+<sub>Last updated: 2026-07-04 (progress audit — [report](docs/audit/PROGRESS-AUDIT-2026-07-04.md); Sprint 050 re-scoped to «Main Green + F1–F12», Sprint 051/052 outlined — [SPRINTS/SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md))</sub>
 
 </div>

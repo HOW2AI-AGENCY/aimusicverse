@@ -107,4 +107,6 @@ export interface StandardUnifiedTrackCardProps extends BaseUnifiedTrackCardProps
 // ============================================================================
 
 export type UnifiedTrackCardProps =
-  EnhancedUnifiedTrackCardProps | ProfessionalUnifiedTrackCardProps | StandardUnifiedTrackCardProps;
+  | EnhancedUnifiedTrackCardProps
+  | ProfessionalUnifiedTrackCardProps
+  | StandardUnifiedTrackCardProps;

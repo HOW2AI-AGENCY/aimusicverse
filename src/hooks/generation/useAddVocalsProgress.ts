@@ -22,7 +22,13 @@ import { logger } from "@/lib/logger";
 import { useQueryClient } from "@tanstack/react-query";
 
 export type AddVocalsStatus =
-  "idle" | "submitting" | "pending" | "processing" | "streaming_ready" | "completed" | "error";
+  | "idle"
+  | "submitting"
+  | "pending"
+  | "processing"
+  | "streaming_ready"
+  | "completed"
+  | "error";
 
 export interface AddVocalsProgressState {
   status: AddVocalsStatus;
