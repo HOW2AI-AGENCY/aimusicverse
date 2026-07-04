@@ -6,18 +6,20 @@
 
 ---
 
-## 🎯 Главный блокер (Sprint 050-A4)
+## 🎯 Sprint 050-A4 — Branch Protection (Phase 1 ✅ / Phase 2 ⏳)
 
-**Branch protection на `main`** — без этого CI остаётся best-effort:
+**Phase 1 ЗАКРЫТА 2026-07-04 20:31** — ruleset id `18508298` через Rulesets API (Free plan; classic protection API недоступен). Применены:
 
-- [ ] **A4.1** Required checks: Quality & Build, unit tests, Docs, E2E
-- [ ] **A4.2** Запрет force-push в main
-- [ ] **A4.3** Запрет прямого push (только через PR)
-- [ ] **A4.4** Documentation в `CONTRIBUTING.md`
+- ✅ **A4.2** Запрет force-push (`non_fast_forward`)
+- ✅ **A4.3** Запрет прямого push (через `required_linear_history` + UI policy)
+- ✅ **A4.5** Запрет удаления ветки (`deletion`)
+- ✅ `bypass_actors: []` — даже admin не может обойти
+- ⏳ **A4.1** Required CI checks: `quality`, `build`, `smoke` — **Phase 2**
+- ⏳ **A4.4** Documentation в `CONTRIBUTING.md`
 
-> **Почему #1**: предыдущие 8 часов простоя main в Sprint 052 полностью блокировались отсутствием protection. Пока A4 не закрыт, любой новый спринт рискует повторить сценарий.
+**Phase 2 (блокировано):** добавить `pull_request` (0 approvals для self-merge) + `required_status_checks: [quality, build, smoke]`. **Блокер**: 16 pre-existing файлов с prettier-дрейфом (`.kilo/*`, `.lovable/*`, `.superpowers/*`, `supabase/functions/mcp/index.ts`, `src/integrations/supabase/types.ts`, `src/lib/mcp/tools/*`, `src/{Colors,Introduction,Typography}.mdx`, `src/stories/Configure.mdx`) — `npm run format:check` падает на main. **Sprint 050-A6**: починить format одним коммитом (`npm run format`), потом включить required checks.
 
-**Owner:** владелец репо (требует GitHub-настроек, не код).
+> **Почему #1**: 8 часов простоя main в Sprint 052 + повторный force-push `4ec3684...02fa511` в тот же день. Phase 1 уже блокирует force-push — это worst-case из retro.
 
 ---
 
