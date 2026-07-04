@@ -11,12 +11,7 @@ import type { Database, Json } from "../types";
 type TrackChangeLog = Database["public"]["Tables"]["track_change_log"]["Row"];
 
 type ChangeType =
-  | "version_created"
-  | "master_changed"
-  | "metadata_updated"
-  | "stem_generated"
-  | "cover_updated"
-  | "lyrics_updated";
+  "version_created" | "master_changed" | "metadata_updated" | "stem_generated" | "cover_updated" | "lyrics_updated";
 
 /**
  * Fetch changelog for a track

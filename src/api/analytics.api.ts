@@ -291,27 +291,20 @@ export async function fetchPeriodComparison(params: {
 }): Promise<PeriodComparisonRaw> {
   const { currentStart, previousStart, previousEnd } = params;
 
-  const [
-    { count: currentNewUsers },
-    { count: currentTracks },
-    { data: currentGenerations },
-    { data: currentRevenue },
-  ] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("*", { count: "exact", head: true })
-      .gte("created_at", currentStart.toISOString()),
-    supabase
-      .from("tracks")
-      .select("*", { count: "exact", head: true })
-      .gte("created_at", currentStart.toISOString()),
-    supabase.from("generation_tasks").select("status").gte("created_at", currentStart.toISOString()),
-    supabase
-      .from("stars_transactions")
-      .select("stars_amount")
-      .gte("created_at", currentStart.toISOString())
-      .eq("status", "completed"),
-  ]);
+  const [{ count: currentNewUsers }, { count: currentTracks }, { data: currentGenerations }, { data: currentRevenue }] =
+    await Promise.all([
+      supabase
+        .from("profiles")
+        .select("*", { count: "exact", head: true })
+        .gte("created_at", currentStart.toISOString()),
+      supabase.from("tracks").select("*", { count: "exact", head: true }).gte("created_at", currentStart.toISOString()),
+      supabase.from("generation_tasks").select("status").gte("created_at", currentStart.toISOString()),
+      supabase
+        .from("stars_transactions")
+        .select("stars_amount")
+        .gte("created_at", currentStart.toISOString())
+        .eq("status", "completed"),
+    ]);
 
   const [{ count: prevNewUsers }, { count: prevTracks }, { data: prevGenerations }, { data: prevRevenue }] =
     await Promise.all([
@@ -366,9 +359,7 @@ export interface FunnelMetricsRaw {
 }
 
 export async function fetchFunnelMetricsRaw(): Promise<FunnelMetricsRaw> {
-  const { count: generatingUsers } = await supabase
-    .from("tracks")
-    .select("user_id", { count: "exact", head: true });
+  const { count: generatingUsers } = await supabase.from("tracks").select("user_id", { count: "exact", head: true });
 
   const { data: activeUsersData } = await supabase.from("tracks").select("user_id").limit(10000);
 
@@ -415,10 +406,7 @@ export async function fetchRealTimeMetricsRaw(params: {
       .gte("created_at", oneMinuteAgo.toISOString())
       .order("created_at", { ascending: false }),
     supabase.from("generation_tasks").select("id").in("status", ["pending", "processing"]),
-    supabase
-      .from("user_analytics_events")
-      .select("session_id")
-      .gte("created_at", fifteenMinutesAgo.toISOString()),
+    supabase.from("user_analytics_events").select("session_id").gte("created_at", fifteenMinutesAgo.toISOString()),
     supabase.from("tracks").select("id").gte("created_at", todayStart.toISOString()).eq("status", "completed"),
   ]);
 

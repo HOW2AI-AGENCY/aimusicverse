@@ -9,6 +9,7 @@
 The Project Detail Page provides comprehensive management for a single music project. Users can view project info, manage tracks (add, reorder, generate, edit), access lyrics, configure settings, publish the project, and share with others. The page features tabbed navigation, drag-and-drop track reordering, AI-powered generation from plans, and Telegram Main Button integration for quick actions.
 
 **Primary Use Cases:**
+
 - View project details and track list
 - Add existing tracks or generate new ones
 - Reorder tracks via drag-and-drop
@@ -90,85 +91,85 @@ The Project Detail Page provides comprehensive management for a single music pro
 
 ### Project Header
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Cover Art | Image (200×200px) | Project cover, clickable to change |
-| Title | Text (H1) | Project name |
-| Type Badge | Badge | Single, EP, Album, Compilation |
-| Status Badge | Badge | Draft, In Progress, Completed, Released, Published |
-| Track Count | Text | "5 tracks" |
-| Settings Button | Icon | Opens project settings sheet |
+| Field           | Type              | Notes                                              |
+| --------------- | ----------------- | -------------------------------------------------- |
+| Cover Art       | Image (200×200px) | Project cover, clickable to change                 |
+| Title           | Text (H1)         | Project name                                       |
+| Type Badge      | Badge             | Single, EP, Album, Compilation                     |
+| Status Badge    | Badge             | Draft, In Progress, Completed, Released, Published |
+| Track Count     | Text              | "5 tracks"                                         |
+| Settings Button | Icon              | Opens project settings sheet                       |
 
 ### Tabs
 
-| Tab | Content | Default |
-|-----|---------|---------|
-| Tracks | Track list with drag-drop reordering | Yes |
-| Lyrics | Lyrics plans and drafts | No |
-| AI | AI-powered track generation suggestions | No |
+| Tab    | Content                                 | Default |
+| ------ | --------------------------------------- | ------- |
+| Tracks | Track list with drag-drop reordering    | Yes     |
+| Lyrics | Lyrics plans and drafts                 | No      |
+| AI     | AI-powered track generation suggestions | No      |
 
 ### Tracks Tab
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Add Track Button | Button | Opens add track dialog (existing or generate) |
-| Track Items | List (drag-drop) | Each track with controls |
+| Element          | Type             | Notes                                         |
+| ---------------- | ---------------- | --------------------------------------------- |
+| Add Track Button | Button           | Opens add track dialog (existing or generate) |
+| Track Items      | List (drag-drop) | Each track with controls                      |
 
 **Track Item Fields:**
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Drag Handle | Icon | ☰ for reordering |
-| Cover Art | Thumbnail (48×48px) | Track cover art |
-| Title | Text | Track name |
-| Duration | Text (MM:SS) | Audio length |
-| Status Badge | Badge | Draft, Processing, Completed, Failed |
-| Play Button | Icon | Plays track in global player |
-| Actions Menu | Icon (3-dot) | Edit, Generate, Remove, Open in Studio |
-| Move Handle | Icon (arrows) | Move up/down in list |
+| Field        | Type                | Notes                                  |
+| ------------ | ------------------- | -------------------------------------- |
+| Drag Handle  | Icon                | ☰ for reordering                      |
+| Cover Art    | Thumbnail (48×48px) | Track cover art                        |
+| Title        | Text                | Track name                             |
+| Duration     | Text (MM:SS)        | Audio length                           |
+| Status Badge | Badge               | Draft, Processing, Completed, Failed   |
+| Play Button  | Icon                | Plays track in global player           |
+| Actions Menu | Icon (3-dot)        | Edit, Generate, Remove, Open in Studio |
+| Move Handle  | Icon (arrows)       | Move up/down in list                   |
 
 ### Project Details Card (Right Sidebar)
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Created At | Date | "Created Jan 15, 2026" |
-| Total Duration | Text (MM:SS) | Sum of all track durations |
-| Completion % | Progress bar | "60% complete" (3 of 5 tracks done) |
-| Readiness | Indicator | Shows if ready to publish |
-| Last Updated | Date | "Last updated 2 hours ago" |
+| Field          | Type         | Notes                               |
+| -------------- | ------------ | ----------------------------------- |
+| Created At     | Date         | "Created Jan 15, 2026"              |
+| Total Duration | Text (MM:SS) | Sum of all track durations          |
+| Completion %   | Progress bar | "60% complete" (3 of 5 tracks done) |
+| Readiness      | Indicator    | Shows if ready to publish           |
+| Last Updated   | Date         | "Last updated 2 hours ago"          |
 
 ### Quick Actions Grid
 
-| Action | Icon | Description | Condition |
-|---------|------|-------------|-----------|
-| Generate Track | Sparkles | Generate new track from plan | Has unlinked lyrics |
-| Settings | Settings | Edit project settings | Always |
-| Share | Share2 | Share project via Telegram | Always |
-| Publish | Rocket | Publish to public library | All tracks completed |
+| Action         | Icon     | Description                  | Condition            |
+| -------------- | -------- | ---------------------------- | -------------------- |
+| Generate Track | Sparkles | Generate new track from plan | Has unlinked lyrics  |
+| Settings       | Settings | Edit project settings        | Always               |
+| Share          | Share2   | Share project via Telegram   | Always               |
+| Publish        | Rocket   | Publish to public library    | All tracks completed |
 
 ### Share Card
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Telegram Button | Button | Opens Telegram share dialog |
-| Copy Link | Button | Copies deep link to clipboard |
-| QR Code | Image | QR code for easy sharing |
+| Element         | Type   | Notes                         |
+| --------------- | ------ | ----------------------------- |
+| Telegram Button | Button | Opens Telegram share dialog   |
+| Copy Link       | Button | Copies deep link to clipboard |
+| QR Code         | Image  | QR code for easy sharing      |
 
 ### Lyrics Tab
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Lyrics Plans | List | Unlinked lyrics that can become tracks |
-| Generate Button | Button | Generate track from selected lyrics |
-| Add Lyrics | Button | Create new lyrics draft |
+| Element         | Type   | Notes                                  |
+| --------------- | ------ | -------------------------------------- |
+| Lyrics Plans    | List   | Unlinked lyrics that can become tracks |
+| Generate Button | Button | Generate track from selected lyrics    |
+| Add Lyrics      | Button | Create new lyrics draft                |
 
 ### AI Tab
 
-| Element | Type | Notes |
-|---------|------|-------|
-| AI Suggestions | List | Suggested tracks to generate based on project |
-| Generate All | Button | Generate all suggested tracks at once |
-| Progress | Progress bar | Shows generation progress for batch |
+| Element        | Type         | Notes                                         |
+| -------------- | ------------ | --------------------------------------------- |
+| AI Suggestions | List         | Suggested tracks to generate based on project |
+| Generate All   | Button       | Generate all suggested tracks at once         |
+| Progress       | Progress bar | Shows generation progress for batch           |
 
 ---
 
@@ -177,6 +178,7 @@ The Project Detail Page provides comprehensive management for a single music pro
 ### Page Load
 
 **Behavior:**
+
 1. Extract `projectId` from URL params
 2. Fetch project data via `useProjectDetailData()` hook
 3. Fetch project tracks
@@ -187,6 +189,7 @@ The Project Detail Page provides comprehensive management for a single music pro
 8. Render project with loading skeletons
 
 **API Calls:**
+
 - `GET /api/projects/{id}` — Project details
 - `GET /api/projects/{id}/tracks` — Project tracks
 - `GET /api/tracks?unlinked=true&user_id={userId}` — Unlinked tracks
@@ -197,12 +200,14 @@ The Project Detail Page provides comprehensive management for a single music pro
 **Trigger:** Drag track handle and drop in new position
 
 **Behavior:**
+
 1. Update local track order immediately (optimistic)
 2. Call API: `PATCH /api/projects/{id}/reorder-tracks`
 3. On success: Show "Track order updated" toast
 4. On error: Revert to original order
 
 **API Request:**
+
 ```typescript
 PATCH /api/projects/{id}/reorder-tracks
 {
@@ -215,6 +220,7 @@ PATCH /api/projects/{id}/reorder-tracks
 **Trigger:** Click "+ Add Track" button → "Add Existing Track"
 
 **Behavior:**
+
 1. Open add track dialog:
    - List of unlinked tracks (tracks not in any project)
    - Search/filter options
@@ -227,11 +233,12 @@ PATCH /api/projects/{id}/reorder-tracks
 5. On error: Show error message
 
 **API Request:**
+
 ```typescript
-POST /api/projects/{id}/tracks
+POST / api / projects / { id } / tracks;
 {
   track_id: string;
-  position: number;  // Optional, defaults to end
+  position: number; // Optional, defaults to end
 }
 ```
 
@@ -240,6 +247,7 @@ POST /api/projects/{id}/tracks
 **Trigger:** Click "+ Add Track" → "Generate New Track"
 
 **Behavior:**
+
 1. Open generation form (same as home page)
 2. Pre-fill project association (if saving to project)
 3. User fills generation form
@@ -250,22 +258,27 @@ POST /api/projects/{id}/tracks
 ### Track Actions
 
 **Play Track:**
+
 - Trigger: Click play button on track
 - Behavior: Start global audio player
 
 **Edit Track:**
+
 - Trigger: Click "Edit" in track actions
 - Behavior: Navigate to `/studio-v2/track/{trackId}`
 
 **Generate Track (from Plan):**
+
 - Trigger: Click "Generate" on draft track (from lyrics plan)
 - Behavior: Open generation form with lyrics pre-filled
 
 **Remove Track:**
+
 - Trigger: Click "Remove" in track actions
 - Behavior: Show confirmation → Unlink track from project (not deleted)
 
 **Open in Studio:**
+
 - Trigger: Click "Open in Studio"
 - Behavior: Navigate to `/studio-v2/track/{trackId}`
 
@@ -274,6 +287,7 @@ POST /api/projects/{id}/tracks
 **Trigger:** Click settings icon in project header
 
 **Behavior:**
+
 1. Open project settings sheet:
    - Title (text input)
    - Type (select: single/EP/album/compilation)
@@ -291,6 +305,7 @@ POST /api/projects/{id}/tracks
 **Trigger:** Click "Publish" button (when all tracks completed)
 
 **Behavior:**
+
 1. Open publish dialog:
    - Confirm project details
    - Select visibility (public/private)
@@ -304,6 +319,7 @@ POST /api/projects/{id}/tracks
 5. On error: Show error message
 
 **Publishing Requirements:**
+
 - All tracks must be completed (not draft or processing)
 - At least 1 track required
 - Project title required
@@ -314,6 +330,7 @@ POST /api/projects/{id}/tracks
 **Trigger:** Click "Share" button or share icon
 
 **Behavior:**
+
 1. Generate deep link: `t.me/AIMusicVerseBot/app?startapp=project={id}`
 2. Open Telegram share dialog via `useTelegram()`
 3. Pre-fill message: "Check out my project '{title}' on MusicVerse AI!"
@@ -321,6 +338,7 @@ POST /api/projects/{id}/tracks
 5. On success: Show "Project shared!" toast
 
 **Copy Link:**
+
 - Trigger: Click "Copy Link" in share card
 - Behavior: Copy deep link to clipboard, show "Link copied!" toast
 
@@ -328,15 +346,16 @@ POST /api/projects/{id}/tracks
 
 The Telegram Main Button changes based on project state:
 
-| State | Button Text | Action |
-|-------|-------------|--------|
-| Ready to publish | "ОПУБЛИКОВАТЬ" | Opens publish dialog |
+| State            | Button Text          | Action                     |
+| ---------------- | -------------------- | -------------------------- |
+| Ready to publish | "ОПУБЛИКОВАТЬ"       | Opens publish dialog       |
 | Has draft tracks | "СГЕНЕРИРОВАТЬ ТРЕК" | Generate first draft track |
-| Normal | "ДОБАВИТЬ ТРЕК" | Opens add track dialog |
+| Normal           | "ДОБАВИТЬ ТРЕК"      | Opens add track dialog     |
 
 **Trigger:** Click Telegram Main Button
 
 **Behavior:**
+
 1. Execute action based on current state (see table above)
 2. Haptic feedback (medium impact)
 3. Show appropriate dialog
@@ -346,6 +365,7 @@ The Telegram Main Button changes based on project state:
 **Trigger:** Click tab trigger (Tracks, Lyrics, AI)
 
 **Behavior:**
+
 1. Update active tab state
 2. Switch content display
 3. Haptic feedback (light impact)
@@ -355,6 +375,7 @@ The Telegram Main Button changes based on project state:
 **Trigger:** Click "Generate" on lyrics plan card
 
 **Behavior:**
+
 1. Open generation form with lyrics pre-filled
 2. Set project association to current project
 3. User adjusts style/settings
@@ -366,6 +387,7 @@ The Telegram Main Button changes based on project state:
 **Trigger:** Click "Generate All" button (AI tab)
 
 **Behavior:**
+
 1. Show confirmation: "Generate all suggested tracks? This will use X credits."
 2. User confirms
 3. Iterate through all suggested tracks:
@@ -379,6 +401,7 @@ The Telegram Main Button changes based on project state:
 **Trigger:** View unlinked tracks (available tracks not in project)
 
 **Behavior:**
+
 1. Display list of unlinked tracks
 2. Click "Add to Project" button on track
 3. Call API: `POST /api/projects/{id}/tracks`
@@ -388,33 +411,36 @@ The Telegram Main Button changes based on project state:
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Project | GET | /api/projects/{id} | Page load | Project details |
-| Get Project Tracks | GET | /api/projects/{id}/tracks | Page load | All tracks in project |
-| Get Unlinked Tracks | GET | /api/tracks?unlinked=true | Page load | Available tracks to add |
-| Update Project | PATCH | /api/projects/{id} | Settings save | Update title, type, cover |
-| Add Track to Project | POST | /api/projects/{id}/tracks | Add track | Link existing track |
-| Remove Track from Project | DELETE | /api/projects/{id}/tracks/{trackId} | Remove track | Unlink track (not delete) |
-| Reorder Tracks | PATCH | /api/projects/{id}/reorder-tracks | Drag-drop | Update track order |
-| Publish Project | POST | /api/projects/{id}/publish | Publish action | Make public |
-| Generate from Plan | POST | /api/generation/generate | Generate action | Create track from lyrics |
-| Get Lyrics Plans | GET | /api/lyrics?project_id={id} | Lyrics tab load | Unlinked lyrics |
+| API                       | Method | Path                                | Trigger         | Notes                     |
+| ------------------------- | ------ | ----------------------------------- | --------------- | ------------------------- |
+| Get Project               | GET    | /api/projects/{id}                  | Page load       | Project details           |
+| Get Project Tracks        | GET    | /api/projects/{id}/tracks           | Page load       | All tracks in project     |
+| Get Unlinked Tracks       | GET    | /api/tracks?unlinked=true           | Page load       | Available tracks to add   |
+| Update Project            | PATCH  | /api/projects/{id}                  | Settings save   | Update title, type, cover |
+| Add Track to Project      | POST   | /api/projects/{id}/tracks           | Add track       | Link existing track       |
+| Remove Track from Project | DELETE | /api/projects/{id}/tracks/{trackId} | Remove track    | Unlink track (not delete) |
+| Reorder Tracks            | PATCH  | /api/projects/{id}/reorder-tracks   | Drag-drop       | Update track order        |
+| Publish Project           | POST   | /api/projects/{id}/publish          | Publish action  | Make public               |
+| Generate from Plan        | POST   | /api/generation/generate            | Generate action | Create track from lyrics  |
+| Get Lyrics Plans          | GET    | /api/lyrics?project_id={id}         | Lyrics tab load | Unlinked lyrics           |
 
 ## Page Relationships
 
 **From:**
+
 - `/projects` → Click project card
 - `/library` → Click "Add to Project" on track
 - `/studio-v2` → Click "Save to Project" after editing
 - Deep link → `t.me/AIMusicVerseBot/app?startapp=project={id}` opens project
 
 **To:**
+
 - `/studio-v2/track/{trackId}` → Click "Edit in Studio" on track
 - `/projects` → Click back button or Telegram back button
 - `/lyrics-studio` → Click lyrics in Lyrics tab
 
 **Data Coupling:**
+
 - Project data: Refreshed when tracks added/removed
 - Track list: Updates in real-time when generation completes
 - Unlinked tracks: Fetched from global track pool (excludes tracks in any project)

@@ -67,8 +67,15 @@ export const Interactive: Story = {
       <div className="flex flex-col gap-4 w-80">
         <ProgressSteps steps={STEPS} currentStep={step} onStepClick={setStep} allowClickPrevious />
         <div className="flex gap-2 justify-center">
-          <button className="px-3 py-1 rounded bg-muted text-sm" onClick={() => setStep(Math.max(0, step - 1))}>Назад</button>
-          <button className="px-3 py-1 rounded bg-primary text-primary-foreground text-sm" onClick={() => setStep(Math.min(STEPS.length, step + 1))}>Далее</button>
+          <button className="px-3 py-1 rounded bg-muted text-sm" onClick={() => setStep(Math.max(0, step - 1))}>
+            Назад
+          </button>
+          <button
+            className="px-3 py-1 rounded bg-primary text-primary-foreground text-sm"
+            onClick={() => setStep(Math.min(STEPS.length, step + 1))}
+          >
+            Далее
+          </button>
         </div>
       </div>
     );

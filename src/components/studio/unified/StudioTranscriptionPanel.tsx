@@ -22,6 +22,9 @@ import { useLatestStemTranscription } from "@/hooks/studio/useLatestStemTranscri
 import { useReplicateMidiTranscription } from "@/hooks/studio/useReplicateMidiTranscription";
 import { useKlangioAnalyze } from "@/hooks/studio/useKlangioAnalyze";
 import { logger } from "@/lib/logger";
+import type { Database } from "@/integrations/supabase/types";
+
+type StemTranscriptionRow = Database["public"]["Tables"]["stem_transcriptions"]["Row"];
 
 interface StudioTranscriptionPanelProps {
   track: StudioTrack;
@@ -370,20 +373,22 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   }, []);
 
   // Merge existing transcription with new result
+  // useLatestStemTranscription returns Record<string, unknown> (untyped API boundary),
+  // so narrow to the real stem_transcriptions row shape before reading fields.
+  const existingRow = existingTranscription as StemTranscriptionRow | null | undefined;
   const displayResult: TranscriptionResult | null =
     result ||
-    (existingTranscription
+    (existingRow
       ? {
-          midi_url: existingTranscription.midi_url ?? undefined,
-          midi_quant_url: existingTranscription.midi_quant_url ?? undefined,
-          musicxml_url: existingTranscription.mxml_url ?? undefined,
-          pdf_url: existingTranscription.pdf_url ?? undefined,
-          gp5_url: existingTranscription.gp5_url ?? undefined,
-          bpm: existingTranscription.bpm ?? undefined,
-          key: existingTranscription.key_detected ?? undefined,
+          midi_url: existingRow.midi_url ?? undefined,
+          midi_quant_url: existingRow.midi_quant_url ?? undefined,
+          musicxml_url: existingRow.mxml_url ?? undefined,
+          pdf_url: existingRow.pdf_url ?? undefined,
+          gp5_url: existingRow.gp5_url ?? undefined,
+          bpm: existingRow.bpm ?? undefined,
+          key: existingRow.key_detected ?? undefined,
           notes_count:
-            existingTranscription.notes_count ??
-            (Array.isArray(existingTranscription.notes) ? existingTranscription.notes.length : undefined),
+            existingRow.notes_count ?? (Array.isArray(existingRow.notes) ? existingRow.notes.length : undefined),
         }
       : null);
 

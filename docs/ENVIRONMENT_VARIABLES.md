@@ -16,13 +16,14 @@ This document provides comprehensive documentation of all environment variables 
 
 ### 🔑 Supabase Configuration
 
-| Variable | Type | Required | Description | Example |
-|----------|------|----------|-------------|---------|
-| `VITE_SUPABASE_URL` | string | ✅ Yes | Supabase project URL | `https://xxxxx.supabase.co` |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | string | ✅ Yes | Supabase anon/public key | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
-| `VITE_SUPABASE_PROJECT_ID` | string | ✅ Yes | Supabase project reference ID | `ygmvthybdrqymfsqifmj` |
+| Variable                        | Type   | Required | Description                   | Example                                   |
+| ------------------------------- | ------ | -------- | ----------------------------- | ----------------------------------------- |
+| `VITE_SUPABASE_URL`             | string | ✅ Yes   | Supabase project URL          | `https://xxxxx.supabase.co`               |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | string | ✅ Yes   | Supabase anon/public key      | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
+| `VITE_SUPABASE_PROJECT_ID`      | string | ✅ Yes   | Supabase project reference ID | `ygmvthybdrqymfsqifmj`                    |
 
 **Usage:**
+
 ```typescript
 // src/integrations/supabase/client.ts
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -30,6 +31,7 @@ const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 ```
 
 **Get your credentials:**
+
 1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
 2. Select your project
 3. Navigate to Settings → API
@@ -39,12 +41,13 @@ const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 ### ☀️ Suno AI Configuration
 
-| Variable | Type | Required | Description | Example |
-|----------|------|----------|-------------|---------|
-| `SUNO_API_KEY` | string | ✅ Yes | Suno AI API key for music generation | `sk-xxxxxxxxxxxxx` |
+| Variable            | Type   | Required       | Description                                | Example            |
+| ------------------- | ------ | -------------- | ------------------------------------------ | ------------------ |
+| `SUNO_API_KEY`      | string | ✅ Yes         | Suno AI API key for music generation       | `sk-xxxxxxxxxxxxx` |
 | `VITE_SUNO_API_KEY` | string | ⚠️ Conditional | Client-side Suno API key (not recommended) | `sk-xxxxxxxxxxxxx` |
 
 **Usage:**
+
 ```typescript
 // Edge Functions (server-side)
 const apiKey = Deno.env.get("SUNO_API_KEY");
@@ -56,6 +59,7 @@ const apiKey = import.meta.env.VITE_SUNO_API_KEY;
 **Security Note:** ⚠️ **Never expose `SUNO_API_KEY` in client-side code.** Always use it in Edge Functions only.
 
 **Get your API key:**
+
 1. Sign up at [Suno AI](https://suno.ai)
 2. Navigate to Account Settings → API Keys
 3. Generate and copy your API key
@@ -64,13 +68,14 @@ const apiKey = import.meta.env.VITE_SUNO_API_KEY;
 
 ### 🤖 Telegram Bot Configuration
 
-| Variable | Type | Required | Description | Example |
-|----------|------|----------|-------------|---------|
-| `TELEGRAM_BOT_TOKEN` | string | ✅ Yes | Telegram bot token from BotFather | `1234567890:ABCdefGHIjklMNOpqrsTUVwxyz` |
-| `MINI_APP_URL` | string | ✅ Yes | URL of the deployed Mini App | `https://your-app.vercel.app` |
-| `VITE_TELEGRAM_BOT_USERNAME` | string | ⚠️ Conditional | Telegram bot username (for deep links) | `AIMusicVerseBot` |
+| Variable                     | Type   | Required       | Description                            | Example                                 |
+| ---------------------------- | ------ | -------------- | -------------------------------------- | --------------------------------------- |
+| `TELEGRAM_BOT_TOKEN`         | string | ✅ Yes         | Telegram bot token from BotFather      | `1234567890:ABCdefGHIjklMNOpqrsTUVwxyz` |
+| `MINI_APP_URL`               | string | ✅ Yes         | URL of the deployed Mini App           | `https://your-app.vercel.app`           |
+| `VITE_TELEGRAM_BOT_USERNAME` | string | ⚠️ Conditional | Telegram bot username (for deep links) | `AIMusicVerseBot`                       |
 
 **Usage:**
+
 ```typescript
 // Edge Functions (server-side)
 const botToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
@@ -81,6 +86,7 @@ const deepLink = `https://t.me/${botUsername}/app?startapp=track_123`;
 ```
 
 **Get your bot token:**
+
 1. Open [@BotFather](https://t.me/BotFather) on Telegram
 2. Create a new bot or select existing one
 3. Copy the provided token
@@ -90,11 +96,12 @@ const deepLink = `https://t.me/${botUsername}/app?startapp=track_123`;
 
 ### 📊 Sentry Error Tracking
 
-| Variable | Type | Required | Description | Example |
-|----------|------|----------|-------------|---------|
+| Variable          | Type   | Required    | Description                                | Example                         |
+| ----------------- | ------ | ----------- | ------------------------------------------ | ------------------------------- |
 | `VITE_SENTRY_DSN` | string | ⚠️ Optional | Sentry Data Source Name for error tracking | `https://xxxxx@sentry.io/xxxxx` |
 
 **Usage:**
+
 ```typescript
 // src/lib/sentry.ts
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
@@ -102,6 +109,7 @@ export const isSentryEnabled = !!SENTRY_DSN;
 ```
 
 **Get your DSN:**
+
 1. Go to [Sentry Dashboard](https://sentry.io)
 2. Create a new project or select existing
 3. Navigate to Settings → Client Keys (DSN)
@@ -115,46 +123,46 @@ export const isSentryEnabled = !!SENTRY_DSN;
 
 ### 🚀 Application Configuration
 
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `VITE_APP_VERSION` | string | `1.0.0-beta` | Application version number |
-| `VITE_APP_ENV` | string | `development` | Environment identifier |
-| `VITE_ENABLE_ANALYTICS` | boolean | `true` | Enable analytics tracking |
-| `VITE_ENABLE_PERFORMANCE_MONITORING` | boolean | `true` | Enable performance monitoring |
+| Variable                             | Type    | Default       | Description                   |
+| ------------------------------------ | ------- | ------------- | ----------------------------- |
+| `VITE_APP_VERSION`                   | string  | `1.0.0-beta`  | Application version number    |
+| `VITE_APP_ENV`                       | string  | `development` | Environment identifier        |
+| `VITE_ENABLE_ANALYTICS`              | boolean | `true`        | Enable analytics tracking     |
+| `VITE_ENABLE_PERFORMANCE_MONITORING` | boolean | `true`        | Enable performance monitoring |
 
 ### 🎨 Feature Flags
 
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `VITE_FEATURE_MIDI_TRANSCRIPTION` | boolean | `false` | Enable MIDI transcription feature |
-| `VITE_FEATURE_ADVANCED_MASTERING` | boolean | `false` | Enable advanced mastering |
-| `VITE_FEATURE_AI_MIXING` | boolean | `false` | Enable AI mixing |
-| `VITE_FEATURE_CLOUD_COLLABORATION` | boolean | `false` | Enable cloud collaboration |
-| `VITE_FEATURE_MOBILE_RECORDING` | boolean | `false` | Enable mobile recording |
+| Variable                           | Type    | Default | Description                       |
+| ---------------------------------- | ------- | ------- | --------------------------------- |
+| `VITE_FEATURE_MIDI_TRANSCRIPTION`  | boolean | `false` | Enable MIDI transcription feature |
+| `VITE_FEATURE_ADVANCED_MASTERING`  | boolean | `false` | Enable advanced mastering         |
+| `VITE_FEATURE_AI_MIXING`           | boolean | `false` | Enable AI mixing                  |
+| `VITE_FEATURE_CLOUD_COLLABORATION` | boolean | `false` | Enable cloud collaboration        |
+| `VITE_FEATURE_MOBILE_RECORDING`    | boolean | `false` | Enable mobile recording           |
 
 ### 📱 Mobile Configuration
 
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `VITE_MOBILE_ENABLED` | boolean | `true` | Enable mobile optimizations |
-| `VITE_SAFE_AREA_TOP` | string | `env(safe-area-inset-top)` | iOS safe area top inset |
-| `VITE_SAFE_AREA_BOTTOM` | string | `env(safe-area-inset-bottom)` | iOS safe area bottom inset |
+| Variable                | Type    | Default                       | Description                 |
+| ----------------------- | ------- | ----------------------------- | --------------------------- |
+| `VITE_MOBILE_ENABLED`   | boolean | `true`                        | Enable mobile optimizations |
+| `VITE_SAFE_AREA_TOP`    | string  | `env(safe-area-inset-top)`    | iOS safe area top inset     |
+| `VITE_SAFE_AREA_BOTTOM` | string  | `env(safe-area-inset-bottom)` | iOS safe area bottom inset  |
 
 ### ⚡ Performance Configuration
 
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `VITE_CACHE_AUDIO` | boolean | `true` | Enable audio caching |
-| `VITE_LAZY_LOAD_IMAGES` | boolean | `true` | Enable lazy loading for images |
-| `VITE_PREFETCH_ROUTES` | boolean | `true` | Enable route prefetching |
-| `VITE_REDUCED_MOTION` | boolean | `true` | Respect reduced motion preference |
+| Variable                | Type    | Default | Description                       |
+| ----------------------- | ------- | ------- | --------------------------------- |
+| `VITE_CACHE_AUDIO`      | boolean | `true`  | Enable audio caching              |
+| `VITE_LAZY_LOAD_IMAGES` | boolean | `true`  | Enable lazy loading for images    |
+| `VITE_PREFETCH_ROUTES`  | boolean | `true`  | Enable route prefetching          |
+| `VITE_REDUCED_MOTION`   | boolean | `true`  | Respect reduced motion preference |
 
 ### 🧪 Testing Configuration
 
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `VITE_TEST_MODE` | boolean | `false` | Enable test mode |
-| `VITE_DEMO_MODE` | boolean | `false` | Enable demo mode with sample data |
+| Variable           | Type    | Default | Description                       |
+| ------------------ | ------- | ------- | --------------------------------- |
+| `VITE_TEST_MODE`   | boolean | `false` | Enable test mode                  |
+| `VITE_DEMO_MODE`   | boolean | `false` | Enable demo mode with sample data |
 | `VITE_DEBUG_TOOLS` | boolean | `false` | Enable debug tools in development |
 
 ---
@@ -167,7 +175,7 @@ export const isSentryEnabled = !!SENTRY_DSN;
    - API keys, database credentials should only be used in Edge Functions
    - Use `Deno.env.get()` in server-side code
 
-2. **Use VITE_ prefix for client-side variables**
+2. **Use VITE\_ prefix for client-side variables**
    - Only non-sensitive data should use `VITE_` prefix
    - These variables are exposed in the browser bundle
 
@@ -177,7 +185,7 @@ export const isSentryEnabled = !!SENTRY_DSN;
 
 4. **Use different values per environment**
    - Development: `dev` credentials
-   - Staging: `staging` credentials  
+   - Staging: `staging` credentials
    - Production: `production` credentials
 
 ### ❌ DON'Ts
@@ -292,23 +300,27 @@ nano .env  # or use your preferred editor
 ### 2. Get Required Credentials
 
 #### Supabase
+
 1. Create account at [supabase.com](https://supabase.com)
 2. Create new project
 3. Go to Settings → API
 4. Copy: URL, anon key, project reference ID
 
 #### Suno AI
+
 1. Create account at [suno.ai](https://suno.ai)
 2. Navigate to Account Settings → API Keys
 3. Generate and copy API key
 
 #### Telegram Bot
+
 1. Open [@BotFather](https://t.me/BotFather) on Telegram
 2. Send `/newbot` command
 3. Follow instructions and copy token
 4. Set up Mini App URL
 
 #### Sentry (Optional)
+
 1. Create account at [sentry.io](https://sentry.io)
 2. Create new project
 3. Copy DSN from Settings → Client Keys
@@ -316,6 +328,7 @@ nano .env  # or use your preferred editor
 ### 3. Configure Environment Variables
 
 Edit `.env` file:
+
 ```bash
 # Replace placeholder values with your actual credentials
 VITE_SUPABASE_URL=https://your-project.supabase.co
@@ -389,6 +402,7 @@ VITE_ENABLE_PERFORMANCE_MONITORING=true
 **Problem:** `Supabase connection error: Invalid API key`
 
 **Solution:**
+
 - Verify `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` are correct
 - Check keys are copied from Supabase Dashboard → Settings → API
 - Ensure project is active on Supabase
@@ -398,6 +412,7 @@ VITE_ENABLE_PERFORMANCE_MONITORING=true
 **Problem:** `Suno API error: 401 Unauthorized`
 
 **Solution:**
+
 - Verify `SUNO_API_KEY` is correct and active
 - Check API key hasn't expired
 - Ensure API key is used in Edge Functions, not client-side
@@ -407,6 +422,7 @@ VITE_ENABLE_PERFORMANCE_MONITORING=true
 **Problem:** `Telegram bot not responding to commands`
 
 **Solution:**
+
 - Verify `TELEGRAM_BOT_TOKEN` is correct
 - Check bot is set up properly with BotFather
 - Ensure Mini App URL is configured in BotFather
@@ -416,6 +432,7 @@ VITE_ENABLE_PERFORMANCE_MONITORING=true
 **Problem:** `import.meta.env.VITE_* is undefined`
 
 **Solution:**
+
 - Ensure variables have `VITE_` prefix for client-side access
 - Restart dev server after adding new variables
 - Check `.env` file is in root directory
@@ -426,6 +443,7 @@ VITE_ENABLE_PERFORMANCE_MONITORING=true
 **Problem:** `Sentry not capturing errors`
 
 **Solution:**
+
 - Verify `VITE_SENTRY_DSN` is set correctly
 - Check Sentry project is active
 - Ensure `isSentryEnabled` returns `true` in console
@@ -496,24 +514,28 @@ const url = Deno.env.get("VITE_SUPABASE_URL"); // Don't do this
 ### Step-by-Step Process
 
 1. **Add to .env.example**
+
    ```bash
    VITE_NEW_FEATURE=true
    ```
 
 2. **Add to this documentation**
+
    ```markdown
-   | Variable | Type | Default | Description |
-   |----------|------|---------|-------------|
-   | `VITE_NEW_FEATURE` | boolean | `true` | Enable new feature |
+   | Variable           | Type    | Default | Description        |
+   | ------------------ | ------- | ------- | ------------------ |
+   | `VITE_NEW_FEATURE` | boolean | `true`  | Enable new feature |
    ```
 
 3. **Add TypeScript validation (if needed)**
+
    ```typescript
    // src/config/app.config.ts
-   export const NEW_FEATURE_ENABLED = import.meta.env.VITE_NEW_FEATURE === 'true';
+   export const NEW_FEATURE_ENABLED = import.meta.env.VITE_NEW_FEATURE === "true";
    ```
 
 4. **Update type definitions (if needed)**
+
    ```typescript
    // vite-env.d.ts
    interface ImportMetaEnv {
@@ -522,10 +544,11 @@ const url = Deno.env.get("VITE_SUPABASE_URL"); // Don't do this
    ```
 
 5. **Test in development**
+
    ```bash
    # Add to .env
    VITE_NEW_FEATURE=true
-   
+
    # Restart dev server
    npm run dev
    ```
@@ -538,7 +561,7 @@ const url = Deno.env.get("VITE_SUPABASE_URL"); // Don't do this
     * Requires VITE_NEW_FEATURE=true
     */
    export function useNewFeature() {
-     return import.meta.env.VITE_NEW_FEATURE === 'true';
+     return import.meta.env.VITE_NEW_FEATURE === "true";
    }
    ```
 

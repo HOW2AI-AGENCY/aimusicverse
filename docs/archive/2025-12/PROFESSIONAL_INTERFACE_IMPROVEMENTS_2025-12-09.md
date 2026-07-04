@@ -69,12 +69,8 @@
 
 ```typescript
 workflowPresets = {
-  musicCreation: {
-    /* 4 steps */
-  },
-  midiWorkflow: {
-    /* 4 steps */
-  },
+  musicCreation: {/* 4 steps */},
+  midiWorkflow: {/* 4 steps */},
 };
 ```
 

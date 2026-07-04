@@ -45,11 +45,13 @@
 > **任何行动都应尽可能快地让用户创作音乐**
 
 **Definition:**
+
 - Главная ценность продукта — создание музыки
 - Каждый экран должен вести к созданию
 - Время от идеи до трека — минимизировано
 
 **Implementation:**
+
 - Глобальный FAB "Create" всегда доступен
 - Ручной ввод → AI-ассистент → One-tap presets
 - Максимальный path к creation: 2 taps
@@ -67,17 +69,20 @@
 > **任何生成都会自动成为项目的一部分**
 
 **Definition:**
+
 - Генерации не существуют в вакууме
 - Всё organised into projects
 - Projects — main organizing unit
 
 **Implementation:**
+
 - Каждая генерация → automatic project creation
 - Generations grouped by context/prompt/style
 - Projects auto-named from first prompt
 - Manual project creation optional
 
 **Entity Structure:**
+
 ```
 Workspace
 └── Projects
@@ -97,11 +102,13 @@ Workspace
 > **用户从不丢失工作历史**
 
 **Definition:**
+
 - Всё автоматически сохраняется
 - History always accessible
 - No dead ends, no lost work
 
 **Implementation:**
+
 - Auto-save на каждые 30 секунд
 - Infinite undo/redo stack
 - Session restoration (reload → recover state)
@@ -120,17 +127,20 @@ Workspace
 > **每个实体只存在于一个地方**
 
 **Definition:**
+
 - Entities exist once
 - References only
 - No duplication
 
 **Implementation:**
+
 - Track в library → reference from project
 - Project timeline → references to generations
 - AI Artist profile → reference from tracks
 - Single pane of glass for each entity type
 
 **Entity Rules:**
+
 ```
 Track: Lives in Library, referenced elsewhere
 Generation: Lives in Project, referenced in Library
@@ -149,17 +159,20 @@ Version: Lives in Track, referenced in Studio
 > **界面只显示必要信息**
 
 **Definition:**
+
 - Show minimum required
 - Reveal complexity on demand
 - Cognitive load minimization
 
 **Implementation:**
+
 - Primary screen: essential actions only
 - Secondary: revealed via gestures/menus
 - Tertiary: advanced options
 - Expert mode: toggle for full control
 
 **Disclosure Layers:**
+
 ```
 Layer 1 (Always Visible): Play, Create, Navigate
 Layer 2 (On Tap): Like, Share, Duplicate
@@ -179,17 +192,20 @@ Layer 4 (Advanced): Studio, Analytics, Settings
 > **任何屏幕都包含下一步**
 
 **Definition:**
+
 - Every screen has forward momentum
 - No terminal states
 - Clear next action
 
 **Implementation:**
+
 - Empty state → CTA to create
 - Error state → Retry or alternative path
 - Success state → Next action (share, play, edit)
 - Completion state → Suggested next steps
 
 **Screen Flow:**
+
 ```
 Empty → [Create First Track]
 Success → [Share] [Create Another] [Edit in Studio]
@@ -209,11 +225,13 @@ Detail → [Play] [Edit] [Share] [Delete]
 > **所有手动操作都有AI对应物**
 
 **Definition:**
+
 - Manual actions → AI alternatives
 - AI suggested by default
 - Human + AI collaboration
 
 **Implementation:**
+
 - Prompt: "Help me write lyrics" button
 - Style: AI suggestions based on context
 - Structure: AI arrangement of sections
@@ -221,6 +239,7 @@ Detail → [Play] [Edit] [Share] [Delete]
 - Mastering: AI enhancement
 
 **AI Integration Layers:**
+
 ```
 Layer 1: AI Assistance (optional, suggested)
 Layer 2: AI Co-creation (collaborative)
@@ -239,17 +258,20 @@ Layer 3: AI Automation (one-tap generation)
 > **主要动作可以用拇指完成**
 
 **Definition:**
+
 - Thumb zone for primary actions
 - Reachability for all key features
 - Gesture-first interaction
 
 **Implementation:**
+
 - Primary actions: bottom 1/3 of screen
 - FAB: bottom-right corner
 - Navigation: bottom tab bar
 - Gestures: swipe, tap, long press
 
 **Thumb Zone Map:**
+
 ```
 ┌────────────────────────┐
 │  Top Bar (stretch)     │ ← Hard to reach
@@ -273,17 +295,20 @@ Layer 3: AI Automation (one-tap generation)
 > **屏幕上不超过一个主要CTA**
 
 **Definition:**
+
 - One primary action per screen
 - Secondary actions de-emphasized
 - Clear visual hierarchy
 
 **Implementation:**
+
 - Primary: largest, most prominent
 - Secondary: smaller, less visible
 - Tertiary: hidden until interaction
 - Visual hierarchy: size, color, position
 
 **Visual Hierarchy:**
+
 ```
 Primary Button:    100% opacity, largest size
 Secondary Button:  70% opacity, medium size
@@ -302,17 +327,20 @@ Tertiary Action:   40% opacity, small size (icon)
 > **任何动作都可以撤销**
 
 **Definition:**
+
 - No permanent actions without confirmation
 - Undo available for all destructive actions
 - Recovery from mistakes
 
 **Implementation:**
+
 - Delete → Undo toast (5 seconds)
 - Major changes → Confirmation dialog
 - Edit history → Infinite undo
 - Soft delete with 30-day recovery
 
 **Undo Architecture:**
+
 ```
 Action → Immediate UI Update
        ↓
@@ -428,21 +456,25 @@ Playlist
 ## Entity Lifecycles
 
 ### Generation Lifecycle
+
 ```
 Draft → Planning → Generating → Streaming → Completed → Published → Archived
 ```
 
 ### Track Lifecycle
+
 ```
 Generated → Edited → Versioned → Released → Published → Monetized → Archived
 ```
 
 ### Project Lifecycle
+
 ```
 Created → Active → Completed → Published → Archived → Deleted
 ```
 
 ### AI Artist Lifecycle
+
 ```
 Created → Configured → Active → Published → Monetized → Archived
 ```
@@ -456,90 +488,100 @@ Created → Configured → Active → Published → Monetized → Archived
 ### Primary Jobs (Must-Have)
 
 #### JTBD 1: Create a Track
+
 **When:** I have an idea or mood  
 **Want to:** Quickly generate music  
-**Expect:** AI handles complexity, I guide direction  
+**Expect:** AI handles complexity, I guide direction
 
 **Solution:** Generation form with AI assistance
 
 ---
 
 #### JTBD 2: Iterate on a Track
+
 **When:** Generated track is close but not perfect  
 **Want to:** Refine, regenerate parts, adjust  
-**Expect:** Preserve progress, easy experimentation  
+**Expect:** Preserve progress, easy experimentation
 
 **Solution:** Studio with section regeneration
 
 ---
 
 #### JTBD 3: Write Lyrics
+
 **When:** I have themes but no words  
 **Want to:** AI to generate or suggest lyrics  
-**Expect:** Context-aware, style-appropriate  
+**Expect:** Context-aware, style-appropriate
 
 **Solution:** Lyrics studio with AI assistant
 
 ---
 
 #### JTBD 4: Create an AI Artist
+
 **When:** I want a consistent musical identity  
 **Want to:** Define voice, style, persona  
-**Expect:** Coherent output across generations  
+**Expect:** Coherent output across generations
 
 **Solution:** AI Artist creation wizard
 
 ---
 
 #### JTBD 5: Clone a Voice
+
 **When:** I have a reference voice  
 **Want to:** Use it for generations  
-**Expect:** High-quality voice matching  
+**Expect:** High-quality voice matching
 
 **Solution:** Voice cloning with reference upload
 
 ---
 
 #### JTBD 6: Organize Music
+
 **When:** I have many tracks  
 **Want to:** Group, find, manage  
-**Expect:** Flexible organization, fast search  
+**Expect:** Flexible organization, fast search
 
 **Solution:** Projects, playlists, library
 
 ---
 
 #### JTBD 7: Publish & Share
+
 **When:** Track is ready  
 **Want to:** Distribute, share, get feedback  
-**Expect:** One-click publishing, social sharing  
+**Expect:** One-click publishing, social sharing
 
 **Solution:** Publishing wizard, social integration
 
 ---
 
 #### JTBD 8: Discover Music
+
 **When:** I want inspiration  
 **Want to:** Browse community, trending  
-**Expect:** Quality discovery, personalized  
+**Expect:** Quality discovery, personalized
 
 **Solution:** Marketplace, community feed, recommendations
 
 ---
 
 #### JTBD 9: Monetize
+
 **When:** I have audience  
 **Want to:** Earn from creations  
-**Expect:** Transparent monetization, fair splits  
+**Expect:** Transparent monetization, fair splits
 
 **Solution:** Monetization dashboard, revenue sharing
 
 ---
 
 #### JTBD 10: Analyze Performance
+
 **When:** I want to understand impact  
 **Want to:** See stats, trends, insights  
-**Expect:** Clear analytics, actionable  
+**Expect:** Clear analytics, actionable
 
 **Solution:** Analytics dashboard, performance metrics
 
@@ -565,6 +607,7 @@ Created → Configured → Active → Published → Monetized → Archived
 ## Hard Limits (Mandatory)
 
 ### Navigation Items
+
 ```
 Maximum Bottom Nav Items: 5
 Maximum Sidebar Items: 7
@@ -573,6 +616,7 @@ Maximum Breadcrumb Levels: 3
 ```
 
 ### Buttons
+
 ```
 Maximum Primary Buttons: 1 per screen
 Maximum FABs: 1 per screen
@@ -581,6 +625,7 @@ Maximum Buttons in Modal: 2 (Primary + Cancel)
 ```
 
 ### Content
+
 ```
 Maximum Card Lines: 2 lines of text
 Maximum List Items: 20 before pagination
@@ -589,6 +634,7 @@ Maximum Form Fields: 5 per screen
 ```
 
 ### Quick Actions
+
 ```
 Maximum Quick Actions: 6
 Maximum Bottom Sheet Actions: 5
@@ -596,6 +642,7 @@ Maximum Context Menu Items: 6
 ```
 
 ### CTAs
+
 ```
 Maximum Simultaneous CTAs: 4 per screen
 Maximum CTA Length: 25 characters
@@ -603,6 +650,7 @@ Maximum CTA Hierarchy Levels: 3
 ```
 
 ### Visual
+
 ```
 Maximum Columns: 4 (desktop), 2 (tablet), 1 (mobile)
 Maximum Card Size: 400×400px
@@ -627,13 +675,16 @@ Recommended Modal Size: 90% viewport
 ## Mandatory Application
 
 ### Fitts's Law
+
 **Law:** Time to acquire target = distance + size  
 **Application:**
+
 - Primary targets → largest, closest
 - Critical actions → thumb zone
 - Destructive actions → harder to reach
 
 **Implementation:**
+
 ```
 Primary Button (FAB): Bottom-right, largest
 Secondary Actions: Bottom-left, medium
@@ -643,13 +694,16 @@ Tertiary Actions: Top-right, small (stretch)
 ---
 
 ### Hick's Law
+
 **Law:** More choices = longer decision time  
 **Application:**
+
 - Limit simultaneous options
 - Progressive disclosure
 - Default selections
 
 **Implementation:**
+
 ```
 Generation Form: Show 3 styles initially, "More" expands
 Menus: Max 6 visible items, others scroll
@@ -659,13 +713,16 @@ Filters: Max 4 active at once
 ---
 
 ### Jakob's Law
+
 **Law:** Users spend most time on other sites  
 **Application:**
+
 - Follow platform conventions
 - Familiar patterns
 - Mental models
 
 **Implementation:**
+
 ```
 Mobile: Bottom nav (standard)
 Desktop: Left sidebar (standard)
@@ -676,13 +733,16 @@ Icons: Universal meanings
 ---
 
 ### Miller's Law
+
 **Law:** Working memory = 7±2 items  
 **Application:**
+
 - Chunk information
 - Limit simultaneous items
 - Visual grouping
 
 **Implementation:**
+
 ```
 Lists: Max 7-9 items before grouping
 Forms: Max 5 fields per screen
@@ -693,13 +753,16 @@ Navigation: Max 5 top-level items
 ---
 
 ### Tesler's Law
+
 **Law:** Complexity conservation  
 **Application:**
+
 - Push complexity to system
 - Simplify user experience
 - AI handles complexity
 
 **Implementation:**
+
 ```
 Generation: User types intent, AI handles parameters
 Mixing: User sets mood, AI balances stems
@@ -709,13 +772,16 @@ Publishing: User clicks publish, AI handles distribution
 ---
 
 ### Peak-End Rule
+
 **Law:** Memory = peak + final moments  
 **Application:**
+
 - End interactions positively
 - Create memorable peaks
 - Smooth transitions
 
 **Implementation:**
+
 ```
 Generation: Celebratory success screen
 Export: Optimistic progress + completion toast
@@ -725,13 +791,16 @@ Error: Helpful message + clear next step
 ---
 
 ### Serial Position Effect
+
 **Law:** Remember first + last items best  
 **Application:**
+
 - Critical items at edges
 - Secondary items middle
 - Strategic placement
 
 **Implementation:**
+
 ```
 Lists: Most important first
 Menus: Cancel button last (right)
@@ -741,13 +810,16 @@ Navigation: Home left, Profile right
 ---
 
 ### Zeigarnik Effect
+
 **Law:** Remember incomplete tasks  
 **Application:**
+
 - Show in-progress items
 - Clear completion states
 - Resume capability
 
 **Implementation:**
+
 ```
 Projects: Active ones shown first
 Generations: In-progress at top
@@ -757,13 +829,16 @@ Drafts: Persistent until complete
 ---
 
 ### Doherty Threshold
+
 **Law:** Productivity ↑ when response < 400ms  
 **Application:**
+
 - Instant feedback (<100ms)
 - Optimistic updates
 - Progressive loading
 
 **Implementation:**
+
 ```
 Tap: Visual feedback immediately (<100ms)
 API: Show skeleton, reveal when ready (<400ms)
@@ -773,13 +848,16 @@ Generation: Show progress, stream results
 ---
 
 ### Aesthetic-Usability Effect
+
 **Law:** Beautiful design = more usable  
 **Application:**
+
 - Consistent visual language
 - Polished animations
 - Attention to detail
 
 **Implementation:**
+
 ```
 Motion: Smooth transitions (40% ease)
 Spacing: Consistent gaps (8px grid)
@@ -840,6 +918,7 @@ DIALOG (Level 7)
 ## Navigation Patterns
 
 ### Mobile Navigation
+
 ```
 ┌──────────────────────────────────────┐
 │ Top Bar: Logo, Search, Notifications  │ ← Level 0
@@ -855,6 +934,7 @@ DIALOG (Level 7)
 ```
 
 ### Desktop Navigation
+
 ```
 ┌──────────┬────────────────────────────┐
 │ Sidebar  │ Top Bar: Breadcrumbs      │ ← Level 0
@@ -875,6 +955,7 @@ DIALOG (Level 7)
 ## Relationship Rules
 
 ### One-to-Many (1:N)
+
 ```
 User → Projects
 User → AI Artists
@@ -886,6 +967,7 @@ AI Artist → Tracks
 ```
 
 ### Many-to-Many (N:M)
+
 ```
 Tracks ↔ Playlists
 Users ↔ Followers
@@ -894,12 +976,14 @@ Generations ↔ Styles
 ```
 
 ### Hierarchical
+
 ```
 Workspace → Projects → Generations → Versions
 User → Profile → Settings → Preferences
 ```
 
 ### Reference-based
+
 ```
 Generation references AI Artist
 Track references Generation
@@ -910,6 +994,7 @@ Release references Tracks
 ## Relationship Constraints
 
 ### Ownership Rules
+
 ```
 - User owns all their Projects
 - User owns all their AI Artists
@@ -918,6 +1003,7 @@ Release references Tracks
 ```
 
 ### Visibility Rules
+
 ```
 Private Projects: Visible only to owner
 Public Tracks: Visible to everyone
@@ -926,6 +1012,7 @@ Playlists: Private by default (opt-in public)
 ```
 
 ### Deletion Rules
+
 ```
 Delete User → Delete all owned entities (cascade)
 Delete Project → Delete all generations (soft delete)
@@ -940,6 +1027,7 @@ Delete AI Artist → Keep in tracks (reference only)
 ## Tier System
 
 ### Tier 1: Critical (Always Visible)
+
 ```
 Priority: MUST HAVE
 Visibility: Always visible
@@ -952,6 +1040,7 @@ Actions:
 ```
 
 ### Tier 2: High (One Tap Away)
+
 ```
 Priority: SHOULD HAVE
 Visibility: On tap or swipe
@@ -965,6 +1054,7 @@ Actions:
 ```
 
 ### Tier 3: Medium (In Menus)
+
 ```
 Priority: NICE TO HAVE
 Visibility: In overflow menu
@@ -978,6 +1068,7 @@ Actions:
 ```
 
 ### Tier 4: Low (Advanced)
+
 ```
 Priority: OPTIONAL
 Visibility: In advanced menu
@@ -991,6 +1082,7 @@ Actions:
 ```
 
 ### Tier 5: Rare (Destructive)
+
 ```
 Priority: RESTRICTED
 Visibility: Hidden until confirmation
@@ -1020,6 +1112,7 @@ Dialog: Tier 1-5 (depending on context)
 ## Complete Screen List (63 Screens)
 
 ### Onboarding & Auth (4 screens)
+
 ```
 1. Splash Screen
 2. Onboarding (Feature intro)
@@ -1028,6 +1121,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Home & Generation (3 screens)
+
 ```
 5. Home (Dashboard)
 6. Generation Form (Create track)
@@ -1035,6 +1129,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Projects (6 screens)
+
 ```
 8. Projects List
 9. Project Detail
@@ -1045,6 +1140,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Library (8 screens)
+
 ```
 14. Library Home
 15. Track Detail
@@ -1057,6 +1153,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### AI Artists (7 screens)
+
 ```
 22. Artists List
 23. Artist Profile
@@ -1068,6 +1165,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Studio (8 screens)
+
 ```
 29. Studio Hub
 30. New Project
@@ -1080,6 +1178,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Marketplace (6 screens)
+
 ```
 37. Marketplace Home
 38. Trending
@@ -1090,6 +1189,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Publishing (5 screens)
+
 ```
 43. Publishing Wizard
 44. Release Setup
@@ -1099,6 +1199,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Social (5 screens)
+
 ```
 48. Feed
 49. Notifications
@@ -1108,6 +1209,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Profile & Settings (6 screens)
+
 ```
 53. User Profile
 54. Edit Profile
@@ -1118,6 +1220,7 @@ Dialog: Tier 1-5 (depending on context)
 ```
 
 ### Admin (5 screens)
+
 ```
 59. Admin Dashboard
 60. User Management
@@ -1133,6 +1236,7 @@ Dialog: Tier 1-5 (depending on context)
 ## Empty State Requirements
 
 ### Format
+
 ```
 ┌────────────────────────────────┐
 │                                │
@@ -1150,6 +1254,7 @@ Dialog: Tier 1-5 (depending on context)
 ### Empty State Catalog
 
 #### No Tracks
+
 ```
 Headline: No tracks yet
 Description: Create your first AI-generated track
@@ -1157,6 +1262,7 @@ CTA: Create Track
 ```
 
 #### No Credits
+
 ```
 Headline: Out of credits
 Description: Purchase credits to continue creating
@@ -1164,6 +1270,7 @@ CTA: Buy Credits
 ```
 
 #### No Projects
+
 ```
 Headline: No projects yet
 Description: Start creating to organize your music
@@ -1171,6 +1278,7 @@ CTA: Create First Track
 ```
 
 #### No Library
+
 ```
 Headline: Your library is empty
 Description: Generated tracks will appear here
@@ -1178,6 +1286,7 @@ CTA: Create Music
 ```
 
 #### No Internet
+
 ```
 Headline: No connection
 Description: Check your internet and try again
@@ -1185,6 +1294,7 @@ CTA: Retry
 ```
 
 #### No Search Results
+
 ```
 Headline: No results found
 Description: Try different keywords or filters
@@ -1192,6 +1302,7 @@ CTA: Clear Search
 ```
 
 #### No Notifications
+
 ```
 Headline: All caught up!
 Description: You'll see updates here
@@ -1199,6 +1310,7 @@ CTA: Explore Community
 ```
 
 #### No Followers
+
 ```
 Headline: No followers yet
 Description: Share your profile to gain followers
@@ -1212,6 +1324,7 @@ CTA: Share Profile
 ## Animation Principles
 
 ### Timing Standards
+
 ```
 Instant: 100ms (button feedback)
 Fast: 200ms (toggle, menu open)
@@ -1221,6 +1334,7 @@ Deliberate: 800ms (complex sequences)
 ```
 
 ### Easing Functions
+
 ```
 Ease In: - → decelerate (entry)
 Ease Out: accelerate → - (exit)
@@ -1231,6 +1345,7 @@ Custom: 40% ease (standard)
 ## Transition Types
 
 ### Push
+
 ```
 Next screen slides in from right
 Current screen slides out to left
@@ -1239,6 +1354,7 @@ Easing: 40% ease
 ```
 
 ### Modal
+
 ```
 Overlay fades in (0% → 100%)
 Modal scales up (90% → 100%)
@@ -1247,6 +1363,7 @@ Easing: ease-out
 ```
 
 ### Bottom Sheet
+
 ```
 Sheet slides up from bottom
 Overlay fades in
@@ -1255,6 +1372,7 @@ Easing: 40% ease
 ```
 
 ### Hero
+
 ```
 Shared element morphs between screens
 Content cross-fades
@@ -1263,6 +1381,7 @@ Easing: ease-in-out
 ```
 
 ### Shared Element
+
 ```
 Hero image expands to detail
 Text cross-fades
@@ -1274,6 +1393,7 @@ Easing: custom bezier
 ## Micro Animations
 
 ### Loading
+
 ```
 Spinner: 1s rotation loop
 Skeleton: shimmer 1.5s loop
@@ -1282,6 +1402,7 @@ Progress bar: smooth fill
 ```
 
 ### Morph
+
 ```
 Icon → Icon: 200ms shape morph
 Button → FAB: 300ms expand/collapse
@@ -1289,6 +1410,7 @@ Card → Sheet: 400ms unfold
 ```
 
 ### FAB Expand
+
 ```
 FAB → Sheet: 300ms expansion
 Button reveals options
@@ -1322,6 +1444,7 @@ DON'T:
 ### Generation States
 
 #### Thinking
+
 ```
 Definition: AI is processing prompt
 Duration: 1-3s
@@ -1329,6 +1452,7 @@ UI: Pulse animation, "Thinking..."
 ```
 
 #### Planning
+
 ```
 Definition: AI is structuring generation
 Duration: 2-5s
@@ -1336,6 +1460,7 @@ UI: Progress steps, "Planning structure..."
 ```
 
 #### Reasoning
+
 ```
 Definition: AI is making creative decisions
 Duration: 3-10s
@@ -1343,6 +1468,7 @@ UI: Thought bubbles, "Selecting style..."
 ```
 
 #### Generating
+
 ```
 Definition: AI is creating audio
 Duration: 30-60s
@@ -1350,6 +1476,7 @@ UI: Progress bar, "Generating music..."
 ```
 
 #### Retrying
+
 ```
 Definition: AI is retrying failed generation
 Duration: Variable
@@ -1357,6 +1484,7 @@ UI: Retry indicator, "Retrying..."
 ```
 
 #### Streaming
+
 ```
 Definition: Audio is streaming in real-time
 Duration: Until complete
@@ -1364,6 +1492,7 @@ UI: Progressive waveform, "Streaming..."
 ```
 
 #### Queued
+
 ```
 Definition: Request is in queue
 Duration: Until capacity
@@ -1371,6 +1500,7 @@ UI: Queue position, "Queued: #3"
 ```
 
 #### Waiting
+
 ```
 Definition: Awaiting user input
 Duration: Until response
@@ -1380,6 +1510,7 @@ UI: Prompt, "Waiting for input..."
 ### AI Feedback System
 
 #### Progress Indicators
+
 ```
 Determinate: Known duration (progress bar)
 Indeterminate: Unknown duration (spinner)
@@ -1387,6 +1518,7 @@ Estimated: Approximate duration ("~45s remaining")
 ```
 
 #### Thought Display
+
 ```
 Transparency: Show AI reasoning
 Confidence: Display certainty level
@@ -1394,6 +1526,7 @@ Alternatives: Suggest options
 ```
 
 #### Error Recovery
+
 ```
 Auto-retry: For transient failures
 Fallback: To alternative approaches
@@ -1403,6 +1536,7 @@ Guidance: Suggest user action
 ## AI Interaction Patterns
 
 ### Co-creation Mode
+
 ```
 User → Input prompt
 AI → Suggests refinements
@@ -1411,6 +1545,7 @@ AI → Generates based on feedback
 ```
 
 ### Assistance Mode
+
 ```
 User → Starts action
 AI → Offers help
@@ -1419,6 +1554,7 @@ AI → Completes action
 ```
 
 ### Automation Mode
+
 ```
 User → Sets goal
 AI → Executes autonomously
@@ -1433,6 +1569,7 @@ User → Reviews result
 ## Density Levels
 
 ### Minimal (25%)
+
 ```
 Use: Onboarding, empty states, splash
 Elements: Large text, generous spacing
@@ -1441,6 +1578,7 @@ Examples: Welcome screen, success states
 ```
 
 ### Comfortable (50%)
+
 ```
 Use: Main screens, dashboards, forms
 Elements: Balanced sizes, moderate spacing
@@ -1449,6 +1587,7 @@ Examples: Home, library, projects
 ```
 
 ### Dense (75%)
+
 ```
 Use: Lists, tables, analytics
 Elements: Compact sizes, tight spacing
@@ -1457,6 +1596,7 @@ Examples: Track list, admin dashboard
 ```
 
 ### Developer (100%)
+
 ```
 Use: Technical interfaces, logs
 Elements: Maximum information, minimal spacing
@@ -1479,6 +1619,7 @@ Desktop: Minimal → Comfortable → Dense (user choice)
 ## Card Types
 
 ### Hero Card
+
 ```
 Size: Full-width, large
 Content: Cover, title, subtitle, actions
@@ -1487,6 +1628,7 @@ Example: New release, trending track
 ```
 
 ### Primary Card
+
 ```
 Size: Medium-large
 Content: Cover, title, metadata, actions
@@ -1495,6 +1637,7 @@ Example: Track card, artist card
 ```
 
 ### Secondary Card
+
 ```
 Size: Medium
 Content: Cover, title, brief metadata
@@ -1503,6 +1646,7 @@ Example: Playlist card, album card
 ```
 
 ### Compact Card
+
 ```
 Size: Small
 Content: Cover, title (truncated)
@@ -1511,6 +1655,7 @@ Example: Grid view, quick access
 ```
 
 ### List Card
+
 ```
 Size: Full-width, short
 Content: Icon, title, metadata, actions
@@ -1519,6 +1664,7 @@ Example: Track row, notification item
 ```
 
 ### Metric Card
+
 ```
 Size: Variable
 Content: Label, value, change indicator
@@ -1527,6 +1673,7 @@ Example: Play count, likes, revenue
 ```
 
 ### Media Card
+
 ```
 Size: Variable, focus on media
 Content: Large cover, minimal text
@@ -1535,6 +1682,7 @@ Example: Cover art, voice preview
 ```
 
 ### AI Card
+
 ```
 Size: Variable
 Content: AI status, progress, controls
@@ -1549,6 +1697,7 @@ Example: Generation status, AI assistant
 ## Screen Types
 
 ### Phone (<640px)
+
 ```
 Navigation: Bottom nav (5 items max)
 Layout: Single column
@@ -1558,6 +1707,7 @@ Cards: Compact → Primary
 ```
 
 ### Foldable (640-768px)
+
 ```
 Navigation: Bottom nav or sidebar
 Layout: Single or dual column
@@ -1567,6 +1717,7 @@ Cards: Primary → Secondary
 ```
 
 ### Tablet (768-1024px)
+
 ```
 Navigation: Sidebar
 Layout: Dual column
@@ -1576,6 +1727,7 @@ Cards: Primary → Hero
 ```
 
 ### Desktop (1024-1280px)
+
 ```
 Navigation: Sidebar
 Layout: Multi-column
@@ -1585,6 +1737,7 @@ Cards: Hero → Primary → Secondary
 ```
 
 ### UltraWide (>1280px)
+
 ```
 Navigation: Sidebar
 Layout: Multi-column, max-width
@@ -1600,6 +1753,7 @@ Cards: Hero → Primary → Secondary → Compact
 ## Content Types
 
 ### Recents
+
 ```
 Definition: Last accessed items
 Algorithm: Chronological (most recent first)
@@ -1608,6 +1762,7 @@ Update: Real-time
 ```
 
 ### Continue
+
 ```
 Definition: In-progress items
 Algorithm: Priority (active → draft → recent)
@@ -1616,6 +1771,7 @@ Update: Real-time
 ```
 
 ### Trending
+
 ```
 Definition: Most popular in period
 Algorithm: Engagement score (likes, plays, shares)
@@ -1625,6 +1781,7 @@ Update: Daily
 ```
 
 ### Templates
+
 ```
 Definition: Pre-made starting points
 Algorithm: Curated + personalized
@@ -1634,6 +1791,7 @@ Update: Weekly
 ```
 
 ### AI Suggestions
+
 ```
 Definition: AI-recommended content
 Algorithm: Collaborative filtering
@@ -1643,6 +1801,7 @@ Update: Real-time
 ```
 
 ### Recommended Voices
+
 ```
 Definition: Suggested voice clones
 Algorithm: Similarity to user's favorites
@@ -1652,6 +1811,7 @@ Update: Weekly
 ```
 
 ### Community
+
 ```
 Definition: User-generated content
 Algorithm: Quality score + engagement
@@ -1667,6 +1827,7 @@ Update: Real-time
 ## Monetization Elements
 
 ### Credits
+
 ```
 Display: Badge with count
 Action: Buy more, earn, watch ad
@@ -1674,6 +1835,7 @@ Warning: Low credit alert
 ```
 
 ### Subscription
+
 ```
 Display: Tier badge (Free, Pro, Premium)
 Action: Upgrade, manage, billing
@@ -1681,6 +1843,7 @@ Benefits: Feature highlights
 ```
 
 ### Marketplace
+
 ```
 Display: Price, commission
 Action: Buy, sell, negotiate
@@ -1688,6 +1851,7 @@ History: Transaction list
 ```
 
 ### Boost
+
 ```
 Display: Boost button
 Action: Pay to promote
@@ -1695,6 +1859,7 @@ Result: Increased visibility
 ```
 
 ### Premium
+
 ```
 Display: Premium badge
 Action: Upgrade to access
@@ -1702,6 +1867,7 @@ Features: Exclusive content
 ```
 
 ### Paywall
+
 ```
 Display: Upgrade screen
 Action: Subscribe or purchase
@@ -1709,6 +1875,7 @@ Benefits: Feature comparison
 ```
 
 ### Referral
+
 ```
 Display: Referral code
 Action: Share, earn rewards
@@ -1722,6 +1889,7 @@ Tracking: Referral analytics
 ## Notification Types
 
 ### Toast
+
 ```
 Duration: 3s
 Position: Bottom-center
@@ -1730,6 +1898,7 @@ Use: Success, confirmation
 ```
 
 ### Snackbar
+
 ```
 Duration: 5s
 Position: Bottom-center
@@ -1738,6 +1907,7 @@ Use: Undo, retry
 ```
 
 ### Badge
+
 ```
 Display: Number indicator
 Position: Top-right of icon
@@ -1746,6 +1916,7 @@ Use: Unread count
 ```
 
 ### Push
+
 ```
 Delivery: OS notification
 Action: Open to relevant screen
@@ -1754,6 +1925,7 @@ Use: Important updates
 ```
 
 ### Inbox
+
 ```
 Display: Notification list
 Position: Dedicated screen
@@ -1762,6 +1934,7 @@ Use: All notifications history
 ```
 
 ### Activity Feed
+
 ```
 Display: Chronological stream
 Position: Home, community
@@ -1776,6 +1949,7 @@ Use: Social updates
 ## Search Scope
 
 ### Universal Search
+
 ```
 Scope: All entity types
 Results: Grouped by type
@@ -1783,6 +1957,7 @@ Ranking: Relevance + popularity
 ```
 
 ### Tracks Search
+
 ```
 Fields: Title, style, tags
 Filters: Type, status, date
@@ -1790,6 +1965,7 @@ Sorting: Relevance, recent, popular
 ```
 
 ### Projects Search
+
 ```
 Fields: Name, description
 Filters: Status, date
@@ -1797,6 +1973,7 @@ Sorting: Recent, name
 ```
 
 ### Artists Search
+
 ```
 Fields: Name, style
 Filters: Genre, popularity
@@ -1804,6 +1981,7 @@ Sorting: Relevance, popular
 ```
 
 ### Voices Search
+
 ```
 Fields: Name, description
 Filters: Language, style
@@ -1811,6 +1989,7 @@ Sorting: Relevance, recent
 ```
 
 ### Lyrics Search
+
 ```
 Fields: Lyrics text
 Filters: Language, genre
@@ -1818,6 +1997,7 @@ Sorting: Relevance
 ```
 
 ### Community Search
+
 ```
 Fields: Title, artist, tags
 Filters: Type, date, popularity
@@ -1825,6 +2005,7 @@ Sorting: Trending, recent, popular
 ```
 
 ### Marketplace Search
+
 ```
 Fields: Title, description, tags
 Filters: Category, price, rating
@@ -1838,6 +2019,7 @@ Sorting: Relevance, popular, price
 ## WCAG 2.1 AA Compliance
 
 ### Visual
+
 ```
 Color Contrast: 4.5:1 (normal), 3:1 (large)
 Text Resizing: 200% zoomable
@@ -1846,6 +2028,7 @@ Focus Indicators: Visible, clear
 ```
 
 ### Auditory
+
 ```
 Captions: For all audio content
 Audio Control: Adjustable volume, mute
@@ -1853,6 +2036,7 @@ Audio Alternatives: Text transcripts
 ```
 
 ### Keyboard
+
 ```
 Navigation: Full keyboard access
 Focus Order: Logical, predictable
@@ -1861,6 +2045,7 @@ No Keyboard Traps: Easy exit
 ```
 
 ### Screen Reader
+
 ```
 ARIA Labels: All interactive elements
 ARIA Descriptions: Complex widgets
@@ -1869,6 +2054,7 @@ Semantic HTML: Proper landmarks
 ```
 
 ### Motion
+
 ```
 Reduced Motion: Respect prefers-reduced-motion
 Pause Control: Stop animation on request
@@ -1876,6 +2062,7 @@ Duration: No auto-play > 5s
 ```
 
 ### Touch
+
 ```
 Target Size: 44×44px minimum
 Spacing: 8px between targets
@@ -1884,6 +2071,7 @@ No Motion: Essential functions don't require motion
 ```
 
 ### Cognitive
+
 ```
 Error Prevention: Clear input validation
 Error Recovery: Helpful messages, undo
@@ -1898,6 +2086,7 @@ Timeouts: Warnings, extendable
 This document is the **single source of truth** for all product design decisions at MusicVerse AI.
 
 **Amendment Process:**
+
 1. Proposal submitted to product council
 2. Impact analysis across all entities
 3. Stakeholder review
@@ -1913,4 +2102,4 @@ This document is the **single source of truth** for all product design decisions
 
 **Generated for:** MusicVerse AI Platform  
 **Level:** Apple + Linear + Spotify + OpenAI + Vercel  
-**Last Updated:** 2026-06-27  
+**Last Updated:** 2026-06-27

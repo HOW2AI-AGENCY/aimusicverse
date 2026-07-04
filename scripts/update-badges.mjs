@@ -38,9 +38,7 @@ const rows = [
   ["Playwright", clean(deps["@playwright/test"] ?? deps.playwright), "2EAD33"],
 ];
 
-const block = rows
-  .map(([l, m, c]) => `![${l}](${shield(l, m, c)})`)
-  .join(" ");
+const block = rows.map(([l, m, c]) => `![${l}](${shield(l, m, c)})`).join(" ");
 
 const START = "<!-- BADGES:START -->";
 const END = "<!-- BADGES:END -->";
@@ -52,10 +50,7 @@ const updateFile = (path) => {
     console.warn(`[update-badges] markers not found in ${path}, skipping`);
     return false;
   }
-  const next = src.replace(
-    new RegExp(`${START}[\\s\\S]*?${END}`),
-    `${START}\n${block}\n${END}`,
-  );
+  const next = src.replace(new RegExp(`${START}[\\s\\S]*?${END}`), `${START}\n${block}\n${END}`);
   if (next === src) {
     console.log(`[update-badges] no change in ${path}`);
     return false;

@@ -302,9 +302,7 @@
 const devMode = location.hostname.includes("localhost");
 if (devMode) {
   // Полная эмуляция Telegram API
-  const mockWebApp = {
-    /* ... */
-  };
+  const mockWebApp = {/* ... */};
 }
 ```
 

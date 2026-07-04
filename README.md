@@ -46,17 +46,17 @@
 
 ## 💰 Для инвесторов
 
-| Метрика               |                                                Значение                                                |
-| --------------------- | :----------------------------------------------------------------------------------------------------: |
-| ⭐ GitHub Stars       |       ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)        |
-| 📦 Eager load (холодный старт) | ![](https://img.shields.io/badge/508_KB_gzip-↓_from_1.19_MB-10B981?style=flat-square&logo=webpack) |
+| Метрика                        |                                                     Значение                                                     |
+| ------------------------------ | :--------------------------------------------------------------------------------------------------------------: |
+| ⭐ GitHub Stars                |            ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)             |
+| 📦 Eager load (холодный старт) |        ![](https://img.shields.io/badge/508_KB_gzip-↓_from_1.19_MB-10B981?style=flat-square&logo=webpack)        |
 | 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
-| 🧪 Покрытие кода      |     ![](https://img.shields.io/badge/unit_tests-386_passing-10B981?style=flat-square&logo=vitest)      |
-| 🔒 Безопасность       |            ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)             |
-| 📊 Спринтов завершено |                                                 **42**                                                 |
-| 🏗 Компонентов         |                                      **993** (+6 project-detail)                                       |
-| 🔧 Хуков              |                                                **347**                                                 |
-| 🚀 Стадия             |                                   **Pre-Seed / Active Development**                                    |
+| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-386_passing-10B981?style=flat-square&logo=vitest)           |
+| 🔒 Безопасность                |                 ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)                  |
+| 📊 Спринтов завершено          |                                                      **42**                                                      |
+| 🏗 Компонентов                  |                                           **993** (+6 project-detail)                                            |
+| 🔧 Хуков                       |                                                     **347**                                                      |
+| 🚀 Стадия                      |                                        **Pre-Seed / Active Development**                                         |
 
 > **MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
 
@@ -100,25 +100,25 @@ gantt
     Sprint 046: Bundle Reduction 🔴     :046, 2026-08-01, 2026-08-10
 ```
 
-| Спринт  | Название                          | Статус | Прогресс |
-| :-----: | --------------------------------- | :----: | :------: |
-|   033   | UX-аудит и переработка            |   ✅   |   100%   |
-|   034   | Надёжность генерации              |   ✅   |   100%   |
-|   035   | Стабилизация + Чистка             |   ✅   |   100%   |
-|   036   | Рефакторинг слоёв + Type Safety   |   ✅   |   100%   |
-|   037   | Infrastructure Hardening          |   ✅   |   100%   |
-|   038   | Design System Unification         |   ✅   |  28/28   |
-|   039   | Архитектурный рефакторинг         |   ✅   |  14/14   |
-| **042** | **Page Decomp + Audio Pooling**   |   ✅   |  10/10   |
-| **043** | **Layer Compliance (65 → 0)**     |   ✅   |   6/6    |
-| **044** | **Type Safety Wave 2**            |   ✅   |   7/7    |
-| **047** | **Creation-Flow Motion + Mobile Perf Fixes** |   ✅   |   2/2    |
+| Спринт  | Название                                         | Статус | Прогресс |
+| :-----: | ------------------------------------------------ | :----: | :------: |
+|   033   | UX-аудит и переработка                           |   ✅   |   100%   |
+|   034   | Надёжность генерации                             |   ✅   |   100%   |
+|   035   | Стабилизация + Чистка                            |   ✅   |   100%   |
+|   036   | Рефакторинг слоёв + Type Safety                  |   ✅   |   100%   |
+|   037   | Infrastructure Hardening                         |   ✅   |   100%   |
+|   038   | Design System Unification                        |   ✅   |  28/28   |
+|   039   | Архитектурный рефакторинг                        |   ✅   |  14/14   |
+| **042** | **Page Decomp + Audio Pooling**                  |   ✅   |  10/10   |
+| **043** | **Layer Compliance (65 → 0)**                    |   ✅   |   6/6    |
+| **044** | **Type Safety Wave 2**                           |   ✅   |   7/7    |
+| **047** | **Creation-Flow Motion + Mobile Perf Fixes**     |   ✅   |   2/2    |
 | **049** | **Mobile UX: A/B версии, лайки, плеер, главная** |   ✅   |   4/4    |
-| **045** | **UX/UI Deep Polish + Hygiene**   |   🟡   |   1/4    |
-|   040   | Type Safety + God-files           |   ⚪   |    0%    |
-|  040b   | Тесты + Audio Export              |   ⚪   |    0%    |
-|   041   | UX features (AI/TTS)              |   ⚪   |    0%    |
-|   046   | 🔴 Bundle Reduction (2.21→<950KB) |   ⚪   |    0%    |
+| **045** | **UX/UI Deep Polish + Hygiene**                  |   🟡   |   1/4    |
+|   040   | Type Safety + God-files                          |   ⚪   |    0%    |
+|  040b   | Тесты + Audio Export                             |   ⚪   |    0%    |
+|   041   | UX features (AI/TTS)                             |   ⚪   |    0%    |
+|   046   | 🔴 Bundle Reduction (2.21→<950KB)                |   ⚪   |    0%    |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>
 

@@ -11,15 +11,15 @@
 
 ## Bundle Size Snapshot (brotli-compressed)
 
-| Chunk                  | Raw      | Brotli   |
-| ---------------------- | -------- | -------- |
-| vendor-react           | 238.6 KB | 65.9 KB  |
-| vendor-radix           | 192.4 KB | 45.2 KB  |
-| vendor-supabase        | 198.1 KB | 41.9 KB  |
-| vendor-tone            | 255.0 KB | 48.1 KB  |
-| vendor-charts          | 480.2 KB | 95.4 KB  |
-| index (entry)          | 239.3 KB | 55.3 KB  |
-| index.css              | 358.1 KB | 36.8 KB  |
+| Chunk                  | Raw         | Brotli      |
+| ---------------------- | ----------- | ----------- |
+| vendor-react           | 238.6 KB    | 65.9 KB     |
+| vendor-radix           | 192.4 KB    | 45.2 KB     |
+| vendor-supabase        | 198.1 KB    | 41.9 KB     |
+| vendor-tone            | 255.0 KB    | 48.1 KB     |
+| vendor-charts          | 480.2 KB    | 95.4 KB     |
+| index (entry)          | 239.3 KB    | 55.3 KB     |
+| index.css              | 358.1 KB    | 36.8 KB     |
 | **Entry total (est.)** | **~918 KB** | **~121 KB** |
 
 Entry bundle (vendor-react + vendor-radix + index JS + index CSS brotli) fits within the **950 KB** size-limit.
@@ -66,21 +66,21 @@ Derived from bundle analysis and Sprint 038 optimizations:
 
 ### Screens to measure
 
-| Screen       | URL              | Priority |
-| ------------ | ---------------- | -------- |
-| Library      | `/library`       | P0       |
-| Generate     | `/generate`      | P0       |
-| Player       | `/` (with track) | P1       |
-| Settings     | `/settings`      | P1       |
+| Screen   | URL              | Priority |
+| -------- | ---------------- | -------- |
+| Library  | `/library`       | P0       |
+| Generate | `/generate`      | P0       |
+| Player   | `/` (with track) | P1       |
+| Settings | `/settings`      | P1       |
 
 ## Previous Baseline (Sprint 037)
 
-| Metric      | Sprint 037 | Sprint 038 | Delta  |
-| ----------- | ---------- | ---------- | ------ |
-| Bundle      | 918 KB     | 918 KB     | 0      |
-| Unit tests  | 341        | 341        | 0      |
-| Build time  | ~73s       | ~73s       | 0      |
-| Storybook   | 4 stories  | 20 stories | +16    |
+| Metric     | Sprint 037 | Sprint 038 | Delta |
+| ---------- | ---------- | ---------- | ----- |
+| Bundle     | 918 KB     | 918 KB     | 0     |
+| Unit tests | 341        | 341        | 0     |
+| Build time | ~73s       | ~73s       | 0     |
+| Storybook  | 4 stories  | 20 stories | +16   |
 
 ---
 

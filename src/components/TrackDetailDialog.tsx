@@ -10,13 +10,7 @@ interface TrackDetailDialogProps {
 
 export function TrackDetailDialog({ open, onOpenChange, track }: TrackDetailDialogProps) {
   return (
-    <UnifiedDialog
-      variant="modal"
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Детали трека"
-      size="xl"
-    >
+    <UnifiedDialog variant="modal" open={open} onOpenChange={onOpenChange} title="Детали трека" size="xl">
       <TrackDetailContent track={track} variant="dialog" className="flex-1" />
     </UnifiedDialog>
   );

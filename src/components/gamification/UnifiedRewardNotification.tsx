@@ -15,20 +15,7 @@
 
 import { motion, AnimatePresence } from "@/lib/motion";
 import { useEffect, useState, memo, useCallback } from "react";
-import {
-  Coins,
-  Sparkles,
-  Star,
-  Flame,
-  Trophy,
-  Crown,
-  Zap,
-  Gift,
-  TrendingUp,
-  X,
-  PartyPopper,
-  Check,
-} from "@/lib/icons";
+import { Coins, Sparkles, Star, Flame, Trophy, Crown, Zap, Gift, TrendingUp, X, PartyPopper, Check } from "@/lib/icons";
 import confetti from "canvas-confetti";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -37,13 +24,7 @@ import { backdrop, pill } from "@/lib/overlay-colors";
 // ============= Types =============
 
 export type RewardNotificationType =
-  | "level_up"
-  | "achievement"
-  | "credits"
-  | "experience"
-  | "streak"
-  | "welcome_bonus"
-  | "subscription";
+  "level_up" | "achievement" | "credits" | "experience" | "streak" | "welcome_bonus" | "subscription";
 
 export interface RewardNotificationData {
   type: RewardNotificationType;

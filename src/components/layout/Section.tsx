@@ -130,7 +130,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
 
   // Scroll-reveal wrapper — memoized per tag so repeated renders don't
   // recreate the component type (which would force a DOM remount).
-  const MotionTag = useMemo(() => motion(Tag as never), [Tag]);
+  const MotionTag = useMemo(() => motion.create(Tag), [Tag]);
 
   return (
     <MotionTag

@@ -42,4 +42,3 @@ export const toast = Object.assign(wrap(sonnerToast as never), {
 export type { ExternalToast };
 
 export const notify = toast;
-

@@ -5,7 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getUserCredits, updateUserCreditsBalance, upsertUserCreditsBalance, insertCreditTransaction } from "@/api/payments.api";
+import {
+  getUserCredits,
+  updateUserCreditsBalance,
+  upsertUserCreditsBalance,
+  insertCreditTransaction,
+} from "@/api/payments.api";
 import { toast } from "sonner";
 import { Coins, Plus, Minus } from "@/lib/icons";
 import { logger } from "@/lib/logger";

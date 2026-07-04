@@ -9,6 +9,7 @@
 Voice History displays timeline of voice clone training sessions. Users can view training progress, status, and results of voice model creation attempts.
 
 **Primary Use Cases:**
+
 - Track voice clone training history
 - View training status and progress
 - Access completed voice models
@@ -41,14 +42,14 @@ Voice History displays timeline of voice clone training sessions. Users can view
 
 ### History Item
 
-| Field | Format | Notes |
-|-------|--------|-------|
-| Timestamp | Date | Training start date/time |
-| Voice Name | Text | Name of voice model |
-| Reference Audio | Text | Original audio file name |
-| Status | Badge | Completed, Failed, Processing |
-| Duration | Text | "Training time: 5 min" |
-| Actions | Buttons | View, Retry, Delete |
+| Field           | Format  | Notes                         |
+| --------------- | ------- | ----------------------------- |
+| Timestamp       | Date    | Training start date/time      |
+| Voice Name      | Text    | Name of voice model           |
+| Reference Audio | Text    | Original audio file name      |
+| Status          | Badge   | Completed, Failed, Processing |
+| Duration        | Text    | "Training time: 5 min"        |
+| Actions         | Buttons | View, Retry, Delete           |
 
 ---
 
@@ -57,6 +58,7 @@ Voice History displays timeline of voice clone training sessions. Users can view
 ### Page Load
 
 **API Calls:**
+
 - `GET /api/voice-clones/history?user_id={userId}` — Training history
 
 ### Retry Failed Training
@@ -64,6 +66,7 @@ Voice History displays timeline of voice clone training sessions. Users can view
 **Trigger:** Click "Retry" on failed item
 
 **Behavior:**
+
 1. Open confirmation dialog
 2. Re-submit voice clone training with same reference audio
 3. Update history item status to "Processing"
@@ -73,15 +76,16 @@ Voice History displays timeline of voice clone training sessions. Users can view
 **Trigger:** Click "View" on completed item
 
 **Behavior:**
+
 1. Navigate to Voice Library
 2. Filter to show specific voice model
 
 ## API Dependencies
 
-| API | Method | Path | Trigger |
-|-----|--------|------|---------|
-| Get History | GET | /api/voice-clones/history | Page load |
-| Retry Training | POST | /api/voice-clones/{id}/retry | Retry action |
+| API            | Method | Path                         | Trigger      |
+| -------------- | ------ | ---------------------------- | ------------ |
+| Get History    | GET    | /api/voice-clones/history    | Page load    |
+| Retry Training | POST   | /api/voice-clones/{id}/retry | Retry action |
 
 ## Page Relationships
 

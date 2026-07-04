@@ -116,7 +116,12 @@ global.Audio = jest.fn().mockImplementation(() => ({
 // Mock AudioContext
 global.AudioContext = jest.fn().mockImplementation(() => ({
   createGain: jest.fn(() => ({ gain: { value: 1 }, connect: jest.fn(), disconnect: jest.fn() })),
-  createAnalyser: jest.fn(() => ({ connect: jest.fn(), disconnect: jest.fn(), getByteFrequencyData: jest.fn(), fftSize: 256 })),
+  createAnalyser: jest.fn(() => ({
+    connect: jest.fn(),
+    disconnect: jest.fn(),
+    getByteFrequencyData: jest.fn(),
+    fftSize: 256,
+  })),
   createMediaElementSource: jest.fn(() => ({ connect: jest.fn(), disconnect: jest.fn() })),
   destination: {},
   state: "running",

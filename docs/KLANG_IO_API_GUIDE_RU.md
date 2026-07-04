@@ -856,12 +856,12 @@ app.run(debug=True, port=3000)
 Примеры кода {#примеры-кода}
 Пример 1: cURL запрос для загрузки аудио
 curl -X POST https://api.klang.io/api/v1/transcribe \
- -H "X-KLANG-API-KEY: your_api_key" \
- -H "X-KLANG-API-SECRET: your_api_secret" \
- -F "file=@/path/to/audio.mp3" \
- -G \
- --data-urlencode "callback_url=https://your-domain.com/webhooks" \
- --data-urlencode "language=eng"
+-H "X-KLANG-API-KEY: your_api_key" \
+-H "X-KLANG-API-SECRET: your_api_secret" \
+-F "file=@/path/to/audio.mp3" \
+-G \
+--data-urlencode "callback_url=https://your-domain.com/webhooks" \
+--data-urlencode "language=eng"
 
 Пример 2: Обработка MIDI результатов (JavaScript)
 const { readFileSync, writeFileSync } = require('fs');

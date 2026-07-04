@@ -39,15 +39,18 @@ flowchart LR
 ```
 
 ## 1. Pick or open an issue
+
 - Search [issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues) first.
 - Use the templates: bug · feature · docs · performance.
 - For larger work, open a [discussion](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions) first.
 
 ## 2. Branching
+
 - Branch off `main`.
 - Naming: `feat/<scope>`, `fix/<scope>`, `docs/<scope>`, `refactor/<scope>`.
 
 ## 3. Coding standards
+
 - **TypeScript strict** — no `any`.
 - Use `@/` absolute imports.
 - Styling: Tailwind + design tokens (`src/lib/design-tokens.ts`). **No** hardcoded colors.
@@ -68,6 +71,7 @@ flowchart LR
 Types: `feat` · `fix` · `docs` · `style` · `refactor` · `perf` · `test` · `build` · `ci` · `chore` · `revert`.
 
 Examples:
+
 ```
 feat(studio): add stem solo button
 fix(player): avoid double-play on iOS Safari
@@ -78,14 +82,14 @@ Husky + commitlint enforce this on commit.
 
 ## 5. Tests
 
-| Layer | Command | Required for |
-| --- | --- | --- |
-| Unit | `npm test` | All logic changes |
-| Coverage | `npm run test:coverage` | Non-trivial features |
-| E2E | `npm run test:e2e` | UI flows |
-| E2E mobile | `npm run test:e2e:mobile` | Mobile-facing changes |
-| Bundle | `npm run size` | Anything affecting bundle |
-| Lint | `npm run lint` | Always |
+| Layer      | Command                   | Required for              |
+| ---------- | ------------------------- | ------------------------- |
+| Unit       | `npm test`                | All logic changes         |
+| Coverage   | `npm run test:coverage`   | Non-trivial features      |
+| E2E        | `npm run test:e2e`        | UI flows                  |
+| E2E mobile | `npm run test:e2e:mobile` | Mobile-facing changes     |
+| Bundle     | `npm run size`            | Anything affecting bundle |
+| Lint       | `npm run lint`            | Always                    |
 
 > [!WARNING]
 > PRs that decrease coverage or break the 950 KB bundle budget are blocked by CI.
@@ -99,12 +103,15 @@ Husky + commitlint enforce this on commit.
 - Squash-merge with a Conventional Commit message.
 
 ## 7. Documentation
+
 - Update relevant `docs/` and the [`DOCUMENTATION_INDEX`](DOCUMENTATION_INDEX.md).
 - Add ADRs under [`ADR/`](ADR/) for architectural decisions.
 - Run `node scripts/check-links.js` if you touch links.
 
 ## 8. Releasing
+
 Maintainers handle releases:
+
 1. Update [`CHANGELOG.md`](CHANGELOG.md) (Keep a Changelog).
 2. `npm version <major|minor|patch>` → tag.
 3. GitHub Actions deploys via Lovable.
@@ -115,8 +122,8 @@ Maintainers handle releases:
 
 ### 🔗 Related Documentation
 
-| 📚 Index | 🏛 Architecture | 📜 CoC | 🔒 Security | 📝 Changelog |
-| :---: | :---: | :---: | :---: | :---: |
+|            📚 Index             |       🏛 Architecture       |          📜 CoC           |       🔒 Security       |       📝 Changelog        |
+| :-----------------------------: | :------------------------: | :-----------------------: | :---------------------: | :-----------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [CoC](CODE_OF_CONDUCT.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
 
 <sub>Last updated: 2026-06-27</sub>

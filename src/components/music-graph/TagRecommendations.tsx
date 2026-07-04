@@ -1,17 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import {
-  Sparkles,
-  TrendingUp,
-  History,
-  Link2,
-  Copy,
-  Check,
-  ChevronDown,
-  ChevronUp,
-  Lightbulb,
-  Zap,
-} from "@/lib/icons";
+import { Sparkles, TrendingUp, History, Link2, Copy, Check, ChevronDown, ChevronUp, Lightbulb, Zap } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";

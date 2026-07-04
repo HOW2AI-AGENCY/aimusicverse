@@ -12,8 +12,12 @@ const PUBLIC = path.resolve("public");
 const errors = [];
 const warn = [];
 
-function fail(msg) { errors.push(msg); }
-function warnMsg(msg) { warn.push(msg); }
+function fail(msg) {
+  errors.push(msg);
+}
+function warnMsg(msg) {
+  warn.push(msg);
+}
 
 const indexPath = fs.existsSync(path.join(DIST, "index.html"))
   ? path.join(DIST, "index.html")
@@ -25,8 +29,14 @@ if (!fs.existsSync(indexPath)) {
   const html = fs.readFileSync(indexPath, "utf8");
   const checks = [
     [/<title>([^<]{10,70})<\/title>/i, "<title> missing or out of 10–70 chars"],
-    [/<meta\s+name=["']description["']\s+content=["']([^"']{30,170})["']/i, 'meta[name="description"] missing or out of 30–170 chars'],
-    [/<link\s+rel=["']canonical["']\s+href=["'](https?:\/\/[^"']+)["']/i, 'link[rel="canonical"] missing or not absolute URL'],
+    [
+      /<meta\s+name=["']description["']\s+content=["']([^"']{30,170})["']/i,
+      'meta[name="description"] missing or out of 30–170 chars',
+    ],
+    [
+      /<link\s+rel=["']canonical["']\s+href=["'](https?:\/\/[^"']+)["']/i,
+      'link[rel="canonical"] missing or not absolute URL',
+    ],
     [/<meta\s+property=["']og:title["']\s+content=["'][^"']+["']/i, "og:title missing"],
     [/<meta\s+property=["']og:description["']\s+content=["'][^"']+["']/i, "og:description missing"],
     [/<meta\s+property=["']og:url["']\s+content=["']https?:\/\/[^"']+["']/i, "og:url missing or not absolute"],

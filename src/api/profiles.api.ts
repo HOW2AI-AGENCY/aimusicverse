@@ -45,12 +45,7 @@ export async function fetchUserSubscriptionTier(userId: string): Promise<string 
  * Update a user's profile fields
  */
 export async function updateUserProfile(userId: string, updates: ProfileUpdate): Promise<ProfileRow> {
-  const { data, error } = await supabase
-    .from("profiles")
-    .update(updates)
-    .eq("user_id", userId)
-    .select()
-    .single();
+  const { data, error } = await supabase.from("profiles").update(updates).eq("user_id", userId).select().single();
   if (error) throw new Error(error.message);
   return data;
 }
@@ -72,10 +67,7 @@ export async function fetchProfileCount(filter?: { isPublic?: boolean; subscript
 /**
  * Count profiles created within a date range.
  */
-export async function fetchProfileCountInRange(params: {
-  startDate: Date;
-  endDate?: Date;
-}): Promise<number> {
+export async function fetchProfileCountInRange(params: { startDate: Date; endDate?: Date }): Promise<number> {
   let query = supabase
     .from("profiles")
     .select("user_id", { count: "exact", head: true })

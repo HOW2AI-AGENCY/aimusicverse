@@ -21,22 +21,22 @@ import { cn } from "@/lib/utils";
 
 export const spacing = {
   // Micro spacing (elements within components)
-  micro: "4px",   // 0.25rem - tight spacing
-  tiny: "8px",    // 0.5rem  - icon padding, tight gaps
+  micro: "4px", // 0.25rem - tight spacing
+  tiny: "8px", // 0.5rem  - icon padding, tight gaps
   compact: "12px", // 0.75rem - small gaps
-  base: "16px",   // 1rem    - standard padding
+  base: "16px", // 1rem    - standard padding
 
   // Comfortable spacing (component internal)
-  comfortable: "20px",  // 1.25rem - card padding
-  relaxed: "24px",     // 1.5rem  - comfortable padding
-  spacious: "32px",   // 2rem    - generous padding
+  comfortable: "20px", // 1.25rem - card padding
+  relaxed: "24px", // 1.5rem  - comfortable padding
+  spacious: "32px", // 2rem    - generous padding
 
   // Section spacing (between major sections)
-  sectionCompact: "40px",  // 2.5rem - tight section breaks
-  section: "48px",         // 3rem   - standard section spacing
+  sectionCompact: "40px", // 2.5rem - tight section breaks
+  section: "48px", // 3rem   - standard section spacing
   sectionSpacious: "64px", // 4rem   - generous section spacing
-  sectionLuxury: "80px",   // 5rem   - luxury spacing for hero sections
-  sectionGrand: "96px",     // 6rem   - maximum spacing for major breaks
+  sectionLuxury: "80px", // 5rem   - luxury spacing for hero sections
+  sectionGrand: "96px", // 6rem   - maximum spacing for major breaks
 } as const;
 
 // ===== TAILWIND CLASSES =====
@@ -44,34 +44,34 @@ export const spacing = {
 
 export const spacingClasses = {
   // Container padding (mobile-first)
-  containerMobile: "px-5",      // 20px - comfortable mobile padding
-  containerTablet: "sm:px-6",   // 24px - tablet padding
-  containerDesktop: "lg:px-8",   // 32px - desktop padding
+  containerMobile: "px-5", // 20px - comfortable mobile padding
+  containerTablet: "sm:px-6", // 24px - tablet padding
+  containerDesktop: "lg:px-8", // 32px - desktop padding
 
   // Section spacing (vertical rhythm)
-  sectionMobile: "py-12",      // 48px - mobile section spacing
-  sectionTablet: "sm:py-16",   // 64px - tablet section spacing
+  sectionMobile: "py-12", // 48px - mobile section spacing
+  sectionTablet: "sm:py-16", // 64px - tablet section spacing
   sectionDesktop: "lg:py-20", // 80px - desktop section spacing
 
   // Gap between sections (white space)
-  gapSectionMobile: "gap-12",      // 48px - mobile section gap
-  gapSectionTablet: "sm:gap-16",   // 64px - tablet section gap
-  gapSectionDesktop: "lg:gap-20",  // 80px - desktop section gap
+  gapSectionMobile: "gap-12", // 48px - mobile section gap
+  gapSectionTablet: "sm:gap-16", // 64px - tablet section gap
+  gapSectionDesktop: "lg:gap-20", // 80px - desktop section gap
 
   // Grid gaps (between cards/items)
-  gridGapMobile: "gap-4",      // 16px - mobile grid gap
-  gridGapTablet: "sm:gap-5",   // 20px - tablet grid gap
-  gridGapDesktop: "lg:gap-6",  // 24px - desktop grid gap
+  gridGapMobile: "gap-4", // 16px - mobile grid gap
+  gridGapTablet: "sm:gap-5", // 20px - tablet grid gap
+  gridGapDesktop: "lg:gap-6", // 24px - desktop grid gap
 
   // Content spacing (within components)
-  contentCompact: "space-y-4",   // 16px - tight content spacing
-  contentBase: "space-y-6",      // 24px - standard content spacing
-  contentSpacious: "space-y-8",  // 32px - generous content spacing
+  contentCompact: "space-y-4", // 16px - tight content spacing
+  contentBase: "space-y-6", // 24px - standard content spacing
+  contentSpacious: "space-y-8", // 32px - generous content spacing
 
   // Card padding
-  cardMobile: "p-4",      // 16px - compact card padding
-  cardTablet: "sm:p-5",   // 20px - comfortable card padding
-  cardDesktop: "lg:p-6",  // 24px - spacious card padding
+  cardMobile: "p-4", // 16px - compact card padding
+  cardTablet: "sm:p-5", // 20px - comfortable card padding
+  cardDesktop: "lg:p-6", // 24px - spacious card padding
 } as const;
 
 // ===== RESPONSIVE SPACING HELPERS =====
@@ -141,14 +141,14 @@ export type SpacingClassKey = keyof typeof spacingClasses;
 // For use in inline styles or CSS-in-JS
 
 export const spacingVars = {
-  '--spacing-micro': spacing.micro,
-  '--spacing-tiny': spacing.tiny,
-  '--spacing-compact': spacing.compact,
-  '--spacing-base': spacing.base,
-  '--spacing-comfortable': spacing.comfortable,
-  '--spacing-relaxed': spacing.relaxed,
-  '--spacing-spacious': spacing.spacious,
-  '--spacing-section': spacing.section,
-  '--spacing-section-spacious': spacing.sectionSpacious,
-  '--spacing-section-luxury': spacing.sectionLuxury,
+  "--spacing-micro": spacing.micro,
+  "--spacing-tiny": spacing.tiny,
+  "--spacing-compact": spacing.compact,
+  "--spacing-base": spacing.base,
+  "--spacing-comfortable": spacing.comfortable,
+  "--spacing-relaxed": spacing.relaxed,
+  "--spacing-spacious": spacing.spacious,
+  "--spacing-section": spacing.section,
+  "--spacing-section-spacious": spacing.sectionSpacious,
+  "--spacing-section-luxury": spacing.sectionLuxury,
 } as const;

@@ -220,13 +220,14 @@ interface ChordProgressionTimelineProps {
 - Haptic feedback (vibration)
 
 **Форматы:**
-| Формат | Расширение | Use Case |
-|--------|-----------|----------|
-| MIDI Standard | .mid | DAW, синтезаторы, аранжировка |
-| MIDI Quantized | .mid | Точная синхронизация, EDM |
-| Guitar Pro 5 | .gp5 | Обучение, табы, Guitar Pro |
-| MusicXML | .xml | Finale, Sibelius, MuseScore |
-| PDF Ноты | .pdf | Печать, просмотр, архив |
+
+| Формат         | Расширение | Use Case                      |
+| -------------- | ---------- | ----------------------------- |
+| MIDI Standard  | .mid       | DAW, синтезаторы, аранжировка |
+| MIDI Quantized | .mid       | Точная синхронизация, EDM     |
+| Guitar Pro 5   | .gp5       | Обучение, табы, Guitar Pro    |
+| MusicXML       | .xml       | Finale, Sibelius, MuseScore   |
+| PDF Ноты       | .pdf       | Печать, просмотр, архив       |
 
 **Props:**
 

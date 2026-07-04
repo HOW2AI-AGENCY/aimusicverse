@@ -41,12 +41,7 @@ export const SimplifiedTagsRow = memo(function SimplifiedTagsRow({
   // Always reserve a single-row strip so card height stays identical
   // regardless of whether tags are present, short, long, or many.
   return (
-    <div
-      className={cn(
-        "flex items-center gap-1 flex-nowrap min-w-0 overflow-hidden h-5",
-        className,
-      )}
-    >
+    <div className={cn("flex items-center gap-1 flex-nowrap min-w-0 overflow-hidden h-5", className)}>
       {parsedTags.visible.length === 0 ? (
         <span className="text-[10px] text-muted-foreground/40 italic" aria-hidden>
           —

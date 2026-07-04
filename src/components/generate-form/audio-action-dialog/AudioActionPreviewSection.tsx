@@ -16,7 +16,7 @@ interface AudioActionPreviewSectionProps {
   audioFile: File;
   audioUrl: string | null;
   audioDuration: number | null;
-  audioRef: RefObject<HTMLAudioElement>;
+  audioRef: RefObject<HTMLAudioElement | null>;
   isPlaying: boolean;
   onTogglePlayback: () => void;
   onRemove: () => void;

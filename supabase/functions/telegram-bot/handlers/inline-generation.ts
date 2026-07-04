@@ -146,8 +146,7 @@ export async function updateGenerationMessage(
 ): Promise<void> {
   let text: string;
   let replyMarkup:
-    | { inline_keyboard: Array<Array<{ text: string; callback_data?: string; url?: string }>> }
-    | undefined;
+    { inline_keyboard: Array<Array<{ text: string; callback_data?: string; url?: string }>> } | undefined;
 
   const escapedStyle = escapeMarkdown(styleName);
 

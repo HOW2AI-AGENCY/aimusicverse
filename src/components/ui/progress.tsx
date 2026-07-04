@@ -7,8 +7,7 @@ const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
 >(({ className, value, ...props }, ref) => {
-  const hasLabel =
-    props["aria-label"] !== undefined || props["aria-labelledby"] !== undefined;
+  const hasLabel = props["aria-label"] !== undefined || props["aria-labelledby"] !== undefined;
   return (
     <ProgressPrimitive.Root
       ref={ref}

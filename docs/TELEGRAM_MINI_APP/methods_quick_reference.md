@@ -41,11 +41,11 @@
 
 ## 5. Haptics & media
 
-| API              | Description                      |
+| API | Description |
 | ---------------- | -------------------------------- | -------- | --------- |
 | `HapticFeedback` | `impactOccurred('light'          | 'medium' | 'heavy')` |
-| `shareToStory`   | Publish stories with link widget |
-| `downloadFile`   | Download files by `file_id`      |
+| `shareToStory` | Publish stories with link widget |
+| `downloadFile` | Download files by `file_id` |
 
 ## 6. Payments & gifts
 

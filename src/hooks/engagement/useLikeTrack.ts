@@ -97,7 +97,6 @@ export function useLikeTrack(trackId: string, initialLiked?: boolean, versionId?
             : String(error);
       logger.error("Error toggling like", { trackId, versionId: resolvedVersionId, message: errMsg, raw: error });
       toast.error(errMsg.includes("row-level security") ? "Войдите, чтобы лайкать" : "Не удалось обновить лайк");
-
     },
     onSuccess: (result) => {
       // Invalidate related queries to sync like counts

@@ -36,7 +36,12 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
       const fileExt = file.name.split(".").pop();
       const fileName = `${userId}_${Date.now()}.${fileExt}`;
 
-      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "avatars",
+        path: fileName,
+        file,
+        upsert: true,
+      });
 
       if (uploadError) throw uploadError;
 

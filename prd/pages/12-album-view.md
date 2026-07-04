@@ -9,6 +9,7 @@
 The Album View Page displays a music album (project) with its full track list. Users can play tracks, like the album, follow the creator, and share. Similar to streaming service album pages.
 
 **Primary Use Cases:**
+
 - View full album with all tracks
 - Play album tracks sequentially
 - Like/follow album creator
@@ -65,31 +66,31 @@ The Album View Page displays a music album (project) with its full track list. U
 
 ### Album Header
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Cover Art | Image (300×300px) | Album cover image |
-| Title | Text (H1) | Album name |
-| Artist | Text (link) | Creator name, links to profile |
-| Type | Badge | Album, EP, Single, Compilation |
-| Year | Text | Release year |
-| Track Count | Text | "12 tracks" |
-| Total Duration | Text | "45 min" |
-| Description | Text (multi-line) | Album description |
-| Like Button | Icon button | Heart icon with count |
-| Follow Button | Button | Follow creator |
-| Play All Button | Button | Play all tracks sequentially |
-| Share Button | Icon button | Share via Telegram |
+| Field           | Type              | Notes                          |
+| --------------- | ----------------- | ------------------------------ |
+| Cover Art       | Image (300×300px) | Album cover image              |
+| Title           | Text (H1)         | Album name                     |
+| Artist          | Text (link)       | Creator name, links to profile |
+| Type            | Badge             | Album, EP, Single, Compilation |
+| Year            | Text              | Release year                   |
+| Track Count     | Text              | "12 tracks"                    |
+| Total Duration  | Text              | "45 min"                       |
+| Description     | Text (multi-line) | Album description              |
+| Like Button     | Icon button       | Heart icon with count          |
+| Follow Button   | Button            | Follow creator                 |
+| Play All Button | Button            | Play all tracks sequentially   |
+| Share Button    | Icon button       | Share via Telegram             |
 
 ### Track List
 
-| Column | Format | Notes |
-|--------|--------|-------|
-| Number | Text | Track position (1, 2, 3...) |
-| Title | Text | Track name |
-| Duration | Text (MM:SS) | Track length |
-| Play Button | Icon | Plays individual track |
-| Like Button | Icon | Like track |
-| Add Button | Icon | Add to playlist |
+| Column      | Format       | Notes                       |
+| ----------- | ------------ | --------------------------- |
+| Number      | Text         | Track position (1, 2, 3...) |
+| Title       | Text         | Track name                  |
+| Duration    | Text (MM:SS) | Track length                |
+| Play Button | Icon         | Plays individual track      |
+| Like Button | Icon         | Like track                  |
+| Add Button  | Icon         | Add to playlist             |
 
 ---
 
@@ -98,6 +99,7 @@ The Album View Page displays a music album (project) with its full track list. U
 ### Page Load
 
 **Behavior:**
+
 1. Extract `albumId` from URL params
 2. Fetch album data via API
 3. Fetch album tracks
@@ -105,6 +107,7 @@ The Album View Page displays a music album (project) with its full track list. U
 5. Render album with loading skeletons
 
 **API Calls:**
+
 - `GET /api/projects/{id}` — Album/project details
 - `GET /api/projects/{id}/tracks` — Album tracks
 
@@ -113,6 +116,7 @@ The Album View Page displays a music album (project) with its full track list. U
 **Trigger:** Click "Play All" button
 
 **Behavior:**
+
 1. Create queue from all album tracks
 2. Start playback from first track
 3. Show mini player at bottom
@@ -123,6 +127,7 @@ The Album View Page displays a music album (project) with its full track list. U
 **Trigger:** Click play button on track
 
 **Behavior:**
+
 1. Stop current track
 2. Start selected track
 3. Set player context to album
@@ -133,6 +138,7 @@ The Album View Page displays a music album (project) with its full track list. U
 **Trigger:** Click like button in header
 
 **Behavior:**
+
 1. Optimistic update: Toggle like
 2. Call API: `POST /api/projects/{id}/like`
 3. Update like count
@@ -142,6 +148,7 @@ The Album View Page displays a music album (project) with its full track list. U
 **Trigger:** Click "Follow" button
 
 **Behavior:**
+
 1. Check if following creator
 2. If not: Call API to follow
 3. Update button to "Following"
@@ -151,6 +158,7 @@ The Album View Page displays a music album (project) with its full track list. U
 **Trigger:** Click share button
 
 **Behavior:**
+
 1. Generate deep link: `startapp=album={id}`
 2. Open Telegram share dialog
 3. Pre-fill message with album title
@@ -160,6 +168,7 @@ The Album View Page displays a music album (project) with its full track list. U
 **Trigger:** Click add icon on track
 
 **Behavior:**
+
 1. Open playlist selector dialog
 2. User selects playlist
 3. Call API: `POST /api/playlists/{id}/tracks`
@@ -167,23 +176,25 @@ The Album View Page displays a music album (project) with its full track list. U
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Album | GET | /api/projects/{id} | Page load | Album details |
-| Get Album Tracks | GET | /api/projects/{id}/tracks | Page load | All tracks |
-| Like Album | POST | /api/projects/{id}/like | Like action | Toggle like |
-| Follow Creator | POST | /api/social/follow | Follow action | Follow user |
-| Add to Playlist | POST | /api/playlists/{id}/tracks | Add action | Add track |
+| API              | Method | Path                       | Trigger       | Notes         |
+| ---------------- | ------ | -------------------------- | ------------- | ------------- |
+| Get Album        | GET    | /api/projects/{id}         | Page load     | Album details |
+| Get Album Tracks | GET    | /api/projects/{id}/tracks  | Page load     | All tracks    |
+| Like Album       | POST   | /api/projects/{id}/like    | Like action   | Toggle like   |
+| Follow Creator   | POST   | /api/social/follow         | Follow action | Follow user   |
+| Add to Playlist  | POST   | /api/playlists/{id}/tracks | Add action    | Add track     |
 
 ## Page Relationships
 
 **From:**
+
 - `/library` → Click "View Album" on project card
 - `/projects` → Click project card
 - `/profile/{userId}` → Click album in user's projects
 - Deep link → `startapp=album={id}`
 
 **To:**
+
 - `/profile/{userId}` → Click artist name
 - `/library` → Click "View Track"
 - Previous page → Back button

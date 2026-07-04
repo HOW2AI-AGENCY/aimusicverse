@@ -29,9 +29,7 @@ export function CustomVoicePicker({ value, onChange }: Props) {
   // Always include the currently-selected voice, even if it's still processing,
   // so the user's selection persists after VoiceCloneWizard completes.
   const selectedPending =
-    value && !ready.some((v) => v.voice_id === value)
-      ? (voices.find((v) => v.voice_id === value) ?? null)
-      : null;
+    value && !ready.some((v) => v.voice_id === value) ? (voices.find((v) => v.voice_id === value) ?? null) : null;
 
   const items = selectedPending ? [selectedPending, ...ready] : ready;
   const selected = value ? items.find((v) => v.voice_id === value) : null;

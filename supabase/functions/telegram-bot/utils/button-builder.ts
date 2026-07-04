@@ -28,14 +28,7 @@ export interface ButtonLayout {
 }
 
 export type ButtonPreset =
-  | "navigation"
-  | "media_player"
-  | "track_actions"
-  | "pagination"
-  | "confirmation"
-  | "settings"
-  | "share"
-  | "back_home";
+  "navigation" | "media_player" | "track_actions" | "pagination" | "confirmation" | "settings" | "share" | "back_home";
 
 // ============================================================================
 // Core Button Builder

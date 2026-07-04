@@ -113,7 +113,7 @@ export function useTrackVersionManagement() {
           duration_seconds: version.duration_seconds,
           active_version_id: versionId,
           title: versionTitle,
-          tags: metadata?.tags || null,
+          tags: metadata?.tags?.join(", ") || null,
           lyrics: metadata?.lyrics || null,
           style: metadata?.style || null,
           suno_model: metadata?.model_name || null,

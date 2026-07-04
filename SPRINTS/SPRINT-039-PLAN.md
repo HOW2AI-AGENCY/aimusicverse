@@ -51,21 +51,22 @@
 
 ### Задачи
 
-| ID      | Название                                              | Статус         | SP  | Зависимости |
-| ------- | ----------------------------------------------------- | -------------- | --- | ----------- |
-| 039-01  | **Layer audit: grep все прямые Supabase-вызовы**      | ✅ DONE        | 1   | —           |
-| 039-02  | **Вынести Supabase из UI-компонентов (batch 1: 15+)** | ✅ DONE        | 5   | 039-01      |
-| 039-03  | **Вынести Supabase из UI-компонентов (batch 2: 15+)** | ✅ DONE        | 5   | 039-02      |
-| 039-03b | **Layer-fix добивание (все 4 батча закрыты)**         | ✅ DONE        | 4   | 039-03      |
-| 039-04  | **Generic undo/redo Zustand middleware**              | ✅ DONE        | 3   | —           |
-| 039-05  | **Убрать побочные эффекты из lyricsWizardStore**      | ✅ DONE        | 1   | —           |
+| ID      | Название                                              | Статус  | SP  | Зависимости |
+| ------- | ----------------------------------------------------- | ------- | --- | ----------- |
+| 039-01  | **Layer audit: grep все прямые Supabase-вызовы**      | ✅ DONE | 1   | —           |
+| 039-02  | **Вынести Supabase из UI-компонентов (batch 1: 15+)** | ✅ DONE | 5   | 039-01      |
+| 039-03  | **Вынести Supabase из UI-компонентов (batch 2: 15+)** | ✅ DONE | 5   | 039-02      |
+| 039-03b | **Layer-fix добивание (все 4 батча закрыты)**         | ✅ DONE | 4   | 039-03      |
+| 039-04  | **Generic undo/redo Zustand middleware**              | ✅ DONE | 3   | —           |
+| 039-05  | **Убрать побочные эффекты из lyricsWizardStore**      | ✅ DONE | 1   | —           |
 
 > **🔧 Update 2026-06-30 (вечер):** **все 4 батча 039-03b закрыты** — 17 файлов / 35 нарушений устранены. По `src/{components,stores}` `supabase.{from,rpc,storage}` = **0**.
+>
 > - **Batch 1 (admin/analytics, 6 файлов):** `QuickActionsPanel`, `AdminBotImagesPanel`, `RevenueAnalyticsPanel`, `ComparisonPanel`, `ConversionFunnelPanel`, `RealTimeMetrics`.
 > - **Batch 2 (project/wizard, 4 файла):** `ProjectCreationWizard`, `ProjectBannerEditor`, `ProjectCoverEditor`, `useProjectStore`.
 > - **Batch 3 (studio/dialogs, 4 файла):** `ImportAudioDialog`, `SaveVersionDialog`, `AudioActionDialog`, `useEnhancedStudioLogger`.
 > - **Batch 4 (misc, 3 файла):** `ReportCommentDialog`, `ProfileSetupOnboarding`, `ArtistDetailsPanel`.
-> Добавлено в API: `invokeAdminBroadcast`, `bulkAwardCredits`, `fetchBotMenuImagesConfig/upsertBotMenuImagesConfig`, `fetchRevenueAnalyticsRaw`, `fetchPeriodComparison`, `fetchFunnelMetricsRaw`, `fetchRealTimeMetricsRaw`, `subscribeToRealtimeAdminMetrics`, `fetchUserSubscriptionTier`, `fetchArtistTrackStats`, `upsertOnboardingNotificationSettings`, `fetchProfileByUserId`, `checkPremiumStatus`, `invokeProjectAi`, `invokeGenerateCoverImage`, `invokeGenerateProjectMedia`, `updateProjectFields`, `updateProjectCover`, `updateProjectBanner`, `ensureTrackVersion`, `invokeMergeStems`, `insertTrackChangeLog`. Подробности — `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`.
+>   Добавлено в API: `invokeAdminBroadcast`, `bulkAwardCredits`, `fetchBotMenuImagesConfig/upsertBotMenuImagesConfig`, `fetchRevenueAnalyticsRaw`, `fetchPeriodComparison`, `fetchFunnelMetricsRaw`, `fetchRealTimeMetricsRaw`, `subscribeToRealtimeAdminMetrics`, `fetchUserSubscriptionTier`, `fetchArtistTrackStats`, `upsertOnboardingNotificationSettings`, `fetchProfileByUserId`, `checkPremiumStatus`, `invokeProjectAi`, `invokeGenerateCoverImage`, `invokeGenerateProjectMedia`, `updateProjectFields`, `updateProjectCover`, `updateProjectBanner`, `ensureTrackVersion`, `invokeMergeStems`, `insertTrackChangeLog`. Подробности — `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`.
 
 ### 039-01: Layer Audit
 
@@ -242,15 +243,15 @@ grep -rn "from '@hello-pangea/dnd'" src/ --include="*.tsx" --include="*.ts"
 
 ### Задачи
 
-| ID     | Название                                             | Статус  | SP  | Зависимости |
-| ------ | ---------------------------------------------------- | ------- | --- | ----------- |
-| 039-10 | **Типизировать API-слой + services (`any` = 0)**     | ✅ DONE (scope: api/services) | 5   | 039-03      |
+| ID     | Название                                         | Статус                        | SP  | Зависимости |
+| ------ | ------------------------------------------------ | ----------------------------- | --- | ----------- |
+| 039-10 | **Типизировать API-слой + services (`any` = 0)** | ✅ DONE (scope: api/services) | 5   | 039-03      |
 
 > **⚠️ Аудит 2026-06-30:** в `src/api/` и `src/services/` `any` действительно устранён (0). Однако по всему `src/` остаётся **447** использований `: any`/`as any` — таргет «<50 во всём src» НЕ достигнут. Перенесено в Sprint 040 (задача 040-01).
-| 039-11 | **E2E: отдельный Playwright CI workflow**            | 🟡 PARTIAL (workflow добавлен, требуются secrets) | 3 | — |
-| 039-12 | **E2E: починить smoke + navigation + library тесты** | 🔴 OPEN | 2   | 039-11      |
-| 039-13 | **E2E: починить player + generation тесты**          | 🔴 OPEN | 1   | 039-12      |
-| 039-14 | **Верификация: build, size, tests, lint**            | 🔴 OPEN | 1   | все         |
+> | 039-11 | **E2E: отдельный Playwright CI workflow** | 🟡 PARTIAL (workflow добавлен, требуются secrets) | 3 | — |
+> | 039-12 | **E2E: починить smoke + navigation + library тесты** | 🔴 OPEN | 2 | 039-11 |
+> | 039-13 | **E2E: починить player + generation тесты** | 🔴 OPEN | 1 | 039-12 |
+> | 039-14 | **Верификация: build, size, tests, lint** | 🔴 OPEN | 1 | все |
 
 > **🔧 Update 2026-06-30 (вечер):** добавлен `.github/workflows/e2e.yml` — отдельный pipeline с matrix `chromium` / `Mobile Chrome`, выгрузкой HTML-репорта и traces в артефакты, `workflow_dispatch` триггером. Нужны GitHub Secrets `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY`, чтобы build не падал.
 

@@ -41,7 +41,6 @@ export type LastAction =
   | { kind: "rerecord"; audio: Blob }
   | null;
 
-
 export function useVoiceCloneWizard() {
   const { user } = useAuth();
   const [step, setStep] = useState<WizardStep>("upload");
@@ -74,7 +73,6 @@ export function useVoiceCloneWizard() {
     },
     [stopPolling, stopRealtime],
   );
-
 
   // Realtime subscription to current voice row
   const subscribeToRow = useCallback(

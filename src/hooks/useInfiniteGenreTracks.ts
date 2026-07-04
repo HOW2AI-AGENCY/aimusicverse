@@ -55,7 +55,7 @@ export function useInfiniteGenreTracks({
       // Build base query - sorted by popularity within genre
       let query = supabase
         .from("tracks")
-        .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,prompt")
+        .select("*")
         .eq("is_public", true)
         .eq("status", "completed")
         .not("audio_url", "is", null)

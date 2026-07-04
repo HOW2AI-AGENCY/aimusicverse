@@ -90,9 +90,7 @@ const TrackChip = memo(function TrackChip({
         return <Icon className="w-4 h-4 text-primary" />;
       })()}
       <span className="text-xs font-medium whitespace-nowrap">{preset.label}</span>
-      {preset.hasVocals && (
-        <Mic className="w-3 h-3 text-primary" aria-label="vocals" />
-      )}
+      {preset.hasVocals && <Mic className="w-3 h-3 text-primary" aria-label="vocals" />}
     </motion.button>
   );
 });

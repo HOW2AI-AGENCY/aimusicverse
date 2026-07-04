@@ -53,7 +53,10 @@ export default function MobilePlayerPage() {
     queryKey: ["player-track", trackId],
     retry: (failureCount, err) => {
       // Don't retry deterministic failures — they won't fix themselves.
-      if (err instanceof TrackLoadError && (err.reason === "not-found" || err.reason === "invalid-id" || err.reason === "forbidden")) {
+      if (
+        err instanceof TrackLoadError &&
+        (err.reason === "not-found" || err.reason === "invalid-id" || err.reason === "forbidden")
+      ) {
         return false;
       }
       return failureCount < 2;
@@ -83,19 +86,14 @@ export default function MobilePlayerPage() {
       // NOTE: tracks.user_id has no FK → profiles, so we can't embed profiles
       // via PostgREST. Fetch the track first, then enrich with the creator
       // profile via a separate query.
-      const { data, error: dbError } = await supabase
-        .from("tracks")
-        .select("*")
-        .eq("id", trackId)
-        .maybeSingle();
+      const { data, error: dbError } = await supabase.from("tracks").select("*").eq("id", trackId).maybeSingle();
 
       if (dbError) {
         // PostgREST error codes:
         //   42501 — permission denied (RLS or GRANT)
         //   PGRST301 — JWT expired / auth issue
         const code = (dbError as { code?: string }).code;
-        const reason: TrackLoadErrorReason =
-          code === "42501" || code === "PGRST301" ? "forbidden" : "network";
+        const reason: TrackLoadErrorReason = code === "42501" || code === "PGRST301" ? "forbidden" : "network";
         logger.error("MobilePlayerPage: tracks query failed", {
           trackId,
           code,
@@ -121,9 +119,7 @@ export default function MobilePlayerPage() {
         // "not-found" when anon.
         throw new TrackLoadError(
           sessionData.session ? "forbidden" : "not-found",
-          sessionData.session
-            ? "Трек существует, но недоступен вам (приватный)"
-            : "Трек не найден",
+          sessionData.session ? "Трек существует, но недоступен вам (приватный)" : "Трек не найден",
         );
       }
 
@@ -237,18 +233,18 @@ export default function MobilePlayerPage() {
       reason === "forbidden"
         ? "Нет доступа к треку"
         : reason === "invalid-id"
-        ? "Неверная ссылка"
-        : reason === "network"
-        ? "Не удалось загрузить трек"
-        : "Трек не найден";
+          ? "Неверная ссылка"
+          : reason === "network"
+            ? "Не удалось загрузить трек"
+            : "Трек не найден";
     const description =
       reason === "forbidden"
         ? "Трек существует, но помечен как приватный или недоступен вашей учётной записи."
         : reason === "invalid-id"
-        ? "Идентификатор трека в ссылке некорректен."
-        : reason === "network"
-        ? `Проблема с соединением или сервером${error?.code ? ` (код ${error.code})` : ""}.`
-        : "Возможно, трек был удалён или ссылка недействительна.";
+          ? "Идентификатор трека в ссылке некорректен."
+          : reason === "network"
+            ? `Проблема с соединением или сервером${error?.code ? ` (код ${error.code})` : ""}.`
+            : "Возможно, трек был удалён или ссылка недействительна.";
 
     return (
       <div
@@ -266,9 +262,7 @@ export default function MobilePlayerPage() {
           </div>
           <h2 className="text-xl font-semibold">{title}</h2>
           <p className="text-muted-foreground text-sm">{description}</p>
-          {trackId && (
-            <p className="text-muted-foreground/60 text-xs font-mono break-all">id: {trackId}</p>
-          )}
+          {trackId && <p className="text-muted-foreground/60 text-xs font-mono break-all">id: {trackId}</p>}
           <Button onClick={handleBack} variant="outline" className="mt-4">
             <ChevronLeft className="w-4 h-4 mr-2" />В библиотеку
           </Button>
@@ -284,10 +278,7 @@ export default function MobilePlayerPage() {
     <PlayerTransitionProvider>
       <ErrorBoundary
         fallback={(err, reset) => (
-          <div
-            className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50 p-6"
-            role="alert"
-          >
+          <div className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50 p-6" role="alert">
             <div className="flex flex-col items-center gap-4 text-center max-w-sm">
               <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
                 <AlertTriangle className="w-10 h-10 text-destructive" />

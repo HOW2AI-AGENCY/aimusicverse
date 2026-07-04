@@ -55,12 +55,12 @@ Report abuse to **conduct@how2ai.agency**. All complaints will be reviewed and i
 
 ## ⚖️ Enforcement Ladder
 
-| Level | Trigger | Consequence |
-| --- | --- | --- |
-| 1️⃣ Correction | Minor, unintentional | Private written warning |
-| 2️⃣ Warning | Single incident | Public warning + cool-down |
-| 3️⃣ Temporary ban | Sustained or serious | 30-day ban from project spaces |
-| 4️⃣ Permanent ban | Pattern or severe abuse | Permanent removal |
+| Level            | Trigger                 | Consequence                    |
+| ---------------- | ----------------------- | ------------------------------ |
+| 1️⃣ Correction    | Minor, unintentional    | Private written warning        |
+| 2️⃣ Warning       | Single incident         | Public warning + cool-down     |
+| 3️⃣ Temporary ban | Sustained or serious    | 30-day ban from project spaces |
+| 4️⃣ Permanent ban | Pattern or severe abuse | Permanent removal              |
 
 ## 📎 Attribution
 
@@ -72,8 +72,8 @@ Adapted from [Contributor Covenant v2.1](https://www.contributor-covenant.org/ve
 
 ### 🔗 Related Documentation
 
-| 📚 Index | 🤝 Contributing | 🔒 Security | 📝 Changelog |
-| :---: | :---: | :---: | :---: |
+|            📚 Index             |         🤝 Contributing         |       🔒 Security       |       📝 Changelog        |
+| :-----------------------------: | :-----------------------------: | :---------------------: | :-----------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
 
 <sub>Last updated: 2026-06-27</sub>

@@ -95,14 +95,7 @@ interface TranscriptionPreviewProps {
 
 ```typescript
 type AnalysisStage =
-  | "idle"
-  | "uploading"
-  | "beat-tracking"
-  | "chord-recognition"
-  | "transcription"
-  | "processing"
-  | "complete"
-  | "error";
+  "idle" | "uploading" | "beat-tracking" | "chord-recognition" | "transcription" | "processing" | "complete" | "error";
 ```
 
 **Анимации:**

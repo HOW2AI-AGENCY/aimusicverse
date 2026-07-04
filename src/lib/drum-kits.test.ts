@@ -1,13 +1,6 @@
 import { vi, describe, it, expect } from "vitest";
 vi.mock("tone", () => ({}));
-import {
-  drumKits,
-  getKitById,
-  presetPatterns,
-  type DrumKit,
-  type DrumSound,
-  type DrumPattern,
-} from "./drum-kits";
+import { drumKits, getKitById, presetPatterns, type DrumKit, type DrumSound, type DrumPattern } from "./drum-kits";
 
 // ──────────────────────────────────────────────────
 // drumKits — 6 kits × 8 sounds, structural integrity

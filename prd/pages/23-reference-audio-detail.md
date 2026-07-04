@@ -9,6 +9,7 @@
 Reference Audio Detail displays detailed information about a reference audio file used in music generation. Shows audio metadata, waveforms, usage statistics, and allows audio to be used as reference for new generations.
 
 **Primary Use Cases:**
+
 - View reference audio details
 - See how audio is used in generations
 - Use audio as reference for new generation
@@ -44,20 +45,20 @@ Reference Audio Detail displays detailed information about a reference audio fil
 
 ## Fields
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Waveform Display | Canvas | Large waveform with playhead |
-| Duration | Text | Audio length in MM:SS |
-| Sample Rate | Text | "44.1kHz" or "48kHz" |
-| Bit Depth | Text | "16-bit", "24-bit", or "32-bit float" |
-| File Size | Text | "3.2 MB" formatted |
-| Created At | Date | "Created Jan 15, 2026" |
-| Usage Count | Number | "Used in 3 generations" |
-| Last Used | Date | "Last used 2 days ago" relative |
-| Play Button | Button | Plays reference audio |
+| Element           | Type   | Notes                                       |
+| ----------------- | ------ | ------------------------------------------- |
+| Waveform Display  | Canvas | Large waveform with playhead                |
+| Duration          | Text   | Audio length in MM:SS                       |
+| Sample Rate       | Text   | "44.1kHz" or "48kHz"                        |
+| Bit Depth         | Text   | "16-bit", "24-bit", or "32-bit float"       |
+| File Size         | Text   | "3.2 MB" formatted                          |
+| Created At        | Date   | "Created Jan 15, 2026"                      |
+| Usage Count       | Number | "Used in 3 generations"                     |
+| Last Used         | Date   | "Last used 2 days ago" relative             |
+| Play Button       | Button | Plays reference audio                       |
 | Use in Generation | Button | Opens generation form with audio pre-loaded |
-| Download Button | Button | Downloads audio file |
-| Delete Button | Button | Deletes reference (with confirmation) |
+| Download Button   | Button | Downloads audio file                        |
+| Delete Button     | Button | Deletes reference (with confirmation)       |
 
 ---
 
@@ -66,6 +67,7 @@ Reference Audio Detail displays detailed information about a reference audio fil
 ### Page Load
 
 **API Calls:**
+
 - `GET /api/reference-audio/{id}` — Reference audio details
 - `GET /api/reference-audio/{id}/usage` — Usage statistics
 
@@ -74,6 +76,7 @@ Reference Audio Detail displays detailed information about a reference audio fil
 **Trigger:** Click play button
 
 **Behavior:**
+
 1. Play reference audio via global audio player
 2. Show playhead position on waveform
 3. Update "Last used" timestamp
@@ -83,11 +86,13 @@ Reference Audio Detail displays detailed information about a reference audio fil
 **Trigger:** Click "Use in Generation" button
 
 **Behavior:**
+
 1. Navigate to home page generation form
 2. Pre-fill reference audio field
 3. User can adjust style and generate track with audio reference
 
 **API Call:**
+
 - `PATCH /api/reference-audio/{id}` — Update last used timestamp
 
 ### Download Audio
@@ -95,6 +100,7 @@ Reference Audio Detail displays detailed information about a reference audio fil
 **Trigger:** Click download button
 
 **Behavior:**
+
 1. Download audio file to device
 2. File format: Original format (WAV, MP3, etc.)
 
@@ -103,6 +109,7 @@ Reference Audio Detail displays detailed information about a reference audio fil
 **Trigger:** Click delete button
 
 **Behavior:**
+
 1. Show confirmation: "Delete reference audio?"
 2. Check if used in any generations
 3. If used: Warn "This audio is used in X generations. Delete anyway?"
@@ -112,12 +119,12 @@ Reference Audio Detail displays detailed information about a reference audio fil
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Reference Audio | GET | /api/reference-audio/{id} | Page load | Audio details |
-| Get Usage Stats | GET | /api/reference-audio/{id}/usage | Page load | Usage statistics |
-| Update Last Used | PATCH | /api/reference-audio/{id} | Play/use action | Timestamp |
-| Delete Reference | DELETE | /api/reference-audio/{id} | Delete action | Remove audio |
+| API                 | Method | Path                            | Trigger         | Notes            |
+| ------------------- | ------ | ------------------------------- | --------------- | ---------------- |
+| Get Reference Audio | GET    | /api/reference-audio/{id}       | Page load       | Audio details    |
+| Get Usage Stats     | GET    | /api/reference-audio/{id}/usage | Page load       | Usage statistics |
+| Update Last Used    | PATCH  | /api/reference-audio/{id}       | Play/use action | Timestamp        |
+| Delete Reference    | DELETE | /api/reference-audio/{id}       | Delete action   | Remove audio     |
 
 ## Page Relationships
 

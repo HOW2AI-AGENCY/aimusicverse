@@ -29,7 +29,8 @@ import { cn } from "@/lib/utils";
 export type CompactVariant = "mobile" | "mid" | "desktop";
 
 const TOUCH = "min-h-[44px] min-w-[44px]";
-const ROUND = "rounded-full hover:bg-muted/50 active:scale-95 transition-all motion-reduce:transition-none motion-reduce:active:scale-100";
+const ROUND =
+  "rounded-full hover:bg-muted/50 active:scale-95 transition-all motion-reduce:transition-none motion-reduce:active:scale-100";
 
 interface PlayProps {
   variant: CompactVariant;
@@ -100,7 +101,13 @@ export const NextBtn = memo(function NextBtn({ onClick, disabled }: NavProps) {
       size="icon"
       onClick={onClick}
       disabled={disabled}
-      className={cn("h-10 w-10", TOUCH, ROUND, "hover:scale-105 motion-reduce:hover:scale-100", disabled && "opacity-40")}
+      className={cn(
+        "h-10 w-10",
+        TOUCH,
+        ROUND,
+        "hover:scale-105 motion-reduce:hover:scale-100",
+        disabled && "opacity-40",
+      )}
       aria-label="Следующий трек"
     >
       <SkipForward className="h-4 w-4" aria-hidden="true" />

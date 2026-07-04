@@ -9,6 +9,7 @@
 The Public Profile Page displays a user's public profile information, statistics, and creative content. Visitors can view the user's bio, social links, tracks, projects, artists, and playlists. The page features a tabbed interface with infinite scroll for content, follow functionality, and sharing capabilities. Profile owners see an "Edit Profile" button, while visitors see a follow button.
 
 **Primary Use Cases:**
+
 - View another user's public profile and content
 - Follow/unfollow users
 - Browse user's public tracks, projects, artists, playlists
@@ -94,91 +95,91 @@ The Public Profile Page displays a user's public profile information, statistics
 
 ### Header Section
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Banner Image | Image (160px H mobile, 200px H desktop) | User's banner or default gradient |
-| Avatar | Image (100×100px overlapping banner) | User's photo or default initials |
-| Display Name | Text (H2) | `display_name` or `first_name + last_name` |
-| Username | Text (gray) | @username from profile |
-| Subscription Badge | Badge | Free / Premium / Enterprise |
-| Follow Button | Button | "Follow" / "Following" (visitors only) |
-| Edit Button | Button | "Edit Profile" (profile owner only) |
-| Share Button | Icon button | Share profile via Telegram |
+| Field              | Type                                    | Notes                                      |
+| ------------------ | --------------------------------------- | ------------------------------------------ |
+| Banner Image       | Image (160px H mobile, 200px H desktop) | User's banner or default gradient          |
+| Avatar             | Image (100×100px overlapping banner)    | User's photo or default initials           |
+| Display Name       | Text (H2)                               | `display_name` or `first_name + last_name` |
+| Username           | Text (gray)                             | @username from profile                     |
+| Subscription Badge | Badge                                   | Free / Premium / Enterprise                |
+| Follow Button      | Button                                  | "Follow" / "Following" (visitors only)     |
+| Edit Button        | Button                                  | "Edit Profile" (profile owner only)        |
+| Share Button       | Icon button                             | Share profile via Telegram                 |
 
 ### Stats Row
 
-| Stat | Icon | Source | Notes |
-|------|------|--------|-------|
-| Tracks | Music icon | `stats.tracksCount` | Total public tracks |
-| Likes | Heart icon | `stats.likesReceived` | Total likes received |
-| Projects | Folder icon | `stats.projectsCount` | Total public projects |
-| Playlists | List music icon | `stats.playlistsCount` | Total public playlists |
-| Total Plays | Play icon | `stats.totalPlays` | Total plays across all tracks |
+| Stat        | Icon            | Source                 | Notes                         |
+| ----------- | --------------- | ---------------------- | ----------------------------- |
+| Tracks      | Music icon      | `stats.tracksCount`    | Total public tracks           |
+| Likes       | Heart icon      | `stats.likesReceived`  | Total likes received          |
+| Projects    | Folder icon     | `stats.projectsCount`  | Total public projects         |
+| Playlists   | List music icon | `stats.playlistsCount` | Total public playlists        |
+| Total Plays | Play icon       | `stats.totalPlays`     | Total plays across all tracks |
 
 ### Bio Section
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Bio Text | Text (multi-line) | User's bio, truncated at 3 lines on mobile |
-| "Show More" | Link | Expands full bio text (mobile only) |
+| Field       | Type              | Notes                                      |
+| ----------- | ----------------- | ------------------------------------------ |
+| Bio Text    | Text (multi-line) | User's bio, truncated at 3 lines on mobile |
+| "Show More" | Link              | Expands full bio text (mobile only)        |
 
 ### Social Links
 
-| Platform | Icon | Field | Notes |
-|----------|------|-------|-------|
+| Platform  | Icon           | Field                    | Notes             |
+| --------- | -------------- | ------------------------ | ----------------- |
 | Instagram | Instagram icon | `social_links.instagram` | Opens profile URL |
-| Twitter | Twitter icon | `social_links.twitter` | Opens profile URL |
-| YouTube | YouTube icon | `social_links.youtube` | Opens channel URL |
-| Website | Globe icon | `social_links.website` | Opens website URL |
+| Twitter   | Twitter icon   | `social_links.twitter`   | Opens profile URL |
+| YouTube   | YouTube icon   | `social_links.youtube`   | Opens channel URL |
+| Website   | Globe icon     | `social_links.website`   | Opens website URL |
 
 ### Tabs
 
-| Tab | Content | Default |
-|------|---------|---------|
-| Tracks | Public tracks grid | Yes |
-| Projects | Public projects list | No |
-| Artists | AI artists grid | No |
-| Playlists | Public playlists list | No |
+| Tab       | Content               | Default |
+| --------- | --------------------- | ------- |
+| Tracks    | Public tracks grid    | Yes     |
+| Projects  | Public projects list  | No      |
+| Artists   | AI artists grid       | No      |
+| Playlists | Public playlists list | No      |
 
 ### Tab Content: Tracks
 
-| Column | Format | Notes |
-|--------|--------|-------|
-| Cover Art | Image (200×200px) | Click to play |
-| Title | Text | Truncated at 2 lines |
-| Play Count | Number | "1.2K" format |
-| Likes | Heart icon + count | Optimistic update |
-| Duration | Text (MM:SS) | Audio length |
-| Play Button | Overlay | Appears on hover/tap |
+| Column      | Format             | Notes                |
+| ----------- | ------------------ | -------------------- |
+| Cover Art   | Image (200×200px)  | Click to play        |
+| Title       | Text               | Truncated at 2 lines |
+| Play Count  | Number             | "1.2K" format        |
+| Likes       | Heart icon + count | Optimistic update    |
+| Duration    | Text (MM:SS)       | Audio length         |
+| Play Button | Overlay            | Appears on hover/tap |
 
 ### Tab Content: Projects
 
-| Column | Format | Notes |
-|--------|--------|-------|
-| Cover Art | Image | Project cover or first track cover |
-| Title | Text | Project name |
-| Track Count | Badge | "12 tracks" |
-| Created At | Date | "Jan 15, 2026" |
-| Open Button | Button | Opens project detail |
+| Column      | Format | Notes                              |
+| ----------- | ------ | ---------------------------------- |
+| Cover Art   | Image  | Project cover or first track cover |
+| Title       | Text   | Project name                       |
+| Track Count | Badge  | "12 tracks"                        |
+| Created At  | Date   | "Jan 15, 2026"                     |
+| Open Button | Button | Opens project detail               |
 
 ### Tab Content: Artists
 
-| Column | Format | Notes |
-|--------|--------|-------|
-| Avatar | Image (100×100px) | AI-generated portrait |
-| Name | Text | Artist name |
-| Style | Text (chips) | Genre tags |
-| Tracks Count | Badge | "45 tracks" |
+| Column       | Format            | Notes                 |
+| ------------ | ----------------- | --------------------- |
+| Avatar       | Image (100×100px) | AI-generated portrait |
+| Name         | Text              | Artist name           |
+| Style        | Text (chips)      | Genre tags            |
+| Tracks Count | Badge             | "45 tracks"           |
 
 ### Tab Content: Playlists
 
-| Column | Format | Notes |
-|--------|--------|-------|
-| Cover Art | Image | Playlist cover or grid of track covers |
-| Title | Text | Playlist name |
-| Track Count | Badge | "20 tracks" |
-| Duration | Text (MM:SS) | Total duration |
-| Owner | Text | Username (if not profile owner) |
+| Column      | Format       | Notes                                  |
+| ----------- | ------------ | -------------------------------------- |
+| Cover Art   | Image        | Playlist cover or grid of track covers |
+| Title       | Text         | Playlist name                          |
+| Track Count | Badge        | "20 tracks"                            |
+| Duration    | Text (MM:SS) | Total duration                         |
+| Owner       | Text         | Username (if not profile owner)        |
 
 ---
 
@@ -187,6 +188,7 @@ The Public Profile Page displays a user's public profile information, statistics
 ### Page Load
 
 **Behavior:**
+
 1. Extract `userId` from URL params
 2. Fetch profile data via `useQuery()`:
    - User info (name, username, bio, banner, social links)
@@ -201,6 +203,7 @@ The Public Profile Page displays a user's public profile information, statistics
 6. Render profile with loading skeletons
 
 **API Calls:**
+
 - `GET /api/profiles/{userId}` — Profile data
 - `GET /api/profiles/{userId}/stats` — Profile statistics
 - `GET /api/tracks?user_id={userId}&is_public=true` — Public tracks
@@ -213,6 +216,7 @@ The Public Profile Page displays a user's public profile information, statistics
 **Trigger:** Click tab trigger (Tracks, Projects, Artists, Playlists)
 
 **Behavior:**
+
 1. Update `activeTab` state
 2. Fetch tab content (if not cached)
 3. Show loading skeleton for tab content
@@ -220,6 +224,7 @@ The Public Profile Page displays a user's public profile information, statistics
 5. Haptic feedback (light impact)
 
 **Persistence:**
+
 - Tab selection NOT persisted (resets to "tracks" on page load)
 
 ### Follow / Unfollow
@@ -227,6 +232,7 @@ The Public Profile Page displays a user's public profile information, statistics
 **Trigger:** Click follow button (visitors only)
 
 **Behavior:**
+
 1. Check if current user is following profile owner
 2. If not following:
    - Optimistic update: Show "Following" immediately
@@ -243,10 +249,12 @@ The Public Profile Page displays a user's public profile information, statistics
 4. Haptic feedback (medium impact)
 
 **API Calls:**
+
 - `POST /api/social/follow` — Follow user
 - `DELETE /api/social/follow` — Unfollow user
 
 **Special Rules:**
+
 - Cannot follow self (button hidden for profile owner)
 - Follow count updates in real-time (optimistic)
 - Follow state persisted to database
@@ -256,11 +264,13 @@ The Public Profile Page displays a user's public profile information, statistics
 **Trigger:** Click "Edit Profile" button (profile owner only)
 
 **Behavior:**
+
 1. Navigate to `/settings?tab=profile`
 2. Scroll to profile edit section
 3. Haptic feedback (light impact)
 
 **Visibility:**
+
 - Only shown when `isOwner === true`
 - Replaces follow button for profile owners
 
@@ -269,6 +279,7 @@ The Public Profile Page displays a user's public profile information, statistics
 **Trigger:** Click share button
 
 **Behavior:**
+
 1. Generate share link: `https://t.me/AIMusicVerseBot/app?startapp=profile={userId}`
 2. Open Telegram share dialog via `useTelegram()`
 3. Pre-fill message: "Check out @{username}'s profile on MusicVerse AI!"
@@ -281,12 +292,14 @@ The Public Profile Page displays a user's public profile information, statistics
 **Trigger:** Click "Show more" / "Show less" link (mobile only)
 
 **Behavior:**
+
 1. Toggle `showFullBio` state
 2. Expand/collapse bio text
 3. Update link text accordingly
 4. Smooth height transition
 
 **Desktop:**
+
 - Bio always shown in full (no truncation)
 - No "Show more" link
 
@@ -295,25 +308,30 @@ The Public Profile Page displays a user's public profile information, statistics
 **Trigger:** Click social link icon
 
 **Behavior:**
+
 1. Open URL in new tab
 2. Haptic feedback (light impact)
 3. External link icon indicator
 
 **Validation:**
+
 - Only show icons for platforms with valid URLs
 - Handle invalid URLs gracefully (show error toast)
 
 ### Track Card Interactions (Tracks Tab)
 
 **Play Track:**
+
 - Trigger: Click play button or cover art
 - Behavior: Start global audio player, update mini player
 
 **Like Track:**
+
 - Trigger: Click heart icon
 - Behavior: Optimistic update, API call, revert on error
 
 **Open Track:**
+
 - Trigger: Click track title
 - Behavior: Navigate to `/library` (opens track detail panel)
 
@@ -322,6 +340,7 @@ The Public Profile Page displays a user's public profile information, statistics
 **Trigger:** Scroll to bottom of tab content
 
 **Behavior:**
+
 1. Check `hasNextPage` flag
 2. If true: Fetch next page (12 items)
 3. Show loading spinner at bottom
@@ -332,6 +351,7 @@ The Public Profile Page displays a user's public profile information, statistics
 ### Empty States
 
 **No Content:**
+
 - Trigger: Tab has no public content
 - Behavior: Show empty state with:
   - Icon (music note, folder, user, list)
@@ -339,6 +359,7 @@ The Public Profile Page displays a user's public profile information, statistics
   - Subtext: (for profile owner) "Make your tracks public to share them"
 
 **Profile Not Public:**
+
 - Trigger: Profile owner has `is_public = false`
 - Behavior: Show warning to visitors:
   - "This profile is private"
@@ -347,33 +368,36 @@ The Public Profile Page displays a user's public profile information, statistics
 ### Profile Owner Actions
 
 **Visibility Differences:**
+
 - **Follow Button:** Replaced with "Edit Profile" button
 - **Private Profile Warning:** Only visitors see warning
 - **Empty State Messaging:** Different for owner vs visitors
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Profile | GET | /api/profiles/{userId} | Page load | Returns profile data |
-| Get Profile Stats | GET | /api/profiles/{userId}/stats | Page load | Returns statistics |
-| Get Public Tracks | GET | /api/tracks?user_id={userId}&is_public=true | Tab load | Paginated (12/page) |
-| Get Public Projects | GET | /api/projects?user_id={userId}&is_public=true | Tab load | Paginated |
-| Get Public Artists | GET | /api/artists?user_id={userId}&is_public=true | Tab load | Paginated |
-| Get Public Playlists | GET | /api/playlists?user_id={userId}&is_public=true | Tab load | Paginated |
-| Follow User | POST | /api/social/follow | Follow action | Creates follow relationship |
-| Unfollow User | DELETE | /api/social/follow | Unfollow action | Removes follow relationship |
-| Check Follow Status | GET | /api/social/follow-status?userId={userId} | Page load | Returns isFollowing boolean |
+| API                  | Method | Path                                           | Trigger         | Notes                       |
+| -------------------- | ------ | ---------------------------------------------- | --------------- | --------------------------- |
+| Get Profile          | GET    | /api/profiles/{userId}                         | Page load       | Returns profile data        |
+| Get Profile Stats    | GET    | /api/profiles/{userId}/stats                   | Page load       | Returns statistics          |
+| Get Public Tracks    | GET    | /api/tracks?user_id={userId}&is_public=true    | Tab load        | Paginated (12/page)         |
+| Get Public Projects  | GET    | /api/projects?user_id={userId}&is_public=true  | Tab load        | Paginated                   |
+| Get Public Artists   | GET    | /api/artists?user_id={userId}&is_public=true   | Tab load        | Paginated                   |
+| Get Public Playlists | GET    | /api/playlists?user_id={userId}&is_public=true | Tab load        | Paginated                   |
+| Follow User          | POST   | /api/social/follow                             | Follow action   | Creates follow relationship |
+| Unfollow User        | DELETE | /api/social/follow                             | Unfollow action | Removes follow relationship |
+| Check Follow Status  | GET    | /api/social/follow-status?userId={userId}      | Page load       | Returns isFollowing boolean |
 
 ## Page Relationships
 
 **From:**
+
 - `/library` → Click artist name on track card
 - `/` (Home) → Click username in track card
 - Deep link → `t.me/AIMusicVerseBot/app?startapp=profile={userId}` opens profile
 - Other profiles → Click username in comments/mentions
 
 **To:**
+
 - `/settings?tab=profile` → Click "Edit Profile" (profile owner only)
 - `/library` → Click track in Tracks tab
 - `/projects/{id}` → Click project in Projects tab
@@ -382,6 +406,7 @@ The Public Profile Page displays a user's public profile information, statistics
 - `/` (Home) → Click back button or Telegram back button
 
 **Data Coupling:**
+
 - Follow state: Fetched on page load, updates via API calls
 - Profile stats: Cached for 5 minutes (TanStack Query)
 - Tab content: Each tab cached independently (invalidated on follow/unfollow)

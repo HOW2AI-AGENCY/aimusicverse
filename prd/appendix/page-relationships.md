@@ -9,8 +9,9 @@
 ### Main Navigation (Bottom Navigation Bar)
 
 **Navigation Items:**
+
 - Home (`/`) - Music generation and discovery
-- Library (`/library`) - Personal track collection  
+- Library (`/library`) - Personal track collection
 - Projects (`/projects`) - Project organization
 - Profile (`/profile`) - User profile and settings
 
@@ -48,12 +49,12 @@
 
 ### Global State (Updated Across Multiple Pages)
 
-| State | Updated By | Affects Pages | Persistence |
-|-------|-----------|---------------|-------------|
-| `creditsBalance` | Generation, purchases | Home, Library, Generate Form | Database + Optimistic |
-| `playerState` | Track play on any page | All pages (global player) | Zustand store |
-| `userProfile` | Settings page | All pages | Database |
-| `activeGenerations` | Generation API | Home, Library | Polling (3s) |
+| State               | Updated By             | Affects Pages                | Persistence           |
+| ------------------- | ---------------------- | ---------------------------- | --------------------- |
+| `creditsBalance`    | Generation, purchases  | Home, Library, Generate Form | Database + Optimistic |
+| `playerState`       | Track play on any page | All pages (global player)    | Zustand store         |
+| `userProfile`       | Settings page          | All pages                    | Database              |
+| `activeGenerations` | Generation API         | Home, Library                | Polling (3s)          |
 
 ---
 
@@ -61,12 +62,12 @@
 
 **Format:** `t.me/AIMusicVerseBot/app?startapp=PARAM`
 
-| Parameter | Target Page | Behavior |
-|-----------|-------------|----------|
-| `track_TRACKID` | `/library` | Highlights track |
-| `playlist_PLAYLISTID` | `/playlists` | Opens playlist |
-| `generate` | `/` | Opens generation form |
-| `ref_USERNAME` | `/auth` | Stores referral code |
+| Parameter             | Target Page  | Behavior              |
+| --------------------- | ------------ | --------------------- |
+| `track_TRACKID`       | `/library`   | Highlights track      |
+| `playlist_PLAYLISTID` | `/playlists` | Opens playlist        |
+| `generate`            | `/`          | Opens generation form |
+| `ref_USERNAME`        | `/auth`      | Stores referral code  |
 
 ---
 

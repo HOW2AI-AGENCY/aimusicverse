@@ -9,6 +9,7 @@
 Music Lab is a unified creative workspace providing 6 specialized tools for music creation. Features tabbed interface with Vocal recording, Guitar studio, Lyrics+AI assistant, PromptDJ mixer (PRO), Chord visualizer, and Audio Hub for managing recordings.
 
 **Primary Use Cases:**
+
 - Record and edit vocal performances
 - Record guitar sessions with chord detection
 - Create and edit lyrics with AI assistance
@@ -84,71 +85,71 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 
 ### Tabs
 
-| Tab | Icon | Feature | PRO Required |
-|-----|------|---------|--------------|
-| Hub | AudioWaveform | Welcome and quick access | No |
-| Vocal | Mic | Vocal recording | No |
-| Guitar | Guitar | Guitar recording + chords | Yes (BASIC tier) |
-| Lyrics | PenLine | Lyrics AI assistant | No |
-| DJ (PromptDJ) | Disc3 | Prompt mixer | Yes (prompt_dj feature) |
-| Chords | Music | Chord visualizer | No |
+| Tab           | Icon          | Feature                   | PRO Required            |
+| ------------- | ------------- | ------------------------- | ----------------------- |
+| Hub           | AudioWaveform | Welcome and quick access  | No                      |
+| Vocal         | Mic           | Vocal recording           | No                      |
+| Guitar        | Guitar        | Guitar recording + chords | Yes (BASIC tier)        |
+| Lyrics        | PenLine       | Lyrics AI assistant       | No                      |
+| DJ (PromptDJ) | Disc3         | Prompt mixer              | Yes (prompt_dj feature) |
+| Chords        | Music         | Chord visualizer          | No                      |
 
 ### Hub Tab Content
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Welcome Message | Text | "Music Lab - Creative Workspace" |
-| Quick Action Cards | Cards | 6 cards, one per tool |
-| Tool Icon | Icon | Large icon for each tool |
-| Tool Name | Text | "Vocal Recording", "Guitar Studio", etc. |
-| Tool Description | Text | Short description of what tool does |
-| PRO Badge | Badge | Shown on Guitar, DJ tabs (if no access) |
-| Open Button | Button | Opens corresponding tab/dialog |
+| Element            | Type   | Notes                                    |
+| ------------------ | ------ | ---------------------------------------- |
+| Welcome Message    | Text   | "Music Lab - Creative Workspace"         |
+| Quick Action Cards | Cards  | 6 cards, one per tool                    |
+| Tool Icon          | Icon   | Large icon for each tool                 |
+| Tool Name          | Text   | "Vocal Recording", "Guitar Studio", etc. |
+| Tool Description   | Text   | Short description of what tool does      |
+| PRO Badge          | Badge  | Shown on Guitar, DJ tabs (if no access)  |
+| Open Button        | Button | Opens corresponding tab/dialog           |
 
 ### Vocal Tab Content
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Record Button | Button | Opens vocal recording dialog |
+| Element          | Type      | Notes                             |
+| ---------------- | --------- | --------------------------------- |
+| Record Button    | Button    | Opens vocal recording dialog      |
 | Recording Dialog | Component | `AudioRecordDialog` (lazy loaded) |
-| Audio Controls | Controls | Record, stop, playback, save |
-| Format Settings | Select | Sample rate, bit depth |
+| Audio Controls   | Controls  | Record, stop, playback, save      |
+| Format Settings  | Select    | Sample rate, bit depth            |
 
 ### Guitar Tab Content
 
-| Element | Type | Notes |
-|---------|------|-------|
-| PRO Gate | FeatureGate | Shows upgrade prompt if no access |
-| Record Button | Button | Opens guitar recording dialog |
-| Recording Dialog | Component | `GuitarRecordDialog` (lazy loaded) |
-| Chord Detection | Auto | Automatic chord detection during recording |
-| Format Settings | Select | Sample rate, bit depth |
+| Element          | Type        | Notes                                      |
+| ---------------- | ----------- | ------------------------------------------ |
+| PRO Gate         | FeatureGate | Shows upgrade prompt if no access          |
+| Record Button    | Button      | Opens guitar recording dialog              |
+| Recording Dialog | Component   | `GuitarRecordDialog` (lazy loaded)         |
+| Chord Detection  | Auto        | Automatic chord detection during recording |
+| Format Settings  | Select      | Sample rate, bit depth                     |
 
 ### Lyrics Tab Content
 
-| Element | Type | Notes |
-|---------|------|-------|
-| AI Chat Agent | Component | `LyricsAIChatAgent` (lazy loaded) |
-| Chat Interface | Chat | AI assistant for lyrics |
-| Lyrics Editor | Textarea | Full-featured lyrics editor |
-| AI Suggestions | Panel | Context-aware lyric suggestions |
+| Element        | Type      | Notes                             |
+| -------------- | --------- | --------------------------------- |
+| AI Chat Agent  | Component | `LyricsAIChatAgent` (lazy loaded) |
+| Chat Interface | Chat      | AI assistant for lyrics           |
+| Lyrics Editor  | Textarea  | Full-featured lyrics editor       |
+| AI Suggestions | Panel     | Context-aware lyric suggestions   |
 
 ### DJ Tab Content (PRO)
 
-| Element | Type | Notes |
-|---------|------|-------|
-| PRO Gate | FeatureGate | Shows upgrade prompt if no access |
-| PromptDJ Mixer | Component | `PromptDJMixer` (lazy loaded) |
-| Mixer Controls | Controls | Blend and manipulate prompts |
-| Presets | Select | Pre-built prompt configurations |
+| Element        | Type        | Notes                             |
+| -------------- | ----------- | --------------------------------- |
+| PRO Gate       | FeatureGate | Shows upgrade prompt if no access |
+| PromptDJ Mixer | Component   | `PromptDJMixer` (lazy loaded)     |
+| Mixer Controls | Controls    | Blend and manipulate prompts      |
+| Presets        | Select      | Pre-built prompt configurations   |
 
 ### Chords Tab Content
 
-| Element | Type | Notes |
-|---------|------|-------|
+| Element          | Type      | Notes                                   |
+| ---------------- | --------- | --------------------------------------- |
 | Chord Visualizer | Component | `RealtimeChordVisualizer` (lazy loaded) |
-| Display Area | Canvas | Real-time chord visualization |
-| Chord Info | Text | Current chord, key, confidence |
+| Display Area     | Canvas    | Real-time chord visualization           |
+| Chord Info       | Text      | Current chord, key, confidence          |
 
 ---
 
@@ -157,12 +158,14 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 ### Page Load
 
 **Behavior:**
+
 1. Check feature access for Guitar Studio and PromptDJ
 2. Setup Telegram Back Button (returns to previous page)
 3. Initialize tab state (default: "hub")
 4. Render lazy-loaded components on demand
 
 **API Calls:**
+
 - None (feature checks use local state/pro Subscription tier)
 
 ### Tab Switching
@@ -170,6 +173,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 **Trigger:** Click tab trigger
 
 **Behavior:**
+
 1. Update `activeTab` state
 2. Lazy load tab content if not loaded
 3. Show loading skeleton while loading
@@ -177,6 +181,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 5. Haptic feedback (light impact)
 
 **Lazy Loading:**
+
 - Components loaded on first tab access
 - Reduces initial bundle size
 - Improves page load performance
@@ -184,12 +189,14 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 ### Feature Gates (PRO Features)
 
 **Guitar Studio:**
+
 - Trigger: Click Guitar tab without access
 - Behavior: Show `FeatureGate` component with upgrade prompt
 - Requirement: BASIC tier or higher
 - Action: "Upgrade to Access" button → `/subscription`
 
 **PromptDJ:**
+
 - Trigger: Click DJ tab without access
 - Behavior: Show `FeatureGate` component with upgrade prompt
 - Requirement: `prompt_dj` feature enabled
@@ -200,6 +207,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 **Trigger:** Click "Record Vocal" button (Hub tab) or open Vocal tab
 
 **Behavior:**
+
 1. Open `AudioRecordDialog`
 2. Show recording controls:
    - Record button (starts recording)
@@ -210,6 +218,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 4. On save: Call API to store recording
 
 **API Calls:**
+
 - `POST /api/recordings/vocal` — Save vocal recording
 
 ### Guitar Recording
@@ -217,6 +226,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 **Trigger:** Click "Record Guitar" button (Hub tab) or open Guitar tab
 
 **Behavior:**
+
 1. Check feature access (if no access: show upgrade prompt)
 2. Open `GuitarRecordDialog`
 3. Show recording controls + chord detection:
@@ -227,6 +237,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 4. On save: Call API to store recording with chords
 
 **API Calls:**
+
 - `POST /api/recordings/guitar` — Save guitar recording
 - `POST /api/chords/detect` — Detect chords from audio
 
@@ -235,6 +246,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 **Trigger:** Click "Write Lyrics" button (Hub tab) or open Lyrics tab
 
 **Behavior:**
+
 1. Open `LyricsAIChatAgent`
 2. Show chat interface with AI assistant
 3. User can:
@@ -247,6 +259,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 6. Save lyrics to library or use in generation
 
 **API Calls:**
+
 - `POST /api/lyrics/ai-assistant` — AI lyric suggestions
 - `POST /api/lyrics/save` — Save lyrics draft
 
@@ -255,6 +268,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 **Trigger:** Click "PromptDJ" button (Hub tab) or open DJ tab
 
 **Behavior:**
+
 1. Check feature access (if no access: show upgrade prompt)
 2. Open `PromptDJMixer`
 3. Show prompt mixing interface:
@@ -266,6 +280,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 5. Export final prompt to generation form
 
 **API Calls:**
+
 - None (client-side prompt mixing)
 
 ### Chord Visualizer
@@ -273,6 +288,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 **Trigger:** Click "Chord Visualizer" button (Hub tab) or open Chords tab
 
 **Behavior:**
+
 1. Open `RealtimeChordVisualizer`
 2. Show chord detection interface:
    - Audio input (microphone or file)
@@ -285,6 +301,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
    - Export chord progression
 
 **API Calls:**
+
 - `POST /api/chords/detect` — Detect chords from audio
 - `POST /api/chords/progression` — Export chord progression
 
@@ -293,6 +310,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 **Trigger:** Not a separate tab, integrated into various tools
 
 **Behavior:**
+
 1. Audio recordings automatically saved to Audio Hub
 2. User can access Audio Hub to:
    - Browse all recordings
@@ -301,29 +319,32 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 3. Recordings organized by type (vocal, guitar, other)
 
 **Audio Hub Components:**
+
 - `AudioHubRecorder` — Recording interface
 - `AudioHubUploader` — File upload interface
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Save Vocal Recording | POST | /api/recordings/vocal | Save button | Stores vocal recording |
-| Save Guitar Recording | POST | /api/recordings/guitar | Save button | Stores guitar recording |
-| Detect Chords | POST | /api/chords/detect | Recording stop | Analyzes audio for chords |
-| AI Lyrics Assistant | POST | /api/lyrics/ai-assistant | Chat message | Returns AI suggestions |
-| Save Lyrics | POST | /api/lyrics/save | Save button | Stores lyrics draft |
-| Export Chord Progression | POST | /api/chords/progression | Export action | Returns chord data |
-| Check Feature Access | GET | /api/users/{userId}/features | Page load | Returns enabled features |
+| API                      | Method | Path                         | Trigger        | Notes                     |
+| ------------------------ | ------ | ---------------------------- | -------------- | ------------------------- |
+| Save Vocal Recording     | POST   | /api/recordings/vocal        | Save button    | Stores vocal recording    |
+| Save Guitar Recording    | POST   | /api/recordings/guitar       | Save button    | Stores guitar recording   |
+| Detect Chords            | POST   | /api/chords/detect           | Recording stop | Analyzes audio for chords |
+| AI Lyrics Assistant      | POST   | /api/lyrics/ai-assistant     | Chat message   | Returns AI suggestions    |
+| Save Lyrics              | POST   | /api/lyrics/save             | Save button    | Stores lyrics draft       |
+| Export Chord Progression | POST   | /api/chords/progression      | Export action  | Returns chord data        |
+| Check Feature Access     | GET    | /api/users/{userId}/features | Page load      | Returns enabled features  |
 
 ## Page Relationships
 
 **From:**
+
 - `/` (Home) → Click "Music Lab" in creative tools
 - `/templates` → Click "Music Lab" in tools
 - Deep link → `startapp=music-lab` opens Music Lab
 
 **To:**
+
 - `/audio-hub` → Access audio library (integrated)
 - `/lyrics-studio` → Full lyrics editing page
 - `/guitar-studio` → Dedicated guitar studio page
@@ -331,6 +352,7 @@ Music Lab is a unified creative workspace providing 6 specialized tools for musi
 - Previous page → Back button
 
 **Data Coupling:**
+
 - Feature access: Checked on page load (subscription tier)
 - Recordings: Saved to Audio Hub (global audio library)
 - Lyrics: Saved to lyrics drafts (accessible from Lyrics Studio)

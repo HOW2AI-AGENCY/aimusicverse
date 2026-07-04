@@ -146,6 +146,5 @@ export const LazyImage = memo(function LazyImage({
   );
 });
 
-
 // Re-export for backwards compatibility
 export { LazyImage as default };

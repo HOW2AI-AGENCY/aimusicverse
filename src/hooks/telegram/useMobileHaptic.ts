@@ -9,7 +9,6 @@
 
 import { useCallback } from "react";
 
-
 type HapticImpactStyle = "light" | "medium" | "heavy" | "rigid" | "soft";
 type HapticNotificationType = "error" | "success" | "warning";
 
@@ -63,8 +62,6 @@ export function useMobileHaptic(): HapticFeedback {
     [hapticAPI, isAvailable],
   );
 
-
-
   const notification = useCallback(
     (type: HapticNotificationType) => {
       if (!isAvailable) return;
@@ -85,7 +82,6 @@ export function useMobileHaptic(): HapticFeedback {
       /* silent */
     }
   }, [hapticAPI, isAvailable]);
-
 
   return {
     impact,

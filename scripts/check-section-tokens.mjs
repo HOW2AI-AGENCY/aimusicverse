@@ -157,7 +157,10 @@ function helpFooter() {
   console.error("");
   console.error(BLU("How to fix:"));
   console.error("  • Auto-fix:       " + GRN("npm run check:section-tokens -- --fix"));
-  console.error("  • Manual replace: " + GRN("bg-card/60 / bg-muted/30 / bg-gradient-to-br from-card/60 via-background to-muted/40"));
+  console.error(
+    "  • Manual replace: " +
+      GRN("bg-card/60 / bg-muted/30 / bg-gradient-to-br from-card/60 via-background to-muted/40"),
+  );
   console.error("  • Opt-out (rare): add " + YEL("// section-tokens-allow-next-line") + " on the previous line.");
   console.error("");
 }
