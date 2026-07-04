@@ -38,7 +38,16 @@
 - [ ] Пометить missing migrations в `SPRINT-CLOSURE-PLAN-2026-07.md`
 - [ ] Применить отстающие миграции (одноразовая уборка)
 
-### A4 🔴 Branch protection (см. выше)
+### A4 ✅ Branch protection Phase 1 (см. выше) + Phase 2
+
+Phase 2 разблокирована 2026-07-04 вечером после Sprint 050-A6. Сейчас можно добавить `pull_request` rule + `required_status_checks: [quality, build, smoke]` к ruleset `18508298`.
+
+### A6 ✅ Format + typecheck fix-up (2026-07-04)
+
+- [x] `npm run format` для 16 pre-existing файлов с prettier-дрейфом (`.kilo/*`, `.lovable/*`, `.superpowers/*`, `supabase/functions/mcp/index.ts`, `src/integrations/supabase/types.ts`, `src/lib/mcp/tools/*`, `src/{Colors,Introduction,Typography}.mdx`, `src/stories/Configure.mdx`)
+- [x] `tsconfig.app.json` — `exclude: src/lib/mcp/**` + `supabase/functions/mcp/**` (auto-generated, никто не импортирует)
+- [x] `vite.config.ts:5` — `@ts-expect-error` для `@lovable.dev/mcp-js/stacks/supabase/vite` (опциональный Lovable-плагин)
+- [x] **Quality & Build зелёный**: 0 tsc errors, 0 lint errors, 292/292 unit tests, all files Prettier-clean
 
 ### A5 ⏳ Bun lock vs package-lock
 

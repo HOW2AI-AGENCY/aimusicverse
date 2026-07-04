@@ -12,24 +12,34 @@ import { z } from "npm:zod@^4.4.3";
 var search_public_tracks_default = defineTool({
   name: "search_public_tracks",
   title: "Search public tracks",
-  description: "Search MusicVerse AI's public track catalog by title, genre, or mood. Returns id, title, genre, mood, duration, play count, and audio/cover URLs.",
+  description:
+    "Search MusicVerse AI's public track catalog by title, genre, or mood. Returns id, title, genre, mood, duration, play count, and audio/cover URLs.",
   inputSchema: {
     query: z.string().trim().min(1).describe("Search text matched against title, genre, mood, and prompt."),
-    limit: z.number().int().min(1).max(50).default(10).describe("Max results (1-50).")
+    limit: z.number().int().min(1).max(50).default(10).describe("Max results (1-50)."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ query, limit }) => {
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
     const like = `%${query}%`;
-    const { data, error } = await supabase.from("tracks").select("id, title, computed_genre, mood, duration_seconds, play_count, likes_count, audio_url, cover_url, created_at").eq("is_public", true).eq("status", "completed").or(`title.ilike.${like},computed_genre.ilike.${like},mood.ilike.${like},prompt.ilike.${like}`).order("play_count", { ascending: false }).limit(limit);
+    const { data, error } = await supabase
+      .from("tracks")
+      .select(
+        "id, title, computed_genre, mood, duration_seconds, play_count, likes_count, audio_url, cover_url, created_at",
+      )
+      .eq("is_public", true)
+      .eq("status", "completed")
+      .or(`title.ilike.${like},computed_genre.ilike.${like},mood.ilike.${like},prompt.ilike.${like}`)
+      .order("play_count", { ascending: false })
+      .limit(limit);
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
-      structuredContent: { tracks: data ?? [] }
+      structuredContent: { tracks: data ?? [] },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/get-track.ts
@@ -41,21 +51,26 @@ var get_track_default = defineTool2({
   title: "Get track details",
   description: "Fetch full details for a single public track including all A/B versions, lyrics, and audio URLs.",
   inputSchema: {
-    track_id: z2.string().uuid().describe("UUID of the track.")
+    track_id: z2.string().uuid().describe("UUID of the track."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ track_id }) => {
     const supabase = createClient2(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("tracks").select("*, track_versions(*)").eq("id", track_id).eq("is_public", true).maybeSingle();
+    const { data, error } = await supabase
+      .from("tracks")
+      .select("*, track_versions(*)")
+      .eq("id", track_id)
+      .eq("is_public", true)
+      .maybeSingle();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     if (!data) return { content: [{ type: "text", text: "Track not found or not public." }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
-      structuredContent: { track: data }
+      structuredContent: { track: data },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/list-my-tracks.ts
@@ -65,9 +80,10 @@ import { z as z3 } from "npm:zod@^4.4.3";
 var list_my_tracks_default = defineTool3({
   name: "list_my_tracks",
   title: "List my tracks",
-  description: "List the signed-in user's own tracks (public and private) with title, status, genre, duration, and audio URL.",
+  description:
+    "List the signed-in user's own tracks (public and private) with title, status, genre, duration, and audio URL.",
   inputSchema: {
-    limit: z3.number().int().min(1).max(100).default(20).describe("Max results (1-100).")
+    limit: z3.number().int().min(1).max(100).default(20).describe("Max results (1-100)."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ limit }, ctx) => {
@@ -76,15 +92,20 @@ var list_my_tracks_default = defineTool3({
     }
     const supabase = createClient3(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("tracks").select("id, title, status, computed_genre, mood, duration_seconds, is_public, audio_url, cover_url, created_at").eq("user_id", ctx.getUserId()).order("created_at", { ascending: false }).limit(limit);
+    const { data, error } = await supabase
+      .from("tracks")
+      .select("id, title, status, computed_genre, mood, duration_seconds, is_public, audio_url, cover_url, created_at")
+      .eq("user_id", ctx.getUserId())
+      .order("created_at", { ascending: false })
+      .limit(limit);
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
-      structuredContent: { tracks: data ?? [] }
+      structuredContent: { tracks: data ?? [] },
     };
-  }
+  },
 });
 
 // src/lib/mcp/index.ts
@@ -93,12 +114,13 @@ var mcp_default = defineMcp({
   name: "musicverse-ai-mcp",
   title: "MusicVerse AI",
   version: "0.1.0",
-  instructions: "Tools for MusicVerse AI \u2014 an AI music creation platform. Use `search_public_tracks` and `get_track` to browse the public catalog. Use `list_my_tracks` to read the signed-in user's own tracks (requires OAuth).",
+  instructions:
+    "Tools for MusicVerse AI \u2014 an AI music creation platform. Use `search_public_tracks` and `get_track` to browse the public catalog. Use `list_my_tracks` to read the signed-in user's own tracks (requires OAuth).",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
-    acceptedAudiences: "authenticated"
+    acceptedAudiences: "authenticated",
   }),
-  tools: [search_public_tracks_default, get_track_default, list_my_tracks_default]
+  tools: [search_public_tracks_default, get_track_default, list_my_tracks_default],
 });
 
 // lovable-mcp-supabase-entry.ts

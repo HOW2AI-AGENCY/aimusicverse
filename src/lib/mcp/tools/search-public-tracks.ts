@@ -19,7 +19,9 @@ export default defineTool({
     const like = `%${query}%`;
     const { data, error } = await supabase
       .from("tracks")
-      .select("id, title, computed_genre, mood, duration_seconds, play_count, likes_count, audio_url, cover_url, created_at")
+      .select(
+        "id, title, computed_genre, mood, duration_seconds, play_count, likes_count, audio_url, cover_url, created_at",
+      )
       .eq("is_public", true)
       .eq("status", "completed")
       .or(`title.ilike.${like},computed_genre.ilike.${like},mood.ilike.${like},prompt.ilike.${like}`)
