@@ -101,3 +101,4 @@ supabase/functions/.temp/
 
 # Graphify generated artifacts (can be regenerated)
 graphify-out/
+graphify-out/*
