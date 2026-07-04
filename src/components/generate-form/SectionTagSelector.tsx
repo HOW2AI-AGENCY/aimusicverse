@@ -1,18 +1,36 @@
+/**
+ * SectionTagSelector Component
+ *
+ * Editorial tag-picker for section-level metadata in the advanced generation form.
+ * Categories render as numbered hairline rules (01 · VOCAL), tags as inverted chips.
+ * Public API preserved: { selectedTags, onChange, sectionName?, compact? }.
+ */
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tag, Plus, X, Music2, Mic, Zap, Heart, Check } from "@/lib/icons";
 import { TagBadge } from "@/components/lyrics/shared/TagBadge";
 import { cn } from "@/lib/utils";
 
-// Predefined tag categories for quick selection
-const TAG_CATEGORIES = {
-  vocal: {
+interface TagCategoryDef {
+  key: string;
+  label: string;
+  icon: React.ReactNode;
+  tags: string[];
+}
+
+/**
+ * Predefined tag categories. The 4 categories below match the genre/mood/instrument/
+ * structure buckets used by `tagColors` in design-colors, so any future palette work
+ * stays in one place.
+ */
+const TAG_CATEGORIES: TagCategoryDef[] = [
+  {
+    key: "vocal",
     label: "Вокал",
     icon: <Mic className="h-3 w-3" />,
     tags: [
@@ -30,7 +48,8 @@ const TAG_CATEGORIES = {
       "Vocal Runs",
     ],
   },
-  instrument: {
+  {
+    key: "instrument",
     label: "Инструменты",
     icon: <Music2 className="h-3 w-3" />,
     tags: [
@@ -48,7 +67,8 @@ const TAG_CATEGORIES = {
       "Flute",
     ],
   },
-  dynamic: {
+  {
+    key: "dynamic",
     label: "Динамика",
     icon: <Zap className="h-3 w-3" />,
     tags: [
@@ -65,7 +85,8 @@ const TAG_CATEGORIES = {
       "Key Change",
     ],
   },
-  emotional: {
+  {
+    key: "emotional",
     label: "Эмоции",
     icon: <Heart className="h-3 w-3" />,
     tags: [
@@ -83,7 +104,7 @@ const TAG_CATEGORIES = {
       "intensely",
     ],
   },
-};
+];
 
 interface SectionTagSelectorProps {
   selectedTags: string[];
@@ -99,7 +120,6 @@ export function SectionTagSelector({
   compact = false,
 }: SectionTagSelectorProps) {
   const [customTag, setCustomTag] = useState("");
-  const [activeTab, setActiveTab] = useState("vocal");
 
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -124,36 +144,45 @@ export function SectionTagSelector({
     onChange([]);
   };
 
-  // Compact display for inline use
+  // -------------------------------------------------------------------------
+  // Compact display for inline use (selected chips + Sheet trigger).
+  // -------------------------------------------------------------------------
   if (compact) {
     return (
       <div className="flex items-center gap-1.5 flex-wrap">
         {selectedTags.length > 0 ? (
           selectedTags.map((tag) => <TagBadge key={tag} tag={tag} size="sm" onRemove={() => removeTag(tag)} />)
         ) : (
-          <span className="text-xs text-muted-foreground/60 italic">Теги не добавлены</span>
+          <span className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground/60">
+            теги · none
+          </span>
         )}
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-6 px-2 gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 px-2 gap-1 font-mono text-overline uppercase tracking-[0.18em]"
+            >
               <Plus className="h-3 w-3" />
-              <span className="text-xs">Теги</span>
+              <span>теги</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-[85vh] max-h-[85vh] flex flex-col">
-            <SheetHeader className="pb-3">
-              <SheetTitle className="text-base">Теги для {sectionName}</SheetTitle>
-              <SheetDescription className="text-xs">
-                Добавьте теги для управления вокалом, инструментами и эмоциями
+          <SheetContent side="bottom" className="h-[85vh] max-h-[85vh] flex flex-col p-0">
+            <SheetHeader className="px-5 pt-6 pb-4 border-b border-foreground/15">
+              <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+                tags · {sectionName}
+              </p>
+              <SheetTitle className="font-display text-heading-1 tracking-tight">Теги секции</SheetTitle>
+              <SheetDescription className="font-mono text-caption uppercase tracking-[0.16em] text-muted-foreground">
+                вокал · инструменты · динамика · эмоции
               </SheetDescription>
             </SheetHeader>
 
-            <TagSelectorContent
+            <TagSelectorBody
               selectedTags={selectedTags}
               toggleTag={toggleTag}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
               customTag={customTag}
               setCustomTag={setCustomTag}
               addCustomTag={addCustomTag}
@@ -165,202 +194,216 @@ export function SectionTagSelector({
     );
   }
 
-  // Full display
+  // -------------------------------------------------------------------------
+  // Full display — editorial stack with numbered category headers.
+  // -------------------------------------------------------------------------
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <Label className="text-xs font-medium flex items-center gap-1.5">
-          <Tag className="h-3 w-3" />
-          Теги секции
-          {selectedTags.length > 0 && (
-            <Badge variant="secondary" className="text-xs h-5">
-              {selectedTags.length}
-            </Badge>
-          )}
-        </Label>
-        {selectedTags.length > 0 && (
-          <Button variant="ghost" size="sm" onClick={clearAll} className="h-6 text-xs px-2">
-            Очистить
-          </Button>
-        )}
-      </div>
-
-      {/* Selected Tags */}
-      {selectedTags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 p-2 bg-muted/30 rounded-lg border border-border/30">
-          {selectedTags.map((tag) => (
-            <Badge
-              key={tag}
-              variant="default"
-              className="text-xs h-6 gap-1 pr-1 cursor-pointer"
-              onClick={() => removeTag(tag)}
-            >
-              {tag}
-              <X className="h-2.5 w-2.5" />
-            </Badge>
-          ))}
+    <div
+      className="w-full max-w-3xl mx-auto border border-foreground/15 rounded-none bg-background text-foreground"
+      data-testid="section-tag-selector"
+    >
+      {/* Masthead */}
+      <header className="px-5 sm:px-6 pt-5 pb-4 border-b border-foreground/15 flex items-baseline justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Tag className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
+          <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+            tags · {sectionName}
+          </p>
         </div>
-      )}
+        <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+          <span className="tabular-nums">{selectedTags.length.toString().padStart(2, "0")}</span>
+          <span aria-hidden> · </span>
+          <span>selected</span>
+        </p>
+      </header>
 
-      {/* Quick Add Section */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full h-8 grid grid-cols-4 gap-1 p-0.5">
-          {Object.entries(TAG_CATEGORIES).map(([key, category]) => (
-            <TabsTrigger
-              key={key}
-              value={key}
-              className="text-xs px-1 gap-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-            >
-              {category.icon}
-              <span className="hidden sm:inline">{category.label}</span>
-            </TabsTrigger>
-          ))}
-        </TabsList>
-
-        <ScrollArea className="h-[120px] mt-2">
-          {Object.entries(TAG_CATEGORIES).map(([key, category]) => (
-            <TabsContent key={key} value={key} className="mt-0">
-              <div className="flex flex-wrap gap-1.5">
-                {category.tags.map((tag) => {
-                  const isSelected = selectedTags.includes(tag);
-                  return (
-                    <Badge
-                      key={tag}
-                      variant={isSelected ? "default" : "outline"}
-                      className={cn(
-                        "cursor-pointer transition-all text-xs h-7",
-                        !isSelected && "hover:bg-primary/10 hover:border-primary/30",
-                      )}
-                      onClick={() => toggleTag(tag)}
-                    >
-                      {isSelected && <Check className="h-2.5 w-2.5 mr-1" />}
-                      {tag}
-                    </Badge>
-                  );
-                })}
-              </div>
-            </TabsContent>
-          ))}
-        </ScrollArea>
-      </Tabs>
-
-      {/* Custom Tag Input */}
-      <div className="flex gap-1.5">
-        <Input
-          placeholder="Свой тег..."
-          value={customTag}
-          onChange={(e) => setCustomTag(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && addCustomTag()}
-          className="h-8 text-xs"
-        />
-        <Button size="sm" onClick={addCustomTag} disabled={!customTag.trim()} className="h-8 px-3">
-          <Plus className="h-3 w-3" />
-        </Button>
-      </div>
+      <TagSelectorBody
+        selectedTags={selectedTags}
+        toggleTag={toggleTag}
+        customTag={customTag}
+        setCustomTag={setCustomTag}
+        addCustomTag={addCustomTag}
+        clearAll={clearAll}
+      />
     </div>
   );
 }
 
-// Shared content component for sheet
-function TagSelectorContent({
-  selectedTags,
-  toggleTag,
-  activeTab,
-  setActiveTab,
-  customTag,
-  setCustomTag,
-  addCustomTag,
-  clearAll,
-}: {
+// ============================================================================
+// SHARED BODY — used by both full and Sheet-rendered variants.
+// ============================================================================
+
+interface TagSelectorBodyProps {
   selectedTags: string[];
   toggleTag: (tag: string) => void;
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
   customTag: string;
   setCustomTag: (tag: string) => void;
   addCustomTag: () => void;
   clearAll: () => void;
-}) {
+}
+
+function TagSelectorBody({
+  selectedTags,
+  toggleTag,
+  customTag,
+  setCustomTag,
+  addCustomTag,
+  clearAll,
+}: TagSelectorBodyProps) {
+  const totalSelected = selectedTags.length;
+
   return (
     <div className="flex-1 min-h-0 flex flex-col">
-      {/* Selected Tags Display */}
-      {selectedTags.length > 0 && (
-        <div className="pb-3 border-b">
-          <div className="flex items-center justify-between mb-2">
-            <Label className="text-xs text-muted-foreground">Выбрано: {selectedTags.length}</Label>
-            <Button variant="ghost" size="sm" onClick={clearAll} className="h-6 text-xs px-2">
-              Очистить
-            </Button>
-          </div>
-          <ScrollArea className="max-h-20">
-            <div className="flex flex-wrap gap-1.5">
-              {selectedTags.map((tag) => (
-                <Badge key={tag} variant="default" className="text-xs h-6 gap-1 pr-1" onClick={() => toggleTag(tag)}>
-                  {tag}
-                  <X className="h-2.5 w-2.5" />
-                </Badge>
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
-      )}
-
-      {/* Category Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0 mt-3">
-        <TabsList className="w-full h-9 grid grid-cols-4 gap-1 shrink-0">
-          {Object.entries(TAG_CATEGORIES).map(([key, category]) => (
-            <TabsTrigger
-              key={key}
-              value={key}
-              className="text-xs gap-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+      {/* Selected tray */}
+      <div className="px-5 sm:px-6 pt-4 pb-4 border-b border-foreground/10">
+        <div className="flex items-center justify-between gap-3 font-mono text-overline uppercase tracking-[0.18em]">
+          <p className="text-muted-foreground">
+            <span>выбрано</span>
+            <span aria-hidden> · </span>
+            <span className="tabular-nums text-foreground">{totalSelected.toString().padStart(2, "0")}</span>
+          </p>
+          {totalSelected > 0 && (
+            <button
+              type="button"
+              onClick={clearAll}
+              className={cn(
+                "inline-flex items-center gap-1.5 text-muted-foreground",
+                "hover:text-destructive transition-colors",
+              )}
+              aria-label="Очистить все теги"
             >
-              {category.icon}
-              {category.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+              <span>clear</span>
+              <span aria-hidden>·</span>
+              <span className="tabular-nums">{totalSelected.toString().padStart(2, "0")}</span>
+              <X className="h-3 w-3" />
+            </button>
+          )}
+        </div>
 
-        <ScrollArea className="flex-1 mt-3">
-          {Object.entries(TAG_CATEGORIES).map(([key, category]) => (
-            <TabsContent key={key} value={key} className="mt-0 pb-20">
-              <div className="flex flex-wrap gap-2">
-                {category.tags.map((tag) => {
-                  const isSelected = selectedTags.includes(tag);
-                  return (
-                    <Badge
-                      key={tag}
-                      variant={isSelected ? "default" : "outline"}
-                      className={cn(
-                        "cursor-pointer transition-all text-sm h-9 px-3",
-                        !isSelected && "hover:bg-primary/10 hover:border-primary/30",
-                      )}
-                      onClick={() => toggleTag(tag)}
-                    >
-                      {isSelected && <Check className="h-3 w-3 mr-1.5" />}
-                      {tag}
-                    </Badge>
-                  );
-                })}
-              </div>
-            </TabsContent>
-          ))}
-        </ScrollArea>
-      </Tabs>
+        {totalSelected > 0 ? (
+          <ul className="mt-3 flex flex-wrap gap-[2px]">
+            {selectedTags.map((tag) => (
+              <li key={tag}>
+                <button
+                  type="button"
+                  onClick={() => toggleTag(tag)}
+                  className={cn(
+                    "h-7 px-2.5 inline-flex items-center gap-1.5 font-mono",
+                    "text-overline uppercase tracking-[0.16em]",
+                    "bg-foreground text-background border border-foreground",
+                    "hover:bg-background hover:text-foreground transition-colors",
+                  )}
+                  aria-label={`Убрать ${tag}`}
+                >
+                  <Check className="h-3 w-3" aria-hidden />
+                  <span>{tag}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-3 font-mono text-caption uppercase tracking-[0.16em] text-muted-foreground/60">
+            пока пусто · выбери ниже
+          </p>
+        )}
+      </div>
 
-      {/* Custom Tag Input - Fixed at bottom */}
-      <div className="pt-3 border-t mt-auto shrink-0 safe-area-bottom">
-        <Label className="text-xs mb-2 block">Добавить свой тег</Label>
-        <div className="flex gap-2">
+      {/* Category stack */}
+      <ScrollArea className="flex-1 min-h-0">
+        <div className="px-5 sm:px-6 py-4 space-y-5">
+          {TAG_CATEGORIES.map((category, idx) => {
+            const selectedInCategory = category.tags.filter((t) => selectedTags.includes(t)).length;
+            return (
+              <section key={category.key} aria-label={category.label}>
+                {/* Numbered category header */}
+                <header className="flex items-baseline justify-between gap-3">
+                  <p className="font-mono text-overline uppercase tracking-[0.18em] text-foreground">
+                    <span className="tabular-nums">{String(idx + 1).padStart(2, "0")}</span>
+                    <span aria-hidden> · </span>
+                    <span>{category.label}</span>
+                  </p>
+                  <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+                    <span className="tabular-nums">{selectedInCategory.toString().padStart(2, "0")}</span>
+                    <span aria-hidden> / </span>
+                    <span className="tabular-nums">{category.tags.length.toString().padStart(2, "0")}</span>
+                  </p>
+                </header>
+                <span aria-hidden className="mt-1 block h-[1px] w-full bg-foreground/15" />
+
+                {/* Tag chips */}
+                <ul className="mt-3 flex flex-wrap gap-[2px]">
+                  {category.tags.map((tag) => {
+                    const isSelected = selectedTags.includes(tag);
+                    return (
+                      <li key={tag}>
+                        <button
+                          type="button"
+                          onClick={() => toggleTag(tag)}
+                          aria-pressed={isSelected}
+                          className={cn(
+                            "h-8 px-3 inline-flex items-center gap-1.5 font-mono",
+                            "text-caption uppercase tracking-[0.14em]",
+                            "border transition-colors",
+                            isSelected
+                              ? "bg-foreground text-background border-foreground"
+                              : "bg-background text-foreground border-foreground/15 hover:border-foreground",
+                          )}
+                        >
+                          {isSelected ? (
+                            <Check className="h-3 w-3" aria-hidden />
+                          ) : (
+                            <span aria-hidden className="h-3 w-3 inline-flex items-center justify-center">
+                              {category.icon}
+                            </span>
+                          )}
+                          <span>{tag}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            );
+          })}
+        </div>
+      </ScrollArea>
+
+      {/* Custom-tag input — fixed at bottom */}
+      <div className="border-t border-foreground/15 px-5 sm:px-6 py-4 safe-area-bottom">
+        <Label
+          htmlFor="section-tag-custom"
+          className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground"
+        >
+          добавить свой тег
+        </Label>
+        <div className="mt-2 flex items-stretch gap-[2px]">
           <Input
-            placeholder="Введите тег..."
+            id="section-tag-custom"
+            placeholder="Введите тег…"
             value={customTag}
             onChange={(e) => setCustomTag(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addCustomTag()}
-            className="h-10 text-sm"
+            className={cn(
+              "h-10 rounded-none border border-foreground/15 bg-background",
+              "font-mono text-body-sm placeholder:text-muted-foreground/50",
+              "focus-visible:border-primary focus-visible:ring-0",
+            )}
           />
-          <Button size="default" onClick={addCustomTag} disabled={!customTag.trim()} className="h-10 px-4 shrink-0">
-            <Plus className="h-4 w-4" />
-          </Button>
+          <button
+            type="button"
+            onClick={addCustomTag}
+            disabled={!customTag.trim()}
+            className={cn(
+              "h-10 px-4 inline-flex items-center gap-1.5 font-mono",
+              "text-overline uppercase tracking-[0.18em]",
+              "border border-foreground bg-background text-foreground",
+              "hover:bg-foreground hover:text-background transition-colors",
+              "disabled:opacity-40 disabled:pointer-events-none",
+            )}
+          >
+            <Plus className="h-3.5 w-3.5" aria-hidden />
+            <span>add</span>
+          </button>
         </div>
       </div>
     </div>

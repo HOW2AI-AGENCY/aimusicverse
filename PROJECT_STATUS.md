@@ -518,20 +518,22 @@ mindmap
 
 ## 🗓 Дорожная карта спринтов (обновлено 2026-07-03)
 
-| Спринт  | Фокус                                                                     | Статус          | Срок |
-| ------- | ------------------------------------------------------------------------- | --------------- | ---- |
-| **042** | Page Decomposition + Audio Pooling                                        | ✅ ЗАВЕРШЁН     | Июль |
-| **043** | Layer Pass #2 + A11y                                                      | ✅ ЗАВЕРШЁН     | Июль |
-| **044** | Type Safety Wave 2 (`any` 342 → 0, финально)                              | ✅ ЗАВЕРШЁН     | Июль |
-| **045** | UX/UI Deep Polish + Hygiene                                               | ✅ ЗАВЕРШЁН     | Авг  |
-| **046** | Desktop Layout Polish + 4K Awareness                                      | ✅ ЗАВЕРШЁН     | Июль |
-| **047** | Mobile Audit + Z-Index/Spacing/Scroll-Lock                                | ✅ ЗАВЕРШЁН     | Июль |
-| **048** | Creation-Flow Motion Pass + Mobile Perf Fixes                             | ✅ ЗАВЕРШЁН     | Июль |
-| **049** | Mobile UX: A/B версии, per-version лайки                                  | ✅ ЗАВЕРШЁН     | Июль |
-| **050** | Main Green + Mobile Audit F1–F12 ([план](SPRINTS/SPRINT-050-PLAN.md))     | 📋 Запланирован | Июль |
-| **051** | Test Debt + God Files (tests-first декомпозиция)                          | 📋 Запланирован | Июль |
-| **052** | Q4 Platform: Export, offline, Lighthouse CI, i18n prep (черновик)         | 📋 Черновик     | Авг  |
-| —       | Eager-load bundle fix (1.19 МБ → 508 КБ gzip, вне спринт-нумерации, #568) | ✅ ЗАВЕРШЁН     | Июль |
+| Спринт  | Фокус                                                                                 | Статус          | Срок |
+| ------- | ------------------------------------------------------------------------------------- | --------------- | ---- |
+| **042** | Page Decomposition + Audio Pooling                                                    | ✅ ЗАВЕРШЁН     | Июль |
+| **043** | Layer Pass #2 + A11y                                                                  | ✅ ЗАВЕРШЁН     | Июль |
+| **044** | Type Safety Wave 2 (`any` 342 → 0, финально)                                          | ✅ ЗАВЕРШЁН     | Июль |
+| **045** | UX/UI Deep Polish + Hygiene                                                           | ✅ ЗАВЕРШЁН     | Авг  |
+| **046** | Desktop Layout Polish + 4K Awareness                                                  | ✅ ЗАВЕРШЁН     | Июль |
+| **047** | Mobile Audit + Z-Index/Spacing/Scroll-Lock                                            | ✅ ЗАВЕРШЁН     | Июль |
+| **048** | Creation-Flow Motion Pass + Mobile Perf Fixes                                         | ✅ ЗАВЕРШЁН     | Июль |
+| **049** | Mobile UX: A/B версии, per-version лайки                                              | ✅ ЗАВЕРШЁН     | Июль |
+| **050** | Main Green + Mobile Audit F1–F12 ([план](SPRINTS/SPRINT-050-PLAN.md))                 | 📋 Запланирован | Июль |
+| **051** | Test Debt + God Files (tests-first декомпозиция)                                      | 📋 Запланирован | Июль |
+| **052** | Suno API: Mashup + Persona + File Upload ([план](SPRINTS/SPRINT-052-PLAN.md))         | 📋 Запланирован | Авг  |
+| **053** | Suno API: Sounds + MIDI Direct + Boost Style ([план](SPRINTS/SPRINT-053-PLAN.md))     | 📋 Запланирован | Авг  |
+| **054** | Suno API: Details Suite + Per-Task Introspection ([план](SPRINTS/SPRINT-054-PLAN.md)) | 📋 Запланирован | Сен  |
+| —       | Eager-load bundle fix (1.19 МБ → 508 КБ gzip, вне спринт-нумерации, #568)             | ✅ ЗАВЕРШЁН     | Июль |
 
 **Открытые долги / риски (обновлено 2026-07-03, #567/#568):**
 
@@ -543,6 +545,45 @@ mindmap
 - ✅ 0 `any` в `src/components/**` и `src/stores/**` (Sprint 044 D5/D3)
 
 ---
+
+## 🔌 Suno API — gap-анализ (2026-07-04)
+
+Полная матрица покрытия sunoapi.org (по [llms.txt](https://docs.sunoapi.org/llms.txt)) → MusicVerse AI. Всего 28 категорий Suno API; 21 реализована (Sprint 001–045), 3 в работе Sprint 052–053, 4 запланированы Sprint 053–054.
+
+| Категория                                       | Path Suno API                             | Edge в коде                                         | UI       | Sprint  |
+| ----------------------------------------------- | ----------------------------------------- | --------------------------------------------------- | -------- | ------- |
+| Music Generation                                | `/api/v1/generate`                        | `suno-music-generate`, `suno-generate`              | ✅       | ✅ done |
+| Get Music Generation Details                    | `/api/v1/generate/get`                    | `suno-check-status`                                 | ⚠️ общий | **054** |
+| Extend Music                                    | `/api/v1/generate/extend`                 | `suno-music-extend`, `suno-extend-audio`            | ✅       | ✅ done |
+| Replace Section                                 | `/api/v1/generate/replace-section`        | `suno-replace-section`                              | ✅       | ✅ done |
+| **Mashup** 🆕                                   | `/api/v1/generate/mashup`                 | ❌                                                  | ❌       | **052** |
+| **Sounds (loop/tempo/key)** 🆕                  | `/api/v1/sound/generate`                  | ❌ (есть Replicate в `generate-sfx`)                | ❌       | **053** |
+| **Boost Music Style** 🆕                        | `/api/v1/generate/boost-style`            | ✅ `suno-boost-style` (есть, не подключён к UI)     | ❌       | **053** |
+| Upload And Cover Audio                          | `/api/v1/generate/upload-cover`           | `suno-upload-cover`, `suno-remix`                   | ✅       | ✅ done |
+| Upload And Extend Audio                         | `/api/v1/generate/upload-extend`          | `suno-upload-extend`                                | ✅       | ✅ done |
+| Add Instrumental                                | `/api/v1/generate/add-instrumental`       | `suno-add-instrumental`                             | ✅       | ✅ done |
+| Add Vocals                                      | `/api/v1/generate/add-vocals`             | `suno-add-vocals`                                   | ✅       | ✅ done |
+| Generate Lyrics                                 | `/api/v1/lyrics`                          | `generate-lyrics`, `ai-lyrics-assistant`            | ✅       | ✅ done |
+| Get Timestamped Lyrics                          | `/api/v1/generate/get-timestamped-lyrics` | `get-timestamped-lyrics`                            | ✅       | ✅ done |
+| **Get Lyrics Details**                          | `/api/v1/lyrics/details`                  | ❌                                                  | ❌       | **054** |
+| Convert to WAV                                  | `/api/v1/generate/convert-to-wav`         | `suno-convert-wav`                                  | ✅       | ✅ done |
+| **Get WAV Details**                             | `/api/v1/generate/wav/details`            | ❌                                                  | ❌       | **054** |
+| Vocal & Instrument Separation                   | `/api/v1/vocal-removal/generate`          | `suno-separate-vocals`                              | ✅       | ✅ done |
+| **Get Separation Details**                      | `/api/v1/vocal-removal/details`           | ❌                                                  | ❌       | **054** |
+| **Generate MIDI (Suno direct)** 🆕              | `/api/v1/generate/midi`                   | ❌ (есть Replicate в `transcribe-midi`)             | ❌       | **053** |
+| **Get MIDI Details**                            | `/api/v1/generate/midi/details`           | ❌                                                  | ❌       | **053** |
+| Create Music Video                              | `/api/v1/mp4/generate`                    | `suno-generate-video`                               | ✅       | ✅ done |
+| **Get Video Details**                           | `/api/v1/mp4/details`                     | ❌                                                  | ❌       | **054** |
+| Generate Music Cover                            | `/api/v1/image/generate`                  | `suno-generate-cover-image`, `generate-track-cover` | ✅       | ✅ done |
+| **Get Cover Details**                           | `/api/v1/image/details`                   | ❌                                                  | ❌       | **054** |
+| **Generate Persona** 🆕                         | `/api/v1/generate/persona`                | ❌                                                  | ❌       | **052** |
+| Suno Voice (validate/generate/regenerate/check) | `/api/v1/voice/*`                         | `suno-voice-*` (полный набор)                       | ✅       | ✅ done |
+| Get Remaining Credits                           | `/api/v1/generate/credit`                 | `suno-credits`                                      | ✅       | ✅ done |
+| **File Upload (base64/stream/url)** 🆕          | `/api/v1/files/*`                         | ❌ (multipart inline в `suno-upload-*`)             | ❌       | **052** |
+
+**Сводка:** 21 done / 7 в Sprint 052–054 (Mashup, Persona, File Upload, Sounds, MIDI, Boost, Details suite × 6). Полное закрытие Suno API → конец Sprint 054 (~конец сентября 2026).
+
+Подробные планы: [SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md) · [SPRINT-053-PLAN.md](SPRINTS/SPRINT-053-PLAN.md) · [SPRINT-054-PLAN.md](SPRINTS/SPRINT-054-PLAN.md).
 
 ## 🔍 Архитектурный аудит (2026-06-28)
 
@@ -604,6 +645,6 @@ mindmap
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-07-04 (аудит прогресса — [отчёт](docs/audit/PROGRESS-AUDIT-2026-07-04.md); хотфиксы Lovable 2026-07-04 задокументированы; блокеры актуализированы; план Sprint 050–052 — [SPRINTS/SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md))</sub>
+<sub>Последнее обновление: 2026-07-04 (аудит прогресса — [отчёт](docs/audit/PROGRESS-AUDIT-2026-07-04.md); хотфиксы Lovable 2026-07-04 задокументированы; блокеры актуализированы; план Sprint 050–052 — [SPRINTS/SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md); **Sprint 052/053/054 added 2026-07-04 — Suno API gap closure**: [052-PLAN](SPRINTS/SPRINT-052-PLAN.md) [053-PLAN](SPRINTS/SPRINT-053-PLAN.md) [054-PLAN](SPRINTS/SPRINT-054-PLAN.md))</sub>
 
 </div>

@@ -5,6 +5,7 @@ import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { sanitizeFilename } from "../_shared/sanitize-filename.ts";
 import { TrackNameBuilder } from "../_shared/track-name-builder.ts";
+import { forwardBase64ToSuno } from "../_shared/suno-file-uploader.ts";
 
 const logger = createLogger("suno-upload-extend");
 
@@ -164,50 +165,45 @@ serve(async (req) => {
       }
     }
 
-    // Determine audio URL - either provided from bot or upload from file
+    // Resolve uploadUrl for Suno — either pre-uploaded by bot, or freshly
+    // forwarded to Suno's own storage via the shared suno-file-upload proxy
+    // (Sprint 052-A5: consolidated inline-upload logic into _shared helper).
     let publicUrl: string;
 
     if (providedAudioUrl) {
-      // Use pre-uploaded audio URL from telegram bot
+      // Bot already uploaded to its own storage and passes us the URL.
       publicUrl = providedAudioUrl;
       logger.info("Using provided audio URL", { publicUrl });
     } else if (audioFile) {
-      // Upload audio from file data
-      // Sanitize filename to remove special characters
+      // Forward to Suno's file-upload API and use the Suno-hosted file_url
+      // as the uploadUrl for /api/v1/generate/upload-extend.
       const originalName = audioFile.name || "audio.mp3";
       const sanitizedName = sanitizeFilename(originalName);
-      const fileName = `${userId}/uploads/${Date.now()}-${sanitizedName}`;
 
-      logger.info("Sanitized filename", { original: originalName, sanitized: sanitizedName });
-
-      // Decode base64 if needed
-      let audioBuffer: Uint8Array;
-      if (audioFile.data.startsWith("data:")) {
-        const base64Data = audioFile.data.split(",")[1];
-        audioBuffer = Uint8Array.from(atob(base64Data), (c) => c.charCodeAt(0));
-      } else {
-        audioBuffer = new Uint8Array(audioFile.data);
-      }
-
-      const { error: uploadError } = await supabase.storage.from("project-assets").upload(fileName, audioBuffer, {
-        contentType: audioFile.type || "audio/mpeg",
-        upsert: false,
+      logger.info("Forwarding base64 audio to Suno", {
+        original: originalName,
+        sanitized: sanitizedName,
+        sizeApprox: audioFile.data.length,
       });
 
-      if (uploadError) {
-        logger.error("Upload error", uploadError);
-        return new Response(JSON.stringify({ error: "Failed to upload audio" }), {
+      try {
+        const uploaded = await forwardBase64ToSuno({
+          supabaseUrl,
+          serviceRoleKey: Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+          logger,
+          filename: sanitizedName,
+          fileBase64: audioFile.data,
+          contentType: audioFile.type || "audio/mpeg",
+        });
+        publicUrl = uploaded.file_url;
+        logger.info("Audio forwarded to Suno", { file_url: publicUrl });
+      } catch (uploadErr) {
+        logger.error("Suno file upload failed", uploadErr);
+        return new Response(JSON.stringify({ error: (uploadErr as Error).message || "Failed to upload audio" }), {
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-
-      const {
-        data: { publicUrl: uploadedUrl },
-      } = supabase.storage.from("project-assets").getPublicUrl(fileName);
-
-      publicUrl = uploadedUrl;
-      logger.info("Audio uploaded", { publicUrl });
     } else {
       return new Response(JSON.stringify({ error: "Audio file or URL is required" }), {
         status: 400,
