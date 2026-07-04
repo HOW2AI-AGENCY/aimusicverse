@@ -131,7 +131,10 @@ export function useToggleTrackLike() {
         if (error) throw error;
       } else {
         // Like: insert a new like
-        const { error } = await supabase.from("track_likes").insert({ track_id: trackId, user_id: user.id });
+        // track_version_id is resolved server-side by BEFORE INSERT trigger.
+        const { error } = await supabase
+          .from("track_likes")
+          .insert({ track_id: trackId, user_id: user.id } as unknown as { track_id: string; user_id: string; track_version_id: string });
         if (error) throw error;
       }
 
