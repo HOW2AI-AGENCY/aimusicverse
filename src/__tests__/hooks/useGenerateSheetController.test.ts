@@ -20,6 +20,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 
+// Capture-mock references — `vi.hoisted()` runs before `vi.mock(...)` so the
+// composer mock can return the *same* `vi.fn()` instance every renderHook,
+// and the test can assert on `formSaveDraftSpy.mock.calls`.
+const { formSaveDraftSpy, formClearDraftSpy } = vi.hoisted(() => ({
+  formSaveDraftSpy: vi.fn(),
+  formClearDraftSpy: vi.fn(),
+}));
+
 // vi.mock calls are hoisted ABOVE all imports, so the real `useGenerateForm`
 // module never executes in this test file.
 vi.mock("@/hooks/useProjects", () => ({ useProjects: () => ({ projects: [] }) }));
@@ -40,6 +48,14 @@ vi.mock("@/contexts/TelegramContext", () => ({
     enableClosingConfirmation: vi.fn(),
     disableClosingConfirmation: vi.fn(),
   }),
+}));
+vi.mock("@/lib/notifications", () => ({
+  notify: {
+    success: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+    warning: vi.fn(),
+  },
 }));
 vi.mock("@/hooks/generation/useGenerateForm", () => ({
   useGenerateForm: () => ({
@@ -106,8 +122,8 @@ vi.mock("@/hooks/generation/useGenerateForm", () => ({
     handleTrackSelect: vi.fn(),
     handleArtistSelect: vi.fn(),
     resetForm: vi.fn(),
-    clearDraft: vi.fn(),
-    saveDraft: vi.fn(),
+    clearDraft: formClearDraftSpy,
+    saveDraft: formSaveDraftSpy,
     currentTaskId: null,
     // Loading.
     loading: false,
@@ -120,10 +136,17 @@ vi.mock("@/hooks/generation/useGenerateForm", () => ({
 }));
 
 import { useGenerateSheetController } from "@/hooks/generation/useGenerateSheetController";
+import { notify } from "@/lib/notifications";
 
 describe("useGenerateSheetController", () => {
   beforeEach(() => {
     localStorage.clear();
+    formSaveDraftSpy.mockClear();
+    formClearDraftSpy.mockClear();
+    vi.mocked(notify.success).mockClear();
+    vi.mocked(notify.info).mockClear();
+    vi.mocked(notify.error).mockClear();
+    vi.mocked(notify.warning).mockClear();
   });
 
   afterEach(() => {
@@ -193,5 +216,47 @@ describe("useGenerateSheetController", () => {
     });
 
     expect(result.current.dialogs.styles.open).toBe(true);
+  });
+
+  // ─── Draft handlers (Sprint 056 Task 4 reviewer findings #3) ────────
+
+  it("handleSaveDraft forwards the form snapshot to form.saveDraft and notifies", () => {
+    const { result } = renderHook(() => useGenerateSheetController({ open: true, onOpenChange: vi.fn() }));
+
+    act(() => {
+      result.current.actions.handleSaveDraft();
+    });
+
+    // The composer mock returns the empty-form slice — verify the controller
+    // forwards the persisted-schema fields exactly (no more, no less).
+    expect(formSaveDraftSpy).toHaveBeenCalledTimes(1);
+    expect(formSaveDraftSpy).toHaveBeenCalledWith({
+      mode: "simple",
+      description: "",
+      title: "",
+      lyrics: "",
+      style: "",
+      hasVocals: true,
+      model: "V4_5ALL",
+      negativeTags: "",
+      vocalGender: "",
+    });
+    expect(notify.success).toHaveBeenCalledTimes(1);
+    expect(notify.success).toHaveBeenCalledWith("Черновик сохранён");
+  });
+
+  it("handleClearDraft invokes clearDraft + resetForm and notifies", () => {
+    const { result } = renderHook(() => useGenerateSheetController({ open: true, onOpenChange: vi.fn() }));
+
+    act(() => {
+      result.current.actions.handleClearDraft();
+    });
+
+    // Order: composer.clearDraft runs first, then composer.resetForm
+    // (matches the controller's implementation).
+    expect(formClearDraftSpy).toHaveBeenCalledTimes(1);
+    expect(result.current.form.resetForm).toHaveBeenCalledTimes(1);
+    expect(notify.success).toHaveBeenCalledTimes(1);
+    expect(notify.success).toHaveBeenCalledWith("Черновик очищен");
   });
 });

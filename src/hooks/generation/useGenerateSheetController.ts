@@ -151,7 +151,34 @@ export function useGenerateSheetController({
   }, [advancedOpen]);
 
   // Derived: form has unsaved data → Telegram closing confirmation on.
-  const hasUnsavedData = Boolean(form.style.trim() || form.lyrics.trim() || form.title.trim());
+  //
+  // Coincides with the persistence contract in `useGenerateDraft` (mode,
+  // description, title, lyrics, style, hasVocals, model, negativeTags,
+  // vocalGender) AND every other field the user could meaningfully lose
+  // (selection state, attached audio, custom voice). Falling short here
+  // would let Telegram close the sheet without a prompt — silent data loss.
+  //
+  // Notes on field defaults (from `useGenerateFormStateInternal`):
+  //   - hasVocals defaults to `true` (vocal track on). Only counts as
+  //     "unsaved" when the user has explicitly toggled it off.
+  //   - vocalGender defaults to `""` (unset). Truthy check is sufficient.
+  //   - audioFile defaults to `null`. `!== null` check is sufficient.
+  //   - selectedArtistId / selectedTrackId default to `undefined`. Truthy
+  //     check picks up any user selection.
+  //   - customVoiceId defaults to `null`. `!== null` check is sufficient.
+  const hasUnsavedData = Boolean(
+    form.style?.trim() ||
+    form.description?.trim() ||
+    form.lyrics?.trim() ||
+    form.title?.trim() ||
+    form.hasVocals === false ||
+    form.negativeTags?.trim() ||
+    form.vocalGender ||
+    form.audioFile !== null ||
+    form.selectedArtistId ||
+    form.selectedTrackId ||
+    form.customVoiceId !== null,
+  );
 
   useEffect(() => {
     if (open && hasUnsavedData) {
