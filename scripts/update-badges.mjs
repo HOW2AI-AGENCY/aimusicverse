@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Regenerates the version badge block in README.md / README_RU.md
+ * Regenerates the version badge block in README.md
  * from package.json dependency versions and the latest git tag.
  *
  * Badge block is delimited by:
@@ -16,20 +16,20 @@ const deps = { ...pkg.dependencies, ...pkg.devDependencies };
 
 const clean = (v) => (v ? String(v).replace(/^[\^~>=<\s]+/, "") : "unknown");
 
-let latestTag = "v0.0.0";
+let latestTag = null;
 try {
   latestTag = execSync("git describe --tags --abbrev=0", { stdio: ["ignore", "pipe", "ignore"] })
     .toString()
-    .trim() || latestTag;
+    .trim() || null;
 } catch {
-  // no tags yet — keep default
+  // no tags yet — omit the Release badge below rather than show a fake v0.0.0
 }
 
 const shield = (label, message, color) =>
   `https://img.shields.io/badge/${encodeURIComponent(label)}-${encodeURIComponent(message)}-${color}?style=flat-square`;
 
 const rows = [
-  ["Release", latestTag, "26A5E4"],
+  ...(latestTag ? [["Release", latestTag, "26A5E4"]] : []),
   ["React", clean(deps.react), "61DAFB"],
   ["TypeScript", clean(deps.typescript), "3178C6"],
   ["Vite", clean(deps.vite), "646CFF"],
@@ -65,8 +65,5 @@ const updateFile = (path) => {
   return true;
 };
 
-let changed = false;
-for (const f of ["README.md", "README_RU.md"]) {
-  changed = updateFile(f) || changed;
-}
+updateFile("README.md");
 process.exit(0);

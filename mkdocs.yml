@@ -74,7 +74,6 @@ markdown_extensions:
 
 nav:
   - Home: README.md
-  - Русский: README_RU.md
   - Documentation Index: DOCUMENTATION_INDEX.md
   - Architecture: ARCHITECTURE_HUB.md
   - Repository Structure: REPOSITORY_STRUCTURE.md
