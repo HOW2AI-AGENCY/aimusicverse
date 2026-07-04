@@ -7,6 +7,7 @@ import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 import { TrackDetailSheet } from "@/components/TrackDetailSheet";
 import { TrackDetailDialog } from "@/components/TrackDetailDialog";
 import { AudioCoverDialog } from "@/components/AudioCoverDialog";
+import { MashupDialog } from "@/components/MashupDialog";
 import { RenameTrackDialog } from "./RenameTrackDialog";
 import { CreateArtistDialog } from "@/components/CreateArtistDialog";
 import { AddVocalsDialog } from "@/components/AddVocalsDialog";
@@ -35,6 +36,7 @@ interface DialogStates {
   createArtist: boolean;
   addVocals: boolean;
   addInstrumental: boolean;
+  mashup: boolean;
 }
 
 interface TrackDialogsPortalProps {
@@ -113,6 +115,14 @@ export function TrackDialogsPortal({
           lyrics: track.lyrics,
           isInstrumental: track.is_instrumental ?? false,
         }}
+      />
+
+      {/* Mashup — second source track is picked in the dialog itself. */}
+      <MashupDialog
+        open={dialogs.mashup}
+        onOpenChange={(open) => !open && onCloseDialog("mashup")}
+        initialTrackId={track.id}
+        projectId={track.project_id ?? undefined}
       />
 
       {/* Organize dialogs */}

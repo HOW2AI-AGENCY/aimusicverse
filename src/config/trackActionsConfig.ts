@@ -71,6 +71,7 @@ export type ActionId =
   | "create_artist_persona"
   | "add_vocals"
   | "add_instrumental"
+  | "mashup"
   // Delete
   | "delete"
   | "delete_version"
@@ -389,6 +390,15 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     icon: Music,
     category: "create",
     priority: 47,
+    requiresCompleted: true,
+    requiresAudio: true,
+  },
+  mashup: {
+    id: "mashup",
+    label: "Mashup с другим треком",
+    icon: Disc,
+    category: "create",
+    priority: 48,
     requiresCompleted: true,
     requiresAudio: true,
   },

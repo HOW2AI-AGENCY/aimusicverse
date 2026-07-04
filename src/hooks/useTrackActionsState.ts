@@ -31,6 +31,7 @@ interface DialogStates {
   createArtist: boolean;
   addVocals: boolean;
   addInstrumental: boolean;
+  mashup: boolean;
 }
 
 export function useTrackActionsState({ track, onDelete, onDownload, onClose }: UseTrackActionsStateProps) {
@@ -53,6 +54,7 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose }: U
     createArtist: false,
     addVocals: false,
     addInstrumental: false,
+    mashup: false,
   });
 
   // Hooks - lazy load video status only when needed
@@ -265,6 +267,14 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose }: U
           break;
         case "add_instrumental":
           openDialog("addInstrumental");
+          break;
+        case "mashup":
+          // Mashup needs at least one ready source track with audio_url.
+          if (!track.audio_url) {
+            toast.error("Mashup недоступен — у трека нет готового аудио");
+            return;
+          }
+          openDialog("mashup");
           break;
 
         // Quality actions

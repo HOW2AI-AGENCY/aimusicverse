@@ -24,13 +24,21 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
   const showExtend = isActionAvailable("extend", track, state);
   const showRemix = isActionAvailable("remix", track, state);
   const showAddVocals = isActionAvailable("add_vocals", track, state);
+  const showMashup = isActionAvailable("mashup", track, state);
   // Video generation available for all tracks
   const showVideo = true;
   // Generate similar always available for completed tracks
   const showGenerateSimilar = track.status === "completed" && track.style;
 
   const hasAnyAction =
-    showGenerateCover || showCover || showExtend || showRemix || showAddVocals || showVideo || showGenerateSimilar;
+    showGenerateCover ||
+    showCover ||
+    showExtend ||
+    showRemix ||
+    showAddVocals ||
+    showMashup ||
+    showVideo ||
+    showGenerateSimilar;
   if (!hasAnyAction) return null;
 
   if (variant === "dropdown") {
@@ -81,6 +89,12 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
             <DropdownMenuItem onClick={() => onAction("add_vocals")} disabled={isProcessing}>
               <Mic2 className="w-4 h-4 mr-2" />
               Добавить вокал
+            </DropdownMenuItem>
+          )}
+          {showMashup && (
+            <DropdownMenuItem onClick={() => onAction("mashup")} disabled={isProcessing}>
+              <Disc className="w-4 h-4 mr-2" />
+              Mashup с другим треком
             </DropdownMenuItem>
           )}
         </DropdownMenuSubContent>
@@ -135,6 +149,15 @@ export function CreateActions({ track, state, onAction, variant, isProcessing }:
           label="Вокал"
           color="cyan"
           onClick={() => onAction("add_vocals")}
+          disabled={isProcessing}
+        />
+      )}
+      {showMashup && (
+        <IconGridButton
+          icon={Disc}
+          label="Mashup"
+          color="pink"
+          onClick={() => onAction("mashup")}
           disabled={isProcessing}
         />
       )}
