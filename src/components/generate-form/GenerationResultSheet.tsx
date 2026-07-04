@@ -31,6 +31,7 @@ import { useTrackVersionsList } from "@/hooks/generation/useTrackVersionsList";
 import { useSunoPersona } from "@/hooks/studio/useSunoPersona";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
+import { MASHUP_STRINGS } from "@/lib/locale/mashupStrings";
 
 interface TrackVersion {
   id: string;
@@ -88,6 +89,8 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
   // Sprint 052-B5 — kick off Persona training. Track must have at least one
   // ready version (selectedVersionData has an audioUrl below — we check
   // against that when the user actually clicks "Train Persona").
+  const personaStrings = MASHUP_STRINGS.persona;
+
   const handleTrainPersona = useCallback(async () => {
     if (!trackId) return;
     const trimmed = personaName.trim();
@@ -105,21 +108,21 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
         name: trimmed,
         description: personaDescription.trim() || undefined,
       });
-      logger.info("Persona training started", { personaId: result.personaId, status: result.status });
-      toast.success("Persona обучается 🎙️", {
+      logger.info(personaStrings.logEvent, { personaId: result.personaId, status: result.status });
+      toast.success(personaStrings.successToastPending, {
         description:
           result.status === "pending"
             ? "Suno готовит персону — обычно 1-2 минуты. Мы сообщим, когда она будет готова."
-            : "Persona готова к использованию.",
+            : personaStrings.successToastReady,
       });
       setPersonaDialogOpen(false);
       setPersonaName("");
       setPersonaDescription("");
     } catch (err) {
-      logger.error("Persona training failed", { err });
+      logger.error(personaStrings.logEventFailed, { err });
       toast.error("Не удалось запустить обучение персоны");
     }
-  }, [trackId, personaName, personaDescription, personaMutation]);
+  }, [trackId, personaName, personaDescription, personaMutation, personaStrings.logEventFailed]);
 
   // Handle version preview (play/pause)
   const handlePreview = useCallback(
@@ -455,30 +458,28 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Mic className="w-5 h-5 text-primary" />
-              Обучить Persona
+              {personaStrings.dialogTitle}
             </DialogTitle>
-            <DialogDescription>
-              Suno создаст переиспользуемую персону из этого трека — её можно будет выбирать при следующих генерациях.
-            </DialogDescription>
+            <DialogDescription>{personaStrings.dialogDescription}</DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div>
-              <Label className="text-sm">Имя персоны *</Label>
+              <Label className="text-sm">{personaStrings.nameLabel}</Label>
               <Input
                 value={personaName}
                 onChange={(e) => setPersonaName(e.target.value)}
-                placeholder="Например: мой вокал"
+                placeholder={personaStrings.namePlaceholder}
                 maxLength={80}
                 className="mt-1.5"
                 autoFocus
               />
             </div>
             <div>
-              <Label className="text-sm">Описание (необязательно)</Label>
+              <Label className="text-sm">{personaStrings.descriptionLabel}</Label>
               <Input
                 value={personaDescription}
                 onChange={(e) => setPersonaDescription(e.target.value)}
-                placeholder="Тёплый женский голос, поп-стиль"
+                placeholder={personaStrings.descriptionPlaceholder}
                 maxLength={500}
                 className="mt-1.5"
               />
@@ -486,16 +487,16 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setPersonaDialogOpen(false)} disabled={personaMutation.isPending}>
-              Отмена
+              {personaStrings.cancel}
             </Button>
             <Button onClick={handleTrainPersona} disabled={personaMutation.isPending || !personaName.trim()}>
               {personaMutation.isPending ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                  Запуск…
+                  {personaStrings.submitting}
                 </>
               ) : (
-                "Обучить"
+                personaStrings.submit
               )}
             </Button>
           </DialogFooter>

@@ -261,7 +261,7 @@ Sprint 052 влился в `main` с 8 ошибками `tsc` — Quality & Buil
 
 - 🟡 **Phase D-4 — ErrorBoundary home button:** требует `useNavigate()` hook (functional change, вне рамок design-audit). Передано в Phase E сборки.
 
-## 🚦 `052` Suno API: Mashup + Persona + File Upload (Q3 2026) — ЗАВЕРШЁН ✅ (8/10)
+## 🚦 `052` Suno API: Mashup + Persona + File Upload (Q3 2026) — ЗАВЕРШЁН ✅ (10/10)
 
 **Детальный план:** [SPRINTS/SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md). Commits `916cd72a` → `5895b5b3` → `a9d12426` → `37ca8264` → `18b1e80e` → `d0296177` → `998980bc` → `8a4bc8a4` → `b778bf98`.
 
@@ -273,14 +273,14 @@ Sprint 052 влился в `main` с 8 ошибками `tsc` — Quality & Buil
 - DB миграция `track_personas` (id, user_id, suno_persona_id, name, description, audio_url, image_url, status enum, task_id, timestamps) + `track_versions.persona_id` (FK) + RLS.
 - Рефакторинг `suno-upload-cover/extend` на общий `_shared/suno-file-uploader.ts` (`forwardBase64ToSuno`) — экономия ~80 строк дублирования.
 
-**Phase B — UI + Telegram + Docs (5/10 ✅):**
+**Phase B — UI + Telegram + Docs (10/10 ✅):**
 
 - ✅ Хуки `useSunoMashup`/`useSunoPersona`/`useSunoFileUpload` (TanStack Query mutations, `src/hooks/studio/`).
 - ✅ `MashupDialog` (`src/components/MashupDialog.tsx`) — мобильный/десктоп variants через `useIsMobile`; пикеры 2 треков из библиотеки (`useTracks({ statusFilter: ["completed"] })`); model select (V5/V4_5PLUS/V4_5/V4/V3_5); интеграция в track-actions (ActionId `mashup`, `DialogStates.mashup`).
 - ✅ Кнопка «Create Persona» в `GenerationResultSheet` (footer-grid 3 cols) + Dialog с name/description → `useSunoPersona`.
 - ✅ Telegram `/mashup` команда + deep-link `startapp=mashup_<id>` + keyboard button `mashup_<trackId>` callback.
 - ✅ E2E: `tests/e2e/suno-mashup.spec.ts` (deep-link smoke + dialog render).
-- ⏸ Storybook stories для MashupDialog и i18n strings (en/ru) — deferred в Sprint 052-C (cleanup).
+- ✅ **Sprint 052-C cleanup** (2026-07-04): pure-Dumb `MashupFormFields` декомпозиция ([src/components/mashup/MashupFormFields.tsx](src/components/mashup/MashupFormFields.tsx)), 5 Storybook stories ([src/stories/mashup/MashupFormFields.stories.tsx](src/stories/mashup/MashupFormFields.stories.tsx)), `MASHUP_STRINGS` typed-const ([src/lib/locale/mashupStrings.ts](src/lib/locale/mashupStrings.ts) — единый источник UX-копи), ретро-документация ([docs/sprints/SPRINT-052-RETRO.md](docs/sprints/SPRINT-052-RETRO.md)).
 
 **Документация:** `docs/SUNO_API.md` — раздел «История изменений → Sprint 052» + 3 новых curl-примера (mashup/persona/upload). Suno API gap-анализ актуализирован (3 категории закрыты: Mashup, Persona, File Upload).
 
@@ -551,22 +551,23 @@ mindmap
 
 ## 🗓 Дорожная карта спринтов (обновлено 2026-07-03)
 
-| Спринт  | Фокус                                                                                                                     | Статус                            | Срок |
-| ------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ---- |
-| **042** | Page Decomposition + Audio Pooling                                                                                        | ✅ ЗАВЕРШЁН                       | Июль |
-| **043** | Layer Pass #2 + A11y                                                                                                      | ✅ ЗАВЕРШЁН                       | Июль |
-| **044** | Type Safety Wave 2 (`any` 342 → 0, финально)                                                                              | ✅ ЗАВЕРШЁН                       | Июль |
-| **045** | UX/UI Deep Polish + Hygiene                                                                                               | ✅ ЗАВЕРШЁН                       | Авг  |
-| **046** | Desktop Layout Polish + 4K Awareness                                                                                      | ✅ ЗАВЕРШЁН                       | Июль |
-| **047** | Mobile Audit + Z-Index/Spacing/Scroll-Lock                                                                                | ✅ ЗАВЕРШЁН                       | Июль |
-| **048** | Creation-Flow Motion Pass + Mobile Perf Fixes                                                                             | ✅ ЗАВЕРШЁН                       | Июль |
-| **049** | Mobile UX: A/B версии, per-version лайки                                                                                  | ✅ ЗАВЕРШЁН                       | Июль |
-| **050** | Main Green + Mobile Audit F1–F12 ([план](SPRINTS/SPRINT-050-PLAN.md), [закрытие](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md)) | 🔄 В работе (A0 ✅, A2 🔄)        | Июль |
-| **051** | Test Debt + God Files (tests-first декомпозиция)                                                                          | 📋 Запланирован                   | Июль |
-| **052** | Suno API: Mashup + Persona + File Upload ([план](SPRINTS/SPRINT-052-PLAN.md))                                             | ✅ ЗАВЕРШЁН (8/10, хвост в 052-C) | Июль |
-| **053** | Suno API: Sounds + MIDI Direct + Boost Style ([план](SPRINTS/SPRINT-053-PLAN.md))                                         | 📋 Запланирован                   | Авг  |
-| **054** | Suno API: Details Suite + Per-Task Introspection ([план](SPRINTS/SPRINT-054-PLAN.md))                                     | 📋 Запланирован                   | Сен  |
-| —       | Eager-load bundle fix (1.19 МБ → 508 КБ gzip, вне спринт-нумерации, #568)                                                 | ✅ ЗАВЕРШЁН                       | Июль |
+| Спринт    | Фокус                                                                                                                     | Статус                     | Срок |
+| --------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ---- |
+| **042**   | Page Decomposition + Audio Pooling                                                                                        | ✅ ЗАВЕРШЁН                | Июль |
+| **043**   | Layer Pass #2 + A11y                                                                                                      | ✅ ЗАВЕРШЁН                | Июль |
+| **044**   | Type Safety Wave 2 (`any` 342 → 0, финально)                                                                              | ✅ ЗАВЕРШЁН                | Июль |
+| **045**   | UX/UI Deep Polish + Hygiene                                                                                               | ✅ ЗАВЕРШЁН                | Авг  |
+| **046**   | Desktop Layout Polish + 4K Awareness                                                                                      | ✅ ЗАВЕРШЁН                | Июль |
+| **047**   | Mobile Audit + Z-Index/Spacing/Scroll-Lock                                                                                | ✅ ЗАВЕРШЁН                | Июль |
+| **048**   | Creation-Flow Motion Pass + Mobile Perf Fixes                                                                             | ✅ ЗАВЕРШЁН                | Июль |
+| **049**   | Mobile UX: A/B версии, per-version лайки                                                                                  | ✅ ЗАВЕРШЁН                | Июль |
+| **050**   | Main Green + Mobile Audit F1–F12 ([план](SPRINTS/SPRINT-050-PLAN.md), [закрытие](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md)) | 🔄 В работе (A0 ✅, A2 🔄) | Июль |
+| **051**   | Test Debt + God Files (tests-first декомпозиция)                                                                          | 📋 Запланирован            | Июль |
+| **052**   | Suno API: Mashup + Persona + File Upload ([план](SPRINTS/SPRINT-052-PLAN.md))                                             | ✅ ЗАВЕРШЁН (10/10)        | Июль |
+| **052-C** | Mashup cleanup: декомпозиция + i18n + stories ([retro](docs/sprints/SPRINT-052-RETRO.md))                                 | ✅ ЗАВЕРШЁН                | Июль |
+| **053**   | Suno API: Sounds + MIDI Direct + Boost Style ([план](SPRINTS/SPRINT-053-PLAN.md))                                         | 📋 Запланирован            | Авг  |
+| **054**   | Suno API: Details Suite + Per-Task Introspection ([план](SPRINTS/SPRINT-054-PLAN.md))                                     | 📋 Запланирован            | Сен  |
+| —         | Eager-load bundle fix (1.19 МБ → 508 КБ gzip, вне спринт-нумерации, #568)                                                 | ✅ ЗАВЕРШЁН                | Июль |
 
 **Открытые долги / риски (обновлено 2026-07-03, #567/#568):**
 

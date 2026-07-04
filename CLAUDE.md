@@ -505,7 +505,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: 052 (Suno Mashup/Persona/Upload) — завершён 8/10; Sprint 050 (Main Green + Mobile Audit F1–F12) — в работе, A0 (P0-хотфикс typecheck, PR #576/#577) закрыта. Операционный план закрытия спринтов — [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md). См. сноску о нумерации в [PROJECT_STATUS.md](PROJECT_STATUS.md)
+- Sprint: **052 (10/10) + 052-C cleanup ✅** (Suno Mashup/Persona/Upload + pure-Dumb `MashupFormFields` + 5 Storybook stories + `MASHUP_STRINGS`, retro [docs/sprints/SPRINT-052-RETRO.md](docs/sprints/SPRINT-052-RETRO.md)); Sprint 050 (Main Green + Mobile Audit F1–F12) — в работе, A0 (P0-хотфикс typecheck, PR #576/#577) закрыта. Операционный план закрытия — [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md); план на 2-4 недели — [SPRINTS/NEXT-SPRINTS-PLAN.md](SPRINTS/NEXT-SPRINTS-PLAN.md). См. сноску о нумерации в [PROJECT_STATUS.md](PROJECT_STATUS.md)
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
 - Components: 1136, Hooks: 419, Stores: 27, API files: 24, Services: 56 (verified 2026-07-04)
 - Bundle Size: 2.11 MB gzip total across all chunks (`size-limit`'s "Total Bundle" check sums every chunk including admin/studio/lazy pages, not just what a given page loads — the previously-cited "918 KB" figure was stale). Real eager JS on cold page load (what actually competes for bandwidth on first paint): ~508 KB gzip after the 2026-07-03 homepage/bundle fixes (down from ~1.19 MB) — see `docs/BUNDLE_ANALYSIS.md`
@@ -610,7 +610,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-07-04, вечер (P0-хотфикс влит в main, Sprint 050 в работе, план закрытия спринтов — SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md)
+**Last Updated:** 2026-07-04, поздний вечер (Sprint 052-C cleanup закрыт — pure-Dumb `MashupFormFields` + `MASHUP_STRINGS` + 5 Storybook stories; P0-хотфикс typecheck влит в main, Sprint 050 в работе; план на 2-4 недели — SPRINTS/NEXT-SPRINTS-PLAN.md)
 
 ## graphify
 

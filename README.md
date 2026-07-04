@@ -54,7 +54,7 @@
 | 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
 | 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-386_passing-10B981?style=flat-square&logo=vitest)           |
 | 🔒 Безопасность                |                 ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)                  |
-| 📊 Спринтов завершено          |                                                      **42**                                                      |
+| 📊 Спринтов завершено          |                                            **44** (вкл. 052 + 052-C)                                             |
 | 🏗 Компонентов                  |                                           **993** (+6 project-detail)                                            |
 | 🔧 Хуков                       |                                                     **347**                                                      |
 | 🚀 Стадия                      |                                        **Pre-Seed / Active Development**                                         |
@@ -63,8 +63,8 @@
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 050 🟡 В РАБОТЕ (Main Green + Mobile Audit F1–F12). A0 ✅ — P0-хотфикс typecheck влит в main (PR #576/#577: `MashupDialog` + Suno-типы, +4 регрессионных теста, Q&B зелёный); A2 🔄 — lychee-ссылки voice-cloning починены; главный блокер — force-push в `main` мимо PR (050-A4, branch protection). План закрытия спринтов: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
-- **Закрыто (Sprint 052 ✅, 2026-07-04):** Suno API gap closure — Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + «Create Persona»), File Upload proxy; Telegram `/mashup` + deep-link. 24/28 категорий Suno API реализованы; остаток — Sprint 053/054.
+- **Текущий фокус**: Sprint 050 🟡 В РАБОТЕ (Main Green + Mobile Audit F1–F12). A0 ✅ — P0-хотфикс typecheck влит в main (PR #576/#577: `MashupDialog` + Suno-типы, +4 регрессионных теста, Q&B зелёный); A2 🔄 — lychee-ссылки voice-cloning починены; главный блокер — force-push в `main` мимо PR (050-A4, branch protection). **Sprint 052-C cleanup ✅ ЗАКРЫТ 2026-07-04** (см. ниже). План закрытия спринтов: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
+- **Закрыто (Sprint 052 ✅ + 052-C cleanup ✅, 2026-07-04):** Suno API gap closure — Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + «Create Persona»), File Upload proxy; Telegram `/mashup` + deep-link. 052-C cleanup добавил: pure-Dumb `MashupFormFields` декомпозицию для Storybook stories (5 stories в `src/stories/mashup/`), `MASHUP_STRINGS` typed-const (единый источник UX-копи для Mashup/Persona flows, RU-only — i18n в Sprint 055), ретро-документация ([docs/sprints/SPRINT-052-RETRO.md](./docs/sprints/SPRINT-052-RETRO.md)). 24/28 категорий Suno API реализованы; остаток — Sprint 053/054.
 - **Закрыто (2026-07-03, #568/#567):** Eager JS на холодной загрузке главной сокращён с ~1.19 МБ до ~508 КБ gzip (лишние `modulePreload` тяжёлых admin/studio/charts/dnd/forms-чанков и barrel-импорт устранены — см. [docs/BUNDLE_ANALYSIS.md](./docs/BUNDLE_ANALYSIS.md)); все оставшиеся 58 `no-explicit-any` ошибок ESLint устранены (репозиторий на 0 использований `any`, было 342), попутно исправлены 2 бага, скрытые за `any`-кастами.
 - **Закрыто (2026-07-03, #566/#562/#559):** Редизайн карточек треков на мобильной главной, восстановлена связность секций главной страницы (homepage reconnect), scroll-reveal и микро-взаимодействия на мобильной главной.
 - **Закрыто (Sprint 049 ✅):** Mobile UX по багрепорту — залипание скролла на главной (guard `usePullToRefresh` читал `scrollTop` не с того элемента и глушил нативный скролл), исчезающие жанровые секции, переключение A/B версий теперь обновляет карточку целиком (обложка/теги/время/текст из `track_versions.metadata`), лайки переведены на per-version схему (`track_likes.track_version_id`, миграция ждёт применения на прод БД), полноэкранный плеер: починен «залипший» свайп страниц (`dragConstraints`), фрагментированные теги Suno больше не протекают в лирику, автоскролл с пилюлей «К текущей строке», теги-чипы на «О треке». См. [CHANGELOG.md](./CHANGELOG.md#unreleased) и [PROJECT_STATUS.md](./PROJECT_STATUS.md).
@@ -95,6 +95,7 @@ gantt
     Sprint 047: Creation-Flow Motion   :done, 047, 2026-07-03, 2026-07-03
     Sprint 049: Mobile UX fixes        :done, 049, 2026-07-03, 2026-07-03
     Sprint 052: Suno Mashup+Persona    :done, 052, 2026-07-04, 2026-07-04
+    Sprint 052-C: Cleanup              :done, 052c, 2026-07-04, 2026-07-04
     section Запланировано ⚪
     Sprint 040: Type Safety + God-files :040, 2026-07-01, 2026-07-12
     Sprint 040b: Тесты + Audio Export   :040b, 2026-07-15, 2026-08-01
@@ -117,6 +118,7 @@ gantt
 | **044** | **Type Safety Wave 2**                           |   ✅   |   7/7    |
 | **047** | **Creation-Flow Motion + Mobile Perf Fixes**     |   ✅   |   2/2    |
 | **049** | **Mobile UX: A/B версии, лайки, плеер, главная** |   ✅   |   4/4    |
+| **052** | **Suno Mashup + Persona + File Upload**          |   ✅   |  10/10   |
 | **045** | **UX/UI Deep Polish + Hygiene**                  |   🟡   |   1/4    |
 |   040   | Type Safety + God-files                          |   ⚪   |    0%    |
 |  040b   | Тесты + Audio Export                             |   ⚪   |    0%    |
@@ -234,6 +236,6 @@ aimusicverse/
 
 [📚 Документация](./DOCUMENTATION_INDEX.md) · [🗺 Roadmap](./ROADMAP.md) · [📊 Статус](./PROJECT_STATUS.md) · [📝 Changelog](./CHANGELOG.md) · [🤝 Contributing](./CONTRIBUTING.md)
 
-<sub>Обновлено: 03.07.2026 · HOW2AI Agency © 2025-2026</sub>
+<sub>Обновлено: 04.07.2026 (Sprint 052-C cleanup закрыт) · HOW2AI Agency © 2025-2026</sub>
 
 </div>

@@ -71,6 +71,27 @@
 - **Storybook stories** для `MashupDialog` (states: empty / loading / error / success).
 - **i18n strings** (en/ru) для mashup/persona flows — добавлю в отдельном cleanup-спринте.
 
+### 🧹 Sprint 052-C cleanup (2026-07-04)
+
+> Завершение хвоста Sprint 052. План: [docs/sprints/SPRINT-052-RETRO.md](docs/sprints/SPRINT-052-RETRO.md).
+
+#### Added
+
+- **`MashupFormFields`** ([src/components/mashup/MashupFormFields.tsx](src/components/mashup/MashupFormFields.tsx)) — pure-Dumb под-компонент формы mashup'а, вынесенный из `MashupDialog`. Все значения через props, без React Query хуков. Используется в `MashupDialog` (`src/components/MashupDialog.tsx`).
+- **Storybook stories для `MashupFormFields`** ([src/stories/mashup/MashupFormFields.stories.tsx](src/stories/mashup/MashupFormFields.stories.tsx)) — 5 stories: Empty / FilledA / Instrumental / Loading / Invalid. Не требуют мока TanStack Query (работают в текущей инфраструктуре SB 8.1).
+- **`MASHUP_STRINGS`** ([src/lib/locale/mashupStrings.ts](src/lib/locale/mashupStrings.ts)) — единый источник UX-копи для MashupDialog + PersonaDialog + Telegram `/mashup`/`/persona` команд. Текущая модель: только RU (i18n-система отсутствует в проекте, см. PROJECT_STATUS); EN добавляется в Sprint 055 при вводе `react-i18next`.
+- **Sprint 052 retro** ([docs/sprints/SPRINT-052-RETRO.md](docs/sprints/SPRINT-052-RETRO.md)) — разбор «почему 052 влился без зелёного typecheck»: корневые причины (MashupDialog data→tracks баг + interface→type для invoke), что сработало / не сработало, action items для Sprint 050-A4/051/053+.
+
+#### Changed
+
+- **`MashupDialog`** ([src/components/MashupDialog.tsx](src/components/MashupDialog.tsx)) — упрощён: вся inline-форма вынесена в `MashupFormFields`; user-facing строки и toast/validation messages извлечены в `MASHUP_STRINGS`.
+- **`GenerationResultSheet`** ([src/components/generate-form/GenerationResultSheet.tsx](src/components/generate-form/GenerationResultSheet.tsx)) — PersonaDialog (inline-блок `Train Persona`) переведён на `MASHUP_STRINGS.persona`. Тексты заголовка/label/placeholder/кнопок/логов/тостов извлечены.
+
+#### Notes
+
+- Storybook stories для всего `MashupDialog` (со всеми React Query хуками) **требуют инфраструктурной настройки** (webpack alias для моков или `@storybook/test ≥ 8.2` с `parameters.mocks`). Это вне scope 052-C — отложено в Sprint 055 вместе с i18n.
+- `MASHUP_STRINGS` — typed const, переход на `react-i18next` сводится к `i18n.t('form.trackALabel')` после добавления EN.
+
 ### 🎼 Editorial lyrics editor + tag picker for advanced generation (2026-07-04)
 
 > Sprint 052-A5. Landed in commit `18b1e80e` as part of the broader Suno-file-upload refactor.

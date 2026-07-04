@@ -10,4 +10,5 @@
   "MD046": { "style": "fenced" },
   "MD007": { "indent": 2 },
   "MD025": { "front_matter_title": "" },
+  "MD060": false,
 }
