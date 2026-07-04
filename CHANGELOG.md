@@ -24,6 +24,24 @@
 
 ## [Unreleased]
 
+### 🗄️ Sprint 050-A3 — сверка миграций + фиксы накатки с нуля (2026-07-04, ночь)
+
+> Реальная накатка likes-цепочки на локальный PostgreSQL 16, каждая миграция в своей транзакции (как supabase-раннер). Отчёт: [docs/audit/MIGRATIONS-RECONCILIATION-2026-07-04.md](docs/audit/MIGRATIONS-RECONCILIATION-2026-07-04.md).
+
+#### Fixed
+
+- **`20260703130000_homepage_genre_index.sql`** — `CREATE INDEX CONCURRENTLY` внутри транзакции ломал накатку с нуля (воспроизведено: `cannot run inside a transaction block`); заменён на обычный `CREATE INDEX IF NOT EXISTS` (no-op там, где индекс уже создан копией из `20260704014859`).
+- **Дубль версии миграции** — `20260708000000_sound_effects.sql` (Sprint 053) переименована в `20260708000001_sound_effects.sql`: два файла с одинаковым префиксом версии ломают `schema_migrations` (duplicate key).
+- **Опечатка `timestamstz`** в `sound_effects.updated_at` — миграция Sprint 053 падала бы и на проде (`type "timestamstz" does not exist`).
+
+#### Added
+
+- **`20260709000000_restore_profile_like_stats.sql`** — восстанавливает поддержку `profiles.stats_likes_received`, молча потерянную хотфиксом `20260704015457`: `ADD COLUMN IF NOT EXISTS` (закрывает дрейф прод-схемы), backfill из живых лайков, триггер `update_track_likes_count()` снова обновляет счётчик профиля. Проверено на срезе, включая сценарий дрейфа.
+
+#### Verified
+
+- Перекрытие `20260703120000` (Sprint 049) и `20260704014859` (Lovable) **идемпотентно, конфликта нет** — повторная накатка чистая; функциональные тесты триггеров (резолв версии, деривация track_id, unique (user, version), inc/dec счётчиков, удаление orphan-лайков) — все зелёные.
+
 ### 🎯 Sprint 053 + 054 — Suno API completion: 24/28 → 28/28 (100%) ✅ (2026-07-04)
 
 > Commits `c896baf1` … `6dc90af5` в `claude/sprint-053-054-suno-completion-pilot` (5 коммитов, merge в main ниже в этом релизе). **Suno API покрытие достигло 100%** — Sprint 053 закрыл Sounds + MIDI direct + Boost Style, Sprint 054 закрыл Details suite × 6 + cleanup dead code.

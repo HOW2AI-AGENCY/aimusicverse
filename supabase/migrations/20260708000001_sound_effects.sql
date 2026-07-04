@@ -16,7 +16,7 @@ create table public.sound_effects (
   status          text not null default 'processing'
                   check (status in ('processing', 'completed', 'failed')),
   created_at      timestamptz not null default now(),
-  updated_at      timestamstz not null default now()
+  updated_at      timestamptz not null default now()
 );
 
 -- RLS: users see and manage only their own SFX
