@@ -15,7 +15,7 @@
  *   2. Calls `invalidateQueries(['generation-tasks'])` — covers all consumers
  *      without enumerating each query key.
  *
- *   3. Emits a `feature_usage → generation_cancel` analytics event with the
+ *   3. Emits a `feature_used → generation_cancel` analytics event with the
  *      userId and a boolean `succeeded` flag for outcome tracking.
  *
  * The hook returns `isCancelling` (rendering gate for the cancel button) plus
@@ -54,7 +54,7 @@ export function useSunoCancel(): UseSunoCancelResult {
       // Sprint 055 analytics: cancel success.
       void trackEvent(
         {
-          eventType: "feature_usage",
+          eventType: "feature_used",
           pagePath: "generation",
           metadata: { action: "cancel_complete", task_id: taskId, succeeded: true },
         },
@@ -70,7 +70,7 @@ export function useSunoCancel(): UseSunoCancelResult {
       logger.error("Suno cancel failed", error, { taskId });
       void trackEvent(
         {
-          eventType: "feature_usage",
+          eventType: "feature_used",
           pagePath: "generation",
           metadata: { action: "cancel_complete", task_id: taskId, succeeded: false, error: message },
         },
