@@ -43,7 +43,7 @@ const MODEL_OPTIONS = getAvailableModels();
 
 export const MashupDialog = ({ open, onOpenChange, initialTrackId, projectId }: MashupDialogProps) => {
   const isMobile = useIsMobile();
-  const { data: tracks } = useTracks({ statusFilter: ["completed"] });
+  const { tracks } = useTracks({ statusFilter: ["completed"] });
 
   // Source tracks
   const [trackAId, setTrackAId] = useState<string>(initialTrackId ?? "");
