@@ -1,9 +1,10 @@
 /**
  * LyricsVisualEditorCompact Component
  *
- * Editorial-spread lyrics editor for the advanced generation form.
- * 9 structural sections (intro → outro), templates, and per-line metadata
- * rendered as a magazine spread rather than a form list.
+ * Section-based lyrics editor for the advanced generation form.
+ * 9 structural sections (intro → outro), templates, per-section type chips
+ * and a jump-nav timeline — styled with the app design system (Spec 032):
+ * rounded-xl surfaces, `sectionColors` accents, 44px touch targets.
  *
  * Public API (preserved):
  *   <LyricsVisualEditorCompact value={lyrics} onChange={setLyrics} onAIGenerate?={fn} />
@@ -15,12 +16,17 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
-import { Sparkles, ArrowUp, ArrowDown, Plus, RotateCcw, Trash2 } from "@/lib/icons";
+import { Sparkles, ArrowUp, ArrowDown, Plus, RotateCcw, Trash2, Wand2 } from "@/lib/icons";
 import { logger } from "@/lib/logger";
-import { getSectionColor } from "@/lib/design-colors";
+import {
+  LYRIC_SECTION_TYPES,
+  LYRIC_SECTION_BY_VALUE,
+  getLyricSectionColor,
+  normalizeSectionType,
+  type LyricSectionType,
+} from "./lyricsSectionMeta";
 
-export type LyricSectionType =
-  "intro" | "verse" | "pre" | "chorus" | "hook" | "bridge" | "drop" | "breakdown" | "outro";
+export type { LyricSectionType };
 
 export interface LyricSection {
   id: string;
@@ -28,38 +34,6 @@ export interface LyricSection {
   content: string;
   tags?: string[];
 }
-
-interface SECTION_TYPE_DEF {
-  value: LyricSectionType;
-  label: string;
-  /** Single-letter glyph used as oversized marker in the editorial spread. */
-  glyph: string;
-}
-
-/**
- * 9 structural sections, ordered from cold-open to fade-out.
- * Glyph follows the convention used in GenerationResultSheet (V / C / B / I / O / etc.).
- */
-const SECTION_TYPES: SECTION_TYPE_DEF[] = [
-  { value: "intro", label: "Интро", glyph: "I" },
-  { value: "verse", label: "Куплет", glyph: "V" },
-  { value: "pre", label: "Pre-Chorus", glyph: "P" },
-  { value: "chorus", label: "Припев", glyph: "C" },
-  { value: "hook", label: "Hook", glyph: "H" },
-  { value: "bridge", label: "Бридж", glyph: "B" },
-  { value: "drop", label: "Drop", glyph: "D" },
-  { value: "breakdown", label: "Breakdown", glyph: "X" },
-  { value: "outro", label: "Аутро", glyph: "O" },
-];
-
-/** Lookup the structural definition from a section type value. */
-const SECTION_BY_VALUE: Record<LyricSectionType, SECTION_TYPE_DEF> = SECTION_TYPES.reduce(
-  (acc, def) => {
-    acc[def.value] = def;
-    return acc;
-  },
-  {} as Record<LyricSectionType, SECTION_TYPE_DEF>,
-);
 
 interface QUICK_TEMPLATE_DEF {
   id: string;
@@ -72,24 +46,29 @@ const QUICK_TEMPLATES: QUICK_TEMPLATE_DEF[] = [
   {
     id: "pop",
     label: "Pop",
-    blurb: "Verse → Chorus, 6 блоков",
+    blurb: "Куплет → Припев, 6 блоков",
     structure: ["verse", "chorus", "verse", "chorus", "bridge", "chorus"],
   },
   {
     id: "rap",
     label: "Рэп",
-    blurb: "Verse → Hook, 4 блока",
+    blurb: "Куплет → Хук, 4 блока",
     structure: ["verse", "hook", "verse", "hook"],
   },
   {
     id: "edm",
     label: "EDM",
-    blurb: "Intro → Drop, 6 блоков",
+    blurb: "Интро → Дроп, 6 блоков",
     structure: ["intro", "verse", "drop", "verse", "drop", "outro"],
   },
 ];
 
 const MAX_SNAPSHOTS = 200;
+
+/** Character budget shared with the text-mode editor (see LyricsSectionAdvanced). */
+const CHAR_LIMIT = 3000;
+const CHAR_DANGER = 2800;
+const CHAR_WARNING = 2500;
 
 /**
  * Snapshot captured around an external sync, exposed on `window.__lyricsEditorMetrics.snapshots`
@@ -150,7 +129,16 @@ function trackExternalSync(): void {
 // LYRICS PARSE / EMIT HELPERS (exposed for tests)
 // ============================================================================
 
-const SECTION_HEADER_RE = /^\[(intro|verse|pre|chorus|hook|bridge|drop|breakdown|outro)\]\s*$/i;
+/**
+ * Section header: `[Verse]`, `[verse 2]`, `[Pre-Chorus]`, `[PreChorus 1]`…
+ * The optional trailing number keeps text-mode templates (`[Verse 1]`)
+ * round-trippable through the visual editor.
+ */
+const SECTION_HEADER_RE = /^\[([a-zа-яё -]+?)(?:\s+\d+)?\]\s*$/i;
+
+function makeSectionId(seed: number): string {
+  return `sec-${seed}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
 export function parseLyrics(input: string): LyricSection[] {
   if (!input.trim()) return [];
@@ -161,11 +149,12 @@ export function parseLyrics(input: string): LyricSection[] {
   for (const raw of lines) {
     const line = raw.trim();
     const match = line.match(SECTION_HEADER_RE);
-    if (match) {
+    const type = match ? normalizeSectionType(match[1]) : null;
+    if (type) {
       if (current) sections.push(current);
       current = {
-        id: `sec-${sections.length}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        type: match[1].toLowerCase() as LyricSectionType,
+        id: makeSectionId(sections.length),
+        type,
         content: "",
       };
       continue;
@@ -178,7 +167,7 @@ export function parseLyrics(input: string): LyricSection[] {
     } else {
       // Orphan text without a header — wrap it in a default verse.
       current = {
-        id: `sec-${sections.length}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        id: makeSectionId(sections.length),
         type: "verse",
         content: line,
       };
@@ -188,9 +177,23 @@ export function parseLyrics(input: string): LyricSection[] {
   return sections;
 }
 
+/**
+ * Serialize sections into Suno-style lyrics. Repeated types are auto-numbered
+ * (`[Verse 1]`, `[Verse 2]`) so the structure stays readable in text mode.
+ */
 export function sectionsToLyrics(sections: LyricSection[]): string {
+  const typeTotals = new Map<LyricSectionType, number>();
+  for (const s of sections) typeTotals.set(s.type, (typeTotals.get(s.type) ?? 0) + 1);
+  const seen = new Map<LyricSectionType, number>();
+
   return sections
-    .map((s) => `[${s.type}]\n${s.content}`.trim())
+    .map((s) => {
+      const ordinal = (seen.get(s.type) ?? 0) + 1;
+      seen.set(s.type, ordinal);
+      const base = LYRIC_SECTION_BY_VALUE[s.type].header;
+      const header = (typeTotals.get(s.type) ?? 0) > 1 ? `${base} ${ordinal}` : base;
+      return `[${header}]\n${s.content}`.trim();
+    })
     .filter((block) => block.length > "[x]".length)
     .join("\n\n");
 }
@@ -256,6 +259,7 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
   // The current sections representation, synced from `value`.
   const [currentSections, setCurrentSections] = useState<LyricSection[]>(() => parseLyrics(value));
   const [snapshots, setSnapshots] = useState<SyncSnapshot[]>([]);
+  const [focusedSectionId, setFocusedSectionId] = useState<string | null>(null);
   const lastEmittedRef = useRef<string>(value);
   const textareaRefs = useRef<Record<string, HTMLTextAreaElement | null>>({});
 
@@ -389,19 +393,6 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
     [currentSections, emit, pushSnapshot],
   );
 
-  const addLineBreak = useCallback(
-    (id: string) => {
-      const target = currentSections.find((s) => s.id === id);
-      if (!target) return;
-      const next = currentSections.map((s) => (s.id === id ? { ...s, content: `${s.content}\n` } : s));
-      pushSnapshot(next);
-      emit(next);
-      // Restore focus after React re-renders the textarea.
-      requestAnimationFrame(() => textareaRefs.current[id]?.focus());
-    },
-    [currentSections, emit, pushSnapshot],
-  );
-
   const addSection = useCallback(
     (type: LyricSectionType = "verse") => {
       const next: LyricSection[] = [
@@ -427,8 +418,15 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
     [currentSections, emit, pushSnapshot],
   );
 
+  const jumpToSection = useCallback((id: string) => {
+    const el = textareaRefs.current[id];
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.focus({ preventScroll: true });
+  }, []);
+
   // -------------------------------------------------------------------------
-  // Derived metrics for the masthead/footer.
+  // Derived metrics for the footer + per-type numbering for card labels.
   // -------------------------------------------------------------------------
   const totals = useMemo(() => {
     const text = currentSections.map((s) => s.content).join("\n");
@@ -438,8 +436,21 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
     return { chars, words, lines };
   }, [currentSections]);
 
-  const isOverBudget = totals.chars > 2800;
-  const isNearBudget = totals.chars > 2400;
+  const ordinals = useMemo(() => {
+    const typeTotals = new Map<LyricSectionType, number>();
+    for (const s of currentSections) typeTotals.set(s.type, (typeTotals.get(s.type) ?? 0) + 1);
+    const seen = new Map<LyricSectionType, number>();
+    const map = new Map<string, number | null>();
+    for (const s of currentSections) {
+      const n = (seen.get(s.type) ?? 0) + 1;
+      seen.set(s.type, n);
+      map.set(s.id, (typeTotals.get(s.type) ?? 0) > 1 ? n : null);
+    }
+    return map;
+  }, [currentSections]);
+
+  const isOverBudget = totals.chars > CHAR_DANGER;
+  const isNearBudget = totals.chars > CHAR_WARNING;
 
   // -------------------------------------------------------------------------
   // Render
@@ -448,57 +459,37 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
 
   return (
     <div
-      className={cn(
-        "w-full max-w-3xl mx-auto",
-        "border border-foreground/15 rounded-none bg-background text-foreground",
-        "shadow-[0_1px_0_0_hsl(var(--foreground)/0.05)]",
-      )}
+      className={cn("w-full rounded-xl border border-border/60 bg-muted/20 overflow-hidden")}
       data-testid="lyrics-editor"
     >
-      {/* Masthead */}
-      <header className="px-5 sm:px-6 pt-6 pb-4 border-b border-foreground/15">
-        <div className="flex items-baseline justify-between gap-3 font-mono">
-          <p className="text-overline uppercase tracking-[0.18em] text-muted-foreground">№ 001 · LYRICS</p>
-          <p className="text-overline uppercase tracking-[0.18em] text-muted-foreground">
-            {currentSections.length.toString().padStart(2, "0")} /{" "}
-            {String(Math.max(currentSections.length, 9)).padStart(2, "0")} sections
-          </p>
-        </div>
-        <h2 className="mt-2 font-display text-heading-1 tracking-tight">Текст песни</h2>
-        <p className="mt-1.5 font-mono text-caption uppercase tracking-[0.18em] text-muted-foreground">
-          {hasContent ? "structure · type · write" : "пусто · выбери шаблон или пиши"}
-        </p>
-      </header>
-
       {/* Timeline — section jump-nav */}
       {hasContent && (
-        <nav aria-label="Перейти к секции" className="px-5 sm:px-6 py-3 border-b border-foreground/10 overflow-x-auto">
-          <ol className="flex items-stretch gap-[2px] font-mono text-overline uppercase tracking-[0.16em]">
+        <nav
+          aria-label="Перейти к секции"
+          className="px-3 py-2 border-b border-border/40 bg-background/40 overflow-x-auto scrollbar-none"
+        >
+          <ol className="flex items-center gap-1">
             {currentSections.map((section, idx) => {
-              const def = SECTION_BY_VALUE[section.type];
-              const color = getSectionColor(section.type).text;
-              const isActive = idx === 0;
+              const def = LYRIC_SECTION_BY_VALUE[section.type];
+              const color = getLyricSectionColor(section.type);
+              const isActive = section.id === focusedSectionId;
               return (
                 <li key={`tl-${section.id}`} className="shrink-0">
                   <button
                     type="button"
-                    onClick={() =>
-                      textareaRefs.current[section.id]?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                      })
-                    }
+                    onClick={() => jumpToSection(section.id)}
                     className={cn(
-                      "h-9 px-2.5 flex items-center gap-1.5 border border-foreground/15 transition-colors",
-                      "hover:border-primary hover:text-primary",
-                      isActive &&
-                        "bg-foreground text-background border-foreground hover:text-background hover:border-foreground",
+                      "h-9 px-2.5 flex items-center gap-1 rounded-lg border text-caption-sm font-semibold",
+                      "transition-colors touch-manipulation",
+                      isActive
+                        ? cn(color.bg, color.border, color.text)
+                        : "border-border/50 text-muted-foreground hover:border-primary/40 hover:text-foreground",
                     )}
                     aria-label={`Перейти к секции ${idx + 1} — ${def.label}`}
+                    aria-current={isActive ? "true" : undefined}
                   >
-                    <span className={cn(!isActive && color)}>{def.glyph}</span>
-                    <span aria-hidden>·</span>
-                    <span>{String(idx + 1).padStart(2, "0")}</span>
+                    <span className={cn(!isActive && color.text)}>{def.glyph}</span>
+                    <span className="tabular-nums">{idx + 1}</span>
                   </button>
                 </li>
               );
@@ -508,24 +499,25 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
       )}
 
       {/* Sections list */}
-      <div className={cn("px-5 sm:px-6", hasContent ? "py-5" : "py-6", "max-h-[420px] overflow-y-auto")}>
+      <div className="px-3 py-3">
         {hasContent ? (
-          <ol className="divide-y divide-foreground/10">
+          <ol className="space-y-3">
             {currentSections.map((section, idx) => (
               <SectionCard
                 key={section.id}
                 index={idx}
                 total={currentSections.length}
+                ordinal={ordinals.get(section.id) ?? null}
                 section={section}
                 disabled={disabled}
                 registerRef={(el) => {
                   textareaRefs.current[section.id] = el;
                 }}
+                onFocusSection={() => setFocusedSectionId(section.id)}
                 onTypeChange={(t) => changeSectionType(section.id, t)}
                 onContentChange={(c) => updateSectionContent(section.id, c)}
                 onMoveUp={() => moveSection(section.id, -1)}
                 onMoveDown={() => moveSection(section.id, 1)}
-                onAddLine={() => addLineBreak(section.id)}
                 onClear={() => clearSection(section.id)}
                 onDelete={() => deleteSection(section.id)}
               />
@@ -541,26 +533,27 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
         )}
       </div>
 
-      {/* Colophon — footer */}
+      {/* Footer — add section, AI, character budget */}
       <footer
         className={cn(
-          "border-t border-foreground/15 px-5 sm:px-6 py-4",
-          "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4",
+          "border-t border-border/40 bg-background/40 px-3 py-2.5",
+          "flex items-center justify-between gap-3",
         )}
       >
-        <div className="flex items-center gap-3 font-mono text-caption uppercase tracking-[0.18em]">
+        <div className="flex items-center gap-1.5">
           <button
             type="button"
             onClick={() => addSection("verse")}
             disabled={disabled}
             className={cn(
-              "group inline-flex items-center gap-1.5 px-3 h-9 border border-foreground/30",
-              "hover:bg-foreground hover:text-background transition-colors",
+              "h-9 px-3 inline-flex items-center gap-1.5 rounded-lg border border-border/60",
+              "text-xs font-medium text-foreground/90 bg-background/60",
+              "hover:border-primary/50 hover:bg-primary/5 transition-colors touch-manipulation",
               "disabled:opacity-40 disabled:pointer-events-none",
             )}
           >
             <Plus className="h-3.5 w-3.5" aria-hidden />
-            <span>секция</span>
+            <span>Секция</span>
           </button>
           {onAIGenerate && (
             <button
@@ -568,37 +561,40 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
               onClick={onAIGenerate}
               disabled={disabled}
               className={cn(
-                "group inline-flex items-center gap-1.5 px-3 h-9 border border-primary/40",
-                "text-primary hover:bg-primary hover:text-primary-foreground transition-colors",
+                "h-9 px-3 inline-flex items-center gap-1.5 rounded-lg border border-primary/40",
+                "text-xs font-medium text-primary bg-primary/5",
+                "hover:bg-primary/10 hover:border-primary/60 transition-colors touch-manipulation",
                 "disabled:opacity-40 disabled:pointer-events-none",
               )}
             >
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
-              <span>AI · написать</span>
+              <span>AI-текст</span>
             </button>
           )}
         </div>
 
-        <div
-          className={cn(
-            "font-mono text-overline uppercase tracking-[0.18em]",
-            isOverBudget
-              ? "text-destructive"
-              : isNearBudget
-                ? "text-amber-600 dark:text-amber-400"
-                : "text-muted-foreground",
-          )}
-          aria-live="polite"
-        >
-          <span className="tabular-nums">{totals.chars}</span>
-          <span aria-hidden> · </span>
-          <span>chars</span>
-          <span aria-hidden> · </span>
-          <span className="tabular-nums">{totals.words}</span>
-          <span> words</span>
-          <span aria-hidden> · </span>
-          <span className="tabular-nums">{totals.lines}</span>
-          <span> lines</span>
+        {/* Character budget — same scale and colors as the text-mode editor */}
+        <div className="flex items-center gap-2" aria-live="polite">
+          <div className="h-1 w-16 rounded-full bg-muted overflow-hidden" aria-hidden>
+            <div
+              className={cn(
+                "h-full rounded-full transition-all",
+                isOverBudget ? "bg-destructive" : isNearBudget ? "bg-amber-500" : "bg-primary",
+              )}
+              style={{ width: `${Math.min((totals.chars / CHAR_LIMIT) * 100, 100)}%` }}
+            />
+          </div>
+          <span
+            className={cn(
+              "text-caption-sm font-mono tabular-nums",
+              isOverBudget ? "text-destructive" : isNearBudget ? "text-amber-500" : "text-muted-foreground",
+            )}
+          >
+            {totals.chars}/{CHAR_LIMIT}
+          </span>
+          <span className="hidden sm:inline text-caption-sm text-muted-foreground/70 tabular-nums">
+            {totals.words} слов · {totals.lines} строк
+          </span>
         </div>
       </footer>
     </div>
@@ -612,14 +608,16 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
 interface SectionCardProps {
   index: number;
   total: number;
+  /** 1-based number among sections of the same type, or null when unique. */
+  ordinal: number | null;
   section: LyricSection;
   disabled?: boolean;
   registerRef: (el: HTMLTextAreaElement | null) => void;
+  onFocusSection: () => void;
   onTypeChange: (type: LyricSectionType) => void;
   onContentChange: (content: string) => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
-  onAddLine: () => void;
   onClear: () => void;
   onDelete: () => void;
 }
@@ -627,65 +625,65 @@ interface SectionCardProps {
 function SectionCard({
   index,
   total,
+  ordinal,
   section,
   disabled,
   registerRef,
+  onFocusSection,
   onTypeChange,
   onContentChange,
   onMoveUp,
   onMoveDown,
-  onAddLine,
   onClear,
   onDelete,
 }: SectionCardProps) {
-  const def = SECTION_BY_VALUE[section.type];
-  const color = getSectionColor(section.type);
+  const def = LYRIC_SECTION_BY_VALUE[section.type];
+  const color = getLyricSectionColor(section.type);
   const lineCount = section.content.trim() ? section.content.split(/\r?\n/).length : 0;
   const charCount = section.content.length;
 
   return (
     <li
-      className={cn("relative grid grid-cols-[auto_1fr] gap-x-4 gap-y-3", "py-5 first:pt-2 last:pb-2")}
+      className={cn(
+        "relative rounded-xl border border-border/60 bg-background/50 overflow-hidden",
+        "focus-within:border-primary/50 transition-colors",
+      )}
       data-section-id={section.id}
     >
-      {/* Glyph marker */}
-      <div className="row-span-2 flex flex-col items-center pt-1">
-        <span
-          className={cn("font-display leading-[0.85] tabular-nums", "text-[40px] sm:text-[48px]", color.text)}
-          aria-hidden
-        >
-          {def.glyph}
-        </span>
-        <span aria-hidden className="mt-1 h-[2px] w-6 bg-foreground/20" />
-      </div>
+      {/* Left accent bar in the section color (matches FormSection tone bar) */}
+      <span aria-hidden className={cn("absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-full", color.dot)} />
 
-      {/* Header row */}
-      <header className="flex items-baseline justify-between gap-3">
-        <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="tabular-nums">{String(index + 1).padStart(2, "0")}</span>
-          <span aria-hidden> · </span>
-          <span>{def.label}</span>
-          <span aria-hidden> · </span>
-          <span className="text-foreground/70">type</span>
-        </p>
-        <p className="font-mono text-caption uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="tabular-nums">{lineCount}</span>
-          <span> lines</span>
-          <span aria-hidden> · </span>
-          <span className="tabular-nums">{charCount}</span>
-          <span> chars</span>
-          <span aria-hidden> · </span>
-          <span className="tabular-nums">
-            {String(index + 1).padStart(2, "0")}/{String(total).padStart(2, "0")}
+      {/* Header row: badge + counters */}
+      <header className="flex items-center justify-between gap-2 pl-4 pr-3 pt-2.5">
+        <span
+          className={cn(
+            "inline-flex items-center gap-1.5 px-2 py-1 rounded-md border",
+            "text-overline uppercase",
+            color.bg,
+            color.border,
+            color.text,
+          )}
+        >
+          <span>{def.glyph}</span>
+          <span>
+            {def.label}
+            {ordinal !== null && <span className="tabular-nums"> {ordinal}</span>}
           </span>
-        </p>
+        </span>
+        <span className="text-caption-sm text-muted-foreground/70 tabular-nums">
+          {lineCount} стр · {charCount} симв
+        </span>
       </header>
 
-      {/* Type strip */}
-      <div className="flex flex-wrap gap-[2px]" role="radiogroup" aria-label={`Тип секции ${index + 1}`}>
-        {SECTION_TYPES.map((t) => {
+      {/* Type picker — horizontally scrollable labelled chips */}
+      <div
+        className="flex gap-1 pl-4 pr-3 pt-2 overflow-x-auto scrollbar-none"
+        role="radiogroup"
+        aria-label={`Тип секции ${index + 1}`}
+      >
+        {LYRIC_SECTION_TYPES.map((t) => {
           const isActive = t.value === section.type;
-          const tColor = getSectionColor(t.value);
+          const tColor = getLyricSectionColor(t.value);
           return (
             <button
               key={t.value}
@@ -695,75 +693,69 @@ function SectionCard({
               disabled={disabled}
               onClick={() => onTypeChange(t.value)}
               className={cn(
-                "h-7 px-2 font-mono text-overline uppercase tracking-[0.16em]",
-                "border border-foreground/15 transition-colors",
-                "hover:border-foreground disabled:opacity-40 disabled:pointer-events-none",
+                "h-8 shrink-0 px-2 inline-flex items-center gap-1 rounded-lg border",
+                "text-caption-sm transition-colors touch-manipulation",
+                "disabled:opacity-40 disabled:pointer-events-none",
                 isActive
-                  ? "bg-foreground text-background border-foreground"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? cn(tColor.bg, tColor.border, tColor.text, "font-semibold")
+                  : "border-border/40 text-muted-foreground hover:border-primary/40 hover:text-foreground",
               )}
               title={t.label}
             >
-              <span className={cn(isActive ? "" : tColor.text)}>{t.glyph}</span>
+              <span className={cn(!isActive && tColor.text)}>{t.glyph}</span>
+              <span>{t.label}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Textarea + actions row */}
-      <div className="row-span-1 col-start-2 flex items-stretch border border-foreground/15 focus-within:border-primary transition-colors">
+      {/* Textarea — same styling as the text-mode editor */}
+      <div className="pl-4 pr-3 pt-2">
         <Textarea
           ref={(el) => registerRef(el)}
           value={section.content}
           onChange={(e) => onContentChange(e.target.value)}
+          onFocus={onFocusSection}
           disabled={disabled}
-          placeholder={`${def.label} — пиши здесь…`}
+          placeholder={`${def.label} — пишите здесь…`}
           rows={Math.max(3, Math.min(lineCount + 1, 8))}
           className={cn(
-            "flex-1 resize-none border-0 rounded-none shadow-none",
-            "bg-transparent font-mono text-body-sm leading-[1.7]",
-            "px-4 py-3 placeholder:text-muted-foreground/40",
-            "focus-visible:ring-0 focus-visible:outline-none",
-            "min-h-[88px]",
+            "resize-none min-h-[80px] text-sm leading-relaxed whitespace-pre-wrap",
+            "rounded-lg bg-muted/30 border-border/50",
+            "focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
+            "placeholder:text-muted-foreground/50 transition-colors",
           )}
           data-section-id={section.id}
         />
       </div>
 
-      {/* Action tray */}
-      <div className="col-start-2 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-[2px] font-mono text-overline uppercase tracking-[0.16em]">
-          <ActionButton
-            label="вверх"
-            onClick={onMoveUp}
-            disabled={disabled || index === 0}
-            icon={<ArrowUp className="h-3 w-3" />}
-          />
-          <ActionButton
-            label="вниз"
-            onClick={onMoveDown}
-            disabled={disabled || index === total - 1}
-            icon={<ArrowDown className="h-3 w-3" />}
-          />
-          <ActionButton label="строка" onClick={onAddLine} disabled={disabled} icon={<Plus className="h-3 w-3" />} />
-          <ActionButton
-            label="очистить"
-            onClick={onClear}
-            disabled={disabled || !section.content}
-            icon={<RotateCcw className="h-3 w-3" />}
-          />
-          <ActionButton
-            label="удалить"
-            onClick={onDelete}
-            disabled={disabled || total <= 1}
-            icon={<Trash2 className="h-3 w-3" />}
-            destructive
-          />
-        </div>
-
-        <span aria-hidden className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground/50">
-          ⏎ enter · ⇧+enter for stanza
-        </span>
+      {/* Action tray — 44px touch targets */}
+      <div className="flex items-center justify-end gap-0.5 pl-4 pr-2 py-1.5">
+        <ActionButton
+          label="Переместить вверх"
+          onClick={onMoveUp}
+          disabled={disabled || index === 0}
+          icon={<ArrowUp className="h-4 w-4" />}
+        />
+        <ActionButton
+          label="Переместить вниз"
+          onClick={onMoveDown}
+          disabled={disabled || index === total - 1}
+          icon={<ArrowDown className="h-4 w-4" />}
+        />
+        <ActionButton
+          label="Очистить секцию"
+          onClick={onClear}
+          disabled={disabled || !section.content}
+          icon={<RotateCcw className="h-4 w-4" />}
+        />
+        <ActionButton
+          label="Удалить секцию"
+          onClick={onDelete}
+          disabled={disabled || total <= 1}
+          icon={<Trash2 className="h-4 w-4" />}
+          destructive
+        />
       </div>
     </li>
   );
@@ -784,13 +776,14 @@ function ActionButton({ label, onClick, disabled, icon, destructive }: ActionBut
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
+      title={label}
       className={cn(
-        "h-7 w-7 inline-flex items-center justify-center border border-transparent",
-        "hover:border-foreground/30 hover:text-foreground transition-colors",
+        "h-9 w-9 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-lg",
+        "transition-colors touch-manipulation",
         "disabled:opacity-30 disabled:pointer-events-none",
         destructive
-          ? "text-destructive/70 hover:text-destructive hover:border-destructive/40"
-          : "text-muted-foreground",
+          ? "text-destructive/70 hover:text-destructive hover:bg-destructive/10"
+          : "text-muted-foreground hover:text-foreground hover:bg-accent",
       )}
     >
       {icon}
@@ -807,29 +800,32 @@ interface EmptyStateProps {
 
 function EmptyState({ onPickTemplate, onPickType, onAIGenerate, disabled }: EmptyStateProps) {
   return (
-    <div className="flex flex-col gap-6">
-      {/* Coverlines — template tiles */}
+    <div className="flex flex-col gap-4">
+      {/* Structure templates */}
       <div>
-        <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">шаблоны · structure</p>
-        <ul className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-[2px]">
-          {QUICK_TEMPLATES.map((tpl, idx) => (
+        <p className="text-overline uppercase text-muted-foreground">Шаблоны структуры</p>
+        <ul className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {QUICK_TEMPLATES.map((tpl) => (
             <li key={tpl.id}>
               <button
                 type="button"
                 onClick={() => onPickTemplate(tpl)}
                 disabled={disabled}
                 className={cn(
-                  "w-full text-left p-4 border border-foreground/15 bg-background",
-                  "hover:bg-foreground hover:text-background transition-colors",
-                  "group disabled:opacity-40 disabled:pointer-events-none",
+                  "w-full text-left p-3 rounded-xl border border-border/60 bg-background/40",
+                  "hover:border-primary/50 hover:bg-primary/5 transition-colors touch-manipulation",
+                  "disabled:opacity-40 disabled:pointer-events-none",
                 )}
               >
-                <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground group-hover:text-background/70">
-                  {String(idx + 1).padStart(2, "0")} · {tpl.structure.length} sections
-                </p>
-                <p className="mt-1 font-display text-heading-2 tracking-tight">{tpl.label}</p>
-                <p className="mt-1.5 font-mono text-caption uppercase tracking-[0.16em] text-muted-foreground group-hover:text-background/70">
-                  {tpl.blurb}
+                <p className="text-sm font-semibold text-foreground">{tpl.label}</p>
+                <p className="mt-0.5 text-caption-sm text-muted-foreground">{tpl.blurb}</p>
+                {/* Mini structure preview — colored glyph per section */}
+                <p className="mt-1.5 flex items-center gap-1" aria-hidden>
+                  {tpl.structure.map((type, i) => (
+                    <span key={`${tpl.id}-${i}`} className={cn("text-overline", getLyricSectionColor(type).text)}>
+                      {LYRIC_SECTION_BY_VALUE[type].glyph}
+                    </span>
+                  ))}
                 </p>
               </button>
             </li>
@@ -837,21 +833,19 @@ function EmptyState({ onPickTemplate, onPickType, onAIGenerate, disabled }: Empt
         </ul>
       </div>
 
-      {/* Hairline divider with center chip */}
-      <div className="relative h-[1px] bg-foreground/15" aria-hidden>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-2.5 px-2 bg-background font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
-          or
-        </span>
+      {/* Divider */}
+      <div className="flex items-center gap-3" aria-hidden>
+        <span className="h-px flex-1 bg-border/60" />
+        <span className="text-overline uppercase text-muted-foreground">или</span>
+        <span className="h-px flex-1 bg-border/60" />
       </div>
 
       {/* Single section shortcut */}
       <div>
-        <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
-          одна секция · single take
-        </p>
-        <ul className="mt-3 grid grid-cols-3 sm:grid-cols-9 gap-[2px]">
-          {SECTION_TYPES.map((t) => {
-            const tColor = getSectionColor(t.value);
+        <p className="text-overline uppercase text-muted-foreground">Начать с одной секции</p>
+        <ul className="mt-2 grid grid-cols-3 gap-1.5">
+          {LYRIC_SECTION_TYPES.map((t) => {
+            const tColor = getLyricSectionColor(t.value);
             return (
               <li key={t.value}>
                 <button
@@ -859,19 +853,15 @@ function EmptyState({ onPickTemplate, onPickType, onAIGenerate, disabled }: Empt
                   onClick={() => onPickType(t.value)}
                   disabled={disabled}
                   className={cn(
-                    "w-full h-16 flex flex-col items-center justify-center gap-1",
-                    "border border-foreground/15 bg-background",
-                    "hover:border-foreground transition-colors",
+                    "w-full h-14 flex flex-col items-center justify-center gap-0.5",
+                    "rounded-xl border border-border/50 bg-background/40",
+                    "hover:border-primary/50 hover:bg-primary/5 transition-colors touch-manipulation",
                     "disabled:opacity-40 disabled:pointer-events-none",
                   )}
                   title={t.label}
                 >
-                  <span className={cn("font-display text-heading-2 leading-none tabular-nums", tColor.text)}>
-                    {t.glyph}
-                  </span>
-                  <span className="font-mono text-overline uppercase tracking-[0.14em] text-muted-foreground">
-                    {t.label}
-                  </span>
+                  <span className={cn("text-base font-bold leading-none", tColor.text)}>{t.glyph}</span>
+                  <span className="text-caption-sm text-muted-foreground">{t.label}</span>
                 </button>
               </li>
             );
@@ -879,25 +869,23 @@ function EmptyState({ onPickTemplate, onPickType, onAIGenerate, disabled }: Empt
         </ul>
       </div>
 
-      {/* AI pull-quote */}
+      {/* AI CTA — same pill as the text-mode editor for cross-mode consistency */}
       {onAIGenerate && (
         <button
           type="button"
           onClick={onAIGenerate}
           disabled={disabled}
           className={cn(
-            "mt-2 text-left px-5 py-4 border-l-2 border-primary",
-            "hover:bg-foreground/[0.02] transition-colors",
+            "self-center flex items-center gap-2 px-3 py-2 rounded-full",
+            "bg-primary/10 border border-dashed border-primary/40",
+            "hover:bg-primary/15 hover:border-primary/60",
+            "transition-all duration-200 touch-manipulation",
             "disabled:opacity-40 disabled:pointer-events-none",
           )}
+          aria-label="Создать текст с AI"
         >
-          <p className="font-display text-heading-3 leading-snug">
-            <Sparkles className="inline h-4 w-4 mr-2 align-baseline text-primary" aria-hidden />
-            AI — пусть напишет первый драфт.
-          </p>
-          <p className="mt-1 font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
-            одна кнопка → стартовый текст по идее
-          </p>
+          <Wand2 className="w-4 h-4 text-primary" />
+          <span className="text-xs font-medium text-primary">Создать с AI</span>
         </button>
       )}
     </div>

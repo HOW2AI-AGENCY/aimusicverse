@@ -102,6 +102,40 @@ describe("sectionsEqual", () => {
   });
 });
 
+describe("parseLyrics — header variants", () => {
+  it("accepts numbered headers from text-mode templates ([Verse 1], [Verse 2])", () => {
+    const parsed = parseLyrics("[Verse 1]\nfirst\n\n[Chorus]\nhook\n\n[Verse 2]\nsecond");
+    expect(parsed.map((s) => s.type)).toEqual(["verse", "chorus", "verse"]);
+    expect(parsed[0].content).toBe("first");
+    expect(parsed[2].content).toBe("second");
+  });
+
+  it("accepts Pre-Chorus spelling variants", () => {
+    expect(parseLyrics("[Pre-Chorus]\nrise")[0].type).toBe("pre");
+    expect(parseLyrics("[PreChorus 2]\nrise")[0].type).toBe("pre");
+  });
+
+  it("accepts Russian headers ([Куплет], [Припев])", () => {
+    const parsed = parseLyrics("[Куплет]\nстрока\n\n[Припев]\nхук");
+    expect(parsed.map((s) => s.type)).toEqual(["verse", "chorus"]);
+  });
+
+  it("auto-numbers repeated types on serialize and round-trips stably", () => {
+    const parsed = parseLyrics("[Verse]\na\n\n[Chorus]\nb\n\n[Verse]\nc");
+    const serialized = sectionsToLyrics(parsed);
+    expect(serialized).toContain("[Verse 1]");
+    expect(serialized).toContain("[Verse 2]");
+    expect(serialized).toContain("[Chorus]");
+    expect(sectionsEqual(parseLyrics(serialized), parsed)).toBe(true);
+  });
+
+  it("keeps unknown bracketed tags as content instead of dropping them", () => {
+    const parsed = parseLyrics("[Verse]\nline\n[Guitar Solo]\nmore");
+    expect(parsed).toHaveLength(1);
+    expect(parsed[0].content).toContain("[Guitar Solo]");
+  });
+});
+
 describe("LyricsVisualEditorCompact — render metrics", () => {
   it("typing does not trigger external sync (no parent → child clobber)", () => {
     render(<Host initial="[Verse]\nhi" />);
