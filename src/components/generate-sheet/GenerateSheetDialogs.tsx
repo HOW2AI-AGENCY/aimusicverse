@@ -280,12 +280,7 @@ export function GenerateSheetDialogs({
         currentStyle={form.style}
         onSelect={(style) => {
           form.setMode("custom");
-          form.setStyle((prevStyle) => {
-            if (prevStyle && prevStyle.trim()) {
-              return `${prevStyle}, ${style}`;
-            }
-            return style;
-          });
+          form.setStyle(form.style && form.style.trim() ? `${form.style}, ${style}` : style);
           notify.success("Стиль применён");
         }}
       />
