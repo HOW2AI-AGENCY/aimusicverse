@@ -382,7 +382,7 @@ npm run build
 
 ### Сообщество
 
-- 💬 [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)
+- 💬 [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
 - 🐛 [Сообщить о проблеме](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
 - 📧 [Email Support](mailto:support@musicverse.ai)
 - 💬 [Telegram Support](https://t.me/MusicVerseSupport)

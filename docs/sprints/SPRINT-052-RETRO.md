@@ -1,7 +1,7 @@
 # Sprint 052 Retrospective — почему 052 влился в main без зелёного typecheck
 
 **Дата:** 2026-07-04 (документ создан в рамках Sprint 052-C cleanup)
-**Спринт:** [SPRINT-052-PLAN.md](../SPRINT-052-PLAN.md) — Suno Mashup + Persona + File Upload
+**Спринт:** [SPRINT-052-PLAN.md](../../SPRINTS/SPRINT-052-PLAN.md) — Suno Mashup + Persona + File Upload
 **Закрыт:** 8/10 задач (хвост → Sprint 052-C)
 
 ---
@@ -131,8 +131,8 @@ Workflow `Quality & Build` падал на ошибках, но PR всё рав
 
 **Связанные документы:**
 
-- [SPRINT-052-PLAN.md](../SPRINT-052-PLAN.md) — оригинальный план спринта
-- [SPRINT-CLOSURE-PLAN-2026-07.md](../SPRINT-CLOSURE-PLAN-2026-07.md) — 052-C cleanup + план закрытия 050/051/053
+- [SPRINT-052-PLAN.md](../../SPRINTS/SPRINT-052-PLAN.md) — оригинальный план спринта
+- [SPRINT-CLOSURE-PLAN-2026-07.md](../../SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md) — 052-C cleanup + план закрытия 050/051/053
 - [PROJECT_STATUS.md](../../PROJECT_STATUS.md) → секция «🆕 P0-хотфикс typecheck влит в main»
 - [CHANGELOG.md](../../CHANGELOG.md) → секция «[Unreleased] → P0 hotfix»
 - Memory [[sprint-trackers-unreliable]] — почему проверка по коду обязательна

@@ -70,11 +70,11 @@ suno-cancel-task         ❌ ОТСУТСТВУЕТ — нужно создат�
 
 ### 📅 ДЕНЬ 1 (2026-07-05) — P0-1 + P0-5 (deeplink + welcome bonus)
 
-| Время | ID         | Задача                                    | Файлы                                                                                                                                                                                | Effort |
-| ----- | ---------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
-| 09:00 | **055-A5** | Deeplink `startapp=generate` → open sheet | [src/App.tsx:226](src/App.tsx#L226) + [src/contexts/TelegramContext.tsx](src/contexts/TelegramContext.tsx) + [src/components/MainLayout.tsx:114](src/components/MainLayout.tsx#L114) | 0.5d   |
-| 14:00 | **055-A6** | Welcome Bonus idempotency (TTL guard)     | [src/hooks/useCreditsLimits.ts:143-186](src/hooks/useCreditsLimits.ts#L143-L186) + unit-тест                                                                                         | 0.3d   |
-| 16:00 |            | Analytics events для deeplink + welcome   | [src/hooks/analytics/useFeatureUsageTracking.ts](src/hooks/analytics/useFeatureUsageTracking.ts)                                                                                     | 0.2d   |
+| Время | ID         | Задача                                    | Файлы                                                                                                                                                                                         | Effort |
+| ----- | ---------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 09:00 | **055-A5** | Deeplink `startapp=generate` → open sheet | [src/App.tsx:226](../src/App.tsx#L226) + [src/contexts/TelegramContext.tsx](../src/contexts/TelegramContext.tsx) + [src/components/MainLayout.tsx:114](../src/components/MainLayout.tsx#L114) | 0.5d   |
+| 14:00 | **055-A6** | Welcome Bonus idempotency (TTL guard)     | [src/hooks/useCreditsLimits.ts:143-186](../src/hooks/useCreditsLimits.ts#L143-L186) + unit-тест                                                                                               | 0.3d   |
+| 16:00 |            | Analytics events для deeplink + welcome   | [src/hooks/analytics/useFeatureUsageTracking.ts](../src/hooks/analytics/useFeatureUsageTracking.ts)                                                                                           | 0.2d   |
 
 **Цель дня:** Никаких потерь пользователей на входе, Telegram deeplink → sheet работает
 
@@ -91,12 +91,12 @@ suno-cancel-task         ❌ ОТСУТСТВУЕТ — нужно создат�
 
 ### 📅 ДЕНЬ 2 (2026-07-06) — P0-4 (Cancel generation)
 
-| Время | ID          | Задача                                                            | Файлы                                                                                                                                                                 | Effort |
-| ----- | ----------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| 09:00 | **055-A4a** | Создать edge `suno-cancel-task` (по образцу `suno-music-details`) | `supabase/functions/suno-cancel-task/index.ts`                                                                                                                        | 1.0d   |
-| 14:00 | **055-A4b** | UI hook `useSunoCancel(taskId)` + wire в `useGenerateFormSubmit`  | новый `useSunoCancel.ts` + [useGenerateFormSubmit.ts](src/hooks/generation/useGenerateFormSubmit.ts)                                                                  | 0.5d   |
-| 16:00 | **055-A4c** | `GenerationLoadingState` → `showCancel={true}` + onCancel handler | [src/components/GenerateSheet.tsx:289](src/components/GenerateSheet.tsx#L289) + [GenerationLoadingState.tsx](src/components/generate-form/GenerationLoadingState.tsx) | 0.3d   |
-| 17:00 | **055-A4d** | Unit + integration тесты                                          | `src/__tests__/hooks/useSunoCancel.test.tsx` + `supabase/functions/suno-cancel-task/index.test.ts`                                                                    | 0.5d   |
+| Время | ID          | Задача                                                            | Файлы                                                                                                                                                                       | Effort |
+| ----- | ----------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 09:00 | **055-A4a** | Создать edge `suno-cancel-task` (по образцу `suno-music-details`) | `supabase/functions/suno-cancel-task/index.ts`                                                                                                                              | 1.0d   |
+| 14:00 | **055-A4b** | UI hook `useSunoCancel(taskId)` + wire в `useGenerateFormSubmit`  | новый `useSunoCancel.ts` + [useGenerateFormSubmit.ts](../src/hooks/generation/useGenerateFormSubmit.ts)                                                                     | 0.5d   |
+| 16:00 | **055-A4c** | `GenerationLoadingState` → `showCancel={true}` + onCancel handler | [src/components/GenerateSheet.tsx:289](../src/components/GenerateSheet.tsx#L289) + [GenerationLoadingState.tsx](../src/components/generate-form/GenerationLoadingState.tsx) | 0.3d   |
+| 17:00 | **055-A4d** | Unit + integration тесты                                          | `src/__tests__/hooks/useSunoCancel.test.tsx` + `supabase/functions/suno-cancel-task/index.test.ts`                                                                          | 0.5d   |
 
 **Цель дня:** Пользователь может отменить запущенную генерацию
 
@@ -115,12 +115,12 @@ suno-cancel-task         ❌ ОТСУТСТВУЕТ — нужно создат�
 
 ### 📅 ДЕНЬ 3 (2026-07-07) — Фаза B начало: Dual CTA + Footer Summary (P1-2 + P1-10)
 
-| Время | ID         | Задача                                          | Файлы                                                                                                                  | Effort |
-| ----- | ---------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------ |
-| 09:00 | **055-B1** | Dual CTA: показать ОБЕ кнопки всегда            | [src/components/GenerateSheet.tsx:400-446](src/components/GenerateSheet.tsx#L400-L446)                                 | 0.3d   |
-| 11:00 | **055-B2** | Footer CTA summary (type + ETA + cost)          | [src/components/GenerateSheet.tsx:430-444](src/components/GenerateSheet.tsx#L430-L444) + новый `GenerationSummary.tsx` | 0.3d   |
-| 14:00 | **055-B3** | Hint позиционирование (не перекрывать FAB)      | [src/components/BottomNavigation.tsx:114-130](src/components/BottomNavigation.tsx#L114-L130)                           | 0.2d   |
-| 16:00 | **055-B6** | VoiceInputButton в Custom mode (Style + Lyrics) | `sections/StyleSection.tsx`, `sections/LyricsSectionAdvanced.tsx`                                                      | 0.3d   |
+| Время | ID         | Задача                                          | Файлы                                                                                                                     | Effort |
+| ----- | ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 09:00 | **055-B1** | Dual CTA: показать ОБЕ кнопки всегда            | [src/components/GenerateSheet.tsx:400-446](../src/components/GenerateSheet.tsx#L400-L446)                                 | 0.3d   |
+| 11:00 | **055-B2** | Footer CTA summary (type + ETA + cost)          | [src/components/GenerateSheet.tsx:430-444](../src/components/GenerateSheet.tsx#L430-L444) + новый `GenerationSummary.tsx` | 0.3d   |
+| 14:00 | **055-B3** | Hint позиционирование (не перекрывать FAB)      | [src/components/BottomNavigation.tsx:114-130](../src/components/BottomNavigation.tsx#L114-L130)                           | 0.2d   |
+| 16:00 | **055-B6** | VoiceInputButton в Custom mode (Style + Lyrics) | `sections/StyleSection.tsx`, `sections/LyricsSectionAdvanced.tsx`                                                         | 0.3d   |
 
 **Цель дня:** Telegram-юзер видит CTA, форма показывает summary, голосовой ввод работает везде
 
@@ -135,12 +135,12 @@ suno-cancel-task         ❌ ОТСУТСТВУЕТ — нужно создат�
 
 ### 📅 ДЕНЬ 4 (2026-07-08) — Фаза B середина: Stepper + Bug fixes
 
-| Время | ID          | Задача                                                | Файлы                                                                                                                           | Effort |
-| ----- | ----------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| 09:00 | **055-B5a** | Stepper компонент `FormStepper.tsx`                   | новый файл                                                                                                                      | 0.3d   |
-| 12:00 | **055-B5b** | Wiring Stepper в Custom mode с visible-sections logic | [src/components/generate-form/GenerateFormCustom.tsx:160](src/components/generate-form/GenerateFormCustom.tsx#L160) (фикс P1-7) | 0.3d   |
-| 14:00 | **055-B4**  | GenerationProgressBadge sticky-tg-aware               | [src/components/BottomNavigation.tsx:99-103](src/components/BottomNavigation.tsx#L99-L103)                                      | 0.2d   |
-| 16:00 | **055-B7**  | Home sticky CTA (cold users only)                     | новый `HomeCreateCTA.tsx` в `src/pages/Index.tsx`                                                                               | 0.3d   |
+| Время | ID          | Задача                                                | Файлы                                                                                                                              | Effort |
+| ----- | ----------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 09:00 | **055-B5a** | Stepper компонент `FormStepper.tsx`                   | новый файл                                                                                                                         | 0.3d   |
+| 12:00 | **055-B5b** | Wiring Stepper в Custom mode с visible-sections logic | [src/components/generate-form/GenerateFormCustom.tsx:160](../src/components/generate-form/GenerateFormCustom.tsx#L160) (фикс P1-7) | 0.3d   |
+| 14:00 | **055-B4**  | GenerationProgressBadge sticky-tg-aware               | [src/components/BottomNavigation.tsx:99-103](../src/components/BottomNavigation.tsx#L99-L103)                                      | 0.2d   |
+| 16:00 | **055-B7**  | Home sticky CTA (cold users only)                     | новый `HomeCreateCTA.tsx` в `src/pages/Index.tsx`                                                                                  | 0.3d   |
 
 **Цель дня:** Mobile-корректно работающая навигация + step counter
 
@@ -154,12 +154,12 @@ suno-cancel-task         ❌ ОТСУТСТВУЕТ — нужно создат�
 
 ### 📅 ДЕНЬ 5 (2026-07-09) — Фаза C: E2E тесты + Docs
 
-| Время | ID         | Задача                                                   | Файлы                                     | Effort |
-| ----- | ---------- | -------------------------------------------------------- | ----------------------------------------- | ------ |
-| 09:00 | **055-C4** | E2E test Save Draft round-trip                           | `tests/e2e/generation.save-draft.spec.ts` | 0.4d   |
-| 12:00 | **055-C5** | E2E test Deeplink generate → open sheet                  | `tests/e2e/deeplink.generate.spec.ts`     | 0.3d   |
-| 14:00 | **055-C2** | Documentation: `docs/UX_AUDIT_2026-07-04.md` + CHANGELOG | новый doc + [CHANGELOG.md](CHANGELOG.md)  | 0.4d   |
-| 16:00 | **055-C3** | Sprint retro `docs/sprints/SPRINT-055-RETRO.md`          | новый файл                                | 0.3d   |
+| Время | ID         | Задача                                                   | Файлы                                       | Effort |
+| ----- | ---------- | -------------------------------------------------------- | ------------------------------------------- | ------ |
+| 09:00 | **055-C4** | E2E test Save Draft round-trip                           | `tests/e2e/generation.save-draft.spec.ts`   | 0.4d   |
+| 12:00 | **055-C5** | E2E test Deeplink generate → open sheet                  | `tests/e2e/deeplink.generate.spec.ts`       | 0.3d   |
+| 14:00 | **055-C2** | Documentation: `docs/UX_AUDIT_2026-07-04.md` + CHANGELOG | новый doc + [CHANGELOG.md](../CHANGELOG.md) | 0.4d   |
+| 16:00 | **055-C3** | Sprint retro `docs/sprints/SPRINT-055-RETRO.md`          | новый файл                                  | 0.3d   |
 
 **Цель дня:** Полное покрытие, документация, ретроспектива
 

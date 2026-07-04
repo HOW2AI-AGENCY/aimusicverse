@@ -8,7 +8,7 @@
 **Длительность**: 1-2 недели  
 **Приоритет**: P0 — Критический
 
-[📋 Полный план оптимизации](../OPTIMIZATION_PLAN.md) • [📊 Статус проекта](../PROJECT_STATUS.md) • [🏠 README](../README.md)
+[📋 Полный план оптимизации](./OPTIMIZATION_PLAN.md) • [📊 Статус проекта](../PROJECT_STATUS.md) • [🏠 README](../README.md)
 
 </div>
 
@@ -303,7 +303,7 @@ gantt
 
 ### Внутри проекта
 
-- [OPTIMIZATION_PLAN.md](../OPTIMIZATION_PLAN.md) — Полный план оптимизации
+- [OPTIMIZATION_PLAN.md](./OPTIMIZATION_PLAN.md) — Полный план оптимизации
 - [PROJECT_STATUS.md](../PROJECT_STATUS.md) — Статус проекта
 - [README.md](../README.md) — Обзор проекта
 

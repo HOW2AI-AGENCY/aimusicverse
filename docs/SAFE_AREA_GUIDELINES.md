@@ -354,10 +354,8 @@ document.documentElement.style.setProperty("--tg-content-safe-area-inset-bottom"
 
 ## 🔗 Related Documentation
 
-- [Telegram Mini App UI Guidelines](./TELEGRAM_MINI_APP_UI_IMPROVEMENTS_2025-12.md)
 - [iOS Fixes](./iOS_FIXES.md)
-- [Mobile UI Audit](./MOBILE_UI_AUDIT_2025_12.md)
-- [Sprint 028: UI/UX Optimization](../SPRINT_028_UI_UX_OPTIMIZATION.md)
+- [Sprint 028: UI/UX Optimization](./archive/2026-01-04-cleanup/SPRINT_028_UI_UX_OPTIMIZATION.md)
 
 ---
 

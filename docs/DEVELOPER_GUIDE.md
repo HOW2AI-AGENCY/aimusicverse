@@ -911,9 +911,9 @@ if (window.Telegram?.WebApp) {
 
 ### Project Documentation
 
-- [Architecture Guide](./COMPREHENSIVE_ARCHITECTURE.md)
+- [Architecture Guide](../ARCHITECTURE_HUB.md)
 - [Hooks Reference](./HOOKS_REFERENCE.md)
-- [API Reference](./API_REFERENCE.md)
+- API Reference (см. [SUNO_API.md](./SUNO_API.md))
 - [Database Schema](./DATABASE.md)
 
 ### Community
