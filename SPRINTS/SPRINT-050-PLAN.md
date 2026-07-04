@@ -49,8 +49,8 @@
 | 050-B1 | **Scroll/viewport**: `useScrollLock` wiring в 4 surfaces; `useVisualViewport` keyboard avoidance; `useMediaQuery` SSR-guard           | F1, F8, F9   | 1.5d   | ⏳ Pending |
 | 050-B2 | **Focus/keyboard**: focus-trap в sheet/dialog; Library keyboard nav (`aria-selected` + scroll-into-view); Telegram BackButton race    | F3, F6, F7   | 1.5d   | ⏳ Pending |
 | 050-B3 | **Поверхности**: `PromptHistory` sub-dialog root cause; QueueSheet auto-close + misleading toast copy; `LibraryFilterChips` parity    | F2, F5, F11  | 1d     | ⏳ Pending |
-| 050-B4 | **Данные/чистка**: `usePublicTracks` cover_url normalization; `VersionComparison.tsx` dead-code removal; `LazyImage` a11y             | F4, F10, F12 | 1d     | ⏳ Pending |
-| 050-B5 | **ErrorBoundary home button** (`useNavigate`) — перенос из Sprint 045 Phase D-4                                                       | —            | 0.5d   | ⏳ Pending |
+| 050-B4 | **Данные/чистка**: `usePublicTracks` cover_url normalization (⏳ pending) · `VersionComparison.tsx` dead-code removal (✅ удалён) · `LazyImage` a11y (✅ role=img/aria-label уже есть) | F4, F10, F12 | 1d     | 🟡 Partial (2/3) |
+| 050-B5 | **ErrorBoundary home button** — уже использует SPA `navigateTo` через `@/hooks/useAppNavigate`                                       | —            | 0.5d   | ✅ Done |
 | 050-B6 | **Bundle quick wins**: `canvas-confetti` вынесен в lazy (`src/lib/confetti.ts`, 5 использований). `lamejs` (~100 КБ) и `qrcode` (~30 КБ) — ещё в очереди | —            | 0.5d   | 🟡 Partial (1/3) |
 
 
