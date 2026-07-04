@@ -4599,18 +4599,21 @@ export type Database = {
           created_at: string
           id: string
           track_id: string
+          track_version_id: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
           track_id: string
+          track_version_id: string
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
           track_id?: string
+          track_version_id?: string
           user_id?: string
         }
         Relationships: [
@@ -4633,6 +4636,13 @@ export type Database = {
             columns: ["track_id"]
             isOneToOne: false
             referencedRelation: "trending_tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_likes_track_version_id_fkey"
+            columns: ["track_version_id"]
+            isOneToOne: false
+            referencedRelation: "track_versions"
             referencedColumns: ["id"]
           },
         ]
@@ -4769,6 +4779,7 @@ export type Database = {
           duration_seconds: number | null
           id: string
           is_primary: boolean | null
+          likes_count: number
           metadata: Json | null
           parent_version_id: string | null
           source_type: string | null
@@ -4785,6 +4796,7 @@ export type Database = {
           duration_seconds?: number | null
           id?: string
           is_primary?: boolean | null
+          likes_count?: number
           metadata?: Json | null
           parent_version_id?: string | null
           source_type?: string | null
@@ -4801,6 +4813,7 @@ export type Database = {
           duration_seconds?: number | null
           id?: string
           is_primary?: boolean | null
+          likes_count?: number
           metadata?: Json | null
           parent_version_id?: string | null
           source_type?: string | null
