@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-050_in_progress-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-056_in_progress-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-292_passing-10B981?style=for-the-badge"/>
@@ -567,6 +567,7 @@ mindmap
 | **052-C** | Mashup cleanup: декомпозиция + i18n + stories ([retro](docs/sprints/SPRINT-052-RETRO.md))                                 | ✅ ЗАВЕРШЁН                | Июль |
 | **053**   | Suno API: Sounds + MIDI Direct + Boost Style ([план](SPRINTS/SPRINT-053-PLAN.md))                                         | 📋 Запланирован            | Авг  |
 | **054**   | Suno API: Details Suite + Per-Task Introspection ([план](SPRINTS/SPRINT-054-PLAN.md))                                     | 📋 Запланирован            | Сен  |
+| **056**   | GenerateSheet Redesign + Storybook ([план](SPRINTS/SPRINT-056-PLAN.md))                                                   | 🔄 В работе (B1-B6 ✅)     | Июль |
 | —         | Eager-load bundle fix (1.19 МБ → 508 КБ gzip, вне спринт-нумерации, #568)                                                 | ✅ ЗАВЕРШЁН                | Июль |
 
 **Открытые долги / риски (обновлено 2026-07-03, #567/#568):**
