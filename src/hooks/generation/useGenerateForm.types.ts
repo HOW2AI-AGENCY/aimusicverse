@@ -112,6 +112,14 @@ export interface UseGenerateFormStateReturn {
    */
   apiCredits: number | null;
   setApiCredits: (v: number | null) => void;
+
+  // ─── auth/credits context forwarded from internal state ─────────
+  isAdmin: boolean;
+  apiBalance: number | null | undefined;
+  userBalance: number | null;
+  activeReference: unknown;
+  clearAudioReference: () => void;
+  invalidateCredits: () => void;
 }
 
 /** Deps accepted by `useGenerateFormActions`. */
