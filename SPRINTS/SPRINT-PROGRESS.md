@@ -1,6 +1,6 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-07-04 (Sprint 052 завершён 8/10 — Mashup/Persona/File Upload закрыты; B9/B10 deferred в Sprint 052-C; Sprint 053/054 запланированы — Suno API gap closure)
+**Последнее обновление**: 2026-07-04, поздний вечер (P0-хотфикс typecheck влит в main — PR #576/#577, Quality & Build зелёный; Sprint 050 фаза A0 закрыта; операционный план закрытия спринтов — [SPRINT-CLOSURE-PLAN-2026-07.md](SPRINT-CLOSURE-PLAN-2026-07.md))
 
 > 📌 **Важно**: Это документ отслеживает все спринты и их статусы. Для детального плана задач смотрите [BACKLOG.md](BACKLOG.md).
 
@@ -32,7 +32,7 @@
 | **Sprint 043: Layer Pass #2 + A11y**               | ✅ ЗАВЕРШЁН        | C1-C6 ✅ — 65 компонентов через service layer; ESLint `no-restricted-imports` + `layer-boundary/no-supabase-from-in-component` guardrail для `src/components/**`; touch-target миграция (391→0 в touched layers); mobile Playwright smoke (6 tests × 7 projects). Итого 6/6                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | **Sprint 044: Type Safety + Result Pattern**       | ✅ ЗАВЕРШЁН        | D1 ✅ (`Result<T,E>` в `src/lib/result.ts` + 9 тестов); D2 ✅ (`any` в `src/hooks/**` 164→6); D3 ✅ (`any` в `src/stores/**` 12→0); D4 ✅ (pages уже <10); D5 ✅ (`any` в `src/components/**` 155→0); D6 ✅ (3 сервиса → Result: VoiceClone 8 методов, AudioAnalysis 5 методов + 2 helpers, ReferenceManager 3 метода); D7 ✅ (ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs`). Итого 7/7                                                                                                                                                                                                                                                                                     |
 | **Sprint 045: Hygiene + Docs**                     | ⏳ ЗАПЛАНИРОВАН    | E1-E4 — docs sweep, project navigation, changelog polish, repo health metrics                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| **Sprint 050: Main Green + Mobile Audit F1–F12**   | ⏳ ЗАПЛАНИРОВАН    | Фаза A: Main Green (E2E run #115 verdict, lychee link-check, prod-migrations sync, Lovable-процесс, bun.lock vs package-lock); Фаза B: F1–F12 (useScrollLock, focus-trap, usePublicTracks cover_url, Library keyboard nav, LazyImage a11y, queue/visualviewport/PromptHistory sub-dialog, etc.) + bundle quick wins. Детальный план: [SPRINTS/SPRINT-050-PLAN.md](./SPRINT-050-PLAN.md)                                                                                                                                                                                                                                                                                                              |
+| **Sprint 050: Main Green + Mobile Audit F1–F12**   | 🔄 В РАБОТЕ        | **A0** ✅ P0-хотфикс typecheck влит (PR #576/#577: `MashupDialog` деструктуризация + `SunoMashupParams`/`SunoPersonaParams` index signature; +4 регрессионных теста, unit 292/292) — Q&B на main зелёный. **A2** 🔄 сужена: graphify-out решён, 7 ссылок voice-cloning починены (ветка `claude/sprint-closure-planning-m6skuk`). **A4** 🔴 главный блокер — force-push в main продолжается. A1 (E2E verdict), A3 (prod-migrations sync), A5 (bun.lock vs package-lock) — ⏳. Фаза B: F1–F12 + bundle quick wins — после зелёной фазы A. Планы: [SPRINT-050-PLAN.md](./SPRINT-050-PLAN.md) · [SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINT-CLOSURE-PLAN-2026-07.md)                                       |
 | **Sprint 051: Test Debt + God Files**              | ⏳ ЗАПЛАНИРОВАН    | Tests-first: 9 файлов >800 LOC + 20 `src/api/*.api.ts` + 18 `src/services/*.service.ts` → декомпозиция топ-3 (`studio.service.ts` 1028, `LyricsParser.ts` 903, `studio.api.ts` 891). Цель: 282 → 450+ unit-тестов, 0 файлов >1000 строк                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | **Sprint 052: Suno Mashup + Persona + Upload**     | ✅ ЗАВЕРШЁН (8/10) | **A1–A5** ✅ edge `suno-mashup/persona/persona-callback/file-upload` + DB `track_personas` + `track_versions.persona_id` + cover/extend → shared uploader (`916cd72a` … `18b1e80e`). **B1** ✅ hooks `useSunoMashup/Persona/FileUpload` + `MashupDialog` + интеграция в track-actions (`d0296177`, `998980bc`). **B5** ✅ кнопка «Create Persona» в `GenerationResultSheet` (`8a4bc8a4`). **B6** ✅ Telegram `/mashup` + deep-link `startapp=mashup_<id>` (`b778bf98`). **B7** ✅ docs (`SUNO_API.md`, CHANGELOG, ROADMAP, PROJECT_STATUS). **B8** ✅ e2e smoke `tests/e2e/suno-mashup.spec.ts`. **B9** ⏸ Storybook stories deferred в Sprint 052-C. **B10** ⏸ i18n strings deferred в Sprint 052-C. |
 | **Sprint 053: Suno API Sounds + MIDI + Boost**     | ⏳ ЗАПЛАНИРОВАН    | Edge: `suno-sounds`, `suno-sounds-callback`, `suno-midi`, `suno-midi-callback`, `suno-midi-details`. Подключить к UI существующий `suno-boost-style` (или удалить). UI: `SfxGeneratorSheet`, MIDI-fallback в Studio. Telegram: `/sfx`. Замещает Replicate в `generate-sfx` и `transcribe-midi`. Δvalue: новый сегмент SFX + снижение Replicate-зависимости. Детальный план: [SPRINTS/SPRINT-053-PLAN.md](./SPRINT-053-PLAN.md)                                                                                                                                                                                                                                                                       |
@@ -287,9 +287,11 @@ All sprints 001-034 are completed. Sprint 037 completed 2026-06-29. Sprint 038 c
 | Edge Functions  | 120+    | —      |
 | Success Rate    | ~88%    | >92%   |
 | DAU             | ~25     | 50+    |
-| **Unit Tests**  | **341** | 500+   |
-| **Test Suites** | **25**  | 40+    |
+| **Unit Tests**  | **292** | 500+   |
+| **Test Suites** | **20**  | 40+    |
 | **Test Runner** | Vitest  | —      |
+
+<sub>📌 Unit Tests: 292 passing / 20 файлов — фактический прогон `npm test` 2026-07-04 (vitest include покрывает только `src/**`; ещё 25 файлов в `tests/unit/` не исполняются — задача Sprint 051).</sub>
 
 ---
 
@@ -302,6 +304,6 @@ All sprints 001-034 are completed. Sprint 037 completed 2026-06-29. Sprint 038 c
 
 ---
 
-_Обновлено: 2026-06-30_
+_Обновлено: 2026-07-04_
 
 > 🔗 Навигация: [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) • [PROJECT_STATUS.md](../PROJECT_STATUS.md) • [BACKLOG.md](BACKLOG.md)

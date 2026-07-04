@@ -24,6 +24,24 @@
 
 ## [Unreleased]
 
+### 🔧 P0 hotfix: typecheck на main + план закрытия спринтов (2026-07-04, вечер)
+
+> PR #576/#577 (влиты) + ветка `claude/sprint-closure-planning-m6skuk`. План: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
+
+#### Fixed
+
+- **8 ошибок `tsc` на `main`** из Sprint 052 (`fa45641`, PR #576): `MashupDialog.tsx` деструктурировал `data` из `useTracks()` (хук возвращает `tracks`) — это был и runtime-баг (пикеры треков Mashup всегда пустые); `SunoMashupParams`/`SunoPersonaParams` переведены с `interface` на `type` (implicit index signature для `invoke`-обёртки). Quality & Build на `main` снова зелёный; unit 292/292 (20 suites).
+- **7 битых ссылок в `docs/VOICE_CLONING_INTEGRATION.md`** (роняли Docs workflow / lychee): устаревшие пути voice-cloning файлов (`useVoiceCloning.ts` → `src/hooks/voice/useVoiceCloneWizard.ts`, `VoiceCloningStudio.tsx` → `src/components/voice-clone/VoiceCloneWizard.tsx`), несуществующие `VOICE_CLONING_README.md`/`docs/SUPPORT.md`, `../../`-пути выше корня репозитория, 404 `docs.sunoapi.org/suno-voice`.
+
+#### Added
+
+- **Регрессионные тесты `MashupDialog`** (`11dadd1`, PR #577): 4 теста в `src/__tests__/components/MashupDialog.test.tsx`.
+- **[SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md)** — операционный чеклист закрытия спринтов 050/051/052-C/053/054/055 с верифицированным состоянием CI и чеклистом обновления документации.
+
+#### Changed
+
+- Статус-документы синхронизированы с фактическим состоянием: `PROJECT_STATUS.md` (Sprint 050 в работе, блокеры, бейджи), `SPRINTS/SPRINT-PROGRESS.md` (метрики тестов 292/20 по фактическому прогону), `README.md` («Текущий фокус» → Sprint 050), `CLAUDE.md`.
+
 ### 🎛️ Sprint 052 — Suno Mashup + Persona + File Upload Proxy (2026-07-04)
 
 > Commits `916cd72a` … `b778bf98`. Реализует категории #1, #2, #3 из аудита Suno API (см. `docs/SUNO_API.md` → История изменений → Sprint 052).
