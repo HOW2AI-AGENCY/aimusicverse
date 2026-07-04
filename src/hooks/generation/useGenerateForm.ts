@@ -55,10 +55,10 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     setDescription: state.setDescription,
     setStyle: state.setStyle,
     setAudioFile: state.setAudioFile,
-    setAudioDuration: () => {
-      // The composer owns audioDuration via the state hook's setter;
-      // the boost hook here is only for handleBoostStyle.
-    },
+    // Forward the real setAudioDuration so handleSetAudioFile persists
+    // the computed audio metadata into state (Finding #2). Was previously
+    // a no-op, which meant the Suno submit pipeline always saw null.
+    setAudioDuration: state.setAudioDuration,
   });
   void boostLoading;
 
@@ -96,10 +96,10 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
       setWeirdnessConstraint: state.setWeirdnessConstraint,
       setAudioWeight: state.setAudioWeight,
       setSelectedProjectId: state.setSelectedProjectId,
-      setAudioDuration: () => {
-        // The boost hook's handleSetAudioFile path is the writer for
-        // audioDuration in the legacy code; we delegate to it below.
-      },
+      // Forward the real setAudioDuration so the draft hook's audio-
+      // reference effect (line 266 in useGenerateFormDraft.ts) can persist
+      // the active reference duration. Was previously a no-op (Finding #2).
+      setAudioDuration: state.setAudioDuration,
       setPlanTrackId: state.setPlanTrackId,
       setApiCredits: state.setApiCredits,
     },

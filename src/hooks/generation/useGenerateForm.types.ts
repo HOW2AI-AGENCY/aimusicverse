@@ -70,6 +70,11 @@ export interface UseGenerateFormStateReturn {
   audioFile: File | null;
   setAudioFile: (v: File | null) => void;
   audioDuration: number | null;
+  /**
+   * Setter for `audioDuration`. Forwarded from the internal state so the
+   * composer can wire the real boost-style/draft setters (not a no-op).
+   */
+  setAudioDuration: (v: number | null) => void;
   selectedProjectId?: string;
   setSelectedProjectId: (v: string | undefined) => void;
   selectedTrackId?: string;

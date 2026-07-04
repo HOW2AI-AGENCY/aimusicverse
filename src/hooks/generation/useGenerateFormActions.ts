@@ -42,7 +42,7 @@ export function useGenerateFormActions(deps: UseGenerateFormActionsDeps): UseGen
     weirdnessConstraint: deps.weirdnessConstraint,
     audioWeight: deps.audioWeight,
     audioFile: deps.audioFile,
-    audioDuration: null,
+    audioDuration: deps.audioDuration,
     selectedArtistId: deps.selectedArtistId,
     selectedProjectId: deps.selectedProjectId,
     initialProjectId: deps.initialProjectId,

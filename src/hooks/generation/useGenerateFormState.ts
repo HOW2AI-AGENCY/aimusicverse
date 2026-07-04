@@ -70,6 +70,7 @@ export function useGenerateFormState(params: UseGenerateFormParams): UseGenerate
     audioFile: s.audioFile,
     setAudioFile: s.setAudioFile,
     audioDuration: s.audioDuration,
+    setAudioDuration: s.setAudioDuration,
     selectedProjectId: s.selectedProjectId,
     setSelectedProjectId: s.setSelectedProjectId,
     selectedTrackId: s.selectedTrackId,
