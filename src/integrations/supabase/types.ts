@@ -3122,6 +3122,54 @@ export type Database = {
           },
         ]
       }
+      sound_effects: {
+        Row: {
+          audio_url: string | null
+          created_at: string
+          duration: number | null
+          id: string
+          image_url: string | null
+          key: string | null
+          model: string
+          prompt: string
+          status: string
+          suno_task_id: string | null
+          tempo: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          audio_url?: string | null
+          created_at?: string
+          duration?: number | null
+          id?: string
+          image_url?: string | null
+          key?: string | null
+          model?: string
+          prompt: string
+          status?: string
+          suno_task_id?: string | null
+          tempo?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          audio_url?: string | null
+          created_at?: string
+          duration?: number | null
+          id?: string
+          image_url?: string | null
+          key?: string | null
+          model?: string
+          prompt?: string
+          status?: string
+          suno_task_id?: string | null
+          tempo?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       stars_products: {
         Row: {
           created_at: string | null
@@ -4781,6 +4829,8 @@ export type Database = {
           is_primary: boolean | null
           likes_count: number
           metadata: Json | null
+          midi_generation_source: string | null
+          midi_url: string | null
           parent_version_id: string | null
           source_type: string | null
           track_id: string
@@ -4798,6 +4848,8 @@ export type Database = {
           is_primary?: boolean | null
           likes_count?: number
           metadata?: Json | null
+          midi_generation_source?: string | null
+          midi_url?: string | null
           parent_version_id?: string | null
           source_type?: string | null
           track_id: string
@@ -4815,6 +4867,8 @@ export type Database = {
           is_primary?: boolean | null
           likes_count?: number
           metadata?: Json | null
+          midi_generation_source?: string | null
+          midi_url?: string | null
           parent_version_id?: string | null
           source_type?: string | null
           track_id?: string
