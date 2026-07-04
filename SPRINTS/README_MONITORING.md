@@ -290,7 +290,7 @@ gantt
 
 - [PROJECT_STATUS.md](../PROJECT_STATUS.md) - Статус проекта
 - [ROADMAP.md](../ROADMAP.md) - Дорожная карта
-- [KNOWLEDGE_BASE.md](../KNOWLEDGE_BASE.md) - База знаний
+- [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) - Указатель документации
 - [SPRINT_TEMPLATE.md](SPRINT_TEMPLATE.md) - Шаблон спринта
 
 ### Внешние Инструменты

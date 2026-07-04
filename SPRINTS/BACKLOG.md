@@ -723,7 +723,7 @@
 
 ### Обзор
 
-Sprint 037 фокусируется на инфраструктурном hardening и улучшении Developer Experience. 12 задач, ~30 SP, 10 дней. Детальный план: [`SPRINTS/SPRINT-037-PLAN.md`](SPRINTS/SPRINT-037-PLAN.md).
+Sprint 037 фокусируется на инфраструктурном hardening и улучшении Developer Experience. 12 задач, ~30 SP, 10 дней. Детальный план: [`SPRINT-037-PLAN.md`](SPRINT-037-PLAN.md).
 
 > **Note:** Некоторые задачи пересекаются с существующими эпиками E008 (CQ-003 Test Coverage, CQ-004 E2E Tests, CQ-005 Bundle Optimization, INF-003 Monitoring/Sentry). Sprint 037 является их конкретной реализацией в рамках текущего спринта.
 

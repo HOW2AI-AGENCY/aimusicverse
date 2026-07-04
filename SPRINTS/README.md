@@ -298,7 +298,7 @@ All active and in-progress sprints have been completed as of June 25, 2026:
 
 - [../PROJECT_STATUS.md](../PROJECT_STATUS.md) - Project status
 - [../ROADMAP.md](../ROADMAP.md) - Development roadmap
-- [../KNOWLEDGE_BASE.md](../KNOWLEDGE_BASE.md) - Project knowledge base
+- [../DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) - Documentation hub
 - [SPRINT-PROGRESS.md](SPRINT-PROGRESS.md) - Active tracking
 - [BACKLOG.md](BACKLOG.md) - Product backlog
 

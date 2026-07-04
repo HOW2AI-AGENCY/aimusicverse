@@ -220,7 +220,7 @@ graph LR
 - 📋 [Полный Бэклог](BACKLOG.md)
 - 📊 [SPRINT-PROGRESS](SPRINT-PROGRESS.md)
 - 🎯 [PROJECT_STATUS](../PROJECT_STATUS.md)
-- 📖 [KNOWLEDGE_BASE](../KNOWLEDGE_BASE.md)
+- 📖 [DOCUMENTATION_INDEX](../DOCUMENTATION_INDEX.md)
 - 🔧 [Активные PRs](https://github.com/HOW2AI-AGENCY/aimusicverse/pulls)
 
 ---
