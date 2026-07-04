@@ -256,8 +256,7 @@ export async function getPendingAudioWithoutConsuming(telegramUserId: number): P
       fileId: options.fileId as string,
       fileType: options.fileType as string,
       analysisResult: options.analysisResult as
-        | { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean }
-        | undefined,
+        { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean } | undefined,
     };
   } catch (error) {
     logger.error("Error in getPendingAudioWithoutConsuming", error);

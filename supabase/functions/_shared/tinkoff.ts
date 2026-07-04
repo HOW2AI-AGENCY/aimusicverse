@@ -87,13 +87,7 @@ export interface TinkoffReceiptItem {
   Quantity: number;
   Amount: number; // Price * Quantity
   PaymentMethod?:
-    | "full_prepayment"
-    | "prepayment"
-    | "advance"
-    | "full_payment"
-    | "partial_payment"
-    | "credit"
-    | "credit_payment";
+    "full_prepayment" | "prepayment" | "advance" | "full_payment" | "partial_payment" | "credit" | "credit_payment";
   PaymentObject?:
     | "commodity"
     | "excise"

@@ -80,7 +80,9 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <span
             className={cn(
               "w-1.5 h-1.5 rounded-full animate-pulse",
-              lowBalance ? "bg-destructive shadow-[0_0_8px_hsl(var(--destructive))]" : "bg-primary shadow-[0_0_8px_hsl(var(--primary))]",
+              lowBalance
+                ? "bg-destructive shadow-[0_0_8px_hsl(var(--destructive))]"
+                : "bg-primary shadow-[0_0_8px_hsl(var(--primary))]",
             )}
             aria-hidden
           />

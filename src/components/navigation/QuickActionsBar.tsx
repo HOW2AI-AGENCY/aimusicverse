@@ -80,7 +80,11 @@ export const QuickActionsBar = memo(function QuickActionsBar({ onClose }: QuickA
   };
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide" role="toolbar" aria-label="Быстрые действия">
+    <div
+      className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide"
+      role="toolbar"
+      aria-label="Быстрые действия"
+    >
       {quickActions.map((action, index) => {
         const Icon = action.icon;
         return (

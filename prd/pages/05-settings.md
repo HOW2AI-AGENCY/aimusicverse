@@ -9,6 +9,7 @@
 The Settings Page allows users to manage their account settings across multiple categories. Features tabbed navigation with profile editing, subscription management, privacy controls, notification preferences, Telegram integration, theme settings, and MIDI configuration. Desktop uses a sidebar layout, while mobile uses horizontal tabs.
 
 **Primary Use Cases:**
+
 - Edit profile (name, username, bio, avatar, banner)
 - Manage subscription and billing
 - Configure privacy settings (public/private profile)
@@ -66,96 +67,96 @@ The Settings Page allows users to manage their account settings across multiple 
 
 ### Navigation Tabs
 
-| Tab | Icon | Description | Mobile | Desktop |
-|-----|------|-------------|--------|---------|
-| Profile | User | Edit name, username, bio, avatar | Yes | Yes |
-| Subscription | CreditCard | Manage subscription, billing | Yes | Yes |
-| Stats | BarChart3 | View usage statistics | Yes | Yes |
-| Appearance | Palette | Theme, language, preferences | Yes | Yes |
-| Privacy | Shield | Public profile, data controls | Yes | Yes |
-| Notifications | Bell | Push notification prefs | Yes | Yes |
-| Telegram | Send | Bot commands, deep links | Yes | Yes |
-| MIDI | Music | MIDI/PDF download settings | Yes | Yes |
+| Tab           | Icon       | Description                      | Mobile | Desktop |
+| ------------- | ---------- | -------------------------------- | ------ | ------- |
+| Profile       | User       | Edit name, username, bio, avatar | Yes    | Yes     |
+| Subscription  | CreditCard | Manage subscription, billing     | Yes    | Yes     |
+| Stats         | BarChart3  | View usage statistics            | Yes    | Yes     |
+| Appearance    | Palette    | Theme, language, preferences     | Yes    | Yes     |
+| Privacy       | Shield     | Public profile, data controls    | Yes    | Yes     |
+| Notifications | Bell       | Push notification prefs          | Yes    | Yes     |
+| Telegram      | Send       | Bot commands, deep links         | Yes    | Yes     |
+| MIDI          | Music      | MIDI/PDF download settings       | Yes    | Yes     |
 
 ### Profile Tab
 
-| Field | Type | Required | Validation | Notes |
-|-------|------|----------|------------|-------|
-| First Name | Text input | Yes | Max 100 chars | From Telegram profile |
-| Last Name | Text input | No | Max 100 chars | From Telegram profile |
-| Username | Text input | Yes | Alphanumeric, underscore, 3-20 chars | Unique across platform |
-| Display Name | Text input | No | Max 100 chars | Public display name |
-| Bio | Textarea | No | Max 500 chars | Short description |
-| Avatar | File upload | No | JPG/PNG, max 5MB, 1:1 ratio | Circular avatar |
-| Banner | File upload | No | JPG/PNG, max 10MB, 16:9 ratio | Profile banner |
-| Save Button | Button | — | — | Saves all profile fields |
+| Field        | Type        | Required | Validation                           | Notes                    |
+| ------------ | ----------- | -------- | ------------------------------------ | ------------------------ |
+| First Name   | Text input  | Yes      | Max 100 chars                        | From Telegram profile    |
+| Last Name    | Text input  | No       | Max 100 chars                        | From Telegram profile    |
+| Username     | Text input  | Yes      | Alphanumeric, underscore, 3-20 chars | Unique across platform   |
+| Display Name | Text input  | No       | Max 100 chars                        | Public display name      |
+| Bio          | Textarea    | No       | Max 500 chars                        | Short description        |
+| Avatar       | File upload | No       | JPG/PNG, max 5MB, 1:1 ratio          | Circular avatar          |
+| Banner       | File upload | No       | JPG/PNG, max 10MB, 16:9 ratio        | Profile banner           |
+| Save Button  | Button      | —        | —                                    | Saves all profile fields |
 
 ### Subscription Tab
 
-| Component | Description |
-|-----------|-------------|
-| Subscription Management | Current tier, upgrade button, billing history |
-| Invite Friends Card | Referral program, referral code, credits earned |
+| Component               | Description                                     |
+| ----------------------- | ----------------------------------------------- |
+| Subscription Management | Current tier, upgrade button, billing history   |
+| Invite Friends Card     | Referral program, referral code, credits earned |
 
 ### Stats Tab
 
-| Stat | Source | Notes |
-|------|--------|-------|
-| Total Tracks | Track count | All time |
-| Total Plays | Play count | All time |
-| Total Likes | Like count | All time |
+| Stat         | Source             | Notes         |
+| ------------ | ------------------ | ------------- |
+| Total Tracks | Track count        | All time      |
+| Total Plays  | Play count         | All time      |
+| Total Likes  | Like count         | All time      |
 | Credits Used | Sum of generations | Current month |
-| Generations | Generation count | Current month |
-| Storage Used | File storage | In MB |
+| Generations  | Generation count   | Current month |
+| Storage Used | File storage       | In MB         |
 
 ### Appearance Tab
 
-| Field | Type | Options | Default | Notes |
-|-------|------|---------|---------|-------|
-| Theme | Select | Light, Dark, System | System | App-wide theme |
-| Language | Select | EN, RU, ES, DE, FR, ZH | EN | Interface language |
-| Compact Mode | Toggle | — | Off | Dense UI layout |
-| Animations | Toggle | — | On | Motion preferences |
+| Field        | Type   | Options                | Default | Notes              |
+| ------------ | ------ | ---------------------- | ------- | ------------------ |
+| Theme        | Select | Light, Dark, System    | System  | App-wide theme     |
+| Language     | Select | EN, RU, ES, DE, FR, ZH | EN      | Interface language |
+| Compact Mode | Toggle | —                      | Off     | Dense UI layout    |
+| Animations   | Toggle | —                      | On      | Motion preferences |
 
 ### Privacy Tab
 
-| Field | Type | Options | Default | Notes |
-|-------|------|---------|---------|-------|
-| Public Profile | Toggle | — | On | Profile visibility in search |
-| Show Activity | Toggle | — | On | Display recent activity |
-| Allow Messages | Toggle | — | On | Receive DMs from followers |
-| Data Export | Button | — | — | Download all data (ZIP) |
-| Account Deletion | Button | — | — | Request account deletion |
+| Field            | Type   | Options | Default | Notes                        |
+| ---------------- | ------ | ------- | ------- | ---------------------------- |
+| Public Profile   | Toggle | —       | On      | Profile visibility in search |
+| Show Activity    | Toggle | —       | On      | Display recent activity      |
+| Allow Messages   | Toggle | —       | On      | Receive DMs from followers   |
+| Data Export      | Button | —       | —       | Download all data (ZIP)      |
+| Account Deletion | Button | —       | —       | Request account deletion     |
 
 ### Notifications Tab
 
-| Setting | Type | Options | Default | Notes |
-|---------|------|---------|---------|-------|
-| Generation Complete | Toggle | — | On | Push when track ready |
-| New Follower | Toggle | — | On | Push when followed |
-| New Like | Toggle | — | Off | Push when track liked |
-| New Comment | Toggle | — | On | Push when commented |
-| Weekly Digest | Toggle | — | On | Weekly stats email |
-| Telegram Notifications | Toggle | — | On | Via Telegram bot |
+| Setting                | Type   | Options | Default | Notes                 |
+| ---------------------- | ------ | ------- | ------- | --------------------- |
+| Generation Complete    | Toggle | —       | On      | Push when track ready |
+| New Follower           | Toggle | —       | On      | Push when followed    |
+| New Like               | Toggle | —       | Off     | Push when track liked |
+| New Comment            | Toggle | —       | On      | Push when commented   |
+| Weekly Digest          | Toggle | —       | On      | Weekly stats email    |
+| Telegram Notifications | Toggle | —       | On      | Via Telegram bot      |
 
 ### Telegram Tab
 
-| Setting | Type | Options | Default | Notes |
-|---------|------|---------|---------|-------|
-| Bot Commands | Toggle | — | On | Enable /generate, /library |
-| Deep Links | Toggle | — | On | Allow startapp= links |
-| Story Sharing | Toggle | — | On | Share tracks to stories |
-| Auto-Open | Toggle | — | Off | Auto-open bot links |
-| Unlink Account | Button | — | — | Disconnect Telegram |
+| Setting        | Type   | Options | Default | Notes                      |
+| -------------- | ------ | ------- | ------- | -------------------------- |
+| Bot Commands   | Toggle | —       | On      | Enable /generate, /library |
+| Deep Links     | Toggle | —       | On      | Allow startapp= links      |
+| Story Sharing  | Toggle | —       | On      | Share tracks to stories    |
+| Auto-Open      | Toggle | —       | Off     | Auto-open bot links        |
+| Unlink Account | Button | —       | —       | Disconnect Telegram        |
 
 ### MIDI Tab
 
-| Setting | Type | Options | Default | Notes |
-|---------|------|---------|---------|-------|
-| MIDI Format | Select | MIDI 0, MIDI 1 | MIDI 0 | File format |
-| PDF Format | Toggle | — | On | Include PDF notation |
-| notation | Select | Standard, Tab | Standard | Notation type |
-| Auto-Download | Toggle | — | Off | Auto-save MIDI after generation |
+| Setting       | Type   | Options        | Default  | Notes                           |
+| ------------- | ------ | -------------- | -------- | ------------------------------- |
+| MIDI Format   | Select | MIDI 0, MIDI 1 | MIDI 0   | File format                     |
+| PDF Format    | Toggle | —              | On       | Include PDF notation            |
+| notation      | Select | Standard, Tab  | Standard | Notation type                   |
+| Auto-Download | Toggle | —              | Off      | Auto-save MIDI after generation |
 
 ---
 
@@ -164,6 +165,7 @@ The Settings Page allows users to manage their account settings across multiple 
 ### Page Load
 
 **Behavior:**
+
 1. Fetch user profile via `useSettingsPage()` hook
 2. Load notification settings
 3. Check subscription status
@@ -171,6 +173,7 @@ The Settings Page allows users to manage their account settings across multiple 
 5. Render settings with loading state if data fetching
 
 **API Calls:**
+
 - `GET /api/profiles/{userId}` — User profile data
 - `GET /api/users/{userId}/notification-settings` — Notification preferences
 - `GET /api/users/{userId}/subscription` — Subscription status
@@ -180,6 +183,7 @@ The Settings Page allows users to manage their account settings across multiple 
 **Trigger:** Click tab trigger (mobile) or sidebar item (desktop)
 
 **Behavior:**
+
 1. Update `activeTab` state
 2. Update URL query param: `?tab={tabName}`
 3. Load tab content (if not cached)
@@ -191,6 +195,7 @@ The Settings Page allows users to manage their account settings across multiple 
 **Trigger:** Click "Save Changes" button
 
 **Behavior:**
+
 1. Validate all required fields (first name, username)
 2. Check username uniqueness (if changed)
 3. Show loading state on button (spinner)
@@ -205,6 +210,7 @@ The Settings Page allows users to manage their account settings across multiple 
    - Reset button state
 
 **API Request:**
+
 ```typescript
 PATCH /api/profiles/{userId}
 {
@@ -219,6 +225,7 @@ PATCH /api/profiles/{userId}
 ```
 
 **Validation:**
+
 - Username: 3-20 chars, alphanumeric + underscore only, unique
 - First name: Required, max 100 chars
 - Bio: Max 500 chars
@@ -230,6 +237,7 @@ PATCH /api/profiles/{userId}
 **Trigger:** Click avatar area, select file
 
 **Behavior:**
+
 1. Open file picker (images only)
 2. User selects image file
 3. Validate file (JPG/PNG, max 5MB)
@@ -240,6 +248,7 @@ PATCH /api/profiles/{userId}
 8. Save on "Save Changes" button click
 
 **API Calls:**
+
 - `POST /api/storage/upload-avatar` — Upload to Supabase
 - `PATCH /api/profiles/{userId}` — Update profile with new URL
 
@@ -248,6 +257,7 @@ PATCH /api/profiles/{userId}
 **Trigger:** Click banner area, select file
 
 **Behavior:**
+
 1. Open file picker (images only)
 2. User selects image file
 3. Validate file (JPG/PNG, max 10MB)
@@ -258,6 +268,7 @@ PATCH /api/profiles/{userId}
 8. Save on "Save Changes" button click
 
 **API Calls:**
+
 - `POST /api/storage/upload-banner` — Upload to Supabase
 - `PATCH /api/profiles/{userId}` — Update profile with new URL
 
@@ -266,6 +277,7 @@ PATCH /api/profiles/{userId}
 **Trigger:** Click "Upgrade to Premium" button
 
 **Behavior:**
+
 1. Navigate to `/subscription` page
 2. Haptic feedback (light impact)
 3. Pass source param: `?source=settings`
@@ -275,6 +287,7 @@ PATCH /api/profiles/{userId}
 **Trigger:** Toggle "Public Profile" switch
 
 **Behavior:**
+
 1. Show warning dialog if turning OFF public:
    - "Your profile will be hidden from other users. Continue?"
 2. User confirms
@@ -284,6 +297,7 @@ PATCH /api/profiles/{userId}
 6. Show success/error toast
 
 **Special Rules:**
+
 - Public tracks remain public even if profile is private
 - Profile owner always sees own profile (even if private)
 - Followers can still see profile if was previously public
@@ -293,6 +307,7 @@ PATCH /api/profiles/{userId}
 **Trigger:** Click "Export All Data" button
 
 **Behavior:**
+
 1. Show loading dialog: "Preparing your data..."
 2. Call API: `POST /api/users/export-data`
 3. Generate ZIP file with:
@@ -307,6 +322,7 @@ PATCH /api/profiles/{userId}
 6. Send email with download link (expires in 24h)
 
 **API Calls:**
+
 - `POST /api/users/export-data` — Trigger export job
 - `GET /api/users/export-data/{jobId}/download` — Download file
 
@@ -315,6 +331,7 @@ PATCH /api/profiles/{userId}
 **Trigger:** Click "Delete Account" button
 
 **Behavior:**
+
 1. Show confirmation dialog:
    - "This will permanently delete your account and all data. Are you sure?"
 2. User types "DELETE" to confirm
@@ -327,9 +344,11 @@ PATCH /api/profiles/{userId}
 8. Show "Account deleted" toast
 
 **API Calls:**
+
 - `DELETE /api/users/{userId}` — Schedule account deletion (30-day grace period)
 
 **Special Rules:**
+
 - Grace period: 30 days to cancel deletion
 - Data removal: All user data deleted after grace period
 - Content policy: Public tracks >100 likes preserved (transfer to system account)
@@ -339,14 +358,16 @@ PATCH /api/profiles/{userId}
 **Trigger:** Toggle notification switch
 
 **Behavior:**
+
 1. Optimistic update: Toggle switch immediately
 2. Call API: `PATCH /api/users/{userId}/notification-settings`
 3. On error: Revert toggle
 4. Show success toast
 
 **API Request:**
+
 ```typescript
-PATCH /api/users/{userId}/notification-settings
+PATCH / api / users / { userId } / notification - settings;
 {
   generation_complete: boolean;
   new_follower: boolean;
@@ -362,6 +383,7 @@ PATCH /api/users/{userId}/notification-settings
 **Trigger:** Click "Unlink Telegram Account" button
 
 **Behavior:**
+
 1. Show confirmation dialog:
    - "You'll need to re-authenticate with Telegram to continue using MusicVerse AI. Continue?"
 2. User confirms
@@ -371,6 +393,7 @@ PATCH /api/users/{userId}/notification-settings
 6. Show "Telegram unlinked" toast
 
 **API Calls:**
+
 - `POST /api/auth/unlink-telegram` — Remove Telegram link
 
 ### Appearance Tab - Theme Change
@@ -378,12 +401,14 @@ PATCH /api/users/{userId}/notification-settings
 **Trigger:** Select theme option (Light/Dark/System)
 
 **Behavior:**
+
 1. Update local theme state immediately
 2. Save to localStorage
 3. Call API: `PATCH /api/users/{userId}/settings`
 4. Apply theme across app
 
 **Special Rules:**
+
 - System: Respects OS dark mode preference
 - Light/Dark: Overrides OS preference
 - Persistence: Saved per device (localStorage)
@@ -393,43 +418,48 @@ PATCH /api/users/{userId}/notification-settings
 **Trigger:** Change MIDI format, notation, or auto-download
 
 **Behavior:**
+
 1. Update local state
 2. Save to localStorage
 3. Show "Settings saved" toast
 
 **API Calls:**
+
 - No API call (client-side only, applies on next MIDI generation)
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Profile | GET | /api/profiles/{userId} | Page load | User profile data |
-| Update Profile | PATCH | /api/profiles/{userId} | Save profile | Update name, username, bio |
-| Upload Avatar | POST | /api/storage/upload-avatar | Avatar upload | Returns public URL |
-| Upload Banner | POST | /api/storage/upload-banner | Banner upload | Returns public URL |
-| Get Notification Settings | GET | /api/users/{userId}/notification-settings | Page load | Current notification prefs |
-| Update Notification Settings | PATCH | /api/users/{userId}/notification-settings | Toggle notification | Update preferences |
-| Get Subscription | GET | /api/users/{userId}/subscription | Page load | Current tier, billing |
-| Export Data | POST | /api/users/export-data | Export button | Triggers ZIP generation |
-| Download Export | GET | /api/users/export-data/{jobId}/download | Auto-download | ZIP file download |
-| Delete Account | DELETE | /api/users/{userId} | Delete account | Schedules deletion |
-| Unlink Telegram | POST | /api/auth/unlink-telegram | Unlink button | Removes Telegram link |
+| API                          | Method | Path                                      | Trigger             | Notes                      |
+| ---------------------------- | ------ | ----------------------------------------- | ------------------- | -------------------------- |
+| Get Profile                  | GET    | /api/profiles/{userId}                    | Page load           | User profile data          |
+| Update Profile               | PATCH  | /api/profiles/{userId}                    | Save profile        | Update name, username, bio |
+| Upload Avatar                | POST   | /api/storage/upload-avatar                | Avatar upload       | Returns public URL         |
+| Upload Banner                | POST   | /api/storage/upload-banner                | Banner upload       | Returns public URL         |
+| Get Notification Settings    | GET    | /api/users/{userId}/notification-settings | Page load           | Current notification prefs |
+| Update Notification Settings | PATCH  | /api/users/{userId}/notification-settings | Toggle notification | Update preferences         |
+| Get Subscription             | GET    | /api/users/{userId}/subscription          | Page load           | Current tier, billing      |
+| Export Data                  | POST   | /api/users/export-data                    | Export button       | Triggers ZIP generation    |
+| Download Export              | GET    | /api/users/export-data/{jobId}/download   | Auto-download       | ZIP file download          |
+| Delete Account               | DELETE | /api/users/{userId}                       | Delete account      | Schedules deletion         |
+| Unlink Telegram              | POST   | /api/auth/unlink-telegram                 | Unlink button       | Removes Telegram link      |
 
 ## Page Relationships
 
 **From:**
+
 - `/profile` → Click "Settings" menu item
 - `/` (Home) → Click settings icon in header
 - Deep link → `t.me/AIMusicVerseBot/app?startapp=settings` opens settings
 
 **To:**
+
 - `/subscription` → Click "Upgrade to Premium" button
 - `/settings/blocked-users` → Click "Manage Blocked Users" (Privacy tab)
 - `/` (Home) → Click back button or Telegram back button
 - `/auth` → After unlinking Telegram or deleting account
 
 **Data Coupling:**
+
 - Profile data: Shared across all pages via `useProfile()` hook
 - Notification settings: Fetched on settings page load, used globally
 - Theme settings: Applied immediately across all pages

@@ -86,9 +86,7 @@ export function NavigationShell({ hasActiveTrack, children }: NavigationShellPro
   }, []);
 
   const sidebarWidth = sidebarCollapsed ? "w-16" : "w-64";
-  const mainMarginClass = isDesktop
-    ? sidebarCollapsed ? "ml-16" : "ml-64"
-    : isMobileLandscape ? "ml-14" : "";
+  const mainMarginClass = isDesktop ? (sidebarCollapsed ? "ml-16" : "ml-64") : isMobileLandscape ? "ml-14" : "";
 
   return (
     <>

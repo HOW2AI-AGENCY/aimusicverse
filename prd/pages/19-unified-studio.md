@@ -9,6 +9,7 @@
 Unified Studio is the comprehensive music editing workspace combining stem separation, mixing, waveform editing, MIDI transcription, and AI generation. Features tabbed interface with Tracks, Waveform, Stem Mixer, MIDI, and Settings views. Supports both project-based and track-based workflows.
 
 **Primary Use Cases:**
+
 - Edit project tracks with stem separation
 - Mix stems with volume, pan, and effects
 - Edit waveforms with cut, copy, paste
@@ -103,66 +104,66 @@ Unified Studio is the comprehensive music editing workspace combining stem separ
 
 ### Tracks Tab
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Add Track Button | Button | Opens add track dialog |
-| Track Items | List | All tracks in project |
-| Track Name | Text | Track title (editable) |
-| Waveform Preview | Canvas | Mini waveform display |
-| Duration | Text (MM:SS) | Track length |
-| Stem Status | Badge | "4 stems", "No stems", "Processing" |
-| Play Button | Icon | Plays track |
-| Edit Button | Icon | Opens waveform editor |
-| Generate Button | Icon | Extend/regenerate section |
-| Delete Button | Icon | Remove from project |
+| Element          | Type         | Notes                               |
+| ---------------- | ------------ | ----------------------------------- |
+| Add Track Button | Button       | Opens add track dialog              |
+| Track Items      | List         | All tracks in project               |
+| Track Name       | Text         | Track title (editable)              |
+| Waveform Preview | Canvas       | Mini waveform display               |
+| Duration         | Text (MM:SS) | Track length                        |
+| Stem Status      | Badge        | "4 stems", "No stems", "Processing" |
+| Play Button      | Icon         | Plays track                         |
+| Edit Button      | Icon         | Opens waveform editor               |
+| Generate Button  | Icon         | Extend/regenerate section           |
+| Delete Button    | Icon         | Remove from project                 |
 
 ### Waveform Tab
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Waveform Canvas | Canvas | Large interactive waveform display |
-| Zoom Slider | Slider | Zoom in/out (0.1x to 10x) |
-| Selection | Region | Selected region (highlighted) |
-| Time Display | Text | Current playhead position (MM:SS.mmm) |
-| Toolbar | Buttons | Cut, Copy, Paste, Delete, Select All |
-| Transport | Controls | Play, Stop, Loop, Return to start |
+| Element         | Type     | Notes                                 |
+| --------------- | -------- | ------------------------------------- |
+| Waveform Canvas | Canvas   | Large interactive waveform display    |
+| Zoom Slider     | Slider   | Zoom in/out (0.1x to 10x)             |
+| Selection       | Region   | Selected region (highlighted)         |
+| Time Display    | Text     | Current playhead position (MM:SS.mmm) |
+| Toolbar         | Buttons  | Cut, Copy, Paste, Delete, Select All  |
+| Transport       | Controls | Play, Stop, Loop, Return to start     |
 
 ### Stem Mixer Tab
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Stem List | List | Vocals, Drums, Bass, Other instruments |
-| Stem Items | Rows | Each stem with controls |
-| Volume Fader | Slider | 0-100, controls stem volume |
-| Pan Knob | Rotary | L-R pan control (-50 to +50) |
-| Mute Button | Toggle | Mute stem |
-| Solo Button | Toggle | Solo stem (hear only this stem) |
-| Effects Rack | Panel | Reverb, EQ, Delay, Compression per stem |
-| Master Volume | Slider | Overall output volume |
-| Master Export | Button | Export mixed audio |
+| Element       | Type   | Notes                                   |
+| ------------- | ------ | --------------------------------------- |
+| Stem List     | List   | Vocals, Drums, Bass, Other instruments  |
+| Stem Items    | Rows   | Each stem with controls                 |
+| Volume Fader  | Slider | 0-100, controls stem volume             |
+| Pan Knob      | Rotary | L-R pan control (-50 to +50)            |
+| Mute Button   | Toggle | Mute stem                               |
+| Solo Button   | Toggle | Solo stem (hear only this stem)         |
+| Effects Rack  | Panel  | Reverb, EQ, Delay, Compression per stem |
+| Master Volume | Slider | Overall output volume                   |
+| Master Export | Button | Export mixed audio                      |
 
 ### MIDI Tab
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Model Selector | Select | 6 transcription models (Basic to Advanced) |
-| Confidence Meter | Progress | Shows detection confidence |
-| Notation Display | Canvas | Sheet music or guitar tablature |
-| Download MIDI | Button | Download .midi file |
-| Download PDF | Button | Download .pdf notation file |
-| Transcribe Button | Button | Start transcription process |
+| Element           | Type     | Notes                                      |
+| ----------------- | -------- | ------------------------------------------ |
+| Model Selector    | Select   | 6 transcription models (Basic to Advanced) |
+| Confidence Meter  | Progress | Shows detection confidence                 |
+| Notation Display  | Canvas   | Sheet music or guitar tablature            |
+| Download MIDI     | Button   | Download .midi file                        |
+| Download PDF      | Button   | Download .pdf notation file                |
+| Transcribe Button | Button   | Start transcription process                |
 
 ### Settings Tab
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Project Name | Text input | Editable project name |
-| Description | Textarea | Project description |
-| BPM | Number | Project tempo (60-200) |
-| Time Signature | Select | 4/4, 3/4, 6/8, etc. |
-| Export Format | Select | WAV, MP3, Stem separated |
-| Sample Rate | Select | 44.1kHz, 48kHz, 96kHz |
-| Bit Depth | Select | 16-bit, 24-bit, 32-bit float |
+| Element        | Type       | Notes                        |
+| -------------- | ---------- | ---------------------------- |
+| Project Name   | Text input | Editable project name        |
+| Description    | Textarea   | Project description          |
+| BPM            | Number     | Project tempo (60-200)       |
+| Time Signature | Select     | 4/4, 3/4, 6/8, etc.          |
+| Export Format  | Select     | WAV, MP3, Stem separated     |
+| Sample Rate    | Select     | 44.1kHz, 48kHz, 96kHz        |
+| Bit Depth      | Select     | 16-bit, 24-bit, 32-bit float |
 
 ---
 
@@ -173,16 +174,19 @@ Unified Studio is the comprehensive music editing workspace combining stem separ
 **Two Entry Points:**
 
 **1. From Project (`/studio-v2/project/{projectId}`):**
+
 - Load project data via `loadProject(projectId)`
 - Initialize studio store with project state
 - Render StudioShell with project loaded
 
 **2. From Track (`/studio-v2/track/{trackId}`):**
+
 - Create new project from track via `createFromTrack(trackId)`
 - Navigate to `/studio-v2/project/{newProjectId}` (replace URL)
 - Load project with imported track
 
 **API Calls:**
+
 - `GET /api/studio-projects/{id}` — Load project
 - `POST /api/studio-projects/from-track/{trackId}` — Create project from track
 
@@ -191,12 +195,14 @@ Unified Studio is the comprehensive music editing workspace combining stem separ
 **Trigger:** Click tab trigger (mobile: bottom, desktop: top)
 
 **Behavior:**
+
 1. Update active tab in store
 2. Lazy load tab content if needed
 3. Show loading skeleton if loading
 4. Render tab content
 
 **Tab Persistence:**
+
 - Tab selection saved to project state
 - Restored when project reopened
 - Default: Always opens to Tracks tab
@@ -206,6 +212,7 @@ Unified Studio is the comprehensive music editing workspace combining stem separ
 **Trigger:** Click "+ Add Track" button
 
 **Behavior:**
+
 1. Open add track dialog:
    - Select from library (dropdown of user's tracks)
    - Or upload new audio file
@@ -216,6 +223,7 @@ Unified Studio is the comprehensive music editing workspace combining stem separ
 5. Refresh track list
 
 **API Request:**
+
 ```typescript
 POST /api/studio-projects/{id}/tracks
 {
@@ -229,6 +237,7 @@ POST /api/studio-projects/{id}/tracks
 **Trigger:** Click "Separate Stems" on track
 
 **Behavior:**
+
 1. Show stem selection dialog:
    - Vocals (required)
    - Drums, Bass, Other (optional)
@@ -239,6 +248,7 @@ POST /api/studio-projects/{id}/tracks
 6. Update stem status badge
 
 **API Call:**
+
 - `POST /api/audio/separate-stems` — Separate audio into stems
 
 ### Stem Mixing
@@ -246,12 +256,14 @@ POST /api/studio-projects/{id}/tracks
 **Trigger:** Adjust volume/pan faders in Stem Mixer tab
 
 **Behavior:**
+
 1. Update stem state in store immediately (optimistic)
 2. Changes reflected in audio output (if playback active)
 3. Debounce API updates (500ms) to avoid excessive calls
 4. On stop: Call API to save stem mix settings
 
 **API Request:**
+
 ```typescript
 PATCH /api/studio-projects/{id}/stem-mix
 {
@@ -266,14 +278,17 @@ PATCH /api/studio-projects/{id}/stem-mix
 ### Waveform Editing
 
 **Cut Selection:**
+
 - **Trigger:** Select region → Click "Cut"
 - **Behavior:** Remove selection, update track audio
 
 **Copy/Paste:**
+
 - **Trigger:** Select region → Click "Copy" → Click "Paste"
 - **Behavior:** Copy selection to clipboard, paste at playhead
 
 **Delete Selection:**
+
 - **Trigger:** Select region → Click "Delete"
 - **Behavior:** Remove selection (same as Cut)
 
@@ -282,6 +297,7 @@ PATCH /api/studio-projects/{id}/stem-mix
 **Trigger:** Select model → Click "Transcribe"
 
 **Behavior:**
+
 1. Show model options (6 models: Basic to Advanced)
 2. User selects model and options
 3. Call API: `POST /api/midi/transcribe`
@@ -291,6 +307,7 @@ PATCH /api/studio-projects/{id}/stem-mix
    - Enable download buttons
 
 **API Call:**
+
 - `POST /api/midi/transcribe` — Transcribe audio to MIDI
 
 ### Export Project
@@ -298,6 +315,7 @@ PATCH /api/studio-projects/{id}/stem-mix
 **Trigger:** Click "Export" button in header
 
 **Behavior:**
+
 1. Open export dialog:
    - Format selection (WAV, MP3, Stems)
    - Sample rate, bit depth
@@ -307,6 +325,7 @@ PATCH /api/studio-projects/{id}/stem-mix
 4. Download file when ready
 
 **API Call:**
+
 - `POST /api/studio-projects/{id}/export` — Export project
 
 ### Save Project
@@ -314,43 +333,48 @@ PATCH /api/studio-projects/{id}/stem-mix
 **Trigger:** Click "Save" button in header
 
 **Behavior:**
+
 1. Save current project state to API
 2. Show "Saving..." indicator
 3. On success: Show "Project saved!" toast
 4. Auto-save: Every 5 minutes during editing
 
 **API Call:**
+
 - `PATCH /api/studio-projects/{id}` — Save project state
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Project | GET | /api/studio-projects/{id} | Page load | Load project |
-| Create from Track | POST | /api/studio-projects/from-track/{trackId} | Track entry | Create project |
-| Add Track | POST | /api/studio-projects/{id}/tracks | Add track | Link track |
-| Remove Track | DELETE | /api/studio-projects/{id}/tracks/{trackId} | Remove action | Unlink track |
-| Separate Stems | POST | /api/audio/separate-stems | Stem separation | Process audio |
-| Get Stem Status | GET | /api/studio-projects/{id}/stem-status | Load project | Stem processing status |
-| Save Stem Mix | PATCH | /api/studio-projects/{id}/stem-mix | Mixer change | Save mix settings |
-| Transcribe MIDI | POST | /api/midi/transcribe | Transcribe button | Convert audio to MIDI |
-| Export Project | POST | /api/studio-projects/{id}/export | Export button | Download files |
-| Save Project | PATCH | /api/studio-projects/{id} | Save button | Save state |
+| API               | Method | Path                                       | Trigger           | Notes                  |
+| ----------------- | ------ | ------------------------------------------ | ----------------- | ---------------------- |
+| Get Project       | GET    | /api/studio-projects/{id}                  | Page load         | Load project           |
+| Create from Track | POST   | /api/studio-projects/from-track/{trackId}  | Track entry       | Create project         |
+| Add Track         | POST   | /api/studio-projects/{id}/tracks           | Add track         | Link track             |
+| Remove Track      | DELETE | /api/studio-projects/{id}/tracks/{trackId} | Remove action     | Unlink track           |
+| Separate Stems    | POST   | /api/audio/separate-stems                  | Stem separation   | Process audio          |
+| Get Stem Status   | GET    | /api/studio-projects/{id}/stem-status      | Load project      | Stem processing status |
+| Save Stem Mix     | PATCH  | /api/studio-projects/{id}/stem-mix         | Mixer change      | Save mix settings      |
+| Transcribe MIDI   | POST   | /api/midi/transcribe                       | Transcribe button | Convert audio to MIDI  |
+| Export Project    | POST   | /api/studio-projects/{id}/export           | Export button     | Download files         |
+| Save Project      | PATCH  | /api/studio-projects/{id}                  | Save button       | Save state             |
 
 ## Page Relationships
 
 **From:**
+
 - `/studio-v2` → Click project card
 - `/library` → Click "Edit in Studio" on track
 - `/` (Home) → From generation "Edit in Studio" option
 - Deep link → `startapp=studio` or `startapp=studio-{projectId}` or `startapp=track-{trackId}`
 
 **To:**
+
 - `/library` → Click "View in Library" on track
 - `/` (Home) → Back button (returns to studio hub)
 - `/studio-v2/new` → Create new project (from hub)
 
 **Data Coupling:**
+
 - Project state: Managed via Zustand store (`useUnifiedStudioStore`)
 - Auto-save: Every 5 minutes to prevent data loss
 - Stem processing: Async status updates via polling

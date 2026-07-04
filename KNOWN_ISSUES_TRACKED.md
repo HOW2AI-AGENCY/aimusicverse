@@ -69,7 +69,7 @@
 
 ### 🔗 Related Documentation
 
-|            📚 Index             |      🗺 Roadmap       |       📝 Changelog        |          📊 Status          |         🤝 Contributing         |
+|            📚 Index             |       🗺 Roadmap       |       📝 Changelog        |          📊 Status          |         🤝 Contributing         |
 | :-----------------------------: | :-------------------: | :-----------------------: | :-------------------------: | :-----------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Roadmap](ROADMAP.md) | [Changelog](CHANGELOG.md) | [Status](PROJECT_STATUS.md) | [Contributing](CONTRIBUTING.md) |
 

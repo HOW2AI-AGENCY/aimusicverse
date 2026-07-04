@@ -123,12 +123,10 @@ serve(async (req) => {
         throw new Error("Invalid audio file format");
       }
 
-      const { error: uploadError } = await supabase.storage
-        .from("project-assets")
-        .upload(fileName, audioBuffer, {
-          contentType: audioFile.type || "audio/mpeg",
-          upsert: false,
-        });
+      const { error: uploadError } = await supabase.storage.from("project-assets").upload(fileName, audioBuffer, {
+        contentType: audioFile.type || "audio/mpeg",
+        upsert: false,
+      });
 
       if (uploadError) {
         logger.error("Upload error", uploadError);

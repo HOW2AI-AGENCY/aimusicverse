@@ -245,12 +245,7 @@ export function FeatureTutorialDialog({ open, onOpenChange, title, slides, onCom
   }, [onComplete, onOpenChange]);
 
   return (
-    <UnifiedDialog
-      variant="modal"
-      open={open}
-      onOpenChange={onOpenChange}
-      title={title}
-    >
+    <UnifiedDialog variant="modal" open={open} onOpenChange={onOpenChange} title={title}>
       <TutorialCarousel slides={slides} onComplete={handleComplete} />
     </UnifiedDialog>
   );

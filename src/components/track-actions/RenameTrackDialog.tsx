@@ -66,13 +66,7 @@ export function RenameTrackDialog({ track, open, onOpenChange }: RenameTrackDial
   };
 
   return (
-    <UnifiedDialog
-      variant="modal"
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Переименовать трек"
-      size="md"
-    >
+    <UnifiedDialog variant="modal" open={open} onOpenChange={onOpenChange} title="Переименовать трек" size="md">
       <form onSubmit={handleSubmit}>
         <div className="space-y-3 py-3">
           <Label htmlFor="track-title">Название</Label>

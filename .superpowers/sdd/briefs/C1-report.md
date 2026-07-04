@@ -3,6 +3,7 @@
 ## Pass 2 — Final Wave (13 files)
 
 ### Status
+
 **Complete.** All 13 files in `src/components/studio/` and `src/components/studio/unified/` no longer import `@/integrations/supabase/client`. Layer architecture (component → hook → service → api) is now enforced for the studio tree.
 
 ### Files Touched (13)

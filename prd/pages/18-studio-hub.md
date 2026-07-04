@@ -9,6 +9,7 @@
 Studio Hub is the main entry point for Studio V2, displaying all studio projects. Users can create new projects, open existing ones, and delete unwanted projects. Features project cards with track counts, status indicators, and recently opened sorting.
 
 **Primary Use Cases:**
+
 - Browse all studio projects
 - Create new studio project
 - Open project in Unified Studio
@@ -59,15 +60,15 @@ Studio Hub is the main entry point for Studio V2, displaying all studio projects
 
 ### Project Card
 
-| Field | Format | Notes |
-|-------|--------|-------|
-| Name | Text (H3) | Project name |
-| Description | Text (truncated) | Project description (optional) |
-| Track Count | Badge | "5 tracks" |
-| BPM | Text (optional) | Project tempo (if set) |
-| Status | Badge | Draft, In Progress, Completed |
-| Last Opened | Date | "Opened 2 hours ago" relative format |
-| Actions | Buttons | Open, Delete (3-dot menu) |
+| Field       | Format           | Notes                                |
+| ----------- | ---------------- | ------------------------------------ |
+| Name        | Text (H3)        | Project name                         |
+| Description | Text (truncated) | Project description (optional)       |
+| Track Count | Badge            | "5 tracks"                           |
+| BPM         | Text (optional)  | Project tempo (if set)               |
+| Status      | Badge            | Draft, In Progress, Completed        |
+| Last Opened | Date             | "Opened 2 hours ago" relative format |
+| Actions     | Buttons          | Open, Delete (3-dot menu)            |
 
 ---
 
@@ -76,12 +77,14 @@ Studio Hub is the main entry point for Studio V2, displaying all studio projects
 ### Page Load
 
 **Behavior:**
+
 1. Fetch studio projects via API
 2. Setup Telegram Back Button (returns to home)
 3. Sort projects by `opened_at` (most recently opened first)
 4. Render project grid with loading skeletons
 
 **API Calls:**
+
 - `GET /api/studio-projects` — All user's studio projects
 
 ### Create New Project
@@ -89,6 +92,7 @@ Studio Hub is the main entry point for Studio V2, displaying all studio projects
 **Trigger:** Click "+ New Project" button
 
 **Behavior:**
+
 1. Navigate to `/studio-v2/new`
 2. Open new project creation interface
 3. User fills project details
@@ -99,11 +103,13 @@ Studio Hub is the main entry point for Studio V2, displaying all studio projects
 **Trigger:** Click "Open" button on project card
 
 **Behavior:**
+
 1. Navigate to `/studio-v2/project/{projectId}`
 2. Load project in Unified Studio
 3. Update `opened_at` timestamp
 
 **API Call:**
+
 - `PATCH /api/studio-projects/{id}` — Update opened_at timestamp
 
 ### Delete Project
@@ -111,45 +117,51 @@ Studio Hub is the main entry point for Studio V2, displaying all studio projects
 **Trigger:** Click "Delete" button
 
 **Behavior:**
+
 1. Show confirmation dialog: "Delete project '{name}'?"
 2. User confirms
 3. Call API: `DELETE /api/studio-projects/{id}`
 4. On success: Remove from list, show "Project deleted!" toast
 
 **API Call:**
+
 - `DELETE /api/studio-projects/{id}` — Delete project
 
 ### Empty State
 
 **No Projects:**
+
 - Display: "No projects yet"
 - Illustration: Empty state graphic
 - CTA: "Create your first project" button
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Projects | GET | /api/studio-projects | Page load | User's studio projects |
-| Create Project | POST | /api/studio-projects | New project | Creates new project |
-| Update Opened At | PATCH | /api/studio-projects/{id} | Open action | Updates timestamp |
-| Delete Project | DELETE | /api/studio-projects/{id} | Delete action | Deletes project |
+| API              | Method | Path                      | Trigger       | Notes                  |
+| ---------------- | ------ | ------------------------- | ------------- | ---------------------- |
+| Get Projects     | GET    | /api/studio-projects      | Page load     | User's studio projects |
+| Create Project   | POST   | /api/studio-projects      | New project   | Creates new project    |
+| Update Opened At | PATCH  | /api/studio-projects/{id} | Open action   | Updates timestamp      |
+| Delete Project   | DELETE | /api/studio-projects/{id} | Delete action | Deletes project        |
 
 ## Page Relationships
 
 **From:**
+
 - `/` (Home) → Click "Studio" in navigation
 - `/library` → Click "Edit in Studio" on track
 - `/projects` → Click "Open in Studio" on project
 - Deep link → `startapp=studio` or `startapp=studio-{projectId}`
 
 **To:**
+
 - `/studio-v2/new` → Create new project
 - `/studio-v2/project/{projectId}` → Open existing project
 - `/studio-v2/track/{trackId}` → Create project from track
 - `/` (Home) → Back button
 
 **Data Coupling:**
+
 - Projects list: Refreshed when project created/deleted
 - Opened timestamp: Updated when project opened
 - Sort order: By `opened_at DESC` (most recent first)

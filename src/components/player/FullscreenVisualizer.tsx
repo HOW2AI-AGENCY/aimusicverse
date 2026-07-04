@@ -45,7 +45,8 @@ export const FullscreenVisualizer = memo(function FullscreenVisualizer({
                     style={{
                       width: isCenter ? "3px" : "2px",
                       backgroundColor: `hsl(var(--primary) / ${0.3 + freq * 0.7})`,
-                      boxShadow: !visualizerData.isFallback && freq > 0.6 ? `0 0 8px hsl(var(--primary) / 0.5)` : "none",
+                      boxShadow:
+                        !visualizerData.isFallback && freq > 0.6 ? `0 0 8px hsl(var(--primary) / 0.5)` : "none",
                     }}
                     animate={{
                       height: `${heightPercent}%`,

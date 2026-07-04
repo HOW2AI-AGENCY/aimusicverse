@@ -14,6 +14,7 @@ Every top-level document follows this skeleton:
 # <Title>
 
 <!-- BADGES:START -->
+
 ... auto-generated badges ...
 <!-- BADGES:END -->
 
@@ -36,12 +37,12 @@ Use the shared templates verbatim where possible:
 
 ## 2. Headings
 
-| Level | Use for                                  | Rule                          |
-| ----- | ---------------------------------------- | ----------------------------- |
-| `#`   | Document title                           | Exactly **one** per file      |
-| `##`  | Top-level sections                       | Title Case                    |
-| `###` | Sub-sections                             | Sentence case                 |
-| `####`| Nested details                           | Avoid going deeper than `####`|
+| Level  | Use for            | Rule                           |
+| ------ | ------------------ | ------------------------------ |
+| `#`    | Document title     | Exactly **one** per file       |
+| `##`   | Top-level sections | Title Case                     |
+| `###`  | Sub-sections       | Sentence case                  |
+| `####` | Nested details     | Avoid going deeper than `####` |
 
 - Never skip a level (no `##` → `####`).
 - Headings end **without** trailing punctuation.
@@ -54,13 +55,13 @@ automatically.
 
 Standard palette (Shields.io hex, `style=flat-square`):
 
-| Purpose   | Color    |
-| --------- | -------- |
-| Primary   | `26A5E4` |
-| Success   | `10B981` |
-| Warning   | `F59E0B` |
-| Danger    | `EF4444` |
-| Neutral   | `475569` |
+| Purpose | Color    |
+| ------- | -------- |
+| Primary | `26A5E4` |
+| Success | `10B981` |
+| Warning | `F59E0B` |
+| Danger  | `EF4444` |
+| Neutral | `475569` |
 
 See `docs/templates/BADGES_TEMPLATE.md` for the canonical snippet.
 
@@ -84,7 +85,7 @@ Prefer GitHub-flavoured callouts:
 
 ```markdown
 > [!NOTE] Short clarification.
-> [!TIP]  Optional improvement.
+> [!TIP] Optional improvement.
 > [!WARNING] Footgun or constraint.
 > [!CAUTION] Security / data-loss risk.
 ```
@@ -110,19 +111,19 @@ Prefer GitHub-flavoured callouts:
 
 ## 10. Lifecycle
 
-| Status      | Where it lives             | Notes                                  |
-| ----------- | -------------------------- | -------------------------------------- |
-| Active      | Root or `docs/`            | Linked from `DOCUMENTATION_INDEX.md`   |
-| Deprecated  | Stub at original path      | Stub links to replacement              |
-| Archived    | `docs/archive/<YYYY-MM-DD>/` | Not built into the MkDocs site       |
+| Status     | Where it lives               | Notes                                |
+| ---------- | ---------------------------- | ------------------------------------ |
+| Active     | Root or `docs/`              | Linked from `DOCUMENTATION_INDEX.md` |
+| Deprecated | Stub at original path        | Stub links to replacement            |
+| Archived   | `docs/archive/<YYYY-MM-DD>/` | Not built into the MkDocs site       |
 
 ## 11. Automation
 
-| Workflow                          | Purpose                                        |
-| --------------------------------- | ---------------------------------------------- |
-| `.github/workflows/docs.yml`      | Lint markdown, check links, build & deploy MkDocs |
-| `.github/workflows/update-badges.yml` | Regenerate version badges from `package.json`  |
-| `scripts/update-badges.mjs`       | Local equivalent: `node scripts/update-badges.mjs` |
+| Workflow                              | Purpose                                            |
+| ------------------------------------- | -------------------------------------------------- |
+| `.github/workflows/docs.yml`          | Lint markdown, check links, build & deploy MkDocs  |
+| `.github/workflows/update-badges.yml` | Regenerate version badges from `package.json`      |
+| `scripts/update-badges.mjs`           | Local equivalent: `node scripts/update-badges.mjs` |
 
 ## 12. Checklist before merging a docs PR
 

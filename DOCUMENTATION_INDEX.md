@@ -111,17 +111,17 @@ flowchart LR
 
 ### 5️⃣ Design & UI
 
-| Doc                                                                     | Description                        | Status |
-| ----------------------------------------------------------------------- | ---------------------------------- | :----: |
-| [docs/DESIGN_SYSTEM_COMPREHENSIVE](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Full design system                 |   ✅   |
-| [docs/DESIGN_TOKENS](docs/DESIGN_TOKENS.md)                             | Tokens reference                   |   ✅   |
-| [docs/STYLES](docs/STYLES.md)                                           | Styling conventions                |   ✅   |
-| [docs/MOBILE_COMPONENTS](docs/MOBILE_COMPONENTS.md)                     | Mobile primitives                  |   ✅   |
-| [docs/HOOKS_REFERENCE](docs/HOOKS_REFERENCE.md)                         | Hook catalogue                     |   ✅   |
-| [docs/FORMATTING_GUIDE](docs/FORMATTING_GUIDE.md)                       | Code formatting                    |   ✅   |
-| [docs/NAVIGATION](docs/NAVIGATION.md)                                   | Navigation system                  |   ✅   |
-| [docs/LANGUAGES](docs/LANGUAGES.md)                                     | i18n strategy                      |   ✅   |
-| [DESIGN_AUDIT_2026-06-29](docs/archive/audits/DESIGN_AUDIT_2026-06-29.md) (archived) | Design audit (Q2)                  |   ✅   |
+| Doc                                                                                        | Description                        | Status |
+| ------------------------------------------------------------------------------------------ | ---------------------------------- | :----: |
+| [docs/DESIGN_SYSTEM_COMPREHENSIVE](docs/DESIGN_SYSTEM_COMPREHENSIVE.md)                    | Full design system                 |   ✅   |
+| [docs/DESIGN_TOKENS](docs/DESIGN_TOKENS.md)                                                | Tokens reference                   |   ✅   |
+| [docs/STYLES](docs/STYLES.md)                                                              | Styling conventions                |   ✅   |
+| [docs/MOBILE_COMPONENTS](docs/MOBILE_COMPONENTS.md)                                        | Mobile primitives                  |   ✅   |
+| [docs/HOOKS_REFERENCE](docs/HOOKS_REFERENCE.md)                                            | Hook catalogue                     |   ✅   |
+| [docs/FORMATTING_GUIDE](docs/FORMATTING_GUIDE.md)                                          | Code formatting                    |   ✅   |
+| [docs/NAVIGATION](docs/NAVIGATION.md)                                                      | Navigation system                  |   ✅   |
+| [docs/LANGUAGES](docs/LANGUAGES.md)                                                        | i18n strategy                      |   ✅   |
+| [DESIGN_AUDIT_2026-06-29](docs/archive/audits/DESIGN_AUDIT_2026-06-29.md) (archived)       | Design audit (Q2)                  |   ✅   |
 | [UI_AUDIT_REPORT_2026-07-03](docs/archive/audits/UI_AUDIT_REPORT_2026-07-03.md) (archived) | UI audit (WCAG 2.1 AA, 14 patches) |   ✅   |
 
 ### 6️⃣ Operations

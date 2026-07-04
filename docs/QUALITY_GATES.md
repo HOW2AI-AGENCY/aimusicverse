@@ -134,22 +134,24 @@ npm run test:coverage
 - Iterations: 3 per URL
 
 **Thresholds**:
-| Metric | Error | Warn | Status |
-|--------|-------|------|--------|
-| Performance | - | ≥75% | ⚠️ |
-| Accessibility | ≥90% | ≥85% | ❌/⚠️ |
-| Best Practices | - | ≥85% | ⚠️ |
-| SEO | - | ≥85% | ⚠️ |
+
+| Metric         | Error | Warn | Status |
+| -------------- | ----- | ---- | ------ |
+| Performance    | -     | ≥75% | ⚠️     |
+| Accessibility  | ≥90%  | ≥85% | ❌/⚠️  |
+| Best Practices | -     | ≥85% | ⚠️     |
+| SEO            | -     | ≥85% | ⚠️     |
 
 **Core Web Vitals**:
-| Metric | Error | Warn | Status |
-|--------|-------|------|--------|
-| FCP | ≤1.8s | ≤2.5s | ❌/⚠️ |
-| TTI | ≤3.5s | ≤4.0s | ❌/⚠️ |
-| LCP | ≤2.5s | ≤3.0s | ❌/⚠️ |
-| TBT | ≤400ms | ≤600ms | ⚠️ |
-| CLS | ≤0.1 | ≤0.25 | ❌/⚠️ |
-| Total Weight | ≤850KB | ≤950KB | ⚠️ |
+
+| Metric       | Error  | Warn   | Status |
+| ------------ | ------ | ------ | ------ |
+| FCP          | ≤1.8s  | ≤2.5s  | ❌/⚠️  |
+| TTI          | ≤3.5s  | ≤4.0s  | ❌/⚠️  |
+| LCP          | ≤2.5s  | ≤3.0s  | ❌/⚠️  |
+| TBT          | ≤400ms | ≤600ms | ⚠️     |
+| CLS          | ≤0.1   | ≤0.25  | ❌/⚠️  |
+| Total Weight | ≤850KB | ≤950KB | ⚠️     |
 
 **Failure Mode**:
 
@@ -159,18 +161,19 @@ npm run test:coverage
 #### Gate 4: Bundle Size Analysis
 
 **Limits** (Constitution Compliance):
-| Chunk | Limit | Gzip |
-|-------|-------|------|
-| Total Bundle | 950 KB | ✅ |
-| React Vendor | 200 KB | ✅ |
-| Framer Motion | 100 KB | ✅ |
-| Tone.js | 150 KB | ✅ |
-| Wavesurfer | 100 KB | ✅ |
-| TanStack Query | 50 KB | ✅ |
-| Radix UI | 80 KB | ✅ |
-| Studio Feature | 200 KB | ✅ |
-| Lyrics Feature | 150 KB | ✅ |
-| Generation Feature | 180 KB | ✅ |
+
+| Chunk              | Limit  | Gzip |
+| ------------------ | ------ | ---- |
+| Total Bundle       | 950 KB | ✅   |
+| React Vendor       | 200 KB | ✅   |
+| Framer Motion      | 100 KB | ✅   |
+| Tone.js            | 150 KB | ✅   |
+| Wavesurfer         | 100 KB | ✅   |
+| TanStack Query     | 50 KB  | ✅   |
+| Radix UI           | 80 KB  | ✅   |
+| Studio Feature     | 200 KB | ✅   |
+| Lyrics Feature     | 150 KB | ✅   |
+| Generation Feature | 180 KB | ✅   |
 
 **Features**:
 

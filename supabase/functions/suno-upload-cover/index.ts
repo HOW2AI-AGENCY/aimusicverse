@@ -188,12 +188,10 @@ serve(async (req) => {
         audioBuffer = new Uint8Array(audioFile.data);
       }
 
-      const { error: uploadError } = await supabase.storage
-        .from("project-assets")
-        .upload(fileName, audioBuffer, {
-          contentType: audioFile.type || "audio/mpeg",
-          upsert: false,
-        });
+      const { error: uploadError } = await supabase.storage.from("project-assets").upload(fileName, audioBuffer, {
+        contentType: audioFile.type || "audio/mpeg",
+        upsert: false,
+      });
 
       if (uploadError) {
         logger.error("Upload error", uploadError);

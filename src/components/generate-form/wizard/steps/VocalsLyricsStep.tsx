@@ -130,7 +130,9 @@ export function VocalsLyricsStep({ onNext, onBack }: VocalsLyricsStepProps) {
                   }}
                   className={cn(
                     "flex items-center justify-center gap-2 p-2.5 rounded-xl border transition-all min-h-[44px]",
-                    vocalGender === option.id ? "border-primary bg-primary/10" : "border-border hover:border-primary/50",
+                    vocalGender === option.id
+                      ? "border-primary bg-primary/10"
+                      : "border-border hover:border-primary/50",
                   )}
                 >
                   <span>{option.icon}</span>
@@ -174,9 +176,7 @@ export function VocalsLyricsStep({ onNext, onBack }: VocalsLyricsStepProps) {
                     опционально
                   </Badge>
                 </div>
-                <ChevronDown
-                  className={cn("w-4 h-4 transition-transform", lyricsExpanded && "rotate-180")}
-                />
+                <ChevronDown className={cn("w-4 h-4 transition-transform", lyricsExpanded && "rotate-180")} />
               </button>
 
               <AnimatePresence>

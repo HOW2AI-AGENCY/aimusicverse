@@ -10,10 +10,7 @@
  */
 
 import { useEffect, useRef } from "react";
-import {
-  subscribeToPendingTaskComplete,
-  subscribeToStudioProject,
-} from "@/services/studio.service";
+import { subscribeToPendingTaskComplete, subscribeToStudioProject } from "@/services/studio.service";
 import { logger } from "@/lib/logger";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 

@@ -64,7 +64,11 @@ export function ProjectCoverEditor({
       const fileName = `${projectId}-${Date.now()}.${fileExt}`;
       const filePath = `covers/${fileName}`;
 
-      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "project-assets", path: filePath, file });
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "project-assets",
+        path: filePath,
+        file,
+      });
 
       if (uploadError) throw uploadError;
 

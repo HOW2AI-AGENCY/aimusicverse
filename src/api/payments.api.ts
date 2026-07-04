@@ -20,18 +20,17 @@ export async function insertCreditTransaction(data: {
   return { error };
 }
 
-export async function upsertUserCreditsBalance(data: {
-  user_id: string;
-  balance: number;
-  total_earned?: number;
-}) {
+export async function upsertUserCreditsBalance(data: { user_id: string; balance: number; total_earned?: number }) {
   const { error } = await supabase.from("user_credits").upsert(data as never, { onConflict: "user_id" });
   if (error) logger.error("Failed to upsert user credits balance", { error: error.message });
   return { error };
 }
 
 export async function updateUserCreditsBalance(userId: string, updates: { balance?: number; total_earned?: number }) {
-  const { error } = await supabase.from("user_credits").update(updates as never).eq("user_id", userId);
+  const { error } = await supabase
+    .from("user_credits")
+    .update(updates as never)
+    .eq("user_id", userId);
   if (error) logger.error("Failed to update user credits balance", { error: error.message });
   return { error };
 }

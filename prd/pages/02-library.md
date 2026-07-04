@@ -9,6 +9,7 @@
 The Library page is the user's personal track management hub. It displays all generated tracks with powerful search, filtering, and sorting capabilities. Users can browse, play, like, delete, and manage their music collection. The page supports both list and grid view modes, with real-time updates for active generations and infinite scroll with virtualization for performance.
 
 **Primary Use Cases:**
+
 - Browse personal music collection
 - Search and filter tracks by type, status, tags
 - Play tracks and manage playback
@@ -67,61 +68,61 @@ The Library page is the user's personal track management hub. It displays all ge
 
 ### Search & Filter Section
 
-| Field | Type | Required | Options / Enum | Default | Notes |
-|-------|------|----------|---------------|---------|-------|
-| Search Query | Text input | No | — | "" | Debounced (300ms), searches title/style |
-| Type Filter | Chips/Select | No | all, vocals, instrumental, stems | all | Filter by track type |
-| Status Filter | Select | No | all, completed, failed | all | Filter by generation status |
-| Tag Filter | Chips | No | All user tags | null | Filter by custom tags |
-| Sort By | Select | No | recent, popular, liked | recent | Sort order |
-| View Mode | Toggle | No | grid, list | Desktop: grid, Mobile: list | Display mode |
+| Field         | Type         | Required | Options / Enum                   | Default                     | Notes                                   |
+| ------------- | ------------ | -------- | -------------------------------- | --------------------------- | --------------------------------------- |
+| Search Query  | Text input   | No       | —                                | ""                          | Debounced (300ms), searches title/style |
+| Type Filter   | Chips/Select | No       | all, vocals, instrumental, stems | all                         | Filter by track type                    |
+| Status Filter | Select       | No       | all, completed, failed           | all                         | Filter by generation status             |
+| Tag Filter    | Chips        | No       | All user tags                    | null                        | Filter by custom tags                   |
+| Sort By       | Select       | No       | recent, popular, liked           | recent                      | Sort order                              |
+| View Mode     | Toggle       | No       | grid, list                       | Desktop: grid, Mobile: list | Display mode                            |
 
 ### Track List (List View)
 
-| Column | Format | Sortable | Filterable | Notes |
-|--------|--------|----------|-----------|-------|
-| Play Button | Icon | No | No | Starts playback, stops current track |
-| Cover Art | Image (80×80px) | No | No | Lazy-loaded with blur placeholder |
-| Title | Text (link) | No | Yes (Search) | Truncated at 2 lines, links to detail |
-| Style/Tags | Text (chips) | No | Yes (Tag filter) | Genre tags, clickable |
-| Duration | Text (MM:SS) | No | No | Audio length |
-| Version Count | Badge | No | Yes (Type filter) | "2" or "3+" with icon |
-| Stem Count | Badge | No | Yes (Type filter) | "4 stems" with icon |
-| MIDI Status | Icon | No | No | Shows if MIDI transcription available |
-| Likes | Heart icon + count | Yes (Sort) | No | Optimistic update on click |
-| Play Count | Number | Yes (Sort) | No | "1.2K" format |
-| Created At | Date | Yes (Sort) | No | "2 hours ago" relative format |
-| Actions | Dropdown | No | No | Play, Delete, Share, Studio, More |
+| Column        | Format             | Sortable   | Filterable        | Notes                                 |
+| ------------- | ------------------ | ---------- | ----------------- | ------------------------------------- |
+| Play Button   | Icon               | No         | No                | Starts playback, stops current track  |
+| Cover Art     | Image (80×80px)    | No         | No                | Lazy-loaded with blur placeholder     |
+| Title         | Text (link)        | No         | Yes (Search)      | Truncated at 2 lines, links to detail |
+| Style/Tags    | Text (chips)       | No         | Yes (Tag filter)  | Genre tags, clickable                 |
+| Duration      | Text (MM:SS)       | No         | No                | Audio length                          |
+| Version Count | Badge              | No         | Yes (Type filter) | "2" or "3+" with icon                 |
+| Stem Count    | Badge              | No         | Yes (Type filter) | "4 stems" with icon                   |
+| MIDI Status   | Icon               | No         | No                | Shows if MIDI transcription available |
+| Likes         | Heart icon + count | Yes (Sort) | No                | Optimistic update on click            |
+| Play Count    | Number             | Yes (Sort) | No                | "1.2K" format                         |
+| Created At    | Date               | Yes (Sort) | No                | "2 hours ago" relative format         |
+| Actions       | Dropdown           | No         | No                | Play, Delete, Share, Studio, More     |
 
 ### Track Grid (Grid View)
 
-| Column | Format | Sortable | Filterable | Notes |
-|--------|--------|----------|-----------|-------|
-| Cover Art | Image (200×200px) | No | No | Large thumbnail, click to play |
-| Title | Text | No | Yes (Search) | Truncated at 2 lines |
-| Duration | Text (MM:SS) | No | No | Small badge on cover |
-| Play Overlay | Icon button | No | No | Appears on hover/tap, plays track |
+| Column       | Format            | Sortable | Filterable   | Notes                             |
+| ------------ | ----------------- | -------- | ------------ | --------------------------------- |
+| Cover Art    | Image (200×200px) | No       | No           | Large thumbnail, click to play    |
+| Title        | Text              | No       | Yes (Search) | Truncated at 2 lines              |
+| Duration     | Text (MM:SS)      | No       | No           | Small badge on cover              |
+| Play Overlay | Icon button       | No       | No           | Appears on hover/tap, plays track |
 
 ### Active Generations Section
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Track Title | Text | "Generating: {title}" |
-| Progress | Progress bar | 0-100% based on elapsed time |
-| Status | Text | "Processing (~45s remaining)" |
-| Cancel | Button | Stops generation task |
+| Field       | Type         | Notes                         |
+| ----------- | ------------ | ----------------------------- |
+| Track Title | Text         | "Generating: {title}"         |
+| Progress    | Progress bar | 0-100% based on elapsed time  |
+| Status      | Text         | "Processing (~45s remaining)" |
+| Cancel      | Button       | Stops generation task         |
 
 ### Track Detail Panel (Desktop)
 
-| Section | Fields | Notes |
-|---------|--------|-------|
-| Header | Cover art (large), Title, Artist, Badge (model) | Top section |
-| Metadata | Duration, Created at, Play count, Likes | Info row |
-| Versions | Version A/B selector, Switch button | A/B comparison |
-| Stems | Stem list (vocals, drums, bass, other) | With play buttons |
-| Lyrics | Full lyrics text (if has vocals) | Scrollable |
-| Tags | Style tags, genre, mood | Clickable to filter |
-| Actions | Play, Download, Share, Edit in Studio, Delete | Action buttons |
+| Section  | Fields                                          | Notes               |
+| -------- | ----------------------------------------------- | ------------------- |
+| Header   | Cover art (large), Title, Artist, Badge (model) | Top section         |
+| Metadata | Duration, Created at, Play count, Likes         | Info row            |
+| Versions | Version A/B selector, Switch button             | A/B comparison      |
+| Stems    | Stem list (vocals, drums, bass, other)          | With play buttons   |
+| Lyrics   | Full lyrics text (if has vocals)                | Scrollable          |
+| Tags     | Style tags, genre, mood                         | Clickable to filter |
+| Actions  | Play, Download, Share, Edit in Studio, Delete   | Action buttons      |
 
 ---
 
@@ -130,6 +131,7 @@ The Library page is the user's personal track management hub. It displays all ge
 ### Page Load
 
 **Behavior:**
+
 1. Check authentication via `useAuth()`
 2. Initialize filter states from URL params or defaults
 3. Fetch user's tracks via `useTracks()`:
@@ -142,6 +144,7 @@ The Library page is the user's personal track management hub. It displays all ge
 8. Render filtered/sorted tracks
 
 **API Calls:**
+
 - `GET /api/tracks?user_id={userId}&limit=12&sort=recent` — User's tracks
 - `GET /api/generation/active?user_id={userId}` — Active generations
 - `GET /api/tracks/{id}/counts` (batch) — Version/stem counts
@@ -152,6 +155,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** User types in search input
 
 **Behavior:**
+
 1. Update `searchQuery` state (immediate)
 2. Debounce query (300ms delay)
 3. Call `useTracks()` with debounced query
@@ -160,6 +164,7 @@ The Library page is the user's personal track management hub. It displays all ge
 6. Reset to page 1 (clear infinite scroll)
 
 **Special Rules:**
+
 - Case-insensitive search
 - Searches both title and style fields
 - Minimum 2 characters to trigger search
@@ -170,6 +175,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Click type filter chip (All, Vocals, Instrumental, Stems)
 
 **Behavior:**
+
 1. Update `typeFilter` state
 2. Filter client-side from fetched tracks:
    - `vocals`: `has_vocals = true AND is_instrumental = false`
@@ -183,6 +189,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Select status from dropdown (All, Completed, Failed)
 
 **Behavior:**
+
 1. Update `statusFilter` state
 2. Call `useTracks()` with status filter
 3. Server-side filtering via API
@@ -193,6 +200,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Click tag chip on track or in filter bar
 
 **Behavior:**
+
 1. Set `tagFilter` state to clicked tag
 2. Call `useTracks()` with tag filter
 3. Server-side filtering via API
@@ -204,11 +212,13 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Select sort option from dropdown
 
 **Options:**
+
 - **Recent:** Sort by `created_at DESC` (newest first)
 - **Popular:** Sort by `play_count DESC` (most played)
 - **Liked:** Sort by local likes state (favorites first)
 
 **Behavior:**
+
 1. Update `sortBy` state
 2. For "Recent"/"Popular": Call API with sort param
 3. For "Liked": Client-side sort (uses local like state)
@@ -219,6 +229,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Click grid/list toggle button
 
 **Behavior:**
+
 1. Update `viewMode` state
 2. Change rendering component:
    - `list`: `VirtualizedTrackList` (row layout)
@@ -230,6 +241,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Click play button on track row/card
 
 **Behavior:**
+
 1. Stop currently playing track (if any)
 2. Set new active track via `usePlayerStore()`
 3. Start global audio player
@@ -238,9 +250,11 @@ The Library page is the user's personal track management hub. It displays all ge
 6. Add to playback history
 
 **API Calls:**
+
 - `POST /api/tracks/{id}/play` — Log play event (increments play_count)
 
 **Special Rules:**
+
 - Only one track plays globally
 - Clicking same track again pauses playback
 - Desktop: Spacebar shortcut for play/pause
@@ -251,6 +265,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Click heart icon on track
 
 **Behavior:**
+
 1. Optimistic update: Toggle like state immediately
 2. Call API: `POST /api/tracks/{id}/like`
 3. On error: Revert optimistic update
@@ -258,6 +273,7 @@ The Library page is the user's personal track management hub. It displays all ge
 5. Haptic feedback (light impact)
 
 **API Calls:**
+
 - `POST /api/tracks/{id}/like` — Toggle like
 - `DELETE /api/tracks/{id}/like` — Remove like
 
@@ -266,6 +282,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Click "Delete" in track actions menu
 
 **Behavior:**
+
 1. Show confirmation dialog: "Delete '{title}'?"
 2. User confirms
 3. Call API: `DELETE /api/tracks/{id}`
@@ -274,9 +291,11 @@ The Library page is the user's personal track management hub. It displays all ge
 6. If deleted track was playing: Stop playback
 
 **API Calls:**
+
 - `DELETE /api/tracks/{id}` — Delete track and versions
 
 **Special Rules:**
+
 - Cannot delete tracks with >100 likes
 - Cannot delete tracks in public playlists (admin-only)
 - Confirmation dialog required
@@ -286,6 +305,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Click track row in list view (desktop only)
 
 **Behavior:**
+
 1. Set `selectedTrackId` state
 2. Open detail panel on right side
 3. Load full track details:
@@ -300,6 +320,7 @@ The Library page is the user's personal track management hub. It displays all ge
 5. Click outside panel: Close panel
 
 **Version Switch:**
+
 - Trigger: Click version A/B toggle
 - Behavior: Call `POST /api/tracks/{id}/switch-version`, update `active_version_id`
 
@@ -308,6 +329,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Scroll to bottom of track list
 
 **Behavior:**
+
 1. Check `hasNextPage` flag
 2. If true: Call `fetchNextPage()`
 3. Show loading spinner at bottom
@@ -316,6 +338,7 @@ The Library page is the user's personal track management hub. It displays all ge
 6. If false: Show "End of library" message
 
 **Special Rules:**
+
 - Virtualization renders only visible items (performance)
 - Page size: 12 tracks per page
 - Max pages: Unlimited (fetches all user tracks)
@@ -325,6 +348,7 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Pull down on mobile track list
 
 **Behavior:**
+
 1. Show refresh indicator (pull arrow)
 2. On release past threshold: Trigger refresh
 3. Refetch tracks from API
@@ -335,6 +359,7 @@ The Library page is the user's personal track management hub. It displays all ge
 ### Active Generation Tracking
 
 **Behavior:**
+
 1. Poll for active generations every 3 seconds
 2. Show skeleton cards for in-progress tracks
 3. Display progress bar with estimated time
@@ -342,6 +367,7 @@ The Library page is the user's personal track management hub. It displays all ge
 5. Remove completed generation from active list
 
 **Real-time Updates:**
+
 - WebSocket connection for instant updates (if available)
 - Fallback: Polling every 3 seconds
 - Auto-refresh when generation count decreases
@@ -351,10 +377,12 @@ The Library page is the user's personal track management hub. It displays all ge
 **Trigger:** Swipe track row left or right
 
 **Actions:**
+
 - **Left Swipe:** Quick actions (Delete, Share)
 - **Right Swipe:** Play (most common)
 
 **Behavior:**
+
 1. Show action buttons on swipe
 2. Tap button to execute action
 3. Swipe back to cancel
@@ -362,34 +390,37 @@ The Library page is the user's personal track management hub. It displays all ge
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get User Tracks | GET | /api/tracks?user_id={userId} | Page load, filter, sort | Paginated (12/page) |
-| Search Tracks | GET | /api/tracks?user_id={userId}&search={query} | Search (debounced) | Server-side search |
-| Filter by Tag | GET | /api/tracks?user_id={userId}&tag={tag} | Tag filter | Server-side filter |
-| Get Active Generations | GET | /api/generation/active?user_id={userId} | Page load | Polls every 3s |
-| Get Track Counts | GET | /api/tracks/{id}/counts | Batch request | Returns version/stem counts |
-| Get MIDI Status | GET | /api/tracks/{id}/midi-status | Batch request | Returns MIDI/PDF availability |
-| Like Track | POST | /api/tracks/{id}/like | Like action | Toggle like |
-| Delete Track | DELETE | /api/tracks/{id} | Delete action | Soft delete (archives) |
-| Log Play | POST | /api/tracks/{id}/play | Playback | Increments play_count |
-| Switch Version | POST | /api/tracks/{id}/switch-version | Version toggle | Updates active_version_id |
-| Get Filter Counts | GET | /api/tracks/counts?user_id={userId} | Page load | Returns counts for filter badges |
+| API                    | Method | Path                                        | Trigger                 | Notes                            |
+| ---------------------- | ------ | ------------------------------------------- | ----------------------- | -------------------------------- |
+| Get User Tracks        | GET    | /api/tracks?user_id={userId}                | Page load, filter, sort | Paginated (12/page)              |
+| Search Tracks          | GET    | /api/tracks?user_id={userId}&search={query} | Search (debounced)      | Server-side search               |
+| Filter by Tag          | GET    | /api/tracks?user_id={userId}&tag={tag}      | Tag filter              | Server-side filter               |
+| Get Active Generations | GET    | /api/generation/active?user_id={userId}     | Page load               | Polls every 3s                   |
+| Get Track Counts       | GET    | /api/tracks/{id}/counts                     | Batch request           | Returns version/stem counts      |
+| Get MIDI Status        | GET    | /api/tracks/{id}/midi-status                | Batch request           | Returns MIDI/PDF availability    |
+| Like Track             | POST   | /api/tracks/{id}/like                       | Like action             | Toggle like                      |
+| Delete Track           | DELETE | /api/tracks/{id}                            | Delete action           | Soft delete (archives)           |
+| Log Play               | POST   | /api/tracks/{id}/play                       | Playback                | Increments play_count            |
+| Switch Version         | POST   | /api/tracks/{id}/switch-version             | Version toggle          | Updates active_version_id        |
+| Get Filter Counts      | GET    | /api/tracks/counts?user_id={userId}         | Page load               | Returns counts for filter badges |
 
 ## Page Relationships
 
 **From:**
+
 - `/` (Home) → Click "Library" in nav or "Explore Library" button
 - `/profile/{userId}` → Click "View Library" on public profile
 - Deep link → `t.me/AIMusicVerseBot/app?startapp=library` opens library
 
 **To:**
+
 - `/player/{trackId}` → Click "Open Full Player" on track
 - `/studio-v2/track/{trackId}` → Click "Edit in Studio" on track
 - `/profile/{userId}` → Click artist name on track
 - `/` (Home) → Click back button or home icon
 
 **Data Coupling:**
+
 - Global player state: Playing track updates player across all pages
 - Active generations: Auto-refreshes when generation completes (shared with home page)
 - Filter state: Persists across navigation (restored on return)

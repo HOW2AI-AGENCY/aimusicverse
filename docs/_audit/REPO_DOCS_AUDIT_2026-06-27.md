@@ -7,27 +7,27 @@
 
 ## 1. Executive Summary
 
-| Metric | Value |
-| --- | --- |
-| Root `.md` files | 18 |
-| `docs/` files | 100 |
-| Detected duplicates / overlaps | **11 clusters** |
-| Stale "last updated" stamps (>6 mo) | ~14 files |
-| Recommended archive moves | 9 files |
-| Recommended merges | 5 pairs |
+| Metric                              | Value           |
+| ----------------------------------- | --------------- |
+| Root `.md` files                    | 18              |
+| `docs/` files                       | 100             |
+| Detected duplicates / overlaps      | **11 clusters** |
+| Stale "last updated" stamps (>6 mo) | ~14 files       |
+| Recommended archive moves           | 9 files         |
+| Recommended merges                  | 5 pairs         |
 
 ---
 
 ## 2. Duplicate / Overlapping Clusters
 
-| Cluster | Files | Action |
-| --- | --- | --- |
-| **Architecture** | `ARCHITECTURE_HUB.md` (root), `docs/ARCHITECTURE.md`, `docs/ARCHITECTURE_ANALYSIS.md`, `docs/COMPREHENSIVE_ARCHITECTURE.md`, `docs/ARCHITECTURE_DIAGRAMS.md` | Keep `ARCHITECTURE_HUB.md` as canonical; archive ANALYSIS + COMPREHENSIVE; keep DIAGRAMS as visual companion. |
-| **Navigation** | `docs/NAVIGATION.md`, `docs/NAVIGATION_GUIDE.md`, `docs/NAVIGATION_INDEX.md`, `docs/NAVIGATION_SYSTEM.md` | Merge into single `docs/NAVIGATION.md`; archive others. |
-| **Index** | `DOCUMENTATION_INDEX.md` (root), `docs/INDEX.md` | Keep root as canonical hub; `docs/INDEX.md` → thin redirect. |
-| **Known Issues** | `KNOWN_ISSUES_TRACKED.md` (root), `docs/KNOWN_ISSUES.md` | Merge into root `KNOWN_ISSUES_TRACKED.md`. |
-| **Summaries** | `SUMMARY.md`, `REPOSITORY_IMPROVEMENTS_SUMMARY.md` | Archive both — superseded by CHANGELOG + PROJECT_STATUS. |
-| **Audio architecture** | `docs/PLAYER_ARCHITECTURE.md`, `docs/AUDIO_ARCHITECTURE_DIAGRAM.md` | Keep both, cross-link from ARCHITECTURE_HUB. |
+| Cluster                | Files                                                                                                                                                        | Action                                                                                                        |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| **Architecture**       | `ARCHITECTURE_HUB.md` (root), `docs/ARCHITECTURE.md`, `docs/ARCHITECTURE_ANALYSIS.md`, `docs/COMPREHENSIVE_ARCHITECTURE.md`, `docs/ARCHITECTURE_DIAGRAMS.md` | Keep `ARCHITECTURE_HUB.md` as canonical; archive ANALYSIS + COMPREHENSIVE; keep DIAGRAMS as visual companion. |
+| **Navigation**         | `docs/NAVIGATION.md`, `docs/NAVIGATION_GUIDE.md`, `docs/NAVIGATION_INDEX.md`, `docs/NAVIGATION_SYSTEM.md`                                                    | Merge into single `docs/NAVIGATION.md`; archive others.                                                       |
+| **Index**              | `DOCUMENTATION_INDEX.md` (root), `docs/INDEX.md`                                                                                                             | Keep root as canonical hub; `docs/INDEX.md` → thin redirect.                                                  |
+| **Known Issues**       | `KNOWN_ISSUES_TRACKED.md` (root), `docs/KNOWN_ISSUES.md`                                                                                                     | Merge into root `KNOWN_ISSUES_TRACKED.md`.                                                                    |
+| **Summaries**          | `SUMMARY.md`, `REPOSITORY_IMPROVEMENTS_SUMMARY.md`                                                                                                           | Archive both — superseded by CHANGELOG + PROJECT_STATUS.                                                      |
+| **Audio architecture** | `docs/PLAYER_ARCHITECTURE.md`, `docs/AUDIO_ARCHITECTURE_DIAGRAM.md`                                                                                          | Keep both, cross-link from ARCHITECTURE_HUB.                                                                  |
 
 ---
 
@@ -39,11 +39,11 @@ Identified in: legacy `2025-12` archive (already archived ✅), `docs/MUSICVERSE
 
 ## 4. Broken / Inconsistent Links
 
-| Source | Target | Status |
-| --- | --- | --- |
-| `README.md` § Документация | `docs/ARCHITECTURE.md#подробнее` | anchor missing |
-| `DOCUMENTATION_INDEX.md` | `docs/INDEX.md` | self-loop (both indexes) |
-| Multiple | `KNOWN_ISSUES.md` vs `KNOWN_ISSUES_TRACKED.md` | inconsistent references |
+| Source                     | Target                                         | Status                   |
+| -------------------------- | ---------------------------------------------- | ------------------------ |
+| `README.md` § Документация | `docs/ARCHITECTURE.md#подробнее`               | anchor missing           |
+| `DOCUMENTATION_INDEX.md`   | `docs/INDEX.md`                                | self-loop (both indexes) |
+| Multiple                   | `KNOWN_ISSUES.md` vs `KNOWN_ISSUES_TRACKED.md` | inconsistent references  |
 
 Full link-check to be re-run via `scripts/check-links.js` after rewrite pass.
 
@@ -61,14 +61,14 @@ Full link-check to be re-run via `scripts/check-links.js` after rewrite pass.
 
 ### Badge palette (shields.io, `style=for-the-badge`)
 
-| Token | Hex | Use |
-| --- | --- | --- |
-| Primary | `#26A5E4` | Telegram, brand |
-| Accent | `#9333EA` | AI / generative |
-| Success | `#10B981` | passing, stable |
-| Warning | `#F59E0B` | beta, WIP |
-| Danger | `#EF4444` | breaking, deprecated |
-| Neutral | `#475569` | meta, version |
+| Token   | Hex       | Use                  |
+| ------- | --------- | -------------------- |
+| Primary | `#26A5E4` | Telegram, brand      |
+| Accent  | `#9333EA` | AI / generative      |
+| Success | `#10B981` | passing, stable      |
+| Warning | `#F59E0B` | beta, WIP            |
+| Danger  | `#EF4444` | breaking, deprecated |
+| Neutral | `#475569` | meta, version        |
 
 ### GitHub Alerts convention
 

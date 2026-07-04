@@ -41,14 +41,15 @@ Successfully continued planned sprint execution by:
 4. ✅ Added FIXME comments for future migration considerations
 
 **Schema Mapping for Implementation**:
-| Feature | Existing Schema | Spec Schema | Action |
-|---------|----------------|-------------|--------|
-| Product ID | `product_code` TEXT UNIQUE | `sku` TEXT UNIQUE | Use `product_code` (FIXME added) |
-| Product Type | `stars_product_type` ENUM | TEXT + CHECK | Use ENUM (FIXME added) |
-| Status | `stars_product_status` ENUM | TEXT + CHECK | Use ENUM (FIXME added) |
-| Charge ID | `telegram_payment_charge_id` | `telegram_charge_id` | Use existing (FIXME added) |
-| Localization | JSONB (multi-lang) | TEXT (single lang) | Use JSONB |
-| Functions | Different signature | Different signature | Use existing (FIXME added) |
+
+| Feature      | Existing Schema              | Spec Schema          | Action                           |
+| ------------ | ---------------------------- | -------------------- | -------------------------------- |
+| Product ID   | `product_code` TEXT UNIQUE   | `sku` TEXT UNIQUE    | Use `product_code` (FIXME added) |
+| Product Type | `stars_product_type` ENUM    | TEXT + CHECK         | Use ENUM (FIXME added)           |
+| Status       | `stars_product_status` ENUM  | TEXT + CHECK         | Use ENUM (FIXME added)           |
+| Charge ID    | `telegram_payment_charge_id` | `telegram_charge_id` | Use existing (FIXME added)       |
+| Localization | JSONB (multi-lang)           | TEXT (single lang)   | Use JSONB                        |
+| Functions    | Different signature          | Different signature  | Use existing (FIXME added)       |
 
 ### FIXME Comments Added
 

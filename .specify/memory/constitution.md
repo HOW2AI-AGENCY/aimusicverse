@@ -45,7 +45,7 @@ Follow-up TODOs:
 
 # Конституция Проекта `aimusicverse`
 
-*Версия 5.0.0 | Ратифицирована: 2026-01-05 | Последнее изменение: 2026-06-27*
+_Версия 5.0.0 | Ратифицирована: 2026-01-05 | Последнее изменение: 2026-06-27_
 
 ## 1. Преамбула: Наша Миссия
 
@@ -206,12 +206,12 @@ API Layer → Service Layer → Hook Layer → Component Layer
 
 **Правильный инструмент для правильной задачи:**
 
-| Тип состояния | Инструмент | Пример |
-|---|---|---|
-| Глобальный UI | Zustand | playerStore, studioStore |
-| Серверные данные | TanStack Query | staleTime: 30s, gcTime: 10min |
-| Формы | React Hook Form + Zod | useGenerateDraft, auto-save |
-| Локальный UI | useState/useReducer | открытие модалки |
+| Тип состояния    | Инструмент            | Пример                        |
+| ---------------- | --------------------- | ----------------------------- |
+| Глобальный UI    | Zustand               | playerStore, studioStore      |
+| Серверные данные | TanStack Query        | staleTime: 30s, gcTime: 10min |
+| Формы            | React Hook Form + Zod | useGenerateDraft, auto-save   |
+| Локальный UI     | useState/useReducer   | открытие модалки              |
 
 - Оптимистичные обновления ОБЯЗАТЕЛЬНЫ для: likes, plays,
   version switches
@@ -305,28 +305,28 @@ API Layer → Service Layer → Hook Layer → Component Layer
 
 ### 4.10. Common Pitfalls (MUST AVOID)
 
-| # | Pitfall | Rule |
-|---|---------|------|
-| 1 | Multiple audio elements | useGlobalAudioPlayer() |
-| 2 | Audio on iOS without pool | audioElementPool |
-| 3 | Full framer-motion import | @/lib/motion |
-| 4 | Bundle > 950KB | npm run size |
-| 5 | No lazy loading | React.lazy() для всех pages |
-| 6 | No LazyImage | Обязателен для всех изображений |
-| 7 | Animate width/height | transform: scale() |
-| 8 | Large lists without virtualization | react-virtuoso |
-| 9 | Touch targets < 44px | 44-56px минимум |
-| 10 | Dialog on mobile | MobileBottomSheet (vaul) |
-| 11 | Duplicate version selectors | UnifiedVersionSelector |
-| 12 | Components > 500 lines | Разбивать |
-| 13 | console.log | logger из @/lib/logger |
-| 14 | Relative imports | @/ alias |
-| 15 | Context API for global state | Zustand |
-| 16 | Raw fetch/axios | TanStack Query |
-| 17 | Skip Supabase mock in tests | vitest.setup.ts |
-| 18 | Jest | Vitest 4.x |
-| 19 | Secrets in frontend | Edge Functions only |
-| 20 | Skip GenerationResultSheet | MUST show after generation |
+| #   | Pitfall                            | Rule                            |
+| --- | ---------------------------------- | ------------------------------- |
+| 1   | Multiple audio elements            | useGlobalAudioPlayer()          |
+| 2   | Audio on iOS without pool          | audioElementPool                |
+| 3   | Full framer-motion import          | @/lib/motion                    |
+| 4   | Bundle > 950KB                     | npm run size                    |
+| 5   | No lazy loading                    | React.lazy() для всех pages     |
+| 6   | No LazyImage                       | Обязателен для всех изображений |
+| 7   | Animate width/height               | transform: scale()              |
+| 8   | Large lists without virtualization | react-virtuoso                  |
+| 9   | Touch targets < 44px               | 44-56px минимум                 |
+| 10  | Dialog on mobile                   | MobileBottomSheet (vaul)        |
+| 11  | Duplicate version selectors        | UnifiedVersionSelector          |
+| 12  | Components > 500 lines             | Разбивать                       |
+| 13  | console.log                        | logger из @/lib/logger          |
+| 14  | Relative imports                   | @/ alias                        |
+| 15  | Context API for global state       | Zustand                         |
+| 16  | Raw fetch/axios                    | TanStack Query                  |
+| 17  | Skip Supabase mock in tests        | vitest.setup.ts                 |
+| 18  | Jest                               | Vitest 4.x                      |
+| 19  | Secrets in frontend                | Edge Functions only             |
+| 20  | Skip GenerationResultSheet         | MUST show after generation      |
 
 ## 5. Кодекс Поведения (Code of Conduct)
 
@@ -366,16 +366,16 @@ API Layer → Service Layer → Hook Layer → Component Layer
 
 **Текущие метрики проекта (2026-06-27):**
 
-| Метрика | Значение |
-|---|---|
-| Файлов .ts/.tsx | 1,756 |
-| Компонентов | 973 |
-| Хуков | 319 |
-| Страниц | 57 |
-| Zustand stores | 17 |
-| Edge Functions | 119 |
-| DB Tables | 113 |
-| Unit Tests | 320 (Vitest) |
-| Test Suites | 24 |
-| Bundle Limit | 950 KB |
-| TypeScript Errors | 0 |
+| Метрика           | Значение     |
+| ----------------- | ------------ |
+| Файлов .ts/.tsx   | 1,756        |
+| Компонентов       | 973          |
+| Хуков             | 319          |
+| Страниц           | 57           |
+| Zustand stores    | 17           |
+| Edge Functions    | 119          |
+| DB Tables         | 113          |
+| Unit Tests        | 320 (Vitest) |
+| Test Suites       | 24           |
+| Bundle Limit      | 950 KB       |
+| TypeScript Errors | 0            |

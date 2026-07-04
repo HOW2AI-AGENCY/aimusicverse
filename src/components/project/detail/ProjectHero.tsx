@@ -107,7 +107,9 @@ export const ProjectHero = memo(function ProjectHero({
       <div className={cn("px-4 pb-4 -mt-16 relative z-10", isMobile && "px-3")}>
         <div className="space-y-3">
           {/* Title */}
-          <h1 className="text-2xl sm:text-3xl font-bold font-display text-foreground drop-shadow-sm">{project.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold font-display text-foreground drop-shadow-sm">
+            {project.title}
+          </h1>
 
           {/* Badges row */}
           <div className="flex flex-wrap items-center gap-2">

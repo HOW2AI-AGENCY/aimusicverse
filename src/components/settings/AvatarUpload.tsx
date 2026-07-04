@@ -47,7 +47,12 @@ export function AvatarUpload({ currentUrl, firstName, onUpload }: AvatarUploadPr
       const fileName = `${user.id}/avatar.${fileExt}`;
 
       // Upload to Supabase Storage
-      const { data: uploadData, error: uploadError } = await uploadFile({ bucket: "avatars", path: fileName, file, upsert: true });
+      const { data: uploadData, error: uploadError } = await uploadFile({
+        bucket: "avatars",
+        path: fileName,
+        file,
+        upsert: true,
+      });
 
       if (uploadError) throw uploadError;
 

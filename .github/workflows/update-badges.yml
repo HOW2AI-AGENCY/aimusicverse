@@ -6,11 +6,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'package.json'
-      - 'package-lock.json'
-      - 'bun.lock'
+      - "package.json"
+      - "package-lock.json"
+      - "bun.lock"
   schedule:
-    - cron: '0 6 * * 1' # weekly Monday 06:00 UTC
+    - cron: "0 6 * * 1" # weekly Monday 06:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -27,7 +27,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Regenerate badges
         run: node scripts/update-badges.mjs
@@ -36,8 +36,8 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'docs(readme): auto-update version badges'
-          title: 'docs(readme): auto-update version badges'
+          commit-message: "docs(readme): auto-update version badges"
+          title: "docs(readme): auto-update version badges"
           body: |
             Automated badge refresh from `package.json` / latest release tag.
 

@@ -3,9 +3,9 @@
  * Provides grid lines, snap functions, and MBT (Measure-Beat-Time) formatting
  */
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
-import { logger } from '@/lib/logger';
-import { detectBPMFromUrl, type BPMDetectionResult } from '@/lib/audio/bpmDetection';
+import { useState, useCallback, useEffect, useMemo } from "react";
+import { logger } from "@/lib/logger";
+import { detectBPMFromUrl, type BPMDetectionResult } from "@/lib/audio/bpmDetection";
 import {
   snapToGrid,
   generateGridPositions,
@@ -13,7 +13,7 @@ import {
   formatAsMeasureBeat,
   type SnapOptions,
   type SnapResult,
-} from '@/lib/audio/beatSnap';
+} from "@/lib/audio/beatSnap";
 
 export interface GridLine {
   time: number;
@@ -134,14 +134,7 @@ export interface UseBPMGridReturn {
  * ```
  */
 export function useBPMGrid(options: UseBPMGridOptions): UseBPMGridReturn {
-  const {
-    audioUrl,
-    duration,
-    defaultBPM = 120,
-    snapDivision = 4,
-    timeSignature = 4,
-    zoom = 50,
-  } = options;
+  const { audioUrl, duration, defaultBPM = 120, snapDivision = 4, timeSignature = 4, zoom = 50 } = options;
 
   // BPM detection state
   const [bpmResult, setBpmResult] = useState<BPMDetectionResult | null>(null);
@@ -165,7 +158,7 @@ export function useBPMGrid(options: UseBPMGridOptions): UseBPMGridReturn {
           setBpmResult(result);
         }
       } catch (error) {
-        logger.warn('BPM detection failed', { error });
+        logger.warn("BPM detection failed", { error });
       } finally {
         if (!aborted) {
           setIsDetectingBPM(false);
@@ -194,7 +187,7 @@ export function useBPMGrid(options: UseBPMGridOptions): UseBPMGridReturn {
       snapDivision: currentSnapDivision,
       timeSignature,
     }),
-    [bpm, currentSnapDivision, timeSignature]
+    [bpm, currentSnapDivision, timeSignature],
   );
 
   // Snap function
@@ -202,7 +195,7 @@ export function useBPMGrid(options: UseBPMGridOptions): UseBPMGridReturn {
     (time: number) => {
       return snapToGrid(time, snapOptions);
     },
-    [snapOptions]
+    [snapOptions],
   );
 
   // Get nearest grid position
@@ -210,7 +203,7 @@ export function useBPMGrid(options: UseBPMGridOptions): UseBPMGridReturn {
     (time: number) => {
       return getNearestGridPosition(time, snapOptions);
     },
-    [snapOptions]
+    [snapOptions],
   );
 
   // Get grid lines for a time range
@@ -229,7 +222,7 @@ export function useBPMGrid(options: UseBPMGridOptions): UseBPMGridReturn {
         };
       });
     },
-    [snapOptions, timeSignature]
+    [snapOptions, timeSignature],
   );
 
   // Format time as MBT or seconds
@@ -240,7 +233,7 @@ export function useBPMGrid(options: UseBPMGridOptions): UseBPMGridReturn {
       }
       return formatAsMeasureBeat(time, bpm, timeSignature);
     },
-    [bpm, timeSignature]
+    [bpm, timeSignature],
   );
 
   // Update snap division

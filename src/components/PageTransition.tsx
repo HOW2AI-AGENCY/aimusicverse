@@ -54,7 +54,6 @@ export const PageTransition = memo(function PageTransition({
   );
 });
 
-
 /**
  * Staggered children animation wrapper
  * Uses CSS stagger delays for performance

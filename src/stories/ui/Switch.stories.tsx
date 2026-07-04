@@ -50,8 +50,7 @@ export const SettingsList: Story = {
       autoplay: true,
       highQuality: false,
     });
-    const toggle = (key: keyof typeof settings) =>
-      setSettings((s) => ({ ...s, [key]: !s[key] }));
+    const toggle = (key: keyof typeof settings) => setSettings((s) => ({ ...s, [key]: !s[key] }));
     return (
       <div className="w-72 space-y-4">
         {[

@@ -12,7 +12,13 @@ interface GenerationProgressStageProps {
 }
 
 const stages = [
-  { id: "pending", label: "Анализирую запрос", subtitle: "Понимаю настроение и референсы", icon: Sparkles, progress: 10 },
+  {
+    id: "pending",
+    label: "Анализирую запрос",
+    subtitle: "Понимаю настроение и референсы",
+    icon: Sparkles,
+    progress: 10,
+  },
   { id: "analyzing", label: "Подбираю стиль и темп", subtitle: "Стиль · BPM · тональность", icon: Wand2, progress: 25 },
   { id: "processing", label: "Генерирую вокал", subtitle: "Синтез голоса и мелодии", icon: Music2, progress: 50 },
   { id: "streaming_ready", label: "Свожу трек", subtitle: "Микс, мастеринг, обложка", icon: Music2, progress: 80 },
@@ -99,9 +105,7 @@ export function GenerationProgressStage({ status, prompt, estimatedTime, classNa
             </Badge>
           </div>
 
-          {stageInfo.subtitle && (
-            <p className="text-sm text-muted-foreground">{stageInfo.subtitle}</p>
-          )}
+          {stageInfo.subtitle && <p className="text-sm text-muted-foreground">{stageInfo.subtitle}</p>}
 
           {estimatedTime && estimatedTime > 0 && !isCompleted && (
             <p className="text-xs text-muted-foreground mt-1">Осталось: {formatTime(estimatedTime)}</p>

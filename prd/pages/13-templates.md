@@ -9,6 +9,7 @@
 The Templates Page allows users to create, manage, and reuse generation prompt templates. Users can save frequently used prompts as templates, search them by name/tags, copy template text to clipboard, and delete unwanted templates. Each template tracks usage count.
 
 **Primary Use Cases:**
+
 - Create new prompt templates
 - Browse and search existing templates
 - Copy template text to generation form
@@ -64,25 +65,25 @@ The Templates Page allows users to create, manage, and reuse generation prompt t
 
 ### Template Card
 
-| Field | Format | Notes |
-|-------|--------|-------|
-| Name | Text (H3) | Template name |
-| Tags | Chips | Genre/style tags |
-| Usage Count | Text | "Used 12 times" |
-| Copy Button | Button | Copy template to clipboard |
-| Delete Button | Button | Delete template (with confirmation) |
+| Field         | Format    | Notes                               |
+| ------------- | --------- | ----------------------------------- |
+| Name          | Text (H3) | Template name                       |
+| Tags          | Chips     | Genre/style tags                    |
+| Usage Count   | Text      | "Used 12 times"                     |
+| Copy Button   | Button    | Copy template to clipboard          |
+| Delete Button | Button    | Delete template (with confirmation) |
 
 ### Template Detail Sheet (Mobile) / Dialog (Desktop)
 
-| Field | Type | Notes |
-|-------|------|-------|
-| Name | Text display | Template name |
-| Template Text | Textarea (read-only) | Full prompt text |
-| Tags | Chips | Genre/style tags |
-| Usage Count | Text | Total times used |
-| Use Button | Button | Copy to generation form |
-| Edit Button | Button | Edit template (not implemented) |
-| Delete Button | Button | Delete with confirmation |
+| Field         | Type                 | Notes                           |
+| ------------- | -------------------- | ------------------------------- |
+| Name          | Text display         | Template name                   |
+| Template Text | Textarea (read-only) | Full prompt text                |
+| Tags          | Chips                | Genre/style tags                |
+| Usage Count   | Text                 | Total times used                |
+| Use Button    | Button               | Copy to generation form         |
+| Edit Button   | Button               | Edit template (not implemented) |
+| Delete Button | Button               | Delete with confirmation        |
 
 ---
 
@@ -91,12 +92,14 @@ The Templates Page allows users to create, manage, and reuse generation prompt t
 ### Page Load
 
 **Behavior:**
+
 1. Check authentication via `useAuth()`
 2. Fetch user templates via `useQuery()`
 3. Setup Telegram Back Button (returns to home)
 4. Render template grid with loading skeletons
 
 **API Calls:**
+
 - `GET /api/prompt_templates?user_id={userId}` — User's templates
 
 ### Create Template
@@ -104,6 +107,7 @@ The Templates Page allows users to create, manage, and reuse generation prompt t
 **Trigger:** Click "+ New Template" button
 
 **Behavior:**
+
 1. Open create dialog (not implemented in current code - planned feature)
 2. User would fill:
    - Template name (required)
@@ -113,6 +117,7 @@ The Templates Page allows users to create, manage, and reuse generation prompt t
 4. On success: Refresh template list
 
 **Planned API Request:**
+
 ```typescript
 POST /api/prompt_templates
 {
@@ -127,6 +132,7 @@ POST /api/prompt_templates
 **Trigger:** Type in search input
 
 **Behavior:**
+
 1. Update `searchQuery` state
 2. Filter templates client-side:
    - Search template name (case-insensitive)
@@ -134,9 +140,10 @@ POST /api/prompt_templates
 3. Update filtered grid immediately
 
 **Filter Logic:**
+
 ```typescript
 template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+  template.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 ```
 
 ### Copy Template to Clipboard
@@ -144,6 +151,7 @@ template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 **Trigger:** Click "Copy" button on template
 
 **Behavior:**
+
 1. Copy template text to clipboard via `navigator.clipboard.writeText()`
 2. Show "Copied!" feedback (button changes to "Copied!" with checkmark)
 3. Set timeout to reset button after 2 seconds
@@ -151,19 +159,23 @@ template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 5. Haptic feedback (light impact)
 
 **API Call:**
+
 - `PATCH /api/prompt_templates/{id}` — Increment `usage_count`
 
 ### View Template Detail
 
 **Mobile:**
+
 - **Trigger:** Click template card
 - **Behavior:** Open template detail sheet (bottom)
 
 **Desktop:**
+
 - **Trigger:** Click template card
 - **Behavior:** Open template detail dialog
 
 **Detail Content:**
+
 - Full template text (scrollable if long)
 - Tags display
 - Usage count
@@ -174,6 +186,7 @@ template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 **Trigger:** Click "Delete" button
 
 **Behavior:**
+
 1. Show confirmation dialog:
    - "Delete template '{name}'?"
 2. User confirms
@@ -184,11 +197,13 @@ template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 5. On error: Show "Error deleting template!" toast
 
 **API Call:**
+
 - `DELETE /api/prompt_templates/{id}` — Delete template
 
 ### Empty State
 
 **No Templates:**
+
 - Display: "No templates yet"
 - CTA: "Create your first template" button (opens create dialog)
 - Illustration: Empty state icon
@@ -198,6 +213,7 @@ template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 **Trigger:** Copy template text, then navigate to generation form
 
 **Behavior:**
+
 1. Copy template to clipboard
 2. Navigate to home page (`/`)
 3. Open generation form
@@ -205,30 +221,34 @@ template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 5. Adjust and generate
 
 **Planned Feature:**
+
 - Direct "Use" button in generation form that opens template selector
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Templates | GET | /api/prompt_templates?user_id={userId} | Page load | User's templates |
-| Create Template | POST | /api/prompt_templates | Create dialog | Creates new template |
-| Update Usage Count | PATCH | /api/prompt_templates/{id} | Copy action | Increments usage_count |
-| Delete Template | DELETE | /api/prompt_templates/{id} | Delete action | Deletes template |
+| API                | Method | Path                                   | Trigger       | Notes                  |
+| ------------------ | ------ | -------------------------------------- | ------------- | ---------------------- |
+| Get Templates      | GET    | /api/prompt_templates?user_id={userId} | Page load     | User's templates       |
+| Create Template    | POST   | /api/prompt_templates                  | Create dialog | Creates new template   |
+| Update Usage Count | PATCH  | /api/prompt_templates/{id}             | Copy action   | Increments usage_count |
+| Delete Template    | DELETE | /api/prompt_templates/{id}             | Delete action | Deletes template       |
 
 ## Page Relationships
 
 **From:**
+
 - `/` (Home) → Click "Templates" in quick actions or navigation
 - Generation form → Click "Save as Template" button
 - Deep link → `startapp=templates` opens templates
 
 **To:**
+
 - `/` (Home) → After copying template (for use in generation)
 - Template creation dialog → (not implemented yet)
 - Back button → Returns to previous page
 
 **Data Coupling:**
+
 - Template list: Refreshed when template created/deleted
 - Usage count: Updated on every copy action
 - Clipboard integration: Uses browser Clipboard API
@@ -285,8 +305,8 @@ template.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 9. **Mobile Optimizations:**
    - Bottom sheet: Template details open from bottom
    - Touch targets: Minimum 44×44px
-    - Haptic feedback: On copy and delete
-    - Safe areas: Padding for notch/island
+   - Haptic feedback: On copy and delete
+   - Safe areas: Padding for notch/island
 
 10. **Clipboard Integration:**
     - Modern API: Uses `navigator.clipboard.writeText()`

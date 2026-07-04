@@ -34,7 +34,14 @@ interface LyricsPageProps {
   onOpenKaraoke?: () => void;
 }
 
-export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaokeMode, onOpenKaraoke }: LyricsPageProps) {
+export function LyricsPage({
+  track,
+  currentVersion,
+  isActive,
+  isPlaying,
+  karaokeMode,
+  onOpenKaraoke,
+}: LyricsPageProps) {
   const { seek } = useAudioTime();
   const scrollRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
@@ -199,51 +206,51 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaoke
         style={{ overscrollBehavior: "contain", touchAction: "pan-y" }}
       >
         <div className="mx-auto flex max-w-[28rem] xl:max-w-[36rem] flex-col items-stretch gap-2 pb-24 text-center">
-        {lyricsLines!.map((line, lineIndex) => {
-          const isActiveLine = lineIndex === activeLineIndex;
-          const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
-          const lineStart = line[0]?.startS ?? 0;
+          {lyricsLines!.map((line, lineIndex) => {
+            const isActiveLine = lineIndex === activeLineIndex;
+            const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
+            const lineStart = line[0]?.startS ?? 0;
 
-          return (
-            <motion.div
-              key={lineIndex}
-              ref={isActiveLine ? activeLineRef : null}
-              onClick={() => handleLineTap(lineIndex, lineStart)}
-              animate={{ scale: isActiveLine ? 1.02 : 1 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className={cn(
-                "cursor-pointer rounded-xl px-3 py-3 min-h-[44px] transition-colors",
-                "will-change-transform transform-gpu",
-                isActiveLine ? "text-foreground" : isPastLine ? "text-foreground/35" : "text-foreground/65",
-                flashIndex === lineIndex &&
-                  "bg-primary/10 ring-1 ring-primary/30 transition-[background-color,box-shadow] duration-200",
-              )}
-            >
-              <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-1">
-                {line.map((word, wordIndex) => {
-                  const idx = globalWordIndex++;
-                  const adjusted = syncedTime + constants.WORD_LOOK_AHEAD_MS / 1000;
-                  const tol = constants.WORD_END_TOLERANCE_MS / 1000;
-                  const isActiveWord = isActiveLine && adjusted >= word.startS && adjusted <= word.endS + tol;
-                  const isPastWord = syncedTime > word.endS + tol;
-                  return (
-                    <SynchronizedWord
-                      key={`${lineIndex}-${wordIndex}-${word.startS}`}
-                      word={word.word}
-                      isActive={isActiveWord}
-                      isPast={isPastWord}
-                      data-word-index={idx}
-                      className="text-[19px] font-medium leading-[1.5]"
-                      activeClassName="text-primary font-semibold"
-                      pastClassName="text-foreground/35"
-                      futureClassName=""
-                    />
-                  );
-                })}
-              </div>
-            </motion.div>
-          );
-        })}
+            return (
+              <motion.div
+                key={lineIndex}
+                ref={isActiveLine ? activeLineRef : null}
+                onClick={() => handleLineTap(lineIndex, lineStart)}
+                animate={{ scale: isActiveLine ? 1.02 : 1 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className={cn(
+                  "cursor-pointer rounded-xl px-3 py-3 min-h-[44px] transition-colors",
+                  "will-change-transform transform-gpu",
+                  isActiveLine ? "text-foreground" : isPastLine ? "text-foreground/35" : "text-foreground/65",
+                  flashIndex === lineIndex &&
+                    "bg-primary/10 ring-1 ring-primary/30 transition-[background-color,box-shadow] duration-200",
+                )}
+              >
+                <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-1">
+                  {line.map((word, wordIndex) => {
+                    const idx = globalWordIndex++;
+                    const adjusted = syncedTime + constants.WORD_LOOK_AHEAD_MS / 1000;
+                    const tol = constants.WORD_END_TOLERANCE_MS / 1000;
+                    const isActiveWord = isActiveLine && adjusted >= word.startS && adjusted <= word.endS + tol;
+                    const isPastWord = syncedTime > word.endS + tol;
+                    return (
+                      <SynchronizedWord
+                        key={`${lineIndex}-${wordIndex}-${word.startS}`}
+                        word={word.word}
+                        isActive={isActiveWord}
+                        isPast={isPastWord}
+                        data-word-index={idx}
+                        className="text-[19px] font-medium leading-[1.5]"
+                        activeClassName="text-primary font-semibold"
+                        pastClassName="text-foreground/35"
+                        futureClassName=""
+                      />
+                    );
+                  })}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
@@ -266,8 +273,7 @@ export function LyricsPage({ track, currentVersion, isActive, isPlaying, karaoke
             )}
             aria-label="Вернуться к текущей строке"
           >
-            <ChevronDown className="h-4 w-4" aria-hidden />
-            К текущей строке
+            <ChevronDown className="h-4 w-4" aria-hidden />К текущей строке
           </motion.button>
         )}
       </AnimatePresence>

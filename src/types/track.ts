@@ -15,12 +15,13 @@ export type TrackStemRow = Database["public"]["Tables"]["track_stems"]["Row"];
  * Extended Track type with computed/optional UI fields
  * This is the main type used throughout the application
  */
-type _TrackRowOptional = Partial<Pick<TrackRow,
-  | "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model" | "suno_task_id"
->>;
-export interface Track extends Omit<TrackRow,
-  | "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model" | "suno_task_id"
->, _TrackRowOptional {
+type _TrackRowOptional = Partial<
+  Pick<TrackRow, "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model" | "suno_task_id">
+>;
+export interface Track
+  extends
+    Omit<TrackRow, "audio_quality" | "audio_url_hd" | "upscale_status" | "suno_id" | "suno_model" | "suno_task_id">,
+    _TrackRowOptional {
   // Like-related fields (computed from track_likes)
   is_liked: boolean;
   likes_count: number;

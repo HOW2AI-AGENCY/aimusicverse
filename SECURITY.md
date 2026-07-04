@@ -34,20 +34,22 @@ We accept [GitHub private vulnerability reports](https://github.com/HOW2AI-AGENC
 
 ## 🎯 Supported versions
 
-| Version | Supported |
-| --- | :---: |
-| `main` (latest) | ✅ |
-| Tagged release ≤ 6 months old | ✅ |
-| Older releases | ❌ |
+| Version                       | Supported |
+| ----------------------------- | :-------: |
+| `main` (latest)               |    ✅     |
+| Tagged release ≤ 6 months old |    ✅     |
+| Older releases                |    ❌     |
 
 ## 🛡 Scope
 
 In scope:
+
 - Code in this repository.
 - Edge Functions under `supabase/functions/`.
 - Telegram Mini App surface.
 
 Out of scope:
+
 - Third-party services (Suno, Klang.io, Telegram).
 - Social-engineering attempts.
 - Vulnerabilities requiring physical access.
@@ -72,8 +74,8 @@ We credit reporters in [`CHANGELOG.md`](CHANGELOG.md) and our security hall of f
 
 ### 🔗 Related Documentation
 
-| 📚 Index | 🏛 Architecture | 🤝 Contributing | 📜 CoC | 📝 Changelog |
-| :---: | :---: | :---: | :---: | :---: |
+|            📚 Index             |       🏛 Architecture       |         🤝 Contributing         |          📜 CoC           |       📝 Changelog        |
+| :-----------------------------: | :------------------------: | :-----------------------------: | :-----------------------: | :-----------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Contributing](CONTRIBUTING.md) | [CoC](CODE_OF_CONDUCT.md) | [Changelog](CHANGELOG.md) |
 
 <sub>Last updated: 2026-06-27</sub>

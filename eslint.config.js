@@ -175,8 +175,7 @@ export default tseslint.config(
         "warn",
         {
           selector: "CallExpression[callee.object.name='supabase'][callee.property.name='from']",
-          message:
-            "Не вызывайте supabase.from() напрямую в страницах. Используйте слой src/api/* или src/services/*.",
+          message: "Не вызывайте supabase.from() напрямую в страницах. Используйте слой src/api/* или src/services/*.",
         },
       ],
     },
@@ -245,8 +244,7 @@ export default tseslint.config(
         },
         {
           // Запрет произвольных px-значений для типографики: text-[14px], leading-[20px], tracking-[1px]
-          selector:
-            "Literal[value=/(?:^|\\s)(?:text|leading|tracking)-\\[-?\\d+(?:\\.\\d+)?px\\]/]",
+          selector: "Literal[value=/(?:^|\\s)(?:text|leading|tracking)-\\[-?\\d+(?:\\.\\d+)?px\\]/]",
           message:
             "Не задавайте размер/leading/tracking в px. Используйте type-токены (text-sm/base/lg, leading-tight/normal/relaxed).",
         },

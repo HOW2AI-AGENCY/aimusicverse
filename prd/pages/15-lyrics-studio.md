@@ -9,6 +9,7 @@
 Lyrics Studio is a dedicated lyrics editing workspace with AI assistance, versioning, and integration with music generation. Features full-featured lyrics editor, AI chat assistant for suggestions, version history, and tools for organizing lyrics into projects.
 
 **Primary Use Cases:**
+
 - Write and edit lyrics with AI assistance
 - Manage lyric versions and history
 - Organize lyrics into projects
@@ -44,42 +45,42 @@ Lyrics Studio is a dedicated lyrics editing workspace with AI assistance, versio
 
 ### Editor Toolbar
 
-| Tool | Function |
-|------|----------|
-| Bold | Format selected text bold |
-| Italic | Format selected text italic |
-| Undo | Undo last edit |
-| Redo | Redo last undone edit |
-| Save | Save current version |
-| Generate | Generate track from lyrics |
+| Tool     | Function                    |
+| -------- | --------------------------- |
+| Bold     | Format selected text bold   |
+| Italic   | Format selected text italic |
+| Undo     | Undo last edit              |
+| Redo     | Redo last undone edit       |
+| Save     | Save current version        |
+| Generate | Generate track from lyrics  |
 
 ### Lyrics Editor
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Text Area | Large textarea | Main lyrics editing area |
-| Line Numbers | Gutter | Shows line numbers (optional) |
-| Word Count | Status bar | Shows total word count |
-| Auto-Save | Indicator | Shows save status |
+| Element      | Type           | Notes                         |
+| ------------ | -------------- | ----------------------------- |
+| Text Area    | Large textarea | Main lyrics editing area      |
+| Line Numbers | Gutter         | Shows line numbers (optional) |
+| Word Count   | Status bar     | Shows total word count        |
+| Auto-Save    | Indicator      | Shows save status             |
 
 ### AI Assistant Sidebar
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Chat Messages | List | Conversation with AI |
-| Suggestions | Panel | Context-aware lyric suggestions |
-| Rhymes | List | Rhyming words for selected word |
-| Templates | List | Genre-specific lyric templates |
-| Chat Input | Text input + send | Type message to AI |
+| Element       | Type              | Notes                           |
+| ------------- | ----------------- | ------------------------------- |
+| Chat Messages | List              | Conversation with AI            |
+| Suggestions   | Panel             | Context-aware lyric suggestions |
+| Rhymes        | List              | Rhyming words for selected word |
+| Templates     | List              | Genre-specific lyric templates  |
+| Chat Input    | Text input + send | Type message to AI              |
 
 ### Version History
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Version List | List | All saved versions |
-| Timestamp | Date | When version was saved |
-| Change Summary | Text | Description of changes |
-| Restore | Button | Restore selected version |
+| Element        | Type   | Notes                    |
+| -------------- | ------ | ------------------------ |
+| Version List   | List   | All saved versions       |
+| Timestamp      | Date   | When version was saved   |
+| Change Summary | Text   | Description of changes   |
+| Restore        | Button | Restore selected version |
 
 ---
 
@@ -88,12 +89,14 @@ Lyrics Studio is a dedicated lyrics editing workspace with AI assistance, versio
 ### Page Load
 
 **Behavior:**
+
 1. Load lyrics draft from URL param or create new
 2. Initialize AI chat assistant
 3. Setup editor with default toolbar options
 4. Setup Telegram Back Button
 
 **API Calls:**
+
 - `GET /api/lyrics/{id}` — Load existing lyrics
 - `GET /api/lyrics/versions/{lyricsId}` — Load version history
 
@@ -102,6 +105,7 @@ Lyrics Studio is a dedicated lyrics editing workspace with AI assistance, versio
 **Trigger:** Type in lyrics editor
 
 **Behavior:**
+
 1. Update editor content immediately
 2. Auto-save to localStorage every 30 seconds
 3. Show "Unsaved changes" indicator
@@ -112,6 +116,7 @@ Lyrics Studio is a dedicated lyrics editing workspace with AI assistance, versio
 **Trigger:** Click "Save" button
 
 **Behavior:**
+
 1. Open save dialog:
    - Version summary (optional description)
    - Change notes (optional)
@@ -119,6 +124,7 @@ Lyrics Studio is a dedicated lyrics editing workspace with AI assistance, versio
 3. On success: Update version history, show "Saved!" toast
 
 **API Request:**
+
 ```typescript
 POST /api/lyrics/versions
 {
@@ -133,6 +139,7 @@ POST /api/lyrics/versions
 **Trigger:** Click "Generate" button
 
 **Behavior:**
+
 1. Open generation form with lyrics pre-filled
 2. User adjusts style, vocals, settings
 3. Submit generation
@@ -143,6 +150,7 @@ POST /api/lyrics/versions
 **Trigger:** Type message in chat input and send
 
 **Behavior:**
+
 1. Send message to AI assistant via API
 2. AI responds with suggestions
 3. Suggestions can be:
@@ -153,6 +161,7 @@ POST /api/lyrics/versions
 4. User can insert suggestions into editor
 
 **API Call:**
+
 - `POST /api/lyrics/ai-assistant` — AI chat response
 
 ### Restore Version
@@ -160,6 +169,7 @@ POST /api/lyrics/versions
 **Trigger:** Click "Restore" on version in history
 
 **Behavior:**
+
 1. Show confirmation: "Restore this version?"
 2. User confirms
 3. Replace editor content with version content
@@ -167,23 +177,25 @@ POST /api/lyrics/versions
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Lyrics | GET | /api/lyrics/{id} | Page load | Load existing lyrics |
-| Save Lyrics | POST | /api/lyrics | Save action | Create or update lyrics |
-| Save Version | POST | /api/lyrics/versions | Save version | Create new version |
-| Get Versions | GET | /api/lyrics/versions/{lyricsId} | Load history | Version history |
-| AI Assistant | POST | /api/lyrics/ai-assistant | Chat message | AI suggestions |
-| Generate Track | POST | /api/generation/generate | Generate action | Create track from lyrics |
+| API            | Method | Path                            | Trigger         | Notes                    |
+| -------------- | ------ | ------------------------------- | --------------- | ------------------------ |
+| Get Lyrics     | GET    | /api/lyrics/{id}                | Page load       | Load existing lyrics     |
+| Save Lyrics    | POST   | /api/lyrics                     | Save action     | Create or update lyrics  |
+| Save Version   | POST   | /api/lyrics/versions            | Save version    | Create new version       |
+| Get Versions   | GET    | /api/lyrics/versions/{lyricsId} | Load history    | Version history          |
+| AI Assistant   | POST   | /api/lyrics/ai-assistant        | Chat message    | AI suggestions           |
+| Generate Track | POST   | /api/generation/generate        | Generate action | Create track from lyrics |
 
 ## Page Relationships
 
 **From:**
+
 - `/music-lab` → Click "Lyrics" tab
 - `/projects` → Click "Lyrics" in project tools
 - `/` (Home) → From generation form "Save as Lyrics"
 
 **To:**
+
 - `/` (Home) → Generate track from lyrics
 - `/projects/{id}` → Associate lyrics with project
 - Back button → Previous page

@@ -10,8 +10,16 @@ const meta: Meta<typeof StatusBadge> = {
     status: {
       control: { type: "select" },
       options: [
-        "success", "pending", "warning", "error", "loading",
-        "generating", "playing", "processing", "downloading", "idle",
+        "success",
+        "pending",
+        "warning",
+        "error",
+        "loading",
+        "generating",
+        "playing",
+        "processing",
+        "downloading",
+        "idle",
       ],
     },
     size: { control: { type: "select" }, options: ["xs", "sm", "md"] },
@@ -44,7 +52,20 @@ export const Sizes: Story = {
 export const AllStatuses: Story = {
   render: () => (
     <div className="flex flex-wrap gap-2">
-      {(["success", "pending", "warning", "error", "loading", "generating", "playing", "processing", "downloading", "idle"] as const).map((s) => (
+      {(
+        [
+          "success",
+          "pending",
+          "warning",
+          "error",
+          "loading",
+          "generating",
+          "playing",
+          "processing",
+          "downloading",
+          "idle",
+        ] as const
+      ).map((s) => (
         <StatusBadge key={s} status={s} />
       ))}
     </div>
