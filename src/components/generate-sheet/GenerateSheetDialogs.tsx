@@ -155,9 +155,7 @@ export function GenerateSheetDialogs({
           form.setMode("custom");
           // Add chord progression to style description
           const chordInfo = `Guitar chord progression: ${progression}`;
-          form.setStyle((prevStyle) => {
-            return prevStyle ? `${prevStyle}\n\n${chordInfo}` : chordInfo;
-          });
+          form.setStyle(form.style ? `${form.style}\n\n${chordInfo}` : chordInfo);
           notify.success(`Обнаружено ${chords.length} аккордов`);
         }}
         onOpenCoverDialog={(file, mode) => {
