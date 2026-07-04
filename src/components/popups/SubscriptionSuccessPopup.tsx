@@ -8,7 +8,7 @@ import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Crown, Zap, Check, Sparkles, Star } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import confetti from "canvas-confetti";
+import { confetti } from "@/lib/confetti";
 
 interface SubscriptionSuccessPopupProps {
   open: boolean;

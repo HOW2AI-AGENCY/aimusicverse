@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { gradientGlass } from "@/lib/glass";
 import type { StarsProduct } from "@/services/starsPaymentService";
-import confetti from "canvas-confetti";
+import { confetti } from "@/lib/confetti";
 
 interface PaymentSuccessModalProps {
   isOpen: boolean;
