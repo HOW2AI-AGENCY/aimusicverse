@@ -144,10 +144,7 @@ export function GenerateSheetDialogs({
         }}
         onAnalysisComplete={(styleDescription) => {
           form.setMode("custom");
-          form.setStyle((prevStyle) => {
-            const newStyle = prevStyle ? `${prevStyle}\n\n${styleDescription}` : styleDescription;
-            return newStyle;
-          });
+          form.setStyle(form.style ? `${form.style}\n\n${styleDescription}` : styleDescription);
         }}
         onLyricsExtracted={(lyrics) => {
           form.setMode("custom");
