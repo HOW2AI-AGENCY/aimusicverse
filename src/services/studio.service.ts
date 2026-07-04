@@ -710,7 +710,8 @@ export async function sunoUploadExtend(
 
 // ============= Sprint 052 — Suno Mashup / Persona / File Upload =============
 
-export interface SunoMashupParams {
+// type alias (не interface): даёт implicit index signature для payload-сигнатуры studioApi.invokeSunoMashup
+export type SunoMashupParams = {
   trackAId: string;
   trackBId: string;
   customMode: boolean;
@@ -726,7 +727,7 @@ export interface SunoMashupParams {
   projectId?: string;
   studioProjectId?: string;
   openInStudio?: boolean;
-}
+};
 
 export interface SunoMashupResult {
   taskId: string;
@@ -750,12 +751,13 @@ export async function sunoMashup(
   }
 }
 
-export interface SunoPersonaParams {
+// type alias (не interface): даёт implicit index signature для payload-сигнатуры studioApi.invokeSunoPersona
+export type SunoPersonaParams = {
   trackId: string;
   name: string;
   description?: string;
   model?: string;
-}
+};
 
 export interface SunoPersonaResult {
   personaId: string;
