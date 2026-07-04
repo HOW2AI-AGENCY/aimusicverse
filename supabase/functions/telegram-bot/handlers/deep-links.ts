@@ -26,6 +26,7 @@ export type DeepLinkType =
   | "quick"
   | "studio"
   | "remix"
+  | "mashup"
   | "lyrics"
   | "stats"
   | "share"
@@ -92,6 +93,7 @@ export function parseDeepLink(startParam: string): { type: DeepLinkType | null; 
     [/^quick_(.+)$/, "quick"],
     [/^studio_(.+)$/, "studio"],
     [/^remix_(.+)$/, "remix"],
+    [/^mashup_(.+)$/, "mashup"],
     [/^lyrics_(.+)$/, "lyrics"],
     [/^stats_(.+)$/, "stats"],
     [/^profile_(.+)$/, "profile"],
@@ -785,6 +787,17 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
           .build();
         await sendMessage(chatId, "🔄 Создаём ремикс\\.\\.\\.", remixKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("remix", value, userId);
+        break;
+      case "mashup":
+        const mashupKeyboard = new ButtonBuilder()
+          .addButton({
+            text: "Открыть Mashup",
+            emoji: "🎼",
+            action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}?startapp=mashup_${value}` },
+          })
+          .build();
+        await sendMessage(chatId, "🎼 Открываем mashup\\.\\.\\.", mashupKeyboard, "MarkdownV2");
+        await trackDeepLinkAnalytics("mashup", value, userId);
         break;
       case "lyrics":
         const lyricsKeyboard = new ButtonBuilder()

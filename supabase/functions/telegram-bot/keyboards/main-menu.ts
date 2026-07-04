@@ -160,6 +160,7 @@ export function createTrackDetailsKeyboard(trackId: string) {
         { text: "🎛️ Студия", callback_data: `studio_${trackId}` },
         { text: "🔀 Ремикс", callback_data: `remix_${trackId}` },
       ],
+      [{ text: "🎼 Mashup с другим треком", callback_data: `mashup_${trackId}` }],
     ] as InlineKeyboardButton[][],
   };
 }

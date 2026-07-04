@@ -66,6 +66,15 @@ export async function handleMediaCallbacks(
     return true;
   }
 
+  // Mashup handlers (sprint 052-B6)
+  if (data.startsWith("mashup_")) {
+    const trackId = data.replace("mashup_", "");
+    const { handleMashup } = await import("../commands/mashup.ts");
+    await handleMashup(chatId, trackId, messageId);
+    await answerCallbackQuery(queryId);
+    return true;
+  }
+
   if (data.startsWith("add_vocals_")) {
     const trackId = data.replace("add_vocals_", "");
     const { handleAddVocals } = await import("../commands/remix.ts");
