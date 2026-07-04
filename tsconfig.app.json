@@ -17,5 +17,14 @@
     "useDefineForClassFields": true
   },
   "include": ["src", "src/types"],
-  "exclude": ["**/__tests__/**", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "tests"]
+  "exclude": [
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "tests",
+    "src/lib/mcp/**",
+    "supabase/functions/mcp/**"
+  ]
 }

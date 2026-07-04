@@ -5,8 +5,7 @@ import { z } from "zod";
 export default defineTool({
   name: "get_track",
   title: "Get track details",
-  description:
-    "Fetch full details for a single public track including all A/B versions, lyrics, and audio URLs.",
+  description: "Fetch full details for a single public track including all A/B versions, lyrics, and audio URLs.",
   inputSchema: {
     track_id: z.string().uuid().describe("UUID of the track."),
   },

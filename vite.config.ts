@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+// @ts-expect-error — @lovable.dev/mcp-js is an optional plugin not in npm; the plugin is auto-generated and only resolves inside the Lovable build pipeline. See supabase/functions/mcp/index.ts for the Deno-side artifact.
 import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/supabase/vite";
 import type { Plugin } from "vite";
 
