@@ -294,7 +294,11 @@ export async function toggleTrackLike(trackId: string, userId: string, isCurrent
     const { error } = await supabase.from("track_likes").delete().eq("track_id", trackId).eq("user_id", userId);
     if (error) throw new Error(error.message);
   } else {
-    const { error } = await supabase.from("track_likes").insert({ track_id: trackId, user_id: userId });
+    // track_version_id is resolved server-side by BEFORE INSERT trigger
+    // (resolve_track_like_version) to the track's active/primary version.
+    const { error } = await supabase
+      .from("track_likes")
+      .insert({ track_id: trackId, user_id: userId } as unknown as { track_id: string; user_id: string; track_version_id: string });
     if (error) throw new Error(error.message);
   }
 }
