@@ -92,5 +92,12 @@ export function useGenerateFormState(params: UseGenerateFormParams): UseGenerate
 
     // ─── draft (forwarded from useGenerateDraft via internal state) ──
     saveDraft: s.saveDraft,
+
+    // ─── api credits (forwarded from internal state) ─────────────────
+    // Wired so the submit pipeline can persist the post-generation balance
+    // via deps.setApiCredits and the public surface can expose apiCredits
+    // (was previously dropped on the floor by an upstream no-op stub).
+    apiCredits: s.apiCredits,
+    setApiCredits: s.setApiCredits,
   };
 }

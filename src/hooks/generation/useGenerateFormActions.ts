@@ -55,9 +55,7 @@ export function useGenerateFormActions(deps: UseGenerateFormActionsDeps): UseGen
     loading: deps.loading,
     setLoading: deps.setLoading,
     setModel: deps.setModel,
-    setApiCredits: () => {
-      // apiCredits setter is not on the brief's state contract.
-    },
+    setApiCredits: deps.setApiCredits,
     canGenerate: deps.canGenerate,
     isAdmin: deps.isAdmin,
     apiBalance: deps.apiBalance,

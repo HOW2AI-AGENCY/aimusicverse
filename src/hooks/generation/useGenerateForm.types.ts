@@ -103,6 +103,15 @@ export interface UseGenerateFormStateReturn {
 
   // reset
   resetForm: () => void;
+
+  // api credits
+  /**
+   * Local copy of the user's Suno API balance after a successful generation.
+   * Forwarded from the internal state so the composer can wire it through
+   * to the submit pipeline and the public surface (was a no-op stub).
+   */
+  apiCredits: number | null;
+  setApiCredits: (v: number | null) => void;
 }
 
 /** Deps accepted by `useGenerateFormActions`. */
