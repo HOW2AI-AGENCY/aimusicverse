@@ -542,6 +542,68 @@ export async function invokeSunoUploadExtend(payload: {
   return { data, error };
 }
 
+// ============= Sprint 052 — Mashup / Persona / File Upload =============
+
+/**
+ * Blend two existing tracks into a single mashup via Suno /generate/mashup.
+ * Both track IDs must belong to the caller (enforced server-side).
+ * Returns a new (trackId, taskId) pair — the result lands via suno-music-callback.
+ */
+export async function invokeSunoMashup(payload: {
+  trackAId: string;
+  trackBId: string;
+  customMode: boolean;
+  instrumental?: boolean;
+  prompt?: string;
+  style?: string;
+  title?: string;
+  model?: string;
+  vocalGender?: "m" | "f";
+  styleWeight?: number;
+  weirdnessConstraint?: number;
+  audioWeight?: number;
+  projectId?: string;
+  studioProjectId?: string;
+  openInStudio?: boolean;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-mashup", { body: payload });
+  return { data, error };
+}
+
+/**
+ * Train a reusable Suno Persona from a single existing track.
+ * Returns a (personaId, sunoTaskId, status) tuple; status === 'pending' means
+ * the callback (suno-persona-callback) hasn't fired yet.
+ */
+export async function invokeSunoPersona(payload: {
+  trackId: string;
+  name: string;
+  description?: string;
+  model?: string;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-persona", { body: payload });
+  return { data, error };
+}
+
+/**
+ * Forward a base64 audio payload to suno-file-upload and get back a Suno-hosted
+ * file_url that can be passed as `uploadUrl` to /generate/upload-{cover,extend}.
+ * Strips the optional data:audio/mpeg;base64, prefix before forwarding.
+ */
+export async function invokeSunoFileUpload(payload: {
+  action: "base64" | "url";
+  filename?: string;
+  fileBase64?: string;
+  fileUrl?: string;
+  contentType?: string;
+  [key: string]: unknown;
+}) {
+  const { data, error } = await supabase.functions.invoke("suno-file-upload", { body: payload });
+  return { data, error };
+}
+
 // ============= MIDI Export =============
 
 export async function invokeExportMidi(payload: {

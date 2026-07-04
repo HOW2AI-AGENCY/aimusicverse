@@ -708,6 +708,113 @@ export async function sunoUploadExtend(
   }
 }
 
+// ============= Sprint 052 — Suno Mashup / Persona / File Upload =============
+
+export interface SunoMashupParams {
+  trackAId: string;
+  trackBId: string;
+  customMode: boolean;
+  instrumental?: boolean;
+  prompt?: string;
+  style?: string;
+  title?: string;
+  model?: string;
+  vocalGender?: "m" | "f";
+  styleWeight?: number;
+  weirdnessConstraint?: number;
+  audioWeight?: number;
+  projectId?: string;
+  studioProjectId?: string;
+  openInStudio?: boolean;
+}
+
+export interface SunoMashupResult {
+  taskId: string;
+  trackId: string;
+}
+
+export async function sunoMashup(
+  params: SunoMashupParams,
+): Promise<{ data: SunoMashupResult | null; error: Error | null }> {
+  try {
+    const { data, error } = await studioApi.invokeSunoMashup(params);
+    if (error) return { data: null, error: new Error(error.message) };
+    const payload = data as { taskId?: string; trackId?: string } | null;
+    if (!payload?.taskId || !payload?.trackId) {
+      return { data: null, error: new Error("Mashup edge returned no taskId/trackId") };
+    }
+    return { data: payload as SunoMashupResult, error: null };
+  } catch (err) {
+    logger.error("Error in sunoMashup", err);
+    return { data: null, error: err as Error };
+  }
+}
+
+export interface SunoPersonaParams {
+  trackId: string;
+  name: string;
+  description?: string;
+  model?: string;
+}
+
+export interface SunoPersonaResult {
+  personaId: string;
+  sunoTaskId: string | null;
+  sunoPersonaId: string | null;
+  status: "pending" | "ready" | "failed";
+}
+
+export async function sunoPersona(
+  params: SunoPersonaParams,
+): Promise<{ data: SunoPersonaResult | null; error: Error | null }> {
+  try {
+    const { data, error } = await studioApi.invokeSunoPersona(params);
+    if (error) return { data: null, error: new Error(error.message) };
+    const payload = data as SunoPersonaResult | null;
+    if (!payload?.personaId) {
+      return { data: null, error: new Error("Persona edge returned no personaId") };
+    }
+    return { data: payload, error: null };
+  } catch (err) {
+    logger.error("Error in sunoPersona", err);
+    return { data: null, error: err as Error };
+  }
+}
+
+export interface SunoFileUploadParams {
+  filename: string;
+  /** Raw audio bytes as a base64 string (with or without data: URL prefix). */
+  fileBase64: string;
+  contentType?: string;
+}
+
+export interface SunoFileUploadResult {
+  file_url: string;
+  expires_in_days: number;
+}
+
+export async function sunoFileUpload(
+  params: SunoFileUploadParams,
+): Promise<{ data: SunoFileUploadResult | null; error: Error | null }> {
+  try {
+    const { data, error } = await studioApi.invokeSunoFileUpload({
+      action: "base64",
+      filename: params.filename,
+      fileBase64: params.fileBase64,
+      contentType: params.contentType ?? "audio/mpeg",
+    });
+    if (error) return { data: null, error: new Error(error.message) };
+    const payload = data as SunoFileUploadResult | null;
+    if (!payload?.file_url) {
+      return { data: null, error: new Error("File upload edge returned no file_url") };
+    }
+    return { data: payload, error: null };
+  } catch (err) {
+    logger.error("Error in sunoFileUpload", err);
+    return { data: null, error: err as Error };
+  }
+}
+
 // ============= Telegram Notifications (from midi/notes card) =============
 
 export interface TelegramDocumentSharePayload {
