@@ -154,11 +154,7 @@ serve(async (req) => {
     }
 
     // Get user's telegram chat ID for notifications
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("telegram_id")
-      .eq("user_id", user.id)
-      .single();
+    const { data: profile } = await supabase.from("profiles").select("telegram_id").eq("user_id", user.id).single();
 
     // Create callback URL
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;

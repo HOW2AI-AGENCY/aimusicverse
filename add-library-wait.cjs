@@ -1,5 +1,5 @@
-const fs = require('fs');
-const content = fs.readFileSync('tests/e2e/library.spec.ts', 'utf8');
+const fs = require("fs");
+const content = fs.readFileSync("tests/e2e/library.spec.ts", "utf8");
 
 const waitForSelectorBlock = `
     // Wait for library data to load
@@ -20,16 +20,16 @@ let replacementCount = 0;
 const result = content.replace(pattern, (match, p1, offset, string) => {
   // Check if we're in a context that has /library navigation recently
   const beforeMatch = string.substring(Math.max(0, offset - 500), offset);
-  if (beforeMatch.includes('/library') && !beforeMatch.includes('waitForSelector')) {
+  if (beforeMatch.includes("/library") && !beforeMatch.includes("waitForSelector")) {
     replacementCount++;
-    return waitForSelectorBlock + '\n' + p1;
+    return waitForSelectorBlock + "\n" + p1;
   }
   return match;
 });
 
 if (replacementCount > 0) {
-  fs.writeFileSync('tests/e2e/library.spec.ts', result);
+  fs.writeFileSync("tests/e2e/library.spec.ts", result);
   console.log(`Added waitForSelector logic in ${replacementCount} places`);
 } else {
-  console.log('No changes made - pattern not found');
+  console.log("No changes made - pattern not found");
 }

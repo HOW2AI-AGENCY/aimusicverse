@@ -100,7 +100,17 @@ export function useAddComment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ trackId, content, parentId, timestampSeconds }: { trackId: string; content: string; parentId?: string; timestampSeconds?: number | null }) => {
+    mutationFn: async ({
+      trackId,
+      content,
+      parentId,
+      timestampSeconds,
+    }: {
+      trackId: string;
+      content: string;
+      parentId?: string;
+      timestampSeconds?: number | null;
+    }) => {
       if (!user?.id) throw new Error("Не авторизован");
 
       const { data, error } = await supabase

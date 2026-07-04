@@ -9,6 +9,7 @@
 Analytics Page provides detailed statistics and insights about user's music creation activity. Features generation metrics, play counts, popular tracks, usage trends, and export capabilities.
 
 **Primary Use Cases:**
+
 - View generation statistics
 - Track most popular content
 - Analyze usage trends over time
@@ -43,20 +44,20 @@ Analytics Page provides detailed statistics and insights about user's music crea
 
 ### Stats Cards
 
-| Stat | Icon | Source | Notes |
-|------|------|--------|-------|
-| Generations | Sparkles icon | Total generation count | All time |
-| Plays | Play icon | Total play count | All tracks |
-| Likes | Heart icon | Total likes received | All tracks |
-| Exports | Download icon | Total exports | Files/CSV/PDF |
+| Stat        | Icon          | Source                 | Notes         |
+| ----------- | ------------- | ---------------------- | ------------- |
+| Generations | Sparkles icon | Total generation count | All time      |
+| Plays       | Play icon     | Total play count       | All tracks    |
+| Likes       | Heart icon    | Total likes received   | All tracks    |
+| Exports     | Download icon | Total exports          | Files/CSV/PDF |
 
 ### Charts
 
-| Chart | Type | Data Source | Notes |
-|-------|------|-------------|-------|
-| Generations Timeline | Line chart | Daily generation count | Time range selected |
-| Top Tracks | Bar chart | Play counts by track | Top 10 tracks |
-| Credits Usage | Donut chart | Credits consumed vs remaining | Current period |
+| Chart                | Type        | Data Source                   | Notes               |
+| -------------------- | ----------- | ----------------------------- | ------------------- |
+| Generations Timeline | Line chart  | Daily generation count        | Time range selected |
+| Top Tracks           | Bar chart   | Play counts by track          | Top 10 tracks       |
+| Credits Usage        | Donut chart | Credits consumed vs remaining | Current period      |
 
 ---
 
@@ -65,6 +66,7 @@ Analytics Page provides detailed statistics and insights about user's music crea
 ### Page Load
 
 **API Calls:**
+
 - `GET /api/analytics/summary` — Overall statistics
 - `GET /api/analytics/generations?range=7d` — Generation trends
 - `GET /api/analytics/tracks?range=7d` — Top tracks
@@ -74,6 +76,7 @@ Analytics Page provides detailed statistics and insights about user's music crea
 **Trigger:** Click time range button (7D, 30D, 90D, All)
 
 **Behavior:**
+
 1. Update `timeRange` state
 2. Refetch analytics with new range
 3. Update all charts
@@ -82,22 +85,24 @@ Analytics Page provides detailed statistics and insights about user's music crea
 ### Export Data
 
 **CSV Export:**
+
 - **Trigger:** Click "Download CSV"
 - **Behavior:** Download CSV file of analytics data
 
 **PDF Export:**
+
 - **Trigger:** Click "Download PDF"
 - **Behavior:** Download PDF report with charts
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Summary | GET | /api/analytics/summary | Page load | Overall stats |
-| Get Generations | GET | /api/analytics/generations?range={range} | Time range change | Generation trends |
-| Get Tracks | GET | /api/analytics/tracks?range={range} | Time range change | Top tracks |
-| Export CSV | GET | /api/analytics/export?format=csv | Export action | CSV file |
-| Export PDF | GET | /api/analytics/export?format=pdf | Export action | PDF report |
+| API             | Method | Path                                     | Trigger           | Notes             |
+| --------------- | ------ | ---------------------------------------- | ----------------- | ----------------- |
+| Get Summary     | GET    | /api/analytics/summary                   | Page load         | Overall stats     |
+| Get Generations | GET    | /api/analytics/generations?range={range} | Time range change | Generation trends |
+| Get Tracks      | GET    | /api/analytics/tracks?range={range}      | Time range change | Top tracks        |
+| Export CSV      | GET    | /api/analytics/export?format=csv         | Export action     | CSV file          |
+| Export PDF      | GET    | /api/analytics/export?format=pdf         | Export action     | PDF report        |
 
 ## Page Relationships
 

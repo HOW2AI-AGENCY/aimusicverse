@@ -103,17 +103,11 @@ for (const rel of TARGETS) {
     console.error(color(RED + BOLD, `✖ CSS @import order violation in ${filePath}`));
     console.error(color(DIM, `  ${absPath}`));
     console.error("");
-    console.error(
-      color(YELLOW, `  The CSS spec requires every @import to appear BEFORE any other rule.`),
-    );
-    console.error(
-      color(YELLOW, `  Vite/PostCSS silently drops misplaced @import → broken styles → white screen.`),
-    );
+    console.error(color(YELLOW, `  The CSS spec requires every @import to appear BEFORE any other rule.`));
+    console.error(color(YELLOW, `  Vite/PostCSS silently drops misplaced @import → broken styles → white screen.`));
     console.error("");
     console.error(color(BOLD, `  First non-import statement:`));
-    console.error(
-      color(DIM, `    ${filePath}:${firstOtherLine + 1}  `) + color(CYAN, firstOtherText),
-    );
+    console.error(color(DIM, `    ${filePath}:${firstOtherLine + 1}  `) + color(CYAN, firstOtherText));
     console.error("");
     console.error(color(BOLD, `  Misplaced @import statement(s):`));
     for (const v of violations) {

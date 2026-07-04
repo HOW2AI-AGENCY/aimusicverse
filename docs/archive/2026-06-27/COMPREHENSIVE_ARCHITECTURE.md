@@ -1288,9 +1288,7 @@ export default defineConfig({
           "vendor-tone": ["tone"],
           "vendor-wavesurfer": ["wavesurfer.js"],
           "vendor-query": ["@tanstack/react-query"],
-          "vendor-radix": [
-            /* all @radix-ui/* */
-          ],
+          "vendor-radix": [/* all @radix-ui/* */],
 
           // Feature chunks
           "page-stem-studio": ["/src/pages/studio-v2/UnifiedStudioPage"],

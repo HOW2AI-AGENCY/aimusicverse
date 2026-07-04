@@ -79,6 +79,7 @@ make help
 Главный дашборд с обзором всех спринтов.
 
 **Содержит:**
+
 - Обзор проекта с health score
 - Активные спринты с прогрессом
 - График завершения (Gantt chart)
@@ -93,6 +94,7 @@ make help
 Детальный автоматический отчет.
 
 **Содержит:**
+
 - Исполнительное резюме
 - Просроченные задачи
 - Статистика по спринтам
@@ -108,6 +110,7 @@ make help
 Документация системы трекинга.
 
 **Содержит:**
+
 - Принципы трекинга
 - Процесс мониторинга (daily/weekly/monthly)
 - Матрица ответственностей
@@ -123,6 +126,7 @@ make help
 Визуальный дашборд с графиками.
 
 **Содержит:**
+
 - Health Score (pie charts)
 - Timeline и графики (xychart)
 - Статусы спринтов (progress bars)
@@ -174,13 +178,13 @@ make help
 
 ### KPIs
 
-| KPI | Формула | Цель |
-|-----|---------|------|
-| Velocity | SP completed / sprint | 12-15 SP |
-| Completion Rate | Tasks completed / planned | >90% |
-| Health Score | Weighted average metrics | >95/100 |
-| Test Coverage | Lines covered / total | >90% |
-| Bundle Size | Total JS / CSS bundle | <950 KB |
+| KPI             | Формула                   | Цель     |
+| --------------- | ------------------------- | -------- |
+| Velocity        | SP completed / sprint     | 12-15 SP |
+| Completion Rate | Tasks completed / planned | >90%     |
+| Health Score    | Weighted average metrics  | >95/100  |
+| Test Coverage   | Lines covered / total     | >90%     |
+| Bundle Size     | Total JS / CSS bundle     | <950 KB  |
 
 ### Health Score Components
 
@@ -208,12 +212,12 @@ graph LR
 
 ### Label Mapping
 
-| Sprint Status | GitHub Status | GitHub Label |
-|---------------|---------------|--------------|
-| ✅ Completed | closed | ✅ done |
-| 🔄 In Progress | open | 🔄 in-progress |
-| ⏳ Planned | open | ⏳ planned |
-| ⚠️ Blocked | open | ⚠️ blocked |
+| Sprint Status  | GitHub Status | GitHub Label   |
+| -------------- | ------------- | -------------- |
+| ✅ Completed   | closed        | ✅ done        |
+| 🔄 In Progress | open          | 🔄 in-progress |
+| ⏳ Planned     | open          | ⏳ planned     |
+| ⚠️ Blocked     | open          | ⚠️ blocked     |
 
 ## 🎨 Визуализация
 
@@ -260,16 +264,16 @@ gantt
 
 ### Команды
 
-| Команда | Описание |
-|---------|----------|
-| `make help` | Показать все команды |
-| `make update-daily` | Ежедневное обновление |
+| Команда              | Описание                |
+| -------------------- | ----------------------- |
+| `make help`          | Показать все команды    |
+| `make update-daily`  | Ежедневное обновление   |
 | `make update-weekly` | Еженедельное обновление |
-| `make report-only` | Генерация отчетов |
-| `make github-sync` | GitHub sync |
-| `make check-health` | Health check |
-| `make clean` | Очистка файлов |
-| `make install` | Установка зависимостей |
+| `make report-only`   | Генерация отчетов       |
+| `make github-sync`   | GitHub sync             |
+| `make check-health`  | Health check            |
+| `make clean`         | Очистка файлов          |
+| `make install`       | Установка зависимостей  |
 
 ### Логи
 
@@ -331,10 +335,10 @@ gantt
 
 ## 📞 Контакты
 
-| Роль | Telegram | Email |
-|------|----------|-------|
-| Team Lead | @teamlead | team@aimusicverse.com |
-| DevOps | @devops | devops@aimusicverse.com |
+| Роль      | Telegram  | Email                   |
+| --------- | --------- | ----------------------- |
+| Team Lead | @teamlead | team@aimusicverse.com   |
+| DevOps    | @devops   | devops@aimusicverse.com |
 
 ---
 

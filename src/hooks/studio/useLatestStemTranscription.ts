@@ -4,10 +4,7 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import {
-  fetchLatestStemTranscriptionByStemId,
-  fetchLatestStemTranscriptionByTrackId,
-} from "@/services/studio.service";
+import { fetchLatestStemTranscriptionByStemId, fetchLatestStemTranscriptionByTrackId } from "@/services/studio.service";
 
 export function useLatestStemTranscription(params: { stemId?: string | null; trackId?: string | null }) {
   const { stemId, trackId } = params;

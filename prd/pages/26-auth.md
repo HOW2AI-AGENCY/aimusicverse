@@ -9,6 +9,7 @@
 Auth Page handles Telegram OAuth authentication for the Telegram Mini App. Users authenticate via Telegram Web App SDK, with automatic profile creation and session management.
 
 **Primary Use Cases:**
+
 - Login via Telegram
 - First-time user registration
 - Session management
@@ -39,20 +40,20 @@ Auth Page handles Telegram OAuth authentication for the Telegram Mini App. Users
 
 ### Loading State
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Telegram Icon | Animated | Pulsing Telegram logo |
-| Message | Text | "Signing in..." |
-| Spinner | Component | Loading indicator |
+| Element       | Type      | Notes                 |
+| ------------- | --------- | --------------------- |
+| Telegram Icon | Animated  | Pulsing Telegram logo |
+| Message       | Text      | "Signing in..."       |
+| Spinner       | Component | Loading indicator     |
 
 ### Error State
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Error Icon | Icon | Warning or error icon |
-| Error Message | Text | User-friendly error message |
-| Retry Button | Button | "Try again" |
-| Cancel Button | Button | Return to home |
+| Element       | Type   | Notes                       |
+| ------------- | ------ | --------------------------- |
+| Error Icon    | Icon   | Warning or error icon       |
+| Error Message | Text   | User-friendly error message |
+| Retry Button  | Button | "Try again"                 |
+| Cancel Button | Button | Return to home              |
 
 ---
 
@@ -61,12 +62,14 @@ Auth Page handles Telegram OAuth authentication for the Telegram Mini App. Users
 ### Page Load
 
 **Behavior:**
+
 1. Initialize Telegram WebApp SDK
 2. Check URL params for auth token
 3. If token present: Exchange for session, navigate to home
 4. If no token: Initiate Telegram OAuth flow
 
 **Telegram OAuth Flow:**
+
 1. Check if running in Telegram WebApp context
 2. Get user data from Telegram (`Telegram.WebApp.getUserInfo`)
 3. Send data to Supabase Edge Function
@@ -80,6 +83,7 @@ Auth Page handles Telegram OAuth authentication for the Telegram Mini App. Users
 **Trigger:** Successful auth token exchange
 
 **Behavior:**
+
 1. Store session in Supabase auth state
 2. Navigate to home page (`/`)
 3. If new user: Redirect to onboarding (`/onboarding`)
@@ -89,6 +93,7 @@ Auth Page handles Telegram OAuth authentication for the Telegram Mini App. Users
 **Trigger:** Error in auth flow
 
 **Behavior:**
+
 1. Show error state with message
 2. Display "Try again" button
 3. Log error for debugging
@@ -96,19 +101,21 @@ Auth Page handles Telegram OAuth authentication for the Telegram Mini App. Users
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Telegram Auth | POST | /api/auth/telegram | Page load | Exchange token |
-| Get Session | GET | /api/auth/session | Page load | Check existing session |
+| API           | Method | Path               | Trigger   | Notes                  |
+| ------------- | ------ | ------------------ | --------- | ---------------------- |
+| Telegram Auth | POST   | /api/auth/telegram | Page load | Exchange token         |
+| Get Session   | GET    | /api/auth/session  | Page load | Check existing session |
 
 ## Page Relationships
 
 **From:**
+
 - Telegram deep link → `t.me/AIMusicVerseBot/app`
 - Protected routes → Redirect when not authenticated
 - Manual navigation → `/auth`
 
 **To:**
+
 - `/` (Home) → After successful auth
 - `/onboarding` → After auth if new user
 - Back → Cancel auth attempt

@@ -16,23 +16,23 @@ graph TB
     A --> C[Актуальность]
     A --> D[Ответственность]
     A --> E[Автоматизация]
-    
+
     B --> B1[Все задачи видны]
     B --> B2[Статусы обновлены]
     B --> B3[Прогресс отслеживается]
-    
+
     C --> C1[Ежедневные обновления]
     C --> C2[Реальные данные]
     C --> C3[Без "фейковых" прогрессов]
-    
+
     D --> D1[Ясные владельцы]
     D --> D2[Один ответственный]
     D --> D3[Подотчетность]
-    
+
     E --> E1[Авто-сбор метрик]
     E --> E2[Интеграция с GitHub]
     E --> E3[Авто-отчеты]
-    
+
     style A fill:#6366f1,stroke:#4338ca,color:#fff
     style B fill:#10b981,stroke:#059669,color:#fff
     style C fill:#3b82f6,stroke:#2563eb,color:#fff
@@ -113,24 +113,29 @@ graph TB
 # Weekly Report - Неделя N
 
 ## Исполнительное Резюме
+
 - Завершено: X задач
 - В работе: Y задач
 - Просрочено: Z задач
 - Velocity: N SP
 
 ## Достижения
+
 - ✅ ...
 - ✅ ...
 
 ## Проблемы
+
 - ⚠️ ...
 - ⚠️ ...
 
 ## Планы на следующую неделю
+
 - 🎯 ...
 - 🎯 ...
 
 ## Метрики
+
 - Прогресс: X%
 - Health Score: Y/100
 - Bundle Size: Z KB
@@ -171,13 +176,13 @@ graph TB
 
 ### Роли и Обязанности
 
-| Роль | Ответственность | Частота Обновлений |
-|------|-----------------|-------------------|
-| **Team Lead** | Общее управление, приоритеты, эскалация | Ежедневно |
-| **Senior Developer** | Code review, менторство, технические решения | Ежедневно |
-| **Developer** | Реализация задач, обновление статусов | Ежедневно |
-| **QA Engineer** | Тестирование, баг-репорты, качество | По задачам |
-| **DevOps** | CI/CD, деплой, мониторинг | По необходимости |
+| Роль                 | Ответственность                              | Частота Обновлений |
+| -------------------- | -------------------------------------------- | ------------------ |
+| **Team Lead**        | Общее управление, приоритеты, эскалация      | Ежедневно          |
+| **Senior Developer** | Code review, менторство, технические решения | Ежедневно          |
+| **Developer**        | Реализация задач, обновление статусов        | Ежедневно          |
+| **QA Engineer**      | Тестирование, баг-репорты, качество          | По задачам         |
+| **DevOps**           | CI/CD, деплой, мониторинг                    | По необходимости   |
 
 ### Матрица Ответственностей
 
@@ -186,15 +191,15 @@ graph TB
 (C) Consulted - консультируется  
 (I) Informed - информируется
 
-| Задача | Team Lead | Senior Dev | Dev | QA | DevOps |
-|--------|-----------|------------|-----|----|--------|
-| Создание спринта | A | C | R | I | I |
-| Реализация задач | I | C | R | I | I |
-| Code review | I | R | C | I | I |
-| Тестирование | I | I | C | R | I |
-| Деплой | A | I | I | C | R |
-| Мониторинг | R | C | I | I | C |
-| Документация | A | C | R | I | I |
+| Задача           | Team Lead | Senior Dev | Dev | QA  | DevOps |
+| ---------------- | --------- | ---------- | --- | --- | ------ |
+| Создание спринта | A         | C          | R   | I   | I      |
+| Реализация задач | I         | C          | R   | I   | I      |
+| Code review      | I         | R          | C   | I   | I      |
+| Тестирование     | I         | I          | C   | R   | I      |
+| Деплой           | A         | I          | I   | C   | R      |
+| Мониторинг       | R         | C          | I   | I   | C      |
+| Документация     | A         | C          | R   | I   | I      |
 
 ---
 
@@ -230,17 +235,17 @@ gantt
     title Цикл Обновлений
     dateFormat HH:mm
     axisFormat %H:%M
-    
+
     section Daily
     Статусы задач        :done, d1, 09:00, 10m
     Daily standup        :active, d2, 10:00, 15m
     Обновление тасков    :d3, 10:15, 10m
-    
+
     section Weekly
     Weekly review         :milestone, w1, 09:00, 60m
     Обновление дашбордов :w2, 10:00, 30m
     GitHub sync          :w3, 10:30, 30m
-    
+
     section Monthly
     Monthly review        :milestone, m1, 14:00, 120m
     Ретроспектива         :m2, 16:00, 60m
@@ -264,14 +269,14 @@ gantt
 
 ### Mapping Статусов
 
-| Sprint Status | GitHub Issue Status | GitHub Label |
-|---------------|---------------------|--------------|
-| ✅ Completed | closed | ✅ done |
-| 🔄 In Progress | open | 🔄 in-progress |
-| ⏳ Planned | open | ⏳ planned |
-| ⚠️ Blocked | open | ⚠️ blocked |
-| 🐞 Bug | open | 🐞 bug |
-| ✨ Feature | open | ✨ feature |
+| Sprint Status  | GitHub Issue Status | GitHub Label   |
+| -------------- | ------------------- | -------------- |
+| ✅ Completed   | closed              | ✅ done        |
+| 🔄 In Progress | open                | 🔄 in-progress |
+| ⏳ Planned     | open                | ⏳ planned     |
+| ⚠️ Blocked     | open                | ⚠️ blocked     |
+| 🐞 Bug         | open                | 🐞 bug         |
+| ✨ Feature     | open                | ✨ feature     |
 
 ### Workflow
 
@@ -283,7 +288,7 @@ graph LR
     D --> E[Close Completed]
     E --> F[Update Labels]
     F --> G[Generate Report]
-    
+
     style A fill:#6366f1,stroke:#4338ca,color:#fff
     style C fill:#10b981,stroke:#059669,color:#fff
     style G fill:#f59e0b,stroke:#d97706,color:#fff
@@ -326,14 +331,14 @@ YYYY-MM-DD
 
 ### KPIs для Трекинга
 
-| KPI | Формула | Цель | Измерение |
-|-----|---------|------|-----------|
-| **Velocity** | SP completed / sprint | 12-15 SP | Еженедельно |
-| **Completion Rate** | Tasks completed / planned | >90% | Каждый спринт |
-| **On-Time Delivery** | On-time tasks / total | >85% | Каждый спринт |
-| **Blocker Resolution** | Resolved / total | <3 days | Ежедневно |
-| **Bug Fix Time** | Mean time to fix | <2 days | По багам |
-| **Documentation** | Docs updated / changes | 100% | Еженедильно |
+| KPI                    | Формула                   | Цель     | Измерение     |
+| ---------------------- | ------------------------- | -------- | ------------- |
+| **Velocity**           | SP completed / sprint     | 12-15 SP | Еженедельно   |
+| **Completion Rate**    | Tasks completed / planned | >90%     | Каждый спринт |
+| **On-Time Delivery**   | On-time tasks / total     | >85%     | Каждый спринт |
+| **Blocker Resolution** | Resolved / total          | <3 days  | Ежедневно     |
+| **Bug Fix Time**       | Mean time to fix          | <2 days  | По багам      |
+| **Documentation**      | Docs updated / changes    | 100%     | Еженедильно   |
 
 ### Dashboard Metrics
 
@@ -359,18 +364,22 @@ YYYY-MM-DD
 ### Уровни Эскалации
 
 #### Level 1: Задача (Developer)
+
 **Когда**: Небольшая задержка (< 1 день)  
 **Действие**: Обновить статус, упомянуть в standup
 
 #### Level 2: Команда (Senior Dev)
+
 **Когда**: Задержка > 1 день или техническая проблема  
 **Действие**: Обсудить с senior, pair programming
 
 #### Level 3: Team Lead
+
 **Когда**: Задержка > 3 дней или блокер  
 **Действие**: Эскалировать Team Lead, mitigation plan
 
 #### Level 4: Менеджмент
+
 **Когда**: Критический блокер > 5 дней  
 **Действие**: Менеджмент-эскалация, пересмотр плана
 
@@ -383,15 +392,15 @@ graph TB
     B -->|Средняя| D[Level 2: Senior Dev]
     B -->|Высокая| E[Level 3: Team Lead]
     B -->|Критическая| F[Level 4: Менеджмент]
-    
+
     C --> G[Решено?]
     D --> G
     E --> G
     F --> G
-    
+
     G -->|Да| H[Закрыть]
     G -->|Нет| I[Эскалировать выше]
-    
+
     style H fill:#10b981,stroke:#059669,color:#fff
     style I fill:#ef4444,stroke:#dc2626,color:#fff
 ```
@@ -402,13 +411,13 @@ graph TB
 
 ### Каналы Коммуникации
 
-| Канал | Назначение | Частота | Аудитория |
-|-------|-----------|---------|-----------|
-| **#standup** | Daily standup | Ежедневно 10:00 | Все devs |
-| **#sprint-xxx** | Обсуждение спринта | По необходимости | Команда спринта |
-| **#blockers** | Блокеры и проблемы | Как возникают | Все devs |
-| **#releases** | Релизы и деплой | По релизам | DevOps + Team Lead |
-| **#metrics** | Метрики и отчеты | Еженедильно | Team Lead + Management |
+| Канал           | Назначение         | Частота          | Аудитория              |
+| --------------- | ------------------ | ---------------- | ---------------------- |
+| **#standup**    | Daily standup      | Ежедневно 10:00  | Все devs               |
+| **#sprint-xxx** | Обсуждение спринта | По необходимости | Команда спринта        |
+| **#blockers**   | Блокеры и проблемы | Как возникают    | Все devs               |
+| **#releases**   | Релизы и деплой    | По релизам       | DevOps + Team Lead     |
+| **#metrics**    | Метрики и отчеты   | Еженедильно      | Team Lead + Management |
 
 ### Стандарты Сообщений
 
@@ -451,20 +460,25 @@ Health Score: Z/100
 # Sprint XXX Planning
 
 ## Цели Спринта
+
 - ...
 
 ## User Stories
-| ID | Название | Priority | Estimation | Assignee |
-|----|----------|----------|------------|----------|
-| US1 | ... | High | 5 SP | @user |
+
+| ID  | Название | Priority | Estimation | Assignee |
+| --- | -------- | -------- | ---------- | -------- |
+| US1 | ...      | High     | 5 SP       | @user    |
 
 ## Риски
+
 - ...
 
 ## Дедлайн
+
 YYYY-MM-DD
 
 ## Definition of Done
+
 - [ ] Код ревью пройдено
 - [ ] Тесты написаны
 - [ ] Документация обновлена
@@ -477,22 +491,27 @@ YYYY-MM-DD
 # Sprint XXX Retrospective
 
 ## Что пошло хорошо ✅
+
 - ...
 
 ## Что можно улучшить ⚠️
+
 - ...
 
 ## Action Items 🎯
-| Item | Owner | Due Date |
-|------|-------|----------|
-| ... | @user | YYYY-MM-DD |
+
+| Item | Owner | Due Date   |
+| ---- | ----- | ---------- |
+| ...  | @user | YYYY-MM-DD |
 
 ## Velocity
+
 - Planned: X SP
 - Completed: Y SP
 - Efficiency: Z%
 
 ## Lessons Learned
+
 - ...
 ```
 
@@ -502,22 +521,24 @@ YYYY-MM-DD
 
 ### Основные Инструменты
 
-| Инструмент | Назначение | Ссылка |
-|------------|-----------|--------|
-| **GitHub Issues** | Task tracking | github.com/HOW2AI-AGENCY/aimusicverse/issues |
-| **GitHub Projects** | Sprint board | github.com/HOW2AI-AGENCY/aimusicverse/projects |
-| **Discord** | Communication | discord.gg/aimusicverse |
-| **Notion** | Documentation | notion.so/aimusicverse |
-| **Sentry** | Error tracking | sentry.io/aimusicverse |
+| Инструмент          | Назначение     | Ссылка                                         |
+| ------------------- | -------------- | ---------------------------------------------- |
+| **GitHub Issues**   | Task tracking  | github.com/HOW2AI-AGENCY/aimusicverse/issues   |
+| **GitHub Projects** | Sprint board   | github.com/HOW2AI-AGENCY/aimusicverse/projects |
+| **Discord**         | Communication  | discord.gg/aimusicverse                        |
+| **Notion**          | Documentation  | notion.so/aimusicverse                         |
+| **Sentry**          | Error tracking | sentry.io/aimusicverse                         |
 
 ### Автоматизация
 
 **Скрипты:**
+
 - `scripts/update-sprint-status.sh` - Обновление статусов
 - `scripts/generate-report.sh` - Генерация отчетов
 - `scripts/sync-github.sh` - Синхронизация с GitHub
 
 **Запуск:**
+
 ```bash
 # Ежедневное обновление
 ./scripts/update-sprint-status.sh
@@ -596,7 +617,7 @@ graph LR
     B --> C[Check]
     C --> D[Act]
     D --> A
-    
+
     style A fill:#3b82f6,stroke:#2563eb,color:#fff
     style C fill:#10b981,stroke:#059669,color:#fff
 ```
@@ -604,16 +625,19 @@ graph LR
 ### Механизм Обратной Связи
 
 **Ежемесячно:**
+
 - Анонимный survey команде
 - Обсуждение результатов
 - Action items для улучшения
 
 **Каждый спринт:**
+
 - Ретроспектива
 - Что went well
 - Что можно улучшить
 
 **Еженедильно:**
+
 - Обзор метрик
 - Обсуждение проблем
 - Корректировка плана
@@ -622,11 +646,11 @@ graph LR
 
 ## 📞 Контакты
 
-| Роль | Имя | Email | Discord |
-|------|-----|-------|---------|
-| Team Lead | HOW2AI | team@aimusicverse.com | @teamlead |
-| Senior Dev | - | - | @senior-dev |
-| DevOps | - | - | @devops |
+| Роль       | Имя    | Email                 | Discord     |
+| ---------- | ------ | --------------------- | ----------- |
+| Team Lead  | HOW2AI | team@aimusicverse.com | @teamlead   |
+| Senior Dev | -      | -                     | @senior-dev |
+| DevOps     | -      | -                     | @devops     |
 
 ---
 

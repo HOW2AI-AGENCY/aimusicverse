@@ -388,41 +388,41 @@
 
 ## Сводка всех задач
 
-| ID        | Название                           | Фаза | SP        | Статус                               |
-| --------- | ---------------------------------- | ---- | --------- | ------------------------------------ |
-| T038-01   | EmptyState: API design             | A    | 1         | ✅ COMPLETE                          |
-| T038-02   | EmptyState: implementation         | A    | 2         | ✅ COMPLETE                          |
-| T038-03   | EmptyState: migration              | A    | 1         | ✅ COMPLETE                          |
-| T038-04   | SkeletonPage component             | A    | 1         | ✅ COMPLETE                          |
-| T038-05   | ContentSkeleton + clean-up         | A    | 2         | ✅ COMPLETE                          |
-| T038-06   | OnboardingFlow state machine       | A    | 2         | ✅ COMPLETE                          |
-| T038-07   | OnboardingFlow steps + integration | A    | 3         | ✅ COMPLETE                          |
-| T038-08   | Onboarding: remove legacy          | A    | 1         | ✅ COMPLETE                          |
-| T038-09   | Touch target audit                 | A    | 2         | ✅ COMPLETE                          |
-| T038-10   | Z-index audit                      | A    | 2         | ✅ COMPLETE                          |
-|           |                                    |      | **10**    |                                      |
-| T038-11   | NavigationShell: design            | B    | 1         | ✅ COMPLETE                          |
-| T038-12   | NavigationShell: implementation    | B    | 3         | ✅ COMPLETE                          |
-| T038-13   | NavigationShell: integration       | B    | 1         | ✅ COMPLETE                          |
-| T038-14   | Container queries migration        | B    | 3         | ✅ COMPLETE                          |
-| T038-15   | Safe area + Safari fixes           | B    | 3         | ✅ COMPLETE                          |
-| T038-16   | Responsive typography              | B    | 2         | ✅ COMPLETE                          |
-|           |                                    |      | **5**     |                                      |
-| T038-17   | Animation standards                | C    | 2         | ✅ COMPLETE                          |
-| T038-18   | Reduced motion audit               | C    | 2         | ✅ COMPLETE                          |
-| T038-19   | Player transition                  | C    | 4         | ✅ COMPLETE                          |
-| T038-20   | Telegram haptics                   | C    | 1         | ✅ COMPLETE                          |
-|           |                                    |      | **9**     |                                      |
-| T038-21   | Typography pass                    | D    | 2         | ✅ COMPLETE                          |
-| T038-22   | Elevation system                   | D    | 2         | ✅ COMPLETE                          |
+| ID        | Название                           | Фаза | SP        | Статус                                                       |
+| --------- | ---------------------------------- | ---- | --------- | ------------------------------------------------------------ |
+| T038-01   | EmptyState: API design             | A    | 1         | ✅ COMPLETE                                                  |
+| T038-02   | EmptyState: implementation         | A    | 2         | ✅ COMPLETE                                                  |
+| T038-03   | EmptyState: migration              | A    | 1         | ✅ COMPLETE                                                  |
+| T038-04   | SkeletonPage component             | A    | 1         | ✅ COMPLETE                                                  |
+| T038-05   | ContentSkeleton + clean-up         | A    | 2         | ✅ COMPLETE                                                  |
+| T038-06   | OnboardingFlow state machine       | A    | 2         | ✅ COMPLETE                                                  |
+| T038-07   | OnboardingFlow steps + integration | A    | 3         | ✅ COMPLETE                                                  |
+| T038-08   | Onboarding: remove legacy          | A    | 1         | ✅ COMPLETE                                                  |
+| T038-09   | Touch target audit                 | A    | 2         | ✅ COMPLETE                                                  |
+| T038-10   | Z-index audit                      | A    | 2         | ✅ COMPLETE                                                  |
+|           |                                    |      | **10**    |                                                              |
+| T038-11   | NavigationShell: design            | B    | 1         | ✅ COMPLETE                                                  |
+| T038-12   | NavigationShell: implementation    | B    | 3         | ✅ COMPLETE                                                  |
+| T038-13   | NavigationShell: integration       | B    | 1         | ✅ COMPLETE                                                  |
+| T038-14   | Container queries migration        | B    | 3         | ✅ COMPLETE                                                  |
+| T038-15   | Safe area + Safari fixes           | B    | 3         | ✅ COMPLETE                                                  |
+| T038-16   | Responsive typography              | B    | 2         | ✅ COMPLETE                                                  |
+|           |                                    |      | **5**     |                                                              |
+| T038-17   | Animation standards                | C    | 2         | ✅ COMPLETE                                                  |
+| T038-18   | Reduced motion audit               | C    | 2         | ✅ COMPLETE                                                  |
+| T038-19   | Player transition                  | C    | 4         | ✅ COMPLETE                                                  |
+| T038-20   | Telegram haptics                   | C    | 1         | ✅ COMPLETE                                                  |
+|           |                                    |      | **9**     |                                                              |
+| T038-21   | Typography pass                    | D    | 2         | ✅ COMPLETE                                                  |
+| T038-22   | Elevation system                   | D    | 2         | ✅ COMPLETE                                                  |
 | T038-23   | Color tokens                       | D    | 2         | ✅ N/A (hex in BotMenuPreview intentional — Telegram mockup) |
-| T038-24   | Icon consistency                   | D    | 1         | ✅ N/A (already lucide-only)         |
-| T038-25   | Storybook: 20+ stories             | D    | 2         | ✅ COMPLETE (20 stories, 15 new)     |
-| T038-26   | LazyImage audit                    | D    | 1         | ✅ COMPLETE                          |
-| T038-27   | Lighthouse baseline                | D    | 1         | ✅ COMPLETE                          |
-| T038-28   | Final review + docs                | D    | 1         | ✅ COMPLETE                          |
-|           |                                    |      | **12**    |                                      |
-| **Итого** |                                    |      | **49 SP** |                                      |
+| T038-24   | Icon consistency                   | D    | 1         | ✅ N/A (already lucide-only)                                 |
+| T038-25   | Storybook: 20+ stories             | D    | 2         | ✅ COMPLETE (20 stories, 15 new)                             |
+| T038-26   | LazyImage audit                    | D    | 1         | ✅ COMPLETE                                                  |
+| T038-27   | Lighthouse baseline                | D    | 1         | ✅ COMPLETE                                                  |
+| T038-28   | Final review + docs                | D    | 1         | ✅ COMPLETE                                                  |
+|           |                                    |      | **12**    |                                                              |
+| **Итого** |                                    |      | **49 SP** |                                                              |
 
 ---
 

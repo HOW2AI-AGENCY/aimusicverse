@@ -15,13 +15,11 @@ const noSupabaseFromInComponent = {
   meta: {
     type: "problem",
     docs: {
-      description:
-        "Disallow direct supabase.from() calls in src/components/**. Use src/api/* or src/services/*.",
+      description: "Disallow direct supabase.from() calls in src/components/**. Use src/api/* or src/services/*.",
     },
     schema: [],
     messages: {
-      forbidden:
-        "Не вызывайте supabase.from() напрямую в компонентах. Используйте слой src/api/* или src/services/*.",
+      forbidden: "Не вызывайте supabase.from() напрямую в компонентах. Используйте слой src/api/* или src/services/*.",
     },
   },
   create(context) {

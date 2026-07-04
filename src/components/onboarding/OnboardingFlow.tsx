@@ -3,13 +3,9 @@ import { useUserJourneyState } from "@/hooks/useUserJourneyState";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { type OnboardingStage, type OnboardingEvent, transitionOnboarding } from "./OnboardingStateMachine";
 
-const QuickStartOverlay = lazy(() =>
-  import("./QuickStartOverlay").then((m) => ({ default: m.QuickStartOverlay })),
-);
+const QuickStartOverlay = lazy(() => import("./QuickStartOverlay").then((m) => ({ default: m.QuickStartOverlay })));
 
-const TelegramOnboarding = lazy(() =>
-  import("./TelegramOnboarding").then((m) => ({ default: m.TelegramOnboarding })),
-);
+const TelegramOnboarding = lazy(() => import("./TelegramOnboarding").then((m) => ({ default: m.TelegramOnboarding })));
 
 interface OnboardingFlowProps {
   onGenerateSheetOpen: () => void;
@@ -20,10 +16,7 @@ export function OnboardingFlow({ onGenerateSheetOpen, onNavigateHome }: Onboardi
   const { shouldShowQuickStart } = useUserJourneyState();
   const { isActive, completeOnboarding } = useOnboarding();
 
-  const [stage, dispatch] = useReducer(
-    (s: OnboardingStage, e: OnboardingEvent) => transitionOnboarding(s, e),
-    "idle",
-  );
+  const [stage, dispatch] = useReducer((s: OnboardingStage, e: OnboardingEvent) => transitionOnboarding(s, e), "idle");
 
   useEffect(() => {
     if (shouldShowQuickStart && !isActive && stage === "idle") {

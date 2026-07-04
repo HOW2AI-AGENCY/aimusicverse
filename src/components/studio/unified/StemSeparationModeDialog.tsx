@@ -128,9 +128,7 @@ export function StemSeparationModeDialog({
               "w-full p-4 rounded-xl border-2 transition-all text-left",
               "bg-gradient-to-r",
               config.bgGradient,
-              selectedMode === mode
-                ? "border-primary ring-2 ring-primary/20"
-                : "border-border hover:border-primary/50",
+              selectedMode === mode ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/50",
             )}
           >
             <div className="flex items-center justify-between mb-3">

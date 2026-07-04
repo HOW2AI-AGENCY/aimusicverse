@@ -9,14 +9,14 @@
 
 ## Сводка
 
-| ID      | Задача                                                                                       | SP | Слой |
-| ------- | -------------------------------------------------------------------------------------------- | -- | ---- |
-| 041-01  | **IdeaStep:** AI-подсказки идей через Lovable AI Gateway (`google/gemini-2.5-flash`)         | 3  | wizard |
-| 041-02  | **LyricsStep:** генерация текста по идее (cont. от IdeaStep)                                 | 3  | wizard |
-| 041-03  | **LyricsView:** повторное чтение лирики (TTS через AI Gateway)                               | 2  | player |
-| 041-04  | **useStudioAudioEngine:** loop / export (WAV) / recording mode                               | 5  | studio |
-| 041-05  | Documentation + onboarding tour (4 новых тултипа)                                            | 1  | docs |
-| **Итого** |                                                                                            | 14 |       |
+| ID        | Задача                                                                               | SP  | Слой   |
+| --------- | ------------------------------------------------------------------------------------ | --- | ------ |
+| 041-01    | **IdeaStep:** AI-подсказки идей через Lovable AI Gateway (`google/gemini-2.5-flash`) | 3   | wizard |
+| 041-02    | **LyricsStep:** генерация текста по идее (cont. от IdeaStep)                         | 3   | wizard |
+| 041-03    | **LyricsView:** повторное чтение лирики (TTS через AI Gateway)                       | 2   | player |
+| 041-04    | **useStudioAudioEngine:** loop / export (WAV) / recording mode                       | 5   | studio |
+| 041-05    | Documentation + onboarding tour (4 новых тултипа)                                    | 1   | docs   |
+| **Итого** |                                                                                      | 14  |        |
 
 ---
 
@@ -25,6 +25,7 @@
 **Точка входа:** `src/components/generate-form/wizard/IdeaStep.tsx`
 
 **Действия:**
+
 - Кнопка «✨ Подсказать идею» → вызов `ai_gateway` с системным промптом «Generate 3 short music concept ideas in the requested genre/mood/language».
 - 3 карточки идей, клик заполняет поле `description`.
 - Trace через `logger.info('idea.suggestion.clicked')`.

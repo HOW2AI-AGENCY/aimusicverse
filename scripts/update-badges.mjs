@@ -18,9 +18,10 @@ const clean = (v) => (v ? String(v).replace(/^[\^~>=<\s]+/, "") : "unknown");
 
 let latestTag = null;
 try {
-  latestTag = execSync("git describe --tags --abbrev=0", { stdio: ["ignore", "pipe", "ignore"] })
-    .toString()
-    .trim() || null;
+  latestTag =
+    execSync("git describe --tags --abbrev=0", { stdio: ["ignore", "pipe", "ignore"] })
+      .toString()
+      .trim() || null;
 } catch {
   // no tags yet — omit the Release badge below rather than show a fake v0.0.0
 }
@@ -38,9 +39,7 @@ const rows = [
   ["Playwright", clean(deps["@playwright/test"] ?? deps.playwright), "2EAD33"],
 ];
 
-const block = rows
-  .map(([l, m, c]) => `![${l}](${shield(l, m, c)})`)
-  .join(" ");
+const block = rows.map(([l, m, c]) => `![${l}](${shield(l, m, c)})`).join(" ");
 
 const START = "<!-- BADGES:START -->";
 const END = "<!-- BADGES:END -->";
@@ -52,10 +51,7 @@ const updateFile = (path) => {
     console.warn(`[update-badges] markers not found in ${path}, skipping`);
     return false;
   }
-  const next = src.replace(
-    new RegExp(`${START}[\\s\\S]*?${END}`),
-    `${START}\n${block}\n${END}`,
-  );
+  const next = src.replace(new RegExp(`${START}[\\s\\S]*?${END}`), `${START}\n${block}\n${END}`);
   if (next === src) {
     console.log(`[update-badges] no change in ${path}`);
     return false;

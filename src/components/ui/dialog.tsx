@@ -33,7 +33,6 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-
 interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   /** If true, a visually hidden title will be automatically added for accessibility */
   hideTitle?: boolean;
@@ -86,11 +85,14 @@ function useSwipeDownToClose(
 
         // Skip if target is interactive
         const target = pointerEvent.target as HTMLElement | null;
-        if (target?.closest(
-          "input, textarea, select, button, a[href], [contenteditable='true'], " +
-          "[role='button'], [role='slider'], [role='switch'], [tabindex]:not([tabindex='-1']), " +
-          "[data-no-swipe], [data-no-swipe-area]"
-        )) return;
+        if (
+          target?.closest(
+            "input, textarea, select, button, a[href], [contenteditable='true'], " +
+              "[role='button'], [role='slider'], [role='switch'], [tabindex]:not([tabindex='-1']), " +
+              "[data-no-swipe], [data-no-swipe-area]",
+          )
+        )
+          return;
 
         // Handle drag start
         if (first) {
@@ -132,11 +134,13 @@ function useSwipeDownToClose(
     if (!enabled || !nodeRef.current) return;
     bind(nodeRef.current);
   }, [enabled, bind, nodeRef]);
-
 }
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, hideTitle = false, accessibleTitle = "Диалоговое окно", mobileSheet = true, ...props }, ref) => {
+  (
+    { className, children, hideTitle = false, accessibleTitle = "Диалоговое окно", mobileSheet = true, ...props },
+    ref,
+  ) => {
     // Check if this is a fullscreen dialog (has h-[100dvh], h-screen, or h-[100vh] in className)
     const isFullscreen =
       className?.includes("h-[100dvh]") || className?.includes("h-screen") || className?.includes("h-[100vh]");
@@ -199,8 +203,6 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
   },
 );
 DialogContent.displayName = DialogPrimitive.Content.displayName;
-
-
 
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn("flex flex-col space-y-1.5 text-center sm:text-left", className)} {...props} />

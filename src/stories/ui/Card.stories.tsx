@@ -39,7 +39,9 @@ export const WithFooter: Story = {
         <p className="text-sm text-muted-foreground">Содержимое карточки.</p>
       </CardContent>
       <CardFooter className="flex gap-2">
-        <Button variant="outline" size="sm">Отмена</Button>
+        <Button variant="outline" size="sm">
+          Отмена
+        </Button>
         <Button size="sm">Подтвердить</Button>
       </CardFooter>
     </Card>

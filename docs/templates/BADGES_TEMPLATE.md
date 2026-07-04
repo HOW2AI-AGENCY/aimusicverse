@@ -28,11 +28,11 @@
 
 ## Status chips
 
-| Chip | Markdown |
-| --- | --- |
-| ✅ Stable | `![](https://img.shields.io/badge/status-stable-10B981?style=flat-square)` |
-| 🚧 Beta | `![](https://img.shields.io/badge/status-beta-F59E0B?style=flat-square)` |
-| 📋 Planned | `![](https://img.shields.io/badge/status-planned-475569?style=flat-square)` |
+| Chip          | Markdown                                                                       |
+| ------------- | ------------------------------------------------------------------------------ |
+| ✅ Stable     | `![](https://img.shields.io/badge/status-stable-10B981?style=flat-square)`     |
+| 🚧 Beta       | `![](https://img.shields.io/badge/status-beta-F59E0B?style=flat-square)`       |
+| 📋 Planned    | `![](https://img.shields.io/badge/status-planned-475569?style=flat-square)`    |
 | ⛔ Deprecated | `![](https://img.shields.io/badge/status-deprecated-EF4444?style=flat-square)` |
 
 ## Navigation chips (root README)

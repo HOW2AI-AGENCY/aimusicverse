@@ -71,7 +71,6 @@ const GENRES: GenreConfig[] = [
     gradient: "from-emerald-500/20 to-teal-500/10",
     keywords: ["folk", "acoustic", "country", "americana"],
   },
-
 ];
 
 interface GenreTabsSectionProps {

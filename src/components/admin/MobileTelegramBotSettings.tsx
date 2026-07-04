@@ -8,18 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import {
-  Send,
-  Check,
-  RefreshCw,
-  Terminal,
-  Globe,
-  Bell,
-  MessageSquare,
-  Save,
-  Loader2,
-  GripVertical,
-} from "@/lib/icons";
+import { Send, Check, RefreshCw, Terminal, Globe, Bell, MessageSquare, Save, Loader2, GripVertical } from "@/lib/icons";
 import { useBotConfig, useUpdateBotConfig, type BotCommand } from "@/hooks/useBotConfig";
 
 export function MobileTelegramBotSettings() {

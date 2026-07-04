@@ -73,9 +73,7 @@ export const IconGridButton = forwardRef<HTMLButtonElement, IconGridButtonProps>
           {loading ? (
             <Loader2 className={cn("w-4 h-4 animate-spin", styles.text)} />
           ) : (
-            <Icon
-              className={cn("w-4 h-4 transition-transform duration-200 group-hover:scale-110", styles.text)}
-            />
+            <Icon className={cn("w-4 h-4 transition-transform duration-200 group-hover:scale-110", styles.text)} />
           )}
 
           {/* Badge overlay */}

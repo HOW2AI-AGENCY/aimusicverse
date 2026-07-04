@@ -787,12 +787,12 @@ if (source === "telegram_bot") {
 **Проблема:**
 Разные названия для **одного и того же** концепта:
 
-| Файл               | Параметр "использовать custom параметры"       |
+| Файл | Параметр "использовать custom параметры" |
 | ------------------ | ---------------------------------------------- | --------- |
-| suno-upload-cover  | `customMode: boolean`                          |
+| suno-upload-cover | `customMode: boolean` |
 | suno-upload-extend | `defaultParamFlag: boolean` (инвертированный!) |
-| suno-music-extend  | `defaultParamFlag: boolean` (инвертированный!) |
-| useGenerateForm    | `mode: 'simple'                                | 'custom'` |
+| suno-music-extend | `defaultParamFlag: boolean` (инвертированный!) |
+| useGenerateForm | `mode: 'simple'                                | 'custom'` |
 
 **Последствия:**
 

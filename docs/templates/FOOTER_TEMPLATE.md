@@ -8,8 +8,8 @@
 
 ### 🔗 Related Documentation
 
-| 📚 Index | 🏛 Architecture | 🗺 Roadmap | 🤝 Contributing | 🔒 Security | 📝 Changelog |
-| :---: | :---: | :---: | :---: | :---: | :---: |
+|                     📚 Index                     |               🏛 Architecture               |        🗺 Roadmap         |          🤝 Contributing           |        🔒 Security         |         📝 Changelog         |
+| :----------------------------------------------: | :----------------------------------------: | :----------------------: | :--------------------------------: | :------------------------: | :--------------------------: |
 | [DOCUMENTATION_INDEX](../DOCUMENTATION_INDEX.md) | [ARCHITECTURE_HUB](../ARCHITECTURE_HUB.md) | [ROADMAP](../ROADMAP.md) | [CONTRIBUTING](../CONTRIBUTING.md) | [SECURITY](../SECURITY.md) | [CHANGELOG](../CHANGELOG.md) |
 
 **Made with ❤️ by the [MusicVerse AI](https://github.com/HOW2AI-AGENCY/aimusicverse) team**

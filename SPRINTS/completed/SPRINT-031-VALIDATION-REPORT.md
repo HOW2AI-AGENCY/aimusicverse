@@ -382,9 +382,11 @@ Sprint 031 Phase 1-5 are **COMPLETE** with comprehensive implementation and test
 ### Findings
 
 ✅ **Phase 2 (Store Unification)** — preserved. `useUnifiedStudioStore` refactored per Constitution v3.0.0 (>500 line limit) into modular slices under `src/stores/studio/` with backward-compatible re-export. All slices present:
+
 - `useProjectStore`, `useTrackStore`, `useViewStore`, `usePlaybackStore`, `useLyricsStore`, `useStudioHistoryStore`
 
 ✅ **Phase 3 (Component Optimizations)** — preserved:
+
 - `OptimizedLyricsLine.tsx` (139 lines)
 - `OptimizedLyricsPanel.tsx` (192 lines)
 - `useLyricsSync.ts` (174 lines)
@@ -392,6 +394,7 @@ Sprint 031 Phase 1-5 are **COMPLETE** with comprehensive implementation and test
 - `lyricsParser.ts` (164 lines)
 
 ⚠️ **Phase 4 (DAW Timeline)** — **REGRESSION FIXED**:
+
 - `src/hooks/useBPMGrid.ts` was incorrectly removed by cleanup commit `28c1e5aa9` despite being referenced by `tests/unit/hooks/useBPMGrid.test.ts` and documented in `SPRINT-031-QUICKSTART.md`. **Restored from git history** (275 lines).
 - Other Phase 4 files intact: `bpmDetection.ts`, `beatSnap.ts`, `useRAFThrottle.ts`, `MobileDAWTimeline.tsx`, `AIActionsFAB.tsx`, `OptimizedWaveform.tsx`.
 

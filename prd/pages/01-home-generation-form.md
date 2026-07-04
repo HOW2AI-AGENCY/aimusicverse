@@ -9,6 +9,7 @@
 The home page is the primary entry point for MusicVerse AI, serving as both a content discovery hub and the main music generation interface. Users can generate new tracks using Suno AI, browse featured and new content, continue previous drafts, and access creative presets. The page adapts between new user onboarding flow and experienced user dashboard.
 
 **Primary Use Cases:**
+
 - New users: Complete onboarding and generate first track
 - Returning users: Quickly continue draft, generate new music, or browse content
 - All users: Discover trending tracks, access creative tools, view daily stats
@@ -16,6 +17,7 @@ The home page is the primary entry point for MusicVerse AI, serving as both a co
 ## Layout
 
 ### Desktop Layout (8/4 Split)
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  HEADER: Logo + User Menu + Credits Balance              │
@@ -33,6 +35,7 @@ The home page is the primary entry point for MusicVerse AI, serving as both a co
 ```
 
 ### Mobile Layout (Single Column)
+
 ```
 ┌──────────────────────────┐
 │ HEADER                  │
@@ -56,61 +59,61 @@ The home page is the primary entry point for MusicVerse AI, serving as both a co
 
 ### Sections (Conditional Display)
 
-| Section | Visibility Condition | Description |
-|---------|---------------------|-------------|
-| Gamification Bar | Authenticated users only | Display daily progress, streak, XP |
-| New User Hero | New users only | Large call-to-action for first generation |
-| New User Progress | New users only | Onboarding checklist (profile setup, first track) |
-| Continue Draft Card | Returning users only | Resume last generation form from localStorage |
-| Quick Create Button | Returning users only | Open generation sheet with one tap |
-| Stats Highlight Banner | All users | Platform statistics (tracks generated, active users) |
-| Creative Presets | All users | Genre cards (Pop, Rock, Electronic, etc.) |
-| Featured Tracks | All users | Top tracks with likes/plays |
-| New Tracks Grid | All users | Latest community tracks |
-| Daily Tip Card | Returning users only | Daily generation tip or trick |
-| Recent Tracks | Authenticated users only | User's last 5 generated tracks |
-| Quick Start Cards | Returning users only | Action cards (Remix, Extend, Lyrics) |
+| Section                | Visibility Condition     | Description                                          |
+| ---------------------- | ------------------------ | ---------------------------------------------------- |
+| Gamification Bar       | Authenticated users only | Display daily progress, streak, XP                   |
+| New User Hero          | New users only           | Large call-to-action for first generation            |
+| New User Progress      | New users only           | Onboarding checklist (profile setup, first track)    |
+| Continue Draft Card    | Returning users only     | Resume last generation form from localStorage        |
+| Quick Create Button    | Returning users only     | Open generation sheet with one tap                   |
+| Stats Highlight Banner | All users                | Platform statistics (tracks generated, active users) |
+| Creative Presets       | All users                | Genre cards (Pop, Rock, Electronic, etc.)            |
+| Featured Tracks        | All users                | Top tracks with likes/plays                          |
+| New Tracks Grid        | All users                | Latest community tracks                              |
+| Daily Tip Card         | Returning users only     | Daily generation tip or trick                        |
+| Recent Tracks          | Authenticated users only | User's last 5 generated tracks                       |
+| Quick Start Cards      | Returning users only     | Action cards (Remix, Extend, Lyrics)                 |
 
 ### Quick Create Button (Returning Users)
 
-| Element | Type | Behavior |
-|---------|------|----------|
+| Element     | Type         | Behavior                                   |
+| ----------- | ------------ | ------------------------------------------ |
 | Primary CTA | Large button | Opens GenerateSheet (full generation form) |
-| Icon | Sparkles | Visual indicator for AI generation |
+| Icon        | Sparkles     | Visual indicator for AI generation         |
 
 ### Creative Presets Section
 
-| Field | Type | Options | Default | Notes |
-|-------|------|---------|---------|-------|
-| Genre Cards | Clickable cards | Pop, Rock, Electronic, Hip-Hop, R&B, Jazz, Classical, Country, Lo-Fi, EDM | - | Pre-fills style field in generation form |
+| Field       | Type            | Options                                                                   | Default | Notes                                    |
+| ----------- | --------------- | ------------------------------------------------------------------------- | ------- | ---------------------------------------- |
+| Genre Cards | Clickable cards | Pop, Rock, Electronic, Hip-Hop, R&B, Jazz, Classical, Country, Lo-Fi, EDM | -       | Pre-fills style field in generation form |
 
 ### Featured Tracks Section
 
-| Column | Format | Sortable | Filterable | Notes |
-|--------|--------|----------|-----------|-------|
-| Cover Art | Image (100×100px) | No | No | Lazy-loaded with blur placeholder |
-| Title | Text | No | No | Truncated at 2 lines |
-| Artist | Text (link) | No | No | Links to artist profile |
-| Play Count | Number (formatted) | Yes | No | "1.2K", "345" format |
-| Likes Count | Number | No | No | Heart icon + count |
-| Duration | Text (MM:SS) | No | No | Audio length |
+| Column      | Format             | Sortable | Filterable | Notes                             |
+| ----------- | ------------------ | -------- | ---------- | --------------------------------- |
+| Cover Art   | Image (100×100px)  | No       | No         | Lazy-loaded with blur placeholder |
+| Title       | Text               | No       | No         | Truncated at 2 lines              |
+| Artist      | Text (link)        | No       | No         | Links to artist profile           |
+| Play Count  | Number (formatted) | Yes      | No         | "1.2K", "345" format              |
+| Likes Count | Number             | No       | No         | Heart icon + count                |
+| Duration    | Text (MM:SS)       | No       | No         | Audio length                      |
 
 ### New Tracks Grid Section
 
-| Column | Format | Sortable | Filterable | Notes |
-|--------|--------|----------|-----------|-------|
-| Cover Art | Image | No | No | 2 columns mobile, 3 columns desktop |
-| Title | Text | No | No | Truncated at 1 line |
-| Artist | Text | No | No | Smaller font below title |
-| Play Button | Overlay icon | No | No | Appears on hover (desktop) or tap (mobile) |
+| Column      | Format       | Sortable | Filterable | Notes                                      |
+| ----------- | ------------ | -------- | ---------- | ------------------------------------------ |
+| Cover Art   | Image        | No       | No         | 2 columns mobile, 3 columns desktop        |
+| Title       | Text         | No       | No         | Truncated at 1 line                        |
+| Artist      | Text         | No       | No         | Smaller font below title                   |
+| Play Button | Overlay icon | No       | No         | Appears on hover (desktop) or tap (mobile) |
 
 ### Recent Tracks Section (Sidebar)
 
-| Column | Format | Notes |
-|--------|--------|-------|
+| Column    | Format              | Notes               |
+| --------- | ------------------- | ------------------- |
 | Cover Art | Thumbnail (48×48px) | Square aspect ratio |
-| Title | Text | Truncated at 1 line |
-| Duration | Text (MM:SS) | Gray text |
+| Title     | Text                | Truncated at 1 line |
+| Duration  | Text (MM:SS)        | Gray text           |
 
 ---
 
@@ -119,6 +122,7 @@ The home page is the primary entry point for MusicVerse AI, serving as both a co
 ### Page Load
 
 **Behavior:**
+
 1. Check authentication state via `useAuth()`
 2. Load user profile via `useProfile()`
 3. Determine if new user via `useUserJourneyState()`
@@ -129,6 +133,7 @@ The home page is the primary entry point for MusicVerse AI, serving as both a co
 6. Display sections based on user state
 
 **API Calls:**
+
 - `GET /api/tracks?is_public=true&limit=20&sort=popular` — Featured tracks
 - `GET /api/tracks?is_public=true&limit=20&sort=recent` — New tracks
 - `GET /api/profiles/{userId}` — User profile data
@@ -138,6 +143,7 @@ The home page is the primary entry point for MusicVerse AI, serving as both a co
 **Trigger:** User clicks "Create Track" button (Quick Create) or any genre preset card
 
 **Behavior:**
+
 1. Open `GenerateSheet` (bottom sheet on mobile, modal on desktop)
 2. Pre-fill form fields:
    - If genre preset clicked: Set `style` field to genre description
@@ -148,29 +154,29 @@ The home page is the primary entry point for MusicVerse AI, serving as both a co
 
 **Generation Form Fields (Custom Mode):**
 
-| Field | Type | Required | Default | Validation | Notes |
-|-------|------|----------|---------|------------|-------|
-| Title | Text input | No | — | Max 255 chars | Auto-generated if empty |
-| Style | Textarea | Yes | — | Min 10 chars, Max 500 chars | Main prompt field |
-| Lyrics | Textarea | No | — | Max 5000 chars | Only if hasVocals=true |
-| Has Vocals | Toggle | No | true | — | Shows/hides lyrics section |
-| Is Public | Toggle | No | true | — | Privacy control |
-| Negative Tags | Text input | No | — | Comma-separated | Exclude styles/instruments |
-| Vocal Gender | Select | No | — | "m" / "f" / "" | Male, female, or neutral |
-| Style Weight | Slider | No | [50] | 0-100 | Influence of style prompt |
-| Weirdness Constraint | Slider | No | [5] | 0-10 | Experimental/creative level |
-| Audio Weight | Slider | No | [50] | 0-100 | Reference audio influence |
-| Custom Voice ID | Select | No | null | — | Voice cloning model ID |
+| Field                | Type       | Required | Default | Validation                  | Notes                       |
+| -------------------- | ---------- | -------- | ------- | --------------------------- | --------------------------- |
+| Title                | Text input | No       | —       | Max 255 chars               | Auto-generated if empty     |
+| Style                | Textarea   | Yes      | —       | Min 10 chars, Max 500 chars | Main prompt field           |
+| Lyrics               | Textarea   | No       | —       | Max 5000 chars              | Only if hasVocals=true      |
+| Has Vocals           | Toggle     | No       | true    | —                           | Shows/hides lyrics section  |
+| Is Public            | Toggle     | No       | true    | —                           | Privacy control             |
+| Negative Tags        | Text input | No       | —       | Comma-separated             | Exclude styles/instruments  |
+| Vocal Gender         | Select     | No       | —       | "m" / "f" / ""              | Male, female, or neutral    |
+| Style Weight         | Slider     | No       | [50]    | 0-100                       | Influence of style prompt   |
+| Weirdness Constraint | Slider     | No       | [5]     | 0-10                        | Experimental/creative level |
+| Audio Weight         | Slider     | No       | [50]    | 0-100                       | Reference audio influence   |
+| Custom Voice ID      | Select     | No       | null    | —                           | Voice cloning model ID      |
 
 **Form Validation:**
 
-| Rule | Field | Error Message |
-|------|-------|---------------|
-| Min length | Style | "Слишком короткое описание (минимум 10 символов)" |
-| Max length | Style | "Слишком длинное описание (максимум 500 символов)" |
-| Artist names | Style | "Укажите стиль вместо имён артистов" |
-| Brand names | Style | "Используйте описание стиля, а не бренды" |
-| Insufficient credits | All | "Недостаточно кредитов. Требуется X, осталось Y" |
+| Rule                 | Field | Error Message                                      |
+| -------------------- | ----- | -------------------------------------------------- |
+| Min length           | Style | "Слишком короткое описание (минимум 10 символов)"  |
+| Max length           | Style | "Слишком длинное описание (максимум 500 символов)" |
+| Artist names         | Style | "Укажите стиль вместо имён артистов"               |
+| Brand names          | Style | "Используйте описание стиля, а не бренды"          |
+| Insufficient credits | All   | "Недостаточно кредитов. Требуется X, осталось Y"   |
 
 **Additional Features:**
 
@@ -231,14 +237,16 @@ POST /api/generation/generate
 ### Track Card Interactions
 
 **Play Button:**
+
 - **Trigger:** Tap/click play icon on track card
-- **Behavior:** 
+- **Behavior:**
   - Stop current track (if playing)
   - Start playback via `usePlayerStore()`
   - Update global audio player state
   - Show mini player at bottom of screen
 
 **Remix Action:**
+
 - **Trigger:** Click "Remix" button on track card
 - **Behavior:**
   - Open `GenerateSheet`
@@ -247,6 +255,7 @@ POST /api/generation/generate
   - Enable "Remix" mode
 
 **Like Action:**
+
 - **Trigger:** Click heart icon
 - **Behavior:**
   - Optimistic update (UI updates immediately)
@@ -259,6 +268,7 @@ POST /api/generation/generate
 **Trigger:** Scroll to bottom of featured/new tracks section
 
 **Behavior:**
+
 1. Check `hasMore` flag
 2. If true, call `fetchMore()` function
 3. Show loading spinner at bottom
@@ -270,6 +280,7 @@ POST /api/generation/generate
 **Trigger:** Pull down on mobile (via `PullToRefreshWrapper`)
 
 **Behavior:**
+
 1. Show refresh indicator
 2. Call `refresh()` function
 3. Refetch all homepage data
@@ -281,6 +292,7 @@ POST /api/generation/generate
 **Trigger:** Click on genre preset card (Pop, Rock, Electronic, etc.)
 
 **Behavior:**
+
 1. Open `GenerateSheet`
 2. Pre-fill style field with genre-specific template:
    - Pop: "Catchy pop song with memorable chorus, modern production, upbeat rhythm"
@@ -294,11 +306,13 @@ POST /api/generation/generate
 **Trigger:** Click "Continue Draft" card (returning users only)
 
 **Conditions:**
+
 - Draft exists in localStorage
 - Draft is less than 30 minutes old
 - User is authenticated
 
 **Behavior:**
+
 1. Open `GenerateSheet`
 2. Restore all form fields from localStorage draft
 3. Show "Draft restored" toast
@@ -325,24 +339,26 @@ POST /api/generation/generate
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Featured Tracks | GET | /api/tracks?is_public=true&sort=popular&limit=20 | Page load | Paginated |
-| Get New Tracks | GET | /api/tracks?is_public=true&sort=recent&limit=20 | Page load | Paginated |
-| Get Recent Tracks | GET | /api/tracks?user_id={userId}&limit=5 | Page load | Authenticated only |
-| Generate Track | POST | /api/generation/generate | Form submit | Creates generation task |
-| Like Track | POST | /api/tracks/{id}/like | Like action | Optimistic update |
-| Get User Profile | GET | /api/profiles/{userId} | Page load | For username, credits |
-| Save Draft | POST | /api/drafts/save | Form auto-save | Every 30 seconds |
+| API                 | Method | Path                                             | Trigger        | Notes                   |
+| ------------------- | ------ | ------------------------------------------------ | -------------- | ----------------------- |
+| Get Featured Tracks | GET    | /api/tracks?is_public=true&sort=popular&limit=20 | Page load      | Paginated               |
+| Get New Tracks      | GET    | /api/tracks?is_public=true&sort=recent&limit=20  | Page load      | Paginated               |
+| Get Recent Tracks   | GET    | /api/tracks?user_id={userId}&limit=5             | Page load      | Authenticated only      |
+| Generate Track      | POST   | /api/generation/generate                         | Form submit    | Creates generation task |
+| Like Track          | POST   | /api/tracks/{id}/like                            | Like action    | Optimistic update       |
+| Get User Profile    | GET    | /api/profiles/{userId}                           | Page load      | For username, credits   |
+| Save Draft          | POST   | /api/drafts/save                                 | Form auto-save | Every 30 seconds        |
 
 ## Page Relationships
 
 **From:**
+
 - `/auth` → After authentication, redirect to home
 - `/generate` → Legacy redirect (now redirects to home with params)
 - Deep links → `t.me/AIMusicVerseBot/app?startapp=generate` opens generation form
 
 **To:**
+
 - `/library` → Click "Explore Library" button or "Library" in nav
 - `/studio-v2/track/{trackId}` → Click "Edit in Studio" on track card
 - `/profile` → Click username/artist link
@@ -351,6 +367,7 @@ POST /api/generation/generate
 - `/buy-credits` → Click "Get Credits" in insufficient credits warning
 
 **Data Coupling:**
+
 - Global player state: Playing track from card updates player in all pages
 - Draft persistence: Form state saved to localStorage, restored across sessions
 - Credits balance: Updates after generation affects display globally

@@ -321,18 +321,13 @@ updateSectionTags('verse-1', ['Male Vocal', 'Piano']);
 Теги автоматически сохраняются благодаря `persist` middleware:
 
 ```typescript
-persist(
-  (set, get) => ({
-    /* store logic */
+persist((set, get) => ({/* store logic */}), {
+  name: "lyrics-wizard-storage",
+  partialize: (state) => ({
+    writing: state.writing, // включает sections с tags
+    // ...
   }),
-  {
-    name: "lyrics-wizard-storage",
-    partialize: (state) => ({
-      writing: state.writing, // включает sections с tags
-      // ...
-    }),
-  },
-);
+});
 ```
 
 ---

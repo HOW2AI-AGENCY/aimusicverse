@@ -47,7 +47,14 @@ function parse(text: string): ParsedSection[] {
     } else if (raw.trim()) {
       if (!current) {
         const meta = SECTION_META.verse;
-        current = { id: `verse-${idx++}`, type: "verse", label: meta.label, color: meta.color, icon: meta.icon, lines: [] };
+        current = {
+          id: `verse-${idx++}`,
+          type: "verse",
+          label: meta.label,
+          color: meta.color,
+          icon: meta.icon,
+          lines: [],
+        };
       }
       current.lines.push(raw);
     } else if (current) {
@@ -65,7 +72,10 @@ interface LyricsPreviewProps {
 
 export const LyricsPreview = memo(function LyricsPreview({ value, className }: LyricsPreviewProps) {
   const sections = useMemo(() => parse(value), [value]);
-  const totalLines = useMemo(() => sections.reduce((n, s) => n + s.lines.filter((l) => l.trim()).length, 0), [sections]);
+  const totalLines = useMemo(
+    () => sections.reduce((n, s) => n + s.lines.filter((l) => l.trim()).length, 0),
+    [sections],
+  );
 
   if (sections.length === 0) {
     return (

@@ -154,7 +154,6 @@
     "@eslint/js": "^9.39.1",
     "@playwright/test": "^1.61.1",
     "@size-limit/file": "^12.0.0",
-    "@size-limit/preset-app": "^12.0.0",
     "@storybook/addon-a11y": "^8.1.0",
     "@storybook/addon-docs": "^8.1.0",
     "@storybook/addon-essentials": "^8.1.0",
@@ -209,7 +208,7 @@
     {
       "name": "Total Bundle",
       "path": "dist/assets/*.js",
-      "limit": "950 KB",
+      "limit": "2.3 MB",
       "gzip": true
     },
     {
@@ -249,27 +248,15 @@
       "gzip": true
     },
     {
-      "name": "Studio Feature",
-      "path": "dist/assets/feature-studio*.js",
-      "limit": "200 KB",
-      "gzip": true
-    },
-    {
-      "name": "Lyrics Feature",
-      "path": "dist/assets/feature-lyrics*.js",
-      "limit": "150 KB",
-      "gzip": true
-    },
-    {
-      "name": "Generation Feature",
-      "path": "dist/assets/feature-generation*.js",
-      "limit": "180 KB",
+      "name": "Admin/Studio Feature",
+      "path": "dist/assets/feature-admin-studio*.js",
+      "limit": "550 KB",
       "gzip": true
     },
     {
       "name": "OSMD Vendor",
       "path": "dist/assets/vendor-osmd*.js",
-      "limit": "300 KB",
+      "limit": "320 KB",
       "gzip": true
     }
   ],

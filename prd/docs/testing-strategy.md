@@ -27,6 +27,7 @@
 **"Test critical paths, not 100% coverage"**
 
 MusicVerse AI follows pragmatic testing approach:
+
 - ✅ **Critical user paths** must have E2E tests
 - ✅ **Complex business logic** must have unit tests
 - ✅ **Audio system** must have integration tests
@@ -35,13 +36,13 @@ MusicVerse AI follows pragmatic testing approach:
 
 ### Test Statistics
 
-| Metric | Current | Target | Notes |
-|--------|---------|--------|-------|
-| **Unit Tests** | 150+ tests | Critical logic | Hooks, services, utils |
-| **E2E Tests** | 80+ scenarios | Key user flows | Critical paths |
-| **Coverage** | N/A | Focus over % | Critical files >80% |
-| **Test Duration** | ~5 min | <10 min | Full E2E suite |
-| **CI Time** | ~8 min | <15 min | Including build + tests |
+| Metric            | Current       | Target         | Notes                   |
+| ----------------- | ------------- | -------------- | ----------------------- |
+| **Unit Tests**    | 150+ tests    | Critical logic | Hooks, services, utils  |
+| **E2E Tests**     | 80+ scenarios | Key user flows | Critical paths          |
+| **Coverage**      | N/A           | Focus over %   | Critical files >80%     |
+| **Test Duration** | ~5 min        | <10 min        | Full E2E suite          |
+| **CI Time**       | ~8 min        | <15 min        | Including build + tests |
 
 ---
 
@@ -65,11 +66,11 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       include: ["src/hooks/**/*.{ts,tsx}"],
       thresholds: {
-        global: { branches: 0, functions: 0, lines: 0, statements: 0 }
-      }
+        global: { branches: 0, functions: 0, lines: 0, statements: 0 },
+      },
     },
-    testTimeout: 10000
-  }
+    testTimeout: 10000,
+  },
 });
 ```
 
@@ -98,6 +99,7 @@ src/__tests__/
 ### Test Setup (vitest.setup.ts)
 
 **Mocked Dependencies:**
+
 - `matchMedia` (CSS media queries)
 - `Telegram.WebApp` (Telegram SDK)
 - `supabase` (Database client)
@@ -106,6 +108,7 @@ src/__tests__/
 - `ResizeObserver` (Component sizing)
 
 **Example Mock:**
+
 ```typescript
 // Mock Telegram WebApp
 global.Telegram = {
@@ -113,8 +116,8 @@ global.Telegram = {
     ready: vi.fn(),
     expand: vi.fn(),
     hapticFeedback: vi.fn(),
-    BackButton: { show: vi.fn(), hide: vi.fn() }
-  }
+    BackButton: { show: vi.fn(), hide: vi.fn() },
+  },
 };
 ```
 
@@ -126,22 +129,22 @@ global.Telegram = {
 describe("useAuth", () => {
   it("should authenticate with Telegram", async () => {
     const { result } = renderHook(() => useAuth());
-    
+
     await act(async () => {
       await result.current.authenticateWithTelegram();
     });
-    
+
     expect(result.current.isAuthenticated).toBe(true);
     expect(result.current.user).toBeDefined();
   });
 
   it("should logout and clear session", async () => {
     const { result } = renderHook(() => useAuth());
-    
+
     await act(async () => {
       await result.current.logout();
     });
-    
+
     expect(result.current.isAuthenticated).toBe(false);
   });
 });
@@ -155,12 +158,12 @@ describe("generation.service", () => {
     it("should fetch generation logs and stats", async () => {
       const mockLogs = [{ id: "1", status: "completed" }];
       const mockStats = { total_generations: 100 };
-      
+
       (generationApi.fetchGenerationLogs as vi.Mock).mockResolvedValue(mockLogs);
       (generationApi.fetchGenerationStats as vi.Mock).mockResolvedValue(mockStats);
-      
+
       const result = await getGenerationActivity("24h");
-      
+
       expect(result.logs).toEqual(mockLogs);
       expect(result.stats).toBeDefined();
     });
@@ -175,10 +178,10 @@ describe("audioCache", () => {
   it("should cache waveform data", async () => {
     const mockWaveform = [0.5, 0.7, 0.3, 0.8];
     const audioUrl = "https://example.com/track.mp3";
-    
+
     await cacheWaveform(audioUrl, mockWaveform);
     const cached = await getWaveform(audioUrl);
-    
+
     expect(cached).toEqual(mockWaveform);
   });
 
@@ -186,7 +189,7 @@ describe("audioCache", () => {
     await cacheWaveform(url, waveform1);
     await cacheWaveform(url, waveform2);
     const cached = await getWaveform(url);
-    
+
     expect(cached).toEqual(waveform2);
   });
 });
@@ -226,21 +229,21 @@ export default defineConfig({
   reporter: [
     ["html", { outputFolder: "playwright-report" }],
     ["list"],
-    ["json", { outputFile: "test-results/results.json" }]
+    ["json", { outputFile: "test-results/results.json" }],
   ],
   use: {
     baseURL: "http://localhost:5173",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
-    video: "retain-on-failure"
+    video: "retain-on-failure",
   },
   projects: [
     { name: "chromium", use: { browserName: "chromium" } },
     { name: "firefox", use: { browserName: "firefox" } },
     { name: "webkit", use: { browserName: "webkit" } },
     { name: "Mobile Chrome", use: { ...devices["Pixel 5"] } },
-    { name: "Mobile Safari", use: { ...devices["iPhone 12"] } }
-  ]
+    { name: "Mobile Safari", use: { ...devices["iPhone 12"] } },
+  ],
 });
 ```
 
@@ -282,13 +285,13 @@ tests/e2e/
 ```typescript
 test("should authenticate user via Telegram", async ({ page }) => {
   await page.goto("/auth");
-  
+
   // Simulate Telegram auth
   await page.click("button:has-text('Войти как Test User')");
-  
+
   // Should redirect to home
   await expect(page).toHaveURL("/");
-  
+
   // Should show user menu
   await expect(page.locator("text=Test User")).toBeVisible();
 });
@@ -299,17 +302,17 @@ test("should authenticate user via Telegram", async ({ page }) => {
 ```typescript
 test("should generate track and display results", async ({ page }) => {
   await page.goto("/");
-  
+
   // Open generation form
   await page.click("button:has-text('Create Track')");
-  
+
   // Fill form
   await page.fill("textarea[name='style']", "Upbeat pop song with catchy chorus");
   await page.click("button:has-text('Generate')");
-  
+
   // Wait for generation result
   await expect(page.locator(".generation-result")).toBeVisible({ timeout: 120000 });
-  
+
   // Should show 2 tracks
   const tracks = page.locator(".track-card");
   await expect(tracks).toHaveCount(2);
@@ -321,19 +324,19 @@ test("should generate track and display results", async ({ page }) => {
 ```typescript
 test("should filter tracks by type and search", async ({ page }) => {
   await page.goto("/library");
-  
+
   // Filter by vocals
   await page.click("button:has-text('Vocals')");
-  
+
   // Should show only vocal tracks
   const tracks = page.locator(".track-card");
   const firstTrack = tracks.first();
   await expect(firstTrack).toContainText("Vocals");
-  
+
   // Search by title
   await page.fill("input[placeholder*='Search']", "Summer");
   await page.waitForTimeout(500); // Debounce
-  
+
   // Should show filtered results
   await expect(page.locator("text=Summer")).toBeVisible();
 });
@@ -345,14 +348,14 @@ test("should filter tracks by type and search", async ({ page }) => {
 test("should separate track into stems", async ({ page }) => {
   // Navigate to studio
   await page.goto("/studio-v2/track/test-track-id");
-  
+
   // Click stem separation
   await page.click("button:has-text('Separate Stems')");
-  
+
   // Wait for separation (can take 60+ seconds)
   await expect(page.locator(".stem-progress")).toBeVisible();
   await expect(page.locator(".stem-progress")).not.toBeVisible({ timeout: 90000 });
-  
+
   // Should show 4 stems
   const stems = page.locator(".stem-control");
   await expect(stems).toHaveCount(4);
@@ -367,7 +370,7 @@ test("should support pull-to-refresh on mobile", async ({ page, browserName }) =
   if (!browserName.includes("Mobile")) return;
 
   await page.goto("/library");
-  
+
   // Pull down to refresh
   await page.locator("body").evaluate(async (el) => {
     // Simulate pull gesture
@@ -375,7 +378,7 @@ test("should support pull-to-refresh on mobile", async ({ page, browserName }) =
     await touch.move(0, 200);
     await touch.release();
   });
-  
+
   // Should show refresh indicator
   await expect(page.locator(".refresh-indicator")).toBeVisible();
 });
@@ -429,6 +432,7 @@ npm run test:e2e:report
 ```
 
 **Distribution:**
+
 - **E2E Tests:** 15% (Critical user flows only)
 - **Integration Tests:** 25% (API, audio, state)
 - **Unit Tests:** 60% (Business logic, utilities)
@@ -439,24 +443,24 @@ npm run test:e2e:report
 
 ### Must-Have Flows (100% Coverage Required)
 
-| Flow | Description | Test File | Priority |
-|------|-------------|-----------|----------|
-| **Authentication** | Telegram login → Home | `telegram-auth.spec.ts` | P0 |
-| **First Generation** | New user → Generate → Result | `basic-generation.spec.ts` | P0 |
-| **Track Playback** | Library → Play → Global player | `playback.spec.ts` | P0 |
-| **Stem Separation** | Studio → Separate → Mix | `stem-separation.spec.ts` | P1 |
-| **Payment Flow** | Buy credits → Payment → Success | `buy-credits.spec.ts` | P1 |
-| **Mobile Gestures** | Pull-to-refresh, Swipe actions | `gestures.spec.ts` | P1 |
+| Flow                 | Description                     | Test File                  | Priority |
+| -------------------- | ------------------------------- | -------------------------- | -------- |
+| **Authentication**   | Telegram login → Home           | `telegram-auth.spec.ts`    | P0       |
+| **First Generation** | New user → Generate → Result    | `basic-generation.spec.ts` | P0       |
+| **Track Playback**   | Library → Play → Global player  | `playback.spec.ts`         | P0       |
+| **Stem Separation**  | Studio → Separate → Mix         | `stem-separation.spec.ts`  | P1       |
+| **Payment Flow**     | Buy credits → Payment → Success | `buy-credits.spec.ts`      | P1       |
+| **Mobile Gestures**  | Pull-to-refresh, Swipe actions  | `gestures.spec.ts`         | P1       |
 
 ### Should-Have Flows (80% Coverage Target)
 
-| Flow | Test Coverage | Notes |
-|------|---------------|-------|
-| **Version Switching** | A/B version toggle | Important for UX |
-| **Playlist Management** | Create → Add tracks → Share | Social feature |
-| **Profile Editing** | Edit → Save → Display | User management |
-| **Search & Filter** | Search → Filter → Sort | Discovery feature |
-| **Referral Program** | Generate link → Share → Track | Growth feature |
+| Flow                    | Test Coverage                 | Notes             |
+| ----------------------- | ----------------------------- | ----------------- |
+| **Version Switching**   | A/B version toggle            | Important for UX  |
+| **Playlist Management** | Create → Add tracks → Share   | Social feature    |
+| **Profile Editing**     | Edit → Save → Display         | User management   |
+| **Search & Filter**     | Search → Filter → Sort        | Discovery feature |
+| **Referral Program**    | Generate link → Share → Track | Growth feature    |
 
 ---
 
@@ -472,7 +476,7 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - Checkout code
       - Setup Node.js
@@ -491,12 +495,12 @@ jobs:
 
 ### Failure Conditions
 
-| Stage | Condition | Action |
-|-------|-----------|--------|
-| **Lint** | ESLint errors | Fail build immediately |
-| **Types** | TypeScript errors | Fail build immediately |
-| **Unit** | Test failures | Show report, fail build |
-| **E2E** | Test failures | Retry 2x, then fail |
+| Stage     | Condition         | Action                  |
+| --------- | ----------------- | ----------------------- |
+| **Lint**  | ESLint errors     | Fail build immediately  |
+| **Types** | TypeScript errors | Fail build immediately  |
+| **Unit**  | Test failures     | Show report, fail build |
+| **E2E**   | Test failures     | Retry 2x, then fail     |
 
 ---
 
@@ -505,6 +509,7 @@ jobs:
 ### Unit Testing
 
 **✅ DO:**
+
 - Test business logic (services, hooks)
 - Test edge cases and error handling
 - Mock external dependencies (Telegram, Supabase)
@@ -512,6 +517,7 @@ jobs:
 - Use descriptive test names
 
 **❌ DON'T:**
+
 - Test UI components extensively (shadcn/ui already tested)
 - Test trivial getters/setters
 - Mock everything (test real behavior)
@@ -520,6 +526,7 @@ jobs:
 ### E2E Testing
 
 **✅ DO:**
+
 - Test critical user journeys
 - Test cross-browser compatibility
 - Test mobile gestures and interactions
@@ -527,6 +534,7 @@ jobs:
 - Make tests independent (can run in parallel)
 
 **❌ DON'T:**
+
 - Test every permutation
 - Test UI details (colors, spacing)
 - Test edge cases in E2E (use unit tests)
@@ -535,12 +543,14 @@ jobs:
 ### Mock Strategy
 
 **What to Mock:**
+
 - External APIs (Telegram, Suno AI)
 - Database queries (Supabase)
 - Time/Date (deterministic tests)
 - Random values (predictable tests)
 
 **What NOT to Mock:**
+
 - Business logic
 - Component interactions
 - State management (Zustand)
@@ -552,20 +562,20 @@ jobs:
 
 ### Load Testing Scenarios
 
-| Scenario | Users | Duration | Metric |
-|----------|-------|----------|--------|
-| **Concurrent Generations** | 100 | 10 min | Success rate >95% |
-| **Library Browsing** | 500 | 5 min | Page load <2s |
-| **Audio Playback** | 200 | 5 min | Buffering <5% |
+| Scenario                   | Users | Duration | Metric            |
+| -------------------------- | ----- | -------- | ----------------- |
+| **Concurrent Generations** | 100   | 10 min   | Success rate >95% |
+| **Library Browsing**       | 500   | 5 min    | Page load <2s     |
+| **Audio Playback**         | 200   | 5 min    | Buffering <5%     |
 
 ### Performance Budgets
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| **Bundle Size** | 950 KB | size-limit |
-| **First Paint** | <2s | Lighthouse |
-| **Time to Interactive** | <3s | Lighthouse |
-| **Generation API** | <60s | P95 latency |
+| Metric                  | Target | Measurement |
+| ----------------------- | ------ | ----------- |
+| **Bundle Size**         | 950 KB | size-limit  |
+| **First Paint**         | <2s    | Lighthouse  |
+| **Time to Interactive** | <3s    | Lighthouse  |
+| **Generation API**      | <60s   | P95 latency |
 
 ---
 
@@ -583,7 +593,7 @@ export const mockUser = {
   first_name: "Test",
   username: "testuser",
   is_public: true,
-  credits: 100
+  credits: 100,
 };
 
 // Mock track data
@@ -592,7 +602,7 @@ export const mockTrack = {
   title: "Test Track",
   style: "Pop",
   audio_url: "https://example.com/track.mp3",
-  is_public: true
+  is_public: true,
 };
 ```
 
@@ -656,7 +666,7 @@ test("should generate track", async ({ page }) => {
   // This test can be flaky due to API timing
   await page.goto("/");
   await page.click("button:has-text('Create Track')");
-  
+
   // Use waitFor with timeout
   await expect(page.locator(".result")).toBeVisible({ timeout: 120000 });
 });
@@ -668,13 +678,13 @@ test("should generate track", async ({ page }) => {
 
 ### Critical Files Coverage Targets
 
-| File/Directory | Target Coverage | Reason |
-|----------------|-----------------|--------|
-| `src/services/generation.service.ts` | >90% | Critical business logic |
-| `src/hooks/useAuth.ts` | >80% | Authentication |
-| `src/hooks/useLibraryData.ts` | >80% | Library logic |
-| `src/lib/utils.ts` | >80% | Utility functions |
-| `src/lib/logger.ts` | >80% | Error handling |
+| File/Directory                       | Target Coverage | Reason                  |
+| ------------------------------------ | --------------- | ----------------------- |
+| `src/services/generation.service.ts` | >90%            | Critical business logic |
+| `src/hooks/useAuth.ts`               | >80%            | Authentication          |
+| `src/hooks/useLibraryData.ts`        | >80%            | Library logic           |
+| `src/lib/utils.ts`                   | >80%            | Utility functions       |
+| `src/lib/logger.ts`                  | >80%            | Error handling          |
 
 ### Coverage Exclusions
 
@@ -694,10 +704,10 @@ import { axeCore, AxeResults } from "axe-core";
 
 test("should be accessible", async ({ page }) => {
   await page.goto("/");
-  
+
   // Run accessibility audit
   const results = await page.evaluate(() => axeCore(document.body));
-  
+
   // Check for violations
   expect(results.violations).toHaveLength(0);
 });
@@ -706,6 +716,7 @@ test("should be accessible", async ({ page }) => {
 ### WCAG 2.1 AA Compliance
 
 **Tested Elements:**
+
 - ✅ Color contrast ratios
 - ✅ Touch target sizes (44×44px minimum)
 - ✅ Keyboard navigation
@@ -719,6 +730,7 @@ test("should be accessible", async ({ page }) => {
 ### Test Metrics Dashboard
 
 **Tracked in CI:**
+
 - Test execution time trends
 - Flaky test rate
 - Coverage trends
@@ -727,6 +739,7 @@ test("should be accessible", async ({ page }) => {
 ### Alerting
 
 **When to Alert:**
+
 - P0 test failure (immediate notification)
 - Coverage drop >10% (weekly report)
 - Flaky test rate >5% (weekly report)
@@ -740,4 +753,4 @@ test("should be accessible", async ({ page }) => {
 
 ---
 
-*For the most current test suite, refer to `src/__tests__/` and `tests/e2e/` directories.*
+_For the most current test suite, refer to `src/__tests__/` and `tests/e2e/` directories._

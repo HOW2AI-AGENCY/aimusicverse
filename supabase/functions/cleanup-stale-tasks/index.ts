@@ -159,7 +159,9 @@ serve(async (req) => {
                 }
               }
             } catch (downloadError) {
-              logger.error("Error downloading files", downloadError instanceof Error ? downloadError : null, { downloadError });
+              logger.error("Error downloading files", downloadError instanceof Error ? downloadError : null, {
+                downloadError,
+              });
             }
 
             // Update track

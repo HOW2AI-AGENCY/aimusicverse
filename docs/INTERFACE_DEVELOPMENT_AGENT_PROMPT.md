@@ -77,6 +77,7 @@ src/
 ### 2. Принципы Разработки Компонентов
 
 #### Single Responsibility Principle
+
 ```typescript
 // ❌ НЕПРАВИЛЬНО: Компонент делает слишком много
 function TrackCard({ track }) {
@@ -99,6 +100,7 @@ function TrackCard({ track }) {
 ```
 
 #### Композиция вместо Наследования
+
 ```typescript
 // ✅ ПРАВИЛЬНО: Композиция компонентов
 function Page({ children }) {
@@ -125,6 +127,7 @@ Pages (Уровень 1)
 ```
 
 **Пример:**
+
 - `LibraryPage` (Page)
 - `VirtualizedTrackList` (Layout)
 - `TrackRow` (Feature)
@@ -137,6 +140,7 @@ Pages (Уровень 1)
 ### 1. Touch-First Дизайн
 
 #### Минимальные Размеры Касания
+
 ```typescript
 // ❌ НЕПРАВИЛЬНО: Слишком маленькие кнопки
 <button className="w-8 h-8"> {/* 32px - слишком мало */}
@@ -167,14 +171,12 @@ Pages (Уровень 1)
 // ✅ ПРАВИЛЬНО: Отслеживание высоты клавиатуры
 useEffect(() => {
   const handleResize = () => {
-    const keyboardHeight = window.visualViewport.height 
-      ? window.innerHeight - window.visualViewport.height 
-      : 0;
+    const keyboardHeight = window.visualViewport.height ? window.innerHeight - window.visualViewport.height : 0;
     setKeyboardHeight(keyboardHeight);
   };
-  
-  window.visualViewport?.addEventListener('resize', handleResize);
-  return () => window.visualViewport?.removeEventListener('resize', handleResize);
+
+  window.visualViewport?.addEventListener("resize", handleResize);
+  return () => window.visualViewport?.removeEventListener("resize", handleResize);
 }, []);
 ```
 
@@ -219,13 +221,13 @@ const swipeHandlers = useSwipeable({
 ```typescript
 // ✅ Основные цвета проекта
 const colors = {
-  generate: '#8B5CF6',    // Фиолетовый для генерации
-  library: '#3B82F6',     // Синий для библиотеки
-  projects: '#10B981',    // Зеленый для проектов
-  community: '#F59E0B',    // Оранжевый для сообщества
-  success: '#22C55E',     // Зеленый для успеха
-  warning: '#F59E0B',     // Желтый для предупреждений
-  error: '#EF4444',       // Красный для ошибок
+  generate: "#8B5CF6", // Фиолетовый для генерации
+  library: "#3B82F6", // Синий для библиотеки
+  projects: "#10B981", // Зеленый для проектов
+  community: "#F59E0B", // Оранжевый для сообщества
+  success: "#22C55E", // Зеленый для успеха
+  warning: "#F59E0B", // Желтый для предупреждений
+  error: "#EF4444", // Красный для ошибок
 };
 
 // Tailwind конфигурация
@@ -256,16 +258,18 @@ const colors = {
 ### 3. shadcn/ui Компоненты
 
 #### Базовые Компоненты
+
 ```typescript
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 ```
 
 #### Использование Dialog
+
 ```typescript
 // ❌ НЕПРАВИЛЬНО: Использование Dialog на мобильных
 <Dialog open={open} onOpenChange={setOpen}>
@@ -283,6 +287,7 @@ import { BottomSheet, BottomSheetContent } from '@/components/ui/bottom-sheet';
 ### 4. Кастомные Компоненты
 
 #### LazyImage (Обязательный для всех изображений)
+
 ```typescript
 import { LazyImage } from '@/components/ui/lazy-image';
 
@@ -296,6 +301,7 @@ import { LazyImage } from '@/components/ui/lazy-image';
 ```
 
 #### TouchFeedback (Для мобильных кнопок)
+
 ```typescript
 import { TouchFeedback } from '@/components/ui/TouchFeedback';
 
@@ -314,13 +320,14 @@ import { TouchFeedback } from '@/components/ui/TouchFeedback';
 ### 1. Глобальный Аудио Плеер
 
 #### Принцип Единого Источника
+
 ```typescript
 // ❌ НЕПРАВИЛЬНО: Создание множественных audio элементов
 const audio1 = new Audio(track1.url);
 const audio2 = new Audio(track2.url);
 
 // ✅ ПРАВИЛЬНО: Использование глобального плеера
-import { useGlobalAudioPlayer } from '@/contexts/GlobalAudioContext';
+import { useGlobalAudioPlayer } from "@/contexts/GlobalAudioContext";
 
 const { play, pause, currentTrack, isPlaying } = useGlobalAudioPlayer();
 
@@ -332,18 +339,11 @@ pause();
 ```
 
 #### Управление Очередью
-```typescript
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 
-const { 
-  activeTrack, 
-  queue, 
-  currentIndex,
-  playTrack,
-  addToQueue,
-  removeFromQueue,
-  clearQueue 
-} = usePlayerStore();
+```typescript
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+
+const { activeTrack, queue, currentIndex, playTrack, addToQueue, removeFromQueue, clearQueue } = usePlayerStore();
 
 // Добавление трека в очередь
 addToQueue(track, true); // true = воспроизвести немедленно
@@ -358,7 +358,7 @@ clearQueue();
 // ✅ ПРАВИЛЬНО: Оптимистичные обновления
 const handleLike = async (trackId: string) => {
   // 1. Немедленное обновление UI
-  queryClient.setQueryData(['track', trackId], (old) => ({
+  queryClient.setQueryData(["track", trackId], (old) => ({
     ...old,
     is_liked: !old.is_liked,
     likes_count: old.is_liked ? old.likes_count - 1 : old.likes_count + 1,
@@ -369,7 +369,7 @@ const handleLike = async (trackId: string) => {
     await likeTrack(trackId);
   } catch (error) {
     // 3. Откат при ошибке
-    queryClient.invalidateQueries(['track', trackId]);
+    queryClient.invalidateQueries(["track", trackId]);
   }
 };
 ```
@@ -378,7 +378,7 @@ const handleLike = async (trackId: string) => {
 
 ```typescript
 // ✅ ПРАВИЛЬНО: Автосохранение черновиков
-import { useGenerateDraft } from '@/hooks/useGenerateDraft';
+import { useGenerateDraft } from "@/hooks/useGenerateDraft";
 
 const { draft, saveDraft, clearDraft } = useGenerateDraft();
 
@@ -398,24 +398,24 @@ useEffect(() => {
 
 ```typescript
 // ✅ ПРАВИЛЬНО: Обработка Telegram deep links
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 
 const [searchParams] = useSearchParams();
-const startapp = searchParams.get('startapp');
+const startapp = searchParams.get("startapp");
 
 useEffect(() => {
   if (startapp) {
     // Парсинг параметра
-    const [type, id] = startapp.split('_');
-    
+    const [type, id] = startapp.split("_");
+
     switch (type) {
-      case 'track':
+      case "track":
         navigate(`/library`, { state: { highlightTrackId: id } });
         break;
-      case 'playlist':
+      case "playlist":
         navigate(`/playlists/${id}`);
         break;
-      case 'studio':
+      case "studio":
         navigate(`/studio-v2/project/${id}`);
         break;
     }
@@ -527,7 +527,7 @@ function SearchBar() {
 const audio = new Audio(url);
 
 // ✅ ПРАВИЛЬНО: Использование audio element pool
-import { getAudioElement } from '@/lib/audioElementPool';
+import { getAudioElement } from "@/lib/audioElementPool";
 
 const audio = getAudioElement(url);
 audio.src = url;
@@ -538,7 +538,7 @@ audio.play();
 
 ```typescript
 // ✅ ПРАВИЛЬНО: Кэширование waveforms
-import { getWaveform } from '@/lib/audioCache';
+import { getWaveform } from "@/lib/audioCache";
 
 const waveform = await getWaveform(track.id);
 
@@ -551,7 +551,7 @@ const waveform = await getWaveform(track.id);
 
 ```typescript
 // ✅ ПРАВИЛЬНО: Полное управление плеером
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 
 const {
   // Состояние
@@ -562,7 +562,7 @@ const {
   volume,
   queue,
   currentIndex,
-  
+
   // Действия
   playTrack,
   pauseTrack,
@@ -573,10 +573,9 @@ const {
   addToQueue,
   removeFromQueue,
   shuffleQueue,
-  
+
   // Моды
   playerMode, // 'compact' | 'fullscreen'
-  
 } = usePlayerStore();
 
 // Переключение трека
@@ -604,38 +603,33 @@ nextTrack();
 
 ```typescript
 // ✅ ПРАВИЛЬНО: Использование Zustand для сложного состояния
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useUnifiedStudioStore } from '@/hooks/useUnifiedStudioStore';
-import { useLyricsHistoryStore } from '@/hooks/useLyricsHistoryStore';
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useUnifiedStudioStore } from "@/hooks/useUnifiedStudioStore";
+import { useLyricsHistoryStore } from "@/hooks/useLyricsHistoryStore";
 
 // Плеер состояние
 const { activeTrack, isPlaying, playTrack } = usePlayerStore();
 
 // Студия состояние
-const { 
-  selectedTrackId,
-  stemVolumes,
-  updateStemVolume,
-  activeVersionId
-} = useUnifiedStudioStore();
+const { selectedTrackId, stemVolumes, updateStemVolume, activeVersionId } = useUnifiedStudioStore();
 
 // История текстов
-const { 
-  history, 
-  addToHistory, 
-  undo 
-} = useLyricsHistoryStore();
+const { history, addToHistory, undo } = useLyricsHistoryStore();
 ```
 
 ### 2. TanStack Query (Серверное Состояние)
 
 ```typescript
 // ✅ ПРАВИЛЬНО: Использование TanStack Query для API
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 // Получение данных
-const { data: tracks, isLoading, error } = useQuery({
-  queryKey: ['tracks', userId],
+const {
+  data: tracks,
+  isLoading,
+  error,
+} = useQuery({
+  queryKey: ["tracks", userId],
   queryFn: () => fetchTracks(userId),
   staleTime: 30 * 1000, // 30 секунд
   gcTime: 10 * 60 * 1000, // 10 минут
@@ -648,13 +642,13 @@ const likeMutation = useMutation({
   mutationFn: (trackId) => likeTrack(trackId),
   onMutate: async (trackId) => {
     // Optimistic update
-    queryClient.setQueryData(['track', trackId], (old) => ({
+    queryClient.setQueryData(["track", trackId], (old) => ({
       ...old,
       is_liked: !old.is_liked,
     }));
   },
   onSuccess: (data, trackId) => {
-    queryClient.invalidateQueries(['track', trackId]);
+    queryClient.invalidateQueries(["track", trackId]);
   },
 });
 ```
@@ -663,9 +657,9 @@ const likeMutation = useMutation({
 
 ```typescript
 // ✅ ПРАВИЛЬНО: Использование React Hook Form
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 const generateSchema = z.object({
   prompt: z.string().min(10).max(500),
@@ -674,13 +668,17 @@ const generateSchema = z.object({
   lyrics: z.string().optional(),
 });
 
-const { register, handleSubmit, formState: { errors } } = useForm({
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm({
   resolver: zodResolver(generateSchema),
   defaultValues: {
-    prompt: '',
-    style: '',
+    prompt: "",
+    style: "",
     has_vocals: true,
-    lyrics: '',
+    lyrics: "",
   },
 });
 
@@ -735,21 +733,21 @@ if (track.user_id !== user.id && !isAdmin) {
 useEffect(() => {
   const handleKeyPress = (e: KeyboardEvent) => {
     switch (e.key) {
-      case ' ':
+      case " ":
         e.preventDefault();
         togglePlay();
         break;
-      case 'ArrowRight':
+      case "ArrowRight":
         seekForward(5);
         break;
-      case 'ArrowLeft':
+      case "ArrowLeft":
         seekBackward(5);
         break;
     }
   };
 
-  window.addEventListener('keydown', handleKeyPress);
-  return () => window.removeEventListener('keydown', handleKeyPress);
+  window.addEventListener("keydown", handleKeyPress);
+  return () => window.removeEventListener("keydown", handleKeyPress);
 }, []);
 ```
 
@@ -785,9 +783,9 @@ describe('TrackRow', () => {
     const track = { id: '1', title: 'Test' };
 
     render(<TrackRow track={track} onPlay={onPlay} />);
-    
+
     fireEvent.click(screen.getByRole('button', { name: /play/i }));
-    
+
     expect(onPlay).toHaveBeenCalledWith('1');
   });
 });
@@ -797,22 +795,22 @@ describe('TrackRow', () => {
 
 ```typescript
 // ✅ ПРАВИЛЬНО: E2E тестирование
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('user can generate a track', async ({ page }) => {
-  await page.goto('/');
-  
+test("user can generate a track", async ({ page }) => {
+  await page.goto("/");
+
   // Заполнение формы
-  await page.fill('[data-testid="prompt-input"]', 'Upbeat pop song');
-  await page.selectOption('[data-testid="style-select"]', 'pop');
+  await page.fill('[data-testid="prompt-input"]', "Upbeat pop song");
+  await page.selectOption('[data-testid="style-select"]', "pop");
   await page.click('[data-testid="generate-button"]');
-  
+
   // Ожидание результата
   await expect(page.locator('[data-testid="generation-success"]')).toBeVisible();
-  
+
   // Проверка появления трека в библиотеке
-  await page.goto('/library');
-  await expect(page.locator('text=Upbeat pop song')).toBeVisible();
+  await page.goto("/library");
+  await expect(page.locator("text=Upbeat pop song")).toBeVisible();
 });
 ```
 
@@ -820,11 +818,11 @@ test('user can generate a track', async ({ page }) => {
 
 ```typescript
 // ✅ ПРАВИЛЬНО: Performance проверки
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('library page renders within performance budget', async ({ page }) => {
-  await page.goto('/library');
-  
+test("library page renders within performance budget", async ({ page }) => {
+  await page.goto("/library");
+
   // Проверка времени загрузки
   const performanceMetrics = await page.evaluate(() => {
     return {
@@ -832,7 +830,7 @@ test('library page renders within performance budget', async ({ page }) => {
       domContentLoaded: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart,
     };
   });
-  
+
   expect(performanceMetrics.loadTime).toBeLessThan(3000); // 3 секунды
   expect(performanceMetrics.domContentLoaded).toBeLessThan(1500); // 1.5 секунды
 });

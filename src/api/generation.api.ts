@@ -179,13 +179,7 @@ export async function retryGenerationTask(taskId: string): Promise<void> {
 // ==========================================
 
 export type FailureCategory =
-  | "api_error"
-  | "rate_limit"
-  | "content_policy"
-  | "timeout"
-  | "network"
-  | "validation"
-  | "unknown";
+  "api_error" | "rate_limit" | "content_policy" | "timeout" | "network" | "validation" | "unknown";
 
 export interface FailurePattern {
   failure_category: string;
@@ -230,12 +224,14 @@ export async function logGenerationFailure(
  * Fetch failure pattern analysis
  */
 export async function fetchFailurePatterns(timeRange: "24h" | "7d" | "30d" = "7d"): Promise<FailurePattern[]> {
-  const { data, error } = await (supabase.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }>)(
-    "get_generation_failure_patterns",
-    { _time_period: getInterval(timeRange) },
-  );
+  const { data, error } = await (
+    supabase.rpc as unknown as (
+      name: string,
+      args: Record<string, unknown>,
+    ) => Promise<{ data: unknown; error: { message: string } | null }>
+  )("get_generation_failure_patterns", { _time_period: getInterval(timeRange) });
   if (error) throw new Error(error.message);
-  return ((data as unknown) as FailurePattern[]) || [];
+  return (data as unknown as FailurePattern[]) || [];
 }
 
 /**
@@ -244,12 +240,16 @@ export async function fetchFailurePatterns(timeRange: "24h" | "7d" | "30d" = "7d
 export async function fetchSuccessTimeline(
   timeRange: "24h" | "7d" | "30d" = "7d",
 ): Promise<Array<{ bucket: string; total: number; completed: number; failed: number; success_rate: number }>> {
-  const { data, error } = await (supabase.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }>)(
-    "get_generation_success_timeline",
-    { _time_period: getInterval(timeRange) },
-  );
+  const { data, error } = await (
+    supabase.rpc as unknown as (
+      name: string,
+      args: Record<string, unknown>,
+    ) => Promise<{ data: unknown; error: { message: string } | null }>
+  )("get_generation_success_timeline", { _time_period: getInterval(timeRange) });
   if (error) throw new Error(error.message);
-  return (data as Array<{ bucket: string; total: number; completed: number; failed: number; success_rate: number }>) || [];
+  return (
+    (data as Array<{ bucket: string; total: number; completed: number; failed: number; success_rate: number }>) || []
+  );
 }
 
 // ============= Task Management =============
@@ -260,9 +260,6 @@ export async function deleteGenerationTask(taskId: string) {
 }
 
 export async function dismissGenerationTask(taskId: string) {
-  const { error } = await supabase
-    .from("generation_tasks")
-    .update({ status: "dismissed" })
-    .eq("id", taskId);
+  const { error } = await supabase.from("generation_tasks").update({ status: "dismissed" }).eq("id", taskId);
   if (error) throw new Error(error.message);
 }

@@ -9,6 +9,7 @@
 Onboarding Page guides new users through platform setup and first steps. Features multi-step wizard with profile setup, first generation tutorial, and feature introduction. Optimized for new user experience.
 
 **Primary Use Cases:**
+
 - Complete initial profile setup
 - Learn basic features through interactive tutorial
 - Generate first track with guided assistance
@@ -56,46 +57,46 @@ Onboarding Page guides new users through platform setup and first steps. Feature
 
 ### Step 1: Welcome
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Title | Text (H1) | "Welcome to MusicVerse!" |
-| Description | Text | Introduction to platform |
-| Illustration | Image | Welcome graphic |
-| Continue Button | Button | Proceed to next step |
+| Element         | Type      | Notes                    |
+| --------------- | --------- | ------------------------ |
+| Title           | Text (H1) | "Welcome to MusicVerse!" |
+| Description     | Text      | Introduction to platform |
+| Illustration    | Image     | Welcome graphic          |
+| Continue Button | Button    | Proceed to next step     |
 
 ### Step 2: Profile Setup
 
-| Element | Type | Required | Notes |
-|---------|------|----------|-------|
-| Username | Text input | Yes | Alphanumeric, 3-20 chars |
-| Display Name | Text input | No | Public display name |
-| Avatar | Image selector | No | Choose from presets |
-| Bio | Textarea | No | Short description |
+| Element      | Type           | Required | Notes                    |
+| ------------ | -------------- | -------- | ------------------------ |
+| Username     | Text input     | Yes      | Alphanumeric, 3-20 chars |
+| Display Name | Text input     | No       | Public display name      |
+| Avatar       | Image selector | No       | Choose from presets      |
+| Bio          | Textarea       | No       | Short description        |
 
 ### Step 3: Features Tour
 
-| Element | Type | Notes |
-|---------|------|-------|
+| Element        | Type | Notes                  |
+| -------------- | ---- | ---------------------- |
 | Feature Card 1 | Card | Generate music with AI |
-| Feature Card 2 | Card | Edit in Studio |
-| Feature Card 3 | Card | Share with community |
+| Feature Card 2 | Card | Edit in Studio         |
+| Feature Card 3 | Card | Share with community   |
 
 ### Step 4: First Track
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Quick Generation Form | Component | Simplified generation form |
-| Preset Styles | Cards | Pre-built style options |
-| Generate Button | Button | Start first generation |
-| Loading State | Progress | Generation progress indicator |
+| Element               | Type      | Notes                         |
+| --------------------- | --------- | ----------------------------- |
+| Quick Generation Form | Component | Simplified generation form    |
+| Preset Styles         | Cards     | Pre-built style options       |
+| Generate Button       | Button    | Start first generation        |
+| Loading State         | Progress  | Generation progress indicator |
 
 ### Step 5: Completion
 
-| Element | Type | Notes |
-|---------|------|-------|
-| Success Message | Text | "You're all set!" |
-| Stats Display | Number | Shows: 1 track created |
-| CTA Button | Button | "Go to Library" |
+| Element         | Type   | Notes                  |
+| --------------- | ------ | ---------------------- |
+| Success Message | Text   | "You're all set!"      |
+| Stats Display   | Number | Shows: 1 track created |
+| CTA Button      | Button | "Go to Library"        |
 
 ---
 
@@ -104,17 +105,20 @@ Onboarding Page guides new users through platform setup and first steps. Feature
 ### Page Load
 
 **Behavior:**
+
 1. Check if user has completed onboarding via profile flag
 2. If completed: Redirect to home page
 3. If not: Initialize step state (step 1)
 4. Setup Telegram Back Button (returns to home, but can exit onboarding)
 
 **API Calls:**
+
 - `GET /api/profiles/{userId}` — Check onboarding status
 
 ### Step Navigation
 
 **Next Button:**
+
 - **Trigger:** Click "Continue" button
 - **Behavior:**
   - Validate current step inputs
@@ -123,6 +127,7 @@ Onboarding Page guides new users through platform setup and first steps. Feature
   - Show step progress update
 
 **Back Button:**
+
 - **Trigger:** Click back button in header
 - **Behavior:**
   - Return to previous step
@@ -134,11 +139,13 @@ Onboarding Page guides new users through platform setup and first steps. Feature
 **Trigger:** Click "Continue" after entering username
 
 **Validation:**
+
 - Username required: Min 3 chars, max 20 chars
 - Format: Alphanumeric and underscore only
 - Unique: Check availability (API call)
 
 **API Call:**
+
 - `PATCH /api/profiles/{userId}` — Update profile
 
 ### Complete Onboarding
@@ -146,11 +153,13 @@ Onboarding Page guides new users through platform setup and first steps. Feature
 **Trigger:** Click "Go to Library" button (step 5)
 
 **Behavior:**
+
 1. Call API to mark onboarding complete
 2. Navigate to `/library`
 3. Show success toast: "Onboarding complete!"
 
 **API Call:**
+
 - `PATCH /api/profiles/{userId}` — Set `onboarding_completed = true`
 
 ### Skip Onboarding
@@ -158,6 +167,7 @@ Onboarding Page guides new users through platform setup and first steps. Feature
 **Trigger:** Click skip button (optional, not shown in current code)
 
 **Behavior:**
+
 1. Show confirmation: "Skip onboarding?"
 2. User confirms
 3. Mark onboarding as complete
@@ -165,23 +175,26 @@ Onboarding Page guides new users through platform setup and first steps. Feature
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Check Onboarding Status | GET | /api/profiles/{userId} | Page load | Returns onboarding_completed flag |
-| Update Profile | PATCH | /api/profiles/{userId} | Step 2 continue | Save username/avatar |
-| Complete Onboarding | PATCH | /api/profiles/{userId} | Final step | Set onboarding_completed = true |
+| API                     | Method | Path                   | Trigger         | Notes                             |
+| ----------------------- | ------ | ---------------------- | --------------- | --------------------------------- |
+| Check Onboarding Status | GET    | /api/profiles/{userId} | Page load       | Returns onboarding_completed flag |
+| Update Profile          | PATCH  | /api/profiles/{userId} | Step 2 continue | Save username/avatar              |
+| Complete Onboarding     | PATCH  | /api/profiles/{userId} | Final step      | Set onboarding_completed = true   |
 
 ## Page Relationships
 
 **From:**
+
 - `/auth` → After first login (if new user)
 - `/` (Home) → Redirect if onboarding not complete
 
 **To:**
+
 - `/library` → After completion
 - `/` (Home) → Skip onboarding
 
 **Data Coupling:**
+
 - Progress: Saved to localStorage (restored on return)
 - Profile data: Synced with database on each step
 - Completion flag: Stored in profile, checked on next visit
@@ -227,8 +240,8 @@ Onboarding Page guides new users through platform setup and first steps. Feature
    - Touch targets: Minimum 44×44px
    - Swipe gestures: Not implemented (uses button navigation)
    - Safe areas: Padding for notch/island
-    - Keyboard handling: Adapts when keyboard open
-    - Haptic feedback: On step transitions
+   - Keyboard handling: Adapts when keyboard open
+   - Haptic feedback: On step transitions
 
 8. **Completion Criteria:**
    - All steps completed OR user skips

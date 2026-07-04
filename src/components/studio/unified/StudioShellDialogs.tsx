@@ -123,17 +123,36 @@ export interface StudioShellDialogsProps {
   onAddTrack: (type: TrackType, name: string) => void;
   onStemSeparation: (mode: "simple" | "detailed") => Promise<void>;
   onSeek: (time: number) => void;
-  pendingGenerationContextRef: React.MutableRefObject<Map<string, { type: "replace_instrumental"; existingId?: string }>>;
+  pendingGenerationContextRef: React.MutableRefObject<
+    Map<string, { type: "replace_instrumental"; existingId?: string }>
+  >;
 }
 
 export const StudioShellDialogs = memo(function StudioShellDialogs(props: StudioShellDialogsProps) {
   const {
-    isMobile, project, sourceTrackId, sourceTrack, duration, currentTime, isPlaying,
-    audioTracks, detectedSections, hasUnsavedChanges, isSaving, isSeparating,
-    trackEffects, setTrackEffects,
+    isMobile,
+    project,
+    sourceTrackId,
+    sourceTrack,
+    duration,
+    currentTime,
+    isPlaying,
+    audioTracks,
+    detectedSections,
+    hasUnsavedChanges,
+    isSaving,
+    isSeparating,
+    trackEffects,
+    setTrackEffects,
   } = props;
 
-  const { addTrack, addClip, addPendingTrack, resolvePendingTrack, removeTrack: removeTrackFromStore } = useUnifiedStudioStore();
+  const {
+    addTrack,
+    addClip,
+    addPendingTrack,
+    resolvePendingTrack,
+    removeTrack: removeTrackFromStore,
+  } = useUnifiedStudioStore();
   const navigate = useNavigate();
 
   const clearSelection = () => {
@@ -241,7 +260,11 @@ export const StudioShellDialogs = memo(function StudioShellDialogs(props: Studio
       />
 
       {/* Add Track Dialog */}
-      <AddTrackDialog open={props.showAddTrackDialog} onOpenChange={props.setShowAddTrackDialog} onAdd={props.onAddTrack} />
+      <AddTrackDialog
+        open={props.showAddTrackDialog}
+        onOpenChange={props.setShowAddTrackDialog}
+        onAdd={props.onAddTrack}
+      />
 
       {/* Import Audio Dialog */}
       <ImportAudioDialog
@@ -294,7 +317,9 @@ export const StudioShellDialogs = memo(function StudioShellDialogs(props: Studio
             : null
         }
         effects={
-          props.selectedEffectsTrack ? trackEffects[props.selectedEffectsTrack.id] || defaultStemEffects : defaultStemEffects
+          props.selectedEffectsTrack
+            ? trackEffects[props.selectedEffectsTrack.id] || defaultStemEffects
+            : defaultStemEffects
         }
         onUpdateEQ={(settings) => {
           if (!props.selectedEffectsTrack) return;
@@ -443,7 +468,9 @@ export const StudioShellDialogs = memo(function StudioShellDialogs(props: Studio
           {props.selectedTranscriptionTrack && (
             <StudioTranscriptionPanel
               track={props.selectedTranscriptionTrack}
-              audioUrl={props.selectedTranscriptionTrack.audioUrl || props.selectedTranscriptionTrack.clips?.[0]?.audioUrl || ""}
+              audioUrl={
+                props.selectedTranscriptionTrack.audioUrl || props.selectedTranscriptionTrack.clips?.[0]?.audioUrl || ""
+              }
               trackId={sourceTrackId || undefined}
               stemType={props.selectedTranscriptionTrack.type}
               onComplete={() => {}}

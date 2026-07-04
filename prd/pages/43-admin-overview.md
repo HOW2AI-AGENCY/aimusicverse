@@ -10,6 +10,7 @@
 The Admin Overview page serves as the central command dashboard for MusicVerse AI platform administrators. It provides real-time statistics, quick access to key administrative functions, system health monitoring, and recent activity feeds.
 
 **Primary Use Cases:**
+
 - Monitor platform-wide statistics and metrics
 - Track system health and performance
 - Access quick administrative actions
@@ -40,21 +41,21 @@ The Admin Overview page serves as the central command dashboard for MusicVerse A
 
 ### Key Metrics Section
 
-| Metric | Type | Format | Notes |
-|--------|------|--------|-------|
-| Total Users | Number | "12,458" | Lifetime registered users |
-| Active Users | Number | "1,234" | Active in last 24 hours |
-| Today's Generations | Number | "1,234" | Tracks generated today |
-| System Health | Percentage | "98.5%" | Uptime/performance score |
+| Metric              | Type       | Format   | Notes                     |
+| ------------------- | ---------- | -------- | ------------------------- |
+| Total Users         | Number     | "12,458" | Lifetime registered users |
+| Active Users        | Number     | "1,234"  | Active in last 24 hours   |
+| Today's Generations | Number     | "1,234"  | Tracks generated today    |
+| System Health       | Percentage | "98.5%"  | Uptime/performance score  |
 
 ### Quick Actions Section
 
-| Action | Route | Purpose |
-|--------|-------|---------|
-| Users | `/admin/users` | User management and moderation |
-| Tracks | `/admin/tracks` | Content moderation and management |
-| Economy | `/admin/economy` | Credit system and transaction monitoring |
-| Analytics | `/admin/analytics` | Detailed analytics and reports |
+| Action    | Route              | Purpose                                  |
+| --------- | ------------------ | ---------------------------------------- |
+| Users     | `/admin/users`     | User management and moderation           |
+| Tracks    | `/admin/tracks`    | Content moderation and management        |
+| Economy   | `/admin/economy`   | Credit system and transaction monitoring |
+| Analytics | `/admin/analytics` | Detailed analytics and reports           |
 
 ---
 
@@ -63,6 +64,7 @@ The Admin Overview page serves as the central command dashboard for MusicVerse A
 ### Page Load
 
 **Behavior:**
+
 1. Verify admin role via `useAuth()`
 2. Fetch platform statistics via `useAdminStats()`
 3. Fetch recent activity via `useAdminActivity()`
@@ -70,6 +72,7 @@ The Admin Overview page serves as the central command dashboard for MusicVerse A
 5. Render dashboard with all sections
 
 **API Calls:**
+
 - `GET /api/admin/stats/overview` — Platform statistics
 - `GET /api/admin/activity/recent` — Recent activity feed
 - `GET /api/admin/alerts/active` — Active system alerts
@@ -77,10 +80,12 @@ The Admin Overview page serves as the central command dashboard for MusicVerse A
 ### Metric Cards
 
 **Hover Interaction:**
+
 - **Trigger:** Hover over metric card
 - **Behavior:** Show tooltip with additional details
 
 **Click Interaction:**
+
 - **Trigger:** Click metric card
 - **Behavior:** Navigate to detailed analytics page
 
@@ -88,11 +93,11 @@ The Admin Overview page serves as the central command dashboard for MusicVerse A
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Overview Stats | GET | /api/admin/stats/overview | Page load | Platform metrics |
-| Get Recent Activity | GET | /api/admin/activity/recent | Page load | Last 50 events |
-| Resolve Alert | POST | /api/admin/alerts/{id}/resolve | Resolve button | Mark as resolved |
+| API                 | Method | Path                           | Trigger        | Notes            |
+| ------------------- | ------ | ------------------------------ | -------------- | ---------------- |
+| Get Overview Stats  | GET    | /api/admin/stats/overview      | Page load      | Platform metrics |
+| Get Recent Activity | GET    | /api/admin/activity/recent     | Page load      | Last 50 events   |
+| Resolve Alert       | POST   | /api/admin/alerts/{id}/resolve | Resolve button | Mark as resolved |
 
 ---
 

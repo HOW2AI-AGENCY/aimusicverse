@@ -139,7 +139,6 @@ export const SectionHeader = memo(function SectionHeader({
               ) : (
                 badge
               ))}
-
           </div>
           {subtitle && (
             <Text variant={textSize} className="truncate text-muted-foreground">

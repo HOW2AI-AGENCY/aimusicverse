@@ -9,6 +9,7 @@
 The Playlists Page allows users to browse and manage their music playlists. Users can create new playlists, edit existing ones, share with others, and delete unwanted playlists. Features desktop master-detail layout with preview panel and mobile list view.
 
 **Primary Use Cases:**
+
 - Browse all user playlists
 - Create new playlist
 - Edit playlist (title, description, cover)
@@ -58,24 +59,24 @@ The Playlists Page allows users to browse and manage their music playlists. User
 
 ### Playlist Card
 
-| Field | Format | Notes |
-|-------|--------|-------|
-| Cover Art | Image (200×200px) | Playlist cover or grid of track covers |
-| Title | Text (H3) | Playlist name |
-| Track Count | Text | "12 tracks" |
-| Total Duration | Text | "45 мин" (formatted) |
-| Actions | Buttons | Edit, Share, Delete (3-dot menu) |
+| Field          | Format            | Notes                                  |
+| -------------- | ----------------- | -------------------------------------- |
+| Cover Art      | Image (200×200px) | Playlist cover or grid of track covers |
+| Title          | Text (H3)         | Playlist name                          |
+| Track Count    | Text              | "12 tracks"                            |
+| Total Duration | Text              | "45 мин" (formatted)                   |
+| Actions        | Buttons           | Edit, Share, Delete (3-dot menu)       |
 
 ### Playlist Preview Panel (Desktop)
 
-| Section | Content |
-|---------|---------|
-| Cover Art | Large cover (300×300px) |
-| Title | Playlist name (H2) |
-| Description | Text (multi-line) |
-| Statistics | Track count, total duration, created date |
-| Track List | First 20 tracks |
-| Actions | Play All, Edit, Share, Delete |
+| Section     | Content                                   |
+| ----------- | ----------------------------------------- |
+| Cover Art   | Large cover (300×300px)                   |
+| Title       | Playlist name (H2)                        |
+| Description | Text (multi-line)                         |
+| Statistics  | Track count, total duration, created date |
+| Track List  | First 20 tracks                           |
+| Actions     | Play All, Edit, Share, Delete             |
 
 ---
 
@@ -84,11 +85,13 @@ The Playlists Page allows users to browse and manage their music playlists. User
 ### Page Load
 
 **Behavior:**
+
 1. Fetch user playlists via `usePlaylists()`
 2. Setup Telegram Back Button (returns to home)
 3. Render playlist grid with loading skeletons
 
 **API Calls:**
+
 - `GET /api/playlists?user_id={userId}` — User's playlists
 
 ### Create Playlist
@@ -96,6 +99,7 @@ The Playlists Page allows users to browse and manage their music playlists. User
 **Trigger:** Click "+ Create" button
 
 **Behavior:**
+
 1. Open create dialog:
    - Title (required)
    - Description (optional)
@@ -105,6 +109,7 @@ The Playlists Page allows users to browse and manage their music playlists. User
 4. On success: Refresh playlist list, show "Playlist created!" toast
 
 **API Request:**
+
 ```typescript
 POST /api/playlists
 {
@@ -120,6 +125,7 @@ POST /api/playlists
 **Trigger:** Click "Edit" button on playlist
 
 **Behavior:**
+
 1. Open edit dialog (pre-filled with current data)
 2. User edits fields
 3. Call API: `PATCH /api/playlists/{id}`
@@ -130,6 +136,7 @@ POST /api/playlists
 **Trigger:** Click "Delete" button
 
 **Behavior:**
+
 1. Show confirmation: "Delete '{title}'?"
 2. User confirms
 3. Call API: `DELETE /api/playlists/{id}`
@@ -140,6 +147,7 @@ POST /api/playlists
 **Trigger:** Click "Share" button
 
 **Behavior:**
+
 1. Open share dialog
 2. Generate deep link: `t.me/AIMusicVerseBot/app?startapp=playlist={id}`
 3. Open Telegram share dialog
@@ -147,23 +155,25 @@ POST /api/playlists
 
 ## API Dependencies
 
-| API | Method | Path | Trigger | Notes |
-|-----|--------|------|---------|-------|
-| Get Playlists | GET | /api/playlists?user_id={userId} | Page load | User's playlists |
-| Create Playlist | POST | /api/playlists | Create dialog | Creates new playlist |
-| Update Playlist | PATCH | /api/playlists/{id} | Edit dialog | Updates playlist |
-| Delete Playlist | DELETE | /api/playlists/{id} | Delete action | Deletes playlist |
-| Add Track to Playlist | POST | /api/playlists/{id}/tracks | Add track | Links track |
-| Remove Track | DELETE | /api/playlists/{id}/tracks/{trackId} | Remove action | Unlinks track |
+| API                   | Method | Path                                 | Trigger       | Notes                |
+| --------------------- | ------ | ------------------------------------ | ------------- | -------------------- |
+| Get Playlists         | GET    | /api/playlists?user_id={userId}      | Page load     | User's playlists     |
+| Create Playlist       | POST   | /api/playlists                       | Create dialog | Creates new playlist |
+| Update Playlist       | PATCH  | /api/playlists/{id}                  | Edit dialog   | Updates playlist     |
+| Delete Playlist       | DELETE | /api/playlists/{id}                  | Delete action | Deletes playlist     |
+| Add Track to Playlist | POST   | /api/playlists/{id}/tracks           | Add track     | Links track          |
+| Remove Track          | DELETE | /api/playlists/{id}/tracks/{trackId} | Remove action | Unlinks track        |
 
 ## Page Relationships
 
 **From:**
+
 - `/` (Home) → Click "Playlists" in navigation
 - `/library` → Click "Add to Playlist" on track
 - Deep link → `startapp=playlist={id}` opens playlist
 
 **To:**
+
 - `/library` → Browse tracks to add to playlist
 - `/playlists/{id}` — Not implemented (playlist detail same as preview)
 - `/` (Home) → Back button

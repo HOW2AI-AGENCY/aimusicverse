@@ -28,10 +28,12 @@
 ## File Structure
 
 ### New files
+
 - `src/components/ui/textarea-with-overlay.tsx` — composed textarea + floating counter + overlay slots.
 - `src/hooks/useScrollLock.ts` — body scroll lock (≤30 LOC).
 
 ### Modified files
+
 - `src/lib/utils.ts` — add `cnInteractive(opts?)` helper.
 - `src/components/generate-form/FormSection.tsx` — opt-in `elevated` glass-card surface.
 - `src/components/generate-form/SectionLabel.tsx` — preserve existing hint button focus ring.
@@ -46,11 +48,13 @@
 - `src/__tests__/generate-form.test.tsx` — update role queries from `button` → `radio` for vocal toggle (per spec §10).
 
 ### New tests
+
 - `src/components/generate-form/__tests__/TextareaWithOverlay.test.tsx`
 - `src/__tests__/generate-form.a11y.test.tsx`
 - `tests/e2e/mobile/generate-form.spec.ts`
 
 ### Out of scope (DO NOT TOUCH)
+
 - `Button` shadcn primitive.
 - `dialog.tsx` / `alert-dialog.tsx` / `unified-dialog.types.ts` (z-index already correct).
 - `playerStore`, `usePlayerStore` — z-30 baseline already correct.
@@ -60,41 +64,43 @@
 ## Task 1: `cnInteractive()` design-token utility
 
 **Files:**
+
 - Modify: `src/lib/utils.ts` (append helper at end of file)
 - Test: `src/__tests__/cn-interactive.test.ts` (new)
 
 **Interfaces:**
+
 - Produces: `cnInteractive(opts?: { hover?: boolean; ring?: 'primary' | 'destructive' }): string` — returns Tailwind class string applied via `cn()`.
 
 - [ ] **Step 1: Write the failing test**
 
 ```ts
 // src/__tests__/cn-interactive.test.ts
-import { describe, it, expect } from 'vitest';
-import { cnInteractive } from '@/lib/utils';
+import { describe, it, expect } from "vitest";
+import { cnInteractive } from "@/lib/utils";
 
-describe('cnInteractive', () => {
-  it('returns default interactive classes with hover and primary ring', () => {
+describe("cnInteractive", () => {
+  it("returns default interactive classes with hover and primary ring", () => {
     const classes = cnInteractive();
-    expect(classes).toContain('transition-[transform,background-color,border-color,box-shadow]');
-    expect(classes).toContain('duration-200');
-    expect(classes).toContain('ease-out');
-    expect(classes).toContain('active:scale-[0.97]');
-    expect(classes).toContain('hover:-translate-y-0.5');
-    expect(classes).toContain('focus-visible:ring-primary/60');
-    expect(classes).not.toContain('hover:-translate-y-0.5 hover:hidden'); // sanity: not double
+    expect(classes).toContain("transition-[transform,background-color,border-color,box-shadow]");
+    expect(classes).toContain("duration-200");
+    expect(classes).toContain("ease-out");
+    expect(classes).toContain("active:scale-[0.97]");
+    expect(classes).toContain("hover:-translate-y-0.5");
+    expect(classes).toContain("focus-visible:ring-primary/60");
+    expect(classes).not.toContain("hover:-translate-y-0.5 hover:hidden"); // sanity: not double
   });
 
-  it('omits hover classes when hover=false', () => {
+  it("omits hover classes when hover=false", () => {
     const classes = cnInteractive({ hover: false });
-    expect(classes).not.toContain('hover:-translate-y-0.5');
-    expect(classes).toContain('active:scale-[0.97]');
+    expect(classes).not.toContain("hover:-translate-y-0.5");
+    expect(classes).toContain("active:scale-[0.97]");
   });
 
-  it('uses destructive ring when ring=destructive', () => {
-    const classes = cnInteractive({ ring: 'destructive' });
-    expect(classes).toContain('focus-visible:ring-destructive/60');
-    expect(classes).not.toContain('focus-visible:ring-primary/60');
+  it("uses destructive ring when ring=destructive", () => {
+    const classes = cnInteractive({ ring: "destructive" });
+    expect(classes).toContain("focus-visible:ring-destructive/60");
+    expect(classes).not.toContain("focus-visible:ring-primary/60");
   });
 });
 ```
@@ -117,35 +123,28 @@ Open `src/lib/utils.ts`, find the last export, then append:
  *                    inline radio buttons where vertical lift is unwanted.
  * @param opts.ring   Focus ring colour. Default 'primary'.
  */
-export function cnInteractive(opts?: {
-  hover?: boolean;
-  ring?: 'primary' | 'destructive';
-}): string {
+export function cnInteractive(opts?: { hover?: boolean; ring?: "primary" | "destructive" }): string {
   const hover = opts?.hover ?? true;
-  const ringColour = (opts?.ring ?? 'primary') === 'destructive'
-    ? 'focus-visible:ring-destructive/60'
-    : 'focus-visible:ring-primary/60';
+  const ringColour =
+    (opts?.ring ?? "primary") === "destructive" ? "focus-visible:ring-destructive/60" : "focus-visible:ring-primary/60";
 
   const classes = [
-    'transition-[transform,background-color,border-color,box-shadow]',
-    'duration-200',
-    'ease-out',
-    'active:scale-[0.97]',
-    'focus-visible:outline-none',
-    'focus-visible:ring-2',
+    "transition-[transform,background-color,border-color,box-shadow]",
+    "duration-200",
+    "ease-out",
+    "active:scale-[0.97]",
+    "focus-visible:outline-none",
+    "focus-visible:ring-2",
     ringColour,
-    'focus-visible:ring-offset-2',
-    'focus-visible:ring-offset-background',
+    "focus-visible:ring-offset-2",
+    "focus-visible:ring-offset-background",
   ];
 
   if (hover) {
-    classes.push(
-      'hover:-translate-y-0.5',
-      'hover:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.35)]',
-    );
+    classes.push("hover:-translate-y-0.5", "hover:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.35)]");
   }
 
-  return classes.join(' ');
+  return classes.join(" ");
 }
 ```
 
@@ -166,41 +165,45 @@ git commit -m "feat(utils): add cnInteractive helper for unified form focus stat
 ## Task 2: `useScrollLock` hook
 
 **Files:**
+
 - Create: `src/hooks/useScrollLock.ts`
 - Test: `src/__tests__/useScrollLock.test.ts` (new)
 
 **Interfaces:**
+
 - Produces: `useScrollLock(active: boolean): void` — locks `<body>` overflow while `active === true`. Restores prior overflow on unmount or when `active` flips to false.
 
 - [ ] **Step 1: Write the failing test**
 
 ```ts
 // src/__tests__/useScrollLock.test.ts
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { renderHook } from '@testing-library/react';
-import { useScrollLock } from '@/hooks/useScrollLock';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { renderHook } from "@testing-library/react";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
-describe('useScrollLock', () => {
+describe("useScrollLock", () => {
   const original = document.body.style.overflow;
-  afterEach(() => { document.body.style.overflow = original; });
+  afterEach(() => {
+    document.body.style.overflow = original;
+  });
 
-  it('sets body overflow to hidden when active=true', () => {
+  it("sets body overflow to hidden when active=true", () => {
     renderHook(() => useScrollLock(true));
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe("hidden");
   });
 
-  it('does not change overflow when active=false', () => {
-    document.body.style.overflow = 'auto';
+  it("does not change overflow when active=false", () => {
+    document.body.style.overflow = "auto";
     renderHook(() => useScrollLock(false));
-    expect(document.body.style.overflow).toBe('auto');
+    expect(document.body.style.overflow).toBe("auto");
   });
 
-  it('restores prior overflow on unmount', () => {
-    document.body.style.overflow = 'scroll';
+  it("restores prior overflow on unmount", () => {
+    document.body.style.overflow = "scroll";
     const { unmount } = renderHook(() => useScrollLock(true));
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.style.overflow).toBe("hidden");
     unmount();
-    expect(document.body.style.overflow).toBe('scroll');
+    expect(document.body.style.overflow).toBe("scroll");
   });
 });
 ```
@@ -214,7 +217,7 @@ Expected: FAIL with "Cannot find module '@/hooks/useScrollLock'".
 
 ```ts
 // src/hooks/useScrollLock.ts
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 /**
  * Lock document body scroll while `active` is true.
@@ -225,7 +228,7 @@ export function useScrollLock(active: boolean): void {
   useEffect(() => {
     if (!active) return;
     const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previous;
     };
@@ -250,10 +253,12 @@ git commit -m "feat(hooks): add useScrollLock for body overflow control"
 ## Task 3: `TextareaWithOverlay` component (TDD)
 
 **Files:**
+
 - Create: `src/components/ui/textarea-with-overlay.tsx`
 - Test: `src/components/generate-form/__tests__/TextareaWithOverlay.test.tsx` (new)
 
 **Interfaces:**
+
 - Consumes: standard React props for a textarea wrapper. No imports from later tasks.
 - Produces: `<TextareaWithOverlay>` with the prop shape defined in spec §4.
 
@@ -265,7 +270,7 @@ interface TextareaWithOverlayProps {
   placeholder?: string;
   ariaLabel: string;
   ariaDescribedBy?: string;
-  rows?: number;          // default 4
+  rows?: number; // default 4
   overlayLeft?: React.ReactNode;
   overlayRight?: React.ReactNode;
   invalid?: boolean;
@@ -277,56 +282,56 @@ interface TextareaWithOverlayProps {
 
 ```tsx
 // src/components/generate-form/__tests__/TextareaWithOverlay.test.tsx
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { TextareaWithOverlay } from '@/components/ui/textarea-with-overlay';
+import { describe, it, expect, vi } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { TextareaWithOverlay } from "@/components/ui/textarea-with-overlay";
 
-describe('TextareaWithOverlay', () => {
+describe("TextareaWithOverlay", () => {
   const baseProps = {
-    value: '',
+    value: "",
     onChange: vi.fn(),
     maxLength: 500,
-    ariaLabel: 'Описание трека',
+    ariaLabel: "Описание трека",
   };
 
-  it('renders a textarea with the supplied aria-label', () => {
+  it("renders a textarea with the supplied aria-label", () => {
     render(<TextareaWithOverlay {...baseProps} />);
-    expect(screen.getByRole('textbox', { name: /описание трека/i })).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /описание трека/i })).toBeInTheDocument();
   });
 
   it('renders counter "0/500" in default colour', () => {
     render(<TextareaWithOverlay {...baseProps} />);
-    const counter = screen.getByTestId('textarea-counter');
-    expect(counter).toHaveTextContent('0/500');
+    const counter = screen.getByTestId("textarea-counter");
+    expect(counter).toHaveTextContent("0/500");
     expect(counter.className).toMatch(/text-muted-foreground/);
   });
 
-  it('shifts counter to yellow past 400 chars', () => {
-    render(<TextareaWithOverlay {...baseProps} value={'a'.repeat(420)} />);
-    const counter = screen.getByTestId('textarea-counter');
+  it("shifts counter to yellow past 400 chars", () => {
+    render(<TextareaWithOverlay {...baseProps} value={"a".repeat(420)} />);
+    const counter = screen.getByTestId("textarea-counter");
     expect(counter.className).toMatch(/text-yellow-500/);
   });
 
-  it('shifts counter to destructive and sets aria-invalid past maxLength', () => {
-    render(<TextareaWithOverlay {...baseProps} value={'a'.repeat(510)} invalid />);
-    const counter = screen.getByTestId('textarea-counter');
+  it("shifts counter to destructive and sets aria-invalid past maxLength", () => {
+    render(<TextareaWithOverlay {...baseProps} value={"a".repeat(510)} invalid />);
+    const counter = screen.getByTestId("textarea-counter");
     expect(counter.className).toMatch(/text-destructive/);
-    expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true');
+    expect(screen.getByRole("textbox")).toHaveAttribute("aria-invalid", "true");
   });
 
-  it('counter is announced via aria-live polite', () => {
+  it("counter is announced via aria-live polite", () => {
     render(<TextareaWithOverlay {...baseProps} />);
-    expect(screen.getByTestId('textarea-counter')).toHaveAttribute('aria-live', 'polite');
+    expect(screen.getByTestId("textarea-counter")).toHaveAttribute("aria-live", "polite");
   });
 
-  it('calls onChange when typing', () => {
+  it("calls onChange when typing", () => {
     const onChange = vi.fn();
     render(<TextareaWithOverlay {...baseProps} onChange={onChange} />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'pop' } });
-    expect(onChange).toHaveBeenCalledWith('pop');
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "pop" } });
+    expect(onChange).toHaveBeenCalledWith("pop");
   });
 
-  it('renders overlayLeft and overlayRight slots', () => {
+  it("renders overlayLeft and overlayRight slots", () => {
     render(
       <TextareaWithOverlay
         {...baseProps}
@@ -334,8 +339,8 @@ describe('TextareaWithOverlay', () => {
         overlayRight={<button data-testid="right">R</button>}
       />,
     );
-    expect(screen.getByTestId('left')).toBeInTheDocument();
-    expect(screen.getByTestId('right')).toBeInTheDocument();
+    expect(screen.getByTestId("left")).toBeInTheDocument();
+    expect(screen.getByTestId("right")).toBeInTheDocument();
   });
 });
 ```
@@ -349,9 +354,9 @@ Expected: FAIL with "Cannot find module".
 
 ```tsx
 // src/components/ui/textarea-with-overlay.tsx
-import { useCallback, forwardRef } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
+import { useCallback, forwardRef } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 export interface TextareaWithOverlayProps {
   value: string;
@@ -368,9 +373,9 @@ export interface TextareaWithOverlayProps {
 }
 
 function counterColour(valueLength: number, maxLength: number): string {
-  if (valueLength > maxLength) return 'text-destructive';
-  if (valueLength > 400) return 'text-yellow-500';
-  return 'text-muted-foreground';
+  if (valueLength > maxLength) return "text-destructive";
+  if (valueLength > 400) return "text-yellow-500";
+  return "text-muted-foreground";
 }
 
 export const TextareaWithOverlay = forwardRef<HTMLTextAreaElement, TextareaWithOverlayProps>(
@@ -399,7 +404,7 @@ export const TextareaWithOverlay = forwardRef<HTMLTextAreaElement, TextareaWithO
     const ariaInvalid = invalid || isOverLimit;
 
     return (
-      <div className={cn('relative', className)}>
+      <div className={cn("relative", className)}>
         <Textarea
           ref={ref}
           rows={rows}
@@ -410,23 +415,21 @@ export const TextareaWithOverlay = forwardRef<HTMLTextAreaElement, TextareaWithO
           aria-invalid={ariaInvalid}
           onChange={handleChange}
           className={cn(
-            'resize-none text-[15px] leading-relaxed px-3.5 pt-3 pb-12 rounded-xl',
-            'bg-muted/30 border-muted-foreground/20',
-            'focus:border-primary/50 focus:ring-primary/20 transition-colors',
-            'min-h-[112px] max-h-[40vh] xs:max-h-[260px] overflow-y-auto',
-            ariaInvalid && 'border-destructive focus-visible:ring-destructive',
+            "resize-none text-[15px] leading-relaxed px-3.5 pt-3 pb-12 rounded-xl",
+            "bg-muted/30 border-muted-foreground/20",
+            "focus:border-primary/50 focus:ring-primary/20 transition-colors",
+            "min-h-[112px] max-h-[40vh] xs:max-h-[260px] overflow-y-auto",
+            ariaInvalid && "border-destructive focus-visible:ring-destructive",
           )}
         />
         <div className="absolute inset-x-3 bottom-2 flex items-center justify-between gap-2 pointer-events-none">
-          <div className="flex items-center gap-0.5 pointer-events-auto">
-            {overlayLeft}
-          </div>
+          <div className="flex items-center gap-0.5 pointer-events-auto">{overlayLeft}</div>
           <div className="flex items-center gap-2 pointer-events-auto">
             <span
               data-testid="textarea-counter"
               aria-live="polite"
               className={cn(
-                'text-[11px] font-medium tabular-nums transition-colors duration-150',
+                "text-[11px] font-medium tabular-nums transition-colors duration-150",
                 counterColour(value.length, maxLength),
               )}
             >
@@ -467,10 +470,12 @@ git commit -m "feat(ui): add TextareaWithOverlay with floating counter"
 ## Task 4: `FormSection` elevated glass-card surface
 
 **Files:**
+
 - Modify: `src/components/generate-form/FormSection.tsx`
 - Test: (covered by existing snapshot tests + manual visual check)
 
 **Interfaces:**
+
 - Consumes: `cnInteractive()` from Task 1, `glass.subtle` from `src/lib/design-tokens.ts`.
 - Produces: `<FormSection elevated?={false} className?>` — opt-in glass card variant, default behaviour unchanged.
 
@@ -489,19 +494,19 @@ Note: `elevated` prop already exists in the type but is currently ignored. Verif
 
 ```tsx
 // src/components/generate-form/__tests__/FormSection.test.tsx
-import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
-import { FormSection } from '@/components/generate-form/FormSection';
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
+import { FormSection } from "@/components/generate-form/FormSection";
 
-describe('FormSection', () => {
-  it('renders a plain wrapper when elevated is false (default)', () => {
+describe("FormSection", () => {
+  it("renders a plain wrapper when elevated is false (default)", () => {
     const { container } = render(<FormSection>x</FormSection>);
     const root = container.firstChild as HTMLElement;
     expect(root.className).not.toMatch(/backdrop-blur/);
     expect(root.className).toMatch(/space-y-2\.5/);
   });
 
-  it('renders a glass card when elevated is true', () => {
+  it("renders a glass card when elevated is true", () => {
     const { container } = render(<FormSection elevated>x</FormSection>);
     const root = container.firstChild as HTMLElement;
     expect(root.className).toMatch(/backdrop-blur/);
@@ -521,8 +526,8 @@ Expected: FAIL on the elevated assertion (no `backdrop-blur`).
 Open `src/components/generate-form/FormSection.tsx` and replace the `FormSection` function body:
 
 ```tsx
-import { memo } from 'react';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { cn } from "@/lib/utils";
 
 export interface FormSectionProps {
   children: React.ReactNode;
@@ -530,20 +535,16 @@ export interface FormSectionProps {
   elevated?: boolean;
 }
 
-export const FormSection = memo(function FormSection({
-  children,
-  className,
-  elevated = false,
-}: FormSectionProps) {
+export const FormSection = memo(function FormSection({ children, className, elevated = false }: FormSectionProps) {
   return (
     <div
       className={cn(
-        'space-y-2.5',
+        "space-y-2.5",
         elevated &&
           cn(
-            'p-3.5 rounded-2xl',
-            'border border-border/40 bg-card/40 backdrop-blur-sm',
-            'shadow-[0_1px_0_0_hsl(var(--border)/0.4)]',
+            "p-3.5 rounded-2xl",
+            "border border-border/40 bg-card/40 backdrop-blur-sm",
+            "shadow-[0_1px_0_0_hsl(var(--border)/0.4)]",
           ),
         className,
       )}
@@ -572,10 +573,12 @@ git commit -m "feat(form-section): opt-in elevated glass-card variant"
 ## Task 5: `VocalsToggle` — real `role="radiogroup"`
 
 **Files:**
+
 - Modify: `src/components/generate-form/sections/VocalsToggle.tsx`
 - Test: `src/components/generate-form/__tests__/VocalsToggle.test.tsx` (new)
 
 **Interfaces:**
+
 - Consumes: `cnInteractive({ hover: false })` from Task 1.
 - Produces: `VocalsToggle` with same prop contract (`value: 'vocals' | 'instrumental'`, `onChange`). Renders `<div role="radiogroup" aria-label="Тип трека">` with two `<button role="radio">` children. Arrow keys move selection (Home/End jump).
 
@@ -583,48 +586,48 @@ git commit -m "feat(form-section): opt-in elevated glass-card variant"
 
 ```tsx
 // src/components/generate-form/__tests__/VocalsToggle.test.tsx
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { VocalsToggle } from '@/components/generate-form/sections/VocalsToggle';
+import { describe, it, expect, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { VocalsToggle } from "@/components/generate-form/sections/VocalsToggle";
 
-describe('VocalsToggle', () => {
-  it('renders as a radio group with two options', () => {
+describe("VocalsToggle", () => {
+  it("renders as a radio group with two options", () => {
     render(<VocalsToggle value="vocals" onChange={() => {}} />);
-    expect(screen.getByRole('radiogroup', { name: /тип трека/i })).toBeInTheDocument();
-    expect(screen.getAllByRole('radio')).toHaveLength(2);
+    expect(screen.getByRole("radiogroup", { name: /тип трека/i })).toBeInTheDocument();
+    expect(screen.getAllByRole("radio")).toHaveLength(2);
   });
 
-  it('marks the selected option with aria-checked=true', () => {
+  it("marks the selected option with aria-checked=true", () => {
     render(<VocalsToggle value="vocals" onChange={() => {}} />);
-    expect(screen.getByRole('radio', { name: /вокал/i })).toHaveAttribute('aria-checked', 'true');
-    expect(screen.getByRole('radio', { name: /инструментал/i })).toHaveAttribute('aria-checked', 'false');
+    expect(screen.getByRole("radio", { name: /вокал/i })).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("radio", { name: /инструментал/i })).toHaveAttribute("aria-checked", "false");
   });
 
-  it('uses roving tabindex: only selected has tabindex=0', () => {
+  it("uses roving tabindex: only selected has tabindex=0", () => {
     render(<VocalsToggle value="instrumental" onChange={() => {}} />);
-    const vocals = screen.getByRole('radio', { name: /вокал/i });
-    const instrumental = screen.getByRole('radio', { name: /инструментал/i });
-    expect(vocals).toHaveAttribute('tabindex', '-1');
-    expect(instrumental).toHaveAttribute('tabindex', '0');
+    const vocals = screen.getByRole("radio", { name: /вокал/i });
+    const instrumental = screen.getByRole("radio", { name: /инструментал/i });
+    expect(vocals).toHaveAttribute("tabindex", "-1");
+    expect(instrumental).toHaveAttribute("tabindex", "0");
   });
 
-  it('arrow-right moves selection and calls onChange', async () => {
+  it("arrow-right moves selection and calls onChange", async () => {
     const onChange = vi.fn();
     render(<VocalsToggle value="vocals" onChange={onChange} />);
-    const vocals = screen.getByRole('radio', { name: /вокал/i });
+    const vocals = screen.getByRole("radio", { name: /вокал/i });
     vocals.focus();
-    await userEvent.keyboard('{ArrowRight}');
-    expect(onChange).toHaveBeenCalledWith('instrumental');
+    await userEvent.keyboard("{ArrowRight}");
+    expect(onChange).toHaveBeenCalledWith("instrumental");
   });
 
-  it('Home jumps to first option', async () => {
+  it("Home jumps to first option", async () => {
     const onChange = vi.fn();
     render(<VocalsToggle value="instrumental" onChange={onChange} />);
-    const instrumental = screen.getByRole('radio', { name: /инструментал/i });
+    const instrumental = screen.getByRole("radio", { name: /инструментал/i });
     instrumental.focus();
-    await userEvent.keyboard('{Home}');
-    expect(onChange).toHaveBeenCalledWith('vocals');
+    await userEvent.keyboard("{Home}");
+    expect(onChange).toHaveBeenCalledWith("vocals");
   });
 });
 ```
@@ -638,13 +641,13 @@ Expected: FAIL — `radiogroup` not found.
 
 ```tsx
 // src/components/generate-form/sections/VocalsToggle.tsx
-import { memo, useCallback } from 'react';
-import { Mic, Music2 } from '@/lib/icons';
-import { cn } from '@/lib/utils';
-import { cnInteractive } from '@/lib/utils';
-import { logger } from '@/lib/logger';
+import { memo, useCallback } from "react";
+import { Mic, Music2 } from "@/lib/icons";
+import { cn } from "@/lib/utils";
+import { cnInteractive } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
-export type VocalsValue = 'vocals' | 'instrumental';
+export type VocalsValue = "vocals" | "instrumental";
 
 export interface VocalsToggleProps {
   value: VocalsValue;
@@ -652,8 +655,8 @@ export interface VocalsToggleProps {
 }
 
 const OPTIONS: Array<{ value: VocalsValue; label: string; icon: typeof Mic }> = [
-  { value: 'vocals', label: 'Вокал', icon: Mic },
-  { value: 'instrumental', label: 'Инструментал', icon: Music2 },
+  { value: "vocals", label: "Вокал", icon: Mic },
+  { value: "instrumental", label: "Инструментал", icon: Music2 },
 ];
 
 export const VocalsToggle = memo(function VocalsToggle({ value, onChange }: VocalsToggleProps) {
@@ -661,18 +664,18 @@ export const VocalsToggle = memo(function VocalsToggle({ value, onChange }: Voca
     (e: React.KeyboardEvent<HTMLButtonElement>, idx: number) => {
       let nextIdx: number | null = null;
       switch (e.key) {
-        case 'ArrowRight':
-        case 'ArrowDown':
+        case "ArrowRight":
+        case "ArrowDown":
           nextIdx = (idx + 1) % OPTIONS.length;
           break;
-        case 'ArrowLeft':
-        case 'ArrowUp':
+        case "ArrowLeft":
+        case "ArrowUp":
           nextIdx = (idx - 1 + OPTIONS.length) % OPTIONS.length;
           break;
-        case 'Home':
+        case "Home":
           nextIdx = 0;
           break;
-        case 'End':
+        case "End":
           nextIdx = OPTIONS.length - 1;
           break;
         default:
@@ -680,7 +683,7 @@ export const VocalsToggle = memo(function VocalsToggle({ value, onChange }: Voca
       }
       e.preventDefault();
       const next = OPTIONS[nextIdx]!.value;
-      logger.info('[VocalsToggle] keyboard nav', { from: value, to: next });
+      logger.info("[VocalsToggle] keyboard nav", { from: value, to: next });
       onChange(next);
     },
     [onChange, value],
@@ -702,12 +705,12 @@ export const VocalsToggle = memo(function VocalsToggle({ value, onChange }: Voca
             onClick={() => onChange(opt.value)}
             onKeyDown={(e) => handleKeyDown(e, idx)}
             className={cn(
-              'inline-flex items-center gap-2 h-10 px-3 rounded-full font-semibold text-[13px]',
-              'border transition-colors',
+              "inline-flex items-center gap-2 h-10 px-3 rounded-full font-semibold text-[13px]",
+              "border transition-colors",
               cnInteractive({ hover: false }),
               selected
-                ? 'bg-primary text-primary-foreground border-transparent shadow-[0_4px_14px_-4px_hsl(var(--primary)/0.45)]'
-                : 'bg-muted/40 text-muted-foreground border-border/60 hover:border-primary/40 hover:text-foreground',
+                ? "bg-primary text-primary-foreground border-transparent shadow-[0_4px_14px_-4px_hsl(var(--primary)/0.45)]"
+                : "bg-muted/40 text-muted-foreground border-border/60 hover:border-primary/40 hover:text-foreground",
             )}
           >
             <Icon className="w-4 h-4" aria-hidden="true" />
@@ -745,9 +748,11 @@ git commit -m "feat(vocals-toggle): real role=radiogroup with arrow-key roving"
 ## Task 6: `GenerateFormSimple` — adopt new components
 
 **Files:**
+
 - Modify: `src/components/generate-form/GenerateFormSimple.tsx`
 
 **Interfaces:**
+
 - Consumes: `TextareaWithOverlay` (Task 3), `VocalsToggle` (Task 5), `cnInteractive()` (Task 1).
 - Produces: same external `GenerateFormSimpleProps` (no API change).
 
@@ -764,11 +769,9 @@ In `GenerateFormSimple.tsx`, replace the textarea block (around lines 145-211 in
   value={description}
   onChange={onDescriptionChange}
   maxLength={validation.description.maxLength}
-  placeholder={
-    hasVocals ? 'Энергичный поп с запоминающимся припевом...' : 'Атмосферный эмбиент с синтезаторами...'
-  }
-  ariaLabel={hasVocals ? 'Опишите песню' : 'Опишите музыку'}
-  ariaDescribedBy={descriptionValidation ? 'description-error' : undefined}
+  placeholder={hasVocals ? "Энергичный поп с запоминающимся припевом..." : "Атмосферный эмбиент с синтезаторами..."}
+  ariaLabel={hasVocals ? "Опишите песню" : "Опишите музыку"}
+  ariaDescribedBy={descriptionValidation ? "description-error" : undefined}
   rows={4}
   invalid={overLimit}
   overlayLeft={
@@ -779,7 +782,10 @@ In `GenerateFormSimple.tsx`, replace the textarea block (around lines 145-211 in
             type="button"
             variant="ghost"
             size="icon"
-            className={cn('h-8 w-8 min-w-8 p-0 text-muted-foreground hover:text-foreground rounded-lg', cnInteractive({ hover: false }))}
+            className={cn(
+              "h-8 w-8 min-w-8 p-0 text-muted-foreground hover:text-foreground rounded-lg",
+              cnInteractive({ hover: false }),
+            )}
             onClick={handleCopy}
             aria-label="Копировать описание"
           >
@@ -789,7 +795,10 @@ In `GenerateFormSimple.tsx`, replace the textarea block (around lines 145-211 in
             type="button"
             variant="ghost"
             size="icon"
-            className={cn('h-8 w-8 min-w-8 p-0 text-muted-foreground hover:text-destructive rounded-lg', cnInteractive({ hover: false, ring: 'destructive' }))}
+            className={cn(
+              "h-8 w-8 min-w-8 p-0 text-muted-foreground hover:text-destructive rounded-lg",
+              cnInteractive({ hover: false, ring: "destructive" }),
+            )}
             onClick={handleClear}
             aria-label="Очистить описание"
           >
@@ -805,7 +814,7 @@ In `GenerateFormSimple.tsx`, replace the textarea block (around lines 145-211 in
       context="description"
       currentValue={description}
       appendMode
-      className={cn('h-8 w-8 min-w-8 p-0 rounded-lg', cnInteractive({ hover: false }))}
+      className={cn("h-8 w-8 min-w-8 p-0 rounded-lg", cnInteractive({ hover: false }))}
       ariaLabel="Голосовой ввод описания"
     />
   }
@@ -820,8 +829,8 @@ Find the inline `<button role="switch" ...>` block (lines 244-265 in current fil
 
 ```tsx
 <VocalsToggle
-  value={hasVocals ? 'vocals' : 'instrumental'}
-  onChange={(next) => handleVocalsToggle(next === 'vocals')}
+  value={hasVocals ? "vocals" : "instrumental"}
+  onChange={(next) => handleVocalsToggle(next === "vocals")}
 />
 ```
 
@@ -849,6 +858,7 @@ git commit -m "refactor(form-simple): adopt TextareaWithOverlay + VocalsToggle"
 ## Task 7: `StyleSection` — adopt `TextareaWithOverlay`
 
 **Files:**
+
 - Modify: `src/components/generate-form/sections/StyleSection.tsx`
 
 - [ ] **Step 1: Read current file**
@@ -873,7 +883,7 @@ The current implementation uses a `FormFieldActions` overlay. Replace the textar
       context="style"
       currentValue={styleDescription}
       appendMode
-      className={cn('h-8 w-8 min-w-8 p-0 rounded-lg', cnInteractive({ hover: false }))}
+      className={cn("h-8 w-8 min-w-8 p-0 rounded-lg", cnInteractive({ hover: false }))}
       ariaLabel="Голосовой ввод стиля"
     />
   }
@@ -899,6 +909,7 @@ git commit -m "refactor(style-section): adopt TextareaWithOverlay"
 ## Task 8: `AdvancedSettings` — focus ring on vocal-gender buttons
 
 **Files:**
+
 - Modify: `src/components/generate-form/AdvancedSettings.tsx`
 
 - [ ] **Step 1: Read current file**
@@ -937,6 +948,7 @@ git commit -m "refactor(advanced-settings): add focus-visible ring to vocal-gend
 ## Task 9: `GenerateFormActions` chips — `cnInteractive()`
 
 **Files:**
+
 - Modify: `src/components/generate-form/GenerateFormActions.tsx`
 
 - [ ] **Step 1: Replace existing hover/focus utility classes with `cnInteractive()`**
@@ -973,6 +985,7 @@ git commit -m "refactor(form-actions): use cnInteractive for chips"
 ## Task 10: `VoiceInputButton` default `aria-label`
 
 **Files:**
+
 - Modify: `src/components/ui/VoiceInputButton.tsx` (extend props + default)
 
 - [ ] **Step 1: Read current file**
@@ -1007,6 +1020,7 @@ git commit -m "feat(voice-input): default aria-label + per-call override"
 ## Task 11: `GenerateSheet` — z-index, safe-area, scroll-lock wiring
 
 **Files:**
+
 - Modify: `src/components/GenerateSheet.tsx`
 
 - [ ] **Step 1: Read current file**
@@ -1031,7 +1045,8 @@ Find the footer element (currently `px-4 pt-3 pb-4 border-t border-border/40 bg-
 
 ```tsx
 // after
-className="px-4 pt-3 pb-[max(env(safe-area-inset-bottom),16px)] border-t border-border/40 bg-background/95 backdrop-blur-xl"
+className =
+  "px-4 pt-3 pb-[max(env(safe-area-inset-bottom),16px)] border-t border-border/40 bg-background/95 backdrop-blur-xl";
 ```
 
 - [ ] **Step 4: Wire `useScrollLock` to the active dialog state**
@@ -1053,6 +1068,7 @@ Run: `npx tsc --noEmit`
 Expected: exit 0.
 
 Manual check (after `npm run dev`):
+
 - Open sheet on desktop → persona chip → dialog opens above sheet
 - Open sheet on iPhone 12 viewport (Playwright project) → tap persona chip → sheet footer not scrollable
 - Close dialog → sheet scroll restored
@@ -1069,41 +1085,42 @@ git commit -m "fix(sheet): raise loading overlay, safe-area footer, body scroll-
 ## Task 12: Accessibility test for `VocalsToggle`
 
 **Files:**
+
 - Create: `src/__tests__/generate-form.a11y.test.tsx`
 
 - [ ] **Step 1: Write the a11y test**
 
 ```tsx
 // src/__tests__/generate-form.a11y.test.tsx
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import { VocalsToggle } from '@/components/generate-form/sections/VocalsToggle';
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { axe, toHaveNoViolations } from "jest-axe";
+import { VocalsToggle } from "@/components/generate-form/sections/VocalsToggle";
 
 expect.extend(toHaveNoViolations);
 
-describe('VocalsToggle a11y', () => {
-  it('passes axe scan', async () => {
+describe("VocalsToggle a11y", () => {
+  it("passes axe scan", async () => {
     const { container } = render(<VocalsToggle value="vocals" onChange={() => {}} />);
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('exposes exactly one tabbable radio', () => {
+  it("exposes exactly one tabbable radio", () => {
     render(<VocalsToggle value="vocals" onChange={() => {}} />);
-    const radios = screen.getAllByRole('radio');
-    const tabbable = radios.filter((r) => r.getAttribute('tabindex') === '0');
+    const radios = screen.getAllByRole("radio");
+    const tabbable = radios.filter((r) => r.getAttribute("tabindex") === "0");
     expect(tabbable).toHaveLength(1);
-    expect(tabbable[0]).toHaveAttribute('aria-checked', 'true');
+    expect(tabbable[0]).toHaveAttribute("aria-checked", "true");
   });
 
-  it('arrow-key nav moves focus and updates aria-checked', async () => {
+  it("arrow-key nav moves focus and updates aria-checked", async () => {
     const user = userEvent.setup();
     render(<VocalsToggle value="vocals" onChange={() => {}} />);
-    const vocals = screen.getByRole('radio', { name: /вокал/i });
+    const vocals = screen.getByRole("radio", { name: /вокал/i });
     vocals.focus();
-    await user.keyboard('{ArrowRight}');
-    expect(screen.getByRole('radio', { name: /инструментал/i })).toHaveAttribute('aria-checked', 'true');
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("radio", { name: /инструментал/i })).toHaveAttribute("aria-checked", "true");
   });
 });
 ```
@@ -1125,6 +1142,7 @@ git commit -m "test(a11y): VocalsToggle radiogroup semantics + axe scan"
 ## Task 13: E2E mobile scenario
 
 **Files:**
+
 - Create: `tests/e2e/mobile/generate-form.spec.ts`
 
 - [ ] **Step 1: Check playwright config**
@@ -1135,33 +1153,36 @@ Run: `Read playwright.config.ts` — confirm `tests/e2e/mobile/` is included and
 
 ```ts
 // tests/e2e/mobile/generate-form.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Generate form — mobile (iPhone 12)', () => {
-  test('persona picker opens above sheet and locks body scroll', async ({ page }) => {
-    await page.goto('/generate');
-    await page.getByTestId('open-generate-sheet').click();
-    await expect(page.getByTestId('generate-sheet')).toBeVisible();
+test.describe("Generate form — mobile (iPhone 12)", () => {
+  test("persona picker opens above sheet and locks body scroll", async ({ page }) => {
+    await page.goto("/generate");
+    await page.getByTestId("open-generate-sheet").click();
+    await expect(page.getByTestId("generate-sheet")).toBeVisible();
 
-    await page.getByRole('button', { name: /персона/i }).first().click();
-    await expect(page.getByTestId('persona-dialog')).toBeVisible();
+    await page
+      .getByRole("button", { name: /персона/i })
+      .first()
+      .click();
+    await expect(page.getByTestId("persona-dialog")).toBeVisible();
 
     const overflow = await page.evaluate(() => document.body.style.overflow);
-    expect(overflow).toBe('hidden');
+    expect(overflow).toBe("hidden");
 
-    await page.keyboard.press('Escape');
-    await expect(page.getByTestId('persona-dialog')).toBeHidden();
+    await page.keyboard.press("Escape");
+    await expect(page.getByTestId("persona-dialog")).toBeHidden();
     const overflowAfter = await page.evaluate(() => document.body.style.overflow);
-    expect(overflowAfter).not.toBe('hidden');
+    expect(overflowAfter).not.toBe("hidden");
   });
 
-  test('vocal toggle responds to arrow-key navigation', async ({ page }) => {
-    await page.goto('/generate');
-    await page.getByTestId('open-generate-sheet').click();
-    const vocals = page.getByRole('radio', { name: /вокал/i });
+  test("vocal toggle responds to arrow-key navigation", async ({ page }) => {
+    await page.goto("/generate");
+    await page.getByTestId("open-generate-sheet").click();
+    const vocals = page.getByRole("radio", { name: /вокал/i });
     await vocals.focus();
-    await page.keyboard.press('ArrowRight');
-    await expect(page.getByRole('radio', { name: /инструментал/i })).toHaveAttribute('aria-checked', 'true');
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByRole("radio", { name: /инструментал/i })).toHaveAttribute("aria-checked", "true");
   });
 });
 ```
@@ -1169,6 +1190,7 @@ test.describe('Generate form — mobile (iPhone 12)', () => {
 - [ ] **Step 3: Add missing data-testids (if needed)**
 
 For each `data-testid` referenced in the spec (`open-generate-sheet`, `generate-sheet`, `persona-dialog`), add to the corresponding component. Likely places:
+
 - `src/components/generate-form/GenerateFormActions.tsx` — add `data-testid` to the "Персона" chip
 - `src/components/GenerateSheet.tsx` — add `data-testid="generate-sheet"` to the Sheet root
 - Persona picker dialog — add `data-testid="persona-dialog"` to the dialog root
@@ -1192,6 +1214,7 @@ git commit -m "test(e2e): mobile generate-form sheet scroll-lock + vocal radio n
 ## Task 14: Final verification + bundle check
 
 **Files:**
+
 - No code changes; verification only.
 
 - [ ] **Step 1: Run full unit suite**
@@ -1217,6 +1240,7 @@ Edit `CHANGELOG.md` under `[Unreleased]`:
 
 ```md
 ### Changed (Sprint 050)
+
 - Generation form: counter floats inside textarea; layout no longer shifts on overflow.
 - Vocals toggle is now a real `role="radiogroup"` with arrow-key navigation.
 - Unified hover/focus/active state via new `cnInteractive()` utility.
@@ -1236,18 +1260,18 @@ git commit -m "docs(sprint-050): mark complete + changelog entry"
 
 **Spec coverage:**
 
-| Spec § | Topic | Task |
-|--------|-------|------|
-| §3.1 | `cnInteractive()` utility | Task 1 |
-| §3.2 | `FormSection` glass-card | Task 4 |
-| §4 | `TextareaWithOverlay` | Task 3 |
-| §5 | `VocalsToggle` radio group | Task 5 |
-| §6 | z-index + scroll-lock | Tasks 2, 11 |
-| §7 | animations (subtle) | baked into `cnInteractive` (Task 1) + `FormSection` `transition-colors` (Task 4) |
-| §8 | accessibility | Tasks 5, 10, 12 |
-| §9 | tests | Tasks 3 (unit), 12 (a11y), 13 (e2e) |
-| §10 | risks | `useScrollLock` created in Task 2; existing test query updated in Task 5 |
-| §12 | DoD | Task 14 |
+| Spec § | Topic                      | Task                                                                             |
+| ------ | -------------------------- | -------------------------------------------------------------------------------- |
+| §3.1   | `cnInteractive()` utility  | Task 1                                                                           |
+| §3.2   | `FormSection` glass-card   | Task 4                                                                           |
+| §4     | `TextareaWithOverlay`      | Task 3                                                                           |
+| §5     | `VocalsToggle` radio group | Task 5                                                                           |
+| §6     | z-index + scroll-lock      | Tasks 2, 11                                                                      |
+| §7     | animations (subtle)        | baked into `cnInteractive` (Task 1) + `FormSection` `transition-colors` (Task 4) |
+| §8     | accessibility              | Tasks 5, 10, 12                                                                  |
+| §9     | tests                      | Tasks 3 (unit), 12 (a11y), 13 (e2e)                                              |
+| §10    | risks                      | `useScrollLock` created in Task 2; existing test query updated in Task 5         |
+| §12    | DoD                        | Task 14                                                                          |
 
 **Placeholder scan:** No "TBD", no "TODO", no "implement later" — every step has actual code or commands.
 

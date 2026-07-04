@@ -19,32 +19,34 @@
 
 ## Сводка
 
-| Фаза                       | Дни   | Задач | SP  |
-| -------------------------- | ----- | ----- | --- |
-| A: Type Safety wave 2      | 1-5   | 5     | 15  |
-| B: God-files decomposition | 6-10  | 6     | 15  |
-| C: Bundle hardening        | +2    | 1     | 3   |
-| **Итого**                  | 12    | 12    | 33  |
+| Фаза                       | Дни  | Задач | SP  |
+| -------------------------- | ---- | ----- | --- |
+| A: Type Safety wave 2      | 1-5  | 5     | 15  |
+| B: God-files decomposition | 6-10 | 6     | 15  |
+| C: Bundle hardening        | +2   | 1     | 3   |
+| **Итого**                  | 12   | 12    | 33  |
 
 ---
 
 ## Фаза A — Type Safety (Дни 1-5)
 
-| ID      | Файл/слой                          | Текущее `any` | Цель |
-| ------- | ---------------------------------- | ------------- | ---- |
-| 040T-01 | `src/hooks/**`                     | ~180          | <20  |
-| 040T-02 | `src/stores/**`                    | ~80           | <10  |
-| 040T-03 | `src/pages/**`                     | ~90           | <10  |
-| 040T-04 | `src/components/**` (остатки)      | ~90           | <10  |
-| 040T-05 | ESLint `@typescript-eslint/no-explicit-any: error` + whitelist | — | в `.eslintrc` |
+| ID      | Файл/слой                                                      | Текущее `any` | Цель          |
+| ------- | -------------------------------------------------------------- | ------------- | ------------- |
+| 040T-01 | `src/hooks/**`                                                 | ~180          | <20           |
+| 040T-02 | `src/stores/**`                                                | ~80           | <10           |
+| 040T-03 | `src/pages/**`                                                 | ~90           | <10           |
+| 040T-04 | `src/components/**` (остатки)                                  | ~90           | <10           |
+| 040T-05 | ESLint `@typescript-eslint/no-explicit-any: error` + whitelist | —             | в `.eslintrc` |
 
 **Команды:**
+
 ```bash
 grep -rEn ": any|<any>|as any" src/ --include="*.ts" --include="*.tsx" | wc -l
 npx tsgo --noEmit
 ```
 
 **Definition of Done:**
+
 - `any` < 50 в `src/`
 - 0 ошибок `tsc`
 - ESLint rule активен (whitelist <50 случаев)
@@ -53,14 +55,14 @@ npx tsgo --noEmit
 
 ## Фаза B — God-files decomposition (Дни 6-10)
 
-| ID      | Файл                                                       | LOC  | Цель                              |
-| ------- | ---------------------------------------------------------- | ---- | --------------------------------- |
-| 040G-01 | `src/pages/LyricsStudio.tsx`                               | 1092 | LyricsEditor / LyricsPreview / LyricsToolbar |
-| 040G-02 | `src/hooks/usePromptDJEnhanced.ts`                         | 1071 | usePromptDJState / -Audio / -Effects / -Presets |
-| 040G-03 | `src/components/studio/unified/IntegratedStemTracks.tsx`   | 872  | StemRow + StemControls + StemHeader |
-| 040G-04 | `src/components/studio/UnifiedNotesViewer.tsx`             | 855  | NotesList + NotesToolbar + NotesItem |
-| 040G-05 | `src/pages/ProjectDetail.tsx`                              | 851  | ProjectHeader / ProjectTracks / ProjectMembers |
-| 040G-06 | `src/components/generate-form/LyricsVisualEditor.tsx`      | 812  | Editor / Timeline / Sidebar |
+| ID      | Файл                                                     | LOC  | Цель                                            |
+| ------- | -------------------------------------------------------- | ---- | ----------------------------------------------- |
+| 040G-01 | `src/pages/LyricsStudio.tsx`                             | 1092 | LyricsEditor / LyricsPreview / LyricsToolbar    |
+| 040G-02 | `src/hooks/usePromptDJEnhanced.ts`                       | 1071 | usePromptDJState / -Audio / -Effects / -Presets |
+| 040G-03 | `src/components/studio/unified/IntegratedStemTracks.tsx` | 872  | StemRow + StemControls + StemHeader             |
+| 040G-04 | `src/components/studio/UnifiedNotesViewer.tsx`           | 855  | NotesList + NotesToolbar + NotesItem            |
+| 040G-05 | `src/pages/ProjectDetail.tsx`                            | 851  | ProjectHeader / ProjectTracks / ProjectMembers  |
+| 040G-06 | `src/components/generate-form/LyricsVisualEditor.tsx`    | 812  | Editor / Timeline / Sidebar                     |
 
 **DoD:** Каждый файл <500 LOC, тесты зелёные, поведение не меняется.
 
@@ -76,8 +78,8 @@ npx tsgo --noEmit
 
 ## Risks & Mitigations
 
-| Риск                                 | Митигация                                          |
-| ------------------------------------ | -------------------------------------------------- |
-| Поломка контрактов после типизации   | Поэтапные коммиты + `tsc` в pre-push hook          |
-| Регресс в Studio при дроблении файлов| Playwright smoke на `studio-v2` маршрутах          |
-| Бандл вырос из-за split-имплементации| `npm run size` после каждой задачи 040G            |
+| Риск                                  | Митигация                                 |
+| ------------------------------------- | ----------------------------------------- |
+| Поломка контрактов после типизации    | Поэтапные коммиты + `tsc` в pre-push hook |
+| Регресс в Studio при дроблении файлов | Playwright smoke на `studio-v2` маршрутах |
+| Бандл вырос из-за split-имплементации | `npm run size` после каждой задачи 040G   |

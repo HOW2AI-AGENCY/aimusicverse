@@ -9,6 +9,7 @@
 New Studio Project Page allows users to create a new studio project from scratch or by importing existing tracks. Features project setup form with metadata entry and track selection interface.
 
 **Primary Use Cases:**
+
 - Create new empty studio project
 - Import existing track as project base
 - Set project metadata (name, BPM, description)
@@ -43,12 +44,12 @@ New Studio Project Page allows users to create a new studio project from scratch
 
 ## Fields
 
-| Field | Type | Required | Validation | Notes |
-|-------|------|----------|------------|-------|
-| Project Name | Text | Yes | Max 100 chars | Project identifier |
-| Description | Textarea | No | Max 500 chars | Optional description |
-| BPM | Number | No | 60-200 | Tempo (optional) |
-| Initial Tracks | List | No | Max 10 | Tracks to include initially |
+| Field          | Type     | Required | Validation    | Notes                       |
+| -------------- | -------- | -------- | ------------- | --------------------------- |
+| Project Name   | Text     | Yes      | Max 100 chars | Project identifier          |
+| Description    | Textarea | No       | Max 500 chars | Optional description        |
+| BPM            | Number   | No       | 60-200        | Tempo (optional)            |
+| Initial Tracks | List     | No       | Max 10        | Tracks to include initially |
 
 ---
 
@@ -57,6 +58,7 @@ New Studio Project Page allows users to create a new studio project from scratch
 ### Page Load
 
 **Behavior:**
+
 1. Setup Telegram Back Button (returns to studio hub)
 2. Initialize empty form
 3. Setup track selection state
@@ -66,6 +68,7 @@ New Studio Project Page allows users to create a new studio project from scratch
 **Trigger:** Click "Create" button
 
 **Behavior:**
+
 1. Validate required fields (project name)
 2. Call API: `POST /api/studio-projects`
 3. On success: Navigate to `/studio-v2/project/{newProjectId}`
@@ -75,6 +78,7 @@ New Studio Project Page allows users to create a new studio project from scratch
 **Trigger:** Click "+ Select from Library"
 
 **Behavior:**
+
 1. Open track selector dialog
 2. User selects tracks from library
 3. Selected tracks added to "Initial Tracks" list
@@ -82,9 +86,9 @@ New Studio Project Page allows users to create a new studio project from scratch
 
 ## API Dependencies
 
-| API | Method | Path | Trigger |
-|-----|--------|------|---------|
-| Create Project | POST | /api/studio-projects | Create button |
+| API            | Method | Path                 | Trigger       |
+| -------------- | ------ | -------------------- | ------------- |
+| Create Project | POST   | /api/studio-projects | Create button |
 
 ## Page Relationships
 
