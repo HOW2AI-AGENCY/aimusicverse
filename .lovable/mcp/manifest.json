@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "sdk_version": "0.20.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://ygmvthybdrqymfsqifmj.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "musicverse-ai-mcp",
+      "version": "0.1.0",
+      "title": "MusicVerse AI"
+    },
+    "tools": [
+      {
+        "name": "search_public_tracks",
+        "title": "Search public tracks",
+        "description": "Search MusicVerse AI's public track catalog by title, genre, or mood. Returns id, title, genre, mood, duration, play count, and audio/cover URLs.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Search text matched against title, genre, mood, and prompt."
+            },
+            "limit": {
+              "default": 10,
+              "description": "Max results (1-50).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_track",
+        "title": "Get track details",
+        "description": "Fetch full details for a single public track including all A/B versions, lyrics, and audio URLs.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "track_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "UUID of the track."
+            }
+          },
+          "required": [
+            "track_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_my_tracks",
+        "title": "List my tracks",
+        "description": "List the signed-in user's own tracks (public and private) with title, status, genre, duration, and audio URL.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "default": 20,
+              "description": "Max results (1-100).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
