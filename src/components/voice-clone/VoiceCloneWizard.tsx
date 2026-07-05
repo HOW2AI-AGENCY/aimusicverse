@@ -319,73 +319,80 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               </TabsContent>
             </Tabs>
 
-            {audioDuration > 0 && sourceUrl && (
-              <div className="space-y-2">
-                <Label>
-                  Чистый вокальный сегмент: {vocalStart}с — {vocalEnd}с ({vocalEnd - vocalStart}с)
-                </Label>
-                <div className="flex gap-2 items-center">
-                  <span className="text-xs text-muted-foreground w-12">Старт</span>
-                  <input
-                    type="range"
-                    min={0}
-                    max={Math.max(0, Math.floor(audioDuration) - MIN_SOURCE_SEC)}
-                    value={vocalStart}
-                    onChange={(e) => {
-                      const v = parseInt(e.target.value);
-                      setVocalStart(v);
-                      if (vocalEnd - v < MIN_SOURCE_SEC) setVocalEnd(v + MIN_SOURCE_SEC);
-                      if (vocalEnd - v > MAX_SEGMENT_SEC) setVocalEnd(v + MAX_SEGMENT_SEC);
-                    }}
-                    className="flex-1"
-                  />
+            {audioDuration > 0 && sourceBlob && (
+              <div className="space-y-2 rounded-2xl border border-border/50 bg-muted/10 p-3">
+                <div className="flex items-baseline justify-between">
+                  <Label className="text-xs uppercase tracking-wide text-muted-foreground">Чистый вокальный сегмент</Label>
+                  <span className="text-[10px] text-muted-foreground">Перетащите ручки</span>
                 </div>
-                <div className="flex gap-2 items-center">
-                  <span className="text-xs text-muted-foreground w-12">Конец</span>
-                  <input
-                    type="range"
-                    min={vocalStart + MIN_SOURCE_SEC}
-                    max={Math.min(Math.floor(audioDuration), vocalStart + MAX_SEGMENT_SEC)}
-                    value={vocalEnd}
-                    onChange={(e) => setVocalEnd(parseInt(e.target.value))}
-                    className="flex-1"
-                  />
-                </div>
-                <audio src={sourceUrl} controls className="w-full" />
+                <VoiceWaveformEditor
+                  mode="static"
+                  blob={sourceBlob}
+                  duration={audioDuration}
+                  trimStart={vocalStart}
+                  trimEnd={vocalEnd}
+                  minSegmentS={MIN_SOURCE_SEC}
+                  maxSegmentS={MAX_SEGMENT_SEC}
+                  onTrimChange={(s, e) => {
+                    setVocalStart(s);
+                    setVocalEnd(e);
+                  }}
+                />
                 {vocalEnd - vocalStart < MIN_SOURCE_SEC && (
                   <p className="text-xs text-destructive">Сегмент должен быть минимум {MIN_SOURCE_SEC} сек.</p>
                 )}
               </div>
             )}
 
-            <div>
-              <Label htmlFor="lang">Язык фразы</Label>
-              <select
-                id="lang"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="w-full h-10 rounded-md border bg-background px-3 text-sm"
-              >
-                <option value="ru">Русский</option>
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-              </select>
+            <div className="space-y-1.5">
+              <Label htmlFor="lang" className="text-xs uppercase tracking-wide text-muted-foreground">
+                Язык фразы
+              </Label>
+              <Select value={language} onValueChange={setLanguage}>
+                <SelectTrigger id="lang" className="h-11">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ru">Русский</SelectItem>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="es">Español</SelectItem>
+                  <SelectItem value="fr">Français</SelectItem>
+                  <SelectItem value="de">Deutsch</SelectItem>
+                  <SelectItem value="it">Italiano</SelectItem>
+                  <SelectItem value="pt">Português</SelectItem>
+                  <SelectItem value="ja">日本語</SelectItem>
+                  <SelectItem value="zh">中文</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <Button
-              className="w-full"
+              className="w-full h-12"
               disabled={!voiceName || !sourceBlob || isWorking || vocalEnd - vocalStart < MIN_SOURCE_SEC}
-              onClick={() => {
+              onClick={async () => {
                 if (!sourceBlob) return;
-                startValidation({
-                  voiceName,
-                  sourceFile: sourceBlob,
-                  vocalStartS: vocalStart,
-                  vocalEndS: vocalEnd,
-                  language,
-                  description: description || undefined,
-                });
+                try {
+                  // Client-side trim to reduce upload size and let backend see clean 0..N range
+                  const trimmed = await trimAudioBlob(sourceBlob, vocalStart, vocalEnd);
+                  startValidation({
+                    voiceName,
+                    sourceFile: trimmed,
+                    vocalStartS: 0,
+                    vocalEndS: vocalEnd - vocalStart,
+                    language,
+                    description: description || undefined,
+                  });
+                } catch (e) {
+                  logger.error("trim failed, falling back to full clip", e as Error);
+                  startValidation({
+                    voiceName,
+                    sourceFile: sourceBlob,
+                    vocalStartS: vocalStart,
+                    vocalEndS: vocalEnd,
+                    language,
+                    description: description || undefined,
+                  });
+                }
               }}
             >
               {isWorking ? (
@@ -398,6 +405,7 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                   <Upload className="mr-2 h-4 w-4" />
                   Начать (30 кредитов)
                 </>
+
               )}
             </Button>
           </div>
