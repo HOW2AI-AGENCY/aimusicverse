@@ -70,7 +70,11 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
           <button
             key={kind}
             type="button"
-            onClick={() => onAdd(kind)}
+            onClick={() => {
+              haptic.selectionChanged();
+              onAdd(kind);
+            }}
+
             aria-label={`Добавить ${label.toLowerCase()}`}
             className={cn(
               "inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-xs font-medium shrink-0",
