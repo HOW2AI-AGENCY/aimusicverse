@@ -25,6 +25,7 @@ export default function Artists() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const activeTab = searchParams.get("tab") || "my";
 
   const { data: publicArtists, isLoading: publicLoading } = usePublicArtists(50);
