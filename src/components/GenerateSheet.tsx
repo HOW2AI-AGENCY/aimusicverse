@@ -16,6 +16,8 @@ import {
 import { useGenerateSheetController } from "@/hooks/generation/useGenerateSheetController";
 import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from "@/hooks/telegram";
 import { useKeyboardAware } from "@/hooks/useKeyboardAware";
+import { useScrollLock } from "@/hooks/useScrollLock";
+import { useSunoCancel } from "@/hooks/generation/useSunoCancel";
 import { useFeatureFlag } from "@/hooks/useFeatureFlag";
 import { GENERATE_SHEET_REDESIGN_ENABLED } from "@/lib/feature-flags";
 import { useProjects } from "@/hooks/useProjects";
@@ -53,6 +55,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   const { keyboardHeight, isKeyboardOpen } = useKeyboardAware();
 
   const controller = useGenerateSheetController({ open, onOpenChange, initialProjectId: projectId });
+
+  // Lock body scroll while sheet is open (prevents iOS rubber-band behind sheet)
+  useScrollLock(open);
+
+  // Sprint 055-A4: generation cancel
+  const { cancel: cancelGeneration, isCancelling } = useSunoCancel();
 
   // Telegram wiring
   const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
@@ -149,7 +157,14 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center"
               >
-                <GenerationLoadingState stage="processing" showCancel={false} compact={false} />
+                <GenerationLoadingState
+                  stage="processing"
+                  showCancel={!!controller.form.currentTaskId && !isCancelling}
+                  compact={false}
+                  onCancel={
+                    controller.form.currentTaskId ? () => cancelGeneration(controller.form.currentTaskId!) : undefined
+                  }
+                />
               </motion.div>
             )}
           </AnimatePresence>

@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { LyricsAssistantChat } from "./LyricsAssistantChat";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 interface Props {
   open: boolean;
@@ -24,6 +25,9 @@ interface Props {
 
 export function LyricsAssistantSheet({ open, onOpenChange, currentText, onApply }: Props) {
   const [previewCollapsed, setPreviewCollapsed] = useState(false);
+
+  // Lock body scroll while lyrics assistant sheet is open
+  useScrollLock(open);
 
   return (
     <Drawer.Root open={open} onOpenChange={onOpenChange}>
