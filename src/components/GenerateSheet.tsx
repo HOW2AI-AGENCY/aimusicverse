@@ -231,7 +231,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
         onApply={(text, sectionId) => controller.form.setLyrics(text)}
       />
 
-      <ValidationReasonsSheet open={false} onOpenChange={() => {}} reasons={controller.validation.reasons} />
+      <ValidationReasonsSheet open={reasonsOpen} onOpenChange={setReasonsOpen} reasons={controller.validation.reasons} />
     </>
   );
 };
