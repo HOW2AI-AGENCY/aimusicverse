@@ -91,7 +91,14 @@ export function useGenerateFormState(params: UseGenerateFormParams): UseGenerate
     resetForm: s.resetForm,
 
     // ─── draft (forwarded from useGenerateDraft via internal state) ──
-    saveDraft: s.saveDraft,
+    saveDraft: s.saveDraft as (payload?: unknown) => void,
+    hasDraft: s.hasDraft,
+    isAdmin: s.isAdmin,
+    apiBalance: s.apiBalance,
+    userBalance: s.userBalance ?? null,
+    invalidateCredits: s.invalidateCredits,
+    activeReference: s.activeReference,
+    clearAudioReference: s.clearAudioReference,
 
     // ─── api credits (forwarded from internal state) ─────────────────
     // Wired so the submit pipeline can persist the post-generation balance

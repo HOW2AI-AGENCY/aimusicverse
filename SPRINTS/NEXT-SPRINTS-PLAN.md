@@ -205,7 +205,7 @@ Phase 2 разблокирована 2026-07-04 вечером после Sprint
 
 - [SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINT-CLOSURE-PLAN-2026-07.md) — текущий операционный план
 - [SPRINT-050-PLAN.md](./SPRINT-050-PLAN.md)
-- [SPRINT-051-PLAN.md](./SPRINT-051-PLAN.md)
+- `SPRINT-051-PLAN.md` (будет создан при старте Sprint 051)
 - [SPRINT-053-PLAN.md](./SPRINT-053-PLAN.md)
 - [SPRINT-054-PLAN.md](./SPRINT-054-PLAN.md)
 - [SPRINT-055-PLAN.md](./SPRINT-055-PLAN.md)

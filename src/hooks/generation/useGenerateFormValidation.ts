@@ -18,7 +18,7 @@ export function useGenerateFormValidation(deps: UseGenerateFormValidationDeps): 
 
   // Reserved for the redesign cost-breakdown UI. Empty until the redesign
   // wires up per-line-item cost visualization.
-  const generationCostBreakdown: Array<{ label: string; amount: number }> = [];
+  const generationCostBreakdown: Array<{ label: string; value: number }> = [];
 
   // Suppress unused-param warning for fields reserved for the redesign.
   void apiBalance;

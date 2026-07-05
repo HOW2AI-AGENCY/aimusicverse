@@ -12,7 +12,7 @@
  */
 
 import type { ProjectRow } from "@/api/projects.api";
-import type { ArtistRow } from "@/api/tracks.api";
+import type { ArtistRow } from "@/api/artists.api";
 import type { TrackRow } from "@/api/tracks.api";
 
 /** Composer params — identical to the legacy `UseGenerateFormProps`. */
@@ -86,11 +86,6 @@ export interface UseGenerateFormStateReturn {
 
   /**
    * Real saveDraft pulled from `useGenerateDraft` (via the internal hook).
-   * Exposed on the state slice so the composer can wire it through to
-   * the public surface instead of using a no-op placeholder.
-   *
-   * Signature mirrors `useGenerateDraft().saveDraft` (accepts an optional
-   * payload; the brief types it as `() => void` for back-compat).
    */
   saveDraft: (payload?: unknown) => void;
 
@@ -100,18 +95,24 @@ export interface UseGenerateFormStateReturn {
 
   // derived
   hasUnsavedData: boolean;
+  hasDraft: boolean;
 
   // reset
   resetForm: () => void;
 
   // api credits
-  /**
-   * Local copy of the user's Suno API balance after a successful generation.
-   * Forwarded from the internal state so the composer can wire it through
-   * to the submit pipeline and the public surface (was a no-op stub).
-   */
   apiCredits: number | null;
   setApiCredits: (v: number | null) => void;
+
+  // credits/admin (forwarded from internal state)
+  isAdmin: boolean;
+  apiBalance: number | null | undefined;
+  userBalance: number | null;
+  invalidateCredits: () => void;
+
+  // audio reference (forwarded from internal state)
+  activeReference: unknown;
+  clearAudioReference: () => void;
 }
 
 /** Deps accepted by `useGenerateFormActions`. */
@@ -150,14 +151,13 @@ export interface UseGenerateFormValidationReturn {
   canGenerate: boolean;
   generationCost: number;
   /** Forward-looking breakdown; reserved for the redesign cost UI. */
-  generationCostBreakdown: Array<{ label: string; amount: number }>;
+  generationCostBreakdown: Array<{ label: string; value: number }>;
   userBalance: number | null;
 }
 
 /** Combined return — the public API of `useGenerateForm`. */
 export type UseGenerateFormReturn = UseGenerateFormStateReturn &
   UseGenerateFormValidationReturn & {
-    // legacy credits / cost fields the existing consumers expect
     canGenerate: boolean;
     generationCost: number;
     apiCredits: number | null;
@@ -165,25 +165,24 @@ export type UseGenerateFormReturn = UseGenerateFormStateReturn &
     isAdmin: boolean;
     hasDraft: boolean;
 
-    // derived boolean
     canMakePrivate: boolean;
 
-    // submit retry state
     isRetrying: boolean;
     retryCount: number;
     nextRetryIn: number;
     canRetry: boolean;
     cancelRetry: () => void;
 
-    // actions
     handleGenerate: () => Promise<void>;
     handleBoostStyle: () => Promise<void>;
     handleTrackSelect: (trackId: string) => void;
     handleArtistSelect: (artistId: string) => void;
     resetForm: () => void;
     clearDraft: () => void;
-    saveDraft: () => void;
+    saveDraft: (payload?: unknown) => void;
 
-    // task-id (Sprint 055 P0-4)
     currentTaskId: string | null;
+
+    activeReference: unknown;
+    clearAudioReference: () => void;
   };

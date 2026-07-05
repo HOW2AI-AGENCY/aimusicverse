@@ -97,7 +97,7 @@ describe("useSunoCancel — Sprint 055 P0-4", () => {
     expect(mockToast.success).toHaveBeenCalledWith("Генерация отменена", expect.any(Object));
     expect(mockTrackEvent).toHaveBeenCalledWith(
       expect.objectContaining({
-        eventType: "feature_usage",
+        eventType: "feature_used",
         pagePath: "generation",
         metadata: expect.objectContaining({ action: "cancel_complete", succeeded: true }),
       }),

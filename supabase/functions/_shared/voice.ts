@@ -60,6 +60,8 @@ export interface VoiceError extends Error {
 }
 
 export function toVoiceError(raw: string, status = 502): VoiceError {
+  // Log raw Suno error so we can diagnose from edge function logs
+  console.error("[voice] Suno error", { status, raw: raw.slice(0, 500) });
   for (const { match, msg, code } of ERROR_MAP) {
     if (match.test(raw)) {
       const e = new Error(msg) as VoiceError;
@@ -69,7 +71,9 @@ export function toVoiceError(raw: string, status = 502): VoiceError {
       return e;
     }
   }
-  const e = new Error("Ошибка Suno: попробуйте позже") as VoiceError;
+  // Include a short preview of raw so client can display actionable info
+  const preview = raw.replace(/\s+/g, " ").slice(0, 160);
+  const e = new Error(`Ошибка Suno (${status}): ${preview || "попробуйте позже"}`) as VoiceError;
   e.code = "SUNO_UNKNOWN";
   e.status = status;
   e.raw = raw;

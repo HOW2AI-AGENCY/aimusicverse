@@ -489,7 +489,7 @@ import { MobileLyricsEditor } from "@/components/lyrics/mobile";
 ## 📚 Ресурсы
 
 - [iOS Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
-- [Material Design Touch Targets](https://m3.material.io/foundations/interaction/touch-targets)
+- [Material Design 3](https://m3.material.io/) — раздел Touch Targets
 - [Telegram Mini Apps Documentation](https://core.telegram.org/bots/webapps)
 
 ---

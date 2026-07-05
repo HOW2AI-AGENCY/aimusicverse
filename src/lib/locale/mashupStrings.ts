@@ -73,6 +73,12 @@ export const MASHUP_STRINGS = {
     successToastPending: "Persona обучается 🎙️",
     logEvent: "Persona training started",
     logEventFailed: "Persona training failed",
+    // Validation errors (lines 98, 102, 123)
+    validation: {
+      specifyName: "Укажите имя персоны",
+      nameTooLong: "Имя персоны — максимум 80 символов",
+      trainingFailed: "Не удалось запустить обучение персоны",
+    },
   },
 
   // === Telegram bot commands /mashup, /persona, /suno-mashup ===
@@ -82,6 +88,14 @@ export const MASHUP_STRINGS = {
     personaCommandHelp: "Создать персону из текущего трека",
     personaDeepLinkTitle: "Создать персону",
     sunoMashupCallbackHelp: "Inline-кнопка под карточкой трека",
+  },
+
+  // === GenerationResultSheet (common strings) ===
+  generationResult: {
+    fallbackTrackTitle: "Новый трек",
+    versionSwitchError: "Не удалось установить версию",
+    playButtonLabel: "Воспроизвести",
+    pauseButtonLabel: "Пауза",
   },
 } as const;
 

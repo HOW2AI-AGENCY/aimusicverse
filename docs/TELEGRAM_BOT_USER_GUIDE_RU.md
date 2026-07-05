@@ -509,7 +509,6 @@ A:
 ### Полезные ссылки
 
 - [Документация API](https://docs.musicverse.ai)
-- [Примеры треков](https://musicverse.ai/examples)
 - [Сообщество](https://t.me/AIMusicVerseCommunity)
 - [YouTube канал](https://youtube.com/@AIMusicVerse)
 

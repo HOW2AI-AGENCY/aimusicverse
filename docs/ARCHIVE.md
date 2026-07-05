@@ -39,7 +39,7 @@ Comprehensive repository cleanup - archived outdated sprint reports and summarie
 - Library audit and unified studio reports
 - **Total**: 12 files moved to archive
 
-**See**: [2026-01-04 Cleanup README](docs/archive/2026-01-04-cleanup/README.md)
+**See**: [2026-01-04 Cleanup README](./archive/2026-01-04-cleanup/README.md)
 
 ---
 
@@ -138,29 +138,29 @@ For current project information, refer to these files in the root directory:
 
 ### Project Status & Planning
 
-- **[PROJECT_STATUS.md](PROJECT_STATUS.md)** - Single source of truth for project status
-- **[ROADMAP.md](ROADMAP.md)** - Product roadmap and vision
-- **[SPRINT_STATUS.md](SPRINT_STATUS.md)** - Current sprint status summary
-- **[SPRINT_ROADMAP_2026.md](SPRINT_ROADMAP_2026.md)** - 2026 sprint roadmap
+- **[PROJECT_STATUS.md](../PROJECT_STATUS.md)** - Single source of truth for project status
+- **[ROADMAP.md](../ROADMAP.md)** - Product roadmap and vision
+- **[SPRINT_STATUS.md](./archive/2026-01/SPRINT_STATUS.md)** - Current sprint status summary
+- **[SPRINT_ROADMAP_2026.md](./archive/2026-01/SPRINT_ROADMAP_2026.md)** - 2026 sprint roadmap
 
 ### Sprint Management
 
-- **[SPRINTS/SPRINT-PROGRESS.md](SPRINTS/SPRINT-PROGRESS.md)** - Active sprint tracking
-- **[SPRINT_MANAGEMENT.md](SPRINT_MANAGEMENT.md)** - Sprint planning process
-- **[SPRINT_IMPLEMENTATION_GUIDE.md](SPRINT_IMPLEMENTATION_GUIDE.md)** - Sprint 011 implementation guide
+- **[SPRINTS/SPRINT-PROGRESS.md](../SPRINTS/SPRINT-PROGRESS.md)** - Active sprint tracking
+- **[SPRINT_MANAGEMENT.md](./archive/2026-01/SPRINT_MANAGEMENT.md)** - Sprint planning process
+- **[SPRINT_IMPLEMENTATION_GUIDE.md](./archive/2026-01/SPRINT_IMPLEMENTATION_GUIDE.md)** - Sprint 011 implementation guide
 
 ### Technical Documentation
 
 - **[README.md](README.md)** - Getting started guide
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
+- **[CONTRIBUTING.md](../CONTRIBUTING.md)** - Contribution guidelines
 - **[DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md)** - Development workflow
-- **[MAINTENANCE.md](MAINTENANCE.md)** - Maintenance procedures
+- **[MAINTENANCE.md](../MAINTENANCE.md)** - Maintenance procedures
 
 ### Specifications
 
-- **[specs/sprint-011-social-features/](specs/sprint-011-social-features/)** - Sprint 011 spec
-- **[specs/sprint-014-platform-integration-export/](specs/sprint-014-platform-integration-export/)** - Sprint 014 spec
-- **[specs/sprint-015-quality-testing-performance/](specs/sprint-015-quality-testing-performance/)** - Sprint 015 spec
+- **specs/sprint-011-social-features/** - Sprint 011 spec
+- **specs/sprint-014-platform-integration-export/** - Sprint 014 spec
+- **specs/sprint-015-quality-testing-performance/** - Sprint 015 spec
 
 ---
 
@@ -297,4 +297,4 @@ If you find this archive structure could be improved, please update this documen
 
 ---
 
-_For current project status, always refer to [PROJECT_STATUS.md](PROJECT_STATUS.md)_
+_For current project status, always refer to [PROJECT_STATUS.md](../PROJECT_STATUS.md)_

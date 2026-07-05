@@ -96,59 +96,58 @@
 
 ### Backend Services
 
-#### 1. **VoiceCloneService** (`src/services/voice/VoiceCloneService.ts`)
+#### 1. **VoiceCloneWizard** (`src/components/voice-clone/VoiceCloneWizard.tsx`)
 
 - **Размер**: ~800 строк
 - **Функции**:
-  - `validateVoice()` - Начать процесс клонирования
-  - `pollValidateInfo()` - Получить фразы для записи (автоматический polling)
-  - `regeneratePhrase()` - Перегенерировать фразу
-  - `generateVoice()` - Создать кастомный голос
-  - `pollRecordInfo()` - Получить voiceId (автоматический polling)
-  - `checkVoiceAvailability()` - Проверить готовность голоса
+  - `startValidation()` - Начать процесс клонирования
+  - `submitRecording()` - Отправить запись фразы
+  - `retryLastStep()` - Повторить последний шаг
+  - `reset()` - Сбросить процесс
 - **Особенности**:
   - Встроенная обработка ошибок
-  - Автоматический retry с exponential backoff
-  - Progress tracking через callback
-  - Timeout защита (30 секунд по умолчанию)
+  - 6-шаговый UI с прогресс-баром
+  - Автоматический polling Suno API
+  - Загрузка аудио + waveform редактор
+  - Запись фразы через браузерный микрофон
 
-#### 2. **API Functions** (`src/api/voices.api.ts`)
+#### 2. **API Functions** (`src/api/voice-clone.api.ts`)
 
-- **Размер**: ~350 строк
+- **Размер**: ~250 строк
 - **Функции**:
   - `createCustomVoice()` - Создать запись голоса
-  - `getUserVoices()` - Получить голоса пользователя
-  - `verifyCustomVoice()` - Верифицировать голос
-  - `getVoiceLibrary()` - Библиотека голосов
-  - `searchVoices()` - Поиск голосов
-  - `cleanupOldVoiceTasks()` - Очистка старых задач
-- **Database Operations**:
-  - CRUD операции для таблиц `voices` и `voice_tasks`
-  - Complex queries для голосов
-  - Batch операции
+  - `getCustomVoices()` - Получить голоса пользователя
+  - `getVoiceLibrary()` - Библиотека всех голосов
+- **API Integration**:
+  - Direct calls to Suno Voice API endpoints
+  - Error handling и retry logic
+  - Response validation
 
 ### Frontend Components
 
-#### 3. **VoiceCloningStudio** (`src/components/studio/voice-cloning/VoiceCloningStudio.tsx`)
+#### 3. **VoiceCloneWizard** (`src/components/voice-clone/VoiceCloneWizard.tsx`)
 
-- **Размер**: ~350 строк
+- **Размер**: ~800 строк
 - **Функции**:
   - 6-шаговый интерфейс с прогресс-баром
   - Загрузка и валидация аудио файлов
-  - Выделение вокальных сегментов (waveform)
+  - VoiceWaveformEditor для выделения сегментов
   - Запись фразы через браузерный микрофон
   - Автоматическая обработка и прогресс-трекинг
-  - Дисплей полученного voiceId с возможностью копирования
+  - CustomVoicePicker для выбора голоса
+  - Интеграция с генерацией музыки
 
-#### 4. **React Hook** (`src/hooks/useVoiceCloning.ts`)
+#### 4. **Supporting Components**
 
-- **Размер**: ~300 строк
-- **Функции**:
-  - Управление состоянием 6-шагового процесса
-  - Автоматический polling для long-running операций
-  - Error handling и user-friendly сообщения
-  - Progress callbacks
-  - Интеграция с VoiceCloneService
+- **VoiceWaveformEditor** (`src/components/voice-clone/VoiceWaveformEditor.tsx`) - ~350 строк
+  - Waveform визуализация с highlighting
+  - Выделение вокальных сегментов
+  - Предпросмотр выбранного сегмента
+
+- **CustomVoicePicker** (`src/components/voice-clone/CustomVoicePicker.tsx`) - ~150 строк
+  - Выбор из библиотеки кастомных голосов
+  - Preview голоса
+  - Integration с generation flow
 
 ### Database Schema
 
@@ -164,16 +163,19 @@
   - Индексы: `validate_task_id`, `generate_task_id`, `created_at`
   - Отслеживание прогресса каждого этапа
 
-#### 6. **Webhook Handler** (`supabase/functions/webhook-voice/index.ts`)
+#### 5. **Supporting Components**
 
-- **Endpoints**:
-  - `/webhooks/voice/validate` - Validation success/failure
-  - `/webhooks/voice/generate` - Generation success/failure
-- **Функции**:
-  - Обработка 4 типов webhook событий
-  - Верификация подписей (webhook signature)
-  - Обновление базы данных
-  - Realtime уведомления для пользователей
+- **VoiceWaveformEditor** (`src/components/voice-clone/VoiceWaveformEditor.tsx`) - ~350 строк
+  - Waveform визуализация с highlighting
+  - Выделение вокальных сегментов
+  - Предпросмотр выбранного сегмента
+
+- **CustomVoicePicker** (`src/components/voice-clone/CustomVoicePicker.tsx`) - ~150 строк
+  - Выбор из библиотеки кастомных голосов
+  - Preview голоса
+  - Integration с generation flow
+
+**Note:** Webhook handlers and database triggers are planned but not yet implemented. Current implementation uses polling-based status checking.
 
 ---
 
@@ -436,28 +438,24 @@ interface VoiceCloningStudioProps {
 ### Basic Voice Cloning
 
 ```typescript
-import { useVoiceCloning } from '@/hooks/useVoiceCloning';
+import { VoiceCloneWizard } from '@/components/voice-clone/VoiceCloneWizard';
 
 function MyComponent() {
-  const voiceCloning = useVoiceCloning({
-    apiKey: process.env.VITE_SUNO_API_KEY,
-    baseUrl: 'https://api.sunoapi.org',
-    onVoiceCreated: (voiceId) => {
-      console.log('Voice created:', voiceId);
-      // Navigate to music generation with custom voice
-    },
-    onError: (error) => {
-      console.error('Voice cloning failed:', error);
-    },
-  });
+  const handleVoiceCreated = (voiceId: string) => {
+    console.log('Voice created:', voiceId);
+    // Navigate to music generation with custom voice
+    generateMusic({ voiceId });
+  };
+
+  const handleVoiceCloningError = (error: Error) => {
+    console.error('Voice cloning failed:', error);
+    // Show error to user
+  };
 
   return (
-    <VoiceCloningStudio
-      apiKey={voiceCloning.apiKey}
-      onVoiceCreated={(voiceId) => {
-        // Use voiceId in music generation
-        generateMusic({ voiceId });
-      }}
+    <VoiceCloneWizard
+      onVoiceCreated={handleVoiceCreated}
+      onError={handleVoiceCloningError}
     />
   );
 }
@@ -751,15 +749,16 @@ logger.warn("Voice quality issues detected", {
 
 ### Documentation
 
-- [Suno API Reference](./SUNO_API.md) - Внутренняя документация Suno API
+- [Suno API Reference](SUNO_API.md) - Внутренняя документация Suno API
 - [API Documentation](https://docs.sunoapi.org/) - Suno API docs
-- [Troubleshooting](./TROUBLESHOOTING_GUIDE.md) - Общие troubleshooting
+- [Troubleshooting](TROUBLESHOOTING_GUIDE.md) - Общие troubleshooting
 
 ### Code Examples
 
-- [VoiceCloneService](../src/services/voice/VoiceCloneService.ts) - Сервис
-- [useVoiceCloneWizard](../src/hooks/voice/useVoiceCloneWizard.ts) - React хук
 - [VoiceCloneWizard](../src/components/voice-clone/VoiceCloneWizard.tsx) - UI компонент
+- [Voice Clone API](../src/api/voice-clone.api.ts) - API функции
+- [Voice Waveform Editor](../src/components/voice-clone/VoiceWaveformEditor.tsx) - Waveform редактор
+- [Custom Voice Picker](../src/components/voice-clone/CustomVoicePicker.tsx) - Picker голосов
 
 ---
 
