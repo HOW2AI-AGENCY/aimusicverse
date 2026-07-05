@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useActiveGenerations } from "@/hooks/generation/useActiveGenerations";
+import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 import { Badge } from "@/components/ui/badge";
 import { preloadRoute } from "@/lib/route-preloader";
 import { typographyClass } from "@/lib/design-tokens";
@@ -40,6 +41,9 @@ export const BottomNavigation = memo(function BottomNavigation() {
   const [isVisible, setIsVisible] = useState(false);
   const { data: activeGenerations = [] } = useActiveGenerations();
   const activeGenCount = activeGenerations.length;
+
+  // Sprint 055-B4: keyboard-aware badge positioning
+  const { keyboardHeight, isKeyboardOpen } = useKeyboardAware();
 
   // Trigger CSS animation on mount - properly using useEffect
   useEffect(() => {
@@ -97,7 +101,14 @@ export const BottomNavigation = memo(function BottomNavigation() {
   return (
     <>
       {activeGenCount > 0 && (
-        <div className="fixed bottom-20 left-0 right-0 flex justify-center z-navigation pointer-events-none">
+        <div
+          className="fixed left-0 right-0 flex justify-center z-navigation pointer-events-none"
+          style={{
+            bottom: isKeyboardOpen
+              ? `${keyboardHeight + 80}px`
+              : "max(5rem, calc(var(--tg-viewport-stable-height, 100vh) - var(--tg-viewport-height, 100vh) + 5rem))",
+          }}
+        >
           <GenerationProgressBadge active count={activeGenCount} />
         </div>
       )}
@@ -114,7 +125,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                   {showCreateHint && (
                     <div
                       className={cn(
-                        "absolute bottom-16 bg-popover/95 border border-primary/20 backdrop-blur px-3 py-1.5 rounded-lg shadow-lg font-medium text-foreground whitespace-nowrap z-50 animate-bounce flex items-center gap-1.5",
+                        "absolute -top-12 -translate-y-full bg-popover/95 border border-primary/20 backdrop-blur px-3 py-1.5 rounded-lg shadow-lg font-medium text-foreground whitespace-nowrap z-50 animate-bounce flex items-center gap-1.5",
                         typographyClass.caption,
                       )}
                     >
