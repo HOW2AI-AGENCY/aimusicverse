@@ -39,6 +39,7 @@ theme:
     - toc.follow
 
 plugins:
+  - same-dir
   - search
   - awesome-pages
   - git-revision-date-localized:

@@ -1,0 +1,8 @@
+# Python deps for the MkDocs "Build docs site" CI job (.github/workflows/docs.yml).
+# Pinned here so actions/setup-python's pip cache has a dependency file to key on.
+mkdocs-material==9.5.*
+mkdocs-same-dir
+mkdocs-minify-plugin
+mkdocs-awesome-pages-plugin
+mkdocs-git-revision-date-localized-plugin
+pymdown-extensions
