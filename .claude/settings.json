@@ -28,9 +28,7 @@
       "Bash(npx tsc *)",
       "Bash(node -e ' *)"
     ],
-    "additionalDirectories": [
-      "D:\\.MUSICVERSE\\aimusicverse"
-    ]
+    "additionalDirectories": ["D:\\.MUSICVERSE\\aimusicverse"]
   },
   "hooks": {
     "SessionStart": [

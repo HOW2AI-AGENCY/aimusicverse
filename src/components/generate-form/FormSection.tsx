@@ -68,6 +68,7 @@ export const FormSection = memo(function FormSection({
 
   return (
     <motion.div
+      data-step={step || undefined}
       className={cn(
         "space-y-2.5",
         (elevated || isGroup) && cn("p-3.5 rounded-2xl", glass.subtle),

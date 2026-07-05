@@ -199,7 +199,11 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
             shouldShowSecondaryUIButton={shouldShowSecondaryUIButton}
             isKeyboardOpen={isKeyboardOpen}
             keyboardHeight={keyboardHeight}
-            summary={controller.form.loading ? undefined : `${controller.form.hasVocals ? "Вокал" : "Инструментал"} · 30–90 сек · ${controller.form.generationCost} кредитов`}
+            summary={
+              controller.form.loading
+                ? undefined
+                : `${controller.form.hasVocals ? "Вокал" : "Инструментал"} · 30–90 сек · ${controller.form.generationCost} кредитов`
+            }
           />
         </SheetContent>
 

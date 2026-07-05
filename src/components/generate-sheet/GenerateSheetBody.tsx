@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ReferenceChipsRow } from "./ReferenceChipsRow";
 import type { ReferenceKind } from "./ReferenceChipsRow";
 import type { UseGenerateFormReturn } from "@/hooks/generation/useGenerateForm.types";
+import { FormStepper } from "@/components/generate-form/FormStepper";
 
 const GenerateFormSimple = lazy(() =>
   import("@/components/generate-form/GenerateFormSimple").then((m) => ({ default: m.GenerateFormSimple })),
@@ -42,6 +43,8 @@ export function GenerateSheetBody({
   return (
     <ScrollArea className="flex-1 overflow-x-hidden">
       <div className="px-4 py-3 space-y-3 w-full max-w-full min-w-0 overflow-x-hidden">
+        {/* Sprint 055-B5: sticky step indicator for custom mode */}
+        {form.mode === "custom" && <FormStepper />}
         <ReferenceChipsRow
           references={{
             project: form.selectedProjectId ? { id: form.selectedProjectId, label: form.selectedProjectId } : undefined,
