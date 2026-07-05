@@ -52,6 +52,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   const { user } = useAuth();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { keyboardHeight, isKeyboardOpen } = useKeyboardAware();
+  const [reasonsOpen, setReasonsOpen] = useState(false);
 
   const controller = useGenerateSheetController({ open, onOpenChange, initialProjectId: projectId });
 
