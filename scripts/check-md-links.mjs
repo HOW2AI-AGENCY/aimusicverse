@@ -26,11 +26,13 @@ const EXCLUDED_DIRS = [
   ".git",
 ];
 
-const isExcluded = (f) => EXCLUDED_DIRS.some((d) => f === d || f.startsWith(d + "/"));
+const isExcluded = (f) =>
+  f.split("/").includes("node_modules") ||
+  EXCLUDED_DIRS.some((d) => f === d || f.startsWith(d + "/"));
 
-const files = globSync("**/*.md", { cwd: root })
+const files = [...globSync("**/*.md", { cwd: root }), ...globSync(".*/**/*.md", { cwd: root })]
   .map((f) => f.replace(/\\/g, "/"))
-  .filter((f) => !isExcluded(f));
+  .filter((f, i, a) => a.indexOf(f) === i && !isExcluded(f));
 
 // Basename index across the repo (used to relink files that moved but still
 // exist under a unique name). Skip heavy/excluded trees.

@@ -808,5 +808,5 @@ sequenceDiagram
 
 - 📖 [Официальная документация](https://docs.sunoapi.org)
 - 💬 [Discord сообщество](https://discord.gg/suno)
-- 🐛 [GitHub Issues](https://github.com/sunoai/api/issues)
+- 🐛 GitHub Issues — `https://github.com/sunoai/api/issues` (недоступно на момент проверки)
 - 📧 [Email поддержка](mailto:support@suno.com)
