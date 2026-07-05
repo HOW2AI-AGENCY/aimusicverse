@@ -58,6 +58,8 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
   const availableModels = useMemo(() => getAvailableModels(), []);
   const currentModel = SUNO_MODELS[model] || SUNO_MODELS.V4_5ALL;
   const lowBalance = balance < cost;
+  const haptic = useHapticFeedback();
+
 
   return (
     <div className="space-y-3 py-2">
