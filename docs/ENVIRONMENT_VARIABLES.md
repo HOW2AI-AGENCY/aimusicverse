@@ -614,6 +614,6 @@ VITE_FEATURE_AI_MIXING=🔧
 
 _Last Updated: 2026-06-26_
 
-[🏠 Home](../README.md) • [📚 Documentation Index](DOCUMENTATION_INDEX.md) • [🔧 Contributing](../CONTRIBUTING.md)
+[🏠 Home](../README.md) • [📚 Documentation Index](../DOCUMENTATION_INDEX.md) • [🔧 Contributing](../CONTRIBUTING.md)
 
 </div>

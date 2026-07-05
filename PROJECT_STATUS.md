@@ -629,7 +629,7 @@ mindmap
   - **054-A1..A6:** 6 details-edge (`suno-music-details`, `suno-cover-details`, `suno-video-details`, `suno-wav-details`, `suno-lyrics-details`, `suno-separation-details`) — каждый 15-30 LOC thin-wrapper над shared `fetchSunoTaskDetails(taskType, taskId)` в `_shared/suno-details.ts`. Per-type backoff: lyrics 1500ms / cover+music 2000ms / wav+video 3000ms / separation 4000ms / midi 5000ms.
   - **054-A7':** **cleanup dead code.** `suno-check-status/index.ts` (449 LOC) удалён — graphify + grep подтвердили zero client callers. Alias `[functions.suno-check-status]` убран из `supabase/config.toml`. Callbacks уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. (Plan-based refactor заменён на cleanup: refactor был бы бессмысленен без callers.)
   - **054-A8:** `useSunoTaskDetails` generic polling hook + `suno-task-details.api.ts` edge-bridge + 7 unit-тестов. Готов для **будущих** Suno polling use-cases (например, lyrics generation без callback).
-  - **054-A9:** **NOT APPLICABLE** — план ссылался на 5 polling hooks (`useGenerationStatus`, `useVideoGenerationStatus`, `useStemSeparation`, `useLyricsVersioning`, `useWavConversion`), из которых 3 не существуют и 2 не используют `suno-check-status`. См. memory: [sprint-054-a7-a9-plan-mismatch.md](memory/sprint-054-a7-a9-plan-mismatch.md).
+  - **054-A9:** **NOT APPLICABLE** — план ссылался на 5 polling hooks (`useGenerationStatus`, `useVideoGenerationStatus`, `useStemSeparation`, `useLyricsVersioning`, `useWavConversion`), из которых 3 не существуют и 2 не используют `suno-check-status`. См. [SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md).
 
 **Метрики:**
 
