@@ -32,7 +32,9 @@ const KIND_META: Record<ReferenceKind, { label: string; icon: typeof Plus }> = {
 };
 
 export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
+  const haptic = useHapticFeedback();
   return (
+
     <div
       className="flex items-center gap-1.5 overflow-x-auto -mx-4 px-4 pb-1 scrollbar-none"
       role="group"
