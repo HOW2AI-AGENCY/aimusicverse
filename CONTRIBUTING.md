@@ -42,7 +42,7 @@ flowchart LR
 
 - Search [issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues) first.
 - Use the templates: bug · feature · docs · performance.
-- For larger work, open a [discussion](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions) first.
+- For larger work, open an [issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) first.
 
 ## 2. Branching
 
