@@ -44,6 +44,8 @@ flowchart LR
 - Use the templates: bug · feature · docs · performance.
 - For larger work, open an [issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) first.
 
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 ## 2. Branching
 
 - Branch off `main`.

@@ -9,7 +9,7 @@ import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Gift, PartyPopper } from "@/lib/icons";
 import { ECONOMY } from "@/lib/economy";
-import confetti from "canvas-confetti";
+import { confetti } from "@/lib/confetti";
 
 interface WelcomeBonusPopupProps {
   open: boolean;

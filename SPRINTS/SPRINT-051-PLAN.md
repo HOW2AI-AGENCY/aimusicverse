@@ -1,90 +1,53 @@
-# Sprint 051: Test Debt + God Files
+# Sprint 051 — Test Debt + God Files (tests-first)
 
-**Статус:** ⏳ Запланирован  
-**Приоритет:** Высокий  
-**Дата начала:** 2026-07-21 (предполагаемая)  
-**Длительность:** 2 недели
+**Статус:** 📋 Запланирован (после закрытия Sprint 050 фазы A)
+**Оценка:** ~10 дней
+**Контекст:** [SPRINT-CLOSURE-PLAN-2026-07.md](SPRINT-CLOSURE-PLAN-2026-07.md) §3 · [NEXT-SPRINTS-PLAN.md](NEXT-SPRINTS-PLAN.md)
 
-## Цели
+## Цель
 
-Снизить тестовый долг и декомпозировать крупные файлы (>1000 LOC).
+Поднять покрытие API/сервис-слоя до смоук-уровня и под защитой новых тестов декомпозировать god-файлы. **Порядок принципиален: сначала тесты, потом резка.**
 
 ## Задачи
 
-| ID   | Название                                   | Приоритет | Статус     | Описание                                                 |
-| ---- | ------------------------------------------ | --------- | ---------- | -------------------------------------------------------- |
-| T051 | Рефакторинг `studio.service.ts` (1028 LOC) | Высокий   | ⏳ Planned | Разбить на модули: generation, editing, export, metadata |
-| T052 | Рефакторинг `LyricsParser.ts` (903 LOC)    | Высокий   | ⏳ Planned | Выделить sub-парсеры для разных форматов                 |
-| T053 | Рефакторинг `studio.api.ts` (891 LOC)      | Высокий   | ⏳ Planned | Группировать по доменам: tracks, versions, metadata      |
-| T054 | Unit-тесты для топ-3 god files             | Высокий   | ⏳ Planned | Покрытие критических путей                               |
-| T055 | Достижение 450+ unit-тестов                | Средний   | ⏳ Planned | Текущий baseline: 292                                    |
-| T056 | Снижение файлов >1000 LOC до нуля          | Средний   | ⏳ Planned | Текущий count: 9 файлов                                  |
+### Фаза A — Test Infrastructure (день 1–2)
 
-## Детали реализации
+| #      | Задача                                                                                                                                                                                                    | Оценка |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 051-A1 | **`tests/unit/` включить в прогон**: 25 тест-файлов никогда не исполняются (vitest include покрывает только `src/**`). Расширить include ИЛИ перенести файлы в `src/__tests__/`; починить всё, что упадёт | 1d     |
+| 051-A2 | Глобальный мок `ResizeObserver` в vitest setup — сделать конструктором (сейчас arrow-factory, Radix-popper компоненты падают в тестах)                                                                    | 0.25d  |
+| 051-A3 | `tests/e2e/suno-mashup.spec.ts`: заменить `waitForLoadState("networkidle")` на локатор-ожидание (флейк при фоновых запросах Sentry/Supabase)                                                              | 0.25d  |
 
-### T051: Разбить `studio.service.ts`
+### Фаза B — API/Service smoke tests (день 3–6)
 
-**Текущая проблема:** 1028 LOC, монолитный сервис
+| #      | Задача                                                                                     | Оценка |
+| ------ | ------------------------------------------------------------------------------------------ | ------ |
+| 051-B1 | Unit-тесты для 20 `src/api/*.api.ts` (CRUD-контракты, error paths)                         | 2d     |
+| 051-B2 | Unit-тесты для 18 `src/services/*.service.ts` (бизнес-логика, transformation, Result-пути) | 2d     |
 
-**Предлагаемая структура:**
+**Цель:** 320 → 450+ unit-тестов.
 
-```
-src/services/studio/
-├── generation.service.ts      # Music generation logic
-├── editing.service.ts         # Track editing operations
-├── export.service.ts          # Export functionality
-├── metadata.service.ts        # Metadata management
-└── studio.service.ts         # Facade/aggregate
-```
+### Фаза C — God Files decomposition (день 7–10, строго после B)
 
-### T052: Разбить `LyricsParser.ts`
+| #      | Файл                             | LOC  | Стратегия                                      |
+| ------ | -------------------------------- | ---- | ---------------------------------------------- |
+| 051-C1 | `src/services/studio.service.ts` | 1028 | По доменам: stems / sections / mixing / export |
+| 051-C2 | `src/lib/lyrics/LyricsParser.ts` | 903  | Парсер-ядро + форматтеры + tag-handling        |
+| 051-C3 | `src/api/studio.api.ts`          | 891  | По таблицам/фичам, сохранить публичный API     |
 
-**Текущая проблема:** 903 LOC, множественные форматы
+Остальные 6 файлов >800 LOC (`IntegratedStemTracks.tsx`, `UnifiedNotesViewer.tsx`, `deeplink-tracker.ts`, `errorHandling.ts`, `AudioAnalysisService.ts`, `LyricsVisualEditor.tsx`) — по остаточному времени или перенос в 056+.
 
-**Предлагаемая структура:**
+## DoD
 
-```
-src/lib/lyrics/
-├── parsers/
-│   ├── lrc-parser.ts          # LRC format
-│   ├── srt-parser.ts          # SubRip format
-│   └── txt-parser.ts          # Plain text
-├── LyricsParser.ts            # Main orchestrator
-└── types.ts                   # Shared types
-```
-
-### T053: Разбить `studio.api.ts`
-
-**Текущая проблема:** 891 LOC, смешанные домены
-
-**Предлагаемая структура:**
-
-```
-src/api/studio/
-├── tracks.api.ts              # Track operations
-├── versions.api.ts            # Version management
-├── metadata.api.ts            # Metadata queries
-├── export.api.ts              # Export operations
-└── studio.api.ts              # Facade
-```
-
-## Критерии завершения
-
-- [ ] Все файлы <1000 LOC
-- [ ] 450+ unit-тестов
-- [ ] Все тесты проходят (CI green)
-- [ ] Документация обновлена
+- [ ] 450+ unit-тестов зелёные локально и в CI
+- [ ] `tests/unit/**` реально исполняется в CI-прогоне
+- [ ] 0 файлов >1000 строк
+- [ ] Чеклист документации из [SPRINT-CLOSURE-PLAN-2026-07.md](SPRINT-CLOSURE-PLAN-2026-07.md) §7 выполнен
 
 ## Риски
 
-- **Риск:** Рефакторинг может внести регрессии
-- **Митигация:** Comprehensive unit-тесты перед рефакторингом
-
-## Зависимости
-
-- Требует зелёный CI от Sprint 050
-- Базовые тесты должны быть стабильными
-
-## Далее
-
-Sprint 053: Suno Sounds + MIDI + Boost
+| Риск                                                       | Митигация                                             |
+| ---------------------------------------------------------- | ----------------------------------------------------- |
+| 25 «спящих» тест-файлов могут массово упасть при включении | 051-A1 первым; чинить или помечать `.todo` с причиной |
+| Декомпозиция без достаточного покрытия = регрессии         | Фаза C стартует только после зелёной фазы B           |
+| Параллельные Lovable-пуши в main во время резки god-файлов | Мелкие атомарные PR, ребейз перед каждым              |

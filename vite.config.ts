@@ -4,11 +4,21 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import type { Plugin } from "vite";
 
+// @lovable.dev/mcp-js resolves to Lovable's private registry
+// (europe-west1-npm.pkg.dev) and is only installable inside the Lovable build
+// pipeline — a static import breaks `vite build` everywhere else (CI, local).
+let mcpPlugin: (() => Plugin) | undefined;
 let visualizer: ((opts: Record<string, unknown>) => Plugin) | undefined;
 let viteCompression: ((opts: Record<string, unknown>) => Plugin) | undefined;
 let hasTerser = false;
 let mcpPlugin: (() => Plugin) | undefined;
 
+try {
+  // @ts-ignore — types only exist inside the Lovable pipeline
+  mcpPlugin = (await import("@lovable.dev/mcp-js/stacks/supabase/vite")).mcpPlugin;
+} catch {
+  /* optional dependency, Lovable sandbox only */
+}
 try {
   visualizer = (await import("rollup-plugin-visualizer")).visualizer;
 } catch {

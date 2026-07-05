@@ -15,7 +15,7 @@
  *   2. Calls `invalidateQueries(['generation-tasks'])` — covers all consumers
  *      without enumerating each query key.
  *
- *   3. Emits a `feature_usage → generation_cancel` analytics event with the
+ *   3. Emits a `feature_used → generation_cancel` analytics event with the
  *      userId and a boolean `succeeded` flag for outcome tracking.
  *
  * The hook returns `isCancelling` (rendering gate for the cancel button) plus
