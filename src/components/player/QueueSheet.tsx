@@ -158,8 +158,9 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
       await Promise.all(queue.map((track, index) => addTrackToPlaylist(playlist.id, track.id, index)));
 
       toast.success("Плейлист создан", {
-        description: `${queue.length} треков сохранено`,
+        description: `${queue.length} треков сохранено в разделе «Плейлисты»`,
       });
+      onOpenChange(false);
     } catch (error: unknown) {
       logger.error("Failed to save playlist", error instanceof Error ? error : new Error(String(error)));
       toast.error("Не удалось сохранить плейлист");

@@ -87,9 +87,9 @@ Chunk names below (`feature-generation-form`, `feature-studio-unified`, `page-ad
 
 **План оптимизации**:
 
-- [ ] `lamejs` → lazy import (используется только при экспорте MP3)
-- [ ] `canvas-confetti` → lazy import (редкое использование)
-- [ ] `qrcode` → lazy import (только в платежах)
+- [x] `lamejs` → lazy import (используется только при экспорте MP3) — `await import("lamejs")` in `useMixExport.ts`
+- [x] `canvas-confetti` → lazy import (редкое использование) — `src/lib/confetti.ts`
+- [x] `qrcode` → lazy import (только в платежах) — `await import("qrcode")` in `Referral.tsx`
 - [ ] `@sentry/react` → оставить (нужен везде)
 
 ### Feature-generation-form (389KB)
