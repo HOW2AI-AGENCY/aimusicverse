@@ -5,10 +5,10 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-056_in_progress-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-051_053_055_complete-10B981?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-292_passing-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-395_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
 </p>
@@ -33,35 +33,49 @@
 
 ## План действий (июль 2026)
 
-### Блок 1 — Стабилизация main (Sprint 050) 🔄
+### Блок 1 — Стабилизация main (Sprint 050) ✅
 
 | Задача     | Действие                                         | Статус        |
 | ---------- | ------------------------------------------------ | ------------- |
-| A4 Phase 2 | Добавить required_status_checks в GitHub ruleset | ⏳ Ручной шаг |
-| E2E        | Проверить CI run, починить падения               | ⏳ Ожидает CI |
-| Phase B    | F1–F12 mobile fixes                              | ✅ 5/6 done   |
-| Docs       | Включить GitHub Pages в Settings                 | ⏳ Ручной шаг |
+| Phase A    | Все workflow зелёные                             | ✅ Done       |
+| Phase B    | F1–F12 mobile fixes                              | ✅ 6/6 done   |
+| Docs       | GitHub Pages включён                             | ✅ Done       |
 
 ### Блок 2 — UX Critical Fixes (Sprint 055) ✅
 
-| Задача        | Действие                          | Критичность |
-| ------------- | --------------------------------- | ----------- |
-| Save Draft    | Wire useGenerateDraft.saveDraft() | 🔴 P0       |
-| Cancel        | Убрать showCancel={false}         | 🔴 P0       |
-| Deeplink      | startapp=generate → open sheet    | 🔴 P0       |
-| Welcome Bonus | Idempotency guard                 | 🔴 P0       |
+| Задача        | Действие                          | Статус |
+| ------------- | --------------------------------- | ------ |
+| Save Draft    | Wire useGenerateDraft.saveDraft() | ✅     |
+| Cancel        | Убрать showCancel={false}         | ✅     |
+| Deeplink      | startapp=generate → open sheet    | ✅     |
+| Welcome Bonus | Idempotency guard                 | ✅     |
+| Dual CTA      | Show both buttons always          | ✅     |
+| Footer Summary| Generation info below CTA         | ✅     |
+| Stepper       | FormStepper for Custom mode       | ✅     |
+| VoiceInput    | Voice input in Custom sections    | ✅     |
+| Home CTA      | Sticky CTA for cold users         | ✅     |
 
-### Блок 3 — GenerateSheet Redesign (Sprint 056) 🔄
+### Блок 3 — GenerateSheet Redesign (Sprint 056) ✅
 
-Phase A–B ✅, Phase C–D ⏳ (stories verify + docs)
+Phase A–B ✅, Phase C–D ✅ (stories + docs complete)
 
-### Блок 4 — Test Debt (Sprint 051) ⏳
+### Блок 4 — Test Debt (Sprint 051) 🔄
 
-Декомпозиция 3 god files (1137/953/903 LOC) → 450+ тестов
+| Задача | Статус |
+| ------ | ------ |
+| T051 studio.service decomposition | ✅ 1137→4 модуля |
+| T052 LyricsParser types extraction | ✅ |
+| T053 studio.api decomposition | ✅ 953→4 модуля |
+| T054 studio.service тесты | ✅ 24 tests |
+| T055 450+ unit-тестов | 🔄 395→target |
+| T056 0 файлов >1000 LOC | ⏳ |
 
-### Блок 5 — Suno API (Sprint 053–054) ⏳
+### Блок 5 — Suno API (Sprint 053–054) ✅
 
-SFX + MIDI + Details suite (август–сентябрь)
+| Спринт | Статус |
+| ------ | ------ |
+| Sprint 053 SFX + MIDI | ✅ Complete |
+| Sprint 054 Details Suite | ✅ Complete |
 
 ---
 
