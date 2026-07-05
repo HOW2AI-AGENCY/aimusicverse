@@ -37,7 +37,7 @@ export const VocalsToggle = memo(function VocalsToggle({
           type="button"
           onClick={() => handleChange(true)}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3",
+            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3 active:scale-[0.98]",
             hasVocals
               ? "bg-primary text-primary-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -50,7 +50,7 @@ export const VocalsToggle = memo(function VocalsToggle({
           type="button"
           onClick={() => handleChange(false)}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3",
+            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3 active:scale-[0.98]",
             !hasVocals
               ? "bg-primary text-primary-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -59,6 +59,7 @@ export const VocalsToggle = memo(function VocalsToggle({
           <Music2 className="w-4 h-4" />
           <span>Инструментал</span>
         </button>
+
       </div>
 
       {/* Contextual hint - only in non-compact mode */}
