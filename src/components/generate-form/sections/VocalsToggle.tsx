@@ -2,6 +2,7 @@ import { memo } from "react";
 import { Mic, Music2 } from "@/lib/icons";
 import { SectionLabel, SECTION_HINTS } from "../SectionLabel";
 import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 interface VocalsToggleProps {
   hasVocals: boolean;
@@ -16,12 +17,15 @@ export const VocalsToggle = memo(function VocalsToggle({
   onLyricsChange,
   compact = false,
 }: VocalsToggleProps) {
+  const haptic = useHapticFeedback();
   const handleChange = (value: boolean) => {
+    if (value !== hasVocals) haptic.selectionChanged();
     onHasVocalsChange(value);
     if (!value) {
       onLyricsChange("");
     }
   };
+
 
   return (
     <div className={cn("space-y-1.5", compact && "space-y-1")}>
