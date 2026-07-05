@@ -86,11 +86,6 @@ export interface UseGenerateFormStateReturn {
 
   /**
    * Real saveDraft pulled from `useGenerateDraft` (via the internal hook).
-   * Exposed on the state slice so the composer can wire it through to
-   * the public surface instead of using a no-op placeholder.
-   *
-   * Signature mirrors `useGenerateDraft().saveDraft` (accepts an optional
-   * payload; the brief types it as `() => void` for back-compat).
    */
   saveDraft: (payload?: unknown) => void;
 
@@ -100,18 +95,24 @@ export interface UseGenerateFormStateReturn {
 
   // derived
   hasUnsavedData: boolean;
+  hasDraft: boolean;
 
   // reset
   resetForm: () => void;
 
   // api credits
-  /**
-   * Local copy of the user's Suno API balance after a successful generation.
-   * Forwarded from the internal state so the composer can wire it through
-   * to the submit pipeline and the public surface (was a no-op stub).
-   */
   apiCredits: number | null;
   setApiCredits: (v: number | null) => void;
+
+  // credits/admin (forwarded from internal state)
+  isAdmin: boolean;
+  apiBalance: number | null | undefined;
+  userBalance: number | null;
+  invalidateCredits: () => void;
+
+  // audio reference (forwarded from internal state)
+  activeReference: unknown;
+  clearAudioReference: () => void;
 }
 
 /** Deps accepted by `useGenerateFormActions`. */
