@@ -18,50 +18,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // Direct import to avoid type issues
 import { MashupDialog } from "../../components/MashupDialog";
-import type { Track } from "../../types/types";
 
-// Моковые данные для треков
-const MOCK_TRACKS: Track[] = [
-  {
-    id: "track-1",
-    title: "Midnight Dreams",
-    audio_url: "https://example.com/track1.mp3",
-    cover_url: "https://example.com/cover1.jpg",
-    duration: 180,
-    status: "completed",
-    created_at: "2026-07-01T00:00:00Z",
-    user_id: "user-1",
-    is_public: true,
-    play_count: 0,
-    likes_count: 0,
-  },
-  {
-    id: "track-2",
-    title: "Neon Sunset",
-    audio_url: "https://example.com/track2.mp3",
-    cover_url: "https://example.com/cover2.jpg",
-    duration: 210,
-    status: "completed",
-    created_at: "2026-07-02T00:00:00Z",
-    user_id: "user-1",
-    is_public: true,
-    play_count: 0,
-    likes_count: 0,
-  },
-  {
-    id: "track-3",
-    title: "Velvet Highway",
-    audio_url: "https://example.com/track3.mp3",
-    cover_url: "https://example.com/cover3.jpg",
-    duration: 195,
-    status: "completed",
-    created_at: "2026-07-03T00:00:00Z",
-    user_id: "user-1",
-    is_public: true,
-    play_count: 0,
-    likes_count: 0,
-  },
-];
+// MashupDialog fetches tracks internally via useTracks/useSunoMashup, so these
+// stories drive it through QueryClient mocks rather than passing track fixtures.
 
 // Storybook QueryClient с отключёнными retry для скорости
 const createQueryClient = () =>

@@ -75,7 +75,7 @@ gh api --method PUT \
 
 **Option B: Via GitHub Web UI**
 
-1. Go to: https://github.com/HOW2AI-AGENCY/aimusicverse/rulesets
+1. Go to: `https://github.com/HOW2AI-AGENCY/aimusicverse/settings/rules`
 2. Find: "protect-main (Sprint 050-A4)"
 3. Click "Edit" → Toggle "Enable ruleset"
 4. Under "Bypass restrictions": Leave empty (even admin can't bypass)
