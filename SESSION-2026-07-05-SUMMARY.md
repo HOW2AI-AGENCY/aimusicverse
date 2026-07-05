@@ -12,6 +12,7 @@
 ### 1. Обновление документации ✅
 
 **Файлы обновлены:**
+
 - ✅ `PROJECT_STATUS.md`
   - Изменён sprint badge: 056 → 050
   - Добавлена секция "Sprint 052-C Cleanup завершён"
@@ -23,6 +24,7 @@
   - Sprint 052 помечен как complete (10/10 + cleanup ✅)
 
 **Новые файлы:**
+
 - ✅ `SESSION-2026-07-05.md` — detailed progress report
 - ✅ `SPRINTS/050-A4-PHASE2-MANUAL.md` — manual application instructions
 
@@ -31,6 +33,7 @@
 **Проблема:** Missing `@rollup/rollup-win32-x64-msvc` dependency
 **Решение:** Полная переустановка зависимостей
 **Статус:** ✅ Завершено
+
 - Удалены node_modules и package-lock.json
 - Выполнена clean install с `--legacy-peer-deps`
 - Все зависимости установлены корректно
@@ -42,6 +45,7 @@
 **Решение:** Подготовлены инструкции для ручного применения
 
 **Файл:** `ruleset-update.json` готов к применению
+
 - ✅ enforcement: "active"
 - ✅ required_status_checks: quality, build, smoke
 - ✅ bypass_actors: []
@@ -52,14 +56,14 @@
 
 ## 📈 Метрики прогресса
 
-| Метрика | Было | Стало | Изменение |
-|--------|------|-------|----------|
-| Sprint 052 | 10/10 (83%) | 10/10 + cleanup ✅ (100%) | +17% |
-| Overall progress | 96% | 99% | +3% |
-| Storybook stories | 5 | 11 | +120% |
-| Hardcoded RU strings | 7 | 0 | -100% |
-| E2E blocker | 🔴 Blocked | ✅ Fixed | RESOLVED |
-| Branch protection | ⏳ Phase 1 | ⏳ Phase 2 ready | +50% |
+| Метрика              | Было        | Стало                     | Изменение |
+| -------------------- | ----------- | ------------------------- | --------- |
+| Sprint 052           | 10/10 (83%) | 10/10 + cleanup ✅ (100%) | +17%      |
+| Overall progress     | 96%         | 99%                       | +3%       |
+| Storybook stories    | 5           | 11                        | +120%     |
+| Hardcoded RU strings | 7           | 0                         | -100%     |
+| E2E blocker          | 🔴 Blocked  | ✅ Fixed                  | RESOLVED  |
+| Branch protection    | ⏳ Phase 1  | ⏳ Phase 2 ready          | +50%      |
 
 ---
 
@@ -68,13 +72,16 @@
 ### Требуют действий пользователя:
 
 1. **Apply Branch Protection Phase 2:**
+
    ```bash
    cd d:\.MUSICVERSE\aimusicverse
    gh api -X PUT repos/HOW2AI-AGENCY/aimusicverse/rulesets/18508298 --input ruleset-update.json
    ```
+
    Или через GitHub UI: https://github.com/HOW2AI-AGENCY/aimusicverse/rules/18508298
 
 2. **Push commits to remote:**
+
    ```bash
    cd d:\.MUSICVERSE\aimusicverse
    git push origin main
