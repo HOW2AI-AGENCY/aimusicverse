@@ -1,5 +1,5 @@
 import { LogIn, X } from "@/lib/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useGuestMode } from "@/contexts/GuestModeContext";
@@ -14,9 +14,12 @@ import { motion, AnimatePresence } from "@/lib/motion";
  *   carries an explicit "Войти" CTA and the banner used to overlap the logo).
  * - On mobile / inside Telegram: rendered as a compact inline strip above the
  *   main content, not as a full-width fixed overlay across the Sidebar.
+ * - Automatically hidden while any Radix Dialog / Sheet / Drawer is open
+ *   (audit P0: it used to steal the safe-area of every modal).
  */
 export const GuestModeBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { disableGuestMode } = useGuestMode();
   const { platform } = useTelegram();
@@ -24,9 +27,24 @@ export const GuestModeBanner = () => {
 
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
+  // Hide banner whenever a Radix modal-like surface is mounted (Dialog, Sheet, Drawer, AlertDialog).
+  useEffect(() => {
+    const check = () => {
+      const hasOpen = document.body.hasAttribute("data-scroll-locked") ||
+        document.querySelector('[role="dialog"][data-state="open"], [role="alertdialog"][data-state="open"]') !== null;
+      setIsModalOpen(hasOpen);
+    };
+    check();
+    const observer = new MutationObserver(check);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["data-scroll-locked", "style"], childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+
   if (!isVisible) return null;
+  if (isModalOpen) return null;
   // On desktop outside Telegram, the Sidebar already shows the auth CTA.
   if (isDesktop && !isTelegram) return null;
+
 
   const handleSignIn = () => {
     disableGuestMode();

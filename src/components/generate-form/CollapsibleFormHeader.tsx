@@ -75,7 +75,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
               ? "bg-destructive/10 border-destructive/30 text-destructive"
               : "bg-primary/10 border-primary/20 text-primary",
           )}
-          aria-label={`Баланс ${balance} из ${cost} кредитов`}
+          aria-label={`Баланс ${Math.floor(balance)} из ${cost} кредитов`}
         >
           <span
             className={cn(
@@ -86,8 +86,8 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
             )}
             aria-hidden
           />
-          <span className="text-xs font-semibold leading-none">{balance}</span>
-          <span className="text-[10px] leading-none opacity-60">/ {cost}</span>
+          <span className="text-xs font-semibold leading-none tabular-nums">{Math.floor(balance)}</span>
+          <span className="text-[10px] leading-none opacity-60 tabular-nums">/ {cost}</span>
         </div>
 
         {onClose && (
