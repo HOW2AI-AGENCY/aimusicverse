@@ -31,6 +31,7 @@ import { GenerateSheetDialogs } from "./generate-sheet/GenerateSheetDialogs";
 import { ValidationReasonsSheet } from "./generate-sheet/ValidationReasonsSheet";
 import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
 import type { ReferenceKind } from "./generate-sheet/ReferenceChipsRow";
+import { LegacyGenerateSheet } from "./GenerateSheet.legacy";
 
 interface Props {
   open: boolean;
@@ -76,8 +77,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   }, [controller.form.loading, showProgress, hideProgress]);
 
   if (!isRedesign) {
-    // Fallback to legacy implementation via dynamic import
-    const LegacyGenerateSheet = require("./GenerateSheet.legacy").LegacyGenerateSheet;
     return <LegacyGenerateSheet open={open} onOpenChange={onOpenChange} projectId={projectId} />;
   }
 
