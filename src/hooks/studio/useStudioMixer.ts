@@ -44,7 +44,7 @@ import { useCallback, useMemo, useState, useEffect } from "react";
 import { logger } from "@/lib/logger";
 import { useStudioAudioEngine, type AudioTrack } from "./useStudioAudioEngine";
 import { useStudioEffectsEngine, DEFAULT_EFFECTS } from "./useStudioEffectsEngine";
-import { getMixPreset, getPresetStemSettings, type MixPreset } from "./mixPresetsConfig";
+import { getMixPreset, getPresetStemSettings, MIX_PRESETS, type MixPreset } from "./mixPresetsConfig";
 import type { StemEffects } from "./types";
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -370,8 +370,6 @@ export function useStudioMixer({
   );
 
   const getAvailablePresets = useCallback((): MixPreset[] => {
-    // Import directly to avoid circular dependency
-    const { MIX_PRESETS } = require("./mixPresetsConfig");
     return MIX_PRESETS;
   }, []);
 
