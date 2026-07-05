@@ -261,9 +261,9 @@ Sprint 052 влился в `main` с 8 ошибками `tsc` — Quality & Buil
 
 - 🟡 **Phase D-4 — ErrorBoundary home button:** требует `useNavigate()` hook (functional change, вне рамок design-audit). Передано в Phase E сборки.
 
-## 🚦 `052` Suno API: Mashup + Persona + File Upload (Q3 2026) — ЗАВЕРШЁН ✅ (10/10)
+## 🚦 `052` Suno API: Mashup + Persona + File Upload (Q3 2026) — ЗАВЕРШЁН ✅ + 052-C cleanup ✅
 
-**Детальный план:** [SPRINTS/SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md). Commits `916cd72a` → `5895b5b3` → `a9d12426` → `37ca8264` → `18b1e80e` → `d0296177` → `998980bc` → `8a4bc8a4` → `b778bf98`.
+**Детальный план:** [SPRINTS/SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md). Commits `916cd72a` → `5895b5b3` → `a9d12426` → `37ca8264` → `18b1e80e` → `d0296177` → `998980bc` → `8a4bc8a4` → `b778bf98` → `93beb2f1` (052-C cleanup).
 
 **Phase A — Edge + DB (5/5 ✅):**
 
@@ -280,7 +280,7 @@ Sprint 052 влился в `main` с 8 ошибками `tsc` — Quality & Buil
 - ✅ Кнопка «Create Persona» в `GenerationResultSheet` (footer-grid 3 cols) + Dialog с name/description → `useSunoPersona`.
 - ✅ Telegram `/mashup` команда + deep-link `startapp=mashup_<id>` + keyboard button `mashup_<trackId>` callback.
 - ✅ E2E: `tests/e2e/suno-mashup.spec.ts` (deep-link smoke + dialog render).
-- ✅ **Sprint 052-C cleanup** (2026-07-04): pure-Dumb `MashupFormFields` декомпозиция ([src/components/mashup/MashupFormFields.tsx](src/components/mashup/MashupFormFields.tsx)), 5 Storybook stories ([src/stories/mashup/MashupFormFields.stories.tsx](src/stories/mashup/MashupFormFields.stories.tsx)), `MASHUP_STRINGS` typed-const ([src/lib/locale/mashupStrings.ts](src/lib/locale/mashupStrings.ts) — единый источник UX-копи), ретро-документация ([docs/sprints/SPRINT-052-RETRO.md](docs/sprints/SPRINT-052-RETRO.md)).
+- ✅ **Sprint 052-C cleanup** (2026-07-05): pure-Dumb `MashupFormFields` декомпозиция, 5 Storybook stories для `MashupFormFields`, 6 Storybook stories для `MashupDialog` (Empty/Filled/Loading/Success/Mobile/Desktop), `MASHUP_STRINGS` расширена (persona.validation._, generationResult._), все хардкодные RU-строки извлечены из `GenerationResultSheet.tsx`. Commit `93beb2f1`.
 
 **Документация:** `docs/SUNO_API.md` — раздел «История изменений → Sprint 052» + 3 новых curl-примера (mashup/persona/upload). Suno API gap-анализ актуализирован (3 категории закрыты: Mashup, Persona, File Upload).
 
@@ -524,7 +524,9 @@ mindmap
 
 ## ✅ Последние достижения (Sprint 052, июль 2026)
 
-- ✅ **Sprint 052 (8/10, 2 deferred в 052-C):** Suno API gap closure — 3 категории закрыты: Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + `suno-persona-callback` + «Create Persona» кнопка в `GenerationResultSheet`), File Upload (`suno-file-upload` + рефакторинг `suno-upload-cover/extend` через общий `_shared/suno-file-uploader.ts` → экономия ~80 строк дублей). DB миграция `track_personas` + RLS. Telegram `/mashup` команда + deep-link `startapp=mashup_<id>`. E2E `tests/e2e/suno-mashup.spec.ts`. Deferred: Storybook stories + i18n strings.
+- ✅ **Sprint 052-C cleanup (2026-07-05):** Storybook stories + i18n strings — созданы 6 Storybook stories для `MashupDialog` (Empty/Filled/Loading/Success/Mobile/Desktop), извлечены все хардкодные RU-строки из `GenerationResultSheet.tsx` в `MASHUP_STRINGS` (persona.validation._, generationResult._). Sprint 052 теперь **100% complete**.
+- ✅ **Sprint 050-A2 + A5 (2026-07-05):** Docs links + lockfile resolution — исправлены 7 сломанных ссылок в `VOICE_CLONING_INTEGRATION.md`, разрешён конфликт `bun.lock` vs `package-lock.json` (decision: use package-lock.json only).
+- ✅ **Sprint 052 (8/10 → 10/10 ✅):** Suno API gap closure — 3 категории закрыты: Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + `suno-persona-callback` + «Create Persona» кнопка в `GenerationResultSheet`), File Upload (`suno-file-upload` + рефакторинг `suno-upload-cover/extend` через общий `_shared/suno-file-uploader.ts` → экономия ~80 строк дублей). DB миграция `track_personas` + RLS. Telegram `/mashup` команда + deep-link `startapp=mashup_<id>`. E2E `tests/e2e/suno-mashup.spec.ts`.
 - ✅ **Sprint 044 (7/7 100%):** Type Safety Wave 2 — `any` в `src/hooks/**` 164 → 6, в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result` (`VoiceCloneService`, `AudioAnalysisService`, `ReferenceManager`); ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs`.
 - ✅ **Sprint 043 (6/6 100%):** Layer Pass #2 — 65 компонентов через service layer; ESLint guardrail `no-direct-supabase-client-imports` для `src/components/**`; touch-target миграция 391→0 в touched layers; mobile Playwright smoke (6 tests × 7 projects).
 - ✅ **Sprint 042 (10/10 100%):** Page Decomposition + Audio Pooling — `usePreviewAudio` hook + 17 миграций; `LyricsStudio` 999→788 LOC; `ProjectDetail` 851→286 LOC; `usePromptDJEnhanced` 1071→882 LOC; bundle audit (2.21 МБ / 950 КБ).
