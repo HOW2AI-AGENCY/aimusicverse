@@ -20,12 +20,13 @@ export function useVoiceRecorder() {
       setError(null);
       setBlob(null);
       setDuration(0);
-      const stream = await navigator.mediaDevices.getUserMedia({
+      const s = await navigator.mediaDevices.getUserMedia({
         audio: { sampleRate: 44100, channelCount: 1, echoCancellation: true, noiseSuppression: true },
       });
-      streamRef.current = stream;
+      streamRef.current = s;
+      setStream(s);
       const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? "audio/webm;codecs=opus" : "audio/webm";
-      const rec = new MediaRecorder(stream, { mimeType: mime });
+      const rec = new MediaRecorder(s, { mimeType: mime });
       chunksRef.current = [];
       rec.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data);
@@ -34,7 +35,8 @@ export function useVoiceRecorder() {
         const b = new Blob(chunksRef.current, { type: mime });
         setBlob(b);
         setState("stopped");
-        stream.getTracks().forEach((t) => t.stop());
+        s.getTracks().forEach((t) => t.stop());
+        setStream(null);
         if (tickRef.current) {
           clearInterval(tickRef.current);
           tickRef.current = null;
@@ -64,7 +66,12 @@ export function useVoiceRecorder() {
     setDuration(0);
     setError(null);
     setState("idle");
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+      setStream(null);
+    }
   }, []);
 
-  return { state, blob, duration, error, start, stop, reset };
+  return { state, blob, duration, error, stream, start, stop, reset };
 }
