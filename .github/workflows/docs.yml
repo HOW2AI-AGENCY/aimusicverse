@@ -52,6 +52,7 @@ jobs:
             --exclude-path docs/archive
             --exclude-path node_modules
             --exclude-path graphify-out
+            --exclude-path .claude
             --exclude-path prd
             --exclude-path specs
             --exclude-path plans
