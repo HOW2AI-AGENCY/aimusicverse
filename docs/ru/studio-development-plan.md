@@ -1640,7 +1640,14 @@ MusicVerse AI - это **амбициозная и технически слож
 
 **Связанные документы:**
 
+<<<<<<< HEAD
+
 - MOBILE_OPTIMIZATION_SUMMARY.md
+  \=======
+- [MOBILE_OPTIMIZATION_SUMMARY.md](../archive/2026-01-04-cleanup/MOBILE_OPTIMIZATION_SUMMARY.md)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 - ПЛАН_ДОРАБОТКИ.md
 - [ROADMAP.md](../../ROADMAP.md)
 - [NAVIGATION.md](../NAVIGATION.md)

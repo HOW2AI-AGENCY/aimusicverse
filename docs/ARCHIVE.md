@@ -158,9 +158,17 @@ For current project information, refer to these files in the root directory:
 
 ### Specifications
 
+<<<<<<< HEAD
+
 - **specs/sprint-011-social-features/** - Sprint 011 spec
 - **specs/sprint-014-platform-integration-export/** - Sprint 014 spec
 - **specs/sprint-015-quality-testing-performance/** - Sprint 015 spec
+  \=======
+- **`specs/sprint-011-social-features/` (удалена)** - Sprint 011 spec
+- **`specs/sprint-014-platform-integration-export/` (удалена)** - Sprint 014 spec
+- **`specs/sprint-015-quality-testing-performance/` (удалена)** - Sprint 015 spec
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 ---
 

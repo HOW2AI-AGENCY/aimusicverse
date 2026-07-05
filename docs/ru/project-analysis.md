@@ -509,7 +509,14 @@ User Satisfaction           4.5+/5
 
 **Существующая документация:**
 
+<<<<<<< HEAD
+
 - MOBILE_OPTIMIZATION_SUMMARY.md - Mobile план
+  \=======
+- [MOBILE_OPTIMIZATION_SUMMARY.md](../archive/2026-01-04-cleanup/MOBILE_OPTIMIZATION_SUMMARY.md) - Mobile план
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 - ПЛАН_ДОРАБОТКИ.md - Детальные задачи
 - [NAVIGATION.md](../NAVIGATION.md) - Навигация по репозиторию
 - [ROADMAP.md](../../ROADMAP.md) - Общая дорожная карта
