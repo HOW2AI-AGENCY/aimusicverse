@@ -10,7 +10,7 @@
  * Single layout function for desktop (12-col grid) and mobile (stack).
  */
 
-import { useState, useCallback, lazy, Suspense } from "react";
+import { useState, useCallback, useEffect, lazy, Suspense } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useProfile } from "@/hooks/useProfile.tsx";
@@ -19,6 +19,8 @@ import { useHomePageData } from "@/hooks/useHomePageData";
 import { useHomePageHandlers } from "@/hooks/useHomePageHandlers";
 import { useHomePageEffects } from "@/hooks/useHomePageEffects";
 import { useOpenGenerateFromDeeplink } from "@/hooks/useOpenGenerateFromDeeplink";
+import { listenOpenGenerateSheet } from "@/lib/events";
+import { HomeStickyCTA } from "@/components/home/HomeStickyCTA";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
@@ -71,6 +73,14 @@ const Index = () => {
   // DeepLinkHandler navigates here with `?openGenerate=1`; the hook below opens
   // the sheet and strips the param so reload doesn't reopen it.
   useOpenGenerateFromDeeplink(openGenerateSheet);
+
+  // Sprint 055-B7: Listen for custom event to open generate sheet (from HomeStickyCTA)
+  useEffect(() => {
+    const cleanup = listenOpenGenerateSheet(() => {
+      setGenerateSheetOpen(true);
+    });
+    return cleanup;
+  }, []);
 
   const { isNewUser } = useUserJourneyState();
 
@@ -241,6 +251,7 @@ const Index = () => {
           </Suspense>
         )}
 
+        <HomeStickyCTA />
         {!isMobile && <ContextHints context="generation" delay={4000} />}
       </PullToRefreshWrapper>
     </div>

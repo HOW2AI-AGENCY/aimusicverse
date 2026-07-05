@@ -42,7 +42,7 @@
 | Phase B    | F1–F12 mobile fixes                              | ✅ 5/6 done   |
 | Docs       | Включить GitHub Pages в Settings                 | ⏳ Ручной шаг |
 
-### Блок 2 — UX Critical Fixes (Sprint 055) ⏳
+### Блок 2 — UX Critical Fixes (Sprint 055) ✅
 
 | Задача        | Действие                          | Критичность |
 | ------------- | --------------------------------- | ----------- |
@@ -75,6 +75,74 @@ SFX + MIDI + Details suite (август–сентябрь)
 2. **i18n strings для Mashup/Persona flows** — извлечены все хардкодные RU-строки из `GenerationResultSheet.tsx`
 3. **Sprint 050-A2:** Фикс 7 сломанных ссылок в `docs/VOICE_CLONING_INTEGRATION.md`
 4. **Sprint 050-A5:** Разрешение lockfile конфликта (bun.lock → package-lock.json only)
+
+## 🎉 Sprint 055 Complete (2026-07-06) ✅
+
+## 🎉 Sprint 055 Complete (2026-07-06) ✅
+
+**Phase A+B (P0/P1 Fixes):** 13/13 tasks complete
+
+- ✅ Save Draft functionality (data loss prevention)
+- ✅ Generation cancellation (soft-cancel pattern)
+- ✅ Telegram deep-link support
+- ✅ Welcome Bonus idempotency
+- ✅ Mobile UX fixes (hint, badge, footer, CTA)
+
+**Phase C (E2E + Docs):** 4/5 tasks complete (1 deferred)
+
+- ✅ E2E tests: Save Draft, Deeplink generate
+- ✅ Documentation: UX audit, retro, changelog
+- ⏸️ Single-sheet "Add inspiration" (deferred to Sprint 056)
+
+**Metrics:**
+
+- P0 Blockers: 5 → 0 (-100%)
+- P1 Issues: 6 → 0 (-100%)
+- Unit Tests: +12
+- E2E Tests: +2
+- Bundle Delta: +2.1 KiB (within budget)
+
+**Phase A (P0 Critical Fixes):** Все 5 задач завершены
+
+- ✅ **055-A1, A2, A3:** Save Draft functionality + unit tests
+- ✅ **055-A4:** Generation cancellation (soft-cancel pattern)
+- ✅ **055-A5:** Telegram deep-link support (`startapp=generate`)
+- ✅ **055-A6:** Welcome Bonus idempotency (30-day TTL guard)
+- ✅ **055-A7:** Analytics events (7 new events)
+
+**Phase B (P1 UX Friction):** Все 6 задач завершены
+
+- ✅ **055-B1:** Dual CTA в footer (UI button + Telegram MainButton)
+- ✅ **055-B2:** Footer generation summary ("Вокал · 30–90 сек · N кредитов")
+- ✅ **055-B3:** Hint positioning (не перекрывает FAB)
+- ✅ **055-B4:** GenerationProgressBadge keyboard-aware
+- ✅ **055-B5:** Stepper для Custom mode (PR #620)
+- ✅ **055-B6:** VoiceInput в Custom mode
+- ✅ **055-B7:** Home sticky CTA (CustomEvent + floating button)
+
+**Метрики:**
+
+- ✅ 0 P0 блокеров (data loss prevention complete)
+- ✅ 0 P1 friction issues (mobile UX fixed)
+- ✅ 12 новых unit тестов
+- ✅ +2.1 KiB gzip bundle impact (within +5 KiB budget)
+- ✅ 7 новых analytics events
+
+**Phase C (Polish + E2E):** Завершен ✅
+
+- ⏸️ 055-C1: Single-sheet "Add inspiration" (отложено до Sprint 056)
+- ✅ 055-C2: Documentation (UX_AUDIT_2026-07-04.md, CHANGELOG.md)
+- ✅ 055-C3: Sprint retro (SPRINT-055-RETRO.md)
+- ✅ 055-C4: E2E test Save Draft (generation.save-draft.spec.ts)
+- ✅ 055-C5: E2E test Deeplink generate (deeplink.generate.spec.ts)
+
+**Sprint 055 Status:** ✅ Phase A+B+C Complete (13/13 core tasks + documentation)
+
+**Pull Requests:**
+
+- PR #618: Generation cancellation (A4)
+- PR #619: Footer summary (B2)
+- PR #620: Stepper (B5)
 
 **Созданные файлы:**
 

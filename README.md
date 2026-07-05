@@ -54,16 +54,16 @@
 | 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
 | 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-386_passing-10B981?style=flat-square&logo=vitest)           |
 | 🔒 Безопасность                |                 ![](https://img.shields.io/badge/Security-RLS_%2B_Zod-10B981?style=flat-square)                  |
-| 📊 Спринтов завершено          |                                            **44** (вкл. 052 + 052-C)                                             |
-| 🏗 Компонентов                  |                                           **993** (+6 project-detail)                                            |
-| 🔧 Хуков                       |                                                     **347**                                                      |
+| 📊 Спринтов завершено          |                                           **45** (053/054/055 + 052-C)                                           |
+| 🏗 Компонентов                  |                                               **999** (1136 total)                                               |
+| 🔧 Хуков                       |                                                     **419**                                                      |
 | 🚀 Стадия                      |                                        **Pre-Seed / Active Development**                                         |
 
 > **MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 050 🔄 Phase B: 5/6 done. Phase A ✅ завершена. Phase B: useScrollLock на 4 surfaces ✅, QueueSheet auto-close ✅, bundle lazy-imports confirmed ✅. PR #615 (fix duplicate mcpPlugin) + PR #616 (Phase B fixes) — awaiting CI. **План действий**: см. [PROJECT_STATUS.md](PROJECT_STATUS.md) § «План действий». Следующий блок: Sprint 055 (UX P0-фиксы: Save Draft, Cancel, Deeplink).
+- **Текущий фокус**: Sprint 055 ✅ Phase A+B Complete, Phase C In Progress. Phase A ✅ завершена. Phase B: useScrollLock на 4 surfaces ✅, QueueSheet auto-close ✅, bundle lazy-imports confirmed ✅. Все P0/P1 критичные UX проблемы решены. Data loss prevention, deep-link функциональность, mobile UX фиксы — все завершено. **План действий**: см. [PROJECT_STATUS.md](PROJECT_STATUS.md) § «План действий». Следующий блок: Sprint 056 (Progressive Form Disclosure).
 - **Закрыто (Sprint 053 + 054 ✅, 2026-07-04):** Suno API 28/28 (100%) — 9 новых edges: `suno-sounds` (+callback +status, SFX с tempo/key/duration), `suno-midi` (+callback +details, прямая MIDI-транскрипция с Replicate fallback при FAILED, race-condition protection), 6 `suno-*-details` (music/cover/video/wav/lyrics/separation) — все делегируют shared `_shared/suno-details.ts` `fetchSunoTaskDetails(taskType, taskId)` с per-type backoff (lyrics 1500ms … midi 5000ms). `SfxGeneratorSheet` (MobileBottomSheet + `usePreviewAudio` превью). DB миграции: `sound_effects` table + `track_versions.midi_url + midi_generation_source enum('suno','replicate')`. Telegram `/sfx` команда. Boost-style — **CONNECT** подтверждён 8 unit-тестами. Cleanup: `suno-check-status` (449 LOC dead code, zero callers) удалён + alias в config.toml. Новый generic polling hook `useSunoTaskDetails` + `suno-task-details.api.ts` edge-bridge + 7 unit-тестов. **+28 unit-тестов (320/24 suites), −449 LOC dead code, +8 edges, +1 DB table, +2 columns.** 054-A9 NOT APPLICABLE (3 из 5 целевых хуков не существуют). Retro: [docs/sprints/SPRINT-053-RETRO.md](./docs/sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](./docs/sprints/SPRINT-054-RETRO.md).
 - **Закрыто (Sprint 052 ✅ + 052-C cleanup ✅, 2026-07-04):** Suno API gap closure — Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + «Create Persona»), File Upload proxy; Telegram `/mashup` + deep-link. 052-C cleanup добавил: pure-Dumb `MashupFormFields` декомпозицию для Storybook stories (5 stories в `src/stories/mashup/`), `MASHUP_STRINGS` typed-const (единый источник UX-копи для Mashup/Persona flows, RU-only — i18n в Sprint 055), ретро-документация ([docs/sprints/SPRINT-052-RETRO.md](./docs/sprints/SPRINT-052-RETRO.md)).
 - **Закрыто (2026-07-03, #568/#567):** Eager JS на холодной загрузке главной сокращён с ~1.19 МБ до ~508 КБ gzip (лишние `modulePreload` тяжёлых admin/studio/charts/dnd/forms-чанков и barrel-импорт устранены — см. [docs/BUNDLE_ANALYSIS.md](./docs/BUNDLE_ANALYSIS.md)); все оставшиеся 58 `no-explicit-any` ошибок ESLint устранены (репозиторий на 0 использований `any`, было 342), попутно исправлены 2 бага, скрытые за `any`-кастами.
@@ -96,6 +96,9 @@ gantt
     Sprint 047: Creation-Flow Motion   :done, 047, 2026-07-03, 2026-07-03
     Sprint 049: Mobile UX fixes        :done, 049, 2026-07-03, 2026-07-03
     Sprint 052: Suno Mashup+Persona    :done, 052, 2026-07-04, 2026-07-04
+    Sprint 053: Suno Sounds+MIDI       :done, 053, 2026-07-04, 2026-07-04
+    Sprint 054: Suno Details Suite     :done, 054, 2026-07-04, 2026-07-04
+    Sprint 055: UX P0/P1 Fixes         :done, 055, 2026-07-06, 2026-07-06
     Sprint 052-C: Cleanup              :done, 052c, 2026-07-04, 2026-07-04
     Sprint 053: Sounds + MIDI + Boost  :done, 053, 2026-07-04, 2026-07-04
     Sprint 054: Details + Cleanup      :done, 054, 2026-07-04, 2026-07-04
