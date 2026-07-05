@@ -27,8 +27,7 @@ const EXCLUDED_DIRS = [
 ];
 
 const isExcluded = (f) =>
-  f.split("/").includes("node_modules") ||
-  EXCLUDED_DIRS.some((d) => f === d || f.startsWith(d + "/"));
+  f.split("/").includes("node_modules") || EXCLUDED_DIRS.some((d) => f === d || f.startsWith(d + "/"));
 
 const files = [...globSync("**/*.md", { cwd: root }), ...globSync(".*/**/*.md", { cwd: root })]
   .map((f) => f.replace(/\\/g, "/"))
@@ -80,7 +79,11 @@ function classify(rawTarget, dir) {
   }
   // last resort: unique basename match elsewhere in the repo (moved file).
   // strip a trailing :line or :start-end code-anchor notation first.
-  const base = decoded.replace(/[/\\]+$/, "").split(/[/\\]/).pop().replace(/:\d+(-\d+)?$/, "");
+  const base = decoded
+    .replace(/[/\\]+$/, "")
+    .split(/[/\\]/)
+    .pop()
+    .replace(/:\d+(-\d+)?$/, "");
   const cands = basenameIndex.get(base);
   if (cands && cands.length === 1) {
     return { ok: false, correctedRel: toRel(join(root, cands[0])) };
