@@ -243,3 +243,5 @@ export function useGenerateFormState({
 }
 
 export type GenerateFormStateReturn = ReturnType<typeof useGenerateFormState>;
+
+export { useGenerateFormState as useGenerateFormStateInternal };
