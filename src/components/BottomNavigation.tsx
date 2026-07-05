@@ -102,13 +102,13 @@ export const BottomNavigation = memo(function BottomNavigation() {
     <>
       {activeGenCount > 0 && (
         <div
-            className="fixed left-0 right-0 flex justify-center z-navigation pointer-events-none"
-            style={{
-              bottom: isKeyboardOpen
-                ? `${keyboardHeight + 80}px`
-                : "max(5rem, calc(var(--tg-viewport-stable-height, 100vh) - var(--tg-viewport-height, 100vh) + 5rem))",
-            }}
-          >
+          className="fixed left-0 right-0 flex justify-center z-navigation pointer-events-none"
+          style={{
+            bottom: isKeyboardOpen
+              ? `${keyboardHeight + 80}px`
+              : "max(5rem, calc(var(--tg-viewport-stable-height, 100vh) - var(--tg-viewport-height, 100vh) + 5rem))",
+          }}
+        >
           <GenerationProgressBadge active count={activeGenCount} />
         </div>
       )}
