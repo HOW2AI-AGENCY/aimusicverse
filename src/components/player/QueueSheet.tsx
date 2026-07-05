@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import {
   Trash2,
   ListMusic,
@@ -47,6 +48,9 @@ interface QueueSheetProps {
 }
 
 export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
+  // Lock body scroll while queue sheet is open
+  useScrollLock(open);
+
   // Telegram BackButton integration
   useTelegramBackButton({
     visible: open,
@@ -154,8 +158,9 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
       await Promise.all(queue.map((track, index) => addTrackToPlaylist(playlist.id, track.id, index)));
 
       toast.success("Плейлист создан", {
-        description: `${queue.length} треков сохранено`,
+        description: `${queue.length} треков сохранено в разделе «Плейлисты»`,
       });
+      onOpenChange(false);
     } catch (error: unknown) {
       logger.error("Failed to save playlist", error instanceof Error ? error : new Error(String(error)));
       toast.error("Не удалось сохранить плейлист");
