@@ -38,7 +38,7 @@ export function GenerateSheetFooter(props: Props) {
             onClick={props.onSaveDraft}
             variant="outline"
             disabled={props.loading || !props.hasUnsavedData}
-            className="flex-1 h-12 text-sm font-semibold rounded-2xl border-border/60"
+            className="flex-1 h-14 text-sm font-semibold rounded-2xl border-border/60"
           >
             Черновик
           </Button>
@@ -49,8 +49,8 @@ export function GenerateSheetFooter(props: Props) {
             disabled={props.loading}
             className={cn(
               "h-14 text-sm font-bold gap-2 rounded-2xl flex items-center justify-center leading-none transition-all active:scale-[0.98]",
-              "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground",
-              "shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.45)]",
+              "bg-gradient-to-br from-primary to-primary/90 text-primary-foreground",
+              "shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)]",
               props.shouldShowSecondaryUIButton ? "flex-1" : "w-full",
               !props.canGenerate && !props.loading && "opacity-50",
             )}
@@ -75,13 +75,17 @@ export function GenerateSheetFooter(props: Props) {
                   <PopoverTrigger asChild>
                     <button
                       type="button"
-                      className="text-[10px] font-medium uppercase tracking-wider text-primary-foreground/70 hover:text-primary-foreground"
+                      className="text-[10px] font-medium tabular-nums text-primary-foreground/75 hover:text-primary-foreground flex items-center gap-1"
                     >
-                      💎 {props.generationCost} кредитов
+                      <Coins className="w-3 h-3" />
+                      {props.generationCost} кредитов
                     </button>
                   </PopoverTrigger>
                   <PopoverContent side="top" className="w-56 text-xs space-y-1">
-                    <p className="font-semibold mb-1">💎 {props.generationCost} кредитов</p>
+                    <p className="font-semibold mb-1 flex items-center gap-1.5">
+                      <Coins className="w-3.5 h-3.5" />
+                      {props.generationCost} кредитов
+                    </p>
                     {props.generationCostBreakdown.map((row, i) => (
                       <div key={i} className="flex justify-between">
                         <span className="text-muted-foreground">{row.label}</span>
