@@ -44,7 +44,11 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
   const [description, setDescription] = useState("");
   const [vocalStart, setVocalStart] = useState(0);
   const [vocalEnd, setVocalEnd] = useState(10);
-  const [language, setLanguage] = useState("ru");
+  const [language, setLanguage] = useState<string>(() => {
+    if (typeof navigator === "undefined") return "ru";
+    const l = navigator.language.split("-")[0]?.toLowerCase();
+    return ["ru", "en", "es", "fr", "de", "it", "ja", "zh", "pt"].includes(l) ? l : "en";
+  });
 
   const stemsQuery = useUserVocalStems(open && sourceTab === "library");
 
