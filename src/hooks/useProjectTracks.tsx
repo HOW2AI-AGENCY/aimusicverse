@@ -92,10 +92,13 @@ export const useProjectTracks = (projectId: string | undefined) => {
   useEffect(() => {
     if (!projectId) return;
 
-    log.debug("Setting up realtime subscription for project tracks", { projectId });
+    // Unique channel name per effect run avoids "cannot add callbacks after subscribe()"
+    // when React 19 StrictMode double-invokes the effect or a stale channel lingers in the client cache.
+    const channelName = `project-tracks-${projectId}-${Math.random().toString(36).slice(2, 8)}`;
+    log.debug("Setting up realtime subscription for project tracks", { projectId, channelName });
 
     const channel = supabase
-      .channel(`project-tracks-${projectId}`)
+      .channel(channelName)
       .on(
         "postgres_changes",
         {
@@ -112,7 +115,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
       .subscribe();
 
     return () => {
-      log.debug("Unsubscribing from project tracks realtime");
+      log.debug("Unsubscribing from project tracks realtime", { channelName });
       supabase.removeChannel(channel);
     };
   }, [projectId, queryClient]);
