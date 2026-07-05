@@ -407,7 +407,7 @@ export default function Artists() {
                       isOwner={activeTab === "my"}
                       onEdit={() => setDetailsPanelOpen(true)}
                       onGenerate={() => {
-                        // TODO: Navigate to generate with artist context
+                        navigate(`/?openGenerate=1&artistId=${selectedArtist.id}`);
                       }}
                     />
                   </Card>
