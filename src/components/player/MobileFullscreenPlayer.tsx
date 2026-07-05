@@ -18,6 +18,7 @@ import { FullscreenPager, type PagerPage } from "./FullscreenPager";
 import { CoverPage } from "./pages/CoverPage";
 import { LyricsPage } from "./pages/LyricsPage";
 import { DetailsPage } from "./pages/DetailsPage";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import { Track, type TrackVersionRow } from "@/types/track";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -55,6 +56,9 @@ interface MobileFullscreenPlayerProps {
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
   const prefersReducedMotion = useReducedMotion();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Lock body scroll while fullscreen player is active
+  useScrollLock(true);
 
   useEffect(() => {
     perfMark("fullscreen:mount");

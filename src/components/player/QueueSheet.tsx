@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import {
   Trash2,
   ListMusic,
@@ -47,6 +48,9 @@ interface QueueSheetProps {
 }
 
 export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
+  // Lock body scroll while queue sheet is open
+  useScrollLock(open);
+
   // Telegram BackButton integration
   useTelegramBackButton({
     visible: open,
