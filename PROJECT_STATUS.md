@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-050_in_progress-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-050_phase_A-83%25_complete-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-292_passing-10B981?style=for-the-badge"/>

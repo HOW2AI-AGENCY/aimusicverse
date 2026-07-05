@@ -162,17 +162,17 @@
 
 ## 🆕 E011: Product Development (Q3-Q4 2026)
 
-| ID   | Название                                              | Приоритет | Статус     | Эпик |
-| ---- | ----------------------------------------------------- | --------- | ---------- | ---- |
-| T077 | **Sprint 033: Реализация Spec 001 UI Improvements**   | Высокий   | ⏳ Planned | E011 |
-| T078 | **Sprint 034: Снижение failure rate генерации (<8%)** | Высокий   | ⏳ Planned | E011 |
-| T079 | **Sprint 034: Dashboard метрик генерации**            | Средний   | ⏳ Planned | E011 |
-| T080 | **Sprint 035: Spotify export**                        | Средний   | ⏳ Planned | E011 |
-| T081 | **Sprint 035: Apple Music export**                    | Средний   | ⏳ Planned | E011 |
-| T082 | **Sprint 035: YouTube export**                        | Средний   | ⏳ Planned | E011 |
-| T083 | **Sprint 035: Public API для third-party интеграций** | Низкий    | ⏳ Planned | E011 |
-| T084 | **A/B тестирование UX (онбординг, конверсия)**        | Средний   | ⏳ Planned | E011 |
-| T085 | **Онбординг ревамп (снижение bounce rate с 72%)**     | Высокий   | ⏳ Planned | E011 |
+| ID   | Название                                              | Приоритет | Статус         | Эпик |
+| ---- | ----------------------------------------------------- | --------- | -------------- | ---- |
+| T077 | **Sprint 033: Реализация Spec 001 UI Improvements**   | Высокий   | ✅ Done        | E011 |
+| T078 | **Sprint 034: Снижение failure rate генерации (<8%)** | Высокий   | ✅ Done        | E011 |
+| T079 | **Sprint 034: Dashboard метрик генерации**            | Средний   | ✅ Done        | E011 |
+| T080 | **Sprint 035: Export Service (WAV/MP3/FLAC)**         | Средний   | 🔄 In Progress | E011 |
+| T081 | **Sprint 035: Service Worker + Offline Mode**         | Средний   | ⏳ Planned     | E011 |
+| T082 | **Sprint 035: Public API для third-party интеграций** | Низкий    | ⏳ Planned     | E011 |
+| T083 | **Sprint 050-A1: E2E Verdict**                        | Высокий   | ⏳ Blocked     | E011 |
+| T084 | **Sprint 050-A4: Branch Protection Phase 2**          | Высокий   | ⏳ Blocked     | E011 |
+| T085 | **Sprint 050-B1-B12: Mobile Audit F1-F12**            | Высокий   | ⏳ Planned     | E011 |
 
 ---
 
