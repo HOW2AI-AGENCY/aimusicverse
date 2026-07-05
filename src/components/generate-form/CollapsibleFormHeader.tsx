@@ -123,15 +123,19 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
               <button
                 key={modeKey}
                 type="button"
-                onClick={() => onModeChange?.(modeKey)}
+                onClick={() => {
+                  if (mode !== modeKey) haptic.selectionChanged();
+                  onModeChange?.(modeKey);
+                }}
                 aria-pressed={isActive}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200",
+                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200 active:scale-[0.98]",
                   isActive
                     ? "bg-background text-foreground shadow-sm ring-1 ring-border/60"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
+
                 <Icon className={cn("w-3.5 h-3.5", isActive && "text-primary")} aria-hidden="true" />
                 <span>{config.label}</span>
               </button>
