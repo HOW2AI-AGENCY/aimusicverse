@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams, useNavigate } from "react-router-dom";
 import { Users, Search, Plus, User, Sparkles, TrendingUp, Music2, Mic2 } from "@/lib/icons";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +25,7 @@ export default function Artists() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const activeTab = searchParams.get("tab") || "my";
 
   const { data: publicArtists, isLoading: publicLoading } = usePublicArtists(50);
@@ -407,7 +408,7 @@ export default function Artists() {
                       isOwner={activeTab === "my"}
                       onEdit={() => setDetailsPanelOpen(true)}
                       onGenerate={() => {
-                        // TODO: Navigate to generate with artist context
+                        navigate(`/?openGenerate=1&artistId=${selectedArtist.id}`);
                       }}
                     />
                   </Card>

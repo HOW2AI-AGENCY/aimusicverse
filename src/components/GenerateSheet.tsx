@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { Progress } from "@/components/ui/progress";
@@ -52,6 +52,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   const { user } = useAuth();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { keyboardHeight, isKeyboardOpen } = useKeyboardAware();
+  const [reasonsOpen, setReasonsOpen] = useState(false);
 
   const controller = useGenerateSheetController({ open, onOpenChange, initialProjectId: projectId });
 
@@ -180,7 +181,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
             generationCostBreakdown={controller.form.generationCostBreakdown}
             onGenerate={controller.actions.handleGenerate}
             onSaveDraft={controller.actions.handleSaveDraft}
-            onShowReasons={() => {}}
+            onShowReasons={() => setReasonsOpen(true)}
             shouldShowUIButton={shouldShowUIButton}
             shouldShowSecondaryUIButton={shouldShowSecondaryUIButton}
             isKeyboardOpen={isKeyboardOpen}
@@ -230,7 +231,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
         onApply={(text, sectionId) => controller.form.setLyrics(text)}
       />
 
-      <ValidationReasonsSheet open={false} onOpenChange={() => {}} reasons={controller.validation.reasons} />
+      <ValidationReasonsSheet open={reasonsOpen} onOpenChange={setReasonsOpen} reasons={controller.validation.reasons} />
     </>
   );
 };
