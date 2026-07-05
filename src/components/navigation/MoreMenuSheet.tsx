@@ -78,6 +78,7 @@ const menuSections: MenuSection[] = [
         section: "Студия",
       },
       { path: "/guitar-studio", icon: Guitar, label: "Гитара", description: "Запись и анализ", section: "Студия" },
+      { path: "/voices", icon: Mic, label: "Голоса", description: "Клонирование и библиотека", section: "Студия" },
     ],
   },
   {
@@ -99,6 +100,8 @@ const menuSections: MenuSection[] = [
     items: [
       { path: "/profile", icon: User, label: "Профиль", description: "Мой профиль", section: "Аккаунт" },
       { path: "/rewards", icon: Gift, label: "Награды", description: "Достижения", section: "Аккаунт" },
+      { path: "/referral", icon: Share2, label: "Пригласить", description: "Реферальная программа", section: "Аккаунт" },
+      { path: "/buy-credits", icon: CreditCard, label: "Кредиты", description: "Пополнить баланс", section: "Аккаунт" },
       { path: "/analytics", icon: BarChart3, label: "Статистика", description: "Мои данные", section: "Аккаунт" },
       { path: "/settings", icon: Settings, label: "Настройки", description: "Конфигурация", section: "Аккаунт" },
     ],
