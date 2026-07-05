@@ -31,6 +31,7 @@ import { GenerateSheetDialogs } from "./generate-sheet/GenerateSheetDialogs";
 import { ValidationReasonsSheet } from "./generate-sheet/ValidationReasonsSheet";
 import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
 import type { ReferenceKind } from "./generate-sheet/ReferenceChipsRow";
+import { LegacyGenerateSheet } from "./GenerateSheet.legacy";
 
 interface Props {
   open: boolean;
