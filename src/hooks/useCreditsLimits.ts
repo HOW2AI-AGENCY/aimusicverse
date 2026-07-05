@@ -191,7 +191,7 @@ export function useWelcomeBonusCheck() {
     // (post-TTL window). Errors are swallowed by trackEvent itself.
     void trackEvent(
       {
-        eventType: "feature_usage",
+        eventType: "feature_used",
         pagePath: "welcome_bonus",
         metadata: { action: "mark_shown", ttl_days: WELCOME_BONUS_TTL_MS / (24 * 60 * 60 * 1000) },
       },

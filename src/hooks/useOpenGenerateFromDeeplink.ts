@@ -32,7 +32,7 @@ export function useOpenGenerateFromDeeplink(openSheet: () => void): void {
       // Async-safe: trackEvent swallows failures internally.
       trackEvent(
         {
-          eventType: "feature_usage",
+          eventType: "feature_used",
           pagePath: "deeplink_generate",
           metadata: { action: "open_attempt", target: "generate_sheet" },
         },
@@ -41,7 +41,7 @@ export function useOpenGenerateFromDeeplink(openSheet: () => void): void {
       openSheet();
       trackEvent(
         {
-          eventType: "feature_usage",
+          eventType: "feature_used",
           pagePath: "deeplink_generate",
           metadata: { action: "open_complete", target: "generate_sheet" },
         },

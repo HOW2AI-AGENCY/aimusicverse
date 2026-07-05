@@ -144,10 +144,7 @@ export function GenerateSheetDialogs({
         }}
         onAnalysisComplete={(styleDescription) => {
           form.setMode("custom");
-          form.setStyle((prevStyle) => {
-            const newStyle = prevStyle ? `${prevStyle}\n\n${styleDescription}` : styleDescription;
-            return newStyle;
-          });
+          form.setStyle(form.style ? `${form.style}\n\n${styleDescription}` : styleDescription);
         }}
         onLyricsExtracted={(lyrics) => {
           form.setMode("custom");
@@ -158,9 +155,7 @@ export function GenerateSheetDialogs({
           form.setMode("custom");
           // Add chord progression to style description
           const chordInfo = `Guitar chord progression: ${progression}`;
-          form.setStyle((prevStyle) => {
-            return prevStyle ? `${prevStyle}\n\n${chordInfo}` : chordInfo;
-          });
+          form.setStyle(form.style ? `${form.style}\n\n${chordInfo}` : chordInfo);
           notify.success(`Обнаружено ${chords.length} аккордов`);
         }}
         onOpenCoverDialog={(file, mode) => {
@@ -285,12 +280,7 @@ export function GenerateSheetDialogs({
         currentStyle={form.style}
         onSelect={(style) => {
           form.setMode("custom");
-          form.setStyle((prevStyle) => {
-            if (prevStyle && prevStyle.trim()) {
-              return `${prevStyle}, ${style}`;
-            }
-            return style;
-          });
+          form.setStyle(form.style && form.style.trim() ? `${form.style}, ${style}` : style);
           notify.success("Стиль применён");
         }}
       />
