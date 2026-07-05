@@ -1,6 +1,8 @@
 // src/components/generate-sheet/ReferenceChipsRow.tsx
 import { Plus, X, Folder, User, Music, Mic } from "@/lib/icons";
 import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+
 
 export type ReferenceKind = "project" | "artist" | "audio" | "voice";
 
