@@ -122,5 +122,3 @@ export function useGenerateFormValidation({
 
   return { boostLoading, handleBoostStyle, handleSetAudioFile };
 }
-
-export { useGenerateFormValidation as useGenerateFormBoostStyle };

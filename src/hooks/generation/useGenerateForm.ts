@@ -178,8 +178,6 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
   void _legacyKeys;
 
   return {
-    ...state,
-    ...validation,
     // ─── mode + loading flags ───────────────────────────────────────
     mode: state.mode,
     setMode: state.setMode,
@@ -190,7 +188,7 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     // ─── retry state ────────────────────────────────────────────────
     isRetrying: actions.isRetrying,
     retryCount: actions.retryCount,
-    nextRetryIn: actions.nextRetryIn ?? 0,
+    nextRetryIn: actions.nextRetryIn,
     canRetry: actions.canRetry,
     cancelRetry: actions.cancelRetry,
 

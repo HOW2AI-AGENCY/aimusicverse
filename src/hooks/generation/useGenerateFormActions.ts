@@ -26,7 +26,7 @@ import type { ArtistRow } from "@/api/artists.api";
 import type { TrackRow } from "@/api/tracks.api";
 import type { UseGenerateFormActionsDeps, UseGenerateFormActionsReturn } from "./useGenerateForm.types";
 
-export function useGenerateFormActions(deps: UseGenerateFormActionsDeps) {
+export function useGenerateFormActions(deps: UseGenerateFormActionsDeps): UseGenerateFormActionsReturn {
   // Submit pipeline — owns handleGenerate + retry state.
   const submit = useGenerateFormSubmit({
     mode: deps.mode,
@@ -50,7 +50,7 @@ export function useGenerateFormActions(deps: UseGenerateFormActionsDeps) {
     customVoiceId: deps.customVoiceId,
     isPublic: deps.isPublic,
     artists: deps.artists as ArtistRow[] | undefined,
-    activeReference: deps.activeReference as never,
+    activeReference: deps.activeReference,
     clearAudioReference: deps.clearAudioReference,
     loading: deps.loading,
     setLoading: deps.setLoading,

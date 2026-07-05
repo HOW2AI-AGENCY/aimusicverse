@@ -137,3 +137,51 @@ export const Valid: Story = {
     },
   },
 };
+
+/**
+ * Phase C3: Keyboard navigation
+ *
+ * Demonstrates keyboard accessibility:
+ * - Tab navigation through validation reasons
+ * - Enter/Space to trigger deep links
+ * - Focus indicators on interactive elements
+ */
+export const KeyboardNavigation: Story = {
+  name: "Accessibility - Keyboard navigation",
+  args: {
+    open: true,
+    onOpenChange: () => {},
+    reasons: errorAndWarningReasons,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Keyboard users can tab through validation reasons and trigger deep links with Enter/Space.",
+      },
+    },
+  },
+};
+
+/**
+ * Phase C3: Screen reader support
+ *
+ * Demonstrates ARIA attributes and semantic markup:
+ * - role="alert" for error messages
+ * - aria-live regions for dynamic updates
+ * - Proper heading hierarchy
+ */
+export const ScreenReaderSupport: Story = {
+  name: "Accessibility - Screen reader support",
+  args: {
+    open: true,
+    onOpenChange: () => {},
+    reasons: errorReasons,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Screen readers announce validation errors with proper ARIA live regions and semantic markup.",
+      },
+    },
+  },
+};

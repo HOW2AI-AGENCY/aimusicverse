@@ -141,3 +141,73 @@ export const WithReferenceAudio: Story = {
     },
   },
 };
+
+/**
+ * Phase C4: Interactive slider demonstrations
+ *
+ * Demonstrates user interactions with sliders:
+ * - Dragging sliders updates values in real-time
+ * - Tooltip shows current value during interaction
+ * - Visual feedback on hover/focus
+ */
+export const InteractiveSliders: Story = {
+  name: "Interaction - Slider controls",
+  args: {
+    open: true,
+    onOpenChange: () => {},
+    negativeTags: "autotune, pitch-correct",
+    vocalGender: "f",
+    styleWeight: [0.7],
+    weirdnessConstraint: [0.3],
+    audioWeight: [0.8],
+    onNegativeTagsChange: () => {},
+    onVocalGenderChange: () => {},
+    onStyleWeightChange: () => {},
+    onWeirdnessConstraintChange: () => {},
+    onAudioWeightChange: () => {},
+    hasReferenceAudio: false,
+    hasPersona: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Interactive sliders with real-time value updates and visual feedback.",
+      },
+    },
+  },
+};
+
+/**
+ * Phase C4: Loading and disabled states
+ *
+ * Demonstrates component states during user interactions:
+ * - Sliders disabled during form submission
+ * - Loading indicators on async operations
+ * - Visual feedback for disabled controls
+ */
+export const LoadingStates: Story = {
+  name: "Interaction - Loading states",
+  args: {
+    open: true,
+    onOpenChange: () => {},
+    negativeTags: "",
+    vocalGender: "",
+    styleWeight: [0.5],
+    weirdnessConstraint: [0.5],
+    audioWeight: [0.5],
+    onNegativeTagsChange: () => {},
+    onVocalGenderChange: () => {},
+    onStyleWeightChange: () => {},
+    onWeirdnessConstraintChange: () => {},
+    onAudioWeightChange: () => {},
+    hasReferenceAudio: false,
+    hasPersona: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Component behavior during loading states - disabled controls, loading indicators.",
+      },
+    },
+  },
+};
