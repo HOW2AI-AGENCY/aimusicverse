@@ -1,0 +1,102 @@
+From f43772b277793fcc4b5ed87a691ee43ece7f8545 Mon Sep 17 00:00:00 2001
+From: HOW2AI <ivan.meer1990@gmail.com>
+Date: Sun, 5 Jul 2026 11:43:18 +0700
+Subject: [PATCH 17/28] docs: fix broken links in guides and templates (sprint
+ 050 a2)
+
+- Replace GitHub Discussions links with issues (Discussions not enabled)
+- Remove dead links (musicverse.ai/examples, QUICK_START Discussions entry)
+- Correct relative paths in docs/templates (../ -> ../../) so root docs
+  resolve correctly from the templates subdirectory
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+---
+ CONTRIBUTING.md                    |  2 +-
+ docs/QUICK_START.md                |  1 -
+ docs/TELEGRAM_BOT_USER_GUIDE_RU.md |  1 -
+ docs/templates/FOOTER_TEMPLATE.md  |  8 ++++----
+ docs/templates/HEADER_TEMPLATE.md  | 10 +++++-----
+ 5 files changed, 10 insertions(+), 12 deletions(-)
+
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 454ba587..6d296785 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -42,7 +42,7 @@ flowchart LR
+ 
+ - Search [issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues) first.
+ - Use the templates: bug · feature · docs · performance.
+-- For larger work, open a [discussion](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions) first.
++- For larger work, open an [issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) first.
+ 
+ ## 2. Branching
+ 
+diff --git a/docs/QUICK_START.md b/docs/QUICK_START.md
+index acc859ac..316138dc 100644
+--- a/docs/QUICK_START.md
++++ b/docs/QUICK_START.md
+@@ -382,7 +382,6 @@ npm run build
+ 
+ ### Сообщество
+ 
+-- 💬 [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)
+ - 🐛 [Сообщить о проблеме](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
+ - 📧 [Email Support](mailto:support@musicverse.ai)
+ - 💬 [Telegram Support](https://t.me/MusicVerseSupport)
+diff --git a/docs/TELEGRAM_BOT_USER_GUIDE_RU.md b/docs/TELEGRAM_BOT_USER_GUIDE_RU.md
+index 04ad1186..6cd68e84 100644
+--- a/docs/TELEGRAM_BOT_USER_GUIDE_RU.md
++++ b/docs/TELEGRAM_BOT_USER_GUIDE_RU.md
+@@ -509,7 +509,6 @@ A:
+ ### Полезные ссылки
+ 
+ - [Документация API](https://docs.musicverse.ai)
+-- [Примеры треков](https://musicverse.ai/examples)
+ - [Сообщество](https://t.me/AIMusicVerseCommunity)
+ - [YouTube канал](https://youtube.com/@AIMusicVerse)
+ 
+diff --git a/docs/templates/FOOTER_TEMPLATE.md b/docs/templates/FOOTER_TEMPLATE.md
+index b060c1c3..7d2b29b3 100644
+--- a/docs/templates/FOOTER_TEMPLATE.md
++++ b/docs/templates/FOOTER_TEMPLATE.md
+@@ -8,12 +8,12 @@
+ 
+ ### 🔗 Related Documentation
+ 
+-|                     📚 Index                     |               🏛 Architecture               |        🗺 Roadmap         |          🤝 Contributing           |        🔒 Security         |         📝 Changelog         |
+-| :----------------------------------------------: | :----------------------------------------: | :----------------------: | :--------------------------------: | :------------------------: | :--------------------------: |
+-| [DOCUMENTATION_INDEX](../DOCUMENTATION_INDEX.md) | [ARCHITECTURE_HUB](../ARCHITECTURE_HUB.md) | [ROADMAP](../ROADMAP.md) | [CONTRIBUTING](../CONTRIBUTING.md) | [SECURITY](../SECURITY.md) | [CHANGELOG](../CHANGELOG.md) |
++|                      📚 Index                       |                🏛 Architecture                 |          🗺 Roadmap          |            🤝 Contributing            |          🔒 Security          |          📝 Changelog           |
++| :-------------------------------------------------: | :-------------------------------------------: | :-------------------------: | :-----------------------------------: | :---------------------------: | :-----------------------------: |
++| [DOCUMENTATION_INDEX](../../DOCUMENTATION_INDEX.md) | [ARCHITECTURE_HUB](../../ARCHITECTURE_HUB.md) | [ROADMAP](../../ROADMAP.md) | [CONTRIBUTING](../../CONTRIBUTING.md) | [SECURITY](../../SECURITY.md) | [CHANGELOG](../../CHANGELOG.md) |
+ 
+ **Made with ❤️ by the [MusicVerse AI](https://github.com/HOW2AI-AGENCY/aimusicverse) team**
+ 
+-<sub>Last updated: <!-- DATE --> · [Report issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) · [Discuss](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)</sub>
++<sub>Last updated: <!-- DATE --> · [Report issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new)</sub>
+ 
+ </div>
+diff --git a/docs/templates/HEADER_TEMPLATE.md b/docs/templates/HEADER_TEMPLATE.md
+index 26ddc41d..49b6d0b1 100644
+--- a/docs/templates/HEADER_TEMPLATE.md
++++ b/docs/templates/HEADER_TEMPLATE.md
+@@ -16,11 +16,11 @@
+ </p>
+ 
+ <p>
+-  <a href="../README.md">🏠 Home</a> ·
+-  <a href="../DOCUMENTATION_INDEX.md">📚 Docs Index</a> ·
+-  <a href="../ARCHITECTURE_HUB.md">🏛 Architecture</a> ·
+-  <a href="../ROADMAP.md">🗺 Roadmap</a> ·
+-  <a href="../CHANGELOG.md">📝 Changelog</a>
++  <a href="../../README.md">🏠 Home</a> ·
++  <a href="../../DOCUMENTATION_INDEX.md">📚 Docs Index</a> ·
++  <a href="../../ARCHITECTURE_HUB.md">🏛 Architecture</a> ·
++  <a href="../../ROADMAP.md">🗺 Roadmap</a> ·
++  <a href="../../CHANGELOG.md">📝 Changelog</a>
+ </p>
+ 
+ </div>
+-- 
+2.50.1.windows.1
+

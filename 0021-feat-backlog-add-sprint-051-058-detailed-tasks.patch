@@ -1,0 +1,110 @@
+From 27ddf7e73b8d1766fd35b90274c3ebec1eb5fd3b Mon Sep 17 00:00:00 2001
+From: HOW2AI <ivan.meer1990@gmail.com>
+Date: Sun, 5 Jul 2026 16:55:42 +0700
+Subject: [PATCH 21/28] feat(backlog): add sprint 051-058 detailed tasks
+
+- Sprint 051: Test Debt + God Files (6 tasks)
+- Sprint 053: Suno API Sounds + MIDI + Boost (6 tasks)
+- Sprint 054: Klangio Integration + Transcription (4 tasks)
+- Sprint 055: UX Audit Findings Implementation (5 tasks)
+- Sprint 056: Generate Sheet Redesign (4 tasks)
+- Sprint 057: Performance Optimization Bundle (5 tasks)
+- Sprint 058: Storybook Design System Completion (4 tasks)
+
+Total: 34 new tasks added to product backlog
+---
+ SPRINTS/BACKLOG.md | 78 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+
+diff --git a/SPRINTS/BACKLOG.md b/SPRINTS/BACKLOG.md
+index 78eef3c8..732511de 100644
+--- a/SPRINTS/BACKLOG.md
++++ b/SPRINTS/BACKLOG.md
+@@ -173,6 +173,84 @@
+ | T083 | **Sprint 050-A1: E2E Verdict**                        | Высокий   | ⏳ Blocked     | E011 |
+ | T084 | **Sprint 050-A4: Branch Protection Phase 2**          | Высокий   | ⏳ Blocked     | E011 |
+ | T085 | **Sprint 050-B1-B12: Mobile Audit F1-F12**            | Высокий   | ⏳ Planned     | E011 |
++| T086 | **Sprint 051: Test Debt + God Files**                 | Высокий   | ⏳ Planned     | E011 |
++| T087 | **Sprint 053: Suno API Sounds + MIDI + Boost**        | Средний   | ⏳ Planned     | E011 |
++| T088 | **Sprint 054: Klangio Integration + Transcription**   | Высокий   | ⏳ Planned     | E011 |
++| T089 | **Sprint 055: UX Audit Findings Implementation**      | Высокий   | ⏳ Planned     | E011 |
++| T090 | **Sprint 056: Generate Sheet Redesign**               | Средний   | ⏳ Planned     | E011 |
++| T091 | **Sprint 057: Performance Optimization Bundle**       | Высокий   | ⏳ Planned     | E011 |
++| T092 | **Sprint 058: Storybook Design System Completion**    | Средний   | ⏳ Planned     | E011 |
++
++---
++
++## 🆕 Sprint 051: Test Debt + God Files (Planning)
++
++| ID   | Название                                   | Приоритет | Статус     | Эпик |
++| ---- | ------------------------------------------ | --------- | ---------- | ---- |
++| T051 | **Refactor studio.service.ts (1028 LOC)**  | Высокий   | ⏳ Planned | E011 |
++| T052 | **Refactor LyricsParser.ts (903 LOC)**     | Высокий   | ⏳ Planned | E011 |
++| T053 | **Refactor studio.api.ts (891 LOC)**       | Высокий   | ⏳ Planned | E011 |
++| T054 | **Add tests for top-3 god files**          | Высокий   | ⏳ Planned | E011 |
++| T055 | **Achieve 450+ unit tests (current: 292)** | Средний   | ⏳ Planned | E011 |
++| T056 | **Reduce files >1000 LOC to zero**         | Средний   | ⏳ Planned | E011 |
++
++## 🆕 Sprint 053: Suno API Sounds + MIDI + Boost
++
++| ID   | Название                            | Приоритет | Статус     | Эпик |
++| ---- | ----------------------------------- | --------- | ---------- | ---- |
++| T057 | **Edge: suno-sounds callback**      | Средний   | ⏳ Planned | E011 |
++| T058 | **Edge: suno-midi callback**        | Средний   | ⏳ Planned | E011 |
++| T059 | **Edge: suno-midi-details**         | Средний   | ⏳ Planned | E011 |
++| T060 | **UI: SfxGeneratorSheet**           | Средний   | ⏳ Planned | E011 |
++| T061 | **Telegram: /sfx command**          | Низкий    | ⏳ Planned | E011 |
++| T062 | **Replace Replicate SFX with Suno** | Средний   | ⏳ Planned | E011 |
++
++## 🆕 Sprint 054: Klangio Integration + Transcription
++
++| ID   | Название                                 | Приоритет | Статус     | Эпик |
++| ---- | ---------------------------------------- | --------- | ---------- | ---- |
++| T063 | **Edge: Klangio transcription callback** | Высокий   | ⏳ Planned | E011 |
++| T064 | **UI: MIDI transcription in Studio**     | Высокий   | ⏳ Planned | E011 |
++| T065 | **6 AI models for transcription**        | Средний   | ⏳ Planned | E011 |
++| T066 | **Integration with track editing**       | Высокий   | ⏳ Planned | E011 |
++
++## 🆕 Sprint 055: UX Audit Findings Implementation
++
++| ID   | Название                               | Приоритет   | Статус     | Эпик |
++| ---- | -------------------------------------- | ----------- | ---------- | ---- |
++| T067 | **Fix Save Draft functionality**       | Критический | ⏳ Planned | E011 |
++| T068 | **Mobile touch targets optimization**  | Высокий     | ⏳ Planned | E011 |
++| T069 | **Reduce friction in generation flow** | Высокий     | ⏳ Planned | E011 |
++| T070 | **Improve mobile navigation**          | Высокий     | ⏳ Planned | E011 |
++| T071 | **Optimize form fields for mobile**    | Высокий     | ⏳ Planned | E011 |
++
++## 🆕 Sprint 056: Generate Sheet Redesign
++
++| ID   | Название                           | Приоритет | Статус     | Эпик |
++| ---- | ---------------------------------- | --------- | ---------- | ---- |
++| T072 | **Redesign generation form UI**    | Средний   | ⏳ Planned | E011 |
++| T073 | **Improve form validation UX**     | Средний   | ⏳ Planned | E011 |
++| T074 | **Mobile-first form optimization** | Средний   | ⏳ Planned | E011 |
++| T075 | **Add loading states**             | Низкий    | ⏳ Planned | E011 |
++
++## 🆕 Sprint 057: Performance Optimization Bundle
++
++| ID   | Название                                  | Приоритет | Статус     | Эпик |
++| ---- | ----------------------------------------- | --------- | ---------- | ---- |
++| T076 | **Bundle size analysis (target: <950KB)** | Высокий   | ⏳ Planned | E011 |
++| T077 | **Code splitting optimization**           | Высокий   | ⏳ Planned | E011 |
++| T078 | **Tree-shaking improvements**             | Средний   | ⏳ Planned | E011 |
++| T079 | **Lazy loading implementation**           | Средний   | ⏳ Planned | E011 |
++| T080 | **Production build optimizations**        | Средний   | ⏳ Planned | E011 |
++
++## 🆕 Sprint 058: Storybook Design System Completion
++
++| ID   | Название                            | Приоритет | Статус     | Эпик |
++| ---- | ----------------------------------- | --------- | ---------- | ---- |
++| T081 | **Add 50+ Storybook stories**       | Средний   | ⏳ Planned | E011 |
++| T082 | **Component documentation**         | Низкий    | ⏳ Planned | E011 |
++| T083 | **Design system tokens**            | Низкий    | ⏳ Planned | E011 |
++| T084 | **Component accessibility testing** | Средний   | ⏳ Planned | E011 |
+ 
+ ---
+ 
+-- 
+2.50.1.windows.1
+

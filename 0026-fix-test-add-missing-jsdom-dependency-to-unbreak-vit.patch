@@ -1,0 +1,147 @@
+From dca8ba72dbc09aef39fcaf47a57cd26c7b364c3e Mon Sep 17 00:00:00 2001
+From: HOW2AI <ivan.meer1990@gmail.com>
+Date: Sun, 5 Jul 2026 19:16:51 +0700
+Subject: [PATCH 26/28] fix(test): add missing jsdom dependency to unbreak
+ vitest in ci
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Root cause of the red "Quality & Build" on main (all day 2026-07-05): vitest
+aborted with `MISSING DEPENDENCY  Cannot find dependency 'jsdom'` and every one
+of the 39 forks workers failed to start (`ERR_MODULE_NOT_FOUND`), so "no tests"
+ran and the unit-test job failed.
+
+vitest.config.ts sets `environment: "jsdom"`, which requires the standalone
+`jsdom` package as a direct dependency. It was never in package.json — it came
+in transitively via `jest-environment-jsdom`, removed during the Jest->Vitest
+migration. Local runs still passed because jsdom lingered in node_modules from
+earlier installs, masking the gap; a fresh `npm ci` in CI does not install it.
+This is why trackers claimed "292/292 passing" while CI was red.
+
+Added jsdom@^26.1.0 to devDependencies and regenerated package-lock.json with a
+clean npm userconfig so all-platform optional bindings (rolldown win32/linux)
+are preserved.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+---
+ package-lock.json | Bin 658280 -> 674667 bytes
+ package.json      |   1 +
+ 2 files changed, 1 insertion(+)
+
+diff --git a/package-lock.json b/package-lock.json
+index 4d14e9e40dd2bd2b31639d0350ff97a22789cda0..6fea7bd53572cb667afc1536ab31b933a837736c 100644
+GIT binary patch
+delta 6999
+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
+
+delta 172
+zcmV;d08{_#mMQ3#D6qy7v*HrB1(TE<5|>Kj0}HcH95-Bp#D<5&h5?7fh61<5h6BgB
+zlQ-5Gw+uoAiLAF`@C2_Bx7z~+8V83f3<b9<3<e@9w;DJGyaTs>KL$%Ow?A_R$RD@j
+zmj<}-x5SAD0xY*)xd&47x96=0(F(Uzx(FF%mpmc~2)C>t32`g8@lFZb1-B7c35TV(
+aT>lAd3%5`V3R(fT+7t@H8@Et13L6+-IYht!
+
+diff --git a/package.json b/package.json
+index 8aac3f05..7aeef66a 100644
+--- a/package.json
++++ b/package.json
+@@ -189,6 +189,7 @@
+     "fast-check": "^4.5.3",
+     "globals": "^17.7.0",
+     "husky": "^9.0.0",
++    "jsdom": "^26.1.0",
+     "lint-staged": "^15.0.0",
+     "madge": "^8.0.0",
+     "playwright": "^1.57.0",
+-- 
+2.50.1.windows.1
+
