@@ -82,7 +82,7 @@
 | 055-B4 | **GenerationProgressBadge**: использовать `var(--tg-viewport-stable-height)` или sticky-tg-aware bottom вместо `bottom-20`. Проверить на iOS Safari keyboard case                                                              | 🟡 Medium | 0.3d   |
 | 055-B5 | **Stepper для Custom mode**: новый `components/generate-form/FormStepper.tsx` — sticky pill "Шаг 2 из 5", обновляется через `useEffect` watching visible sections (calc на render), а не флаги. Также фикс P1-7                | 🟠 High   | 0.5d   | ✅ PR #620 |
 | 055-B6 | **VoiceInputButton в Custom mode**: добавить в `sections/StyleSection.tsx` и `sections/LyricsSectionAdvanced.tsx` — voice-input для стиля и текста (аналогично Simple mode)                                                    | 🟡 Medium | 0.3d   | ✅ Done    |
-| 055-B7 | **Home sticky CTA** (опционально): mini floating-кнопка только для cold users (`!localStorage.hasSeenHomeCreateHint`), тапает → `setGenerateSheetOpen(true)` — вытащить `setGenerateSheetOpen` в zustand или через CustomEvent | 🟢 Low    | 0.5d   |
+| 055-B7 | **Home sticky CTA** (опционально): mini floating-кнопка только для cold users (`!localStorage.hasSeenHomeCreateHint`), тапает → `setGenerateSheetOpen(true)` — вытащить `setGenerateSheetOpen` в zustand или через CustomEvent | 🟢 Low    | 0.5d   | ✅ Done          |
 
 **Цель фазы B:** Форма показывает что именно генерируется, Telegram-юзер видит CTA, навигация корректна на маленьких экранах.
 
