@@ -30,13 +30,19 @@ export const GuestModeBanner = () => {
   // Hide banner whenever a Radix modal-like surface is mounted (Dialog, Sheet, Drawer, AlertDialog).
   useEffect(() => {
     const check = () => {
-      const hasOpen = document.body.hasAttribute("data-scroll-locked") ||
+      const hasOpen =
+        document.body.hasAttribute("data-scroll-locked") ||
         document.querySelector('[role="dialog"][data-state="open"], [role="alertdialog"][data-state="open"]') !== null;
       setIsModalOpen(hasOpen);
     };
     check();
     const observer = new MutationObserver(check);
-    observer.observe(document.body, { attributes: true, attributeFilter: ["data-scroll-locked", "style"], childList: true, subtree: true });
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-scroll-locked", "style"],
+      childList: true,
+      subtree: true,
+    });
     return () => observer.disconnect();
   }, []);
 
@@ -44,7 +50,6 @@ export const GuestModeBanner = () => {
   if (isModalOpen) return null;
   // On desktop outside Telegram, the Sidebar already shows the auth CTA.
   if (isDesktop && !isTelegram) return null;
-
 
   const handleSignIn = () => {
     disableGuestMode();
