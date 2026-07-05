@@ -48,7 +48,11 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
             <button
               key={kind}
               type="button"
-              onClick={() => onRemove(kind, item.id)}
+              onClick={() => {
+                haptic.impact("light");
+                onRemove(kind, item.id);
+              }}
+
               aria-label={`Удалить ${label.toLowerCase()}: ${item.label}`}
               className={cn(
                 "group inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-xs font-medium shrink-0",
