@@ -189,7 +189,8 @@ export function ProjectTrackSelector({
             ))}
           </motion.div>
         )}
-      </ScrollArea>
-    </UnifiedDialog>
+        </ScrollArea>
+      </SheetContent>
+    </Sheet>
   );
 }
