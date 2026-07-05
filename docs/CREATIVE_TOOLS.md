@@ -384,4 +384,8 @@ const {
 
 - [Stem Studio](./STEM_STUDIO.md)
 - [Generation System](./GENERATION_SYSTEM.md)
+  <<<<<<< HEAD
 - MIDI Transcription
+  \=======
+
+> > > > > > > claude/sprint-closure-planning-m6skuk

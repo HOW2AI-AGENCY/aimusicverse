@@ -15,7 +15,13 @@
 | **Изучить схему БД** | [DATABASE.md](./DATABASE.md) |
 | **Настроить окружение** | [DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) |
 | **Внести изменения** | [CONTRIBUTING.md](../CONTRIBUTING.md) |
+<<<<<<< HEAD
 | **Понять навигацию по коду** | [NAVIGATION_SYSTEM.md](./archive/2026-06-27/NAVIGATION_SYSTEM.md) |
+=======
+
+| **Понять навигацию по коду** | [NAVIGATION_SYSTEM.md](./NAVIGATION.md) |
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 ---
 
@@ -418,7 +424,13 @@ git push origin feature/my-feature   # Push
 ## 🔗 Связанные документы
 
 - [README.md](../README.md) - Главная страница
+  <<<<<<< HEAD
 - [NAVIGATION_SYSTEM.md](./archive/2026-06-27/NAVIGATION_SYSTEM.md) - Полная навигация
+  \=======
+- [NAVIGATION_SYSTEM.md](./NAVIGATION.md) - Полная навигация
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 - [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) - Визуальные схемы
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Гайд по контрибуции
 - [constitution.md](../.specify/memory/constitution.md) - Стандарты проекта

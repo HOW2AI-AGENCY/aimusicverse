@@ -4,7 +4,7 @@ This file provides guidance to agents when working with code in this repository.
 
 ## Non-Obvious Architectural Constraints
 
-- **Provider chain (strict order)**: `ErrorBoundaryWrapper > ErrorBoundary > CoreProviders > FeatureProviders > BrowserRouter > UIProviders > NavigationProvider` — defined in [`src/App.tsx`](../../src/App.tsx)
+- **Provider chain (strict order)**: `ErrorBoundaryWrapper > ErrorBoundary > CoreProviders > FeatureProviders > BrowserRouter > UIProviders > NavigationProvider` — defined in [`src/App.tsx`](../../src/App.tsx#L174)
 - **Lazy loading tiers**: `lazyWithRetry` from `@/lib/performance` for critical pages; standard `lazy()` for secondary; `/* webpackChunkName */` for admin/heavy pages
 - **Studio V2 outside MainLayout**: Studio routes bypass bottom nav entirely — they render outside `ProtectedRoute` + `MainLayout`
 - **Unauthenticated routes**: Payment routes (`/stars/*`, `/premium`) and Studio V2 are accessible without auth wrapper

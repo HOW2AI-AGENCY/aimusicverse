@@ -2,7 +2,13 @@
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2025-11-30
+<<<<<<< HEAD
 **Feature**: `docs/specs/sprint-management.md` (спецификация не сохранилась в репозитории)
+=======
+
+**Feature**: `docs/specs/sprint-management.md` (spec не создан)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 ## Content Quality
 

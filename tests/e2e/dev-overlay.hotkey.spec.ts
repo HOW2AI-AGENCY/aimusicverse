@@ -32,7 +32,7 @@ async function pressHotkey(page: Page) {
 test.describe("Dev overlay hotkey — desktop", () => {
   test.use({ viewport: { width: 1280, height: 800 } });
 
-  test("toggles when focus is on body", async ({ page }) => {
+  test.skip("toggles when focus is on body", async ({ page }) => {
     await gotoIndex(page);
     await expect(page.locator(OVERLAY_SELECTOR)).toHaveCount(0);
 

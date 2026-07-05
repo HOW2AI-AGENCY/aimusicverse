@@ -8,7 +8,13 @@
 
 ### 1. Navigation Improvements
 
+<<<<<<< HEAD
 **File**: [src/components/BottomNavigation.tsx](../src/components/BottomNavigation.tsx)
+=======
+
+**File**: `src/components/BottomNavigation.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -30,7 +36,13 @@
 
 ### 2. Typography Component Adoption
 
+<<<<<<< HEAD
 **Files**: [src/pages/Library.tsx](../src/pages/Library.tsx), [src/pages/Index.tsx](../src/pages/Index.tsx)
+=======
+
+**Files**: `src/pages/Library.tsx`, `src/pages/Index.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -70,7 +82,13 @@ import { Heading, Text } from '@/components/ui/typography';
 
 ### 4. Touch Target Size Increase
 
+<<<<<<< HEAD
 **Files**: [src/components/BottomNavigation.tsx](../src/components/BottomNavigation.tsx)
+=======
+
+**Files**: `src/components/BottomNavigation.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -87,7 +105,13 @@ import { Heading, Text } from '@/components/ui/typography';
 
 ### 5. Gesture Discoverability
 
+<<<<<<< HEAD
 **File**: [src/components/player/MobileFullscreenPlayer.tsx](../src/components/player/MobileFullscreenPlayer.tsx)
+=======
+
+**File**: `src/components/player/MobileFullscreenPlayer.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -131,7 +155,13 @@ const [showGestureHints, setShowGestureHints] = useState(true);
 
 ### 6. Loading State Improvements
 
+<<<<<<< HEAD
 **File**: [src/components/ui/skeleton-components.tsx](../src/components/ui/skeleton-components.tsx)
+=======
+
+**File**: `src/components/ui/skeleton-components.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -166,7 +196,13 @@ const TrackCardSkeleton = () => (
 
 ### 7. Error Recovery Actions
 
+<<<<<<< HEAD
 **File**: [src/components/ErrorBoundaryWrapper.tsx](../src/components/ErrorBoundaryWrapper.tsx)
+=======
+
+**File**: `src/components/ErrorBoundaryWrapper.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -197,7 +233,13 @@ const TrackCardSkeleton = () => (
 
 ### 8. Generation Notifications
 
+<<<<<<< HEAD
 **File**: src/hooks/useGenerationRealtime.ts
+=======
+
+**File**: `src/hooks/useGenerationRealtime.ts`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -233,7 +275,13 @@ useEffect(() => {
 
 ### 9. Page Transition Animations
 
+<<<<<<< HEAD
 **File**: [src/App.tsx](../src/App.tsx)
+=======
+
+**File**: `src/App.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -309,7 +357,13 @@ useEffect(() => {
 
 ### 11. Recently Played Section
 
+<<<<<<< HEAD
 **File**: src/components/home/RecentTracksSection.tsx
+=======
+
+**File**: `src/components/home/RecentTracksSection.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -393,7 +447,13 @@ useEffect(() => {
 
 ### 13. Service Worker Implementation
 
+<<<<<<< HEAD
 **File**: src/service-worker.ts (new)
+=======
+
+**File**: `src/service-worker.ts` (new)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -423,7 +483,13 @@ self.addEventListener("fetch", (event) => {
 
 ### 14. Performance Monitoring
 
+<<<<<<< HEAD
 **File**: src/lib/performance-monitor.ts (new)
+=======
+
+**File**: `src/lib/performance-monitor.ts` (new)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 
@@ -465,7 +531,13 @@ export const trackPerformance = () => {
 
 ### 15. Empty State Enhancements
 
+<<<<<<< HEAD
 **File**: [src/components/library/EmptyLibraryState.tsx](../src/components/library/EmptyLibraryState.tsx)
+=======
+
+**File**: `src/components/library/EmptyLibraryState.tsx`
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Changes:**
 

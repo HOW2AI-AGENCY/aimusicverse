@@ -356,7 +356,13 @@ xychart-beta
 
 1. **Фундамент:** [docs/SAFE_AREA_GUIDELINES.md](./SAFE_AREA_GUIDELINES.md)
 2. **Планирование:** [docs/mobile/OPTIMIZATION_ROADMAP_2026.md](./mobile/OPTIMIZATION_ROADMAP_2026.md)
+   <<<<<<< HEAD
 3. **Реализация:** [specs/031-mobile-studio-v2/](../specs/031-mobile-studio-v2)
+   \=======
+4. **Реализация:** [specs/031-mobile-studio-v2/](../specs/031-mobile-studio-v2/)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 4. **Справочник:** [SPRINTS/completed/SPRINT-029-\*](../SPRINTS/completed/)
 
 ### 🧪 Для QA инженеров
