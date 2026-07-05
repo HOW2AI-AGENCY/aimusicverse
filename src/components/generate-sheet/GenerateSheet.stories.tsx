@@ -86,3 +86,52 @@ export const Disabled: Story = {
     },
   },
 };
+
+/**
+ * Phase C2: Responsive mobile viewports
+ *
+ * Tests GenerateSheet on various mobile screen sizes to ensure
+ * proper layout and touch interactions on small screens.
+ */
+export const MobileViewports: Story = {
+  name: "Responsive - Mobile viewports",
+  args: { open: true, onOpenChange: () => {} },
+  parameters: {
+    viewport: {
+      viewports: [
+        "iphone12_mini", // 375x667 - smallest iPhone
+        "iphone12", // 390x844 - standard iPhone
+        "pixel5", // 393x851 - Android
+      ],
+    },
+    docs: {
+      description: {
+        story: "GenerateSheet on mobile devices - keyboard awareness, safe areas, touch targets.",
+      },
+    },
+  },
+};
+
+/**
+ * Phase C2: Responsive desktop layout
+ *
+ * Tests GenerateSheet on larger screens where the sheet appears
+ * as a centered dialog with max-width constraints.
+ */
+export const DesktopViewports: Story = {
+  name: "Responsive - Desktop layout",
+  args: { open: true, onOpenChange: () => {} },
+  parameters: {
+    viewport: {
+      viewports: [
+        "laptop", // 1024x768 - small laptop
+        "desktop", // 1280x800 - desktop
+      ],
+    },
+    docs: {
+      description: {
+        story: "GenerateSheet on desktop - centered sheet with max-width and proper spacing.",
+      },
+    },
+  },
+};
