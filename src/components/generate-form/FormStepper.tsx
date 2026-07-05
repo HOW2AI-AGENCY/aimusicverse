@@ -78,10 +78,7 @@ export function FormStepper({ sectionSelector = "[data-step]", className }: Form
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 4 }}
         transition={{ duration: 0.15 }}
-        className={cn(
-          "sticky top-0 z-10 flex justify-center pointer-events-none",
-          className,
-        )}
+        className={cn("sticky top-0 z-10 flex justify-center pointer-events-none", className)}
       >
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted/80 backdrop-blur-sm border border-border/40 text-[11px] font-medium text-muted-foreground">
           <span className="text-foreground font-semibold">{currentStep}</span>
