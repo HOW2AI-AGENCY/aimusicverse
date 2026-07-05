@@ -212,11 +212,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
           onAdvancedToggle={controller.actions.handleAdvancedToggle}
           audioActionDialogOpen={controller.dialogs.audioAction.open}
           setAudioActionDialogOpen={controller.dialogs.audioAction.setOpen}
-          setAdvancedOpen={(value) =>
-            controller.actions.handleAdvancedToggle(
-              typeof value === "function" ? value(controller.dialogs.advancedOpen) : value,
-            )
-          }
+          setAdvancedOpen={controller.actions.handleAdvancedToggle}
           lyricsAssistantOpen={controller.dialogs.lyricsAssistant.open}
           setLyricsAssistantOpen={controller.dialogs.lyricsAssistant.setOpen}
           historyOpen={controller.dialogs.history.open}
