@@ -7,6 +7,7 @@
 ## Задача 2 — Редизайн записи/загрузки голоса в VoiceCloneWizard
 
 **Текущее состояние** (`src/components/voice-clone/`):
+
 - Простая запись через `useVoiceRecorder` (без визуализации волны)
 - Нет прослушивания записи перед отправкой
 - Нет обрезки (trim) диапазона
@@ -44,10 +45,12 @@
 ## Технические детали
 
 **Задача 1** — правки в двух файлах:
+
 - `src/components/generate-form/ProjectTrackSelector.tsx` — заменить `UnifiedDialog` на `Sheet` из `@/components/ui/sheet` с `side="bottom"`
 - `src/components/generate-form/ArtistSelector.tsx` — то же
 
 **Задача 2** — новые/обновлённые файлы:
+
 - `src/lib/audio/trimAudio.ts` — Web Audio trim + WAV encoder (новый, ~80 LOC)
 - `src/components/voice-clone/VoiceWaveformEditor.tsx` — waveform + trim + play (новый, ~200 LOC)
 - `src/components/voice-clone/steps/RecordStep.tsx` — переработка разметки, интеграция VoiceWaveformEditor
@@ -55,6 +58,7 @@
 - `src/components/voice-clone/VoiceCloneWizard.tsx` — селектор языка, прогресс, sticky footer
 
 **Что не трогаю:**
+
 - Edge-функции `suno-voice-*` (только фронт)
 - `useVoiceRecorder` (API совместимо, добавляю MediaStream-выход для AnalyserNode)
 - Общий стиль tokens/`design-tokens.ts`

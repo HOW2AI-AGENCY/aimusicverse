@@ -26,7 +26,6 @@ export const VocalsToggle = memo(function VocalsToggle({
     }
   };
 
-
   return (
     <div className={cn("space-y-1.5", compact && "space-y-1")}>
       <SectionLabel label="Тип трека" hint={SECTION_HINTS.trackType} />
@@ -59,7 +58,6 @@ export const VocalsToggle = memo(function VocalsToggle({
           <Music2 className="w-4 h-4" />
           <span>Инструментал</span>
         </button>
-
       </div>
 
       {/* Contextual hint - only in non-compact mode */}

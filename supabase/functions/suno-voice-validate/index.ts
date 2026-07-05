@@ -98,9 +98,11 @@ serve(async (req) => {
           _action_type: "voice_clone_refund",
           _description: "Suno validate failed",
         });
-      return json({ error: err?.message || "Suno validate failed", code: err?.code || "SUNO_UNKNOWN" }, err?.status || 502);
+      return json(
+        { error: err?.message || "Suno validate failed", code: err?.code || "SUNO_UNKNOWN" },
+        err?.status || 502,
+      );
     }
-
 
     const taskId = sunoRes?.data?.taskId || sunoRes?.taskId;
     if (!taskId) return json({ error: "No taskId from Suno", raw: sunoRes }, 502);

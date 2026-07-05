@@ -18,7 +18,6 @@ import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";
 import { getModelDisplayInfo } from "@/components/library/ModelBadge";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
-
 export type GenerationMode = "simple" | "custom";
 
 interface CollapsibleFormHeaderProps {
@@ -59,7 +58,6 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
   const currentModel = SUNO_MODELS[model] || SUNO_MODELS.V4_5ALL;
   const lowBalance = balance < cost;
   const haptic = useHapticFeedback();
-
 
   return (
     <div className="space-y-3 py-2">
@@ -135,7 +133,6 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-
                 <Icon className={cn("w-3.5 h-3.5", isActive && "text-primary")} aria-hidden="true" />
                 <span>{config.label}</span>
               </button>

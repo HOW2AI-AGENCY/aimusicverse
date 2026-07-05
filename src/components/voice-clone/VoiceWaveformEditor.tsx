@@ -48,7 +48,8 @@ function LiveWaveform({ stream, height }: { stream: MediaStream | null; height: 
 
   useEffect(() => {
     if (!stream) return;
-    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AudioCtx =
+      window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     const ctx = new AudioCtx();
     const src = ctx.createMediaStreamSource(stream);
     const analyser = ctx.createAnalyser();
@@ -106,16 +107,8 @@ function LiveWaveform({ stream, height }: { stream: MediaStream | null; height: 
   }, [stream]);
 
   return (
-    <div
-      className="rounded-2xl border border-border/50 bg-muted/20 overflow-hidden"
-      style={{ height }}
-    >
-      <canvas
-        ref={canvasRef}
-        width={640}
-        height={height}
-        className="w-full h-full block"
-      />
+    <div className="rounded-2xl border border-border/50 bg-muted/20 overflow-hidden" style={{ height }}>
+      <canvas ref={canvasRef} width={640} height={height} className="w-full h-full block" />
     </div>
   );
 }

@@ -43,7 +43,8 @@ function encodeWav(buffer: AudioBuffer): Blob {
 }
 
 export async function trimAudioBlob(blob: Blob, startS: number, endS: number): Promise<Blob> {
-  const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+  const AudioCtx =
+    window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
   const ctx = new AudioCtx();
   try {
     const arr = await blob.arrayBuffer();
