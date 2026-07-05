@@ -12,7 +12,7 @@
 1. **[README.md](../README.md)** — Обзор проекта
 2. **[QUICK_START.md](QUICK_START.md)** — Быстрый старт за 5 минут
 3. **[ONBOARDING.md](ONBOARDING.md)** — Полный онбординг
-4. **[NAVIGATION_GUIDE.md](NAVIGATION_GUIDE.md)** — Навигация по репозиторию
+4. **[NAVIGATION_GUIDE.md](./archive/2026-06-27/NAVIGATION_GUIDE.md)** — Навигация по репозиторию
 
 ---
 
@@ -119,14 +119,14 @@ docs/
 
 ### 🏗️ Архитектура
 
-| Документ                                                           | Описание             | Фокус    |
-| ------------------------------------------------------------------ | -------------------- | -------- |
-| **[ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)**           | Визуальные диаграммы | Все слои |
-| **[ARCHITECTURE.md](ARCHITECTURE.md)**                             | Общая архитектура    | Система  |
-| **[COMPREHENSIVE_ARCHITECTURE.md](COMPREHENSIVE_ARCHITECTURE.md)** | Полная архитектура   | Детали   |
-| **[DATABASE.md](DATABASE.md)**                                     | Схема БД и ERD       | Backend  |
-| **[PLAYER_ARCHITECTURE.md](PLAYER_ARCHITECTURE.md)**               | Архитектура плеера   | Аудио    |
-| **[TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md)**   | Архитектура бота     | Telegram |
+| Документ                                                                                | Описание             | Фокус    |
+| --------------------------------------------------------------------------------------- | -------------------- | -------- |
+| **[ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)**                                | Визуальные диаграммы | Все слои |
+| **[ARCHITECTURE.md](ARCHITECTURE.md)**                                                  | Общая архитектура    | Система  |
+| **[COMPREHENSIVE_ARCHITECTURE.md](./archive/2026-06-27/COMPREHENSIVE_ARCHITECTURE.md)** | Полная архитектура   | Детали   |
+| **[DATABASE.md](DATABASE.md)**                                                          | Схема БД и ERD       | Backend  |
+| **[PLAYER_ARCHITECTURE.md](PLAYER_ARCHITECTURE.md)**                                    | Архитектура плеера   | Аудио    |
+| **[TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md)**                        | Архитектура бота     | Telegram |
 
 ---
 
@@ -425,7 +425,7 @@ graph LR
 ## 🔗 Связанные документы
 
 - **[DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)** — Полный индекс
-- **[NAVIGATION_GUIDE.md](NAVIGATION_GUIDE.md)** — Навигация по репозиторию
+- **[NAVIGATION_GUIDE.md](./archive/2026-06-27/NAVIGATION_GUIDE.md)** — Навигация по репозиторию
 - **[REPOSITORY_STRUCTURE.md](../REPOSITORY_STRUCTURE.md)** — Структура репозитория
 - **[CONTRIBUTING.md](../CONTRIBUTING.md)** — Руководство по контрибуции
 

@@ -34,7 +34,7 @@
 
 ### Current Implementation ✅
 
-**Bottom Navigation** ([BottomNavigation.tsx:52-187](src/components/BottomNavigation.tsx))
+**Bottom Navigation** ([BottomNavigation.tsx:52-187](../src/components/BottomNavigation.tsx))
 
 ```typescript
 // 5-item nav with FAB center
@@ -95,7 +95,7 @@ const Library = lazy(() => import("./pages/Library"));
 
 ### Typography System ✅ NEW
 
-**Phase 2 Implementation** ([typography.tsx](src/components/ui/typography.tsx))
+**Phase 2 Implementation** ([typography.tsx](../src/components/ui/typography.tsx))
 
 ```typescript
 Heading - h1 (28px), h2 (24px), h3 (20px), h4 (18px)
@@ -114,8 +114,8 @@ Line heights: tight (1.2), normal (1.3), comfortable (1.5), relaxed (1.6)
 
 **Examples:**
 
-- ✅ [SectionHeader.tsx:144-164](src/components/common/SectionHeader.tsx) - Uses Typography components
-- ❌ [Library.tsx:466-468](src/pages/Library.tsx) - Uses inline text classes
+- ✅ [SectionHeader.tsx:144-164](../src/components/common/SectionHeader.tsx) - Uses Typography components
+- ❌ [Library.tsx:466-468](../src/pages/Library.tsx) - Uses inline text classes
 
 **Recommendations:**
 
@@ -125,7 +125,7 @@ Line heights: tight (1.2), normal (1.3), comfortable (1.5), relaxed (1.6)
 
 ### Color System ✅ NEW
 
-**Design Tokens** ([design-tokens.ts](src/lib/design-tokens.ts))
+**Design Tokens** ([design-tokens.ts](../src/lib/design-tokens.ts))
 
 ```typescript
 Primary: Indigo/Violet theme
@@ -154,7 +154,7 @@ Shadows: 6 elevation levels
 
 ### Spacing & Layout ✅ NEW
 
-**Spacing Scale** ([spacing-utils.ts](src/lib/spacing-utils.ts))
+**Spacing Scale** (spacing-utils.ts)
 
 ```typescript
 xs: 4px, sm: 8px, md: 12px, lg: 16px, xl: 24px, 2xl: 32px
@@ -165,8 +165,8 @@ Touch targets: minimum 44px (iOS HIG compliant)
 
 **Issues Found:**
 
-- ⚠️ [Index.tsx:328-334](src/pages/Index.tsx) - Header has 3px gap instead of using spacing tokens
-- ⚠️ [Library.tsx:442-460](src/pages/Library.tsx) - Filter indicator uses custom padding (2.5)
+- ⚠️ [Index.tsx:328-334](../src/pages/Index.tsx) - Header has 3px gap instead of using spacing tokens
+- ⚠️ [Library.tsx:442-460](../src/pages/Library.tsx) - Filter indicator uses custom padding (2.5)
 - ⚠️ Some components use `gap-2.5` instead of standard `gap-3`
 
 **Recommendations:**
@@ -181,7 +181,7 @@ Touch targets: minimum 44px (iOS HIG compliant)
 
 ### Excellent Components ✅
 
-**1. MobileHeaderBar** ([MobileHeaderBar.tsx](src/components/mobile/MobileHeaderBar.tsx))
+**1. MobileHeaderBar** ([MobileHeaderBar.tsx](../src/components/mobile/MobileHeaderBar.tsx))
 
 - ✅ Proper safe area handling
 - ✅ Configurable (back, more, leading, trailing, center)
@@ -189,7 +189,7 @@ Touch targets: minimum 44px (iOS HIG compliant)
 - ✅ Haptic feedback integration
 - ✅ Proper ARIA labels
 
-**2. MobileFullscreenPlayer** ([MobileFullscreenPlayer.tsx](src/components/player/MobileFullscreenPlayer.tsx))
+**2. MobileFullscreenPlayer** ([MobileFullscreenPlayer.tsx](../src/components/player/MobileFullscreenPlayer.tsx))
 
 - ✅ **Outstanding** gesture implementation:
   - Vertical swipe to close (drag threshold 100px)
@@ -204,7 +204,7 @@ Touch targets: minimum 44px (iOS HIG compliant)
 - ✅ Queue sheet
 - ✅ Telegram BackButton integration
 
-**3. BottomNavigation** ([BottomNavigation.tsx](src/components/BottomNavigation.tsx))
+**3. BottomNavigation** ([BottomNavigation.tsx](../src/components/BottomNavigation.tsx))
 
 - ✅ Island-style nav (modern iOS aesthetic)
 - ✅ FAB with pulse animation for active generations
@@ -212,7 +212,7 @@ Touch targets: minimum 44px (iOS HIG compliant)
 - ✅ Badge notifications
 - ✅ Haptic feedback
 
-**4. Mobile Form Components** ([forms/](src/components/mobile/forms))
+**4. Mobile Form Components** ([forms/](../src/components/mobile/forms))
 
 - ✅ MobileFormField, MobileNumberInput, MobileSelect
 - ✅ MobileSlider, MobileTextarea
@@ -289,14 +289,14 @@ Touch targets: minimum 44px (iOS HIG compliant)
 
 ### Current State
 
-**Framer Motion Setup** ([motion.ts](src/lib/motion.ts))
+**Framer Motion Setup** ([motion.ts](../src/lib/motion.ts))
 
 ```typescript
 // Tree-shakeable exports - good practice
 export * from 'framer-motion' with filtering
 ```
 
-**Motion Variants** ([motion-variants.ts](src/lib/motion-variants.ts))
+**Motion Variants** ([motion-variants.ts](../src/lib/motion-variants.ts))
 
 - ✅ 15+ animation variants defined
 - ✅ Reduced motion support
@@ -311,7 +311,7 @@ export * from 'framer-motion' with filtering
 
 **Examples:**
 
-**Good Animation** ([MobileFullscreenPlayer.tsx:560-565](src/components/player/MobileFullscreenPlayer.tsx)):
+**Good Animation** ([MobileFullscreenPlayer.tsx:560-565](../src/components/player/MobileFullscreenPlayer.tsx)):
 
 ```typescript
 initial={{ opacity: 0, y: '100%' }}
@@ -320,7 +320,7 @@ exit={{ opacity: 0, y: '100%' }}
 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
 ```
 
-**Missing Animation** ([Library.tsx:442-460](src/pages/Library.tsx)):
+**Missing Animation** ([Library.tsx:442-460](../src/pages/Library.tsx)):
 
 ```typescript
 // No animation on filter indicator appearance
@@ -342,7 +342,7 @@ transition={{ type: 'spring', damping: 30, stiffness: 300 }}
 
 ### Excellent Implementation ✅
 
-**Double-tap Seek** ([MobileFullscreenPlayer.tsx:529-557](src/components/player/MobileFullscreenPlayer.tsx)):
+**Double-tap Seek** ([MobileFullscreenPlayer.tsx:529-557](../src/components/player/MobileFullscreenPlayer.tsx)):
 
 ```typescript
 // YouTube/TikTok style seek
@@ -350,7 +350,7 @@ const DOUBLE_TAP_DELAY = 300;
 const SEEK_AMOUNT = 10;
 ```
 
-**Swipe Gestures** ([MobileFullscreenPlayer.tsx:498-519](src/components/player/MobileFullscreenPlayer.tsx)):
+**Swipe Gestures** ([MobileFullscreenPlayer.tsx:498-519](../src/components/player/MobileFullscreenPlayer.tsx)):
 
 ```typescript
 // Spotify/Apple Music style track switching
@@ -358,7 +358,7 @@ const HORIZONTAL_SWIPE_THRESHOLD = 80;
 const HORIZONTAL_VELOCITY_THRESHOLD = 400;
 ```
 
-**Pull-to-Refresh** ([PullToRefreshWrapper](src/components/library/PullToRefreshWrapper.tsx)):
+**Pull-to-Refresh** ([PullToRefreshWrapper](../src/components/library/PullToRefreshWrapper.tsx)):
 
 - ✅ Implemented on Library page
 - ✅ Disabled on desktop (good)
@@ -397,7 +397,7 @@ const HORIZONTAL_VELOCITY_THRESHOLD = 400;
 
 **Current Implementation:**
 
-- ✅ Skeleton loaders for tracks ([TrackCardSkeleton](src/components/ui/skeleton-components.tsx))
+- ✅ Skeleton loaders for tracks ([TrackCardSkeleton](../src/components/ui/skeleton-components.tsx))
 - ✅ GeneratingTrackSkeleton for active generations
 - ⚠️ No global loading overlay
 - ⚠️ No progressive loading indicators
@@ -482,8 +482,8 @@ const HORIZONTAL_VELOCITY_THRESHOLD = 400;
 **Design System Claims:**
 
 - ✅ WCAG AA compliance planned
-- ✅ Color contrast validation utilities ([color-contrast.ts](src/lib/color-contrast.ts))
-- ✅ Accessibility helpers ([a11y-utils.ts](src/lib/a11y-utils.ts))
+- ✅ Color contrast validation utilities (color-contrast.ts)
+- ✅ Accessibility helpers ([a11y-utils.ts](../src/lib/a11y-utils.ts))
 
 **Issues:**
 
@@ -540,7 +540,7 @@ const HORIZONTAL_VELOCITY_THRESHOLD = 400;
 
 ### Excellent Integration ✅
 
-**Telegram Context** ([TelegramContext.tsx](src/contexts/TelegramContext.tsx)):
+**Telegram Context** ([TelegramContext.tsx](../src/contexts/TelegramContext.tsx)):
 
 - ✅ hapticFeedback usage
 - ✅ BackButton integration
@@ -574,15 +574,15 @@ const HORIZONTAL_VELOCITY_THRESHOLD = 400;
 
 **Implemented:**
 
-- ✅ Design tokens ([design-tokens.ts](src/lib/design-tokens.ts))
-- ✅ Typography components ([typography.tsx](src/components/ui/typography.tsx))
-- ✅ Gradient components ([gradient-wrapper.tsx](src/components/ui/gradient-wrapper.tsx))
-- ✅ Touch target components ([touch-target.tsx](src/components/ui/touch-target.tsx))
-- ✅ Spacing utilities ([spacing-utils.ts](src/lib/spacing-utils.ts))
-- ✅ Shadow utilities ([shadows.css](src/styles/shadows.css))
-- ✅ Animation utilities ([animations.css](src/styles/animations.css))
-- ✅ Accessibility utilities ([a11y-utils.ts](src/lib/a11y-utils.ts))
-- ✅ Color contrast utilities ([color-contrast.ts](src/lib/color-contrast.ts))
+- ✅ Design tokens ([design-tokens.ts](../src/lib/design-tokens.ts))
+- ✅ Typography components ([typography.tsx](../src/components/ui/typography.tsx))
+- ✅ Gradient components (gradient-wrapper.tsx)
+- ✅ Touch target components ([touch-target.tsx](../src/components/ui/touch-target.tsx))
+- ✅ Spacing utilities (spacing-utils.ts)
+- ✅ Shadow utilities ([shadows.css](../src/styles/shadows.css))
+- ✅ Animation utilities ([animations.css](../src/styles/animations.css))
+- ✅ Accessibility utilities ([a11y-utils.ts](../src/lib/a11y-utils.ts))
+- ✅ Color contrast utilities (color-contrast.ts)
 
 **Not Yet Implemented:**
 
@@ -650,7 +650,7 @@ const HORIZONTAL_VELOCITY_THRESHOLD = 400;
 
 ## Component-by-Component Review
 
-### Homepage ([Index.tsx](src/pages/Index.tsx))
+### Homepage ([Index.tsx](../src/pages/Index.tsx))
 
 **Grade:** A-
 
@@ -668,7 +668,7 @@ const HORIZONTAL_VELOCITY_THRESHOLD = 400;
 - ⚠️ Background gradient animation may impact performance
 - ⚠️ Some sections lack loading states
 
-### Library ([Library.tsx](src/pages/Library.tsx))
+### Library ([Library.tsx](../src/pages/Library.tsx))
 
 **Grade:** B+
 
@@ -687,11 +687,11 @@ const HORIZONTAL_VELOCITY_THRESHOLD = 400;
 - ⚠️ No "play all" confirmation
 - ⚠️ Search debounce may be too long (300ms)
 
-### Generate (Redirect to [GenerateSheet](src/components/GenerateSheet.tsx))
+### Generate (Redirect to [GenerateSheet](../src/components/GenerateSheet.tsx))
 
 **Grade:** Not reviewed
 
-### Fullscreen Player ([MobileFullscreenPlayer.tsx](src/components/player/MobileFullscreenPlayer.tsx))
+### Fullscreen Player ([MobileFullscreenPlayer.tsx](../src/components/player/MobileFullscreenPlayer.tsx))
 
 **Grade:** A+
 
@@ -744,41 +744,41 @@ This is a **well-built app** with room to become **exceptional**. Focus on polis
 
 ### Core Pages
 
-- [Index.tsx](src/pages/Index.tsx) - Homepage
-- [Library.tsx](src/pages/Library.tsx) - Track library
-- [Generate.tsx](src/pages/Generate.tsx) - Generation redirect
+- [Index.tsx](../src/pages/Index.tsx) - Homepage
+- [Library.tsx](../src/pages/Library.tsx) - Track library
+- Generate.tsx - Generation redirect
 
 ### Navigation
 
-- [BottomNavigation.tsx](src/components/BottomNavigation.tsx) - Main nav
-- [App.tsx](src/App.tsx) - Route configuration
+- [BottomNavigation.tsx](../src/components/BottomNavigation.tsx) - Main nav
+- [App.tsx](../src/App.tsx) - Route configuration
 
 ### Mobile Components
 
-- [MobileHeaderBar.tsx](src/components/mobile/MobileHeaderBar.tsx) - Standard header
-- [MobileFullscreenPlayer.tsx](src/components/player/MobileFullscreenPlayer.tsx) - Player
+- [MobileHeaderBar.tsx](../src/components/mobile/MobileHeaderBar.tsx) - Standard header
+- [MobileFullscreenPlayer.tsx](../src/components/player/MobileFullscreenPlayer.tsx) - Player
 
 ### Design System (Phase 1-2)
 
-- [design-tokens.ts](src/lib/design-tokens.ts) - Design tokens
-- [typography.tsx](src/components/ui/typography.tsx) - Typography components
-- [spacing-utils.ts](src/lib/spacing-utils.ts) - Spacing utilities
-- [motion-variants.ts](src/lib/motion-variants.ts) - Animation variants
-- [a11y-utils.ts](src/lib/a11y-utils.ts) - Accessibility helpers
-- [color-contrast.ts](src/lib/color-contrast.ts) - Contrast utilities
+- [design-tokens.ts](../src/lib/design-tokens.ts) - Design tokens
+- [typography.tsx](../src/components/ui/typography.tsx) - Typography components
+- spacing-utils.ts - Spacing utilities
+- [motion-variants.ts](../src/lib/motion-variants.ts) - Animation variants
+- [a11y-utils.ts](../src/lib/a11y-utils.ts) - Accessibility helpers
+- color-contrast.ts - Contrast utilities
 
 ### UI Components
 
-- [SectionHeader.tsx](src/components/common/SectionHeader.tsx) - Section headers
-- [card.tsx](src/components/ui/card.tsx) - Card component
-- [PlaylistCard.tsx](src/components/playlist/PlaylistCard.tsx) - Playlist card
-- [GridVariant.tsx](src/components/track/track-card-new/variants/GridVariant.tsx) - Track card
+- [SectionHeader.tsx](../src/components/common/SectionHeader.tsx) - Section headers
+- [card.tsx](../src/components/ui/card.tsx) - Card component
+- [PlaylistCard.tsx](../src/components/playlist/PlaylistCard.tsx) - Playlist card
+- [GridVariant.tsx](../src/components/track/track-card-new/variants/GridVariant.tsx) - Track card
 
 ### Documentation
 
-- [spec.md](specs/032-professional-ui/spec.md) - Feature specification
-- [plan.md](specs/032-professional-ui/plan.md) - Implementation plan
-- [requirements.md](specs/032-professional-ui/checklists/requirements.md) - Requirements checklist
+- [spec.md](../specs/032-professional-ui/spec.md) - Feature specification
+- [plan.md](../specs/032-professional-ui/plan.md) - Implementation plan
+- [requirements.md](../specs/032-professional-ui/checklists/requirements.md) - Requirements checklist
 
 ---
 

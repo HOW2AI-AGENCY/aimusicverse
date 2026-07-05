@@ -887,10 +887,10 @@ test("library page renders within performance budget", async ({ page }) => {
 
 ### Документация Проекта
 
-- [CLAUDE.md](../../CLAUDE.md) — Основная документация проекта
-- [prd/README-ru.md](../../prd/README-ru.md) — Техническая спецификация (RU)
-- [docs/ARCHITECTURE_DIAGRAMS.md](../../docs/ARCHITECTURE_DIAGRAMS.md) — Архитектурные диаграммы
-- [docs/PLAYER_ARCHITECTURE.md](../../docs/PLAYER_ARCHITECTURE.md) — Архитектура плеера
+- [CLAUDE.md](../CLAUDE.md) — Основная документация проекта
+- [prd/README-ru.md](../prd/README-ru.md) — Техническая спецификация (RU)
+- [docs/ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) — Архитектурные диаграммы
+- [docs/PLAYER_ARCHITECTURE.md](./PLAYER_ARCHITECTURE.md) — Архитектура плеера
 
 ### Ключевые Файлы
 

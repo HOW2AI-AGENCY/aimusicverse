@@ -384,4 +384,4 @@ const {
 
 - [Stem Studio](./STEM_STUDIO.md)
 - [Generation System](./GENERATION_SYSTEM.md)
-- [MIDI Transcription](./MIDI_TRANSCRIPTION.md)
+- MIDI Transcription

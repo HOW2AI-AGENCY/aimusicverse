@@ -337,6 +337,6 @@ const RETRY_DELAY = 5000; // 5 seconds
 
 ## См. также
 
-- [UI Аудит формы генерации](./UI_GENERATION_FORM_AUDIT_2025-12-13.md)
+- UI Аудит формы генерации
 - [Stem Studio](./STEM_STUDIO.md)
 - [AI Lyrics Assistant](./AI_LYRICS_ASSISTANT.md)

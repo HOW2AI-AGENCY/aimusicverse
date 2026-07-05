@@ -10,7 +10,7 @@
 
 ### 1.1 `sound_effects` (новая таблица)
 
-**Файл:** [supabase/migrations/20260708000000_sound_effects.sql](../supabase/migrations/20260708000000_sound_effects.sql)
+**Файл:** [supabase/migrations/20260708000001_sound_effects.sql](../supabase/migrations/20260708000001_sound_effects.sql)
 
 ```sql
 -- Sprint 053-A1: SFX (звуковые эффекты) — хранилище для suno-sounds генераций.
@@ -329,10 +329,10 @@ git push origin main
 ## 7. 📞 Контакты / куда эскалировать
 
 - **Любые вопросы по Sprint 053/054:** см. [PROJECT_STATUS.md → Sprint 053+054 секция](../PROJECT_STATUS.md)
-- **Ретро:** [docs/sprints/SPRINT-053-RETRO.md](../sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](../sprints/SPRINT-054-RETRO.md)
+- **Ретро:** [docs/sprints/SPRINT-053-RETRO.md](./sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](./sprints/SPRINT-054-RETRO.md)
 - **Полный diff:** git log `c896baf1` ... `6dc90af5` (5 коммитов)
-- **Suno API спека:** [docs/SUNO_API.md → История изменений → Sprint 053/054](../SUNO_API.md)
-- **Memory note о dead code cleanup:** [memory/sprint-054-a7-a9-plan-mismatch.md](../../memory/sprint-054-a7-a9-plan-mismatch.md)
+- **Suno API спека:** [docs/SUNO_API.md → История изменений → Sprint 053/054](./SUNO_API.md)
+- **Memory note о dead code cleanup:** memory/sprint-054-a7-a9-plan-mismatch.md
 
 ---
 

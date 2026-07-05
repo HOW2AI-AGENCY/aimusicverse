@@ -60,6 +60,8 @@ jobs:
             --exclude '^https?://127\.0\.0\.1'
             --exclude 'lovable\.app'
             --exclude 'how2ai\.agency'
+            --exclude 'klang\.io'
+            --exclude 'musicverse\.ai'
             --accept 200,206,429
             './**/*.md'
           fail: true

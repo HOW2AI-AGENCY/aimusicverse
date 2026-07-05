@@ -657,7 +657,7 @@ export async function fetchSunoTaskDetails(taskType: SunoTaskType, taskId: strin
 
 #### Cleanup dead code (054-A7')
 
-**Удалено:** [supabase/functions/suno-check-status/index.ts](../supabase/functions/suno-check-status/index.ts) (449 LOC) + alias `[functions.suno-check-status]` в `supabase/config.toml`.
+**Удалено:** `supabase/functions/suno-check-status/index.ts` (449 LOC, dead code — файл удалён) + alias `[functions.suno-check-status]` в `supabase/config.toml`.
 
 **Причина:** graphify + grep подтвердили — **zero client callers**. Callbacks (`suno-music-callback`, `suno-cover-callback`, и т.д.) уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. Polling edge был пережитком Sprint 052 retro. Теперь клиентский polling идёт напрямую через `useSunoTaskDetails` generic hook (см. ниже).
 
@@ -796,7 +796,7 @@ sequenceDiagram
 - `useStemSeparation` — `useMutation` (НЕ polling). Polling делает `useStemSeparationRealtime` через Postgres realtime channels.
 - `useLyricsVersioning` — CRUD для `lyrics_versions` (никакого Suno).
 
-**Вывод:** миграция 5 hooks на `useSunoTaskDetails` — бессмысленна. Hook готов для **будущих** Suno polling use-cases (например, lyrics generation без callback). См. [SPRINTS/SPRINT-054-RETRO.md](../SPRINTS/SPRINT-054-RETRO.md).
+**Вывод:** миграция 5 hooks на `useSunoTaskDetails` — бессмысленна. Hook готов для **будущих** Suno polling use-cases (например, lyrics generation без callback). См. [SPRINTS/SPRINT-054-RETRO.md](./sprints/SPRINT-054-RETRO.md).
 
 ### 2025-12-08
 
