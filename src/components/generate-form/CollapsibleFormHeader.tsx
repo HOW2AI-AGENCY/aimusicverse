@@ -16,6 +16,8 @@ import {
 import { cn } from "@/lib/utils";
 import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";
 import { getModelDisplayInfo } from "@/components/library/ModelBadge";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+
 
 export type GenerationMode = "simple" | "custom";
 
