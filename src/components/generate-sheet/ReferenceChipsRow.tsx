@@ -1,6 +1,8 @@
 // src/components/generate-sheet/ReferenceChipsRow.tsx
 import { Plus, X, Folder, User, Music, Mic } from "@/lib/icons";
 import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+
 
 export type ReferenceKind = "project" | "artist" | "audio" | "voice";
 
@@ -30,7 +32,9 @@ const KIND_META: Record<ReferenceKind, { label: string; icon: typeof Plus }> = {
 };
 
 export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
+  const haptic = useHapticFeedback();
   return (
+
     <div
       className="flex items-center gap-1.5 overflow-x-auto -mx-4 px-4 pb-1 scrollbar-none"
       role="group"
@@ -44,7 +48,11 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
             <button
               key={kind}
               type="button"
-              onClick={() => onRemove(kind, item.id)}
+              onClick={() => {
+                haptic.impact("light");
+                onRemove(kind, item.id);
+              }}
+
               aria-label={`Удалить ${label.toLowerCase()}: ${item.label}`}
               className={cn(
                 "group inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-xs font-medium shrink-0",
@@ -62,7 +70,11 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
           <button
             key={kind}
             type="button"
-            onClick={() => onAdd(kind)}
+            onClick={() => {
+              haptic.selectionChanged();
+              onAdd(kind);
+            }}
+
             aria-label={`Добавить ${label.toLowerCase()}`}
             className={cn(
               "inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-xs font-medium shrink-0",

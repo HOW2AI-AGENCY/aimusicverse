@@ -2,6 +2,7 @@ import { memo } from "react";
 import { Mic, Music2 } from "@/lib/icons";
 import { SectionLabel, SECTION_HINTS } from "../SectionLabel";
 import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 interface VocalsToggleProps {
   hasVocals: boolean;
@@ -16,12 +17,15 @@ export const VocalsToggle = memo(function VocalsToggle({
   onLyricsChange,
   compact = false,
 }: VocalsToggleProps) {
+  const haptic = useHapticFeedback();
   const handleChange = (value: boolean) => {
+    if (value !== hasVocals) haptic.selectionChanged();
     onHasVocalsChange(value);
     if (!value) {
       onLyricsChange("");
     }
   };
+
 
   return (
     <div className={cn("space-y-1.5", compact && "space-y-1")}>
@@ -33,7 +37,7 @@ export const VocalsToggle = memo(function VocalsToggle({
           type="button"
           onClick={() => handleChange(true)}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3",
+            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3 active:scale-[0.98]",
             hasVocals
               ? "bg-primary text-primary-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -46,7 +50,7 @@ export const VocalsToggle = memo(function VocalsToggle({
           type="button"
           onClick={() => handleChange(false)}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3",
+            "flex-1 flex items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[44px] px-3 active:scale-[0.98]",
             !hasVocals
               ? "bg-primary text-primary-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -55,6 +59,7 @@ export const VocalsToggle = memo(function VocalsToggle({
           <Music2 className="w-4 h-4" />
           <span>Инструментал</span>
         </button>
+
       </div>
 
       {/* Contextual hint - only in non-compact mode */}
