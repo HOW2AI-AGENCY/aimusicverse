@@ -12,7 +12,7 @@
  */
 
 import type { ProjectRow } from "@/api/projects.api";
-import type { ArtistRow } from "@/api/artists.api";
+import type { ArtistRow } from "@/api/tracks.api";
 import type { TrackRow } from "@/api/tracks.api";
 
 /** Composer params — identical to the legacy `UseGenerateFormProps`. */
@@ -112,14 +112,6 @@ export interface UseGenerateFormStateReturn {
    */
   apiCredits: number | null;
   setApiCredits: (v: number | null) => void;
-
-  // ─── auth/credits context forwarded from internal state ─────────
-  isAdmin: boolean;
-  apiBalance: number | null | undefined;
-  userBalance: number | null;
-  activeReference: unknown;
-  clearAudioReference: () => void;
-  invalidateCredits: () => void;
 }
 
 /** Deps accepted by `useGenerateFormActions`. */

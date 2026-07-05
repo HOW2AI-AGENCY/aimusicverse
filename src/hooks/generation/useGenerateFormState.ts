@@ -91,18 +91,13 @@ export function useGenerateFormState(params: UseGenerateFormParams): UseGenerate
     resetForm: s.resetForm,
 
     // ─── draft (forwarded from useGenerateDraft via internal state) ──
-    saveDraft: (payload?: unknown) => s.saveDraft(payload as never),
+    saveDraft: s.saveDraft,
 
     // ─── api credits (forwarded from internal state) ─────────────────
+    // Wired so the submit pipeline can persist the post-generation balance
+    // via deps.setApiCredits and the public surface can expose apiCredits
+    // (was previously dropped on the floor by an upstream no-op stub).
     apiCredits: s.apiCredits,
     setApiCredits: s.setApiCredits,
-
-    // ─── auth/credits context ─────────────────────────────────────
-    isAdmin: s.isAdmin,
-    apiBalance: s.apiBalance,
-    userBalance: s.userBalance,
-    activeReference: s.activeReference,
-    clearAudioReference: s.clearAudioReference,
-    invalidateCredits: s.invalidateCredits,
   };
 }
