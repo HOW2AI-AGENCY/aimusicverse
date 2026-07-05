@@ -2,7 +2,7 @@
 import { Plus, X, Folder, User, Music, Mic } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
-type ReferenceKind = "project" | "artist" | "audio" | "voice";
+export type ReferenceKind = "project" | "artist" | "audio" | "voice";
 
 interface ReferenceItem {
   id: string;

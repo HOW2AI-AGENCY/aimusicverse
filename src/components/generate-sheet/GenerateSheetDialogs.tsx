@@ -29,31 +29,31 @@ interface GenerateSheetDialogsProps {
   queryClient: QueryClient;
 
   projectDialogOpen: boolean;
-  setProjectDialogOpen: Dispatch<SetStateAction<boolean>>;
+  setProjectDialogOpen: (v: boolean) => void;
   projectTrackStep: "project" | "track";
-  setProjectTrackStep: Dispatch<SetStateAction<"project" | "track">>;
+  setProjectTrackStep: (v: "project" | "track") => void;
   projectTracks: TracksList | undefined;
   onProjectSelect: (projectId: string) => void;
 
   artistDialogOpen: boolean;
-  setArtistDialogOpen: Dispatch<SetStateAction<boolean>>;
+  setArtistDialogOpen: (v: boolean) => void;
 
   voiceCloneOpen: boolean;
-  setVoiceCloneOpen: Dispatch<SetStateAction<boolean>>;
+  setVoiceCloneOpen: (v: boolean) => void;
   onAdvancedToggle: (open: boolean) => void;
 
   audioActionDialogOpen: boolean;
-  setAudioActionDialogOpen: Dispatch<SetStateAction<boolean>>;
-  setAdvancedOpen: Dispatch<SetStateAction<boolean>>;
+  setAudioActionDialogOpen: (v: boolean) => void;
+  setAdvancedOpen: (v: boolean) => void;
 
   lyricsAssistantOpen: boolean;
-  setLyricsAssistantOpen: Dispatch<SetStateAction<boolean>>;
+  setLyricsAssistantOpen: (v: boolean) => void;
 
   historyOpen: boolean;
-  setHistoryOpen: Dispatch<SetStateAction<boolean>>;
+  setHistoryOpen: (v: boolean) => void;
 
   stylesOpen: boolean;
-  setStylesOpen: Dispatch<SetStateAction<boolean>>;
+  setStylesOpen: (v: boolean) => void;
 }
 
 /** Secondary dialogs opened from within GenerateSheet (project/artist/voice/audio/lyrics/history/styles). */

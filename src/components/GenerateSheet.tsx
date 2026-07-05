@@ -181,7 +181,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
             generationCostBreakdown={controller.form.generationCostBreakdown}
             onGenerate={controller.actions.handleGenerate}
             onSaveDraft={controller.actions.handleSaveDraft}
-            onShowReasons={() => controller.dialogs.reasons?.setOpen(true)}
+            onShowReasons={() => {}}
             shouldShowUIButton={shouldShowUIButton}
             shouldShowSecondaryUIButton={shouldShowSecondaryUIButton}
             isKeyboardOpen={isKeyboardOpen}
