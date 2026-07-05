@@ -138,56 +138,59 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           <SectionLabel label="Текст песни" hint={SECTION_HINTS.lyrics} />
 
           <div className="flex items-center gap-1">
-            {/* Quick templates dropdown */}
-            <motion.div className="relative">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-11 min-w-11 px-2 text-xs gap-1"
-                onClick={() => {
-                  hapticFeedback("light");
-                  setShowQuickTemplates(!showQuickTemplates);
-                }}
-              >
-                <BookOpen className="h-3 w-3" />
-                <span className="hidden sm:inline">Шаблоны</span>
-                <ChevronDown className={cn("h-3 w-3 transition-transform", showQuickTemplates && "rotate-180")} />
-              </Button>
+            {/* Quick templates dropdown — text mode only: the visual editor has
+                its own structure templates, and preview is read-only */}
+            {viewMode === "text" && (
+              <motion.div className="relative">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-11 min-w-11 px-2 text-xs gap-1"
+                  onClick={() => {
+                    hapticFeedback("light");
+                    setShowQuickTemplates(!showQuickTemplates);
+                  }}
+                >
+                  <BookOpen className="h-3 w-3" />
+                  <span className="hidden sm:inline">Шаблоны</span>
+                  <ChevronDown className={cn("h-3 w-3 transition-transform", showQuickTemplates && "rotate-180")} />
+                </Button>
 
-              <AnimatePresence>
-                {showQuickTemplates && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -4, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -4, scale: 0.95 }}
-                    transition={{ duration: 0.15 }}
-                    className={cn(
-                      "absolute right-0 top-full mt-1 z-dropdown",
-                      "w-44 p-1 rounded-xl",
-                      "bg-popover border border-border shadow-xl",
-                    )}
-                  >
-                    {QUICK_TEMPLATES.map((template) => {
-                      const Icon = template.icon;
-                      return (
-                        <button
-                          key={template.id}
-                          onClick={() => handleApplyTemplate(template.structure)}
-                          className={cn(
-                            "w-full flex items-center gap-2 px-2.5 py-2 rounded-lg",
-                            "text-xs text-left hover:bg-accent transition-colors",
-                            "touch-manipulation",
-                          )}
-                        >
-                          <Icon className="h-3.5 w-3.5 text-muted-foreground" />
-                          <span>{template.label}</span>
-                        </button>
-                      );
-                    })}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+                <AnimatePresence>
+                  {showQuickTemplates && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -4, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className={cn(
+                        "absolute right-0 top-full mt-1 z-dropdown",
+                        "w-44 p-1 rounded-xl",
+                        "bg-popover border border-border shadow-xl",
+                      )}
+                    >
+                      {QUICK_TEMPLATES.map((template) => {
+                        const Icon = template.icon;
+                        return (
+                          <button
+                            key={template.id}
+                            onClick={() => handleApplyTemplate(template.structure)}
+                            className={cn(
+                              "w-full flex items-center gap-2 px-2.5 py-2 rounded-lg",
+                              "text-xs text-left hover:bg-accent transition-colors",
+                              "touch-manipulation",
+                            )}
+                          >
+                            <Icon className="h-3.5 w-3.5 text-muted-foreground" />
+                            <span>{template.label}</span>
+                          </button>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
 
             {/* View toggle: text / visual / preview */}
             <div className="flex items-center gap-1 p-1 rounded-xl bg-muted/50">

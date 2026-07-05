@@ -1,31 +1,44 @@
 /**
  * LyricsPreview - Read-only formatted preview of lyrics
- * Renders sections as styled blocks matching the visual editor color palette.
+ * Renders sections as styled blocks using the shared section meta
+ * (lyricsSectionMeta) and design-system colors, so preview, visual
+ * editor and text mode speak the same visual language.
  */
 
 import { memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { LYRIC_SECTION_BY_VALUE, getLyricSectionColor, normalizeSectionType } from "./lyricsSectionMeta";
 
 interface ParsedSection {
   id: string;
-  type: string;
   label: string;
-  color: string;
-  icon: string;
+  glyph: string;
+  colorClass: string;
+  dotClass: string;
   lines: string[];
 }
 
-const SECTION_META: Record<string, { label: string; color: string; icon: string }> = {
-  intro: { label: "Intro", color: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30", icon: "🎬" },
-  verse: { label: "Verse", color: "bg-sky-500/15 text-sky-300 border-sky-500/30", icon: "📝" },
-  pre: { label: "Pre", color: "bg-amber-500/15 text-amber-300 border-amber-500/30", icon: "⬆️" },
-  chorus: { label: "Chorus", color: "bg-violet-500/15 text-violet-300 border-violet-500/30", icon: "🎵" },
-  hook: { label: "Hook", color: "bg-pink-500/15 text-pink-300 border-pink-500/30", icon: "🎤" },
-  bridge: { label: "Bridge", color: "bg-orange-500/15 text-orange-300 border-orange-500/30", icon: "🌉" },
-  drop: { label: "Drop", color: "bg-red-500/15 text-red-300 border-red-500/30", icon: "💥" },
-  breakdown: { label: "Break", color: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30", icon: "🔊" },
-  outro: { label: "Outro", color: "bg-slate-500/15 text-slate-300 border-slate-500/30", icon: "🔚" },
-};
+function metaFor(rawToken: string, ordinal: string | undefined) {
+  const type = normalizeSectionType(rawToken);
+  if (type) {
+    const def = LYRIC_SECTION_BY_VALUE[type];
+    const color = getLyricSectionColor(type);
+    return {
+      label: ordinal ? `${def.label} ${ordinal}` : def.label,
+      glyph: def.glyph,
+      colorClass: cn(color.bg, color.border, color.text),
+      dotClass: color.dot,
+    };
+  }
+  // Unknown tag ([Guitar Solo], [Instrumental Break]…) — keep it visible, muted.
+  const label = rawToken.charAt(0).toUpperCase() + rawToken.slice(1).toLowerCase();
+  return {
+    label: ordinal ? `${label} ${ordinal}` : label,
+    glyph: "♪",
+    colorClass: "bg-muted/40 text-muted-foreground border-border/60",
+    dotClass: "bg-muted-foreground",
+  };
+}
 
 function parse(text: string): ParsedSection[] {
   if (!text.trim()) return [];
@@ -33,28 +46,16 @@ function parse(text: string): ParsedSection[] {
   let current: ParsedSection | null = null;
   let idx = 0;
   for (const raw of text.split("\n")) {
-    const m = raw.match(/^\s*\[(\w+)(?:\s+\d+)?(?:,\s*[^\]]+)?\]\s*(.*)$/i);
+    const m = raw.match(/^\s*\[([\w\sа-яё-]+?)(?:\s+(\d+))?(?:,\s*[^\]]+)?\]\s*(.*)$/i);
     if (m) {
       if (current) out.push(current);
-      const key = m[1].toLowerCase();
-      const meta = SECTION_META[key] ?? {
-        label: m[1].charAt(0).toUpperCase() + m[1].slice(1).toLowerCase(),
-        color: "bg-muted/40 text-foreground border-border/60",
-        icon: "🎶",
-      };
-      current = { id: `${key}-${idx++}`, type: key, label: meta.label, color: meta.color, icon: meta.icon, lines: [] };
-      if (m[2].trim()) current.lines.push(m[2]);
+      const meta = metaFor(m[1].trim(), m[2]);
+      current = { id: `sec-${idx++}`, ...meta, lines: [] };
+      if (m[3].trim()) current.lines.push(m[3]);
     } else if (raw.trim()) {
       if (!current) {
-        const meta = SECTION_META.verse;
-        current = {
-          id: `verse-${idx++}`,
-          type: "verse",
-          label: meta.label,
-          color: meta.color,
-          icon: meta.icon,
-          lines: [],
-        };
+        const meta = metaFor("verse", undefined);
+        current = { id: `sec-${idx++}`, ...meta, lines: [] };
       }
       current.lines.push(raw);
     } else if (current) {
@@ -86,7 +87,7 @@ export const LyricsPreview = memo(function LyricsPreview({ value, className }: L
           className,
         )}
       >
-        Пока пусто. Добавь секции и текст — здесь появится финальный вид песни.
+        Пока пусто. Добавьте секции и текст — здесь появится финальный вид песни.
       </div>
     );
   }
@@ -100,7 +101,7 @@ export const LyricsPreview = memo(function LyricsPreview({ value, className }: L
       role="region"
       aria-label="Предпросмотр текста песни"
     >
-      <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-muted-foreground/70">
+      <div className="flex items-center justify-between text-overline uppercase text-muted-foreground/70">
         <span>Предпросмотр</span>
         <span className="tabular-nums">
           {sections.length} {sections.length === 1 ? "секция" : "секций"} · {totalLines}{" "}
@@ -112,11 +113,11 @@ export const LyricsPreview = memo(function LyricsPreview({ value, className }: L
         <div key={s.id} className="space-y-1.5">
           <div
             className={cn(
-              "inline-flex items-center gap-1.5 px-2 py-1 rounded-md border text-[10px] font-semibold uppercase tracking-wider",
-              s.color,
+              "inline-flex items-center gap-1.5 px-2 py-1 rounded-md border text-overline uppercase",
+              s.colorClass,
             )}
           >
-            <span aria-hidden>{s.icon}</span>
+            <span aria-hidden>{s.glyph}</span>
             <span>{s.label}</span>
           </div>
           {s.lines.some((l) => l.trim()) ? (
