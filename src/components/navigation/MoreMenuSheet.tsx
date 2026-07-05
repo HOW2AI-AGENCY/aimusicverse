@@ -24,6 +24,9 @@ import {
   PenLine,
   Globe,
   Headphones,
+  Mic,
+  CreditCard,
+  Share2,
 } from "@/lib/icons";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
