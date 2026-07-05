@@ -427,18 +427,24 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
             </div>
 
             {phraseRecorder.state === "idle" && (
-              <Button className="w-full" onClick={phraseRecorder.start}>
+              <Button className="w-full h-12" onClick={phraseRecorder.start}>
                 <Mic className="mr-2 h-4 w-4" />
                 Записать
               </Button>
             )}
             {phraseRecorder.state === "recording" && (
-              <div className="space-y-2">
-                <div className="text-center text-2xl font-mono">{phraseRecorder.duration.toFixed(1)}s</div>
-                <Button variant="destructive" className="w-full" onClick={phraseRecorder.stop}>
-                  <Square className="mr-2 h-4 w-4" />
-                  Стоп
-                </Button>
+              <div className="space-y-3">
+                <VoiceWaveformEditor mode="live" stream={phraseRecorder.stream} height={72} />
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 text-2xl font-mono tabular-nums">
+                    {phraseRecorder.duration.toFixed(1)}
+                    <span className="text-sm text-muted-foreground ml-1">с</span>
+                  </div>
+                  <Button variant="destructive" className="h-12 px-6" onClick={phraseRecorder.stop}>
+                    <Square className="mr-2 h-4 w-4" />
+                    Стоп
+                  </Button>
+                </div>
               </div>
             )}
             {phraseRecorder.state === "stopped" && phraseRecorder.blob && phraseUrl && (
@@ -450,12 +456,12 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                   </p>
                 )}
                 <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1" onClick={phraseRecorder.reset}>
+                  <Button variant="outline" className="flex-1 h-12" onClick={phraseRecorder.reset}>
                     <RotateCcw className="mr-2 h-4 w-4" />
                     Перезаписать
                   </Button>
                   <Button
-                    className="flex-1"
+                    className="flex-1 h-12"
                     disabled={isWorking || phraseRecorder.duration < MIN_PHRASE_REC_SEC}
                     onClick={() => phraseRecorder.blob && submitRecording(phraseRecorder.blob)}
                   >
@@ -465,6 +471,7 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               </div>
             )}
             {phraseRecorder.state === "error" && <p className="text-sm text-destructive">{phraseRecorder.error}</p>}
+
           </div>
         )}
 
