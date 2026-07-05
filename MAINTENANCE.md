@@ -65,7 +65,7 @@ git push && gh pr create --title "docs: Sprint XXX documentation update"
 
 ### 🔗 Навигация
 
-[← Предыдущий: FILE.md](./FILE.md) · [↑ К индексу](./DOCUMENTATION_INDEX.md) · [Следующий: FILE.md →](./FILE.md)
+`[← Предыдущий: FILE.md](./FILE.md) · [↑ К индексу](./DOCUMENTATION_INDEX.md) · [Следующий: FILE.md →](./FILE.md)`
 
 <sub>Обновлено: ДД.ММ.ГГГГ · [История изменений](./CHANGELOG.md)</sub>
 

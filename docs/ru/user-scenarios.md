@@ -962,6 +962,12 @@ MusicVerse AI имеет **продуманную и современную ар
 **Версия:** 1.0  
 **Связанные документы:**
 
-- [ПЛАН*РАЗВИТИЯ*И*УЛУЧШЕНИЯ*СТУДИИ.md](ПЛАН_РАЗВИТИЯ_И_УЛУЧШЕНИЯ_СТУДИИ.md)
-- [MOBILE_OPTIMIZATION_SUMMARY.md](MOBILE_OPTIMIZATION_SUMMARY.md)
-- [NAVIGATION.md](NAVIGATION.md)
+- ПЛАН*РАЗВИТИЯ*И*УЛУЧШЕНИЯ*СТУДИИ.md
+  <<<<<<< HEAD
+- MOBILE_OPTIMIZATION_SUMMARY.md
+  \=======
+- [MOBILE_OPTIMIZATION_SUMMARY.md](../archive/2026-01-04-cleanup/MOBILE_OPTIMIZATION_SUMMARY.md)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
+- [NAVIGATION.md](../NAVIGATION.md)

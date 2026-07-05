@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { Progress } from "@/components/ui/progress";
@@ -16,6 +16,8 @@ import {
 import { useGenerateSheetController } from "@/hooks/generation/useGenerateSheetController";
 import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from "@/hooks/telegram";
 import { useKeyboardAware } from "@/hooks/useKeyboardAware";
+import { useScrollLock } from "@/hooks/useScrollLock";
+import { useSunoCancel } from "@/hooks/generation/useSunoCancel";
 import { useFeatureFlag } from "@/hooks/useFeatureFlag";
 import { GENERATE_SHEET_REDESIGN_ENABLED } from "@/lib/feature-flags";
 import { useProjects } from "@/hooks/useProjects";
@@ -30,6 +32,7 @@ import { GenerateSheetFooter } from "./generate-sheet/GenerateSheetFooter";
 import { GenerateSheetDialogs } from "./generate-sheet/GenerateSheetDialogs";
 import { ValidationReasonsSheet } from "./generate-sheet/ValidationReasonsSheet";
 import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
+import { LegacyGenerateSheet } from "./GenerateSheet.legacy";
 import type { ReferenceKind } from "./generate-sheet/ReferenceChipsRow";
 
 interface Props {
@@ -46,13 +49,18 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks } = useTracks();
-  const { hapticFeedback, enableClosingConfirmation, disableClosingConfirmation } = useTelegram();
+  const { hapticFeedback } = useTelegram();
   const qc = useQueryClient();
   const { user } = useAuth();
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { keyboardHeight, isKeyboardOpen } = useKeyboardAware();
 
   const controller = useGenerateSheetController({ open, onOpenChange, initialProjectId: projectId });
+
+  // Lock body scroll while sheet is open (prevents iOS rubber-band behind sheet)
+  useScrollLock(open);
+
+  // Sprint 055-A4: generation cancel
+  const { cancel: cancelGeneration, isCancelling } = useSunoCancel();
 
   // Telegram wiring
   const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
@@ -76,8 +84,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   }, [controller.form.loading, showProgress, hideProgress]);
 
   if (!isRedesign) {
-    // Fallback to legacy implementation via dynamic import
-    const LegacyGenerateSheet = require("./GenerateSheet.legacy").LegacyGenerateSheet;
     return <LegacyGenerateSheet open={open} onOpenChange={onOpenChange} projectId={projectId} />;
   }
 
@@ -151,14 +157,21 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center"
               >
-                <GenerationLoadingState stage="processing" showCancel={false} compact={false} />
+                <GenerationLoadingState
+                  stage="processing"
+                  showCancel={!!controller.form.currentTaskId && !isCancelling}
+                  compact={false}
+                  onCancel={
+                    controller.form.currentTaskId ? () => cancelGeneration(controller.form.currentTaskId!) : undefined
+                  }
+                />
               </motion.div>
             )}
           </AnimatePresence>
 
           <GenerateSheetBody
             form={controller.form}
-            advancedOpen={false}
+            advancedOpen={controller.dialogs.advancedOpen}
             onAdvancedToggle={controller.actions.handleAdvancedToggle}
             onOpenLyricsAssistant={() => controller.dialogs.lyricsAssistant.setOpen(true)}
             onAddReference={handleAddReference}
@@ -181,11 +194,16 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
             generationCostBreakdown={controller.form.generationCostBreakdown}
             onGenerate={controller.actions.handleGenerate}
             onSaveDraft={controller.actions.handleSaveDraft}
-            onShowReasons={() => controller.dialogs.reasons?.setOpen(true)}
+            onShowReasons={() => controller.dialogs.reasons.setOpen(true)}
             shouldShowUIButton={shouldShowUIButton}
             shouldShowSecondaryUIButton={shouldShowSecondaryUIButton}
             isKeyboardOpen={isKeyboardOpen}
             keyboardHeight={keyboardHeight}
+            summary={
+              controller.form.loading
+                ? undefined
+                : `${controller.form.hasVocals ? "Вокал" : "Инструментал"} · 30–90 сек · ${controller.form.generationCost} кредитов`
+            }
           />
         </SheetContent>
 
@@ -214,7 +232,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
           onAdvancedToggle={controller.actions.handleAdvancedToggle}
           audioActionDialogOpen={controller.dialogs.audioAction.open}
           setAudioActionDialogOpen={controller.dialogs.audioAction.setOpen}
-          setAdvancedOpen={() => {}}
+          setAdvancedOpen={controller.actions.handleAdvancedToggle}
           lyricsAssistantOpen={controller.dialogs.lyricsAssistant.open}
           setLyricsAssistantOpen={controller.dialogs.lyricsAssistant.setOpen}
           historyOpen={controller.dialogs.history.open}
@@ -228,10 +246,14 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
         open={controller.dialogs.lyricsAssistant.open}
         onOpenChange={controller.dialogs.lyricsAssistant.setOpen}
         currentText={controller.form.lyrics}
-        onApply={(text, sectionId) => controller.form.setLyrics(text)}
+        onApply={(text) => controller.form.setLyrics(text)}
       />
 
-      <ValidationReasonsSheet open={false} onOpenChange={() => {}} reasons={controller.validation.reasons} />
+      <ValidationReasonsSheet
+        open={controller.dialogs.reasons.open}
+        onOpenChange={controller.dialogs.reasons.setOpen}
+        reasons={controller.validation.reasons}
+      />
     </>
   );
 };

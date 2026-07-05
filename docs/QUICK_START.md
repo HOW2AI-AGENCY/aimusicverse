@@ -382,7 +382,13 @@ npm run build
 
 ### Сообщество
 
-- 💬 [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)
+<<<<<<< HEAD
+=======
+
+- 💬 [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 - 🐛 [Сообщить о проблеме](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
 - 📧 [Email Support](mailto:support@musicverse.ai)
 - 💬 [Telegram Support](https://t.me/MusicVerseSupport)

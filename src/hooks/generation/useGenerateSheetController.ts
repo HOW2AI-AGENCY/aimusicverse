@@ -69,8 +69,10 @@ export interface UseGenerateSheetControllerReturn {
     lyricsAssistant: DialogState;
     styles: DialogState;
     closeConfirm: DialogState;
+    reasons: DialogState;
     projectTrackStep: "project" | "track";
     setProjectTrackStep: (step: "project" | "track") => void;
+    advancedOpen: boolean;
   };
   actions: {
     handleGenerate: () => Promise<void>;
@@ -136,6 +138,7 @@ export function useGenerateSheetController({
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [stylesOpen, setStylesOpen] = useState(false);
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
+  const [reasonsOpen, setReasonsOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<"project" | "track">("project");
 
   // Persist advanced section state (T044 — referenced by caller for UI).
@@ -282,8 +285,10 @@ export function useGenerateSheetController({
       lyricsAssistant: { open: lyricsAssistantOpen, setOpen: setLyricsAssistantOpen },
       styles: { open: stylesOpen, setOpen: setStylesOpen },
       closeConfirm: { open: closeConfirmOpen, setOpen: setCloseConfirmOpen },
+      reasons: { open: reasonsOpen, setOpen: setReasonsOpen },
       projectTrackStep,
       setProjectTrackStep,
+      advancedOpen,
     },
     actions: {
       handleGenerate,

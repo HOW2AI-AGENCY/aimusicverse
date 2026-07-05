@@ -16,11 +16,15 @@
 </p>
 
 <p>
+<<<<<<< HEAD
+  <a href="../../README.md">🏠 Home</a> ·
+=======
   <a href="../README.md">🏠 Home</a> ·
-  <a href="../DOCUMENTATION_INDEX.md">📚 Docs Index</a> ·
-  <a href="../ARCHITECTURE_HUB.md">🏛 Architecture</a> ·
-  <a href="../ROADMAP.md">🗺 Roadmap</a> ·
-  <a href="../CHANGELOG.md">📝 Changelog</a>
+>>>>>>> claude/sprint-closure-planning-m6skuk
+  <a href="../../DOCUMENTATION_INDEX.md">📚 Docs Index</a> ·
+  <a href="../../ARCHITECTURE_HUB.md">🏛 Architecture</a> ·
+  <a href="../../ROADMAP.md">🗺 Roadmap</a> ·
+  <a href="../../CHANGELOG.md">📝 Changelog</a>
 </p>
 
 </div>

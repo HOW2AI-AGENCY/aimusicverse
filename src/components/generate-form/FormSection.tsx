@@ -17,20 +17,23 @@ import { glass } from "@/lib/glass";
 
 export type FormSectionTone = "default" | "style" | "lyrics" | "voice" | "settings";
 
+// Design-taste: single-accent discipline. Step badges keep a subtle tonal hint
+// (foreground/muted only, no saturated brand color for decorative purposes),
+// and vertical bars are unified to a neutral border. Prevents "rainbow form".
 const TONE_ACCENT: Record<FormSectionTone, string> = {
-  default: "bg-muted/60 text-foreground/80 border-border/50",
-  style: "bg-primary/10 text-primary border-primary/20",
-  lyrics: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-  voice: "bg-pink-500/10 text-pink-400 border-pink-500/20",
-  settings: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+  default: "bg-muted/60 text-foreground/70 border-border/50",
+  style: "bg-muted/60 text-foreground/80 border-border/60",
+  lyrics: "bg-muted/60 text-foreground/80 border-border/60",
+  voice: "bg-muted/60 text-foreground/80 border-border/60",
+  settings: "bg-muted/60 text-foreground/70 border-border/50",
 };
 
 const TONE_BAR: Record<FormSectionTone, string> = {
-  default: "before:bg-border/60",
-  style: "before:bg-primary/40",
-  lyrics: "before:bg-violet-500/40",
-  voice: "before:bg-pink-500/40",
-  settings: "before:bg-slate-500/40",
+  default: "before:bg-border/50",
+  style: "before:bg-border/60",
+  lyrics: "before:bg-border/60",
+  voice: "before:bg-border/60",
+  settings: "before:bg-border/50",
 };
 
 interface FormSectionProps {
@@ -65,6 +68,7 @@ export const FormSection = memo(function FormSection({
 
   return (
     <motion.div
+      data-step={step || undefined}
       className={cn(
         "space-y-2.5",
         (elevated || isGroup) && cn("p-3.5 rounded-2xl", glass.subtle),

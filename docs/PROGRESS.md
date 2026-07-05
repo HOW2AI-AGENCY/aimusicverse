@@ -310,14 +310,14 @@ xychart-beta
 
 ### 📚 Полная документация
 
-| Ресурс                | Ссылка                                                           |
-| --------------------- | ---------------------------------------------------------------- |
-| **🏠 Домой**          | [README.md](../README.md)                                        |
-| **📚 Docs Index**     | [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)              |
-| **📊 Статус**         | [PROJECT_STATUS.md](../PROJECT_STATUS.md)                        |
-| **🗺️ Дорожная карта** | [ROADMAP.md](../ROADMAP.md)                                      |
-| **🧪 Тестирование**   | [docs/TESTING_INFRASTRUCTURE.md](docs/TESTING_INFRASTRUCTURE.md) |
-| **✅ Качество**       | [docs/QUALITY_GATES.md](docs/QUALITY_GATES.md)                   |
+| Ресурс                | Ссылка                                                        |
+| --------------------- | ------------------------------------------------------------- |
+| **🏠 Домой**          | [README.md](../README.md)                                     |
+| **📚 Docs Index**     | [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)           |
+| **📊 Статус**         | [PROJECT_STATUS.md](../PROJECT_STATUS.md)                     |
+| **🗺️ Дорожная карта** | [ROADMAP.md](../ROADMAP.md)                                   |
+| **🧪 Тестирование**   | [docs/TESTING_INFRASTRUCTURE.md](./TESTING_INFRASTRUCTURE.md) |
+| **✅ Качество**       | [docs/QUALITY_GATES.md](./QUALITY_GATES.md)                   |
 
 ### 🎯 Sprint документация
 
@@ -348,21 +348,27 @@ xychart-beta
 
 1. **Фундамент:** [README.md](../README.md)
 2. **Настройка:** [CONTRIBUTING.md](../CONTRIBUTING.md)
-3. **Обучение:** [docs/ONBOARDING.md](docs/ONBOARDING.md)
-4. **Архитектура:** [docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md)
-5. **Тестирование:** [docs/TESTING_INFRASTRUCTURE.md](docs/TESTING_INFRASTRUCTURE.md)
+3. **Обучение:** [docs/ONBOARDING.md](./ONBOARDING.md)
+4. **Архитектура:** [docs/ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md)
+5. **Тестирование:** [docs/TESTING_INFRASTRUCTURE.md](./TESTING_INFRASTRUCTURE.md)
 
 ### 📱 Для мобильных разработчиков
 
-1. **Фундамент:** [docs/SAFE_AREA_GUIDELINES.md](docs/SAFE_AREA_GUIDELINES.md)
-2. **Планирование:** [docs/mobile/OPTIMIZATION_ROADMAP_2026.md](docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
-3. **Реализация:** [specs/031-mobile-studio-v2/](specs/031-mobile-studio-v2/)
+1. **Фундамент:** [docs/SAFE_AREA_GUIDELINES.md](./SAFE_AREA_GUIDELINES.md)
+2. **Планирование:** [docs/mobile/OPTIMIZATION_ROADMAP_2026.md](./mobile/OPTIMIZATION_ROADMAP_2026.md)
+   <<<<<<< HEAD
+3. **Реализация:** [specs/031-mobile-studio-v2/](../specs/031-mobile-studio-v2)
+   \=======
+4. **Реализация:** [specs/031-mobile-studio-v2/](../specs/031-mobile-studio-v2/)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 4. **Справочник:** [SPRINTS/completed/SPRINT-029-\*](../SPRINTS/completed/)
 
 ### 🧪 Для QA инженеров
 
-1. **Фундамент:** [docs/TESTING_INFRASTRUCTURE.md](docs/TESTING_INFRASTRUCTURE.md)
-2. **Стандарты:** [docs/QUALITY_GATES.md](docs/QUALITY_GATES.md)
+1. **Фундамент:** [docs/TESTING_INFRASTRUCTURE.md](./TESTING_INFRASTRUCTURE.md)
+2. **Стандарты:** [docs/QUALITY_GATES.md](./QUALITY_GATES.md)
 3. **Примеры:** [tests/e2e/\*.spec.ts](../tests/e2e/) - примеры тестов
 4. **Контрибуция:** [CONTRIBUTING.md#testing](../CONTRIBUTING.md)
 
@@ -372,12 +378,12 @@ xychart-beta
 
 ### 📊 Детальный прогресс
 
-| Документ            | Описание              | Ссылка                                                           |
-| ------------------- | --------------------- | ---------------------------------------------------------------- |
-| **Sprint Progress** | Прогресс 35 спринтов  | [SPRINTS/SPRINT-PROGRESS.md](../SPRINTS/SPRINT-PROGRESS.md)      |
-| **Quality Gates**   | Статус качества gates | [docs/QUALITY_GATES.md](docs/QUALITY_GATES.md)                   |
-| **Test Coverage**   | Покрытие тестами      | [docs/TESTING_INFRASTRUCTURE.md](docs/TESTING_INFRASTRUCTURE.md) |
-| **Bundle Metrics**  | Размеры бандлов       | [README.md#-bundle-size](../README.md#-bundle-size)              |
+| Документ            | Описание              | Ссылка                                                        |
+| ------------------- | --------------------- | ------------------------------------------------------------- |
+| **Sprint Progress** | Прогресс 35 спринтов  | [SPRINTS/SPRINT-PROGRESS.md](../SPRINTS/SPRINT-PROGRESS.md)   |
+| **Quality Gates**   | Статус качества gates | [docs/QUALITY_GATES.md](./QUALITY_GATES.md)                   |
+| **Test Coverage**   | Покрытие тестами      | [docs/TESTING_INFRASTRUCTURE.md](./TESTING_INFRASTRUCTURE.md) |
+| **Bundle Metrics**  | Размеры бандлов       | [README.md#-bundle-size](../README.md#-bundle-size)           |
 
 ### 🤝 Вклад в прогресс
 

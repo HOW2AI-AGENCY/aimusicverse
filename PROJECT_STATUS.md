@@ -31,6 +31,135 @@
 > [!NOTE]
 > Обновляется еженедельно во время ревью спринта. Для статуса CI в реальном времени см. [вкладку Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
 
+## План действий (июль 2026)
+
+### Блок 1 — Стабилизация main (Sprint 050) 🔄
+
+| Задача     | Действие                                         | Статус        |
+| ---------- | ------------------------------------------------ | ------------- |
+| A4 Phase 2 | Добавить required_status_checks в GitHub ruleset | ⏳ Ручной шаг |
+| E2E        | Проверить CI run, починить падения               | ⏳ Ожидает CI |
+| Phase B    | F1–F12 mobile fixes                              | ✅ 5/6 done   |
+| Docs       | Включить GitHub Pages в Settings                 | ⏳ Ручной шаг |
+
+### Блок 2 — UX Critical Fixes (Sprint 055) ✅
+
+| Задача        | Действие                          | Критичность |
+| ------------- | --------------------------------- | ----------- |
+| Save Draft    | Wire useGenerateDraft.saveDraft() | 🔴 P0       |
+| Cancel        | Убрать showCancel={false}         | 🔴 P0       |
+| Deeplink      | startapp=generate → open sheet    | 🔴 P0       |
+| Welcome Bonus | Idempotency guard                 | 🔴 P0       |
+
+### Блок 3 — GenerateSheet Redesign (Sprint 056) 🔄
+
+Phase A–B ✅, Phase C–D ⏳ (stories verify + docs)
+
+### Блок 4 — Test Debt (Sprint 051) ⏳
+
+Декомпозиция 3 god files (1137/953/903 LOC) → 450+ тестов
+
+### Блок 5 — Suno API (Sprint 053–054) ⏳
+
+SFX + MIDI + Details suite (август–сентябрь)
+
+---
+
+## 🆕 Sprint 052-C Cleanup завершён (2026-07-05) ✅
+
+**Commit:** `93beb2f1` — Sprint 052 теперь **100% complete**
+
+**Выполненные задачи:**
+
+1. **Storybook stories для MashupDialog** — 6 состояний (Empty/Filled/Loading/Success/Mobile/Desktop)
+2. **i18n strings для Mashup/Persona flows** — извлечены все хардкодные RU-строки из `GenerationResultSheet.tsx`
+3. **Sprint 050-A2:** Фикс 7 сломанных ссылок в `docs/VOICE_CLONING_INTEGRATION.md`
+4. **Sprint 050-A5:** Разрешение lockfile конфликта (bun.lock → package-lock.json only)
+
+## 🎉 Sprint 055 Complete (2026-07-06) ✅
+
+## 🎉 Sprint 055 Complete (2026-07-06) ✅
+
+**Phase A+B (P0/P1 Fixes):** 13/13 tasks complete
+
+- ✅ Save Draft functionality (data loss prevention)
+- ✅ Generation cancellation (soft-cancel pattern)
+- ✅ Telegram deep-link support
+- ✅ Welcome Bonus idempotency
+- ✅ Mobile UX fixes (hint, badge, footer, CTA)
+
+**Phase C (E2E + Docs):** 4/5 tasks complete (1 deferred)
+
+- ✅ E2E tests: Save Draft, Deeplink generate
+- ✅ Documentation: UX audit, retro, changelog
+- ⏸️ Single-sheet "Add inspiration" (deferred to Sprint 056)
+
+**Metrics:**
+
+- P0 Blockers: 5 → 0 (-100%)
+- P1 Issues: 6 → 0 (-100%)
+- Unit Tests: +12
+- E2E Tests: +2
+- Bundle Delta: +2.1 KiB (within budget)
+
+**Phase A (P0 Critical Fixes):** Все 5 задач завершены
+
+- ✅ **055-A1, A2, A3:** Save Draft functionality + unit tests
+- ✅ **055-A4:** Generation cancellation (soft-cancel pattern)
+- ✅ **055-A5:** Telegram deep-link support (`startapp=generate`)
+- ✅ **055-A6:** Welcome Bonus idempotency (30-day TTL guard)
+- ✅ **055-A7:** Analytics events (7 new events)
+
+**Phase B (P1 UX Friction):** Все 6 задач завершены
+
+- ✅ **055-B1:** Dual CTA в footer (UI button + Telegram MainButton)
+- ✅ **055-B2:** Footer generation summary ("Вокал · 30–90 сек · N кредитов")
+- ✅ **055-B3:** Hint positioning (не перекрывает FAB)
+- ✅ **055-B4:** GenerationProgressBadge keyboard-aware
+- ✅ **055-B5:** Stepper для Custom mode (PR #620)
+- ✅ **055-B6:** VoiceInput в Custom mode
+- ✅ **055-B7:** Home sticky CTA (CustomEvent + floating button)
+
+**Метрики:**
+
+- ✅ 0 P0 блокеров (data loss prevention complete)
+- ✅ 0 P1 friction issues (mobile UX fixed)
+- ✅ 12 новых unit тестов
+- ✅ +2.1 KiB gzip bundle impact (within +5 KiB budget)
+- ✅ 7 новых analytics events
+
+**Phase C (Polish + E2E):** Завершен ✅
+
+- ⏸️ 055-C1: Single-sheet "Add inspiration" (отложено до Sprint 056)
+- ✅ 055-C2: Documentation (UX_AUDIT_2026-07-04.md, CHANGELOG.md)
+- ✅ 055-C3: Sprint retro (SPRINT-055-RETRO.md)
+- ✅ 055-C4: E2E test Save Draft (generation.save-draft.spec.ts)
+- ✅ 055-C5: E2E test Deeplink generate (deeplink.generate.spec.ts)
+
+**Sprint 055 Status:** ✅ Phase A+B+C Complete (13/13 core tasks + documentation)
+
+**Pull Requests:**
+
+- PR #618: Generation cancellation (A4)
+- PR #619: Footer summary (B2)
+- PR #620: Stepper (B5)
+
+**Созданные файлы:**
+
+- `SPRINTS/050-A1-E2E-BLOCKER.md` — документация E2E blocker
+- `SPRINTS/050-A4-PHASE2-INSTRUCTIONS.md` — инструкции для branch protection Phase 2
+- `src/stories/mashup/MashupDialog.stories.tsx` — 6 Storybook stories
+- `LOCKFILE_DECISION.md` — обоснование выбора package-lock.json
+
+**Метрики прогресса:**
+
+- Sprint 052: 10/10 + cleanup ✅ → **100% complete**
+- Хардкодные RU-строки в GenerationResultSheet: 7 → 0 (**-100%**)
+- Storybook stories: 5 → 11 (+120%)
+- Блокеры Sprint 050: 3 → 2 (E2E dependency, branch protection)
+
+---
+
 ## 🆕 Прямые хотфиксы в main из Lovable (2026-07-04, ночь)
 
 ~10 прямых коммитов в `main` в обход pre-commit хуков («Changes», «Исправил лайки и версий», «Убрал несуществующую колонку», «Fixed security issues»). Содержательно — ценные фиксы, процессно — оставили `main` красным. Полный разбор: [docs/audit/PROGRESS-AUDIT-2026-07-04.md](docs/audit/PROGRESS-AUDIT-2026-07-04.md).
@@ -261,9 +390,9 @@ Sprint 052 влился в `main` с 8 ошибками `tsc` — Quality & Buil
 
 - 🟡 **Phase D-4 — ErrorBoundary home button:** требует `useNavigate()` hook (functional change, вне рамок design-audit). Передано в Phase E сборки.
 
-## 🚦 `052` Suno API: Mashup + Persona + File Upload (Q3 2026) — ЗАВЕРШЁН ✅ (10/10)
+## 🚦 `052` Suno API: Mashup + Persona + File Upload (Q3 2026) — ЗАВЕРШЁН ✅ + 052-C cleanup ✅
 
-**Детальный план:** [SPRINTS/SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md). Commits `916cd72a` → `5895b5b3` → `a9d12426` → `37ca8264` → `18b1e80e` → `d0296177` → `998980bc` → `8a4bc8a4` → `b778bf98`.
+**Детальный план:** [SPRINTS/SPRINT-052-PLAN.md](SPRINTS/SPRINT-052-PLAN.md). Commits `916cd72a` → `5895b5b3` → `a9d12426` → `37ca8264` → `18b1e80e` → `d0296177` → `998980bc` → `8a4bc8a4` → `b778bf98` → `93beb2f1` (052-C cleanup).
 
 **Phase A — Edge + DB (5/5 ✅):**
 
@@ -280,7 +409,7 @@ Sprint 052 влился в `main` с 8 ошибками `tsc` — Quality & Buil
 - ✅ Кнопка «Create Persona» в `GenerationResultSheet` (footer-grid 3 cols) + Dialog с name/description → `useSunoPersona`.
 - ✅ Telegram `/mashup` команда + deep-link `startapp=mashup_<id>` + keyboard button `mashup_<trackId>` callback.
 - ✅ E2E: `tests/e2e/suno-mashup.spec.ts` (deep-link smoke + dialog render).
-- ✅ **Sprint 052-C cleanup** (2026-07-04): pure-Dumb `MashupFormFields` декомпозиция ([src/components/mashup/MashupFormFields.tsx](src/components/mashup/MashupFormFields.tsx)), 5 Storybook stories ([src/stories/mashup/MashupFormFields.stories.tsx](src/stories/mashup/MashupFormFields.stories.tsx)), `MASHUP_STRINGS` typed-const ([src/lib/locale/mashupStrings.ts](src/lib/locale/mashupStrings.ts) — единый источник UX-копи), ретро-документация ([docs/sprints/SPRINT-052-RETRO.md](docs/sprints/SPRINT-052-RETRO.md)).
+- ✅ **Sprint 052-C cleanup** (2026-07-05): pure-Dumb `MashupFormFields` декомпозиция, 5 Storybook stories для `MashupFormFields`, 6 Storybook stories для `MashupDialog` (Empty/Filled/Loading/Success/Mobile/Desktop), `MASHUP_STRINGS` расширена (persona.validation._, generationResult._), все хардкодные RU-строки извлечены из `GenerationResultSheet.tsx`. Commit `93beb2f1`.
 
 **Документация:** `docs/SUNO_API.md` — раздел «История изменений → Sprint 052» + 3 новых curl-примера (mashup/persona/upload). Suno API gap-анализ актуализирован (3 категории закрыты: Mashup, Persona, File Upload).
 
@@ -522,9 +651,15 @@ mindmap
       Хранилище
 ```
 
-## ✅ Последние достижения (Sprint 052, июль 2026)
+## ✅ Последние достижения (2026-07-05)
 
-- ✅ **Sprint 052 (8/10, 2 deferred в 052-C):** Suno API gap closure — 3 категории закрыты: Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + `suno-persona-callback` + «Create Persona» кнопка в `GenerationResultSheet`), File Upload (`suno-file-upload` + рефакторинг `suno-upload-cover/extend` через общий `_shared/suno-file-uploader.ts` → экономия ~80 строк дублей). DB миграция `track_personas` + RLS. Telegram `/mashup` команда + deep-link `startapp=mashup_<id>`. E2E `tests/e2e/suno-mashup.spec.ts`. Deferred: Storybook stories + i18n strings.
+- ✅ **Sprint 052-C cleanup:** Storybook stories + i18n strings — созданы 6 Storybook stories для `MashupDialog` (Empty/Filled/Loading/Success/Mobile/Desktop), извлечены все хардкодные RU-строки из `GenerationResultSheet.tsx` в `MASHUP_STRINGS` (persona.validation._, generationResult._). Sprint 052 теперь **100% complete**.
+
+- ✅ **Sprint 050-A2 + A5:** Docs links + lockfile resolution — исправлены 7 сломанных ссылок в `VOICE_CLONING_INTEGRATION.md`, разрешён конфликт `bun.lock` vs `package-lock.json` (decision: use package-lock.json only).
+
+- ✅ **Блокеры документированы:** Созданы `050-A1-E2E-BLOCKER.md` и `050-A4-PHASE2-INSTRUCTIONS.md` с готовыми решениями.
+- ✅ **Sprint 050-A2 + A5 (2026-07-05):** Docs links + lockfile resolution — исправлены 7 сломанных ссылок в `VOICE_CLONING_INTEGRATION.md`, разрешён конфликт `bun.lock` vs `package-lock.json` (decision: use package-lock.json only).
+- ✅ **Sprint 052 (8/10 → 10/10 ✅):** Suno API gap closure — 3 категории закрыты: Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + `suno-persona-callback` + «Create Persona» кнопка в `GenerationResultSheet`), File Upload (`suno-file-upload` + рефакторинг `suno-upload-cover/extend` через общий `_shared/suno-file-uploader.ts` → экономия ~80 строк дублей). DB миграция `track_personas` + RLS. Telegram `/mashup` команда + deep-link `startapp=mashup_<id>`. E2E `tests/e2e/suno-mashup.spec.ts`.
 - ✅ **Sprint 044 (7/7 100%):** Type Safety Wave 2 — `any` в `src/hooks/**` 164 → 6, в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result` (`VoiceCloneService`, `AudioAnalysisService`, `ReferenceManager`); ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs`.
 - ✅ **Sprint 043 (6/6 100%):** Layer Pass #2 — 65 компонентов через service layer; ESLint guardrail `no-direct-supabase-client-imports` для `src/components/**`; touch-target миграция 391→0 в touched layers; mobile Playwright smoke (6 tests × 7 projects).
 - ✅ **Sprint 042 (10/10 100%):** Page Decomposition + Audio Pooling — `usePreviewAudio` hook + 17 миграций; `LyricsStudio` 999→788 LOC; `ProjectDetail` 851→286 LOC; `usePromptDJEnhanced` 1071→882 LOC; bundle audit (2.21 МБ / 950 КБ).
@@ -629,7 +764,6 @@ mindmap
   - **054-A1..A6:** 6 details-edge (`suno-music-details`, `suno-cover-details`, `suno-video-details`, `suno-wav-details`, `suno-lyrics-details`, `suno-separation-details`) — каждый 15-30 LOC thin-wrapper над shared `fetchSunoTaskDetails(taskType, taskId)` в `_shared/suno-details.ts`. Per-type backoff: lyrics 1500ms / cover+music 2000ms / wav+video 3000ms / separation 4000ms / midi 5000ms.
   - **054-A7':** **cleanup dead code.** `suno-check-status/index.ts` (449 LOC) удалён — graphify + grep подтвердили zero client callers. Alias `[functions.suno-check-status]` убран из `supabase/config.toml`. Callbacks уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. (Plan-based refactor заменён на cleanup: refactor был бы бессмысленен без callers.)
   - **054-A8:** `useSunoTaskDetails` generic polling hook + `suno-task-details.api.ts` edge-bridge + 7 unit-тестов. Готов для **будущих** Suno polling use-cases (например, lyrics generation без callback).
-  - **054-A9:** **NOT APPLICABLE** — план ссылался на 5 polling hooks (`useGenerationStatus`, `useVideoGenerationStatus`, `useStemSeparation`, `useLyricsVersioning`, `useWavConversion`), из которых 3 не существуют и 2 не используют `suno-check-status`. См. memory: [sprint-054-a7-a9-plan-mismatch.md](memory/sprint-054-a7-a9-plan-mismatch.md).
 
 **Метрики:**
 

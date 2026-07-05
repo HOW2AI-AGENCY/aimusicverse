@@ -754,7 +754,7 @@ const audioLevel = useAudioLevel(mediaStream, isRecording);
 // Investigation: Diagnostic logs added to determine root cause
 ```
 
-See [Diagnostic Logging Documentation](./KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md) for details.
+See [Diagnostic Logging Documentation](../archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md) for details.
 
 ---
 
@@ -782,7 +782,7 @@ Added comprehensive diagnostic logging to investigate output format generation i
 3. Run analysis and collect logs from Supabase Dashboard
 4. Analyze diagnostic output to identify root cause
 
-**Documentation**: See [KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md](./KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md)
+**Documentation**: See [KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md](../archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md)
 
 ### 2025-12-11: MIME Type Support
 
@@ -794,7 +794,7 @@ Fixed storage upload issues for music notation formats:
 - Fixed MusicXML MIME type (changed from vnd.recordare to application/xml)
 - Enhanced file type validation and error handling
 
-**Documentation**: See [KLANG_IO_MIME_TYPE_FIX_2025-12-11.md](./KLANG_IO_MIME_TYPE_FIX_2025-12-11.md)
+**Documentation**: See [KLANG_IO_MIME_TYPE_FIX_2025-12-11.md](../archive/implementation-reports/KLANG_IO_MIME_TYPE_FIX_2025-12-11.md)
 
 ### 2025-12-10: Transcription UI Improvements
 
@@ -806,7 +806,7 @@ Enhanced user interface with new components:
 - AnalysisProgressStages with 4-stage progress indicator
 - TranscriptionToGenerationBridge for AI music generation integration
 
-**Documentation**: See [KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md](./KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md)
+**Documentation**: See [KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md](../archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md)
 
 ---
 

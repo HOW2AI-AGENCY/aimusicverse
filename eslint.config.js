@@ -77,6 +77,7 @@ export default tseslint.config(
       "supabase/functions/**",
       // Design/spec artifacts — not shipped app code (contain non-TS contract files)
       "specs/**",
+      "site/**", // Site artifacts with non-code files
       // Vendored Python virtualenv — not project source
       ".venv/**",
       // Test sources are gated by the test runners (jest/playwright), not eslint;

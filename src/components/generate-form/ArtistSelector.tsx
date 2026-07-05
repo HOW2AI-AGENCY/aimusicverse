@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UnifiedDialog } from "@/components/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
@@ -121,32 +121,37 @@ export function ArtistSelector({ open, onOpenChange, artists, selectedArtistId, 
   };
 
   return (
-    <UnifiedDialog variant="modal" open={open} onOpenChange={onOpenChange} title="Выберите артиста">
-      <Tabs
-        value={activeTab}
-        onValueChange={(v) => setActiveTab(v as "my" | "community")}
-        className="flex-1 flex flex-col min-h-0"
-      >
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="my" className="gap-1.5 text-xs">
-            <User className="w-3.5 h-3.5" />
-            Мои артисты
-          </TabsTrigger>
-          <TabsTrigger value="community" className="gap-1.5 text-xs">
-            <Users className="w-3.5 h-3.5" />
-            Сообщество
-          </TabsTrigger>
-        </TabsList>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="h-[85dvh] flex flex-col p-0 z-[200]" accessibleTitle="Выберите артиста">
+        <SheetHeader className="px-4 pt-4 pb-3 border-b border-border/50">
+          <SheetTitle className="text-base">Выберите артиста</SheetTitle>
+        </SheetHeader>
+        <Tabs
+          value={activeTab}
+          onValueChange={(v) => setActiveTab(v as "my" | "community")}
+          className="flex-1 flex flex-col min-h-0 px-4 pt-3"
+        >
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="my" className="gap-1.5 text-xs">
+              <User className="w-3.5 h-3.5" />
+              Мои артисты
+            </TabsTrigger>
+            <TabsTrigger value="community" className="gap-1.5 text-xs">
+              <Users className="w-3.5 h-3.5" />
+              Сообщество
+            </TabsTrigger>
+          </TabsList>
 
-        <ScrollArea className="flex-1 mt-4 -mx-2 px-2">
-          <TabsContent value="my" className="mt-0">
-            {renderArtistList(artists)}
-          </TabsContent>
-          <TabsContent value="community" className="mt-0">
-            {renderArtistList(publicArtists as Artist[])}
-          </TabsContent>
-        </ScrollArea>
-      </Tabs>
-    </UnifiedDialog>
+          <ScrollArea className="flex-1 mt-4 -mx-2 px-2">
+            <TabsContent value="my" className="mt-0">
+              {renderArtistList(artists)}
+            </TabsContent>
+            <TabsContent value="community" className="mt-0">
+              {renderArtistList(publicArtists as Artist[])}
+            </TabsContent>
+          </ScrollArea>
+        </Tabs>
+      </SheetContent>
+    </Sheet>
   );
 }

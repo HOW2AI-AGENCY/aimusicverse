@@ -24,7 +24,7 @@ import { useGenerateFormSubmit } from "./useGenerateFormSubmit";
 
 import type { ArtistRow } from "@/api/artists.api";
 import type { TrackRow } from "@/api/tracks.api";
-import type { UseGenerateFormActionsDeps } from "./useGenerateForm.types";
+import type { UseGenerateFormActionsDeps, UseGenerateFormActionsReturn } from "./useGenerateForm.types";
 
 export function useGenerateFormActions(deps: UseGenerateFormActionsDeps): UseGenerateFormActionsReturn {
   // Submit pipeline — owns handleGenerate + retry state.

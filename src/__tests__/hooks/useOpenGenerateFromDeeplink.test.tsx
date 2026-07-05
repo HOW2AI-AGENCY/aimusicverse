@@ -51,7 +51,7 @@ describe("useOpenGenerateFromDeeplink (Sprint 055 P0-1)", () => {
     renderWith("/?openGenerate=1", openSheet);
     expect(mockTrackEvent).toHaveBeenCalledWith(
       expect.objectContaining({
-        eventType: "feature_usage",
+        eventType: "feature_used",
         pagePath: "deeplink_generate",
         metadata: expect.objectContaining({ action: "open_attempt" }),
       }),

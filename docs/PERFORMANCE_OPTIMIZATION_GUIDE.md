@@ -561,7 +561,7 @@ useEffect(() => {
 
 ### Документация:
 
-- [Zustand: Selecting multiple state slices](https://docs.pmnd.rs/zustand/guides/prevent-rerenders-with-use-shallow)
+- Zustand: Selecting multiple state slices — гайд `useShallow` в документации `zustand.docs.pmnd.rs`
 - [React.memo: When to use it](https://react.dev/reference/react/memo)
 - [React Query: Garbage Collection](https://tanstack.com/query/latest/docs/react/guides/caching)
 - [Virtuoso: React virtualization](https://virtuoso.dev/)

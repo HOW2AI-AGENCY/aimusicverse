@@ -911,9 +911,18 @@ if (window.Telegram?.WebApp) {
 
 ### Project Documentation
 
-- [Architecture Guide](./COMPREHENSIVE_ARCHITECTURE.md)
+<<<<<<< HEAD
+
+- [Architecture Guide](./archive/2026-06-27/COMPREHENSIVE_ARCHITECTURE.md)
 - [Hooks Reference](./HOOKS_REFERENCE.md)
-- [API Reference](./API_REFERENCE.md)
+- API Reference
+  \=======
+- [Architecture Guide](../ARCHITECTURE_HUB.md)
+- [Hooks Reference](./HOOKS_REFERENCE.md)
+- API Reference (см. [SUNO_API.md](./SUNO_API.md))
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 - [Database Schema](./DATABASE.md)
 
 ### Community

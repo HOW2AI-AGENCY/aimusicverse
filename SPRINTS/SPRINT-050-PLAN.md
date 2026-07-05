@@ -32,27 +32,26 @@
 
 ## Фаза A: Main Green (дни 1–5)
 
-| ID     | Задача                                                                                                                                                                                                                                                                                                                                                   | Приоритет   | Оценка | Статус |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------ | ------ |
-| 050-A1 | **E2E вердикт**: дождаться/перезапустить run #115; по фактическим падениям тестов — чинить (сбор suite уже исправлен в #572)                                                                                                                                                                                                                             | 🔴 Critical | 1–3d   | 🟡 In progress |
-| 050-A2 | **Docs/lychee**: осталось решить судьбу 4434 закоммиченных файлов `graphify-out/**` (`git rm -r --cached` либо признать tracked)                                                                                                                                                                                                                        | 🟠 High     | 0.5d   | ⏳ Pending |
-| 050-A3 | **Сверка прод-миграций**: `supabase migration list` vs `supabase/migrations/`; likes-миграции (`20260703120000` + `20260704014859`)                                                                                                                                                                                                                     | 🟠 High     | 0.5d   | ⏳ Pending |
-| 050-A4 | **Процесс Lovable**: branch protection на `main` (требует владельца репозитория — вне доступа агента)                                                                                                                                                                                                                                                    | 🔴 Critical | 1d     | 🚧 Blocked (owner) |
-| 050-A5 | **Гигиена репозитория**: `bun.lock` удалён, `.gitignore` обновлён — единый источник истины `package-lock.json` (npm)                                                                                                                                                                                                                                     | 🟡 Medium   | 0.5d   | ✅ Done |
+| ID     | Задача                                                                                                                              | Приоритет   | Оценка | Статус             |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------ | ------------------ |
+| 050-A1 | **E2E вердикт**: дождаться/перезапустить run #115; по фактическим падениям тестов — чинить (сбор suite уже исправлен в #572)        | 🔴 Critical | 1–3d   | 🟡 In progress     |
+| 050-A2 | **Docs/lychee**: осталось решить судьбу 4434 закоммиченных файлов `graphify-out/**` (`git rm -r --cached` либо признать tracked)    | 🟠 High     | 0.5d   | ⏳ Pending         |
+| 050-A3 | **Сверка прод-миграций**: `supabase migration list` vs `supabase/migrations/`; likes-миграции (`20260703120000` + `20260704014859`) | 🟠 High     | 0.5d   | ⏳ Pending         |
+| 050-A4 | **Процесс Lovable**: branch protection на `main` (требует владельца репозитория — вне доступа агента)                               | 🔴 Critical | 1d     | 🚧 Blocked (owner) |
+| 050-A5 | **Гигиена репозитория**: `bun.lock` удалён, `.gitignore` обновлён — единый источник истины `package-lock.json` (npm)                | 🟡 Medium   | 0.5d   | ✅ Done            |
 
 ## Фаза B: F1–F12 + функциональные переносы (дни 6–10)
 
 Флаги из CHANGELOG (спринты 045–047), сгруппированы по поверхностям:
 
-| ID     | Задача                                                                                                                                | Флаги        | Оценка | Статус |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------ | ------ |
-| 050-B1 | **Scroll/viewport**: `useScrollLock` wiring в 4 surfaces; `useVisualViewport` keyboard avoidance; `useMediaQuery` SSR-guard           | F1, F8, F9   | 1.5d   | ⏳ Pending |
-| 050-B2 | **Focus/keyboard**: focus-trap в sheet/dialog; Library keyboard nav (`aria-selected` + scroll-into-view); Telegram BackButton race    | F3, F6, F7   | 1.5d   | ⏳ Pending |
-| 050-B3 | **Поверхности**: `PromptHistory` sub-dialog root cause; QueueSheet auto-close + misleading toast copy; `LibraryFilterChips` parity    | F2, F5, F11  | 1d     | ⏳ Pending |
+| ID     | Задача                                                                                                                                                                                 | Флаги        | Оценка | Статус           |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------ | ---------------- |
+| 050-B1 | **Scroll/viewport**: `useScrollLock` wiring в 4 surfaces; `useVisualViewport` keyboard avoidance; `useMediaQuery` SSR-guard                                                            | F1, F8, F9   | 1.5d   | ⏳ Pending       |
+| 050-B2 | **Focus/keyboard**: focus-trap в sheet/dialog; Library keyboard nav (`aria-selected` + scroll-into-view); Telegram BackButton race                                                     | F3, F6, F7   | 1.5d   | ⏳ Pending       |
+| 050-B3 | **Поверхности**: `PromptHistory` sub-dialog root cause; QueueSheet auto-close + misleading toast copy; `LibraryFilterChips` parity                                                     | F2, F5, F11  | 1d     | ⏳ Pending       |
 | 050-B4 | **Данные/чистка**: `usePublicTracks` cover_url normalization (⏳ pending) · `VersionComparison.tsx` dead-code removal (✅ удалён) · `LazyImage` a11y (✅ role=img/aria-label уже есть) | F4, F10, F12 | 1d     | 🟡 Partial (2/3) |
-| 050-B5 | **ErrorBoundary home button** — уже использует SPA `navigateTo` через `@/hooks/useAppNavigate`                                       | —            | 0.5d   | ✅ Done |
-| 050-B6 | **Bundle quick wins**: `canvas-confetti` вынесен в lazy (`src/lib/confetti.ts`, 5 использований). `lamejs` (~100 КБ) и `qrcode` (~30 КБ) — ещё в очереди | —            | 0.5d   | 🟡 Partial (1/3) |
-
+| 050-B5 | **ErrorBoundary home button** — уже использует SPA `navigateTo` через `@/hooks/useAppNavigate`                                                                                         | —            | 0.5d   | ✅ Done          |
+| 050-B6 | **Bundle quick wins**: `canvas-confetti` вынесен в lazy (`src/lib/confetti.ts`, 5 использований). `lamejs` (~100 КБ) и `qrcode` (~30 КБ) — ещё в очереди                               | —            | 0.5d   | 🟡 Partial (1/3) |
 
 > Точные формулировки флагов — CHANGELOG.md (Sprint 047) и PROJECT_STATUS.md «📋 Флаг для build-agent». При закрытии каждого флага — вычёркивать в обоих местах.
 
