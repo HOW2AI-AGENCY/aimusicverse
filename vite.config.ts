@@ -2,13 +2,12 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-// @ts-ignore — @lovable.dev/mcp-js is an optional plugin auto-generated inside the Lovable build pipeline.
-import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/supabase/vite";
 import type { Plugin } from "vite";
 
 let visualizer: ((opts: Record<string, unknown>) => Plugin) | undefined;
 let viteCompression: ((opts: Record<string, unknown>) => Plugin) | undefined;
 let hasTerser = false;
+let mcpPlugin: (() => Plugin) | undefined;
 
 try {
   visualizer = (await import("rollup-plugin-visualizer")).visualizer;
@@ -25,6 +24,12 @@ try {
   hasTerser = true;
 } catch {
   /* falls back to esbuild */
+}
+try {
+  // @ts-ignore — @lovable.dev/mcp-js is an optional plugin auto-generated inside the Lovable build pipeline.
+  mcpPlugin = (await import("@lovable.dev/mcp-js/stacks/supabase/vite")).mcpPlugin;
+} catch {
+  /* optional Lovable dev dependency */
 }
 
 /**
@@ -64,7 +69,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mcpPlugin(),
+    mcpPlugin?.(),
     mode === "development" && componentTagger(),
     mode === "production" && reactPriorityPlugin(),
     mode === "production" &&

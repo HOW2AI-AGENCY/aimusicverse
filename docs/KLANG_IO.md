@@ -1327,7 +1327,7 @@ GET /api/v1.5/transcribe       # Промежуточная версия
 
 ### Полезные Ссылки
 
-- **GitHub**: https://github.com/klang-io/music-transcription-api
+- **GitHub**: `https://github.com/klang-io/music-transcription-api` (репозиторий недоступен на момент проверки)
 - **Support**: support@klang.io
 - **Status Page**: https://status.klang.io
 - **Community Forum**: https://forum.klang.io

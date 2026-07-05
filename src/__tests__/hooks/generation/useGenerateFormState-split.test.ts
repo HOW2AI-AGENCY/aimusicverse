@@ -87,9 +87,7 @@ describe("useGenerateForm backward compat (Sprint 056 split)", () => {
   });
 
   it("invokes each brief-named sub-hook exactly once during render", () => {
-    renderHook(() =>
-      useGenerateForm({ open: true, onOpenChange: vi.fn(), projects: [], artists: [], allTracks: [] }),
-    );
+    renderHook(() => useGenerateForm({ open: true, onOpenChange: vi.fn(), projects: [], artists: [], allTracks: [] }));
     expect(stateSpy).toHaveBeenCalled();
     expect(actionsSpy).toHaveBeenCalled();
     expect(validationSpy).toHaveBeenCalled();

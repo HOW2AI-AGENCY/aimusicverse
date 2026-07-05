@@ -474,9 +474,8 @@ export default function LyricsStudio() {
                 ? {
                     type: selectedSection.type,
                     content: selectedSection.content,
-                    // getNoteForSection was removed from useSectionNotes but
-                    // the field is still consumed by the AI agent.
-                    notes: undefined,
+                    // Pass actual section notes to AI agent (F7 fix)
+                    notes: selectedSection.notes || "",
                     tags: selectedSection.tags,
                   }
                 : null
@@ -519,7 +518,12 @@ export default function LyricsStudio() {
         versions={lyricsVersioning.versions}
         currentVersion={lyricsVersioning.currentVersion}
         versionsLoading={lyricsVersioning.isLoading}
-        existingNote={null}
+        existingNote={(() => {
+          // Get existing note for selected section (F7 fix)
+          if (!selectedSection?.id || !sectionNotes) return null;
+          const sectionNote = sectionNotes.find((n) => n.section_type === selectedSection.id);
+          return sectionNote?.notes || "";
+        })()}
         lyricsTemplateId={templateId || undefined}
         onNotesOpenChange={setNotesPanelOpen}
         onVersionsOpenChange={setVersionsPanelOpen}

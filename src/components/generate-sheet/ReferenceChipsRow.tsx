@@ -1,8 +1,9 @@
 // src/components/generate-sheet/ReferenceChipsRow.tsx
 import { Plus, X, Folder, User, Music, Mic } from "@/lib/icons";
 import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
-type ReferenceKind = "project" | "artist" | "audio" | "voice";
+export type ReferenceKind = "project" | "artist" | "audio" | "voice";
 
 interface ReferenceItem {
   id: string;
@@ -30,8 +31,13 @@ const KIND_META: Record<ReferenceKind, { label: string; icon: typeof Plus }> = {
 };
 
 export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
+  const haptic = useHapticFeedback();
   return (
-    <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+    <div
+      className="flex items-center gap-1.5 overflow-x-auto -mx-4 px-4 pb-1 scrollbar-none"
+      role="group"
+      aria-label="Референсы"
+    >
       {(Object.keys(KIND_META) as ReferenceKind[]).map((kind) => {
         const item = references[kind];
         const { label, icon: Icon } = KIND_META[kind];
@@ -40,18 +46,21 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
             <button
               key={kind}
               type="button"
-              onClick={() => onRemove(kind, item.id)}
-              aria-label={`удалить ${label}`}
+              onClick={() => {
+                haptic.impact("light");
+                onRemove(kind, item.id);
+              }}
+
+              aria-label={`Удалить ${label.toLowerCase()}: ${item.label}`}
               className={cn(
-                "inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-xs font-medium",
-                "bg-primary/10 text-primary border border-primary/30",
-                "hover:bg-primary/20 active:scale-95 transition-all",
-                "min-w-[44px] min-h-[44px]",
+                "group inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-xs font-medium shrink-0",
+                "bg-foreground/[0.06] text-foreground border border-foreground/10",
+                "hover:bg-foreground/10 active:scale-[0.97] transition-all",
               )}
             >
-              <Icon className="w-3.5 h-3.5" />
+              <Icon className="w-3.5 h-3.5 opacity-70" />
               <span className="max-w-[140px] truncate">{item.label}</span>
-              <X className="w-3 h-3" />
+              <X className="w-3 h-3 opacity-60 group-hover:opacity-100" />
             </button>
           );
         }
@@ -59,13 +68,17 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
           <button
             key={kind}
             type="button"
-            onClick={() => onAdd(kind)}
+            onClick={() => {
+              haptic.selectionChanged();
+              onAdd(kind);
+            }}
+
+            aria-label={`Добавить ${label.toLowerCase()}`}
             className={cn(
-              "inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-xs font-medium",
-              "border border-dashed border-muted-foreground/40 text-muted-foreground",
-              "hover:border-primary/60 hover:text-primary hover:bg-primary/5",
-              "active:scale-95 transition-all",
-              "min-w-[44px] min-h-[44px]",
+              "inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-xs font-medium shrink-0",
+              "border border-dashed border-border/70 text-muted-foreground",
+              "hover:border-foreground/40 hover:text-foreground hover:bg-foreground/[0.03]",
+              "active:scale-[0.97] transition-all",
             )}
           >
             <Plus className="w-3.5 h-3.5" />

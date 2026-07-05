@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";
 import { getModelDisplayInfo } from "@/components/library/ModelBadge";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 export type GenerationMode = "simple" | "custom";
 
@@ -56,6 +57,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
   const availableModels = useMemo(() => getAvailableModels(), []);
   const currentModel = SUNO_MODELS[model] || SUNO_MODELS.V4_5ALL;
   const lowBalance = balance < cost;
+  const haptic = useHapticFeedback();
 
   return (
     <div className="space-y-3 py-2">
@@ -75,7 +77,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
               ? "bg-destructive/10 border-destructive/30 text-destructive"
               : "bg-primary/10 border-primary/20 text-primary",
           )}
-          aria-label={`Баланс ${balance} из ${cost} кредитов`}
+          aria-label={`Баланс ${Math.floor(balance)} из ${cost} кредитов`}
         >
           <span
             className={cn(
@@ -86,8 +88,8 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
             )}
             aria-hidden
           />
-          <span className="text-xs font-semibold leading-none">{balance}</span>
-          <span className="text-[10px] leading-none opacity-60">/ {cost}</span>
+          <span className="text-xs font-semibold leading-none tabular-nums">{Math.floor(balance)}</span>
+          <span className="text-[10px] leading-none opacity-60 tabular-nums">/ {cost}</span>
         </div>
 
         {onClose && (
@@ -119,10 +121,13 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
               <button
                 key={modeKey}
                 type="button"
-                onClick={() => onModeChange?.(modeKey)}
+                onClick={() => {
+                  if (mode !== modeKey) haptic.selectionChanged();
+                  onModeChange?.(modeKey);
+                }}
                 aria-pressed={isActive}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200",
+                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200 active:scale-[0.98]",
                   isActive
                     ? "bg-background text-foreground shadow-sm ring-1 ring-border/60"
                     : "text-muted-foreground hover:text-foreground",

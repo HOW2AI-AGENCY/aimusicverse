@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { Progress } from "@/components/ui/progress";
@@ -32,6 +32,7 @@ import { ValidationReasonsSheet } from "./generate-sheet/ValidationReasonsSheet"
 import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
 import { LegacyGenerateSheet } from "./GenerateSheet.legacy";
 import type { ReferenceKind } from "./generate-sheet/ReferenceChipsRow";
+import { LegacyGenerateSheet } from "./GenerateSheet.legacy";
 
 interface Props {
   open: boolean;
@@ -51,6 +52,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   const qc = useQueryClient();
   const { user } = useAuth();
   const { keyboardHeight, isKeyboardOpen } = useKeyboardAware();
+  const [reasonsOpen, setReasonsOpen] = useState(false);
 
   const controller = useGenerateSheetController({ open, onOpenChange, initialProjectId: projectId });
 

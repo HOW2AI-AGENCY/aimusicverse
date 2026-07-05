@@ -2,7 +2,7 @@
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2025-11-30
-**Feature**: [docs/specs/sprint-management.md](../specs/sprint-management.md)
+**Feature**: `docs/specs/sprint-management.md` (спецификация не сохранилась в репозитории)
 
 ## Content Quality
 

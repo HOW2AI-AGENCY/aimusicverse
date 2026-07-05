@@ -171,5 +171,5 @@
 ## Related
 
 - [ADR-002: Frontend Architecture](./ADR-002-Frontend-Architecture-And-Stack.md)
-- [UI Audit](../docs/UI_GENERATION_FORM_AUDIT_2025-12-13.md)
+- UI Audit
 - [Known Issues](../docs/KNOWN_ISSUES.md)

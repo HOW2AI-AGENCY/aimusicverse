@@ -391,7 +391,7 @@ src/components/mobile/
 
 - [Apple HIG - iOS](https://developer.apple.com/design/human-interface-guidelines/)
 - [Material Design 3](https://m3.material.io/)
-- [Touch Targets Best Practices](https://www.smashingmagazine.com/2021/03/designing-better-target-sizes/)
+- Touch Targets Best Practices — `https://www.smashingmagazine.com/2021/03/designing-better-target-sizes/`
 - [Web.dev - Mobile Performance](https://web.dev/performance/)
 
 ### Инструменты
