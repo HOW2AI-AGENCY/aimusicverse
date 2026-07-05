@@ -151,14 +151,13 @@ export interface UseGenerateFormValidationReturn {
   canGenerate: boolean;
   generationCost: number;
   /** Forward-looking breakdown; reserved for the redesign cost UI. */
-  generationCostBreakdown: Array<{ label: string; amount: number }>;
+  generationCostBreakdown: Array<{ label: string; value: number }>;
   userBalance: number | null;
 }
 
 /** Combined return — the public API of `useGenerateForm`. */
 export type UseGenerateFormReturn = UseGenerateFormStateReturn &
   UseGenerateFormValidationReturn & {
-    // legacy credits / cost fields the existing consumers expect
     canGenerate: boolean;
     generationCost: number;
     apiCredits: number | null;
@@ -166,25 +165,24 @@ export type UseGenerateFormReturn = UseGenerateFormStateReturn &
     isAdmin: boolean;
     hasDraft: boolean;
 
-    // derived boolean
     canMakePrivate: boolean;
 
-    // submit retry state
     isRetrying: boolean;
     retryCount: number;
     nextRetryIn: number;
     canRetry: boolean;
     cancelRetry: () => void;
 
-    // actions
     handleGenerate: () => Promise<void>;
     handleBoostStyle: () => Promise<void>;
     handleTrackSelect: (trackId: string) => void;
     handleArtistSelect: (artistId: string) => void;
     resetForm: () => void;
     clearDraft: () => void;
-    saveDraft: () => void;
+    saveDraft: (payload?: unknown) => void;
 
-    // task-id (Sprint 055 P0-4)
     currentTaskId: string | null;
+
+    activeReference: unknown;
+    clearAudioReference: () => void;
   };
