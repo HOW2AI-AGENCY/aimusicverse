@@ -20,6 +20,8 @@ interface Props {
   shouldShowSecondaryUIButton: boolean;
   isKeyboardOpen: boolean;
   keyboardHeight: number;
+  /** Sprint 055-B2: summary line e.g. "Vocal · 60-90s · 8 credits" */
+  summary?: string;
 }
 
 export function GenerateSheetFooter(props: Props) {
@@ -99,6 +101,10 @@ export function GenerateSheetFooter(props: Props) {
           </Button>
         )}
       </div>
+      {/* Sprint 055-B2: generation summary */}
+      {props.summary && props.shouldShowUIButton && !props.loading && (
+        <p className="mt-1.5 text-center text-[11px] text-muted-foreground">{props.summary}</p>
+      )}
     </div>
   );
 }

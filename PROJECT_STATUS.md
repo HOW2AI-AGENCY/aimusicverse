@@ -35,21 +35,21 @@
 
 ### Блок 1 — Стабилизация main (Sprint 050) 🔄
 
-| Задача     | Действие                                         | Статус        |
-| ---------- | ------------------------------------------------ | ------------- |
+| Задача | Действие | Статус |
+|--------|----------|--------|
 | A4 Phase 2 | Добавить required_status_checks в GitHub ruleset | ⏳ Ручной шаг |
-| E2E        | Проверить CI run, починить падения               | ⏳ Ожидает CI |
-| Phase B    | F1–F12 mobile fixes                              | ✅ 5/6 done   |
-| Docs       | Включить GitHub Pages в Settings                 | ⏳ Ручной шаг |
+| E2E | Проверить CI run, починить падения | ⏳ Ожидает CI |
+| Phase B | F1–F12 mobile fixes | ✅ 5/6 done |
+| Docs | Включить GitHub Pages в Settings | ⏳ Ручной шаг |
 
 ### Блок 2 — UX Critical Fixes (Sprint 055) ⏳
 
-| Задача        | Действие                          | Критичность |
-| ------------- | --------------------------------- | ----------- |
-| Save Draft    | Wire useGenerateDraft.saveDraft() | 🔴 P0       |
-| Cancel        | Убрать showCancel={false}         | 🔴 P0       |
-| Deeplink      | startapp=generate → open sheet    | 🔴 P0       |
-| Welcome Bonus | Idempotency guard                 | 🔴 P0       |
+| Задача | Действие | Критичность |
+|--------|----------|-------------|
+| Save Draft | Wire useGenerateDraft.saveDraft() | 🔴 P0 |
+| Cancel | Убрать showCancel={false} | 🔴 P0 |
+| Deeplink | startapp=generate → open sheet | 🔴 P0 |
+| Welcome Bonus | Idempotency guard | 🔴 P0 |
 
 ### Блок 3 — GenerateSheet Redesign (Sprint 056) 🔄
 
