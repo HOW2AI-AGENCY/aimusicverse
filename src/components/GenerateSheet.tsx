@@ -77,8 +77,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   }, [controller.form.loading, showProgress, hideProgress]);
 
   if (!isRedesign) {
-    // Fallback to legacy implementation via dynamic import
-    const LegacyGenerateSheet = require("./GenerateSheet.legacy").LegacyGenerateSheet;
     return <LegacyGenerateSheet open={open} onOpenChange={onOpenChange} projectId={projectId} />;
   }
 
