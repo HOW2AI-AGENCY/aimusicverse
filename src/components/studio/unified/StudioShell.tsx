@@ -9,7 +9,7 @@
  * - useStudioCallbacks    — save / back / seek / play / stem-separation callbacks
  */
 
-import { memo, useCallback, useEffect, useMemo } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 import { useViewStore } from "@/stores/studio";
@@ -86,6 +86,9 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   // ── All dialog / selection state ──────────────────────────────────────
   const dialogs = useStudioShellState();
   const { selectedSectionIndex, selectSection } = useSectionEditorStore();
+
+  // Remember previous master volume before muting (F6 fix)
+  const [previousMasterVolume, setPreviousMasterVolume] = useState(0.85);
 
   const sourceTrackId = project?.sourceTrackId;
   const mainAudioUrl = project?.tracks[0]?.audioUrl || project?.tracks[0]?.clips?.[0]?.audioUrl;
@@ -492,7 +495,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
               variant="ghost"
               size="icon"
               className="h-8 w-8"
-              onClick={() => setMasterVolume(project.masterVolume === 0 ? 0.85 : 0)}
+              onClick={() => {
+                if (project.masterVolume === 0) {
+                  setMasterVolume(previousMasterVolume); // Restore previous volume
+                } else {
+                  setPreviousMasterVolume(project.masterVolume); // Save current volume
+                  setMasterVolume(0); // Mute
+                }
+              }}
             >
               {project.masterVolume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
             </Button>
@@ -584,7 +594,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           onSkipBack={() => handleSeek(0)}
           onSkipForward={() => handleSeek(duration)}
           onSeek={handleSeek}
-          onMasterMuteToggle={() => setMasterVolume(project.masterVolume === 0 ? 0.85 : 0)}
+          onMasterMuteToggle={() => {
+            if (project.masterVolume === 0) {
+              setMasterVolume(previousMasterVolume); // Restore previous volume
+            } else {
+              setPreviousMasterVolume(project.masterVolume); // Save current volume
+              setMasterVolume(0); // Mute
+            }
+          }}
           onOpenActions={() => dialogs.setShowActionsSheet(true)}
         />
       )}

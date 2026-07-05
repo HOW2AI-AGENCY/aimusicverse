@@ -751,9 +751,9 @@ logger.warn("Voice quality issues detected", {
 
 ### Documentation
 
-- [Suno API Reference](./SUNO_API.md) - Внутренняя документация Suno API
+- [Suno API Reference](SUNO_API.md) - Внутренняя документация Suno API
 - [API Documentation](https://docs.sunoapi.org/) - Suno API docs
-- [Troubleshooting](./TROUBLESHOOTING_GUIDE.md) - Общие troubleshooting
+- [Troubleshooting](TROUBLESHOOTING_GUIDE.md) - Общие troubleshooting
 
 ### Code Examples
 

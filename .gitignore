@@ -16,6 +16,10 @@ node_modules
 bun_modules
 .pnpm-store
 
+# Lockfiles (use package-lock.json as single source of truth)
+bun.lock
+bun.lockb
+
 # Build outputs
 dist
 dist-ssr
