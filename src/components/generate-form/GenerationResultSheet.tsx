@@ -90,16 +90,17 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
   // ready version (selectedVersionData has an audioUrl below — we check
   // against that when the user actually clicks "Train Persona").
   const personaStrings = MASHUP_STRINGS.persona;
+  const generationResultStrings = MASHUP_STRINGS.generationResult;
 
   const handleTrainPersona = useCallback(async () => {
     if (!trackId) return;
     const trimmed = personaName.trim();
     if (!trimmed) {
-      toast.error("Укажите имя персоны");
+      toast.error(personaStrings.validation.specifyName);
       return;
     }
     if (trimmed.length > 80) {
-      toast.error("Имя персоны — максимум 80 символов");
+      toast.error(personaStrings.validation.nameTooLong);
       return;
     }
     try {
@@ -120,7 +121,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
       setPersonaDescription("");
     } catch (err) {
       logger.error(personaStrings.logEventFailed, { err });
-      toast.error("Не удалось запустить обучение персоны");
+      toast.error(personaStrings.validation.trainingFailed);
     }
   }, [trackId, personaName, personaDescription, personaMutation, personaStrings.logEventFailed]);
 
@@ -136,7 +137,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
         // Create a minimal track object for playback - cast to Track for player compatibility
         playTrack({
           id: trackId!,
-          title: trackTitle || "Новый трек",
+          title: trackTitle || generationResultStrings.fallbackTrackTitle,
           audio_url: version.audioUrl,
           cover_url: null,
           user_id: "",
@@ -170,7 +171,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
       await setPrimaryVersionAsync({ trackId, versionId: selectedVersion });
     } catch (error) {
       logger.error("Failed to set primary version", error);
-      toast.error("Не удалось установить версию");
+      toast.error(generationResultStrings.versionSwitchError);
     } finally {
       setSettingPrimary(false);
     }
@@ -315,7 +316,11 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                           <Button
                             variant="ghost"
                             size="icon"
-                            aria-label={isCurrentlyPlaying ? "Пауза" : "Воспроизвести"}
+                            aria-label={
+                              isCurrentlyPlaying
+                                ? generationResultStrings.pauseButtonLabel
+                                : generationResultStrings.playButtonLabel
+                            }
                             className={cn(
                               "h-12 w-12 rounded-none border border-foreground/20",
                               "hover:bg-foreground hover:text-background",

@@ -63,7 +63,7 @@
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 050 🟡 В РАБОТЕ (Main Green + Mobile Audit F1–F12). A0 ✅ — P0-хотфикс typecheck влит в main (PR #576/#577: `MashupDialog` + Suno-типы, +4 регрессионных теста, Q&B зелёный); A2 🔄 — lychee-ссылки voice-cloning починены; главный блокер — force-push в `main` мимо PR (050-A4, branch protection). **Sprint 052-C cleanup ✅ ЗАКРЫТ 2026-07-04**. **Sprint 053 + 054 ✅ ЗАКРЫТЫ 2026-07-04** — **Suno API покрытие 24/28 → 28/28 (100%)**. План закрытия спринтов: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
+- **Текущий фокус**: Sprint 050 🟡 В РАБОТЕ (Main Green + Mobile Audit F1–F12). **A0 ✅ + A2 ✅ + A5 ✅ + A6 ✅ завершены 2026-07-05** — P0-хотфикс typecheck, docs links, lockfile conflict resolution, format fix-up (PR #576/#577, Q&B зелёный). **Sprint 052-C cleanup ✅ ЗАКРЫТ 2026-07-05** — Storybook stories + i18n strings (commit `93beb2f1`). **Sprint 053 + 054 ✅ ЗАКРЫТЫ 2026-07-04** — **Suno API покрытие 24/28 → 28/28 (100%)**. Главный блокер — force-push в `main` мимо PR (050-A4, branch protection) и E2E dependency issue (050-A1). План закрытия спринтов: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
 - **Закрыто (Sprint 053 + 054 ✅, 2026-07-04):** Suno API 28/28 (100%) — 9 новых edges: `suno-sounds` (+callback +status, SFX с tempo/key/duration), `suno-midi` (+callback +details, прямая MIDI-транскрипция с Replicate fallback при FAILED, race-condition protection), 6 `suno-*-details` (music/cover/video/wav/lyrics/separation) — все делегируют shared `_shared/suno-details.ts` `fetchSunoTaskDetails(taskType, taskId)` с per-type backoff (lyrics 1500ms … midi 5000ms). `SfxGeneratorSheet` (MobileBottomSheet + `usePreviewAudio` превью). DB миграции: `sound_effects` table + `track_versions.midi_url + midi_generation_source enum('suno','replicate')`. Telegram `/sfx` команда. Boost-style — **CONNECT** подтверждён 8 unit-тестами. Cleanup: `suno-check-status` (449 LOC dead code, zero callers) удалён + alias в config.toml. Новый generic polling hook `useSunoTaskDetails` + `suno-task-details.api.ts` edge-bridge + 7 unit-тестов. **+28 unit-тестов (320/24 suites), −449 LOC dead code, +8 edges, +1 DB table, +2 columns.** 054-A9 NOT APPLICABLE (3 из 5 целевых хуков не существуют). Retro: [docs/sprints/SPRINT-053-RETRO.md](./docs/sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](./docs/sprints/SPRINT-054-RETRO.md).
 - **Закрыто (Sprint 052 ✅ + 052-C cleanup ✅, 2026-07-04):** Suno API gap closure — Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + «Create Persona»), File Upload proxy; Telegram `/mashup` + deep-link. 052-C cleanup добавил: pure-Dumb `MashupFormFields` декомпозицию для Storybook stories (5 stories в `src/stories/mashup/`), `MASHUP_STRINGS` typed-const (единый источник UX-копи для Mashup/Persona flows, RU-only — i18n в Sprint 055), ретро-документация ([docs/sprints/SPRINT-052-RETRO.md](./docs/sprints/SPRINT-052-RETRO.md)).
 - **Закрыто (2026-07-03, #568/#567):** Eager JS на холодной загрузке главной сокращён с ~1.19 МБ до ~508 КБ gzip (лишние `modulePreload` тяжёлых admin/studio/charts/dnd/forms-чанков и barrel-импорт устранены — см. [docs/BUNDLE_ANALYSIS.md](./docs/BUNDLE_ANALYSIS.md)); все оставшиеся 58 `no-explicit-any` ошибок ESLint устранены (репозиторий на 0 использований `any`, было 342), попутно исправлены 2 бага, скрытые за `any`-кастами.
@@ -107,26 +107,26 @@ gantt
     Sprint 046: Bundle Reduction 🔴     :046, 2026-08-01, 2026-08-10
 ```
 
-| Спринт  | Название                                         | Статус | Прогресс |
-| :-----: | ------------------------------------------------ | :----: | :------: |
-|   033   | UX-аудит и переработка                           |   ✅   |   100%   |
-|   034   | Надёжность генерации                             |   ✅   |   100%   |
-|   035   | Стабилизация + Чистка                            |   ✅   |   100%   |
-|   036   | Рефакторинг слоёв + Type Safety                  |   ✅   |   100%   |
-|   037   | Infrastructure Hardening                         |   ✅   |   100%   |
-|   038   | Design System Unification                        |   ✅   |  28/28   |
-|   039   | Архитектурный рефакторинг                        |   ✅   |  14/14   |
-| **042** | **Page Decomp + Audio Pooling**                  |   ✅   |  10/10   |
-| **043** | **Layer Compliance (65 → 0)**                    |   ✅   |   6/6    |
-| **044** | **Type Safety Wave 2**                           |   ✅   |   7/7    |
-| **047** | **Creation-Flow Motion + Mobile Perf Fixes**     |   ✅   |   2/2    |
-| **049** | **Mobile UX: A/B версии, лайки, плеер, главная** |   ✅   |   4/4    |
-| **052** | **Suno Mashup + Persona + File Upload**          |   ✅   |  10/10   |
-| **045** | **UX/UI Deep Polish + Hygiene**                  |   🟡   |   1/4    |
-|   040   | Type Safety + God-files                          |   ⚪   |    0%    |
-|  040b   | Тесты + Audio Export                             |   ⚪   |    0%    |
-|   041   | UX features (AI/TTS)                             |   ⚪   |    0%    |
-|   046   | 🔴 Bundle Reduction (2.21→<950KB)                |   ⚪   |    0%    |
+| Спринт  | Название                                           | Статус |      Прогресс      |
+| :-----: | -------------------------------------------------- | :----: | :----------------: |
+|   033   | UX-аудит и переработка                             |   ✅   |        100%        |
+|   034   | Надёжность генерации                               |   ✅   |        100%        |
+|   035   | Стабилизация + Чистка                              |   ✅   |        100%        |
+|   036   | Рефакторинг слоёв + Type Safety                    |   ✅   |        100%        |
+|   037   | Infrastructure Hardening                           |   ✅   |        100%        |
+|   038   | Design System Unification                          |   ✅   |       28/28        |
+|   039   | Архитектурный рефакторинг                          |   ✅   |       14/14        |
+| **042** | **Page Decomp + Audio Pooling**                    |   ✅   |       10/10        |
+| **043** | **Layer Compliance (65 → 0)**                      |   ✅   |        6/6         |
+| **044** | **Type Safety Wave 2**                             |   ✅   |        7/7         |
+| **047** | **Creation-Flow Motion + Mobile Perf Fixes**       |   ✅   |        2/2         |
+| **049** | **Mobile UX: A/B версии, лайки, плеер, главная**   |   ✅   |        4/4         |
+| **052** | **Suno Mashup + Persona + Upload + 052-C cleanup** |   ✅   | 10/10 + cleanup ✅ |
+| **045** | **UX/UI Deep Polish + Hygiene**                    |   🟡   |        1/4         |
+|   040   | Type Safety + God-files                            |   ⚪   |         0%         |
+|  040b   | Тесты + Audio Export                               |   ⚪   |         0%         |
+|   041   | UX features (AI/TTS)                               |   ⚪   |         0%         |
+|   046   | 🔴 Bundle Reduction (2.21→<950KB)                  |   ⚪   |         0%         |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>
 

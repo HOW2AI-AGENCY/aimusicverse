@@ -24,6 +24,26 @@
 
 ## [Unreleased]
 
+### 🎯 Sprint 052-C — Storybook + i18n cleanup (2026-07-05)
+
+> Commit `93beb2f1` — pure-Dumb декомпозиция, Storybook stories, i18n strings extraction. Sprint 052 теперь **100% complete**.
+
+#### Added
+
+- **`src/stories/mashup/MashupDialog.stories.tsx`** — 6 Storybook stories для `MashupDialog` (Empty/Filled/Loading/Success/Mobile/Desktop). Следует паттерну `MashupFormFields.stories.tsx`. Использует QueryClientProvider для моков хуков.
+- **`MASHUP_STRINGS.generationResult.*`** — 4 новые строки: `fallbackTrackTitle`, `versionSwitchError`, `playButtonLabel`, `pauseButtonLabel`.
+- **`MASHUP_STRINGS.persona.validation.*`** — 3 новые строки: `specifyName`, `nameTooLong`, `trainingFailed`.
+
+#### Changed
+
+- **`src/components/generate-form/GenerationResultSheet.tsx`** — извлечены все хардкодные RU-строки в `MASHUP_STRINGS`. 0 хардкодных строк осталось. Persona validation использует `personaStrings.validation.*`, version switch/generation result use `generationResultStrings.*`.
+- **`src/lib/locale/mashupStrings.ts`** — расширена секция `persona` (добавлен `validation` submodule), добавлена секция `generationResult`.
+
+#### Fixed
+
+- **Sprint 050-A2:** 7 сломанных ссылок в `VOICE_CLONING_INTEGRATION.md` — исправлены относительные пути для `SUNO_API.md`, `TROUBLESHOOTING_GUIDE.md` и код-файлов.
+- **Sprint 050-A5:** Конфликт `bun.lock` vs `package-lock.json` — добавлены `bun.lock*` в `.gitignore`, `bun.lock` удалён из git tracking. Decision: use `package-lock.json` as single source of truth.
+
 ### 🗄️ Sprint 050-A3 — сверка миграций + фиксы накатки с нуля (2026-07-04, ночь)
 
 > Реальная накатка likes-цепочки на локальный PostgreSQL 16, каждая миграция в своей транзакции (как supabase-раннер). Отчёт: [docs/audit/MIGRATIONS-RECONCILIATION-2026-07-04.md](docs/audit/MIGRATIONS-RECONCILIATION-2026-07-04.md).
