@@ -128,7 +128,9 @@ export async function separateStems(
   mode: "simple" | "detailed",
 ): Promise<{ success: boolean; error: Error | null }> {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { success: false, error: new Error("Not authenticated") };
 
     const { error } = await studioApi.invokeStemSeparation({ trackId, audioId, audioUrl, mode, userId: user.id });

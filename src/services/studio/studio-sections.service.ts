@@ -172,7 +172,9 @@ export async function replaceSection(params: {
   lyrics?: string;
 }): Promise<{ taskId: string | null; error: Error | null }> {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { taskId: null, error: new Error("Not authenticated") };
 
     const { data, error } = await studioApi.invokeReplaceSection({
