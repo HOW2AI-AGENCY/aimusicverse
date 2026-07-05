@@ -266,7 +266,6 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                 {sourceRecorder.state === "error" && <p className="text-sm text-destructive">{sourceRecorder.error}</p>}
               </TabsContent>
 
-
               <TabsContent value="library" className="space-y-2 pt-3">
                 <p className="text-xs text-muted-foreground">
                   Выберите вокальный стем из своей библиотеки. Он будет использован как исходник для клонирования.
@@ -322,7 +321,9 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
             {audioDuration > 0 && sourceBlob && (
               <div className="space-y-2 rounded-2xl border border-border/50 bg-muted/10 p-3">
                 <div className="flex items-baseline justify-between">
-                  <Label className="text-xs uppercase tracking-wide text-muted-foreground">Чистый вокальный сегмент</Label>
+                  <Label className="text-xs uppercase tracking-wide text-muted-foreground">
+                    Чистый вокальный сегмент
+                  </Label>
                   <span className="text-[10px] text-muted-foreground">Перетащите ручки</span>
                 </div>
                 <VoiceWaveformEditor
@@ -405,7 +406,6 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                   <Upload className="mr-2 h-4 w-4" />
                   Начать (30 кредитов)
                 </>
-
               )}
             </Button>
           </div>
@@ -471,7 +471,6 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               </div>
             )}
             {phraseRecorder.state === "error" && <p className="text-sm text-destructive">{phraseRecorder.error}</p>}
-
           </div>
         )}
 

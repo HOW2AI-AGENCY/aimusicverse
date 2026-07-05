@@ -80,7 +80,6 @@ export function toVoiceError(raw: string, status = 502): VoiceError {
   return e;
 }
 
-
 export async function sunoFetch(path: string, init: RequestInit = {}): Promise<any> {
   const res = await fetch(`${SUNO_VOICE_BASE}${path}`, {
     ...init,

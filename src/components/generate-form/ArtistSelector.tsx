@@ -122,11 +122,7 @@ export function ArtistSelector({ open, onOpenChange, artists, selectedArtistId, 
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent
-        side="bottom"
-        className="h-[85dvh] flex flex-col p-0 z-[200]"
-        accessibleTitle="Выберите артиста"
-      >
+      <SheetContent side="bottom" className="h-[85dvh] flex flex-col p-0 z-[200]" accessibleTitle="Выберите артиста">
         <SheetHeader className="px-4 pt-4 pb-3 border-b border-border/50">
           <SheetTitle className="text-base">Выберите артиста</SheetTitle>
         </SheetHeader>
