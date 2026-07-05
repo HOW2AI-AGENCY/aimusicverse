@@ -16,6 +16,7 @@ import {
 import { useGenerateSheetController } from "@/hooks/generation/useGenerateSheetController";
 import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButton } from "@/hooks/telegram";
 import { useKeyboardAware } from "@/hooks/useKeyboardAware";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import { useFeatureFlag } from "@/hooks/useFeatureFlag";
 import { GENERATE_SHEET_REDESIGN_ENABLED } from "@/lib/feature-flags";
 import { useProjects } from "@/hooks/useProjects";
@@ -53,6 +54,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   const { keyboardHeight, isKeyboardOpen } = useKeyboardAware();
 
   const controller = useGenerateSheetController({ open, onOpenChange, initialProjectId: projectId });
+
+  // Lock body scroll while sheet is open (prevents iOS rubber-band behind sheet)
+  useScrollLock(open);
 
   // Telegram wiring
   const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
