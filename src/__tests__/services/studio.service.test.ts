@@ -95,9 +95,9 @@ describe("createFallbackSections", () => {
 
   it("creates intro + verse + outro for medium tracks", () => {
     const sections = createFallbackSections(45);
+    // For 45s: introDuration=4.5 (>3) + main + outroDuration=4.5 (>3) = 3 sections
     expect(sections.length).toBeGreaterThanOrEqual(1);
-    // At least one section should exist
-    expect(sections[0].type).toBeDefined();
+    expect(sections.some((s) => s.type === "verse")).toBe(true);
   });
 
   it("creates verse/chorus structure for long tracks (>= 60s)", () => {
