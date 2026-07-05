@@ -228,20 +228,26 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                 />
               </TabsContent>
 
-              <TabsContent value="record" className="space-y-2 pt-3">
+              <TabsContent value="record" className="space-y-3 pt-3">
                 <p className="text-xs text-muted-foreground">
                   Спойте 10–30 секунд в чистой акустике. Без музыки на фоне.
                 </p>
+                {sourceRecorder.state === "recording" && (
+                  <VoiceWaveformEditor mode="live" stream={sourceRecorder.stream} height={80} />
+                )}
                 {sourceRecorder.state === "idle" && !sourceRecorder.blob && (
-                  <Button variant="outline" className="w-full" onClick={sourceRecorder.start}>
+                  <Button variant="outline" className="w-full h-12" onClick={sourceRecorder.start}>
                     <Mic className="mr-2 h-4 w-4" />
                     Начать запись
                   </Button>
                 )}
                 {sourceRecorder.state === "recording" && (
-                  <div className="space-y-2">
-                    <div className="text-center text-2xl font-mono">{sourceRecorder.duration.toFixed(1)}s</div>
-                    <Button variant="destructive" className="w-full" onClick={sourceRecorder.stop}>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 text-2xl font-mono tabular-nums">
+                      {sourceRecorder.duration.toFixed(1)}
+                      <span className="text-sm text-muted-foreground ml-1">с</span>
+                    </div>
+                    <Button variant="destructive" className="h-12 px-6" onClick={sourceRecorder.stop}>
                       <Square className="mr-2 h-4 w-4" />
                       Стоп
                     </Button>
@@ -255,6 +261,7 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                 )}
                 {sourceRecorder.state === "error" && <p className="text-sm text-destructive">{sourceRecorder.error}</p>}
               </TabsContent>
+
 
               <TabsContent value="library" className="space-y-2 pt-3">
                 <p className="text-xs text-muted-foreground">
