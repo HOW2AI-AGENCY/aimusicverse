@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-050_phase_A-100%25_complete-10B981?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-050_phase_B-83%25_complete-F59E0B?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-100%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-292_passing-10B981?style=for-the-badge"/>
@@ -30,6 +30,40 @@
 
 > [!NOTE]
 > Обновляется еженедельно во время ревью спринта. Для статуса CI в реальном времени см. [вкладку Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
+
+## План действий (июль 2026)
+
+### Блок 1 — Стабилизация main (Sprint 050) 🔄
+
+| Задача | Действие | Статус |
+|--------|----------|--------|
+| A4 Phase 2 | Добавить required_status_checks в GitHub ruleset | ⏳ Ручной шаг |
+| E2E | Проверить CI run, починить падения | ⏳ Ожидает CI |
+| Phase B | F1–F12 mobile fixes | ✅ 5/6 done |
+| Docs | Включить GitHub Pages в Settings | ⏳ Ручной шаг |
+
+### Блок 2 — UX Critical Fixes (Sprint 055) ⏳
+
+| Задача | Действие | Критичность |
+|--------|----------|-------------|
+| Save Draft | Wire useGenerateDraft.saveDraft() | 🔴 P0 |
+| Cancel | Убрать showCancel={false} | 🔴 P0 |
+| Deeplink | startapp=generate → open sheet | 🔴 P0 |
+| Welcome Bonus | Idempotency guard | 🔴 P0 |
+
+### Блок 3 — GenerateSheet Redesign (Sprint 056) 🔄
+
+Phase A–B ✅, Phase C–D ⏳ (stories verify + docs)
+
+### Блок 4 — Test Debt (Sprint 051) ⏳
+
+Декомпозиция 3 god files (1137/953/903 LOC) → 450+ тестов
+
+### Блок 5 — Suno API (Sprint 053–054) ⏳
+
+SFX + MIDI + Details suite (август–сентябрь)
+
+---
 
 ## 🆕 Sprint 052-C Cleanup завершён (2026-07-05) ✅
 
