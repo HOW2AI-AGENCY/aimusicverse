@@ -1,0 +1,80 @@
+# Sprint 050 — План закрытия фазы A (A2 / A3 / A6)
+
+**Дата:** 2026-07-05
+**Статус:** Операционный план, фактура сверена с кодом (не с трекерами)
+**Автор сверки:** Claude Code
+
+> ⚠️ **Ground-truth сверка выявила расхождения с [NEXT-SPRINTS-PLAN.md](NEXT-SPRINTS-PLAN.md):**
+>
+> - Локальный `main` отставал на 1 коммит (merge PR #587 `a3b239aa` не был подтянут) — **исправлено `git merge --ff-only`** в ходе планирования.
+> - A6: реальный prettier-дрейф — **45 файлов**, а не 16 из плана.
+> - A2: скрипт `npm run docs:check` **не существует** в package.json — план ссылается на фантомную команду.
+> - A3: **269** миграций в `supabase/migrations/`, свежие — `sound_effects` и `restore_profile_like_stats` (Sprint 053).
+
+---
+
+## Рекомендуемый порядок
+
+**A6 → A2 → A3.** A6 механический и низкорисковый, разблокирует Phase 2 branch protection. A2 независим. A3 последним — трогает prod, требует подтверждения.
+
+---
+
+## 🥇 A6 — `format:check` зелёный + required CI checks
+
+**Зачем #1:** разблокирует Phase 2 ruleset (`required_status_checks: [quality, build, smoke]`) — worst-case из retro (8ч простоя main + force-push).
+
+**Факт:** `npx prettier --check .` падает на **45 файлах** (≈13 кода: `ArtistSelector`, `CollapsibleFormHeader`, `ProjectTrackSelector`, `VocalsToggle`, `ReferenceChipsRow`, `GenerateSheet`, `MoreMenuSheet`, `VoiceCloneWizard`, `VoiceWaveformEditor`, `trimAudio.ts`, `_shared/voice.ts`, `mcp/index.ts`, `suno-voice-validate/index.ts`, `.lovable/mcp/manifest.json`; остальное — markdown/docs). Всё чинится `--write`.
+
+### Шаги
+
+- [ ] `git checkout -b chore/sprint-050-a6-format-baseline`
+- [ ] `npm run format` (= `prettier --write .`) — фиксит все 45
+- [ ] **Sanity-проверка:** `git diff -w --stat` — убедиться, что изменения только whitespace/формат, без семантики
+- [ ] Коммит + PR + merge (когда нет крупных in-flight PR — иначе конфликты)
+- [ ] Добавить `npm run format:check` в CI job `quality` (гард против будущего дрейфа)
+- [ ] Включить Phase 2: обновить ruleset `18508298` (Rulesets API) — `required_status_checks: [quality, build, smoke]` + `pull_request` (0 approvals для self-merge), `bypass_actors: []`
+- [ ] A4.4: задокументировать branch protection в `CONTRIBUTING.md`
+
+**Риск:** 45-файловый format-коммит конфликтует с открытыми PR → делать при пустой очереди PR либо ребейзить их следом.
+**Оценка:** ~1–2ч.
+
+---
+
+## 🥈 A2 — Voice-cloning doc-ссылки (lychee)
+
+**Факт:** `npm run docs:check` отсутствует. Проверка ссылок = lychee CLI / GitHub Action, а не npm-скрипт.
+
+### Шаги
+
+- [ ] Выбрать тулинг: `lycheeverse/lychee-action` в CI **или** добавить `docs:check` в package.json как обёртку над `lychee`
+- [ ] Прогнать lychee по `docs/**` + корневые `*.md`, собрать битые ссылки
+- [ ] Починить 7 voice-cloning ссылок (заявлены как исправленные на ветке `claude/sprint-closure-planning-m6skuk` — **проверить, влиты ли; иначе cherry-pick**)
+- [ ] Добавить lychee в CI: сначала non-blocking, затем blocking
+
+**Оценка:** ~1ч.
+
+---
+
+## 🥉 A3 — Сверка миграций dev ↔ prod
+
+**Факт:** 269 локальных `.sql`. Требует Supabase MCP (проектный ref).
+
+### Шаги
+
+- [ ] Supabase MCP `list_migrations` на prod → список применённых версий
+- [ ] Diff имён `supabase/migrations/*.sql` vs применённые → найти missing/extra
+- [ ] Задокументировать разрывы в [SPRINT-CLOSURE-PLAN-2026-07.md](SPRINT-CLOSURE-PLAN-2026-07.md)
+- [ ] Применить отстающие миграции (одноразовая уборка) — **сначала на branch/staging**
+- [ ] Верификация: `list_migrations` совпадает с локальным набором
+
+**Риск:** применение миграций к prod необратимо → **обязательное подтверждение пользователя** перед apply.
+**Оценка:** ~1–2ч + координация.
+
+---
+
+## Definition of Done (фаза A)
+
+- ✅ `npm run format:check` зелёный на `main`
+- ✅ Required CI checks включены (Phase 2 ruleset активен)
+- ✅ 0 битых voice-cloning ссылок, lychee в CI
+- ✅ prod-миграции сверены и синхронизированы, разрывы задокументированы
