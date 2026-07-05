@@ -90,6 +90,7 @@ serve(async (req) => {
         }),
       });
     } catch (e) {
+      const err: any = e;
       if (!isAdmin)
         await supabase.rpc("secure_credit_update", {
           _user_id: user.id,
@@ -97,8 +98,9 @@ serve(async (req) => {
           _action_type: "voice_clone_refund",
           _description: "Suno validate failed",
         });
-      return json({ error: String((e as Error).message) }, 502);
+      return json({ error: err?.message || "Suno validate failed", code: err?.code || "SUNO_UNKNOWN" }, err?.status || 502);
     }
+
 
     const taskId = sunoRes?.data?.taskId || sunoRes?.taskId;
     if (!taskId) return json({ error: "No taskId from Suno", raw: sunoRes }, 502);
