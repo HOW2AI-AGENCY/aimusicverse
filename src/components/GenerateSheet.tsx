@@ -161,7 +161,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
                   stage="processing"
                   showCancel={!!controller.form.currentTaskId && !isCancelling}
                   compact={false}
-                  onCancel={controller.form.currentTaskId ? () => cancelGeneration(controller.form.currentTaskId!) : undefined}
+                  onCancel={
+                    controller.form.currentTaskId ? () => cancelGeneration(controller.form.currentTaskId!) : undefined
+                  }
                 />
               </motion.div>
             )}
