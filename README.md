@@ -63,7 +63,7 @@
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 050 🟡 В РАБОТЕ (Main Green + Mobile Audit F1–F12). **A0 ✅ + A2 ✅ + A5 ✅ + A6 ✅ завершены 2026-07-05** — P0-хотфикс typecheck, docs links, lockfile conflict resolution, format fix-up (PR #576/#577, Q&B зелёный). **Sprint 052-C cleanup ✅ ЗАКРЫТ 2026-07-05** — Storybook stories + i18n strings (commit `93beb2f1`). **Sprint 053 + 054 ✅ ЗАКРЫТЫ 2026-07-04** — **Suno API покрытие 24/28 → 28/28 (100%)**. Главный блокер — force-push в `main` мимо PR (050-A4, branch protection) и E2E dependency issue (050-A1). План закрытия спринтов: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
+- **Текущий фокус**: Sprint 050 🟡 Phase A: 83% complete (5/6 done). **A0 ✅ + A2 ✅ + A5 ✅ + A6 ✅ завершены 2026-07-05** — P0-хотфикс typecheck, docs links, lockfile conflict resolution, format fix-up (PR #576/#577, Q&B зелёный). **A1 ✅ E2E dependencies fixed** (npm install, commit `3f61ce60`). **A4 ⏳ branch protection Phase 2** — ruleset готов, требуется применение через GitHub CLI или UI. **Sprint 052-C cleanup ✅ ЗАКРЫТ 2026-07-05** — Storybook stories + i18n strings (commit `93beb2f1`). **Sprint 053 + 054 ✅ ЗАКРЫТЫ 2026-07-04** — **Suno API покрытие 24/28 → 28/28 (100%)**. План закрытия спринтов: [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
 - **Закрыто (Sprint 053 + 054 ✅, 2026-07-04):** Suno API 28/28 (100%) — 9 новых edges: `suno-sounds` (+callback +status, SFX с tempo/key/duration), `suno-midi` (+callback +details, прямая MIDI-транскрипция с Replicate fallback при FAILED, race-condition protection), 6 `suno-*-details` (music/cover/video/wav/lyrics/separation) — все делегируют shared `_shared/suno-details.ts` `fetchSunoTaskDetails(taskType, taskId)` с per-type backoff (lyrics 1500ms … midi 5000ms). `SfxGeneratorSheet` (MobileBottomSheet + `usePreviewAudio` превью). DB миграции: `sound_effects` table + `track_versions.midi_url + midi_generation_source enum('suno','replicate')`. Telegram `/sfx` команда. Boost-style — **CONNECT** подтверждён 8 unit-тестами. Cleanup: `suno-check-status` (449 LOC dead code, zero callers) удалён + alias в config.toml. Новый generic polling hook `useSunoTaskDetails` + `suno-task-details.api.ts` edge-bridge + 7 unit-тестов. **+28 unit-тестов (320/24 suites), −449 LOC dead code, +8 edges, +1 DB table, +2 columns.** 054-A9 NOT APPLICABLE (3 из 5 целевых хуков не существуют). Retro: [docs/sprints/SPRINT-053-RETRO.md](./docs/sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](./docs/sprints/SPRINT-054-RETRO.md).
 - **Закрыто (Sprint 052 ✅ + 052-C cleanup ✅, 2026-07-04):** Suno API gap closure — Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + «Create Persona»), File Upload proxy; Telegram `/mashup` + deep-link. 052-C cleanup добавил: pure-Dumb `MashupFormFields` декомпозицию для Storybook stories (5 stories в `src/stories/mashup/`), `MASHUP_STRINGS` typed-const (единый источник UX-копи для Mashup/Persona flows, RU-only — i18n в Sprint 055), ретро-документация ([docs/sprints/SPRINT-052-RETRO.md](./docs/sprints/SPRINT-052-RETRO.md)).
 - **Закрыто (2026-07-03, #568/#567):** Eager JS на холодной загрузке главной сокращён с ~1.19 МБ до ~508 КБ gzip (лишние `modulePreload` тяжёлых admin/studio/charts/dnd/forms-чанков и barrel-импорт устранены — см. [docs/BUNDLE_ANALYSIS.md](./docs/BUNDLE_ANALYSIS.md)); все оставшиеся 58 `no-explicit-any` ошибок ESLint устранены (репозиторий на 0 использований `any`, было 342), попутно исправлены 2 бага, скрытые за `any`-кастами.
@@ -99,12 +99,14 @@ gantt
     Sprint 052-C: Cleanup              :done, 052c, 2026-07-04, 2026-07-04
     Sprint 053: Sounds + MIDI + Boost  :done, 053, 2026-07-04, 2026-07-04
     Sprint 054: Details + Cleanup      :done, 054, 2026-07-04, 2026-07-04
+    section В работе 🔄
+    Sprint 050-A: Main Green Phase A   :active, 050a, 2026-07-05, 2026-07-08
     section Запланировано ⚪
-    Sprint 040: Type Safety + God-files :040, 2026-07-01, 2026-07-12
-    Sprint 040b: Тесты + Audio Export   :040b, 2026-07-15, 2026-08-01
-    Sprint 041: UX features (AI/TTS)    :041, 2026-08-01, 2026-08-08
-    Sprint 045: Hygiene + Docs         :045, 2026-07-27, 2026-07-31
-    Sprint 046: Bundle Reduction 🔴     :046, 2026-08-01, 2026-08-10
+    Sprint 050-B: Mobile Audit F1-F12  :050b, 2026-07-09, 2026-07-20
+    Sprint 051: Test Debt + God Files  :051, 2026-07-21, 2026-08-05
+    Sprint 053: Suno Sounds + MIDI     :053, 2026-08-06, 2026-08-15
+    Sprint 054: Klangio Integration    :054, 2026-08-16, 2026-08-25
+    Sprint 055: UX Audit Implementation :055, 2026-08-26, 2026-09-10
 ```
 
 | Спринт  | Название                                           | Статус |      Прогресс      |
@@ -122,11 +124,12 @@ gantt
 | **047** | **Creation-Flow Motion + Mobile Perf Fixes**       |   ✅   |        2/2         |
 | **049** | **Mobile UX: A/B версии, лайки, плеер, главная**   |   ✅   |        4/4         |
 | **052** | **Suno Mashup + Persona + Upload + 052-C cleanup** |   ✅   | 10/10 + cleanup ✅ |
-| **045** | **UX/UI Deep Polish + Hygiene**                    |   🟡   |        1/4         |
-|   040   | Type Safety + God-files                            |   ⚪   |         0%         |
-|  040b   | Тесты + Audio Export                               |   ⚪   |         0%         |
-|   041   | UX features (AI/TTS)                               |   ⚪   |         0%         |
-|   046   | 🔴 Bundle Reduction (2.21→<950KB)                  |   ⚪   |         0%         |
+| **050** | **Main Green + Mobile Audit**                      |   🔄   | Phase A: 5/6 (83%) |
+| **051** | **Test Debt + God Files**                          |   ⏳   |        0/6         |
+| **053** | **Suno Sounds + MIDI + Boost**                     |   ⏳   |        0/6         |
+| **054** | **Klangio Integration + Transcription**            |   ⏳   |        0/4         |
+| **055** | **UX Audit Findings Implementation**               |   ⏳   |        0/5         |
+|   045   | UX/UI Deep Polish + Hygiene                        |   ⏳   |        0/4         |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>
 
