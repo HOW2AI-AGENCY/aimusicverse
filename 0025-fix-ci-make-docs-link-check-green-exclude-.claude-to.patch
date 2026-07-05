@@ -1,0 +1,50 @@
+From fad8c64ce7cf374c29221b67c261b805a9389cad Mon Sep 17 00:00:00 2001
+From: HOW2AI <ivan.meer1990@gmail.com>
+Date: Sun, 5 Jul 2026 19:02:33 +0700
+Subject: [PATCH 25/28] fix(ci): make docs link-check green (exclude .claude
+ tooling, fix 404)
+
+Pre-existing lychee failures on main (not from this PR's diff), surfaced by
+the Docs workflow on #599:
+  - .claude/workflows/repository-audit.workflow.md: 3 README-template example
+    links (docs/ARCHITECTURE.md, docs/API.md, CONTRIBUTING.md) resolved against
+    .claude/workflows/. These are illustrative template snippets, not real
+    links. .claude/ is Claude Code tooling, not project docs -> added to the
+    lychee --exclude-path list alongside graphify-out/plans/etc.
+  - PUSH_INSTRUCTIONS.md: bare URL .../rulesets 404s for unauthenticated
+    lychee; wrapped the settings-rules URL in a code span so it is not checked.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+---
+ .github/workflows/docs.yml | 1 +
+ PUSH_INSTRUCTIONS.md       | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/.github/workflows/docs.yml b/.github/workflows/docs.yml
+index 07e2c068..88ea593a 100644
+--- a/.github/workflows/docs.yml
++++ b/.github/workflows/docs.yml
+@@ -52,6 +52,7 @@ jobs:
+             --exclude-path docs/archive
+             --exclude-path node_modules
+             --exclude-path graphify-out
++            --exclude-path .claude
+             --exclude-path prd
+             --exclude-path specs
+             --exclude-path plans
+diff --git a/PUSH_INSTRUCTIONS.md b/PUSH_INSTRUCTIONS.md
+index c19462c5..9bb15860 100644
+--- a/PUSH_INSTRUCTIONS.md
++++ b/PUSH_INSTRUCTIONS.md
+@@ -75,7 +75,7 @@ gh api --method PUT \
+ 
+ **Option B: Via GitHub Web UI**
+ 
+-1. Go to: https://github.com/HOW2AI-AGENCY/aimusicverse/rulesets
++1. Go to: `https://github.com/HOW2AI-AGENCY/aimusicverse/settings/rules`
+ 2. Find: "protect-main (Sprint 050-A4)"
+ 3. Click "Edit" → Toggle "Enable ruleset"
+ 4. Under "Bypass restrictions": Leave empty (even admin can't bypass)
+-- 
+2.50.1.windows.1
+

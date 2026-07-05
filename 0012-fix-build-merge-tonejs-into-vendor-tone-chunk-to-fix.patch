@@ -1,0 +1,62 @@
+From f36347304e63a4d9021403d0105662d45cc6aab6 Mon Sep 17 00:00:00 2001
+From: HOW2AI <ivan.meer1990@gmail.com>
+Date: Fri, 3 Jul 2026 03:36:46 +0700
+Subject: [PATCH 12/28] fix(build): merge @tonejs/* into vendor-tone chunk to
+ fix tdz crash
+
+Tone.js v14.9.17 threw "Cannot access 'vt' before initialization" in
+AudioContext.js during boot. Root cause: vite.config.ts split the
+interdependent `tone` and `@tonejs/*` packages into separate chunks
+(vendor-tone vs vendor-tonejs-midi). @tonejs/midi re-imports from
+`tone` (Transport, Time, Draw), so Rollup produced chunk-level circular
+references and whichever chunk loaded first hit a Temporal Dead Zone
+on Tone.js's internal `let` bindings.
+
+Fix: drop the separate `@tonejs` chunk rule. `id.includes("tone")`
+already matches both `tone` and `@tonejs/*` (substring), so they now
+land in the same vendor-tone chunk. Same pattern already used for
+vendor-react-ui and feature-admin-studio. wavesurfer and audiomotion
+are independent of Tone.js and keep their own chunks.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ vite.config.ts | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/vite.config.ts b/vite.config.ts
+index fbd3e150..19ebb2d4 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -172,10 +172,16 @@ export default defineConfig(({ mode }) => ({
+             if (id.includes("framer-motion")) {
+               return "vendor-framer";
+             }
+-            // Audio/Media
++            // Audio/Media — tone + @tonejs/* MUST live in the SAME chunk.
++            // Splitting them caused a TDZ crash ("Cannot access 'vt' before
++            // initialization") in Tone.js's AudioContext setup, because
++            // @tonejs/midi re-imports from `tone` and Rollup produces
++            // chunk-level circular references when they're separated.
+             if (id.includes("tone")) {
+               return "vendor-tone";
+             }
++            // wavesurfer + audiomotion are independent of Tone.js — safe to
++            // keep in their own chunks (each is loaded only from audio code).
+             if (id.includes("wavesurfer")) {
+               return "vendor-wavesurfer";
+             }
+@@ -249,7 +255,10 @@ export default defineConfig(({ mode }) => ({
+             if (id.includes("web-audio-beat-detector") || id.includes("music-tempo")) {
+               return "vendor-bpm";
+             }
+-            if (id.includes("@tonejs")) return "vendor-tonejs-midi";
++            // Note: @tonejs/* intentionally NOT chunked separately.
++            // Manual chunking caused a TDZ crash in Tone.js's AudioContext
++            // setup because @tonejs/midi re-imports from `tone`. The unified
++            // `tone` rule above merges them into vendor-tone.
+             if (id.includes("dompurify")) return "vendor-dompurify";
+             if (id.includes("fast-check")) return "vendor-fastcheck";
+             // Small shared utilities safe to keep bundled together
+-- 
+2.50.1.windows.1
+

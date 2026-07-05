@@ -1,0 +1,441 @@
+From ba879f757ec07cdc31590a6f9b8d2cb828a7fedc Mon Sep 17 00:00:00 2001
+From: HOW2AI <ivan.meer1990@gmail.com>
+Date: Mon, 29 Jun 2026 03:39:27 +0700
+Subject: [PATCH 11/28] chore: initialize documentation refresh specification
+ and planning framework
+
+---
+ .roo/mcp.json                                 |   3 +
+ .roo/rules/specify-rules.md                   |  30 ++++
+ .../checklists/requirements.md                |  34 ++++
+ specs/002-docs-refresh/plan.md                |  68 ++++++++
+ specs/002-docs-refresh/spec.md                |  92 +++++++++++
+ specs/002-docs-refresh/tasks.md               | 154 ++++++++++++++++++
+ 6 files changed, 381 insertions(+)
+ create mode 100644 .roo/mcp.json
+ create mode 100644 .roo/rules/specify-rules.md
+ create mode 100644 specs/002-docs-refresh/checklists/requirements.md
+ create mode 100644 specs/002-docs-refresh/plan.md
+ create mode 100644 specs/002-docs-refresh/spec.md
+ create mode 100644 specs/002-docs-refresh/tasks.md
+
+diff --git a/.roo/mcp.json b/.roo/mcp.json
+new file mode 100644
+index 00000000..da39e4ff
+--- /dev/null
++++ b/.roo/mcp.json
+@@ -0,0 +1,3 @@
++{
++  "mcpServers": {}
++}
+diff --git a/.roo/rules/specify-rules.md b/.roo/rules/specify-rules.md
+new file mode 100644
+index 00000000..d0d9019d
+--- /dev/null
++++ b/.roo/rules/specify-rules.md
+@@ -0,0 +1,30 @@
++# aimusicverse Development Guidelines
++
++Auto-generated from all feature plans. Last updated: 2026-06-29
++
++## Active Technologies
++
++- [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION] (002-docs-refresh)
++
++## Project Structure
++
++```text
++backend/
++frontend/
++tests/
++```
++
++## Commands
++
++cd src; pytest; ruff check .
++
++## Code Style
++
++[e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]: Follow standard conventions
++
++## Recent Changes
++
++- 002-docs-refresh: Added [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
++
++<!-- MANUAL ADDITIONS START -->
++<!-- MANUAL ADDITIONS END -->
+diff --git a/specs/002-docs-refresh/checklists/requirements.md b/specs/002-docs-refresh/checklists/requirements.md
+new file mode 100644
+index 00000000..448c488d
+--- /dev/null
++++ b/specs/002-docs-refresh/checklists/requirements.md
+@@ -0,0 +1,34 @@
++# Specification Quality Checklist: Docs Refresh Audit & Unification
++
++**Purpose**: Validate specification completeness and quality before proceeding to planning
++**Created**: 2026-06-28
++**Feature**: [spec.md](../spec.md)
++
++## Content Quality
++
++- [x] No implementation details (languages, frameworks, APIs)
++- [x] Focused on user value and business needs
++- [x] Written for non-technical stakeholders
++- [x] All mandatory sections completed
++
++## Requirement Completeness
++
++- [x] No [NEEDS CLARIFICATION] markers remain
++- [x] Requirements are testable and unambiguous
++- [x] Success criteria are measurable
++- [x] Success criteria are technology-agnostic (no implementation details)
++- [x] All acceptance scenarios are defined
++- [x] Edge cases are identified
++- [x] Scope is clearly bounded
++- [x] Dependencies and assumptions identified
++
++## Feature Readiness
++
++- [x] All functional requirements have clear acceptance criteria
++- [x] User scenarios cover primary flows
++- [x] Feature meets measurable outcomes defined in Success Criteria
++- [x] No implementation details leak into specification
++
++## Notes
++
++- Checklist validated; ready for planning.
+diff --git a/specs/002-docs-refresh/plan.md b/specs/002-docs-refresh/plan.md
+new file mode 100644
+index 00000000..2709106c
+--- /dev/null
++++ b/specs/002-docs-refresh/plan.md
+@@ -0,0 +1,68 @@
++# Implementation Plan: Docs Refresh Audit & Unification
++
++**Branch**: `002-docs-refresh` | **Date**: 2026-06-28 | **Spec**: [specs/002-docs-refresh/spec.md](./spec.md)
++**Input**: Feature specification from `/specs/002-docs-refresh/spec.md`
++
++**Note**: Generated via `/speckit.plan`; stops at Phase 2 planning.
++
++## Summary
++
++Refresh and unify documentation so auditors, new engineers, and API consumers get a canonical, deduplicated, and tested doc set. Deliverables: doc inventory with dispositions/owners, unified IA + redirects, refreshed quickstart (≤45 minutes target), API doc alignment with canonical OpenAPI reference, and doc quality gates.
++
++## Technical Context
++
++**Language/Version**: Markdown + TypeScript 5.x (tooling), Node.js 20, Vite 5 for site preview
++**Primary Dependencies**: Markdown corpus in `docs/`, React/Vite app shell (for preview), Supabase references (no direct code changes), Telegram Mini App context for terminology
++**Storage**: Git-tracked markdown in repo; redirects as markdown pointers/tables
++**Testing**: Markdown lint + link checking (linkinator or markdown-link-check); spot-check OpenAPI vs docs; no runtime tests expected
++**Target Platform**: Repository consumers (web/github view) + contributors’ local env; mobile-first reading still required by constitution
++**Project Type**: Web/docs (single repo; no backend changes)
++**Performance Goals**: Docs navigation latency negligible; quickstart completion ≤45 minutes by newcomer
++**Constraints**: Constitution non-negotiables (size-limit 950KB for app, single audio source, @/lib/motion import rule) must not be violated; avoid new dependencies that bloat bundle
++**Scale/Scope**: ~100+ docs; scope limited to audit + IA + quickstart + API alignment for this feature
++
++## Constitution Check
++
++_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
++
++- Spec-first and doc-first are satisfied (working inside specs/002-docs-refresh).
++- No framer-motion direct imports; no Supabase calls in components planned (docs-only work) → **PASS**.
++- Performance budget 950KB unchanged (no bundle additions) → **PASS**.
++- Mobile-first reading upheld by keeping touch-target guidance and safe-area notes in docs → **PASS**.
++- Single audio source unaffected (no code paths touched) → **PASS**.
++
++## Project Structure
++
++### Documentation (this feature)
++
++```text
++specs/002-docs-refresh/
++├── plan.md              # This file (/speckit.plan output)
++├── research.md          # Phase 0 output
++├── data-model.md        # Phase 1 output
++├── quickstart.md        # Phase 1 output (doc refresh quickstart)
++├── contracts/           # Phase 1 contracts (API alignment, redirect map schema)
++└── tasks.md             # Phase 2 (NOT created here)
++```
++
++### Source Code / Docs (repository root focus)
++
++```text
++docs/
++├── README.md               # Canonical index (current)
++├── QUICK_START.md          # Existing quickstart to normalize
++├── API.md                  # Canonical API reference entry
++├── INDEX.md / NAVIGATION.md
++├── ... (feature/arch/design/testing subfolders)
++
++specs/                      # Existing specifications
++ADR/                        # Architecture decisions (for ownership cross-links)
++```
++
++**Structure Decision**: Docs-centric work: primary edits in `docs/` (inventory, IA, redirects, quickstart normalization, API alignment notes) and `specs/002-docs-refresh/*` outputs. No new code packages or bundles added.
++
++## Complexity Tracking
++
++| Violation | Why Needed | Simpler Alternative Rejected Because |
++| --------- | ---------- | ------------------------------------ |
++| _None_    | —          | —                                    |
+diff --git a/specs/002-docs-refresh/spec.md b/specs/002-docs-refresh/spec.md
+new file mode 100644
+index 00000000..c74b28ad
+--- /dev/null
++++ b/specs/002-docs-refresh/spec.md
+@@ -0,0 +1,92 @@
++# Feature Specification: Docs Refresh Audit & Unification
++
++**Feature Branch**: `002-docs-refresh`  
++**Created**: 2026-06-28  
++**Status**: Draft  
++**Input**: User description: "проведи аудит проекта и создай спецификацию (specs/002-docs-refresh/spec.md) по оптимизации, улучшению кода и унификации; опирайся на уже готовые plan.md, research.md, data-model.md, contracts/openapi.yaml, quickstart.md в specs/002-docs-refresh"
++
++## User Scenarios & Testing _(mandatory)_
++
++### User Story 1 - Audit & Consolidate Docs (Priority: P1)
++
++A documentation maintainer audits the existing repository docs, identifies duplication/outdated content, and produces a consolidated structure with redirects and clear ownership rules.
++
++**Why this priority**: Consolidation and accuracy are prerequisites for all other improvements and avoid readers consuming stale or conflicting guidance.
++
++**Independent Test**: Validate that an auditor can produce an inventory, flag duplicates/conflicts, and propose a de-duplication/redirect plan without changing product code.
++
++**Acceptance Scenarios**:
++
++1. **Given** the current documentation corpus, **When** the maintainer inventories pages, **Then** duplicates/conflicts are listed with disposition (merge/redirect/archive) and owners.
++2. **Given** legacy links, **When** the structure is updated, **Then** redirects or navigation pointers exist so users reach the canonical page.
++
++---
++
++### User Story 2 - Fast Onboarding via Quickstart (Priority: P2)
++
++A new engineer follows the quickstart and reaches a working baseline environment using the latest repository conventions and terminology in a predictable time.
++
++**Why this priority**: Onboarding speed directly affects productivity and confidence for new contributors.
++
++**Independent Test**: A new engineer can complete the quickstart steps from scratch within the defined target time and without seeking external clarification.
++
++**Acceptance Scenarios**:
++
++1. **Given** a clean workstation, **When** the engineer follows the quickstart, **Then** they obtain a running baseline environment within the target duration and note zero blocking gaps.
++
++---
++
++### User Story 3 - API Consumer Alignment (Priority: P3)
++
++An API consumer can find the canonical contract, example flows, and constraints that align with the published OpenAPI description.
++
++**Why this priority**: Ensures external/internal consumers implement against accurate contracts and reduces support churn.
++
++**Independent Test**: A consumer locates the OpenAPI file, accompanying guides, and sees consistent terminology and examples without mismatches.
++
++**Acceptance Scenarios**:
++
++1. **Given** the API documentation set, **When** the consumer references endpoints, **Then** parameters, status codes, and examples match the OpenAPI contract and describe expected behaviors and limits.
++
++---
++
++### Edge Cases
++
++- Handling bilingual content where RU/EN versions diverge; ensure guidance on prioritization or synchronization.
++- Legacy or external links pointing to archived files; ensure redirect or prominent pointers.
++- Conflicting instructions across different dated guides; ensure a tie-break rule and deprecation note.
++- Content that references deprecated features; ensure archival with context and a replacement pointer.
++
++## Requirements _(mandatory)_
++
++### Functional Requirements
++
++- **FR-001**: Produce a complete inventory of documentation assets with ownership, freshness date, and disposition (keep/merge/redirect/archive).
++- **FR-002**: Define a unified information architecture (sections, hierarchy, navigation patterns) with a single canonical index/entry points.
++- **FR-003**: Establish naming and style conventions (headings, summaries, tone, bilingual handling) and apply them to prioritized pages.
++- **FR-004**: Normalize the quickstart to reflect current repository setup, prerequisites, and expected setup duration with validation steps.
++- **FR-005**: Align API documentation with the OpenAPI contract: surface canonical location, cross-link endpoint guides, and resolve parameter/status/example mismatches.
++- **FR-006**: Remove or merge duplicate/obsolete documents and provide redirect or pointer guidance for any relocated content.
++- **FR-007**: Define and embed quality gates for docs (review checklist, link/markdown lint rules, ownership metadata) without prescribing implementation details.
++- **FR-008**: Specify a change management and versioning approach for docs (release notes, dated archives, and redirect rules for breaking documentation changes).
++- **FR-009**: Document dependencies and assumptions (tooling versions, required access, product feature availability) that affect documentation validity.
++- **FR-010**: Provide measurement plan for documentation health (e.g., broken links count, duplicate pages count, quickstart completion rate and time).
++
++### Key Entities
++
++- **Document Asset**: A maintained page or guide with metadata (owner, freshness date, status, language, canonical path).
++- **Section Taxonomy**: The agreed hierarchy and navigation map for all docs, including canonical entry points and redirect rules.
++- **Quality Gate**: A set of review and linting criteria (checklist items, link/markdown validation, terminology consistency) applied before publishing.
++- **Redirect Mapping**: A list of legacy paths and their canonical targets to preserve link integrity.
++
++## Success Criteria _(mandatory)_
++
++### Measurable Outcomes
++
++- **SC-001**: 100% of documentation assets are inventoried with disposition and owner recorded.
++- **SC-002**: Duplicate/obsolete pages reduced by at least 80% with redirects or deprecation notes in place.
++- **SC-003**: Quickstart can be completed from a clean environment within the target duration (≤45 minutes) by a new contributor without external assistance.
++- **SC-004**: OpenAPI-aligned pages show zero mismatches in parameters/status codes/examples against the contract in spot checks of top endpoints.
++- **SC-005**: All pages in scope include applied style conventions (headings, summaries, terminology) and pass link/markdown lint checks.
++- **SC-006**: Documentation review checklist adopted with 100% completion on refreshed pages before publishing.
++- **SC-007**: No broken links detected in the refreshed scope after consolidation and redirect mapping is applied.
+diff --git a/specs/002-docs-refresh/tasks.md b/specs/002-docs-refresh/tasks.md
+new file mode 100644
+index 00000000..75b82982
+--- /dev/null
++++ b/specs/002-docs-refresh/tasks.md
+@@ -0,0 +1,154 @@
++---
++description: "Task list for Docs Refresh Audit & Unification"
++---
++
++# Tasks: Docs Refresh Audit & Unification
++
++**Input**: Design documents from `/specs/002-docs-refresh/`
++**Prerequisites**: plan.md (required), spec.md (required for user stories)
++
++**Tests**: Tests are OPTIONAL. The spec does not request automated tests; focus on documentation deliverables, inventories, redirects, and alignment checks. Include validation steps where helpful but no code tests.
++
++**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
++
++## Format: `[ID] [P?] [Story] Description`
++
++- **[P]**: Can run in parallel (different files, no dependencies)
++- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
++- Include exact file paths in descriptions
++
++## Phase 1: Setup (Shared Infrastructure)
++
++**Purpose**: Ensure local tooling and guardrails for docs work (no code/runtime changes expected).
++
++- [ ] T001 Document required tooling and commands for docs work in specs/002-docs-refresh/plan.md (link check, markdown lint, OpenAPI spot-check commands)
++- [ ] T002 [P] Verify existing lint/link tooling references (e.g., linkinator/markdown-link-check) and record invocation in specs/002-docs-refresh/plan.md
++- [ ] T003 [P] Establish docs workspace note: primary edit areas and exclusion list in specs/002-docs-refresh/plan.md
++
++---
++
++## Phase 2: Foundational (Blocking Prerequisites)
++
++**Purpose**: Baseline inventory scaffolds and conventions needed before story work.
++
++- [ ] T004 Create docs inventory worksheet scaffold in specs/002-docs-refresh/data-model.md (table headers: path, owner, freshness date, disposition, language, status)
++- [ ] T005 [P] Draft redirect mapping template in specs/002-docs-refresh/contracts/redirects.md (columns: legacy path, canonical target, rationale, status)
++- [ ] T006 [P] Add style/terminology checklist starter in specs/002-docs-refresh/checklists/requirements.md (headings, summaries, bilingual handling, deprecation note format)
++- [ ] T007 Record doc quality gate definition in specs/002-docs-refresh/plan.md (review checklist, link lint, ownership metadata expectation)
++
++**Checkpoint**: Inventory and templates ready; user stories can proceed.
++
++---
++
++## Phase 3: User Story 1 - Audit & Consolidate Docs (Priority: P1) 🎯 MVP
++
++**Goal**: Inventory all docs, identify duplicates/conflicts, propose dispositions and redirects with ownership.
++
++**Independent Test**: Auditor can produce a complete inventory with dispositions/owners and a redirect plan without touching product code.
++
++### Implementation for User Story 1
++
++- [ ] T008 [P] [US1] Inventory docs corpus into specs/002-docs-refresh/data-model.md (fill table; scope docs/, ADR/, specs/ indexes)
++- [ ] T009 [US1] Identify duplicates/conflicts and mark disposition (merge/redirect/archive) in specs/002-docs-refresh/data-model.md
++- [ ] T010 [P] [US1] Propose canonical IA outline and entry points in specs/002-docs-refresh/plan.md (sections, hierarchy, nav pointers)
++- [ ] T011 [US1] Produce redirect map draft in specs/002-docs-refresh/contracts/redirects.md (legacy → canonical targets)
++- [ ] T012 [P] [US1] Define ownership and freshness rules in specs/002-docs-refresh/plan.md (owners per section, update cadence)
++- [ ] T013 [US1] Add deprecation/tie-break guidance (conflicting guides, deprecated features) in specs/002-docs-refresh/plan.md
++- [ ] T014 [US1] Document doc change management/versioning approach in specs/002-docs-refresh/plan.md (release notes, dated archives, redirect rules)
++- [ ] T015 [US1] Summarize measurement plan for doc health in specs/002-docs-refresh/plan.md (broken links count, duplicates count, quickstart time metric)
++
++**Checkpoint**: P1 outputs ready for review (inventory, IA, redirect map, ownership, measurements).
++
++---
++
++## Phase 4: User Story 2 - Fast Onboarding via Quickstart (Priority: P2)
++
++**Goal**: Normalize quickstart to current setup with target time and validation steps.
++
++**Independent Test**: New engineer can follow the quickstart to a working baseline within target time without external help.
++
++### Implementation for User Story 2
++
++- [ ] T016 [US2] Refresh quickstart steps in specs/002-docs-refresh/quickstart.md (prereqs, setup commands, expected duration, checkpoints)
++- [ ] T017 [P] [US2] Align quickstart terminology with IA and style rules in specs/002-docs-refresh/checklists/requirements.md
++- [ ] T018 [US2] Add validation steps and success criteria to specs/002-docs-refresh/quickstart.md (what “done” means, sanity checks)
++- [ ] T019 [P] [US2] Capture blocked/edge-case guidance in specs/002-docs-refresh/quickstart.md (bilingual divergence, deprecated paths)
++
++**Checkpoint**: Quickstart updated and independently runnable per doc guidance.
++
++---
++
++## Phase 5: User Story 3 - API Consumer Alignment (Priority: P3)
++
++**Goal**: Ensure API docs align with canonical OpenAPI and are discoverable with consistent terminology/examples.
++
++**Independent Test**: Consumer can find OpenAPI file and see consistent parameters/status/examples with contract.
++
++### Implementation for User Story 3
++
++- [ ] T020 [P] [US3] Locate canonical OpenAPI reference and document pointer in specs/002-docs-refresh/contracts/openapi-pointer.md (path, version, ownership)
++- [ ] T021 [US3] Spot-check top endpoints vs OpenAPI and log mismatches in specs/002-docs-refresh/contracts/openapi-pointer.md (params/status/examples)
++- [ ] T022 [P] [US3] Add cross-links from API guides to OpenAPI location and IA entries in specs/002-docs-refresh/plan.md
++- [ ] T023 [US3] Document terminology/style alignment for API sections in specs/002-docs-refresh/checklists/requirements.md
++
++**Checkpoint**: API alignment notes and pointers complete; mismatches enumerated.
++
++---
++
++## Phase 6: Polish & Cross-Cutting Concerns
++
++**Purpose**: Final harmonization across stories and readiness checks.
++
++- [ ] T024 [P] Update consolidated IA/redirect pointers into docs/README.md or docs/INDEX.md (add links to canonical entries)
++- [ ] T025 [P] Apply ownership and freshness metadata to priority docs listed in specs/002-docs-refresh/data-model.md
++- [ ] T026 Run link/markdown lint on refreshed scope and note outcomes in specs/002-docs-refresh/plan.md
++- [ ] T027 Capture final doc review checklist in specs/002-docs-refresh/checklists/requirements.md (quality gate ready)
++
++---
++
++## Dependencies & Execution Order
++
++### Phase Dependencies
++
++- **Setup (Phase 1)**: No dependencies.
++- **Foundational (Phase 2)**: Depends on Setup completion; blocks all user stories.
++- **User Stories (Phase 3+)**: Depend on Foundational completion. Execute by priority: P1 → P2 → P3. P2 and P3 can run in parallel after P1 if capacity allows, but IA/redirect outputs from P1 should inform P2/P3.
++- **Polish (Phase 6)**: After targeted user stories complete.
++
++### User Story Dependencies
++
++- **US1 (P1)**: None beyond Foundational; produces IA and redirects consumed by US2/US3.
++- **US2 (P2)**: Should align with IA/terminology from US1.
++- **US3 (P3)**: Should align with IA/terminology from US1; can proceed after US1.
++
++### Parallel Opportunities
++
++- Within Setup/Foundational: tasks marked [P] can run concurrently (T002, T003, T005, T006).
++- After US1 IA draft exists: US2 quickstart refresh (T016–T019) and US3 API alignment (T020–T023) can run in parallel if IA pointers are stable.
++- Polish tasks T024–T027 can run in parallel once all story outputs are available.
++
++---
++
++## Implementation Strategy
++
++### MVP First (User Story 1 Only)
++
++1. Complete Setup (Phase 1)
++2. Complete Foundational (Phase 2)
++3. Complete User Story 1 (Phase 3) → MVP checkpoint
++
++### Incremental Delivery
++
++1. Finish Setup + Foundational
++2. Deliver US1 (inventory, IA, redirects, ownership/measurement)
++3. Deliver US2 (quickstart normalization)
++4. Deliver US3 (API alignment)
++5. Polish
++
++### Parallel Team Strategy
++
++1. Team completes Setup + Foundational together
++2. US1 IA/redirects lead → US2 quickstart and US3 API alignment in parallel once IA stable
++3. Polish after story outputs land
++
++---
+-- 
+2.50.1.windows.1
+
