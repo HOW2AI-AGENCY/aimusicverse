@@ -11,7 +11,6 @@ let mcpPlugin: (() => Plugin) | undefined;
 let visualizer: ((opts: Record<string, unknown>) => Plugin) | undefined;
 let viteCompression: ((opts: Record<string, unknown>) => Plugin) | undefined;
 let hasTerser = false;
-let mcpPlugin: (() => Plugin) | undefined;
 
 try {
   // @ts-ignore — types only exist inside the Lovable pipeline
