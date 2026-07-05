@@ -1,154 +1,64 @@
-# План дальнейших работ
+## Задача 1 — Кнопки «Персона» и «Проект» в форме генерации
 
-## Контекст
+**Диагноз.** В `GenerateFormActions.tsx` клик по чипам вызывает `setProjectDialogOpen(true)` / `setArtistDialogOpen(true)` в `GenerateSheet.legacy.tsx`. Диалоги (`ProjectTrackSelector`, `ArtistSelector`) рендерятся через `GenerateSheetDialogs` как сиблинг `<SheetContent>` внутри `<Sheet>`-Root. Диалоги обёрнуты в `UnifiedDialog(variant="modal")`, который на мобильном автоматически переключается на кастомный `SheetDialog` (`src/components/dialog/variants/sheet.tsx`) с `fixed inset-0 z-[170]`. Проблема — этот кастомный SheetDialog **рендерится в исходное место дерева**, а не в портал, поэтому попадает внутрь Radix-портала внешнего `<Sheet>`. Внешний Radix Sheet имеет `pointer-events: auto` только на content — соседний нестед-диалог получает pointer-events блокировку от Radix focus-scope/dismissable-layer.
 
-По итогам аудита Sprint 039 (см. `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`):
+**Фикс.** Заменить в `ProjectTrackSelector` и `ArtistSelector` вызовы `UnifiedDialog` на нативный shadcn `Sheet`/`Dialog` (тот же, что использует внешний GenerateSheet), либо оборачивать содержимое в `createPortal(..., document.body)`. Более простой путь — использовать `Sheet side="bottom"` из `@/components/ui/sheet`, который правильно портализуется и корректно вложен в Radix-дерево диалогов.
 
-- Batch 1 (admin/analytics) и Batch 4 (misc) закрыты → 35 → 15 нарушений layer-архитектуры
-- `tsc --noEmit`: 0 ошибок
-- E2E workflow `.github/workflows/e2e.yml` создан (требует GitHub Secrets)
-- Остаётся: Batch 2 (project/wizard, 4 файла), Batch 3 (studio/dialogs, 4 файла), god-files, 447 `any`, E2E phase C
+## Задача 2 — Редизайн записи/загрузки голоса в VoiceCloneWizard
 
----
+**Текущее состояние** (`src/components/voice-clone/`):
+- Простая запись через `useVoiceRecorder` (без визуализации волны)
+- Нет прослушивания записи перед отправкой
+- Нет обрезки (trim) диапазона
+- Нет выбора языка (в API уже есть параметр `language`)
+- Разметка Wizard-шагов плотная, плохо читается на 390px
 
-## Sprint 039 — закрытие (3 дня)
+**Что делаю:**
 
-### 039-03b Batch 2 — project/wizard (день 1)
+1. **Waveform-визуализация** — новый компонент `VoiceWaveformEditor.tsx`:
+   - Real-time визуализация уровня во время записи (AnalyserNode + Canvas, 60fps)
+   - Пост-запись: полный waveform через `waveformGenerator.ts` (уже есть в проекте)
+   - Два drag-handle для trim-диапазона (start/end) поверх волны
 
-Файлы (≈9 нарушений):
+2. **Плеер прослушивания** — использует существующий `usePreviewAudio()` хук:
+   - Play/Pause с индикатором позиции поверх waveform
+   - Loop-preview именно trim-диапазона
+   - Прогресс синхронизирован с waveform
 
-- `src/components/project/ProjectCreationWizard.tsx`
-- `src/stores/studio/useProjectStore.ts` (остатки)
-- `src/components/project/ProjectMembersPanel.tsx`
-- `src/hooks/project/useProjectInvites.ts`
+3. **Trim** — нужен только клиентский срез до отправки:
+   - Web Audio API: decode → cut buffer → re-encode в WebM/WAV через `OfflineAudioContext`
+   - Файл `src/lib/audio/trimAudio.ts` (новый)
+   - Отправляем в `voiceCloneApi.uploadSource(...)` уже обрезанный blob
+   - `vocalStartS`/`vocalEndS` считаются от 0 (после реального среза)
 
-Действия:
+4. **Выбор языка** — селектор с 8 языками (ru/en/es/de/fr/it/ja/zh) через shadcn `Select`, дефолт из `navigator.language`. Прокидывается в `voiceCloneApi.validate({ language })`.
 
-1. Расширить `src/api/projects.api.ts`: `createProjectWithMembers`, `fetchProjectMembers`, `inviteProjectMember`, `removeProjectMember`
-2. Убрать прямые `supabase.from/rpc` из компонентов
-3. Прогнать `tsc`, `lint`, `npm test -- project`
-
-### 039-03b Batch 3 — studio/dialogs (день 2)
-
-Файлы (≈6 нарушений):
-
-- `src/components/studio/unified/SaveVersionDialog.tsx`
-- `src/components/studio/unified/LoadVersionDialog.tsx`
-- `src/components/studio/unified/StudioNotationPanel.tsx`
-- `src/components/studio/unified/StudioCollaborationPanel.tsx`
-
-Действия:
-
-1. Расширить `src/api/studio.api.ts`: `saveStudioVersion`, `loadStudioVersions`, `fetchNotationData`, `fetchCollaborators`
-2. Замена прямых вызовов
-3. Прогон Studio smoke-test через Playwright (3 сценария: save/load/notation)
-
-### 039-11 E2E CI — финализация (день 3)
-
-- Добавить GitHub Secrets: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`
-- Прогнать e2e локально (`npm run test:e2e:chromium`) и через workflow_dispatch
-- Зафиксировать baseline зелёного прогона
-
-### Регрессия и документация
-
-- `grep -rn "supabase\.\(from\|rpc\|storage\)" src/{components,pages,stores}` → 0 ожидаемых
-- Обновить `docs/audit/SPRINT-039-AUDIT-2026-06-30.md` (финальные метрики)
-- Закрыть `SPRINTS/SPRINT-039-PLAN.md` (все задачи ✅)
-- `PROJECT_STATUS.md`: бамп до Sprint 039 complete, 96% прогресс
-- `CHANGELOG.md`: запись `[Unreleased] → 0.39.0`
-- `README.md`: обновить блок «Sprint Status» и метрики (components/hooks/stores/api/services)
-
----
-
-## Sprint 040 — Type Safety & God Files (2 недели)
-
-### 040-01 Реклассификация `any` (5 дней)
-
-Цель: 447 → <50 в `src/`
-
-- День 1: `src/hooks/` (~180 случаев) — типизация Supabase responses, generic hooks
-- День 2: `src/stores/` (~80) — Zustand slice types
-- День 3: `src/pages/` (~90) — props, route params
-- День 4: `src/components/` остатки (~90)
-- День 5: ESLint rule `@typescript-eslint/no-explicit-any: error` с whitelist
-
-### 040-02 God-file split (5 дней)
-
-| Файл                       | LOC  | Цель                                     |
-| -------------------------- | ---- | ---------------------------------------- |
-| `LyricsStudio.tsx`         | 1092 | 3 sub-component (Editor/Preview/Toolbar) |
-| `usePromptDJEnhanced.ts`   | 1071 | 4 хука (state/audio/effects/presets)     |
-| `IntegratedStemTracks.tsx` | 872  | Stem rows + controls                     |
-| `UnifiedNotesViewer.tsx`   | 855  | Viewer + Toolbar + List                  |
-| `ProjectDetail.tsx`        | 851  | Header / Tracks / Members                |
-| `LyricsVisualEditor.tsx`   | 812  | Editor / Timeline / Sidebar              |
-
-Критерий: каждый файл <500 LOC, тесты зелёные, bundle ≤ 880 KB.
-
-### 040-03 Bundle hardening (2 дня)
-
-- Замер `npm run size:why`
-- Удалить дубли design tokens (`src/lib/design-tokens.ts` vs inline)
-- Целевой бюджет: 880 KB (с текущих 918)
-
-### Документация Sprint 040
-
-- `SPRINTS/SPRINT-040-PLAN.md` — создать с задачами 040-01/02/03
-- `ROADMAP.md` — добавить Sprint 040 в Q3 2026
-- `ARCHITECTURE_HUB.md` — обновить раздел Type Safety
-
----
-
-## Sprint 041 — UX features (1 неделя)
-
-Из `docs/todo_analysis.md`:
-
-- `IdeaStep`: AI-подсказки (Lovable AI Gateway, `google/gemini-2.5-flash`)
-- `LyricsStep`: генерация текста по идее
-- `LyricsView`: повторное чтение лирики (TTS)
-- `useStudioAudioEngine`: loop / export / recording
-
-Документация:
-
-- `SPRINTS/SPRINT-041-PLAN.md` — создать
-- `KNOWN_ISSUES_TRACKED.md` — обновить с прогрессом
-
----
+5. **Разметка** (mobile-first, 390px):
+   - Убираю плотный wizard-header, оставляю шаг + прогресс тонкой чертой
+   - Waveform во всю ширину, 96px высотой
+   - Trim-handles 44×44 touch target
+   - Плеер + trim-контролы в одну плитку под волной
+   - Селектор языка + название голоса в свернутой карточке "Настройки"
+   - Кнопки действий: секция снизу, safe-area, sticky
 
 ## Технические детали
 
-### Команды проверки
+**Задача 1** — правки в двух файлах:
+- `src/components/generate-form/ProjectTrackSelector.tsx` — заменить `UnifiedDialog` на `Sheet` из `@/components/ui/sheet` с `side="bottom"`
+- `src/components/generate-form/ArtistSelector.tsx` — то же
 
-```bash
-# layer violations
-grep -rn "supabase\.\(from\|rpc\|storage\)" src/{components,pages,stores} | wc -l
+**Задача 2** — новые/обновлённые файлы:
+- `src/lib/audio/trimAudio.ts` — Web Audio trim + WAV encoder (новый, ~80 LOC)
+- `src/components/voice-clone/VoiceWaveformEditor.tsx` — waveform + trim + play (новый, ~200 LOC)
+- `src/components/voice-clone/steps/RecordStep.tsx` — переработка разметки, интеграция VoiceWaveformEditor
+- `src/components/voice-clone/steps/UploadStep.tsx` — то же (если есть отдельный шаг)
+- `src/components/voice-clone/VoiceCloneWizard.tsx` — селектор языка, прогресс, sticky footer
 
-# any usage
-grep -rEn ": any|as any" src/ --include="*.ts" --include="*.tsx" | wc -l
+**Что не трогаю:**
+- Edge-функции `suno-voice-*` (только фронт)
+- `useVoiceRecorder` (API совместимо, добавляю MediaStream-выход для AnalyserNode)
+- Общий стиль tokens/`design-tokens.ts`
 
-# god files
-find src -name "*.ts" -o -name "*.tsx" | xargs wc -l | awk '$1 > 800'
+## Вопрос перед стартом
 
-# E2E
-npm run test:e2e:chromium
-```
-
-### Файлы для обновления (итого)
-
-- `SPRINTS/SPRINT-039-PLAN.md` (close)
-- `SPRINTS/SPRINT-040-PLAN.md` (new)
-- `SPRINTS/SPRINT-041-PLAN.md` (new)
-- `PROJECT_STATUS.md`
-- `README.md`
-- `CHANGELOG.md`
-- `ROADMAP.md`
-- `ARCHITECTURE_HUB.md`
-- `docs/audit/SPRINT-039-AUDIT-2026-06-30.md`
-
----
-
-## Definition of Done
-
-**Sprint 039:** 0 layer violations, E2E зелёный, документация синхронизирована.
-**Sprint 040:** <50 `any`, все файлы <500 LOC, bundle ≤880 KB.
-**Sprint 041:** 4 UX-фичи в проде, фидбэк собран.
+Задачи независимы — можно делать параллельно. Если ок, стартую с обеих. Если нужно приоритизировать — какая первая?
