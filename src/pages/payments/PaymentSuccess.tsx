@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { logger } from "@/lib/logger";
 import { motion, AnimatePresence } from "@/lib/motion";
-import confetti from "canvas-confetti";
+import { confetti } from "@/lib/confetti";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { SubscriptionSuccessPopup } from "@/components/popups/SubscriptionSuccessPopup";
 import { cn } from "@/lib/utils";

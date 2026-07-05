@@ -12,7 +12,12 @@
 1. **[README.md](../README.md)** — Обзор проекта
 2. **[QUICK_START.md](QUICK_START.md)** — Быстрый старт за 5 минут
 3. **[ONBOARDING.md](ONBOARDING.md)** — Полный онбординг
+   <<<<<<< HEAD
 4. **[NAVIGATION_GUIDE.md](./archive/2026-06-27/NAVIGATION_GUIDE.md)** — Навигация по репозиторию
+   \=======
+5. **[NAVIGATION_GUIDE.md](./NAVIGATION.md)** — Навигация по репозиторию
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 ---
 
@@ -425,7 +430,13 @@ graph LR
 ## 🔗 Связанные документы
 
 - **[DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)** — Полный индекс
+  <<<<<<< HEAD
 - **[NAVIGATION_GUIDE.md](./archive/2026-06-27/NAVIGATION_GUIDE.md)** — Навигация по репозиторию
+  \=======
+- **[NAVIGATION_GUIDE.md](./NAVIGATION.md)** — Навигация по репозиторию
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 - **[REPOSITORY_STRUCTURE.md](../REPOSITORY_STRUCTURE.md)** — Структура репозитория
 - **[CONTRIBUTING.md](../CONTRIBUTING.md)** — Руководство по контрибуции
 

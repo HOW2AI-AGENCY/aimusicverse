@@ -14,6 +14,12 @@
 
 **Made with ❤️ by the [MusicVerse AI](https://github.com/HOW2AI-AGENCY/aimusicverse) team**
 
+<<<<<<< HEAD
 <sub>Last updated: <!-- DATE --> · [Report issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new)</sub>
+=======
+
+<sub>Last updated: <!-- DATE --> · [Report issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) · [Discuss](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)</sub>
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 </div>

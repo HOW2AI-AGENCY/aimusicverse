@@ -24,6 +24,20 @@
 
 ## [Unreleased]
 
+### 🟢 Sprint 050-A1/A2/B6 — main-green фиксы после лендинга 055 + полный lychee-инвентарь (2026-07-04, ночь)
+
+#### Performance
+
+- **050-B6:** `canvas-confetti` (~20 КБ gzip) переведён на dynamic import через новый враппер [src/lib/confetti.ts](src/lib/confetti.ts) — 5 компонентов (reward notification, welcome bonus, subscription/payment success) больше не тянут его в свои чанки; `lamejs` и `qrcode` уже были динамическими. size-limit: все 10 бюджетов зелёные (Total 2.22 МБ / 2.3 МБ).
+
+#### Fixed
+
+- **`vite build` был сломан вне Lovable-песочницы** (включая CI build-джобу): `vite.config.ts` статически импортировал `@lovable.dev/mcp-js`, который резолвится только в приватный реестр Lovable (`europe-west1-npm.pkg.dev`). Переведён на существующий optional-dependency паттерн (try/await + `mcpPlugin?.()`).
+
+- **5 ошибок `tsc` на `main`** из Sprint 055: `'feature_usage'` не входит в `EventType` (канонично `'feature_used'`) — `useSunoCancel`, `useOpenGenerateFromDeeplink`, `useCreditsLimits` + 2 теста. Unit 340/340.
+- **Prettier-дрейф** в `.lovable/mcp/manifest.json` и `supabase/functions/mcp/index.ts` (прямые коммиты мимо хуков).
+- **139 битых file-ссылок → 0** по всем сканируемым lychee .md (ранний диагноз «7 ссылок» был по усечённому CI-логу): созданы недостающие [docs/sprints/SPRINT-053-RETRO.md](docs/sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md), [SPRINTS/SPRINT-051-PLAN.md](SPRINTS/SPRINT-051-PLAN.md); исправлены relative-глубины в 055-планах, шаблонах, MANIFEST-053-054, ARCHIVE, PROGRESS, ru/-доках, ADR; `musicverse.ai` исключён из link-check (домен не отвечает); ссылки на выключенные GitHub Discussions заменены на Issues.
+
 ### 🎯 Sprint 052-C — Storybook + i18n cleanup (2026-07-05)
 
 > Commit `93beb2f1` — pure-Dumb декомпозиция, Storybook stories, i18n strings extraction. Sprint 052 теперь **100% complete**.
@@ -88,7 +102,13 @@
 
 #### Removed
 
+<<<<<<< HEAD
+
 - **`supabase/functions/suno-check-status/`** (449 LOC dead code) — graphify + grep подтвердили zero client callers. Callbacks уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. Alias `[functions.suno-check-status]` удалён из `supabase/config.toml`. **054-A9 (миграция 5 hooks) — NOT APPLICABLE** (см. [SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md)): 3 хука не существуют, 2 не используют `suno-check-status`. Hook `useSunoTaskDetails` готов для **будущих** Suno polling use-cases.
+  \=======
+- **`supabase/functions/suno-check-status/`** (449 LOC dead code) — graphify + grep подтвердили zero client callers. Callbacks уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. Alias `[functions.suno-check-status]` удалён из `supabase/config.toml`. **054-A9 (миграция 5 hooks) — NOT APPLICABLE** per [SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md): 3 хука не существуют, 2 не используют `suno-check-status`. Hook `useSunoTaskDetails` готов для **будущих** Suno polling use-cases.
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 #### Tests
 

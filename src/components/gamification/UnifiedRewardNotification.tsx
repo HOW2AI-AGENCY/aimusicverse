@@ -16,7 +16,7 @@
 import { motion, AnimatePresence } from "@/lib/motion";
 import { useEffect, useState, memo, useCallback } from "react";
 import { Coins, Sparkles, Star, Flame, Trophy, Crown, Zap, Gift, TrendingUp, X, PartyPopper, Check } from "@/lib/icons";
-import confetti from "canvas-confetti";
+import { confetti } from "@/lib/confetti";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { backdrop, pill } from "@/lib/overlay-colors";

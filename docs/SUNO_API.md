@@ -657,7 +657,13 @@ export async function fetchSunoTaskDetails(taskType: SunoTaskType, taskId: strin
 
 #### Cleanup dead code (054-A7')
 
+<<<<<<< HEAD
 **Удалено:** `supabase/functions/suno-check-status/index.ts` (449 LOC, dead code — файл удалён) + alias `[functions.suno-check-status]` в `supabase/config.toml`.
+=======
+
+**Удалено:** `supabase/functions/suno-check-status/index.ts` (449 LOC) + alias `[functions.suno-check-status]` в `supabase/config.toml`.
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
 
 **Причина:** graphify + grep подтвердили — **zero client callers**. Callbacks (`suno-music-callback`, `suno-cover-callback`, и т.д.) уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. Polling edge был пережитком Sprint 052 retro. Теперь клиентский polling идёт напрямую через `useSunoTaskDetails` generic hook (см. ниже).
 
@@ -808,5 +814,11 @@ sequenceDiagram
 
 - 📖 [Официальная документация](https://docs.sunoapi.org)
 - 💬 [Discord сообщество](https://discord.gg/suno)
+  <<<<<<< HEAD
 - 🐛 GitHub Issues — `https://github.com/sunoai/api/issues` (недоступно на момент проверки)
+  \=======
+- 🐛 [GitHub Issues](https://docs.sunoapi.org/)
+
+> > > > > > > claude/sprint-closure-planning-m6skuk
+
 - 📧 [Email поддержка](mailto:support@suno.com)
