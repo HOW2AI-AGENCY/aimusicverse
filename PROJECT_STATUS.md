@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-056_in_progress-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-050_in_progress-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-292_passing-10B981?style=for-the-badge"/>
@@ -30,6 +30,33 @@
 
 > [!NOTE]
 > Обновляется еженедельно во время ревью спринта. Для статуса CI в реальном времени см. [вкладку Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
+
+## 🆕 Sprint 052-C Cleanup завершён (2026-07-05) ✅
+
+**Commit:** `93beb2f1` — Sprint 052 теперь **100% complete**
+
+**Выполненные задачи:**
+
+1. **Storybook stories для MashupDialog** — 6 состояний (Empty/Filled/Loading/Success/Mobile/Desktop)
+2. **i18n strings для Mashup/Persona flows** — извлечены все хардкодные RU-строки из `GenerationResultSheet.tsx`
+3. **Sprint 050-A2:** Фикс 7 сломанных ссылок в `docs/VOICE_CLONING_INTEGRATION.md`
+4. **Sprint 050-A5:** Разрешение lockfile конфликта (bun.lock → package-lock.json only)
+
+**Созданные файлы:**
+
+- `SPRINTS/050-A1-E2E-BLOCKER.md` — документация E2E blocker
+- `SPRINTS/050-A4-PHASE2-INSTRUCTIONS.md` — инструкции для branch protection Phase 2
+- `src/stories/mashup/MashupDialog.stories.tsx` — 6 Storybook stories
+- `LOCKFILE_DECISION.md` — обоснование выбора package-lock.json
+
+**Метрики прогресса:**
+
+- Sprint 052: 10/10 + cleanup ✅ → **100% complete**
+- Хардкодные RU-строки в GenerationResultSheet: 7 → 0 (**-100%**)
+- Storybook stories: 5 → 11 (+120%)
+- Блокеры Sprint 050: 3 → 2 (E2E dependency, branch protection)
+
+---
 
 ## 🆕 Прямые хотфиксы в main из Lovable (2026-07-04, ночь)
 
@@ -522,9 +549,13 @@ mindmap
       Хранилище
 ```
 
-## ✅ Последние достижения (Sprint 052, июль 2026)
+## ✅ Последние достижения (2026-07-05)
 
-- ✅ **Sprint 052-C cleanup (2026-07-05):** Storybook stories + i18n strings — созданы 6 Storybook stories для `MashupDialog` (Empty/Filled/Loading/Success/Mobile/Desktop), извлечены все хардкодные RU-строки из `GenerationResultSheet.tsx` в `MASHUP_STRINGS` (persona.validation._, generationResult._). Sprint 052 теперь **100% complete**.
+- ✅ **Sprint 052-C cleanup:** Storybook stories + i18n strings — созданы 6 Storybook stories для `MashupDialog` (Empty/Filled/Loading/Success/Mobile/Desktop), извлечены все хардкодные RU-строки из `GenerationResultSheet.tsx` в `MASHUP_STRINGS` (persona.validation._, generationResult._). Sprint 052 теперь **100% complete**.
+
+- ✅ **Sprint 050-A2 + A5:** Docs links + lockfile resolution — исправлены 7 сломанных ссылок в `VOICE_CLONING_INTEGRATION.md`, разрешён конфликт `bun.lock` vs `package-lock.json` (decision: use package-lock.json only).
+
+- ✅ **Блокеры документированы:** Созданы `050-A1-E2E-BLOCKER.md` и `050-A4-PHASE2-INSTRUCTIONS.md` с готовыми решениями.
 - ✅ **Sprint 050-A2 + A5 (2026-07-05):** Docs links + lockfile resolution — исправлены 7 сломанных ссылок в `VOICE_CLONING_INTEGRATION.md`, разрешён конфликт `bun.lock` vs `package-lock.json` (decision: use package-lock.json only).
 - ✅ **Sprint 052 (8/10 → 10/10 ✅):** Suno API gap closure — 3 категории закрыты: Mashup (`suno-mashup` + `MashupDialog`), Persona (`suno-persona` + `suno-persona-callback` + «Create Persona» кнопка в `GenerationResultSheet`), File Upload (`suno-file-upload` + рефакторинг `suno-upload-cover/extend` через общий `_shared/suno-file-uploader.ts` → экономия ~80 строк дублей). DB миграция `track_personas` + RLS. Telegram `/mashup` команда + deep-link `startapp=mashup_<id>`. E2E `tests/e2e/suno-mashup.spec.ts`.
 - ✅ **Sprint 044 (7/7 100%):** Type Safety Wave 2 — `any` в `src/hooks/**` 164 → 6, в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result` (`VoiceCloneService`, `AudioAnalysisService`, `ReferenceManager`); ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs`.
