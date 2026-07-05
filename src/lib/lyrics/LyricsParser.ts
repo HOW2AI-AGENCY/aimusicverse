@@ -8,62 +8,13 @@
  * - Solo descriptors: [Instrumental Solo: Guitar | Shredding | High Gain]
  * - Dynamic effects: [!crescendo], [!build_up]
  * - Silence tags: [Stop], [Silence]
+ *
+ * Types extracted to ./types.ts (Sprint 051 decomposition)
  */
 
-export interface ParsedLyrics {
-  raw: string;
-  title?: string;
-  style?: string;
-  sections: LyricsSection[];
-  tags: {
-    structural: string[];
-    vocal: string[];
-    dynamic: string[];
-    instrumental: string[];
-    emotional: string[];
-    compound: string[];
-    transform: string[];
-    effect: string[];
-  };
-  isValid: boolean;
-  warnings: string[];
-  syllableAnalysis?: SyllableAnalysis[];
-  tagValidation?: TagValidationResult;
-}
+import type { ParsedLyrics, LyricsSection, SectionTag, SyllableAnalysis, TagValidationResult } from "./types";
 
-export interface LyricsSection {
-  id: string;
-  name: string;
-  type: "intro" | "verse" | "pre-chorus" | "chorus" | "bridge" | "outro" | "instrumental" | "solo" | "other";
-  content: string;
-  tags: SectionTag[];
-  startLine: number;
-  endLine: number;
-}
-
-export interface SectionTag {
-  type: "structural" | "vocal" | "dynamic" | "instrumental" | "emotional" | "compound" | "transform" | "effect";
-  value: string;
-  format: "bracket" | "parenthesis" | "compound";
-  parts?: string[]; // For compound tags
-}
-
-export interface SyllableAnalysis {
-  line: string;
-  lineNumber: number;
-  syllableCount: number;
-  isOptimal: boolean; // 6-12 syllables
-  suggestion?: string;
-}
-
-export interface TagValidationResult {
-  isValid: boolean;
-  conflicts: [string, string, string][]; // [tag1, tag2, reason]
-  russianTags: string[];
-  missingEnd: boolean;
-  overloadedLines: number[];
-  duplicateSections: string[];
-}
+export type { ParsedLyrics, LyricsSection, SectionTag, SyllableAnalysis, TagValidationResult };
 
 // V5 Syntax Patterns
 const COMPOUND_TAG_REGEX = /\[([^\]]+\s*\|\s*[^\]]+)\]/g;
