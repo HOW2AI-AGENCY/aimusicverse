@@ -1,6 +1,6 @@
 // src/components/generate-sheet/GenerateSheetFooter.tsx
 import { useState } from "react";
-import { Sparkles, Loader2 } from "@/lib/icons";
+import { Sparkles, Loader2, Coins } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
