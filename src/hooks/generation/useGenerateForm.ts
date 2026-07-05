@@ -190,7 +190,7 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     // ─── retry state ────────────────────────────────────────────────
     isRetrying: actions.isRetrying,
     retryCount: actions.retryCount,
-    nextRetryIn: actions.nextRetryIn,
+    nextRetryIn: actions.nextRetryIn ?? 0,
     canRetry: actions.canRetry,
     cancelRetry: actions.cancelRetry,
 
