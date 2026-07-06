@@ -67,12 +67,22 @@ describe("lyrics-validation.service", () => {
 
   describe("validateSaveLyricsRequest", () => {
     it("rejects request without content", () => {
-      const result = validateSaveLyricsRequest({ content: "", changeType: "manual_edit", trackId: "t1", authorId: "u1" });
+      const result = validateSaveLyricsRequest({
+        content: "",
+        changeType: "manual_edit",
+        trackId: "t1",
+        authorId: "u1",
+      });
       expect(result.isValid).toBe(false);
     });
 
     it("rejects request without trackId", () => {
-      const result = validateSaveLyricsRequest({ content: "Hello", changeType: "manual_edit", trackId: "", authorId: "u1" });
+      const result = validateSaveLyricsRequest({
+        content: "Hello",
+        changeType: "manual_edit",
+        trackId: "",
+        authorId: "u1",
+      });
       expect(result.isValid).toBe(false);
     });
 
