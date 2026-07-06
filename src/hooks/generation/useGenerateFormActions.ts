@@ -50,7 +50,7 @@ export function useGenerateFormActions(deps: UseGenerateFormActionsDeps): UseGen
     customVoiceId: deps.customVoiceId,
     isPublic: deps.isPublic,
     artists: deps.artists as ArtistRow[] | undefined,
-    activeReference: deps.activeReference,
+    activeReference: deps.activeReference as never,
     clearAudioReference: deps.clearAudioReference,
     loading: deps.loading,
     setLoading: deps.setLoading,
