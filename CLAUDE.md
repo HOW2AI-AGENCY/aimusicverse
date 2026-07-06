@@ -505,12 +505,12 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: **052 (10/10) + 052-C cleanup ✅** (Suno Mashup/Persona/Upload + pure-Dumb `MashupFormFields` + 5 Storybook stories + `MASHUP_STRINGS`, retro [docs/sprints/SPRINT-052-RETRO.md](docs/sprints/SPRINT-052-RETRO.md)); Sprint 050 (Main Green + Mobile Audit F1–F12) — в работе, A0 (P0-хотфикс typecheck, PR #576/#577) закрыта. Операционный план закрытия — [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md); план на 2-4 недели — [SPRINTS/NEXT-SPRINTS-PLAN.md](SPRINTS/NEXT-SPRINTS-PLAN.md). См. сноску о нумерации в [PROJECT_STATUS.md](PROJECT_STATUS.md)
+- Sprint: **051 ✅ Complete** (Test Debt Phase A-C: god-file decomposition 9/9 done + API/Service тесты), Sprint **055 ✅ Complete** (UX P0/P1 Fixes 13/13), Sprint **056 ✅ Complete** (GenerateSheet Redesign + Storybook), Sprint **053+054 ✅ Complete** (Suno API 28/28 — 100% покрытие). Design-review проведён 2026-07-06 (Score C+, AI Slop B). План на 2-4 недели — [FUTURE_WORK_PLAN.md](FUTURE_WORK_PLAN.md).
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
-- Components: 1136, Hooks: 419, Stores: 27, API files: 24, Services: 56 (verified 2026-07-04)
-- Bundle Size: 2.11 MB gzip total across all chunks (`size-limit`'s "Total Bundle" check sums every chunk including admin/studio/lazy pages, not just what a given page loads — the previously-cited "918 KB" figure was stale). Real eager JS on cold page load (what actually competes for bandwidth on first paint): ~508 KB gzip after the 2026-07-03 homepage/bundle fixes (down from ~1.19 MB) — see `docs/BUNDLE_ANALYSIS.md`
-- Unit Tests: 292 passing (20 test files — фактический прогон `npm test` 2026-07-04; ещё 25 файлов в `tests/unit/` не исполняются vitest include — задача Sprint 051), Storybook: 4 stories, E2E: 47 specs
-- Key Issues: 0 layer-boundary violations (после Sprint 043), 0/50 `any` budget в production (`no-explicit-any: error` в ESLint; whitelist ~85 слотов в `scripts/count-any.mjs` — см. сноску в [PROJECT_STATUS.md](PROJECT_STATUS.md)), 9 файлов >800 LOC (Sprint 051 — декомпозиция под защитой тестов), rules-of-hooks теперь `"error"`
+- Components: 1037, Hooks: 413, Stores: 12, API files: 26, Services: 12 *.service.ts (верифицировано 2026-07-06)
+- Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks. См. [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)
+- Unit Tests: **1497 passing** (125 test files, 123 passed + 2 skipped), E2E: 56 specs
+- Key Issues: 0 layer-boundary violations, 0/50 `any` budget, **0 файлов >800 LOC** (исключая generated types.ts и статический drum-kits.ts), tsc 0 errors, rules-of-hooks `"error"`
 - Overall Progress: 99% (49 sprints complete in PROJECT_STATUS; в SPRINT-PROGRESS.md — компактная нумерация до 045)
 
 ## Telegram Bot Integration
@@ -610,7 +610,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-07-04, поздний вечер (Sprint 052-C cleanup закрыт — pure-Dumb `MashupFormFields` + `MASHUP_STRINGS` + 5 Storybook stories; P0-хотфикс typecheck влит в main, Sprint 050 в работе; план на 2-4 недели — SPRINTS/NEXT-SPRINTS-PLAN.md)
+**Last Updated:** 2026-07-06 (Sprint 051 завершён — god-file decomposition 9/9 + 1497 unit-тестов; tsc 0 errors; Sprint 053+054 ✅ Suno API 28/28; Sprint 055 ✅ UX Fixes; Sprint 056 ✅ GenerateSheet; design-review C+/B; план — FUTURE_WORK_PLAN.md)
 
 ## graphify
 

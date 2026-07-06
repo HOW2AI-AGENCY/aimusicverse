@@ -1,228 +1,173 @@
-# План дальнейших работ MusicVerse AI (2026-07-06)
+# План дальнейших работ MusicVerse AI
 
-**Дата:** 6 июля 2026  
-**Статус проекта:** 99% complete, 925 passing unit tests  
-**Фокус:** Стабилизация + тестовое покрытие + закрытие техдолга
-
----
-
-## 🎯 Текущее состояние
-
-### ✅ Завершённые спринты (2026-07-05/06)
-
-- **Sprint 052-C cleanup** ✅ — Storybook stories + i18n strings (100% complete)
-- **Sprint 055** ✅ — UX Critical Fixes (13/13 P0/P1 tasks)
-- **Sprint 056** ✅ — GenerateSheet Redesign + Storybook (Phase A-D complete)
-- **Sprint 050 Phase A+B** ✅ — Main Green + Mobile Audit F1–F12
-- **Sprint 053** ✅ — Suno Sounds + MIDI Direct + Boost Style
-- **Sprint 054** ✅ — Suno Details Suite (28/28 Suno API endpoints)
-
-### 🔄 В работе
-
-- **Sprint 051 T056** — декомпозиция god files (5/9 done)
-- **Sprint 050-A4 Phase 2** — branch protection required checks
+**Дата:** 2026-07-06
+**Статус:** 99% complete, 1497 unit tests passing, tsc 0 errors
+**Фокус:** Стабилизация CI → E2E → i18n → Новые фичи
 
 ---
 
-## 📋 План на ближайшие 2-3 недели
+## 🎯 Текущее состояние (верифицировано 2026-07-06)
 
-### Priority 1: Завершение Sprint 050 — Branch Protection Phase 2
+| Метрика             | Значение                      | Статус |
+| ------------------- | ----------------------------- | ------ |
+| Unit tests          | 1497 passing (123/125 files)  | ✅     |
+| TypeScript          | 0 errors                      | ✅     |
+| E2E specs           | 56 (статус CI не подтверждён) | 🟡     |
+| Components          | 1037                          | ✅     |
+| Hooks               | 413                           | ✅     |
+| API files           | 26                            | ✅     |
+| Services            | 12 *.service.ts               | ✅     |
+| Stores              | 12                            | ✅     |
+| Suno edge functions | 46 (28/28 API — 100%)         | ✅     |
+| Files >800 LOC      | 0 (исключая generated)        | ✅     |
+| `any` budget        | 0/50                          | ✅     |
+| Bundle eager JS     | ~508 KB gzip                  | ✅     |
+| Design Score        | C+ (AI Slop: B)               | 🟡     |
 
-**Задача:** Добавить required CI checks к ruleset `18508298`
+### ✅ Завершённые спринты
 
-**Блокеры:** ✅ Разблокировано — Sprint 050-A6 (format fix-up) завершён
+- **Sprint 051** — Test Debt: god-file decomposition 9/9, 1497 unit tests
+- **Sprint 053** — Suno Sounds + MIDI Direct + Boost Style
+- **Sprint 054** — Suno Details Suite (28/28 Suno API — 100%)
+- **Sprint 055** — UX Critical Fixes (P0/P1 — 13/13)
+- **Sprint 056** — GenerateSheet Redesign + Storybook (31 story)
 
-**Действия:**
+---
 
-1. Добавить `pull_request` rule (0 approvals для self-merge)
-2. Добавить `required_status_checks: [quality, build, smoke]`
-3. Проверить работу CI на test PR
+## 📋 Приоритеты (июль 2026)
 
-**Ожидаемый результат:** Force-push и прямые коммиты заблокированы, все PR проходят через CI
+### P0: Branch Protection Phase 2
+
+**Задача:** Добавить required CI checks к ruleset `18508298`.
+
+- [x] Phase 1: запрет force-push + deletion + linear history
+- [ ] Phase 2: `required_status_checks: [quality, build, smoke]`
+- [ ] Добавить `pull_request` rule (0 approvals для self-merge)
+- [ ] Проверить работу на test PR
 
 **Срок:** 1 день
+**Блокеры:** нет (050-A6 format fix-up завершён)
 
 ---
 
-### Priority 2: Sprint 051 — Test Debt + God Files Decomposition
+### P1: E2E стабилизация
 
-**Цель:** 925 → 450+ unit tests, 0 файлов >800 строк
+**Текущее:** 56 specs, статус в CI не подтверждён.
 
-#### Phase A: Завершить декомпозицию (4 remaining files)
+- [ ] Запустить полный E2E-прогон в GitHub Actions
+- [ ] Починить падающие тесты (ожидаемые: таймауты, flaky-селекторы)
+- [ ] `waitForLoadState("networkidle")` → локатор-ожидания (Suno mashup spec)
+- [ ] Добавить E2E-smoke в Quality & Build workflow
 
-| Файл                       | Текущий LOC | Целевое разбиение                          | Статус |
-| -------------------------- | ----------- | ------------------------------------------ | ------ |
-| `IntegratedStemTracks.tsx` | 700+        | StemPlayer / StemControls / StemVisualizer | 🔄     |
-| `LyricsVisualEditor.tsx`   | 700+        | Editor / Toolbar / Timeline                | 🔄     |
-| `UnifiedNotesViewer.tsx`   | 700+        | NotesList / NoteEditor / NotesHeader       | 🔄     |
-| `AudioAnalysisService.ts`  | 700+        | AnalysisService + helpers                  | 🔄     |
-
-#### Phase B: Unit tests для API + Service слоёв
-
-**Цель:** +150-200 unit tests (текущие 925 → 1075+)
-
-**Приоритеты:**
-
-1. `src/api/*.api.ts` (20 файлов) — по 3-5 тестов каждый
-2. `src/services/*.service.ts` (18 файлов) — по 5-8 тестов каждый
-3. TanStack Query mutations:
-   - `useSunoMashup` — 5 тестов
-   - `useSunoPersona` — 5 тестов
-   - `useSunoFileUpload` — 5 тестов
-
-#### Phase C: Включить неисполняемые тесты
-
-**Проблема:** 25 файлов в `tests/unit/` не подхватываются vitest include
-
-**Решение:**
-
-1. Расширить include-паттерн в `vitest.config.ts`
-2. Прогнать полный suite
-3. Починить fallback'и
-
-**Ожидаемый результат:** 925 → 1100+ unit tests, все исполняются в CI
-
-**Срок:** 10-12 дней
+**Срок:** 4-5 дней
+**Метрика:** 56/56 passing в CI
 
 ---
 
-### Priority 3: Documentation + Process
+### P1: i18n-старт (EN/RU)
 
-#### A. Ретроспективы и документация
+**Контекст:** Все UI-строки на русском. Английская локализация для международного рынка.
 
-**Задачи:**
+- [ ] Установить `react-i18next` + `i18next-browser-languagedetector`
+- [ ] Создать `src/i18n/locales/{en,ru}.json`
+- [ ] Мигрировать `MASHUP_STRINGS` как пилотный домен на `t('mashup.*')`
+- [ ] Переключатель языка в настройках профиля
+- [ ] RU — primary (текущие строки), EN — перевод
 
-- [ ] Sprint 053 retro (SPRINT-053-RETRO.md)
-- [ ] Sprint 054 retro (SPRINT-054-RETRO.md)
-- [ ] Sprint 055 retro (SPRINT-055-RETRO.md)
-- [ ] Sprint 056 retro (SPRINT-056-RETRO.md)
-- [ ] Обновить PROJECT_STATUS.md (текущий спринт: 057)
-- [ ] Обновить ROADMAP.md (Gantt chart)
-
-#### B. GitHub Wiki / README обновление
-
-**Задачи:**
-
-- [ ] Обновить README.md (текущий фокус: Test Debt)
-- [ ] Проверить все ссылки в docs/ (lychee check)
-- [ ] Обновить CONTRIBUTING.md (branch rules, test requirements)
-
-**Срок:** 2-3 дня (параллельно с Priority 2)
+**Срок:** 5-7 дней
+**Метрика:** 1 домен (mashup) на 2 языках
 
 ---
 
-### Priority 4: Technical Debt Cleanup
+### P2: Bundle optimization
 
-#### A. Bundle optimization (follow-up)
+**Текущее:** 508 KB eager JS, 2.11 MB total.
 
-**Текущее состояние:**
-
-- Eager load: 508 KB gzip ✅
-- Total bundle: 2.11 MB 🟡 (target: ≤1.8 MB)
-
-**Действия:**
-
-1. Пересмотреть границы `manualChunks` в `vite.config.ts`
-2. Выявить oversized chunks
-3. Применить более гранулярное разделение
-
-**Ожидаемый результат:** 2.11 MB → ≤1.8 MB
+- [ ] Пересмотреть границы `manualChunks` в `vite.config.ts`
+- [ ] Выявить oversized chunks via `npm run size:why`
+- [ ] Применить Tree-shaking для неиспользуемых экспортов
 
 **Срок:** 3-5 дней
-
-#### B. E2E стабилизация
-
-**Текущее состояние:** 48 specs, статус CI не подтверждён
-
-**Действия:**
-
-1. Запустить полный E2E run в GitHub Actions
-2. Починить падающие тесты
-3. Добавить missing tests для critical paths
-
-**Ожидаемый результат:** 48/48 passing в CI
-
-**Срок:** 2-3 дня
+**Метрика:** Total bundle ≤1.8 MB
 
 ---
 
-## 📅 Timeline (2-3 недели)
+### P2: Unit-тесты для API/Service слоёв
+
+**Текущее:** 1497 unit tests. Цель: 1800+.
+
+- [ ] `src/api/*.api.ts` (26 файлов) — по 3-5 тестов
+- [ ] `src/services/*.service.ts` (12 файлов) — по 5-8 тестов
+- [ ] TanStack Query mutations: useSunoMashup, useSunoPersona, useSunoFileUpload
+
+**Срок:** 7-10 дней
+**Метрика:** 1800+ unit tests
+
+---
+
+### P3: Design polish (из design-review)
+
+**5 quick wins применены** (2026-07-06): color-scheme: dark, font consolidation, H2→H3.
+
+- [ ] Search box на главной (high impact — music app needs search)
+- [ ] Skeleton loading states (medium — content pops in)
+- [ ] Route transition animation (polish — SPA feels static)
+- [ ] Border-radius hierarchy (3 tiers: sm/md/lg)
+- [ ] Nav simplification (group 10 tabs into primary/secondary)
+
+**Срок:** 5-7 дней
+
+---
+
+## 📅 Timeline (июль-август 2026)
 
 ```
-Week 1 (July 6-12):
-  Mon-Tue: Branch protection Phase 2 (Priority 1)
-  Wed-Fri: God files decomposition (Priority 2A)
+Week 1 (July 7-11):
+  Mon-Tue: Branch Protection Phase 2 (P0)
+  Wed-Fri: E2E stabilization launch (P1)
 
-Week 2 (July 13-19):
-  Mon-Wed: Unit tests for API/Service layers (Priority 2B)
-  Thu-Fri: Vitest include fix + E2E stabilization (Priority 2C + 4B)
+Week 2 (July 14-18):
+  Mon-Wed: E2E fixes (P1)
+  Thu-Fri: i18n infrastructure + pilot domain (P1)
 
-Week 3 (July 20-26):
-  Mon-Tue: Documentation & retrospectives (Priority 3)
-  Wed-Fri: Bundle optimization (Priority 4A)
+Week 3 (July 21-25):
+  Mon-Wed: i18n translation + language switcher
+  Thu-Fri: Bundle optimization (P2)
+
+Week 4 (July 28 - Aug 1):
+  API/Service unit tests (P2)
+  Design polish items (P3)
 ```
 
 ---
 
-## 🎯 Success Metrics
+## 🚀 Q3 2026 (после стабилизации)
 
-| Метрика           | Сейчас      | Цель на 2026-07-26 |
-| ----------------- | ----------- | ------------------ |
-| Unit tests        | 925 passing | 1100+ passing      |
-| Files >800 LOC    | 9           | 0                  |
-| Branch protection | Phase 1 ✅  | Phase 2 ✅         |
-| Total bundle      | 2.11 MB     | ≤1.8 MB            |
-| E2E tests         | 48 specs    | 48/48 passing CI   |
-| Any usages        | 0/50        | 0/0 ✅             |
+| Sprint  | Фокус                                             | Статус     |
+| ------- | ------------------------------------------------- | ---------- |
+| **057** | E2E CI green + Branch Protection complete         | 📋 Planned |
+| **058** | i18n EN/RU (3 домена: mashup, studio, generation) | 📋 Planned |
+| **059** | Collaboration features (realtime sessions)        | 💡 Concept |
+| **060** | Public Developer API + Webhooks                   | 💡 Concept |
 
 ---
 
-## 🚀 После завершения (Q3 2026)
+## 🔄 Ритуалы
 
-### Следующие спринты (планируются):
-
-- **Sprint 057** — Collaboration features (realtime sessions)
-- **Sprint 058** — Marketplace MVP (beats / loops)
-- **Sprint 059** — A/B testing framework
-- **Sprint 060** — Multi-language UI (EN/RU start)
-
-### Long-term goals (Q4 2026):
-
-- Public Developer API
-- Webhooks for generations
-- Plugin SDK (lyrics tools)
-- React Native mobile apps
-
----
-
-## 🔄 Непрерывное улучшение
-
-### Еженедельные ритуалы:
-
-1. **Понедельник:** Plan review → приоритизация задач
-2. **Среда:** Progress check → корректировка плана
-3. **Пятница:** Retro + metrics update
-
-### Метрики для мониторинга:
-
-- Unit test coverage (%)
-- Bundle size (gzip)
-- CI pass rate (%)
-- Average PR merge time
-- Sentry error rate
+- **Каждый PR:** tsc + lint + unit tests + size-limit
+- **Еженедельно:** E2E smoke на main, bundle re-measure
+- **При закрытии спринта:** обновить PROJECT_STATUS.md, CHANGELOG.md, CLAUDE.md, README.md
 
 ---
 
 ## 📝 Notes
 
-- **Sprint 052-056 завершены** — отличная работа по стабилизации Suno API и UX
-- **Test coverage выросло** — 292 → 925 unit tests за Sprint 051
-- **Suno API coverage 100%** — 28/28 категорий реализовано
-- **Type safety завершена** — 0/50 `any` budget
-- **Layer compliance 100%** — 0 violations в components/stores
+- **Suno API 28/28 (100%)** — все категории реализованы, 46 edge functions
+- **God-file decomposition завершена** — 0 файлов >800 LOC в production-коде
+- **Design-review C+** — функциональный, не хватает search + motion polish
+- **Branch protection Phase 1** — force-push заблокирован, Phase 2 ждёт required CI checks
 
 ---
 
-**Последнее обновление:** 2026-07-06  
-**Ответственный:** Claude Code Agent  
-**Next review:** 2026-07-13
+**Последнее обновление:** 2026-07-06
+**Следующий review:** 2026-07-13
