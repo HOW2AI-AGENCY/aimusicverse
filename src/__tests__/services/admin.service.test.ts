@@ -58,8 +58,36 @@ describe("admin.service", () => {
   describe("aggregateGenerationStats", () => {
     it("aggregates rows correctly", () => {
       const rows: UserGenerationStatRow[] = [
-        { user_id: "u1", date: "2026-07-01", generations_count: 10, successful_count: 8, failed_count: 2, music_count: 5, vocals_count: 3, instrumental_count: 2, extend_count: 0, stems_count: 0, cover_count: 0, estimated_cost: 100, credits_spent: 50 },
-        { user_id: "u2", date: "2026-07-01", generations_count: 5, successful_count: 5, failed_count: 0, music_count: 3, vocals_count: 1, instrumental_count: 1, extend_count: 0, stems_count: 0, cover_count: 0, estimated_cost: 50, credits_spent: 25 },
+        {
+          user_id: "u1",
+          date: "2026-07-01",
+          generations_count: 10,
+          successful_count: 8,
+          failed_count: 2,
+          music_count: 5,
+          vocals_count: 3,
+          instrumental_count: 2,
+          extend_count: 0,
+          stems_count: 0,
+          cover_count: 0,
+          estimated_cost: 100,
+          credits_spent: 50,
+        },
+        {
+          user_id: "u2",
+          date: "2026-07-01",
+          generations_count: 5,
+          successful_count: 5,
+          failed_count: 0,
+          music_count: 3,
+          vocals_count: 1,
+          instrumental_count: 1,
+          extend_count: 0,
+          stems_count: 0,
+          cover_count: 0,
+          estimated_cost: 50,
+          credits_spent: 25,
+        },
       ];
 
       const result = aggregateGenerationStats(rows);
@@ -80,9 +108,51 @@ describe("admin.service", () => {
   describe("groupGenerationStatsByDay", () => {
     it("groups rows by date", () => {
       const rows: UserGenerationStatRow[] = [
-        { user_id: "u1", date: "2026-07-01", generations_count: 10, successful_count: 8, failed_count: 2, music_count: 5, vocals_count: 3, instrumental_count: 2, extend_count: 0, stems_count: 0, cover_count: 0, estimated_cost: 100, credits_spent: 50 },
-        { user_id: "u2", date: "2026-07-01", generations_count: 5, successful_count: 5, failed_count: 0, music_count: 3, vocals_count: 1, instrumental_count: 1, extend_count: 0, stems_count: 0, cover_count: 0, estimated_cost: 50, credits_spent: 25 },
-        { user_id: "u1", date: "2026-07-02", generations_count: 8, successful_count: 7, failed_count: 1, music_count: 4, vocals_count: 2, instrumental_count: 2, extend_count: 0, stems_count: 0, cover_count: 0, estimated_cost: 80, credits_spent: 40 },
+        {
+          user_id: "u1",
+          date: "2026-07-01",
+          generations_count: 10,
+          successful_count: 8,
+          failed_count: 2,
+          music_count: 5,
+          vocals_count: 3,
+          instrumental_count: 2,
+          extend_count: 0,
+          stems_count: 0,
+          cover_count: 0,
+          estimated_cost: 100,
+          credits_spent: 50,
+        },
+        {
+          user_id: "u2",
+          date: "2026-07-01",
+          generations_count: 5,
+          successful_count: 5,
+          failed_count: 0,
+          music_count: 3,
+          vocals_count: 1,
+          instrumental_count: 1,
+          extend_count: 0,
+          stems_count: 0,
+          cover_count: 0,
+          estimated_cost: 50,
+          credits_spent: 25,
+        },
+        {
+          user_id: "u1",
+          date: "2026-07-02",
+          generations_count: 8,
+          successful_count: 7,
+          failed_count: 1,
+          music_count: 4,
+          vocals_count: 2,
+          instrumental_count: 2,
+          extend_count: 0,
+          stems_count: 0,
+          cover_count: 0,
+          estimated_cost: 80,
+          credits_spent: 40,
+        },
       ];
 
       const result = groupGenerationStatsByDay(rows);

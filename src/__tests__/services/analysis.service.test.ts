@@ -3,12 +3,7 @@
  * Sprint 040 — Test Coverage
  */
 import { describe, it, expect, vi } from "vitest";
-import {
-  midiToNoteName,
-  detectKey,
-  detectBPM,
-  generateTagsFromAnalysis,
-} from "@/services/analysis.service";
+import { midiToNoteName, detectKey, detectBPM, generateTagsFromAnalysis } from "@/services/analysis.service";
 import type { NoteData, MelodyAnalysisResult } from "@/services/analysis.service";
 
 vi.mock("@/api/analysis.api", () => ({}));
