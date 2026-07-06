@@ -41,7 +41,11 @@
       "Bash(graphify export *)",
       "Bash(npm run *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(awk -F'|' '{names[$1]=names[$1] \", \" $2} END {for\\(f in names\\) print f \":\" names[f]}')",
+      "Read(//tmp/**)",
+      "Bash(gh pr *)",
+      "Bash(gh run *)"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
