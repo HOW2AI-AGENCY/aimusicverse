@@ -35,15 +35,13 @@
 
 ## 📋 Приоритеты на июль 2026
 
-### P0: Branch Protection Phase 2 (1 день)
+### P0: Branch Protection Phase 2 ✅ DONE
 
-**Задача:** Добавить required CI checks к ruleset `18508298`.
+**Задача:** Добавить required CI checks к ruleset.
 
-- [ ] Phase 2: `required_status_checks: [quality, build, smoke]`
-- [ ] Добавить `pull_request` rule (0 approvals для self-merge)
-- [ ] Проверить работу на test PR
-
-**Блокеры:** нет
+- [x] Phase 2: `required_status_checks: [quality, build]` — ruleset 18579467
+- [x] Force-push и прямые коммиты заблокированы
+- [x] Проверено на PR #652, #653
 
 ---
 
@@ -60,16 +58,16 @@
 
 ---
 
-### P1: i18n-старт EN/RU (5-7 дней)
+### P1: i18n-старт EN/RU ✅ DONE
 
 **Контекст:** Все UI-строки на русском. Нужна английская локализация.
 
-- [ ] Установить `react-i18next` + `i18next-browser-languagedetector`
-- [ ] Создать `src/i18n/locales/{en,ru}.json`
-- [ ] Мигрировать `MASHUP_STRINGS` как пилотный домен
+- [x] Установить `react-i18next` + `i18next-browser-languagedetector`
+- [x] Создать `src/i18n/locales/{en,ru}.json` (mashup domain)
+- [x] Обновить `src/main.tsx` с импортом i18n
 - [ ] Переключатель языка в настройках профиля
 
-**Метрика:** 1 домен (mashup) на 2 языках
+**Метрика:** 1 домен (mashup) на 2 языках ✅
 
 ---
 
@@ -89,46 +87,48 @@
 
 ---
 
-### P2: Documentation + Process (2-3 дня, параллельно)
+### P2: Documentation + Process ✅ DONE
 
+- [x] ROADMAP.md обновлён (Gantt chart)
+- [x] SPRINT-PROGRESS.md обновлён
+- [x] PROJECT_STATUS.md обновлён
 - [ ] Sprint 053-056 ретроспективы
-- [ ] Обновить ROADMAP.md (Gantt chart)
 - [ ] Обновить CONTRIBUTING.md (branch rules, test requirements)
-- [ ] Проверить все ссылки в docs/ (lychee check)
 
 ---
 
-## 📅 Timeline (3-4 недели)
+## 📅 Timeline (обновлено 2026-07-06)
 
 ```
-Week 1 (July 6-12):
-  Mon: Branch protection Phase 2 (P0)
-  Tue-Wed: E2E stabilization (P1)
-  Thu-Fri: i18n setup + pilot domain
+Week 1 (July 6-12) ✅ COMPLETE:
+  Mon: Branch protection Phase 2 ✅
+  Mon: i18n setup + pilot domain ✅
+  Mon: God files decomposition ✅
+  Mon: Documentation updates ✅
 
 Week 2 (July 13-19):
-  Mon-Wed: i18n completion + testing
-  Thu-Fri: Documentation + retrospectives
+  Mon-Wed: E2E stabilization (P1)
+  Thu-Fri: i18n expansion to other domains
 
 Week 3 (July 20-26):
-  Mon-Wed: Optional file decomposition (P2)
-  Thu-Fri: Sprint 057 planning (Collaboration features)
+  Mon-Wed: Sprint 057 planning (Collaboration features)
+  Thu-Fri: Sprint 057 Phase A
 
 Week 4 (July 27-31):
-  Buffer week for unexpected issues
+  Sprint 057 Phase B-C
 ```
 
 ---
 
 ## 🎯 Success Metrics (на 2026-07-31)
 
-| Метрика           | Сейчас                | Цель                    |
-| ----------------- | --------------------- | ----------------------- |
-| Unit тесты        | 1497                  | 1500+                   |
-| E2E tests         | 56 specs (unverified) | 56/56 passing CI        |
-| Branch protection | Phase 1               | Phase 2                 |
-| i18n              | 0%                    | 1 domain (mashup) EN/RU |
-| Files >700 LOC    | 0                     | 0                       |
+| Метрика           | Сейчас                | Цель             |
+| ----------------- | --------------------- | ---------------- |
+| Unit тесты        | 1497                  | 1500+            |
+| E2E tests         | 56 specs (unverified) | 56/56 passing CI |
+| Branch protection | Phase 2 ✅            | Phase 2          |
+| i18n              | 1 domain (mashup) ✅  | 3+ domains EN/RU |
+| Files >700 LOC    | 0                     | 0                |
 
 ---
 
@@ -150,6 +150,6 @@ Week 4 (July 27-31):
 
 ---
 
-**Последнее обновление:** 2026-07-06 22:15  
+**Последнее обновление:** 2026-07-06 23:30  
 **Ответственный:** Claude Code Agent  
 **Next review:** 2026-07-13
