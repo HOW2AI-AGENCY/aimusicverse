@@ -82,6 +82,12 @@ export interface InitializeOptions {
   botUsername?: string;
   trackPageViews?: boolean;
   autoAssignExperiments?: boolean;
+  startParam?: string;
+  referrer?: string;
+  isTelegram?: boolean;
+  telegramId?: number | string;
+  pathname?: string;
+  search?: string;
 }
 
 export interface DeeplinkBuildOptions {
@@ -90,7 +96,10 @@ export interface DeeplinkBuildOptions {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  utmParams?: UTMParams;
   referralCode?: string;
+  experimentId?: string;
+  variantId?: string;
 }
 
 export const STORAGE_KEYS = {
