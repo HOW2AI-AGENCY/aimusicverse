@@ -52,7 +52,7 @@
 | ⭐ GitHub Stars                |            ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)             |
 | 📦 Eager load (холодный старт) |        ![](https://img.shields.io/badge/508_KB_gzip-↓_from_1.19_MB-10B981?style=flat-square&logo=webpack)        |
 | 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
-| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-925_passing-10B981?style=flat-square&logo=vitest)           |
+| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-940_passing-10B981?style=flat-square&logo=vitest)           |
 | 🔒 Безопасность                |                   ![](https://img.shields.io/badge/Security-6_vulns-EF4444?style=flat-square)                    |
 | 📊 Спринтов завершено          |                                          **48** (050–055 + 052-C + 057)                                          |
 | 🏗 Компонентов                  |                                               **999** (1136 total)                                               |
