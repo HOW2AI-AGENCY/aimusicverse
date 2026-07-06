@@ -366,6 +366,7 @@ All colors MUST be HSL.
     scroll-behavior: smooth;
     /* Prevent layout thrashing during scroll */
     overflow-anchor: auto;
+    color-scheme: dark;
   }
 
   h1,
@@ -2403,17 +2404,17 @@ select:focus-visible,
   }
   .text-body-base {
     font-size: var(--text-body);
-    font-family: "DM Sans", sans-serif;
+    font-family: "Onest", Inter, system-ui, sans-serif;
     line-height: 1.5;
   }
   .text-caption-base {
     font-size: var(--text-caption);
-    font-family: "DM Sans", sans-serif;
+    font-family: "Onest", Inter, system-ui, sans-serif;
     line-height: 1.4;
   }
   .text-overline {
     font-size: var(--text-overline);
-    font-family: "DM Sans", sans-serif;
+    font-family: "Onest", Inter, system-ui, sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 600;
