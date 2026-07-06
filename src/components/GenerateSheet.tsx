@@ -194,7 +194,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
             warningCount={controller.validation.reasons.filter((r) => r.severity === "warning").length}
             hasUnsavedData={controller.telegram.hasUnsavedData}
             generationCost={controller.form.generationCost}
-            generationCostBreakdown={controller.form.generationCostBreakdown}
             onGenerate={controller.actions.handleGenerate}
             onSaveDraft={controller.actions.handleSaveDraft}
             onShowReasons={() => controller.dialogs.reasons.setOpen(true)}

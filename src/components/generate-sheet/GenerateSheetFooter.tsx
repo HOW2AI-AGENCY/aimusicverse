@@ -1,8 +1,6 @@
 // src/components/generate-sheet/GenerateSheetFooter.tsx
-import { useState } from "react";
-import { Sparkles, Loader2, Coins } from "@/lib/icons";
+import { Sparkles, Loader2, Coins, Info } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -12,7 +10,6 @@ interface Props {
   warningCount: number;
   hasUnsavedData: boolean;
   generationCost: number;
-  generationCostBreakdown: { label: string; value: number }[];
   onGenerate: () => void;
   onSaveDraft: () => void;
   onShowReasons: () => void;
@@ -54,7 +51,7 @@ export function GenerateSheetFooter(props: Props) {
               "bg-gradient-to-br from-primary to-primary/90 text-primary-foreground",
               "shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)]",
               props.shouldShowSecondaryUIButton ? "flex-1" : "w-full",
-              !props.canGenerate && !props.loading && "opacity-50",
+              !props.canGenerate && !props.loading && "opacity-60",
             )}
           >
             {props.loading ? (
@@ -62,7 +59,7 @@ export function GenerateSheetFooter(props: Props) {
                 <Loader2 className="w-4 h-4 animate-spin" />
                 Создание…
               </span>
-            ) : (
+            ) : props.canGenerate ? (
               <span className="flex flex-col items-center gap-0.5">
                 <span className="flex items-center gap-2 text-[15px]">
                   <Sparkles className="w-4 h-4" />
@@ -73,29 +70,21 @@ export function GenerateSheetFooter(props: Props) {
                     </span>
                   )}
                 </span>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <button
-                      type="button"
-                      className="text-[10px] font-medium tabular-nums text-primary-foreground/75 hover:text-primary-foreground flex items-center gap-1"
-                    >
-                      <Coins className="w-3 h-3" />
-                      {props.generationCost} кредитов
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent side="top" className="w-56 text-xs space-y-1">
-                    <p className="font-semibold mb-1 flex items-center gap-1.5">
-                      <Coins className="w-3.5 h-3.5" />
-                      {props.generationCost} кредитов
-                    </p>
-                    {props.generationCostBreakdown.map((row, i) => (
-                      <div key={i} className="flex justify-between">
-                        <span className="text-muted-foreground">{row.label}</span>
-                        <span className="tabular-nums">+{row.value}</span>
-                      </div>
-                    ))}
-                  </PopoverContent>
-                </Popover>
+                {/* F6: cost is plain text — the old cost Popover rendered a <button>
+                    inside this <Button> (button-in-button, invalid DOM). Total cost
+                    stays visible; the itemized breakdown was dropped to resolve the
+                    nesting without violating the 44px touch-target rule. */}
+                <span className="flex items-center gap-1 text-[10px] font-medium tabular-nums text-primary-foreground/75">
+                  <Coins className="w-3 h-3" />
+                  {props.generationCost} кредитов
+                </span>
+              </span>
+            ) : (
+              // F7: dimmed-but-tappable — make the action explicit so users know the
+              // tap opens ValidationReasonsSheet instead of reading the button as disabled.
+              <span className="flex items-center gap-2 text-[15px]">
+                <Info className="w-4 h-4" />
+                Почему нельзя?
               </span>
             )}
           </Button>
