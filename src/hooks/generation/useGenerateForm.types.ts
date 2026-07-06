@@ -112,7 +112,7 @@ export interface UseGenerateFormStateReturn {
   // retry state (forwarded from internal state)
   isRetrying: boolean;
   retryCount: number;
-  nextRetryIn: number;
+  nextRetryIn: number | null;
   canRetry: boolean;
   cancelRetry: () => void;
 
