@@ -53,12 +53,12 @@ Sprint 056 посвящен завершению редизайна GenerateShee
 - [ ] **C3** Document accessibility features
 - [ ] **C4** Add interaction examples (loading/error states)
 
-### Phase D: Documentation ⏳
+### Phase D: Documentation ✅
 
-- [ ] **D1** Update COMPONENTS.md with new architecture
-- [ ] **D2** Document thin orchestrator pattern in docs/
-- [ ] **D3** Add migration guide for existing consumers
-- [ ] **D4** Update CHANGELOG.md
+- [x] **D1** Update COMPONENTS.md with new architecture
+- [x] **D2** Document thin orchestrator pattern in docs/ (THIN-ORCHESTRATOR-PATTERN.md)
+- [x] **D3** Add migration guide for existing consumers (GENERATESHEET-MIGRATION-GUIDE.md)
+- [x] **D4** Update CHANGELOG.md
 
 ---
 
