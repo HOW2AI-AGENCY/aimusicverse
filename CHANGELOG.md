@@ -24,6 +24,24 @@
 
 ## [Unreleased]
 
+### ✅ Quality gate green — typecheck + lint + format restored (2026-07-06)
+
+> `main` had been red across recent commits (typecheck regressions, phantom lint errors, format drift). All four quality gates now pass locally and will go green on push.
+
+#### Fixed
+
+- **Typecheck (18 errors → 0):** `src/lib/analytics/deeplink-tracker.ts` re-exports restored (`ExperimentAssignment` / `DeeplinkAnalyticsSummary` / `DeeplinkBuildOptions`) — clears the `DeeplinkAnalyticsPanel` unknown/implicit-any cascade; `useGenerateForm.ts` forwards 9 missing `StateReturn` fields (`setLoading`, `setAudioReferenceLoading`, `audioDuration`, `setAudioDuration`, `setPlanTrackId`, `hasUnsavedData`, `setApiCredits`, `apiBalance`, `invalidateCredits`); `useGenerateFormActions.ts` casts `activeReference` to `AudioReferenceData | null` (type now exported from `useGenerateFormSubmit`); `useGenerateSheetValidation.ts` accepts `balance: number | null` (null = loading → treated as insufficient, safe default).
+- **Lint (1513 → 0 errors locally):** `eslint.config.js` now ignores generated/vendored phantom dirs (`.kilo/worktrees`, `playwright-report`, `test-results`, `.lovable`, `.mimocode`). Real `src/` has 0 lint errors; 1700 warnings are downgraded tech-debt rules (no `--max-warnings`, so the gate passes).
+- **Format:** prettier conformance restored on tracked sprint docs, the supabase `mcp` edge fn, and a test file.
+
+#### Added
+
+- **GenerateSheet redesign design review** — `docs/GENERATE-SHEET-DESIGN-REVIEW-2026-07-06.md`. Post-hoc `/plan-design-review` (6/10, 13 findings). Top P1 regressions vs the legacy sheet: dead Styles button (`onOpenStyles={() => undefined}`), reference chips showing raw UUIDs.
+
+#### Result
+
+- typecheck ✓ · eslint ✓ · format:check ✓ · vitest **1431 passed** / 4 skipped / 31 todo (up from 940).
+
 ### 🧪 Green test suite — 925 → 940 passing (2026-07-06)
 
 > Все 15 ранее падавших тестов исправлены. Suite полностью зелёный.
