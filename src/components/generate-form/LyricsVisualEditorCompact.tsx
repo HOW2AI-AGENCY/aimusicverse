@@ -34,6 +34,7 @@ import {
   CHAR_DANGER,
   CHAR_WARNING,
   QUICK_TEMPLATES,
+  type QUICK_TEMPLATE_DEF,
   type LyricSection,
 } from "./lyricsEditorHelpers";
 
