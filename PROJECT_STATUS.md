@@ -67,8 +67,8 @@ Phase A–B ✅, Phase C–D ✅ (stories + docs complete)
 | T052 LyricsParser types extraction | ✅                        |
 | T053 studio.api decomposition      | ✅ 953→4 модуля           |
 | T054 studio.service тесты          | ✅ 24 tests               |
-| T055 vitest config fix + API tests | ✅ 395→899 (+504) PR #636 |
-| T056 0 файлов >1000 LOC            | ⏳ 6 файлов 700-837 LOC   |
+| T055 vitest config fix + API tests | ✅ 395→925 (+530) PR #636 |
+| T056 god file decomposition        | 🔄 5/9 done, PRs #638-640 |
 
 ### Блок 5 — Suno API (Sprint 053–054) ✅
 
