@@ -29,7 +29,18 @@ import {
   Loader2,
   Trash2,
   Gauge,
+  Guitar,
 } from "@/lib/icons";
+import type { TrackStem } from "@/hooks/useTrackStems";
+import type { StemTranscription } from "@/hooks/useStemTranscription";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useSimulatedStemLevels } from "@/hooks/audio/useSimulatedStemLevels";
+import { preloadRouteComponents } from "@/components/lazy";
+import { UnifiedWaveform } from "@/components/waveform/UnifiedWaveform";
+import type { StemType } from "@/components/waveform/UnifiedWaveform";
+import { StemTrackSkeleton } from "@/components/studio/StemTrackSkeleton";
+import { VirtualizedStemList } from "@/components/studio/VirtualizedStemList";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
