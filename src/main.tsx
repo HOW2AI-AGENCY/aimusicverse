@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import "./i18n";
 import App from "./App.tsx";
 // Brand fonts (Space Grotesk for display, DM Sans for body)
 import "@fontsource/space-grotesk/400.css";

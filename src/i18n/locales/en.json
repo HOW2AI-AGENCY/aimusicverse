@@ -1,0 +1,48 @@
+{
+  "mashup": {
+    "dialog": {
+      "title": "Mashup",
+      "description": "Mix two of your tracks into one"
+    },
+    "form": {
+      "trackALabel": "Track A *",
+      "trackBLabel": "Track B *",
+      "selectTrackPlaceholder": "Select a track",
+      "selectTrackAFirstPlaceholder": "Select track A first",
+      "modelLabel": "Model",
+      "customModeLabel": "Custom mode (style + title)",
+      "styleLabel": "Style *",
+      "stylePlaceholder": "Result style...",
+      "titleLabel": "Title *",
+      "titlePlaceholder": "Mashup title",
+      "vocalToggleLabel": "With vocals",
+      "promptLabel": "Description *",
+      "promptPlaceholder": "What should the mashup sound like..."
+    },
+    "actions": {
+      "submit": "Create mashup",
+      "submitting": "Creating mashup...",
+      "successToast": "Mashup started",
+      "successDescription": "Result will appear in your library in 1-3 minutes"
+    },
+    "validation": {
+      "pickBothTracks": "Select both tracks",
+      "tracksMustDiffer": "Tracks must be different",
+      "specifyStyle": "Specify a style",
+      "specifyTitle": "Specify a title",
+      "promptOrInstrumental": "Add a description or select instrumental mode"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish"
+  }
+}

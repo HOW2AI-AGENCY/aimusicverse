@@ -1,0 +1,48 @@
+{
+  "mashup": {
+    "dialog": {
+      "title": "Mashup",
+      "description": "Смешайте два своих трека в один"
+    },
+    "form": {
+      "trackALabel": "Трек A *",
+      "trackBLabel": "Трек B *",
+      "selectTrackPlaceholder": "Выберите трек",
+      "selectTrackAFirstPlaceholder": "Сначала выберите трек A",
+      "modelLabel": "Модель",
+      "customModeLabel": "Custom-режим (стиль + название)",
+      "styleLabel": "Стиль *",
+      "stylePlaceholder": "Стиль результата...",
+      "titleLabel": "Название *",
+      "titlePlaceholder": "Название mashup",
+      "vocalToggleLabel": "С вокалом",
+      "promptLabel": "Описание *",
+      "promptPlaceholder": "Что должен звучать mashup..."
+    },
+    "actions": {
+      "submit": "Создать mashup",
+      "submitting": "Создание mashup...",
+      "successToast": "Mashup запущен",
+      "successDescription": "Результат появится в библиотеке через 1-3 минуты"
+    },
+    "validation": {
+      "pickBothTracks": "Выберите оба трека",
+      "tracksMustDiffer": "Треки должны различаться",
+      "specifyStyle": "Укажите стиль",
+      "specifyTitle": "Укажите название",
+      "promptOrInstrumental": "Добавьте описание или выберите инструментальный режим"
+    }
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "close": "Закрыть",
+    "back": "Назад",
+    "next": "Далее",
+    "finish": "Завершить"
+  }
+}
