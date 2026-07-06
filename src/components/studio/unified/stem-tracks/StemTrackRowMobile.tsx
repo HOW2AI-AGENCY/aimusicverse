@@ -18,6 +18,7 @@ import type { TrackStem } from "@/hooks/useTrackStems";
 import type { StemTranscription } from "@/hooks/useStemTranscription";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { UnifiedWaveform } from "@/components/waveform/UnifiedWaveform";
+import type { StemType } from "@/components/waveform/UnifiedWaveform";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
@@ -244,14 +245,13 @@ export const StemTrackRowMobile = memo(function StemTrackRowMobile({
         {/* Waveform */}
         <div className="h-14 relative">
           <UnifiedWaveform
-            url={stem.audio_url}
+            audioUrl={stem.audio_url}
             stemType={stem.stem_type as StemType}
             isPlaying={isPlaying}
             currentTime={currentTime}
             duration={duration}
             height={56}
             onSeek={onSeek}
-            compact
           />
         </div>
       </div>
