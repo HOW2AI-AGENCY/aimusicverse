@@ -38,6 +38,34 @@
 - **Prettier-дрейф** в `.lovable/mcp/manifest.json` и `supabase/functions/mcp/index.ts` (прямые коммиты мимо хуков).
 - **139 битых file-ссылок → 0** по всем сканируемым lychee .md (ранний диагноз «7 ссылок» был по усечённому CI-логу): созданы недостающие [docs/sprints/SPRINT-053-RETRO.md](docs/sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md), [SPRINTS/SPRINT-051-PLAN.md](SPRINTS/SPRINT-051-PLAN.md); исправлены relative-глубины в 055-планах, шаблонах, MANIFEST-053-054, ARCHIVE, PROGRESS, ru/-доках, ADR; `musicverse.ai` исключён из link-check (домен не отвечает); ссылки на выключенные GitHub Discussions заменены на Issues.
 
+### 🔧 Sprint 057 — Audio Analysis Refactoring (2026-07-06)
+
+> Commit `fd4917b8` — извлечение normalizers в отдельный модуль + исправление критичного бага.
+
+#### Changed
+
+- **`src/services/unified-analysis/AudioAnalysisService.ts`** — методы нормализации результатов извлечены в отдельный модуль `audioAnalysisNormalizers.ts` для улучшения тестируемости и переиспользования. Класс уменьшен с 804 до 579 LOC (-225 строк).
+
+#### Added
+
+- **`src/services/unified-analysis/audioAnalysisNormalizers.ts`** — новый модуль с функциями нормализации:
+  - `getDefaultProvider()` — определение провайдера по умолчанию для типа анализа
+  - `mapTypeToLovableAI()` — маппинг типов анализа в формат Lovable AI
+  - `mapTypeToKlangioMode()` — маппинг типов анализа в режимы Klangio
+  - `mergeResults()` — слияние результатов от нескольких провайдеров
+  - `normalizeFlamingoResult()` — нормализация результатов Flamingo API
+  - `normalizeLovableAIResult()` — нормализация результатов Lovable AI API
+  - `normalizeKlangioResult()` — нормализация результатов Klangio API
+
+#### Fixed
+
+- **Критичный баг:** метод `saveToDatabase()` был случайно удален при рефакторинге, что приводило к ошибке компиляции. Метод восстановлен, все тесты (11/11) проходят.
+
+#### Tests
+
+- Unit тесты для `AudioAnalysisService`: 11 passing
+- Общее покрытие: 925 passing (15 failing в других модулях)
+
 ### 🎯 Sprint 052-C — Storybook + i18n cleanup (2026-07-05)
 
 > Commit `93beb2f1` — pure-Dumb декомпозиция, Storybook stories, i18n strings extraction. Sprint 052 теперь **100% complete**.
@@ -720,3 +748,160 @@ Full-surface desktop-layout audit (40+ компонентов) на брейкп
 <sub>Последнее обновление: 2026-07-03</sub>
 
 </div>
+
+### 🎵 Sprint 053 — Suno API: Sounds + MIDI Direct + Boost Style (2026-07-04)
+
+> ✅ ЗАВЕРШЁН — Suno API coverage: 25/28 → 28/28 (100%)
+
+#### Added
+
+- **`supabase/functions/suno-sounds/`** — Edge function для SFX генерации (tempo/key/duration). DB table `sound_effects` (id, user_id, name, audio_url, image_url, status, metadata).
+- **`supabase/functions/suno-sounds-callback/`** — Callback handler для `suno-sounds`, пишет в `sound_effects` при готовности.
+- **`supabase/functions/suno-sounds-status/`** — Проверка статуса SFX задачи.
+- **`supabase/functions/suno-midi/`** — Edge function для MIDI транскрипции. Прямой Suno API (primary), Replicate fallback при FAILED. Race-condition protection через `midi_generation_source` enum.
+- **`supabase/functions/suno-midi-callback/`** — Callback handler для `suno-midi`.
+- **`supabase/functions/suno-midi-details/`** — Получение деталей MIDI транскрипции по task_id.
+- **`supabase/functions/_shared/suno-details.ts`** — Shared fetcher для details-endpoints (6 штук).
+- **`src/components/SfxGeneratorSheet.tsx`** — UI sheet для генерации SFX (MobileBottomSheet + usePreviewAudio).
+- **`src/hooks/studio/useSunoSounds.ts`** — Hook для SFX генерации (TanStack Query mutation).
+- **`src/hooks/studio/useSunoMidi.ts`** — Hook для MIDI транскрипции (Suno primary → Replicate fallback).
+- **`src/stories/mashup/SfxGeneratorSheet.stories.tsx`** — 3 Storybook stories (Empty, Loading, Success).
+- **Migration `20260708000000_sound_effects.sql`**** — DB table для SFX (RLS enabled).
+- **Migration `20260708000001_midi_url.sql`**** — `midi_url`, `midi_generation_source` (enum: 'suno', 'replicate') в `track_versions`.
+- **Telegram `/sfx` command** — Wizard для генерации SFX (prompt → tempo/key → генерация → отправка в чат).
+
+#### Changed
+
+- **`useGenerateFormBoostStyle.ts`** — Подключён `suno-boost-style` (Lovable AI gateway proxy, НЕ Suno endpoint). 8 unit-тестов подтверждают wiring.
+
+#### Fixed
+
+- **`suno-check-status/index.ts`** — 449 LOC dead code удалён (zero client callers). Alias `[functions.suno-check-status]` убран из `supabase/config.toml`.
+
+#### Metrics
+
+- +28 unit tests (320 → 348 passing, 24 suites)
+- +8 edge functions (30 → 38)
+- +1 DB table (`sound_effects`)
+- +2 columns (`midi_url`, `midi_generation_source`)
+- −449 LOC dead code
+
+---
+
+### 📊 Sprint 054 — Suno API: Details Suite (2026-07-04)
+
+> ✅ ЗАВЕРШЁН — Suno API coverage: 28/28 (100%)
+
+#### Added
+
+- **`supabase/functions/suno-music-details/`** — Details endpoint для music генерации.
+- **`supabase/functions/suno-cover-details/`** — Details endpoint для cover generation.
+- **`supabase/functions/suno-video-details/`** — Details endpoint для video generation.
+- **`supabase/functions/suno-wav-details/`** — Details endpoint для WAV конверсии.
+- **`supabase/functions/suno-lyrics-details/`** — Details endpoint для lyrics генерации.
+- **`supabase/functions/suno-separation-details/`** — Details endpoint для vocal separation.
+- **`src/hooks/studio/useSunoTaskDetails.ts`** — Generic polling hook для всех Suno task types.
+- **`src/api/suno-task-details.api.ts`** — Edge-bridge wrapper для details-endpoints.
+- **`_shared/suno-details.ts`**** — Shared fetcher `fetchSunoTaskDetails(taskType, taskId)` с per-type backoff.
+
+#### Changed
+
+- **`suno-check-status/index.ts`** — Удалён (449 LOC, zero callers). Функционал заменён на `useSunoTaskDetails`.
+
+#### Metrics
+
+- +7 edge functions (38 → 45, но suno-check-status удалён, так что net +8)
+- +1 generic polling hook
+- Suno API coverage: 28/28 (100%)
+- Polling error-rate target: <2%
+
+---
+
+### 🎨 Sprint 055 — UX Critical Fixes (2026-07-06)
+
+> ✅ Phase A+B ЗАВЕРШЕНА — 13/13 P0/P1 tasks
+
+#### Added
+
+- **Save Draft functionality** — `useGenerateDraft.saveDraft()` wired to SecondaryButton, UI fallback in GenerateSheet.
+- **Generation cancellation** — Soft-cancel pattern via `useSunoCancelTask`.
+- **Telegram deeplink** — `startapp=generate` → open GenerateSheet.
+- **Welcome Bonus idempotency** — 30-day TTL guard.
+- **Dual CTA in footer** — UI button + Telegram MainButton.
+- **Footer generation summary** — Shows "Вокал · 30–90 сек · N кредитов".
+- **Hint positioning** — Не перекрывает FAB.
+- **GenerationProgressBadge keyboard-aware** — Focus management.
+- **FormStepper** — Custom mode wizard (3 steps instead of 4).
+- **VoiceInput in Custom mode** — Voice input available.
+- **Home sticky CTA** — CustomEvent + floating button for cold users.
+- **Analytics events** — 7 new events.
+
+#### Fixed
+
+- **Data loss prevention** — Draft auto-save now wired.
+- **Mobile UX friction** — All P1 issues resolved.
+
+#### Metrics
+
+- +12 unit tests
+- +2 E2E tests (Save Draft, Deeplink generate)
+- P0 Blockers: 5 → 0 (−100%)
+- P1 Issues: 6 → 0 (−100%)
+- Bundle delta: +2.1 KiB gzip (within +5 KiB budget)
+
+---
+
+### 🎯 Sprint 056 — GenerateSheet Redesign (2026-07-06)
+
+> ✅ Phase A-D ЗАВЕРШЕНА — Thin Orchestrator Pattern
+
+#### Changed
+
+- **GenerateSheet restructuring** → thin orchestrator pattern (~300 LOC vs ~800 LOC).
+- **Header/Body/Footer shell components** → Extracted into separate files.
+- **ReferenceChipsRow consolidation** → Single interface for all references.
+- **AdvancedSettings card-based layout** — Popovers for each option.
+
+#### Added
+
+- **Storybook stories** — 6/6 components documented:
+  - `GenerateSheet.stories.tsx` — 7 scenarios (default, modes, loading, mobile/desktop viewports).
+  - `AdvancedSettings.stories.tsx` — 6 scenarios (states, interaction examples).
+  - `LyricsAssistantSheet.stories.tsx` — 3 scenarios (chat states).
+  - `LyricsVisualEditor.stories.tsx` — 4 scenarios (editor states).
+  - `ReferenceChipsRow.stories.tsx` — 5 scenarios (reference combinations).
+  - `ValidationReasonsSheet.stories.tsx` — 6 scenarios (validation + accessibility).
+- **Documentation** — `COMPONENTS.md`, `THIN_ORCHESTRATOR_PATTERN.md`.
+
+#### Fixed
+
+- **Wizard code cleanup** — Deleted dead wizard code from Sprint 050.
+
+#### Metrics
+
+- GenerateSheet LOC: ~800 → ~300
+- Storybook stories: 0 → 6 (25+ interactive examples)
+- Documentation coverage: 0% → 100%
+
+---
+
+### 📱 Sprint 050-B — Mobile Audit F1-F12 (2026-07-06)
+
+> ✅ ЗАВЕРШЕНА — 6/6 mobile fixes
+
+#### Fixed
+
+- **F1: useScrollLock** → Applied on 4 surfaces (Library, Community, QueueSheet, TrackDetail).
+- **B2: QueueSheet auto-close** → Auto-close on track play + toast.
+- **B3: cover_url normalization** — Unified cover URL handling.
+- **B4: ErrorBoundary home button** — UseNavigate() integration.
+- **B5: Lazy imports** — canvas-confetti dynamic import (already applied).
+- **B6: GitHub Pages** — Enabled for project docs.
+
+#### Metrics
+
+- Mobile UX: 6 friction points resolved
+- Bundle impact: Neutral (lazy imports already applied)
+- Documentation: GitHub Pages enabled
+
+---

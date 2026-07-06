@@ -396,6 +396,54 @@ class AudioAnalysisService {
     }
   }
 
+  /**
+   * Save analysis results to database. Handles both insert and update.
+   */
+  private async saveToDatabase(trackId: string, userId: string, result: UnifiedAnalysisResult): Promise<void> {
+    // Check if record exists
+    const { data: existing } = await supabase.from("audio_analysis").select("id").eq("track_id", trackId).maybeSingle();
+
+    const analysisData = {
+      track_id: trackId,
+      user_id: userId,
+      analysis_type: "unified",
+      genre: result.genre || null,
+      mood: result.mood || null,
+      tempo: result.energy?.level || null,
+      bpm: result.bpm || null,
+      key_signature: result.key || null,
+      instruments: result.instruments || null,
+      structure: result.structure?.sections?.join(", ") || null,
+      style_description: result.styleDescription || null,
+      arousal: result.arousal ? result.arousal / 100 : null,
+      valence: result.valence ? result.valence / 100 : null,
+      analysis_metadata: JSON.parse(
+        JSON.stringify({
+          provider: result.provider || null,
+          subgenres: result.subgenres || null,
+          emotions: result.emotions || null,
+          production: result.production || null,
+          beats: result.beats || null,
+          chords: result.chords || null,
+        }),
+      ),
+      updated_at: new Date().toISOString(),
+    };
+
+    let error;
+    if (existing) {
+      const result = await supabase.from("audio_analysis").update(analysisData).eq("id", existing.id);
+      error = result.error;
+    } else {
+      const result = await supabase.from("audio_analysis").insert(analysisData);
+      error = result.error;
+    }
+
+    if (error) {
+      log.warn("Failed to save analysis to database", { message: error.message });
+    }
+  }
+
   // ==========================================
   // Private Helpers
   // ==========================================
