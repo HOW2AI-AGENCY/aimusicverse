@@ -145,7 +145,7 @@ export interface UseGenerateFormActionsReturn {
   setAudioReferenceLoading: (v: boolean) => void;
   isRetrying: boolean;
   retryCount: number;
-  nextRetryIn: number;
+  nextRetryIn: number | null;
   canRetry: boolean;
   cancelRetry: () => void;
   currentTaskId: string | null;
