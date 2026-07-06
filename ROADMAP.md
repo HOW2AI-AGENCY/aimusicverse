@@ -96,7 +96,7 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 > Приоритеты пересмотрены по итогам [аудита прогресса 2026-07-04](docs/audit/PROGRESS-AUDIT-2026-07-04.md): перед фичами — зелёный `main` и процессный фикс для прямых Lovable-коммитов.
 
 - **Sprint 050 — Main Green + Mobile Audit F1–F12** ([детальный план](SPRINTS/SPRINT-050-PLAN.md)). ✅ **Phase A ✅ завершена (6/6).** ✅ **Phase B ✅ завершена (6/6):** B1 ✅ `useScrollLock` на 4 surfaces, B3 ✅ QueueSheet auto-close + toast, B4 ✅ cover_url normalization, B5 ✅ ErrorBoundary, B6 ✅ lazy-imports (lamejs/qrcode/canvas-confetti). GitHub Pages включён.
-- **Sprint 051 — Test Debt + God Files** 🔄 **Phase A-C ✅ Complete. T055 ✅ vitest config fix + API tests (395→925, +530). T056 🔄 god file decomposition: 5/9 files done (errorHandling -50%, IntegratedStemTracks -17%, LyricsParser -25%, LyricsVisualEditorCompact -15%, UnifiedNotesViewer -5%). PRs #636, #638, #639, #640 MERGED.** T051 ✅ studio.service decomposition (1137→4 модуля), T052 ✅ LyricsParser types extraction, T053 ✅ studio.api decomposition (953→4 модуля), T054 ✅ studio.service тесты (24 tests). Осталось 4 файла 700+ LOC.
+- **Sprint 051 — Test Debt + God Files** ✅ **T055 ✅ (395→925 tests). T056 ✅ (9/9 god files decomposed, all <740 LOC). PRs #636-#644 MERGED.**
 - **Sprint 053 — Suno API: Sounds + MIDI Direct + Boost Style** ✅ **ЗАВЕРШЁН.** Все edge functions, hooks, SfxGeneratorSheet, boost-style connected.
 - **Sprint 054 — Suno API: Details Suite** ✅ **ЗАВЕРШЁН.** 6 details endpoints, generic polling hook.
 - **Sprint 055 — UX Critical Fixes** ✅ **Phase A+B Complete.** Все P0/P1 UX-фиксы: Save Draft, Cancel Generation, Deeplink, Welcome Bonus, Dual CTA, Footer Summary, Stepper, VoiceInput, Home CTA.
@@ -104,7 +104,6 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### In Progress
 
-- **Sprint 051 T056** — декомпозиция 4 оставшихся файлов 700+ LOC
 - **Sprint 056 Phase C-D** — GenerateSheet docs + stories verification
 
 ### Completed (recent)
@@ -112,7 +111,7 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 - **Sprint 050 — Main Green + Mobile Audit F1–F12** ✅ Phase A+B Complete (2026-07-06)
 - **Sprint 051 Phase A-C** ✅ Decomposition complete (2026-07-06): studio.service 1137→4 modules, studio.api 953→4 modules, LyricsParser types extraction, 103 new tests
 - **Sprint 051 T055** ✅ vitest config fix + API tests (2026-07-06): 395→925 passing (+530), PR #636
-- **Sprint 051 T056 partial** ✅ god file decomposition (2026-07-06): 5/9 files done, PRs #638, #639, #640
+- **Sprint 051 T056** ✅ god file decomposition complete (2026-07-06): 9/9 files done, all <740 LOC, PRs #638-#644
 - **Sprint 053** ✅ Complete: SFX/MIDI edge functions, hooks, SfxGeneratorSheet, boost-style connected
 - **Sprint 054** ✅ Complete: 6 details endpoints, generic polling hook
 - **Sprint 055 Phase A+B** ✅ Complete: All P0/P1 UX fixes (Save Draft, Cancel, Deeplink, Welcome Bonus, Dual CTA, Footer Summary, Stepper, VoiceInput, Home CTA)

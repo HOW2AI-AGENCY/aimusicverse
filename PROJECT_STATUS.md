@@ -69,7 +69,7 @@ Phase A–B ✅, Phase C–D ✅ (stories + docs complete)
 | T053 studio.api decomposition      | ✅ 953→4 модуля           |
 | T054 studio.service тесты          | ✅ 24 tests               |
 | T055 vitest config fix + API tests | ✅ 395→925 (+530) PR #636 |
-| T056 god file decomposition        | 🔄 5/9 done, PRs #638-640 |
+| T056 god file decomposition        | ✅ 9/9 done, PRs #638-644 |
 
 ### Блок 5 — Suno API (Sprint 053–054) ✅
 
