@@ -182,7 +182,7 @@ export type UseGenerateFormReturn = UseGenerateFormStateReturn &
 
     isRetrying: boolean;
     retryCount: number;
-    nextRetryIn: number;
+    nextRetryIn: number | null;
     canRetry: boolean;
     cancelRetry: () => void;
 
