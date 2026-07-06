@@ -12,7 +12,7 @@
  */
 
 import type { ProjectRow } from "@/api/projects.api";
-import type { ArtistRow } from "@/api/tracks.api";
+import type { ArtistRow } from "@/api/artists.api";
 import type { TrackRow } from "@/api/tracks.api";
 
 /** Composer params — identical to the legacy `UseGenerateFormProps`. */
