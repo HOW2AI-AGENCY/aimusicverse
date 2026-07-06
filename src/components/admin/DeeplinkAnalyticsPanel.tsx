@@ -31,7 +31,8 @@ import { DeeplinkTrendsChart } from "./analytics/DeeplinkTrendsChart";
 import { SourcesHeatmap } from "./analytics/SourcesHeatmap";
 import { CampaignPerformance } from "./analytics/CampaignPerformance";
 import { ConversionFunnelStages } from "./analytics/ConversionFunnelStages";
-import { fetchDeeplinkAnalyticsSummary, type DeeplinkAnalyticsSummary } from "@/lib/analytics/deeplink-tracker";
+import { fetchDeeplinkAnalyticsSummary } from "@/lib/analytics/deeplink-tracker";
+import type { DeeplinkAnalyticsSummary } from "@/lib/analytics/deeplinkTypes";
 import { useQuery } from "@tanstack/react-query";
 
 type TimeRange = "1h" | "24h" | "7d" | "30d";
@@ -68,7 +69,7 @@ export function DeeplinkAnalyticsPanel() {
   // Transform data for charts
   const trendData = useMemo(() => {
     if (!summary?.dailyTrend) return [];
-    return summary.dailyTrend.map((d) => ({
+    return summary.dailyTrend.map((d: DeeplinkAnalyticsSummary["dailyTrend"][number]) => ({
       date: d.date,
       visits: d.visits,
       conversions: d.conversions,
@@ -80,11 +81,14 @@ export function DeeplinkAnalyticsPanel() {
     if (!summary?.topSources || !summary?.hourlyDistribution) return [];
 
     // Create hourly distribution per source
-    return summary.topSources.slice(0, 8).map((source) => ({
+    return summary.topSources.slice(0, 8).map((source: DeeplinkAnalyticsSummary["topSources"][number]) => ({
       source: source.source,
       hourlyData: Array.from({ length: 24 }, (_, hour) => {
         // Distribute source count across hours based on overall hourly pattern
-        const hourlyTotal = Object.values(summary.hourlyDistribution).reduce((a, b) => a + b, 0);
+        const hourlyTotal = (Object.values(summary.hourlyDistribution) as number[]).reduce(
+          (a: number, b: number) => a + b,
+          0,
+        );
         const hourShare = hourlyTotal > 0 ? (summary.hourlyDistribution[hour] || 0) / hourlyTotal : 1 / 24;
         return Math.round(source.count * hourShare);
       }),
@@ -93,7 +97,7 @@ export function DeeplinkAnalyticsPanel() {
 
   const campaignData = useMemo(() => {
     if (!summary?.topCampaigns) return [];
-    return summary.topCampaigns.map((c) => ({
+    return summary.topCampaigns.map((c: DeeplinkAnalyticsSummary["topCampaigns"][number]) => ({
       name: c.campaign,
       source: "utm",
       medium: "campaign",

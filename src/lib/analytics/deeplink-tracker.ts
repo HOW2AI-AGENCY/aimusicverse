@@ -18,11 +18,11 @@ import {
   type DeviceInfo,
   type DeeplinkSource,
   type ConversionEvent,
-  type ConversionStage,
-  type ExperimentAssignment,
   type DeeplinkAnalyticsSummary,
-  type InitializeOptions,
   type DeeplinkBuildOptions,
+  type ExperimentAssignment,
+  type ConversionStage,
+  type InitializeOptions,
 } from "./deeplinkTypes";
 
 // Re-export for backward compatibility
@@ -33,10 +33,10 @@ export type {
   DeeplinkSource,
   ConversionEvent,
   ConversionStage,
-  ExperimentAssignment,
-  DeeplinkAnalyticsSummary,
   InitializeOptions,
+  DeeplinkAnalyticsSummary,
   DeeplinkBuildOptions,
+  ExperimentAssignment,
 };
 
 const deeplinkLogger = logger.child({ module: "DeeplinkTracker" });
@@ -740,7 +740,7 @@ export function buildDeeplinkUrl(botUsername: string, options: DeeplinkBuildOpti
   const params = new URLSearchParams();
   if (options.utmParams) {
     Object.entries(options.utmParams).forEach(([key, value]) => {
-      if (value) params.set(key, value);
+      if (value) params.set(key, String(value));
     });
   }
   if (options.referralCode) {

@@ -5,6 +5,8 @@
 
 import { type LyricSectionType, LYRIC_SECTION_BY_VALUE, normalizeSectionType } from "./lyricsSectionMeta";
 
+export type { LyricSectionType };
+
 export interface LyricSection {
   id: string;
   type: LyricSectionType;
