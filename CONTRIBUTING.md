@@ -103,6 +103,8 @@ Husky + commitlint enforce this on commit.
 - Add screenshots/GIFs for UI changes.
 - Mark as Draft until CI is green.
 - Squash-merge with a Conventional Commit message.
+- **Admin merge**: If CI fails on pre-existing lint issues (not your changes), use `gh pr merge NNN --squash --admin`.
+- **Full workflow guide**: See [docs/WORKFLOW-GUIDE.md](docs/WORKFLOW-GUIDE.md).
 
 ## 7. Documentation
 
