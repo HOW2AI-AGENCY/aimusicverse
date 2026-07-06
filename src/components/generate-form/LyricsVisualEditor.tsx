@@ -45,9 +45,7 @@ import { VoiceInputButton } from "@/components/ui/VoiceInputButton";
 import { SectionTagSelector } from "./SectionTagSelector";
 import { TagBadge, TagList } from "@/components/lyrics/shared/TagBadge";
 import { cn } from "@/lib/utils";
-import { Plus, GripVertical, Trash2, Wand2, ChevronDown, ChevronUp, Tag, Music } from "@/lib/icons";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
+import { ChevronUp, Music } from "@/lib/icons";
 import {
   SECTION_TYPES,
   STRUCTURE_TEMPLATES,
