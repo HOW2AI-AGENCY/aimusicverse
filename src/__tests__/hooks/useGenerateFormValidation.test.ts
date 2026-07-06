@@ -19,7 +19,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useGenerateFormValidation } from "@/hooks/generation/useGenerateFormBoostStyle";
+import { useGenerateFormBoostStyle } from "@/hooks/generation/useGenerateFormBoostStyle";
 
 // Mocks
 vi.mock("@/integrations/supabase/client", () => ({
@@ -55,7 +55,7 @@ function setupValidationHook(mode: "simple" | "custom", description: string, sty
   const setAudioDuration = vi.fn();
 
   const { result } = renderHook(() =>
-    useGenerateFormValidation({
+    useGenerateFormBoostStyle({
       mode,
       description,
       style,
