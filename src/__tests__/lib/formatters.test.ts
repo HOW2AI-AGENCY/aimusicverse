@@ -39,19 +39,19 @@ describe("formatDuration", () => {
 
 describe("formatBytes", () => {
   it("formats zero bytes", () => {
-    expect(formatBytes(0)).toBe("0 Bytes");
+    expect(formatBytes(0)).toBe("0 ?");
   });
 
   it("formats bytes", () => {
-    expect(formatBytes(1024)).toBe("1 KB");
+    expect(formatBytes(1024)).toBe("1 ??");
   });
 
   it("formats kilobytes", () => {
-    expect(formatBytes(1048576)).toBe("1 MB");
+    expect(formatBytes(1048576)).toBe("1 ??");
   });
 
   it("formats gigabytes", () => {
-    expect(formatBytes(1073741824)).toBe("1 GB");
+    expect(formatBytes(1073741824)).toBe("1 ??");
   });
 });
 
@@ -61,7 +61,7 @@ describe("truncate", () => {
   });
 
   it("truncates long text", () => {
-    expect(truncate("hello world", 5)).toBe("hello...");
+    expect(truncate("hello world", 5)).toBe("hell�");
   });
 
   it("handles exact length", () => {
