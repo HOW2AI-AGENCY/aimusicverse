@@ -34,7 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TrackStem } from "@/hooks/useTrackStems";
 import { useReplicateMidiTranscription, TranscriptionFiles } from "@/hooks/useReplicateMidiTranscription";
 import { useStemTranscription, useSaveTranscription } from "@/hooks/useStemTranscription";
-import { UnifiedNotesViewer } from "@/components/studio/UnifiedNotesViewer";
+import { UnifiedNotesViewer } from "@/components/studio/unified-notes-viewer";
 import { MidiFilesCard } from "@/components/studio/MidiFilesCard";
 import { PianoRoll, type MidiNote } from "./PianoRoll";
 import { toast } from "sonner";

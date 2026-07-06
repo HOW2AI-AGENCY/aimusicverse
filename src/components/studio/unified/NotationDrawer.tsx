@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
-import { UnifiedNotesViewer, type NoteInput } from "@/components/studio/UnifiedNotesViewer";
+import { UnifiedNotesViewer, type NoteInput } from "@/components/studio/unified-notes-viewer";
 
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import type { MidiNote } from "./PianoRoll";

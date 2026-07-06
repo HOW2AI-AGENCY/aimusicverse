@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
-import { UnifiedNotesViewer, type NoteInput } from "@/components/studio/UnifiedNotesViewer";
+import { UnifiedNotesViewer, type NoteInput } from "@/components/studio/unified-notes-viewer";
 import type { MidiNote } from "./PianoRoll";
 
 interface StudioNotationPanelProps {

@@ -108,3 +108,4 @@ graphify-out/
 graphify-out/*
 # MkDocs build output
 site/
+.gstack/
