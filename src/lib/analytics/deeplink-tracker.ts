@@ -700,14 +700,6 @@ export function setDeeplinkContext(context: DeeplinkContext): void {
 // Initialization
 // ==========================================
 
-export interface InitializeOptions {
-  startParam?: string;
-  referrer?: string;
-  isTelegram?: boolean;
-  telegramId?: number | string;
-  pathname?: string;
-  search?: string;
-}
 
 export async function initializeDeeplinkTracker(options: InitializeOptions): Promise<DeeplinkContext> {
   const utmParams = parseUTMParams(options.search);
