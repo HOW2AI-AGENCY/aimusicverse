@@ -14,7 +14,7 @@ interface UseGenerateFormValidationParams {
   setAudioDuration: (d: number | null) => void;
 }
 
-export function useGenerateFormValidation({
+export function useGenerateFormBoostStyle({
   mode,
   description,
   style,
