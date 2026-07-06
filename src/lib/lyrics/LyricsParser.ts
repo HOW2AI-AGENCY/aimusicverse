@@ -421,7 +421,7 @@ export class LyricsParser {
   /**
    * Analyze syllables per line
    */
-  private static analyzeSyllables(lyrics: string): SyllableAnalysis[] {
+  static analyzeSyllables(lyrics: string): SyllableAnalysis[] {
     const analysis: SyllableAnalysis[] = [];
     const lines = lyrics.split("\n");
 
@@ -466,7 +466,7 @@ export class LyricsParser {
   /**
    * Extract clean line without tags
    */
-  private static extractCleanLine(line: string): string {
+  static extractCleanLine(line: string): string {
     return line
       .replace(/\[([^\]]+)\]/g, "") // Remove [tags]
       .replace(/\(([^)]+)\)/g, "") // Remove (tags)
