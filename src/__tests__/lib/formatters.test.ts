@@ -29,29 +29,41 @@ describe("formatTime", () => {
 
 describe("formatDuration", () => {
   it("formats short duration in seconds", () => {
-    expect(formatDuration(30)).toContain("30");
+    expect(formatDuration(30)).toBe("30 сек");
   });
 
   it("formats minutes", () => {
-    expect(formatDuration(120)).toContain("2");
+    expect(formatDuration(120)).toBe("2 мин");
+  });
+
+  it("formats minutes and seconds", () => {
+    expect(formatDuration(150)).toBe("2 мин 30 сек");
+  });
+
+  it("handles zero", () => {
+    expect(formatDuration(0)).toBe("0 сек");
   });
 });
 
 describe("formatBytes", () => {
   it("formats zero bytes", () => {
-    expect(formatBytes(0)).toBe("0 ?");
+    expect(formatBytes(0)).toBe("0 Б");
   });
 
   it("formats bytes", () => {
-    expect(formatBytes(1024)).toBe("1 ??");
+    expect(formatBytes(1024)).toBe("1 КБ");
   });
 
   it("formats kilobytes", () => {
-    expect(formatBytes(1048576)).toBe("1 ??");
+    expect(formatBytes(1048576)).toBe("1 МБ");
   });
 
   it("formats gigabytes", () => {
-    expect(formatBytes(1073741824)).toBe("1 ??");
+    expect(formatBytes(1073741824)).toBe("1 ГБ");
+  });
+
+  it("handles decimals correctly", () => {
+    expect(formatBytes(1536)).toBe("1.5 КБ");
   });
 });
 
@@ -60,8 +72,8 @@ describe("truncate", () => {
     expect(truncate("hello", 10)).toBe("hello");
   });
 
-  it("truncates long text", () => {
-    expect(truncate("hello world", 5)).toBe("hell�");
+  it("truncates long text with ellipsis", () => {
+    expect(truncate("hello world", 5)).toBe("hell…");
   });
 
   it("handles exact length", () => {

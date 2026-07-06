@@ -57,14 +57,14 @@ describe("getUserErrorMessage", () => {
   });
 
   it("returns timeout message for timeout errors", () => {
-    expect(getUserErrorMessage(new Error("request timeout"))).toBe("Превышено время ожидания. Попробуйте ещё раз.");
+    expect(getUserErrorMessage(new Error("request timeout")).toBe("Timeout exceeded. Try again.");
   });
 
   it("returns auth message for unauthorized errors", () => {
-    expect(getUserErrorMessage(new Error("unauthorized"))).toBe("Требуется авторизация. Пожалуйста, войдите снова.");
+    expect(getUserErrorMessage(new Error("unauthorized")).toBe("Authorization required. Please log in again.");
   });
 
   it("returns not found message for 404 errors", () => {
-    expect(getUserErrorMessage(new Error("not found"))).toBe("Запрашиваемый ресурс не найден.");
+    expect(getUserErrorMessage(new Error("not found")).toBe("Requested resource not found.");
   });
 });

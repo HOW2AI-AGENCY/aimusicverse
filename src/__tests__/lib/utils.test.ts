@@ -34,21 +34,36 @@ describe("cn", () => {
 describe("cnInteractive", () => {
   it("returns base classes by default", () => {
     const result = cnInteractive();
-    expect(result).toContain("cursor-pointer");
+    expect(result).toContain("transition-[transform,background-color,border-color,box-shadow]");
+    expect(result).toContain("duration-200");
+    expect(result).toContain("active:scale-[0.97]");
   });
 
-  it("includes hover classes when hover is true", () => {
+  it("includes hover classes when hover is true (default)", () => {
     const result = cnInteractive({ hover: true });
-    expect(result).toContain("hover:");
+    expect(result).toContain("hover:-translate-y-0.5");
+    expect(result).toContain("hover:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.35)]");
   });
 
-  it("includes ring classes when ring is specified", () => {
-    const result = cnInteractive({ ring: "primary" });
-    expect(result).toContain("ring");
+  it("excludes hover classes when hover is false", () => {
+    const result = cnInteractive({ hover: false });
+    expect(result).not.toContain("hover:");
   });
 
-  it("handles destruct ring", () => {
+  it("includes primary ring classes by default", () => {
+    const result = cnInteractive();
+    expect(result).toContain("focus-visible:ring-primary/60");
+  });
+
+  it("includes destructive ring classes when specified", () => {
     const result = cnInteractive({ ring: "destructive" });
-    expect(result).toContain("destructive");
+    expect(result).toContain("focus-visible:ring-destructive/60");
+    expect(result).not.toContain("focus-visible:ring-primary/60");
+  });
+
+  it("includes focus-visible classes", () => {
+    const result = cnInteractive();
+    expect(result).toContain("focus-visible:outline-none");
+    expect(result).toContain("focus-visible:ring-2");
   });
 });

@@ -31,7 +31,8 @@ describe("getChordFingering", () => {
   it("returns fingering for known chord", () => {
     const result = getChordFingering("C");
     expect(result).not.toBeNull();
-    expect(result?.positions).toBeDefined();
+    expect(result?.frets).toBeDefined();
+    expect(result?.frets).toEqual([-1, 3, 2, 0, 1, 0]);
   });
 
   it("returns null for unknown chord", () => {
