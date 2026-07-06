@@ -25,50 +25,24 @@ import {
   normalizeSectionType,
   type LyricSectionType,
 } from "./lyricsSectionMeta";
+import {
+  parseLyrics,
+  sectionsToLyrics,
+  sectionsEqual,
+  applyTemplateToSections,
+  CHAR_LIMIT,
+  CHAR_DANGER,
+  CHAR_WARNING,
+  QUICK_TEMPLATES,
+  type LyricSection,
+} from "./lyricsEditorHelpers";
 
-export type { LyricSectionType };
+// Re-export for backward compatibility with tests
+export { parseLyrics, sectionsToLyrics, sectionsEqual, applyTemplateToSections };
 
-export interface LyricSection {
-  id: string;
-  type: LyricSectionType;
-  content: string;
-  tags?: string[];
-}
-
-interface QUICK_TEMPLATE_DEF {
-  id: string;
-  label: string;
-  blurb: string;
-  structure: LyricSectionType[];
-}
-
-const QUICK_TEMPLATES: QUICK_TEMPLATE_DEF[] = [
-  {
-    id: "pop",
-    label: "Pop",
-    blurb: "Куплет → Припев, 6 блоков",
-    structure: ["verse", "chorus", "verse", "chorus", "bridge", "chorus"],
-  },
-  {
-    id: "rap",
-    label: "Рэп",
-    blurb: "Куплет → Хук, 4 блока",
-    structure: ["verse", "hook", "verse", "hook"],
-  },
-  {
-    id: "edm",
-    label: "EDM",
-    blurb: "Интро → Дроп, 6 блоков",
-    structure: ["intro", "verse", "drop", "verse", "drop", "outro"],
-  },
-];
+export type { LyricSectionType, LyricSection };
 
 const MAX_SNAPSHOTS = 200;
-
-/** Character budget shared with the text-mode editor (see LyricsSectionAdvanced). */
-const CHAR_LIMIT = 3000;
-const CHAR_DANGER = 2800;
-const CHAR_WARNING = 2500;
 
 /**
  * Snapshot captured around an external sync, exposed on `window.__lyricsEditorMetrics.snapshots`
@@ -123,120 +97,6 @@ function trackExternalSync(): void {
   const m = getMetrics() ?? { renders: 0, externalSyncs: 0, snapshots: [] };
   m.externalSyncs += 1;
   if (typeof window !== "undefined") window.__lyricsEditorMetrics = m;
-}
-
-// ============================================================================
-// LYRICS PARSE / EMIT HELPERS (exposed for tests)
-// ============================================================================
-
-/**
- * Section header: `[Verse]`, `[verse 2]`, `[Pre-Chorus]`, `[PreChorus 1]`…
- * The optional trailing number keeps text-mode templates (`[Verse 1]`)
- * round-trippable through the visual editor.
- */
-const SECTION_HEADER_RE = /^\[([a-zа-яё -]+?)(?:\s+\d+)?\]\s*$/i;
-
-function makeSectionId(seed: number): string {
-  return `sec-${seed}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-}
-
-export function parseLyrics(input: string): LyricSection[] {
-  if (!input.trim()) return [];
-  const lines = input.split(/\r?\n/);
-  const sections: LyricSection[] = [];
-  let current: LyricSection | null = null;
-
-  for (const raw of lines) {
-    const line = raw.trim();
-    const match = line.match(SECTION_HEADER_RE);
-    const type = match ? normalizeSectionType(match[1]) : null;
-    if (type) {
-      if (current) sections.push(current);
-      current = {
-        id: makeSectionId(sections.length),
-        type,
-        content: "",
-      };
-      continue;
-    }
-    // Skip blank separator lines — they must not contribute trailing whitespace
-    // to the previous section's content (preserves round-trip stability).
-    if (!line) continue;
-    if (current) {
-      current.content = current.content ? `${current.content}\n${line}` : line;
-    } else {
-      // Orphan text without a header — wrap it in a default verse.
-      current = {
-        id: makeSectionId(sections.length),
-        type: "verse",
-        content: line,
-      };
-    }
-  }
-  if (current) sections.push(current);
-  return sections;
-}
-
-/**
- * Serialize sections into Suno-style lyrics. Repeated types are auto-numbered
- * (`[Verse 1]`, `[Verse 2]`) so the structure stays readable in text mode.
- */
-export function sectionsToLyrics(sections: LyricSection[]): string {
-  const typeTotals = new Map<LyricSectionType, number>();
-  for (const s of sections) typeTotals.set(s.type, (typeTotals.get(s.type) ?? 0) + 1);
-  const seen = new Map<LyricSectionType, number>();
-
-  return sections
-    .map((s) => {
-      const ordinal = (seen.get(s.type) ?? 0) + 1;
-      seen.set(s.type, ordinal);
-      const base = LYRIC_SECTION_BY_VALUE[s.type].header;
-      const header = (typeTotals.get(s.type) ?? 0) > 1 ? `${base} ${ordinal}` : base;
-      return `[${header}]\n${s.content}`.trim();
-    })
-    .filter((block) => block.length > "[x]".length)
-    .join("\n\n");
-}
-
-export function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
-  if (a.length !== b.length) return false;
-  for (let i = 0; i < a.length; i++) {
-    if (a[i].type !== b[i].type) return false;
-    if (a[i].content !== b[i].content) return false;
-  }
-  return true;
-}
-
-/**
- * Replace (or seed) section structure from a template definition.
- * Carries verse-like content from the previous document in order, **per type**:
- * a verse slot only consumes prior verse content, never prior chorus content.
- * Non-matching slots stay empty so the user can decide what to write.
- */
-export function applyTemplateToSections(
-  prev: LyricSection[],
-  template: LyricSectionType[],
-  seedVerse = 1,
-): LyricSection[] {
-  // Per-type pools — preserve the original semantic where each template slot
-  // only ever sees content from a matching source type, left → right.
-  const pools = new Map<LyricSectionType, string[]>();
-  for (const s of prev) {
-    if (!s.content) continue;
-    const list = pools.get(s.type) ?? [];
-    list.push(s.content);
-    pools.set(s.type, list);
-  }
-  return template.map((type, i) => {
-    const pool = pools.get(type);
-    const content = pool && pool.length ? pool.shift()! : "";
-    return {
-      id: `sec-${seedVerse}-${i}-${Math.random().toString(36).slice(2, 10)}`,
-      type,
-      content,
-      tags: [],
-    };
-  });
 }
 
 // ============================================================================
