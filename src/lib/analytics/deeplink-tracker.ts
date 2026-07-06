@@ -11,85 +11,35 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
+import {
+  STORAGE_KEYS,
+  type UTMParams,
+  type DeeplinkContext,
+  type DeviceInfo,
+  type DeeplinkSource,
+  type ConversionEvent,
+  type ConversionStage,
+  type ExperimentAssignment,
+  type DeeplinkAnalyticsSummary,
+  type InitializeOptions,
+  type DeeplinkBuildOptions,
+} from "./deeplinkTypes";
+
+// Re-export for backward compatibility
+export type {
+  UTMParams,
+  DeeplinkContext,
+  DeviceInfo,
+  DeeplinkSource,
+  ConversionEvent,
+  ConversionStage,
+  ExperimentAssignment,
+  DeeplinkAnalyticsSummary,
+  InitializeOptions,
+  DeeplinkBuildOptions,
+};
 
 const deeplinkLogger = logger.child({ module: "DeeplinkTracker" });
-
-// ==========================================
-// Types
-// ==========================================
-
-export interface UTMParams {
-  utm_source?: string;
-  utm_medium?: string;
-  utm_campaign?: string;
-  utm_term?: string;
-  utm_content?: string;
-}
-
-export interface DeeplinkContext {
-  type: string;
-  value?: string;
-  source: DeeplinkSource;
-  utmParams?: UTMParams;
-  referrer?: string;
-  landingPath?: string;
-  experimentId?: string;
-  variantId?: string;
-  referralCode?: string;
-  isFirstVisit: boolean;
-  deviceInfo: DeviceInfo;
-}
-
-export interface DeviceInfo {
-  platform: string;
-  userAgent: string;
-  language: string;
-  timezone: string;
-  screenWidth: number;
-  screenHeight: number;
-  isTouchDevice: boolean;
-}
-
-export type DeeplinkSource =
-  | "telegram_miniapp"
-  | "telegram_bot"
-  | "telegram_channel"
-  | "web_share"
-  | "qr_code"
-  | "email"
-  | "push_notification"
-  | "social_media"
-  | "referral"
-  | "organic"
-  | "unknown";
-
-export interface ConversionEvent {
-  sessionId: string;
-  stage: ConversionStage;
-  metadata?: Record<string, unknown>;
-}
-
-export type ConversionStage =
-  | "visit" // Landed on app
-  | "engaged" // Interacted with content
-  | "registered" // Created account
-  | "first_action" // First meaningful action (play, like, etc.)
-  | "generation" // Started generation
-  | "completed" // Completed generation
-  | "payment" // Made payment
-  | "retained"; // Returned after 24h+
-
-// Storage keys
-const STORAGE_KEYS = {
-  SESSION_ID: "deeplink_session_id",
-  PERSISTENT_SESSION_ID: "deeplink_persistent_session_id", // localStorage fallback
-  FIRST_VISIT: "deeplink_first_visit",
-  LAST_DEEPLINK: "deeplink_last_type",
-  CONVERSION_STAGES: "deeplink_conversion_stages",
-  PERSISTENT_CONVERSION_STAGES: "deeplink_persistent_stages", // localStorage fallback
-  REFERRAL_CHAIN: "deeplink_referral_chain",
-  EXPERIMENT_ASSIGNMENTS: "deeplink_experiments",
-} as const;
 
 // ==========================================
 // Session Management (Enhanced with persistence)
