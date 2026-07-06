@@ -5,8 +5,8 @@
 
 import { memo } from "react";
 import { cn } from "@/lib/utils";
-import { getLyricSectionColor } from "./lyricsSectionMeta";
-import type { LyricSection, LyricSectionType } from "./LyricsVisualEditorCompact";
+import { getLyricSectionColor } from "../lyricsSectionMeta";
+import type { LyricSection, LyricSectionType } from "../LyricsVisualEditorCompact";
 import { ArrowUp, ArrowDown, Trash2 } from "@/lib/icons";
 
 interface SectionCardProps {

@@ -3,7 +3,7 @@
  * Sprint 051 — Test Debt + God Files Decomposition
  */
 
-import type { LyricSection, LyricSectionType } from "./LyricsVisualEditorCompact";
+import type { LyricSection, LyricSectionType } from "../LyricsVisualEditorCompact";
 
 /**
  * Parse lyrics input into structured sections
