@@ -19,10 +19,7 @@ import {
   type DeeplinkSource,
   type ConversionEvent,
   type ConversionStage,
-  type ExperimentAssignment,
-  type DeeplinkAnalyticsSummary,
   type InitializeOptions,
-  type DeeplinkBuildOptions,
 } from "./deeplinkTypes";
 
 // Re-export for backward compatibility
@@ -33,10 +30,7 @@ export type {
   DeeplinkSource,
   ConversionEvent,
   ConversionStage,
-  ExperimentAssignment,
-  DeeplinkAnalyticsSummary,
   InitializeOptions,
-  DeeplinkBuildOptions,
 };
 
 const deeplinkLogger = logger.child({ module: "DeeplinkTracker" });
