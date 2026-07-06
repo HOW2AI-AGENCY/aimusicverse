@@ -14,38 +14,14 @@ import { memo, useState, useMemo, useCallback, useEffect } from "react";
 import { motion } from "@/lib/motion";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
-import { formatTime } from "@/lib/formatters";
-import {
-  Music,
-  Piano,
-  ListMusic,
-  FileText,
-  Download,
-  Music2,
-  Play,
-  Pause,
-  Volume2,
-  VolumeX,
-  Loader2,
-  Guitar,
-  FileCode2,
-  ExternalLink,
-  Send,
-} from "@/lib/icons";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Slider } from "@/components/ui/slider";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { InteractivePianoRoll } from "@/components/analysis/InteractivePianoRoll";
-import { StaffNotation } from "@/components/analysis/StaffNotation";
-import { MusicXMLViewer } from "@/components/guitar/MusicXMLViewer";
-import { useMidiFileParser, type ParsedMidiNote } from "@/hooks/useMidiFileParser";
-import { useMusicXmlParser } from "@/hooks/useMusicXmlParser";
-import { useMidiSynth } from "@/hooks/useMidiSynth";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useTelegramDocumentShare } from "@/hooks/studio/useTelegramDocumentShare";
+import { logger } from "@/lib/logger";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { useMidiFileParser } from "@/hooks/studio/useMidiFileParser";
+import { useMusicXmlParser } from "@/hooks/studio/useMusicXmlParser";
+import { useMidiSynth } from "@/hooks/studio/useMidiSynth";
+import { useTelegramDocumentShare } from "@/hooks/telegram/useTelegramDocumentShare";
 import { toast } from "sonner";
+import { NOTE_NAMES, NOTE_NAMES_RU, parseTimeSignature } from "./musicNotationUtils";
 
 type ViewMode = "piano" | "notation" | "list";
 
@@ -102,22 +78,6 @@ interface UnifiedNotesViewerProps {
 
   // Callbacks
   onNoteClick?: (note: NoteInput, index: number) => void;
-}
-
-const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-const NOTE_NAMES_RU = ["До", "До#", "Ре", "Ре#", "Ми", "Фа", "Фа#", "Соль", "Соль#", "Ля", "Ля#", "Си"];
-
-function parseTimeSignature(ts: { numerator: number; denominator: number } | string | undefined): {
-  numerator: number;
-  denominator: number;
-} {
-  if (!ts) return { numerator: 4, denominator: 4 };
-  if (typeof ts === "object") return ts;
-  const parts = ts.split("/");
-  if (parts.length === 2) {
-    return { numerator: parseInt(parts[0], 10) || 4, denominator: parseInt(parts[1], 10) || 4 };
-  }
-  return { numerator: 4, denominator: 4 };
 }
 
 export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
