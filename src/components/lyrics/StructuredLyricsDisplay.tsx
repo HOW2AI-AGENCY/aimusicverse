@@ -9,6 +9,7 @@ import { Copy, Check, Music2, Tag, Info, List, FileText, BarChart3, AlertTriangl
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { LyricsParser, type ParsedLyrics, type LyricsSection } from "@/lib/lyrics/LyricsParser";
+import { professionalAnalysis } from "@/lib/lyrics/lyricsAnalysisSuite";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { getSectionColor, tagColors } from "@/lib/design-colors";
 
@@ -95,7 +96,7 @@ export function StructuredLyricsDisplay({
   const parsed = useMemo(() => LyricsParser.parse(lyrics), [lyrics]);
 
   // Professional analysis
-  const proAnalysis = useMemo(() => LyricsParser.professionalAnalysis(lyrics), [lyrics]);
+  const proAnalysis = useMemo(() => professionalAnalysis(lyrics), [lyrics]);
 
   // Check if there are no tags (memoized)
   const hasNoTags = useMemo(() => Object.values(parsed.tags).every((arr) => arr.length === 0), [parsed.tags]);
