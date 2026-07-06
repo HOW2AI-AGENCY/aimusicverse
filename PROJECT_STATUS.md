@@ -8,7 +8,7 @@
   <img alt="Спринт" src="https://img.shields.io/badge/sprint-051_053_055_complete-10B981?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-395_passing-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-899_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
 </p>
@@ -35,25 +35,25 @@
 
 ### Блок 1 — Стабилизация main (Sprint 050) ✅
 
-| Задача     | Действие                                         | Статус        |
-| ---------- | ------------------------------------------------ | ------------- |
-| Phase A    | Все workflow зелёные                             | ✅ Done       |
-| Phase B    | F1–F12 mobile fixes                              | ✅ 6/6 done   |
-| Docs       | GitHub Pages включён                             | ✅ Done       |
+| Задача  | Действие             | Статус      |
+| ------- | -------------------- | ----------- |
+| Phase A | Все workflow зелёные | ✅ Done     |
+| Phase B | F1–F12 mobile fixes  | ✅ 6/6 done |
+| Docs    | GitHub Pages включён | ✅ Done     |
 
 ### Блок 2 — UX Critical Fixes (Sprint 055) ✅
 
-| Задача        | Действие                          | Статус |
-| ------------- | --------------------------------- | ------ |
-| Save Draft    | Wire useGenerateDraft.saveDraft() | ✅     |
-| Cancel        | Убрать showCancel={false}         | ✅     |
-| Deeplink      | startapp=generate → open sheet    | ✅     |
-| Welcome Bonus | Idempotency guard                 | ✅     |
-| Dual CTA      | Show both buttons always          | ✅     |
-| Footer Summary| Generation info below CTA         | ✅     |
-| Stepper       | FormStepper for Custom mode       | ✅     |
-| VoiceInput    | Voice input in Custom sections    | ✅     |
-| Home CTA      | Sticky CTA for cold users         | ✅     |
+| Задача         | Действие                          | Статус |
+| -------------- | --------------------------------- | ------ |
+| Save Draft     | Wire useGenerateDraft.saveDraft() | ✅     |
+| Cancel         | Убрать showCancel={false}         | ✅     |
+| Deeplink       | startapp=generate → open sheet    | ✅     |
+| Welcome Bonus  | Idempotency guard                 | ✅     |
+| Dual CTA       | Show both buttons always          | ✅     |
+| Footer Summary | Generation info below CTA         | ✅     |
+| Stepper        | FormStepper for Custom mode       | ✅     |
+| VoiceInput     | Voice input in Custom sections    | ✅     |
+| Home CTA       | Sticky CTA for cold users         | ✅     |
 
 ### Блок 3 — GenerateSheet Redesign (Sprint 056) ✅
 
@@ -61,20 +61,20 @@ Phase A–B ✅, Phase C–D ✅ (stories + docs complete)
 
 ### Блок 4 — Test Debt (Sprint 051) 🔄
 
-| Задача | Статус |
-| ------ | ------ |
-| T051 studio.service decomposition | ✅ 1137→4 модуля |
-| T052 LyricsParser types extraction | ✅ |
-| T053 studio.api decomposition | ✅ 953→4 модуля |
-| T054 studio.service тесты | ✅ 24 tests |
-| T055 450+ unit-тестов | 🔄 395→target |
-| T056 0 файлов >1000 LOC | ⏳ |
+| Задача                             | Статус                    |
+| ---------------------------------- | ------------------------- |
+| T051 studio.service decomposition  | ✅ 1137→4 модуля          |
+| T052 LyricsParser types extraction | ✅                        |
+| T053 studio.api decomposition      | ✅ 953→4 модуля           |
+| T054 studio.service тесты          | ✅ 24 tests               |
+| T055 vitest config fix + API tests | ✅ 395→899 (+504) PR #636 |
+| T056 0 файлов >1000 LOC            | ⏳ 6 файлов 700-837 LOC   |
 
 ### Блок 5 — Suno API (Sprint 053–054) ✅
 
-| Спринт | Статус |
-| ------ | ------ |
-| Sprint 053 SFX + MIDI | ✅ Complete |
+| Спринт                   | Статус      |
+| ------------------------ | ----------- |
+| Sprint 053 SFX + MIDI    | ✅ Complete |
 | Sprint 054 Details Suite | ✅ Complete |
 
 ---
@@ -790,8 +790,6 @@ mindmap
 | Dead code LOC               | —               | **−449 LOC** (`suno-check-status` deleted) |
 | Graph nodes                 | 17921           | **17929**                                  |
 
-
-
 ---
 
 ## Sprint 056 — GenerateSheet Redesign + Storybook Documentation ✅
@@ -830,21 +828,23 @@ mindmap
 
 ### 📊 Метрики успеха
 
-| Метрика                      | До    | После | Цель   |
-| ---------------------------- | ----- | ----- | ------ |
-| GenerateSheet LOC            | ~800  | ~300  | <400   |
-| Storybook stories            | 0     | 6     | 6      |
-| Component reusability        | Low   | High  | High   |
-| Documentation coverage      | 0%    | 100%  | 100%   |
+| Метрика                | До   | После | Цель |
+| ---------------------- | ---- | ----- | ---- |
+| GenerateSheet LOC      | ~800 | ~300  | <400 |
+| Storybook stories      | 0    | 6     | 6    |
+| Component reusability  | Low  | High  | High |
+| Documentation coverage | 0%   | 100%  | 100% |
 
 ### 🏗 Architectural Improvements
 
 **Thin Orchestrator Pattern:**
+
 - Улучшенная тестируемость (изолированные компоненты)
 - Переиспользование компонентов (Header, Body, Footer, Dialogs)
 - Четкое разделение ответственности (orchestration vs rendering)
 
 **Storybook Coverage:**
+
 - 100% documentation coverage для редизайненных компонентов
 - 25+ interactive примеров
 - Responsive design (mobile + desktop)
@@ -853,16 +853,19 @@ mindmap
 ### 📝 Documentation Files
 
 **Created:**
+
 - `docs/COMPONENTS.md` — Component architecture guide
 - `docs/THIN_ORCHESTRATOR_PATTERN.md` — Architectural pattern documentation
 
 **Updated:**
+
 - `CHANGELOG.md` — Sprint 056 entry added
 - `SPRINTS/SPRINT-056-PLAN.md` — Marked Phase A-D as complete
 
 ### 🎉 Итоги
 
 Sprint 056 успешно завершён:
+
 - ✅ GenerateSheet редизайн (thin orchestrator pattern)
 - ✅ 6 Storybook stories (25+ interactive examples)
 - ✅ Responsive/accessibility/interaction documentation
