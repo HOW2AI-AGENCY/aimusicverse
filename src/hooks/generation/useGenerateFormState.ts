@@ -14,11 +14,11 @@
  * also computes audio duration. That wrap stays in the composer.
  */
 
-import { useGenerateFormStateInternal } from "./useGenerateFormStateInternal";
+import { useGenerateFormState as useGenerateFormStateInternal } from "./useGenerateFormStateInternal";
 import type { UseGenerateFormParams, UseGenerateFormStateReturn } from "./useGenerateForm.types";
 
 export function useGenerateFormState(params: UseGenerateFormParams): UseGenerateFormStateReturn {
-  const s = useGenerateFormStateInternal(params);
+  const s = useGenerateFormStateInternal(params as never);
 
   // The brief asks the state hook to expose `hasUnsavedData`. Until the
   // redesign lands, we treat it as a constant `false` to preserve behavior.
