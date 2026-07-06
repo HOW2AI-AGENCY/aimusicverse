@@ -1,6 +1,6 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-07-06 (God files decomposition complete ✅ — 1497 unit tests passing; UnifiedNotesViewer, LyricsVisualEditorCompact, IntegratedStemTracks decomposed; Sprint 051 T056 ✅)
+**Последнее обновление**: 2026-07-06 (i18n setup ✅ — react-i18next EN/RU; Branch Protection Phase 2 ✅; ROADMAP updated; PR #652 merged)
 
 > 📌 **Важно**: Это документ отслеживает все спринты и их статусы. Для детального плана задач смотрите [BACKLOG.md](BACKLOG.md).
 
