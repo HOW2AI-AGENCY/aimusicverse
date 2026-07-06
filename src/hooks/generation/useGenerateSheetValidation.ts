@@ -67,7 +67,7 @@ export interface ValidationFormSlice {
 
 export function useGenerateSheetValidation(
   form: ValidationFormSlice,
-  balance: number,
+  balance: number | null,
   cost: number,
 ): UseGenerateSheetValidationReturn {
   const reasons = useMemo<ValidationReason[]>(() => {
@@ -125,12 +125,15 @@ export function useGenerateSheetValidation(
     }
 
     // ── credits ──────────────────────────────────────────────────────
-    if (balance < cost) {
+    // null balance = still loading → treat as insufficient so the user can't
+    // submit on stale/unknown credit state (safe default, mirrors the header
+    // pill's loading treatment).
+    if (balance === null || balance < cost) {
       r.push({
         field: "credits",
         severity: "error",
         message: "credits.insufficient",
-        messageRu: `Недостаточно кредитов (нужно ${cost}, доступно ${balance})`,
+        messageRu: `Недостаточно кредитов (нужно ${cost}, доступно ${balance ?? 0})`,
       });
     }
 

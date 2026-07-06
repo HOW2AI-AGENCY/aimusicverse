@@ -182,7 +182,9 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     mode: state.mode,
     setMode: state.setMode,
     loading: state.loading,
+    setLoading: state.setLoading,
     audioReferenceLoading: state.audioReferenceLoading,
+    setAudioReferenceLoading: state.setAudioReferenceLoading,
     boostLoading,
 
     // ─── retry state ────────────────────────────────────────────────
@@ -198,8 +200,11 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     generationCost: validation.generationCost,
     generationCostBreakdown: validation.generationCostBreakdown,
     apiCredits: state.apiCredits,
+    setApiCredits: state.setApiCredits,
     isAdmin: state.isAdmin,
+    apiBalance: state.apiBalance,
     hasDraft,
+    hasUnsavedData: state.hasUnsavedData,
 
     // ─── simple mode ────────────────────────────────────────────────
     description: state.description,
@@ -238,7 +243,10 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     setSelectedArtistId: state.setSelectedArtistId,
     audioFile: state.audioFile,
     setAudioFile: handleSetAudioFile,
+    audioDuration: state.audioDuration,
+    setAudioDuration: state.setAudioDuration,
     planTrackId: state.planTrackId,
+    setPlanTrackId: state.setPlanTrackId,
     customVoiceId: state.customVoiceId,
     setCustomVoiceId: state.setCustomVoiceId,
     isPublic: state.isPublic,
@@ -258,5 +266,6 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     // ─── active reference (used by submit) ─────────────────────────
     activeReference,
     clearAudioReference,
+    invalidateCredits: state.invalidateCredits,
   };
 }

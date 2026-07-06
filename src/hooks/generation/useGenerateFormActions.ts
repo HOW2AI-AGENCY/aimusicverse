@@ -20,7 +20,7 @@
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
 
-import { useGenerateFormSubmit } from "./useGenerateFormSubmit";
+import { useGenerateFormSubmit, type AudioReferenceData } from "./useGenerateFormSubmit";
 
 import type { ArtistRow } from "@/api/artists.api";
 import type { TrackRow } from "@/api/tracks.api";
@@ -50,7 +50,7 @@ export function useGenerateFormActions(deps: UseGenerateFormActionsDeps): UseGen
     customVoiceId: deps.customVoiceId,
     isPublic: deps.isPublic,
     artists: deps.artists as ArtistRow[] | undefined,
-    activeReference: deps.activeReference,
+    activeReference: deps.activeReference as AudioReferenceData | null,
     clearAudioReference: deps.clearAudioReference,
     loading: deps.loading,
     setLoading: deps.setLoading,

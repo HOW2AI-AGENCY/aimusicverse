@@ -70,6 +70,15 @@ export default tseslint.config(
       "build",
       "coverage",
       "node_modules",
+      // Vendored worktree from other tooling — not project source.
+      ".kilo/**",
+      // Generated Playwright artifacts (also gitignored; ignored here so a
+      // local run doesn't surface phantom errors).
+      "playwright-report/**",
+      "test-results/**",
+      // AI-assistant plan/spec scratch dirs (markdown-driven, not lintable TS).
+      ".lovable/**",
+      ".mimocode/**",
       "**/*.stories.tsx",
       "**/*.min.js",
       "storybook-static",

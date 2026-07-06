@@ -29,11 +29,11 @@
 
 ### Фаза C — God Files decomposition (день 7–10, строго после B)
 
-| #      | Файл                             | LOC  | Стратегия                                      |
-| ------ | -------------------------------- | ---- | ---------------------------------------------- |
+| #      | Файл                             | LOC  | Стратегия                                                           |
+| ------ | -------------------------------- | ---- | ------------------------------------------------------------------- |
 | 051-C1 | `src/services/studio.service.ts` | 1028 | ✅ Done — split into 4 modules (sections/stems/operations/realtime) |
-| 051-C2 | `src/lib/lyrics/LyricsParser.ts` | 903  | ⏳ Planned — парсер-ядро + форматтеры + tag-handling        |
-| 051-C3 | `src/api/studio.api.ts`          | 891  | ⏳ Planned — по таблицам/фичам, сохранить публичный API     |
+| 051-C2 | `src/lib/lyrics/LyricsParser.ts` | 903  | ⏳ Planned — парсер-ядро + форматтеры + tag-handling                |
+| 051-C3 | `src/api/studio.api.ts`          | 891  | ⏳ Planned — по таблицам/фичам, сохранить публичный API             |
 
 Остальные 6 файлов >800 LOC (`IntegratedStemTracks.tsx`, `UnifiedNotesViewer.tsx`, `deeplink-tracker.ts`, `errorHandling.ts`, `AudioAnalysisService.ts`, `LyricsVisualEditor.tsx`) — по остаточному времени или перенос в 056+.
 
