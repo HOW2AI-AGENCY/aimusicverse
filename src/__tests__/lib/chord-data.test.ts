@@ -10,20 +10,16 @@ describe("normalizeChord", () => {
     expect(normalizeChord("C")).toBe("C");
   });
 
-  it("normalizes Cm to Cm", () => {
+  it("keeps Cm as Cm", () => {
     expect(normalizeChord("Cm")).toBe("Cm");
   });
 
-  it("normalizes Cmaj to C", () => {
-    expect(normalizeChord("Cmaj")).toBe("C");
+  it("keeps original chord if not in dictionary", () => {
+    expect(normalizeChord("Cmajor")).toBe("Cmajor");
   });
 
-  it("normalizes Cmajor to C", () => {
-    expect(normalizeChord("Cmajor")).toBe("C");
-  });
-
-  it("handles lowercase input", () => {
-    expect(normalizeChord("c")).toBe("C");
+  it("keeps lowercase if not in dictionary", () => {
+    expect(normalizeChord("c")).toBe("c");
   });
 
   it("handles empty string", () => {

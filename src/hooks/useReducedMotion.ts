@@ -171,3 +171,6 @@ export function useStaggerDelay(index: number, baseDelay: number = 50): React.CS
 }
 
 export default useReducedMotion;
+
+// Re-export constants for direct import (used by tests)
+export { instantTransition, reducedMotionVariants };

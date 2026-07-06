@@ -11,24 +11,31 @@ describe("backdrop", () => {
     expect(typeof backdrop.sheet).toBe("string");
   });
 
-  it("has dialog property", () => {
-    expect(backdrop.dialog).toBeDefined();
-    expect(typeof backdrop.dialog).toBe("string");
+  it("has light property", () => {
+    expect(backdrop.light).toBeDefined();
+    expect(typeof backdrop.light).toBe("string");
   });
 
-  it("has tooltip property", () => {
-    expect(backdrop.tooltip).toBeDefined();
+  it("has medium property", () => {
+    expect(backdrop.medium).toBeDefined();
+    expect(typeof backdrop.medium).toBe("string");
   });
 });
 
 describe("surface", () => {
-  it("has card property", () => {
-    expect(surface.card).toBeDefined();
-    expect(typeof surface.card).toBe("string");
+  it("has subtle property", () => {
+    expect(surface.subtle).toBeDefined();
+    expect(typeof surface.subtle).toBe("string");
   });
 
-  it("has elevated property", () => {
-    expect(surface.elevated).toBeDefined();
+  it("has light property", () => {
+    expect(surface.light).toBeDefined();
+    expect(typeof surface.light).toBe("string");
+  });
+
+  it("has medium property", () => {
+    expect(surface.medium).toBeDefined();
+    expect(typeof surface.medium).toBe("string");
   });
 });
 
