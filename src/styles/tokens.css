@@ -2,6 +2,9 @@
  * Consolidated Design Tokens
  * Unified CSS custom property layer extending the design system.
  * References existing vars from colors.css, spacing.css, shadows.css, typography.css.
+ *
+ * Phase A (2026-07-06): Accent desaturated hsl(155 40% 50%), surface-1/2/3
+ * contrast fixed, Inter removed from all font stacks.
  */
 
 :root {
@@ -9,9 +12,9 @@
   --text-scale: 1;
 
   /* ── Brand Colors ── */
-  --brand-primary: hsl(20 100% 62%);
-  --brand-primary-hover: hsl(20 100% 55%);
-  --brand-primary-active: hsl(20 100% 48%);
+  --brand-primary: hsl(155 40% 50%);
+  --brand-primary-hover: hsl(155 40% 45%);
+  --brand-primary-active: hsl(155 40% 40%);
 
   /* ── Neutral Scale ── */
   --neutral-50: hsl(0 0% 98%);
@@ -30,17 +33,20 @@
   --color-warning: hsl(var(--warning));
   --color-error: hsl(var(--destructive));
 
-  /* ── Surface Tokens ── */
-  --surface-primary: hsl(var(--background));
-  --surface-secondary: hsl(var(--muted));
-  --surface-elevated: hsl(var(--card));
+  /* ── Surface Tokens (Phase A: progressive contrast) ── */
+  --surface-primary: hsl(var(--surface-1));
+  --surface-secondary: hsl(var(--surface-2));
+  --surface-elevated: hsl(var(--surface-3));
 
   /* ── Text Tokens ── */
   --text-primary: hsl(var(--foreground));
   --text-secondary: hsl(var(--muted-foreground));
   --text-tertiary: hsl(var(--muted-foreground) / 0.7);
 
-  /* ── Font Sizes (scaled) ── */
+  /* ── Font Families (Phase A: Inter removed) ── */
+  --font-display: "Space Grotesk", "Unbounded", "DM Sans", system-ui, sans-serif;
+  --font-body: "DM Sans", "Onest", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Roboto Mono", ui-monospace, monospace;
   --font-size-xs: calc(12px * var(--text-scale));
   --font-size-sm: calc(14px * var(--text-scale));
   --font-size-base: calc(16px * var(--text-scale));

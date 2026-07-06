@@ -41,10 +41,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Onest"', "Inter", "system-ui", "sans-serif"],
+        sans: ['"DM Sans"', '"Onest"', "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "Roboto Mono", "monospace"],
-        display: ['"Unbounded"', '"Onest"', "system-ui", "sans-serif"],
-        body: ['"DM Sans"', "sans-serif"],
+        display: ['"Space Grotesk"', '"Unbounded"', '"Onest"', "system-ui", "sans-serif"],
+        body: ['"DM Sans"', '"Onest"', "system-ui", "sans-serif"],
       },
       fontSize: {
         // Professional Typography Scale (from 032-professional-ui spec)
@@ -217,8 +217,8 @@ export default {
       },
       boxShadow: {
         glow: "var(--shadow-glow)",
-        "glow-sm": "0 0 15px 0 hsl(20 100% 62% / 0.2)",
-        "glow-lg": "0 0 50px 0 hsl(20 100% 62% / 0.4)",
+        "glow-sm": "0 0 15px 0 hsl(155 40% 50% / 0.2)",
+        "glow-lg": "0 0 50px 0 hsl(155 40% 50% / 0.4)",
         "glow-generate": "0 0 30px 0 hsl(var(--generate) / 0.4)",
         // Design system elevation levels (feature 032-professional-ui)
         "elevation-0": shadows.none,
@@ -271,10 +271,10 @@ export default {
         },
         "pulse-glow": {
           "0%, 100%": {
-            boxShadow: "0 0 20px hsl(20 100% 62% / 0.4)",
+            boxShadow: "0 0 20px hsl(155 40% 50% / 0.4)",
           },
           "50%": {
-            boxShadow: "0 0 30px hsl(20 100% 62% / 0.6)",
+            boxShadow: "0 0 30px hsl(155 40% 50% / 0.6)",
           },
         },
         shimmer: {

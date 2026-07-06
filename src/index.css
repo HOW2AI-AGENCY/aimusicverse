@@ -202,19 +202,19 @@ All colors MUST be HSL.
     --z-toast: 300;
     /* Toasts/announcements — top of the world */
 
-    /* Section-specific accent colors — Glass Aurora (mint + lavender) */
-    --generate: 142 71% 58%;
-    /* mint #4ade80 */
-    --generate-glow: 142 71% 48%;
+    /* Section-specific accent colors — Glass Aurora (desaturated Phase A) */
+    --generate: 155 40% 50%;
+    /* desaturated emerald */
+    --generate-glow: 155 40% 40%;
     --library: 255 92% 76%;
-    /* lavender #a78bfa */
+    /* lavender */
     --library-glow: 255 92% 66%;
     --projects: 262 55% 70%;
     --projects-glow: 262 55% 56%;
     --community: 199 70% 62%;
     --community-glow: 199 70% 48%;
-    --success: 142 71% 58%;
-    --success-glow: 142 71% 48%;
+    --success: 155 40% 50%;
+    --success-glow: 155 40% 40%;
     --warning: 38 90% 60%;
     --warning-glow: 38 90% 50%;
 
@@ -223,15 +223,15 @@ All colors MUST be HSL.
     --glass-border: 220 15% 90%;
     --glass-shadow: 0 8px 32px 0 hsl(220 40% 20% / 0.1);
 
-    --gradient-primary: linear-gradient(135deg, hsl(142 71% 58%), hsl(255 92% 76%));
+    --gradient-primary: linear-gradient(135deg, hsl(155 40% 50%), hsl(255 92% 76%));
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100% / 0.7));
-    --gradient-hero: linear-gradient(135deg, hsl(142 71% 58% / 0.1), hsl(255 92% 76% / 0.1));
-    --gradient-generate: linear-gradient(135deg, hsl(142 71% 58%), hsl(255 92% 76%));
-    --gradient-success: linear-gradient(135deg, hsl(142 71% 58%), hsl(168 70% 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(155 40% 50% / 0.1), hsl(255 92% 76% / 0.1));
+    --gradient-generate: linear-gradient(135deg, hsl(155 40% 50%), hsl(255 92% 76%));
+    --gradient-success: linear-gradient(135deg, hsl(155 40% 50%), hsl(168 70% 50%));
 
     --shadow-glass: 0 8px 32px 0 hsl(220 40% 20% / 0.08);
-    --shadow-hover: 0 12px 40px 0 hsl(142 71% 58% / 0.18);
-    --shadow-glow: 0 0 30px 0 hsl(142 71% 58% / 0.25);
+    --shadow-hover: 0 12px 40px 0 hsl(155 40% 50% / 0.18);
+    --shadow-glow: 0 0 30px 0 hsl(155 40% 50% / 0.25);
     /* Sprint 045 Phase D-2: elevation-{1..4} now use HSL tokens so dark-mode
        overrides (.dark block below) can shift the alpha without re-declaring
        the geometry. Token drives the rgba(0,0,0,α) value; the .elevation-*
@@ -269,9 +269,11 @@ All colors MUST be HSL.
     --popover: 222 45% 13%;
     --popover-foreground: 220 30% 96%;
 
-    /* Primary - Mint */
-    --primary: 142 71% 58%;
-    /* #4ade80 */
+    /* Primary — Desaturated Emerald (Phase A: Lila-Ban / Anti-Card)
+       Was 142 71% 58% (#4ade80) — too saturated, cartoonish.
+       Target oklch(0.72 0.13 155) ≈ hsl(155 40% 50%) — professional DAW-grade green. */
+    --primary: 155 40% 50%;
+    /* desaturated emerald */
     --primary-foreground: 240 33% 10%;
 
     --secondary: 220 35% 20%;
@@ -289,21 +291,21 @@ All colors MUST be HSL.
 
     --border: 222 30% 22%;
     --input: 222 30% 22%;
-    --ring: 142 71% 58%;
+    --ring: 155 40% 50%;
 
-    /* Section-specific accent colors — Glass Aurora */
-    --generate: 142 71% 58%;
-    /* mint */
-    --generate-glow: 142 71% 48%;
+    /* Section-specific accent colors — Glass Aurora (desaturated Phase A) */
+    --generate: 155 40% 50%;
+    /* desaturated emerald — was 142 71% 58% */
+    --generate-glow: 155 40% 40%;
     --library: 255 92% 76%;
-    /* lavender */
+    /* lavender — unchanged */
     --library-glow: 255 92% 66%;
     --projects: 199 70% 62%;
     --projects-glow: 199 70% 48%;
     --community: 262 55% 70%;
     --community-glow: 262 55% 56%;
-    --success: 142 71% 58%;
-    --success-glow: 142 71% 48%;
+    --success: 155 40% 50%;
+    --success-glow: 155 40% 40%;
     --warning: 38 90% 60%;
     --warning-glow: 38 90% 50%;
 
@@ -312,16 +314,16 @@ All colors MUST be HSL.
     --glass-border: 222 30% 25%;
     --glass-shadow: 0 8px 32px 0 hsl(240 40% 3% / 0.55);
 
-    --gradient-primary: linear-gradient(135deg, hsl(142 71% 58%), hsl(255 92% 76%));
+    --gradient-primary: linear-gradient(135deg, hsl(155 40% 50%), hsl(255 92% 76%));
     --gradient-card: linear-gradient(135deg, hsl(218 50% 18% / 0.85), hsl(240 33% 12% / 0.65));
-    --gradient-hero: linear-gradient(135deg, hsl(142 71% 58% / 0.12), hsl(255 92% 76% / 0.12));
+    --gradient-hero: linear-gradient(135deg, hsl(155 40% 50% / 0.12), hsl(255 92% 76% / 0.12));
     --gradient-telegram: linear-gradient(135deg, hsl(199 70% 62%), hsl(262 55% 70%));
-    --gradient-generate: linear-gradient(135deg, hsl(142 71% 58%), hsl(255 92% 76%));
-    --gradient-success: linear-gradient(135deg, hsl(142 71% 58%), hsl(168 70% 50%));
+    --gradient-generate: linear-gradient(135deg, hsl(155 40% 50%), hsl(255 92% 76%));
+    --gradient-success: linear-gradient(135deg, hsl(155 40% 50%), hsl(168 70% 50%));
 
     --shadow-glass: 0 4px 24px 0 hsl(240 40% 3% / 0.5);
-    --shadow-hover: 0 8px 32px 0 hsl(142 71% 58% / 0.22);
-    --shadow-glow: 0 0 40px 0 hsl(142 71% 58% / 0.32);
+    --shadow-hover: 0 8px 32px 0 hsl(155 40% 50% / 0.22);
+    --shadow-glow: 0 0 40px 0 hsl(155 40% 50% / 0.32);
     --shadow-elevation-1: 0 1px 3px hsl(0 0% 0% / 0.3), 0 1px 2px hsl(0 0% 0% / 0.2);
     --shadow-elevation-2: 0 4px 12px hsl(0 0% 0% / 0.35), 0 2px 4px hsl(0 0% 0% / 0.25);
     --shadow-elevation-3: 0 8px 24px hsl(0 0% 0% / 0.4), 0 4px 8px hsl(0 0% 0% / 0.3);
@@ -331,22 +333,27 @@ All colors MUST be HSL.
 
     --sidebar-background: 240 33% 11%;
     --sidebar-foreground: 220 20% 95%;
-    --sidebar-primary: 142 71% 58%;
+    --sidebar-primary: 155 40% 50%;
     --sidebar-primary-foreground: 240 33% 10%;
     --sidebar-accent: 222 30% 18%;
 
     --sidebar-accent-foreground: 220 20% 95%;
     --sidebar-border: 222 30% 22%;
-    --sidebar-ring: 142 71% 58%;
+    --sidebar-ring: 155 40% 50%;
 
-    /* Dark-theme overrides for the Phase 1 semantic surfaces */
-    --surface-1: 218 50% 17%;
-    /* #16213e */
-    --surface-2: 222 45% 14%;
-    --surface-3: 222 35% 20%;
+    /* Dark-theme overrides for the Phase 1 semantic surfaces
+       Phase A fix: progressive lightness creates real elevation.
+       surface-1 (base cards) → surface-2 (nested) → surface-3 (innermost)
+       Each step ~6% L gain so the eye can distinguish the layers. */
+    --surface-1: 218 45% 18%;
+    /* card base — clearly above background */
+    --surface-2: 220 40% 24%;
+    /* nested cards — elevated */
+    --surface-3: 220 35% 30%;
+    /* innermost controls — most elevated */
     --overlay-scrim: 240 33% 8% / 0.7;
-    --ring-focus: hsl(142 71% 58% / 0.55);
-    --state-success: 142 71% 58%;
+    --ring-focus: hsl(155 40% 50% / 0.55);
+    --state-success: 155 40% 50%;
     --state-success-foreground: 240 33% 8%;
     --state-warning: 38 90% 60%;
     --state-warning-foreground: 240 33% 8%;
@@ -2390,31 +2397,31 @@ select:focus-visible,
   /* Semantic typography utilities (T038-21) — use CSS var so they're responsive */
   .text-display {
     font-size: var(--text-display);
-    font-family: "Unbounded", "Onest", system-ui, sans-serif;
+    font-family: "Space Grotesk", "Unbounded", "Onest", system-ui, sans-serif;
     line-height: 1.15;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
   .text-heading {
     font-size: var(--text-heading);
-    font-family: "Unbounded", "Onest", system-ui, sans-serif;
+    font-family: "Space Grotesk", "Unbounded", "Onest", system-ui, sans-serif;
     line-height: 1.25;
     font-weight: 600;
     letter-spacing: -0.01em;
   }
   .text-body-base {
     font-size: var(--text-body);
-    font-family: "Onest", Inter, system-ui, sans-serif;
+    font-family: "DM Sans", "Onest", system-ui, sans-serif;
     line-height: 1.5;
   }
   .text-caption-base {
     font-size: var(--text-caption);
-    font-family: "Onest", Inter, system-ui, sans-serif;
+    font-family: "DM Sans", "Onest", system-ui, sans-serif;
     line-height: 1.4;
   }
   .text-overline {
     font-size: var(--text-overline);
-    font-family: "Onest", Inter, system-ui, sans-serif;
+    font-family: "DM Sans", "Onest", system-ui, sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 600;
