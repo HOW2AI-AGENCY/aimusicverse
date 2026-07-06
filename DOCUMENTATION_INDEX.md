@@ -152,6 +152,7 @@ flowchart LR
 | [KNOWN_ISSUES_TRACKED](KNOWN_ISSUES_TRACKED.md)           | Known issues      |   ✅   |
 | [AGENTS](AGENTS.md)                                       | Agent notes       |   ✅   |
 | [docs/DEVELOPMENT_WORKFLOW](docs/DEVELOPMENT_WORKFLOW.md) | Dev workflow      |   ✅   |
+| [docs/WORKFLOW-GUIDE](docs/WORKFLOW-GUIDE.md)             | Practical guide   |   ✅   |
 | [docs/CRITICAL_FILES](docs/CRITICAL_FILES.md)             | Don't-touch list  |   ✅   |
 
 ### 8️⃣ Telegram Mini App
