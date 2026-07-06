@@ -123,6 +123,7 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
         });
 
         if (mergeError) throw mergeError;
+        if (!data?.audioUrl) throw new Error("merge-stems не вернул audioUrl");
 
         setProgress(80);
 
@@ -163,6 +164,7 @@ export const SaveVersionDialog = memo(function SaveVersionDialog({
         });
 
         if (mergeError) throw mergeError;
+        if (!data?.audioUrl) throw new Error("merge-stems не вернул audioUrl");
 
         setProgress(80);
 

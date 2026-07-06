@@ -8,11 +8,11 @@ export const DIALOG_CONFIG = {
   animations: {
     open: {
       duration: 300, // milliseconds
-      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+      easing: [0.16, 1, 0.3, 1] as const,
     },
     close: {
       duration: 200, // milliseconds
-      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+      easing: [0.16, 1, 0.3, 1] as const,
     },
   },
 

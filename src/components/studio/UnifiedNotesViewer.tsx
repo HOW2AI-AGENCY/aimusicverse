@@ -20,32 +20,32 @@ import { useMusicXmlParser } from "@/hooks/useMusicXmlParser";
 import { useMidiSynth } from "@/hooks/useMidiSynth";
 import { useTelegramDocumentShare } from "@/hooks/studio/useTelegramDocumentShare";
 import { toast } from "sonner";
-import { NOTE_NAMES, NOTE_NAMES_RU, parseTimeSignature } from "./musicNotationUtils";
-import type { ParsedMidiNote } from "@/hooks/useMidiFileParser";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatTime } from "@/lib/formatters";
+import { InteractivePianoRoll } from "@/components/analysis/InteractivePianoRoll";
+import { MusicXMLViewer } from "@/components/guitar/MusicXMLViewer";
 import {
   Loader2,
-  Piano,
   Music,
-  Music2,
-  ListMusic,
-  Play,
   Pause,
-  Volume2,
+  Play,
   VolumeX,
+  Volume2,
   Download,
   Send,
   FileText,
-  FileCode2,
   Guitar,
-} from "@/lib/icons";
-import { InteractivePianoRoll } from "@/components/analysis/InteractivePianoRoll";
-import { MusicXMLViewer } from "@/components/guitar/MusicXMLViewer";
+  FileCode2,
+  Piano,
+  Music2,
+  ListMusic,
+} from "lucide-react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import type { ParsedMidiNote } from "@/hooks/useMidiFileParser";
+import { NOTE_NAMES, NOTE_NAMES_RU, parseTimeSignature } from "./musicNotationUtils";
 
 type ViewMode = "piano" | "notation" | "list";
 
