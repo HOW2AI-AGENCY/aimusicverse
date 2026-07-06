@@ -100,10 +100,17 @@ gantt
     Sprint 054: Suno Details Suite     :done, 054, 2026-07-04, 2026-07-04
     Sprint 055: UX P0/P1 Fixes         :done, 055, 2026-07-06, 2026-07-06
     Sprint 052-C: Cleanup              :done, 052c, 2026-07-04, 2026-07-04
-    Sprint 053: Sounds + MIDI + Boost  :done, 053, 2026-07-04, 2026-07-04
-    Sprint 054: Details + Cleanup      :done, 054, 2026-07-04, 2026-07-04
+
+
     section В работе 🔄
-    Sprint 050-A: Main Green Phase A   :active, 050a, 2026-07-05, 2026-07-08
+    Sprint 056: GenerateSheet Redesign  :done, 056, 2026-07-06, 2026-07-06
+    Sprint 050-B: Mobile Audit F1-F12   :done, 050b, 2026-07-06, 2026-07-06
+    Sprint 051-A: Test Debt Phase A-C   :done, 051a, 2026-07-06, 2026-07-06
+    section В работе 🔄
+    Sprint 051-B: God Files Completion  :active, 051b, 2026-07-07, 2026-07-15
+    Sprint 050-C: Branch Protection     :active, 050c, 2026-07-07, 2026-07-08
+    section Запланировано ⚪
+    Sprint 057: Collaboration Features  :057, 2026-07-16, 2026-07-30
     section Запланировано ⚪
     Sprint 050-B: Mobile Audit F1-F12  :050b, 2026-07-09, 2026-07-20
     Sprint 051: Test Debt + God Files  :051, 2026-07-21, 2026-08-05
@@ -112,27 +119,30 @@ gantt
     Sprint 055: UX Audit Implementation :055, 2026-08-26, 2026-09-10
 ```
 
-| Спринт  | Название                                           | Статус |      Прогресс      |
-| :-----: | -------------------------------------------------- | :----: | :----------------: |
-|   033   | UX-аудит и переработка                             |   ✅   |        100%        |
-|   034   | Надёжность генерации                               |   ✅   |        100%        |
-|   035   | Стабилизация + Чистка                              |   ✅   |        100%        |
-|   036   | Рефакторинг слоёв + Type Safety                    |   ✅   |        100%        |
-|   037   | Infrastructure Hardening                           |   ✅   |        100%        |
-|   038   | Design System Unification                          |   ✅   |       28/28        |
-|   039   | Архитектурный рефакторинг                          |   ✅   |       14/14        |
-| **042** | **Page Decomp + Audio Pooling**                    |   ✅   |       10/10        |
-| **043** | **Layer Compliance (65 → 0)**                      |   ✅   |        6/6         |
-| **044** | **Type Safety Wave 2**                             |   ✅   |        7/7         |
-| **047** | **Creation-Flow Motion + Mobile Perf Fixes**       |   ✅   |        2/2         |
-| **049** | **Mobile UX: A/B версии, лайки, плеер, главная**   |   ✅   |        4/4         |
-| **052** | **Suno Mashup + Persona + Upload + 052-C cleanup** |   ✅   | 10/10 + cleanup ✅ |
-| **050** | **Main Green + Mobile Audit**                      |   🔄   | Phase A: 5/6 (83%) |
-| **051** | **Test Debt + God Files**                          |   ⏳   |        0/6         |
-| **053** | **Suno Sounds + MIDI + Boost**                     |   ⏳   |        0/6         |
-| **054** | **Klangio Integration + Transcription**            |   ⏳   |        0/4         |
-| **055** | **UX Audit Findings Implementation**               |   ⏳   |        0/5         |
-|   045   | UX/UI Deep Polish + Hygiene                        |   ⏳   |        0/4         |
+|   Спринт    | Название                                           | Статус |        Прогресс        |
+| :---------: | -------------------------------------------------- | :----: | :--------------------: |
+|     033     | UX-аудит и переработка                             |   ✅   |          100%          |
+|     034     | Надёжность генерации                               |   ✅   |          100%          |
+|     035     | Стабилизация + Чистка                              |   ✅   |          100%          |
+|     036     | Рефакторинг слоёв + Type Safety                    |   ✅   |          100%          |
+|     037     | Infrastructure Hardening                           |   ✅   |          100%          |
+|     038     | Design System Unification                          |   ✅   |         28/28          |
+|     039     | Архитектурный рефакторинг                          |   ✅   |         14/14          |
+|   **042**   | **Page Decomp + Audio Pooling**                    |   ✅   |         10/10          |
+|   **043**   | **Layer Compliance (65 → 0)**                      |   ✅   |          6/6           |
+|   **044**   | **Type Safety Wave 2**                             |   ✅   |          7/7           |
+|   **047**   | **Creation-Flow Motion + Mobile Perf Fixes**       |   ✅   |          2/2           |
+|   **049**   | **Mobile UX: A/B версии, лайки, плеер, главная**   |   ✅   |          4/4           |
+|   **052**   | **Suno Mashup + Persona + Upload + 052-C cleanup** |   ✅   |   10/10 + cleanup ✅   |
+|   **050**   | **Main Green + Mobile Audit**                      |   ✅   |      Phase A-B ✅      |
+| **051-A-C** | **Test Debt Phase A-C**                            |   ✅   |     925 passing ✅     |
+|  **051-D**  | **God Files Completion**                           |   🔄   |       5/9 (56%)        |
+|   **053**   | **Suno Sounds + MIDI + Boost**                     |   ✅   |         6/6 ✅         |
+|   **054**   | **Suno Details Suite**                             |   ✅   |         6/6 ✅         |
+|   **055**   | **UX Critical Fixes P0/P1**                        |   ✅   |        13/13 ✅        |
+|   **056**   | **GenerateSheet Redesign**                         |   ✅   |      Phase A-D ✅      |
+|  **050-C**  | **Branch Protection Phase 2**                      |   🔄   | Phase 1 ✅, Phase 2 ⏳ |
+|   **057**   | **Collaboration Features**                         |   ⏳   |          0/6           |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>
 
@@ -248,3 +258,5 @@ aimusicverse/
 <sub>Обновлено: 04.07.2026 (Sprint 053 + 054 закрыты — Suno API 28/28 ✅) · HOW2AI Agency © 2025-2026</sub>
 
 </div>
+| **056**  | **GenerateSheet Redesign**                         |   ✅   | Phase A-D ✅        |
+| **050-C**| **Branch Protection Phase 2**                    |   🔄   | Phase 1 ✅, Phase 2 ⏳ |

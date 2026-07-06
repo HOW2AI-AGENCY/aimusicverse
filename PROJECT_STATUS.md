@@ -935,6 +935,6 @@ Sprint 056 успешно завершён:
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-07-04, поздний вечер (P0-хотфикс typecheck влит — PR #576/#577, Q&B на main зелёный; Sprint 050 в работе (A0 ✅); план закрытия спринтов — [SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md). Планы: [SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md) · [052](SPRINTS/SPRINT-052-PLAN.md) · [053](SPRINTS/SPRINT-053-PLAN.md) · [054](SPRINTS/SPRINT-054-PLAN.md))</sub>
+<sub>Последнее обновление: 2026-07-06, вечер (P0-хотфикс typecheck влит — PR #576/#577, Q&B на main зелёный; Sprint 050 в работе (A0 ✅); план закрытия спринтов — [SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md). Планы: [SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md) · [052](SPRINTS/SPRINT-052-PLAN.md) · [053](SPRINTS/SPRINT-053-PLAN.md) · [054](SPRINTS/SPRINT-054-PLAN.md))</sub>
 
 </div>
