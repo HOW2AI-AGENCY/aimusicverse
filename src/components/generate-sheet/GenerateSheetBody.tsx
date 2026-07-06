@@ -30,6 +30,13 @@ interface Props {
   onOpenLyricsAssistant: () => void;
   onAddReference: (kind: ReferenceKind) => void;
   onRemoveReference: (kind: ReferenceKind, id: string) => void;
+  /** Opens the StylePresetSelector dialog. Required — the legacy sheet wired
+   * this and the redesign shipped a no-op, leaving "Стили" dead. See design
+   * review F1. */
+  onOpenStyles: () => void;
+  /** Used to resolve reference-chip labels (F2): chips were showing raw IDs. */
+  projects?: { id: string; title?: string }[];
+  artists?: { id: string; name?: string }[];
 }
 
 export function GenerateSheetBody({
@@ -39,6 +46,9 @@ export function GenerateSheetBody({
   onOpenLyricsAssistant,
   onAddReference,
   onRemoveReference,
+  onOpenStyles,
+  projects,
+  artists,
 }: Props) {
   return (
     <ScrollArea className="flex-1 overflow-x-hidden">
@@ -47,10 +57,20 @@ export function GenerateSheetBody({
         {form.mode === "custom" && <FormStepper />}
         <ReferenceChipsRow
           references={{
-            project: form.selectedProjectId ? { id: form.selectedProjectId, label: form.selectedProjectId } : undefined,
-            artist: form.selectedArtistId ? { id: form.selectedArtistId, label: form.selectedArtistId } : undefined,
+            project: form.selectedProjectId
+              ? {
+                  id: form.selectedProjectId,
+                  label: projects?.find((p) => p.id === form.selectedProjectId)?.title ?? form.selectedProjectId,
+                }
+              : undefined,
+            artist: form.selectedArtistId
+              ? {
+                  id: form.selectedArtistId,
+                  label: artists?.find((a) => a.id === form.selectedArtistId)?.name ?? form.selectedArtistId,
+                }
+              : undefined,
             audio: form.audioFile ? { id: "audio", label: form.audioFile.name } : undefined,
-            voice: form.customVoiceId ? { id: form.customVoiceId, label: "Voice clone" } : undefined,
+            voice: form.customVoiceId ? { id: form.customVoiceId, label: "Голос" } : undefined,
           }}
           onAdd={onAddReference}
           onRemove={onRemoveReference}
@@ -68,7 +88,7 @@ export function GenerateSheetBody({
                 onHasVocalsChange={form.setHasVocals}
                 onBoostStyle={form.handleBoostStyle}
                 boostLoading={form.boostLoading}
-                onOpenStyles={() => undefined}
+                onOpenStyles={onOpenStyles}
               />
             ) : (
               <GenerateFormCustom
@@ -100,7 +120,7 @@ export function GenerateSheetBody({
                 onAudioWeightChange={form.setAudioWeight}
                 hasReferenceAudio={!!form.audioFile}
                 hasPersona={!!form.selectedArtistId}
-                onOpenStyles={() => undefined}
+                onOpenStyles={onOpenStyles}
                 customVoiceId={form.customVoiceId}
                 onCustomVoiceIdChange={form.setCustomVoiceId}
               />

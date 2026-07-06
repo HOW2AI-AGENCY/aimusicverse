@@ -176,6 +176,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
             onOpenLyricsAssistant={() => controller.dialogs.lyricsAssistant.setOpen(true)}
             onAddReference={handleAddReference}
             onRemoveReference={handleRemoveReference}
+            onOpenStyles={controller.actions.openStyles}
+            projects={projects ?? undefined}
+            artists={artists ?? undefined}
           />
 
           {controller.form.loading && (
