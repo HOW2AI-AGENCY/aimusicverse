@@ -81,19 +81,21 @@ Object.defineProperty(window, "Telegram", {
   },
 });
 
-// Mock Audio
-global.Audio = vi.fn().mockImplementation(() => ({
-  play: vi.fn().mockResolvedValue(undefined),
-  pause: vi.fn(),
-  load: vi.fn(),
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn(),
-  currentTime: 0,
-  duration: 0,
-  paused: true,
-  volume: 1,
-  muted: false,
-}));
+// Mock Audio — regular function so `new Audio()` works (arrow functions aren't constructable)
+global.Audio = vi.fn().mockImplementation(function (this: unknown) {
+  return {
+    play: vi.fn().mockResolvedValue(undefined),
+    pause: vi.fn(),
+    load: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    currentTime: 0,
+    duration: 0,
+    paused: true,
+    volume: 1,
+    muted: false,
+  };
+}) as unknown as typeof Audio;
 
 // Mock AudioContext
 global.AudioContext = vi.fn().mockImplementation(() => ({

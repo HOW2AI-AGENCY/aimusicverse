@@ -24,6 +24,27 @@
 
 ## [Unreleased]
 
+### 🔧 Sprint 051 T056 — God File Decomposition (2026-07-06)
+
+> 9/9 файлов декомпозированы, все <740 LOC. PRs #638-#644.
+
+#### Changed
+
+- **`src/lib/errorHandling.ts`** — artist name filtering извлечён в `artistNameFilter.ts` (828→413 LOC, -50%)
+- **`src/components/studio/unified/IntegratedStemTracks.tsx`** — stem config извлечён в `stemTrackConfig.ts` (837→694 LOC, -17%)
+- **`src/lib/lyrics/LyricsParser.ts`** — analysis suite извлечён в `lyricsAnalysisSuite.ts` (742→558 LOC, -25%)
+- **`src/components/generate-form/LyricsVisualEditorCompact.tsx`** — helpers извлечены в `lyricsEditorHelpers.ts` (833→705 LOC, -15%)
+- **`src/components/studio/UnifiedNotesViewer.tsx`** — music notation utils извлечены в `musicNotationUtils.ts` (774→735 LOC, -5%)
+- **`src/components/generate-form/LyricsVisualEditor.tsx`** — config извлечён в `lyricsVisualEditorConfig.ts` (749→574 LOC, -23%)
+- **`src/services/unified-analysis/AudioAnalysisService.ts`** — normalizers извлечены в `audioAnalysisNormalizers.ts` (739→514 LOC, -31%)
+- **`src/lib/analytics/deeplink-tracker.ts`** — types извлечены в `deeplinkTypes.ts` (734→691 LOC, -6%)
+- **`src/components/generate-form/PromptHistory.tsx`** — types извлечены в `promptHistoryTypes.ts` (703→665 LOC, -5%)
+
+#### Added
+
+- 9 новых модулей с backward-compatible re-exports
+- 925 unit tests passing (+530 от базовых 395)
+
 ### 🟢 Sprint 050-A1/A2/B6 — main-green фиксы после лендинга 055 + полный lychee-инвентарь (2026-07-04, ночь)
 
 #### Performance

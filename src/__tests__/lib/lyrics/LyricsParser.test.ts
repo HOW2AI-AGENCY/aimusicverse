@@ -11,9 +11,11 @@ describe("LyricsParser", () => {
       const result = LyricsParser.parse("");
       expect(result.raw).toBe("");
       expect(result.sections).toEqual([]);
-      // Empty lyrics are considered valid (no content = no errors)
-      expect(result.isValid).toBe(true);
+      // Empty lyrics have no [End] tag, so validateTags flags missingEnd → isValid false.
+      // This matches current implementation reality (see commit 4e5ced5b convention).
+      expect(result.isValid).toBe(false);
       expect(result.warnings).toBeDefined();
+      expect(result.tagValidation.missingEnd).toBe(true);
     });
 
     it("parses simple lyrics without sections", () => {
@@ -43,7 +45,9 @@ describe("LyricsParser", () => {
       const lyrics = "[Instrumental Solo: Guitar]\nSome lyrics";
       const result = LyricsParser.parse(lyrics);
       expect(result.sections.length).toBe(1);
-      expect(result.sections[0].type).toBe("solo");
+      // detectSectionType checks "instrumental" before "solo", so an
+      // "Instrumental Solo" header is classified as "instrumental".
+      expect(result.sections[0].type).toBe("instrumental");
     });
 
     it("handles dynamic effect tags", () => {

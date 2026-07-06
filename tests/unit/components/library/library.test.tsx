@@ -210,3 +210,35 @@ describe('UnifiedTrackCard - T024', () => {
     });
   });
 });
+vi.mock('@/hooks/audio/usePlaybackQueue', () => ({
+  usePlaybackQueue: () => ({
+    queue: [],
+    currentIndex: 0,
+    shuffle: false,
+    repeat: 'none',
+    queueLength: 0,
+    addTrack: vi.fn(),
+    addTracks: vi.fn(),
+    playNext: vi.fn(),
+    setQueue: vi.fn(),
+    playFromIndex: vi.fn(),
+    removeTrack: vi.fn(),
+    clear: vi.fn(),
+    reorder: vi.fn(),
+    jumpToTrack: vi.fn(),
+    toggleShuffle: vi.fn(),
+    toggleRepeat: vi.fn(),
+    saveQueue: vi.fn(),
+    restoreQueue: vi.fn(),
+  }),
+}));
+
+vi.mock('@/contexts/GuestModeContext', () => ({
+  useGuestMode: () => ({
+    isGuest: true,
+    canAccess: true,
+    remainingViews: 5,
+    isScreenshotMode: false,
+  }),
+  GuestModeProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
