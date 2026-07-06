@@ -8,7 +8,7 @@
   <img alt="Спринт" src="https://img.shields.io/badge/sprint-051_053_055_complete-10B981?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-899_passing-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-904_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
 </p>
@@ -613,8 +613,8 @@ Sprint 052 влился в `main` с 8 ошибками `tsc` — Quality & Buil
 | Сервисов                             |      18       |     —      |   —    |
 | Eager JS на холодной загрузке (gzip) |  **508 КБ**   |     —      |   ✅   |
 | Всего JS (все чанки, gzip)           |  **2.11 МБ**  | ≤ 2.3 МБ¹  |   ✅   |
-| Unit-тест файлов                     |    **17**     |    200+    |   🟡   |
-| Unit-тестов (штук)                   |    **282**    |   1000+    |   🟡   |
+| Unit-тест файлов                     |    **72**     |    200+    |   🟡   |
+| Unit-тестов (штук)                   |    **904**    |   1000+    |   🟡   |
 | E2E спецификации                     |    **48**     | 48 pass CI |   🟡   |
 | Файлов >800 строк                    |     **9**     |     0      |   ❌   |
 | Использований `any` (всего)          |     **0**     |    ≤50     |   ✅   |
