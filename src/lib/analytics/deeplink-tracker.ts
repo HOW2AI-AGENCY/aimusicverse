@@ -356,12 +356,6 @@ export async function trackConversionStage(stage: ConversionStage, metadata?: Re
 // A/B Experiment Tracking
 // ==========================================
 
-export interface ExperimentAssignment {
-  experimentId: string;
-  variantId: string;
-  assignedAt: string;
-}
-
 export function getExperimentAssignments(): Record<string, ExperimentAssignment> {
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.EXPERIMENT_ASSIGNMENTS);
@@ -539,21 +533,6 @@ export async function flushBufferedDeeplinkTracks(): Promise<void> {
 // Analytics Queries
 // ==========================================
 
-export interface DeeplinkAnalyticsSummary {
-  totalVisits: number;
-  uniqueUsers: number;
-  conversionsByStage: Record<ConversionStage, number>;
-  topSources: Array<{ source: string; count: number; conversion_rate: number }>;
-  topCampaigns: Array<{ campaign: string; count: number; conversion_rate: number }>;
-  hourlyDistribution: Record<number, number>;
-  dailyTrend: Array<{ date: string; visits: number; conversions: number }>;
-  deviceBreakdown: {
-    mobile: number;
-    desktop: number;
-    tablet: number;
-  };
-}
-
 /**
  * Fetch deeplink analytics summary
  * Uses direct queries since the RPC may not exist
@@ -694,7 +673,6 @@ export function setDeeplinkContext(context: DeeplinkContext): void {
 // Initialization
 // ==========================================
 
-
 export async function initializeDeeplinkTracker(options: InitializeOptions): Promise<DeeplinkContext> {
   const utmParams = parseUTMParams(options.search);
   const firstVisit = isFirstVisit();
@@ -746,15 +724,6 @@ export async function initializeDeeplinkTracker(options: InitializeOptions): Pro
 // ==========================================
 // Utility: Build Deep Link URL
 // ==========================================
-
-export interface DeeplinkBuildOptions {
-  type: string;
-  value?: string;
-  utmParams?: UTMParams;
-  referralCode?: string;
-  experimentId?: string;
-  variantId?: string;
-}
 
 export function buildDeeplinkUrl(botUsername: string, options: DeeplinkBuildOptions): string {
   const startParam = options.value ? `${options.type}_${options.value}` : options.type;

@@ -59,7 +59,7 @@ export type ConversionStage =
 
 export interface ExperimentAssignment {
   experimentId: string;
-  variant: string;
+  variantId: string;
   assignedAt: string;
 }
 
@@ -91,11 +91,8 @@ export interface InitializeOptions {
 }
 
 export interface DeeplinkBuildOptions {
-  startapp?: string;
-  startappArgument?: string;
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
+  type: string;
+  value?: string;
   utmParams?: UTMParams;
   referralCode?: string;
   experimentId?: string;

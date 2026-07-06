@@ -135,26 +135,30 @@ export async function logTrackActivity(params: {
   newValue?: string;
   metadata?: Record<string, unknown>;
 }) {
-  const { error } = await supabase
-    .from("track_change_log")
-    .insert([
-      {
-        track_id: params.trackId,
-        user_id: params.userId,
-        change_type: params.changeType,
-        changed_by: params.changedBy,
-        field_name: params.fieldName,
-        old_value: params.oldValue,
-        new_value: params.newValue,
-        metadata: params.metadata as unknown as import("@/integrations/supabase/types").Json,
-      },
-    ]);
+  const { error } = await supabase.from("track_change_log").insert([
+    {
+      track_id: params.trackId,
+      user_id: params.userId,
+      change_type: params.changeType,
+      changed_by: params.changedBy,
+      field_name: params.fieldName,
+      old_value: params.oldValue,
+      new_value: params.newValue,
+      metadata: params.metadata as unknown as import("@/integrations/supabase/types").Json,
+    },
+  ]);
   return { error };
 }
 
-export async function invokeMergeStems(payload: Record<string, unknown>): Promise<{ data: any; error: Error | null }> {
-  const { data, error } = await supabase.functions.invoke("merge-stems", { body: payload });
-  return { data, error: error ? new Error(error.message) : null };
+export type MergeStemsResponse = { audioUrl: string };
+
+export async function invokeMergeStems(
+  payload: Record<string, unknown>,
+): Promise<{ data: MergeStemsResponse | null; error: Error | null }> {
+  const { data, error } = await supabase.functions.invoke<MergeStemsResponse>("merge-stems", {
+    body: payload,
+  });
+  return { data: data ?? null, error: error ? new Error(error.message) : null };
 }
 
 export async function insertTrackChangeLog(params: {
@@ -165,16 +169,14 @@ export async function insertTrackChangeLog(params: {
   newValue?: string;
   versionId?: string;
 }): Promise<void> {
-  const { error } = await supabase
-    .from("track_change_log")
-    .insert({
-      track_id: params.trackId,
-      user_id: params.userId,
-      change_type: params.changeType,
-      changed_by: params.changedBy,
-      new_value: params.newValue,
-      version_id: params.versionId,
-    });
+  const { error } = await supabase.from("track_change_log").insert({
+    track_id: params.trackId,
+    user_id: params.userId,
+    change_type: params.changeType,
+    changed_by: params.changedBy,
+    new_value: params.newValue,
+    version_id: params.versionId,
+  });
   if (error) throw new Error(error.message);
 }
 
