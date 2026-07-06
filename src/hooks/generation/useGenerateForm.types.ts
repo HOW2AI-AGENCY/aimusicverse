@@ -103,6 +103,23 @@ export interface UseGenerateFormStateReturn {
   // api credits
   apiCredits: number | null;
   setApiCredits: (v: number | null) => void;
+
+  // credits/auth extras (forwarded from internal state)
+  isAdmin: boolean;
+  apiBalance: number | null | undefined;
+  userBalance: number | null;
+
+  // retry state (forwarded from internal state)
+  isRetrying: boolean;
+  retryCount: number;
+  nextRetryIn: number;
+  canRetry: boolean;
+  cancelRetry: () => void;
+
+  // refs used by actions/draft
+  activeReference: unknown;
+  clearAudioReference: () => void;
+  invalidateCredits: () => void;
 }
 
 /** Deps accepted by `useGenerateFormActions`. */
@@ -126,6 +143,12 @@ export interface UseGenerateFormActionsReturn {
   clearDraft: () => void;
   setActiveReference: (ref: unknown) => void;
   setAudioReferenceLoading: (v: boolean) => void;
+  isRetrying: boolean;
+  retryCount: number;
+  nextRetryIn: number;
+  canRetry: boolean;
+  cancelRetry: () => void;
+  currentTaskId: string | null;
 }
 
 /** Deps accepted by `useGenerateFormValidation`. */
