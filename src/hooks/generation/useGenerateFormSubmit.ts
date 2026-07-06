@@ -17,7 +17,7 @@ import { classifyFailure } from "./useGenerateFormTypes";
 import type { GenerationMode } from "./useGenerateFormTypes";
 import type { ArtistRow } from "@/api/artists.api";
 
-interface AudioReferenceData {
+export interface AudioReferenceData {
   audioUrl?: string;
   intendedMode?: string;
   durationSeconds?: number;

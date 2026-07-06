@@ -9,13 +9,17 @@ Thin Orchestrator Pattern — архитектурный паттерн для �
 ## Overview
 
 ### Проблема
+
 Сложные UI компоненты часто становятся монолитными:
+
 - Слишком много ответственности в одном компоненте
 - Сложно тестировать отдельные части
 - Сложно переиспользовать подкомпоненты
 
 ### Решение
+
 Thin Orchestrator Pattern разделяет компонент на:
+
 1. **Orchestrator** — тонкий координационный слой
 2. **Specialized Components** — focused компоненты с единой ответственностью
 
@@ -24,12 +28,15 @@ Thin Orchestrator Pattern разделяет компонент на:
 ## Benefits
 
 ### 1. Testability
+
 Каждый компонент тестируется изолированно
 
 ### 2. Reusability
+
 Компоненты переиспользуются в разных контекстах
 
 ### 3. Maintainability
+
 - Orchestrator: ~300 LOC (vs ~800 LOC monolithic)
 - Specialists: ~50-150 LOC each
 - Clear separation of concerns

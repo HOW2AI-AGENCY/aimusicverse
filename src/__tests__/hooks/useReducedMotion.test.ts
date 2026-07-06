@@ -3,7 +3,12 @@
  * Sprint 051 — Test Debt
  */
 import { describe, it, expect } from "vitest";
-import { getStaggerStyle, safeAnimationClasses, instantTransition, reducedMotionVariants } from "@/hooks/useReducedMotion";
+import {
+  getStaggerStyle,
+  safeAnimationClasses,
+  instantTransition,
+  reducedMotionVariants,
+} from "@/hooks/useReducedMotion";
 
 describe("getStaggerStyle", () => {
   it("returns empty object when reduced motion is preferred", () => {

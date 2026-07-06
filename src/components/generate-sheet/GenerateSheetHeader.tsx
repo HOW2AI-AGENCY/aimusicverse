@@ -6,7 +6,7 @@ import { CollapsibleFormHeader } from "@/components/generate-form/CollapsibleFor
 
 interface Props {
   form: {
-    balance: number;
+    balance: number | null;
     cost: number;
     mode: "simple" | "custom";
     setMode: (m: "simple" | "custom") => void;

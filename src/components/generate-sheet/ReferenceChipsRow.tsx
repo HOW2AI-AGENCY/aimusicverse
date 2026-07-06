@@ -53,9 +53,10 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
 
               aria-label={`Удалить ${label.toLowerCase()}: ${item.label}`}
               className={cn(
-                "group inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-xs font-medium shrink-0",
+                "group inline-flex items-center gap-1.5 h-11 px-3 rounded-full text-xs font-medium shrink-0",
                 "bg-foreground/[0.06] text-foreground border border-foreground/10",
                 "hover:bg-foreground/10 active:scale-[0.97] transition-all",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               )}
             >
               <Icon className="w-3.5 h-3.5 opacity-70" />
@@ -75,10 +76,11 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
 
             aria-label={`Добавить ${label.toLowerCase()}`}
             className={cn(
-              "inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-xs font-medium shrink-0",
+              "inline-flex items-center gap-1.5 h-11 px-3 rounded-full text-xs font-medium shrink-0",
               "border border-dashed border-border/70 text-muted-foreground",
               "hover:border-foreground/40 hover:text-foreground hover:bg-foreground/[0.03]",
               "active:scale-[0.97] transition-all",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
             )}
           >
             <Plus className="w-3.5 h-3.5" />

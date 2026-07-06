@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { AnimatePresence, motion } from "@/lib/motion";
-import { Progress } from "@/components/ui/progress";
 import { GenerationLoadingState } from "@/components/generate-form/GenerationLoadingState";
 import {
   AlertDialog,
@@ -138,7 +137,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
         >
           <GenerateSheetHeader
             form={{
-              balance: controller.form.userBalance ?? 0,
+              balance: controller.form.userBalance,
               cost: controller.form.generationCost,
               mode: controller.form.mode,
               setMode: controller.form.setMode,
@@ -176,13 +175,10 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
             onOpenLyricsAssistant={() => controller.dialogs.lyricsAssistant.setOpen(true)}
             onAddReference={handleAddReference}
             onRemoveReference={handleRemoveReference}
+            onOpenStyles={controller.actions.openStyles}
+            projects={projects ?? undefined}
+            artists={artists ?? undefined}
           />
-
-          {controller.form.loading && (
-            <div className="px-4">
-              <Progress value={33} className="h-0.5" />
-            </div>
-          )}
 
           <GenerateSheetFooter
             loading={controller.form.loading}
@@ -191,7 +187,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
             warningCount={controller.validation.reasons.filter((r) => r.severity === "warning").length}
             hasUnsavedData={controller.telegram.hasUnsavedData}
             generationCost={controller.form.generationCost}
-            generationCostBreakdown={controller.form.generationCostBreakdown}
             onGenerate={controller.actions.handleGenerate}
             onSaveDraft={controller.actions.handleSaveDraft}
             onShowReasons={() => controller.dialogs.reasons.setOpen(true)}

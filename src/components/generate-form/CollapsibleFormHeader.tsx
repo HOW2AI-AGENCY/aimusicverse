@@ -21,7 +21,7 @@ import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 export type GenerationMode = "simple" | "custom";
 
 interface CollapsibleFormHeaderProps {
-  balance?: number;
+  balance?: number | null;
   cost?: number;
   mode: GenerationMode;
   onModeChange?: (mode: GenerationMode) => void;
@@ -45,7 +45,7 @@ const MODE_CONFIG: Record<GenerationMode, ModeConfig> = {
 const MODE_KEYS: GenerationMode[] = ["simple", "custom"];
 
 export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
-  balance = 0,
+  balance,
   cost = 12,
   mode,
   onModeChange,
@@ -56,7 +56,8 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
 }: CollapsibleFormHeaderProps) {
   const availableModels = useMemo(() => getAvailableModels(), []);
   const currentModel = SUNO_MODELS[model] || SUNO_MODELS.V4_5ALL;
-  const lowBalance = balance < cost;
+  // F4: balance is null while the credits query loads — must not read as "0 / low".
+  const lowBalance = balance != null && balance < cost;
   const haptic = useHapticFeedback();
 
   return (
@@ -73,22 +74,28 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
         <div
           className={cn(
             "flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border tabular-nums",
-            lowBalance
-              ? "bg-destructive/10 border-destructive/30 text-destructive"
-              : "bg-primary/10 border-primary/20 text-primary",
+            balance == null
+              ? "bg-muted/40 border-border/50 text-muted-foreground"
+              : lowBalance
+                ? "bg-destructive/10 border-destructive/30 text-destructive"
+                : "bg-primary/10 border-primary/20 text-primary",
           )}
-          aria-label={`Баланс ${Math.floor(balance)} из ${cost} кредитов`}
+          aria-label={balance == null ? "Баланс загружается" : `Баланс ${Math.floor(balance)} из ${cost} кредитов`}
         >
           <span
             className={cn(
               "w-1.5 h-1.5 rounded-full animate-pulse",
-              lowBalance
-                ? "bg-destructive shadow-[0_0_8px_hsl(var(--destructive))]"
-                : "bg-primary shadow-[0_0_8px_hsl(var(--primary))]",
+              balance == null
+                ? "bg-muted-foreground"
+                : lowBalance
+                  ? "bg-destructive shadow-[0_0_8px_hsl(var(--destructive))]"
+                  : "bg-primary shadow-[0_0_8px_hsl(var(--primary))]",
             )}
             aria-hidden
           />
-          <span className="text-xs font-semibold leading-none tabular-nums">{Math.floor(balance)}</span>
+          <span className="text-xs font-semibold leading-none tabular-nums">
+            {balance == null ? "…" : Math.floor(balance)}
+          </span>
           <span className="text-[10px] leading-none opacity-60 tabular-nums">/ {cost}</span>
         </div>
 

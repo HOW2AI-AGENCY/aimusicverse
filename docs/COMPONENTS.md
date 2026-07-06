@@ -80,14 +80,16 @@ GenerateSheet представляет собой семейство компо�
 GenerateSheet теперь тонкий оркестратор (~300 LOC vs ~800 LOC раньше):
 
 **Key Changes:**
+
 1. **No direct form props** — всё управляется через `useGenerateSheetController`
 2. **Component splitting** — Header/Body/Footer/Dialogs отдельные компоненты
 3. **Testability** — Каждый компонент тестируется изолированно
 4. **Reusability** — Компоненты переиспользуются в других контекстах
 
 **Before (Legacy):**
+
 ```typescript
-<GenerateSheet 
+<GenerateSheet
   open={open}
   mode="simple"
   prompt="pop song"
@@ -96,8 +98,9 @@ GenerateSheet теперь тонкий оркестратор (~300 LOC vs ~800
 ```
 
 **After (New):**
+
 ```typescript
-<GenerateSheet 
+<GenerateSheet
   open={open}
   onOpenChange={setOpen}
   projectId={projectId} // optional

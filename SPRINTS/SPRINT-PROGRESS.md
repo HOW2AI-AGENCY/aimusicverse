@@ -1,6 +1,6 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-07-06 (Sprint 040 Phase A 🔄 API+Service тесты 27 файлов, 1273 passing; Sprint 056 Phase A-D ✅ Complete; Sprint 051 T055+T056 ✅ Complete; Sprint 053-055 ✅ Complete; Sprint 050 Phase A-B ✅ Complete)
+**Последнее обновление**: 2026-07-06 (Quality gate green ✅ — typecheck+lint+format восстановлены, 1431 unit-тестов; GenerateSheet design review доставлен; Sprint 056 Phase A-D ✅; Sprint 051 T055+T056 ✅; Sprint 053-055 ✅; Sprint 050 Phase A-B ✅)
 
 > 📌 **Важно**: Это документ отслеживает все спринты и их статусы. Для детального плана задач смотрите [BACKLOG.md](BACKLOG.md).
 
@@ -277,22 +277,22 @@ All sprints 001-034 are completed. Sprint 037 completed 2026-06-29. Sprint 038 c
 
 ## 📈 Метрики
 
-| Метрика         | Текущее | Цель   |
-| --------------- | ------- | ------ |
-| Users           | 574+    | 1,000+ |
-| Tracks          | 1,800+  | 5,000+ |
-| Files .ts/.tsx  | 1,736   | —      |
-| Components      | 987+    | —      |
-| Hooks           | 347+    | —      |
-| Pages           | 57+     | —      |
-| Edge Functions  | 120+    | —      |
-| Success Rate    | ~88%    | >92%   |
-| DAU             | ~25     | 50+    |
-| **Unit Tests**  | **925** | 1100+  |
-| **Test Suites** | **83**  | 90+    |
-| **Test Runner** | Vitest  | —      |
+| Метрика         | Текущее  | Цель   |
+| --------------- | -------- | ------ |
+| Users           | 574+     | 1,000+ |
+| Tracks          | 1,800+   | 5,000+ |
+| Files .ts/.tsx  | 1,736    | —      |
+| Components      | 987+     | —      |
+| Hooks           | 347+     | —      |
+| Pages           | 57+      | —      |
+| Edge Functions  | 120+     | —      |
+| Success Rate    | ~88%     | >92%   |
+| DAU             | ~25      | 50+    |
+| **Unit Tests**  | **1431** | 1500+  |
+| **Test Suites** | **83**   | 90+    |
+| **Test Runner** | Vitest   | —      |
 
-<sub>📌 Unit Tests: 925 passing / 83 файлов — фактический прогон `npm test` 2026-07-06 (Sprint 051 T055+T056: vitest config fix + API tests + god file decomposition). PRs #636, #638, #639, #640 MERGED.</sub>
+<sub>📌 Unit Tests: 1431 passing / 119 файлов — фактический прогон `npx vitest run` 2026-07-06 (Quality gate green: typecheck+lint+format restored; Sprint 051 T055+T056 vitest config fix + API tests + god file decomposition; concurrent test-expansion commits). PRs #636, #638-#644 MERGED + CI-fix branch pending.</sub>
 
 ---
 
@@ -305,6 +305,6 @@ All sprints 001-034 are completed. Sprint 037 completed 2026-06-29. Sprint 038 c
 
 ---
 
-_Обновлено: 2026-07-06 (Sprint 056 Phase A-D ✅, Sprint 053-054 ✅, Sprint 055 ✅, Sprint 050 Phase A-B ✅, Sprint 051 Phase A-C ✅, 925 passing unit tests)_
+_Обновлено: 2026-07-06 (Quality gate green ✅: typecheck+lint+format; 1431 passing unit tests; GenerateSheet design review; Sprint 056 Phase A-D ✅, Sprint 053-055 ✅, Sprint 050 Phase A-B ✅, Sprint 051 Phase A-C ✅)_
 
 > 🔗 Навигация: [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) • [PROJECT_STATUS.md](../PROJECT_STATUS.md) • [BACKLOG.md](BACKLOG.md)
