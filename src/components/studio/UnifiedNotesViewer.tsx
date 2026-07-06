@@ -14,12 +14,11 @@ import { memo, useState, useMemo, useCallback, useEffect } from "react";
 import { motion } from "@/lib/motion";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logger";
-import { useIsMobile } from "@/hooks/useIsMobile";
-import { useMidiFileParser } from "@/hooks/studio/useMidiFileParser";
-import { useMusicXmlParser } from "@/hooks/studio/useMusicXmlParser";
-import { useMidiSynth } from "@/hooks/studio/useMidiSynth";
-import { useTelegramDocumentShare } from "@/hooks/telegram/useTelegramDocumentShare";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useMidiFileParser } from "@/hooks/useMidiFileParser";
+import { useMusicXmlParser } from "@/hooks/useMusicXmlParser";
+import { useMidiSynth } from "@/hooks/useMidiSynth";
+import { useTelegramDocumentShare } from "@/hooks/studio/useTelegramDocumentShare";
 import { toast } from "sonner";
 import { NOTE_NAMES, NOTE_NAMES_RU, parseTimeSignature } from "./musicNotationUtils";
 
