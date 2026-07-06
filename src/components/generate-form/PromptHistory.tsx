@@ -28,62 +28,16 @@ import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from "
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { usePromptHistorySync } from "@/hooks/usePromptHistorySync";
+import { scrollbarStyles, type PromptMode, type PromptHistoryItem, type SavedPrompt } from "./promptHistoryTypes";
 
-export type PromptMode = "simple" | "custom" | "wizard";
-
-export interface PromptHistoryItem {
-  id: string;
-  timestamp: Date;
-  lastUsed?: Date;
-  usageCount: number;
-  mode: PromptMode;
-  description?: string;
-  title?: string;
-  style?: string;
-  lyrics?: string;
-  model: string;
-  tags?: string[];
-  isBookmarked?: boolean;
-}
-
-export interface SavedPrompt {
-  id: string;
-  name: string;
-  mode: PromptMode;
-  description?: string;
-  title?: string;
-  style?: string;
-  lyrics?: string;
-  model: string;
-  createdAt: Date;
-}
+// Re-export for backward compatibility
+export type { PromptMode, PromptHistoryItem, SavedPrompt };
 
 interface PromptHistoryProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelectPrompt: (prompt: PromptHistoryItem) => void;
 }
-
-// Custom scrollbar styles
-const scrollbarStyles = `
-  [data-prompt-scroll]::-webkit-scrollbar {
-    width: 4px;
-  }
-  [data-prompt-scroll]::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  [data-prompt-scroll]::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 2px;
-  }
-  [data-prompt-scroll]::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
-  }
-  [data-prompt-scroll] {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
-  }
-`;
 
 export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHistoryProps) {
   const [localHistory, setLocalHistory] = useState<PromptHistoryItem[]>([]);
