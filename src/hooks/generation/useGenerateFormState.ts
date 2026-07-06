@@ -86,18 +86,33 @@ export function useGenerateFormState(params: UseGenerateFormParams): UseGenerate
 
     // ─── derived ───────────────────────────────────────────────────
     hasUnsavedData,
+    hasDraft: s.hasDraft,
 
     // ─── reset ─────────────────────────────────────────────────────
     resetForm: s.resetForm,
 
     // ─── draft (forwarded from useGenerateDraft via internal state) ──
-    saveDraft: s.saveDraft,
+    saveDraft: s.saveDraft as (payload?: unknown) => void,
 
     // ─── api credits (forwarded from internal state) ─────────────────
-    // Wired so the submit pipeline can persist the post-generation balance
-    // via deps.setApiCredits and the public surface can expose apiCredits
-    // (was previously dropped on the floor by an upstream no-op stub).
     apiCredits: s.apiCredits,
     setApiCredits: s.setApiCredits,
+
+    // ─── credits/auth extras (needed by validation + composer) ──────
+    isAdmin: s.isAdmin,
+    apiBalance: s.apiBalance,
+    userBalance: s.userBalance,
+
+    // ─── retry state (forwarded from internal for composer surface) ─
+    isRetrying: s.isRetrying,
+    retryCount: s.retryCount,
+    nextRetryIn: s.nextRetryIn,
+    canRetry: s.canRetry,
+    cancelRetry: s.cancelRetry,
+
+    // ─── refs used by actions/draft slices ─────────────────────────
+    activeReference: s.activeReference,
+    clearAudioReference: s.clearAudioReference,
+    invalidateCredits: s.invalidateCredits,
   };
 }
