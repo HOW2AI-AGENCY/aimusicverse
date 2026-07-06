@@ -178,7 +178,6 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
   void _legacyKeys;
 
   return {
-    ...state,
     // ─── mode + loading flags ───────────────────────────────────────
     mode: state.mode,
     setMode: state.setMode,
