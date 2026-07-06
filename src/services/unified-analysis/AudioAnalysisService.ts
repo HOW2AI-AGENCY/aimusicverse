@@ -28,6 +28,15 @@ import type {
   ProductionInfo,
   DEFAULT_PROVIDER_FOR_TYPE,
 } from "./types";
+import {
+  getDefaultProvider,
+  mapTypeToLovableAI,
+  mapTypeToKlangioMode,
+  mergeResults,
+  normalizeFlamingoResult,
+  normalizeLovableAIResult,
+  normalizeKlangioResult,
+} from "./audioAnalysisNormalizers";
 
 const log = logger.child({ module: "AudioAnalysisService" });
 
@@ -120,7 +129,7 @@ class AudioAnalysisService {
     }
 
     // Merge all results
-    const mergedResult = this.mergeResults(routeResult.value);
+    const mergedResult = mergeResults(routeResult.value);
 
     // Save to database if trackId provided
     if (request.trackId && request.userId) {
@@ -185,7 +194,7 @@ class AudioAnalysisService {
         );
       }
 
-      return ok(this.normalizeFlamingoResult(data.parsed));
+      return ok(normalizeFlamingoResult(data.parsed));
     } catch (error) {
       log.error("Flamingo analysis threw", { error });
       return err(
@@ -253,7 +262,7 @@ class AudioAnalysisService {
         );
       }
 
-      return ok(this.normalizeLovableAIResult(data.results));
+      return ok(normalizeLovableAIResult(data.results));
     } catch (error) {
       log.error("Lovable AI analysis threw", { error });
       return err(
@@ -332,7 +341,7 @@ class AudioAnalysisService {
         );
       }
 
-      return ok(this.normalizeKlangioResult(data, options.mode));
+      return ok(normalizeKlangioResult(data, options.mode));
     } catch (error) {
       log.error("Klangio analysis threw", { error });
       return err(
@@ -485,7 +494,7 @@ class AudioAnalysisService {
       };
 
       for (const type of analysisTypes) {
-        const targetProvider = provider || this.getDefaultProvider(type);
+        const targetProvider = provider || getDefaultProvider(type);
         providerTasks[targetProvider].push(type);
       }
 
@@ -506,7 +515,7 @@ class AudioAnalysisService {
         promises.push(
           this.tryAnalyzeWithLovableAI(audioUrl, {
             trackId: request.trackId,
-            analysisTypes: providerTasks["lovable-ai"].map((t) => this.mapTypeToLovableAI(t)),
+            analysisTypes: providerTasks["lovable-ai"].map((t) => mapTypeToLovableAI(t)),
           }),
         );
       }
@@ -514,7 +523,7 @@ class AudioAnalysisService {
       if (providerTasks["klangio"].length > 0) {
         // Klangio needs separate calls for each mode
         for (const type of providerTasks["klangio"]) {
-          const mode = this.mapTypeToKlangioMode(type);
+          const mode = mapTypeToKlangioMode(type);
           if (mode) {
             promises.push(
               this.tryAnalyzeWithKlangio(audioUrl, {
@@ -559,258 +568,6 @@ class AudioAnalysisService {
         ),
       );
     }
-  }
-
-  private getDefaultProvider(type: AnalysisType): AnalysisProvider {
-    const defaults: Record<AnalysisType, AnalysisProvider> = {
-      full: "flamingo",
-      style: "flamingo",
-      "music-theory": "flamingo",
-      emotion: "lovable-ai",
-      transcription: "klangio",
-      beats: "klangio",
-      chords: "klangio",
-      lyrics: "lovable-ai",
-    };
-    return defaults[type] || "flamingo";
-  }
-
-  private mapTypeToLovableAI(type: AnalysisType): string {
-    const mapping: Record<AnalysisType, string> = {
-      full: "general",
-      style: "general",
-      "music-theory": "bpm",
-      emotion: "emotion",
-      transcription: "general",
-      beats: "bpm",
-      chords: "general",
-      lyrics: "general",
-    };
-    return mapping[type] || "general";
-  }
-
-  private mapTypeToKlangioMode(type: AnalysisType): "transcription" | "chord-recognition" | "beat-tracking" | null {
-    const mapping: Record<string, "transcription" | "chord-recognition" | "beat-tracking" | null> = {
-      transcription: "transcription",
-      beats: "beat-tracking",
-      chords: "chord-recognition",
-    };
-    return mapping[type] || null;
-  }
-
-  private mergeResults(results: UnifiedAnalysisResult[]): UnifiedAnalysisResult {
-    const merged: UnifiedAnalysisResult = {};
-
-    for (const result of results) {
-      // Merge with priority to non-null values
-      Object.entries(result).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          Object.assign(merged, { [key]: value });
-        }
-      });
-    }
-
-    merged.analyzedAt = new Date().toISOString();
-    return merged;
-  }
-
-  private async saveToDatabase(trackId: string, userId: string, result: UnifiedAnalysisResult): Promise<void> {
-    // Check if record exists
-    const { data: existing } = await supabase.from("audio_analysis").select("id").eq("track_id", trackId).maybeSingle();
-
-    const analysisData = {
-      track_id: trackId,
-      user_id: userId,
-      analysis_type: "unified",
-      genre: result.genre || null,
-      mood: result.mood || null,
-      tempo: result.energy?.level || null,
-      bpm: result.bpm || null,
-      key_signature: result.key || null,
-      instruments: result.instruments || null,
-      structure: result.structure?.sections?.join(", ") || null,
-      style_description: result.styleDescription || null,
-      arousal: result.arousal ? result.arousal / 100 : null,
-      valence: result.valence ? result.valence / 100 : null,
-      analysis_metadata: JSON.parse(
-        JSON.stringify({
-          provider: result.provider || null,
-          subgenres: result.subgenres || null,
-          emotions: result.emotions || null,
-          production: result.production || null,
-          beats: result.beats || null,
-          chords: result.chords || null,
-        }),
-      ),
-      updated_at: new Date().toISOString(),
-    };
-
-    let error;
-    if (existing) {
-      const result = await supabase.from("audio_analysis").update(analysisData).eq("id", existing.id);
-      error = result.error;
-    } else {
-      const result = await supabase.from("audio_analysis").insert(analysisData);
-      error = result.error;
-    }
-
-    if (error) {
-      log.warn("Failed to save analysis to database", { message: error.message });
-    }
-  }
-
-  // ==========================================
-  // Result Normalizers
-  // ==========================================
-
-  private normalizeFlamingoResult(data: Record<string, unknown>): UnifiedAnalysisResult {
-    type FlamingoShape = {
-      genre?: string;
-      subgenres?: string[];
-      mood?: string;
-      emotions?: string[];
-      bpm?: number;
-      key?: string;
-      scale?: "unknown" | "major" | "minor" | "modal";
-      time_signature?: string;
-      instruments?: string[];
-      vocals?: VocalInfo;
-      structure?: {
-        sections?: string[];
-        has_intro?: boolean;
-        has_outro?: boolean;
-        has_bridge?: boolean;
-      };
-      energy?: EnergyInfo;
-      production?: ProductionInfo;
-      style_prompt?: string;
-      tags?: string[];
-    };
-    const d = data as FlamingoShape;
-    return {
-      genre: d.genre,
-      subgenres: d.subgenres,
-      mood: d.mood,
-      emotions: d.emotions,
-      bpm: d.bpm,
-      key: d.key,
-      scale: d.scale,
-      timeSignature: d.time_signature,
-      instruments: d.instruments,
-      hasVocals: d.vocals?.present,
-      vocalInfo: d.vocals,
-      structure: {
-        sections: d.structure?.sections,
-        hasIntro: d.structure?.has_intro,
-        hasOutro: d.structure?.has_outro,
-        hasBridge: d.structure?.has_bridge,
-      },
-      energy: d.energy,
-      arousal: d.energy?.arousal,
-      valence: d.energy?.valence,
-      production: d.production,
-      styleDescription: d.style_prompt,
-      styleTags: d.tags,
-      provider: "flamingo",
-    };
-  }
-
-  private normalizeLovableAIResult(data: Record<string, unknown>): UnifiedAnalysisResult {
-    type LovableShape = {
-      genre?: string;
-      mood?: string;
-      bpm?: number;
-      key_signature?: string;
-      instruments?: string[];
-      arousal?: number;
-      valence?: number;
-      style_description?: string;
-      structure?: string;
-    };
-    const d = data as LovableShape;
-    return {
-      genre: d.genre,
-      mood: d.mood,
-      bpm: d.bpm,
-      key: d.key_signature,
-      instruments: d.instruments,
-      arousal: d.arousal,
-      valence: d.valence,
-      styleDescription: d.style_description,
-      structure: d.structure ? { sections: [d.structure] } : undefined,
-      provider: "lovable-ai",
-    };
-  }
-
-  private normalizeKlangioResult(data: Record<string, unknown>, mode: string): UnifiedAnalysisResult {
-    type KNote = {
-      pitch?: number;
-      start_time?: number;
-      startTime?: number;
-      end_time?: number;
-      endTime?: number;
-      velocity?: number;
-      note_name?: string;
-      noteName?: string;
-    };
-    type KBeat = { time?: number; confidence?: number };
-    type KChord = {
-      chord?: string;
-      label?: string;
-      start_time?: number;
-      startTime?: number;
-      end_time?: number;
-      endTime?: number;
-      confidence?: number;
-    };
-    type KlangioShape = {
-      bpm?: number;
-      key?: string;
-      time_signature?: string;
-      notes?: KNote[];
-      beats?: KBeat[];
-      chords?: KChord[];
-      downbeats?: number[];
-      files?: { midi?: string; midi_quant?: string; pdf?: string; mxml?: string; gp5?: string };
-    };
-    const d = data as KlangioShape;
-    const result: UnifiedAnalysisResult = { provider: "klangio" };
-
-    if (mode === "transcription") {
-      result.notes = d.notes?.map((n) => ({
-        pitch: n.pitch ?? 0,
-        startTime: n.start_time ?? n.startTime ?? 0,
-        endTime: n.end_time ?? n.endTime ?? 0,
-        velocity: n.velocity ?? 80,
-        noteName: n.note_name ?? n.noteName,
-      }));
-      result.bpm = d.bpm;
-      result.key = d.key;
-      result.timeSignature = d.time_signature;
-      result.midiUrl = d.files?.midi;
-      result.midiQuantUrl = d.files?.midi_quant;
-      result.pdfUrl = d.files?.pdf;
-      result.musicXmlUrl = d.files?.mxml;
-      result.gp5Url = d.files?.gp5;
-    }
-
-    if (mode === "beat-tracking") {
-      result.beats = d.beats?.map((b) => ({ time: b.time ?? 0, confidence: b.confidence }));
-      result.downbeats = d.downbeats;
-      result.bpm = d.bpm;
-    }
-
-    if (mode === "chord-recognition" || mode === "chord-recognition-extended") {
-      result.chords = d.chords?.map((c) => ({
-        chord: c.chord ?? c.label ?? "",
-        startTime: c.start_time ?? c.startTime ?? 0,
-        endTime: c.end_time ?? c.endTime ?? 0,
-        confidence: c.confidence,
-      }));
-      result.key = d.key;
-    }
-
-    return result;
   }
 }
 
