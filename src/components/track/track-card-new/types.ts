@@ -58,6 +58,9 @@ export interface BaseTrackCardProps {
 
   /** Test ID for testing */
   testId?: string;
+
+  /** Mark the cover image as high-priority (above-the-fold, eager loading + fetchpriority=high) */
+  priority?: boolean;
 }
 
 // ============================================================================
