@@ -5,7 +5,9 @@
   "auth": {
     "type": "oauth",
     "issuer": "https://ygmvthybdrqymfsqifmj.supabase.co/auth/v1",
-    "accepted_audiences": ["authenticated"]
+    "accepted_audiences": [
+      "authenticated"
+    ]
   },
   "mcp": {
     "server": {
@@ -40,7 +42,9 @@
               "maximum": 50
             }
           },
-          "required": ["query"]
+          "required": [
+            "query"
+          ]
         },
         "outputSchema": null
       },
@@ -64,7 +68,9 @@
               "description": "UUID of the track."
             }
           },
-          "required": ["track_id"]
+          "required": [
+            "track_id"
+          ]
         },
         "outputSchema": null
       },
