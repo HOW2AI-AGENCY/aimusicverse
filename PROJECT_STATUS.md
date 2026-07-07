@@ -11,7 +11,7 @@
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1497_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
-  <img alt="Dependencies" src="https://img.shields.io/badge/deps-6_vulnerabilities-EF4444?style=for-the-badge"/>
+  <img alt="Dependencies" src="https://img.shields.io/badge/deps-6_vulnerabilities_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=for-the-badge"/>
 </p>
 
 <sub>📌 <strong>Метрика `any`</strong>: 0 нарушений ESLint-правила <code>no-explicit-any</code> в production-коде. Whitelist (~85 слотов для типизированных interop-границ: Supabase generated types, JSON-парсеры, audio-context, внешние SDK) живёт в <code>scripts/count-any.mjs</code> и ESLint-конфиге. Сырой <code>grep -E "(\bas any\b|: any\b|<any>|\bany\[\])"</code> по <code>src/</code> даёт ~124 вхождения — большинство из них текстовые (комментарии, JSDoc) или входят в whitelist.</sub>
@@ -172,10 +172,12 @@ Phase A–B ✅, Phase C–D ✅ (stories + docs complete)
 - Блокеры Sprint 050: 3 → 2 (E2E dependency, branch protection)
 
 ### Phase 8: Codebase Optimization ✅ COMPLETE (2026-06-25)
+
 - [x] Удаление 196 мёртвых файлов, 45,113 строк ([PR #283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283))
 - [x] Замена runtime console.log на logger в studio-компонентах
 
 ### Phase 9A: Deduplication ✅ COMPLETE (2026-06-25)
+
 - [x] Аудит 30+ предполагаемых дубликатов
 - [x] Удалено 5 подтверждённых дубликатов (~1,350 строк)
 - [x] Очищены index.ts реэкспорты

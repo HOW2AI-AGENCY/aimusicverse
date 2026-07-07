@@ -63,6 +63,7 @@ jobs:
             --exclude 'how2ai\.agency'
             --exclude 'klang\.io'
             --exclude 'musicverse\.ai'
+            --exclude 'github\.com/.*/rules/'
             --accept 200,206,429
             './**/*.md'
           fail: true

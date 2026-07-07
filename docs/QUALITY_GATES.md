@@ -569,13 +569,7 @@ npm run test:coverage
 
 - **[Testing Infrastructure](./TESTING_INFRASTRUCTURE.md)**: Comprehensive testing setup
 - **[Build System](../vite.config.ts)**: Build configuration
-  <<<<<<< HEAD
-- **Performance Monitoring**: Performance tracking
-  \=======
 - **[Performance Monitoring](./PERFORMANCE_OPTIMIZATION_GUIDE.md)**: Performance tracking
-
-> > > > > > > claude/sprint-closure-planning-m6skuk
-
 - **[Security Guidelines](../SECURITY.md)**: Security best practices
 
 ---

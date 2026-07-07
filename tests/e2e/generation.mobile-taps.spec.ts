@@ -29,6 +29,23 @@ async function gotoGenerate(page: Page) {
   await page.addInitScript(() => {
     try {
       localStorage.setItem("lv:metrics:visible", "1"); // forced; mobile must still suppress
+      // Bypass the "Требуется Telegram" auth gate (src/pages/Auth.tsx) so the test lands
+      // on the real generate-form content instead of a one-shot "continue as guest" button
+      // that unmounts itself (and any listener attached to it) on the first tap. See
+      // GuestModeContext's lazy useState initializer, which reads this key synchronously.
+      localStorage.setItem("guestMode", "true");
+      // Suppress the first-run QuickStartOverlay (useUserJourneyState, persisted under
+      // "user-journey-state"). A fresh Playwright context has no localStorage, so the
+      // store defaults to isNewUser:true and OnboardingFlow mounts a fixed full-screen
+      // overlay ~800ms after load, stealing taps meant for the page underneath.
+      // See src/components/onboarding/OnboardingFlow.tsx + src/hooks/useUserJourneyState.ts.
+      localStorage.setItem(
+        "user-journey-state",
+        JSON.stringify({
+          state: { isNewUser: false, completedQuickStart: true, completedOnboarding: true },
+          version: 0,
+        }),
+      );
     } catch {
       /* noop */
     }

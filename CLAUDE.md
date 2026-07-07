@@ -507,10 +507,10 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 - Sprint: **051 ✅ Complete** (Test Debt Phase A-C: god-file decomposition 9/9 done + API/Service тесты), Sprint **055 ✅ Complete** (UX P0/P1 Fixes 13/13), Sprint **056 ✅ Complete** (GenerateSheet Redesign + Storybook), Sprint **053+054 ✅ Complete** (Suno API 28/28 — 100% покрытие). Design-review проведён 2026-07-06 (Score C+, AI Slop B). План на 2-4 недели — [FUTURE_WORK_PLAN.md](FUTURE_WORK_PLAN.md).
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
-- Components: 1037, Hooks: 413, Stores: 12, API files: 26, Services: 12 *.service.ts (верифицировано 2026-07-06)
+- Components: 1161, Hooks: 434, Stores: 24 (12 top-level + 12 in domain slices under `src/stores/*/`), API files: 30, Services: 37 *.service.ts (12 top-level + 25 in domain subfolders under `src/services/*/`) — recursive `find`/`wc -l` count, verified 2026-07-07 (see [docs/audit/PROGRESS-AUDIT-2026-07-07.md](docs/audit/PROGRESS-AUDIT-2026-07-07.md)). Previous snapshot (1037/413/12/26/12, verified 2026-07-06) undercounted files nested in domain subfolders.
 - Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks. См. [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)
 - Unit Tests: **1497 passing** (125 test files, 123 passed + 2 skipped), E2E: 56 specs
-- Key Issues: 0 layer-boundary violations, 0/50 `any` budget, **0 файлов >800 LOC** (исключая generated types.ts и статический drum-kits.ts), tsc 0 errors, rules-of-hooks `"error"`
+- Key Issues: 0 layer-boundary violations, 0/50 `any` budget, **0 файлов >800 LOC в `src/`** (исключая generated types.ts и статический drum-kits.ts) — `supabase/functions/` не входит в этот scope и содержит 11 файлов >800 LOC (до 1871 LOC), не охваченных ни одним sprint'ом, см. [docs/audit/PROGRESS-AUDIT-2026-07-07.md](docs/audit/PROGRESS-AUDIT-2026-07-07.md); tsc 0 errors, rules-of-hooks `"error"`
 - Overall Progress: 99% (49 sprints complete in PROJECT_STATUS; в SPRINT-PROGRESS.md — компактная нумерация до 045)
 
 ## Telegram Bot Integration

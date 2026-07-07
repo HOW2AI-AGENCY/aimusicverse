@@ -5,9 +5,9 @@
 **Tracked bugs, regressions, and platform quirks — with current status and mitigations.**
 
 <p>
-  <img alt="Open" src="https://img.shields.io/badge/open-3-F59E0B?style=for-the-badge"/>
+  <img alt="Open" src="https://img.shields.io/badge/open-4-F59E0B?style=for-the-badge"/>
   <img alt="Watch" src="https://img.shields.io/badge/watchlist-2-26A5E4?style=for-the-badge"/>
-  <img alt="Resolved (30d)" src="https://img.shields.io/badge/resolved_30d-7-10B981?style=for-the-badge"/>
+  <img alt="Resolved (30d)" src="https://img.shields.io/badge/resolved_30d-9-10B981?style=for-the-badge"/>
 </p>
 
 <p>
@@ -26,11 +26,12 @@
 
 ## 🚦 Open
 
-|  #  | Area          | Issue                                                   | Severity  | Mitigation                                           |
-| :-: | ------------- | ------------------------------------------------------- | :-------: | ---------------------------------------------------- |
-|  1  | iOS Safari    | Audio element pool can hit 9/10 in long sessions        | 🟡 Medium | Force-release inactive players in `audioElementPool` |
-|  2  | Suno API      | 429 rate-limits during peak hours                       | 🟡 Medium | Exponential back-off + queue UI in form              |
-|  3  | Studio mobile | Section replacement preview stutters on low-end Android |  🟢 Low   | Reduce timeline render frequency in dev branch       |
+|  #  | Area          | Issue                                                                                                                                                                                                                                                            | Severity  | Mitigation                                                                                           |
+| :-: | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------: | ---------------------------------------------------------------------------------------------------- |
+|  1  | iOS Safari    | Audio element pool can hit 9/10 in long sessions                                                                                                                                                                                                                 | 🟡 Medium | Force-release inactive players in `audioElementPool`                                                 |
+|  2  | Suno API      | 429 rate-limits during peak hours                                                                                                                                                                                                                                | 🟡 Medium | Exponential back-off + queue UI in form                                                              |
+|  3  | Studio mobile | Section replacement preview stutters on low-end Android                                                                                                                                                                                                          |  🟢 Low   | Reduce timeline render frequency in dev branch                                                       |
+|  4  | E2E (mobile)  | `generation.mobile-taps.spec.ts` "repeated taps" still red: unauth `/generate` → `GenerateRedirect` → `/` shows the "Требуется Telegram" gate even with `guestMode` pre-seeded and `hostname=127.0.0.1` (should satisfy `ProtectedRoute`'s `isDevEnvironment()`) |  🟠 High  | Needs interactive debugging of `isDevMode`/`isGuestMode`/`user` at render time — not yet root-caused |
 
 ## 👀 Watchlist
 
@@ -41,16 +42,18 @@
 
 ## ✅ Recently resolved (30 days)
 
-| Issue                                                  | Fix                                                                                 | Released   |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------- | ---------- |
-| Auto-open "Стемы готовы" modal                         | Removed auto-trigger in `SmartAlertProvider`                                        | 2026-06-27 |
-| Dev-overlay intercepting taps on mobile                | `pointer-events: none` when hidden                                                  | 2026-06-22 |
-| Hotkey `Cmd+Shift+M` firing during IME                 | Guard via `isComposing`                                                             | 2026-06-22 |
-| Dialog stacking under fixed overlays                   | Portal to `document.body` + z-index normalisation                                   | 2026-06-20 |
-| Mobile tap ghosting on Generate button                 | Pointer-events + actionable wait                                                    | 2026-06-18 |
-| Admin page TDZ crash (`Cannot access ... before init`) | Fix barrel import cycle + merge 8 interdependent chunks into `feature-admin-studio` | 2026-06-29 |
-| Bundle drift > 950 KB                                  | Code-split + tree-shaken motion                                                     | 2026-06-12 |
-| Realtime channel leak in `useStems`                    | `removeChannel` on unmount                                                          | 2026-06-10 |
+| Issue                                                                                                                                               | Fix                                                                                                     | Released   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------- |
+| First-run QuickStartOverlay intercepting taps in mobile E2E (`generation.mobile-taps.spec.ts`)                                                      | Seed `useUserJourneyState` persisted flags before navigation, mirroring `home.no-auto-overlays.spec.ts` | 2026-07-07 |
+| Missing `/index` route (404) broke hotkey-parity + 4 other E2E specs that treat it as a `/` alias (already assumed by `PaywallProvider`'s denylist) | Added `<Route path="/index" element={<Navigate to="/" replace />} />` in `App.tsx`                      | 2026-07-07 |
+| Auto-open "Стемы готовы" modal                                                                                                                      | Removed auto-trigger in `SmartAlertProvider`                                                            | 2026-06-27 |
+| Dev-overlay intercepting taps on mobile                                                                                                             | `pointer-events: none` when hidden                                                                      | 2026-06-22 |
+| Hotkey `Cmd+Shift+M` firing during IME                                                                                                              | Guard via `isComposing`                                                                                 | 2026-06-22 |
+| Dialog stacking under fixed overlays                                                                                                                | Portal to `document.body` + z-index normalisation                                                       | 2026-06-20 |
+| Mobile tap ghosting on Generate button                                                                                                              | Pointer-events + actionable wait                                                                        | 2026-06-18 |
+| Admin page TDZ crash (`Cannot access ... before init`)                                                                                              | Fix barrel import cycle + merge 8 interdependent chunks into `feature-admin-studio`                     | 2026-06-29 |
+| Bundle drift > 950 KB                                                                                                                               | Code-split + tree-shaken motion                                                                         | 2026-06-12 |
+| Realtime channel leak in `useStems`                                                                                                                 | `removeChannel` on unmount                                                                              | 2026-06-10 |
 
 ---
 
@@ -73,6 +76,6 @@
 | :-----------------------------: | :-------------------: | :-----------------------: | :-------------------------: | :-----------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Roadmap](ROADMAP.md) | [Changelog](CHANGELOG.md) | [Status](PROJECT_STATUS.md) | [Contributing](CONTRIBUTING.md) |
 
-<sub>Last updated: 2026-06-29</sub>
+<sub>Last updated: 2026-07-07</sub>
 
 </div>

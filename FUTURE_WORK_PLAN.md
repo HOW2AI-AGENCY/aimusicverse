@@ -1,28 +1,28 @@
 # План дальнейших работ MusicVerse AI
 
-**Дата:** 2026-07-06
-**Статус:** 99% complete, 1497 unit tests passing, tsc 0 errors
+**Дата:** 2026-07-07
+**Статус:** 99% complete, 1497 unit tests passing, tsc 0 errors. ⚠️ CI на `main` был красным последние ~10 прогонов (E2E mobile) — см. P1 ниже; 2 из нескольких причин найдены и исправлены 2026-07-07.
 **Фокус:** Стабилизация CI → E2E → i18n → Новые фичи
 
 ---
 
 ## 🎯 Текущее состояние (верифицировано 2026-07-06)
 
-| Метрика             | Значение                      | Статус |
-| ------------------- | ----------------------------- | ------ |
-| Unit tests          | 1497 passing (123/125 files)  | ✅     |
-| TypeScript          | 0 errors                      | ✅     |
-| E2E specs           | 56 (статус CI не подтверждён) | 🟡     |
-| Components          | 1037                          | ✅     |
-| Hooks               | 413                           | ✅     |
-| API files           | 26                            | ✅     |
-| Services            | 12 *.service.ts               | ✅     |
-| Stores              | 12                            | ✅     |
-| Suno edge functions | 46 (28/28 API — 100%)         | ✅     |
-| Files >800 LOC      | 0 (исключая generated)        | ✅     |
-| `any` budget        | 0/50                          | ✅     |
-| Bundle eager JS     | ~508 KB gzip                  | ✅     |
-| Design Score        | C+ (AI Slop: B)               | 🟡     |
+| Метрика             | Значение                                                                                                                     | Статус |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------ |
+| Unit tests          | 1497 passing (123/125 files)                                                                                                 | ✅     |
+| TypeScript          | 0 errors                                                                                                                     | ✅     |
+| E2E specs           | 56 (CI на `main` красный последние ~10 прогонов — verified 2026-07-07 через GitHub Actions logs, не только "не подтверждён") | 🟡     |
+| Components          | 1037                                                                                                                         | ✅     |
+| Hooks               | 413                                                                                                                          | ✅     |
+| API files           | 26                                                                                                                           | ✅     |
+| Services            | 12 *.service.ts                                                                                                              | ✅     |
+| Stores              | 12                                                                                                                           | ✅     |
+| Suno edge functions | 46 (28/28 API — 100%)                                                                                                        | ✅     |
+| Files >800 LOC      | 0 (исключая generated)                                                                                                       | ✅     |
+| `any` budget        | 0/50                                                                                                                         | ✅     |
+| Bundle eager JS     | ~508 KB gzip                                                                                                                 | ✅     |
+| Design Score        | C+ (AI Slop: B)                                                                                                              | 🟡     |
 
 ### ✅ Завершённые спринты
 
@@ -38,12 +38,13 @@
 
 ### P0: Branch Protection Phase 2
 
-**Задача:** Добавить required CI checks к ruleset `18508298`.
+**Задача:** Добавить required CI checks к ruleset (документы называют два разных ID — `18508298` и `18579467` — сверить, какой актуален, вживую на GitHub; ни один MCP-инструмент в этой сессии не даёт доступа к rulesets API, так что это не проверено автоматически).
 
 - [x] Phase 1: запрет force-push + deletion + linear history
 - [ ] Phase 2: `required_status_checks: [quality, build, smoke]`
 - [ ] Добавить `pull_request` rule (0 approvals для self-merge)
 - [ ] Проверить работу на test PR
+- [x] ~~Pre-commit хуки (Prettier/lint/typecheck)~~ — уже есть: `.husky/pre-commit` гоняет `lint-staged` + `tsc --noEmit`. Реальный открытый вопрос — не локальный хук, а то, что CI required-status-checks не блокируют пуши в обход хука (GitHub UI правки, `--no-verify`).
 
 **Срок:** 1 день
 **Блокеры:** нет (050-A6 format fix-up завершён)
@@ -52,15 +53,17 @@
 
 ### P1: E2E стабилизация
 
-**Текущее:** 56 specs, статус в CI не подтверждён.
+**Текущее (verified 2026-07-07 напрямую через GitHub Actions job logs, не со слов доков):** 56 specs; последние ~10 прогонов на `main` — `failure`/`cancelled`. В последнем прогоне 7/8 джобов зелёные, падал только `E2E Tests (Mobile emulation)`.
 
-- [ ] Запустить полный E2E-прогон в GitHub Actions
-- [ ] Починить падающие тесты (ожидаемые: таймауты, flaky-селекторы)
-- [ ] `waitForLoadState("networkidle")` → локатор-ожидания (Suno mashup spec)
+- [x] Найдена и исправлена реальная причина топ-1 падения: первый экран онбординга (`QuickStartOverlay`, `src/components/onboarding/OnboardingFlow.tsx`) монтируется через 800мс `setTimeout` и перехватывает тапы по кнопкам `/generate` в мобильной эмуляции — `tests/e2e/generation.mobile-taps.spec.ts` теперь гасит это состояние через `localStorage` (`user-journey-state`), по образцу `tests/e2e/home.no-auto-overlays.spec.ts`.
+- [x] Найден и исправлен отсутствующий роут `/index` (404) — пять E2E-файлов и `PaywallProvider.tsx` считали его алиасом `/`, но в `App.tsx` не было соответствующего `<Route>`. Добавлен `<Route path="/index" element={<Navigate to="/" replace />} />`. Разблокировал весь `dev-overlay.telegram-web.spec.ts` (был не про мобильную эмуляцию, а про 404).
+- [ ] **Остаётся открытым:** `generation.mobile-taps.spec.ts` › "repeated taps on the same chip keep firing" всё ещё падает — неавторизованный `/generate` → `GenerateRedirect` → `/` показывает экран "Требуется Telegram" даже с предварительно выставленным `guestMode=true` и hostname `127.0.0.1` (по логике `ProtectedRoute.isDevEnvironment()` это должно давать доступ). Корневая причина не найдена — нужна интерактивная отладка значений `isDevMode`/`isGuestMode`/`user` в момент рендера, а не дальнейшие предположения.
+- [ ] Запустить полный E2E-прогон в GitHub Actions после того, как пункт выше закрыт
+- [ ] `waitForLoadState("networkidle")` → локатор-ожидания (осталось 4 файла: `library.spec.ts` ×7, `cdn.spec.ts`, `generation.dialog-orientation.spec.ts`, `storage.spec.ts`; `suno-mashup.spec.ts` уже исправлен)
 - [ ] Добавить E2E-smoke в Quality & Build workflow
 
 **Срок:** 4-5 дней
-**Метрика:** 56/56 passing в CI
+**Метрика:** 56/56 passing в CI (реально подтверждено, не по документам)
 
 ---
 
