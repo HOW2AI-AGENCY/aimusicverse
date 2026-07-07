@@ -173,6 +173,7 @@ export const GridVariant = memo(function GridVariant({
               )}
               containerClassName="w-full h-full"
               coverSize="medium"
+              priority={priority}
               onClick={(e) => {
                 e.stopPropagation();
                 handlePlay();
