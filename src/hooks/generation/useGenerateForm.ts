@@ -202,6 +202,7 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     apiCredits: state.apiCredits,
     setApiCredits: state.setApiCredits,
     isAdmin: state.isAdmin,
+    apiBalance: state.apiBalance,
     hasDraft,
     hasUnsavedData: state.hasUnsavedData,
     invalidateCredits: state.invalidateCredits,
@@ -267,5 +268,6 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     // ─── active reference (used by submit) ─────────────────────────
     activeReference,
     clearAudioReference,
+    invalidateCredits: state.invalidateCredits,
   };
 }
