@@ -26,12 +26,12 @@
 
 ## 🚦 Open
 
-|  #  | Area          | Issue                                                                                                                                                                                                                                                            | Severity  | Mitigation                                                                                           |
-| :-: | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------: | ---------------------------------------------------------------------------------------------------- |
-|  1  | iOS Safari    | Audio element pool can hit 9/10 in long sessions                                                                                                                                                                                                                 | 🟡 Medium | Force-release inactive players in `audioElementPool`                                                 |
-|  2  | Suno API      | 429 rate-limits during peak hours                                                                                                                                                                                                                                | 🟡 Medium | Exponential back-off + queue UI in form                                                              |
-|  3  | Studio mobile | Section replacement preview stutters on low-end Android                                                                                                                                                                                                          |  🟢 Low   | Reduce timeline render frequency in dev branch                                                       |
-|  4  | E2E (mobile)  | `generation.mobile-taps.spec.ts` "repeated taps" still red: unauth `/generate` → `GenerateRedirect` → `/` shows the "Требуется Telegram" gate even with `guestMode` pre-seeded and `hostname=127.0.0.1` (should satisfy `ProtectedRoute`'s `isDevEnvironment()`) |  🟠 High  | Needs interactive debugging of `isDevMode`/`isGuestMode`/`user` at render time — not yet root-caused |
+|  #  | Area          | Issue                                                                                      | Severity  | Mitigation                                                |
+| :-: | ------------- | ------------------------------------------------------------------------------------------ | :-------: | --------------------------------------------------------- |
+|  1  | iOS Safari    | Audio element pool can hit 9/10 in long sessions                                           | 🟡 Medium | Force-release inactive players in `audioElementPool`      |
+|  2  | Suno API      | 429 rate-limits during peak hours                                                          | 🟡 Medium | Exponential back-off + queue UI in form                   |
+|  3  | Studio mobile | Section replacement preview stutters on low-end Android                                    |  🟢 Low   | Reduce timeline render frequency in dev branch            |
+|  4  | npm audit     | 5 dev-dependency vulnerabilities (esbuild, vite, uuid, storybook) — all moderate, dev-only |  🟢 Low   | Requires breaking changes to fix; production not affected |
 
 ## 👀 Watchlist
 
@@ -44,6 +44,8 @@
 
 | Issue                                                                                                                                               | Fix                                                                                                     | Released   |
 | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------- |
+| E2E mobile tests failing — `useTelegramInit.ts` missed `127.0.0.1` as dev env, causing Auth page instead of home                                    | Added `127.0.0.1` to devMode check + replaced `networkidle` with `domcontentloaded` in 20 E2E files     | 2026-07-07 |
+| tsc 14 errors — duplicate imports in `deeplink-tracker.ts` and `useGenerateForm.ts`                                                                 | Removed duplicate type imports and object properties                                                    | 2026-07-07 |
 | First-run QuickStartOverlay intercepting taps in mobile E2E (`generation.mobile-taps.spec.ts`)                                                      | Seed `useUserJourneyState` persisted flags before navigation, mirroring `home.no-auto-overlays.spec.ts` | 2026-07-07 |
 | Missing `/index` route (404) broke hotkey-parity + 4 other E2E specs that treat it as a `/` alias (already assumed by `PaywallProvider`'s denylist) | Added `<Route path="/index" element={<Navigate to="/" replace />} />` in `App.tsx`                      | 2026-07-07 |
 | Auto-open "Стемы готовы" modal                                                                                                                      | Removed auto-trigger in `SmartAlertProvider`                                                            | 2026-06-27 |
