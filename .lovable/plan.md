@@ -1,68 +1,114 @@
-## Задача 1 — Кнопки «Персона» и «Проект» в форме генерации
+# План дальнейших работ — AI MusicVerse
 
-**Диагноз.** В `GenerateFormActions.tsx` клик по чипам вызывает `setProjectDialogOpen(true)` / `setArtistDialogOpen(true)` в `GenerateSheet.legacy.tsx`. Диалоги (`ProjectTrackSelector`, `ArtistSelector`) рендерятся через `GenerateSheetDialogs` как сиблинг `<SheetContent>` внутри `<Sheet>`-Root. Диалоги обёрнуты в `UnifiedDialog(variant="modal")`, который на мобильном автоматически переключается на кастомный `SheetDialog` (`src/components/dialog/variants/sheet.tsx`) с `fixed inset-0 z-[170]`. Проблема — этот кастомный SheetDialog **рендерится в исходное место дерева**, а не в портал, поэтому попадает внутрь Radix-портала внешнего `<Sheet>`. Внешний Radix Sheet имеет `pointer-events: auto` только на content — соседний нестед-диалог получает pointer-events блокировку от Radix focus-scope/dismissable-layer.
+На основе аудита от 2026-07-07. План разбит на 4 фазы по приоритету: от критичных гигиенических фиксов до стратегических улучшений качества и UX.
 
-**Фикс.** Заменить в `ProjectTrackSelector` и `ArtistSelector` вызовы `UnifiedDialog` на нативный shadcn `Sheet`/`Dialog` (тот же, что использует внешний GenerateSheet), либо оборачивать содержимое в `createPortal(..., document.body)`. Более простой путь — использовать `Sheet side="bottom"` из `@/components/ui/sheet`, который правильно портализуется и корректно вложен в Radix-дерево диалогов.
+## Фаза 0 — Гигиена репозитория (сегодня, ~2 часа)
 
-## Задача 2 — Редизайн записи/загрузки голоса в VoiceCloneWizard
+Цель: устранить P0-риски, вернуть CI/скрипты в зелёный статус.
 
-**Текущее состояние** (`src/components/voice-clone/`):
+1. **Разобрать незакоммиченные изменения (−5135 LOC, 28 удалённых файлов)**
+   - Сделать `git diff --stat` и просмотреть каждую группу удалений.
+   - Проверить импорты удалённых модулей (`a11y.ts`, `a11yHelpers.ts`, `accessibility.ts`, `gesture-manager.ts`, `stateMachine.ts`, `retry.ts`, `haptics.ts`, `branded.ts`, Suno `SectionBlock/SunoTimeline/TagMenu`) через `rg` по `src/`.
+   - Если импортов нет — закоммитить одним `refactor:` commit'ом с явным списком удалений.
+   - Если импорты есть — восстановить файлы через `git restore` и открыть отдельный спринт на плавную деприкацию.
 
-- Простая запись через `useVoiceRecorder` (без визуализации волны)
-- Нет прослушивания записи перед отправкой
-- Нет обрезки (trim) диапазона
-- Нет выбора языка (в API уже есть параметр `language`)
-- Разметка Wizard-шагов плотная, плохо читается на 390px
+2. **Починить `scripts/count-any.mjs`**
+   - Добавить `fs.existsSync(abs)` guard перед `readFileSync` в цикле по `git ls-files`, чтобы не падать на удалённых-но-tracked файлах.
 
-**Что делаю:**
+3. **Починить Prettier gate**
+   - Прогнать `npx prettier --write .claude/settings.json` (и любые другие файлы, которые всплывут в `format:check`).
 
-1. **Waveform-визуализация** — новый компонент `VoiceWaveformEditor.tsx`:
-   - Real-time визуализация уровня во время записи (AnalyserNode + Canvas, 60fps)
-   - Пост-запись: полный waveform через `waveformGenerator.ts` (уже есть в проекте)
-   - Два drag-handle для trim-диапазона (start/end) поверх волны
+4. **Проверить полный `npm run check-all`** — lint + format:check + typecheck + test должны быть зелёными.
 
-2. **Плеер прослушивания** — использует существующий `usePreviewAudio()` хук:
-   - Play/Pause с индикатором позиции поверх waveform
-   - Loop-preview именно trim-диапазона
-   - Прогресс синхронизирован с waveform
+## Фаза 1 — Синхронизация документации (1-2 дня)
 
-3. **Trim** — нужен только клиентский срез до отправки:
-   - Web Audio API: decode → cut buffer → re-encode в WebM/WAV через `OfflineAudioContext`
-   - Файл `src/lib/audio/trimAudio.ts` (новый)
-   - Отправляем в `voiceCloneApi.uploadSource(...)` уже обрезанный blob
-   - `vocalStartS`/`vocalEndS` считаются от 0 (после реального среза)
+Цель: устранить расхождения между `README.md`, `PROJECT_STATUS.md`, `ROADMAP.md`, `CLAUDE.md`.
 
-4. **Выбор языка** — селектор с 8 языками (ru/en/es/de/fr/it/ja/zh) через shadcn `Select`, дефолт из `navigator.language`. Прокидывается в `voiceCloneApi.validate({ language })`.
+1. **Единый источник счётчиков.** Обновить `scripts/update-badges.mjs`, чтобы он рекурсивно считал `src/services/**/*.service.ts`, `src/stores/**/*.ts`, `src/api/**/*.api.ts`, `src/components/**/*.tsx`, `src/hooks/**/*.ts`. Прогнать и обновить бейджи.
+2. **Разрешить конфликт статуса Sprint 050.** В `PROJECT_STATUS.md` перевести из «🔄 В работе» в «✅ Завершён» (PR #657 merged, Branch Protection Phase 2 активен).
+3. **Разрешить коллизию номеров Sprint 057.** Переименовать один из них (Audio Analysis Refactoring остаётся 057, Collaboration Features → 058).
+4. **Обновить метрику unit tests** после решения по Фазе 0 (1484 или восстановленные 1497).
+5. **Добавить в scope аудита `supabase/functions/`** — 11 файлов >800 LOC не покрыты ни одним спринтом. Явно указать это в `PROJECT_STATUS.md` как известный tech debt.
 
-5. **Разметка** (mobile-first, 390px):
-   - Убираю плотный wizard-header, оставляю шаг + прогресс тонкой чертой
-   - Waveform во всю ширину, 96px высотой
-   - Trim-handles 44×44 touch target
-   - Плеер + trim-контролы в одну плитку под волной
-   - Селектор языка + название голоса в свернутой карточке "Настройки"
-   - Кнопки действий: секция снизу, safe-area, sticky
+## Фаза 2 — Технический долг и качество кода (2-3 недели)
+
+### Sprint 058 — Edge Functions Decomposition
+- Декомпозировать 11 файлов >800 LOC в `supabase/functions/` (до 1871 LOC — вероятно, `suno-*` семейство).
+- Выделить общие модули в `supabase/functions/_shared/` (сейчас там уже есть `cors.ts`, `logger.ts`, `telegram-utils.ts`, `suno.ts`).
+- Целевая планка: 0 файлов >500 LOC в edge functions.
+- Добавить unit-тесты для критичных helper-модулей через Deno test.
+
+### Sprint 059 — Test Coverage Recovery
+- Восстановить (или явно списать) 4 удалённых тестовых файла: `accessibility.test.ts`, `performance.test.ts`, `withHistory.test.ts`, `generate-sheet-redesign-flag.test.ts`.
+- Поднять покрытие критичных модулей: `GlobalAudioProvider`, `useUnifiedStudioStore`, `useVersionSwitcher`, `secure_credit_update` RPC.
+- Цель: 1500+ unit tests, ≥70% branch coverage на критичных путях.
+
+### Sprint 060 — Security & Dependencies
+- Разрешить 6 уязвимостей `npm audit` (1 high, 4 moderate, 1 low) — либо через обновление, либо через явные overrides с обоснованием.
+- Прогнать `security--run_security_scan` и обработать все P0/P1 findings.
+- Аудит RLS-политик: убедиться, что все `public.*` таблицы имеют явные GRANT и политики (по проектной памяти).
+
+## Фаза 3 — UX и производительность (4-6 недель)
+
+### Sprint 061 — Mobile Studio Polish
+- Пройти по `MOBILE_AUDIT_F1-F12.md` и `MBILE_FIXES_F3F6F7.md`, закрыть остатки.
+- Валидация touch targets 44×44px, safe areas, keyboard handling на реальном iOS Safari через Telegram.
+- Haptic feedback consistency: аудит по мемори «Standardized Haptic Feedback».
+
+### Sprint 062 — Performance Budget Hardening
+- Bundle size сейчас 508 KB gzip eager (лимит 950 KB) — есть запас, но задача: снизить до 400 KB через lazy loading второй волны (Studio, StemSeparation, MidiEditor).
+- Lighthouse CI: закрепить порог Performance ≥90 на mobile, LCP <2.5s, TBT <200ms.
+- Аудит `react-virtuoso` использования — все списки >50 элементов должны быть виртуализированы.
+
+### Sprint 063 — A/B Testing & Analytics Loop
+- Замкнуть цикл `useExperiment` → `deeplink-tracker` → аналитика в admin панели.
+- Дашборд конверсий по `ConversionStage` (visit → engaged → registered → generation → payment).
+- Автоматические отчёты в Telegram-канал по ключевым метрикам недели.
+
+### Sprint 064 — Collaboration Features (перенумерованный)
+- Совместное редактирование проектов (real-time через Supabase Realtime).
+- Роли в проекте (owner, editor, viewer) через `user_roles` паттерн.
+- Комментарии с таймкодами к трекам.
+
+## Фаза 4 — Стратегические улучшения (квартальный горизонт)
+
+1. **AI Quality Layer** — метрики качества генерации (loudness, LUFS, spectral balance) через существующий `AudioAnalysisService`. Показывать пользователю «Оценка трека: 8.5/10».
+2. **Voice Cloning Studio v2** — расширить `Voice Library` и `Voice History` (страницы 16-17 из PRD) с превью и версионированием.
+3. **Marketplace / Community** — публичные треки, лайки, ремиксы. Использовать существующие `track_likes`, `comments`, `safe_public_profiles`.
+4. **Telegram Bot v2** — inline queries для поиска треков, deep links в конкретные Studio-сессии, Stars payment flow ready.
 
 ## Технические детали
 
-**Задача 1** — правки в двух файлах:
+- **Git flow:** conventional commits, PR review обязательный (Branch Protection Phase 2 активен).
+- **Test gates:** `check-all` = lint + format:check + typecheck + test; должен быть зелёный до merge.
+- **Bundle gate:** `npm run size` (950 KB limit) — не превышать.
+- **Design tokens:** строго через `src/lib/design-tokens.ts` и `src/lib/glass.ts`.
+- **Логирование:** только `logger.error()` / `logger.warn()`, никаких `console.*`.
+- **Импорты:** `framer-motion` → `@/lib/motion`, `lucide-react` → `@/lib/icons`, никаких `supabase.from()` в компонентах (только через API layer).
 
-- `src/components/generate-form/ProjectTrackSelector.tsx` — заменить `UnifiedDialog` на `Sheet` из `@/components/ui/sheet` с `side="bottom"`
-- `src/components/generate-form/ArtistSelector.tsx` — то же
+## Порядок исполнения
 
-**Задача 2** — новые/обновлённые файлы:
+```text
+Фаза 0 (сегодня)
+   │
+   ▼
+Фаза 1 (1-2 дня)  ──►  готовность к спринт-планированию
+   │
+   ▼
+Фаза 2 (Sprints 058-060, 2-3 недели, параллельно)
+   │
+   ▼
+Фаза 3 (Sprints 061-064, 4-6 недель, последовательно)
+   │
+   ▼
+Фаза 4 (квартал, стратегия)
+```
 
-- `src/lib/audio/trimAudio.ts` — Web Audio trim + WAV encoder (новый, ~80 LOC)
-- `src/components/voice-clone/VoiceWaveformEditor.tsx` — waveform + trim + play (новый, ~200 LOC)
-- `src/components/voice-clone/steps/RecordStep.tsx` — переработка разметки, интеграция VoiceWaveformEditor
-- `src/components/voice-clone/steps/UploadStep.tsx` — то же (если есть отдельный шаг)
-- `src/components/voice-clone/VoiceCloneWizard.tsx` — селектор языка, прогресс, sticky footer
+## Критерии приёмки плана
 
-**Что не трогаю:**
-
-- Edge-функции `suno-voice-*` (только фронт)
-- `useVoiceRecorder` (API совместимо, добавляю MediaStream-выход для AnalyserNode)
-- Общий стиль tokens/`design-tokens.ts`
-
-## Вопрос перед стартом
-
-Задачи независимы — можно делать параллельно. Если ок, стартую с обеих. Если нужно приоритизировать — какая первая?
+- Все P0-риски из аудита закрыты в Фазе 0.
+- Документация синхронизирована в Фазе 1 (один источник правды).
+- Tech debt в edge functions ликвидирован в Sprint 058.
+- Test coverage ≥70% на критичных путях в Sprint 059.
+- Bundle eager ≤400 KB в Sprint 062.
+- Lighthouse Performance ≥90 (mobile) закреплено в CI.
