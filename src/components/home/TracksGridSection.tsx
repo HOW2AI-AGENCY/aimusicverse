@@ -66,6 +66,14 @@ export const TracksGridSection = memo(function TracksGridSection({
 }: TracksGridSectionProps) {
   const displayTracks = maxTracks ? tracks.slice(0, maxTracks) : tracks;
 
+  const sentinelRef = useAutoLoadMore<HTMLDivElement>({
+    hasMore: !!hasMore,
+    isLoading: !!isLoadingMore,
+    onLoadMore: onLoadMore ?? (() => {}),
+    rootMargin: "600px",
+    disabled: !onLoadMore,
+  });
+
   if (!isLoading && displayTracks.length === 0) {
     return null;
   }
@@ -90,14 +98,20 @@ export const TracksGridSection = memo(function TracksGridSection({
       ) : (
         <>
           <ResponsiveGrid columns={columns} gap={2}>
-            {displayTracks.map((track) => (
-              <UnifiedTrackCard key={track.id} variant="enhanced" track={track} onRemix={onRemix} />
+            {displayTracks.map((track, idx) => (
+              <UnifiedTrackCard
+                key={track.id}
+                variant="enhanced"
+                track={track}
+                onRemix={onRemix}
+                priority={idx < 4}
+              />
             ))}
           </ResponsiveGrid>
 
-          {/* Load More Button */}
+          {/* Auto-load sentinel + fallback button */}
           {hasMore && onLoadMore && (
-            <div className="flex justify-center pt-3 sm:pt-4">
+            <div ref={sentinelRef} className="flex justify-center pt-3 sm:pt-4" aria-hidden="true">
               <Button
                 variant="outline"
                 size="default"
