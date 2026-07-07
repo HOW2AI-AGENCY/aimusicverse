@@ -2,16 +2,16 @@
   "env": {
     "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
     "ANTHROPIC_AUTH_TOKEN": "sk-a2999312a47746bfaf3d7ce826d18f22",
-    "ANTHROPIC_MODEL": "deepseek-v4-pro[1m]",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-pro[1m]",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-pro[1m]",
+    "ANTHROPIC_MODEL": "deepseek-v4-preview",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-preview",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-preview",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-flash",
     "CLAUDE_CODE_SUBAGENT_MODEL": "deepseek-v4-flash",
     "CLAUDE_CODE_EFFORT_LEVEL": "max"
   },
   "permissions": {
     "allow": [
-      "Bash(python -c ' *)",
+      "Bash(python3 -c ' *)",
       "Read(//c/Users/oat70/.claude/skills/graphify/references/**)",
       "Bash(tee graphify-out/.graphify_chunk_10.json)",
       "Bash(npm install *)",
@@ -31,19 +31,59 @@
       "Bash(npx eslint *)",
       "Bash(npm list *)",
       "Bash(npx tsc *)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(chmod +x .claude/hooks/**)",
+      "Bash(bash .claude/hooks/pre-tool-use/*)",
+      "Bash(.claude/hooks/pre-tool-use/*)",
+      "Bash(bash .claude/hooks/session-start/*)",
+      "Bash(.claude/hooks/session-start/*)",
+      "Bash(bash .claude/hooks/post-tool-use/*)",
+      "Bash(.claude/hooks/post-tool-use/*)",
+      "Bash(bash .claude/hooks/stop/*)",
+      "Bash(.claude/hooks/stop/*)",
+      "Bash(npx prettier --write *)",
+      "Bash(mkdir -p node_modules/.cache)",
+      "Bash(git log --oneline *)"
     ],
     "additionalDirectories": ["D://.MUSICVERSE//aimusicverse"]
   },
   "hooks": {
-    "SessionStart": [],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/session-start/10-env-check.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/session-start/20-graphify-health.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/session-start/30-dashboard.sh"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "CMD=$(python3 -c \"import json,sys; d=json.load(sys.stdin); print(d.get('tool_input',d).get('command',''))\" 2>/dev/null || true); case \"$CMD\" in *grep*|*rg\\ *|*ripgrep*|*find\\ *|*fd\\ *|*ack\\ *|*ag\\ *) [ -f graphify-out/graph.json ] && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"MANDATORY: graphify-out/graph.json exists. You MUST run graphify before grepping raw files.\"}}' || true ;; esac"
+            "command": "bash .claude/hooks/pre-tool-use/10-graphify-bash.sh"
           }
         ]
       },
@@ -52,11 +92,45 @@
         "hooks": [
           {
             "type": "command",
-            "command": "HIT=$(python3 -c \"import json,sys;d=json.load(sys.stdin);t=d.get('tool_input',d);s=(str(t.get('file_path') or '')+' '+str(t.get('pattern') or '')+' '+str(t.get('path') or '')).lower().replace(chr(92),'/');exts=('.py','.js','.ts','.tsx','.jsx','.go','.rs','.java','.rb','.c','.h','.cpp','.hpp','.cc','.cs','.kt','.swift','.php','.scala','.lua','.sh','.md','.rst','.txt','.mdx');sys.stdout.write('1' if 'graphify-out/' not in s and any(e in s for e in exts) else '')\" 2>/dev/null || true); if [ \"$HIT\" = 1 ] && [ -f graphify-out/graph.json ]; then echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"MANDATORY: graphify-out/graph.json exists. You MUST run graphify before reading source files.\"}}'; fi || true"
+            "command": "bash .claude/hooks/pre-tool-use/20-graphify-read.sh"
           }
         ]
       }
     ],
-    "PostToolUse": []
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-tool-use/10-auto-format.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-tool-use/20-tsc-check.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/stop/10-uncommitted-reminder.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/stop/20-save-context.sh"
+          }
+        ]
+      }
+    ]
   }
 }
