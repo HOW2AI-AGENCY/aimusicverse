@@ -5,8 +5,8 @@
 **Основные компоненты MusicVerse AI и их архитектурные паттерны.**
 
 <p>
-  <a href="DOCUMENTATION_INDEX.md">📚 Documentation Index</a> ·
-  <a href="ARCHITECTURE_HUB.md">🏗 Architecture Hub</a> ·
+  <a href="../DOCUMENTATION_INDEX.md">📚 Documentation Index</a> ·
+  <a href="../ARCHITECTURE_HUB.md">🏗 Architecture Hub</a> ·
   <a href="PLAYER_ARCHITECTURE.md">🎵 Player Architecture</a>
 </p>
 
@@ -111,7 +111,7 @@ GenerateSheet теперь тонкий оркестратор (~300 LOC vs ~800
 
 ## Related Documentation
 
-- [ARCHITECTURE_HUB.md](ARCHITECTURE_HUB.md) — System architecture
+- [ARCHITECTURE_HUB.md](../ARCHITECTURE_HUB.md) — System architecture
 - [PLAYER_ARCHITECTURE.md](PLAYER_ARCHITECTURE.md) — Audio player
 - [SPRINTS/SPRINT-056-PLAN.md](../SPRINTS/SPRINT-056-PLAN.md) — Sprint plan
 

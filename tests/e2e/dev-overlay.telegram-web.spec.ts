@@ -26,7 +26,12 @@ async function freshGoto(page: Page) {
 }
 
 test.describe("Hotkey parity — Telegram Web (desktop emulation)", () => {
-  test.use({ viewport: { width: 1366, height: 768 } });
+  // Force desktop-like input even when this file is swept into the Mobile
+  // Chrome/Safari projects: those projects' device presets (Pixel 5 / iPhone 12)
+  // set hasTouch/isMobile regardless of the viewport override below, and the app
+  // intentionally suppresses the dev overlay on touch devices (see module docstring),
+  // so the overlay would never appear and these hotkey assertions would hang/fail.
+  test.use({ viewport: { width: 1366, height: 768 }, hasTouch: false, isMobile: false });
 
   test("Control+Shift+M toggles the overlay", async ({ page }) => {
     await freshGoto(page);
