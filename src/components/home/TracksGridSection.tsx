@@ -20,6 +20,7 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 import { ResponsiveGrid } from "@/components/common/ResponsiveGrid";
 import { GridSkeleton, TrackCardSkeleton } from "@/components/ui/skeleton-components";
 import { Button } from "@/components/ui/button";
+import { useAutoLoadMore } from "@/hooks/useAutoLoadMore";
 
 interface TracksGridSectionProps {
   title: string;
