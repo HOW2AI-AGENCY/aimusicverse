@@ -52,8 +52,8 @@
 | ⭐ GitHub Stars                |            ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)             |
 | 📦 Eager load (холодный старт) |        ![](https://img.shields.io/badge/508_KB_gzip-↓_from_1.19_MB-10B981?style=flat-square&logo=webpack)        |
 | 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
-| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1431_passing-10B981?style=flat-square&logo=vitest)          |
-| 🔒 Безопасность                |                   ![](https://img.shields.io/badge/Security-6_vulns-EF4444?style=flat-square)                    |
+| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1497_passing-10B981?style=flat-square&logo=vitest)          |
+| 🔒 Безопасность                |            ![](<https://img.shields.io/badge/Security-5_vulns_(dev--only)-F59E0B?style=flat-square>)             |
 | 📊 Спринтов завершено          |                                          **48** (050–055 + 052-C + 057)                                          |
 | 🏗 Компонентов                  |                                               **999** (1136 total)                                               |
 | 🔧 Хуков                       |                                                     **419**                                                      |
@@ -101,21 +101,16 @@ gantt
     Sprint 052-C: Cleanup              :done, 052c, 2026-07-04, 2026-07-04
 
 
-    section В работе 🔄
     Sprint 056: GenerateSheet Redesign  :done, 056, 2026-07-06, 2026-07-06
     Sprint 050-B: Mobile Audit F1-F12   :done, 050b, 2026-07-06, 2026-07-06
     Sprint 051-A: Test Debt Phase A-C   :done, 051a, 2026-07-06, 2026-07-06
+    Sprint 051-B: God Files Completion  :done, 051b, 2026-07-06, 2026-07-06
+    Sprint 057: Audio Analysis Refactor :done, 057a, 2026-07-06, 2026-07-06
+
     section В работе 🔄
-    Sprint 051-B: God Files Completion  :active, 051b, 2026-07-07, 2026-07-15
     Sprint 050-C: Branch Protection     :active, 050c, 2026-07-07, 2026-07-08
     section Запланировано ⚪
     Sprint 057: Collaboration Features  :057, 2026-07-16, 2026-07-30
-    section Запланировано ⚪
-    Sprint 050-B: Mobile Audit F1-F12  :050b, 2026-07-09, 2026-07-20
-    Sprint 051: Test Debt + God Files  :051, 2026-07-21, 2026-08-05
-    Sprint 053: Suno Sounds + MIDI     :053, 2026-08-06, 2026-08-15
-    Sprint 054: Klangio Integration    :054, 2026-08-16, 2026-08-25
-    Sprint 055: UX Audit Implementation :055, 2026-08-26, 2026-09-10
 ```
 
 |   Спринт    | Название                                           | Статус |        Прогресс        |
@@ -135,7 +130,7 @@ gantt
 |   **052**   | **Suno Mashup + Persona + Upload + 052-C cleanup** |   ✅   |   10/10 + cleanup ✅   |
 |   **050**   | **Main Green + Mobile Audit**                      |   ✅   |      Phase A-B ✅      |
 | **051-A-C** | **Test Debt Phase A-C**                            |   ✅   |     925 passing ✅     |
-|  **051-D**  | **God Files Completion**                           |   🔄   |       5/9 (56%)        |
+|  **051-D**  | **God Files Completion**                           |   ✅   | 9/9 (0 files >800 LOC) |
 |   **053**   | **Suno Sounds + MIDI + Boost**                     |   ✅   |         6/6 ✅         |
 |   **054**   | **Suno Details Suite**                             |   ✅   |         6/6 ✅         |
 |   **055**   | **UX Critical Fixes P0/P1**                        |   ✅   |        13/13 ✅        |

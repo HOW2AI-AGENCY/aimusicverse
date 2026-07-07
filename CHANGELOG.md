@@ -185,13 +185,7 @@
 
 #### Removed
 
-<<<<<<< HEAD
-
 - **`supabase/functions/suno-check-status/`** (449 LOC dead code) — graphify + grep подтвердили zero client callers. Callbacks уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. Alias `[functions.suno-check-status]` удалён из `supabase/config.toml`. **054-A9 (миграция 5 hooks) — NOT APPLICABLE** (см. [SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md)): 3 хука не существуют, 2 не используют `suno-check-status`. Hook `useSunoTaskDetails` готов для **будущих** Suno polling use-cases.
-  \=======
-- **`supabase/functions/suno-check-status/`** (449 LOC dead code) — graphify + grep подтвердили zero client callers. Callbacks уже нативно пишут в `tracks`/`track_versions`/`track_change_log`/`notifications`. Alias `[functions.suno-check-status]` удалён из `supabase/config.toml`. **054-A9 (миграция 5 hooks) — NOT APPLICABLE** per [SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md): 3 хука не существуют, 2 не используют `suno-check-status`. Hook `useSunoTaskDetails` готов для **будущих** Suno polling use-cases.
-
-> > > > > > > claude/sprint-closure-planning-m6skuk
 
 #### Tests
 

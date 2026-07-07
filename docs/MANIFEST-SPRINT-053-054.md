@@ -332,12 +332,7 @@ git push origin main
 - **Ретро:** [docs/sprints/SPRINT-053-RETRO.md](./sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](./sprints/SPRINT-054-RETRO.md)
 - **Полный diff:** git log `c896baf1` ... `6dc90af5` (5 коммитов)
 - **Suno API спека:** [docs/SUNO_API.md → История изменений → Sprint 053/054](./SUNO_API.md)
-  <<<<<<< HEAD
-- **Memory note о dead code cleanup:** memory/sprint-054-a7-a9-plan-mismatch.md
-  \=======
 - **Memory note о dead code cleanup:** [SPRINT-054-RETRO.md](./sprints/SPRINT-054-RETRO.md)
-
-> > > > > > > claude/sprint-closure-planning-m6skuk
 
 ---
 
