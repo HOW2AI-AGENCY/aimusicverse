@@ -32,15 +32,49 @@
 > [!NOTE]
 > Обновляется еженедельно во время ревью спринта. Для статуса CI в реальном времени см. [вкладку Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
 
+## 🆕 Сессия 2026-07-07 — Phase 1 Tech Debt Closure ✅
+
+**PR [#657](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/657)** — `fix/e2e-stabilization`
+
+### Выполнено:
+
+1. **tsc ошибки исправлены** (14 → 0)
+   - `src/lib/analytics/deeplink-tracker.ts` — 12 дублей импортов/экспортов
+   - `src/hooks/generation/useGenerateForm.ts` — 2 дубля свойств
+
+2. **E2E тесты стабилизированы**
+   - Корневая причина: `useTelegramInit.ts` проверял `hostname === "localhost"`, Playwright использует `127.0.0.1`
+   - Добавлен `127.0.0.1` в devMode check
+   - Заменён `waitForLoadState("networkidle")` → `"domcontentloaded"` в 20 файлах (52 места)
+   - Исправлены селекторы кнопок в `generation.mobile-taps.spec.ts`
+   - Результат: 4/4 тестов проходят, 30/30 в Mobile Chrome suite
+
+3. **Branch Protection Phase 2 активирована**
+   - Ruleset `18581121`: `enforcement: "active"`
+   - Required checks: `quality`, `build`, E2E (chromium), E2E (Mobile Chrome)
+   - Force-push и deletion заблокированы, `bypass_actors: []`
+
+### Метрики:
+
+- TypeScript: 0 errors ✅
+- Unit тесты: 1497 passing ✅
+- E2E Mobile Chrome: 30 passed ✅
+- Branch Protection: Active ✅
+
+---
+
 ## План действий (июль 2026)
 
-### Блок 1 — Стабилизация main (Sprint 050) ✅
+### Блок 1 — Стабилизация main (Sprint 050) 🔄
 
-| Задача  | Действие             | Статус      |
-| ------- | -------------------- | ----------- |
-| Phase A | Все workflow зелёные | ✅ Done     |
-| Phase B | F1–F12 mobile fixes  | ✅ 6/6 done |
-| Docs    | GitHub Pages включён | ✅ Done     |
+| Задача   | Действие                                    | Статус        |
+| -------- | ------------------------------------------- | ------------- |
+| Phase A  | Все workflow зелёные                        | 🔄 PR #657 CI |
+| Phase A4 | Branch Protection Phase 2                   | ✅ Active     |
+| Phase A1 | E2E stabilized (127.0.0.1 + networkidle)    | ✅ PR #657    |
+| Phase B  | F1–F12 mobile fixes                         | ⏳ Planned    |
+| tsc      | 0 errors (14 fixed: deeplink + useGenerate) | ✅ Done       |
+| Docs     | GitHub Pages включён                        | ✅ Done       |
 
 ### Блок 2 — UX Critical Fixes (Sprint 055) ✅
 
