@@ -13,7 +13,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Audio Player Display", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -67,7 +67,7 @@ test.describe("Audio Player Display", () => {
 test.describe("Player Controls Interaction", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -107,7 +107,7 @@ test.describe("Player Controls Interaction", () => {
 test.describe("Full Screen Player", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -149,7 +149,7 @@ test.describe("Full Screen Player", () => {
 test.describe("Player Accessibility", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -199,7 +199,7 @@ test.describe("Player Responsive Design", () => {
   test("should adapt to mobile viewport", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
     
     // Player should be visible and not overflow
@@ -228,7 +228,7 @@ test.describe("Player Responsive Design", () => {
 test.describe("Player Mode Switching", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -288,7 +288,7 @@ test.describe("Player Mode Switching", () => {
 test.describe("Queue Management", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -361,7 +361,7 @@ test.describe("Mobile Gestures", () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -412,7 +412,7 @@ test.describe("Mobile Gestures", () => {
 test.describe("Lyrics Display", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -467,7 +467,7 @@ test.describe("Lyrics Display", () => {
 test.describe("Karaoke Mode", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -502,7 +502,7 @@ test.describe("Karaoke Mode", () => {
 test.describe("Player Error Handling", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 

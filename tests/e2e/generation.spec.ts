@@ -13,7 +13,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Generation Form Display", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -73,7 +73,7 @@ test.describe("Generation Form Display", () => {
 test.describe("Generation Form Interaction", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -139,7 +139,7 @@ test.describe("Generation Form Interaction", () => {
 test.describe("Generation Form Validation", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -176,7 +176,7 @@ test.describe("Generation Form Validation", () => {
 test.describe("Generation Accessibility", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -220,7 +220,7 @@ test.describe("Generation Responsive Design", () => {
   test("should be usable on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
 
     // Page should be visible and not overflow
@@ -234,7 +234,7 @@ test.describe("Generation Responsive Design", () => {
   test("should be usable on tablet", async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
 
     const body = page.locator("body");
@@ -245,7 +245,7 @@ test.describe("Generation Responsive Design", () => {
 test.describe("Generation Error Handling", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -339,7 +339,7 @@ test.describe("A/B Version Switching", () => {
   test.beforeEach(async ({ page }) => {
     // Mock authentication and track data
     await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -389,7 +389,7 @@ test.describe("A/B Version Switching", () => {
 test.describe("Track Extension Workflow", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 
@@ -428,7 +428,7 @@ test.describe("Track Extension Workflow", () => {
 test.describe("Instrumental Creation", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
 

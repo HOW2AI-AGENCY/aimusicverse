@@ -96,7 +96,7 @@ test.describe("dialog survives orientation changes (mobile)", () => {
   test("portrait → landscape → portrait keeps dialog stacking valid", async ({ page }) => {
     await page.setViewportSize(PORTRAIT);
     await page.goto("/generate", { waitUntil: "domcontentloaded" });
-    await page.waitForLoadState("networkidle").catch(() => {});
+    await page.waitForLoadState("domcontentloaded").catch(() => {});
     await page.waitForTimeout(800);
 
     const opened = await openAnyDialog(page);

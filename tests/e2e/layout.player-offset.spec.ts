@@ -46,7 +46,7 @@ for (const vp of VIEWPORTS) {
       page,
     }) => {
       await page.goto("/");
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
       await mountCompact(page);
 
       // Scroll the main scroll container to its bottom.

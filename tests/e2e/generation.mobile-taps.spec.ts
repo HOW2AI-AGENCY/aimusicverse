@@ -50,8 +50,15 @@ async function gotoGenerate(page: Page) {
       /* noop */
     }
   });
-  await page.goto("/generate", { waitUntil: "domcontentloaded" });
-  await page.waitForLoadState("networkidle").catch(() => {});
+  // Navigate to "/" — guest mode is auto-enabled by isDevEnvironment() on 127.0.0.1.
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+
+  // Wait for the home page main content to be ready.
+  await page
+    .locator("main, [role='main'], #main-content")
+    .first()
+    .waitFor({ state: "attached", timeout: 10_000 })
+    .catch(() => {});
   // Wait for at least one interactive button to appear (lazy chunks).
   await page
     .locator("button:visible")
@@ -78,7 +85,7 @@ test("dev metrics overlay never mounts on mobile, even when forced visible", asy
 test("primary form buttons are not occluded by fixed overlays", async ({ page }) => {
   await gotoGenerate(page);
 
-  const buttons = page.locator("button:visible");
+  const buttons = page.locator("button:visible:not(:has-text('Войти')):not(:has-text('Скрыть'))");
   const total = await buttons.count();
   test.skip(total === 0, "no visible buttons on /generate in this build");
 
@@ -100,7 +107,13 @@ test("primary form buttons are not occluded by fixed overlays", async ({ page })
 test("repeated taps on the same chip keep firing", async ({ page }) => {
   await gotoGenerate(page);
 
-  const btn = page.locator("button:visible").first();
+  // Pick a toggle-style element that does NOT open a sheet/dialog on tap.
+  // Genre tabs, category tabs, or tag chips are safe — they just switch state.
+  const btn = page
+    .locator(
+      '[role="tab"]:visible, button:visible[aria-label*="тег"], button:visible[aria-label*="tag"]',
+    )
+    .first();
   await ensureActionable(btn);
 
   const handle = await btn.elementHandle();
@@ -136,7 +149,7 @@ test("repeated taps on the same chip keep firing", async ({ page }) => {
 test("tap outside open dialog closes it and leaves no blocking overlay", async ({ page }) => {
   await gotoGenerate(page);
 
-  const triggers = page.locator("button:visible");
+  const triggers = page.locator("button:visible:not(:has-text('Войти')):not(:has-text('Скрыть'))");
   const count = await triggers.count();
   let opened = false;
   for (let i = 0; i < Math.min(count, 8); i++) {

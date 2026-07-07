@@ -17,7 +17,7 @@ test.describe.configure({ mode: "serial", timeout: 120_000 });
 test("axe scan on / — no critical/serious violations", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.waitForSelector("#main-content", { timeout: 60_000 });
-  await page.waitForLoadState("networkidle", { timeout: 60_000 }).catch(() => undefined);
+  await page.waitForLoadState("domcontentloaded", { timeout: 60_000 }).catch(() => undefined);
 
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])

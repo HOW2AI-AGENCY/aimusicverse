@@ -30,7 +30,7 @@ test("forced-visible dev overlay is never interactive on mobile", async ({ page 
     }
   });
   await page.goto("/index", { waitUntil: "domcontentloaded" });
-  await page.waitForLoadState("networkidle").catch(() => {});
+  await page.waitForLoadState("domcontentloaded").catch(() => {});
 
   // 1. Overlay element must not be in the DOM at all on mobile.
   await expect(

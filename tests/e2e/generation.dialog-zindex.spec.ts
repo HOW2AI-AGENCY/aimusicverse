@@ -78,7 +78,7 @@ for (const vp of [
 
     test("dialog wins both computed stacking and pixel sampling", async ({ page }) => {
       await page.goto("/generate", { waitUntil: "domcontentloaded" });
-      await page.waitForLoadState("networkidle").catch(() => {});
+      await page.waitForLoadState("domcontentloaded").catch(() => {});
       await page.waitForTimeout(1000);
 
       const opened = await openAnyDialog(page);

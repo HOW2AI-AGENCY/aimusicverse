@@ -21,7 +21,7 @@ test.describe("Storage Infrastructure", () => {
     await page.goto("/");
 
     // Wait for app to be ready
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
   });
 
   test("should load storage helper module without errors", async ({ page }) => {

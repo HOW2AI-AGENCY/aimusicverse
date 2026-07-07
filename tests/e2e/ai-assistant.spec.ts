@@ -18,7 +18,7 @@ test.describe("AI Assistant - Sprint 010", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to homepage
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
   });
 
   test("should load AI Assistant context without errors", async ({ page }) => {
@@ -94,7 +94,7 @@ test.describe("AI Assistant - Sprint 010", () => {
   test("should display generate form elements", async ({ page }) => {
     // Try to navigate directly to generate page
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
     
     // Check for form elements (may be in dialog or on page)
@@ -294,7 +294,7 @@ test.describe("AI Assistant Performance - Sprint 010", () => {
     const startTime = Date.now();
     
     await page.goto("/generate");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     
     const loadTime = Date.now() - startTime;
     

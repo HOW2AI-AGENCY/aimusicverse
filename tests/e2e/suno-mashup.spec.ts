@@ -18,7 +18,7 @@ test.describe("Suno mashup deep-link", () => {
     // The mashup dialog may be opened via a track action menu; we don't
     // assert the dialog is mounted here because trackId is fake — but we
     // assert the app didn't redirect away or throw.
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // Sanity: no JS error overlay or blank error page.
     const bodyText = (await page.locator("body").textContent()) ?? "";
@@ -29,7 +29,7 @@ test.describe("Suno mashup deep-link", () => {
     // Open the app and look for any track action menu — the exact trackId
     // doesn't matter for the dialog render check.
     await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // Look for any track context. If none exist (empty library), skip.
     const trackCount = await page.locator('[data-testid*="track"], [aria-label*="Меню трека"]').count();

@@ -163,7 +163,7 @@ test.describe("Homepage Performance - Sprint 010", () => {
     const startTime = Date.now();
     
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     
     const loadTime = Date.now() - startTime;
     

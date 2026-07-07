@@ -9,13 +9,13 @@ test.describe("Telegram Deep-link to Generate Sheet", () => {
     await context.clearPermissions();
     await page.goto("/");
     await page.evaluate(() => localStorage.clear());
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(500);
   });
 
   test("should open generate sheet from ?openGenerate=1 parameter", async ({ page }) => {
     await page.goto("/?openGenerate=1");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(1000);
 
     const sheet = page.locator("[class*='SheetContent").first();
@@ -32,7 +32,7 @@ test.describe("Telegram Deep-link to Generate Sheet", () => {
 
   test("should strip openGenerate parameter after opening sheet", async ({ page }) => {
     await page.goto("/?openGenerate=1");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(1500);
 
     const currentUrl = page.url();
@@ -43,7 +43,7 @@ test.describe("Telegram Deep-link to Generate Sheet", () => {
 
   test("should not open sheet on normal navigation without parameter", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(1000);
 
     const sheet = page.locator("[class*='SheetContent").first();
@@ -55,14 +55,14 @@ test.describe("Telegram Deep-link to Generate Sheet", () => {
 
   test("should work with Telegram startapp format (via sessionStorage)", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     await page.evaluate(() => {
       sessionStorage.setItem("__deeplink_generate_open", "1");
     });
 
     await page.reload();
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(1500);
 
     const flagExists = await page.evaluate(() => {
