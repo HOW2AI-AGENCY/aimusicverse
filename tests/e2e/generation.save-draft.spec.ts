@@ -21,7 +21,7 @@ test.describe("Save Draft Functionality", () => {
       localStorage.removeItem("generate_form_draft");
     });
     
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(1000);
   });
 
@@ -169,7 +169,7 @@ test.describe("Save Draft Functionality", () => {
   test("should restore draft on page reload", async ({ page }) => {
     // First session: save draft
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     
     await page.evaluate(() => {
       const event = new CustomEvent("open-generate-sheet");
@@ -195,7 +195,7 @@ test.describe("Save Draft Functionality", () => {
     
     // Reload page
     await page.reload();
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(1000);
     
     // Reopen sheet and verify draft restored

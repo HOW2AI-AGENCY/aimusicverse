@@ -60,6 +60,7 @@ export function useTelegramInit(): UseTelegramInitResult {
       window.location.hostname.includes("lovable.app") ||
       window.location.hostname.includes("lovableproject.com") ||
       window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
       window.location.search.includes("dev=1");
 
     bootLog(`DevMode: ${devMode}, Telegram WebApp: ${!!window.Telegram?.WebApp}`);

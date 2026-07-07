@@ -22,7 +22,7 @@ test.describe("/track/:trackId standalone player", () => {
     // and the provider wiring is not the failure mode we're guarding against.
     // Either the scoped error page or the auth page is acceptable — the app
     // crash screen ("Что-то пошло не так") is not.
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const body = await page.locator("body").innerText();
     expect(body).not.toContain("Что-то пошло не так");

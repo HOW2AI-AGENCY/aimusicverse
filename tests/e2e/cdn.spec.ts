@@ -21,7 +21,7 @@ test.describe("CDN Integration", () => {
     await page.goto("/");
 
     // Wait for app to be ready
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
   });
 
   test("should load CDN helper module without errors", async ({ page }) => {

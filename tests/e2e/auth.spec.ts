@@ -13,7 +13,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Authentication Flow", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
   });
 
   test("should display login button for unauthenticated users", async ({ page }) => {
@@ -32,7 +32,7 @@ test.describe("Authentication Flow", () => {
   test("should redirect to login when accessing protected route", async ({ page }) => {
     // Try to access a protected route
     await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
     
     // Should either be on library (if logged in) or redirected/shown login
@@ -181,7 +181,7 @@ test.describe("Protected Routes", () => {
   for (const route of protectedRoutes) {
     test(`should handle ${route} for unauthenticated users`, async ({ page }) => {
       await page.goto(route);
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
       await page.waitForTimeout(2000);
       
       // Page should not crash

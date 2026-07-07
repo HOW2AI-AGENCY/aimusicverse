@@ -12,7 +12,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Library Page Display", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library", { waitUntil: "networkidle" });
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
 
     // Wait for app to be ready
     await page.waitForFunction(
@@ -88,7 +88,7 @@ test.describe("Library Page Display", () => {
 
 test.describe("Library Search Functionality", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library", { waitUntil: "networkidle" });
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
 
     // Wait for app to be ready
     await page.waitForFunction(
@@ -145,7 +145,7 @@ test.describe("Library Search Functionality", () => {
 
 test.describe("Library Track Interactions", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library", { waitUntil: "networkidle" });
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
 
     // Wait for app to be ready
     await page.waitForFunction(
@@ -204,7 +204,7 @@ test.describe("Library Track Interactions", () => {
 
 test.describe("Library Pagination/Infinite Scroll", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library", { waitUntil: "networkidle" });
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
 
     // Wait for app to be ready
     await page.waitForFunction(
@@ -237,7 +237,7 @@ test.describe("Library Pagination/Infinite Scroll", () => {
 test.describe("Library Responsive Design", () => {
   test("should adapt to mobile viewport", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/library", { waitUntil: "networkidle" });
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
 
     // Wait for app to be ready
     await page.waitForFunction(
@@ -268,7 +268,7 @@ test.describe("Library Responsive Design", () => {
 
   test("should adapt to tablet viewport", async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
-    await page.goto("/library", { waitUntil: "networkidle" });
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
 
     // Wait for app to be ready
     await page.waitForFunction(
@@ -290,7 +290,7 @@ test.describe("Library Responsive Design", () => {
 
 test.describe("Library Accessibility", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library", { waitUntil: "networkidle" });
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
 
     // Wait for app to be ready
     await page.waitForFunction(

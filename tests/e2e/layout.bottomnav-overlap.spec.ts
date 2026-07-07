@@ -11,7 +11,7 @@ test.describe('Home — BottomNav and CompactPlayer do not overlap content', () 
       await page.setViewportSize({ width: vp.width, height: vp.height });
       await page.goto('/');
       // Wait for layout to settle
-      await page.waitForLoadState('networkidle').catch(() => {});
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
 
       // Scroll the main scroll container to the bottom
       await page.evaluate(() => {

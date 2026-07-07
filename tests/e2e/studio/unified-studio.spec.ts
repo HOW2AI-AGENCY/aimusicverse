@@ -13,7 +13,7 @@ import { test, expect, Page } from '@playwright/test';
 
 // Helper to wait for app to be ready
 async function waitForAppReady(page: Page) {
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
   await page.waitForTimeout(500);
 }
 
