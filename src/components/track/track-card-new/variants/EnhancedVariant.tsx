@@ -39,6 +39,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
   showFollowButton = true,
   compact = false,
   className,
+  priority = false,
 }: EnhancedTrackCardProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
