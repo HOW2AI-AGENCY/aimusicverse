@@ -36,6 +36,8 @@ interface TrackCoverImageProps {
   onPlay?: (e: React.MouseEvent) => void;
   showPlayingGlow?: boolean;
   className?: string;
+  /** Above-the-fold: load eagerly with high fetchpriority. */
+  priority?: boolean;
 }
 
 export const TrackCoverImage = memo(function TrackCoverImage({
@@ -47,6 +49,7 @@ export const TrackCoverImage = memo(function TrackCoverImage({
   onPlay,
   showPlayingGlow = true,
   className,
+  priority = false,
 }: TrackCoverImageProps) {
   const [imageError, setImageError] = useState(false);
 
@@ -61,6 +64,7 @@ export const TrackCoverImage = memo(function TrackCoverImage({
         className="w-full h-full object-cover"
         containerClassName="w-full h-full"
         coverSize={isGridSize ? "medium" : "small"}
+        priority={priority}
         fallback={
           <div className="w-full h-full bg-gradient-to-br from-primary/30 via-primary/20 to-primary/10 flex items-center justify-center">
             <Disc3 className={cn("text-primary/50", isGridSize ? "w-8 h-8" : "w-5 h-5")} />

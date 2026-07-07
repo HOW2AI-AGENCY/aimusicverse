@@ -39,6 +39,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
   showFollowButton = true,
   compact = false,
   className,
+  priority = false,
 }: EnhancedTrackCardProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { hapticFeedback } = useTelegram();
@@ -150,6 +151,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                   aspectRatio="1/1"
                   containerClassName="w-full h-full"
                   className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                  priority={priority}
                   fallback={<Music2 className="w-8 h-8 sm:w-10 sm:h-10 text-primary/40" aria-hidden />}
                 />
               ) : (

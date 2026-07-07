@@ -8,13 +8,12 @@
 
 import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { TrendingUp, Loader2 } from "@/lib/icons";
+import { TrendingUp } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { UnifiedTrackCard } from "@/components/track/track-card-new";
-import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { HorizontalScrollSkeleton } from "@/components/ui/skeleton-components";
+import { HorizontalTrackScroller } from "./HorizontalTrackScroller";
 
 import type { TrackData } from "@/components/track/track-card-new/types";
 import { homeSectionColors } from "@/lib/design-colors";
@@ -117,37 +116,13 @@ export const FeaturedSection = memo(function FeaturedSection({
       />
 
       {/* Horizontal scroll container - responsive sizes */}
-      <div
-        className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scroll-smooth touch-pan-x scrollbar-hide"
-        style={{ WebkitOverflowScrolling: "touch" }}
-      >
-        {displayTracks.map((track) => (
-          <div key={track.id} className="flex-shrink-0 w-[165px] sm:w-[180px] lg:w-[200px] xl:w-[220px] group">
-            <UnifiedTrackCard
-              track={track}
-              variant="grid"
-              onPlay={() => handleTrackClick(track)}
-              showActions={false}
-              className="h-full transition-all duration-200 group-hover:shadow-lg group-hover:shadow-primary/10 group-hover:-translate-y-1"
-            />
-          </div>
-        ))}
-
-        {/* Load More button in horizontal scroll */}
-        {hasMore && onLoadMore && (
-          <div className="flex-shrink-0 w-[140px] flex items-center justify-center">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleLoadMore}
-              disabled={isLoadingMore}
-              className="h-10 px-4 border-dashed"
-            >
-              {isLoadingMore ? <Loader2 className="h-4 w-4 animate-spin" /> : "Ещё"}
-            </Button>
-          </div>
-        )}
-      </div>
+      <HorizontalTrackScroller
+        tracks={displayTracks}
+        onTrackClick={handleTrackClick}
+        hasMore={!!hasMore}
+        isLoadingMore={!!isLoadingMore}
+        onLoadMore={handleLoadMore}
+      />
     </motion.section>
   );
 });

@@ -53,6 +53,7 @@ export const GridVariant = memo(function GridVariant({
   className,
   showActions = true,
   showFollowButton = true,
+  priority = false,
 }: StandardTrackCardProps) {
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -172,6 +173,7 @@ export const GridVariant = memo(function GridVariant({
               )}
               containerClassName="w-full h-full"
               coverSize="medium"
+              priority={priority}
               onClick={(e) => {
                 e.stopPropagation();
                 handlePlay();

@@ -216,9 +216,22 @@ const Index = () => {
 
           <BotContextBanner />
 
-          {/* Unified rhythm via sectionTokens.blockGap */}
-          <div className="mt-6 grid grid-cols-1 xl:grid-cols-12 gap-10 xl:gap-12 items-start">
-            <div className={cn("xl:col-span-8 min-w-0", sectionTokens.blockGap)}>
+          {/*
+            Adaptive desktop shell (density 7 — dense, DAW-adjacent):
+              - < md:      single column, mobile stack
+              - md–lg:     single column, wider max-width
+              - lg–xl:     8/4 split, "You" strip becomes sticky rail
+              - xl+:       9/3 dense split, tighter gaps
+              - 2xl+:      compact 10/2, generous internal breathing room
+            Uses items-start so the aside doesn't stretch vertically.
+          */}
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 items-start">
+            <div
+              className={cn(
+                "lg:col-span-8 xl:col-span-9 2xl:col-span-10 min-w-0",
+                sectionTokens.blockGap,
+              )}
+            >
               {heroBlock}
               {createBlock}
               {trendingBlock}
@@ -227,7 +240,14 @@ const Index = () => {
               {aiSuggestBlock}
             </div>
 
-            <aside className={cn("xl:col-span-4 min-w-0 xl:sticky xl:top-8", sectionTokens.blockGap)}>{youBlock}</aside>
+            <aside
+              className={cn(
+                "lg:col-span-4 xl:col-span-3 2xl:col-span-2 min-w-0 lg:sticky lg:top-6",
+                sectionTokens.blockGap,
+              )}
+            >
+              {youBlock}
+            </aside>
           </div>
         </div>
 
