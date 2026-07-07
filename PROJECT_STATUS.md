@@ -65,16 +65,18 @@
 
 ## План действий (июль 2026)
 
-### Блок 1 — Стабилизация main (Sprint 050) 🔄
+### Блок 1 — Стабилизация main (Sprint 050) ✅
 
-| Задача   | Действие                                    | Статус        |
-| -------- | ------------------------------------------- | ------------- |
-| Phase A  | Все workflow зелёные                        | 🔄 PR #657 CI |
-| Phase A4 | Branch Protection Phase 2                   | ✅ Active     |
-| Phase A1 | E2E stabilized (127.0.0.1 + networkidle)    | ✅ PR #657    |
-| Phase B  | F1–F12 mobile fixes                         | ⏳ Planned    |
-| tsc      | 0 errors (14 fixed: deeplink + useGenerate) | ✅ Done       |
-| Docs     | GitHub Pages включён                        | ✅ Done       |
+| Задача   | Действие                                    | Статус     |
+| -------- | ------------------------------------------- | ---------- |
+| Phase A  | Все workflow зелёные                        | ✅ Done    |
+| Phase A4 | Branch Protection Phase 2                   | ✅ Active  |
+| Phase A1 | E2E stabilized (127.0.0.1 + networkidle)    | ✅ PR #657 |
+| Phase A3 | Migrations reconciled                       | ✅ Done    |
+| Phase B  | F1–F12 mobile flags (9/12 closed)           | ✅ Done    |
+| Phase B6 | Lazy imports (lamejs/qrcode/confetti)       | ✅ Done    |
+| tsc      | 0 errors (14 fixed: deeplink + useGenerate) | ✅ Done    |
+| Docs     | GitHub Pages включён                        | ✅ Done    |
 
 ### Блок 2 — UX Critical Fixes (Sprint 055) ✅
 
