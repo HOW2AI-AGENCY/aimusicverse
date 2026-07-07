@@ -171,6 +171,15 @@ Phase A–B ✅, Phase C–D ✅ (stories + docs complete)
 - Storybook stories: 5 → 11 (+120%)
 - Блокеры Sprint 050: 3 → 2 (E2E dependency, branch protection)
 
+### Phase 8: Codebase Optimization ✅ COMPLETE (2026-06-25)
+- [x] Удаление 196 мёртвых файлов, 45,113 строк ([PR #283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283))
+- [x] Замена runtime console.log на logger в studio-компонентах
+
+### Phase 9A: Deduplication ✅ COMPLETE (2026-06-25)
+- [x] Аудит 30+ предполагаемых дубликатов
+- [x] Удалено 5 подтверждённых дубликатов (~1,350 строк)
+- [x] Очищены index.ts реэкспорты
+
 ---
 
 ## 🆕 Вечерняя сессия 2026-07-06 ✅
