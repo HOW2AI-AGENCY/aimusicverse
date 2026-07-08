@@ -5,10 +5,10 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-057_complete-10B981?style=for-the-badge"/>
-  <img alt="Прогресс" src="https://img.shields.io/badge/overall-99.5%25-10B981?style=for-the-badge"/>
+  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--08_AI_Activity_Panel-10B981?style=for-the-badge"/>
+  <img alt="Прогресс" src="https://img.shields.io/badge/overall-99.6%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1497_passing-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1484_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
   <img alt="Dependencies" src="https://img.shields.io/badge/deps-6_vulnerabilities_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=for-the-badge"/>
@@ -57,9 +57,43 @@
 ### Метрики:
 
 - TypeScript: 0 errors ✅
-- Unit тесты: 1497 passing ✅
+- Unit тесты: 1484 passing ✅
 - E2E Mobile Chrome: 30 passed ✅
 - Branch Protection: Active ✅
+
+---
+
+## 🆕 Сессия 2026-07-08 — AI Agent Activity Panel & dead-code cleanup 🔄
+
+**Uncommitted work (to be pushed)** — branch: `feat/ai-agent-activity-panel-cleanup`
+
+### Выполнено:
+
+1. **AI Agent Activity Panel** ✅
+   - Новый компонент `src/components/lyrics-workspace/ai-agent/AIAgentActivityPanel.tsx` — компактная панель прозрачности действий агента: контекст (проект / трек / секция / текущий текст), текущее действие, задачи workflow, история действий агента.
+   - Типы `AIAgentContext`, `AgentAction`, `WorkflowState` в `src/components/lyrics-workspace/ai-agent/types.ts`.
+   - Интегрирован в `LyricsAIChatAgent.tsx` и `MobileAIAgentPanel.tsx`.
+
+2. **Dead-code cleanup** ✅
+   - Удалены неиспользуемые модули: `src/lib/a11y*`, `src/lib/accessibility.ts`, `src/components/suno/*`, `src/lib/{common,feature-flags,gesture-*,haptics,lazy,motion-variants,performance-utils,retry,sanitizeFilename,stateMachine,storage,workflow-engine}.ts`, `src/stores/middleware/withHistory.ts`, `src/types/branded.ts`.
+   - Удалены устаревшие тесты: `src/__tests__/feature-flags/generate-sheet-redesign-flag.test.ts`, `src/__tests__/lib/accessibility.test.ts`, `src/__tests__/lib/performance.test.ts`, `src/__tests__/stores/withHistory.test.ts`.
+   - Чистка не затронула собираемость: `tsc --noEmit` 0 ошибок, `npm test -- --run` 1484 passing.
+
+3. **9Router lyrics service** ✅
+   - Обновлён `src/services/lyrics/ninerouter-lyrics.service.ts` и `src/hooks/useNineRouter.ts`.
+   - Добавлен smart router в `src/services/ninerouter/ninerouter.service.ts`.
+
+4. **Tooling fixes** ✅
+   - `scripts/count-any.mjs`: добавлен `existsSync` guard для удалённых tracked-файлов — больше не падает с `ENOENT`.
+   - `.claude/settings.json`: отформатирован prettier.
+
+### Метрики сессии:
+
+- TypeScript: 0 errors ✅
+- Unit тесты: 1484 passing (121 test files) ✅
+- `any` budget: 0/50 ✅
+- Файлов >800 LOC в `src/`: 0 ✅
+- Eager bundle: 508 KB gzip ✅
 
 ---
 

@@ -1,214 +1,204 @@
-# Аудит прогресса проекта + Рекомендации по инфраструктуре
+# Аудит проекта и прогресса — AI MusicVerse
 
-**Дата:** 2026-07-07  
-**Проект:** MusicVerse AI  
-**Версия:** Sprint 050 complete
-
----
-
-## I. Текущее состояние проекта
-
-### Метрики здоровья
-
-| Метрика             | Значение          | Статус |
-| ------------------- | ----------------- | ------ |
-| TypeScript          | 0 errors          | ✅     |
-| Unit тесты          | 1525 passing      | ✅     |
-| E2E Mobile Chrome   | 30 passed         | ✅     |
-| Branch Protection   | Active (4 checks) | ✅     |
-| Bundle eager JS     | 508 KB gzip       | ✅     |
-| `any` budget        | 0/50              | ✅     |
-| Suno API            | 28/28 (100%)      | ✅     |
-| Source files (.ts)  | 943               | —      |
-| Source files (.tsx) | 1192              | —      |
-| npm vulnerabilities | 5 (dev-only)      | 🟢 Low |
-
-### Завершённые спринты (последние)
-
-| Спринт | Фокус                            | Статус       |
-| ------ | -------------------------------- | ------------ |
-| 050    | Main Green + Mobile Audit F1–F12 | ✅ Complete  |
-| 051    | Test Debt + God Files            | ✅ Complete  |
-| 052    | Suno Mashup + Persona + Upload   | ✅ 10/10     |
-| 053    | Suno Sounds + MIDI + Boost       | ✅ Complete  |
-| 054    | Suno Details Suite               | ✅ 28/28     |
-| 055    | UX Critical Fixes                | ✅ 13/13     |
-| 056    | GenerateSheet Redesign           | ✅ Phase A-B |
-
-### Открытые вопросы
-
-| Вопрос               | Приоритет | Статус               |
-| -------------------- | --------- | -------------------- |
-| E2E CI stability     | High      | 🔄 В работе          |
-| npm audit (dev-only) | Low       | 📋 Documented        |
-| i18n EN/RU           | Medium    | 📋 Planned           |
-| Lighthouse CI        | Medium    | ✅ Added to workflow |
+**Дата аудита:** 2026-07-07  
+**Ветка:** `main`  
+**Последний коммит:** `5901904f` — Merge pull request #663 (feat: add 9router lyrics service and smart router)  
+**Автор:** `ivan-meer`  
+**Репозиторий:** `HOW2AI-AGENCY/aimusicverse`
 
 ---
 
-## II. Рекомендации по расширению инфраструктуры
+## 1. Резюме состояния
 
-### 1. AI Gateway (9Router) — уже подключён
-
-**Статус:** ✅ Работает на `localhost:20128`  
-**Доступные модели:** 129 LLM + image + TTS + STT + embeddings
-
-**Применение в проекте:**
-
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│ MusicVerse  │────▶│  9Router    │────▶│ Провайдеры  │
-│   Frontend  │     │  Gateway    │     │ (fallback)  │
-└─────────────┘     └─────────────┘     └─────────────┘
-```
-
-### 2. Расширение возможностей через 9Router
-
-| Возможность    | Модель                         | Применение в MusicVerse           |
-| -------------- | ------------------------------ | --------------------------------- |
-| **Chat/LLM**   | `xmtp/mimo-v2.5-pro`           | AI-ассистент для лирики, промптов |
-| **Image Gen**  | `bpm/seed-2-0-pro`             | Обложки треков, аватары артистов  |
-| **TTS**        | `xmtp/mimo-v2.5-tts`           | Превью треков, озвучка            |
-| **STT**        | `nvidia/parakeet-ctc-1.1b-asr` | Транскрибация аудио               |
-| **Embeddings** | `text-embedding-3-small`       | Семантический поиск треков        |
-| **Web Search** | `tavily/search`                | Поиск трендов, вдохновения        |
-
-### 3. Архитектурные улучшения
-
-**A. Микросервисы через 9Router:**
-
-```
-Генерация трека:
-  Frontend → 9Router/chat → Промпт-оптимизация
-  Frontend → 9Router/image → Обложка
-  Frontend → Suno API → Музыка
-  Frontend → 9Router/tts → Превью
-```
-
-**B. Кэширование AI-ответов:**
-
-- Кэшировать embeddings для повторного использования
-- Кэшировать промпты для однотипных запросов
-- Использовать 9Router's model fallback для отказоустойчивости
-
-**C. A/B тестирование моделей:**
-
-- Сравнивать `xmtp/mimo-v2.5-pro` vs `cc/claude-opus-4-8` для генерации лирики
-- Метрики: качество, скорость, стоимость
-
-### 4. Инфраструктурные рекомендации
-
-| Компонент      | Текущее          | Рекомендация                  |
-| -------------- | ---------------- | ----------------------------- |
-| **CI/CD**      | GitHub Actions   | ✅ Добавить Lighthouse CI     |
-| **Мониторинг** | Sentry           | Добавить 9Router метрики      |
-| **Кэш**        | React Query      | Добавить Redis для AI-ответов |
-| **CDN**        | Supabase Storage | Рассмотреть Cloudflare R2     |
-| **Очередь**    | Нет              | Добавить BullMQ для генерации |
-
-### 5. Безопасность
-
-| Что              | Статус    | Рекомендация               |
-| ---------------- | --------- | -------------------------- |
-| API keys         | В .env    | Добавить в .gitignore      |
-| 9Router auth     | Включён   | Использовать per-user keys |
-| Rate limiting    | Нет       | Добавить через 9Router     |
-| Input validation | Частичное | Валидировать AI-промпты    |
+| Показатель        | Статус                | Примечание                                                                           |
+| ----------------- | --------------------- | ------------------------------------------------------------------------------------ |
+| **TypeScript**    | 🟢 **0 errors**       | `tsc --build --force` проходит чисто                                                 |
+| **ESLint**        | 🟢 **0 errors**       | 1695 warnings (не блокируют gate)                                                    |
+| **Prettier**      | 🔴 **Code 1**         | `.claude/settings.json` не проходит формат                                           |
+| **Unit tests**    | 🟡 **1484 passed**    | 4 skipped, 31 todo. Раньше было 1497 — 4 тестовых файла удалены в рабочей директории |
+| **`any` бюджет**  | 🔴 **Скрипт сломан**  | `count-any.mjs` падает на `ENOENT` из-за удалённых файлов в рабочей директории       |
+| **Сборка (Vite)** | 🟢 **Не проверялась** | Typecheck проходит, вероятно, собирается                                             |
+| **GitHub Issues** | 🟢 **0 открытых**     | Все задачи закрыты                                                                   |
+| **GitHub PRs**    | 🟢 **0 открытых**     | Все PR merged (#663 — последний)                                                     |
 
 ---
 
-## III. Как использовать 9Router
+## 2. Критическое: незакоммиченные изменения в рабочей директории
 
-### Быстрый старт
+В рабочей директории обнаружен массовый рефакторинг/чистка, **не внесённая в git**:
 
-```bash
-#1. Настройка
-export NINEROUTER_URL="http://localhost:20128"
-export NINEROUTER_KEY="sk-8519f3ae1e69adf3-ma3t4e-43bd4d9c"
+- **39 изменённых файлов**
+- **−5135 строк кода**
+- **28 удалённых файлов**
 
-#2. Проверка
-curl $NINEROUTER_URL/api/health
+### Удалённые файлы (группировка):
 
-#3. Список моделей
-curl $NINEROUTER_URL/v1/models
-```
+| Категория                      | Файлы                                                                                                         | Риск                                                                               |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Тесты**                      | `accessibility.test.ts`, `performance.test.ts`, `withHistory.test.ts`, `generate-sheet-redesign-flag.test.ts` | Снижение покрытия; несоответствие метрике «1497 tests»                             |
+| **A11y / Accessibility**       | `a11y-utils.ts`, `a11y.ts`, `a11yHelpers.ts`, `accessibility.ts`                                              | **Высокий** — проект заявляет WCAG AA; удаление утилит может сломать accessibility |
+| **Gestures**                   | `gesture-manager.ts`, `gestureSettings.ts`                                                                    | Риск мобильных жестов                                                              |
+| **Performance / Lazy loading** | `lazy.ts`, `performance-utils.ts`, `motion-variants.ts`                                                       | Риск perf-регрессий                                                                |
+| **State / Storage**            | `stateMachine.ts`, `storage.ts`, `workflow-engine.ts`                                                         | Риск сломанных flows                                                               |
+| **Suno компоненты**            | `SectionBlock.tsx`, `SunoTimeline.tsx`, `TagMenu.tsx`, `types.ts`, `utils.ts`                                 | Риск UI-регрессий в Suno-фичах                                                     |
+| **Utils**                      | `common.ts`, `feature-flags.ts`, `haptics.ts`, `retry.ts`, `sanitizeFilename.ts`, `branded.ts`                | Риск зависимых модулей                                                             |
 
-### Интеграция в проект
+### ⚠️ Важно:
 
-**A. Через OpenAI SDK (совместим):**
+- TypeScript **всё ещё проходит** (0 errors) — значит, оставшиеся файлы не импортируют удалённые напрямую, или импорты тоже удалены.
+- `count-any.mjs` **падает**, потому что сканирует git-index и не находит удалённые файлы.
+- **Unit tests:** 1484 vs заявленных 1497 — разница ровно в 4 удалённых тестовых файлах.
 
-```typescript
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  baseURL: "http://localhost:20128/v1",
-  apiKey: "sk-8519f3ae1e69adf3-ma3t4e-43bd4d9c",
-});
-
-// Генерация лирики
-const lyrics = await client.chat.completions.create({
-  model: "xmtp/mimo-v2.5-pro",
-  messages: [{ role: "user", content: "Напиши текст песни о..." }],
-});
-
-// Генерация обложки
-const image = await client.images.generate({
-  model: "bpm/seed-2-0-pro-260328",
-  prompt: "Album cover for a electronic music track",
-});
-```
-
-**B. Через fetch API:**
-
-```typescript
-const response = await fetch("http://localhost:20128/v1/chat/completions", {
-  method: "POST",
-  headers: {
-    Authorization: "Bearer sk-8519f3ae1e69adf3-ma3t4e-43bd4d9c",
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    model: "xmtp/mimo-v2.5-pro",
-    messages: [{ role: "user", content: "Hello!" }],
-  }),
-});
-```
-
-### Доступные модели
-
-| Категория      | Модели      | Пример                                     |
-| -------------- | ----------- | ------------------------------------------ |
-| **LLM**        | 129 моделей | `xmtp/mimo-v2.5-pro`, `cc/claude-opus-4-8` |
-| **Image**      | ~10 моделей | `bpm/seed-2-0-pro-260328`                  |
-| **TTS**        | ~5 моделей  | `xmtp/mimo-v2.5-tts`                       |
-| **STT**        | ~3 модели   | `nvidia/parakeet-ctc-1.1b-asr`             |
-| **Embeddings** | ~5 моделей  | `text-embedding-3-small`                   |
+> **Рекомендация:** Срочно принять решение — либо закоммитить эти изменения (если это намеренный рефакторинг), либо `git restore` откатить. Оставлять −5K строк в рабочей директории опасно: при переключении веток или `git reset` изменения потеряются.
 
 ---
 
-## IV. Следующие шаги
+## 3. Статус спринтов и прогресса
 
-### Немедленные (эта неделя)
+### Завершённые спринты (подтверждено PR + коммиты):
 
-1. ✅ 9Router подключён и протестирован
-2. ✅ Lighthouse CI добавлен в workflow
-3. 🔄 Замержить PR #660 (Lighthouse CI)
+| Спринт  | Фокус                        | Статус      | PR / Коммит                                         |
+| ------- | ---------------------------- | ----------- | --------------------------------------------------- |
+| **033** | UX-аудит                     | ✅ Завершён | Исторический                                        |
+| **034** | Надёжность генерации         | ✅ Завершён | Исторический                                        |
+| **035** | Стабилизация                 | ✅ Завершён | Исторический                                        |
+| **039** | Архитектурный рефакторинг    | ✅ Завершён | Исторический                                        |
+| **042** | Page Decomposition + Audio   | ✅ Завершён | Исторический                                        |
+| **043** | Layer Compliance             | ✅ Завершён | Исторический                                        |
+| **044** | Type Safety Wave 2           | ✅ Завершён | Исторический                                        |
+| **045** | UX/UI Deep Polish            | ✅ Завершён | Исторический                                        |
+| **046** | Desktop Layout Polish        | ✅ Завершён | Исторический                                        |
+| **047** | Mobile Audit + Z-Index       | ✅ Завершён | Исторический                                        |
+| **048** | Creation-Flow Motion         | ✅ Завершён | Исторический                                        |
+| **049** | Mobile UX: A/B, лайки, плеер | ✅ Завершён | Исторический                                        |
+| **050** | Main Green + Mobile Audit    | ✅ Завершён | **PR #657** (E2E stabilization + Branch Protection) |
+| **051** | Test Debt + God Files        | ✅ Завершён | 9/9 god files decomposed                            |
+| **052** | Suno Mashup + Persona        | ✅ Завершён | Включая 052-C cleanup                               |
+| **053** | Suno Sounds + MIDI           | ✅ Завершён | Исторический                                        |
+| **054** | Suno Details Suite           | ✅ Завершён | Исторический                                        |
+| **055** | UX Critical Fixes P0/P1      | ✅ Завершён | 13/13 tasks                                         |
+| **056** | GenerateSheet Redesign       | ✅ Завершён | Phase A-D                                           |
+| **057** | Audio Analysis Refactor      | ✅ Завершён | По `PROJECT_STATUS.md`                              |
 
-### Краткосрочные (2-4 недели)
+### Спринты в работе / запланированные:
 
-1. Интегрировать 9Router в AI-ассистент лирики
-2. Добавить генерацию обложек через 9Router image
-3. Настроить i18n EN/RU pilot
-4. Стабилизировать E2E CI
-
-### Среднесрочные (1-3 месяца)
-
-1. A/B тестирование моделей через 9Router
-2. Кэширование AI-ответов (Redis)
-3. Очередь генерации (BullMQ)
-4. Collaboration features (realtime sessions)
+| Спринт    | Фокус                     | Статус                   | Примечание                                                                                                                                                    |
+| --------- | ------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **050-C** | Branch Protection Phase 2 | ⚠️ **Конфликт статусов** | В `README.md` — «в работе», в `PROJECT_STATUS.md` — «Phase 2 Active», в PR #657 — «активировано». Нужна сверка.                                               |
+| **057**   | Collaboration Features    | ⚠️ **Конфликт статусов** | В `README.md` — «запланировано», в `PROJECT_STATUS.md` — «завершён». Вероятно, речь о разных спринтах с одинаковым номером (Audio Analysis vs Collaboration). |
 
 ---
 
-_Аудит проведён: 2026-07-07_
-_Следующий review: 2026-07-14_
+## 4. Расхождения в документации и метриках
+
+### 4.1 Счётчики кода
+
+| Метрика         | `PROJECT_STATUS.md` | `README.md` (бейджи) | Реальность (локальный аудит)                      | Статус         |
+| --------------- | ------------------- | -------------------- | ------------------------------------------------- | -------------- |
+| Компоненты      | 1003                | 999 (1136 total)     | ~1161 (с поддиректориями)                         | 🟡 Устарело    |
+| Хуки            | 347                 | 419                  | ~434                                              | 🟡 Устарело    |
+| Сервисы         | 18                  | —                    | ~25+ (с поддиректориями)                          | 🟡 Недосчёт    |
+| Stores          | 12 + 8 sub          | 17                   | ~12 + поддиректории                               | 🟡 Недосчёт    |
+| API файлов      | 20                  | 26                   | ~26+                                              | 🟡 Недосчёт    |
+| Unit tests      | 925                 | 1497                 | **1484** (из-за удалений)                         | 🔴 Расхождение |
+| Файлов >800 LOC | 9                   | 0                    | **0** в `src/`, но **11** в `supabase/functions/` | 🟡 Неточно     |
+
+### 4.2 Статусы спринтов
+
+- **Sprint 050:** в `PROJECT_STATUS.md` (таблица дорожной карты) указан как «🔄 В работе», но PR #657 уже merged и branch protection активирован. Требуется обновление документации.
+- **Sprint 057:** в `README.md` — «Collaboration Features, запланировано», в `PROJECT_STATUS.md` — «Audio Analysis Refactoring, завершён». Это два разных спринта с одинаковым номером — нумерация пересеклась или не синхронизирована.
+
+### 4.3 Безопасность
+
+- `npm audit` — 6 уязвимостей (1 high, 4 moderate, 1 low). В `PROJECT_STATUS.md` это подтверждено и не является блокером.
+
+---
+
+## 5. GitHub статус
+
+- **Открытые Issues:** 0
+- **Открытые PR:** 0
+- **Последние merged PR:**
+  - #663 — 9router lyrics service ✅
+  - #662 — Extended work plan (plugins, skills, subagents) ✅
+  - #661 — 9router AI gateway integration ✅
+  - #660 — Lighthouse CI budget enforcement ✅
+  - #659 — Known issues update ✅
+  - #658 — Sprint 050 completion docs ✅
+  - #657 — E2E stabilization + Branch Protection ✅
+  - #656 — Progress audit (docs reconciliation) ✅
+  - #655 — E2E fixes + stale docs reconciliation ✅
+
+> Все PR недавно смержены. Репозиторий активно развивается, flow работает.
+
+---
+
+## 6. Риски (по приоритету)
+
+### 🔴 P0 — Критические
+
+1. **Незакоммиченные удаления (−5K LOC)** — риск полной потери работы при `git checkout` / `git reset` / переключении веток. Если это намеренный рефакторинг, нужен коммит; если случайный — `git restore`.
+2. **`count-any.mjs` сломан** — скрипт падает из-за `ENOENT` на удалённых файлах. Это ломает CI-метрику `any` budget, хотя сам код чист.
+3. **Удаление A11y-утилит** — `a11y-utils.ts`, `a11y.ts`, `a11yHelpers.ts`, `accessibility.ts` удалены. Проект заявляет WCAG AA. Нужно убедиться, что функциональность перенесена в другие модули или больше не нужна.
+
+### 🟡 P1 — Важные
+
+4. **Prettier fail** — `.claude/settings.json` не проходит `prettier --check`. Это ломает `format:check` gate в CI.
+5. **Протухшие счётчики в README / PROJECT_STATUS** — компоненты, хуки, сервисы, stores недосчитываются. Методология не учитывает поддиректории (`src/services/analytics/`, `src/stores/studio/`).
+6. **Конфликтующие статусы Sprint 050 и 057** — разные документы говорят противоречивое. Это сбивает с толку при планировании.
+7. **Suno компоненты удалены** — `SectionBlock`, `SunoTimeline`, `TagMenu`, `types`, `utils`. Убедиться, что они не используются в production-коде.
+
+### 🟢 P2 — Информационные
+
+8. **E2E CI** — PR #657 заявляет стабилизацию, но полный прогон E2E в реальном CI требует подтверждения (Chromium revision mismatch в локальной среде).
+9. **Bundle size** — 2.11 MB gzip (все чанки) в пределах 2.3 MB budget. Eager load 508 KB — хороший показатель.
+
+---
+
+## 7. Рекомендации
+
+### Срочно (сегодня)
+
+1. **Закоммитить или откатить изменения в рабочей директории.**
+
+   ```bash
+   # Вариант А: если изменения намеренные
+   git add -A && git commit -m "refactor: bulk cleanup of dead code (a11y, suno, utils, tests)"
+
+   # Вариант Б: если изменения случайные
+   git restore .
+   ```
+
+2. **Починить `count-any.mjs`.** Добавить `fs.existsSync` перед `readFileSync` в цикле сканирования, чтобы скрипт не падал на отсутствующих файлах.
+
+3. **Починить `.claude/settings.json`.** Запустить `prettier --write .claude/settings.json`.
+
+### В ближайшую неделю
+
+4. **Синхронизировать статусные документы:**
+   - `README.md` — обновить счётчики (компоненты, хуки, сервисы, stores).
+   - `PROJECT_STATUS.md` — обновить таблицу спринтов (Sprint 050 → ✅, Sprint 057 разрешить конфликт номерации).
+   - Унифицировать методологию подсчёта (включать поддиректории `src/services/**/`, `src/stores/**/`).
+
+5. **Проверить удалённые A11y-файлы.** Убедиться, что `axe-core` / `@axe-core/playwright` тесты и runtime-фичи не сломаны. Возможно, потребуется перенести утилиты в `src/lib/debug/` или `src/lib/guards/`.
+
+6. **Проверить удалённые тесты.** Если `accessibility.test.ts`, `performance.test.ts`, `withHistory.test.ts` — это мёртвые тесты, убедиться, что покрытие критичных модулей (`useHistory`, `a11y`, `perf`) есть в других файлах.
+
+7. **Запустить полный E2E прогон в CI** после закрытия рабочей директории, чтобы подтвердить зелёный статус Mobile Chrome suite.
+
+---
+
+## 8. Итоговая оценка
+
+| Критерий               | Оценка          | Обоснование                                                           |
+| ---------------------- | --------------- | --------------------------------------------------------------------- |
+| **Кодовая база**       | 🟢 Здоровая     | tsc 0 errors, lint 0 errors, 1484+ unit tests                         |
+| **Процесс**            | 🟢 Организован  | Conventional commits, pre-commit hooks, branch protection, PR reviews |
+| **Документация**       | 🟡 Требует sync | Протухшие счётчики, конфликтующие статусы спринтов                    |
+| **Рабочая директория** | 🔴 Риск потери  | −5K LOC не в git, скрипты сломаны                                     |
+| **Безопасность**       | 🟡 Приемлемо    | 6 уязвимостей, 1 high — не критично, но стоит отслеживать             |
+| **Производительность** | 🟢 Хорошо       | 508 KB eager load, 2.11 MB total                                      |
+
+---
+
+_Аудит проведён автоматически на основе: `git status`, `npm run typecheck`, `npm run lint`, `npm run format:check`, `npx vitest run`, `node scripts/count-any.mjs`, GitHub API (issues/PRs), анализа `PROJECT_STATUS.md`, `README.md`, `ROADMAP.md`._

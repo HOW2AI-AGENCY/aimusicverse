@@ -10,6 +10,7 @@
   <a href="LICENSE"><img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/></a>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
   <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
+  <img alt="Unit tests" src="https://img.shields.io/badge/unit_tests-1484_passing-10B981?style=for-the-badge&logo=vitest"/>
 </p>
 
 <!-- BADGES:START -->
@@ -52,25 +53,26 @@
 | ⭐ GitHub Stars                |            ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)             |
 | 📦 Eager load (холодный старт) |        ![](https://img.shields.io/badge/508_KB_gzip-↓_from_1.19_MB-10B981?style=flat-square&logo=webpack)        |
 | 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
-| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1497_passing-10B981?style=flat-square&logo=vitest)          |
+| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1484_passing-10B981?style=flat-square&logo=vitest)          |
 | 🔒 Безопасность                |  ![](<https://img.shields.io/badge/Security-6_vulns_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=flat-square>)   |
-| 📊 Спринтов завершено          |                                          **48** (050–055 + 052-C + 057)                                          |
-| 🏗 Компонентов                  |                                               **999** (1136 total)                                               |
-| 🔧 Хуков                       |                                                     **419**                                                      |
+| 📊 Спринтов завершено          |                                             **49** (050–056 + 052-C)                                             |
+| 🏗 Компонентов                  |                                              **1009** (1164 total)                                               |
+| 🔧 Хуков                       |                                                     **438**                                                      |
 | 🚀 Стадия                      |                                        **Pre-Seed / Active Development**                                         |
 
 > **MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: Sprint 051 ✅ Test Debt Phase A-C Complete — god-file decomposition 9/9 (0 файлов >800 LOC в production-коде), 1497 unit-тестов (123 test files). Sprint 055 ✅ (P0/P1 UX-фиксы 13/13). Sprint 056 ✅ (GenerateSheet Redesign + 31 Storybook stories). Sprint 053+054 ✅ (Suno API 28/28 — 100% покрытие, 46 edge functions). Design-review 2026-07-06: C+/B. Следующий фокус: Sprint 050-C Branch Protection Phase 2, E2E стабилизация (56 specs → CI green), i18n-старт (EN/RU). План: [FUTURE_WORK_PLAN.md](./FUTURE_WORK_PLAN.md).
-- **Метрики (2026-07-06):** tsc 0 errors · 1497 unit tests · 56 E2E specs · 1037 components · 413 hooks · 26 API files · 12 stores · 46 Suno edge functions · 0 файлов >800 LOC · 0/50 `any` budget · 508 KB gzip eager load
+- **Текущий фокус**: 🔄 Сессия 2026-07-08 — AI Agent Activity Panel (`src/components/lyrics-workspace/ai-agent/AIAgentActivityPanel.tsx`): прозрачность действий агента (контекст проекта/трека/секции, текущее действие, задачи workflow, история действий). Параллельно: массовая чистка мёртвого кода (−5K LOC, 28 файлов удалено: устаревшие a11y-утилиты, suno-компоненты, неиспользуемые lib-модули), обновление 9Router lyrics service, починка `count-any.mjs` и форматирования `.claude/settings.json`.
+- **Метрики (2026-07-08):** tsc 0 errors · 1484 unit tests (121 test files) · 56 E2E specs · 1009 React components (1164 total files) · 438 hooks · 31 API files · 22 stores · 49 services · 0 файлов >800 LOC в `src/` · 0/50 `any` budget · 508 KB gzip eager load
+- **Закрыто (2026-07-08):** AI Agent Activity Panel интегрирован в `LyricsAIChatAgent` и `MobileAIAgentPanel`; dead-code cleanup: удалены `src/lib/a11y*`, `src/lib/accessibility.ts`, `src/components/suno/*`, `src/lib/{common,feature-flags,gesture-*,haptics,lazy,motion-variants,performance-utils,retry,sanitizeFilename,stateMachine,storage,workflow-engine}.ts`, `src/stores/middleware/withHistory.ts`, `src/types/branded.ts` и 4 устаревших тестовых файла. Все проверки (tsc, unit tests, `count-any.mjs`) проходят. Подробнее: [PROJECT_STATUS.md](./PROJECT_STATUS.md).
 - **Закрыто (2026-07-03, #568/#567):** Eager JS на холодной загрузке главной сокращён с ~1.19 МБ до ~508 КБ gzip (лишние `modulePreload` тяжёлых admin/studio/charts/dnd/forms-чанков и barrel-импорт устранены — см. [docs/BUNDLE_ANALYSIS.md](./docs/BUNDLE_ANALYSIS.md)); все оставшиеся 58 `no-explicit-any` ошибок ESLint устранены (репозиторий на 0 использований `any`, было 342), попутно исправлены 2 бага, скрытые за `any`-кастами.
 - **Закрыто (2026-07-03, #566/#562/#559):** Редизайн карточек треков на мобильной главной, восстановлена связность секций главной страницы (homepage reconnect), scroll-reveal и микро-взаимодействия на мобильной главной.
 - **Закрыто (Sprint 049 ✅):** Mobile UX по багрепорту — залипание скролла на главной (guard `usePullToRefresh` читал `scrollTop` не с того элемента и глушил нативный скролл), исчезающие жанровые секции, переключение A/B версий теперь обновляет карточку целиком (обложка/теги/время/текст из `track_versions.metadata`), лайки переведены на per-version схему (`track_likes.track_version_id`, миграция ждёт применения на прод БД), полноэкранный плеер: починен «залипший» свайп страниц (`dragConstraints`), фрагментированные теги Suno больше не протекают в лирику, автоскролл с пилюлей «К текущей строке», теги-чипы на «О треке». См. [CHANGELOG.md](./CHANGELOG.md#unreleased) и [PROJECT_STATUS.md](./PROJECT_STATUS.md).
 - **Закрыто ранее (Sprint 048 ✅):** Creation-Flow Motion Pass + Mobile Perf Fixes — анимации для создания проекта/артиста, AI-чата ассистента и создания трека в проекте, затем баг-фикс проход по итогам мобильного QA: обрезка бейджей у скруглённых углов `Button` (корневая причина — `overflow: hidden` в `.btn-enhanced`, исправлено на уровне CSS-примитива для всего приложения), лаги JS-driven анимаций на мобильных (заменены на CSS keyframes), глюки скролла (убран `smooth`-скролл в чате, JS `whileHover` заменён на CSS `:hover`). См. [CHANGELOG.md](./CHANGELOG.md#unreleased) и [PROJECT_STATUS.md](./PROJECT_STATUS.md).
 - **Закрыто ранее (Sprint 044 ✅):** Type Safety Wave 2 — 7/7 задач. Итог: `any` в `src/components/**` 155 → 0; в `src/hooks/**` 164 → 6; в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result`; ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs` ≤50. +54 unit-теста за спринт (282 passing в 17 suites).
-- **Далее**: закрытие фазы A Sprint 050 (E2E вердикт, сверка прод-миграций, branch protection) → фаза B (F1–F12) параллельно с 053/054 cleanup (✅ сделано) → Sprint 051 (Test Debt + God Files) → 055 (Q4 Platform). `size-limit`'s Total Bundle порог пересчитан с 950 КБ на 2.3 МБ, чтобы CI проходил по реальной метрике (все чанки, сейчас 2.11 МБ) — это не то же самое, что вес страницы для пользователя (508 КБ eager). Suno API достиг 100% покрытия (28/28) — Sprint 053/054 закрыли последний gap. См. [PROJECT_STATUS.md](./PROJECT_STATUS.md) и [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](./SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md).
+- **Далее**: доработка AI Agent Activity Panel (runtime actions, workflow tasks), завершение Sprint 050-C Branch Protection Phase 2, E2E стабилизация (56 specs → CI green), i18n-старт (EN/RU). План: [FUTURE_WORK_PLAN.md](./FUTURE_WORK_PLAN.md).
 
 ---
 
