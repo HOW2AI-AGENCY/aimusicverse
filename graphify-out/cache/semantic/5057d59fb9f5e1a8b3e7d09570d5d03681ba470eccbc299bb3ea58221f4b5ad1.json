@@ -1,0 +1,1 @@
+{"nodes": [{"id": "changelog", "label": "Changelog", "file_type": "document", "source_file": "CHANGELOG.md"}], "edges": [{"source": "changelog", "target": "conventional_commits", "relation": "follows", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "CHANGELOG.md"}], "hyperedges": []}

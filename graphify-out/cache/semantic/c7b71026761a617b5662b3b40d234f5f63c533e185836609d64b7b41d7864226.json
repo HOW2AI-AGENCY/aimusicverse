@@ -1,0 +1,1 @@
+{"nodes": [{"id": "TELEGRAM_BOT_UTILITIES", "label": "Telegram Bot Utilities", "file_type": "documentation", "source_file": "docs/TELEGRAM_BOT_UTILITIES.md", "attributes": {"purpose": "Advanced utilities for building rich bot interfaces", "utilities": ["message_formatter", "button_builder", "message_manager", "text_processor"]}}], "edges": [], "hyperedges": []}

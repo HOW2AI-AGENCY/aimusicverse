@@ -1,0 +1,1 @@
+{"nodes": [{"id": "TELEGRAM_BOT_MONITORING", "label": "Telegram Bot Monitoring", "file_type": "documentation", "source_file": "docs/TELEGRAM_BOT_MONITORING.md", "attributes": {"purpose": "Comprehensive monitoring system for bot operations", "metrics": ["Delivery Rate", "Error Rate", "Response Time", "Rate Limiting"]}}], "edges": [], "hyperedges": []}

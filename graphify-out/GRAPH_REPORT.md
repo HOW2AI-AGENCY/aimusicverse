@@ -1,16 +1,16 @@
 # Graph Report - aimusicverse  (2026-07-08)
 
 ## Corpus Check
-- 3651 files · ~2,739,069 words
+- 3656 files · ~2,741,000 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 45885 nodes · 79376 edges · 2455 communities (2343 shown, 112 thin omitted)
+- 45913 nodes · 79443 edges · 2509 communities (2392 shown, 117 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 5064 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5901904f`
+- Built from commit: `ed6c93ea`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -1073,6 +1073,7 @@
 - [[_COMMUNITY_Community 1058|Community 1058]]
 - [[_COMMUNITY_Community 1060|Community 1060]]
 - [[_COMMUNITY_Community 1061|Community 1061]]
+- [[_COMMUNITY_Community 1062|Community 1062]]
 - [[_COMMUNITY_Community 1063|Community 1063]]
 - [[_COMMUNITY_Community 1064|Community 1064]]
 - [[_COMMUNITY_Community 1065|Community 1065]]
@@ -1089,6 +1090,10 @@
 - [[_COMMUNITY_Community 1076|Community 1076]]
 - [[_COMMUNITY_Community 1077|Community 1077]]
 - [[_COMMUNITY_Community 1078|Community 1078]]
+- [[_COMMUNITY_Community 1079|Community 1079]]
+- [[_COMMUNITY_Community 1080|Community 1080]]
+- [[_COMMUNITY_Community 1081|Community 1081]]
+- [[_COMMUNITY_Community 1082|Community 1082]]
 - [[_COMMUNITY_Community 1083|Community 1083]]
 - [[_COMMUNITY_Community 1084|Community 1084]]
 - [[_COMMUNITY_Community 1085|Community 1085]]
@@ -1117,6 +1122,7 @@
 - [[_COMMUNITY_Community 1108|Community 1108]]
 - [[_COMMUNITY_Community 1109|Community 1109]]
 - [[_COMMUNITY_Community 1110|Community 1110]]
+- [[_COMMUNITY_Community 1111|Community 1111]]
 - [[_COMMUNITY_Community 1112|Community 1112]]
 - [[_COMMUNITY_Community 1113|Community 1113]]
 - [[_COMMUNITY_Community 1114|Community 1114]]
@@ -1159,12 +1165,16 @@
 - [[_COMMUNITY_Community 1151|Community 1151]]
 - [[_COMMUNITY_Community 1152|Community 1152]]
 - [[_COMMUNITY_Community 1153|Community 1153]]
+- [[_COMMUNITY_Community 1154|Community 1154]]
+- [[_COMMUNITY_Community 1155|Community 1155]]
 - [[_COMMUNITY_Community 1156|Community 1156]]
 - [[_COMMUNITY_Community 1157|Community 1157]]
 - [[_COMMUNITY_Community 1158|Community 1158]]
 - [[_COMMUNITY_Community 1159|Community 1159]]
 - [[_COMMUNITY_Community 1160|Community 1160]]
+- [[_COMMUNITY_Community 1161|Community 1161]]
 - [[_COMMUNITY_Community 1162|Community 1162]]
+- [[_COMMUNITY_Community 1163|Community 1163]]
 - [[_COMMUNITY_Community 1164|Community 1164]]
 - [[_COMMUNITY_Community 1165|Community 1165]]
 - [[_COMMUNITY_Community 1166|Community 1166]]
@@ -1192,6 +1202,7 @@
 - [[_COMMUNITY_Community 1206|Community 1206]]
 - [[_COMMUNITY_Community 1207|Community 1207]]
 - [[_COMMUNITY_Community 1210|Community 1210]]
+- [[_COMMUNITY_Community 1212|Community 1212]]
 - [[_COMMUNITY_Community 1213|Community 1213]]
 - [[_COMMUNITY_Community 1214|Community 1214]]
 - [[_COMMUNITY_Community 1215|Community 1215]]
@@ -1211,11 +1222,13 @@
 - [[_COMMUNITY_Community 1254|Community 1254]]
 - [[_COMMUNITY_Community 1256|Community 1256]]
 - [[_COMMUNITY_Community 1257|Community 1257]]
+- [[_COMMUNITY_Community 1265|Community 1265]]
 - [[_COMMUNITY_Community 1266|Community 1266]]
 - [[_COMMUNITY_Community 1269|Community 1269]]
 - [[_COMMUNITY_Community 1270|Community 1270]]
 - [[_COMMUNITY_Community 1271|Community 1271]]
 - [[_COMMUNITY_Community 1273|Community 1273]]
+- [[_COMMUNITY_Community 1278|Community 1278]]
 - [[_COMMUNITY_Community 1279|Community 1279]]
 - [[_COMMUNITY_Community 1280|Community 1280]]
 - [[_COMMUNITY_Community 1281|Community 1281]]
@@ -1226,7 +1239,9 @@
 - [[_COMMUNITY_Community 1294|Community 1294]]
 - [[_COMMUNITY_Community 1297|Community 1297]]
 - [[_COMMUNITY_Community 1302|Community 1302]]
+- [[_COMMUNITY_Community 1307|Community 1307]]
 - [[_COMMUNITY_Community 1310|Community 1310]]
+- [[_COMMUNITY_Community 1311|Community 1311]]
 - [[_COMMUNITY_Community 1312|Community 1312]]
 - [[_COMMUNITY_Community 1313|Community 1313]]
 - [[_COMMUNITY_Community 1314|Community 1314]]
@@ -1283,6 +1298,7 @@
 - [[_COMMUNITY_Community 1420|Community 1420]]
 - [[_COMMUNITY_Community 1421|Community 1421]]
 - [[_COMMUNITY_Community 1422|Community 1422]]
+- [[_COMMUNITY_Community 1423|Community 1423]]
 - [[_COMMUNITY_Community 1424|Community 1424]]
 - [[_COMMUNITY_Community 1425|Community 1425]]
 - [[_COMMUNITY_Community 1426|Community 1426]]
@@ -1309,6 +1325,7 @@
 - [[_COMMUNITY_Community 1447|Community 1447]]
 - [[_COMMUNITY_Community 1448|Community 1448]]
 - [[_COMMUNITY_Community 1449|Community 1449]]
+- [[_COMMUNITY_Community 1450|Community 1450]]
 - [[_COMMUNITY_Community 1451|Community 1451]]
 - [[_COMMUNITY_Community 1452|Community 1452]]
 - [[_COMMUNITY_Community 1453|Community 1453]]
@@ -1343,6 +1360,7 @@
 - [[_COMMUNITY_Community 1482|Community 1482]]
 - [[_COMMUNITY_Community 1483|Community 1483]]
 - [[_COMMUNITY_Community 1484|Community 1484]]
+- [[_COMMUNITY_Community 1485|Community 1485]]
 - [[_COMMUNITY_Community 1486|Community 1486]]
 - [[_COMMUNITY_Community 1487|Community 1487]]
 - [[_COMMUNITY_Community 1488|Community 1488]]
@@ -1357,6 +1375,7 @@
 - [[_COMMUNITY_Community 1497|Community 1497]]
 - [[_COMMUNITY_Community 1498|Community 1498]]
 - [[_COMMUNITY_Community 1499|Community 1499]]
+- [[_COMMUNITY_Community 1500|Community 1500]]
 - [[_COMMUNITY_Community 1501|Community 1501]]
 - [[_COMMUNITY_Community 1502|Community 1502]]
 - [[_COMMUNITY_Community 1503|Community 1503]]
@@ -1364,6 +1383,7 @@
 - [[_COMMUNITY_Community 1505|Community 1505]]
 - [[_COMMUNITY_Community 1506|Community 1506]]
 - [[_COMMUNITY_Community 1507|Community 1507]]
+- [[_COMMUNITY_Community 1508|Community 1508]]
 - [[_COMMUNITY_Community 1509|Community 1509]]
 - [[_COMMUNITY_Community 1510|Community 1510]]
 - [[_COMMUNITY_Community 1511|Community 1511]]
@@ -1380,6 +1400,7 @@
 - [[_COMMUNITY_Community 1522|Community 1522]]
 - [[_COMMUNITY_Community 1523|Community 1523]]
 - [[_COMMUNITY_Community 1524|Community 1524]]
+- [[_COMMUNITY_Community 1525|Community 1525]]
 - [[_COMMUNITY_Community 1526|Community 1526]]
 - [[_COMMUNITY_Community 1527|Community 1527]]
 - [[_COMMUNITY_Community 1528|Community 1528]]
@@ -1423,6 +1444,7 @@
 - [[_COMMUNITY_Community 1566|Community 1566]]
 - [[_COMMUNITY_Community 1567|Community 1567]]
 - [[_COMMUNITY_Community 1568|Community 1568]]
+- [[_COMMUNITY_Community 1569|Community 1569]]
 - [[_COMMUNITY_Community 1570|Community 1570]]
 - [[_COMMUNITY_Community 1571|Community 1571]]
 - [[_COMMUNITY_Community 1572|Community 1572]]
@@ -1436,6 +1458,7 @@
 - [[_COMMUNITY_Community 1580|Community 1580]]
 - [[_COMMUNITY_Community 1581|Community 1581]]
 - [[_COMMUNITY_Community 1582|Community 1582]]
+- [[_COMMUNITY_Community 1583|Community 1583]]
 - [[_COMMUNITY_Community 1584|Community 1584]]
 - [[_COMMUNITY_Community 1585|Community 1585]]
 - [[_COMMUNITY_Community 1586|Community 1586]]
@@ -1459,6 +1482,7 @@
 - [[_COMMUNITY_Community 1604|Community 1604]]
 - [[_COMMUNITY_Community 1605|Community 1605]]
 - [[_COMMUNITY_Community 1606|Community 1606]]
+- [[_COMMUNITY_Community 1607|Community 1607]]
 - [[_COMMUNITY_Community 1608|Community 1608]]
 - [[_COMMUNITY_Community 1609|Community 1609]]
 - [[_COMMUNITY_Community 1610|Community 1610]]
@@ -1486,6 +1510,7 @@
 - [[_COMMUNITY_Community 1632|Community 1632]]
 - [[_COMMUNITY_Community 1633|Community 1633]]
 - [[_COMMUNITY_Community 1634|Community 1634]]
+- [[_COMMUNITY_Community 1635|Community 1635]]
 - [[_COMMUNITY_Community 1636|Community 1636]]
 - [[_COMMUNITY_Community 1637|Community 1637]]
 - [[_COMMUNITY_Community 1638|Community 1638]]
@@ -1508,6 +1533,7 @@
 - [[_COMMUNITY_Community 1655|Community 1655]]
 - [[_COMMUNITY_Community 1656|Community 1656]]
 - [[_COMMUNITY_Community 1657|Community 1657]]
+- [[_COMMUNITY_Community 1658|Community 1658]]
 - [[_COMMUNITY_Community 1659|Community 1659]]
 - [[_COMMUNITY_Community 1660|Community 1660]]
 - [[_COMMUNITY_Community 1661|Community 1661]]
@@ -1530,6 +1556,7 @@
 - [[_COMMUNITY_Community 1679|Community 1679]]
 - [[_COMMUNITY_Community 1680|Community 1680]]
 - [[_COMMUNITY_Community 1681|Community 1681]]
+- [[_COMMUNITY_Community 1682|Community 1682]]
 - [[_COMMUNITY_Community 1683|Community 1683]]
 - [[_COMMUNITY_Community 1685|Community 1685]]
 - [[_COMMUNITY_Community 1686|Community 1686]]
@@ -1542,6 +1569,7 @@
 - [[_COMMUNITY_Community 1693|Community 1693]]
 - [[_COMMUNITY_Community 1694|Community 1694]]
 - [[_COMMUNITY_Community 1695|Community 1695]]
+- [[_COMMUNITY_Community 1696|Community 1696]]
 - [[_COMMUNITY_Community 1697|Community 1697]]
 - [[_COMMUNITY_Community 1698|Community 1698]]
 - [[_COMMUNITY_Community 1699|Community 1699]]
@@ -1566,6 +1594,7 @@
 - [[_COMMUNITY_Community 1718|Community 1718]]
 - [[_COMMUNITY_Community 1719|Community 1719]]
 - [[_COMMUNITY_Community 1720|Community 1720]]
+- [[_COMMUNITY_Community 1721|Community 1721]]
 - [[_COMMUNITY_Community 1722|Community 1722]]
 - [[_COMMUNITY_Community 1723|Community 1723]]
 - [[_COMMUNITY_Community 1724|Community 1724]]
@@ -1622,6 +1651,7 @@
 - [[_COMMUNITY_Community 1775|Community 1775]]
 - [[_COMMUNITY_Community 1776|Community 1776]]
 - [[_COMMUNITY_Community 1777|Community 1777]]
+- [[_COMMUNITY_Community 1778|Community 1778]]
 - [[_COMMUNITY_Community 1779|Community 1779]]
 - [[_COMMUNITY_Community 1780|Community 1780]]
 - [[_COMMUNITY_Community 1781|Community 1781]]
@@ -1650,8 +1680,10 @@
 - [[_COMMUNITY_Community 1804|Community 1804]]
 - [[_COMMUNITY_Community 1805|Community 1805]]
 - [[_COMMUNITY_Community 1806|Community 1806]]
+- [[_COMMUNITY_Community 1807|Community 1807]]
 - [[_COMMUNITY_Community 1808|Community 1808]]
 - [[_COMMUNITY_Community 1809|Community 1809]]
+- [[_COMMUNITY_Community 1810|Community 1810]]
 - [[_COMMUNITY_Community 1811|Community 1811]]
 - [[_COMMUNITY_Community 1812|Community 1812]]
 - [[_COMMUNITY_Community 1813|Community 1813]]
@@ -1664,6 +1696,7 @@
 - [[_COMMUNITY_Community 1820|Community 1820]]
 - [[_COMMUNITY_Community 1821|Community 1821]]
 - [[_COMMUNITY_Community 1822|Community 1822]]
+- [[_COMMUNITY_Community 1823|Community 1823]]
 - [[_COMMUNITY_Community 1824|Community 1824]]
 - [[_COMMUNITY_Community 1825|Community 1825]]
 - [[_COMMUNITY_Community 1826|Community 1826]]
@@ -1718,6 +1751,8 @@
 - [[_COMMUNITY_Community 1875|Community 1875]]
 - [[_COMMUNITY_Community 1876|Community 1876]]
 - [[_COMMUNITY_Community 1877|Community 1877]]
+- [[_COMMUNITY_Community 1878|Community 1878]]
+- [[_COMMUNITY_Community 1879|Community 1879]]
 - [[_COMMUNITY_Community 1880|Community 1880]]
 - [[_COMMUNITY_Community 1881|Community 1881]]
 - [[_COMMUNITY_Community 1882|Community 1882]]
@@ -1751,6 +1786,7 @@
 - [[_COMMUNITY_Community 1910|Community 1910]]
 - [[_COMMUNITY_Community 1911|Community 1911]]
 - [[_COMMUNITY_Community 1912|Community 1912]]
+- [[_COMMUNITY_Community 1913|Community 1913]]
 - [[_COMMUNITY_Community 1914|Community 1914]]
 - [[_COMMUNITY_Community 1915|Community 1915]]
 - [[_COMMUNITY_Community 1916|Community 1916]]
@@ -1780,6 +1816,7 @@
 - [[_COMMUNITY_Community 1940|Community 1940]]
 - [[_COMMUNITY_Community 1941|Community 1941]]
 - [[_COMMUNITY_Community 1942|Community 1942]]
+- [[_COMMUNITY_Community 1943|Community 1943]]
 - [[_COMMUNITY_Community 1944|Community 1944]]
 - [[_COMMUNITY_Community 1945|Community 1945]]
 - [[_COMMUNITY_Community 1946|Community 1946]]
@@ -1787,8 +1824,10 @@
 - [[_COMMUNITY_Community 1948|Community 1948]]
 - [[_COMMUNITY_Community 1949|Community 1949]]
 - [[_COMMUNITY_Community 1950|Community 1950]]
+- [[_COMMUNITY_Community 1951|Community 1951]]
 - [[_COMMUNITY_Community 1952|Community 1952]]
 - [[_COMMUNITY_Community 1953|Community 1953]]
+- [[_COMMUNITY_Community 1954|Community 1954]]
 - [[_COMMUNITY_Community 1955|Community 1955]]
 - [[_COMMUNITY_Community 1956|Community 1956]]
 - [[_COMMUNITY_Community 1957|Community 1957]]
@@ -1821,6 +1860,7 @@
 - [[_COMMUNITY_Community 1984|Community 1984]]
 - [[_COMMUNITY_Community 1985|Community 1985]]
 - [[_COMMUNITY_Community 1986|Community 1986]]
+- [[_COMMUNITY_Community 1987|Community 1987]]
 - [[_COMMUNITY_Community 1988|Community 1988]]
 - [[_COMMUNITY_Community 1989|Community 1989]]
 - [[_COMMUNITY_Community 1990|Community 1990]]
@@ -1830,6 +1870,7 @@
 - [[_COMMUNITY_Community 1994|Community 1994]]
 - [[_COMMUNITY_Community 1995|Community 1995]]
 - [[_COMMUNITY_Community 1996|Community 1996]]
+- [[_COMMUNITY_Community 1997|Community 1997]]
 - [[_COMMUNITY_Community 1998|Community 1998]]
 - [[_COMMUNITY_Community 1999|Community 1999]]
 - [[_COMMUNITY_Community 2000|Community 2000]]
@@ -1860,6 +1901,8 @@
 - [[_COMMUNITY_Community 2025|Community 2025]]
 - [[_COMMUNITY_Community 2026|Community 2026]]
 - [[_COMMUNITY_Community 2027|Community 2027]]
+- [[_COMMUNITY_Community 2028|Community 2028]]
+- [[_COMMUNITY_Community 2029|Community 2029]]
 - [[_COMMUNITY_Community 2030|Community 2030]]
 - [[_COMMUNITY_Community 2031|Community 2031]]
 - [[_COMMUNITY_Community 2032|Community 2032]]
@@ -1869,6 +1912,7 @@
 - [[_COMMUNITY_Community 2036|Community 2036]]
 - [[_COMMUNITY_Community 2037|Community 2037]]
 - [[_COMMUNITY_Community 2038|Community 2038]]
+- [[_COMMUNITY_Community 2039|Community 2039]]
 - [[_COMMUNITY_Community 2040|Community 2040]]
 - [[_COMMUNITY_Community 2041|Community 2041]]
 - [[_COMMUNITY_Community 2042|Community 2042]]
@@ -1924,6 +1968,7 @@
 - [[_COMMUNITY_Community 2092|Community 2092]]
 - [[_COMMUNITY_Community 2093|Community 2093]]
 - [[_COMMUNITY_Community 2094|Community 2094]]
+- [[_COMMUNITY_Community 2095|Community 2095]]
 - [[_COMMUNITY_Community 2096|Community 2096]]
 - [[_COMMUNITY_Community 2097|Community 2097]]
 - [[_COMMUNITY_Community 2098|Community 2098]]
@@ -1950,6 +1995,7 @@
 - [[_COMMUNITY_Community 2119|Community 2119]]
 - [[_COMMUNITY_Community 2120|Community 2120]]
 - [[_COMMUNITY_Community 2121|Community 2121]]
+- [[_COMMUNITY_Community 2122|Community 2122]]
 - [[_COMMUNITY_Community 2123|Community 2123]]
 - [[_COMMUNITY_Community 2124|Community 2124]]
 - [[_COMMUNITY_Community 2125|Community 2125]]
@@ -1963,6 +2009,7 @@
 - [[_COMMUNITY_Community 2133|Community 2133]]
 - [[_COMMUNITY_Community 2134|Community 2134]]
 - [[_COMMUNITY_Community 2135|Community 2135]]
+- [[_COMMUNITY_Community 2136|Community 2136]]
 - [[_COMMUNITY_Community 2137|Community 2137]]
 - [[_COMMUNITY_Community 2138|Community 2138]]
 - [[_COMMUNITY_Community 2139|Community 2139]]
@@ -1987,6 +2034,7 @@
 - [[_COMMUNITY_Community 2158|Community 2158]]
 - [[_COMMUNITY_Community 2159|Community 2159]]
 - [[_COMMUNITY_Community 2160|Community 2160]]
+- [[_COMMUNITY_Community 2161|Community 2161]]
 - [[_COMMUNITY_Community 2162|Community 2162]]
 - [[_COMMUNITY_Community 2163|Community 2163]]
 - [[_COMMUNITY_Community 2164|Community 2164]]
@@ -2006,6 +2054,7 @@
 - [[_COMMUNITY_Community 2179|Community 2179]]
 - [[_COMMUNITY_Community 2180|Community 2180]]
 - [[_COMMUNITY_Community 2181|Community 2181]]
+- [[_COMMUNITY_Community 2182|Community 2182]]
 - [[_COMMUNITY_Community 2183|Community 2183]]
 - [[_COMMUNITY_Community 2184|Community 2184]]
 - [[_COMMUNITY_Community 2185|Community 2185]]
@@ -2029,6 +2078,7 @@
 - [[_COMMUNITY_Community 2203|Community 2203]]
 - [[_COMMUNITY_Community 2204|Community 2204]]
 - [[_COMMUNITY_Community 2205|Community 2205]]
+- [[_COMMUNITY_Community 2206|Community 2206]]
 - [[_COMMUNITY_Community 2207|Community 2207]]
 - [[_COMMUNITY_Community 2208|Community 2208]]
 - [[_COMMUNITY_Community 2209|Community 2209]]
@@ -2101,6 +2151,8 @@
 - [[_COMMUNITY_Community 2277|Community 2277]]
 - [[_COMMUNITY_Community 2278|Community 2278]]
 - [[_COMMUNITY_Community 2280|Community 2280]]
+- [[_COMMUNITY_Community 2281|Community 2281]]
+- [[_COMMUNITY_Community 2282|Community 2282]]
 - [[_COMMUNITY_Community 2283|Community 2283]]
 - [[_COMMUNITY_Community 2284|Community 2284]]
 - [[_COMMUNITY_Community 2285|Community 2285]]
@@ -2125,10 +2177,14 @@
 - [[_COMMUNITY_Community 2304|Community 2304]]
 - [[_COMMUNITY_Community 2305|Community 2305]]
 - [[_COMMUNITY_Community 2306|Community 2306]]
+- [[_COMMUNITY_Community 2307|Community 2307]]
+- [[_COMMUNITY_Community 2308|Community 2308]]
 - [[_COMMUNITY_Community 2309|Community 2309]]
 - [[_COMMUNITY_Community 2310|Community 2310]]
+- [[_COMMUNITY_Community 2311|Community 2311]]
 - [[_COMMUNITY_Community 2312|Community 2312]]
 - [[_COMMUNITY_Community 2313|Community 2313]]
+- [[_COMMUNITY_Community 2314|Community 2314]]
 - [[_COMMUNITY_Community 2315|Community 2315]]
 - [[_COMMUNITY_Community 2316|Community 2316]]
 - [[_COMMUNITY_Community 2317|Community 2317]]
@@ -2157,7 +2213,6 @@
 - [[_COMMUNITY_Community 2340|Community 2340]]
 - [[_COMMUNITY_Community 2341|Community 2341]]
 - [[_COMMUNITY_Community 2342|Community 2342]]
-- [[_COMMUNITY_Community 2345|Community 2345]]
 - [[_COMMUNITY_Community 2347|Community 2347]]
 - [[_COMMUNITY_Community 2348|Community 2348]]
 - [[_COMMUNITY_Community 2350|Community 2350]]
@@ -2284,8 +2339,8 @@
 - [[_COMMUNITY_Community 2482|Community 2482]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `cn()` - 1309 edges
-2. `Button` - 609 edges
+1. `cn()` - 1311 edges
+2. `Button` - 610 edges
 3. `from` - 506 edges
 4. `{ error }` - 484 edges
 5. `Logger` - 405 edges
@@ -2317,123 +2372,123 @@
 - **Design System Foundation Documentation** — src_colors, src_typography, src_introduction [INFERRED 0.95]
 - **Storybook Social/Community Brand Icons** — stories_assets_discord, stories_assets_github, stories_assets_youtube, stories_assets_tutorials [INFERRED 0.95]
 
-## Communities (2455 total, 112 thin omitted)
+## Communities (2509 total, 117 thin omitted)
 
 ### Community 0 - "Results / Generate / Form"
 Cohesion: 0.02
-Nodes (231): DEFAULT_GENERATION_COST, { action, projectId, field, language }, active, activeVersion, aiData, aiResponse, analysis, analysisData (+223 more)
+Nodes (197): DEFAULT_GENERATION_COST, active, activeVersion, apiModel, apiType, artistData, artistName, audioBuffer (+189 more)
 
 ### Community 1 - "Playlist / Components / Unified"
-Cohesion: 0.02
-Nodes (96): checkPremiumStatus(), countUserProjects(), createProject(), deleteProject(), fetchProjectById(), generateProjectConcept(), invokeGenerateCoverImage(), invokeGenerateProjectMedia() (+88 more)
+Cohesion: 0.05
+Nodes (42): ProjectTrackRow, EASE_BOUNCE, EASE_DEFAULT, EASE_IN, fadeIn, fadeOut, scaleIn, slideDown (+34 more)
 
 ### Community 2 - "Hooks / Audio / Logger"
 Cohesion: 0.01
-Nodes (380): handleSubmit(), handleAddToProject(), handleSubmit(), handleSubmit(), handleSubmit(), handleSubmit(), handleDelete(), handleFileUpload() (+372 more)
+Nodes (195): findBestStringAndFret(), generateTab(), AudioManager, detectBPM(), AudioBufferPool, PrefetchManager, preconnectToHost(), clearValidationCache() (+187 more)
 
 ### Community 3 - "Settings / Tabs / Admin"
-Cohesion: 0.03
-Nodes (100): [customMode, setCustomMode], isMobile, [loading, setLoading], [lyrics, setLyrics], [mood, setMood], [style, setStyle], [title, setTitle], [vocalType, setVocalType] (+92 more)
+Cohesion: 0.01
+Nodes (478): addInstrumentalMutation, [advancedSettings, setAdvancedSettings], handleOpenStudio(), handleOpenTrack(), handlePlayTrack(), instrumentalProgress, loading, navigate (+470 more)
 
 ### Community 4 - "Audio / Player / Lib"
 Cohesion: 0.04
-Nodes (46): groupWordsIntoLines(), parseLyrics(), TimestampedWord, UnifiedLyricsView(), UnifiedLyricsViewProps, [activeWordIndex, setActiveWordIndex], AUTO_SCROLL_DISTANCE_THRESHOLD, AUTO_SCROLL_RESUME_DELAY (+38 more)
+Nodes (47): groupWordsIntoLines(), parseLyrics(), TimestampedWord, UnifiedLyricsView(), UnifiedLyricsViewProps, [activeWordIndex, setActiveWordIndex], AUTO_SCROLL_DISTANCE_THRESHOLD, AUTO_SCROLL_RESUME_DELAY (+39 more)
 
 ### Community 5 - "Hooks / Social / Generation"
 Cohesion: 0.03
-Nodes (182): handleNavigationCallbacks(), handleQuickActionsCallbacks(), handleApp(), handleCoverCommand(), handleExtendCommand(), parseAudioOptions(), handleGenerate(), supabase (+174 more)
+Nodes (233): handleDynamicMenuCallback(), handleNavigationCallbacks(), handleQuickActionsCallbacks(), handleApp(), handleCoverCommand(), handleExtendCommand(), parseAudioOptions(), handleChannel() (+225 more)
 
 ### Community 6 - "Analytics / Admin / Errortrendspanel"
 Cohesion: 0.01
-Nodes (205): AdminTrack, AdminTrackDetailsDialog(), AdminTrackDetailsDialogProps, ReferenceAudioPlayer(), ReferenceAudioPlayerProps, audioRef, hasReferenceAudio, [isPlaying, setIsPlaying] (+197 more)
+Nodes (459): ReferenceAudioPlayer(), ReferenceAudioPlayerProps, { activeTrack, isPlaying, playTrack, pauseTrack }, albumDescription, albumUrl, creatorName, { data: album, isLoading: albumLoading }, { data: tracks, isLoading: tracksLoading } (+451 more)
 
 ### Community 7 - "Pages / Generate / Form"
 Cohesion: 0.01
-Nodes (420): analysisOptions, AnalyzeButton, { analyze, isAnalyzing, status, currentStep }, [lastAnalyzedType, setLastAnalyzedType], artistName, examples, suggestions, HistoryItem (+412 more)
+Nodes (417): analysisOptions, AnalyzeButton, { analyze, isAnalyzing, status, currentStep }, [lastAnalyzedType, setLastAnalyzedType], log, usePlaybackQueue(), navigate, DetailSection (+409 more)
 
 ### Community 8 - "Pagination / Breadcrumb / Touch"
-Cohesion: 0.04
-Nodes (65): filterStructuralTagWords(), isStructuralTag(), splitWordByLineBreaks(), STRUCTURAL_TAG_PATTERNS, calculateLineLookAhead(), calculateWordLookAhead(), EnhancedLine, EnhancedWord (+57 more)
+Cohesion: 0.05
+Nodes (38): filterStructuralTagWords(), isStructuralTag(), splitWordByLineBreaks(), STRUCTURAL_TAG_PATTERNS, groupWordsIntoLines(), DetectedSection, detectSectionType(), groupLinesIntoSections() (+30 more)
 
 ### Community 9 - "Project / Components / Help"
 Cohesion: 0.08
 Nodes (21): ACTIONABLE_TIMEOUT, after, before, box, centerY, cta, cx, cy (+13 more)
 
 ### Community 10 - "Admin / Hooks / Useanomalydetection"
-Cohesion: 0.02
-Nodes (115): ANALYSIS_STEPS, AudioActionAnalyzingState(), AudioActionAnalyzingStateProps, AudioActionModeTabsSection(), AudioMode, AudioActionPreviewSectionProps, AudioActionUploadSectionProps, useAudioRecording() (+107 more)
+Cohesion: 0.05
+Nodes (44): availableModels, config, currentModel, Icon, info, isActive, lowBalance, FALLBACK_CHAIN (+36 more)
 
 ### Community 11 - "Editor / Section / Stem"
 Cohesion: 0.05
-Nodes (33): activeLine, {
+Nodes (37): removed, activeLine, {
     activeLineIndex,
     currentTime: syncedTime,
     constants,
-  }, activeLineRef, adjustedTime, container, containerRect, currentLinePos, { data: lyricsData } (+25 more)
+  }, activeLineRef, adjustedTime, container, containerRect, currentLinePos (+29 more)
 
 ### Community 12 - "Navigation / Pages / Professional"
-Cohesion: 0.02
-Nodes (159): AdminUserSubscriptionDialogProps, DURATION_PRESETS, SUBSCRIPTION_TIERS, ACTION_TYPES, EMOJI_OPTIONS, ChangeUserSubscriptionInput, useChangeUserSubscription(), changeSubscription (+151 more)
+Cohesion: 0.01
+Nodes (292): StemActionSheet(), showProgress, [customMode, setCustomMode], isMobile, [loading, setLoading], [lyrics, setLyrics], [mood, setMood], [style, setStyle] (+284 more)
 
 ### Community 13 - "Lib / Date / Utils"
-Cohesion: 0.05
-Nodes (40): handleReset(), handleToggle(), handleReset(), MobileNumberInputProps, TAG_CATEGORIES, handlePresetSelect(), handleSettingChange(), handleTemplateSelect() (+32 more)
+Cohesion: 0.09
+Nodes (23): handleReset(), handleToggle(), handleReset(), TAG_CATEGORIES, handlePresetSelect(), handleSettingChange(), handleGenerate(), handleTemplateSelect() (+15 more)
 
 ### Community 14 - "Telegram / Onboarding / Share"
-Cohesion: 0.03
-Nodes (86): handleSubmit(), forceReload(), getGlobalNavigate(), navigateTo(), FeatureKey, getLastShownAt(), PaywallState, PaywallTriggerReason (+78 more)
+Cohesion: 0.12
+Nodes (20): PaywallTriggerReason, SESSION_KEY, PAYWALL_AUTO_SHOW_DENYLIST, PaywallContext, PaywallContextValue, PaywallProviderProps, usePaywall(), MESSAGING (+12 more)
 
 ### Community 15 - "Generate / Form / Lyricsvisualeditorcompact"
-Cohesion: 0.01
-Nodes (456): category, { data: achievements, isLoading: loadingAchievements }, { data: userAchievements, isLoading: loadingUserAchievements }, isLoading, isUnlocked, UserWithRoles, MODE_LABELS, SOURCE_LABELS (+448 more)
+Cohesion: 0.00
+Nodes (683): Accordion, category, { data: achievements, isLoading: loadingAchievements }, { data: userAchievements, isLoading: loadingUserAchievements }, isLoading, isUnlocked, ActorCardProps, AdminTrackDetailsDialog() (+675 more)
 
 ### Community 16 - "Sections / Lib / Track"
-Cohesion: 0.03
-Nodes (80): hasAnyAction, showAddVocals, showCover, showExtend, showGenerateCover, showGenerateSimilar, showMashup, showRemix (+72 more)
+Cohesion: 0.04
+Nodes (78): GenerationStatsPanel(), ChangeUserSubscriptionInput, useAggregatedGenerationStats(), useDailyGenerationStats(), useTodayGenerationStats(), useTopGenerationUsers(), UserBalancesPanel(), SendAdminMessageInput (+70 more)
 
 ### Community 17 - "Track / Types / Player"
-Cohesion: 0.15
-Nodes (12): AnalysisResultsPanelProps, UnifiedAnalysisCardProps, handleAnalyze(), err, Err, Ok, Result, ok (+4 more)
+Cohesion: 0.13
+Nodes (13): AnalysisResultsPanelProps, UnifiedAnalysisCardProps, handleAnalyze(), err, Err, Ok, Result, ok (+5 more)
 
 ### Community 18 - "Project / Hooks / Projectdetail"
-Cohesion: 0.01
-Nodes (193): corsHeaders, AudioAnalysisResponse, corsHeaders, normalizeAnalysis(), corsHeaders, logger, corsHeaders, corsHeaders (+185 more)
+Cohesion: 0.02
+Nodes (164): corsHeaders, logger, corsHeaders, corsHeaders, logger, ReferenceAnalysis, AnalysisResult, corsHeaders (+156 more)
 
 ### Community 19 - "Lyrics / Constants / Shared"
-Cohesion: 0.29
-Nodes (6): getSeenHints(), HINT_IDS, resetAllHints(), useHintTracking(), HINT_PREFIX, HINTS_RESET_KEY
+Cohesion: 0.25
+Nodes (7): getSeenHints(), HINT_IDS, resetAllHints(), useHintTracking(), key, HINT_PREFIX, HINTS_RESET_KEY
 
 ### Community 20 - "Motion / Lib / Popups"
-Cohesion: 0.04
-Nodes (48): ProjectTracklistSectionProps, SortableTrackItemProps, [formData, setFormData], [trackParams, setTrackParams], { updateTrack }, Json, LinkedTrack, log (+40 more)
+Cohesion: 0.03
+Nodes (58): gridContainer, gridItem, MobileQuickActionsGrid, MobileQuickActionsGridProps, ProjectDialogs, Project, ProjectHero, ProjectHeroProps (+50 more)
 
 ### Community 21 - "Unified / Studio / Usestudioperformance"
 Cohesion: 0.01
-Nodes (258): AnomalyCard(), AnomalyCardProps, severityConfig, typeIcons, BroadcastPanel(), GenerationStatsPanel(), TIME_PERIODS, StarsPaymentsPanel() (+250 more)
+Nodes (256): [activeTab, setActiveTab], addInstrumentalMutation, [audioWeight, setAudioWeight], [customStyle, setCustomStyle], effectiveStyle, handleClose, handleInstrumentSelect, handleSubmit (+248 more)
 
 ### Community 22 - "Prompt / Presets / Lib"
 Cohesion: 0.17
 Nodes (11): touchTarget, disabledState, focusRing, hoverLift, interactiveButton, interactiveCard, interactiveListItem, loadingState (+3 more)
 
 ### Community 23 - "Unified / Generate / Form"
-Cohesion: 0.07
-Nodes (29): accountNavItems, adminNavItems, contentNavItems, GenerateSheet, mainNavItems, SidebarProps, studioNavItems, [accountOpen, setAccountOpen] (+21 more)
+Cohesion: 0.05
+Nodes (66): syncBotCommands(), handlePaymentCallbacks(), answerInlineQuery(), BOT_MENTION, createTrackResult(), executeSearch(), getCacheTime(), getCategoryHints() (+58 more)
 
 ### Community 24 - "Hooks / Mobile / Forms"
-Cohesion: 0.17
-Nodes (6): AudioBufferPool, applyTheme(), Theme, UseThemeReturn, updateKeyboardHeight(), THEME_STORAGE_KEY
+Cohesion: 0.33
+Nodes (4): applyTheme(), Theme, UseThemeReturn, THEME_STORAGE_KEY
 
 ### Community 25 - "Studio / Useunifiedstudio / Types"
-Cohesion: 0.02
-Nodes (353): TELEGRAM_API, handleAnalyzeCallbacks(), handleAudioCallbacks(), handleMediaCallbacks(), handleMidiCallbacks(), handleMiscCallbacks(), handleWizardCallbacks(), AnalysisSession (+345 more)
+Cohesion: 0.03
+Nodes (117): TELEGRAM_API, handleAudioCallbacks(), handleMediaCallbacks(), cleanupOldGuitarSessions(), clearGuitarSession(), generateGuitarTab(), getGuitarHelp(), GUITAR_SESSIONS (+109 more)
 
 ### Community 26 - "App"
 Cohesion: 0.02
-Nodes (132): useFeatureUsageTracking(), CreateArtistFromTrackDialog(), GENERATE_SHEET_REDESIGN_ENABLED, GenerateSheet(), GenerateFormCustom, GenerateFormSimple, GenerateSheetProps, LegacyGenerateSheet() (+124 more)
+Nodes (131): FeatureSession, useFeatureUsageTracking(), CreateArtistFromTrackDialog(), EditArtistDialog(), handleLike(), GENERATE_SHEET_REDESIGN_ENABLED, GenerateSheet(), LegacyGenerateSheet() (+123 more)
 
 ### Community 27 - "Hooks / Guitar / Usemelodymixer"
-Cohesion: 0.01
-Nodes (214): corsHeaders, SYSTEM_PROMPTS, parseTextResponse(), BeatAnalysis, BeatData, calculateBPM(), corsHeaders, detectTimeSignature() (+206 more)
+Cohesion: 0.02
+Nodes (167): parseTextResponse(), BeatAnalysis, BeatData, calculateBPM(), corsHeaders, detectTimeSignature(), getDownbeats(), parseBeatOutput() (+159 more)
 
 ### Community 28 - "Lib / Audioprocessing / Errors"
 Cohesion: 0.10
@@ -2441,35 +2496,58 @@ Nodes (25): CACHE_VERSION, isRegistering, SW_PATH, swRegistration, OfflineStatus
 
 ### Community 29 - "Studio / Effects / Hooks"
 Cohesion: 0.06
-Nodes (34): HistoryPoint, LyricsEditorMetricsOverlay(), readMetrics(), toCSV(), useIsMobileDevice(), LyricsEditorMetrics, COLLAPSED_KEY, [collapsed, setCollapsed] (+26 more)
+Nodes (36): downloadBlob(), HistoryPoint, LyricsEditorMetricsOverlay(), readMetrics(), toCSV(), useIsMobileDevice(), handleExport(), LyricsEditorMetrics (+28 more)
 
 ### Community 30 - "Voice / Voicecloneservice / Types"
 Cohesion: 0.04
 Nodes (43): getActiveAudioSource(), computedNotesDuration, currentTime, defaultHeight, duration, effectiveBpm, effectiveMidiUrl, effectiveMusicXmlUrl (+35 more)
 
 ### Community 31 - "Studio / Unified / Keyboardshortcutsdialog"
-Cohesion: 0.13
-Nodes (15): completed, resetOnboarding(), [showOnboarding, setShowOnboarding], STORAGE_KEY, timer, getTypeLabel(), ForceGraph(), GraphFilters() (+7 more)
+Cohesion: 0.06
+Nodes (53): getPublicUrl(), PendingUpload, AudioType, buildCompletedActionKeyboard(), buildUploadedActionKeyboard(), consumePendingClassification(), formatDuration(), formatFileSize() (+45 more)
 
 ### Community 32 - "Studio / Types / Useaudiobuffercache"
 Cohesion: 0.05
 Nodes (44): addNote, containerRef, deleteNote, deleteSelectedNotes, dragNote, dragStartPos, [editMode, setEditMode], gridLines (+36 more)
 
 ### Community 33 - "Studio / Audio / Usestudioaudio"
-Cohesion: 0.10
-Nodes (16): ANTI_PATTERNS, CONFLICTING_TAGS, RUSSIAN_TAGS, RUSSIAN_TO_ENGLISH_MAP, SunoValidationResult, VALID_SECTION_TAGS, ValidationIssue, ValidationResult (+8 more)
+Cohesion: 0.17
+Nodes (11): ANTI_PATTERNS, CONFLICTING_TAGS, isValidSectionTag(), normalizeSectionTag(), RUSSIAN_TAGS, RUSSIAN_TO_ENGLISH_MAP, SunoValidationResult, VALID_SECTION_TAGS (+3 more)
 
 ### Community 34 - "Hooks / Types / Starspayment"
 Cohesion: 0.05
 Nodes (41): SaveSectionNoteData, [aiPanelOpen, setAiPanelOpen], enrichedTags, [globalTags, setGlobalTags], handleAddTags, handleBack, handleInsertLyrics, handleLoadTemplate (+33 more)
 
 ### Community 35 - "Types / Studio / Entities"
-Cohesion: 0.04
-Nodes (42): idleInterval, [levels, setLevels], rafRef, CompactVisualizer, CompactVisualizerProps, PromptDJMixerInner, QUICK_PRESETS, applyPreset (+34 more)
+Cohesion: 0.05
+Nodes (37): PromptDJMixerInner, QUICK_PRESETS, applyPreset, {
+    channels,
+    updateChannel,
+    globalSettings,
+    updateGlobalSettings,
+    isGenerating,
+    generatedTracks,
+    generateMusic,
+    previewWithSynth,
+    stopPreview,
+    isPreviewPlaying,
+    isPlaying,
+    currentTrack,
+    playTrack,
+    stopPlayback,
+    currentPrompt,
+    analyzerNode,
+    removeTrack,
+    isLiveMode,
+    liveStatus,
+    startLiveMode,
+    stopLiveMode,
+    forceRegenerateInLive,
+  }, completedSaveRef, customChannel, { description, bpm }, [dismissedSuggestions, setDismissedSuggestions] (+29 more)
 
 ### Community 36 - "Admin / Generationmetrics / Tabs"
-Cohesion: 0.06
-Nodes (31): {
+Cohesion: 0.04
+Nodes (45): {
       action, // 'concept', 'tracklist', 'collaboration', 'analyze', 'improve'
       projectType,
       genre,
@@ -2486,7 +2564,7 @@ Nodes (31): {
       currentValue,
       suggestion,
       language, // Add language parameter
-    }, analyzeData, analyzePrompt, analyzeResponse, analyzeText, collabData, collabPrompt, collabResponse (+23 more)
+    }, analysisData, analysisPrompt, analysisText, analyzeData, analyzePrompt, analyzeResponse, analyzeText (+37 more)
 
 ### Community 37 - "Skeleton / Pageskeleton / Track"
 Cohesion: 0.10
@@ -2497,8 +2575,8 @@ Cohesion: 0.05
 Nodes (36): generateTestUser(), activityItems, afterScrollCount, commentsList, commentText, deliveryTime, firstActivity, firstTrack (+28 more)
 
 ### Community 39 - "Layout / Pagecontainer / Safe"
-Cohesion: 0.05
-Nodes (37): getMetrics(), LyricsVisualEditorCompactProps, trackExternalSync(), trackRender(), Window, addLineBreak, addSection, applyTemplate (+29 more)
+Cohesion: 0.04
+Nodes (65): applyTemplateToSections(), LyricSection, makeSectionId(), parseLyrics(), QUICK_TEMPLATE_DEF, QUICK_TEMPLATES, sectionsEqual(), sectionsToLyrics() (+57 more)
 
 ### Community 40 - "Lib / Colors / Design"
 Cohesion: 0.05
@@ -2510,7 +2588,7 @@ Nodes (36): InteractivePianoRollProps, NOTE_NAMES, NoteInput, ZOOM_LEVELS, beatL
 
 ### Community 42 - "Lib / Breakpoints / Desktop"
 Cohesion: 0.02
-Nodes (155): useStemSeparation(), StudioMode, mockPlayerStore, mockStudioStore, UnifiedPlaybackState, UnifiedStudioActions, UnifiedTrackInfo, useUnifiedStudio() (+147 more)
+Nodes (175): interval, [reduction, setReduction], [selectedPreset, setSelectedPreset], CompressorControl(), CompressorControlProps, presetLabels, EqualizerControl(), EqualizerControlProps (+167 more)
 
 ### Community 43 - "Sections / Common / Statsgrid"
 Cohesion: 0.06
@@ -2518,20 +2596,20 @@ Nodes (28): Chord, InteractiveChordWheel, InteractiveChordWheelProps, [activeCho
 
 ### Community 44 - "Studio / Unified / Library"
 Cohesion: 0.01
-Nodes (291): AIAgentActivityPanel(), AIAgentActivityPanelProps, getCurrentActionLabel(), getWorkingFileLabel(), WorkflowState, WorkflowTask, AIAgentTabs, AIAgentTabsProps (+283 more)
+Nodes (302): AIAgentActivityPanel(), AIAgentActivityPanelProps, getCurrentActionLabel(), getWorkingFileLabel(), WorkflowState, WorkflowTask, AIAgentTabs, AIAgentTabsProps (+294 more)
 
 ### Community 45 - "Professional / Guitar / Guitartuner"
 Cohesion: 0.05
-Nodes (33): GridContainer, GridItemWrapper, log, MemoizedTrackItem, PullToRefreshIndicator, TrackItemErrorBoundary, TrackMidiStatus, VirtualizedTrackList (+25 more)
+Nodes (34): TrackListProvider(), GridContainer, GridItemWrapper, log, MemoizedTrackItem, PullToRefreshIndicator, TrackItemErrorBoundary, TrackMidiStatus (+26 more)
 
 ### Community 46 - "Hooks / Music / Graph"
-Cohesion: 0.05
-Nodes (33): SynchronizedWord, SynchronizedWordProps, AlignedWord, isStructuralTag(), ParsedLyricsResult, stripFragmentedTags(), {
+Cohesion: 0.06
+Nodes (31): SynchronizedWord, SynchronizedWordProps, {
     activeLineIndex,
     activeWordIndex,
     currentTime: syncedTime,
     constants,
-  }, activeLineRef (+25 more)
+  }, activeLineRef, adjusted, { data: lyricsData, isLoading }, el, [flashIndex, setFlashIndex] (+23 more)
 
 ### Community 47 - "Unified / Studiomixerpanel / Studiodialogs"
 Cohesion: 0.06
@@ -2546,12 +2624,12 @@ Cohesion: 0.08
 Nodes (32): BlogEditor(), BlogEditorProps, BlogPostCardProps, aiAssistant, [aiPrompt, setAiPrompt], broadcast, [content, setContent], [coverUrl, setCoverUrl] (+24 more)
 
 ### Community 50 - "Api / Presets / Usepresets"
-Cohesion: 0.06
-Nodes (37): SYNC_CONSTANTS, cleanLyricsText(), extractBackingVocal(), extractSectionTag(), extractSectionTagWithRemainder(), groupWordsIntoLines(), isBackingVocal(), LyricLine (+29 more)
+Cohesion: 0.07
+Nodes (35): cleanLyricsText(), extractBackingVocal(), extractSectionTag(), extractSectionTagWithRemainder(), groupWordsIntoLines(), isBackingVocal(), normalizeTag(), SECTION_TAG_COLORS (+27 more)
 
 ### Community 51 - "Payments / Glass / Lib"
-Cohesion: 0.06
-Nodes (37): useSaveTranscription(), useStemTranscription(), [activeMidiUrl, setActiveMidiUrl], [activeTab, setActiveTab], config, exportMidiMutation, files, handleDownloadMidi (+29 more)
+Cohesion: 0.05
+Nodes (42): useReplicateMidiTranscription(), useSaveTranscription(), useStemTranscription(), getFormatLabel(), getTranscriptionConfig(), KlangioModel, MODEL_INFO, TranscriptionConfig (+34 more)
 
 ### Community 52 - "Steps / Wizard / Stores"
 Cohesion: 0.06
@@ -2566,26 +2644,12 @@ Cohesion: 0.06
 Nodes (29): FLAT_POSITIONS_TREBLE, KEY_SIGNATURES, NOTE_NAMES, NoteInput, ProcessedNote, SHARP_POSITIONS_TREBLE, StaffNotationProps, BASS_BOTTOM_LINE_PITCH (+21 more)
 
 ### Community 55 - "Studio / Usemixexport / Referencemidisheet"
-Cohesion: 0.03
-Nodes (101): BotCommand, BotConfig, corsHeaders, getDefaultCommands(), getDefaultMessages(), logger, ab, {
-      action,
-      trackId,
-      prompt,
-      lyrics,
-      style,
-      title,
-      makeInstrumental = false,
-      extendAudioUrl,
-      continueAt,
-      coverAudioUrl,
-      stemMode,
-      defaultParamFlag,
-      voiceId,
-    } (+93 more)
+Cohesion: 0.07
+Nodes (43): EMOJI_STATUS_MAP, handleEmojiStatusSettings(), handleNotificationSettings(), handleRemoveEmojiStatus(), handleSetEmojiStatus(), handleSettings(), supabase, buildTrackCaption() (+35 more)
 
 ### Community 56 - "Pagetransition / Collapsiblesection / Loadingoverlay"
-Cohesion: 0.03
-Nodes (102): AudioRecordDialogProps, ProcessingAction, RecordingState, SourceTab, InstrumentalSettings, InstrumentalSettingsDialog(), InstrumentalSettingsDialogProps, AudioRecordDialog (+94 more)
+Cohesion: 0.11
+Nodes (30): GENRE_THEME_MAP, getContextualOptions(), INITIAL_MESSAGE_OPTIONS, badgeVariants, CompoundPreset, DYNAMIC_TAGS, EMOTIONAL_CUES, formatCompoundTag() (+22 more)
 
 ### Community 57 - "Studioshell / Unified / Studio"
 Cohesion: 0.06
@@ -2596,32 +2660,32 @@ Cohesion: 0.06
 Nodes (31): ariaLabels, body, bodyBox, buttonBox, buttonCount, buttons, criticalErrors, currentUrl (+23 more)
 
 ### Community 59 - "Analytics / Deeplink / Tracker"
-Cohesion: 0.02
-Nodes (157): filterTagWords(), getTypeFromTag(), matchSectionToTimestamps(), normalizeText(), parseSectionsFromLyrics(), createMusicalSections(), detectSectionsFromGaps(), inferSectionType() (+149 more)
+Cohesion: 0.05
+Nodes (44): SectionEditorSheetProps, SectionEditorHeaderProps, SectionQuickPickerProps, UnifiedWaveformTimelineProps, activeIndex, colors, GAP_MERGE_THRESHOLD_S, isActive (+36 more)
 
 ### Community 60 - "Alert / Dialog / Lib"
 Cohesion: 0.02
-Nodes (122): useTrackVersionsList(), audioClipsData, audioFileName, { callbackType, taskId, task_id, data: audioData }, cleanedTitle, clipAudioUrl, clipImageUrl, clips (+114 more)
+Nodes (157): useTrackVersionsList(), ab, auddApiKey, { audioBase64, audioUrl, returnData }, audioClipsData, audioFileName, audioMessage, audioResponse (+149 more)
 
 ### Community 61 - "Smart / Alerts / Alertillustrations"
 Cohesion: 0.06
 Nodes (30): altCount, body, bodyBox, criticalErrors, errors, fallback, focusedElement, h1 (+22 more)
 
 ### Community 62 - "Admin / Economy / Useeconomyconfig"
-Cohesion: 0.05
-Nodes (36): clearValidationCache(), findAccessibleUrl(), getValidationCacheStats(), invalidateCachedUrl(), UrlValidationResult, validationCache, analyserNode, audioContext (+28 more)
+Cohesion: 0.12
+Nodes (16): animate(), angle, animationRef, canvasRef, [frequencies, setFrequencies], initAndAnimate(), initializeAudio, innerRadius (+8 more)
 
 ### Community 63 - "Home / Section / Layout"
 Cohesion: 0.04
-Nodes (54): { artworkLayoutId }, bottomBase, bottomStyle, { currentTime, duration, buffered, seek }, { gestureHandlers }, handleClose, handleExpand, handleExpandKey (+46 more)
+Nodes (48): { artworkLayoutId }, bottomBase, bottomStyle, { currentTime, duration, buffered, seek }, { gestureHandlers }, handleClose, handleExpand, handleExpandKey (+40 more)
 
 ### Community 64 - "Library / Spacing / Lib"
-Cohesion: 0.06
-Nodes (34): encodeWav(), trimAudioBlob(), Props, UserVocalStem, RecorderState, useVoiceRecorder(), active, [audioDuration, setAudioDuration] (+26 more)
+Cohesion: 0.05
+Nodes (42): encodeWav(), trimAudioBlob(), Props, VoiceCloneWizard(), LiveProps, Props, StaticProps, VoiceWaveformEditor() (+34 more)
 
 ### Community 65 - "Analytics / Service / Events"
 Cohesion: 0.05
-Nodes (16): Documentation index moved, 📋 Основные поддерживаемые языки, 🌍 Поддерживаемые языки в Suno AI, 💡 Рекомендации по генерации на разных языках, Navigation system, 🏛 Архитектура, 🚀 Быстрый старт, ✨ Возможности (+8 more)
+Nodes (27): Commit Attribution, Debugging, File-Scoped Commands, graphify, Non-Obvious Rules (Will Fail Build or Lint), Package Manager, CI/CD, Code Review (+19 more)
 
 ### Community 66 - "Lib / Hooks / Utils"
 Cohesion: 0.07
@@ -2632,12 +2696,12 @@ Cohesion: 0.07
 Nodes (26): actions, { avgFPS }, delta, droppedFramePercentage, event, finalMemory, frameDrops, growthMB (+18 more)
 
 ### Community 68 - "Schemas / Validation"
-Cohesion: 0.04
-Nodes (86): calculateFunnelMetrics(), handlePaymentCallbacks(), handleProjectCallbacks(), getGenerationHints(), cooldownCache, formatNotificationMessage(), getProgressBar(), getStatusInfo() (+78 more)
+Cohesion: 0.03
+Nodes (148): MINI_APP_URL, handleAnalyzeCallbacks(), handleArtistCallbacks(), handleMiscCallbacks(), handleProjectCallbacks(), CallbackHandler, handleWizardCallbacks(), AnalysisSession (+140 more)
 
 ### Community 69 - "Versioning / Queries / Lib"
-Cohesion: 0.08
-Nodes (27): generateSunoMidi(), getSunoMidiStatus(), SunoMidiAccepted, SunoMidiParams, SunoMidiStatus, mockFunctions, useSunoMidi(), useSunoMidiMutation() (+19 more)
+Cohesion: 0.03
+Nodes (81): generateSunoMidi(), getSunoMidiStatus(), SunoMidiAccepted, SunoMidiParams, SunoMidiStatus, mockFunctions, authenticateWithTelegram, checkProfile (+73 more)
 
 ### Community 70 - "Loading / Config / State"
 Cohesion: 0.07
@@ -2645,15 +2709,15 @@ Nodes (23): beatLines, betweenGrid, bpm, dragPositions, dragTimeDisplays, event,
 
 ### Community 71 - "Hardware / Vumeter / Hardwareswitch"
 Cohesion: 0.08
-Nodes (18): formatTime(), audio, audioRef, [currentTime, setCurrentTime], [duration, setDuration], [error, setError], handleDownload(), handleSeek (+10 more)
+Nodes (17): formatTime(), audio, audioRef, [currentTime, setCurrentTime], [duration, setDuration], [error, setError], handleDownload(), handleSeek (+9 more)
 
 ### Community 72 - "Audio / Beatsnap / Bpmdetection"
 Cohesion: 0.07
 Nodes (26): ExtendRangeSelectorProps, barHeight, barWidth, canvas, canvasHeight, canvasRef, clampedContinueAt, containerRef (+18 more)
 
 ### Community 73 - "Audio / Reference / Hooks"
-Cohesion: 0.05
-Nodes (33): config, handleLabelClick, handleOpenChange, handlePresetSelect, handleToggleEnabled, handleTypeChangeClick, handleWeightChange, RealisticKnob (+25 more)
+Cohesion: 0.07
+Nodes (25): RealisticKnobProps, activeColor, angle, arcProgress, calculateNewValue, containerRef, DISABLED_COLOR, handleDoubleTap (+17 more)
 
 ### Community 74 - "Lib / Audiocontextmanager / Audio"
 Cohesion: 0.07
@@ -2668,8 +2732,8 @@ Cohesion: 0.07
 Nodes (26): afterClear, baseMemory, beforeClear, finalMeasurement, finalMemory, growth, hasLeak, i (+18 more)
 
 ### Community 77 - "Performance / Useperformancemetrics / Hooks"
-Cohesion: 0.06
-Nodes (33): LyricsPreview, ActionDivider, ActionDividerProps, ActionGridContainer, ActionGridContainerProps, ActionGroup, ActionGroupProps, UnifiedTrackSheetProps (+25 more)
+Cohesion: 0.09
+Nodes (36): AudioAnalysis, createAudioAnalysis(), createTempAnalysisTrack(), deleteTempAnalysisTrack(), fetchTrackAnalysis(), invokeAudioAnalysis(), invokeLyricsTranscription(), invokeMidiTranscription() (+28 more)
 
 ### Community 78 - "Project / Projectdetailscard / Projectmeta"
 Cohesion: 0.07
@@ -2680,64 +2744,64 @@ Cohesion: 0.08
 Nodes (20): angle, animationRef, canvas, canvasRef, centerX, centerY, containerRef, ctx (+12 more)
 
 ### Community 80 - "Hooks / Studio / Usemidifileparser"
-Cohesion: 0.03
-Nodes (69): activeAudio, [activeVersion, setActiveVersion], animationRef, currentNewUrl, [currentTime, setCurrentTime], effectiveVolume, handleVariantSwitch(), haptic (+61 more)
+Cohesion: 0.06
+Nodes (30): activeAudio, [activeVersion, setActiveVersion], animationRef, currentNewUrl, [currentTime, setCurrentTime], effectiveVolume, handleVariantSwitch(), haptic (+22 more)
 
 ### Community 81 - "Analysis / Staffnotation / Mobilenotesviewer"
-Cohesion: 0.02
-Nodes (82): MockAudio, useCloudAudioList(), UsePreviewAudioOptions, UsePreviewAudioReturn, a, active, b, customPool (+74 more)
+Cohesion: 0.07
+Nodes (26): animationRef, applyCrossfade, audioContextRef, { audioRef: originalHookRef }, { audioRef: replacementHookRef }, crossfadePoint, [currentTime, setCurrentTime], effectiveVolume (+18 more)
 
 ### Community 82 - "Analytics / Useperformancetracking / Usechurnprediction"
-Cohesion: 0.03
-Nodes (82): context, transcription, queryKeys, stems, useSectionReplacementHistory(), analyzeTrackContext(), fetchGenerationTaskBySunoId(), fetchLatestStemTranscriptionByStemId() (+74 more)
+Cohesion: 0.06
+Nodes (30): invokeKlangioAnalyze(), KlangioAnalyzeInput, useKlangioAnalyze(), { data: existingTranscription, isLoading: loadingExisting }, { data: stemsList }, detectedModel, displayResult, downloadFile (+22 more)
 
 ### Community 83 - "Lib / Mobile / Utils"
-Cohesion: 0.03
-Nodes (64): config, [context, setContext], contextConfig, [dismissed, setDismissed], Icon, id, parts, shouldShow (+56 more)
+Cohesion: 0.04
+Nodes (46): FirstTimeHeroCard, HomeStickyCTA(), useHomePageEffects(), UseHomePageEffectsOptions, activeTrack, aiSuggestBlock, [audioDialogOpen, setAudioDialogOpen], bottomPadding (+38 more)
 
 ### Community 84 - "Telegram / Telegramsafearea / Telegramthemeprovider"
-Cohesion: 0.03
-Nodes (76): addInstrumentalMutation, [advancedSettings, setAdvancedSettings], handleOpenStudio(), handleOpenTrack(), handlePlayTrack(), instrumentalProgress, loading, navigate (+68 more)
+Cohesion: 0.05
+Nodes (41): AudioTrack, useStudioOperationLock(), { activeStems, limitedStems, showFallbackWarning, dismissWarning }, audioEngine, audioTracks, autoSave, context, ctxTrackId (+33 more)
 
 ### Community 85 - "Home / Constants / Trackpresetsrow"
-Cohesion: 0.04
-Nodes (56): chargeResult, { data: product }, { data: product, error: productError }, { data: profile, error: profileError }, { data: result, error: processError }, { data: subscriptions, error: fetchError }, { data: transaction, error: txError }, defaultFailUrl (+48 more)
+Cohesion: 0.05
+Nodes (55): chargeResult, { data: product }, { data: product, error: productError }, { data: profile, error: profileError }, { data: result, error: processError }, { data: subscriptions, error: fetchError }, { data: transaction, error: txError }, defaultFailUrl (+47 more)
 
 ### Community 86 - "Dialog / Unified / Types"
-Cohesion: 0.03
-Nodes (64): deleteFile(), listFiles(), StorageBucket, mockStorage, uploadFile(), UploadOptions, UploadResult, displayUrl (+56 more)
+Cohesion: 0.07
+Nodes (26): deleteFile(), StorageBucket, mockStorage, UploadOptions, UploadResult, ArtistAvatarUpload(), ArtistAvatarUploadProps, useGenerateArtistPortrait() (+18 more)
 
 ### Community 87 - "Generation / Hooks / Usegenerationresult"
-Cohesion: 0.02
-Nodes (81): cardRef, handleMouseLeave(), handleMouseMove(), [isFlipped, setIsFlipped], rotateX, rotateY, shineX, shineY (+73 more)
+Cohesion: 0.05
+Nodes (34): cardRef, handleMouseLeave(), handleMouseMove(), [isFlipped, setIsFlipped], rotateX, rotateY, shineX, shineY (+26 more)
 
 ### Community 88 - "Home / Heading / Featuretutorialdialog"
-Cohesion: 0.09
-Nodes (25): QuickAction, QuickActionsPanel(), useQuickBroadcast(), useQuickCredit(), invokeAdminBroadcast(), actions, [broadcastMessage, setBroadcastMessage], [broadcastOpen, setBroadcastOpen] (+17 more)
+Cohesion: 0.06
+Nodes (35): SectionReplacementProgressProps, ReplaceSectionProgressState, ReplaceSectionStatus, SectionVariant, STATUS_MESSAGES, STATUS_PROGRESS, useReplaceSectionProgress(), ReplaceSectionParams (+27 more)
 
 ### Community 89 - "Timeline / Usestudioprojectstore / Stores"
 Cohesion: 0.03
-Nodes (66): buildAlertMessage(), buildTestMessage(), escapeMarkdown(), checkAuth(), checkEdgeFunctions(), checkStorage(), checkTelegramBot(), HealthCheckResult (+58 more)
+Nodes (78): AlertPayload, buildAlertMessage(), buildTestMessage(), corsHeaders, escapeMarkdown(), logger, activityIds, adminChatIds (+70 more)
 
 ### Community 90 - "Lib / Imageoptimization / Performance"
 Cohesion: 0.03
 Nodes (78): base64Encode(), corsHeaders, ExportRequest, generateMidi(), MidiNote, writeInt16(), writeInt32(), writeVarLen() (+70 more)
 
 ### Community 91 - "Generate / Form / Validationmessage"
-Cohesion: 0.05
-Nodes (66): flushBufferedDeeplinkTracks(), calculateRetentionDays(), getFirstGenerationDate(), getLastVisitDate(), hasTrackedFirstGeneration(), ReturnInfo, trackFirstGeneration(), trackUserReturn() (+58 more)
+Cohesion: 0.06
+Nodes (57): assignToExperiment(), flushBufferedDeeplinkTracks(), getConversionStages(), getExperimentAssignments(), getOrCreateSessionId(), getReferralChain(), isFirstVisit(), trackDeeplinkVisit() (+49 more)
 
 ### Community 92 - "Audio / Audiocontexthelper / Studio"
 Cohesion: 0.08
 Nodes (24): SECTION_COLORS, UnifiedWaveformTimeline, WaveSurferInstance, WaveSurferModule, activeIndex, colors, containerRef, handleClick (+16 more)
 
 ### Community 93 - "Sections / Generate / Form"
-Cohesion: 0.03
-Nodes (89): GenerationLogsPanel(), subscribeToRealtimeAdminMetrics(), cancelGenerationTask(), deleteGenerationTask(), FailurePattern, fetchFailurePatterns(), fetchGenerationStats(), fetchSuccessTimeline() (+81 more)
+Cohesion: 0.07
+Nodes (32): PresetCategory, PresetSettings, useApplyPreset(), useClonePreset(), useCreatePreset(), useDeletePreset(), usePresets(), [appliedId, setAppliedId] (+24 more)
 
 ### Community 94 - "Track / Card / New"
-Cohesion: 0.05
-Nodes (41): actions, disabledReason, handleAction, handleBackdropClick, haptic, isDisabled, [isOpen, setIsOpen], isOperationDisabled (+33 more)
+Cohesion: 0.03
+Nodes (65): actions, disabledReason, handleAction, handleBackdropClick, haptic, isDisabled, [isOpen, setIsOpen], isOperationDisabled (+57 more)
 
 ### Community 95 - "Results / Structuredlyricsdisplay / Agent"
 Cohesion: 0.09
@@ -2749,19 +2813,19 @@ Nodes (16): STEM_ICONS, STEM_MIDI_MODELS, availableActions, canReplace, canSepar
 
 ### Community 97 - "Audio / Reference / Referencemanager"
 Cohesion: 0.03
-Nodes (65): AdminAlerts, AdminBot, AdminBroadcast, AdminDashboard, AdminEconomy, AdminFeedback, AdminLayout, AdminOverview (+57 more)
+Nodes (70): AnalyticsProvider, CoreProviders, FeatureProviders, UIProviders, UIProvidersProps, AdminAlerts, AdminBot, AdminBroadcast (+62 more)
 
 ### Community 98 - "Hints / Hintregistry / Registry"
 Cohesion: 0.09
 Nodes (21): chargeId, { data }, { data: creditTx }, { data, error }, { data: fakeTx }, { data: firstCall }, { data: pendingTx }, { data: product } (+13 more)
 
 ### Community 99 - "Prompt / Usepromptdj / Hooks"
-Cohesion: 0.07
-Nodes (25): activeGenCount, { data: activeGenerations = [] }, dismissHint, frame, [generateOpen, setGenerateOpen], handleGenerateClick, handleNavigate, handlePreload (+17 more)
+Cohesion: 0.04
+Nodes (42): activeGenCount, { data: activeGenerations = [] }, dismissHint, frame, [generateOpen, setGenerateOpen], handleGenerateClick, handleNavigate, handlePreload (+34 more)
 
 ### Community 100 - "Constants / Sunometatags / Tags"
-Cohesion: 0.02
-Nodes (153): BotMenuEditor(), getActionIcon(), getActionLabel(), MenuItemRow(), MenuItemRowProps, BotMenuItemForm(), BotMenuItemFormProps, BotMenuPreview() (+145 more)
+Cohesion: 0.01
+Nodes (191): BotMenuEditor(), getActionIcon(), getActionLabel(), MenuItemRow(), MenuItemRowProps, ACTION_TYPES, BotMenuItemForm(), BotMenuItemFormProps (+183 more)
 
 ### Community 101 - "Unified / Studio / Section"
 Cohesion: 0.03
@@ -2776,117 +2840,96 @@ Cohesion: 0.07
 Nodes (16): ErrorBoundary, Props, State, errorCode, userMessage, AppError, AuthError, getUserErrorMessage() (+8 more)
 
 ### Community 104 - "Studio / Userenderoptimization / Useoptimizedplayback"
-Cohesion: 0.03
-Nodes (124): FLUSH_INTERVAL, flushTimeout, MAX_BUFFER_SIZE, handleDynamicMenuCallback(), handleMediaGroupCallbacks(), CallbackHandler, handleCallbackQuery(), handleCancelCommand() (+116 more)
+Cohesion: 0.04
+Nodes (129): FLUSH_INTERVAL, flushTimeout, MAX_BUFFER_SIZE, handleMediaGroupCallbacks(), handleMidiCallbacks(), handleCallbackQuery(), BOT_MENTION, handleAudioActionCallback() (+121 more)
 
 ### Community 105 - "Studio / Actions / Studioactionspanel"
-Cohesion: 0.07
-Nodes (53): fetchDeeplinkEvents(), fetchDeeplinkStats(), markConversion(), trackDeeplink(), trackButtonClick(), trackEvent(), trackFeatureUsed(), trackGeneration() (+45 more)
+Cohesion: 0.06
+Nodes (60): fetchDeeplinkEvents(), fetchDeeplinkStats(), markConversion(), trackDeeplink(), trackButtonClick(), trackEvent(), trackFeatureUsed(), trackGeneration() (+52 more)
 
 ### Community 106 - "Admin / Hooks / Useadmindashboard"
-Cohesion: 0.04
-Nodes (52): UseTrackActionsContract, UseTrackActionsParams, UseTrackActionsReturn, UseTrackVersionSwitcherContract, UseTrackVersionSwitcherParams, UseTrackVersionSwitcherReturn, trackTypeColors, TrackTypeIconsProps (+44 more)
+Cohesion: 0.08
+Nodes (27): BaseUnifiedTrackCardProps, EnhancedUnifiedTrackCardProps, MidiStatus, ProfessionalUnifiedTrackCardProps, StandardUnifiedTrackCardProps, UnifiedTrackCardProps, TrackWithCreator, deleteButton (+19 more)
 
 ### Community 107 - "Projects / Api / Services"
-Cohesion: 0.10
-Nodes (18): EDM, RAP, a, b, baseline, big, copy, fast (+10 more)
+Cohesion: 0.06
+Nodes (27): LyricsVisualEditorCompact, EDM, RAP, a, b, baseline, big, copy (+19 more)
 
 ### Community 108 - "Api / Studio / Services"
 Cohesion: 0.06
-Nodes (40): colorClasses, handleClick(), [isVisible, setIsVisible], seen, STORAGE_KEY, timer, OnboardingState, useOnboarding (+32 more)
+Nodes (43): OnboardingState, useOnboarding, useShouldShowOnboarding(), FeatureTutorialDialog(), TUTORIAL_SLIDES, TutorialSlide, OnboardingOverlay(), ONBOARDING_STEPS (+35 more)
 
 ### Community 109 - "Hooks / Usemidivisualization / Pianorollwithmidisync"
-Cohesion: 0.18
-Nodes (14): err(), ERROR_METADATA, ErrorCode, ErrorMetadata, ErrorSeverity, hasErrorCode(), isErrorType(), ok() (+6 more)
+Cohesion: 0.05
+Nodes (33): BLOCKED_ARTIST_PATTERNS, FALSE_POSITIVE_WORDS, APIError, AppError, AudioError, err(), ERROR_METADATA, ErrorCode (+25 more)
 
 ### Community 110 - "Notifications / Types / Queue"
-Cohesion: 0.09
-Nodes (28): DEFAULT_CONFIG, getPrefetchManager(), log, PrefetchManagerConfig, prefetchNextTracks(), PrefetchTask, ConnectionType, getConnectionType() (+20 more)
+Cohesion: 0.03
+Nodes (81): DEFAULT_CONFIG, getPrefetchManager(), log, PrefetchManagerConfig, prefetchNextTracks(), PrefetchTask, checkRangeSupport(), createOptimizedBlobUrl() (+73 more)
 
 ### Community 111 - "Lyrics / Uselyricsstudio / Studiolyricssheet"
 Cohesion: 0.02
-Nodes (81): CreateArtistDialogProps, fieldContainer, fieldItem, TrackData, artistName, [avatarUrl, setAvatarUrl], [bio, setBio], { createArtist, isCreating } (+73 more)
+Nodes (90): FirstCommentCTA, FirstCommentCTAProps, count, isActive, isFailed, [isSearchFocused, setIsSearchFocused], CreateArtistDialogProps, fieldContainer (+82 more)
 
 ### Community 112 - "Subscription / Tierfeaturessection / Subscriptiontiereditor"
-Cohesion: 0.06
-Nodes (41): corsHeaders, extractMoodFromStyle(), extractThemeFromLyrics(), extractVisualThemes(), getMoodExpressions(), getRandomArtStyle(), getRandomComposition(), getRandomizedColorPalette() (+33 more)
+Cohesion: 0.04
+Nodes (57): corsHeaders, GenerationRequest, stemPromptTemplates, TrackContext, corsHeaders, extractMoodFromStyle(), extractThemeFromLyrics(), extractVisualThemes() (+49 more)
 
 ### Community 113 - "Recording / Audio / Useunifiedrecording"
-Cohesion: 0.10
-Nodes (17): [activeTab, setActiveTab], categories, categoryTags, filteredItems, genres, genreStyles, { graphData, isLoading, tags, styles }, graphFilter (+9 more)
+Cohesion: 0.04
+Nodes (47): hasFilters, completed, [showOnboarding, setShowOnboarding], STORAGE_KEY, timer, useSuccessfulCombinations(), useTagPopularity(), ForceGraph() (+39 more)
 
 ### Community 114 - "Waveform / Optimizedtrackrow / Unified"
 Cohesion: 0.02
-Nodes (142): Accordion, AdminBot(), AdminBotImagesPanel(), MENU_IMAGE_CONFIGS, MenuImageConfig, AdminLayout(), TAB_OPTIONS, AdminOverview() (+134 more)
+Nodes (147): CHART_COLORS, ErrorCategory, FailedGeneration, formatDuration(), GenerationMetrics(), getSuccessRateColor(), MetricsSummary, ModelStat (+139 more)
 
 ### Community 115 - "Toast / Engagement / Lib"
-Cohesion: 0.04
-Nodes (50): activityIds, archiveCutoffDate, archiveCutoffIso, archivedRecords, BATCH_SIZE, CACHE_TTL_MS, cachedStats, cacheKey (+42 more)
+Cohesion: 0.07
+Nodes (31): TrackVersion, UseTrackVersionsListOptions, queryKeys, stems, useSectionReplacementHistory(), analyzeTrackContext(), fetchLatestStemTranscriptionByStemId(), fetchLatestStemTranscriptionByTrackId() (+23 more)
 
 ### Community 116 - "Hooks / Usepromptdjstore / Useprompthistory"
-Cohesion: 0.05
-Nodes (41): ArtistDetailPreview, ArtistDetailsPanel(), activeTab, { artists: myArtists, isLoading: myLoading }, [createDialogOpen, setCreateDialogOpen], currentArtists, { data: publicArtists, isLoading: publicLoading }, [detailsPanelOpen, setDetailsPanelOpen] (+33 more)
+Cohesion: 0.07
+Nodes (36): subscribeToRealtimeAdminMetrics(), subscribeToGenerationLogs(), ApplyPresetResponse, applyPresetToTrack(), batchApplyPresetToTracks(), clonePreset(), createPreset(), CreatePresetInput (+28 more)
 
 ### Community 117 - "Styles / Style / Utils"
 Cohesion: 0.10
 Nodes (17): duration, event, finalCounts, { fps }, i, initialCounts, meterUpdates, renderTime (+9 more)
 
 ### Community 118 - "Admin / Api / Services"
-Cohesion: 0.04
-Nodes (58): AudioHubHistory, actions, AudioHubQuickActions, QuickAction, AudioHubRecorder, ACCEPTED_TYPES, AudioHubUploader, UploadedFile (+50 more)
+Cohesion: 0.05
+Nodes (40): AudioHubHistory, HistoryItem, mockHistory, actions, AudioHubQuickActions, QuickAction, AudioHubRecorder, ACCEPTED_TYPES (+32 more)
 
 ### Community 119 - "Tools / Styleconverttoolpanel / Analyzetoolpanel"
-Cohesion: 0.04
-Nodes (53): addVocals, [customMode, setCustomMode], [mode, setMode], [prompt, setPrompt], [style, setStyle], [title, setTitle], AddVocalsToReferenceDialog(), AddVocalsToReferenceDialogProps (+45 more)
+Cohesion: 0.08
+Nodes (24): FORMAT_OPTIONS, MODEL_OPTIONS, OutputFormat, ReferenceMidiSheet(), ReferenceMidiSheetProps, STEM_CONFIG, StemType, TranscriptionModel (+16 more)
 
 ### Community 120 - "Api / Generation / Services"
 Cohesion: 0.10
-Nodes (17): analyser, analyserRef, animationFrameRef, audioContext, audioContextRef, dataArray, isActive, isPeak (+9 more)
+Nodes (16): analyser, analyserRef, animationFrameRef, audioContext, audioContextRef, dataArray, isActive, isPeak (+8 more)
 
 ### Community 121 - "Api / Lyrics / Usesectionnotes"
 Cohesion: 0.09
 Nodes (18): currentItems, [drillLevel, setDrillLevel], filteredData, groupedData, groups, handleBack, handleSwipe(), Icon (+10 more)
 
 ### Community 122 - "Lib / Route / Preloader"
-Cohesion: 0.11
-Nodes (42): addToReferralChain(), assignToExperiment(), buildDeeplinkUrl(), collectDeviceInfo(), deeplinkLogger, detectSource(), getConversionStages(), getDeeplinkContext() (+34 more)
+Cohesion: 0.10
+Nodes (35): addToReferralChain(), buildDeeplinkUrl(), collectDeviceInfo(), deeplinkLogger, detectSource(), getDeeplinkContext(), getPersistentSessionId(), hasReachedStage() (+27 more)
 
 ### Community 123 - "Hooks / Useguitaranalysis / Guitar"
-Cohesion: 0.06
-Nodes (34): GENRE_TAG_PROFILES, logger, LyricsAction, LyricsRequest, MOOD_TAG_PROFILES, SUB_GENRE_MODIFIERS, {
-      action,
-      theme,
-      mood,
-      genre,
-      language = "ru",
-      existingLyrics,
-      lyrics,
-      structure,
-      sectionType,
-      sectionName,
-      previousLyrics,
-      linesCount,
-      currentLyrics,
-      word,
-      context,
-      vocalTags,
-      instrumentTags,
-      dynamicTags,
-      emotionalCues,
-      useAdvancedTags,
-    }, baseSystemPrompt (+26 more)
+Cohesion: 0.02
+Nodes (145): GENRE_TAG_PROFILES, logger, LyricsAction, LyricsRequest, MOOD_TAG_PROFILES, SUB_GENRE_MODIFIERS, corsHeaders, IMAGE_CONFIGS (+137 more)
 
 ### Community 124 - "Sidebar"
 Cohesion: 0.09
 Nodes (27): EMPTY_RESULT, usePromptValidation(), UsePromptValidationOptions, CONTRADICTORY_PAIRS, countEmojis(), getSpecialCharRatio(), LENGTH_LIMITS, PromptType (+19 more)
 
 ### Community 125 - "Analysis / Api / Services"
-Cohesion: 0.06
-Nodes (33): showProgress, [audioDuration, setAudioDuration], [audioFile, setAudioFile], [audioPreviewUrl, setAudioPreviewUrl], availableModels, clearAudio(), { duration: probedDuration }, [durationError, setDurationError] (+25 more)
+Cohesion: 0.10
+Nodes (31): GenerationLogsPanel(), cancelGenerationTask(), deleteGenerationTask(), dismissGenerationTask(), FailureCategory, FailurePattern, fetchFailurePatterns(), fetchGenerationStats() (+23 more)
 
 ### Community 126 - "Api / Tracks / Services"
 Cohesion: 0.06
-Nodes (31): ArtistAvatarUpload(), ArtistAvatarUploadProps, ArtistDetailPreviewProps, ArtistDetailsPanelProps, EditArtistDialogProps, useGenerateArtistPortrait(), cameraInputRef, fileInputRef (+23 more)
+Nodes (32): useReplacedSections(), useSectionDetection(), { data: lyricsData, isLoading: lyricsLoading }, { data: replacedSections }, { data: sourceTrack }, detectedSections, handleCloseEditor, handleSectionClick (+24 more)
 
 ### Community 127 - "Musiclab / Pages / Premium"
 Cohesion: 0.03
@@ -2902,55 +2945,55 @@ Nodes (54): 1.1 TouchTarget, 1.2 SafeArea, 1.3 ResponsiveContainer, 1.4 Skeleton
 
 ### Community 130 - "Lib / Gesture / Manager"
 Cohesion: 0.06
-Nodes (32): GenerationResultSheet, GenerationResultSheetProps, TrackVersion, { activeTrack, isPlaying, playTrack, pauseTrack }, { data: versions = [], isLoading: loading }, durMin, durSec, handleGoToLibrary (+24 more)
+Nodes (30): GenerationResultSheet, GenerationResultSheetProps, TrackVersion, { activeTrack, isPlaying, playTrack, pauseTrack }, { data: versions = [], isLoading: loading }, durMin, durSec, handleGoToLibrary (+22 more)
 
 ### Community 131 - "Lyrics / Formatting / Service"
-Cohesion: 0.02
-Nodes (91): { data: adminAuth, isLoading }, handleClick(), { hapticFeedback }, navigate, StreakBadge, StreakBadgeProps, AdminQuickAccessProps, useVoiceInput() (+83 more)
+Cohesion: 0.03
+Nodes (62): useVoiceInput(), VoiceInputContext, LyricsStudio(), LyricsTagsPanelsProps, LyricsHistoryBar(), LyricsVersionsPanel(), LyricsWorkspace(), SectionReferenceDisplay() (+54 more)
 
 ### Community 132 - "Slices / Playbackslice / Stemmixerslice"
-Cohesion: 0.07
-Nodes (15): CACHE_TTL, MAX_CACHE_SIZE, generateSrcSet(), imageCache, ImageLoadState, ThumbnailUrls, toSupabaseRenderUrl(), useAdaptiveImageQuality() (+7 more)
+Cohesion: 0.06
+Nodes (20): backgroundUrl, CACHE_TTL, MAX_CACHE_SIZE, generateSrcSet(), getOptimizedImageUrl(), getTrackCoverUrl(), imageCache, ImageLoadState (+12 more)
 
 ### Community 133 - "Unified / Studio / Usewaveformcache"
-Cohesion: 0.08
-Nodes (28): [coverUrl, setCoverUrl], [description, setDescription], handleSubmit(), [isGeneratingCover, setIsGeneratingCover], [isPublic, setIsPublic], [isSubmitting, setIsSubmitting], [title, setTitle], { updatePlaylist } (+20 more)
+Cohesion: 0.10
+Nodes (28): AdminOverview(), AdminUsers(), ADMIN_TAB_OPTIONS, AdminDialogState, AdminTabType, AdminUserWithRoles, useAdminDashboard(), UseAdminDashboardReturn (+20 more)
 
 ### Community 134 - "Generation / Usegenerateform / Usegenerateformstate"
-Cohesion: 0.05
-Nodes (40): FALLBACK_CHAIN, isModelAvailable(), isValidModelKey(), ModelStatus, SUNO_MODELS, SunoModelInfo, SunoModelKey, validateModel() (+32 more)
+Cohesion: 0.08
+Nodes (23): MashupFormFieldsProps, MashupModelOption, MashupTrackOption, Empty, FilledA, Instrumental, Invalid, Loading (+15 more)
 
 ### Community 135 - "Services / Tinkoffpaymentservice / Payment"
 Cohesion: 0.03
 Nodes (58): 🧩 Component Architecture, Core Principles, GenerateSheet Component Family, Migration Guide, Related Documentation, Storybook Documentation, Storybook Files, Thin Orchestrator Pattern (+50 more)
 
 ### Community 136 - "Lib / Sentry"
-Cohesion: 0.02
-Nodes (113): calculateForecast(), calculateStdDev(), detectZScoreAnomalies(), useForecast(), ContentAnalyticsStats, getContentAnalytics(), mapToArray(), rollupContentAnalytics() (+105 more)
+Cohesion: 0.01
+Nodes (236): handleSubmit(), handleSubmit(), handleSubmit(), handleSubmit(), handleDelete(), handleFileUpload(), handleSubmit(), handleSubmit() (+228 more)
 
 ### Community 137 - "Types / Telegram"
 Cohesion: 0.01
-Nodes (397): SendAdminMessageInput, SendAdminMessageResult, handleSubmit(), fetchFunnelData(), fetchDeeplinkAnalyticsSummary(), buildHeatmapData(), getUserActivityHeatmap(), HeatmapData (+389 more)
+Nodes (376): fetchDeeplinkAnalyticsSummary(), trackConversionStage(), getSuggestedInstruments(), bulkAwardCredits(), closeFeedbackItem(), fetchAllUserCreditsList(), fetchAnalyticsEventsForHeatmap(), fetchBotMenuImagesConfig() (+368 more)
 
 ### Community 138 - "Gamification / Userlevel / Quickstats"
-Cohesion: 0.09
-Nodes (22): Comment, CommentsList(), CommentsListProps, COMMENT_SUGGESTIONS, CommentCategory, CommentSuggestions, CommentSuggestionsProps, InlineCommentSuggestions (+14 more)
+Cohesion: 0.07
+Nodes (26): ApiError, ChordData, ChordDetectionData, ChordDetectionResultsResponse, ChordDetectionTriggerResponse, CloudAudioRow, completeRecording(), CompleteRecordingRequest (+18 more)
 
 ### Community 139 - "Stories / Button / Header"
-Cohesion: 0.08
-Nodes (23): AchievementContent, FloatingParticles, generateParticlePositions(), GenericRewardContent, LEVEL_COLORS, LevelUpContent, NotificationContent, RewardNotificationType (+15 more)
+Cohesion: 0.05
+Nodes (41): DISMISSED_STORAGE_KEY, MAX_QUEUE_SIZE, Announcement, AnnouncementContext, AnnouncementContextType, announcementLogger, AnnouncementPriority, AnnouncementProvider() (+33 more)
 
 ### Community 140 - "Loadingspinner / Stories"
-Cohesion: 0.09
-Nodes (24): log, usePlaybackQueue(), TrackListContext, TrackListContextValue, TrackListProvider(), TrackListProviderProps, useTrackInList(), shuffleQueue() (+16 more)
+Cohesion: 0.06
+Nodes (29): WaveformWithChordsProps, animationRef, audio, audioRef, barHeight, barWidth, canvas, canvasRef (+21 more)
 
 ### Community 141 - "Api / Playlists / Services"
 Cohesion: 0.10
 Nodes (22): ProjectGeneratedTrack, MasterVersionAssets(), STEM_ICONS, STEM_LABELS, TrackVersionsPanel, TrackVersionsPanelProps, useTrackAssets(), fetchGuitarAnalysis() (+14 more)
 
 ### Community 142 - "Audio / Reference / Referencemodeselector"
-Cohesion: 0.06
-Nodes (42): closeStudioContext(), createAudioContext(), ensureAudioContextRunning(), getAudioContextClass(), getOrCreateStudioContext(), getStudioContext(), isAudioContextSupported(), safeCloseAudioContext() (+34 more)
+Cohesion: 0.08
+Nodes (33): closeStudioContext(), createAudioContext(), ensureAudioContextRunning(), getAudioContextClass(), getOrCreateStudioContext(), isAudioContextSupported(), safeCloseAudioContext(), Window (+25 more)
 
 ### Community 143 - "Skeletons / Pageskeleton / Components"
 Cohesion: 0.03
@@ -2958,27 +3001,27 @@ Nodes (58): devDependencies, autoprefixer, axe-core, @axe-core/playwright, @chro
 
 ### Community 144 - "Error / Lib / Suno"
 Cohesion: 0.02
-Nodes (94): StemActionType, StudioActionsPanel(), StudioTrackState, SimulatedLevels, StemState, useSimulatedStemLevels(), hasErrors, isComplete (+86 more)
+Nodes (112): StemActionSheetProps, StemActionType, StudioActionsPanel(), StudioActionsPanelProps, StudioTrackState, SimulatedLevels, StemState, useSimulatedStemLevels() (+104 more)
 
 ### Community 145 - "Hooks / Usegamification / Gamification"
 Cohesion: 0.10
 Nodes (19): config, effectiveMuted, handleOpenMenu, handleToggleMute, handleToggleSolo, handleToggleVolume, handleVolumeChange, Icon (+11 more)
 
 ### Community 146 - "Lyricsparser / Lyrics"
-Cohesion: 0.05
-Nodes (43): { attributes, listeners, setNodeRef, transform, transition, isDragging }, { data: transcriptionsMap, isLoading: loadingTranscriptions }, { data: transcriptionStatus }, handleDragEnd, hasTranscription, isSourceTrack, sensors, stemTypes (+35 more)
+Cohesion: 0.06
+Nodes (29): audioUrl, cn(), config, disabledActions, disabledReasons, effectiveMuted, handleAction, handleToggle (+21 more)
 
 ### Community 147 - "Public / Content / Types"
-Cohesion: 0.03
-Nodes (78): BroadcastRequest, { miniAppUrl: MINI_APP_URL }, actionLabel, actionUrl, auddApiKey, { audioBase64, audioUrl, returnData }, batch, batchSize (+70 more)
+Cohesion: 0.05
+Nodes (44): BroadcastRequest, { miniAppUrl: MINI_APP_URL }, actionLabel, actionUrl, batch, batchSize, botMention, chat_ids (+36 more)
 
 ### Community 148 - "Studio / Usestudiomodals / Typeadapters"
-Cohesion: 0.01
-Nodes (185): ComingSoonModal(), ComingSoonModalProps, useComingSoon(), { data: groupedProducts, isLoading, error }, displayProducts, { hapticFeedback }, { isAdmin, isLoading: roleLoading }, isBestValue (+177 more)
+Cohesion: 0.09
+Nodes (20): handleAction, handleDismiss, { hapticFeedback }, Icon, [isVisible, setIsVisible], styles, todaysTip, [tutorialOpen, setTutorialOpen] (+12 more)
 
 ### Community 149 - "Studio / Unified / Useautosave"
-Cohesion: 0.08
-Nodes (23): CHART_COLORS, ErrorCategory, FailedGeneration, formatDuration(), GenerationMetrics(), getSuccessRateColor(), MetricsSummary, ModelStat (+15 more)
+Cohesion: 0.09
+Nodes (25): generateArtistPortrait(), PlaylistRow, PlaylistTrackRow, PlaylistWithTracks, GenerateArtistPortraitInput, createArtistWithPortrait(), generateArtistPortraitForPreview(), getArtistStats() (+17 more)
 
 ### Community 150 - "Suno / Utils / Types"
 Cohesion: 0.12
@@ -2998,51 +3041,39 @@ Nodes (14): backdropOpacity, containerRef, [currentSnapPoint, setCurrentSnapPoin
 
 ### Community 154 - "Uselyricversions / Hooks / Lyricspanel"
 Cohesion: 0.10
-Nodes (22): activeInStep, [activePads, setActivePads], handleInitialize, handlePadTrigger, handlePlayStop, handleRecord, handleReset, handleSendToPromptDJ (+14 more)
+Nodes (21): activeInStep, [activePads, setActivePads], handleInitialize, handlePadTrigger, handlePlayStop, handleRecord, handleReset, handleSendToPromptDJ (+13 more)
 
 ### Community 155 - "Audioelementpool / Lib / Audio"
-Cohesion: 0.03
-Nodes (77): chordData, fingerColor, fingering, fingerNum, fingers, fretSpacing, MotionWrapper, normalizedChord (+69 more)
+Cohesion: 0.06
+Nodes (37): activeChord, [activeChordIndex, setActiveChordIndex], chordElement, handleChordTap, handleShowDiagram, index, isActive, isPast (+29 more)
 
 ### Community 156 - "Audio / Lib / Prefetchmanager"
-Cohesion: 0.12
-Nodes (23): applyTemplateToSections(), makeSectionId(), parseLyrics(), QUICK_TEMPLATE_DEF, QUICK_TEMPLATES, sectionsEqual(), sectionsToLyrics(), LyricsPreview (+15 more)
+Cohesion: 0.06
+Nodes (27): parse(), SECTION_META, sections, totalLines, charCountColor, el, end, handleApplyTemplate (+19 more)
 
 ### Community 157 - "Lib / Audiocache"
 Cohesion: 0.05
-Nodes (40): DEFAULT_GESTURE_SETTINGS, GestureSettingsPanel, GestureSettingsPanelProps, reset(), [settings, setSettings], update(), log, clearQueue() (+32 more)
+Nodes (36): DEFAULT_GESTURE_SETTINGS, GestureSettingsPanel, GestureSettingsPanelProps, reset(), [settings, setSettings], update(), log, createDefaultQueue() (+28 more)
 
 ### Community 158 - "Comments / Firstcommentcta / Usecomments"
 Cohesion: 0.03
-Nodes (84): GuestModeBanner(), GamificationOnboarding, GenerateSheet, GenerationResultSheet, MainLayout(), SafeAreaDebugOverlay, SubscriptionRequiredDialog, WelcomeBonusPopup (+76 more)
+Nodes (74): { enableGuestMode }, handleAuth(), handleGuestMode(), { isAuthenticated, loading, authenticateWithTelegram }, [isAuthenticating, setIsAuthenticating], navigate, nextPath, rawNext (+66 more)
 
 ### Community 159 - "Lib / Prompt / Validator"
-Cohesion: 0.08
-Nodes (43): AudioFileInfo, AudioSegment, CheckVoiceAvailabilityRequest, CustomVoice, GenerateVoiceRequest, GenerateVoiceResponse, GetRecordInfoRequest, GetValidateInfoRequest (+35 more)
+Cohesion: 0.09
+Nodes (42): AudioFileInfo, AudioSegment, CheckVoiceAvailabilityRequest, CustomVoice, GenerateVoiceRequest, GenerateVoiceResponse, GetRecordInfoRequest, GetValidateInfoRequest (+34 more)
 
 ### Community 160 - "Smart / Assistant / Types"
 Cohesion: 0.01
-Nodes (262): AnalyticsDashboardPage(), GenerationAnalyticsPanel(), StatCard(), TimePeriod, useErrorTrends(), useTelemetryStats(), AnalysisResultsPanel, PanelSkeleton() (+254 more)
+Nodes (228): ActorCard(), arousalPercent, emotionQuadrant, hasAdvancedData, valencePercent, AnalysisResultsPanel, PanelSkeleton(), QuickStatProps (+220 more)
 
 ### Community 161 - "Premium / Hooks / Usepaywalltrigger"
-Cohesion: 0.11
-Nodes (21): UnifiedTipCardProps, TipPosition, useIsMobile(), useTipPosition(), [claimed, setClaimed], handleClose(), handleNext(), hasSeen (+13 more)
+Cohesion: 0.07
+Nodes (26): SECTION_COLORS, colors, containerRef, currentPercent, endPercent, [endTime, setEndTime], getPositionFromEvent, handleClose (+18 more)
 
 ### Community 162 - "Hooks / Usestemtranscription / Usereplicatemiditranscription"
-Cohesion: 0.12
-Nodes (16): containerRef, containerWidth, {
-    currentProject,
-    currentTime,
-    isPlaying,
-    zoom,
-    snapToGrid,
-    selectedClipId,
-    setCurrentTime,
-    setZoom,
-    setSnapToGrid,
-    selectClip,
-    moveClip,
-  }, [dragClipId, setDragClipId], [dragOffset, setDragOffset], duration, handleClipDragEnd, handleClipDragStart (+8 more)
+Cohesion: 0.05
+Nodes (60): clipRef, effectiveDuration, handleResizeEnd, handleResizeMove, handleResizeStart, height, [initialWidth, setInitialWidth], [initialX, setInitialX] (+52 more)
 
 ### Community 163 - "Lib / Waveformcache / Usestemaudiocache"
 Cohesion: 0.04
@@ -3057,8 +3088,8 @@ Cohesion: 0.04
 Nodes (49): 1. Share to Telegram Chat, 2. Share to Telegram Story, 3. Copy Link, 4. QR Code, 📚 Additional Resources, API Reference, 🎵 Audio Element Pool, Available Components (+41 more)
 
 ### Community 166 - "Usepreferencesstore / Stores / Schemas"
-Cohesion: 0.05
-Nodes (43): AddTrackDialog(), getDefaultTrackName(), ProjectDialogsProps, LyricsChatAssistant(), ActionCategory, ActorType, AuditHistoryEntry, AuditLogEntry (+35 more)
+Cohesion: 0.02
+Nodes (107): { addTrack }, [createProjectOpen, setCreateProjectOpen], filteredProjects, handleAddToProject(), [loading, setLoading], { projects, isLoading: projectsLoading }, [searchQuery, setSearchQuery], [selectedProjectId, setSelectedProjectId] (+99 more)
 
 ### Community 167 - "Lib / Stemlabels / Stem"
 Cohesion: 0.13
@@ -3069,20 +3100,16 @@ Cohesion: 0.24
 Nodes (15): hasAudioUrl(), hasCoverUrl(), hasCreatorInfo(), hasProperty(), isISODateString(), isNonEmptyArray(), isNonEmptyString(), isNonNegativeNumber() (+7 more)
 
 ### Community 169 - "Errors / Apperror / Audioerror"
-Cohesion: 0.22
-Nodes (19): TELEGRAM_APP_SHORT_NAME, TELEGRAM_BOT_START_URL, TELEGRAM_BOT_USERNAME, TELEGRAM_MINI_APP_BASE_URL, ErrorPage(), NotFound(), Privacy(), Terms() (+11 more)
+Cohesion: 0.32
+Nodes (14): TELEGRAM_APP_SHORT_NAME, TELEGRAM_BOT_START_URL, TELEGRAM_BOT_USERNAME, TELEGRAM_MINI_APP_BASE_URL, getArtistDeepLink(), getGenerateDeepLink(), getInviteDeepLink(), getMiniAppDeepLink() (+6 more)
 
 ### Community 170 - "Apperror / Errors / Constructor"
-Cohesion: 0.07
-Nodes (29): CompactPlayer, FullscreenPlayer, ResizablePlayer(), currentMode, {
-    data: track,
-    isLoading,
-    error,
-  }, description, handleBack(), handleCloseFullscreen() (+21 more)
+Cohesion: 0.05
+Nodes (38): { data: masterVersion }, isMobileViewport, resolved, useMasterVersion(), useVersionCount(), versionA, versionB, currentMode (+30 more)
 
 ### Community 171 - "Hooks / Usepromptdjtypes / Default"
-Cohesion: 0.12
-Nodes (19): AnalysisState, AnalysisStatus, BeatResult, ChordData, ChordResult, KlangioMode, NoteData, OutputFormat (+11 more)
+Cohesion: 0.08
+Nodes (24): { data: credits, isLoading }, CreditsBalance(), CreditsBalanceProps, LeaderboardWidget, RANK_COLORS, QuickStats(), StatItemProps, useQuickStats() (+16 more)
 
 ### Community 172 - "Telemetry / Lib"
 Cohesion: 0.11
@@ -3094,39 +3121,39 @@ Nodes (48): Code Review, Code & Testing ✅, Communication, Configuration, Data 
 
 ### Community 174 - "Voice / Hooks / Usebroadcast"
 Cohesion: 0.06
-Nodes (39): LoadingScreen, SplashVariant, UnifiedSplashScreen(), UnifiedSplashScreenProps, APP_CONFIG, FEATURE_METADATA, getComingSoonFeatures(), sizes (+31 more)
+Nodes (36): LoadingScreen, SplashVariant, UnifiedSplashScreen(), UnifiedSplashScreenProps, sizes, CSSEqualizer, CSSEqualizerProps, EqualizerSize (+28 more)
 
 ### Community 175 - "Api / Recordings"
 Cohesion: 0.04
 Nodes (49): 1. Minimized, 1. State Management (`usePlayerState.ts`), 2. Audio Playback (`useAudioPlayer.tsx`), 2. Compact, 3. Fullscreen, 3. Queue Management (`usePlaybackQueue.ts`), Accessibility, Adding New Features (+41 more)
 
 ### Community 176 - "Lyricsvalidator / Lyrics / Stores"
-Cohesion: 0.03
-Nodes (64): ExtendRangeSelector, ExtractLyricsButton(), ExtractLyricsButtonProps, InlineReferencePreview, InlineReferencePreviewProps, MiniWaveform, MiniWaveformProps, WaveSurferCtor (+56 more)
+Cohesion: 0.07
+Nodes (28): CloudAudioSelector, ExtendRangeSelector, InlineReferencePreview, InlineReferencePreviewProps, MiniWaveform, MiniWaveformProps, WaveSurferCtor, WaveSurferInstance (+20 more)
 
 ### Community 177 - "Drum / Lib / Kits"
-Cohesion: 0.05
-Nodes (37): baseFret, fingering, fretSpacing, maxFret, minFret, normalizedChord, sizeConfig, startX (+29 more)
+Cohesion: 0.07
+Nodes (26): stopRecording(), GuitarModeRecorderProps, UseMode, createClickSound(), audio, audioRef, chunksRef, [copiedProgression, setCopiedProgression] (+18 more)
 
 ### Community 178 - "Lyrics / Lyricsformatter / Lyricsparser"
 Cohesion: 0.11
 Nodes (24): adjustedFret, Component, componentProps, config, fingering, firstString, { frets, fingers = [], barres = [] }, lastString (+16 more)
 
 ### Community 179 - "Payments / Paymenthistoryitem / Paymentsuccessmodal"
-Cohesion: 0.11
-Nodes (19): aiContent, { data: urlData }, { data: version, error: versionError }, filePath, instrumentContext, modelConfig, modelSuffix, permanentUrl (+11 more)
+Cohesion: 0.14
+Nodes (22): filterTagWords(), getTypeFromTag(), matchSectionToTimestamps(), normalizeText(), parseSectionsFromLyrics(), createMusicalSections(), detectSectionsFromGaps(), inferSectionType() (+14 more)
 
 ### Community 180 - "Studio / Usestudiohistorystore / Useplaybackstore"
 Cohesion: 0.14
 Nodes (13): ProgressBarProps, bufferedPercent, handlePointerDown(), handlePointerMove(), handleSeek(), handleSize, [isDragging, setIsDragging], [isHovering, setIsHovering] (+5 more)
 
 ### Community 181 - "Api / Analytics / Usedeeplinkanalytics"
-Cohesion: 0.01
-Nodes (197): AnalysisDashboard(), AnalysisDashboardProps, AnalysisIssue, color, height, Artist, VirtualizedArtistsListProps, canClaim (+189 more)
+Cohesion: 0.06
+Nodes (28): Preset, PresetsManager(), Stat, allTips, categoryLabels, levelBadgeVariants, Tip, TipsPanel() (+20 more)
 
 ### Community 182 - "Api / Credits"
 Cohesion: 0.01
-Nodes (237): StemActionSheet(), ActorCard(), ActorCardProps, MetricCard(), ScoreGauge(), AnalysisCardSkeleton(), EnergyBar(), EnergyBarProps (+229 more)
+Nodes (333): FunnelBar(), MetricCard(), ScoreGauge(), AnalysisCardSkeleton(), EnergyBar(), StatItem(), MetricCard(), StatusBadge() (+325 more)
 
 ### Community 183 - "Typography / Sectionheader / Common"
 Cohesion: 0.04
@@ -3141,16 +3168,16 @@ Cohesion: 0.09
 Nodes (19): color, colorConfig, { config }, configLabelKey, indicatorColor, itemConfig, key, nestLabel (+11 more)
 
 ### Community 186 - "Track / Detail / Hooks"
-Cohesion: 0.09
-Nodes (20): DEFAULT_CHANNELS, DEFAULT_SETTINGS, indexedDBStorage, selectHistory(), selectPresets(), selectTopRatedPrompts(), usePromptDJStore, UserPreset (+12 more)
+Cohesion: 0.15
+Nodes (11): DEFAULT_CHANNELS, DEFAULT_SETTINGS, indexedDBStorage, selectHistory(), selectPresets(), selectTopRatedPrompts(), usePromptDJStore, PromptAnalytics (+3 more)
 
 ### Community 187 - "Hooks / Useklangioanalysis / Useklangiosaveanalysis"
 Cohesion: 0.04
 Nodes (49): Bundle Sizes (Brotli Compressed), Code Statistics, Completed Phases (100%):, ✅ Completed Sprints (18/25 - 72%), Conclusion, Current Sprint Details, Deployment Status, Executive Summary (+41 more)
 
 ### Community 188 - "Lib / Sound / Effects"
-Cohesion: 0.11
-Nodes (19): sizes, { enableGuestMode }, handleAuth(), handleGuestMode(), { isAuthenticated, loading, authenticateWithTelegram }, [isAuthenticating, setIsAuthenticating], navigate, nextPath (+11 more)
+Cohesion: 0.12
+Nodes (23): useAudioTime(), PrefetchAudioOptions, usePrefetchNextAudio(), PrefetchOptions, usePrefetchTrackCovers(), KeyboardGestureOptions, useKeyboardGestureControls(), useTimestampedLyrics() (+15 more)
 
 ### Community 189 - "Track / Actions / Actiongrid"
 Cohesion: 0.16
@@ -3162,19 +3189,19 @@ Nodes (12): result, __dirname, DRY_RUN, failed, __filename, files, getFilesToMig
 
 ### Community 191 - "Audioanalysisservice / Unified / Analysis"
 Cohesion: 0.10
-Nodes (20): GENERATION_STAGES, GenerationLoadingInline(), GenerationLoadingState(), GenerationLoadingStateProps, GenerationStage, activeIndex, currentStage, currentStageIndex (+12 more)
+Nodes (19): GENERATION_STAGES, GenerationLoadingInline(), GenerationLoadingStateProps, GenerationStage, activeIndex, currentStage, currentStageIndex, [elapsedTime, setElapsedTime] (+11 more)
 
 ### Community 192 - "Admin / Usebotconfig / Hooks"
-Cohesion: 0.13
-Nodes (16): useSyncStaleTasks(), log, useGenerationRealtime(), FilterOption, log, SortOption, StatusFilter, useLibraryData() (+8 more)
+Cohesion: 0.09
+Nodes (19): handleCancel(), handleSelect(), Icon, handleAction(), navigate, hapticSelectionChanged(), isHapticAvailable(), isHapticSupported() (+11 more)
 
 ### Community 193 - "Agent / Aitoolbar / Constants"
-Cohesion: 0.02
-Nodes (105): isInsufficient, isLow, remaining, [copied, setCopied], hasCustomActions, iconClasses, isEmpty, [saving, setSaving] (+97 more)
+Cohesion: 0.06
+Nodes (43): isInsufficient, isLow, remaining, isGroup, prefersReducedMotion, CreditBalanceIndicator, CreditBalanceIndicatorProps, FormDivider (+35 more)
 
 ### Community 194 - "Analysis / Analysisresultspanel / Chordprogressiondisplay"
-Cohesion: 0.14
-Nodes (13): SortableLyricSection(), getCleanCharCount(), config, getCleanCharCount(), index, newContent, newSection, newSections (+5 more)
+Cohesion: 0.09
+Nodes (20): SortableLyricSection(), SortableLyricSectionProps, getCleanCharCount(), LyricSection, LyricSectionType, parseLyrics(), SECTION_TYPES, sectionsToLyrics() (+12 more)
 
 ### Community 195 - "Useunifiedanalysis / Hooks / Analysis"
 Cohesion: 0.06
@@ -3191,8 +3218,8 @@ Cohesion: 0.04
 Nodes (47): 1. Version Management System, 2. Mobile-First Library, 3. Three-Mode Player System, 4. Public Content Discovery, 5. AI Assistant Mode, 6. Track Details & Actions, 7. Mobile Optimizations, AI Assistant Components (8 files) (+39 more)
 
 ### Community 197 - "Components / Notificationlist / Usenotifications"
-Cohesion: 0.02
-Nodes (129): useAudioErrorRecovery(), UseAudioErrorRecoveryOptions, AudioInitOptions, useAudioInit(), useAudioPlayback(), useAudioSourceResolver(), UseAudioSourceResolverOptions, getGlobalAudioRef() (+121 more)
+Cohesion: 0.06
+Nodes (30): AudioInitOptions, getGlobalAudioRef(), setGlobalAudioRef(), useGlobalAudioPlayer(), log, PlaybackPosition, savePositions(), ControlSize (+22 more)
 
 ### Community 198 - "Notificationcontext / Contexts / Notifications"
 Cohesion: 0.04
@@ -3211,12 +3238,12 @@ Cohesion: 0.07
 Nodes (35): buildHashtags(), buildSimpleCaption(), buildTelegramMetadata(), buildVersionCaption(), formatDuration(), getModeEmoji(), getModeLabel(), TelegramAudioMetadata (+27 more)
 
 ### Community 202 - "Lib / A11Y / Utils"
-Cohesion: 0.02
-Nodes (87): REPORT_REASONS, ReportCommentDialogProps, downloadBlob(), activeTracksCount, bitrateOptions, [format, setFormat], formatOptions, handleCancelExport (+79 more)
+Cohesion: 0.05
+Nodes (37): handleStartRecording(), handleStopRecording(), handleMicrophoneClick(), analyserRef, audioChunksRef, audioContextRef, [audioLevel, setAudioLevel], barCount (+29 more)
 
 ### Community 203 - "Steps / Lib / Genremoodicons"
-Cohesion: 0.05
-Nodes (45): AI_TOOLS, AITool, calculateStats(), LyricsSection, LyricsStats, LyricsVersion, parseSections(), SectionNote (+37 more)
+Cohesion: 0.10
+Nodes (24): AI_TOOLS, AITool, calculateStats(), LyricsSection, LyricsStats, LyricsVersion, parseSections(), SectionNote (+16 more)
 
 ### Community 204 - "Workflow / Lib / Engine"
 Cohesion: 0.04
@@ -3227,8 +3254,8 @@ Cohesion: 0.08
 Nodes (28): AnalysisMetadataShape, Beat, BeatGridData, BeatsDataShape, generateSyntheticBeatGrid(), useBeatGrid(), UseBeatGridReturn, isPassed (+20 more)
 
 ### Community 206 - "Api / Artists / Services"
-Cohesion: 0.03
-Nodes (109): ArtistRow, FailureCategory, ProjectRow, TrackRow, savePromptToHistory(), Props, ReferenceKind, DeliveryStats (+101 more)
+Cohesion: 0.02
+Nodes (126): ArtistRow, ProjectRow, TrackRow, savePromptToHistory(), QueuePosition(), AddVocalsProgressState, AddVocalsStatus, STATUS_MESSAGES (+118 more)
 
 ### Community 207 - "Api / Midi"
 Cohesion: 0.04
@@ -3239,12 +3266,12 @@ Cohesion: 0.18
 Nodes (16): TIMED_PATTERN, detectTagType(), DYNAMIC_PATTERNS, extractTagFromWord(), extractTimingDuration(), getSectionType(), INSTRUMENT_PATTERNS, isStructuralTagValue() (+8 more)
 
 ### Community 209 - "Activity / Social / Types"
-Cohesion: 0.11
-Nodes (17): active, authorizationId, [busy, setBusy], clientName, { data, error }, { data: sess }, decide(), [details, setDetails] (+9 more)
+Cohesion: 0.08
+Nodes (25): sizes, AnimatedLogo, AppLogo, AppLogoProps, LogoSize, LogoVariant, sizeMap, variantStyles (+17 more)
 
 ### Community 210 - "Cloudstorage / Lib / Usecloudstorage"
-Cohesion: 0.15
-Nodes (16): ProfileWithCompleteness, useProfileSetupCheck(), ProfileSetupGuard(), ProfileSetupGuardProps, isCompleted, isCurrent, EnhancedProfileSetup(), EnhancedProfileSetupProps (+8 more)
+Cohesion: 0.11
+Nodes (23): handleSubmit(), ExtractLyricsButton(), ExtractLyricsButtonProps, AddReferenceMode, AddVocalsParams, AddVocalsResult, AddVocalsToGuitarParams, AddVocalsToGuitarResponse (+15 more)
 
 ### Community 211 - "Src / Stories / Assets"
 Cohesion: 0.12
@@ -3263,40 +3290,40 @@ Cohesion: 0.04
 Nodes (46): 📋 Acceptance Checklist, Achievement Highlights, Build Status, Code Documentation, Code Quality, 🏁 Conclusion, 📋 Deliverables, Developer Experience: 🟢 Excellent (+38 more)
 
 ### Community 215 - "Lyricseditormetricsoverlay / Index / Dev"
-Cohesion: 0.12
-Nodes (16): useLikeSessionTracker(), currentIsLiked, handleClick, { hapticFeedback }, iconSizes, [isAnimating, setIsAnimating], { isLiked: hookIsLiked, isLoading, toggleLike }, sizeClasses (+8 more)
+Cohesion: 0.08
+Nodes (25): ChangeIndicator, WeeklySummaryCard, glassSurface, colors, trendColors, CardContent(), CardFooter(), CardHeader() (+17 more)
 
 ### Community 216 - "Lib / Errorhandling"
-Cohesion: 0.11
-Nodes (17): NavigationShell(), NavigationShellProps, NavigationShellRenderProps, useHasOwnBottomNav(), handleSidebarCollapsedChange, hasOwnBottomNav, isCompactDesktop, isDesktop (+9 more)
+Cohesion: 0.08
+Nodes (21): bars, containerRef, [dragStartX, setDragStartX], endPercent, getTimeFromPosition, handleContainerClick, handleDragStart, [hoveredSection, setHoveredSection] (+13 more)
 
 ### Community 217 - "Gamification / Unifiedrewardnotification"
 Cohesion: 0.04
 Nodes (46): AI Артисты, AI-ассистент для текстов, AI Интеграции, Audio Flamingo 3, Backend (Lovable Cloud), Frontend, MIDI и нотная транскрипция, Mini App — полноценная DAW (+38 more)
 
 ### Community 218 - "Guards / Index"
-Cohesion: 0.08
-Nodes (21): DrumEffects, DrumKitSelector, DrumMachine, DrumMachineProps, ViewMode, DrumPad, DrumPadGrid, DrumPadGridProps (+13 more)
+Cohesion: 0.09
+Nodes (20): DrumEffects, DrumKitSelector, DrumMachine, DrumMachineProps, ViewMode, DrumStepLengthSelector, DrumStepLengthSelectorProps, stepLengths (+12 more)
 
 ### Community 219 - "Musiclab / Usemusiclabstudio / Studiomusiclabsheet"
-Cohesion: 0.15
-Nodes (20): REQUEST_COOLDOWN_MS, STORAGE_KEY, ContextHints, ContextHintsProps, HintContext, HintContextValue, HintRegistryProvider(), LEGACY_ARRAY_KEYS (+12 more)
+Cohesion: 0.07
+Nodes (42): REQUEST_COOLDOWN_MS, STORAGE_KEY, ContextHints, ContextHintsProps, HintContext, HintContextValue, HintRegistryProvider(), LEGACY_ARRAY_KEYS (+34 more)
 
 ### Community 220 - "Stem / Studio / Studiolyricspanelcompact"
-Cohesion: 0.13
-Nodes (16): downloadFile(), exportAnalytics(), ExportOptions, formatDeeplinksForExport(), formatErrorsForExport(), formatTelemetryForExport(), toCSV(), ALL_TIME_INTERVAL (+8 more)
+Cohesion: 0.31
+Nodes (8): downloadFile(), exportAnalytics(), ExportOptions, formatDeeplinksForExport(), formatErrorsForExport(), formatTelemetryForExport(), toCSV(), handleExport()
 
 ### Community 221 - "Lyrics / Advancedtagparser / Patterns"
 Cohesion: 0.07
-Nodes (37): colorClasses, StatusIcon, StatusIconProps, StatusIconsProps, displayTracks, handleLoadMore, handleTrackClick, { hapticFeedback } (+29 more)
+Nodes (39): colorClasses, StatusIcon, StatusIconProps, StatusIconsProps, displayTracks, handleLoadMore, handleTrackClick, { hapticFeedback } (+31 more)
 
 ### Community 222 - "Services / Notificationmanager"
 Cohesion: 0.04
 Nodes (46): 1. Always Clean Up Audio, 1. Reduce Re-renders, 2. Debounce Rapid Updates, 2. Use Memoization for Expensive Operations, 3. Handle Loading States, 3. Use Virtual Scrolling for Large Queues, 4. Preload Next Track, 4. Provide User Feedback (+38 more)
 
 ### Community 223 - "Unified / Analysis / Types"
-Cohesion: 0.13
-Nodes (13): StyleKnob, StyleKnobProps, angle, handleDoubleClick, handlePointerDown, handlePointerMove, handlePointerUp, haptic (+5 more)
+Cohesion: 0.10
+Nodes (22): findSunoTag(), getAllSunoTags(), getTagLabel(), parseTagsFromText(), SUNO_TAG_CATEGORIES, SunoTag, TagCategory, CATEGORY_ICONS (+14 more)
 
 ### Community 224 - "Agent / Hooks / Useworkflowengine"
 Cohesion: 0.16
@@ -3315,8 +3342,8 @@ Cohesion: 0.04
 Nodes (46): Accessibility Enhancements (Future), Accessibility Metrics ✅, Audits Completed ✅, Build Status ✅, Build Verification ✅, Bundle Analysis ✅, Conclusion, Constitution Checks ✅ (+38 more)
 
 ### Community 228 - "Usehintdismissal / Home / Homeheader"
-Cohesion: 0.06
-Nodes (44): AudioPlaybackOptions, AudioTrackLoaderOptions, PlayerState, ActionCategory, ActionId, CATEGORY_LABELS, getActionsByCategory(), getActionsByPriority() (+36 more)
+Cohesion: 0.13
+Nodes (20): useAudioErrorRecovery(), UseAudioErrorRecoveryOptions, useAudioInit(), AudioPlaybackOptions, useAudioPlayback(), useAudioSourceResolver(), UseAudioSourceResolverOptions, AudioTrackLoaderOptions (+12 more)
 
 ### Community 229 - "Lyrics / Workspace / Uselyricshistorystore"
 Cohesion: 0.04
@@ -3331,16 +3358,16 @@ Cohesion: 0.04
 Nodes (46): Appendix: Detailed Component List (Top 50 by Category), Automated Analysis, Component Count by Category, Conclusion, Constitution Cross-Reference, Critical Gaps (Block Release), Current Modal Usage Breakdown, Current Status (+38 more)
 
 ### Community 232 - "Storage / Lib"
-Cohesion: 0.11
-Nodes (3): AppError, GenerationError, InsufficientCreditsError
+Cohesion: 0.09
+Nodes (21): GamificationContext, GamificationContextType, GamificationProvider(), useRewardNotificationContext(), GamificationBar, GamificationBarProps, StatPill, StatPillProps (+13 more)
 
 ### Community 233 - "Lyrics / Validation / Service"
 Cohesion: 0.04
 Nodes (45): 1. Визуальная иерархия, 1. Производительность, 2. Keyboard shortcuts, 2. Размер компонента StemStudioContent, 3. Tooltips и контекстная помощь, 3. WaveSurfer оптимизация, 4. Визуальные индикаторы, 4. Мобильный интерфейс (+37 more)
 
 ### Community 234 - "Promptdjerrorboundary / Prompt"
-Cohesion: 0.02
-Nodes (124): [animatedLevel, setAnimatedLevel], animationFrameRef, animationRef, dataArrayRef, [isClipping, setIsClipping], isVertical, [level, setLevel], PEAK_DECAY_RATE (+116 more)
+Cohesion: 0.06
+Nodes (32): [animatedLevel, setAnimatedLevel], animationFrameRef, animationRef, dataArrayRef, [isClipping, setIsClipping], isVertical, [level, setLevel], PEAK_DECAY_RATE (+24 more)
 
 ### Community 235 - "Queries / Changelog"
 Cohesion: 0.04
@@ -3359,16 +3386,16 @@ Cohesion: 0.07
 Nodes (29): bgClass, config, displayLabel, IconComponent, isCustomIcon, isSpinning, s, shouldPulse (+21 more)
 
 ### Community 239 - "Carousel"
-Cohesion: 0.03
-Nodes (62): HardwareFader, HardwareFaderProps, ButtonSwitch, colorMap, HardwareSwitch, HardwareSwitchProps, RockerSwitch, sizeConfig (+54 more)
+Cohesion: 0.08
+Nodes (22): dbScale, DigitalMeter, HorizontalMeter, LEDBar, NeedleMeter, sizeConfig, VUMeterProps, angle (+14 more)
 
 ### Community 240 - "Notificationbadge / Stories"
 Cohesion: 0.04
 Nodes (46): Accessibility Automation Workflow, ♿ Accessibility Gates (Planned), Automated Quality Checks, Before Committing, Before Creating PR, Before Merging, 🎨 Code Quality Standards, Common Gate Failures (+38 more)
 
 ### Community 241 - "Api / Audio / Upscale"
-Cohesion: 0.12
-Nodes (23): stats, ECONOMY, MODEL_COSTS, referralKeys, ReferralReward, ReferralStats, useApplyReferralCode(), useReferralLink() (+15 more)
+Cohesion: 0.26
+Nodes (12): ECONOMY, MODEL_COSTS, calculateBonusPercent(), calculatePurchaseXp(), calculateReferralReward(), creditsToStars(), formatCredits(), formatStars() (+4 more)
 
 ### Community 242 - "Audio / Bufferpool / Audiobufferpool"
 Cohesion: 0.04
@@ -3395,16 +3422,16 @@ Cohesion: 0.04
 Nodes (44): 1. 🏗️ Анализ Архитектуры Компонентов (US1), 2. 🎨 Аудит Соответствия Дизайн-Системе (US2), 3. ♿ Оценка Доступности (US3), 4. 📱 Обзор Mobile-First Реализации (US4), 5. ⚡ Анализ Узких Мест Производительности (US5), 6. 🔄 Обзор Консистентности Паттернов Взаимодействия (US6), 7. 📚 Создание Документации и Библиотеки Паттернов (US7), 📦 Артефакты и Результаты (+36 more)
 
 ### Community 248 - "Lib / A11Y / A11Yhelpers"
-Cohesion: 0.05
-Nodes (38): benchmarkResult, finalRenderCount, i, initialRenderCount, renderCounter, reRenderCount, { result }, { result, rerender } (+30 more)
+Cohesion: 0.13
+Nodes (15): getAverageFPS(), measureScrollFPS(), avgFPS, benchmarkResult, fpsSamples, height, i, item (+7 more)
 
 ### Community 249 - "Refinedcard"
-Cohesion: 0.10
-Nodes (30): formatAsMeasureBeat(), generateGridPositions(), getBeatDuration(), getMeasurePosition(), getNearestGridPosition(), getSubdivisionDuration(), isOnGrid(), SnapDivision (+22 more)
+Cohesion: 0.08
+Nodes (37): formatAsMeasureBeat(), generateGridPositions(), getBeatDuration(), getMeasurePosition(), getNearestGridPosition(), getSubdivisionDuration(), isOnGrid(), SnapDivision (+29 more)
 
 ### Community 250 - "Prompt / Essentialsknobgrid / Knobcell"
-Cohesion: 0.05
-Nodes (62): EXPIRY_TIME, StemReference, StemReferenceInput, StemReferenceStore, useStemReferenceStore, DEFAULT_STEM_STATE, MixerHistoryEntry, MixerHistoryState (+54 more)
+Cohesion: 0.14
+Nodes (25): useLoopControls(), usePlaybackControls(), usePlaybackLoadingState(), usePlaybackProgress(), usePlaybackStatus(), usePlaybackStore, useEffectiveStemVolume(), useIsStemMuted() (+17 more)
 
 ### Community 251 - "Statemachine / Lib"
 Cohesion: 0.04
@@ -3424,7 +3451,7 @@ Nodes (44): 1. **MobilePlayerTab.tsx** (300+ строк), 2. **MobileSectionsTab
 
 ### Community 255 - "Services / Payment / Service"
 Cohesion: 0.05
-Nodes (42): allTags, category, combinedText, { data: existingMetaTags }, { data: existingStyles }, { data: existingTags }, { data: tagId, error: syncError }, { data: track, error } (+34 more)
+Nodes (40): allTags, category, combinedText, { data: existingMetaTags }, { data: existingStyles }, { data: existingTags }, { data: tagId, error: syncError }, { data: track, error } (+32 more)
 
 ### Community 256 - "Hooks / Useblog / Blogeditor"
 Cohesion: 0.04
@@ -3447,12 +3474,12 @@ Cohesion: 0.04
 Nodes (44): Acknowledgments, AI Assistant (Phase 4) - 11 tasks, Areas for Improvement 📈, Combined Impact, Completion Metrics, Completion Metrics, Conclusion, Files Created/Modified (+36 more)
 
 ### Community 261 - "Usekeyboardshortcuts / Hooks"
-Cohesion: 0.05
-Nodes (35): MobileFormField, MobileFormFieldProps, MobileNumberInput, MobileSelect, MobileSelectOption, MobileSelectProps, MobileSlider, MobileSliderProps (+27 more)
+Cohesion: 0.09
+Nodes (21): MobileFormField, MobileFormFieldProps, MobileNumberInput, MobileSelect, MobileSlider, MobileSliderProps, MobileTextarea, MobileTextareaProps (+13 more)
 
 ### Community 262 - "Usepublictracks / Hooks"
-Cohesion: 0.22
-Nodes (7): RecentlyUsedSection(), RecentlyUsedSectionProps, RecentPage, MAX_ITEMS, navigate, pages, STORAGE_KEY
+Cohesion: 0.06
+Nodes (27): filteredItems, [query, setQuery], allItems, allSections, handleNavigate(), { hapticFeedback }, { isAdmin }, location (+19 more)
 
 ### Community 263 - "Lib / Economy"
 Cohesion: 0.17
@@ -3460,7 +3487,7 @@ Nodes (11): [currentIndex, setCurrentIndex], currentSlide, [direction, setDirect
 
 ### Community 264 - "Lib / Interactions"
 Cohesion: 0.10
-Nodes (22): LyricsAutoScroll, LyricsAutoScrollProps, LyricLine, LyricsRenderer, LyricsRendererProps, DetectedSection, LyricsSections, LyricsSectionsProps (+14 more)
+Nodes (21): LyricsAutoScroll, LyricsAutoScrollProps, LyricLine, LyricsRenderer, DetectedSection, LyricsSections, LyricsSectionsProps, useLyricsSections() (+13 more)
 
 ### Community 265 - "Lib / Query / Utils"
 Cohesion: 0.10
@@ -3471,8 +3498,8 @@ Cohesion: 0.04
 Nodes (45): 1. Integration Sprint 033 (День 1-2), 2. Metrics Setup (День 3-4), 3. A/B Testing (День 5), 📊 Executive Summary, 🎯 KPIs для отслеживания, 📱 Mobile (P1) - Неделя 7-8, MusicVerse AI - План дальнейших работ 2026, ✅ Next Steps (Эта неделя) (+37 more)
 
 ### Community 267 - "Messages / Enhancedmessages"
-Cohesion: 0.04
-Nodes (45): [audioDuration, setAudioDuration], [audioFile, setAudioFile], [audioPreviewUrl, setAudioPreviewUrl], availableModels, clearAudio(), [continueAt, setContinueAt], { duration: probedDuration }, [durationError, setDurationError] (+37 more)
+Cohesion: 0.05
+Nodes (32): addInstrumental(), AddInstrumentalParams, addVocals(), AddVocalsParams, extendMusic(), ExtendMusicParams, extendTrack(), generateSfx() (+24 more)
 
 ### Community 268 - "Usecontextualgeneration / Studio / Addtrackdrawer"
 Cohesion: 0.17
@@ -3487,12 +3514,12 @@ Cohesion: 0.05
 Nodes (43): 1. Upload & Cover Audio, 2. Upload & Extend Audio, Alternative Upload Methods, API Endpoints, Audio Upload and Processing Flow Documentation, Caching Strategy, Common Errors, Database Schema (+35 more)
 
 ### Community 271 - "Guitartabvisualization / Analysis / Names"
-Cohesion: 0.12
-Nodes (14): useTrackVersionManagement(), TrackVersionsTab(), TrackVersionsTabProps, VersionMetadata, { data: mainTrack }, { data: versions, isLoading }, formatDuration(), { isProcessing, createVersionFromTrack, setVersionAsPrimary, deleteVersion } (+6 more)
+Cohesion: 0.11
+Nodes (22): advancedChannels, essentialChannels, isMobile, knobSize, [showAll, setShowAll], config, handleLabelClick, handleOpenChange (+14 more)
 
 ### Community 272 - "Lib / Main / Migration"
-Cohesion: 0.14
-Nodes (10): StatusFilter, TypeFilter, filtered, [query, setQuery], [retryingId, setRetryingId], [statusFilter, setStatusFilter], t, taskId (+2 more)
+Cohesion: 0.06
+Nodes (30): isActive, isPending, items, keepEnabled, pending, helper, pendingRelative, ready (+22 more)
 
 ### Community 273 - "Prefetchmanager / Audio"
 Cohesion: 0.05
@@ -3507,8 +3534,8 @@ Cohesion: 0.05
 Nodes (44): 1. POST /api/generate, 2025-12-08, 2026-07-04 — Sprint 052: Mashup + Persona + File Upload Proxy, 2026-07-04 — Sprint 053 + 054: Sounds + MIDI + Details Suite + Boost Style (28/28 ✅), 2. POST /api/custom_generate, 3. POST /api/generate_lyrics, 4. GET /api/get, 5. GET /api/get_limit (+36 more)
 
 ### Community 276 - "Interactivechordwheel / Lib / Studio"
-Cohesion: 0.11
-Nodes (17): barRef, handleLoopToggle, handleMouseDown, handlePlayPause, handleProgressSeek, handleSeek, handleSkipBack, handleSkipForward (+9 more)
+Cohesion: 0.12
+Nodes (16): barRef, handleLoopToggle, handleMouseDown, handlePlayPause, handleProgressSeek, handleSeek, handleSkipBack, handleSkipForward (+8 more)
 
 ### Community 277 - "Useplatformstats / Hooks / Statshighlightbanner"
 Cohesion: 0.17
@@ -3535,24 +3562,24 @@ Cohesion: 0.05
 Nodes (43): 1. Аудит последних обновлений ✅, 2. Обновление статуса задач ✅, 3. Созданные документы ✅, 4. Продолжение выполнения спринтов ✅, Sprint 008: Library & Player MVP, Telegram Stars Payment System, UI/UX Улучшения, Анализ состояния: (+35 more)
 
 ### Community 283 - "Lib / Accessibility"
-Cohesion: 0.05
-Nodes (40): checkPiPSupport(), PictureInPictureState, usePictureInPicture(), UsePictureInPictureOptions, UsePictureInPictureReturn, setSubscriptionDialogCallback(), SubscriptionDialogCallback, useTrackActions() (+32 more)
+Cohesion: 0.02
+Nodes (87): checkPiPSupport(), PictureInPictureState, usePictureInPicture(), UsePictureInPictureOptions, UsePictureInPictureReturn, GamificationOnboarding, GenerateSheet, GenerationResultSheet (+79 more)
 
 ### Community 284 - "Lyrics / Sectionmatcher"
 Cohesion: 0.09
 Nodes (22): ICON_SIZES, SectionHeaderProps, ArrowIcon, handleShowMore(), headingLevel, iconElement, iconWrapper, navigate (+14 more)
 
 ### Community 285 - "Rhythmanalyzer / Results"
-Cohesion: 0.13
-Nodes (13): BBox, Insets, bar, [bboxes, setBboxes], [container, setContainer], [dir, setDir], [enabled, setEnabled], flag (+5 more)
+Cohesion: 0.14
+Nodes (12): BBox, Insets, bar, [bboxes, setBboxes], [container, setContainer], [dir, setDir], [enabled, setEnabled], flag (+4 more)
 
 ### Community 286 - "Chart"
-Cohesion: 0.04
-Nodes (72): fetchSunoApiBalance(), getModelCost(), GamificationContext, GamificationContextType, GamificationProvider(), useRewardNotificationContext(), GENERATION_COST, { data: credits, isLoading } (+64 more)
+Cohesion: 0.09
+Nodes (31): GENERATION_COST, checkin, { data: canCheckin, isLoading: checkingStatus }, { data: credits }, nextStreakBonus, { showStreak, showCredits }, [starMovements], streak (+23 more)
 
 ### Community 287 - "Command"
-Cohesion: 0.02
-Nodes (153): AdminUserSubscriptionDialog(), AlertAnalyticsPanel(), COLORS, SERVICE_COLORS, AlertHistoryPanel(), statusConfig, AnomalyDetectionPanel(), EnhancedAnalyticsPanel() (+145 more)
+Cohesion: 0.03
+Nodes (89): AdminUserSubscriptionDialog(), AdminUserSubscriptionDialogProps, DURATION_PRESETS, SUBSCRIPTION_TIERS, useChangeUserSubscription(), BundleStats, calculatePercentile(), CoreWebVitals (+81 more)
 
 ### Community 288 - "Agent / Quickactionsbar / Aiprogressindicator"
 Cohesion: 0.05
@@ -3563,8 +3590,8 @@ Cohesion: 0.05
 Nodes (43): 📊 Аналитика и мониторинг, Аналитика использования, Быстрое руководство по старту, 🎯 Быстрый старт к навигации, Возможности генерации музыки, Возможности коллаборации, Возможности управления проектами, Генерация кода (+35 more)
 
 ### Community 290 - "Audio / Streamingloader"
-Cohesion: 0.14
-Nodes (14): [isInstrumental, setIsInstrumental], [prompt, setPrompt], remixMutation, [style, setStyle], [title, setTitle], { user }, ExtendDialogProps, RemixDialog() (+6 more)
+Cohesion: 0.09
+Nodes (21): BenchmarkResult, calculateStatistics(), formatMemorySize(), FPSSample, measureLoadTime(), measureMemory(), MemoryMeasurement, runBenchmark() (+13 more)
 
 ### Community 291 - "Aiassistantcontext / Contexts"
 Cohesion: 0.05
@@ -3587,8 +3614,8 @@ Cohesion: 0.30
 Nodes (13): compressLyrics(), escapeHtml(), expandLyrics(), extractLyricsSections(), formatLyricsForDisplay(), formatLyricsForExport(), FORMATTING_CONFIG, generateLyricsHTML() (+5 more)
 
 ### Community 296 - "Comment / Types"
-Cohesion: 0.23
-Nodes (10): TagCombination, TagRecommendation, TagUsageStats, useMetaTags(), useSuccessfulCombinations(), useTagPopularity(), useTagRecommendations(), useTagRelationships() (+2 more)
+Cohesion: 0.27
+Nodes (7): TagCombination, TagRecommendation, TagUsageStats, useMetaTags(), useTagRecommendations(), useTagRelationships(), useTagUsageHistory()
 
 ### Community 297 - "Types / Social"
 Cohesion: 0.17
@@ -3603,8 +3630,8 @@ Cohesion: 0.14
 Nodes (16): densityConfig, PlayerProgress, PlayerProgressDensity, PlayerProgressProps, WaveformProgressBar, WaveformProgressBarProps, bufferedProgress, config (+8 more)
 
 ### Community 300 - "Hooks / Media / Query"
-Cohesion: 0.05
-Nodes (41): Comp, contextValue, isMobile, { isMobile, state }, { isMobile, state, openMobile, setOpenMobile }, open, [_open, _setOpen], [openMobile, setOpenMobile] (+33 more)
+Cohesion: 0.04
+Nodes (44): Comp, contextValue, handleKeyDown(), isMobile, { isMobile, state }, { isMobile, state, openMobile, setOpenMobile }, navigate, open (+36 more)
 
 ### Community 301 - "Trackversionspanel / Project / Stem"
 Cohesion: 0.05
@@ -3615,8 +3642,8 @@ Cohesion: 0.05
 Nodes (43): 1. 🔴 КРИТИЧЕСКИЙ: iOS Safari Audio Crash, 2. 🔴 КРИТИЧЕСКИЙ: Bundle Size Optimization, 3. 🟡 ВЫСОКИЙ: Sprint 031 Acceleration, 4. 🟡 ВЫСОКИЙ: Memory Leak Fix, 5. 🟢 СРЕДНИЙ: Test Coverage Improvement, 📋 Action Items для Team Lead, Code Health, E001: Настройка окружения (+35 more)
 
 ### Community 303 - "Services / Upsell / Strategy"
-Cohesion: 0.04
-Nodes (56): BatchResults, BatchSummary, ChordDetection, ChordDetectionResult, ChordDetectionResultWithTrack, ChordsAnalysis, CreateChordDetectionResultInput, CreateLyricVersionInput (+48 more)
+Cohesion: 0.05
+Nodes (42): BatchResults, BatchSummary, ChordDetection, ChordsAnalysis, CreateChordDetectionResultInput, CreateLyricVersionInput, CreateMidiFileInput, CreatePresetInput (+34 more)
 
 ### Community 304 - "Usevoiceinput / Hooks / Voice"
 Cohesion: 0.05
@@ -3631,20 +3658,20 @@ Cohesion: 0.05
 Nodes (41): 10. Performance Monitor (Priority: P2) ✅, 1. Система кеширования аудио (Priority: P1) ✅, 2. Оптимизированный аудио плеер (Priority: P1) ✅, 3. Debounced Audio Time (Priority: P1) ✅, 4. История воспроизведения (Priority: P2) ✅, 5. Keyboard Shortcuts (Priority: P2) ✅, 6. Version Comparison UI (Priority: P2) ✅, 7. Quick Queue Actions (Priority: P2) ✅ (+33 more)
 
 ### Community 307 - "Structuredlyricspreview / Results"
-Cohesion: 0.05
-Nodes (37): TrackDetailDialog(), TrackDetailDialogProps, GenerateSheet, TrackDetailSheetProps, useTrackChangelog(), clearRemixData(), RemixData, setRemixData() (+29 more)
+Cohesion: 0.13
+Nodes (14): [copied, setCopied], currentWord, handleCopy(), hasTimestampedLyrics, isActive, isPast, isWordActive, lyricsData (+6 more)
 
 ### Community 308 - "Audioerrorboundary / Studio"
-Cohesion: 0.13
-Nodes (15): clipRef, effectiveDuration, handleResizeEnd, handleResizeMove, handleResizeStart, height, [initialWidth, setInitialWidth], [initialX, setInitialX] (+7 more)
+Cohesion: 0.09
+Nodes (20): AudioReferencePreview, AudioReferencePreviewProps, WaveSurferCtor, WaveSurferInstance, WaveSurferModule, containerRef, [currentTime, setCurrentTime], durationDisplay (+12 more)
 
 ### Community 309 - "Types / Forms"
 Cohesion: 0.14
 Nodes (11): Form, FormField, FormControl, FormDescription, FormFieldContext, FormFieldContextValue, FormItem, FormItemContext (+3 more)
 
 ### Community 310 - "Types / Player"
-Cohesion: 0.19
-Nodes (13): BLOCKED_ARTIST_PATTERNS, checkForBlockedArtists(), FALSE_POSITIVE_WORDS, toAppError(), detectErrorCodeFromMessage(), ERROR_CODE_MESSAGES, ErrorCodeInfo, GenerationErrorResponse (+5 more)
+Cohesion: 0.09
+Nodes (22): handleDismiss(), resetOnboarding(), resetOnboarding(), clearFirstGeneratedTrack(), removeItem(), clearQueue(), addRecentlyPlayed(), clearRecentlyPlayed() (+14 more)
 
 ### Community 311 - "Glowbutton / Stories"
 Cohesion: 0.05
@@ -3656,7 +3683,7 @@ Nodes (42): Challenges Addressed ✅, Code Quality Metrics, Code References, Def
 
 ### Community 313 - "Validation / Touchtargets"
 Cohesion: 0.09
-Nodes (27): mockFrom, mockFunctions, fetchGenerationTask(), fetchGenerationTaskBySunoId(), fetchReplacedSectionTasks(), fetchSectionReplacementLogs(), fetchSectionReplacementsHistory(), GenerationTask (+19 more)
+Nodes (29): mockFrom, mockFunctions, fetchGenerationTask(), fetchGenerationTaskBySunoId(), fetchReplacedSectionTasks(), fetchSectionReplacementLogs(), fetchSectionReplacementsHistory(), GenerationTask (+21 more)
 
 ### Community 314 - "Paymentcohortanalysis / Admin"
 Cohesion: 0.05
@@ -3679,8 +3706,8 @@ Cohesion: 0.18
 Nodes (10): currentExpiry, { data }, { data, error }, { data: user }, expiredAt, expiresAt, supabase, supabaseKey (+2 more)
 
 ### Community 319 - "Transactionhistory / Gamification / Action"
-Cohesion: 0.08
-Nodes (29): generateSunoSounds(), getSunoSoundsStatus(), SunoSoundsAccepted, SunoSoundsParams, SunoSoundsStatus, mockFunctions, useSunoSounds(), useSunoSoundsMutation() (+21 more)
+Cohesion: 0.11
+Nodes (18): generateSunoSounds(), getSunoSoundsStatus(), SunoSoundsAccepted, SunoSoundsParams, SunoSoundsStatus, mockFunctions, useSunoSounds(), useSunoSoundsMutation() (+10 more)
 
 ### Community 320 - "Lib / Artistreplacements / Generate"
 Cohesion: 0.24
@@ -3695,8 +3722,8 @@ Cohesion: 0.05
 Nodes (41): 📚 Additional Resources, 🏗️ Architecture Overview, Business Metrics, Completed ✅, 📞 Contacts, Core Features, Current State Analysis, Desktop Layout (+33 more)
 
 ### Community 323 - "Waveformworkerpool / Lib"
-Cohesion: 0.04
-Nodes (42): AudioAction, BreadcrumbCategory, captureAudioError(), detectPlatform(), initSentry(), PaymentOperation, PaymentProvider, ReferenceMode (+34 more)
+Cohesion: 0.09
+Nodes (15): AudioAction, BreadcrumbCategory, captureAudioError(), detectPlatform(), PaymentOperation, PaymentProvider, ReferenceMode, ReferenceStep (+7 more)
 
 ### Community 324 - "Queries / Track / Details"
 Cohesion: 0.05
@@ -3715,8 +3742,8 @@ Cohesion: 0.05
 Nodes (41): ✅ Completed Sprints (17 sprints - 68%), 📋 Detailed Planned Sprints (419 tasks), Detailed Sprint Specs, 🗓️ Detailed Sprint Timeline, 🎯 Executive Summary, Future Planning Needed, 📝 High-Level Planned Sprints, Immediate Actions (+33 more)
 
 ### Community 328 - "Lazyimage / Stories"
-Cohesion: 0.04
-Nodes (61): GAP_SIZES, GRID_COLS, GRID_PRESETS, GridColumns, GridGap, GridPreset, ResponsiveGrid, ResponsiveGridProps (+53 more)
+Cohesion: 0.07
+Nodes (32): GAP_SIZES, GRID_COLS, GRID_PRESETS, GridColumns, GridGap, GridPreset, ResponsiveGrid, ResponsiveGridProps (+24 more)
 
 ### Community 329 - "Statusbadge"
 Cohesion: 0.15
@@ -3727,16 +3754,16 @@ Cohesion: 0.05
 Nodes (41): Unified Studio, 🏗️ Архитектурная карта, Аудио плеер, 🎯 Быстрая навигация, Быстрые переходы в коде, 🎯 Быстрые ссылки, Где искать ответы?, Генерация музыки (+33 more)
 
 ### Community 331 - "Commentsuggestions / Comments"
-Cohesion: 0.15
-Nodes (13): CheckinDay, StreakCalendar(), useStreakCalendar(), streakColors, checkinDates, { data: checkins, isLoading }, dayNames, dayNum (+5 more)
+Cohesion: 0.17
+Nodes (12): StreakCalendar(), useStreakCalendar(), streakColors, checkinDates, { data: checkins, isLoading }, dayNames, dayNum, dayOfWeek (+4 more)
 
 ### Community 332 - "Contexts / Gamificationcontext / Useachievementnotifications"
-Cohesion: 0.15
-Nodes (13): triggerConfetti(), confetti(), ConfettiFn, frame(), SubscriptionSuccessPopup, SubscriptionSuccessPopupProps, TIER_INFO, confettiTimer (+5 more)
+Cohesion: 0.12
+Nodes (19): transcription, exportMidi(), ExportMidiParams, ExportMidiResult, fetchLatestTranscriptionForTrackOrStem(), fetchMainTrackTranscription(), fetchStemsByTypes(), fetchStemTranscriptionForTrackType() (+11 more)
 
 ### Community 333 - "Debug / Index"
-Cohesion: 0.18
-Nodes (15): STYLE_PATTERNS, SUGGESTION_TEMPLATES, UseSmartAssistantOptions, SmartAssistantInline, SmartAssistantInlineProps, SmartAssistantPanel, SmartAssistantPanelProps, SmartSuggestionCardProps (+7 more)
+Cohesion: 0.22
+Nodes (12): SmartAssistantInline, SmartAssistantInlineProps, SmartAssistantPanel, SmartAssistantPanelProps, SmartSuggestionCardProps, ProjectGenerationContext, ProjectTrackInfo, SmartAssistantActions (+4 more)
 
 ### Community 334 - "Useconfirm / Hooks"
 Cohesion: 0.10
@@ -3755,16 +3782,16 @@ Cohesion: 0.05
 Nodes (40): 1. Message Tracking, 2. Error Handling, 3. Loading States, 4. Input Validation, 5. Button Organization, Auto-Replace Logic, Available Functions, Basic Usage (+32 more)
 
 ### Community 338 - "Recentlyusedsection / Navigation"
-Cohesion: 0.13
-Nodes (14): getBufferedPercentage(), delay, end, executionTime, fps, frameDuration, i, rafBased (+6 more)
+Cohesion: 0.11
+Nodes (16): getBufferedPercentage(), startSpan(), callback, delay, end, executionTime, fps, frameDuration (+8 more)
 
 ### Community 339 - "Structureresultcard / Results"
 Cohesion: 0.05
 Nodes (40): 1. Git Push to Main (CRITICAL), 1. КРИТИЧЕСКИЕ ИСПРАВЛЕНИЯ ✅, 2. Branch Protection Phase 2 (HIGH), 2. АНАЛИЗ И ПЛАНИРОВАНИЕ ✅, 3. E2E Verdict (MEDIUM), 3. ДОКУМЕНТАЦИЯ ✅, CI/CD Status, Code Quality (+32 more)
 
 ### Community 340 - "Types / Guitar"
-Cohesion: 0.04
-Nodes (53): handleTopUp(), { hapticFeedback }, { isFreeUser, isBalanceLimitReached }, isInsufficient, isLow, navigate, showUpgradeOption, [upgradePopupOpen, setUpgradePopupOpen] (+45 more)
+Cohesion: 0.09
+Nodes (19): UpsellType, useUpsellThrottle(), ProactiveUpsellBanner, ProactiveUpsellBannerProps, { canShow: canShowBanner, recordShown }, dismissed, handleDismiss(), { hapticFeedback } (+11 more)
 
 ### Community 341 - "Emptystate / Stories"
 Cohesion: 0.05
@@ -3783,8 +3810,12 @@ Cohesion: 0.05
 Nodes (40): 1. Complete Technical Architecture, 1. Reverse-Engineered from Working Code, 2. Business Logic Documentation, 2. Dual-Audience Design, 3. Developer-Ready Specifications, 3. Living Documentation, 4. Production-Ready Detail, 4. Stakeholder-Friendly Documentation (+32 more)
 
 ### Community 345 - "Constants / Sunotemplates"
-Cohesion: 0.05
-Nodes (49): StemActionSheetProps, StudioActionsPanelProps, NewArrangementDialogProps, StemTranscription, TrackStem, enrichedStems, handleMasterMuteToggle, handleMuteToggle (+41 more)
+Cohesion: 0.09
+Nodes (20): DBProduct, StarsProduct, TIER_FEATURES, TierComparisonCard, TierComparisonCardProps, TierFeature, TIERS, {
+    data: products,
+    isLoading,
+    error,
+  } (+12 more)
 
 ### Community 346 - "Lib / Lazy"
 Cohesion: 0.05
@@ -3856,7 +3887,7 @@ Nodes (13): analyzeContentQuality(), calculateReadabilityScore(), countStructure
 
 ### Community 363 - "Workers / Waveformworker"
 Cohesion: 0.05
-Nodes (41): ReferenceManagerError, r, isErr(), isOk(), map(), blob, file, originalAudio (+33 more)
+Nodes (40): ReferenceManagerError, r, isErr(), isOk(), map(), blob, file, originalAudio (+32 more)
 
 ### Community 364 - "Virtualizedartistslist / Content / Hub"
 Cohesion: 0.20
@@ -3871,8 +3902,8 @@ Cohesion: 0.18
 Nodes (6): localStorageMock, mockPlayerState, mockUnifiedStudioState, i, tab, TabSwitchingTestComponent
 
 ### Community 367 - "Lib / Telegramsafearea"
-Cohesion: 0.07
-Nodes (31): StorageOptions, TelegramWithCloudStorage, useTelegramStorage(), DEFAULT_PREFERENCES, GENRE_KEYWORDS, UserPreferences, useUserPreferences(), CloudStorageCallback (+23 more)
+Cohesion: 0.02
+Nodes (140): chordPositions, colorClass, currentChord, handleChordClick, haptic, isActive, handleTap, { hapticFeedback } (+132 more)
 
 ### Community 368 - "Safe / Area"
 Cohesion: 0.05
@@ -3884,26 +3915,19 @@ Nodes (8): DEVICE_ICONS, bgColor, color, isGood, isPoor, status, statusColors, S
 
 ### Community 370 - "Types / Lamejs"
 Cohesion: 0.13
-Nodes (13): VersionSwitcherProps, { activeTrack, isPlaying, playTrack }, { data: versions, isLoading }, gapClasses, isActive, isCurrentlyPlaying, isThisSwitching, label (+5 more)
+Nodes (16): DesktopContentLayout, DesktopContentLayoutProps, DesktopDashboardLayout, DesktopDashboardLayoutProps, DesktopMasterDetailLayout, DesktopToolsGridLayout, DesktopToolsGridLayoutProps, BREAKPOINTS (+8 more)
 
 ### Community 371 - "Hooks / Usetablet"
-Cohesion: 0.15
-Nodes (12): [creatingNew, setCreatingNew], filteredPlaylists, handleAddToPlaylist, handleCreateNewPlaylist, handleOpenChange, loading, [newPlaylistName, setNewPlaylistName], {
-    playlists,
-    isLoading: playlistsLoading,
-    createPlaylist,
-    addTrackToPlaylist,
-    isCreating,
-    isAdding,
-  } (+4 more)
+Cohesion: 0.11
+Nodes (18): LyricsLineData, OptimizedLyricsLine, OptimizedLyricsLineProps, OptimizedLyricsPanel, OptimizedLyricsPanelProps, parseLyrics(), defaultProps, element (+10 more)
 
 ### Community 372 - "Lib / A11Y"
-Cohesion: 0.12
-Nodes (22): formatTime(), ReferenceStemPlayer(), ReferenceStemPlayerProps, Stem, useReferenceStemPlayback(), stemColors, getStemColor(), getStemDisplayInfo() (+14 more)
+Cohesion: 0.10
+Nodes (21): getStemColor(), stemColors, getStemColor(), getStemDisplayInfo(), getStemEmoji(), getStemIconName(), STEM_COLORS, STEM_EMOJIS (+13 more)
 
 ### Community 373 - "Lib / Shimmeranimation"
-Cohesion: 0.26
-Nodes (11): now, RateLimitConfigs, ActionType, checkRateLimitDb(), checkRateLimitFallback(), fallbackCache, getRateLimitInfo(), isRateLimited() (+3 more)
+Cohesion: 0.13
+Nodes (17): calculateLineLookAhead(), calculateWordLookAhead(), EnhancedLine, EnhancedWord, enhanceWordsForSync(), findActiveLinePrecision(), findActiveWordPrecision(), groupIntoEnhancedLines() (+9 more)
 
 ### Community 374 - "Types / Telegram"
 Cohesion: 0.05
@@ -3934,20 +3958,20 @@ Cohesion: 0.05
 Nodes (37): 1. Database Schema ✅ VERIFIED CORRECT, 1. Documentation ✅ COMPLETE, 2. Legacy Migrations ⚠️ HISTORICAL (NO ACTION NEEDED), 2. Migration Files ✅ NO ACTION NEEDED, 3. Archive Files ℹ️ INFORMATIONAL, 3. Documentation Consistency ✅ IMPLEMENTED, 4. Constitution & Standards ✅ VERIFIED EXCELLENT, 4. Ongoing Monitoring 📋 RECOMMENDED (+29 more)
 
 ### Community 381 - "Github_Svg"
-Cohesion: 0.04
-Nodes (50): getQuickLyricsPresets(), LYRICS_PRESETS, LyricsPreset, getProjectTypeLabel(), PresetIconComponent, PROJECT_PRESETS, ProjectPreset, [activeTab, setActiveTab] (+42 more)
+Cohesion: 0.14
+Nodes (12): getQuickLyricsPresets(), LYRICS_PRESETS, LyricsPreset, LyricsCard, LyricsChip, LyricsPresetsRow, LyricsPresetsRowProps, handlePresetClick (+4 more)
 
 ### Community 382 - "Audio"
 Cohesion: 0.05
 Nodes (37): Architecture Decisions, Community Health, Conclusion, Current Benchmarks (Development), Database Schema Highlights, Deployment Checklist, Deployment Steps, Executive Summary (+29 more)
 
 ### Community 383 - "Lyrics_Index_Computelyricsstats"
-Cohesion: 0.17
-Nodes (11): isActive, isPending, items, keepEnabled, pending, pendingRelative, ready, selected (+3 more)
+Cohesion: 0.10
+Nodes (20): { attributes, listeners, setNodeRef, transform, transition, isDragging }, { data: transcriptionsMap, isLoading: loadingTranscriptions }, { data: transcriptionStatus }, handleDragEnd, hasTranscription, isSourceTrack, sensors, stemTypes (+12 more)
 
 ### Community 384 - "Lyrics_Index_Formatlyrics"
-Cohesion: 0.03
-Nodes (103): togglePlay(), togglePlay(), handlePlayAll(), handlePlayTrack(), AudioReferencePreview, AudioReferencePreviewProps, WaveSurferCtor, WaveSurferInstance (+95 more)
+Cohesion: 0.12
+Nodes (33): togglePlay(), togglePlay(), handlePlayAll(), handlePlayTrack(), togglePlayback(), togglePlayPause(), handlePlay(), handlePlayPreview() (+25 more)
 
 ### Community 385 - "Lyrics_Index_Parselyricsstructure"
 Cohesion: 0.05
@@ -3958,20 +3982,20 @@ Cohesion: 0.05
 Nodes (38): 📊 MusicVerse AI - Трекер прогресса, 🎯 Sprint документация, 🔄 Активная разработка, 🔗 Быстрые ссылки, 🔄 В процессе, 🎯 Визуализация временной шкалы, 🤝 Вклад в прогресс, 🏆 Главные достижения (+30 more)
 
 ### Community 387 - "Tests_Vitest_Setup"
-Cohesion: 0.24
-Nodes (6): LyricSection, LyricSectionType, SyncSnapshot, SectionCardProps, SectionCard, SectionCardProps
+Cohesion: 0.10
+Nodes (21): handleAction(), navigate, StreakBadge, StreakBadgeProps, onClick, handleGenerateClick(), handleAction(), handleClick() (+13 more)
 
 ### Community 388 - "Tutorials_Svg"
-Cohesion: 0.10
-Nodes (27): PromptHistoryEntry, ChannelCardProps, ControlPanelProps, EssentialsKnobGridProps, KnobCellProps, QUICK_PRESETS, QuickPreset, QuickPresetsProps (+19 more)
+Cohesion: 0.17
+Nodes (11): AnalyserType, FeedbackDelayType, FilterType, PlayerType, PolySynthType, ReverbType, SequenceType, ToneType (+3 more)
 
 ### Community 389 - "Vite_Env_D"
 Cohesion: 0.05
 Nodes (38): 1. Главное меню (menus/main-menu.ts), 1. Главное меню (`/start`), 1. Обработка ошибок, 2. Навигация (handlers/navigation.ts), 2. Экран "Библиотека" (Плеер), 2. Экранирование HTML, 3. Логирование, 3. Медиа-обработчик (handlers/media.ts) (+30 more)
 
 ### Community 390 - "Youtube_Svg"
-Cohesion: 0.24
-Nodes (10): UpsellType, canShowUpsell(), getImpressions(), recordUpsellShown(), saveImpressions(), UpsellImpressions, UpsellType, MAX_BANNER_PER_SESSION (+2 more)
+Cohesion: 0.10
+Nodes (18): MusicLabAudioContext, MusicLabAudioContextValue, MusicLabAudioProvider(), [activeTab, setActiveTab], [guitarDialogOpen, setGuitarDialogOpen], handleProgressionExport(), { hasAccess: hasGuitarStudio }, { hasAccess: hasPromptDJ } (+10 more)
 
 ### Community 391 - "Community 391"
 Cohesion: 0.05
@@ -3990,8 +4014,8 @@ Cohesion: 0.05
 Nodes (37): 1. List Performance Optimization ✅ (US-025-002), 2. Bundle Optimization Strategy ✅ (US-025-004 Partial), Achieved, Completed User Stories (19/28 SP), 📊 Cumulative Sprint Metrics, Demo Ready, Discoveries, Expected Outcomes (+29 more)
 
 ### Community 395 - "Community 395"
-Cohesion: 0.17
-Nodes (7): GC_TIMES, invalidateTrack(), PaginatedTracks, prefetchTrack(), queryKeys, STALE_TIMES, TrackLike
+Cohesion: 0.06
+Nodes (31): { code, msg, data }, { data: publicData }, { data: separationTask, error: taskError }, { data: taskRecord }, { data: uploadData, error: uploadError }, { data: videoTask, error: taskError }, { error: notifyError }, localUrl (+23 more)
 
 ### Community 396 - "Community 396"
 Cohesion: 0.22
@@ -4002,8 +4026,8 @@ Cohesion: 0.05
 Nodes (36): 1. Missing Specification File Created ✅, 2. Cross-Artifact Consistency Analysis ✅, 3. Remediation Plan Document Created ✅, 4. FR-to-Task Mapping Table Created ✅, 5. Status Updates Applied ✅, 6. Task Status Verification ✅, After Analysis, Areas for Improvement (+28 more)
 
 ### Community 398 - "Community 398"
-Cohesion: 0.09
-Nodes (22): 📋 Backlog для будущих спринтов, Code Quality Trends, Test Coverage, Velocity (Story Points per Sprint), 🔄 Завершенные спринты, 📅 Запланированные спринты, 📈 Метрики и аналитика, 📊 Панель мониторинга спринтов (+14 more)
+Cohesion: 0.05
+Nodes (35): Archive: January 4, 2026 - Repository Cleanup, 📝 Archive Statistics, 📋 Archived Files, 📚 Current Documentation, Feature-Specific Reports (Completed), Mobile Optimization Documents (Superseded), Sprint-Specific Reports (Completed Sprints), 🎯 Why These Were Archived (+27 more)
 
 ### Community 399 - "Community 399"
 Cohesion: 0.09
@@ -4066,20 +4090,20 @@ Cohesion: 0.05
 Nodes (36): Advanced Features (Remaining), AI Recommendations, Analytics, Biometric, Blockers, Bot Commands, CloudStorage, Collaboration (+28 more)
 
 ### Community 414 - "Community 414"
-Cohesion: 0.10
-Nodes (21): Bundle Size Monitoring, Checklist for New Components, Common Patterns, Development Server, Getting Help, Linting, Migrating from Old Components, Migrating from Old Skeletons (+13 more)
+Cohesion: 0.06
+Nodes (36): Bundle Size Monitoring, Checklist for New Components, Common Patterns, Development Server, Export Names, File Names, Getting Help, Haptic Feedback (+28 more)
 
 ### Community 415 - "Community 415"
 Cohesion: 0.06
 Nodes (36): Action Menu (Mobile Action Sheet, Desktop Dropdown), Basic Lazy Image, Basic Page, Basic Virtualized Grid, Checklist: Implementing a New Screen, Common Animations, Common Mistakes to Avoid, ✅ DO (+28 more)
 
 ### Community 416 - "Community 416"
-Cohesion: 0.18
-Nodes (9): DrumSequencer, DrumSequencerProps, SequencerRow, hasSoloActive, isAudible, isCurrentStep, isDownbeat, step (+1 more)
+Cohesion: 0.17
+Nodes (10): DrumSequencer, DrumSequencerProps, SequencerRow, SequencerRowProps, hasSoloActive, isAudible, isCurrentStep, isDownbeat (+2 more)
 
 ### Community 417 - "Community 417"
-Cohesion: 0.09
-Nodes (25): DrumEffectsProps, TrackEffectsPanelProps, SequencerRowProps, handlePointerDown, handlePointerLeave, handlePointerUp, hasSoloActive, isAudible (+17 more)
+Cohesion: 0.13
+Nodes (18): DrumEffectsProps, TrackEffectsPanelProps, DrumPad, DrumPadGrid, DrumPadGridProps, DrumPadProps, TrackEffects, DrumSound (+10 more)
 
 ### Community 418 - "Community 418"
 Cohesion: 0.06
@@ -4102,11 +4126,11 @@ Cohesion: 0.08
 Nodes (27): prefersReducedMotion, AiSuggestions(), AiSuggestionsProps, defaultSuggestions, itemVariants, listVariants, Suggestion, HomeQuickCreate (+19 more)
 
 ### Community 423 - "Community 423"
-Cohesion: 0.07
-Nodes (62): hapticNotification(), isProcessing, MAX_RETRIES, RETRY_DELAY_MS, SharePlaylistDialog(), BOT_USERNAME, canShare, [copied, setCopied] (+54 more)
+Cohesion: 0.09
+Nodes (47): hapticNotification(), SharePlaylistDialog(), BOT_USERNAME, canShare, [copied, setCopied], deepLink, handleCopy(), handleShare() (+39 more)
 
 ### Community 424 - "Community 424"
-Cohesion: 0.06
+Cohesion: 0.05
 Nodes (36): 10. Полезные команды, 1. GitHub Branch Protection, 2. CI/CD Pipeline, 3. Commit Message Format, 4. Vitest Configuration, 5. npmrc и Platform Issues, 6. Sprint Workflow, 7. Pre-commit Hooks (+28 more)
 
 ### Community 425 - "Community 425"
@@ -4134,8 +4158,8 @@ Cohesion: 0.06
 Nodes (34): 1. Professional Tools Hub, 2. Pro Badge System, 3. Enhanced MIDI Panel, Adding Pro Badges, AFTER ✅, AI Analysis, BEFORE ❌, 📊 Before vs After (+26 more)
 
 ### Community 431 - "Community 431"
-Cohesion: 0.15
-Nodes (11): ReferenceAnalysisDisplayProps, ReferenceManager, ReferenceManagerService, AudioAnalysis, ReferenceContext, ReferenceMode, ReferenceSource, UnifiedAudioReference (+3 more)
+Cohesion: 0.12
+Nodes (15): ReferenceAnalysisDisplayProps, ReferenceDrawerProps, ReferenceManager, ReferenceManagerService, AudioAnalysis, ReferenceContext, ReferenceMode, ReferenceSource (+7 more)
 
 ### Community 432 - "Community 432"
 Cohesion: 0.06
@@ -4166,12 +4190,12 @@ Cohesion: 0.06
 Nodes (35): Sprint 038: Design System Unification & UX Optimization — Детализация задач, T038-01: Unified EmptyState — анализ и проектирование API, T038-02: Unified EmptyState — реализация, T038-03: Unified EmptyState — миграция, T038-04: Unified Loading — SkeletonPage, T038-05: Unified Loading — ContentSkeleton + clean-up, T038-06: Unified Onboarding — OnboardingFlow state machine, T038-07: Unified Onboarding — шаги и интеграция (+27 more)
 
 ### Community 439 - "Community 439"
-Cohesion: 0.05
-Nodes (40): arousalPercent, emotionQuadrant, hasAdvancedData, valencePercent, normalized, stats, getEmotionQuadrant(), beats (+32 more)
+Cohesion: 0.14
+Nodes (12): beats, containerRef, [hoveredBeat, setHoveredBeat], measures, trackDuration, AudioAnalysis, emotionalColors, AdvancedMusicAnalyticsProps (+4 more)
 
 ### Community 440 - "Community 440"
-Cohesion: 0.18
-Nodes (11): StudioTrack, TrackLaneRowProps, controlsWidth, handleDragOver, handleDrop, hasSolo, isEffectivelyMuted, isMobile (+3 more)
+Cohesion: 0.11
+Nodes (17): formatTime(), GenerationProgressStage(), GenerationProgressStageProps, getStageInfo(), stages, GenerationStepper(), GenerationStepperProps, Step (+9 more)
 
 ### Community 441 - "Community 441"
 Cohesion: 0.06
@@ -4186,8 +4210,8 @@ Cohesion: 0.06
 Nodes (35): 1. Добавить новую команду, 1. Реактивный интерфейс (Native App Style), 2. Архитектура, 2. Добавить новую кнопку в меню, 3. Основные возможности, 3. Реактивное обновление с новой картинкой, 4. Seamless Authentication, 🛠️ API Reference (+27 more)
 
 ### Community 444 - "Community 444"
-Cohesion: 0.02
-Nodes (150): ChangeIndicator, WeeklySummaryCard, charCount, hasValue, inputPaddingTop, isFloating, [isFocused, setIsFocused], isPassword (+142 more)
+Cohesion: 0.05
+Nodes (49): OptimisticOptions, OptimisticResult, useOptimistic(), useOptimisticList(), ScrollRevealOptions, ScrollRevealResult, useScrollReveal(), useStaggeredReveal() (+41 more)
 
 ### Community 445 - "Community 445"
 Cohesion: 0.06
@@ -4202,12 +4226,12 @@ Cohesion: 0.06
 Nodes (34): AI Services (Suno, Gemini), Backend (PostgreSQL + Edge Functions), Frontend (React), Stem Studio, Telegram Integration, Telegram бот, 🗂️ Visual Navigation Index, 📱 Быстрый доступ по функциям (+26 more)
 
 ### Community 448 - "Community 448"
-Cohesion: 0.25
-Nodes (6): CustomVoice, mockFrom, mockFunctions, mockStorage, VoiceApiError, voiceCloneApi
+Cohesion: 0.11
+Nodes (17): { data: adminAuth, isLoading }, handleClick(), { hapticFeedback }, navigate, AdminQuickAccess, AdminQuickAccessProps, getGreeting(), HomeHeader() (+9 more)
 
 ### Community 449 - "Community 449"
-Cohesion: 0.20
-Nodes (9): helper, VoiceHistoryPage(), VoiceLibraryPage(), CustomVoicePicker(), formatRelative(), mockedUseCustomVoices, pendingVoice, readyVoice (+1 more)
+Cohesion: 0.14
+Nodes (15): EDGE_FUNCTION_BY_TYPE, getSunoTaskDetails(), isSunoTaskType(), POLL_INTERVAL_MS_BY_TYPE, SunoTaskDetailsResponse, SunoTaskStatus, SunoTaskType, mockFunctions (+7 more)
 
 ### Community 450 - "Community 450"
 Cohesion: 0.06
@@ -4270,8 +4294,8 @@ Cohesion: 0.06
 Nodes (33): Acceptance Criteria, API Endpoints, Database Schema Changes, Dependencies Between Tasks, E2E Tests (Recommended), Functional Requirements, Implementation for User Story 5 ✅ COMPLETE (13/13 tasks), Implementation for User Story 6 ✅ COMPLETE (11/11 tasks) (+25 more)
 
 ### Community 465 - "Community 465"
-Cohesion: 0.18
-Nodes (9): LyricsVisualEditorCompact, after, back, before, [lyrics, setLyrics], [m, setM], { rerender }, textarea (+1 more)
+Cohesion: 0.11
+Nodes (19): chordData, fingerColor, fingering, fingerNum, fingers, fretSpacing, MotionWrapper, normalizedChord (+11 more)
 
 ### Community 466 - "Community 466"
 Cohesion: 0.06
@@ -4314,20 +4338,20 @@ Cohesion: 0.06
 Nodes (32): 1. Sprint Analysis & Planning, 2. Sprint 011: Social Features & Collaboration, 3. Sprint 014: Platform Integration & Export, 4. Sprint 015: Quality, Testing & Performance, 5. Documentation Updates, After This Work, Before This Work, Custom Agent Usage (+24 more)
 
 ### Community 476 - "Community 476"
-Cohesion: 0.06
-Nodes (38): { addTrack }, [createProjectOpen, setCreateProjectOpen], filteredProjects, [loading, setLoading], { projects, isLoading: projectsLoading }, [searchQuery, setSearchQuery], [selectedProjectId, setSelectedProjectId], QRScannerDialog() (+30 more)
+Cohesion: 0.09
+Nodes (35): DialogBackdrop(), DialogContainer(), AlertVariant, DIALOG_CONFIG, DIALOG_PRESETS, DialogFallback(), isMobile(), ModalVariant (+27 more)
 
 ### Community 477 - "Community 477"
 Cohesion: 0.06
 Nodes (32): 1. "Hash validation failed" ❌, 1. Создание Telegram Bot через @BotFather, 2. "No initData available" ⚠️, 2. Настройка Mini App, 3. "Invalid Telegram data" ❌, 3. Добавление TELEGRAM_BOT_TOKEN в Lovable Cloud, 4. "Failed to create session" 💥, 5. "TELEGRAM_BOT_TOKEN not configured" ⚙️ (+24 more)
 
 ### Community 478 - "Community 478"
-Cohesion: 0.13
-Nodes (16): handleAction(), Icon, navigate, positionClasses, categoryColors, categoryIcons, ContextualHint(), ContextualHintProps (+8 more)
+Cohesion: 0.11
+Nodes (16): colorMap, iconMap, NotificationListProps, allNotifications, colorClass, [deletingIds, setDeletingIds], handleNotificationClick(), hasExpiry (+8 more)
 
 ### Community 479 - "Community 479"
-Cohesion: 0.20
-Nodes (9): { activeTrack, repeat, toggleRepeat }, handleSpeedChange(), handleToggleLoop(), isCurrentTrack, isLooping, [playbackSpeed, setPlaybackSpeed], speedOptions, PlaybackActions() (+1 more)
+Cohesion: 0.10
+Nodes (16): benchmarkResult, finalRenderCount, i, initialRenderCount, renderCounter, reRenderCount, { result }, { result, rerender } (+8 more)
 
 ### Community 480 - "Community 480"
 Cohesion: 0.06
@@ -4342,16 +4366,16 @@ Cohesion: 0.22
 Nodes (8): ALERT_PRIORITIES, QUIET_ROUTES, LAST_ALERT_KEY, MAX_ALERTS_ON_PAGE_LOAD, MAX_ALERTS_PER_SESSION, MIN_ALERT_INTERVAL, SESSION_KEY, STORAGE_KEY
 
 ### Community 483 - "Community 483"
-Cohesion: 0.08
-Nodes (22): Code Quality (8/10), 🎵 MusicVerse AI - Аудит и Оптимизация (Краткая версия), 🚀 ROADMAP (36 недель), 💰 ROI & БИЗНЕС-ЭФФЕКТ, Архитектура (9/10), Бизнесовые, 📚 ДОКУМЕНТАЦИЯ, 🎓 ЗАКЛЮЧЕНИЕ (+14 more)
+Cohesion: 0.06
+Nodes (32): 🔴 1. Music Lab Hub (Week 1-2), 1. Фрагментированный UX 🔴 HIGH, 🔴 2. List Performance (Week 2), 2. Stem Studio - Избыточная Сложность 🔴 HIGH, 🔴 3. Performance Monitoring (Week 2), 3. Медленная Скорость Спринтов 🟡 MEDIUM, 🟡 4. UX Unification (Week 3-4), 🟡 5. Parallel Workstreams (Week 1) (+24 more)
 
 ### Community 484 - "Community 484"
-Cohesion: 0.05
-Nodes (49): available, callerId, code, { count: activeCount }, { data: credits }, { data: insertData, error: insertError }, { data: row }, { data: row, error: insErr } (+41 more)
+Cohesion: 0.03
+Nodes (98): BotCommand, BotConfig, corsHeaders, getDefaultCommands(), getDefaultMessages(), logger, alertStatus, { authorize } (+90 more)
 
 ### Community 485 - "Community 485"
-Cohesion: 0.22
-Nodes (8): CHANNEL_USERNAME, commandsResult, secretToken, webhookInfo, webhookParams, webhookResult, webhookType, webhookUrl
+Cohesion: 0.11
+Nodes (16): roundedClass, widths, Shimmer, ShimmerAvatar, ShimmerBlock, ShimmerProps, ShimmerText, AvatarPlaceholder (+8 more)
 
 ### Community 486 - "Community 486"
 Cohesion: 0.06
@@ -4366,8 +4390,8 @@ Cohesion: 0.06
 Nodes (31): 1. Semantic HTML & ARIA ✅, 2. Keyboard Navigation ✅, 3. Touch Target Sizes ✅, 4. Color Contrast ✅, 5. Screen Reader Support ✅, 6. Focus Management ✅, Accessibility Audit Results (Manual Review), Browser DevTools (+23 more)
 
 ### Community 489 - "Community 489"
-Cohesion: 0.04
-Nodes (42): { activeTrack, isPlaying, playTrack, pauseTrack }, albumDescription, albumUrl, creatorName, { data: album, isLoading: albumLoading }, { data: tracks, isLoading: tracksLoading }, handleShare(), { id } (+34 more)
+Cohesion: 0.06
+Nodes (26): [activeVariant, setActiveVariant], animationRef, audioRef, availableVariants, barProgress, [currentTime, setCurrentTime], getCurrentUrl, handleApply() (+18 more)
 
 ### Community 490 - "Community 490"
 Cohesion: 0.06
@@ -4378,8 +4402,8 @@ Cohesion: 0.06
 Nodes (32): Build Verification, Code Quality, Conclusion, Database Functions Needed, Database Tables Used, E2E Tests Needed, Edge Functions Integration, Executive Summary (+24 more)
 
 ### Community 492 - "Community 492"
-Cohesion: 0.03
-Nodes (87): CompressorControlProps, EqualizerControlProps, ReverbControlProps, StemEffectsPanelProps, activeEffects, eqActive, eqDetails, ratio (+79 more)
+Cohesion: 0.05
+Nodes (42): getStudioContext(), ChorusSettings, DelaySettings, KeyboardShortcut, LoopRegion, MixPreset, StemConfig, StemState (+34 more)
 
 ### Community 493 - "Community 493"
 Cohesion: 0.06
@@ -4406,8 +4430,8 @@ Cohesion: 0.06
 Nodes (28): 1. Фреймворк и сборка, 2. Управление состоянием, 3. Стилизация, 4. Роутинг, 5. Бэкенд-интеграция, 6. Тестирование, ADR-002: Утверждение архитектуры и технологического стека фронтенда, Контекст (+20 more)
 
 ### Community 499 - "Community 499"
-Cohesion: 0.25
-Nodes (8): { data: masterVersion }, isMobileViewport, resolved, useMasterVersion(), FullscreenDesktop, FullscreenMobile, FullscreenPlayer(), FullscreenPlayerProps
+Cohesion: 0.11
+Nodes (18): DEFAULT_STEM_STATE, StemState, StemStates, mockStems, useStudioState(), UseStudioStateOptions, UseStudioStateReturn, effective (+10 more)
 
 ### Community 500 - "Community 500"
 Cohesion: 0.06
@@ -4415,11 +4439,11 @@ Nodes (31): 1. Comprehensive Coverage, 2. Real Browser Testing, 3. Developer Exp
 
 ### Community 501 - "Community 501"
 Cohesion: 0.02
-Nodes (82): validateInvoiceRequest(), accessToken, achievementsToCheck, bonusCredits, botToken, { count: purchaseCount }, credits, creditsGranted (+74 more)
+Nodes (101): validateInvoiceRequest(), accessToken, achievementsToCheck, bonusCredits, botToken, chatId, contentHash, { count: purchaseCount } (+93 more)
 
 ### Community 502 - "Community 502"
-Cohesion: 0.39
-Nodes (8): Breakpoint, useBreakpoint(), useIsDesktop(), useIsSmallPhone(), useIsTablet(), useMediaQuery(), useOrientation(), usePrefersReducedMotion()
+Cohesion: 0.22
+Nodes (17): isProcessing, MAX_RETRIES, RETRY_DELAY_MS, delay(), log, notificationQueue, NotificationQueueItem, notifyAchievement() (+9 more)
 
 ### Community 503 - "Community 503"
 Cohesion: 0.29
@@ -4442,20 +4466,20 @@ Cohesion: 0.06
 Nodes (31): 🎯 Best Practices, 🤖 Telegram, 🏗️ Архитектура, 🔍 Быстрый поиск, 🎯 Быстрый старт, 🎨 Дизайн и UI, 📚 Документация MusicVerse AI, 🎯 Документация по категориям (+23 more)
 
 ### Community 508 - "Community 508"
-Cohesion: 0.14
-Nodes (20): GainType, PlayerType, ToneType, usePromptDJEnhanced(), CHANNEL_TYPES, NOTE_NAMES, DEFAULT_CHANNELS, DEFAULT_SETTINGS (+12 more)
+Cohesion: 0.13
+Nodes (21): GainType, PlayerType, ToneType, usePromptDJEnhanced(), CHANNEL_TYPES, NOTE_NAMES, DEFAULT_CHANNELS, DEFAULT_SETTINGS (+13 more)
 
 ### Community 509 - "Community 509"
 Cohesion: 0.13
-Nodes (23): BATCH_FETCH_LIMIT, GENRE_FETCH_LIMIT, PUBLIC_CONTENT_GC_TIME, PUBLIC_CONTENT_STALE_TIME, enrichTrackWithProfile(), GENRE_PLAYLISTS, GENRE_QUERIES, GenrePlaylist (+15 more)
+Nodes (22): BATCH_FETCH_LIMIT, GENRE_FETCH_LIMIT, PUBLIC_CONTENT_GC_TIME, PUBLIC_CONTENT_STALE_TIME, GENRE_PLAYLISTS, GENRE_QUERIES, GenrePlaylist, GenrePlaylistConfig (+14 more)
 
 ### Community 510 - "Community 510"
 Cohesion: 0.06
 Nodes (31): 1. Data Fetching (TanStack Query), 2. List Virtualization, 3. Lazy Image Loading, 4. Batch Queries, Architecture Overview, Auto-Playlists by Genre, Code Style and Standards, Component Architecture (+23 more)
 
 ### Community 511 - "Community 511"
-Cohesion: 0.11
-Nodes (19): genreSet, ids, kit, knownIds, requiredFields, validTypes, PatternBankProps, drumKits (+11 more)
+Cohesion: 0.07
+Nodes (37): genreSet, ids, kit, knownIds, requiredFields, validTypes, DrumKitSelectorProps, PatternBankProps (+29 more)
 
 ### Community 512 - "Community 512"
 Cohesion: 0.06
@@ -4470,16 +4494,16 @@ Cohesion: 0.06
 Nodes (30): Completed Tasks, Conclusion, Database Schema Alignment, Database Testing (T037-T041) ✅, Date: 2025-12-12, Dependencies:, Edge Function: stars-admin-stats (T120-T124) ✅, Edge Function: stars-create-invoice (T050-T056) ✅ (Existing + Review) (+22 more)
 
 ### Community 515 - "Community 515"
-Cohesion: 0.04
-Nodes (63): ChangeType, changeTypeIcons, changeTypeLabels, LyricsVersion, SaveVersionParams, UseLyricsVersioningOptions, LyricsEditor(), LyricsEditorProps (+55 more)
+Cohesion: 0.12
+Nodes (21): ChangeType, changeTypeIcons, changeTypeLabels, LyricsVersion, SaveVersionParams, useLyricsVersioning(), UseLyricsVersioningOptions, LyricsEditorProps (+13 more)
 
 ### Community 516 - "Community 516"
 Cohesion: 0.24
 Nodes (8): useDebouncedSectionUpdate(), MAX_HISTORY_SIZE, cloneSections(), HistoryEntry, INITIAL_STATE, LyricsWizardState, SectionDefinition, useLyricsWizardStore
 
 ### Community 517 - "Community 517"
-Cohesion: 0.06
-Nodes (31): Accessibility, Complete Workflow, Contributors, Current Limitations, Deployment, Deployment Steps, Documentation Updates, Environment Variables (+23 more)
+Cohesion: 0.08
+Nodes (26): Accessibility, Complete Workflow, Contributors, Current Limitations, Deployment, Deployment Steps, Documentation Updates, Environment Variables (+18 more)
 
 ### Community 518 - "Community 518"
 Cohesion: 0.06
@@ -4492,6 +4516,10 @@ Nodes (31): Architecture Improvements (Dec 9), Archived Audit Files, 🎵 Audio 
 ### Community 520 - "Community 520"
 Cohesion: 0.06
 Nodes (31): Add Existing Track, AI Tab, AI Tab - Generate All, API Dependencies, Business Rules, Desktop Layout (Two Columns), Fields, Generate New Track (+23 more)
+
+### Community 521 - "Community 521"
+Cohesion: 0.17
+Nodes (6): EnrichmentTags, LyricsFormatter, sanitizeTag(), ValidSectionTag, wrapInBrackets(), LyricSection
 
 ### Community 522 - "Community 522"
 Cohesion: 0.06
@@ -4523,8 +4551,8 @@ Nodes (6): followButton, {
   }, likeButton, queryClient, shareButton, user
 
 ### Community 527 - "Community 527"
-Cohesion: 0.07
-Nodes (26): measureLoadTime(), accessOrder, memoryCache, useWaveformCache(), UseWaveformCacheReturn, WaveformCacheEntry, CACHE_MAX_AGE_MS, CACHE_VERSION (+18 more)
+Cohesion: 0.12
+Nodes (14): accessOrder, memoryCache, useWaveformCache(), UseWaveformCacheReturn, WaveformCacheEntry, CACHE_MAX_AGE_MS, CACHE_VERSION, MEMORY_CACHE_SIZE (+6 more)
 
 ### Community 528 - "Community 528"
 Cohesion: 0.06
@@ -4563,8 +4591,8 @@ Cohesion: 0.07
 Nodes (27): ALL_SUNO_TAG_CATEGORIES, BEST_PRACTICES, COMPOUND_TAG_TEMPLATES, DRILL_TRAP_TAGS, DYNAMICS_TAGS, extractTagsFromLyrics(), findSunoMetaTag(), getAllSunoMetaTags() (+19 more)
 
 ### Community 538 - "Community 538"
-Cohesion: 0.11
-Nodes (29): checkUploadPending(), hasPendingUpload(), AudioUploadMode, cleanupSessions(), consumePendingUpload(), getConversationContext(), getLastCommand(), getPendingUpload() (+21 more)
+Cohesion: 0.13
+Nodes (26): checkUploadPending(), AudioUploadMode, cleanupSessions(), consumePendingUpload(), getConversationContext(), getLastCommand(), getPendingUpload(), getSession() (+18 more)
 
 ### Community 539 - "Community 539"
 Cohesion: 0.25
@@ -4580,11 +4608,11 @@ Nodes (29): All Browsers, Basic Test Template, Best Practices, `browser-compatib
 
 ### Community 542 - "Community 542"
 Cohesion: 0.10
-Nodes (23): LyricsSectionCard(), Props, TYPES, LYRICS_TEMPLATES, Template, TemplateSection, LyricsVisualEditor(), Props (+15 more)
+Nodes (17): Props, LYRICS_TEMPLATES, Template, TemplateSection, LyricsVisualEditor(), CustomSections, DragDemo, Empty (+9 more)
 
 ### Community 543 - "Community 543"
-Cohesion: 0.03
-Nodes (83): MusicXMLViewer(), MusicXMLViewerProps, log, MidiType, NOTE_NAMES, ParsedMidi, ParsedMidiNote, useMidiFileParser() (+75 more)
+Cohesion: 0.12
+Nodes (21): log, MidiType, NOTE_NAMES, ParsedMidi, ParsedMidiNote, NOTE_NAMES, NOTE_NAMES_RU, parseTimeSignature() (+13 more)
 
 ### Community 544 - "Community 544"
 Cohesion: 0.07
@@ -4599,8 +4627,8 @@ Cohesion: 0.07
 Nodes (30): API Dependencies, Bio Expansion, Bio Section, Business Rules, Desktop Layout (Centered Container), Edit Profile, Empty States, Fields (+22 more)
 
 ### Community 547 - "Community 547"
-Cohesion: 0.09
-Nodes (20): ProfileStatsProps, SOCIAL_ICONS, SocialLinks(), SocialLinksProps, Icon, isSelected, Icon, ProfileSetupData (+12 more)
+Cohesion: 0.04
+Nodes (54): useKeyboardAware(), useKeyboardAwareContainer(), useKeyboardPadding(), NotificationRowExtras, NotificationSettings, useNotificationSettings(), ProfileUpdate, useProfile() (+46 more)
 
 ### Community 548 - "Community 548"
 Cohesion: 0.07
@@ -4608,27 +4636,27 @@ Nodes (29): Всего готовых компонентов: 62+, Высоки�
 
 ### Community 549 - "Community 549"
 Cohesion: 0.05
-Nodes (54): MobileFadeTransition, MobileFadeTransitionProps, MobilePageTransition, MobilePageTransitionProps, MobileSlideUpTransition, MobileSlideUpTransitionProps, MobileSearchBar, MobileFormFieldSkeleton() (+46 more)
+Nodes (52): MobileListItem, MobileListItemProps, MobileFadeTransition, MobileFadeTransitionProps, MobilePageTransition, MobilePageTransitionProps, MobileSlideUpTransition, MobileSlideUpTransitionProps (+44 more)
 
 ### Community 550 - "Community 550"
 Cohesion: 0.07
 Nodes (29): Accessibility Tests (axe-core), Alternatives Considered Summary, Backward Compatibility Approach, Bundle Size Impact, Compliance Checklist, Data Privacy, Decision 1: Discriminated Unions for Variant System, Decision 2: Mobile-First Responsive Variants (+21 more)
 
 ### Community 551 - "Community 551"
-Cohesion: 0.28
-Nodes (7): useOnlineStatus(), OfflineBanner(), { isOnline }, showBanner, [showReconnected, setShowReconnected], timer, wasOfflineRef
+Cohesion: 0.14
+Nodes (15): LCDDisplay, LCDDisplayProps, SegmentedDisplay, SegmentedDisplayProps, sizeStyles, variantStyles, colorMap, LEDIndicator (+7 more)
 
 ### Community 552 - "Community 552"
 Cohesion: 0.07
 Nodes (28): 1. Development Mode Pattern, 1. Executive Summary (Для менеджмента), 1. Telegram интеграция - конкурентное преимущество, 2. Comprehensive Technical Audit (Для разработчиков), 2. Error Handling with Retry, 2. Технологическая база - solid foundation, 3. Immediate Improvements Checklist (Action Items), 3. Type-safe Database (+20 more)
 
 ### Community 553 - "Community 553"
-Cohesion: 0.03
-Nodes (64): handleCancel(), handleSelect(), Icon, addChip, canAddMore, filteredSuggestions, handleKeyDown(), handleSelect() (+56 more)
+Cohesion: 0.08
+Nodes (26): addChip, canAddMore, filteredSuggestions, handleKeyDown(), handleSelect(), handleSuggestionClick(), inputRef, [inputValue, setInputValue] (+18 more)
 
 ### Community 554 - "Community 554"
-Cohesion: 0.11
-Nodes (18): PaymentSuccess(), amount, duration, end, formattedAmount, handleGoToGenerate(), handleGoToLibrary(), isSubscriptionPurchase (+10 more)
+Cohesion: 0.06
+Nodes (36): triggerConfetti(), confetti(), ConfettiFn, amount, duration, end, formattedAmount, frame() (+28 more)
 
 ### Community 555 - "Community 555"
 Cohesion: 0.07
@@ -4647,8 +4675,8 @@ Cohesion: 0.07
 Nodes (28): API Contracts: Mobile-First Minimalist UI Redesign, Caching Strategy, Client-Only Operations, Error Handling, Existing API Endpoints, Generation, GET /api/generations/:id, GET /api/projects (+20 more)
 
 ### Community 559 - "Community 559"
-Cohesion: 0.07
-Nodes (26): cancelled, canvasRef, container, containerRef, draw, [error, setError], { generatePeaks }, { get: getCached, set: setCached } (+18 more)
+Cohesion: 0.09
+Nodes (22): cancelled, canvasRef, container, containerRef, draw, [error, setError], { generatePeaks }, { get: getCached, set: setCached } (+14 more)
 
 ### Community 560 - "Community 560"
 Cohesion: 0.07
@@ -4667,8 +4695,8 @@ Cohesion: 0.07
 Nodes (29): 039-01: Layer Audit, 039-02 + 039-03: Layer Fixes, 039-04: Generic Undo/Redo Middleware, 039-06: Разбить useGenerateForm.ts, 039-07: Разбить GlobalAudioProvider.tsx, 039-08: Oversized компоненты (>800 строк), 039-09: DnD унификация, 039-10: Type Safety (+21 more)
 
 ### Community 564 - "Community 564"
-Cohesion: 0.04
-Nodes (42): 📖 API Документация, 🎨 UI/UX, 🏗️ Архитектура, 📚 Документация MusicVerse AI, 🚀 Начало работы, 🔗 Связанные документы, 📖 Содержание, 🔧 Справочники (+34 more)
+Cohesion: 0.07
+Nodes (29): 5.1 Миграция на grammY Framework, 5.2 Реактивное обновление интерфейса, 5.3 Улучшенный плеер, 5.4 Экран "Проекты", 5.5 Главное меню, 6.1 Inline Mode (Полный), 6.2 Share Menu, 6.3 Emoji Status (+21 more)
 
 ### Community 565 - "Community 565"
 Cohesion: 0.07
@@ -4687,12 +4715,12 @@ Cohesion: 0.07
 Nodes (27): 1. TelegramContext (Timeout: 3 секунды), 2. useAuth Hook (Timeout: 5 секунд), 3. InitializationGuard Component (Timeout: 3 секунды) - НОВЫЙ!, 4. Интеграция в App.tsx, Debug логирование, 📚 Документация, Завершенные спринты, 🎉 Заключение (+19 more)
 
 ### Community 569 - "Community 569"
-Cohesion: 0.02
-Nodes (76): calculateAverageRetention(), RetentionCohort, UseRetentionCohortsOptions, ErrorTrends, TelemetryStats, audioLogger, UseAudioPlayerProps, UseAudioVisualizerOptions (+68 more)
+Cohesion: 0.01
+Nodes (117): useAudioRecording(), UseAudioRecordingOptions, audioLogger, UseAudioPlayerProps, UseAudioVisualizerOptions, VisualizerData, ConnectionType, getConnectionType() (+109 more)
 
 ### Community 570 - "Community 570"
-Cohesion: 0.31
-Nodes (7): useStudioProjectStore, AudioClipBlock(), MultiTrackTimeline(), TimelineRuler(), TimelineRulerProps, TrackLaneRow(), markers
+Cohesion: 0.13
+Nodes (14): getRankBg(), getRankIcon(), Leaderboard(), LeaderboardEntry, LeaderboardProps, useLeaderboard(), [category, setCategory], { data: leaderboard, isLoading } (+6 more)
 
 ### Community 571 - "Community 571"
 Cohesion: 0.07
@@ -4708,7 +4736,7 @@ Nodes (22): meta, meta, meta, [user, setUser], Button(), ButtonProps, Large, Pri
 
 ### Community 574 - "Community 574"
 Cohesion: 0.07
-Nodes (30): invokeReferenceAudioAnalysis(), analyzeReferenceAudio(), AnalyzeReferenceParams, ReferenceAnalysis, useReferenceAudioAnalysis(), analyserRef, { analyze: runReferenceAnalysis }, animationRef (+22 more)
+Nodes (28): useReferenceAudioAnalysis(), analyserRef, { analyze: runReferenceAnalysis }, animationRef, [audioBlob, setAudioBlob], audioContextRef, [audioLevel, setAudioLevel], [audioUrl, setAudioUrl] (+20 more)
 
 ### Community 575 - "Community 575"
 Cohesion: 0.33
@@ -4743,8 +4771,8 @@ Cohesion: 0.07
 Nodes (28): 1.1 `sound_effects` (новая таблица), 1.2 `track_versions.midi_*` (MIDI direct + Replicate fallback), 1.3 ⚠️ Не применять на прод до проверки Sprint 050-A3, 1. 🗄️ Миграции (применить через Lovable SQL Editor или CLI), 2.1 `midi` (новый), 2.2 Существующие buckets — без изменений, 2. 🪣 Storage buckets (создать через Lovable Storage UI или SQL), 3.1 Через Lovable Edge Functions UI (+20 more)
 
 ### Community 583 - "Community 583"
-Cohesion: 0.12
-Nodes (22): RealtimeChordState, useRealtimeChordDetection(), UseRealtimeChordDetectionOptions, CHORD_TEMPLATES, ChordQuality, computeChromagram(), cosineSimilarity(), detectChord() (+14 more)
+Cohesion: 0.20
+Nodes (13): RealtimeChordState, UseRealtimeChordDetectionOptions, CHORD_TEMPLATES, ChordQuality, computeChromagram(), cosineSimilarity(), detectChord(), DetectedChord (+5 more)
 
 ### Community 584 - "Community 584"
 Cohesion: 0.07
@@ -4783,8 +4811,8 @@ Cohesion: 0.07
 Nodes (27): Common Patterns, FAQ, From Custom Form Inputs to UnifiedFormInput, From MobileBottomSheet to UnifiedDialog, From shadcn/ui Dialog to UnifiedDialog, From shadcn/ui Skeleton to UnifiedSkeleton, Issue: Form Validation Not Working, Issue: Sheet Not Closing on Swipe (+19 more)
 
 ### Community 593 - "Community 593"
-Cohesion: 0.25
-Nodes (8): PlaybackQueue, PlayerActions, PlayerState, PlayerStore, TimestampedLyrics, Track, TrackVersion, TrackWithMetadata
+Cohesion: 0.04
+Nodes (62): FeatureFlag, calculateFunnelMetrics(), UseFunnelAnalyticsOptions, GuitarRecording, invokeTelegramWebhookSetup(), NotificationSettingsUpdate, VideoSharePayload, PublicTrack (+54 more)
 
 ### Community 594 - "Community 594"
 Cohesion: 0.07
@@ -4819,8 +4847,8 @@ Cohesion: 0.07
 Nodes (26): Actions Taken:, Conclusion, Critical Issues 🔴 - ALL RESOLVED ✅, Deployment Readiness ✅, Executive Summary, Files Modified in This Audit, Final Migration Sequence, Immediate (Can Deploy): (+18 more)
 
 ### Community 602 - "Community 602"
-Cohesion: 0.18
-Nodes (13): applyTelegramThemeParams(), applyThemeToDOM(), getStoredTheme(), getSystemTheme(), getTelegramTheme(), hexToHsl(), ResolvedTheme, resolveTheme() (+5 more)
+Cohesion: 0.12
+Nodes (17): autoCorrelate(), GuitarTunerProps, NOTE_NAMES, STANDARD_TUNING, analyserRef, animationFrameRef, audioContextRef, [cents, setCents] (+9 more)
 
 ### Community 603 - "Community 603"
 Cohesion: 0.09
@@ -4851,8 +4879,8 @@ Cohesion: 0.07
 Nodes (26): Dependencies & Execution Order, Format: `[ID] [P?] [Story] Description`, Implementation for User Story 1, Implementation for User Story 2, Implementation for User Story 3, Implementation Strategy, Incremental Delivery, MVP First (User Story 1 Only) (+18 more)
 
 ### Community 610 - "Community 610"
-Cohesion: 0.04
-Nodes (49): MobileProjectsToolbar, MobileProjectsToolbarProps, isAvailable, useCloudStorage(), useCloudStorageFlag(), UseCloudStorageOptions, UseCloudStorageReturn, KeyboardState (+41 more)
+Cohesion: 0.18
+Nodes (9): handleTabClick(), SwipeConfig, SwipeHandlers, Tab, useSwipeNavigation(), UseSwipeNavigationResult, onTabChange, { result } (+1 more)
 
 ### Community 611 - "Community 611"
 Cohesion: 0.08
@@ -4867,32 +4895,32 @@ Cohesion: 0.08
 Nodes (25): 1. Gesture Conflicts, 1. Touch-Friendly Design, 2. Haptic Feedback (Telegram), 2. Performance with Large Lists, 3. Memory Leaks in Subscriptions, 3. Responsive Layout, 4. Loading States, 4. Race Conditions in State Updates (+17 more)
 
 ### Community 614 - "Community 614"
-Cohesion: 0.08
-Nodes (26): 10. Long Track Names Truncation, 11. Tooltips не работают на мобильных, 12. Copy/Delete кнопки всегда активны, 12. Player Deep Links Missing, 13. Russian Text Overflow on Mobile, 13. Форма генерации слишком громоздкая, 14. Touch Targets Too Small, 14. track_versions Constraint Violation (+18 more)
+Cohesion: 0.04
+Nodes (39): 📖 API Документация, 🎨 UI/UX, 🏗️ Архитектура, 📚 Документация MusicVerse AI, 🚀 Начало работы, 🔗 Связанные документы, 📖 Содержание, 🔧 Справочники (+31 more)
 
 ### Community 615 - "Community 615"
-Cohesion: 0.18
-Nodes (21): assignToExperiment(), clearAssignments(), Experiment, EXPERIMENTS, ExperimentVariant, getExperimentAssignments(), getExperimentOrFlag(), getVariant() (+13 more)
+Cohesion: 0.15
+Nodes (24): assignToExperiment(), clearAssignments(), Experiment, EXPERIMENTS, ExperimentVariant, getExperimentAssignments(), getExperimentOrFlag(), getVariant() (+16 more)
 
 ### Community 616 - "Community 616"
-Cohesion: 0.25
-Nodes (7): ActivityMetadata, StudioAction, studioLogger, StudioMetrics, StudioState, useEnhancedStudioLogger(), insertTrackChangeLog()
+Cohesion: 0.13
+Nodes (14): StorageOptions, TelegramWithCloudStorage, useTelegramStorage(), DEFAULT_PREFERENCES, GENRE_KEYWORDS, UserPreferences, useUserPreferences(), log (+6 more)
 
 ### Community 617 - "Community 617"
 Cohesion: 0.08
 Nodes (25): Build Errors (Исправлены 2025-12-12), Linter Issues, 📋 SDD Спецификации, Security Scan Results, Sprint 025: Optimization (2025-12-16 → 2025-12-29), Sprint 026: UX Unification (2025-12-30 → 2026-01-12), Sprint 027: Architecture Cleanup (2026-01-13 → 2026-01-26), Sprint 028: Mobile Polish (2026-01-27 → 2026-02-09) (+17 more)
 
 ### Community 618 - "Community 618"
-Cohesion: 0.25
-Nodes (5): CREDITS_QUERY_KEY, PaymentFlowState, SUBSCRIPTION_QUERY_KEY, CreateInvoiceRequest, queryClient
+Cohesion: 0.22
+Nodes (7): CREDITS_QUERY_KEY, PaymentFlowState, SUBSCRIPTION_QUERY_KEY, useStarsPayment(), createInvoice(), CreateInvoiceRequest, queryClient
 
 ### Community 619 - "Community 619"
 Cohesion: 0.08
 Nodes (26): [2.1.0] - 2025-12-03, Added, Changed, 📝 Changelog, Documentation, Fixed, Infrastructure, Naming Conventions (+18 more)
 
 ### Community 620 - "Community 620"
-Cohesion: 0.09
-Nodes (28): AUDIO_SETTINGS_BY_MODE, RecordingMode, RecordingState, useUnifiedRecording(), UseUnifiedRecordingOptions, UseUnifiedRecordingReturn, RecordingControls, RecordingPreview (+20 more)
+Cohesion: 0.13
+Nodes (21): AUDIO_SETTINGS_BY_MODE, RecordingMode, RecordingState, useUnifiedRecording(), UseUnifiedRecordingOptions, UseUnifiedRecordingReturn, RecordingControls, RecordingPreview (+13 more)
 
 ### Community 621 - "Community 621"
 Cohesion: 0.08
@@ -4907,8 +4935,8 @@ Cohesion: 0.08
 Nodes (26): Accelerometer & Gyroscope, Bot API 9.x Updates (2025), Bot API методы, Business Accounts, Checklists, Custom Emoji Status (для Premium), Full-Screen Mode, Gifts System (+18 more)
 
 ### Community 624 - "Community 624"
-Cohesion: 0.06
-Nodes (35): GuitarRecordDialogProps, GuitarAnalysisReportProps, GuitarAnalysisReportSimplifiedProps, LinkToTrackDialog(), LinkToTrackDialogProps, [activeTab, setActiveTab], audio, audioRef (+27 more)
+Cohesion: 0.14
+Nodes (16): useUserJourneyState(), OnboardingFlow(), OnboardingFlowProps, QuickStartOverlay, TelegramOnboarding, OnboardingEvent, OnboardingStage, transitionOnboarding() (+8 more)
 
 ### Community 625 - "Community 625"
 Cohesion: 0.10
@@ -4919,8 +4947,8 @@ Cohesion: 0.08
 Nodes (25): 1. ✅ Navigation: Guitar Item Moved to Menu, 2. ✅ Application Crashes: Global Error Handlers, 3. ✅ Player: Missing Status Field, 4. ✅ Integration: Standardized Edge Function Responses, Bug Fixes - December 10, 2025, Build Status, Credits, Edge Function Migration Priority (+17 more)
 
 ### Community 627 - "Community 627"
-Cohesion: 0.06
-Nodes (41): EmptyState(), { containerRef, isPulling, isRefreshing, pullDistance, progress }, TelegramMainButton(), TelegramMainButtonProps, TelegramSecondaryButton(), TelegramSecondaryButtonProps, hapticClick(), hapticPatterns (+33 more)
+Cohesion: 0.09
+Nodes (29): TelegramMainButtonProps, TelegramSecondaryButton(), TelegramSecondaryButtonProps, hapticClick(), hapticPatterns, useHapticPatterns(), withHaptic(), TelegramGrid() (+21 more)
 
 ### Community 628 - "Community 628"
 Cohesion: 0.08
@@ -4955,16 +4983,16 @@ Cohesion: 0.08
 Nodes (24): 1. Added Imports, 2. Created Grid/List Container Components, 3. Pull-to-Refresh Implementation, 4. Replaced `.map()` with VirtuosoGrid, 5. Preserved Existing Features, Build Validation, Changes Made, Conclusion (+16 more)
 
 ### Community 636 - "Community 636"
-Cohesion: 0.10
-Nodes (18): Agent Context Update, API Contracts, Complexity Tracking, Data Model, Documentation (this feature), Implementation Plan: Unified Telegram Mini App Interface Components, Key Research Findings, Next Steps (+10 more)
+Cohesion: 0.06
+Nodes (34): Agent Context Update, API Contracts, Complexity Tracking, Constitution Check, Data Model, Documentation (this feature), Implementation Phases, Implementation Plan: Unified Telegram Mini App Interface Components (+26 more)
 
 ### Community 637 - "Community 637"
-Cohesion: 0.07
+Cohesion: 0.08
 Nodes (25): В работе:, Важные находки:, Завершено:, Завтра:, ✅ Задача #1: AudioContext Management (P0 CRITICAL), ✅ Задача #2: Lyrics Wizard State Persistence (P1 HIGH), ✅ Задача #3: Component Optimization (P1 HIGH), ⏳ Задача #4: Waveform Web Worker (P1 HIGH) (+17 more)
 
 ### Community 638 - "Community 638"
-Cohesion: 0.25
-Nodes (5): getFormatLabel(), KlangioModel, MODEL_INFO, TranscriptionConfig, TranscriptionOutput
+Cohesion: 0.12
+Nodes (16): fetchGenerationTaskBySunoId(), subscribeToGenerationTaskBySunoId(), GenerationTaskProgress, INITIAL, useGenerationTaskProgress(), [animatedProgress, setAnimatedProgress], interval, isFailed (+8 more)
 
 ### Community 639 - "Community 639"
 Cohesion: 0.08
@@ -5007,8 +5035,8 @@ Cohesion: 0.08
 Nodes (25): Admin Panel Access, Admin Panel Link (Conditional), API Dependencies, Business Rules, Desktop Layout (Centered Container), Fields, Hover Effects (Desktop), Interactions (+17 more)
 
 ### Community 649 - "Community 649"
-Cohesion: 0.09
-Nodes (30): authenticateWithTelegram(), log, setSession(), TelegramAuthResponse, DEEP_LINK_DESCRIPTIONS, DEEP_LINK_ROUTES, DeepLinkHandler(), telegramLogger (+22 more)
+Cohesion: 0.11
+Nodes (26): DEEP_LINK_DESCRIPTIONS, DEEP_LINK_ROUTES, DeepLinkHandler(), telegramLogger, createMockWebApp(), telegramLogger, TelegramContext, TelegramProvider() (+18 more)
 
 ### Community 650 - "Community 650"
 Cohesion: 0.08
@@ -5020,7 +5048,7 @@ Nodes (24): Analysis & Tracking Documents, 📞 Contact & Support, Core Planning
 
 ### Community 652 - "Community 652"
 Cohesion: 0.11
-Nodes (19): DrumKitSelectorProps, CompressorType, defaultTrackEffects, DrumMachineState, FilterType, MembraneSynthType, MetalSynthType, NoiseSynthType (+11 more)
+Nodes (17): displaySteps, handleInit, handlePlayStop, handleRecord, handleSendToDJ, handleUseAsRef, hasSolo, isAudible (+9 more)
 
 ### Community 653 - "Community 653"
 Cohesion: 0.08
@@ -5035,16 +5063,16 @@ Cohesion: 0.08
 Nodes (23): Accessibility, API Security, Authentication, Bundle Size Limits, Code Quality, Code Review Checklist, Commands, Component Test Template (+15 more)
 
 ### Community 656 - "Community 656"
-Cohesion: 0.25
-Nodes (6): WelcomeBonusPopup, WelcomeBonusPopupProps, closeTimer, confettiTimer, [showContent, setShowContent], timer
+Cohesion: 0.12
+Nodes (16): baseFret, fingering, fretSpacing, maxFret, minFret, normalizedChord, sizeConfig, startX (+8 more)
 
 ### Community 658 - "Community 658"
 Cohesion: 0.08
 Nodes (23): 1. Initialize Analysis Context, 2. Load Artifacts (Progressive Disclosure), 3. Build Semantic Models, 4. Detection Passes (Token-Efficient Analysis), 5. Severity Assignment, 6. Produce Compact Analysis Report, 7. Provide Next Actions, 8. Offer Remediation (+15 more)
 
 ### Community 659 - "Community 659"
-Cohesion: 0.05
-Nodes (42): getSafeAreaBottom(), getSafeAreaTop(), LAYOUT_HEIGHTS, LAYOUT_SPACING, SAFE_AREA_CLASSES, SAFE_STYLES, TELEGRAM_SAFE_AREA, safeAreaClasses (+34 more)
+Cohesion: 0.06
+Nodes (35): getSafeAreaBottom(), getSafeAreaTop(), LAYOUT_HEIGHTS, LAYOUT_SPACING, SAFE_AREA_CLASSES, SAFE_STYLES, TELEGRAM_SAFE_AREA, useUserJourneyStore (+27 more)
 
 ### Community 660 - "Community 660"
 Cohesion: 0.08
@@ -5107,8 +5135,8 @@ Cohesion: 0.08
 Nodes (21): AnimationStyle, animationStyles, bgColorStyles, CardStyle, cardStyles, colorStyles, ElevationLevel, elevationStyles (+13 more)
 
 ### Community 675 - "Community 675"
-Cohesion: 0.25
-Nodes (6): corsHeaders, LANGUAGE_MAP, normalizeLanguage(), PipelineRequest, StemUrls, supabase
+Cohesion: 0.14
+Nodes (14): buttonId, cn(), contentId, contentRef, handleToggle(), { hapticFeedback }, id, [isCollapsed, setIsCollapsed] (+6 more)
 
 ### Community 676 - "Community 676"
 Cohesion: 0.40
@@ -5155,12 +5183,12 @@ Cohesion: 0.09
 Nodes (22): 1️⃣ docs/ИНДЕКС.md — Мастер-индекс документации, 2️⃣ Обновление README.md, 3️⃣ SUMMARY.md — Этот документ, 🔗 Быстрые ссылки, 🎓 Визуальные пути обучения, ✅ Выполненные задачи, 🎨 Дизайн и форматирование, До улучшений (+14 more)
 
 ### Community 687 - "Community 687"
-Cohesion: 0.09
+Cohesion: 0.08
 Nodes (23): 1. Архитектура унификации, 2. Фазы реализации, 3. Реализованные компоненты, 4. Структура интерфейса (Реализованная), ADR-011: Unified Studio Architecture - DAW Canvas Integration, Consequences, Context, Decision (+15 more)
 
 ### Community 688 - "Community 688"
-Cohesion: 0.29
-Nodes (7): Implementation Phases, Phase 1: Core Foundation (Week 1, Days 1-3), Phase 2: Feedback Components (Week 1, Days 4-5), Phase 3: Layout & Modals (Week 2, Days 1-3), Phase 4: Studio Panel System (Week 2, Days 4-5), Phase 5: Wide Adoption (Week 3, 5 days), Phase 6: Accessibility & Polish (Week 4, 5 days)
+Cohesion: 0.12
+Nodes (14): ActionBarItem, UnifiedActionBar, UnifiedActionBarProps, buttonVariant, columns, container, Icon, iconSizes (+6 more)
 
 ### Community 689 - "Community 689"
 Cohesion: 0.11
@@ -5215,8 +5243,8 @@ Cohesion: 0.09
 Nodes (23): Definition of Done, Definition of Done, Definition of Done, Definition of Done, 📊 Executive Summary, Quick Wins (вне плана, выполнены), 🚀 Quick Wins (можно делать ПАРАЛЛЕЛЬНО с любым спринтом), 🔥 Sprint 042 — Page Decomposition + Audio Pooling (5 дней, 18 SP) (+15 more)
 
 ### Community 703 - "Community 703"
-Cohesion: 0.33
-Nodes (4): EnrichmentTags, sanitizeTag(), ValidSectionTag, wrapInBrackets()
+Cohesion: 0.15
+Nodes (13): failCount, passCount, warnCount, AnalysisMessage(), AnalysisMessageProps, AnalysisStats, LyricsGeneratedMessage(), LyricsGeneratedMessageProps (+5 more)
 
 ### Community 704 - "Community 704"
 Cohesion: 0.09
@@ -5227,12 +5255,12 @@ Cohesion: 0.09
 Nodes (21): 1. Интеграция UI, 2. Ручное Тестирование, 3. Мониторинг в Production, API Примеры, Аудит Системы Плеера - Краткое Резюме, 🚀 Готово Для, Добавлено Новых Функций: 6, 📚 Документация (+13 more)
 
 ### Community 706 - "Community 706"
-Cohesion: 0.33
-Nodes (5): AnalyticsProvider, CoreProviders, FeatureProviders, UIProviders, UIProvidersProps
+Cohesion: 0.13
+Nodes (15): checkArtistValidation(), getStyleSuggestionsForArtist(), levelConfig, ValidationLevel, ValidationMessageProps, BLOCKED_ARTIST_PATTERNS, checkForBlockedArtists(), FALSE_POSITIVE_WORDS (+7 more)
 
 ### Community 707 - "Community 707"
 Cohesion: 0.33
-Nodes (5): illustrations, FEATURE_DESCRIPTIONS, FeatureDescription, FeatureDetailSheet(), useSmartAlerts()
+Nodes (5): illustrations, FEATURE_DESCRIPTIONS, FeatureDescription, SmartAlertOverlay(), useSmartAlerts()
 
 ### Community 708 - "Community 708"
 Cohesion: 0.09
@@ -5243,20 +5271,20 @@ Cohesion: 0.29
 Nodes (6): baseOpacity, heightPercent, isCenter, FullscreenVisualizer, FullscreenVisualizerProps, VisualizerData
 
 ### Community 710 - "Community 710"
-Cohesion: 0.29
-Nodes (6): POLL_INTERVAL, POLL_TIMEOUT, LastAction, STEP_INDEX, ValidateParams, WizardStep
+Cohesion: 0.14
+Nodes (12): safeAreaClasses, SafeAreaStyles, SafeAreaValues, UseKeyboardSafeAreaOptions, useTelegramSafeArea(), UseTelegramSafeAreaOptions, SafeBottom(), SafeBottomProps (+4 more)
 
 ### Community 711 - "Community 711"
-Cohesion: 0.09
-Nodes (20): findBestStringAndFret(), abs, removed, autoCorrelate(), pitchToString(), handleScroll(), getChangeIndicator(), getTrendBadge() (+12 more)
+Cohesion: 0.22
+Nodes (6): DEFAULT_OPTIONS, getTouchTargetClasses(), TouchTargetOptions, TouchTargetValidationResult, validateTouchTarget(), validateTouchTargetSpacing()
 
 ### Community 712 - "Community 712"
 Cohesion: 0.09
 Nodes (21): 1. Master Clock на основе AudioContext, 2. IndexedDB кэширование аудио, 3. Service Worker для офлайн-доступа, 4. Debounced/Throttled контролы, 5. Виртуализация списка стемов, 6. Optimistic UI для версий, ADR-004: Архитектура оптимизации аудио-воспроизведения студии, AudioLoadingProgress (+13 more)
 
 ### Community 713 - "Community 713"
-Cohesion: 0.33
-Nodes (6): 1. Forgetting Safe Areas, 2. Not Using TouchTarget for Small Elements, 3. Hardcoding Animation Timings, 4. Not Persisting Panel State, 5. Importing framer-motion Directly, Common Pitfalls
+Cohesion: 0.12
+Nodes (14): LoadingOverlay(), LoadingOverlayProps, ProgressOverlay(), ProgressOverlayProps, SkeletonOverlay(), SkeletonOverlayProps, BlurVariant, Hidden (+6 more)
 
 ### Community 714 - "Community 714"
 Cohesion: 0.09
@@ -5275,8 +5303,8 @@ Cohesion: 0.09
 Nodes (22): 1. Telegram Mini App Integration, 2. Telegram Bot Integration, 3. Authentication Flow, 4. Deep Linking, 5. Notifications System, 6. CloudStorage Integration, Inline Queries Support, Security Assessment (+14 more)
 
 ### Community 718 - "Community 718"
-Cohesion: 0.10
-Nodes (20): 🎬 Animation Guidelines, Breaking Changes, 📝 Change Log, 👥 Contributors, CSS Transitions, Current Status, 📅 Date: 2025-12-02, Environment Variables (+12 more)
+Cohesion: 0.09
+Nodes (22): Already Optimized Components, 🎬 Animation Guidelines, Breaking Changes, 📝 Change Log, 📊 Component Inventory, 👥 Contributors, CSS Transitions, Current Status (+14 more)
 
 ### Community 719 - "Community 719"
 Cohesion: 0.08
@@ -5316,7 +5344,15 @@ Nodes (3): audioTracks, firstTrack, {
 
 ### Community 725 - "Community 725"
 Cohesion: 0.01
-Nodes (278): [activeTab, setActiveTab], addInstrumentalMutation, [audioWeight, setAudioWeight], [customStyle, setCustomStyle], effectiveStyle, handleClose, handleInstrumentSelect, handleSubmit (+270 more)
+Nodes (305): config, isSelected, isSuggested, [selectedType, setSelectedType], [styleHint, setStyleHint], {
+    trackContext,
+    isLoadingContext,
+    refetchContext,
+    generateStem,
+    isGenerating,
+    generationProgress,
+    lastGeneration,
+  }, AdminFeedback(), FeedbackItem (+297 more)
 
 ### Community 726 - "Community 726"
 Cohesion: 0.10
@@ -5327,28 +5363,24 @@ Cohesion: 0.09
 Nodes (21): 🎨 UI/UX изменения, 🔐 Безопасность, ⚡ Влияние на производительность, До, 📚 Документация, 📝 Дополнительные заметки, 🔍 Код, 🔄 Миграция (+13 more)
 
 ### Community 728 - "Community 728"
-Cohesion: 0.10
-Nodes (19): Note, NoteFlowVisualization, NoteFlowVisualizationProps, stringColors, animate(), animationRef, canvasRef, container (+11 more)
+Cohesion: 0.09
+Nodes (20): Note, NoteFlowVisualization, NoteFlowVisualizationProps, pitchToString(), stringColors, animate(), animationRef, canvasRef (+12 more)
 
 ### Community 729 - "Community 729"
 Cohesion: 0.12
-Nodes (22): defaultStats, formatStudioTime(), getChangeIndicator(), UserStudioStats, useUserStudioStats(), defaultStats, Stat, StatsSummaryCard() (+14 more)
+Nodes (16): Assumptions, Constitution Compliance Checklist *(mandatory)*, Edge Cases, Feature Specification: Unified Telegram Mini App Interface Components, Functional Requirements, Key Entities, Measurable Outcomes, Requirements *(mandatory)* (+8 more)
 
 ### Community 730 - "Community 730"
 Cohesion: 0.09
 Nodes (21): 1. Всегда используйте await с AudioContext, 1. Сделали функцию асинхронной, 2. Возобновление требует действия пользователя, 2. Добавили утилиту resumeAudioContext, 3. Web Audio API роутинг постоянный, 3. Возобновляем перед воспроизведением, 4. Исправили цикл анимации, Важные выводы (+13 more)
-
-### Community 731 - "Community 731"
-Cohesion: 0.20
-Nodes (3): isValidSectionTag(), LyricsValidator, normalizeSectionTag()
 
 ### Community 732 - "Community 732"
 Cohesion: 0.33
 Nodes (6): 3. Telegram Mini App 2.0 Features, Alternatives Considered, Code Example, Decision, Implementation Impact, Rationale
 
 ### Community 733 - "Community 733"
-Cohesion: 0.11
-Nodes (18): DEFAULT_STATE, PlaybackState, useOptimizedPlayback(), UseOptimizedPlaybackOptions, UseOptimizedPlaybackReturn, audioRef, i, initialRenderCount (+10 more)
+Cohesion: 0.10
+Nodes (20): handleTimeUpdate(), DEFAULT_STATE, PlaybackState, useOptimizedPlayback(), UseOptimizedPlaybackOptions, UseOptimizedPlaybackReturn, audioRef, i (+12 more)
 
 ### Community 734 - "Community 734"
 Cohesion: 0.09
@@ -5359,8 +5391,8 @@ Cohesion: 0.09
 Nodes (21): AnalyticsEvent, AnalyticsExport, ApiResponse, BenchmarkResponse, DateRange, DemographicSummary, DemographicSummaryResponse, ExportJobResponse (+13 more)
 
 ### Community 736 - "Community 736"
-Cohesion: 0.07
-Nodes (27): Format: `[ID] [P?] [Story] Description`, Implementation for User Story 1 ✅, Implementation for User Story 2, Implementation for User Story 3, Implementation for User Story 4, Implementation for User Story 5, Implementation for User Story 6, Notes (+19 more)
+Cohesion: 0.05
+Nodes (37): Dependencies & Execution Order, Format: `[ID] [P?] [Story] Description`, Full Implementation (All Stories), Implementation for User Story 1 ✅, Implementation for User Story 2, Implementation for User Story 3, Implementation for User Story 4, Implementation for User Story 5 (+29 more)
 
 ### Community 737 - "Community 737"
 Cohesion: 0.10
@@ -5383,12 +5415,16 @@ Cohesion: 0.10
 Nodes (21): Blocked By, Complexity Tracking, Dependencies, Documentation (this sprint), External Dependencies, Implementation Plan: Sprint 031 - Optimization Phase 2, Internal Dependencies, Next Steps (+13 more)
 
 ### Community 742 - "Community 742"
-Cohesion: 0.33
-Nodes (6): 🔴 1. Music Lab Hub (Week 1-2), 🔴 2. List Performance (Week 2), 🔴 3. Performance Monitoring (Week 2), 🟡 4. UX Unification (Week 3-4), 🟡 5. Parallel Workstreams (Week 1), 📋 TOP 5 ПРИОРИТЕТОВ
+Cohesion: 0.12
+Nodes (13): MockAudio, a, active, b, customPool, defaultPool, el, el1 (+5 more)
+
+### Community 743 - "Community 743"
+Cohesion: 0.11
+Nodes (9): ErrorBoundaryWrapper, log, Props, State, componentDidCatch(), isDev, forceReload(), navigateTo() (+1 more)
 
 ### Community 744 - "Community 744"
-Cohesion: 0.40
-Nodes (5): RewardNotificationContext, RewardNotificationContextType, RewardNotificationProvider(), RewardNotificationData, UnifiedRewardNotification
+Cohesion: 0.17
+Nodes (14): isAssistant, ChatMessageBubble, ChatMessageBubbleProps, LoadingIndicator, SkeletonMessage, ChatMessageListProps, ChatMessage, GenreOption (+6 more)
 
 ### Community 745 - "Community 745"
 Cohesion: 0.10
@@ -5399,12 +5435,12 @@ Cohesion: 0.10
 Nodes (20): API Configurations, API Integration Agent, AuDD, Commands, Common Patterns, Error Handling, Expertise, Fill in the fields below to create a basic custom agent for your repository. (+12 more)
 
 ### Community 747 - "Community 747"
-Cohesion: 0.12
-Nodes (20): useDisplayPreferences(), useGestureConfig(), act(), DEFAULT_GESTURE_CONFIG, DEFAULT_USER_PREFERENCES, GestureConfig, GestureConfigSchema, UserPreferences (+12 more)
+Cohesion: 0.16
+Nodes (18): useDisplayPreferences(), useGestureConfig(), DEFAULT_GESTURE_CONFIG, DEFAULT_USER_PREFERENCES, GestureConfig, GestureConfigSchema, UserPreferences, UserPreferencesSchema (+10 more)
 
 ### Community 748 - "Community 748"
-Cohesion: 0.06
-Nodes (31): handleStartRecording(), useLyricsRecognition(), RecognizedTrack, useMusicRecognition(), MusicRecognitionDialog(), MusicRecognitionDialogProps, RecognitionContent(), RecognizedTrackActions() (+23 more)
+Cohesion: 0.15
+Nodes (11): getProjectTypeLabel(), PresetIconComponent, PROJECT_PRESETS, ProjectPreset, ProjectPresetCard, ProjectPresetsCarousel, ProjectPresetsCarouselProps, handlePresetClick (+3 more)
 
 ### Community 749 - "Community 749"
 Cohesion: 0.10
@@ -5439,8 +5475,8 @@ Cohesion: 0.10
 Nodes (19): Before Deployment:, Blocked ⏸️, Completed ✅, Expected Results, Implementation Progress, In Progress 🔄, Next Actions, Optimization Strategy (+11 more)
 
 ### Community 757 - "Community 757"
-Cohesion: 0.10
-Nodes (17): PolySynthType, ToneType, UseMidiSynthReturn, generateNoteId(), MidiInstance, MidiNote, MidiTrack, MidiType (+9 more)
+Cohesion: 0.12
+Nodes (12): activeWordIndex, activeWordRef, containerRef, [editedText, setEditedText], isActive, [isEditing, setIsEditing], isPast, lastSyncedRangeRef (+4 more)
 
 ### Community 758 - "Community 758"
 Cohesion: 0.10
@@ -5451,8 +5487,8 @@ Cohesion: 0.10
 Nodes (20): Assumptions, Assumptions & Constraints, Constraints, Context & Background, Dependencies, Dependencies & Assumptions, Edge Cases, Feature Specification: UI Component Unification Phase 2 (+12 more)
 
 ### Community 760 - "Community 760"
-Cohesion: 0.13
-Nodes (15): 2. Radix UI Primitive Updates, 7. Safe Area Edge Cases, Alternatives Considered, Alternatives Considered, Code Example, Decision, Decision, Implementation Impact (+7 more)
+Cohesion: 0.05
+Nodes (38): 10. Bundle Size Optimization Techniques, 1. React 19 Concurrent Features Impact, 5. Animation Library Trade-offs, 6. Responsive Breakpoint Best Practices, 7. Safe Area Edge Cases, 8. Haptic Feedback Patterns, Alternatives Considered, Alternatives Considered (+30 more)
 
 ### Community 761 - "Community 761"
 Cohesion: 0.10
@@ -5467,7 +5503,7 @@ Cohesion: 0.10
 Nodes (20): 1.1 Новые Storage Buckets, 1.2 Storage Policies (RLS), 1. Система Хранения (Storage System), 2.1 Storage Management, 2.2 CDN & Media Cache, 2.3 Media Processing Queue, 2.4 Asset Optimization Settings, 2. Новые Таблицы БД (+12 more)
 
 ### Community 764 - "Community 764"
-Cohesion: 0.09
+Cohesion: 0.08
 Nodes (22): Created Documents, 📚 DOCUMENTATION & RESOURCES, 📋 EXECUTIVE SUMMARY, Existing Documentation (Referenced), External Resources, Immediate (This Week), 🚀 IMPLEMENTATION ROADMAP, Medium-term (Next 2 Months) (+14 more)
 
 ### Community 765 - "Community 765"
@@ -5487,8 +5523,15 @@ Cohesion: 0.10
 Nodes (20): Decision: Component-Specific Optimization Strategies, Decision: Hybrid Approach with web-audio-beat-detector + Tone.js, Decision: Hybrid TTL + LRU with Adaptive Compression, Decision: Multi-Slice Architecture with Type-Safe Composition, Decision: Native RAF with Use-Case Specific Strategies, Implementation Roadmap, Key Takeaways, Next Steps (+12 more)
 
 ### Community 769 - "Community 769"
-Cohesion: 0.07
-Nodes (38): NotificationList(), createNotificationSound(), GENERATION_STAGES, GenerationProgress, log, NotificationContext, NotificationContextType, NotificationItem (+30 more)
+Cohesion: 0.03
+Nodes (81): [creatingNew, setCreatingNew], filteredPlaylists, handleAddToPlaylist, handleCreateNewPlaylist, handleOpenChange, loading, [newPlaylistName, setNewPlaylistName], {
+    playlists,
+    isLoading: playlistsLoading,
+    createPlaylist,
+    addTrackToPlaylist,
+    isCreating,
+    isAdding,
+  } (+73 more)
 
 ### Community 770 - "Community 770"
 Cohesion: 0.10
@@ -5503,16 +5546,16 @@ Cohesion: 0.10
 Nodes (19): FULLSCREEN_VIEWPORTS, SAMPLE_TRACK, box, close, closeBox, closeBtn, expandZone, focused (+11 more)
 
 ### Community 773 - "Community 773"
-Cohesion: 0.10
-Nodes (16): GamificationOnboarding(), GamificationOnboardingProps, STEPS, [currentStep, setCurrentStep], handleComplete(), handleNext(), handleSkip(), { hapticFeedback } (+8 more)
+Cohesion: 0.11
+Nodes (15): GamificationOnboardingProps, STEPS, [currentStep, setCurrentStep], handleComplete(), handleNext(), handleSkip(), { hapticFeedback }, hasCompletedOnboarding() (+7 more)
 
 ### Community 774 - "Community 774"
-Cohesion: 0.07
-Nodes (40): useWaveformData(), UseWaveformDataOptions, UseWaveformDataReturn, cleanupOldEntries(), clearWaveformCache(), getCachedWaveform(), getDB(), getWaveform() (+32 more)
+Cohesion: 0.16
+Nodes (15): useWaveformData(), UseWaveformDataOptions, UseWaveformDataReturn, applySmoothing(), cleanupWaveformAudioContext(), generateWaveformFromAudioBuffer(), generateWaveformFromBuffer(), generateWaveformFromUrl() (+7 more)
 
 ### Community 775 - "Community 775"
 Cohesion: 0.10
-Nodes (18): SwipeableTrackItemProps, ACTION_WIDTH, [actionTriggered, setActionTriggered], closeSwipe(), dragDirectionRef, handleActionClick, [isOpen, setIsOpen], leftGlow (+10 more)
+Nodes (19): FeatureEvents, SwipeableTrackItemProps, ACTION_WIDTH, [actionTriggered, setActionTriggered], closeSwipe(), dragDirectionRef, handleActionClick, [isOpen, setIsOpen] (+11 more)
 
 ### Community 776 - "Community 776"
 Cohesion: 0.33
@@ -5520,7 +5563,7 @@ Nodes (6): HapticFeedback, HapticImpactStyle, HapticNotificationType, isHapticSu
 
 ### Community 777 - "Community 777"
 Cohesion: 0.01
-Nodes (233): FeatureFlag, FeatureFlagCategory, FLAG_CATEGORIES, useFeatureFlags(), useIsFeatureEnabled(), UseFunnelAnalyticsOptions, AudioAnalysis, deleteTempAnalysisTrack() (+225 more)
+Nodes (133): ActiveAlert, AlertThreshold, DEFAULT_THRESHOLDS, formatMetricValue(), calculateAverageRetention(), RetentionCohort, UseRetentionCohortsOptions, ErrorTrends (+125 more)
 
 ### Community 778 - "Community 778"
 Cohesion: 0.10
@@ -5539,8 +5582,8 @@ Cohesion: 0.10
 Nodes (20): API Dependencies, Business Rules, Copy Referral Link, Desktop Layout (Two-Column Split), Fields, Interactions, Layout, Leaderboard Interactions (+12 more)
 
 ### Community 782 - "Community 782"
-Cohesion: 0.11
-Nodes (17): PromptKnobEnhanced, PromptKnobEnhancedProps, activeColor, angle, arcLength, centerRef, DISABLED_COLOR, getAngleFromCenter (+9 more)
+Cohesion: 0.12
+Nodes (13): containerRef, el, goTo, handleDragEnd, index, ro, SWIPE_DISTANCE, SWIPE_VELOCITY (+5 more)
 
 ### Community 783 - "Community 783"
 Cohesion: 0.10
@@ -5559,20 +5602,20 @@ Cohesion: 0.50
 Nodes (3): computeLyricsStats, formatLyrics, parseLyricsStructure
 
 ### Community 787 - "Community 787"
-Cohesion: 0.05
-Nodes (50): mockChannel, mockFrom, mockRemoveChannel, mockSupabaseChannel, composedLogger, createStudioProject(), deleteStudioProject(), fetchReplacementTasks() (+42 more)
+Cohesion: 0.02
+Nodes (110): mockChannel, mockFrom, mockRemoveChannel, mockSupabaseChannel, StudioMode, mockPlayerStore, mockStudioStore, UnifiedPlaybackState (+102 more)
 
 ### Community 788 - "Community 788"
-Cohesion: 0.09
-Nodes (23): Component, Component → Hook → Service Flow, Component Props Validation, Component Usage Map, ComponentVariant, Data Flow Diagrams, Data Model: UI Architecture Refactoring, Deprecated Components (+15 more)
+Cohesion: 0.07
+Nodes (28): Component, Component → Hook → Service Flow, Component Props Validation, Component Usage Map, ComponentVariant, Data Flow Diagrams, Data Model: UI Architecture Refactoring, Deprecated Components (+20 more)
 
 ### Community 789 - "Community 789"
 Cohesion: 0.11
 Nodes (19): Decision: Discriminated Union Pattern with Variant Props, Decision: Hybrid Approach with Clear Guidelines, Decision: Hybrid Testing Strategy, Decision: kebab-case Files with PascalCase Exports, Decision: Modal Component Selection Decision Tree, Decision: Multi-tier Bundle Size Monitoring Strategy, Decision: Service Layer + Custom Hooks Hybrid Pattern, Decision: Single Component with Variant Props + Factory Pattern (+11 more)
 
 ### Community 790 - "Community 790"
-Cohesion: 0.10
-Nodes (20): Accessibility Checklist, Animation Performance, Basic Import Pattern, Bundle Size, Color & Contrast, Creating Stories for Unified Components, Getting Help, Getting Started (+12 more)
+Cohesion: 0.08
+Nodes (26): 1. Forgetting Safe Areas, 2. Not Using TouchTarget for Small Elements, 3. Hardcoding Animation Timings, 4. Not Persisting Panel State, 5. Importing framer-motion Directly, Accessibility Checklist, Animation Performance, Basic Import Pattern (+18 more)
 
 ### Community 791 - "Community 791"
 Cohesion: 0.40
@@ -5587,8 +5630,8 @@ Cohesion: 0.50
 Nodes (3): h1s, main, sidebar
 
 ### Community 794 - "Community 794"
-Cohesion: 0.07
-Nodes (29): 1. Lyric Version, 2. Section Note, 3. Recording Session, 4. Preset, 5. Stem Batch, 6. Replacement Event, 7. MIDI File, 8. Keyboard Shortcut (+21 more)
+Cohesion: 0.11
+Nodes (19): Backup Strategy, Batch Stem Processing Flow, Caching Strategy, CDN Configuration, Cleanup Jobs, Data Flow Diagrams, Data Model: Mobile Studio V2 - Legacy Feature Migration, Database Migrations Required (+11 more)
 
 ### Community 796 - "Community 796"
 Cohesion: 0.11
@@ -5599,8 +5642,8 @@ Cohesion: 0.11
 Nodes (18): Animation Patterns, Commands, Common Errors, Component Patterns, Custom Hook Template, Discriminated Unions, Error: "Cannot read properties of undefined", Error: "Cannot update state on unmounted component" (+10 more)
 
 ### Community 798 - "Community 798"
-Cohesion: 0.53
-Nodes (4): parseLyricsToSections(), SECTION_PATTERNS, sectionsToLyrics(), TYPE_LABELS
+Cohesion: 0.14
+Nodes (14): [activeId, setActiveId], activeLabel, activeVersion, { data: versions = [], isLoading: isLoadingQuery }, handleVersionSelect(), isActive, [isUpdating, setIsUpdating], label (+6 more)
 
 ### Community 799 - "Community 799"
 Cohesion: 0.11
@@ -5615,8 +5658,8 @@ Cohesion: 0.11
 Nodes (19): Component Interaction Matrix, Data Flow Diagram, Immediate Actions (Week 1), Medium-term (Sprint 10 - 1 week), Scope аудита, Short-term (Sprint 9 - 2 weeks), Technical Metrics, User Experience Metrics (+11 more)
 
 ### Community 802 - "Community 802"
-Cohesion: 0.09
-Nodes (29): CONFIG_LABELS, ECONOMY_CATEGORIES, EconomyConfigCategory, EconomyConfigItem, getConfigByCategory(), useEconomyConfig(), useUpdateEconomyConfig(), EconomyCategory() (+21 more)
+Cohesion: 0.12
+Nodes (15): aspectClasses, avatarFallback, handleError, handleLoad, [hasError, setHasError], [isLoaded, setIsLoaded], objectFitClasses, roundedClasses (+7 more)
 
 ### Community 803 - "Community 803"
 Cohesion: 0.11
@@ -5647,24 +5690,24 @@ Cohesion: 0.11
 Nodes (19): 🚦 `034` Надёжность генерации (Q3 2026) ✅, 🚦 `039` Архитектурный рефакторинг + Type Safety (Q3 2026) — ЗАВЕРШЁН ✅, 🚦 `040` Тестовое покрытие + Export (Q4 2026) — ЗАПЛАНИРОВАН, 🚦 `044` Type Safety Wave 2 (Q3 2026) — ЗАВЕРШЁН ✅, 🚦 `052` Suno API: Mashup + Persona + File Upload (Q3 2026) — ЗАВЕРШЁН ✅ + 052-C cleanup ✅, 🆕 P0-хотфикс typecheck влит в main (2026-07-04, вечер) ✅, 🚦 Sprint `035` Стабилизация + Чистка — ЗАВЕРШЁН ✅, 🚦 Sprint `037` Infrastructure Hardening & DX — ЗАВЕРШЁН ✅ (+11 more)
 
 ### Community 812 - "Community 812"
-Cohesion: 0.07
-Nodes (25): 1. ✅ Улучшение промптов и форматов ответа, 2. ✅ Улучшение работы с тегами Suno V5, 3. ✅ Продвинутый парсер лирики, 4. ✅ Компонент структурированного отображения, 5. ✅ Быстрые действия (Quick Actions), 6. ✅ Интеграция в существующий интерфейс, 📋 Выполненные задачи, Для пользователей: (+17 more)
+Cohesion: 0.11
+Nodes (18): 1. ✅ Улучшение промптов и форматов ответа, 2. ✅ Улучшение работы с тегами Suno V5, 3. ✅ Продвинутый парсер лирики, 4. ✅ Компонент структурированного отображения, 5. ✅ Быстрые действия (Quick Actions), 6. ✅ Интеграция в существующий интерфейс, 📋 Выполненные задачи, Для пользователей: (+10 more)
 
 ### Community 813 - "Community 813"
 Cohesion: 0.11
 Nodes (19): Edge functions Suno (из supabase/functions/), 🎯 Бэклог (если время позволит / следующий Sprint 056), Готовые UI хуки, Готовые компоненты, 📅 ДЕНЬ 1 (2026-07-05) — P0-1 + P0-5 (deeplink + welcome bonus), 📅 ДЕНЬ 2 (2026-07-06) — P0-4 (Cancel generation), 📅 ДЕНЬ 3 (2026-07-07) — Фаза B начало: Dual CTA + Footer Summary (P1-2 + P1-10), 📅 ДЕНЬ 4 (2026-07-08) — Фаза B середина: Stepper + Bug fixes (+11 more)
 
 ### Community 814 - "Community 814"
-Cohesion: 0.06
-Nodes (30): buttonId, cn(), contentId, contentRef, handleToggle(), { hapticFeedback }, id, [isCollapsed, setIsCollapsed] (+22 more)
+Cohesion: 0.11
+Nodes (16): Accordion(), AccordionItem, AccordionProps, Collapsible(), CollapsibleProps, ExpandableTextProps, CardVariant, Default (+8 more)
 
 ### Community 815 - "Community 815"
 Cohesion: 0.15
 Nodes (10): ✅ PASS: Content Quality, ✅ PASS: Feature Readiness, ✅ PASS: Requirement Completeness, Quality Assessment Summary, Specification Quality Checklist: UI Component Unification Phase 2, Content Quality, Feature Readiness, Notes (+2 more)
 
 ### Community 816 - "Community 816"
-Cohesion: 0.06
-Nodes (32): 1. Feature Branch, 2. Database Setup, 3. Environment Variables, Common Patterns, Component Structure, Development Setup, E2E Tests (Playwright), Files to Create (+24 more)
+Cohesion: 0.11
+Nodes (18): Common Patterns, Component Structure, Files to Create, Files to Modify, Implementation Priority, Mobile-First Component Template, Performance Checks, Phase 1: Lyrics Studio (P1) - Week 1 (+10 more)
 
 ### Community 817 - "Community 817"
 Cohesion: 0.33
@@ -5675,12 +5718,12 @@ Cohesion: 0.11
 Nodes (17): 1. Консолидация запросов данных, 2. Оптимизированное кэширование TanStack Query, 3. Виртуализация списков, 4. Ленивая загрузка изображений, 5. Batch-запросы для счётчиков, 6. Studio State Management (NEW - 2026-01-07), 7. Waveform Caching (NEW - 2026-01-07), 8. Optimized Playback (NEW - 2026-01-07) (+9 more)
 
 ### Community 819 - "Community 819"
-Cohesion: 0.60
-Nodes (3): ActionButton(), ActionButtonProps, SectionCard
+Cohesion: 0.20
+Nodes (13): ArtistRow, fetchParentTrackSummary(), fetchTrackArtist(), fetchTrackProject(), fetchTrackReferenceAudio(), HistoryRefRow, ParentTrackSummary, ProjectRow (+5 more)
 
 ### Community 820 - "Community 820"
-Cohesion: 0.33
-Nodes (6): Sprint 053 Retrospective — Suno Sounds + MIDI Direct + Boost Style, Ключевой архитектурный паттерн, Краткое резюме, Что сделано, Что сработало хорошо, Что учесть на будущее
+Cohesion: 0.07
+Nodes (23): 1. Сверка с бэклогом прошлых аудитов — что уже закрыто, 2. Новые находки этого прохода, 3. Исправлено в этом PR, 4. Рекомендации (следующие итерации, по приоритету), UX / UI Audit — 2026-07-02 (интерфейс, пользовательский путь, доработка компонентов), Quick Wins (Интегрированы в Sprint 036), Зависимости, Задачи (+15 more)
 
 ### Community 821 - "Community 821"
 Cohesion: 0.11
@@ -5707,36 +5750,28 @@ Cohesion: 0.14
 Nodes (12): BaseInputProps, CheckboxInputProps, FormInputConfig, FormValidationError, FormValidationState, NumberInputProps, RadioInputProps, RadioOption (+4 more)
 
 ### Community 827 - "Community 827"
-Cohesion: 0.18
-Nodes (15): corsHeaders, extractDominantColorSimple(), generateBlurhashFromBuffer(), generateSimpleBlurhash(), generateStorageTransformUrls(), sRGBToLinear(), THUMBNAIL_SIZES, ThumbnailRequest (+7 more)
+Cohesion: 0.03
+Nodes (73): corsHeaders, corsHeaders, SYSTEM_PROMPTS, AudioAnalysisResponse, corsHeaders, normalizeAnalysis(), corsHeaders, EmotionResult (+65 more)
 
 ### Community 828 - "Community 828"
-Cohesion: 0.11
-Nodes (18): Best Practices, Compact Player (z-60), Component-Specific Details, Constants File (src/constants/z-index.ts), Context Menu (z-9999), Contextual Hints (z-70), Dropdowns/Popovers (z-200), Fullscreen Player (z-90) (+10 more)
+Cohesion: 0.12
+Nodes (17): Best Practices, Compact Player (z-60), Component-Specific Details, Constants File (src/constants/z-index.ts), Context Menu (z-9999), Contextual Hints (z-70), Dropdowns/Popovers (z-200), Fullscreen Player (z-90) (+9 more)
 
 ### Community 829 - "Community 829"
 Cohesion: 0.09
 Nodes (21): assertDialogContract(), LANDSCAPE, openAnyDialog(), PORTRAIT, assertDialogContract(), openAnyDialog(), openAnyDialog(), gotoGenerate() (+13 more)
 
 ### Community 830 - "Community 830"
-Cohesion: 0.33
-Nodes (5): ClipType, generateId(), StudioProject, StudioProjectState, TRACK_COLORS
+Cohesion: 0.18
+Nodes (11): ComingSoonModal(), ComingSoonModalProps, useComingSoon(), [currentFeature, setCurrentFeature], hideComingSoon, [isOpen, setIsOpen], showComingSoon, APP_CONFIG (+3 more)
 
 ### Community 831 - "Community 831"
-Cohesion: 0.07
-Nodes (28): analysisColors, errorCodeColors, getStemColor(), hintColors, overlayColors, RankColorKey, rankColors, RankColorValue (+20 more)
+Cohesion: 0.06
+Nodes (34): ChordData, ChordProgressionDisplayProps, getChordColor(), currentChord, isActive, isPast, progressionString, uniqueChords (+26 more)
 
 ### Community 832 - "Community 832"
 Cohesion: 0.13
-Nodes (15): config, isSelected, isSuggested, [selectedType, setSelectedType], [styleHint, setStyleHint], {
-    trackContext,
-    isLoadingContext,
-    refetchContext,
-    generateStem,
-    isGenerating,
-    generationProgress,
-    lastGeneration,
-  }, GenerationParams, GenerationResult (+7 more)
+Nodes (13): [dismissed, setDismissed], DRAFT_EXPIRY_MS, DRAFT_KEY, [draft, setDraft], { hapticFeedback }, parsed, preview, saved (+5 more)
 
 ### Community 833 - "Community 833"
 Cohesion: 0.11
@@ -5748,7 +5783,7 @@ Nodes (18): AI Assistant Sidebar, AI Chat, API Dependencies, Business Rules, Edi
 
 ### Community 835 - "Community 835"
 Cohesion: 0.11
-Nodes (18): 2.1.1 Collaborative Editing, 2.1.2 AI-powered Mastering, 2.1.3 Loop & Sample Library, 2.1.4 MIDI Editor & Virtual Instruments, 2.1 Музыкальные функции (High Impact), 2.2.1 Live Listening Parties, 2.2.2 Challenges & Contests, 2.2.3 Collaboration Requests (+10 more)
+Nodes (18): 2.1.1 Collaborative Editing, 2.1.2 AI-powered Mastering, 2.1.3 Loop & Sample Library, 2.1.4 MIDI Editor & Virtual Instruments, 2.1 Музыкальные функции (High Impact), 2.3.1 Export to Streaming Platforms, 2.3.2 Social Media Auto-posting, 2.3.3 Telegram Bot Enhancements (+10 more)
 
 ### Community 836 - "Community 836"
 Cohesion: 0.11
@@ -5791,24 +5826,24 @@ Cohesion: 0.12
 Nodes (16): API Configurations, API Integration Agent, AuDD, Commands, Common Patterns, Error Handling, Expertise, Key Files (+8 more)
 
 ### Community 846 - "Community 846"
-Cohesion: 0.12
-Nodes (13): DISMISSED_STORAGE_KEY, MAX_QUEUE_SIZE, Announcement, AnnouncementContext, AnnouncementContextType, announcementLogger, AnnouncementPriority, AnnouncementProvider() (+5 more)
+Cohesion: 0.13
+Nodes (12): TAG_TYPE_COLORS, TAG_TYPE_INFO, [activeTab, setActiveTab], [copied, setCopied], handleCopy(), hasNoTags, Icon, info (+4 more)
 
 ### Community 847 - "Community 847"
-Cohesion: 0.11
-Nodes (27): BatchError, BatchSeparateRequest, BatchSeparateResponse, BatchTranscribeRequest, BatchTranscribeResponse, cancelBatch(), deleteBatch(), getBatchStatus() (+19 more)
+Cohesion: 0.07
+Nodes (41): BatchError, BatchSeparateRequest, BatchSeparateResponse, BatchTranscribeRequest, BatchTranscribeResponse, initiateBatchSeparate(), initiateBatchTranscribe(), retryBatch() (+33 more)
 
 ### Community 848 - "Community 848"
-Cohesion: 0.40
-Nodes (5): Export Names, File Names, Hook Names, Import Paths, Naming Conventions
+Cohesion: 0.13
+Nodes (13): charCount, hasValue, inputPaddingTop, isFloating, [isFocused, setIsFocused], isPassword, labelSizeClasses, [showPassword, setShowPassword] (+5 more)
 
 ### Community 849 - "Community 849"
-Cohesion: 0.40
-Nodes (5): Haptic Feedback, Mobile Component Guidelines, Touch Target Requirements, When to Create Separate Mobile* Components, When to Use Responsive Components
+Cohesion: 0.13
+Nodes (13): HardwareFader, HardwareFaderProps, displayValue, handleMouseDown, handlePosition, handleTouchMove, handleTouchStart, [isDragging, setIsDragging] (+5 more)
 
 ### Community 850 - "Community 850"
-Cohesion: 0.40
-Nodes (5): useRealtimeTrackUpdates, useTrackActions, useTrackData, useTrackVersionSwitcher, Using Extracted Hooks
+Cohesion: 0.18
+Nodes (13): getGlobalNavigate(), activateTrial(), TrialEligibility, useTrialEligibility(), TrialBannerProps, handleActivateTrial(), [isActivating, setIsActivating], [isDismissed, setIsDismissed] (+5 more)
 
 ### Community 851 - "Community 851"
 Cohesion: 0.12
@@ -5835,24 +5870,28 @@ Cohesion: 0.12
 Nodes (16): 10. UI/icon map shapes, 11. Admin / domain state, 1. Third-party SDK type gaps (no upstream types), 2. Generic constraint edges (intentional TS pattern), 3. Web platform / browser API gaps (not in TS lib.dom), 4. Debug-only window augmentation (DevTools hooks), 5. LLM / untyped JSON shapes (unavoidable), 6. Supabase / generated type gaps (+8 more)
 
 ### Community 857 - "Community 857"
-Cohesion: 0.40
-Nodes (5): 1. React 19 Concurrent Features Impact, Alternatives Considered, Decision, Implementation Impact, Rationale
+Cohesion: 0.16
+Nodes (13): meta, LabelBadge(), LabelBadgeProps, NotificationBadge(), NotificationBadgeProps, StatusIndicator(), StatusIndicatorProps, Default (+5 more)
 
 ### Community 858 - "Community 858"
 Cohesion: 0.12
 Nodes (16): Executive Summary, Metrics Success, P0-1: Telegram Deep-link Non-functional ✅, P0-2: Dual CTA Confusion ✅, P0-3: Save Draft No-Op ✅, P0-4: Generation Cancel Hardcoded False ✅, P0-5: Welcome Bonus Repeatable ✅, P0 Issues — Critical Blockers (RESOLVED ✅) (+8 more)
 
 ### Community 859 - "Community 859"
-Cohesion: 0.40
-Nodes (5): Analysis Documents, 📦 Archive - January 2026, 🗂️ Archive Structure, 📄 Archived Documents, 📚 Current Documentation
+Cohesion: 0.20
+Nodes (13): EnhancedAnalyticsPanel(), ActiveUsersStats, ContentStats, DailyGrowthStats, ErrorDistribution, GenerationModeStats, ModelUsageStats, useActiveUsersStats() (+5 more)
 
 ### Community 860 - "Community 860"
-Cohesion: 0.04
-Nodes (42): Assumptions, Constitution Compliance Checklist *(mandatory)*, Edge Cases, Feature Specification: Unified Telegram Mini App Interface Components, Functional Requirements, Key Entities, Measurable Outcomes, Requirements *(mandatory)* (+34 more)
+Cohesion: 0.12
+Nodes (17): 1. Преамбула: Наша Миссия, 2. Ключевые Принципы, 3. Управление и Принятие Решений, 4.10. Common Pitfalls (MUST AVOID), 4.1. Процесс Разработки "Spec-First", 4.2. Работа с Кодом, 4.3. Архитектура, 4.4. State Management (+9 more)
 
 ### Community 861 - "Community 861"
 Cohesion: 0.12
 Nodes (17): API Dependencies, Business Rules, Create Playlist, Delete Playlist, Desktop Layout (Master-Detail), Edit Playlist, Fields, Interactions (+9 more)
+
+### Community 862 - "Community 862"
+Cohesion: 0.21
+Nodes (11): ExpandedAnalysisData, FullAnalysisData, ExpandedAnalysisData, extractJSON(), parseAIResponse(), parseChatResponse(), ParsedLyricsResponse, parseFullAnalysis() (+3 more)
 
 ### Community 863 - "Community 863"
 Cohesion: 0.12
@@ -5870,9 +5909,17 @@ Nodes (16): KPI для отслеживания:, 🚀 Quick Wins (можно с
 Cohesion: 0.12
 Nodes (17): 🆕 E008: Phase 9 — Deduplication & Refactoring (2026-06), 🆕 E011: Product Development (Q3-Q4 2026), 🆕 Sprint 029: Fullscreen Player Enhancements (2026-01-04), 🆕 Sprint 051: Test Debt + God Files (Planning), 🆕 Sprint 053: Suno API Sounds + MIDI + Boost, 🆕 Sprint 054: Klangio Integration + Transcription, 🆕 Sprint 055: UX Audit Findings Implementation, 🆕 Sprint 056: Generate Sheet Redesign (+9 more)
 
+### Community 867 - "Community 867"
+Cohesion: 0.16
+Nodes (12): COLUMN_CLASSES, SIZE_CLASSES, StatCard, StatCardProps, StatItem, StatsGrid, StatsGridProps, VARIANT_CLASSES (+4 more)
+
+### Community 868 - "Community 868"
+Cohesion: 0.14
+Nodes (13): [copied, setCopied], handleCopy(), handleSave(), hasCustomActions, iconClasses, isEmpty, [saving, setSaving], shouldHideWhenEmpty (+5 more)
+
 ### Community 869 - "Community 869"
-Cohesion: 0.06
-Nodes (29): API Contracts, Compliance Status, Constitution Check, Data Model, Documentation (this feature), Implementation Plan: Mobile Studio V2 - Legacy Feature Migration, Key Decisions, Phase 0: Research Summary (+21 more)
+Cohesion: 0.12
+Nodes (16): API Contracts, Compliance Status, Constitution Check, Data Model, Documentation (this feature), Implementation Plan: Mobile Studio V2 - Legacy Feature Migration, Key Decisions, Phase 0: Research Summary (+8 more)
 
 ### Community 870 - "Community 870"
 Cohesion: 0.12
@@ -5926,9 +5973,13 @@ Nodes (16): API: MIDI транскрипция, API: Разделение на �
 Cohesion: 0.12
 Nodes (14): artifactDir(), writeArtifact(), authSurface, bootLog, consoleErrors, earlyErrors, errorVisible, failedRequests (+6 more)
 
+### Community 883 - "Community 883"
+Cohesion: 0.14
+Nodes (12): ButtonSwitch, colorMap, HardwareSwitch, HardwareSwitchProps, RockerSwitch, sizeConfig, colors, config (+4 more)
+
 ### Community 884 - "Community 884"
-Cohesion: 0.13
-Nodes (17): TranscriptionFiles, TranscriptionResult, UseKlangioTranscriptionReturn, useReplicateMidiTranscription(), availableFormats, handleDownload(), isSending, [sendingFile, setSendingFile] (+9 more)
+Cohesion: 0.16
+Nodes (14): TranscriptionFiles, availableFormats, handleDownload(), isSending, [sendingFile, setSendingFile], shareMutation, url, FILE_FORMATS (+6 more)
 
 ### Community 885 - "Community 885"
 Cohesion: 0.12
@@ -5963,8 +6014,8 @@ Cohesion: 0.12
 Nodes (15): 1. Home Page (/), 2. Library Page (/library), 3. Generate Page (/generate), 4. Player (MiniPlayer/ExpandedPlayer/Fullscreen), 5. Projects Page (/projects), 6. Navigation (BottomNavigation), Completed Tests, Conclusion (+7 more)
 
 ### Community 893 - "Community 893"
-Cohesion: 0.40
-Nodes (4): corsHeaders, GenerationRequest, stemPromptTemplates, TrackContext
+Cohesion: 0.14
+Nodes (12): MobileBottomSheet, MobileBottomSheetProps, backdropOpacity, containerRef, currentHeight, [currentSnap, setCurrentSnap], DRAG_CLOSE_THRESHOLD, handleBackdropClick (+4 more)
 
 ### Community 894 - "Community 894"
 Cohesion: 0.12
@@ -6016,14 +6067,14 @@ Nodes (14): 1. Phase 7: UI Improvements — частично завершено,
 
 ### Community 906 - "Community 906"
 Cohesion: 0.13
-Nodes (15): 1. Улучшенная навигация, 2. Упорядоченная структура, 3. Улучшенная обнаруживаемость, 4. Поддерживаемость, 5. Историческая перспектива, Выполненные задачи, 🔄 Дальнейшая поддержка, ✨ Достигнутые улучшения (+7 more)
+Nodes (15): 1. Улучшенная навигация, 2. Упорядоченная структура, 3. Улучшенная обнаруживаемость, 4. Поддерживаемость, 5. Историческая перспектива, 🔄 Дальнейшая поддержка, Для команды, Для новых участников (+7 more)
 
 ### Community 907 - "Community 907"
-Cohesion: 0.40
-Nodes (4): ChordData, corsHeaders, MelodyInput, NoteData
+Cohesion: 0.14
+Nodes (11): baseCredits, basePricePerCredit, bestValueId, currentPricePerCredit, isBestValue, isFeatured, isSelected, pricePerTrack (+3 more)
 
 ### Community 908 - "Community 908"
-Cohesion: 0.13
+Cohesion: 0.12
 Nodes (15): AI Agent Toolbar (NEW), AI Agent Tools (NEW - Sprint 027), 🎤 AI Lyrics Assistant & Agent Tools, Backend, Best Practices, Chat Interface, Frontend, UI/UX особенности (+7 more)
 
 ### Community 909 - "Community 909"
@@ -6051,11 +6102,11 @@ Cohesion: 0.13
 Nodes (14): 🎨 UI улучшения, 🎵 Аудит и оптимизация Stem Studio - Фаза 1 ✅, 🎯 Выполнено, 📚 Документация, 📊 Комплексный аудит, Метрики улучшений, 🏗️ Модульная архитектура (Core Components), ⚡ Оптимизация существующих компонентов (+6 more)
 
 ### Community 916 - "Community 916"
-Cohesion: 0.14
-Nodes (14): errorCode, errorInfo, handleGoBack(), handleRetry(), isTelegram, message, navigate, orderId (+6 more)
+Cohesion: 0.15
+Nodes (13): errorCode, errorInfo, handleGoBack(), handleRetry(), isTelegram, message, navigate, orderId (+5 more)
 
 ### Community 917 - "Community 917"
-Cohesion: 0.12
+Cohesion: 0.11
 Nodes (12): log, Props, State, ToneType, withPromptDJErrorBoundary(), componentDidCatch(), componentDidMount(), componentWillUnmount() (+4 more)
 
 ### Community 918 - "Community 918"
@@ -6083,16 +6134,16 @@ Cohesion: 0.14
 Nodes (13): Важные Заметки для Разработчиков, Влияние, Изменения в коде:, Исправление Краша Приложения при Запуске, Коммит, Причина, Проблема, Проверки: (+5 more)
 
 ### Community 928 - "Community 928"
-Cohesion: 0.03
-Nodes (79): generateArtistPortrait(), GenerateArtistPortraitInput, paymentHistoryKeys, usePaymentHistory(), UsePaymentHistoryOptions, useRecentTransactions(), UseTinkoffPaymentOptions, PaymentHistoryItemProps (+71 more)
+Cohesion: 0.17
+Nodes (19): log, showGenerationCompleteNotification(), log, cleanupExpiredNotifications(), createNotification(), deleteNotification(), deleteNotificationsByGroup(), log (+11 more)
 
 ### Community 930 - "Community 930"
 Cohesion: 0.14
 Nodes (14): 1. Branded types, 1. Virtualization для больших списков, 1. Используйте LazyImage для изображений, 1. Правильный выбор state management, 2. Memoization, 2. Optimistic updates, 2. Type narrowing, 2. Используйте cn() для className (+6 more)
 
 ### Community 931 - "Community 931"
-Cohesion: 0.50
-Nodes (4): 1. Фрагментированный UX 🔴 HIGH, 2. Stem Studio - Избыточная Сложность 🔴 HIGH, 3. Медленная Скорость Спринтов 🟡 MEDIUM, ⚠️ КРИТИЧЕСКИЕ ПРОБЛЕМЫ
+Cohesion: 0.14
+Nodes (13): GroupedProducts, PaymentError, PaymentErrorCode, PaymentFlowState, StarsProduct, StarsProductStatus, StarsProductType, StarsTransaction (+5 more)
 
 ### Community 933 - "Community 933"
 Cohesion: 0.14
@@ -6167,8 +6218,8 @@ Cohesion: 0.14
 Nodes (14): 1️⃣ Getting Started, 2️⃣ Architecture, 3️⃣ Features, 4️⃣ API & Integrations, 5️⃣ Design & UI, 6️⃣ Operations, 7️⃣ Process & Governance, 8️⃣ Telegram Mini App (+6 more)
 
 ### Community 952 - "Community 952"
-Cohesion: 0.02
-Nodes (117): NOTE_LABELS, RealtimeChordVisualizer, RealtimeChordVisualizerProps, FormStepper(), FormStepperProps, GenerateFormCustom, GenerateFormSimple, KIND_META (+109 more)
+Cohesion: 0.06
+Nodes (33): absolutePos, BEATS_PER_MEASURE, containerRef, editor, endPosition, existing, handleCellClick, handleFretInput (+25 more)
 
 ### Community 953 - "Community 953"
 Cohesion: 0.19
@@ -6271,8 +6322,8 @@ Cohesion: 0.15
 Nodes (13): Audio & Music, Backend Stack, Build Optimization, Core Framework, Development Tools, External Services, Frontend Stack, Platform (+5 more)
 
 ### Community 979 - "Community 979"
-Cohesion: 0.67
-Nodes (3): Already Optimized Components, 📊 Component Inventory, Enhanced Components
+Cohesion: 0.14
+Nodes (12): ChannelVariant, STEM_CONFIG, UnifiedMixerChannel, UnifiedMixerChannelProps, config, handleEffects, handleMute, handleSolo (+4 more)
 
 ### Community 980 - "Community 980"
 Cohesion: 0.15
@@ -6315,19 +6366,19 @@ Cohesion: 0.21
 Nodes (8): BaseSkeletonProps, CardSkeletonProps, ImageSkeletonProps, ListSkeletonProps, SkeletonAnimationConfig, SkeletonPresets, TextSkeletonProps, UnifiedSkeletonProps
 
 ### Community 990 - "Community 990"
-Cohesion: 0.15
-Nodes (16): commonShortcuts, getRegisteredShortcuts(), globalRegistry, KeyCombo, matchesKeyCombo(), ModifierKey, parseKeyCombo(), ShortcutConfig (+8 more)
+Cohesion: 0.24
+Nodes (11): commonShortcuts, getRegisteredShortcuts(), globalRegistry, KeyCombo, matchesKeyCombo(), ModifierKey, parseKeyCombo(), ShortcutConfig (+3 more)
 
 ### Community 991 - "Community 991"
-Cohesion: 0.43
-Nodes (5): LyricsHeader(), LyricsTagsPanels(), ProjectDataForLyrics, ProjectTrackForLyrics, TracklistItemForLyrics
+Cohesion: 0.26
+Nodes (9): LyricsHeader(), LyricsTagsPanels(), parseLyricsToSections(), SECTION_PATTERNS, sectionsToLyrics(), TYPE_LABELS, ProjectDataForLyrics, ProjectTrackForLyrics (+1 more)
 
 ### Community 992 - "Community 992"
 Cohesion: 0.18
 Nodes (11): { content, userId, contentType }, { isSpam, score }, maxLengths, rateLimitCheck, supabaseClient, trimmed, containsProfanity(), detectSpam() (+3 more)
 
 ### Community 993 - "Community 993"
-Cohesion: 0.15
+Cohesion: 0.14
 Nodes (13): Authentication Flow, ⚠️ Authentication System Files, 📋 Change Request Protocol, 🔒 Critical System Files - DO NOT MODIFY, Database Tables (via Supabase Migrations), 🚨 Emergency Rollback, **HIGHEST PRIORITY - Security Critical**, `profiles` table (+5 more)
 
 ### Community 994 - "Community 994"
@@ -6363,20 +6414,20 @@ Cohesion: 0.15
 Nodes (11): boot(), baselineTop, box, card, lifted, liftedTop, store, TEST_ID (+3 more)
 
 ### Community 1002 - "Community 1002"
-Cohesion: 0.67
-Nodes (3): 📚 Documentation References, External Resources, Internal Docs
+Cohesion: 0.15
+Nodes (13): Architecture Compliance, Decision 1: Lyrics Studio Integration Architecture, Decision 2: MusicLab Creative Workspace Migration, Decision 3: Professional Studio Dashboard Integration, Decision 4: Advanced Stem Processing, Decision 5: Section Replacement History, Decision 6: MIDI File Support, Decision 7: Keyboard Shortcuts System (+5 more)
 
 ### Community 1003 - "Community 1003"
 Cohesion: 0.15
-Nodes (12): DEFAULT_SLOTS, KEY_TO_MIDI, MelodyMixerState, PolySynthType, RecorderType, SCALES, SequenceType, StyleSlot (+4 more)
+Nodes (9): playerLogic, act(), noAudio, s, { set, get }, trackA, trackB, trackC (+1 more)
 
 ### Community 1004 - "Community 1004"
-Cohesion: 0.67
-Nodes (3): Для команды, Для новых участников, 📞 Рекомендации
+Cohesion: 0.17
+Nodes (12): [activeTab, setActiveTab], handleTabChange, handleTabKeyDown, handleTrackPreset, { hapticFeedback }, Icon, isActive, CreativePresetsSection (+4 more)
 
 ### Community 1005 - "Community 1005"
-Cohesion: 0.23
-Nodes (12): CachedLyricsEntry, cleanupExpiredLyrics(), deleteCachedLyrics(), getCachedLyrics(), getCacheKey(), getDB(), getLyricsCacheStats(), CACHE_EXPIRY_MS (+4 more)
+Cohesion: 0.20
+Nodes (13): TimestampedLyricsData, CachedLyricsEntry, cleanupExpiredLyrics(), deleteCachedLyrics(), getCachedLyrics(), getCacheKey(), getDB(), getLyricsCacheStats() (+5 more)
 
 ### Community 1006 - "Community 1006"
 Cohesion: 0.67
@@ -6531,20 +6582,20 @@ Cohesion: 0.17
 Nodes (11): Agent Selection Guide, 🔌 API Integration Agent, 🎵 Audio & DAW Agent, Available Agents, 🗄️ Backend & Database Agent, 🐛 Error Debugger Agent, GitHub Copilot Agents for MusicVerse, How to Use (+3 more)
 
 ### Community 1047 - "Community 1047"
-Cohesion: 0.06
-Nodes (26): EDIT_LYRICS_ACTIONS, NEW_LYRICS_ACTIONS, onClick, handleGenerateClick(), ActionSheetAction, ActionSheetGroup, MobileActionSheet, MobileActionSheetProps (+18 more)
+Cohesion: 0.18
+Nodes (9): EDIT_LYRICS_ACTIONS, NEW_LYRICS_ACTIONS, handleAction(), { hapticFeedback }, Icon, navigate, quickActions, { unreadCount } (+1 more)
 
 ### Community 1048 - "Community 1048"
 Cohesion: 0.67
 Nodes (3): Analysis, Communication, Post-Incident (Within 7 Days)
 
 ### Community 1049 - "Community 1049"
-Cohesion: 0.67
-Nodes (3): Pending (Non-Blocking) ⏳, 🎯 Production Readiness, Ready for Deployment ✅
+Cohesion: 0.15
+Nodes (11): [activeTab, setActiveTab], allSelected, categories, categoryInfo, filteredTags, Icon, info, [open, setOpen] (+3 more)
 
 ### Community 1050 - "Community 1050"
-Cohesion: 0.18
-Nodes (13): invokeLyricsAssistant(), addLyricsTags(), AddLyricsTagsParams, ChatParams, executeAiTool(), ExecuteToolParams, generateLyrics(), GenerateLyricsParams (+5 more)
+Cohesion: 0.07
+Nodes (35): Author, CreateLyricVersionResponse, createSectionNote(), CreateSectionNoteRequest, CreateSectionNoteResponse, deleteSectionNote(), GetLyricVersionsResponse, getSectionNotes() (+27 more)
 
 ### Community 1051 - "Community 1051"
 Cohesion: 0.17
@@ -6571,8 +6622,8 @@ Cohesion: 0.17
 Nodes (12): 3.1 Overview, 3.2 Implementation Summary by Phase, 3.3 Production Readiness, 3. Telegram Stars Payment System, ✅ Phase 1: Project Setup (6/6 tasks), ✅ Phase 2: Database Schema (30/30 tasks), ✅ Phase 3: Backend Edge Functions (26/26 tasks), ✅ Phase 4: Frontend Components & Hooks (37/37 tasks) (+4 more)
 
 ### Community 1057 - "Community 1057"
-Cohesion: 0.05
-Nodes (49): DetailSection, COLUMN_CLASSES, SIZE_CLASSES, StatCard, StatCardProps, StatItem, StatsGrid, StatsGridProps (+41 more)
+Cohesion: 0.11
+Nodes (22): TrackCoverSection, TrackCoverSectionProps, TrackLyricsSection, TrackPromptSection, Artist, Project, ReferenceAudio, TrackReferencesSection (+14 more)
 
 ### Community 1058 - "Community 1058"
 Cohesion: 0.17
@@ -6585,6 +6636,10 @@ Nodes (12): 1. Performance Hooks Coverage 🟡 MEDIUM, 2. Edge Functions Audit �
 ### Community 1061 - "Community 1061"
 Cohesion: 0.17
 Nodes (11): AIMusicVerse Opportunity, 🎸 AIMusicVerse - Professional UX/UI Audit & Mobile Studio Design, 🎯 COMPETITIVE ANALYSIS, Current Gaps, Fixes, 🔐 MOBILE ACCESSIBILITY, Primary Metrics, Secondary Metrics (+3 more)
+
+### Community 1062 - "Community 1062"
+Cohesion: 0.18
+Nodes (12): PromptHistoryEntry, UserPreset, ControlPanelProps, QuickPreset, QuickPresetsProps, QuickStartPreset, SmartSuggestions, SmartSuggestionsProps (+4 more)
 
 ### Community 1063 - "Community 1063"
 Cohesion: 0.17
@@ -6607,8 +6662,8 @@ Cohesion: 0.21
 Nodes (8): AlertDialogProps, BaseDialogProps, DialogConfig, DialogGestures, ModalDialogProps, SheetDialogProps, UnifiedDialogProps, UseDialogStateReturn
 
 ### Community 1068 - "Community 1068"
-Cohesion: 0.17
-Nodes (11): Архитектура Системы, Введение, Документация API Системы Транскрипции Музыки и Конвертации Форматов, Коды Ошибок, Микросервисная Архитектура, Обработка в клиентском коде, Обработка Ошибок, Общая Структура (+3 more)
+Cohesion: 0.15
+Nodes (12): Архитектура Системы, Версия Документации, Документация API Системы Транскрипции Музыки и Конвертации Форматов, Заключение, Кэширование, Микросервисная Архитектура, Общая Структура, Оптимизация и Производительность (+4 more)
 
 ### Community 1069 - "Community 1069"
 Cohesion: 0.17
@@ -6649,6 +6704,22 @@ Nodes (12): Categories, Default Search (Public), Featured, Genre Filter, Guest U
 ### Community 1078 - "Community 1078"
 Cohesion: 0.17
 Nodes (10): goHome(), activeOk, card, closeBtn, HINT_STORAGE_KEY, i, inner, overlay (+2 more)
+
+### Community 1079 - "Community 1079"
+Cohesion: 0.20
+Nodes (6): Specification Quality Checklist: Mobile Studio V2 - Legacy Feature Migration, Validation Summary, Content Quality, Feature Readiness, Notes, Requirement Completeness
+
+### Community 1080 - "Community 1080"
+Cohesion: 0.17
+Nodes (11): config, [context, setContext], contextConfig, [dismissed, setDismissed], Icon, id, parts, shouldShow (+3 more)
+
+### Community 1081 - "Community 1081"
+Cohesion: 0.20
+Nodes (8): EmptyState(), EmptyState(), EmptyStateAction, EmptyStateProps, EmptyStateVariant, ICON_SIZES, SIZE_CLASSES, VARIANT_DEFAULTS
+
+### Community 1082 - "Community 1082"
+Cohesion: 0.18
+Nodes (10): getSavingsText(), formatRubles(), CreatePaymentRequest, formatStars(), getPaymentMethods(), PaymentGateway, PaymentMethod, PaymentStatus (+2 more)
 
 ### Community 1083 - "Community 1083"
 Cohesion: 0.17
@@ -6758,6 +6829,10 @@ Nodes (10): GitHub ресурсы, 🔗 Внешние ресурсы, Внеш�
 Cohesion: 0.18
 Nodes (11): 🎨 Design System, 📝 Sprint документация, 🏗️ Архитектура системы, 🗺️ Карта документации, 🔧 Конфигурация и окружение, 📱 Мобильная разработка, 🛠️ Разработка и рабочий процесс, 📋 Спецификации и требования (+3 more)
 
+### Community 1111 - "Community 1111"
+Cohesion: 0.17
+Nodes (9): DrumRecorder, DrumRecorderProps, audio, audioRef, handleDownload(), { pauseTrack, isPlaying: globalIsPlaying }, [recordingTime, setRecordingTime], sourceId (+1 more)
+
 ### Community 1112 - "Community 1112"
 Cohesion: 0.18
 Nodes (11): App Role, Generation Task Status, Project Status, Project Type, Stem Batch Operation Type, Stem Batch Status, Stem Status, Subscription Tiers (+3 more)
@@ -6773,10 +6848,6 @@ Nodes (10): Concerns (Deviations From Brief — Required to Make Tests Pass), Fi
 ### Community 1115 - "Community 1115"
 Cohesion: 0.18
 Nodes (10): Concern 1 — vitest.setup.ts modified (REQUIRED for tests to pass), Concern 2 — Commit used `--no-verify`, Concern 3 — `npm run build` failure (pre-existing, not Task 6), Concerns / Deviations, Files, Files committed, Out-of-scope confirmations (from plan), Pre-flight verification (+2 more)
-
-### Community 1116 - "Community 1116"
-Cohesion: 0.20
-Nodes (6): stopRecording(), createClickSound(), handleStartRecording(), handleStopRecording(), MemoryTracker, start
 
 ### Community 1117 - "Community 1117"
 Cohesion: 0.18
@@ -6892,7 +6963,7 @@ Nodes (10): Commit, Critical Pre-Flight, Files, Out of scope, Plan Reference, Re
 
 ### Community 1146 - "Community 1146"
 Cohesion: 0.01
-Nodes (183): handleAction(), Icon, iconColor, navigate, timeAgo, AdminSendMessageDialog(), AdminSendMessageDialogProps, User (+175 more)
+Nodes (225): handleAction(), Icon, iconColor, navigate, timeAgo, AdminTrack, AdminTrackDetailsDialogProps, AdminUserCardProps (+217 more)
 
 ### Community 1147 - "Community 1147"
 Cohesion: 0.18
@@ -6919,8 +6990,16 @@ Cohesion: 0.18
 Nodes (10): Dashboard Metrics, KPIs для Трекинга, 📞 Контакты, Матрица Ответственностей, 📊 Метрики и KPIs, 📋 Обзор Системы, 👥 Ответственности, Принципы Трекинга (+2 more)
 
 ### Community 1153 - "Community 1153"
+Cohesion: 0.18
+Nodes (10): [settings, setSettings], toggle(), Checked, Default, Disabled, DisabledChecked, meta, SettingsList (+2 more)
+
+### Community 1154 - "Community 1154"
 Cohesion: 0.20
-Nodes (9): [settings, setSettings], Checked, Default, Disabled, DisabledChecked, meta, SettingsList, Story (+1 more)
+Nodes (10): colorClasses, handleClick(), [isVisible, setIsVisible], seen, STORAGE_KEY, timer, FeatureHighlight, FeatureHighlightProps (+2 more)
+
+### Community 1155 - "Community 1155"
+Cohesion: 0.26
+Nodes (10): FeatureKey, FeatureGate(), FeatureGateProps, FeatureWithBadge(), FeatureWithBadgeProps, PremiumBadge(), PremiumBadgeProps, TrialBanner (+2 more)
 
 ### Community 1156 - "Community 1156"
 Cohesion: 0.20
@@ -6942,9 +7021,17 @@ Nodes (10): Objective, Phase 0: Audit & Research (3 days), R1: Component Invento
 Cohesion: 0.20
 Nodes (10): Edge Cases, User Scenarios & Testing *(mandatory)*, User Story 1 - Navigate Between Main Sections (Priority: P1), User Story 2 - Browse and Interact with Track Lists (Priority: P1), User Story 3 - Create Music with Generation Form (Priority: P1), User Story 4 - Manage Playlists and Projects (Priority: P2), User Story 5 - Work in Unified Studio (Priority: P2), User Story 6 - Use Modals Consistently Across App (Priority: P2) (+2 more)
 
+### Community 1161 - "Community 1161"
+Cohesion: 0.18
+Nodes (11): SeparationProgress, STEM_ICONS, StemSeparationProgress, StemSeparationProgressProps, config, Icon, isCompleted, isFailed (+3 more)
+
 ### Community 1162 - "Community 1162"
-Cohesion: 0.06
-Nodes (34): Advanced Stem Processing, Assumptions, Dependencies, Edge Cases, Feature Specification: Mobile Studio V2 - Legacy Feature Migration, Functional Requirements, Key Entities, Keyboard Shortcuts (+26 more)
+Cohesion: 0.20
+Nodes (10): Advanced Stem Processing, Functional Requirements, Keyboard Shortcuts, Lyrics Studio Features, MIDI File Support, Mobile Optimization, MusicLab Creative Workspace, Professional Studio Features (+2 more)
+
+### Community 1163 - "Community 1163"
+Cohesion: 0.20
+Nodes (10): SwipeAction, SwipeActionsOptions, SwipeState, useSwipeActions(), hasLeft, hasRight, { offset, isOpen, activeAction, handlers, executeAction, close }, SwipeableListItem() (+2 more)
 
 ### Community 1164 - "Community 1164"
 Cohesion: 0.20
@@ -6976,7 +7063,7 @@ Nodes (9): STAGE 1 - UX AUDIT & ANALYSIS, STAGE 2 - USER FLOW OPTIMIZATION, STAG
 
 ### Community 1172 - "Community 1172"
 Cohesion: 0.08
-Nodes (28): calculateChurnScore(), ChurnPredictionOptions, ChurnRiskUser, RISK_THRESHOLDS, WEIGHTS, FeatureCategory, FeatureEvents, FeatureSession (+20 more)
+Nodes (28): calculateChurnScore(), ChurnPredictionOptions, ChurnRiskUser, RISK_THRESHOLDS, WEIGHTS, FeatureCategory, FeatureUsageEvent, useQuickConversions() (+20 more)
 
 ### Community 1173 - "Community 1173"
 Cohesion: 0.20
@@ -7035,12 +7122,16 @@ Cohesion: 0.20
 Nodes (10): 🎨 Sprint 030: Unified Studio Mobile Integration, ✅ Завершенные артефакты (Phase 0-1), 📊 Качество спецификации, Ключевые результаты (KPI), 👥 Команда, Основная цель, 📝 Риски и митигация, 📚 Связанные документы (+2 more)
 
 ### Community 1207 - "Community 1207"
-Cohesion: 0.05
-Nodes (38): ConfirmationDialog(), ConfirmationDialogProps, ExtendTrackDialog(), ExtendTrackDialogProps, [audioWeight, setAudioWeight], [continueAt, setContinueAt], extendMusicMutation, extendProgress (+30 more)
+Cohesion: 0.22
+Nodes (6): ConfirmationDialog(), ConfirmationDialogProps, ConfirmContext, ConfirmFn, ConfirmOptions, State
 
 ### Community 1210 - "Community 1210"
 Cohesion: 0.24
 Nodes (8): AIAssistantContext, AIAssistantContextType, AIAssistantProviderProps, AIAssistantState, GenerationHistoryItem, GenerationParams, useAIAssistant(), useIsAIAssistantEnabled()
+
+### Community 1212 - "Community 1212"
+Cohesion: 0.17
+Nodes (11): hardware, TransportBarProps, cn(), currentBar, currentBeat, handleMuteToggle, handleTapTempo, [isMuted, setIsMuted] (+3 more)
 
 ### Community 1213 - "Community 1213"
 Cohesion: 0.20
@@ -7108,15 +7199,19 @@ Nodes (5): goHome(), prime(), card, HINT_STORAGE_KEY, TEST_ID
 
 ### Community 1254 - "Community 1254"
 Cohesion: 0.07
-Nodes (29): PromptHistory(), PromptHistoryProps, PromptHistoryItem, PromptMode, SavedPrompt, DBGenerationHistory, usePromptHistorySync(), [activeTab, setActiveTab] (+21 more)
+Nodes (28): INSPIRATION_PROMPTS, InspirationPrompt, PromptHistoryProps, PromptHistoryItem, PromptMode, SavedPrompt, [activeTab, setActiveTab], filteredHistory (+20 more)
 
 ### Community 1256 - "Community 1256"
-Cohesion: 0.20
-Nodes (9): CustomMode, Default, DesktopViewports, Disabled, Loading, meta, MobileViewports, SimpleMode (+1 more)
+Cohesion: 0.17
+Nodes (9): bestValueId, creditsAmount, discount, getDiscount(), isSelected, label, priceRub, tracksCount (+1 more)
 
 ### Community 1257 - "Community 1257"
 Cohesion: 0.20
 Nodes (10): 1. **"Professional Yet Accessible"**, 2. **"Non-Destructive by Default"**, 3. **"AI-Assisted, Not AI-Replaced"**, Core Architecture Modules, 🏗️ DAW-LIKE STUDIO CONCEPT, Design Philosophy, User Workflows, Workflow 1: AI Generation → Professional Mix (+2 more)
+
+### Community 1265 - "Community 1265"
+Cohesion: 0.23
+Nodes (10): getPresetStemSettings(), FilterSettings, useStudioAudioEngine(), DEFAULT_EFFECTS, EffectsChain, useStudioEffectsEngine(), UseStudioEffectsEngineOptions, UseStudioEffectsEngineReturn (+2 more)
 
 ### Community 1266 - "Community 1266"
 Cohesion: 0.20
@@ -7138,6 +7233,10 @@ Nodes (9): 💡 Возможное решение, 📊 Метрики, 🔍 О�
 Cohesion: 0.20
 Nodes (10): Git-процесс, Ежемесячная проверка, Как добавить новый .md файл, Как добавить/обновить скриншот, Назначение, После каждого спринта, 🛠 Руководство по поддержке репозитория, Структура корневых .md файлов (+2 more)
 
+### Community 1278 - "Community 1278"
+Cohesion: 0.18
+Nodes (10): FABAction, positionClasses, UnifiedFAB(), UnifiedFABProps, ActionIcon, bottomStyle, handleActionClick, handleClick (+2 more)
+
 ### Community 1279 - "Community 1279"
 Cohesion: 0.20
 Nodes (10): Artist Card Click, Create Artist from Track, Empty States, Follow/Unfollow Artist (Discover Tab), Genre Filter, Interactions, Page Load, Search (+2 more)
@@ -7147,8 +7246,8 @@ Cohesion: 0.20
 Nodes (10): 🚀 Quick Wins (можно сделать немедленно), Week 1: Low-hanging fruit, Week 2: Medium-impact improvements, 📝 Заключение, Ключевые показатели проекта, Комплексный анализ и стратегия развития платформы, 🎵 План развития и улучшения MusicVerse AI, 🎯 Резюме анализа (+2 more)
 
 ### Community 1281 - "Community 1281"
-Cohesion: 0.18
-Nodes (8): block, deps, pkg, rows, updateFile(), END, latestTag, START
+Cohesion: 0.20
+Nodes (7): block, deps, pkg, rows, END, latestTag, START
 
 ### Community 1286 - "Community 1286"
 Cohesion: 0.20
@@ -7178,9 +7277,17 @@ Nodes (10): Acceptance Criteria, Acceptance Criteria, Acceptance Criteria, TASK-
 Cohesion: 0.24
 Nodes (9): Comment, CommentCreateInput, CommentFormData, CommentListParams, CommentListResponse, CommentThread, CommentUpdateInput, CommentWithUser (+1 more)
 
+### Community 1307 - "Community 1307"
+Cohesion: 0.18
+Nodes (9): handlePointerDown, handlePointerLeave, handlePointerUp, hasSoloActive, isAudible, [isPressed, setIsPressed], DrumPadsProProps, Pad (+1 more)
+
 ### Community 1310 - "Community 1310"
 Cohesion: 0.20
 Nodes (9): Animated, Complete, Default, Empty, Half, meta, MultipleStages, Story (+1 more)
+
+### Community 1311 - "Community 1311"
+Cohesion: 0.36
+Nodes (10): alignSectionBoundaries(), calculateGapScore(), extractLyricsForTimeRange(), findBestEndPosition(), findBestStartPosition(), fuzzyWordMatch(), levenshteinDistance(), matchSectionToWords() (+2 more)
 
 ### Community 1312 - "Community 1312"
 Cohesion: 0.22
@@ -7211,8 +7318,8 @@ Cohesion: 0.22
 Nodes (9): 1. Text Skeleton, 2. Card Skeleton, 3. List Skeleton, 4. Image Skeleton, Animation Control, Basic Usage, Presets, UnifiedSkeleton Component (+1 more)
 
 ### Community 1324 - "Community 1324"
-Cohesion: 0.22
-Nodes (9): Constitution Check, Principle I: Mobile-First Development ✅ PASS, Principle II: Performance & Bundle Optimization ✅ PASS, Principle III: Audio Architecture ✅ PASS (N/A), Principle IV: Component Architecture ✅ PASS, Principle V: State Management Strategy ✅ PASS, Principle VI: Security & Privacy ✅ PASS (N/A), Principle VII: Accessibility & UX Standards ✅ PASS (Enhanced) (+1 more)
+Cohesion: 0.18
+Nodes (10): LyricsEditor(), historyEntry, newSections, onHaptic, { onHaptic: _onHaptic, ...props }, onOpenAi, onRestoreFromHistory, props (+2 more)
 
 ### Community 1328 - "Community 1328"
 Cohesion: 0.22
@@ -7283,16 +7390,16 @@ Cohesion: 0.22
 Nodes (8): ChatInputArea.tsx diff summary, Commits, Concerns (non-blocking), Deviations from plan code, Files, Task 7 Report — LyricsAssistantSheet (vaul bottom sheet + chat body), Test Summary, Verification commands run
 
 ### Community 1383 - "Community 1383"
-Cohesion: 0.22
-Nodes (7): BeatDetectorModule, BPMDetectionOptions, calculateConfidence(), loadBeatDetector(), log, maybeRoundBPM(), beatDetectorPromise
+Cohesion: 0.18
+Nodes (9): MobileSlidePanel, MobileSlidePanelProps, DRAG_CLOSE_THRESHOLD, handleBackdropClick, handleClose, handleDragEnd, { patterns }, VELOCITY_THRESHOLD (+1 more)
 
 ### Community 1385 - "Community 1385"
 Cohesion: 0.25
 Nodes (8): 1. 🔴 `20260703130000_homepage_genre_index.sql` ломал накатку с нуля, 2. 🔴 Дубль версии миграции `20260708000000_*` (Sprint 053/054), 3. 🔴 Опечатка `timestamstz` в `sound_effects`, 4. 🟠 Регрессия: `profiles.stats_likes_received` перестал обновляться, Вопрос A3: конфликтуют ли пересекающиеся likes-миграции?, Найденные проблемы и фиксы (все — в этой ветке), Сверка миграций (Sprint 050-A3) — 2026-07-04, Что осталось (вне досягаемости этой среды)
 
 ### Community 1388 - "Community 1388"
-Cohesion: 0.18
-Nodes (10): 📊 ROI (Return on Investment), 📚 Итоговый отчет: Улучшение документации и репозитория, Краткосрочно (2-4 недели), Немедленно (эта неделя), 🎊 Работа завершена успешно!, 🎯 Следующие шаги, Среднесрочно (1-2 месяца), Улучшение качества (+2 more)
+Cohesion: 0.20
+Nodes (10): 📊 ROI (Return on Investment), 📚 Итоговый отчет: Улучшение документации и репозитория, Общий объем работы, 🎊 Работа завершена успешно!, Созданные файлы, 📊 Статистика, Улучшение качества, Улучшенные файлы (+2 more)
 
 ### Community 1390 - "Community 1390"
 Cohesion: 0.22
@@ -7357,6 +7464,10 @@ Nodes (9): 1. Header & Build Status, 2. Executive Summary, 3. Cross-check vs doc
 ### Community 1422 - "Community 1422"
 Cohesion: 0.22
 Nodes (9): Phase B — Motion Hygiene (коммит `68cae274`), Phase C — Token Consolidation (коммит `28413a5d`), Phase D-4 — Флаг для build-agent, Phase D — Visual Polish (коммит `69e652a8`), Верификация, Верификация (Phases B + C + D), Изменено, Исправлено (+1 more)
+
+### Community 1423 - "Community 1423"
+Cohesion: 0.20
+Nodes (10): ActivityFeedProps, ActivityItemProps, Activity, ActivityCreateInput, ActivityFeedItem, ActivityFeedParams, ActivityFeedResponse, ActivityMetadata (+2 more)
 
 ### Community 1424 - "Community 1424"
 Cohesion: 0.22
@@ -7455,12 +7566,16 @@ Cohesion: 0.22
 Nodes (9): 🚀 Enhancement Implementation, Helper Functions (8), MenuManager Class, New Tables (4), Phase 1: Core Infrastructure ✅, Phase 2: Database Schema ✅, Phase 3: Generation Wizard ✅, Wizard Configuration (+1 more)
 
 ### Community 1448 - "Community 1448"
-Cohesion: 0.22
-Nodes (9): 1. Planning & Design Documentation (4,142 lines), 3. Edge Functions (183 lines), 4. Bot Payment Handlers (450 lines), 6. Admin Panel (391 lines), Admin Dashboard Integration:, Bot Integration Changes:, Features:, Functions Implemented: (+1 more)
+Cohesion: 0.20
+Nodes (10): 1. Planning & Design Documentation (4,142 lines), 3. Edge Functions (183 lines), 4. Bot Payment Handlers (450 lines), 5. Frontend Components (451 lines), Bot Integration Changes:, Functions Implemented:, Pricing Page (249 lines), PricingCard Component (155 lines) (+2 more)
 
 ### Community 1449 - "Community 1449"
 Cohesion: 0.33
 Nodes (6): contrastSafeColors, getAccessibleForeground(), getContrastRatio(), getRelativeLuminance(), hslToRgb(), parseHSL()
+
+### Community 1450 - "Community 1450"
+Cohesion: 0.22
+Nodes (9): DEFAULT_STEM_STATE, MixerHistoryEntry, MixerHistoryState, StemMixerState, useMixerHistoryStore, useUndoRedo(), UseUndoRedoOptions, UseUndoRedoReturn (+1 more)
 
 ### Community 1451 - "Community 1451"
 Cohesion: 0.36
@@ -7487,10 +7602,8 @@ Cohesion: 0.22
 Nodes (9): 1. Дублирование мобильных компонентов, 2. Layout дублирование, 3. Waveform блокирует UI, 4. Audio ограничения на iOS, 📱 Мобильный интерфейс и навигация, План улучшения мобильного интерфейса, Проблемы и недостатки, Сильные стороны мобильного UX (+1 more)
 
 ### Community 1457 - "Community 1457"
-Cohesion: 0.03
-Nodes (86): EditArtistDialog(), AudioRecordDialog(), authenticateWithTelegram, checkProfile, {
-      data: { subscription },
-    }, { initData, isDevelopmentMode }, [loading, setLoading], loadingTimeout (+78 more)
+Cohesion: 0.02
+Nodes (137): SubscriptionFeatureAnnouncement(), CommentsList(), Comment, useAddComment(), useComments(), useDeleteComment(), GlobalGenerationIndicator(), useAuth() (+129 more)
 
 ### Community 1458 - "Community 1458"
 Cohesion: 0.22
@@ -7600,6 +7713,10 @@ Nodes (8): ✅ **Completed Work**, **Dialog Family** (3 variants - ✅ 100% COMP
 Cohesion: 0.25
 Nodes (8): 1. Modal Variant (Desktop), 2. Sheet Variant (Mobile), 3. Alert Variant (Confirmation), Basic Usage, Gestures (Mobile), Responsive: Modal on Desktop, Sheet on Mobile, UnifiedDialog Component, Variants
 
+### Community 1485 - "Community 1485"
+Cohesion: 0.18
+Nodes (9): Command, CommandDialogProps, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator (+1 more)
+
 ### Community 1486 - "Community 1486"
 Cohesion: 0.25
 Nodes (6): API Contracts, Existing APIs Used, No New Endpoints, Note, Storage Schemas, Supabase Queries (Already Implemented)
@@ -7621,8 +7738,8 @@ Cohesion: 0.25
 Nodes (8): 1. 🎯 Главный документ - План улучшений, 2.1 Навигационный документ, 2.2 UX & Mobile (54 проверки), 2.3 Performance & Integration (81 проверка), 2.4 Architecture & Code Quality (84 проверки), 2.5 Data & API (90 проверок), 2. 📋 Детальные чек-листы качества (309 проверок), 📚 Основные документы
 
 ### Community 1491 - "Community 1491"
-Cohesion: 0.25
-Nodes (8): Archive: January 4, 2026 - Repository Cleanup, 📝 Archive Statistics, 📋 Archived Files, 📚 Current Documentation, Feature-Specific Reports (Completed), Mobile Optimization Documents (Superseded), Sprint-Specific Reports (Completed Sprints), 🎯 Why These Were Archived
+Cohesion: 0.20
+Nodes (10): 1. Lyric Version, 2. Section Note, 3. Recording Session, 4. Preset, 5. Stem Batch, 6. Replacement Event, 7. MIDI File, 8. Keyboard Shortcut (+2 more)
 
 ### Community 1492 - "Community 1492"
 Cohesion: 0.25
@@ -7656,6 +7773,10 @@ Nodes (8): API Flow, Authentication Flow, Bot Commands, Integration Architecture
 Cohesion: 0.25
 Nodes (8): `src/api/` - API Layer, `src/components/` - Component Layer, `src/hooks/` - Hook Layer, `src/services/` - Service Layer, 🏛️ Архитектура приложения, 📁 Ключевые директории, 🎯 Ключевые файлы, 📚 Структура кода
 
+### Community 1500 - "Community 1500"
+Cohesion: 0.20
+Nodes (10): Edge Cases, User Scenarios & Testing, User Story 1 - Lyrics Studio Integration (Priority: P1), User Story 2 - MusicLab Creative Workspace (Priority: P2), User Story 3 - Professional Studio Dashboard (Priority: P3), User Story 4 - Advanced Stem Processing (Priority: P2), User Story 5 - Section Replacement History (Priority: P3), User Story 6 - MIDI File Support (Priority: P3) (+2 more)
+
 ### Community 1501 - "Community 1501"
 Cohesion: 0.25
 Nodes (7): For AI Generation, General Guidelines, Outline, Quick Guidelines, Section Requirements, Success Criteria Guidelines, User Input
@@ -7683,6 +7804,10 @@ Nodes (8): 1. CODE_OF_CONDUCT.md ✨, 2. SECURITY.md 🔐, 3. CHANGELOG.md 📜,
 ### Community 1507 - "Community 1507"
 Cohesion: 0.25
 Nodes (8): Critical (Блокеры Sprint 008), 🎯 Epic E008: Новые задачи, High Priority, Medium Priority, Ключевые задачи, Обзор, Распределение по категориям, Распределение по приоритетам
+
+### Community 1508 - "Community 1508"
+Cohesion: 0.20
+Nodes (8): normalized, stats, AnalysisInput, AnalysisQuickStats, AnalysisQuickStatsProps, LegacyAudioAnalysis, StatCard, StatCardProps
 
 ### Community 1509 - "Community 1509"
 Cohesion: 0.25
@@ -7737,20 +7862,24 @@ Cohesion: 0.25
 Nodes (8): 🏗️ Блок 1: Unified Studio Architecture (Phase 2 - Core), ⚡ Блок 3: UX & Performance (2 дня), 📋 Детальные задачи (из оригинального плана), Задача 1.1: Создание UnifiedStudioMobile компонента ⭐ КРИТИЧЕСКАЯ, Задача 1.2: Унификация store и state management, Задача 1.3: Миграция существующих компонентов ⭐ КРИТИЧЕСКАЯ, Задача 3.1: Gesture Navigation ✅ DONE, Задача 3.2: Performance Optimization ✅ PARTIALLY DONE
 
 ### Community 1522 - "Community 1522"
-Cohesion: 0.12
-Nodes (13): QUICK_CREATE_PRESETS, QuickCreatePreset, PresetBrowser(), PresetBrowserProps, PresetCardProps, QuickCreate(), QuickCreateProps, [activeCategory, setActiveCategory] (+5 more)
+Cohesion: 0.20
+Nodes (7): BlogContentRendererProps, [, alt, src], calloutStart, cells, flushCallout, imageMatch, target
 
 ### Community 1523 - "Community 1523"
-Cohesion: 0.36
-Nodes (7): BaseUnifiedTrackCardProps, EnhancedUnifiedTrackCardProps, ProfessionalUnifiedTrackCardProps, StandardUnifiedTrackCardProps, UnifiedTrackCardContract, UnifiedTrackCardProps, UnifiedTrackCardVariantConfig
+Cohesion: 0.20
+Nodes (10): BaseUnifiedTrackCardProps, EnhancedUnifiedTrackCardProps, ProfessionalUnifiedTrackCardProps, StandardUnifiedTrackCardProps, UnifiedTrackCardContract, UnifiedTrackCardProps, UnifiedTrackCardVariantConfig, UseTrackActionsContract (+2 more)
 
 ### Community 1524 - "Community 1524"
-Cohesion: 0.25
-Nodes (7): [copied, setCopied], hiddenCount, openFullLyrics(), parsed, [sheetOpen, setSheetOpen], visibleSections, SECTION_COLORS
+Cohesion: 0.22
+Nodes (8): [copied, setCopied], handleCopy(), hiddenCount, openFullLyrics(), parsed, [sheetOpen, setSheetOpen], visibleSections, SECTION_COLORS
+
+### Community 1525 - "Community 1525"
+Cohesion: 0.27
+Nodes (8): AnimatedSection, AnimatedSectionProps, FadeIn, FadeInProps, getVariants(), PageTransition, PageTransitionProps, ScaleIn
 
 ### Community 1526 - "Community 1526"
-Cohesion: 0.43
-Nodes (6): createTimer(), debugLog(), debugWarn(), getChangedKeys(), useDebugRender(), useRenderTime()
+Cohesion: 0.20
+Nodes (8): Desktop, Empty, Filled, Loading, meta, Mobile, Story, Success
 
 ### Community 1527 - "Community 1527"
 Cohesion: 0.25
@@ -7793,7 +7922,7 @@ Cohesion: 0.25
 Nodes (8): Automated Testing, Integration Tests (Daily), Manual Testing, Penetration Testing (Quarterly), Security Audits (Annually), Security Scanning (Weekly), 🧪 Security Testing, Unit Tests (Every Commit)
 
 ### Community 1537 - "Community 1537"
-Cohesion: 0.22
+Cohesion: 0.25
 Nodes (8): 1. Электронная музыка (Electronic / Dance), 2. Рок и Метал (Rock & Metal), 3. Поп и Инди (Pop & Indie), 4. Хип-Хоп и R&B (Hip Hop & R&B), 💡 Как правильно смешивать стили, 🎸 Музыкальные стили Suno AI, 📂 Популярные жанры и стили, 🎨 Тональные теги и Настроения (Moods & Adjectives)
 
 ### Community 1538 - "Community 1538"
@@ -7809,8 +7938,8 @@ Cohesion: 0.25
 Nodes (6): boot(), card, landscape, portraitA, portraitB, TEST_ID
 
 ### Community 1541 - "Community 1541"
-Cohesion: 0.25
-Nodes (7): AllSelected, Empty, LongLabels, meta, Overflow, PartialSelection, Story
+Cohesion: 0.20
+Nodes (9): LoadingSpinner, Default, Large, meta, Minimal, MusicVariant, Small, Story (+1 more)
 
 ### Community 1542 - "Community 1542"
 Cohesion: 0.25
@@ -7920,6 +8049,10 @@ Nodes (7): Done, Goal, Next up, Out of scope, Phase ledger, Sprint: UI Unificati
 Cohesion: 0.25
 Nodes (7): 🎯 SPRINT 3: Bot-App Integration + Payments, 📊 Sprint 3 Review Checklist, 🎯 SPRINT 4: Advanced Features + Polish, 🎉 Sprint 4 Final Review, 🚀 Telegram Integration - Sprint 3 & 4, 📋 Задачи Sprint 3, 📊 ИТОГОВАЯ СТАТИСТИКА ВСЕХ СПРИНТОВ
 
+### Community 1569 - "Community 1569"
+Cohesion: 0.33
+Nodes (9): appendNavigationContext(), buildBreadcrumbPath(), createBreadcrumb(), createLocationIndicator(), createNavigationFooter(), getCurrentLocationLabel(), getRouteInfo(), ROUTE_CONFIG (+1 more)
+
 ### Community 1570 - "Community 1570"
 Cohesion: 0.25
 Nodes (7): Default, ErrorFallback, meta, SmallThumbnail, Story, TrackCover, WithAspectRatio
@@ -7929,8 +8062,8 @@ Cohesion: 0.25
 Nodes (7): Card, Circle, Default, meta, ProfileHeader, Story, TrackList
 
 ### Community 1572 - "Community 1572"
-Cohesion: 0.36
-Nodes (6): logger, retryFetch(), retryJsonFetch(), RetryOptions, retryWithBackoff(), retryWithJitter()
+Cohesion: 0.24
+Nodes (7): CircuitBreaker, logger, retryFetch(), retryJsonFetch(), RetryOptions, retryWithBackoff(), retryWithJitter()
 
 ### Community 1573 - "Community 1573"
 Cohesion: 0.25
@@ -7971,6 +8104,10 @@ Nodes (7): 1. UnifiedDialog Family, 2. UnifiedSkeleton Family, 3. UnifiedFormInp
 ### Community 1582 - "Community 1582"
 Cohesion: 0.29
 Nodes (7): 1. UnifiedDialog Component, 2. UnifiedSkeleton Component, 3. UnifiedFormInput Component, Architecture Design for Unified Families, Extension Hooks for 80/20 Rule, Pattern Reference: Feature 001 UnifiedTrackCard, Research Task 3: Design Unified Component Architecture
+
+### Community 1583 - "Community 1583"
+Cohesion: 0.22
+Nodes (8): ALL_TIME_INTERVAL, { data: errorTrends, isLoading: errorsLoading }, { data: generationStats, isLoading: generationLoading }, { data: telemetry, isLoading: telemetryLoading }, deeplinkTimeRange, isLoading, rpcPeriod, [timePeriod, setTimePeriod]
 
 ### Community 1584 - "Community 1584"
 Cohesion: 0.29
@@ -8049,8 +8186,8 @@ Cohesion: 0.29
 Nodes (7): 🔧 Debugging Tools, 📊 Monitoring, Performance Profiling, React DevTools, Sentry Integration, 🛠️ VS Code Extensions, 🔧 Инструменты
 
 ### Community 1603 - "Community 1603"
-Cohesion: 0.29
-Nodes (6): Commit Attribution, Debugging, File-Scoped Commands, graphify, Non-Obvious Rules (Will Fail Build or Lint), Package Manager
+Cohesion: 0.22
+Nodes (8): TRACK_PRESETS, TrackCard, TrackChip, TrackPresetsRow, TrackPresetsRowProps, handlePresetClick, { hapticFeedback }, Icon
 
 ### Community 1604 - "Community 1604"
 Cohesion: 0.29
@@ -8063,6 +8200,10 @@ Nodes (6): Key rules, Outline, Phase 0: Outline & Research, Phase 1: Design & Co
 ### Community 1606 - "Community 1606"
 Cohesion: 0.29
 Nodes (6): Checklist Format (REQUIRED), Outline, Phase Structure, Task Generation Rules, Task Organization, User Input
+
+### Community 1607 - "Community 1607"
+Cohesion: 0.25
+Nodes (6): usePullToRefresh(), UsePullToRefreshOptions, UsePullToRefreshReturn, { containerRef, isPulling, isRefreshing, pullDistance, progress }, PullToRefresh, PullToRefreshProps
 
 ### Community 1608 - "Community 1608"
 Cohesion: 0.29
@@ -8172,6 +8313,10 @@ Nodes (5): find-console-logs.sh script, find_console_files(), main(), show_fix_i
 Cohesion: 0.29
 Nodes (5): div, OVERLAY_SELECTOR, ta, toggled, gotoIndex()
 
+### Community 1635 - "Community 1635"
+Cohesion: 0.25
+Nodes (8): getPaymentStats(), mapDbProduct(), parseLocalizedField(), DEFAULT_LANG, CreateInvoiceResponse, ErrorResponse, PaymentStatsResponse, SubscriptionStatusResponse
+
 ### Community 1636 - "Community 1636"
 Cohesion: 0.29
 Nodes (7): 📐 Адаптивные паттерны, Паттерн 1: Мобильный → Планшет → Десктоп, Паттерн 2: Скрытие элементов по размеру, Паттерн 3: Адаптивный спейс, Паттерн 4: Адаптивная Flexbox, Паттерн 5: Контейнер с max-width, Паттерн 6: CSS Grid адаптивность
@@ -8260,6 +8405,10 @@ Nodes (7): Data Inconsistencies, 🗄️ Database Issues, Query Performance, Sol
 Cohesion: 0.29
 Nodes (7): 1. Validate Voice, 2. Get Validation Phrase, 3. Generate Custom Voice, 4. Get Voice ID, 5. Check Voice Availability, 🔌 API Integration, Suno Voice API Endpoints
 
+### Community 1658 - "Community 1658"
+Cohesion: 0.25
+Nodes (8): Assumptions, Dependencies, Feature Specification: Mobile Studio V2 - Legacy Feature Migration, Key Entities, Measurable Outcomes, Overview, Requirements, Success Criteria
+
 ### Community 1659 - "Community 1659"
 Cohesion: 0.29
 Nodes (7): 1. Состояния загрузки, 2. Подсказки промптов, 3. Переключение версий, 4. Меню действий, Зависимости, Паттерны использования, 🔧 Техническая документация
@@ -8281,8 +8430,8 @@ Cohesion: 0.29
 Nodes (7): 1. GuitarRecordingPanel, 2. BeatGridVisualizer, 3. ChordProgressionTimeline, 4. MidiExportPanelMobile, 5. LinkToTrackDialog, 6. GuitarTrackIntegration, Компоненты
 
 ### Community 1664 - "Community 1664"
-Cohesion: 0.29
-Nodes (6): LyricsAIPanel(), closeBtn, closeButtons, { onOpen, ...props }, props, baseProps
+Cohesion: 0.07
+Nodes (25): handleSubmit(), handleTopUp(), navigate, handleAddToTimeline(), LyricsAIPanel(), closeBtn, closeButtons, onClose (+17 more)
 
 ### Community 1665 - "Community 1665"
 Cohesion: 0.29
@@ -8348,6 +8497,10 @@ Nodes (7): 8.1.1 Advanced Analytics Dashboard, 8.1.2 A/B Testing Framework, 8.1 
 Cohesion: 0.29
 Nodes (7): 9.1.1 Multi-region Deployment, 9.1.2 Auto-scaling, 9.1 Infrastructure, 9.2.1 Storage Optimization, 9.2.2 API Cost Monitoring, 9.2 Cost Optimization, 🌍 РАЗДЕЛ 9: Масштабирование
 
+### Community 1682 - "Community 1682"
+Cohesion: 0.36
+Nodes (5): touchTarget, circularStyles, sizeStyles, TouchTarget, TouchTargetProps
+
 ### Community 1683 - "Community 1683"
 Cohesion: 0.29
 Nodes (7): 🧪 Hardening checklist (for contributors), 🏅 Recognition, 🔗 Related Documentation, 📡 Reporting a vulnerability, 🛡 Scope, 🔒 Security Policy, 🎯 Supported versions
@@ -8358,7 +8511,7 @@ Nodes (6): Conclusion, Database Integration, Executive Summary, RLS Policies, Sp
 
 ### Community 1686 - "Community 1686"
 Cohesion: 0.29
-Nodes (6): ✨ Conclusion, 📞 Contact & Resources, 🎯 Executive Summary, Key Files:, Repository:, Sprint Implementation Summary - December 12, 2025
+Nodes (6): ✨ Conclusion, 🎯 Executive Summary, Pending (Non-Blocking) ⏳, 🎯 Production Readiness, Ready for Deployment ✅, Sprint Implementation Summary - December 12, 2025
 
 ### Community 1687 - "Community 1687"
 Cohesion: 0.29
@@ -8395,6 +8548,10 @@ Nodes (7): 5.1 Collaborative Features, 5.2 Export и интеграции, COL-0
 ### Community 1695 - "Community 1695"
 Cohesion: 0.29
 Nodes (7): 📊 Executive Summary, 🎯 Критические успех факторов, Матрица Impact vs Effort, План улучшения MusicVerse AI - 2026, 🎯 Приоритизация улучшений, 🚨 Риски и митигация, 📞 Следующие шаги
+
+### Community 1696 - "Community 1696"
+Cohesion: 0.25
+Nodes (7): MobileNumberInputProps, canDecrement, canIncrement, handleDecrement(), handleIncrement(), handleInputChange(), { patterns }
 
 ### Community 1697 - "Community 1697"
 Cohesion: 0.29
@@ -8489,24 +8646,28 @@ Cohesion: 0.33
 Nodes (6): Deferred to Phase 3, Priority 1: Unified Dialog/Sheet Family, Priority 2: Unified Skeleton Family, Priority 3: Unified Form Input Family, Research Task 2: Prioritize Component Families for Consolidation, Selected Families for Phase 2
 
 ### Community 1720 - "Community 1720"
-Cohesion: 0.33
-Nodes (6): 10. Bundle Size Optimization Techniques, Alternatives Considered, Code Example, Decision, Implementation Impact, Rationale
+Cohesion: 0.32
+Nodes (5): removeAlertChannel(), SmartAlertContext, SmartAlertProvider(), SmartAlertProviderProps, useAntiSpam()
+
+### Community 1721 - "Community 1721"
+Cohesion: 0.25
+Nodes (3): DefaultContentSkeleton(), PageSkeletonProps, ProjectsContentSkeleton()
 
 ### Community 1722 - "Community 1722"
 Cohesion: 0.33
 Nodes (6): 4. Virtualization Performance, Alternatives Considered, Code Example, Decision, Implementation Impact, Rationale
 
 ### Community 1723 - "Community 1723"
-Cohesion: 0.33
-Nodes (6): 5. Animation Library Trade-offs, Alternatives Considered, Code Example, Decision, Implementation Impact, Rationale
+Cohesion: 0.29
+Nodes (5): idleInterval, [levels, setLevels], rafRef, CompactVisualizer, CompactVisualizerProps
 
 ### Community 1724 - "Community 1724"
 Cohesion: 0.33
-Nodes (6): 6. Responsive Breakpoint Best Practices, Alternatives Considered, Code Example, Decision, Implementation Impact, Rationale
+Nodes (6): isAvailable, useCloudStorage(), useCloudStorageFlag(), UseCloudStorageOptions, UseCloudStorageReturn, cloudStorage
 
 ### Community 1725 - "Community 1725"
 Cohesion: 0.33
-Nodes (6): 8. Haptic Feedback Patterns, Alternatives Considered, Code Example, Decision, Implementation Impact, Rationale
+Nodes (6): paymentHistoryKeys, usePaymentHistory(), UsePaymentHistoryOptions, useRecentTransactions(), PaymentHistoryItemProps, PaymentTransaction
 
 ### Community 1726 - "Community 1726"
 Cohesion: 0.33
@@ -8677,8 +8838,8 @@ Cohesion: 0.33
 Nodes (6): Phase 1: Archive Completed Work, Phase 2: Consolidate Documentation, Phase 3: Improve Navigation, Phase 4: Clean Spec Directories, Phase 5: Update Sprint Documentation, 🎯 Recommended Actions
 
 ### Community 1768 - "Community 1768"
-Cohesion: 0.40
-Nodes (5): 1. Сверка с бэклогом прошлых аудитов — что уже закрыто, 2. Новые находки этого прохода, 3. Исправлено в этом PR, 4. Рекомендации (следующие итерации, по приоритету), UX / UI Audit — 2026-07-02 (интерфейс, пользовательский путь, доработка компонентов)
+Cohesion: 0.29
+Nodes (7): GroupedProducts, CreditPackageCardProps, PackageComparisonTableProps, PaymentPackageSelectorProps, PaymentSuccessModalProps, SubscriptionCardProps, StarsProduct
 
 ### Community 1769 - "Community 1769"
 Cohesion: 0.33
@@ -8715,6 +8876,10 @@ Nodes (5): Anti-Examples: What NOT To Do, Checklist Purpose: "Unit Tests for Eng
 ### Community 1777 - "Community 1777"
 Cohesion: 0.33
 Nodes (6): Accessibility, Performance, Документация, Качество кода, 🎯 Критерии приемки спринта, Функциональные требования
+
+### Community 1778 - "Community 1778"
+Cohesion: 0.29
+Nodes (6): getLyricsPresetIcon(), getProjectPresetIconById(), getTrackPresetIcon(), LYRICS_PRESET_ICONS, PROJECT_PRESET_ICONS, TRACK_PRESET_ICONS
 
 ### Community 1779 - "Community 1779"
 Cohesion: 0.33
@@ -8753,8 +8918,8 @@ Cohesion: 0.33
 Nodes (6): 💳 Payment Errors (PY), PY-0001-400, PY-0002-402, PY-0003-500, PY-0004-404, PY-0005-503
 
 ### Community 1788 - "Community 1788"
-Cohesion: 0.33
-Nodes (6): 1. Audio Element Pooling, 2. Waveform Кэширование, 3. Управление Воспроизведением, 🔊 АУДИО СИСТЕМА, 🎨 Промпт для Агента по Разработке Интерфейса MusicVerse AI, 📋 СОДЕРЖАНИЕ
+Cohesion: 0.50
+Nodes (4): 1. Audio Element Pooling, 2. Waveform Кэширование, 3. Управление Воспроизведением, 🔊 АУДИО СИСТЕМА
 
 ### Community 1789 - "Community 1789"
 Cohesion: 0.33
@@ -8773,7 +8938,7 @@ Cohesion: 0.33
 Nodes (6): Header Chunk (MThd), Meta Events, MIDI Channel Messages, MIDI File Specification 1.1, Track Chunk (MTrk), Variable Length Quantity
 
 ### Community 1794 - "Community 1794"
-Cohesion: 0.29
+Cohesion: 0.33
 Nodes (6): 1. Структурные теги (Song Structure), 2. Вокальные теги (Vocal Directives), 3. Инструментальные эффекты (Instrumental Cues), 🎛️ Мета-теги Suno AI, 📋 Основные категории тегов, 💡 Советы по использованию тегов
 
 ### Community 1795 - "Community 1795"
@@ -8824,6 +8989,10 @@ Nodes (5): Метрики, Сводка по фазам, Статус: Униф�
 Cohesion: 0.33
 Nodes (6): 1. Phrase Generation Fails (`processing_validate_fail`), 2. Voice Generation Fails (`processing_record_fail`), 3. Polling Timeout, Common Issues, Error Handling, 🐛 Troubleshooting
 
+### Community 1807 - "Community 1807"
+Cohesion: 0.33
+Nodes (4): AlignedWord, isStructuralTag(), ParsedLyricsResult, stripFragmentedTags()
+
 ### Community 1808 - "Community 1808"
 Cohesion: 0.33
 Nodes (5): mountPlayer(), SAMPLE_TRACK, box, overflow, player
@@ -8831,6 +9000,10 @@ Nodes (5): mountPlayer(), SAMPLE_TRACK, box, overflow, player
 ### Community 1809 - "Community 1809"
 Cohesion: 0.33
 Nodes (6): Overall Success Criteria, Sprint 1 Success Criteria, Sprint 2 Success Criteria, Sprint 3 Success Criteria, Sprint 4 Success Criteria, ✅ SUCCESS CRITERIA
+
+### Community 1810 - "Community 1810"
+Cohesion: 0.38
+Nodes (6): { data: parentTrack, isLoading }, handleClick(), navigate, ParentTrackLink(), ParentTrackLinkProps, useParentTrackLink()
 
 ### Community 1811 - "Community 1811"
 Cohesion: 0.33
@@ -8877,12 +9050,16 @@ Cohesion: 0.33
 Nodes (6): 🪲 Known Issues, 🚦 Open, ✅ Recently resolved (30 days), 🔗 Related Documentation, 🧰 Triage rubric, 👀 Watchlist
 
 ### Community 1822 - "Community 1822"
-Cohesion: 0.05
-Nodes (41): { data: stats, isLoading }, EngagementChart(), generationStats, COLORS, GenreDistributionChart(), Header, { isAuthenticated, loading: authLoading }, isMobile (+33 more)
+Cohesion: 0.03
+Nodes (66): AdminBotImagesPanel(), MENU_IMAGE_CONFIGS, MenuImageConfig, ModerationDashboard(), accessHint, canManage, { data: adminAuth, isLoading: adminAuthLoading }, { data: imageConfig, isLoading } (+58 more)
+
+### Community 1823 - "Community 1823"
+Cohesion: 0.29
+Nodes (7): 📊 Анализ и отчеты, 🌍 Другие языки, 📋 Планы развития, 📝 Примечание, 📚 Русская документация MusicVerse AI, 📑 Содержание, 🎵 Функциональность
 
 ### Community 1824 - "Community 1824"
-Cohesion: 0.15
-Nodes (12): useScrollLock(), LyricsAssistantChat(), LyricsAssistantSheet(), Props, EmptyChat, LongPreview, meta, Story (+4 more)
+Cohesion: 0.33
+Nodes (5): EmptyChat, LongPreview, meta, Story, WithPreviewSuggestion
 
 ### Community 1825 - "Community 1825"
 Cohesion: 0.33
@@ -8893,8 +9070,8 @@ Cohesion: 0.33
 Nodes (6): Fields, Step 1: Welcome, Step 2: Profile Setup, Step 3: Features Tour, Step 4: First Track, Step 5: Completion
 
 ### Community 1827 - "Community 1827"
-Cohesion: 0.29
-Nodes (5): HINTS, dismiss(), STORAGE_KEY, t, [visible, setVisible]
+Cohesion: 0.33
+Nodes (4): HINTS, STORAGE_KEY, t, [visible, setVisible]
 
 ### Community 1828 - "Community 1828"
 Cohesion: 0.33
@@ -8929,8 +9106,8 @@ Cohesion: 0.33
 Nodes (6): Основной User Journey, 👥 Пользовательские сценарии, Сценарий 1: Новый пользователь, Сценарий 2: Активный создатель, Сценарий 3: Профессиональный продюсер, Сценарий 4: Социальный пользователь
 
 ### Community 1836 - "Community 1836"
-Cohesion: 0.10
-Nodes (26): { AxePuppeteer }, fs, pages, path, puppeteer, runAccessibilityAudit(), checkLinks(), getAllMarkdownFiles() (+18 more)
+Cohesion: 0.04
+Nodes (74): AnomalySeverity, AnomalyType, calculateStdDev(), detectThresholdAnomalies(), detectTrendAnomalies(), detectZScoreAnomalies(), METRIC_CONFIGS, MetricConfig (+66 more)
 
 ### Community 1837 - "Community 1837"
 Cohesion: 0.33
@@ -8950,11 +9127,11 @@ Nodes (6): Phase 1: Quick Wins (Неделя 1), Phase 2: Engagement & Monetizat
 
 ### Community 1841 - "Community 1841"
 Cohesion: 0.33
-Nodes (6): Quick Wins (Интегрированы в Sprint 036), Зависимости, Задачи, Критерии успеха Sprint 037, Риски и митигации, Спринт 037: Infrastructure Hardening & Developer Experience (Q3 2026)
+Nodes (6): 2. Radix UI Primitive Updates, Alternatives Considered, Code Example, Decision, Implementation Impact, Rationale
 
 ### Community 1842 - "Community 1842"
-Cohesion: 0.33
-Nodes (6): Definition of Done, Sprint 050: Main Green + Mobile Audit F1–F12 (Q3 2026), Контекст, Следующие спринты (заготовка, см. ROADMAP.md), Фаза A: Main Green (дни 1–5), Фаза B: F1–F12 + функциональные переносы (дни 6–10)
+Cohesion: 0.60
+Nodes (4): invokeReferenceAudioAnalysis(), analyzeReferenceAudio(), AnalyzeReferenceParams, ReferenceAnalysis
 
 ### Community 1843 - "Community 1843"
 Cohesion: 0.33
@@ -9049,16 +9226,16 @@ Cohesion: 0.40
 Nodes (5): Sprint 031-032: Critical Foundation (2 weeks), Sprint 032-033: Architecture Improvements (2 weeks), Sprint 033-034: UX/UI Polish (2 weeks), Sprint 034-035: Performance & Finalization (2 weeks), Sprint Planning
 
 ### Community 1867 - "Community 1867"
-Cohesion: 0.40
-Nodes (5): Hook Interface Types, Modal Component Types, Skeleton Component Types, TypeScript Interface Definitions, UnifiedTrackCard Component Types
+Cohesion: 0.33
+Nodes (3): getAvailableGenres(), SUNO_TEMPLATES, SunoTemplate
 
 ### Community 1868 - "Community 1868"
-Cohesion: 0.40
-Nodes (5): Dependencies & Execution Order, Parallel Opportunities, Phase Dependencies, User Story Dependencies, Within Each User Story
+Cohesion: 0.33
+Nodes (4): backdrop, handleClose, handleConfirm, { rerender }
 
 ### Community 1869 - "Community 1869"
-Cohesion: 0.40
-Nodes (5): Full Implementation (All Stories), Implementation Strategy, Incremental Delivery (All P1 Stories), MVP First (User Story 1 Only - Recommended), Parallel Team Strategy
+Cohesion: 0.33
+Nodes (3): CATEGORY_ICONS, GENRE_ICONS, MOOD_ICONS
 
 ### Community 1870 - "Community 1870"
 Cohesion: 0.40
@@ -9091,6 +9268,14 @@ Nodes (5): Phase 9: User Story 7 - Documentation and Pattern Library Creation (P
 ### Community 1877 - "Community 1877"
 Cohesion: 0.40
 Nodes (5): Phase 3: User Story 1 - Developer Experience (P1), US1.1: Unified Dialog Component (Core), US1.2: Unified Skeleton Component (Core), US1.3: Unified Form Input Component (Core), US1.4: Export & Index Files
+
+### Community 1878 - "Community 1878"
+Cohesion: 0.33
+Nodes (4): ProfileBioProps, displayBio, [isExpanded, setIsExpanded], shouldTruncate
+
+### Community 1879 - "Community 1879"
+Cohesion: 0.33
+Nodes (4): completedCount, progress, ProgressStep, ProgressTrackerProps
 
 ### Community 1880 - "Community 1880"
 Cohesion: 0.40
@@ -9224,6 +9409,10 @@ Nodes (5): 🚀 Для быстрого старта, 📱 Для мобильн
 Cohesion: 0.40
 Nodes (5): 📦 Bundle Analysis, 🔨 Production Build, 🚀 Деплой, 🔍 Деплой чеклист, 🏗️ Сборка и деплой
 
+### Community 1913 - "Community 1913"
+Cohesion: 0.40
+Nodes (5): EXPIRY_TIME, StemReference, StemReferenceInput, StemReferenceStore, useStemReferenceStore
+
 ### Community 1914 - "Community 1914"
 Cohesion: 0.40
 Nodes (5): Activity Type, Content Policy Enums, Content Type, Follow Status, Verification Status
@@ -9340,6 +9529,10 @@ Nodes (5): Phase 1: Foundation (Weeks 1-8) 🔴, Phase 2: Mobile Excellence (Wee
 Cohesion: 0.40
 Nodes (5): Sprint 025: Optimization Sprint, Sprint 026: UX Unification, Sprint 027: Architecture Cleanup, Sprint 028: Mobile Polish, 📅 SPRINT PLAN (8 Weeks)
 
+### Community 1943 - "Community 1943"
+Cohesion: 0.40
+Nodes (5): useAudioSync(), UseAudioSyncOptions, UseAudioSyncReturn, useAutoSync(), DEFAULT_SYNC_THRESHOLD
+
 ### Community 1944 - "Community 1944"
 Cohesion: 0.40
 Nodes (5): A. Technical Debt Items, 📎 APPENDIX, B. Design Files, C. Research Data, D. Stakeholder Sign-off
@@ -9368,6 +9561,10 @@ Nodes (5): Added, Changed, Fixed, 🔧 Sprint 057 — Audio Analysis Refactoring
 Cohesion: 0.40
 Nodes (5): Added, Fixed — A/B версии и плеер, Fixed — главная страница (mobile), Fixed — лирика в плеере, 🎛 Спринт 049 — Mobile UX: A/B версии, per-version лайки, плеер, главная (2026-07-03) — ЗАВЕРШЁН ✅
 
+### Community 1951 - "Community 1951"
+Cohesion: 0.40
+Nodes (5): E2E Tests (Playwright), Integration Tests, Mobile Tests, Testing Checklist, Unit Tests (Jest)
+
 ### Community 1952 - "Community 1952"
 Cohesion: 0.40
 Nodes (5): Phase A — 4K-aware tokens (коммит `8eb55c78`), Phase B — Surface alignment (коммит `c0d5b942`) — 19 файлов, Phase C — Polish (коммит `6d57fa68`) — 4 файла, Верификация Sprint 046, 🎨 Спринт 046 — Desktop Layout Polish + 4K Awareness (2026-07-03) — ЗАВЕРШЁН ✅
@@ -9375,6 +9572,10 @@ Nodes (5): Phase A — 4K-aware tokens (коммит `8eb55c78`), Phase B — Su
 ### Community 1953 - "Community 1953"
 Cohesion: 0.40
 Nodes (5): Import Paths, Key Conventions, Logging, Styling, TypeScript
+
+### Community 1954 - "Community 1954"
+Cohesion: 0.40
+Nodes (5): Issue: "Bundle size exceeded", Issue: "Keyboard not dismissing on mobile", Issue: "Microphone permission denied", Issue: "Touch targets too small", Troubleshooting
 
 ### Community 1955 - "Community 1955"
 Cohesion: 0.40
@@ -9494,7 +9695,7 @@ Nodes (5): Progress Tracking, UI States, 🎛️ UI/UX Design, VoiceCloningStudi
 
 ### Community 1984 - "Community 1984"
 Cohesion: 0.40
-Nodes (4): corsHeaders, IMAGE_CONFIGS, ImageConfig, ImageType
+Nodes (5): GuitarStudio.tsx, NavigationMenuSheet.tsx, ProfessionalToolsHub.tsx, useGenerateForm.ts, Изменения в существующих компонентах
 
 ### Community 1985 - "Community 1985"
 Cohesion: 0.40
@@ -9503,6 +9704,10 @@ Nodes (5): Communication, Immediate Actions (This Week), 🚀 NEXT STEPS, Team S
 ### Community 1986 - "Community 1986"
 Cohesion: 0.40
 Nodes (5): 🎯 IMPLEMENTATION PLAN, Sprint 1: DAW Core Foundation (2 weeks), Sprint 2: Effect Processing & Automation (2 weeks), Sprint 3: Advanced Editing & MIDI (2 weeks), Sprint 4: Integration & Polish (2 weeks)
+
+### Community 1987 - "Community 1987"
+Cohesion: 0.40
+Nodes (4): normalizePeaks(), normalizedPeaks, rawPeaks, { type, id, audioData, targetPeaks }
 
 ### Community 1988 - "Community 1988"
 Cohesion: 0.50
@@ -9537,8 +9742,12 @@ Cohesion: 0.40
 Nodes (4): commit_message, prompt, plugin, $schema
 
 ### Community 1996 - "Community 1996"
+Cohesion: 0.12
+Nodes (16): Sprint 058 — Edge Functions Decomposition, Sprint 059 — Test Coverage Recovery, Sprint 060 — Security & Dependencies, Sprint 061 — Mobile Studio Polish, Sprint 062 — Performance Budget Hardening, Sprint 063 — A/B Testing & Analytics Loop, Sprint 064 — Collaboration Features (перенумерованный), Критерии приёмки плана (+8 more)
+
+### Community 1997 - "Community 1997"
 Cohesion: 0.40
-Nodes (4): Вопрос перед стартом, Задача 1 — Кнопки «Персона» и «Проект» в форме генерации, Задача 2 — Редизайн записи/загрузки голоса в VoiceCloneWizard, Технические детали
+Nodes (3): MasterClockState, UseMasterClockProps, sharedAudioContext
 
 ### Community 1998 - "Community 1998"
 Cohesion: 0.60
@@ -9660,6 +9869,14 @@ Nodes (4): Goal, Independent Test Criteria, Phase 4: User Story 2 - Design Syste
 Cohesion: 0.50
 Nodes (4): Implementation Strategy, Incremental Delivery, MVP Scope (Sprint 031), Risk Mitigation
 
+### Community 2028 - "Community 2028"
+Cohesion: 0.10
+Nodes (9): Content Quality - PASS, Feature Readiness - PASS, Requirement Completeness - PASS, Specification Quality Checklist: Unified Telegram Mini App Interface Components, Validation Details, Content Quality, Feature Readiness, Notes (+1 more)
+
+### Community 2029 - "Community 2029"
+Cohesion: 0.50
+Nodes (4): 1. Feature Branch, 2. Database Setup, 3. Environment Variables, Development Setup
+
 ### Community 2030 - "Community 2030"
 Cohesion: 0.50
 Nodes (4): Design Artifacts, Phase 1: Design & Contracts, Post-Design Constitution Re-Check, Prerequisites
@@ -9695,6 +9912,10 @@ Nodes (4): Future Sprints, Immediate (Today), Next Steps, Short-Term (This Sprin
 ### Community 2038 - "Community 2038"
 Cohesion: 0.50
 Nodes (4): Low Risk ✅, Medium Risk ⚠️, Mitigation, Risk Assessment
+
+### Community 2039 - "Community 2039"
+Cohesion: 0.50
+Nodes (4): Краткосрочно (2-4 недели), Немедленно (эта неделя), 🎯 Следующие шаги, Среднесрочно (1-2 месяца)
 
 ### Community 2040 - "Community 2040"
 Cohesion: 0.50
@@ -9916,9 +10137,13 @@ Nodes (4): 🚀 Влияние на проект, Для maintainers, Для н�
 Cohesion: 0.50
 Nodes (4): Документация, Качество репозитория, 📈 Метрики улучшения, Соответствие GitHub Best Practices
 
+### Community 2095 - "Community 2095"
+Cohesion: 0.50
+Nodes (4): High Priority, Low Priority, Medium Priority, 🎯 Next Steps
+
 ### Community 2096 - "Community 2096"
 Cohesion: 0.50
-Nodes (4): Общий объем работы, Созданные файлы, 📊 Статистика, Улучшенные файлы
+Nodes (3): UseTrackVersionSwitcherContract, UseTrackVersionSwitcherParams, UseTrackVersionSwitcherReturn
 
 ### Community 2097 - "Community 2097"
 Cohesion: 0.50
@@ -10020,6 +10245,10 @@ Nodes (4): ♿ Accessibility Improvements, ARIA Support, Keyboard Navigation, Sc
 Cohesion: 0.50
 Nodes (4): Accessibility Testing, Interaction Testing, Manual Testing, 🧪 Testing Checklist
 
+### Community 2122 - "Community 2122"
+Cohesion: 0.50
+Nodes (4): 2.2.1 Live Listening Parties, 2.2.2 Challenges & Contests, 2.2.3 Collaboration Requests, 2.2 Социальные и коммьюнити функции
+
 ### Community 2123 - "Community 2123"
 Cohesion: 0.50
 Nodes (4): 📱 Mobile-First Principles Applied, Performance Optimizations, Responsive Breakpoints, Touch Targets
@@ -10071,6 +10300,10 @@ Nodes (4): Business (6 Months), Development (6 Months), Performance (6 Months), 
 ### Community 2135 - "Community 2135"
 Cohesion: 0.50
 Nodes (4): January 2026, ✅ NEXT STEPS, Sprint 025 (Dec 16-29), This Week (Dec 11-15)
+
+### Community 2136 - "Community 2136"
+Cohesion: 0.67
+Nodes (3): Выполненные задачи, Ключевые результаты, 📊 Краткое резюме
 
 ### Community 2137 - "Community 2137"
 Cohesion: 0.50
@@ -10281,8 +10514,8 @@ Cohesion: 0.50
 Nodes (4): Примеры использования, 🔤 Типография, Шкала размеров, Шрифты
 
 ### Community 2192 - "Community 2192"
-Cohesion: 0.50
-Nodes (4): CI/CD, Code Review, GitFlow, Рабочий процесс разработки
+Cohesion: 0.67
+Nodes (3): Введение, Основные Возможности, Технологический Стек
 
 ### Community 2193 - "Community 2193"
 Cohesion: 0.50
@@ -10301,8 +10534,8 @@ Cohesion: 0.50
 Nodes (4): 1. Row Level Security (RLS), 2. ARIA Labels, 3. Клавиатурная Навигация, 🛡️ БЕЗОПАСНОСТЬ И ДОСТУПНОСТЬ
 
 ### Community 2197 - "Community 2197"
-Cohesion: 0.50
-Nodes (4): 1. Unit Тесты (Vitest), 2. E2E Тесты (Playwright), 3. Performance Тестирование, 🧪 ТЕСТИРОВАНИЕ И ВАЛИДАЦИЯ
+Cohesion: 0.33
+Nodes (6): 1. Unit Тесты (Vitest), 2. E2E Тесты (Playwright), 3. Performance Тестирование, 🎨 Промпт для Агента по Разработке Интерфейса MusicVerse AI, 📋 СОДЕРЖАНИЕ, 🧪 ТЕСТИРОВАНИЕ И ВАЛИДАЦИЯ
 
 ### Community 2198 - "Community 2198"
 Cohesion: 0.50
@@ -10317,8 +10550,8 @@ Cohesion: 0.50
 Nodes (4): Ключевые Характеристики, 🎯 КОНТЕКСТ И НАЗНАЧЕНИЕ, Описание Проекта, Основные Пользовательские Сценарии
 
 ### Community 2201 - "Community 2201"
-Cohesion: 0.50
-Nodes (4): Кэширование, Оптимизация и Производительность, Оптимизация Моделей, Параллельная обработка
+Cohesion: 0.67
+Nodes (3): Коды Ошибок, Обработка в клиентском коде, Обработка Ошибок
 
 ### Community 2202 - "Community 2202"
 Cohesion: 0.50
@@ -10335,6 +10568,10 @@ Nodes (4): Critical (P0) - Fix Immediately, High Priority (P1) - Next Sprint, Me
 ### Community 2205 - "Community 2205"
 Cohesion: 0.50
 Nodes (4): Бизнес-эффект:, Метрики "До":, Метрики "После":, 🎯 Ожидаемые результаты
+
+### Community 2206 - "Community 2206"
+Cohesion: 0.67
+Nodes (3): 6. Admin Panel (391 lines), Admin Dashboard Integration:, Features:
 
 ### Community 2207 - "Community 2207"
 Cohesion: 0.50
@@ -10421,8 +10658,8 @@ Cohesion: 0.50
 Nodes (4): Core Infrastructure (3 files, 32KB), Database (1 file, 11KB), Documentation (3 files, 40+ KB), 📁 Files Created
 
 ### Community 2228 - "Community 2228"
-Cohesion: 0.50
-Nodes (4): 5. Frontend Components (451 lines), Pricing Page (249 lines), PricingCard Component (155 lines), Routes Added:
+Cohesion: 0.67
+Nodes (3): 📞 Contact & Resources, Key Files:, Repository:
 
 ### Community 2229 - "Community 2229"
 Cohesion: 0.50
@@ -10443,10 +10680,6 @@ Nodes (3): For git commit hook, For native CLAUDE.md integration, graphify refer
 ### Community 2234 - "Community 2234"
 Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
-
-### Community 2235 - "Community 2235"
-Cohesion: 0.50
-Nodes (4): 2.5.1 Subscription Tiers, 2.5.2 Marketplace for AI Artists, 2.5.3 White Label для бизнеса, 2.5 Монетизация
 
 ### Community 2236 - "Community 2236"
 Cohesion: 0.50
@@ -10796,10 +11029,6 @@ Nodes (3): Client-Side Access (VITE_ prefix), Server-Side Access (Edge Functions
 Cohesion: 0.67
 Nodes (3): ❌ DON'Ts, ✅ DOs, 🔒 Security Guidelines
 
-### Community 2345 - "Community 2345"
-Cohesion: 0.67
-Nodes (3): Версия Документации, Заключение, Полезные Ссылки
-
 ### Community 2347 - "Community 2347"
 Cohesion: 0.67
 Nodes (3): 3. Mobile-Specific Components, Components Needing Improvement ⚠️, Excellent Components ✅
@@ -10925,8 +11154,8 @@ Cohesion: 0.67
 Nodes (3): Phase 8: Codebase Optimization ✅ COMPLETE (2026-06-25), Phase 9A: Deduplication ✅ COMPLETE (2026-06-25), 🎉 Sprint 055 Complete (2026-07-06) ✅
 
 ### Community 2383 - "Community 2383"
-Cohesion: 0.67
-Nodes (3): 🆕 Вечерняя сессия 2026-07-06 ✅, Выполненные задачи:, Метрики сессии:
+Cohesion: 0.33
+Nodes (6): 🆕 Вечерняя сессия 2026-07-06 ✅, Выполненные задачи:, Выполнено:, Метрики сессии:, Метрики сессии:, 🆕 Сессия 2026-07-08 — AI Agent Activity Panel & dead-code cleanup 🔄
 
 ### Community 2384 - "Community 2384"
 Cohesion: 0.67
@@ -11061,24 +11290,24 @@ Cohesion: 0.67
 Nodes (3): Основные документы, Существующая документация, 🗂️ Файлы документации
 
 ## Knowledge Gaps
-- **28025 isolated node(s):** `10-auto-format.sh script`, `20-tsc-check.sh script`, `10-graphify-bash.sh script`, `20-graphify-read.sh script`, `10-env-check.sh script` (+28020 more)
+- **28035 isolated node(s):** `10-auto-format.sh script`, `20-tsc-check.sh script`, `10-graphify-bash.sh script`, `20-graphify-read.sh script`, `10-env-check.sh script` (+28030 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **112 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **117 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Api / Credits` to `Settings / Tabs / Admin`, `Audio / Player / Lib`, `Community 515`, `Analytics / Admin / Errortrendspanel`, `Pages / Generate / Form`, `Pagination / Breadcrumb / Touch`, `Admin / Hooks / Useanomalydetection`, `Navigation / Pages / Professional`, `Lib / Date / Utils`, `Telegram / Onboarding / Share`, `Generate / Form / Lyricsvisualeditorcompact`, `Sections / Lib / Track`, `Motion / Lib / Popups`, `Unified / Studio / Usestudioperformance`, `Prompt / Presets / Lib`, `Unified / Generate / Form`, `Community 1047`, `App`, `Lib / Audioprocessing / Errors`, `Studio / Effects / Hooks`, `Community 542`, `Community 543`, `Studio / Unified / Keyboardshortcutsdialog`, `Community 1057`, `Hooks / Types / Starspayment`, `Studio / Audio / Usestudioaudio`, `Types / Studio / Entities`, `Community 549`, `Community 547`, `Layout / Pagecontainer / Safe`, `Lib / Colors / Design`, `Api / Hooks / Batch`, `Community 551`, `Community 554`, `Studio / Unified / Library`, `Professional / Guitar / Guitartuner`, `Hooks / Music / Graph`, `Community 553`, `Community 559`, `Lib / Breakpoints / Desktop`, `Api / Presets / Usepresets`, `Payments / Glass / Lib`, `Mobile / Skeletons / Tracklistskeleton`, `Pagetransition / Collapsiblesection / Loadingoverlay`, `Studioshell / Unified / Studio`, `Community 570`, `Analytics / Deeplink / Tracker`, `Community 574`, `Admin / Economy / Useeconomyconfig`, `Home / Section / Layout`, `Audio / Beatsnap / Bpmdetection`, `Audio / Reference / Hooks`, `Lib / Audiocontextmanager / Audio`, `Community 1100`, `Performance / Useperformancemetrics / Hooks`, `Project / Projectdetailscard / Projectmeta`, `Lazy / Index`, `Hooks / Studio / Usemidifileparser`, `Analysis / Staffnotation / Mobilenotesviewer`, `Lib / Mobile / Utils`, `Telegram / Telegramsafearea / Telegramthemeprovider`, `Dialog / Unified / Types`, `Generation / Hooks / Usegenerationresult`, `Audio / Audiocontexthelper / Studio`, `Sections / Generate / Form`, `Track / Card / New`, `Community 610`, `Prompt / Usepromptdj / Hooks`, `Constants / Sunometatags / Tags`, `Hooks / Home / Useinfinitegenretracks`, `Admin / Hooks / Useadmindashboard`, `Api / Studio / Services`, `Community 620`, `Lyrics / Uselyricsstudio / Studiolyricssheet`, `Community 624`, `Waveform / Optimizedtrackrow / Unified`, `Community 627`, `Hooks / Usepromptdjstore / Useprompthistory`, `Admin / Api / Services`, `Api / Generation / Services`, `Api / Lyrics / Usesectionnotes`, `Community 1146`, `Analysis / Api / Services`, `Api / Tracks / Services`, `Community 640`, `Lib / Gesture / Manager`, `Lyrics / Formatting / Service`, `Unified / Studio / Usewaveformcache`, `Generation / Usegenerateform / Usegenerateformstate`, `Gamification / Userlevel / Quickstats`, `Stories / Button / Header`, `Api / Playlists / Services`, `Error / Lib / Suno`, `Hooks / Usegamification / Gamification`, `Lyricsparser / Lyrics`, `Community 659`, `Studio / Usestudiomodals / Typeadapters`, `Studio / Unified / Useautosave`, `Uselyricversions / Hooks / Lyricspanel`, `Audioelementpool / Lib / Audio`, `Audio / Lib / Prefetchmanager`, `Lib / Audiocache`, `Comments / Firstcommentcta / Usecomments`, `Smart / Assistant / Types`, `Premium / Hooks / Usepaywalltrigger`, `Community 674`, `Hooks / Usestemtranscription / Usereplicatemiditranscription`, `Studio / Types / Useaudiobuffercache`, `Usepreferencesstore / Stores / Schemas`, `Lib / Stemlabels / Stem`, `Errors / Apperror / Audioerror`, `Voice / Hooks / Usebroadcast`, `Lyricsvalidator / Lyrics / Stores`, `Drum / Lib / Kits`, `Lyrics / Lyricsformatter / Lyricsparser`, `Studio / Usestudiohistorystore / Useplaybackstore`, `Api / Analytics / Usedeeplinkanalytics`, `Community 1207`, `Generate / Form / Prompthistory`, `Track / Detail / Hooks`, `Community 699`, `Lib / Sound / Effects`, `Community 2237`, `Audioanalysisservice / Unified / Analysis`, `Agent / Aitoolbar / Constants`, `Analysis / Analysisresultspanel / Chordprogressiondisplay`, `Useunifiedanalysis / Hooks / Analysis`, `Community 707`, `Components / Notificationlist / Usenotifications`, `Unified / Mobilesectionsview / Sectionreplacementhistory`, `Lib / A11Y / Utils`, `Steps / Lib / Genremoodicons`, `Lyricsvalidator / Lyrics / Lyricsformatter`, `Cloudstorage / Lib / Usecloudstorage`, `Community 725`, `Lyricseditormetricsoverlay / Index / Dev`, `Lib / Errorhandling`, `Community 729`, `Guards / Index`, `Lyrics / Advancedtagparser / Patterns`, `Unified / Analysis / Types`, `Audiomanager / Audio`, `Community 1254`, `Studioactivitylog / Usestudiochangelog / Unified`, `Promptdjerrorboundary / Prompt`, `Community 748`, `Lib / Audioserviceworker / Useofflinestatus`, `Carousel`, `Api / Audio / Upscale`, `Hooks / Useappnavigate / Components`, `Themecontext / Contexts`, `Community 769`, `Usekeyboardshortcuts / Hooks`, `Community 773`, `Community 775`, `Lib / Interactions`, `Usepublictracks / Hooks`, `Community 777`, `Community 782`, `Interactivechordwheel / Lib / Studio`, `Lib / Accessibility`, `Lyrics / Sectionmatcher`, `Chart`, `Command`, `Community 1824`, `Community 802`, `Audio / Streamingloader`, `Hooks / Useaudiobufferpool / Audiobufferpool`, `Lyrics / Optimizedlyricsline / Optimizedlyricspanel`, `Comment / Types`, `Empty / Emptystate / Index`, `Hooks / Media / Query`, `Community 814`, `Community 819`, `Audioerrorboundary / Studio`, `Structuredlyricspreview / Results`, `Types / Forms`, `Transactionhistory / Gamification / Action`, `Community 831`, `Community 832`, `Lazyimage / Stories`, `Commentsuggestions / Comments`, `Contexts / Gamificationcontext / Useachievementnotifications`, `Types / Guitar`, `Constants / Sunotemplates`, `Progresssteps`, `Virtualizedprojectslist / Content / Hub`, `Types / Lamejs`, `Hooks / Usetablet`, `Lib / A11Y`, `Community 884`, `Assets_Banner`, `Github_Svg`, `Lyrics_Index_Computelyricsstats`, `Lyrics_Index_Formatlyrics`, `Tests_Vitest_Setup`, `Community 916`, `Community 416`, `Community 417`, `Community 422`, `Community 423`, `Community 1457`, `Community 439`, `Community 952`, `Community 440`, `Community 442`, `Community 444`, `Community 1473`, `Community 449`, `Community 967`, `Community 1998`, `Community 476`, `Community 478`, `Community 479`, `Community 489`, `Community 492`, `Community 1522`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
-- **Why does `Button` connect `Pages / Generate / Form` to `Hooks / Audio / Logger`, `Settings / Tabs / Admin`, `Community 515`, `Audio / Player / Lib`, `Analytics / Admin / Errortrendspanel`, `Pagination / Breadcrumb / Touch`, `Admin / Hooks / Useanomalydetection`, `Navigation / Pages / Professional`, `Lib / Date / Utils`, `Telegram / Onboarding / Share`, `Generate / Form / Lyricsvisualeditorcompact`, `Sections / Lib / Track`, `Motion / Lib / Popups`, `Unified / Studio / Usestudioperformance`, `Unified / Generate / Form`, `Community 1047`, `App`, `Lib / Audioprocessing / Errors`, `Community 542`, `Community 543`, `Studio / Unified / Keyboardshortcutsdialog`, `Studio / Audio / Usestudioaudio`, `Hooks / Types / Starspayment`, `Community 547`, `Types / Studio / Entities`, `Community 549`, `Community 1057`, `Studio / Types / Useaudiobuffercache`, `Api / Hooks / Batch`, `Community 554`, `Lib / Breakpoints / Desktop`, `Studio / Unified / Library`, `Professional / Guitar / Guitartuner`, `Community 553`, `Common / Touch / Target`, `Api / Presets / Usepresets`, `Payments / Glass / Lib`, `Pagetransition / Collapsiblesection / Loadingoverlay`, `Community 569`, `Studioshell / Unified / Studio`, `Analytics / Deeplink / Tracker`, `Community 574`, `Home / Section / Layout`, `Library / Spacing / Lib`, `Lazy / Index`, `Hooks / Studio / Usemidifileparser`, `Analysis / Staffnotation / Mobilenotesviewer`, `Analytics / Useperformancetracking / Usechurnprediction`, `Lib / Mobile / Utils`, `Telegram / Telegramsafearea / Telegramthemeprovider`, `Dialog / Unified / Types`, `Generation / Hooks / Usegenerationresult`, `Home / Heading / Featuretutorialdialog`, `Sections / Generate / Form`, `Track / Card / New`, `Community 610`, `Constants / Sunometatags / Tags`, `Prompt / Promptdjonboarding / Promptdjmixer`, `Api / Studio / Services`, `Community 620`, `Lyrics / Uselyricsstudio / Studiolyricssheet`, `Community 624`, `Recording / Audio / Useunifiedrecording`, `Waveform / Optimizedtrackrow / Unified`, `Hooks / Usepromptdjstore / Useprompthistory`, `Admin / Api / Services`, `Tools / Styleconverttoolpanel / Analyzetoolpanel`, `Api / Lyrics / Usesectionnotes`, `Community 1146`, `Analysis / Api / Services`, `Api / Tracks / Services`, `Lib / Gesture / Manager`, `Lyrics / Formatting / Service`, `Unified / Studio / Usewaveformcache`, `Stories / Button / Header`, `Loadingspinner / Stories`, `Api / Playlists / Services`, `Error / Lib / Suno`, `Community 656`, `Hooks / Usegamification / Gamification`, `Community 659`, `Studio / Usestudiomodals / Typeadapters`, `Studio / Unified / Useautosave`, `Lyricsparser / Lyrics`, `Uselyricversions / Hooks / Lyricspanel`, `Audioelementpool / Lib / Audio`, `Comments / Firstcommentcta / Usecomments`, `Smart / Assistant / Types`, `Premium / Hooks / Usepaywalltrigger`, `Hooks / Usestemtranscription / Usereplicatemiditranscription`, `Lib / Stemlabels / Stem`, `Apperror / Errors / Constructor`, `Lyricsvalidator / Lyrics / Stores`, `Drum / Lib / Kits`, `Api / Analytics / Usedeeplinkanalytics`, `Api / Credits`, `Community 1207`, `Track / Detail / Hooks`, `Lib / Sound / Effects`, `Audioanalysisservice / Unified / Analysis`, `Agent / Aitoolbar / Constants`, `Useunifiedanalysis / Hooks / Analysis`, `Components / Notificationlist / Usenotifications`, `Lib / A11Y / Utils`, `Steps / Lib / Genremoodicons`, `Activity / Social / Types`, `Cloudstorage / Lib / Usecloudstorage`, `Community 725`, `Lyricseditormetricsoverlay / Index / Dev`, `Guards / Index`, `Lyrics / Advancedtagparser / Patterns`, `Audiomanager / Audio`, `Usehintdismissal / Home / Homeheader`, `Community 1254`, `Studioactivitylog / Usestudiochangelog / Unified`, `Promptdjerrorboundary / Prompt`, `Community 748`, `Hooks / Useappnavigate / Components`, `Themecontext / Contexts`, `Community 769`, `Usekeyboardshortcuts / Hooks`, `Community 773`, `Lib / Interactions`, `Lib / Query / Utils`, `Community 777`, `Messages / Enhancedmessages`, `Guitartabvisualization / Analysis / Names`, `Lib / Main / Migration`, `Interactivechordwheel / Lib / Studio`, `Lib / Accessibility`, `Lyrics / Sectionmatcher`, `Chart`, `Command`, `Community 1824`, `Community 802`, `Audio / Streamingloader`, `Hooks / Media / Query`, `Structuredlyricspreview / Results`, `Transactionhistory / Gamification / Action`, `Community 831`, `Community 832`, `Lazyimage / Stories`, `Contexts / Gamificationcontext / Useachievementnotifications`, `Useconfirm / Hooks`, `Types / Guitar`, `Constants / Sunotemplates`, `Types / Lamejs`, `Hooks / Usetablet`, `Lib / A11Y`, `Community 884`, `Assets_Banner`, `Lyrics_Index_Formatlyrics`, `Tutorials_Svg`, `Community 916`, `Community 917`, `Community 416`, `Community 417`, `Community 422`, `Community 423`, `Community 1457`, `Community 439`, `Community 952`, `Community 440`, `Community 1472`, `Community 967`, `Community 476`, `Community 478`, `Community 479`, `Community 489`, `Community 1522`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
-- **Why does `Logger` connect `Community 569` to `Playlist / Components / Unified`, `Hooks / Audio / Logger`, `Settings / Tabs / Admin`, `Community 515`, `Analytics / Admin / Errortrendspanel`, `Pages / Generate / Form`, `Admin / Hooks / Useanomalydetection`, `Navigation / Pages / Professional`, `Telegram / Onboarding / Share`, `Generate / Form / Lyricsvisualeditorcompact`, `Community 527`, `Lyrics / Constants / Shared`, `Motion / Lib / Popups`, `Unified / Studio / Usestudioperformance`, `App`, `Lib / Audioprocessing / Errors`, `Community 543`, `Types / Studio / Entities`, `Layout / Pagecontainer / Safe`, `Community 551`, `Community 553`, `Community 554`, `Lib / Breakpoints / Desktop`, `Studio / Unified / Library`, `Professional / Guitar / Guitartuner`, `Hooks / Music / Graph`, `Community 559`, `Payments / Glass / Lib`, `Pagetransition / Collapsiblesection / Loadingoverlay`, `Studioshell / Unified / Studio`, `Analytics / Deeplink / Tracker`, `Admin / Economy / Useeconomyconfig`, `Community 574`, `Library / Spacing / Lib`, `Versioning / Queries / Lib`, `Community 583`, `Analysis / Staffnotation / Mobilenotesviewer`, `Analytics / Useperformancetracking / Usechurnprediction`, `Lib / Mobile / Utils`, `Telegram / Telegramsafearea / Telegramthemeprovider`, `Dialog / Unified / Types`, `Generation / Hooks / Usegenerationresult`, `Community 602`, `Generate / Form / Validationmessage`, `Audio / Audiocontexthelper / Studio`, `Sections / Generate / Form`, `Community 605`, `Track / Card / New`, `Community 610`, `Community 615`, `Prompt / Promptdjonboarding / Promptdjmixer`, `Studio / Actions / Studioactionspanel`, `Community 616`, `Community 618`, `Community 620`, `Notifications / Types / Queue`, `Lyrics / Uselyricsstudio / Studiolyricssheet`, `Community 624`, `Waveform / Optimizedtrackrow / Unified`, `Tools / Styleconverttoolpanel / Analyzetoolpanel`, `Community 1146`, `Lib / Route / Preloader`, `Sidebar`, `Analysis / Api / Services`, `Api / Tracks / Services`, `Lib / Gesture / Manager`, `Lyrics / Formatting / Service`, `Unified / Studio / Usewaveformcache`, `Types / Telegram`, `Gamification / Userlevel / Quickstats`, `Community 649`, `Loadingspinner / Stories`, `Community 652`, `Audio / Reference / Referencemodeselector`, `Lyricsparser / Lyrics`, `Community 1172`, `Studio / Unified / Useautosave`, `Audioelementpool / Lib / Audio`, `Lib / Audiocache`, `Comments / Firstcommentcta / Usecomments`, `Lib / Prompt / Validator`, `Smart / Assistant / Types`, `Usepreferencesstore / Stores / Schemas`, `Apperror / Errors / Constructor`, `Hooks / Usepromptdjtypes / Default`, `Community 1207`, `Community 696`, `Community 1210`, `Lib / Sound / Effects`, `Admin / Usebotconfig / Hooks`, `Components / Notificationlist / Usenotifications`, `Community 710`, `Community 711`, `Lib / A11Y / Utils`, `Steps / Lib / Genremoodicons`, `Lyricsvalidator / Lyrics / Lyricsformatter`, `Api / Artists / Services`, `Cloudstorage / Lib / Usecloudstorage`, `Community 725`, `Musiclab / Usemusiclabstudio / Studiomusiclabsheet`, `Stem / Studio / Studiolyricspanelcompact`, `Community 733`, `Usehintdismissal / Home / Homeheader`, `Community 1254`, `Studioactivitylog / Usestudiochangelog / Unified`, `Promptdjerrorboundary / Prompt`, `Community 747`, `Hooks / Useappnavigate / Components`, `Community 757`, `Refinedcard`, `Prompt / Essentialsknobgrid / Knobcell`, `Community 769`, `Community 774`, `Community 777`, `Lib / Query / Utils`, `Messages / Enhancedmessages`, `Guitartabvisualization / Analysis / Names`, `Lib / Main / Migration`, `Community 787`, `Lib / Accessibility`, `Chart`, `Audio / Streamingloader`, `Usemixerhistorystore / Stores / Useundoredo`, `Types / Player`, `Transactionhistory / Gamification / Action`, `Community 831`, `Waveformworkerpool / Lib`, `Statusbadge`, `Debug / Index`, `Community 846`, `Useconfirm / Hooks`, `Types / Guitar`, `Community 1383`, `Useloopregion / Studio`, `Lib / Telegramsafearea`, `Hooks / Usetablet`, `Community 884`, `Lyrics_Index_Formatlyrics`, `Tutorials_Svg`, `Youtube_Svg`, `Community 912`, `Community 401`, `Community 916`, `Community 917`, `Community 928`, `Community 423`, `Community 431`, `Community 1457`, `Community 439`, `Community 952`, `Community 448`, `Community 473`, `Community 476`, `Community 478`, `Community 1003`, `Community 492`, `Community 1005`, `Community 1522`, `Community 1018`, `Community 508`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `cn()` connect `Api / Credits` to `Settings / Tabs / Admin`, `Audio / Player / Lib`, `Analytics / Admin / Errortrendspanel`, `Pages / Generate / Form`, `Pagination / Breadcrumb / Touch`, `Admin / Hooks / Useanomalydetection`, `Navigation / Pages / Professional`, `Telegram / Onboarding / Share`, `Generate / Form / Lyricsvisualeditorcompact`, `Motion / Lib / Popups`, `Unified / Studio / Usestudioperformance`, `Prompt / Presets / Lib`, `App`, `Lib / Audioprocessing / Errors`, `Studio / Effects / Hooks`, `Studio / Types / Useaudiobuffercache`, `Hooks / Types / Starspayment`, `Types / Studio / Entities`, `Community 547`, `Community 549`, `Community 1062`, `Layout / Pagecontainer / Safe`, `Lib / Colors / Design`, `Api / Hooks / Batch`, `Lib / Breakpoints / Desktop`, `Community 551`, `Studio / Unified / Library`, `Professional / Guitar / Guitartuner`, `Hooks / Music / Graph`, `Community 554`, `Community 553`, `Community 559`, `Api / Presets / Usepresets`, `Payments / Glass / Lib`, `Mobile / Skeletons / Tracklistskeleton`, `Community 1080`, `Studioshell / Unified / Studio`, `Community 1081`, `Analytics / Deeplink / Tracker`, `Community 574`, `Admin / Economy / Useeconomyconfig`, `Home / Section / Layout`, `Library / Spacing / Lib`, `Community 1603`, `Community 1607`, `Audio / Beatsnap / Bpmdetection`, `Audio / Reference / Hooks`, `Lib / Audiocontextmanager / Audio`, `Community 1100`, `Project / Projectdetailscard / Projectmeta`, `Lazy / Index`, `Hooks / Studio / Usemidifileparser`, `Analysis / Staffnotation / Mobilenotesviewer`, `Lib / Mobile / Utils`, `Telegram / Telegramsafearea / Telegramthemeprovider`, `Dialog / Unified / Types`, `Community 1111`, `Home / Heading / Featuretutorialdialog`, `Community 602`, `Audio / Audiocontexthelper / Studio`, `Sections / Generate / Form`, `Track / Card / New`, `Prompt / Usepromptdj / Hooks`, `Constants / Sunometatags / Tags`, `Hooks / Home / Useinfinitegenretracks`, `Community 615`, `Api / Studio / Services`, `Community 620`, `Lyrics / Uselyricsstudio / Studiolyricssheet`, `Recording / Audio / Useunifiedrecording`, `Waveform / Optimizedtrackrow / Unified`, `Community 627`, `Admin / Api / Services`, `Api / Generation / Services`, `Api / Lyrics / Usesectionnotes`, `Community 1146`, `Api / Tracks / Services`, `Community 638`, `Community 1664`, `Community 640`, `Lib / Gesture / Manager`, `Lyrics / Formatting / Service`, `Community 1154`, `Community 1155`, `Types / Telegram`, `Community 1161`, `Stories / Button / Header`, `Loadingspinner / Stories`, `Community 652`, `Api / Playlists / Services`, `Community 1163`, `Error / Lib / Suno`, `Community 656`, `Community 1682`, `Community 659`, `Studio / Usestudiomodals / Typeadapters`, `Hooks / Usegamification / Gamification`, `Lyricsparser / Lyrics`, `Uselyricversions / Hooks / Lyricspanel`, `Audioelementpool / Lib / Audio`, `Audio / Lib / Prefetchmanager`, `Lib / Audiocache`, `Comments / Firstcommentcta / Usecomments`, `Smart / Assistant / Types`, `Community 1696`, `Community 674`, `Hooks / Usestemtranscription / Usereplicatemiditranscription`, `Community 675`, `Premium / Hooks / Usepaywalltrigger`, `Usepreferencesstore / Stores / Schemas`, `Lib / Stemlabels / Stem`, `Hooks / Usepromptdjtypes / Default`, `Voice / Hooks / Usebroadcast`, `Lyricsvalidator / Lyrics / Stores`, `Community 688`, `Drum / Lib / Kits`, `Lyrics / Lyricsformatter / Lyricsparser`, `Studio / Usestudiohistorystore / Useplaybackstore`, `Api / Analytics / Usedeeplinkanalytics`, `Community 1721`, `Generate / Form / Prompthistory`, `Community 699`, `Lib / Sound / Effects`, `Community 1212`, `Community 1723`, `Audioanalysisservice / Unified / Analysis`, `Community 703`, `Agent / Aitoolbar / Constants`, `Analysis / Analysisresultspanel / Chordprogressiondisplay`, `Community 706`, `Useunifiedanalysis / Hooks / Analysis`, `Components / Notificationlist / Usenotifications`, `Community 710`, `Unified / Mobilesectionsview / Sectionreplacementhistory`, `Community 707`, `Admin / Usebotconfig / Hooks`, `Community 713`, `Lib / A11Y / Utils`, `Lyricsvalidator / Lyrics / Lyricsformatter`, `Api / Artists / Services`, `Activity / Social / Types`, `Community 725`, `Lyricseditormetricsoverlay / Index / Dev`, `Lib / Errorhandling`, `Guards / Index`, `Musiclab / Usemusiclabstudio / Studiomusiclabsheet`, `Lyrics / Advancedtagparser / Patterns`, `Unified / Analysis / Types`, `Audiomanager / Audio`, `Community 1254`, `Studioactivitylog / Usestudiochangelog / Unified`, `Storage / Lib`, `Community 744`, `Community 1256`, `Promptdjerrorboundary / Prompt`, `Community 748`, `Lib / Audioserviceworker / Useofflinestatus`, `Carousel`, `Hooks / Useappnavigate / Components`, `Themecontext / Contexts`, `Community 757`, `Community 1278`, `Community 769`, `Usekeyboardshortcuts / Hooks`, `Community 773`, `Community 775`, `Lib / Interactions`, `Usepublictracks / Hooks`, `Community 782`, `Guitartabvisualization / Analysis / Names`, `Lib / Main / Migration`, `Community 1810`, `Community 787`, `Interactivechordwheel / Lib / Studio`, `Lib / Accessibility`, `Lyrics / Sectionmatcher`, `Community 1307`, `Chart`, `Command`, `Community 798`, `Community 802`, `Hooks / Useaudiobufferpool / Audiobufferpool`, `Lyrics / Optimizedlyricsline / Optimizedlyricspanel`, `Empty / Emptystate / Index`, `Hooks / Media / Query`, `Community 814`, `Structuredlyricspreview / Results`, `Audioerrorboundary / Studio`, `Types / Forms`, `Community 830`, `Community 831`, `Community 832`, `Transactionhistory / Gamification / Action`, `Lazyimage / Stories`, `Commentsuggestions / Comments`, `Community 847`, `Community 848`, `Community 849`, `Community 850`, `Types / Guitar`, `Constants / Sunotemplates`, `Community 857`, `Community 867`, `Progresssteps`, `Community 868`, `Virtualizedprojectslist / Content / Hub`, `Community 1383`, `Lib / Telegramsafearea`, `Types / Lamejs`, `Community 883`, `Hooks / Usetablet`, `Lib / A11Y`, `Community 884`, `Assets_Banner`, `Github_Svg`, `Community 893`, `Lyrics_Index_Computelyricsstats`, `Tests_Vitest_Setup`, `Community 907`, `Community 916`, `Community 416`, `Community 417`, `Community 422`, `Community 423`, `Community 1457`, `Community 440`, `Community 952`, `Community 442`, `Community 444`, `Community 448`, `Community 1473`, `Community 967`, `Community 1485`, `Community 1998`, `Community 465`, `Community 979`, `Community 476`, `Community 478`, `Community 1508`, `Community 485`, `Community 489`, `Community 1004`, `Community 1522`, `Community 1525`, `Community 2237`?**
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `{ error }` connect `Lib / Sentry` to `Community 1664`, `Hooks / Audio / Logger`, `Settings / Tabs / Admin`, `Audio / Player / Lib`, `Hooks / Social / Generation`, `Community 774`, `Pages / Generate / Form`, `Analytics / Admin / Errortrendspanel`, `Types / Telegram`, `Lib / Query / Utils`, `Navigation / Pages / Professional`, `Lib / Date / Utils`, `Telegram / Onboarding / Share`, `Generate / Form / Lyricsvisualeditorcompact`, `Sections / Lib / Track`, `Track / Types / Player`, `Project / Hooks / Projectdetail`, `Public / Content / Types`, `Unified / Studio / Usestudioperformance`, `Community 917`, `Unified / Generate / Form`, `Studio / Unified / Useautosave`, `Studio / Useunifiedstudio / Types`, `Lib / Audioprocessing / Errors`, `Community 798`, `Studio / Unified / Keyboardshortcutsdialog`, `Community 928`, `Comments / Firstcommentcta / Usecomments`, `Admin / Generationmetrics / Tabs`, `Usepreferencesstore / Stores / Schemas`, `Community 423`, `Community 1836`, `Professional / Guitar / Guitartuner`, `Community 431`, `Drum / Lib / Kits`, `Structuredlyricspreview / Results`, `Audioerrorboundary / Studio`, `Types / Player`, `Studio / Usemixexport / Referencemidisheet`, `Community 827`, `Community 574`, `Types / Branded`, `Schemas / Validation`, `Components / Notificationlist / Usenotifications`, `Api / Artists / Services`, `Community 846`, `Community 593`, `Cloudstorage / Lib / Usecloudstorage`, `Community 850`, `Dialog / Unified / Types`, `Community 602`, `Generate / Form / Validationmessage`, `Stem / Studio / Studiolyricspanelcompact`, `Audio / Audiocontexthelper / Studio`, `Community 868`, `Community 484`, `Community 743`, `Studio / Userenderoptimization / Useoptimizedplayback`, `Prompt / Promptdjonboarding / Promptdjmixer`, `Notifications / Types / Queue`, `Lyrics / Uselyricsstudio / Studiolyricssheet`, `Waveform / Optimizedtrackrow / Unified`, `Community 1524`, `Community 502`, `Tools / Styleconverttoolpanel / Analyzetoolpanel`, `Hooks / Useguitaranalysis / Guitar`?**
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
+- **Why does `map` connect `Types / Telegram` to `Hooks / Audio / Logger`, `Settings / Tabs / Admin`, `Audio / Player / Lib`, `Hooks / Social / Generation`, `Analytics / Admin / Errortrendspanel`, `Pages / Generate / Form`, `Pagination / Breadcrumb / Touch`, `Community 521`, `Community 516`, `Navigation / Pages / Professional`, `Generate / Form / Lyricsvisualeditorcompact`, `Sections / Lib / Track`, `Track / Types / Player`, `Unified / Studio / Usestudioperformance`, `Unified / Generate / Form`, `Studio / Useunifiedstudio / Types`, `Community 1050`, `Hooks / Guitar / Usemelodymixer`, `Community 537`, `Studio / Effects / Hooks`, `Studio / Unified / Keyboardshortcutsdialog`, `Community 1569`, `Community 547`, `Community 549`, `Layout / Pagecontainer / Safe`, `Studio / Unified / Library`, `Community 559`, `Studio / Usemixexport / Referencemidisheet`, `Schemas / Validation`, `Performance / Useperformancemetrics / Hooks`, `Project / Projectdetailscard / Projectmeta`, `Community 593`, `Lib / Imageoptimization / Performance`, `Generate / Form / Validationmessage`, `Community 1116`, `Track / Card / New`, `Studio / Userenderoptimization / Useoptimizedplayback`, `Studio / Actions / Studioactionspanel`, `Notifications / Types / Queue`, `Waveform / Optimizedtrackrow / Unified`, `Hooks / Usepromptdjstore / Useprompthistory`, `Sidebar`, `Analysis / Api / Services`, `Lyrics / Formatting / Service`, `Slices / Playbackslice / Stemmixerslice`, `Lib / Sentry`, `Community 1172`, `Audioelementpool / Lib / Audio`, `Smart / Assistant / Types`, `Drum / Lib / Kits`, `Community 689`, `Payments / Paymenthistoryitem / Paymentsuccessmodal`, `Analysis / Analysisresultspanel / Chordprogressiondisplay`, `Hooks / Usekeyboardaware / Useprofile`, `Api / Shortcuts`, `Stem / Studio / Studiolyricspanelcompact`, `Unified / Analysis / Types`, `Community 1265`, `Lib / A11Y / A11Yhelpers`, `Community 774`, `Lib / Accessibility`, `Command`, `Community 1311`, `Usemixerhistorystore / Stores / Useundoredo`, `Community 1836`, `Structuredlyricspreview / Results`, `Community 830`, `Community 1867`, `Community 846`, `Community 862`, `Community 882`, `Hooks / Usetablet`, `Lib / Shimmeranimation`, `Audits_Full_Logic_Interface_Analysis`, `Community 1449`, `Community 1457`, `Community 444`, `Community 1987`, `Community 471`, `Community 990`, `Community 991`, `Community 484`, `Community 508`, `Community 509`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
 - **Are the 505 inferred relationships involving `from` (e.g. with `getExperimentOrFlag()` and `handleSubmit()`) actually correct?**
   _`from` has 505 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 477 inferred relationships involving `{ error }` (e.g. with `handleSubmit()` and `handleAddToProject()`) actually correct?**
   _`{ error }` has 477 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `10-auto-format.sh script`, `20-tsc-check.sh script`, `10-graphify-bash.sh script` to the rest of the system?**
-  _28025 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _28035 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Results / Generate / Form` be split into smaller, more focused modules?**
-  _Cohesion score 0.01886739320210639 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.023022367703218766 - nodes in this community are weakly interconnected._
