@@ -1,0 +1,1 @@
+{"nodes": [{"id": "knowledge_base", "label": "Knowledge Base", "file_type": "document", "source_file": "KNOWLEDGE_BASE.md"}], "edges": [{"source": "knowledge_base", "target": "voice_cloning_studio", "relation": "documents", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "KNOWLEDGE_BASE.md"}], "hyperedges": []}

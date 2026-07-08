@@ -137,41 +137,7 @@ export function useLazyLoad(
   };
 }
 
-/**
- * Debounce function for performance
- */
-export function debounce<T extends (...args: unknown[]) => unknown>(
-  fn: T,
-  delay: number,
-): (...args: Parameters<T>) => void {
-  let timeoutId: ReturnType<typeof setTimeout>;
-
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn(...args), delay);
-  };
-}
-
-/**
- * Throttle function for performance
- */
-export function throttle<T extends (...args: unknown[]) => unknown>(
-  fn: T,
-  limit: number,
-): (...args: Parameters<T>) => void {
-  let inThrottle = false;
-
-  return (...args: Parameters<T>) => {
-    if (!inThrottle) {
-      fn(...args);
-      inThrottle = true;
-      setTimeout(() => {
-        inThrottle = false;
-      }, limit);
-    }
-  };
-}
-
+// ponytail: debounce/throttle removed — use-debounce already installed and used
 /**
  * Request Idle Callback polyfill with fallback
  */

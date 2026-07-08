@@ -8,6 +8,7 @@ import { Send, Loader2, Bot, User, Trash2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 import { EASE_SPRING } from "@/lib/motion-presets";
@@ -31,6 +32,7 @@ function TypingDots() {
 
 import { AIToolbar } from "./ai-agent/AIToolbar";
 import { useAITools } from "./ai-agent/hooks/useAITools";
+import { AIAgentActivityPanel } from "./ai-agent/AIAgentActivityPanel";
 import {
   WriteToolPanel,
   AnalyzeToolPanel,
@@ -130,12 +132,13 @@ export function LyricsAIChatAgent({
     tracklist,
   };
 
-  const { messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool } = useAITools({
-    context,
-    onLyricsGenerated: onReplaceLyrics, // Quick actions should replace, not insert
-    onTagsGenerated: onAddTags,
-    onStylePromptGenerated: onApplyStylePrompt,
-  });
+  const { messages, isLoading, activeTool, actions, executeTool, sendChatMessage, clearMessages, setActiveTool } =
+    useAITools({
+      context,
+      onLyricsGenerated: onReplaceLyrics, // Quick actions should replace, not insert
+      onTagsGenerated: onAddTags,
+      onStylePromptGenerated: onApplyStylePrompt,
+    });
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -239,6 +242,8 @@ export function LyricsAIChatAgent({
 
       <AnimatePresence mode="wait">{renderToolPanel()}</AnimatePresence>
 
+      <AIAgentActivityPanel context={context} activeTool={activeTool} actions={actions} />
+
       <ScrollArea className="flex-1" ref={scrollRef}>
         <div className="p-3 space-y-3">
           <AnimatePresence mode="popLayout">
@@ -308,6 +313,21 @@ export function LyricsAIChatAgent({
                           onApplyStylePrompt={onApplyStylePrompt}
                           onApplyTags={onAddTags}
                         />
+                      )}
+
+                      {message.role === "assistant" && (message.model || message.provider) && (
+                        <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-border/20">
+                          {message.provider && (
+                            <Badge variant="outline" className="text-caption-sm h-5 px-1.5 text-muted-foreground">
+                              {message.provider}
+                            </Badge>
+                          )}
+                          {message.model && (
+                            <Badge variant="secondary" className="text-caption-sm h-5 px-1.5">
+                              {message.model}
+                            </Badge>
+                          )}
+                        </div>
                       )}
                     </>
                   )}

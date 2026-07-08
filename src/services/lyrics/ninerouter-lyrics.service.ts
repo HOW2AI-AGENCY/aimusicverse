@@ -5,7 +5,12 @@
  * Drop-in replacement for ai-tools.service.ts when 9Router is available.
  */
 
-import { askAI, generateLyrics as generateLyricsAI, MODELS } from "@/services/ninerouter/ninerouter.service";
+import {
+  askAI,
+  askAIWithMeta,
+  generateLyrics as generateLyricsAI,
+  MODELS,
+} from "@/services/ninerouter/ninerouter.service";
 import { logger } from "@/lib/logger";
 
 const lyricsLogger = logger.child({ module: "NineRouterLyrics" });
@@ -125,9 +130,9 @@ export async function sendAiChatMessage({ message, context }: ChatParams) {
   const prompt = contextStr ? `Context:\n${contextStr}\n\nUser: ${message}` : message;
 
   try {
-    const response = await askAI(prompt, MODELS.MIMO_PRO, CHAT_SYSTEM_PROMPT);
-    lyricsLogger.info("Chat response from 9Router");
-    return { data: { response }, error: null };
+    const { content, model, provider } = await askAIWithMeta(prompt, MODELS.MIMO_PRO, CHAT_SYSTEM_PROMPT);
+    lyricsLogger.info("Chat response from 9Router", { model, provider });
+    return { data: { response: content, message: content, model, provider }, error: null };
   } catch (err) {
     lyricsLogger.error("9Router chat failed", err instanceof Error ? err : new Error(String(err)));
     return { data: null, error: err };

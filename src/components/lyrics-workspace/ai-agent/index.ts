@@ -7,6 +7,7 @@ export * from "./constants";
 export { AIToolbar } from "./AIToolbar";
 export { MobileAIAgentPanel } from "./MobileAIAgentPanel";
 export { AIProgressIndicator } from "./AIProgressIndicator";
+export { AIAgentActivityPanel } from "./AIAgentActivityPanel";
 export { QuickActionsBar } from "./QuickActionsBar";
 export * from "./tools";
 export * from "./results";

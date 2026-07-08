@@ -1,0 +1,1 @@
+{"nodes": [{"id": "graphify_knowledge_graph", "label": "Graphify Knowledge Graph", "file_type": "concept", "source_file": "AGENTS.md"}], "edges": [{"source": "agents", "target": "graphify_knowledge_graph", "relation": "documents", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "AGENTS.md"}], "hyperedges": []}

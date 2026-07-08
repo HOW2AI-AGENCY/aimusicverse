@@ -1,0 +1,1 @@
+{"nodes": [{"id": "SECURITY_OPERATIONS", "label": "Security Operations Guide", "file_type": "documentation", "source_file": "docs/SECURITY_OPERATIONS.md", "attributes": {"purpose": "Security operations and incident response procedures", "incident_levels": ["P0 Critical", "P1 High", "P2 Medium", "P3 Low"]}}], "edges": [], "hyperedges": []}

@@ -35,6 +35,7 @@ import { AIAgentTabs, AITabId } from "./AIAgentTabs";
 import { QuickActionChips } from "./QuickActionChips";
 import { WorkflowProgress } from "./WorkflowProgress";
 import { AnalysisDashboard } from "./AnalysisDashboard";
+import { AIAgentActivityPanel } from "./AIAgentActivityPanel";
 import { DialogHeader } from "@/components/dialog/DialogHeader";
 import { AIToolId, AIAgentContext, SectionNote, AIMessage } from "./types";
 
@@ -120,12 +121,13 @@ export function MobileAIAgentPanel({
     tracklist,
   };
 
-  const { messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool } = useAITools({
-    context,
-    onLyricsGenerated: onReplaceLyrics,
-    onTagsGenerated: onAddTags,
-    onStylePromptGenerated: onApplyStylePrompt,
-  });
+  const { messages, isLoading, activeTool, actions, executeTool, sendChatMessage, clearMessages, setActiveTool } =
+    useAITools({
+      context,
+      onLyricsGenerated: onReplaceLyrics,
+      onTagsGenerated: onAddTags,
+      onStylePromptGenerated: onApplyStylePrompt,
+    });
 
   // Workflow engine
   const {
@@ -441,6 +443,24 @@ export function MobileAIAgentPanel({
         className="border-b-0"
       />
 
+      {/* Agent activity context */}
+      <AIAgentActivityPanel
+        context={context}
+        activeTool={activeTool}
+        workflow={
+          activeWorkflow
+            ? {
+                name: activeWorkflow.name,
+                steps: activeWorkflow.steps,
+                currentStepIndex,
+                status: workflowStatus,
+                stepResults,
+              }
+            : undefined
+        }
+        actions={actions}
+      />
+
       {/* Tab Navigation */}
       <div className="px-3 pb-2">
         <AIAgentTabs
@@ -508,6 +528,21 @@ export function MobileAIAgentPanel({
                   )}
                 >
                   {renderMessage(message)}
+
+                  {message.role === "assistant" && (message.model || message.provider) && (
+                    <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-border/20">
+                      {message.provider && (
+                        <Badge variant="outline" className="text-caption-sm h-5 px-1.5 text-muted-foreground">
+                          {message.provider}
+                        </Badge>
+                      )}
+                      {message.model && (
+                        <Badge variant="secondary" className="text-caption-sm h-5 px-1.5">
+                          {message.model}
+                        </Badge>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {message.role === "user" && (

@@ -1,13 +1,14 @@
 {
   "env": {
-    "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
-    "ANTHROPIC_AUTH_TOKEN": "sk-a2999312a47746bfaf3d7ce826d18f22",
-    "ANTHROPIC_MODEL": "deepseek-v4-preview",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-preview",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-preview",
+    "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
+    "ANTHROPIC_AUTH_TOKEN": "sk-kimi-en9GRG1Nccp4DxOnaESob65yE1q10YyhcWQfFZuywzNqJh6ACjlFdMjmfm2xmhuZ",
+    "ANTHROPIC_MODEL": "deepseek-v4-pro",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-pro",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-pro",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-flash",
     "CLAUDE_CODE_SUBAGENT_MODEL": "deepseek-v4-flash",
-    "CLAUDE_CODE_EFFORT_LEVEL": "max"
+    "CLAUDE_CODE_EFFORT_LEVEL": "max",
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "262144"
   },
   "permissions": {
     "allow": [

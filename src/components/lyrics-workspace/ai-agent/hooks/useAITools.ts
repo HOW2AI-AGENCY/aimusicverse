@@ -5,7 +5,7 @@
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
 import { hapticImpact } from "@/lib/haptic";
-import { AITool, AIMessage, AIAgentContext, AIToolId, OutputType } from "../types";
+import { AITool, AIMessage, AIAgentContext, AIToolId, OutputType, AgentAction } from "../types";
 import { AI_TOOLS } from "../constants";
 import { parseAIResponse } from "@/lib/ai/aiResponseParser";
 import { executeAiTool, sendAiChatMessage } from "@/services/lyrics/ai-tools.service";
@@ -45,6 +45,7 @@ export function useAITools({
 }: UseAIToolsOptions) {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTool, setActiveTool] = useState<AIToolId | null>(null);
+  const [actions, setActions] = useState<AgentAction[]>([]);
 
   // Generate context-aware welcome message
   const getWelcomeMessage = () => {
@@ -110,6 +111,20 @@ export function useAITools({
     });
   }, []);
 
+  const addAction = useCallback((action: Omit<AgentAction, "id" | "timestamp">) => {
+    const newAction: AgentAction = {
+      ...action,
+      id: `action-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      timestamp: new Date(),
+    };
+    setActions((prev) => [newAction, ...prev].slice(0, 20));
+    return newAction.id;
+  }, []);
+
+  const updateAction = useCallback((id: string, updates: Partial<AgentAction>) => {
+    setActions((prev) => prev.map((a) => (a.id === id ? { ...a, ...updates } : a)));
+  }, []);
+
   const executeTool = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- AI tool input is heterogeneous; tool-specific types own the schema
     async (toolId: AIToolId, input: Record<string, any> = {}) => {
@@ -122,6 +137,13 @@ export function useAITools({
       setIsLoading(true);
       setActiveTool(toolId);
       hapticImpact("light");
+
+      const actionId = addAction({
+        type: "tool",
+        label: `Выполняю: ${tool.name}`,
+        toolId,
+        status: "running",
+      });
 
       const userContent = input.message || input.theme || `Выполняю: ${tool.name}`;
       addMessage({ role: "user", content: userContent, toolId });
@@ -312,10 +334,12 @@ export function useAITools({
         });
 
         hapticImpact("medium");
+        updateAction(actionId, { status: "completed" });
         return { data: responseData, content: responseContent };
       } catch (error: unknown) {
         logger.error("AI Tool error", error instanceof Error ? error : new Error(String(error)));
         updateLastMessage({ content: "Произошла ошибка. Попробуйте ещё раз.", isLoading: false });
+        updateAction(actionId, { status: "error", metadata: { error: String(error) } });
         toast.error("Ошибка выполнения");
         return null;
       } finally {
@@ -323,7 +347,18 @@ export function useAITools({
         setActiveTool(null);
       }
     },
-    [context, getToolById, addMessage, updateLastMessage, onLyricsGenerated, onTagsGenerated, onStylePromptGenerated],
+    [
+      context,
+      getToolById,
+      addAction,
+      addMessage,
+      updateLastMessage,
+      updateAction,
+      onLyricsGenerated,
+      onTagsGenerated,
+      onStylePromptGenerated,
+      onTitleGenerated,
+    ],
   );
 
   const sendChatMessage = useCallback(
@@ -332,6 +367,13 @@ export function useAITools({
 
       setIsLoading(true);
       hapticImpact("light");
+
+      const actionId = addAction({
+        type: "chat",
+        label: `Сообщение: ${message.slice(0, 40)}${message.length > 40 ? "…" : ""}`,
+        status: "running",
+      });
+
       addMessage({ role: "user", content: message });
       addMessage({ role: "assistant", content: "", isLoading: true });
 
@@ -392,19 +434,23 @@ export function useAITools({
           content: data.message || data.result || "Готово!",
           type: responseType,
           data: responseData,
+          model: data.model,
+          provider: data.provider,
           isLoading: false,
         });
 
         hapticImpact("medium");
+        updateAction(actionId, { status: "completed" });
       } catch (error: unknown) {
         logger.error("Chat error", error instanceof Error ? error : new Error(String(error)));
         updateLastMessage({ content: "Произошла ошибка. Попробуйте ещё раз.", isLoading: false });
+        updateAction(actionId, { status: "error", metadata: { error: String(error) } });
         toast.error("Ошибка чата");
       } finally {
         setIsLoading(false);
       }
     },
-    [context, messages, addMessage, updateLastMessage],
+    [context, messages, addAction, addMessage, updateAction, updateLastMessage],
   );
 
   const clearMessages = useCallback(() => {
@@ -422,6 +468,7 @@ export function useAITools({
     messages,
     isLoading,
     activeTool,
+    actions,
     tools: AI_TOOLS,
     executeTool,
     sendChatMessage,

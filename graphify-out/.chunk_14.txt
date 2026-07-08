@@ -1,0 +1,2 @@
+D:\.MUSICVERSE\aimusicverse\docs\НАВИГАЦИЯ.md
+D:\.MUSICVERSE\aimusicverse\docs\РУКОВОДСТВО_РАЗРАБОТЧИКА.md
