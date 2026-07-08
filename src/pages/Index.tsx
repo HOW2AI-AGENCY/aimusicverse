@@ -34,7 +34,7 @@ import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
-import { YouStrip } from "@/components/home/YouStrip";
+import { HomeDesktopSidebar } from "@/components/home/HomeDesktopSidebar";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { GenreTabsSection } from "@/components/home/GenreTabsSection";
 import { AiSuggestions } from "@/components/home/AiSuggestions";
@@ -178,11 +178,6 @@ const Index = () => {
     </Section>
   );
 
-  const youBlock = user ? (
-    <Section sectionId="you" eyebrow="Вы" title="Ваш прогресс" density="compact" tone="subtle">
-      <YouStrip />
-    </Section>
-  ) : null;
 
   const bottomPadding = isMobile
     ? activeTrack
@@ -242,11 +237,14 @@ const Index = () => {
 
             <aside
               className={cn(
-                "lg:col-span-4 xl:col-span-3 2xl:col-span-2 min-w-0 lg:sticky lg:top-6",
-                sectionTokens.blockGap,
+                "lg:col-span-4 xl:col-span-3 2xl:col-span-2 min-w-0",
+                "lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto",
+                "lg:border-l lg:border-border/40 lg:pl-6 xl:pl-8",
+                "scrollbar-thin scrollbar-thumb-border/40",
               )}
+              aria-label="Панель состояния"
             >
-              {youBlock}
+              <HomeDesktopSidebar isAuthenticated={!!user} />
             </aside>
           </div>
         </div>
