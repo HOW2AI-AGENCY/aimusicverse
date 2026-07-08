@@ -212,18 +212,18 @@ const Index = () => {
           <BotContextBanner />
 
           {/*
-            Adaptive desktop shell (density 7 — dense, DAW-adjacent):
-              - < md:      single column, mobile stack
-              - md–lg:     single column, wider max-width
-              - lg–xl:     8/4 split, "You" strip becomes sticky rail
-              - xl+:       9/3 dense split, tighter gaps
-              - 2xl+:      compact 10/2, generous internal breathing room
-            Uses items-start so the aside doesn't stretch vertically.
+            Adaptive shell — 4 breakpoint tiers:
+              < md   (mobile):     single column, natural stack
+              md–lg  (tablet):     single column, wider max-width, rail hidden
+              lg–xl  (desktop):    8/4 split, right rail becomes sticky
+              xl+    (wide):       9/3 dense split, tighter gaps
+              2xl+   (ultra):      10/2 compact, generous internal breathing room
+            items-start prevents the aside from stretching vertically.
           */}
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 items-start">
             <div
               className={cn(
-                "lg:col-span-8 xl:col-span-9 2xl:col-span-10 min-w-0",
+                "lg:col-span-8 xl:col-span-8 2xl:col-span-9 min-w-0",
                 sectionTokens.blockGap,
               )}
             >
@@ -237,10 +237,10 @@ const Index = () => {
 
             <aside
               className={cn(
-                "lg:col-span-4 xl:col-span-3 2xl:col-span-2 min-w-0",
-                "lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto",
+                "hidden lg:block lg:col-span-4 xl:col-span-4 2xl:col-span-3 min-w-0",
+                "lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain",
                 "lg:border-l lg:border-border/40 lg:pl-6 xl:pl-8",
-                "scrollbar-thin scrollbar-thumb-border/40",
+                "scrollbar-thin scrollbar-thumb-border/40 scrollbar-track-transparent",
               )}
               aria-label="Панель состояния"
             >
@@ -248,6 +248,7 @@ const Index = () => {
             </aside>
           </div>
         </div>
+
 
         {generateSheetOpen && (
           <Suspense fallback={null}>
