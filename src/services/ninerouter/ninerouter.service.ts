@@ -25,6 +25,10 @@ const NINEROUTER_KEY = import.meta.env.VITE_NINEROUTER_KEY || "";
 export interface NineRouterMessage {
   role: "system" | "user" | "assistant";
   content: string;
+  /** Model that produced this message (assistant only) */
+  model?: string;
+  /** Provider that produced this message (assistant only) */
+  provider?: string;
 }
 
 export interface NineRouterChatRequest {
@@ -225,6 +229,21 @@ export const MODELS = {
 } as const;
 
 // ==========================================
+// Helpers
+// ==========================================
+
+export function parseModelId(modelId: string): { provider: string; model: string } {
+  const separatorIndex = modelId.indexOf("/");
+  if (separatorIndex === -1) {
+    return { provider: "unknown", model: modelId };
+  }
+  return {
+    provider: modelId.slice(0, separatorIndex),
+    model: modelId.slice(separatorIndex + 1),
+  };
+}
+
+// ==========================================
 // Convenience Functions
 // ==========================================
 
@@ -244,6 +263,36 @@ export async function askAI(prompt: string, model: string = MODELS.MIMO_PRO, sys
   });
 
   return response.choices[0]?.message?.content || "";
+}
+
+export async function askAIWithMeta(
+  prompt: string,
+  model: string = MODELS.MIMO_PRO,
+  systemPrompt?: string,
+): Promise<NineRouterMessage> {
+  const messages: NineRouterMessage[] = [];
+
+  if (systemPrompt) {
+    messages.push({ role: "system", content: systemPrompt });
+  }
+
+  messages.push({ role: "user", content: prompt });
+
+  const response = await chatCompletion({
+    model,
+    messages,
+    max_tokens: 2048,
+  });
+
+  const actualModel = response.model || model;
+  const { provider, model: modelName } = parseModelId(actualModel);
+
+  return {
+    role: "assistant",
+    content: response.choices[0]?.message?.content || "",
+    model: modelName,
+    provider,
+  };
 }
 
 export async function generateLyrics(theme: string, genre: string, mood: string): Promise<string> {

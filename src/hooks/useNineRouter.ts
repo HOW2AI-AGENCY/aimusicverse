@@ -12,6 +12,7 @@ import {
   listModels,
   healthCheck,
   askAI,
+  askAIWithMeta,
   generateLyrics,
   generateCoverPrompt,
   type NineRouterMessage,
@@ -75,9 +76,27 @@ export function useNineRouterChat() {
     }
   }, []);
 
+  const askWithMeta = useCallback(async (prompt: string, model?: string, systemPrompt?: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await askAIWithMeta(prompt, model, systemPrompt);
+      return result;
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Unknown error";
+      hookLogger.error("Ask AI with meta failed", err instanceof Error ? err : new Error(errorMsg));
+      setError(errorMsg);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return {
     chat,
     ask,
+    askWithMeta,
     isLoading,
     error,
     response,
