@@ -22,6 +22,7 @@ import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 // AI Agent system imports
 import { AIToolbar } from "@/components/lyrics-workspace/ai-agent/AIToolbar";
 import { useAITools } from "@/components/lyrics-workspace/ai-agent/hooks/useAITools";
+import { AIAgentActivityPanel } from "@/components/lyrics-workspace/ai-agent/AIAgentActivityPanel";
 import {
   WriteToolPanel,
   AnalyzeToolPanel,
@@ -104,24 +105,25 @@ export function LyricsChatAssistant({
       : undefined,
   };
 
-  const { messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool } = useAITools({
-    context: aiContext,
-    onLyricsGenerated: (lyrics) => {
-      setGeneratedLyrics(lyrics);
-      onLyricsGenerated(lyrics);
-    },
-    onTagsGenerated: (tags) => {
-      // Append tags to lyrics
-      if (generatedLyrics) {
-        const tagsStr = tags.map((t) => `[${t}]`).join(" ");
-        const updatedLyrics = `${tagsStr}\n\n${generatedLyrics}`;
-        setGeneratedLyrics(updatedLyrics);
-        onLyricsGenerated(updatedLyrics);
-      }
-    },
-    onStylePromptGenerated: onStyleGenerated,
-    onTitleGenerated: onTitleGenerated,
-  });
+  const { messages, isLoading, activeTool, actions, executeTool, sendChatMessage, clearMessages, setActiveTool } =
+    useAITools({
+      context: aiContext,
+      onLyricsGenerated: (lyrics) => {
+        setGeneratedLyrics(lyrics);
+        onLyricsGenerated(lyrics);
+      },
+      onTagsGenerated: (tags) => {
+        // Append tags to lyrics
+        if (generatedLyrics) {
+          const tagsStr = tags.map((t) => `[${t}]`).join(" ");
+          const updatedLyrics = `${tagsStr}\n\n${generatedLyrics}`;
+          setGeneratedLyrics(updatedLyrics);
+          onLyricsGenerated(updatedLyrics);
+        }
+      },
+      onStylePromptGenerated: onStyleGenerated,
+      onTitleGenerated: onTitleGenerated,
+    });
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -384,6 +386,9 @@ export function LyricsChatAssistant({
 
       {/* Tool Panel */}
       <AnimatePresence mode="wait">{renderToolPanel()}</AnimatePresence>
+
+      {/* AI Agent transparency */}
+      <AIAgentActivityPanel context={aiContext} activeTool={activeTool} actions={actions} />
 
       {/* Tabs for different views */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} className="shrink-0 px-4 pt-2">
