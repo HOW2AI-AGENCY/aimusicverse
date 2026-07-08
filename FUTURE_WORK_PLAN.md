@@ -1,8 +1,8 @@
 # План дальнейших работ MusicVerse AI
 
 **Дата:** 2026-07-09
-**Статус:** Sprint 057 ✅, CI green, tsc 0 errors, 1489 unit tests, E2E stable. Следующий review: 2026-07-13.
-**Фокус:** i18n → Bundle optimization → API/Service unit tests → Design polish
+**Статус:** Sprint 058 ✅, CI green, tsc 0 errors, 1489 unit tests, E2E stable. Следующий review: 2026-07-13.
+**Фокус:** Bundle optimization → API/Service unit tests → Design polish
 
 ---
 
@@ -34,26 +34,28 @@
 - **Sprint 055** — UX Critical Fixes (P0/P1 — 13/13)
 - **Sprint 056** — GenerateSheet Redesign + Storybook (31 story)
 - **Sprint 057** ✅ — E2E CI Green + Branch Protection (9Router cleanup, E2E stab, BP Phase 2)
+- **Sprint 058** ✅ — i18n EN/RU (mashup → generation → language switcher)
 
 ---
 
 ## 📋 Sprint Backlog (июль–август 2026)
 
-### Sprint 058 — i18n EN/RU Localization
+### Sprint 058 — i18n EN/RU Localization ✅
 
-**Задача:** Международный запуск требует английского перевода. Все UI-строки сейчас на русском.
+**Результат:** EN/RU cross-language поддержка готова. 2 домена (mashup + generation) на 2 языках, переключатель языка в профиле.
 
-- [ ] Установить `react-i18next` + `i18next-browser-languagedetector`
-- [ ] Создать `src/i18n/locales/{en,ru}.json`
-- [ ] Мигрировать `MASHUP_STRINGS` (пilot domain) → `t('mashup.*')`
-- [ ] Переключатель языка в настройках профиля
-- [ ] RU — primary (текущие строки), EN — перевод
-- [ ] Мигрировать 2-й домен (studio или generation)
-- [ ] Persist preference в `profiles.locale`
+- [x] `react-i18next` + `i18next-browser-languagedetector` (уже были)
+- [x] `src/i18n/locales/{en,ru}.json` (расширены: persona + generationResult + generation.*)
+- [x] Мигрировать `MASHUP_STRINGS` → `useMashupStrings()` (MashupDialog, MashupFormFields, GenerationResultSheet)
+- [x] Удалить старый `src/lib/locale/mashupStrings.ts` (−102 строки)
+- [x] `LanguageSwitcher` компонент (RU/ЕН toggle, localStorage persisted)
+- [x] `useGenerationStrings()` hook + 100+ generation keys
+- [x] Мигрировать генерационные компоненты (GenerateFormSimple, GenerateFormActions, VocalsToggle, PrivacyToggle)
+- [x] `useSectionHints()` hook — i18n-aware динамические подсказки
+- [ ] Persist в `profiles.locale` (DB миграция — deferred)
 
-**Срок:** 5-7 дней
-**Метрика:** 2 домена (mashup + generation) на 2 языках
-**Риски:** Тонна строк (~800+), извлечение через codemod или grep-regex. Стратегия: namespace по домену, lazy-load namespaces.
+**Коммиты:** `423db524b` (B — mashup + switcher), `85593b2a4` (C — generation)
+**Метрика:** 2 домена × 2 языка, tsc 0 errors, 1489 tests ✅
 
 ---
 
@@ -138,8 +140,8 @@ Week 5 (Aug 4-8):
 | Sprint  | Фокус                                         | Статус       |
 | ------- | --------------------------------------------- | ------------ |
 | **057** | E2E CI green + Branch Protection complete     | ✅ ЗАВЕРШЁН  |
-| **058** | i18n EN/RU (mashup + generation домены)       | 📋 Следующий |
-| **059** | Bundle optimization + API/Service unit tests  | 📋 Planned   |
+| **058** | i18n EN/RU (mashup + generation домены)       | ✅ ЗАВЕРШЁН  |
+| **059** | Bundle optimization + API/Service unit tests  | 📋 Следующий |
 | **060** | Design polish (search, skeleton, transitions) | 📋 Planned   |
 
 ---
@@ -164,7 +166,7 @@ Week 5 (Aug 4-8):
 
 ---
 
-**Последнее обновление:** 2026-07-09 (Sprint 057 ✅)
+**Последнее обновление:** 2026-07-09 (Sprint 058 ✅)
 **Следующий review:** 2026-07-13
 </content>
 </invoke>

@@ -993,6 +993,43 @@ Sprint 056 успешно завершён:
 
 ---
 
+## 🆕 Сессия 2026-07-09 — Sprint 058 (i18n EN/RU) ✅
+
+**Commits:** `423db524b` (B — mashup + switcher), `85593b2a4` (C — generation)
+
+### Выполнено:
+
+1. **MASHUP_STRINGS → useMashupStrings() hook** ✅
+   - Удалён статический `src/lib/locale/mashupStrings.ts` (−102 строки)
+   - Мигрированы: MashupDialog, MashupFormFields, GenerationResultSheet
+   - Добавлены persona.* + generationResult.* ключи в en.json
+
+2. **Языковой переключатель** ✅
+   - Создан `LanguageSwitcher` компонент (RU/EN toggle, localStorage persisted)
+   - Интегрирован в ProfilePage (desktop right column + mobile section)
+
+3. **Generation form i18n** ✅
+   - `useGenerationStrings()` hook — 70+ keys (form, actions, hints, vocalToggle, lyrics)
+   - `useSectionHints()` — i18n-aware динамические подсказки
+   - Мигрированы: GenerateFormSimple, GenerateFormActions, VocalsToggle, PrivacyToggle
+   - EN + RU локали для generation.* домена
+
+4. **Документация обновлена** ✅
+   - FUTURE_WORK_PLAN.md: Sprint 058 → ✅ Complete
+   - PROJECT_STATUS.md: сессия 2026-07-09, Sprint 058 ✅
+
+### Метрики:
+
+- TypeScript: 0 errors ✅
+- Unit тесты: 1489 passing (122 test files) ✅
+- 2 домена (mashup + generation) × 2 языка (EN + RU)
+- +1 хук (useGenerationStrings), +1 компонент (LanguageSwitcher)
+- −102 строки (mashupStrings.ts удалён)
+
+### Следующий спринт: Sprint 059 — Bundle optimization + API/Service unit tests
+
+---
+
 ## 🎉 Sprint 057 — Audio Analysis Refactoring ✅
 
 **Дата завершения:** 2026-07-06
@@ -1135,6 +1172,6 @@ Sprint 057 успешно завершён:
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-07-06, вечер (P0-хотфикс typecheck влит — PR #576/#577, Q&B на main зелёный; Sprint 050 в работе (A0 ✅); план закрытия спринтов — [SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md). Планы: [SPRINT-050-PLAN.md](SPRINTS/SPRINT-050-PLAN.md) · [052](SPRINTS/SPRINT-052-PLAN.md) · [053](SPRINTS/SPRINT-053-PLAN.md) · [054](SPRINTS/SPRINT-054-PLAN.md))</sub>
+<sub>Последнее обновление: 2026-07-09 (Sprint 058 ✅ — i18n EN/RU); Sprint 059 (Bundle optimization + API/Service tests) — следующий</sub>
 
 </div>
