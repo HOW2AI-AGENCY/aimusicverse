@@ -77,6 +77,10 @@ export interface AIMessage {
   type?: OutputType;
   toolId?: AIToolId;
   timestamp?: Date;
+  /** AI model that generated this response (assistant only) */
+  model?: string;
+  /** AI provider that generated this response (assistant only) */
+  provider?: string;
   data?: {
     lyrics?: string;
     tags?: string[];
@@ -334,4 +338,14 @@ export interface ToolPanelProps {
   onExecute: (input: Record<string, any>) => void;
   onClose: () => void;
   isLoading?: boolean;
+}
+
+export interface AgentAction {
+  id: string;
+  type: "tool" | "chat" | "workflow";
+  label: string;
+  toolId?: AIToolId;
+  status: "running" | "completed" | "error";
+  timestamp: Date;
+  metadata?: Record<string, unknown>;
 }
