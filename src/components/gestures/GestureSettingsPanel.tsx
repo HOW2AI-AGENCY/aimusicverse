@@ -1,9 +1,35 @@
 import { memo, useState, useEffect } from "react";
 import { SlidersHorizontal, ToggleLeft, ToggleRight, RefreshCw } from "@/lib/icons";
-import { loadGestureSettings, saveGestureSettings, DEFAULT_GESTURE_SETTINGS } from "@/lib/gestureSettings";
 import type { GestureSettings } from "@/types/gestures";
 import { cn } from "@/lib/utils";
 import { typographyClass } from "@/lib/design-tokens";
+
+// ponytail: inlined from deleted @/lib/gestureSettings (single caller)
+const STORAGE_KEY = "musicverse-gestures";
+const DEFAULT_GESTURE_SETTINGS: GestureSettings = {
+  doubleTapSeek: { enabled: true, seekAmount: 10, leftSideEnabled: true, rightSideEnabled: true },
+  horizontalSwipe: { enabled: true, threshold: 80, velocityThreshold: 400 },
+  hintOverlay: { shown: false, dismissed: false },
+  keyboard: { enabled: true, seekAmount: 10 },
+  version: 1,
+  lastUpdated: Date.now(),
+};
+function loadGestureSettings(): GestureSettings {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { ...DEFAULT_GESTURE_SETTINGS, lastUpdated: Date.now() };
+    return { ...DEFAULT_GESTURE_SETTINGS, ...JSON.parse(raw), lastUpdated: Date.now() };
+  } catch {
+    return { ...DEFAULT_GESTURE_SETTINGS, lastUpdated: Date.now() };
+  }
+}
+function saveGestureSettings(settings: GestureSettings): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...settings, lastUpdated: Date.now() }));
+  } catch {
+    /* full */
+  }
+}
 
 interface GestureSettingsPanelProps {
   className?: string;

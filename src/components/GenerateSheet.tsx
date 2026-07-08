@@ -18,7 +18,12 @@ import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { useSunoCancel } from "@/hooks/generation/useSunoCancel";
 import { useFeatureFlag } from "@/hooks/useFeatureFlag";
-import { GENERATE_SHEET_REDESIGN_ENABLED } from "@/lib/feature-flags";
+// ponytail: inlined from deleted @/lib/feature-flags (single flag, single caller)
+const GENERATE_SHEET_REDESIGN_ENABLED = {
+  default: false,
+  storageKey: "ff.generate-sheet-redesign",
+  environments: { dev: 1, staging: 1, prod: { start: 0.1, rampTo: 1, rampDays: 5 } },
+} as const;
 import { useProjects } from "@/hooks/useProjects";
 import { useArtists } from "@/hooks/useArtists";
 import { useTracks } from "@/hooks/useTracks";

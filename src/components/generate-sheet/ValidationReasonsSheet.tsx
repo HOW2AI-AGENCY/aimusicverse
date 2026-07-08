@@ -13,7 +13,7 @@
 import { Drawer } from "vaul";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { haptics } from "@/lib/haptics";
+import { hapticImpact } from "@/lib/haptic";
 import type { ValidationReason } from "@/hooks/generation/useGenerateSheetValidation";
 
 interface Props {
@@ -68,7 +68,7 @@ function ReasonRow({ reason, tone }: { reason: ValidationReason; tone: "error" |
             <button
               type="button"
               onClick={() => {
-                haptics.light();
+                hapticImpact("light");
                 reason.deepLink?.();
               }}
               className="text-xs text-primary underline-offset-2 hover:underline mt-1 min-h-[44px] inline-flex items-center"

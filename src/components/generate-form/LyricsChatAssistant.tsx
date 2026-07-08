@@ -11,6 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sparkles, Send, MessageCircle, Tag, Lightbulb, X, Bot, User, Loader2, Trash2, PenLine } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTelegramMainButton } from "@/hooks/telegram";
 import { useTelegram } from "@/contexts/TelegramContext";
@@ -347,6 +348,21 @@ export function LyricsChatAssistant({
               }
             }}
           />
+        )}
+
+        {message.role === "assistant" && (message.model || message.provider) && (
+          <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-border/20">
+            {message.provider && (
+              <Badge variant="outline" className="text-caption-sm h-5 px-1.5 text-muted-foreground">
+                {message.provider}
+              </Badge>
+            )}
+            {message.model && (
+              <Badge variant="secondary" className="text-caption-sm h-5 px-1.5">
+                {message.model}
+              </Badge>
+            )}
+          </div>
         )}
       </>
     );
