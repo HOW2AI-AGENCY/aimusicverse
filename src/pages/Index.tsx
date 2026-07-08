@@ -247,8 +247,8 @@ const Index = () => {
               <HomeDesktopSidebar isAuthenticated={!!user} />
             </aside>
           </div>
-          </div>
         </div>
+
 
         {generateSheetOpen && (
           <Suspense fallback={null}>
