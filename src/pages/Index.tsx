@@ -178,7 +178,6 @@ const Index = () => {
     </Section>
   );
 
-
   const bottomPadding = isMobile
     ? activeTrack
       ? "calc(env(safe-area-inset-bottom, 0px) + 12rem)"
@@ -221,12 +220,7 @@ const Index = () => {
             items-start prevents the aside from stretching vertically.
           */}
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 items-start">
-            <div
-              className={cn(
-                "lg:col-span-8 xl:col-span-8 2xl:col-span-9 min-w-0",
-                sectionTokens.blockGap,
-              )}
-            >
+            <div className={cn("lg:col-span-8 xl:col-span-8 2xl:col-span-9 min-w-0", sectionTokens.blockGap)}>
               {heroBlock}
               {createBlock}
               {trendingBlock}
@@ -248,7 +242,6 @@ const Index = () => {
             </aside>
           </div>
         </div>
-
 
         {generateSheetOpen && (
           <Suspense fallback={null}>
