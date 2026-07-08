@@ -34,7 +34,7 @@ import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
-import { YouStrip } from "@/components/home/YouStrip";
+import { HomeDesktopSidebar } from "@/components/home/HomeDesktopSidebar";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { GenreTabsSection } from "@/components/home/GenreTabsSection";
 import { AiSuggestions } from "@/components/home/AiSuggestions";
@@ -178,11 +178,6 @@ const Index = () => {
     </Section>
   );
 
-  const youBlock = user ? (
-    <Section sectionId="you" eyebrow="Вы" title="Ваш прогресс" density="compact" tone="subtle">
-      <YouStrip />
-    </Section>
-  ) : null;
 
   const bottomPadding = isMobile
     ? activeTrack
