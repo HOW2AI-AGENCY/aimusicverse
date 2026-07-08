@@ -19,7 +19,7 @@
  */
 
 import { execSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -56,6 +56,7 @@ function countUncoveredAny() {
   for (const rel of files) {
     if (rel.includes("__tests__") || rel.includes(".test.") || rel.includes(".stories.")) continue;
     const abs = path.join(REPO_ROOT, rel);
+    if (!existsSync(abs)) continue;
     const content = readFileSync(abs, "utf-8");
     const lines = content.split(/\r?\n/);
 
