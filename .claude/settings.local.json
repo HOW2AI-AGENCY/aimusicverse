@@ -45,7 +45,11 @@
       "Bash(awk -F'|' '{names[$1]=names[$1] \", \" $2} END {for\\(f in names\\) print f \":\" names[f]}')",
       "Read(//tmp/**)",
       "Bash(gh pr *)",
-      "Bash(gh run *)"
+      "Bash(gh run *)",
+      "Bash(Test-Path *)",
+      "Bash(graphify explain *)",
+      "Bash(graphify query *)",
+      "Bash(graphify update *)"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
@@ -53,5 +57,10 @@
       "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out",
       "\\d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out"
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash .claude/statusline.sh",
+    "refreshInterval": 30
   }
 }
