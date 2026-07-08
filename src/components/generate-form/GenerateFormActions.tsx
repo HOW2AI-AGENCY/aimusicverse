@@ -2,6 +2,7 @@ import { memo, useCallback } from "react";
 import { Music, MicVocal, FolderOpen, AudioLines } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
+import { useGenerationStrings } from "@/hooks/useGenerationStrings";
 
 interface GenerateFormActionsProps {
   onOpenAudioDialog: () => void;
@@ -59,35 +60,36 @@ export function GenerateFormActions({
   onOpenArtistDialog,
   onOpenVoiceClone,
 }: GenerateFormActionsProps) {
+  const g = useGenerationStrings();
   const log = useCallback((label: string, fn: () => void) => {
     logger.info("[GenerateFormActions] chip clicked", { label });
     fn();
   }, []);
   return (
-    <div className="grid grid-cols-4 gap-2" role="group" aria-label="Источники и референсы">
+    <div className="grid grid-cols-4 gap-2" role="group" aria-label={g.actions.groupLabel}>
       <ActionChip
         icon={AudioLines}
-        label="Аудио"
+        label={g.actions.audio}
         onClick={() => log("audio", onOpenAudioDialog)}
-        ariaLabel="Добавить аудио референс"
+        ariaLabel={g.actions.addAudioReference}
       />
       <ActionChip
         icon={MicVocal}
-        label="Голос"
+        label={g.actions.voice}
         onClick={() => log("voice", onOpenVoiceClone)}
-        ariaLabel="Клонировать голос"
+        ariaLabel={g.actions.cloneVoice}
       />
       <ActionChip
         icon={Music}
-        label="Персона"
+        label={g.actions.persona}
         onClick={() => log("artist", onOpenArtistDialog)}
-        ariaLabel="Выбрать AI персону"
+        ariaLabel={g.actions.selectAiPersona}
       />
       <ActionChip
         icon={FolderOpen}
-        label="Проект"
+        label={g.actions.project}
         onClick={() => log("project", onOpenProjectDialog)}
-        ariaLabel="Выбрать проект"
+        ariaLabel={g.actions.selectProject}
       />
     </div>
   );

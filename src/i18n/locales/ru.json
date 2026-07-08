@@ -33,6 +33,113 @@
       "promptOrInstrumental": "Добавьте описание или выберите инструментальный режим"
     }
   },
+  "generation": {
+    "form": {
+      "describeSong": "Опишите песню",
+      "describeMusic": "Опишите музыку",
+      "placeholderVocals": "Энергичный поп с запоминающимся припевом...",
+      "placeholderInstrumental": "Атмосферный эмбиент с синтезаторами...",
+      "style": "Стиль",
+      "title": "Название",
+      "titleSuffix": "(опционально)",
+      "titlePlaceholder": "Автогенерация если пусто",
+      "trackType": "Тип трека",
+      "lyrics": "Текст песни",
+      "privacyPublic": "Публичный",
+      "privacyPrivate": "Приватный",
+      "characterCount": "символов"
+    },
+    "actions": {
+      "audio": "Аудио",
+      "voice": "Голос",
+      "persona": "Персона",
+      "project": "Проект",
+      "boostAi": "Улучшить описание с помощью AI",
+      "aiBoostEmptyHint": "Введите описание, чтобы использовать AI Boost",
+      "chooseStyle": "Выбрать стиль музыки",
+      "copyDescription": "Копировать описание",
+      "clearDescription": "Очистить описание",
+      "addAudioReference": "Добавить аудио референс",
+      "cloneVoice": "Клонировать голос",
+      "selectAiPersona": "Выбрать AI персону",
+      "selectProject": "Выбрать проект",
+      "groupLabel": "Источники и референсы"
+    },
+    "hints": {
+      "trackType": "Вокал — AI сгенерирует голос и текст. Инструментал — только музыка без вокала.",
+      "title": "Оставьте пустым для автогенерации названия на основе стиля",
+      "style": "Используйте теги на английском: indie rock, 120 bpm, male vocals",
+      "description": "Опишите жанр, настроение и инструменты. Можно на русском или английском.",
+      "lyrics": "Используйте [Verse], [Chorus], [Bridge] для структуры песни",
+      "privacy": "Приватные треки видны только вам. Публичные — в ленте сообщества.",
+      "showHint": "Показать подсказку"
+    },
+    "vocalToggle": {
+      "vocalLabel": "Вокал",
+      "instrumentalLabel": "Инструментал",
+      "withVocalsDesc": "AI сгенерирует вокал по тексту песни",
+      "instrumentalDesc": "Чистая музыка без голоса"
+    },
+    "lyrics": {
+      "preview": "Предпросмотр текста песни",
+      "textEditor": "Текстовый редактор",
+      "visualEditor": "Визуальный редактор секций",
+      "sectionLabel": "Текст песни",
+      "fullSong": "Полная песня",
+      "rapTrack": "Рэп трек",
+      "sections_one": "секция",
+      "sections_few": "секции",
+      "sections_many": "секций",
+      "line_one": "строка",
+      "line_few": "строки",
+      "line_many": "строк",
+      "duplicateSection": "Дублировать секцию",
+      "addSection": "добавлен",
+      "sectionMoved": "Секция перемещена",
+      "sectionDuplicated": "Секция дублирована",
+      "sectionDeleted": "Секция удалена",
+      "showStats": "Показать статистику",
+      "hideStats": "Скрыть статистику"
+    },
+    "guitar": {
+      "recordMelody": "Запишите мелодию",
+      "analyzeFirst": "Сначала проанализируйте запись"
+    },
+    "promptHistory": {
+      "promptLoaded": "Промпт загружен",
+      "inspirationLoaded": "Промпт для вдохновения загружен",
+      "savedPromptLoaded": "Сохраненный промпт загружен",
+      "promptDeleted": "Промпт удален из истории",
+      "promptUnbookmarked": "Промпт удален из закладок",
+      "promptBookmarked": "Промпт сохранен в закладки",
+      "promptSaved": "Промпт сохранен",
+      "copiedToClipboard": "Скопировано в буфер",
+      "untitled": "Без названия"
+    },
+    "template": {
+      "saveDialogTitle": "Сохранить в библиотеку",
+      "save": "Сохранить",
+      "saving": "Сохранение...",
+      "cancel": "Отмена",
+      "templateName": "Название шаблона",
+      "namePlaceholder": "Например: Романтичная баллада",
+      "tagsCount": "тегов"
+    },
+    "style": {
+      "replaceWarning": "Выберите хотя бы один тег",
+      "tagAdded": "Тег добавлен в текст",
+      "notFound": "Ничего не найдено",
+      "noSaved": "Нет сохранённых стилей",
+      "noSavedDesc": "Сохраняйте любимые стили при генерации для быстрого доступа"
+    },
+    "toast": {
+      "copied": "Скопировано",
+      "copyFailed": "Не удалось скопировать"
+    },
+    "validation": {
+      "vocalsNeedLyrics": "Для вокального трека требуется текст песни"
+    }
+  },
   "common": {
     "loading": "Загрузка...",
     "error": "Ошибка",

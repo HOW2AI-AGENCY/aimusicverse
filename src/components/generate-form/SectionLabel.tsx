@@ -50,7 +50,7 @@ export const SectionLabel = memo(function SectionLabel({
             <button
               type="button"
               className="inline-flex shrink-0 items-center justify-center h-11 w-11 -my-2 -mx-2 text-muted-foreground/60 hover:text-muted-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-full"
-              aria-label="Показать подсказку"
+              aria-label="SHOW_HINT"
             >
               <HelpCircle className="w-4 h-4" />
             </button>
@@ -64,7 +64,22 @@ export const SectionLabel = memo(function SectionLabel({
   );
 });
 
-// Predefined hints for form sections
+import { useGenerationStrings } from "@/hooks/useGenerationStrings";
+
+// Predefined hints for form sections (i18n-aware)
+export function useSectionHints() {
+  const g = useGenerationStrings();
+  return {
+    trackType: g.hints.trackType,
+    title: g.hints.title,
+    style: g.hints.style,
+    description: g.hints.description,
+    lyrics: g.hints.lyrics,
+    privacy: g.hints.privacy,
+  } as const;
+}
+
+/** @deprecated Use useSectionHints() hook instead for i18n support */
 export const SECTION_HINTS = {
   trackType: "Вокал — AI сгенерирует голос и текст. Инструментал — только музыка без вокала.",
   title: "Оставьте пустым для автогенерации названия на основе стиля",

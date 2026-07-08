@@ -59,6 +59,113 @@
       "pauseButtonLabel": "Pause"
     }
   },
+  "generation": {
+    "form": {
+      "describeSong": "Describe the song",
+      "describeMusic": "Describe the music",
+      "placeholderVocals": "Energetic pop with a catchy chorus...",
+      "placeholderInstrumental": "Atmospheric ambient with synthesizers...",
+      "style": "Style",
+      "title": "Title",
+      "titleSuffix": "(optional)",
+      "titlePlaceholder": "Auto-generated if left empty",
+      "trackType": "Track type",
+      "lyrics": "Lyrics",
+      "privacyPublic": "Public",
+      "privacyPrivate": "Private",
+      "characterCount": "characters"
+    },
+    "actions": {
+      "audio": "Audio",
+      "voice": "Voice",
+      "persona": "Persona",
+      "project": "Project",
+      "boostAi": "Improve description with AI",
+      "aiBoostEmptyHint": "Enter a description to use AI Boost",
+      "chooseStyle": "Choose music style",
+      "copyDescription": "Copy description",
+      "clearDescription": "Clear description",
+      "addAudioReference": "Add audio reference",
+      "cloneVoice": "Clone voice",
+      "selectAiPersona": "Select AI persona",
+      "selectProject": "Select project",
+      "groupLabel": "Sources and references"
+    },
+    "hints": {
+      "trackType": "Vocals — AI will generate voice and lyrics. Instrumental — music only, no vocals.",
+      "title": "Leave empty for auto-generated title based on style",
+      "style": "Use tags in English: indie rock, 120 bpm, male vocals",
+      "description": "Describe genre, mood and instruments. In English or any language.",
+      "lyrics": "Use [Verse], [Chorus], [Bridge] for song structure",
+      "privacy": "Private tracks are visible only to you. Public — in community feed.",
+      "showHint": "Show hint"
+    },
+    "vocalToggle": {
+      "vocalLabel": "Vocals",
+      "instrumentalLabel": "Instrumental",
+      "withVocalsDesc": "AI will generate vocals based on lyrics",
+      "instrumentalDesc": "Instrumental music without vocals"
+    },
+    "lyrics": {
+      "preview": "Lyrics preview",
+      "textEditor": "Text editor",
+      "visualEditor": "Visual section editor",
+      "sectionLabel": "Lyrics",
+      "fullSong": "Full song",
+      "rapTrack": "Rap track",
+      "sections_one": "section",
+      "sections_few": "sections",
+      "sections_many": "sections",
+      "line_one": "line",
+      "line_few": "lines",
+      "line_many": "lines",
+      "duplicateSection": "Duplicate section",
+      "addSection": "added",
+      "sectionMoved": "Section moved",
+      "sectionDuplicated": "Section duplicated",
+      "sectionDeleted": "Section deleted",
+      "showStats": "Show statistics",
+      "hideStats": "Hide statistics"
+    },
+    "guitar": {
+      "recordMelody": "Record a melody",
+      "analyzeFirst": "Analyze the recording first"
+    },
+    "promptHistory": {
+      "promptLoaded": "Prompt loaded",
+      "inspirationLoaded": "Inspiration prompt loaded",
+      "savedPromptLoaded": "Saved prompt loaded",
+      "promptDeleted": "Prompt removed from history",
+      "promptUnbookmarked": "Prompt removed from bookmarks",
+      "promptBookmarked": "Prompt saved to bookmarks",
+      "promptSaved": "Prompt saved",
+      "copiedToClipboard": "Copied to clipboard",
+      "untitled": "Untitled"
+    },
+    "template": {
+      "saveDialogTitle": "Save to library",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "templateName": "Template name",
+      "namePlaceholder": "E.g.: Romantic ballad",
+      "tagsCount": "tags"
+    },
+    "style": {
+      "replaceWarning": "Select at least one tag",
+      "tagAdded": "Tag added to text",
+      "notFound": "Nothing found",
+      "noSaved": "No saved styles",
+      "noSavedDesc": "Save your favorite styles during generation for quick access"
+    },
+    "toast": {
+      "copied": "Copied",
+      "copyFailed": "Could not copy"
+    },
+    "validation": {
+      "vocalsNeedLyrics": "A vocal track requires lyrics"
+    }
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",

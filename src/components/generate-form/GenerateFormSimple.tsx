@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Loader2, Mic, Music2, Palette, Copy, X } from "@/lib/icons";
 import { VoiceInputButton } from "@/components/ui/VoiceInputButton";
-import { SectionLabel, SECTION_HINTS } from "./SectionLabel";
+import { SectionLabel, useSectionHints } from "./SectionLabel";
 import { SmartPromptSuggestions } from "./SmartPromptSuggestions";
 import { FormSection, FormDivider } from "./FormSection";
 import { ValidationMessage, validation } from "./ValidationMessage";
@@ -16,6 +16,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { useFeatureUsageTracking } from "@/hooks/analytics";
 import { useExperiment } from "@/hooks/useExperiment";
 import { EXPERIMENTS } from "@/lib/ab-testing";
+import { useGenerationStrings } from "@/hooks/useGenerationStrings";
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -40,7 +41,10 @@ export function GenerateFormSimple({
   boostLoading,
   onOpenStyles,
 }: GenerateFormSimpleProps) {
+  const g = useGenerationStrings();
+  const hints = useSectionHints();
   const { hapticFeedback } = useTelegram();
+  // Remove hints import - using hints variable above
   const { trackFeature, trackAction } = useFeatureUsageTracking();
   const hasTrackedView = useRef(false);
   const { isControl: hidePromptSuggestions, trackConversion: trackSuggestionConversion } = useExperiment(
@@ -63,10 +67,10 @@ export function GenerateFormSimple({
     if (!description) return;
     try {
       await navigator.clipboard.writeText(description);
-      notify.success("Скопировано");
+      notify.success(g.toast.copied);
     } catch {
       // Clipboard может быть недоступен вне secure context / в webview без разрешения
-      notify.error("Не удалось скопировать");
+      notify.error(g.toast.copyFailed);
     }
   }, [description]);
 
@@ -113,7 +117,7 @@ export function GenerateFormSimple({
         <div className="space-y-2">
           {/* Header row */}
           <div className="flex items-center justify-between gap-2">
-            <SectionLabel label={hasVocals ? "Опишите песню" : "Опишите музыку"} hint={SECTION_HINTS.description} />
+            <SectionLabel label={hasVocals ? g.form.describeSong : g.form.describeMusic} hint={hints.description} />
             <div className="flex items-center gap-0.5 -mr-1">
               {onOpenStyles && (
                 <Button
@@ -122,7 +126,7 @@ export function GenerateFormSimple({
                   size="icon"
                   className="h-11 w-11 min-w-11 p-0 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
                   onClick={handleOpenStyles}
-                  aria-label="Выбрать стиль музыки"
+                  aria-label={g.actions.chooseStyle}
                 >
                   <Palette className="w-4 h-4" />
                 </Button>
@@ -134,8 +138,8 @@ export function GenerateFormSimple({
                 onClick={handleBoostStyle}
                 disabled={boostLoading || !description}
                 className="h-11 px-2.5 gap-1 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-40"
-                aria-label="Улучшить описание с помощью AI"
-                title={!description ? "Введите описание, чтобы использовать AI Boost" : undefined}
+                aria-label={g.actions.boostAi}
+                title={!description ? g.actions.aiBoostEmptyHint : undefined}
               >
                 {boostLoading ? (
                   <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
@@ -150,9 +154,7 @@ export function GenerateFormSimple({
           {/* Textarea */}
           <Textarea
             id="description"
-            placeholder={
-              hasVocals ? "Энергичный поп с запоминающимся припевом..." : "Атмосферный эмбиент с синтезаторами..."
-            }
+            placeholder={hasVocals ? g.form.placeholderVocals : g.form.placeholderInstrumental}
             value={description}
             onChange={(e) => onDescriptionChange(e.target.value)}
             rows={4}
@@ -189,7 +191,7 @@ export function GenerateFormSimple({
                     size="icon"
                     className="h-11 w-11 min-w-11 p-0 text-muted-foreground hover:text-foreground rounded-lg"
                     onClick={handleCopy}
-                    aria-label="Копировать описание"
+                    aria-label={g.actions.copyDescription}
                   >
                     <Copy className="w-3.5 h-3.5" />
                   </Button>
@@ -199,7 +201,7 @@ export function GenerateFormSimple({
                     size="icon"
                     className="h-11 w-11 min-w-11 p-0 text-muted-foreground hover:text-destructive rounded-lg"
                     onClick={handleClear}
-                    aria-label="Очистить описание"
+                    aria-label={g.actions.clearDescription}
                   >
                     <X className="w-3.5 h-3.5" />
                   </Button>
@@ -243,11 +245,11 @@ export function GenerateFormSimple({
       {/* ========== TRACK TYPE — segmented control ========== */}
       <FormSection>
         <div className="space-y-2">
-          <SectionLabel label="Тип трека" hint={SECTION_HINTS.trackType} />
+          <SectionLabel label={g.form.trackType} hint={hints.trackType} />
           <div
             className="relative grid grid-cols-2 gap-1 p-1 h-11 bg-muted/40 rounded-full border border-border/50"
             role="radiogroup"
-            aria-label="Тип трека"
+            aria-label={g.form.trackType}
           >
             <motion.div
               layout
@@ -268,7 +270,7 @@ export function GenerateFormSimple({
               )}
             >
               <Mic className="w-4 h-4" aria-hidden="true" />
-              Вокал
+              {g.vocalToggle.vocalLabel}
             </button>
             <button
               type="button"
@@ -282,7 +284,7 @@ export function GenerateFormSimple({
               )}
             >
               <Music2 className="w-4 h-4" aria-hidden="true" />
-              Инструментал
+              {g.vocalToggle.instrumentalLabel}
             </button>
           </div>
         </div>
@@ -293,10 +295,10 @@ export function GenerateFormSimple({
       {/* ========== TITLE SECTION ========== */}
       <FormSection>
         <div className="space-y-2">
-          <SectionLabel label="Название" htmlFor="simple-title" hint={SECTION_HINTS.title} suffix="(опционально)" />
+          <SectionLabel label={g.form.title} htmlFor="simple-title" hint={hints.title} suffix={g.form.titleSuffix} />
           <Input
             id="simple-title"
-            placeholder="Автогенерация если пусто"
+            placeholder={g.form.titlePlaceholder}
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
             className="min-h-[44px] text-body-lg rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"

@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Lock, Globe, Crown, HelpCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { SECTION_HINTS } from "../SectionLabel";
+import { useSectionHints } from "../SectionLabel";
+import { useGenerationStrings } from "@/hooks/useGenerationStrings";
 
 interface PrivacyToggleProps {
   isPublic: boolean;
@@ -17,6 +18,8 @@ interface PrivacyToggleProps {
 }
 
 export function PrivacyToggle({ isPublic, onIsPublicChange, canMakePrivate = false, className }: PrivacyToggleProps) {
+  const g = useGenerationStrings();
+  const hints = useSectionHints();
   const handleChange = (checked: boolean) => {
     // Checked = public, unchecked = private
     if (!checked && !canMakePrivate) {
@@ -36,7 +39,7 @@ export function PrivacyToggle({ isPublic, onIsPublicChange, canMakePrivate = fal
       <div className="flex items-center gap-2">
         {isPublic ? <Globe className="w-4 h-4 text-muted-foreground" /> : <Lock className="w-4 h-4 text-primary" />}
         <Label htmlFor="privacy-toggle" className="text-sm cursor-pointer">
-          {isPublic ? "Публичный" : "Приватный"}
+          {isPublic ? g.form.privacyPublic : g.form.privacyPrivate}
         </Label>
 
         {/* Help icon */}
@@ -48,7 +51,7 @@ export function PrivacyToggle({ isPublic, onIsPublicChange, canMakePrivate = fal
               </button>
             </TooltipTrigger>
             <TooltipContent side="top" className="max-w-[200px] text-xs">
-              {SECTION_HINTS.privacy}
+              {hints.privacy}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -62,7 +65,7 @@ export function PrivacyToggle({ isPublic, onIsPublicChange, canMakePrivate = fal
                 <Crown className="w-4 h-4 text-yellow-500" />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Приватные треки доступны по подписке</p>
+                <p>{hints.privacy}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
