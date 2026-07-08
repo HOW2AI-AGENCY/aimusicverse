@@ -1,35 +1,35 @@
 # Media Processing
 
-> 29 nodes · cohesion 0.07
+> 64 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L1) (28 connections)
-- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L59) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L276) (1 connections)
-- [{ data: versions = [], isLoading: loading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L70) (1 connections)
-- [durMin](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L244) (1 connections)
-- [durSec](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L245) (1 connections)
-- [handleGoToLibrary](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L188) (1 connections)
-- [handleGoToStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L180) (1 connections)
-- [handlePreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L128) (1 connections)
-- [handleSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L154) (1 connections)
-- [handleSetPrimary](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L163) (1 connections)
-- [handleTrainPersona](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L94) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L58) (1 connections)
-- [hasMultipleVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L196) (1 connections)
-- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L242) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L241) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L57) (1 connections)
-- [[personaDescription, setPersonaDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L67) (1 connections)
-- [[personaDialogOpen, setPersonaDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L65) (1 connections)
-- [personaMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L69) (1 connections)
-- [[personaName, setPersonaName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L66) (1 connections)
-- [personaStrings](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L92) (1 connections)
-- [[playingVersionId, setPlayingVersionId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L62) (1 connections)
-- [primary](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L81) (1 connections)
-- [[selectedVersion, setSelectedVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L61) (1 connections)
-- *... and 4 more nodes in this community*
+- [date-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L1) (24 connections)
+- [getForecastData()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/forecast.service.ts#L135) (13 connections)
+- [toDate](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/stars-admin-transactions/index.ts#L89) (12 connections)
+- [AdminUserSubscriptionDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserSubscriptionDialog.tsx#L1) (9 connections)
+- [TransactionHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/TransactionHistory.tsx#L1) (9 connections)
+- [StudioActivityLog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActivityLog.tsx#L1) (9 connections)
+- [aggregateByDay()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/forecast.service.ts#L102) (7 connections)
+- [forecast.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/forecast.service.ts#L1) (6 connections)
+- [addDays()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L118) (4 connections)
+- [subDays()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L110) (4 connections)
+- [getDateLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/TransactionHistory.tsx#L48) (4 connections)
+- [handlePresetClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserSubscriptionDialog.tsx#L62) (3 connections)
+- [addHours()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L122) (3 connections)
+- [addMonths()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L126) (3 connections)
+- [format()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L44) (3 connections)
+- [formatDistanceToNow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L59) (3 connections)
+- [startOfDay()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L130) (3 connections)
+- [calcGrowth()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/forecast.service.ts#L83) (3 connections)
+- [forecast()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/forecast.service.ts#L73) (3 connections)
+- [forecastDaysFromTimePeriod()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/forecast.service.ts#L41) (3 connections)
+- [ActivityItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActivityLog.tsx#L80) (3 connections)
+- [convertDateFnsFormat()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L188) (2 connections)
+- [differenceInDays()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L90) (2 connections)
+- [differenceInHours()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L98) (2 connections)
+- [differenceInMinutes()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts#L94) (2 connections)
+- *... and 39 more nodes in this community*
 
 ## Relationships
 
@@ -37,12 +37,18 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminUserSubscriptionDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserSubscriptionDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\TransactionHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/TransactionHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioActivityLog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActivityLog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useForecast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useForecast.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\date-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/date-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\analytics\forecast.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/forecast.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\stars-admin-transactions\index.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/stars-admin-transactions/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 56 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 135 (71%)
+- INFERRED: 56 (29%)
 - AMBIGUOUS: 0 (0%)
 
 ---

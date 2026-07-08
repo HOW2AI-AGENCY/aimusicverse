@@ -1,52 +1,63 @@
 # Lyrics Processing
 
-> 74 nodes · cohesion 0.03
+> 187 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L1) (31 connections)
-- [Sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L1) (28 connections)
-- [StemReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L1) (6 connections)
-- [handleUseAsReference()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L41) (6 connections)
-- [handleScan()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L52) (4 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L80) (4 connections)
-- [setOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L58) (4 connections)
-- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L1) (3 connections)
-- [QRScannerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L1) (3 connections)
-- [handleNotificationClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L13) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L119) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L91) (2 connections)
-- [toggleSidebar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L74) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx#L36) (2 connections)
-- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L11) (1 connections)
-- [{ unreadCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx#L10) (1 connections)
-- [{ isSupported, isScanning, scanQR }](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L49) (1 connections)
-- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx#L50) (1 connections)
-- [accountNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L74) (1 connections)
-- [[accountOpen, setAccountOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L95) (1 connections)
-- [active](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L179) (1 connections)
-- [{ activeGenerations, generationCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L97) (1 connections)
-- [adminNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L83) (1 connections)
-- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx#L444) (1 connections)
-- [contentNavItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx#L52) (1 connections)
-- *... and 49 more nodes in this community*
+- [Klang.io Transcription Feature Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md#L1) (15 connections)
+- [Klang.io Provider Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/integrations/KLANG_IO_INTEGRATION.md#L1) (14 connections)
+- [Klangio Integration - Diagnostic Logging Enhancement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L1) (13 connections)
+- [Klang.io Integration Fix - MIME Type Support](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_MIME_TYPE_FIX_2025-12-11.md#L1) (11 connections)
+- [Компоненты](file:///D:/.MUSICVERSE/aimusicverse/docs/integrations/KLANG_IO_INTEGRATION.md#L76) (7 connections)
+- [Enhanced Diagnostic Logging](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L54) (6 connections)
+- [Follow-Up Actions (Based on Findings)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L407) (5 connections)
+- [Potential Findings](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L342) (5 connections)
+- [🧪 Testing Instructions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L261) (5 connections)
+- [3. TranscriptionToGenerationBridge](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md#L110) (5 connections)
+- [Manual Testing](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md#L499) (5 connections)
+- [Изменения в существующих компонентах](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md#L163) (5 connections)
+- [KLANG_IO_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/integrations/KLANG_IO_INTEGRATION.md#L1) (5 connections)
+- [klang.io Endpoints](file:///D:/.MUSICVERSE/aimusicverse/docs/integrations/KLANG_IO_INTEGRATION.md#L584) (5 connections)
+- [Performance Optimization](file:///D:/.MUSICVERSE/aimusicverse/docs/integrations/KLANG_IO_INTEGRATION.md#L673) (5 connections)
+- [References](file:///D:/.MUSICVERSE/aimusicverse/docs/integrations/KLANG_IO_INTEGRATION.md#L853) (5 connections)
+- [KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L1) (4 connections)
+- [Diagnostic Scenarios](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L303) (4 connections)
+- [🔄 Integration with Main Branch](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L161) (4 connections)
+- [🎯 Next Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L387) (4 connections)
+- [🔍 Problem Statement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L11) (4 connections)
+- [🔗 Related Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L368) (4 connections)
+- [📊 Technical Details](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md#L209) (4 connections)
+- [Deployment](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md#L687) (4 connections)
+- [Future Enhancements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md#L556) (4 connections)
+- *... and 162 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Confirmation]] (69 shared connections)
+- [[UI Variants]] (56 shared connections)
+- [[Model Metadata]] (53 shared connections)
+- [[Bot Management]] (45 shared connections)
+- [[unknown]] (44 shared connections)
+- [[Media Management]] (41 shared connections)
+- [[Note Management]] (18 shared connections)
+- [[User Assistance]] (15 shared connections)
+- [[User Interface]] (15 shared connections)
+- [[Mobile Navigation]] (13 shared connections)
+- [[Community 2221]] (7 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NotificationBadge.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\Sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/Sidebar.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemReferenceDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\advanced\QRScannerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/QRScannerDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sidebar.tsx)
+- [docs/KLANG_IO_API_GUIDE_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KLANG_IO_API_GUIDE_RU.md)
+- [docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md)
+- [docs/archive/implementation-reports/KLANG_IO_MIME_TYPE_FIX_2025-12-11.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_MIME_TYPE_FIX_2025-12-11.md)
+- [docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md)
+- [docs/integrations/KLANG_IO_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/integrations/KLANG_IO_INTEGRATION.md)
 
 ## Audit Trail
 
-- EXTRACTED: 148 (93%)
-- INFERRED: 11 (7%)
+- EXTRACTED: 377 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

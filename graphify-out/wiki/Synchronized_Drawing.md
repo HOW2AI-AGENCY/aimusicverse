@@ -1,12 +1,18 @@
 # Synchronized Drawing
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useOptimizedPlayback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L1) (2 connections)
-- [DEFAULT_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L35) (1 connections)
-- [useOptimizedPlayback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L43) (1 connections)
+- [useProgressTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L1) (4 connections)
+- [useAudioProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L1) (3 connections)
+- [useAudioProcessing()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L38) (2 connections)
+- [useProgressTracking()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L44) (2 connections)
+- [fileToBase64()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L26) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts#L21) (1 connections)
+- [createInitialState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L26) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L19) (1 connections)
+- [POLL_INTERVAL_MS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts#L21) (1 connections)
 
 ## Relationships
 
@@ -14,12 +20,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimizedPlayback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\useProgressTracking.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/useProgressTracking.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAudioProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAudioProcessing.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (88%)
+- INFERRED: 2 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

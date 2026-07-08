@@ -1,24 +1,31 @@
 # Status Management
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L1) (2 connections)
-- [ActionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L68) (1 connections)
-- [StudioActionsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx#L114) (1 connections)
+- [Sprint 050-A4 Phase 2 - Manual Application Instructions](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L1) (7 connections)
+- [Two Ways to Apply](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L9) (3 connections)
+- [050-A4-PHASE2-MANUAL.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L1) (1 connections)
+- [Current Configuration](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L39) (1 connections)
+- [Impact](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L50) (1 connections)
+- [Option 1: GitHub UI (Recommended)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L11) (1 connections)
+- [Option 2: GitHub CLI (Retry)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L19) (1 connections)
+- [Status](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L59) (1 connections)
+- [Summary](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L5) (1 connections)
+- [Verification](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md#L26) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (18 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioActionsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioActionsSheet.tsx)
+- [SPRINTS/050-A4-PHASE2-MANUAL.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/050-A4-PHASE2-MANUAL.md)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

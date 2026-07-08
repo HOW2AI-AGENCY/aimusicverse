@@ -1,14 +1,23 @@
 # Project Documentation
 
-> 5 nodes · cohesion 0.40
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [SourcesHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/SourcesHeatmap.tsx#L1) (4 connections)
-- [SourcesHeatmap()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/SourcesHeatmap.tsx#L39) (2 connections)
-- [getIntensityClass()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/SourcesHeatmap.tsx#L27) (1 connections)
-- [HOUR_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/SourcesHeatmap.tsx#L24) (1 connections)
-- [HOURS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/SourcesHeatmap.tsx#L23) (1 connections)
+- [Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L1) (13 connections)
+- [handleMouseLeave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L55) (2 connections)
+- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L44) (2 connections)
+- [cardRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L25) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L60) (1 connections)
+- [[isFlipped, setIsFlipped]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L26) (1 connections)
+- [rotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L33) (1 connections)
+- [rotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L34) (1 connections)
+- [shineX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L41) (1 connections)
+- [shineY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L42) (1 connections)
+- [springRotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L37) (1 connections)
+- [springRotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L38) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L29) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -16,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\SourcesHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/SourcesHeatmap.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 26 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

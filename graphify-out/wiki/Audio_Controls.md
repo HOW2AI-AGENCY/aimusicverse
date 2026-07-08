@@ -1,12 +1,19 @@
 # Audio Controls
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [MashupDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/MashupDialog.tsx#L1) (2 connections)
-- [MashupDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/MashupDialog.tsx#L43) (1 connections)
-- [MODEL_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/MashupDialog.tsx#L41) (1 connections)
+- [QuickStartCards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L1) (9 connections)
+- [FeatureTutorialDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L19) (1 connections)
+- [handleCardClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L100) (1 connections)
+- [handleTutorialAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L112) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L95) (1 connections)
+- [[pendingPreset, setPendingPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L98) (1 connections)
+- [presets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L119) (1 connections)
+- [QuickStartCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L35) (1 connections)
+- [[selectedTutorial, setSelectedTutorial]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L97) (1 connections)
+- [[tutorialOpen, setTutorialOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -14,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\MashupDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/MashupDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\QuickStartCards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

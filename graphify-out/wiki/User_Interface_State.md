@@ -1,15 +1,38 @@
 # User Interface State
 
-> 6 nodes · cohesion 0.33
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [MobileSkeletons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L1) (6 connections)
-- [MobileFormFieldSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L197) (1 connections)
-- [MobilePlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L169) (1 connections)
-- [MobileStudioTrackSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L140) (1 connections)
-- [MobileTrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L17) (1 connections)
-- [MobileTrackListSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx#L42) (1 connections)
+- [ReferenceManager.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L1) (12 connections)
+- [FailingAudio](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L84) (2 connections)
+- [ref](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L255) (2 connections)
+- [resetAll()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L38) (2 connections)
+- [StubAudio](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L58) (2 connections)
+- [blob](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L113) (1 connections)
+- [.src()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L85) (1 connections)
+- [file](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L70) (1 connections)
+- [fromInsertSelectSingleMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L16) (1 connections)
+- [originalAudio](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L57) (1 connections)
+- [originalFetch](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L166) (1 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L71) (1 connections)
+- [storageGetPublicUrlMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L15) (1 connections)
+- [storageUploadMock](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L14) (1 connections)
+- [.src()](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts#L62) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class FailingAudio {
+        +ReferenceManager.test.ts()
+        +.src()
+    }
+    class StubAudio {
+        +ReferenceManager.test.ts()
+        +.src()
+    }
+```
 
 ## Relationships
 
@@ -17,12 +40,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSkeletons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSkeletons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\__tests__\ReferenceManager.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/__tests__/ReferenceManager.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 11 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 28 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

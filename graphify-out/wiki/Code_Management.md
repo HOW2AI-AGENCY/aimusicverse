@@ -1,10 +1,12 @@
 # Code Management
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [unified-store.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/stores/unified-store.test.ts#L1) (0 connections)
+- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L1) (2 connections)
+- [asDialogTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L41) (1 connections)
+- [exportTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L90) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\stores\unified-store.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/stores/unified-store.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

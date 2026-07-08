@@ -1,12 +1,11 @@
 # Data Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L1) (2 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L33) (1 connections)
-- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx#L17) (1 connections)
+- [AudioRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L33) (1 connections)
+- [AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -14,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\empty\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/empty/EmptyState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

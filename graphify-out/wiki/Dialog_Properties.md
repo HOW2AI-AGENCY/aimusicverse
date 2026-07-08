@@ -1,14 +1,22 @@
 # Dialog Properties
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L1) (4 connections)
-- [createDrumSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L98) (1 connections)
-- [defaultTrackEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L90) (1 connections)
-- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L19) (1 connections)
-- [useDrumMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L115) (1 connections)
+- [useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L1) (12 connections)
+- [formatted](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L188) (1 connections)
+- [lines](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L164) (1 connections)
+- [mockAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L26) (1 connections)
+- [mockBPMResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L39) (1 connections)
+- [mockDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L27) (1 connections)
+- [mockNearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L129) (1 connections)
+- [mockPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L147) (1 connections)
+- [mockSnapResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L103) (1 connections)
+- [nearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L138) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L42) (1 connections)
+- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L225) (1 connections)
+- [snapped](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L118) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

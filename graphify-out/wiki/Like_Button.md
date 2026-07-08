@@ -1,31 +1,49 @@
 # Like Button
 
-> 10 nodes · cohesion 0.20
+> 30 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [EconomyConfigEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L1) (9 connections)
-- [categorizedItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L79) (1 connections)
-- [{ data: configItems, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L61) (1 connections)
-- [DEFAULT_VALUES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L24) (1 connections)
-- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L69) (1 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L64) (1 connections)
-- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L171) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L59) (1 connections)
-- [totalChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L82) (1 connections)
-- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L62) (1 connections)
+- [User Scenarios & Testing](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L8) (7 connections)
+- [Implementation Plan: Редизайн документации репозитория](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L1) (6 connections)
+- [Спецификация: Редизайн документации репозитория](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L1) (5 connections)
+- [Список проверки качества спецификации: Редизайн документации репозитория](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/checklists/requirements.md#L1) (5 connections)
+- [Project Structure](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L41) (3 connections)
+- [spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L1) (3 connections)
+- [Requirements](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L96) (3 connections)
+- [plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L1) (2 connections)
+- [Success Criteria](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L122) (2 connections)
+- [requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/checklists/requirements.md#L1) (2 connections)
+- [Complexity Tracking](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L83) (1 connections)
+- [Constitution Check](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L22) (1 connections)
+- [Documentation (this feature)](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L43) (1 connections)
+- [Source Code (repository root)](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L53) (1 connections)
+- [Summary](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L6) (1 connections)
+- [Technical Context](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md#L10) (1 connections)
+- [Assumptions](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L135) (1 connections)
+- [Edge Cases](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L89) (1 connections)
+- [Functional Requirements](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L98) (1 connections)
+- [Key Entities](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L116) (1 connections)
+- [Measurable Outcomes](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L124) (1 connections)
+- [User Story 1 — Инвестор оценивает проект (Priority: P1)](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L10) (1 connections)
+- [User Story 2 — Разработчик быстро находит нужную документацию (Priority: P1)](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L26) (1 connections)
+- [User Story 3 — Клиент/пользователь изучает возможности (Priority: P2)](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L42) (1 connections)
+- [User Story 4 — Контрибьютор понимает процесс (Priority: P2)](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md#L58) (1 connections)
+- *... and 5 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Data Visualization]] (58 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx)
+- [specs/035-repo-docs-revamp/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/checklists/requirements.md)
+- [specs/035-repo-docs-revamp/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/plan.md)
+- [specs/035-repo-docs-revamp/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/spec.md)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 58 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

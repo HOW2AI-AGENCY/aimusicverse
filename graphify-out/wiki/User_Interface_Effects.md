@@ -1,66 +1,63 @@
 # User Interface Effects
 
-> 74 nodes · cohesion 0.03
+> 187 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [mobile-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts#L1) (10 connections)
-- [useIsMobile()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts#L30) (10 connections)
-- [useAdminDashboard()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAdminDashboard.ts#L193) (9 connections)
-- [LikeEncouragementToast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/LikeEncouragementToast.tsx#L1) (6 connections)
-- [ContentHubTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ContentHubTabs.tsx#L1) (5 connections)
-- [ProjectLyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectLyricsTab.tsx#L1) (5 connections)
-- [toast-position.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast-position.ts#L1) (5 connections)
-- [Toaster()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sonner.tsx#L27) (5 connections)
-- [ThemeSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ThemeSettings.tsx#L1) (4 connections)
-- [useTheme.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTheme.ts#L1) (4 connections)
-- [useAdminAuth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminAuth.ts#L4) (4 connections)
-- [useTrackCardState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/hooks/useTrackCardState.ts#L27) (4 connections)
-- [AdminTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTracks.tsx#L15) (3 connections)
-- [AdminUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminUsers.tsx#L35) (3 connections)
-- [ContentHubTabs()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ContentHubTabs.tsx#L38) (3 connections)
-- [useAdminUsers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminUsers.ts#L1) (3 connections)
-- [EncouragementToast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/LikeEncouragementToast.tsx#L125) (3 connections)
-- [getToastStyles()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast-position.ts#L43) (3 connections)
-- [useAdminTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminTracks.ts#L20) (3 connections)
-- [useAdminUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminUsers.ts#L22) (3 connections)
-- [useToggleUserRole()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminUsers.ts#L113) (3 connections)
-- [useTheme()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTheme.ts#L53) (3 connections)
-- [AdminRoute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AdminRoute.tsx#L10) (2 connections)
-- [sonner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sonner.tsx#L1) (2 connections)
-- [useAdminDashboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAdminDashboard.ts#L1) (2 connections)
-- *... and 49 more nodes in this community*
+- [🚀 Recent Improvements - December 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/RECENT_IMPROVEMENTS.md#L1) (13 connections)
+- [Улучшения интерфейса работы с лирикой](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md#L1) (12 connections)
+- [Резюме работы над интерфейсом - 10 декабря 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L1) (10 connections)
+- [Закрытие техдолга и улучшение интерфейса - 10 декабря 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TECH_DEBT_CLOSURE_2025-12-10.md#L1) (9 connections)
+- [✅ Чеклист немедленных улучшений MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md#L1) (6 connections)
+- [📋 Выполненные задачи](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TECH_DEBT_CLOSURE_2025-12-10.md#L15) (6 connections)
+- [2. Созданы 4 новых улучшенных компонента](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L22) (5 connections)
+- [📋 Выполненные задачи](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L9) (5 connections)
+- [Паттерны использования](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L282) (5 connections)
+- [🎨 Технические характеристики](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L148) (5 connections)
+- [🎯 Основные улучшения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md#L12) (5 connections)
+- [🎯 Week 1: Code Quality (40 часов)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md#L9) (4 connections)
+- [🧪 Week 2: Testing (40 часов)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md#L263) (4 connections)
+- [INTERFACE_WORK_SUMMARY_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L1) (4 connections)
+- [4. Качество кода](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L112) (4 connections)
+- [📊 Impact Analysis](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L186) (4 connections)
+- [🎯 Выводы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L323) (4 connections)
+- [📈 Метрики для отслеживания](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L245) (4 connections)
+- [🚀 Следующие шаги](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md#L217) (4 connections)
+- [2. Обновлён LyricsVisualEditor](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md#L72) (4 connections)
+- [🎨 UI/UX паттерны](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md#L335) (4 connections)
+- [📖 Документация для разработчиков](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md#L472) (4 connections)
+- [🔄 Интеграция со Store](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md#L292) (4 connections)
+- [📊 Метрики улучшений](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md#L443) (4 connections)
+- [🧪 Тестирование](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md#L372) (4 connections)
+- *... and 162 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Pointer Events]] (62 shared connections)
+- [[Software Development]] (56 shared connections)
+- [[Content Sharing]] (53 shared connections)
+- [[Content Generation]] (42 shared connections)
+- [[User Interface]] (31 shared connections)
+- [[Data Storage]] (27 shared connections)
+- [[User Management]] (26 shared connections)
+- [[Navigation System]] (23 shared connections)
+- [[Workflow Management]] (17 shared connections)
+- [[Report UI Unification]] (15 shared connections)
+- [[Community 1659]] (13 shared connections)
+- [[Community 2225]] (7 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\AdminRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AdminRoute.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\ContentHubTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ContentHubTabs.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\engagement\LikeEncouragementToast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/LikeEncouragementToast.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectLyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectLyricsTab.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\ThemeSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ThemeSettings.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\hooks\useTrackCardState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/hooks/useTrackCardState.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skip-to-content.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skip-to-content.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sonner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sonner.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useAdminDashboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAdminDashboard.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminAuth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminAuth.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminBalance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminBalance.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminTracks.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminUsers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminUsers.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotMetrics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMetrics.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTheme.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTheme.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\mobile-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\toast-position.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/toast-position.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTracks.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTracks.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminUsers.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminUsers.tsx)
+- [docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md)
+- [docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md)
+- [docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md)
+- [docs/archive/implementation-reports/RECENT_IMPROVEMENTS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/RECENT_IMPROVEMENTS.md)
+- [docs/archive/implementation-reports/TECH_DEBT_CLOSURE_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TECH_DEBT_CLOSURE_2025-12-10.md)
 
 ## Audit Trail
 
-- EXTRACTED: 115 (68%)
-- INFERRED: 54 (32%)
+- EXTRACTED: 372 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

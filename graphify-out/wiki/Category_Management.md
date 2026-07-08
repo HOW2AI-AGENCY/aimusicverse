@@ -1,25 +1,32 @@
 # Category Management
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L1) (3 connections)
-- [OPERATION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L56) (1 connections)
-- [STEM_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L54) (1 connections)
-- [useStudioOperationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L68) (1 connections)
+- [Task 3 Report: `ValidationReasonsSheet`](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L1) (10 connections)
+- [task-3-report.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L1) (1 connections)
+- [Accessibility](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L44) (1 connections)
+- [Bundle size delta](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L29) (1 connections)
+- [Component structure](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L40) (1 connections)
+- [Concerns / brief adaptations](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L52) (1 connections)
+- [Files created](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L5) (1 connections)
+- [Lint output](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L23) (1 connections)
+- [Test output](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L14) (1 connections)
+- [TypeScript output](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L19) (1 connections)
+- [Verification commands run (and outputs)](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md#L60) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Game Character]] (20 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts)
+- [.superpowers/sdd/artifacts/task-3-report.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-3-report.md)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

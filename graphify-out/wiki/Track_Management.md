@@ -1,11 +1,15 @@
 # Track Management
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useSendAdminMessage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSendAdminMessage.ts#L1) (1 connections)
-- [useSendAdminMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSendAdminMessage.ts#L18) (1 connections)
+- [TierComparisonCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L1) (5 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L90) (1 connections)
+- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L91) (1 connections)
+- [renderValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L66) (1 connections)
+- [TIER_FEATURES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L18) (1 connections)
+- [TIERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useSendAdminMessage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSendAdminMessage.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\TierComparisonCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

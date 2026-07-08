@@ -1,16 +1,26 @@
 # User Statistics
 
-> 7 nodes · cohesion 0.29
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [useBasicQueries.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L1) (6 connections)
-- [useFeaturedContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L233) (1 connections)
-- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L109) (1 connections)
-- [usePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L145) (1 connections)
-- [usePublicProjects()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L73) (1 connections)
-- [usePublicTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L28) (1 connections)
-- [useSearchPublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L272) (1 connections)
+- [Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L1) (16 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L45) (1 connections)
+- [initialTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L44) (1 connections)
+- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L35) (1 connections)
+- [{ isGuestMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L36) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L37) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L38) (1 connections)
+- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L40) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L39) (1 connections)
+- [selectedProject](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L50) (1 connections)
+- [[selectedProjectId, setSelectedProjectId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L48) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L61) (1 connections)
+- [statusLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L19) (1 connections)
+- [tab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L54) (1 connections)
+- [typeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L27) (1 connections)
+- [urlTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L43) (1 connections)
+- [VALID_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -18,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\useBasicQueries.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

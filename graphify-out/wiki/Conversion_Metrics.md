@@ -1,31 +1,47 @@
 # Conversion Metrics
 
-> 10 nodes · cohesion 0.20
+> 28 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L1) (9 connections)
-- [DESKTOP_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L19) (1 connections)
-- [MOBILE_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L18) (1 connections)
-- [props](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L86) (1 connections)
-- [rowHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L77) (1 connections)
-- [shouldVirtualize](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L76) (1 connections)
-- [state](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L83) (1 connections)
-- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L82) (1 connections)
-- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L84) (1 connections)
-- [VIRTUALIZATION_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L15) (1 connections)
+- [Спринт 009: Track Details & Actions (User Stories 3 & 4)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L1) (10 connections)
+- [Критерии приемки](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L61) (6 connections)
+- [User Story 3: Track Details Panel](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L63) (3 connections)
+- [User Story 4: Track Actions Menu](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L86) (3 connections)
+- [Зависимости](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L128) (3 connections)
+- [Задачи](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L30) (3 connections)
+- [Инфраструктурные заметки](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L8) (3 connections)
+- [Метрики успеха](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L168) (3 connections)
+- [SPRINT-009-TRACK-DETAILS-ACTIONS.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L1) (1 connections)
+- [Accessibility ✅](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L121) (1 connections)
+- [NPM пакеты (уже установлены)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L137) (1 connections)
+- [Performance ✅](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L114) (1 connections)
+- [UI/UX ✅](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L77) (1 connections)
+- [UI/UX ✅](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L98) (1 connections)
+- [User Story 3: Track Details](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L170) (1 connections)
+- [User Story 3: Track Details Panel (11 задач)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L32) (1 connections)
+- [User Story 4: Track Actions](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L177) (1 connections)
+- [User Story 4: Track Actions Menu (8 задач)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L48) (1 connections)
+- [Внешние зависимости](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L130) (1 connections)
+- [Используемые таблицы (актуальная схема)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L10) (1 connections)
+- [Качество кода ✅](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L106) (1 connections)
+- [Контекст](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L23) (1 connections)
+- [Полезные ссылки](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L184) (1 connections)
+- [Риски](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L147) (1 connections)
+- [Следующий спринт](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md#L156) (1 connections)
+- *... and 3 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Data Duplication]] (54 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx)
+- [SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TRACK-DETAILS-ACTIONS.md)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 54 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

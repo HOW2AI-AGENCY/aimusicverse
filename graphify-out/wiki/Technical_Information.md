@@ -1,12 +1,17 @@
 # Technical Information
 
-> 3 nodes · cohesion 0.67
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L1) (2 connections)
-- [html](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L47) (1 connections)
-- [response](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L34) (1 connections)
+- [HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L106) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L179) (1 connections)
+- [handleCreate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L29) (1 connections)
+- [handleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L34) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L25) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L27) (1 connections)
+- [reducedMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -14,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

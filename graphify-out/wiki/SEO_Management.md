@@ -1,26 +1,34 @@
 # SEO Management
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [useMusicXmlParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L1) (4 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L17) (1 connections)
-- [PITCH_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L50) (1 connections)
-- [pitchToMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L60) (1 connections)
-- [useMusicXmlParser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts#L68) (1 connections)
+- [Repository Audit Agent](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L1) (8 connections)
+- [Возможности](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L9) (5 connections)
+- [repository-audit-agent.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L1) (1 connections)
+- [1. Аудит архитектуры репозитория](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L11) (1 connections)
+- [2. Documentation-as-Code](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L18) (1 connections)
+- [3. Git-based PM](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L25) (1 connections)
+- [4. Контрибьютинг](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L32) (1 connections)
+- [Интеграция](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L83) (1 connections)
+- [Использование](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L41) (1 connections)
+- [Метрики качества](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L61) (1 connections)
+- [Поддержка](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L93) (1 connections)
+- [Принципы работы](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L52) (1 connections)
+- [Технический стек](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md#L74) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Pattern Management]] (24 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicXmlParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXmlParser.ts)
+- [.claude/workflows/repository-audit-agent.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/workflows/repository-audit-agent.md)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

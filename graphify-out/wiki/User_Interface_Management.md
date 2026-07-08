@@ -1,35 +1,45 @@
 # User Interface Management
 
-> 278 nodes · cohesion 0.01
+> 374 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [mobile-smoke.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile-smoke.spec.ts#L1) (26 connections)
-- [goto()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.adaptive.spec.ts#L11) (22 connections)
-- [hints.advanced.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.advanced.spec.ts#L1) (21 connections)
-- [player.compact.a11y.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/player.compact.a11y.spec.ts#L1) (21 connections)
-- [motion-variants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion-variants.ts#L1) (20 connections)
-- [generation.mobile-taps.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/generation.mobile-taps.spec.ts#L1) (19 connections)
-- [hints.a11y.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.a11y.spec.ts#L1) (12 connections)
-- [hints.mobile-safari.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.mobile-safari.spec.ts#L1) (12 connections)
-- [hints.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.spec.ts#L1) (12 connections)
-- [hints.telegram-safe-area.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.telegram-safe-area.spec.ts#L1) (12 connections)
-- [player.compact.fullscreen.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/player.compact.fullscreen.spec.ts#L1) (11 connections)
-- [visual.section.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.section.spec.ts#L1) (11 connections)
-- [generation.dialog-zindex.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/generation.dialog-zindex.spec.ts#L1) (10 connections)
-- [hints.reduced-motion.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.reduced-motion.spec.ts#L1) (10 connections)
-- [hints.dark.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.dark.spec.ts#L1) (9 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.section.spec.ts#L66) (8 connections)
-- [hints.orientation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.orientation.spec.ts#L1) (7 connections)
-- [first](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/suno-persona-callback/index.ts#L125) (7 connections)
-- [dev-overlay.hotkey.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.hotkey.spec.ts#L1) (6 connections)
-- [dev-overlay.ime.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.ime.spec.ts#L1) (6 connections)
-- [generation.dialog-orientation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/generation.dialog-orientation.spec.ts#L1) (6 connections)
-- [home.no-auto-overlays.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.no-auto-overlays.spec.ts#L1) (5 connections)
-- [layout.adaptive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.adaptive.spec.ts#L1) (5 connections)
-- [player.compact.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/player.compact.spec.ts#L1) (5 connections)
-- [generation.dialog-portal.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/generation.dialog-portal.spec.ts#L1) (4 connections)
-- *... and 253 more nodes in this community*
+- [hapticImpact()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/haptic.ts#L52) (30 connections)
+- [WriteToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/WriteToolPanel.tsx#L1) (17 connections)
+- [InstrumentalGeneratorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/InstrumentalGeneratorPanel.tsx#L1) (17 connections)
+- [trackEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L13) (17 connections)
+- [onClose](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsAIPanel.test.tsx#L89) (15 connections)
+- [UnifiedActionBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedActionBar.tsx#L1) (14 connections)
+- [ChipInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L1) (14 connections)
+- [SFXGeneratorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/SFXGeneratorPanel.tsx#L1) (13 connections)
+- [CompactSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/CompactSheetHeader.tsx#L1) (13 connections)
+- [SmartPaywallDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L1) (12 connections)
+- [library.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/library/library.test.tsx#L1) (12 connections)
+- [triggerHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mobile-utils.ts#L309) (12 connections)
+- [OnboardingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingOverlay.tsx#L1) (11 connections)
+- [lyrics.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/lyrics/lyrics.test.tsx#L1) (11 connections)
+- [BotMenuItemForm.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx#L1) (10 connections)
+- [DailyMissions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyMissions.tsx#L1) (10 connections)
+- [HeaderVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L1) (10 connections)
+- [events.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L1) (10 connections)
+- [StreakBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakBadge.tsx#L1) (9 connections)
+- [TrackDetailPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackDetailPanel.tsx#L1) (9 connections)
+- [ProOnboardingDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProOnboardingDialog.tsx#L1) (9 connections)
+- [CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/CollapsibleSection.tsx#L1) (9 connections)
+- [CreditBalanceWarning.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CreditBalanceWarning.tsx#L1) (8 connections)
+- [NotificationManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationManager.tsx#L1) (8 connections)
+- [TrialBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx#L1) (8 connections)
+- *... and 349 more nodes in this community*
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class MockIntersectionObserver {
+        +library.test.tsx()
+        +.constructor()
+    }
+```
 
 ## Relationships
 
@@ -37,31 +47,31 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\motion-variants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion-variants.ts)
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\suno-persona-callback\index.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/suno-persona-callback/index.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\dev-overlay.hotkey.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.hotkey.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\dev-overlay.ime.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.ime.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\dev-overlay.telegram-web.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.telegram-web.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\generation.dialog-orientation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/generation.dialog-orientation.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\generation.dialog-portal.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/generation.dialog-portal.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\generation.dialog-zindex.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/generation.dialog-zindex.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\generation.mobile-taps.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/generation.mobile-taps.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.a11y.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.a11y.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.advanced.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.advanced.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.contrast.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.contrast.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.dark.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.dark.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.mobile-safari.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.mobile-safari.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.orientation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.orientation.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.reduced-motion.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.reduced-motion.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\hints.telegram-safe-area.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/hints.telegram-safe-area.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.no-auto-overlays.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.no-auto-overlays.spec.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.adaptive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.adaptive.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useSwipeNavigation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSwipeNavigation.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BotMenuItemForm.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuItemForm.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubQuickActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\UnifiedActionBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedActionBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\DailyMissions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyMissions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\StreakBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\CreditBalanceWarning.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CreditBalanceWarning.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\SwipeableTrackItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SwipeableTrackItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackDetailPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackDetailPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\shared\PlayOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/PlayOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIAgentTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIAgentTabs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\QuickActionChips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/QuickActionChips.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\QuickActionsBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/QuickActionsBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\WriteToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/WriteToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileListItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileListItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\QuickActionsBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/QuickActionsBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationManager.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 520 (89%)
-- INFERRED: 67 (11%)
+- EXTRACTED: 737 (80%)
+- INFERRED: 181 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

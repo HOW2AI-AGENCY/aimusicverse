@@ -1,35 +1,48 @@
 # Interactive UI Controls
 
-> 13 nodes · cohesion 0.15
+> 36 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L1) (12 connections)
-- [buildEnglishPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L324) (2 connections)
-- [buildPromptFromChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L411) (1 connections)
-- [DURATION_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L317) (1 connections)
-- [GENRE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L11) (1 connections)
-- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L403) (1 connections)
-- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L38) (1 connections)
-- [KEY_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L307) (1 connections)
-- [MOOD_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L58) (1 connections)
-- [QUICK_MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L113) (1 connections)
-- [SCALE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L309) (1 connections)
-- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L77) (1 connections)
-- [TEMPO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts#L298) (1 connections)
+- [Player and Track Playback Fixes - December 10, 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L1) (10 connections)
+- [Manual Testing Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L201) (7 connections)
+- [2. AudioContext Management Enhancements ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L44) (4 connections)
+- [Common Issues & Solutions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L265) (4 connections)
+- [Prevention Measures](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L309) (4 connections)
+- [Verification & Testing](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L183) (4 connections)
+- [Architecture Review](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L149) (3 connections)
+- [Changes Made](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L13) (3 connections)
+- [Debugging Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L247) (3 connections)
+- [1. Code Quality Improvements ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L15) (2 connections)
+- [PLAYER_FIXES_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L1) (1 connections)
+- [1. Code Review Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L313) (1 connections)
+- [2. Testing Requirements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L321) (1 connections)
+- [3. Monitoring](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L329) (1 connections)
+- [Added AudioContext State Monitoring](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L46) (1 connections)
+- [Added Diagnostic Capabilities](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L87) (1 connections)
+- [AudioContext Resume](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L212) (1 connections)
+- [Basic Playback](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L205) (1 connections)
+- [Build Status ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L185) (1 connections)
+- [Code Quality Checks ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L194) (1 connections)
+- [Conclusion](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L343) (1 connections)
+- [Current Player Architecture (Verified)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L151) (1 connections)
+- [Error Recovery](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L219) (1 connections)
+- [Exported Diagnostic Utilities](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L131) (1 connections)
+- [Fixed Console Usage in Player Components](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L17) (1 connections)
+- *... and 11 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Dropdown Menu]] (70 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\prompt-dj-presets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/prompt-dj-presets.ts)
+- [docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 70 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

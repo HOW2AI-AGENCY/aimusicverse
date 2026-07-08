@@ -1,11 +1,17 @@
 # Data Storage
 
-> 2 nodes · cohesion 1.00
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [dialog-shared.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/dialog-shared.tsx#L1) (1 connections)
-- [DialogBackdrop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/dialog-shared.tsx#L6) (1 connections)
+- [BlockedUsersPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L1) (7 connections)
+- [blockedUserIds](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L18) (1 connections)
+- [{ data: blockedUsers, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L14) (1 connections)
+- [{ data: profiles }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L19) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L13) (1 connections)
+- [profile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L74) (1 connections)
+- [profileMap](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L32) (1 connections)
+- [{ toggleBlock, isLoading: isUnblocking }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -13,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\dialog-shared.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/dialog-shared.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\settings\BlockedUsersPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/settings/BlockedUsersPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

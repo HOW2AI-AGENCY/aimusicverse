@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/></a>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
   <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
-  <img alt="Unit tests" src="https://img.shields.io/badge/unit_tests-1484_passing-10B981?style=for-the-badge&logo=vitest"/>
+  <img alt="Unit tests" src="https://img.shields.io/badge/unit_tests-1489_passing-10B981?style=for-the-badge&logo=vitest"/>
 </p>
 
 <!-- BADGES:START -->
@@ -53,7 +53,7 @@
 | ⭐ GitHub Stars                |            ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)             |
 | 📦 Eager load (холодный старт) |        ![](https://img.shields.io/badge/508_KB_gzip-↓_from_1.19_MB-10B981?style=flat-square&logo=webpack)        |
 | 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
-| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1484_passing-10B981?style=flat-square&logo=vitest)          |
+| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1489_passing-10B981?style=flat-square&logo=vitest)          |
 | 🔒 Безопасность                |  ![](<https://img.shields.io/badge/Security-6_vulns_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=flat-square>)   |
 | 📊 Спринтов завершено          |                                             **49** (050–056 + 052-C)                                             |
 | 🏗 Компонентов                  |                                              **1009** (1164 total)                                               |
@@ -64,8 +64,8 @@
 
 - **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
 - **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: 🔄 Сессия 2026-07-08 — AI Agent Activity Panel (`src/components/lyrics-workspace/ai-agent/AIAgentActivityPanel.tsx`): прозрачность действий агента (контекст проекта/трека/секции, текущее действие, задачи workflow, история действий). Параллельно: массовая чистка мёртвого кода (−5K LOC, 28 файлов удалено: устаревшие a11y-утилиты, suno-компоненты, неиспользуемые lib-модули), обновление 9Router lyrics service, починка `count-any.mjs` и форматирования `.claude/settings.json`.
-- **Метрики (2026-07-08):** tsc 0 errors · 1484 unit tests (121 test files) · 56 E2E specs · 1009 React components (1164 total files) · 438 hooks · 31 API files · 22 stores · 49 services · 0 файлов >800 LOC в `src/` · 0/50 `any` budget · 508 KB gzip eager load
+- **Текущий фокус**: 🔄 Сессия 2026-07-09 — Sprint 057 (E2E стабилизация, Branch Protection, 9Router cleanup ✅). Далее: Sprint 058 (i18n EN/RU), Sprint 059 (Bundle optimization + Edge Functions декомпозиция).
+- **Метрики (2026-07-09):** tsc 0 errors · 1489 unit tests (122 test files) · 56 E2E specs · 1161 React components · 434 hooks · 30 API files · 24 stores · 37 services · 0 файлов >800 LOC в `src/` · 0/50 `any` budget · 508 KB gzip eager load
 - **Закрыто (2026-07-08):** AI Agent Activity Panel интегрирован в `LyricsAIChatAgent` и `MobileAIAgentPanel`; dead-code cleanup: удалены `src/lib/a11y*`, `src/lib/accessibility.ts`, `src/components/suno/*`, `src/lib/{common,feature-flags,gesture-*,haptics,lazy,motion-variants,performance-utils,retry,sanitizeFilename,stateMachine,storage,workflow-engine}.ts`, `src/stores/middleware/withHistory.ts`, `src/types/branded.ts` и 4 устаревших тестовых файла. Все проверки (tsc, unit tests, `count-any.mjs`) проходят. Подробнее: [PROJECT_STATUS.md](./PROJECT_STATUS.md).
 - **Закрыто (2026-07-03, #568/#567):** Eager JS на холодной загрузке главной сокращён с ~1.19 МБ до ~508 КБ gzip (лишние `modulePreload` тяжёлых admin/studio/charts/dnd/forms-чанков и barrel-импорт устранены — см. [docs/BUNDLE_ANALYSIS.md](./docs/BUNDLE_ANALYSIS.md)); все оставшиеся 58 `no-explicit-any` ошибок ESLint устранены (репозиторий на 0 использований `any`, было 342), попутно исправлены 2 бага, скрытые за `any`-кастами.
 - **Закрыто (2026-07-03, #566/#562/#559):** Редизайн карточек треков на мобильной главной, восстановлена связность секций главной страницы (homepage reconnect), scroll-reveal и микро-взаимодействия на мобильной главной.
@@ -112,7 +112,8 @@ gantt
     section В работе 🔄
     Sprint 050-C: Branch Protection     :active, 050c, 2026-07-07, 2026-07-08
     section Запланировано ⚪
-    Sprint 057: Collaboration Features  :057, 2026-07-16, 2026-07-30
+    Sprint 057: E2E CI Green + Branch Prot :057, 2026-07-09, 2026-07-15
+    Sprint 058: i18n EN/RU              :058, 2026-07-16, 2026-07-22
 ```
 
 |   Спринт    | Название                                           | Статус |        Прогресс        |
@@ -138,7 +139,9 @@ gantt
 |   **055**   | **UX Critical Fixes P0/P1**                        |   ✅   |        13/13 ✅        |
 |   **056**   | **GenerateSheet Redesign**                         |   ✅   |      Phase A-D ✅      |
 |  **050-C**  | **Branch Protection Phase 2**                      |   🔄   | Phase 1 ✅, Phase 2 ⏳ |
-|   **057**   | **Collaboration Features**                         |   ⏳   |          0/6           |
+|   **057**   | **E2E CI Green + Branch Protection**               |   ⏳   |          0/6           |
+|   **058**   | **i18n EN/RU Localization**                        |   ⏳   |          0/5           |
+|   **059**   | **Bundle Optimization + Unit Tests**               |   ⏳   |          0/4           |
 
 <sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>
 

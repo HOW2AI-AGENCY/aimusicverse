@@ -1,10 +1,12 @@
 # Web Testing
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MusicVerse Description](file:///D:/.MUSICVERSE/aimusicverse/docs/MUSICVERSE_DESCRIPTION.md) (0 connections)
+- [a11y.axe.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/a11y.axe.spec.ts#L1) (2 connections)
+- [criticalOrSerious](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/a11y.axe.spec.ts#L26) (1 connections)
+- [results](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/a11y.axe.spec.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/MUSICVERSE_DESCRIPTION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/MUSICVERSE_DESCRIPTION.md)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\a11y.axe.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/a11y.axe.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

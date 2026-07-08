@@ -1,14 +1,22 @@
 # Navigation Menu
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [AnalysisQuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L1) (4 connections)
-- [normalizeAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L52) (1 connections)
-- [normalized](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L75) (1 connections)
-- [StatCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L34) (1 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx#L77) (1 connections)
+- [FullscreenPager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L1) (13 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L107) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L34) (1 connections)
+- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L39) (1 connections)
+- [goTo](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L48) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L57) (1 connections)
+- [index](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L36) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L16) (1 connections)
+- [ro](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L43) (1 connections)
+- [SWIPE_DISTANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L30) (1 connections)
+- [SWIPE_VELOCITY](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L31) (1 connections)
+- [update()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L41) (1 connections)
+- [[width, setWidth]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\AnalysisQuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AnalysisQuickStats.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenPager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 25 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

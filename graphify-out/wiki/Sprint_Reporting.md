@@ -1,14 +1,11 @@
 # Sprint Reporting
 
-> 5 nodes · cohesion 0.40
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L1) (4 connections)
-- [useDeeplinkAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L11) (1 connections)
-- [useDeeplinkEvents()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L81) (1 connections)
-- [useDeeplinkStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L58) (1 connections)
-- [useTrackDeeplink()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L93) (1 connections)
+- [QuickStartSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx#L1) (1 connections)
+- [QUICK_START_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -16,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\QuickStartSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

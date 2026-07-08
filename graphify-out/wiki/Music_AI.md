@@ -1,25 +1,27 @@
 # Music AI
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [React Hooks Undefined Error - Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md) (0 connections)
+- [graphify reference: GitHub clone and cross-repo merge](file:///D:/.MUSICVERSE/aimusicverse/.claude/skills/graphify/references/github-and-merge.md#L1) (2 connections)
+- [github-and-merge.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/skills/graphify/references/github-and-merge.md#L1) (1 connections)
+- [Step 0 - Clone GitHub repo(s) (only if a GitHub URL was given)](file:///D:/.MUSICVERSE/aimusicverse/.claude/skills/graphify/references/github-and-merge.md#L5) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2386]] (4 shared connections)
 
 ## Source Files
 
-- [docs/archive/2025-12/FIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md)
+- [.claude/skills/graphify/references/github-and-merge.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/skills/graphify/references/github-and-merge.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

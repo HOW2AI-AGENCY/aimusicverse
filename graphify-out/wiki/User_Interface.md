@@ -1,22 +1,24 @@
 # User Interface
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [UnifiedScreenLayout.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/UnifiedScreenLayout.contract.ts#L1) (0 connections)
+- [AGENTS.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/rules-code/AGENTS.md#L1) (2 connections)
+- [AGENTS.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/rules-code/AGENTS.md#L1) (1 connections)
+- [Non-Obvious Coding Rules (Will Fail Build or Lint)](file:///D:/.MUSICVERSE/aimusicverse/.roo/rules-code/AGENTS.md#L5) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2394]] (4 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\001-unified-interface\contracts\UnifiedScreenLayout.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/UnifiedScreenLayout.contract.ts)
+- [.roo/rules-code/AGENTS.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/rules-code/AGENTS.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

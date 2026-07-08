@@ -1,11 +1,16 @@
 # System Monitoring
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L1) (1 connections)
-- [PROJECT_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L20) (1 connections)
+- [TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L1) (6 connections)
+- [buttonSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L23) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L78) (1 connections)
+- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L54) (1 connections)
+- [isGridSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L57) (1 connections)
+- [showOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L56) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

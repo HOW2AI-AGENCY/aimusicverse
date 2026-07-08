@@ -1,11 +1,15 @@
 # Badge Management
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L1) (1 connections)
-- [useProjectDetailDialogs()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L22) (1 connections)
+- [useEconomyConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L1) (6 connections)
+- [CONFIG_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L84) (1 connections)
+- [ECONOMY_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L26) (1 connections)
+- [useBulkUpdateEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L196) (1 connections)
+- [useEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L119) (1 connections)
+- [useUpdateEconomyConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts#L140) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\project\useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useEconomyConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useEconomyConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 11 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

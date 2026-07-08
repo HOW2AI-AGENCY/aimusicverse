@@ -1,12 +1,19 @@
 # Collapsible UI
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L1) (2 connections)
-- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L17) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L28) (1 connections)
+- [AddToProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L1) (10 connections)
+- [handleOpenChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L73) (2 connections)
+- [{ addTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L29) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L145) (1 connections)
+- [[createProjectOpen, setCreateProjectOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L26) (1 connections)
+- [filteredProjects](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L32) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L25) (1 connections)
+- [{ projects, isLoading: projectsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L28) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L23) (1 connections)
+- [[selectedProjectId, setSelectedProjectId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -14,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\loading\CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-menu\AddToProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 19 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

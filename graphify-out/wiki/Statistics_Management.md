@@ -1,10 +1,14 @@
 # Statistics Management
 
-> 1 nodes · cohesion 1.00
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useTrackData.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackData.contract.ts#L1) (0 connections)
+- [ReferenceChipsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ReferenceChipsRow.tsx#L1) (4 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ReferenceChipsRow.tsx#L34) (1 connections)
+- [item](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ReferenceChipsRow.tsx#L42) (1 connections)
+- [KIND_META](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ReferenceChipsRow.tsx#L26) (1 connections)
+- [{ label, icon: Icon }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ReferenceChipsRow.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -12,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\001-ui-refactor\contracts\useTrackData.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackData.contract.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-sheet\ReferenceChipsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ReferenceChipsRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

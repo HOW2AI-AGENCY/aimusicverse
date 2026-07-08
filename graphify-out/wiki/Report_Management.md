@@ -1,31 +1,47 @@
 # Report Management
 
-> 10 nodes · cohesion 0.20
+> 28 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [MidiSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L1) (9 connections)
-- [autoMidiEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L59) (1 connections)
-- [autoMidiModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L60) (1 connections)
-- [autoMidiStemsOnly](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L61) (1 connections)
-- [handleChangeModel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L69) (1 connections)
-- [handleToggleAutoMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L65) (1 connections)
-- [handleToggleStemsOnly()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L73) (1 connections)
-- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L11) (1 connections)
-- [selectedModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L63) (1 connections)
-- [{ settings, updateSettings, isUpdating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L57) (1 connections)
+- [Error Categories](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L16) (7 connections)
+- [Error Debugger Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L1) (6 connections)
+- [1. React Hooks Errors](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L18) (4 connections)
+- [2. Supabase Errors](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L72) (4 connections)
+- [3. Audio Errors](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L127) (4 connections)
+- [4. TypeScript Errors](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L180) (3 connections)
+- [5. Network Errors](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L216) (3 connections)
+- [6. Build Errors](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L252) (3 connections)
+- [error-debugger.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L1) (1 connections)
+- ["Cannot find module 'X'"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L254) (1 connections)
+- ["Cannot read properties of undefined (reading 'useState')"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L20) (1 connections)
+- ["Cannot update a component while rendering a different component"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L55) (1 connections)
+- ["Chunk loading failed"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L273) (1 connections)
+- [Commands](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L297) (1 connections)
+- ["CORS error"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L236) (1 connections)
+- [Debug Checklist](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L289) (1 connections)
+- [Expertise](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L7) (1 connections)
+- ["Failed to decode audio data"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L149) (1 connections)
+- ["Failed to fetch" / "NetworkError"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L218) (1 connections)
+- ["JWT expired"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L97) (1 connections)
+- ["MediaError: MEDIA_ERR_SRC_NOT_SUPPORTED"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L167) (1 connections)
+- ["new row violates row-level security policy"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L74) (1 connections)
+- ["Property 'X' does not exist on type 'Y'"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L197) (1 connections)
+- ["relation does not exist"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L114) (1 connections)
+- ["Rendered more hooks than during the previous render"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md#L37) (1 connections)
+- *... and 3 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (54 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\MidiSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx)
+- [.github/agents/error-debugger.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/error-debugger.md)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 54 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

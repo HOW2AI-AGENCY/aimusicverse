@@ -1,13 +1,20 @@
 # Tablet Limits
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L1) (3 connections)
-- [Avatar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L6) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L25) (1 connections)
-- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L28) (1 connections)
+- [WeeklyChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L1) (10 connections)
+- [challenges](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L28) (1 connections)
+- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L26) (1 connections)
+- [daysLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L24) (1 connections)
+- [format()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L128) (1 connections)
+- [getDifficultyColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L71) (1 connections)
+- [getDifficultyLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L82) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L133) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L134) (1 connections)
+- [weekEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L23) (1 connections)
+- [weekStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\WeeklyChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

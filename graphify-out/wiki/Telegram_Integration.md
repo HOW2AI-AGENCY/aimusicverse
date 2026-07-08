@@ -1,11 +1,16 @@
 # Telegram Integration
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L1) (1 connections)
-- [NodeDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L17) (1 connections)
+- [ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L1) (6 connections)
+- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L65) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L63) (2 connections)
+- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L42) (1 connections)
+- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L52) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L104) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L72) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

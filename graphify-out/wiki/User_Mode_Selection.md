@@ -1,28 +1,40 @@
 # User Mode Selection
 
-> 7 nodes · cohesion 0.29
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L1) (6 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L136) (1 connections)
-- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L80) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L78) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L77) (1 connections)
-- [ProjectPresetCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L22) (1 connections)
-- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx#L90) (1 connections)
+- [Спринт 007: Mobile-First UI/UX - Phase 1 (Setup & Infrastructure)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L1) (9 connections)
+- [Итоги спринта](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L102) (5 connections)
+- [Задачи](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L19) (4 connections)
+- [Критерии приемки](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L60) (3 connections)
+- [SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L1) (1 connections)
+- [Core Hooks & Queries (11 задач)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L44) (1 connections)
+- [Database & Migrations (6 задач)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L21) (1 connections)
+- [Type System Updates (7 задач)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L32) (1 connections)
+- [Достижения](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L104) (1 connections)
+- [Завершенные ✅](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L62) (1 connections)
+- [Зависимости](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L82) (1 connections)
+- [Контекст](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L8) (1 connections)
+- [Метрики](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L113) (1 connections)
+- [Перенесены в Backlog 🔄](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L72) (1 connections)
+- [Риски](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L87) (1 connections)
+- [Следующий спринт](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L93) (1 connections)
+- [Ссылки](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L136) (1 connections)
+- [Технический долг перенесенный в Backlog](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L122) (1 connections)
+- [Уроки](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md#L129) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Messaging Themes]] (36 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\ProjectPresetsCarousel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ProjectPresetsCarousel.tsx)
+- [SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

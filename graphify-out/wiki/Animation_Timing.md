@@ -1,14 +1,22 @@
 # Animation Timing
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [lyricsPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L1) (4 connections)
-- [getLyricsPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L151) (1 connections)
-- [getLyricsPresetsByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L156) (1 connections)
-- [getQuickLyricsPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L161) (1 connections)
-- [LYRICS_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L26) (1 connections)
+- [StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L1) (12 connections)
+- [bgClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L141) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L137) (1 connections)
+- [displayLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L139) (1 connections)
+- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L144) (1 connections)
+- [isCustomIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L145) (1 connections)
+- [isSpinning](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L146) (1 connections)
+- [s](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L163) (1 connections)
+- [shouldPulse](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L140) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L148) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L224) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L51) (1 connections)
+- [textClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L142) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\lyricsPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

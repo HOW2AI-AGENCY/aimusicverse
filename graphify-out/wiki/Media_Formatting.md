@@ -1,11 +1,15 @@
 # Media Formatting
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useThemeIdea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts#L1) (1 connections)
-- [useThemeIdea()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts#L11) (1 connections)
+- [useStudioPerformance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L1) (5 connections)
+- [MAX_RENDER_SAMPLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L24) (1 connections)
+- [MEMORY_WARNING_THRESHOLD_MB](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L23) (1 connections)
+- [useCustomDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L148) (1 connections)
+- [useStudioPerformance()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L26) (1 connections)
+- [useThrottledCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L109) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useThemeIdea.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useThemeIdea.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioPerformance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

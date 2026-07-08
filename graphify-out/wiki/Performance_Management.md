@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L1) (2 connections)
-- [createMockWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L17) (1 connections)
-- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts#L12) (1 connections)
+- [KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L1) (2 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L41) (1 connections)
+- [visibleLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\mockWebApp.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/mockWebApp.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx)
 
 ## Audit Trail
 

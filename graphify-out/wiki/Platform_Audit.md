@@ -1,10 +1,12 @@
 # Platform Audit
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Audio Upload and Processing Flow Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIO_UPLOAD_FLOW.md) (0 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L1) (2 connections)
+- [ACTIVE_REFERENCE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L75) (1 connections)
+- [REFERENCE_EXPIRY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts#L78) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/AUDIO_UPLOAD_FLOW.md](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIO_UPLOAD_FLOW.md)
+- [D:\.MUSICVERSE\aimusicverse\src\services\audio-reference\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/audio-reference/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

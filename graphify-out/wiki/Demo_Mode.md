@@ -1,10 +1,11 @@
 # Demo Mode
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [GitHub Pull Request Template](file:///D:/.MUSICVERSE/aimusicverse/.github/PULL_REQUEST_TEMPLATE.md) (0 connections)
+- [ContextHints](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx#L23) (1 connections)
+- [ContextHints.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.github/PULL_REQUEST_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/.github/PULL_REQUEST_TEMPLATE.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextHints.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

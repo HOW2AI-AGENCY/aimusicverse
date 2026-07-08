@@ -1,11 +1,16 @@
 # Music Player
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [OnboardingStateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts#L1) (1 connections)
-- [transitionOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts#L5) (1 connections)
+- [MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L1) (6 connections)
+- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L24) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L18) (1 connections)
+- [observer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L37) (1 connections)
+- [[overflow, setOverflow]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L21) (1 connections)
+- [[shouldAnimate, setShouldAnimate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L20) (1 connections)
+- [textRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingStateMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStateMachine.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

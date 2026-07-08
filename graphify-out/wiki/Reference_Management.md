@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [useReferenceAudioAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useReferenceAudioAnalysis.ts#L1) (1 connections)
-- [useReferenceAudioAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useReferenceAudioAnalysis.ts#L16) (1 connections)
+- [TrackReferencesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx#L1) (1 connections)
+- [hasReferences](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio-reference\useReferenceAudioAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio-reference/useReferenceAudioAnalysis.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackReferencesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx)
 
 ## Audit Trail
 

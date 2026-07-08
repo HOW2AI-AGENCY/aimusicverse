@@ -1,12 +1,19 @@
 # Section Notes
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L1) (2 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L201) (1 connections)
-- [SUGGESTIONS_RULES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L36) (1 connections)
+- [tab-switching.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L1) (9 connections)
+- [ComponentWithPersistence()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L293) (1 connections)
+- [createTestWrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L93) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L278) (1 connections)
+- [localStorageMock](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L18) (1 connections)
+- [mockPlayerState](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L46) (1 connections)
+- [mockUnifiedStudioState](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L79) (1 connections)
+- [ModeTestComponent()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L352) (1 connections)
+- [tab](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L343) (1 connections)
+- [TabSwitchingTestComponent](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx#L111) (1 connections)
 
 ## Relationships
 
@@ -14,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\studio\tab-switching.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/studio/tab-switching.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

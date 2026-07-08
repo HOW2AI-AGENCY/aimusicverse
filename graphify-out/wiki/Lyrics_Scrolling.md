@@ -1,47 +1,58 @@
 # Lyrics Scrolling
 
-> 38 nodes · cohesion 0.05
+> 117 nodes · cohesion 0.02
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L1) (37 connections)
-- [LazyAddTrackDrawer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L128) (1 connections)
-- [LazyAddVocalsDrawer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L140) (1 connections)
-- [LazyAdvancedSettings](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L164) (1 connections)
-- [LazyAudioCoverDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L26) (1 connections)
-- [LazyAudioExtendDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L30) (1 connections)
-- [LazyAudioVisualizer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L54) (1 connections)
-- [LazyBroadcastPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L184) (1 connections)
-- [LazyDesktopFullscreenPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L84) (1 connections)
-- [LazyExtendDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L112) (1 connections)
-- [LazyFullscreenPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L96) (1 connections)
-- [LazyGamificationOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L76) (1 connections)
-- [LazyGenerateFormCustom](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L148) (1 connections)
-- [LazyGenerateFormSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L152) (1 connections)
-- [LazyGenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L14) (1 connections)
-- [LazyGenerationLogsPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L188) (1 connections)
-- [LazyInteractiveChordWheel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L62) (1 connections)
-- [LazyKlangioAnalysisPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L136) (1 connections)
-- [LazyLyricsChatAssistant](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L18) (1 connections)
-- [LazyLyricsVisualEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L156) (1 connections)
-- [LazyLyricsWorkspace](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L172) (1 connections)
-- [LazyMobileFullscreenPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L92) (1 connections)
-- [LazyMusicGraph](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L58) (1 connections)
-- [LazyNoteFlowVisualization](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L66) (1 connections)
-- [LazyRemixDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts#L108) (1 connections)
-- *... and 13 more nodes in this community*
+- [📋 План доработки, улучшения и расширения MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1) (18 connections)
+- [🚀 РАЗДЕЛ 2: Новые функции и расширение](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L287) (6 connections)
+- [2.1 Музыкальные функции (High Impact)](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L289) (5 connections)
+- [3.1 Frontend Performance](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L796) (5 connections)
+- [🎯 РАЗДЕЛ 10: Roadmap и приоритеты](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1619) (5 connections)
+- [1.2 Высокий приоритет (P1)](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L101) (4 connections)
+- [1.3 Средний приоритет (P2)](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L196) (4 connections)
+- [2.2 Социальные и коммьюнити функции](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L413) (4 connections)
+- [2.3 Платформенные интеграции](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L506) (4 connections)
+- [2.4 AI и автоматизация](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L597) (4 connections)
+- [2.5 Монетизация](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L687) (4 connections)
+- [3.2 Backend Performance](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L884) (4 connections)
+- [4.3 Advanced Features](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1092) (4 connections)
+- [5.1 Test Coverage](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1164) (4 connections)
+- [5.2 Quality Assurance](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1230) (4 connections)
+- [7.1 Security Audit](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1380) (4 connections)
+- [🐛 РАЗДЕЛ 1: Исправление багов и технического долга](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L53) (4 connections)
+- [⚡ РАЗДЕЛ 3: Оптимизация производительности](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L794) (4 connections)
+- [🎨 РАЗДЕЛ 4: UX/UI Улучшения](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L990) (4 connections)
+- [1.1 Критические баги (P0)](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L55) (3 connections)
+- [3.3 Audio Performance](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L950) (3 connections)
+- [4.1 Onboarding & Tutorial](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L992) (3 connections)
+- [4.2 Accessibility](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1038) (3 connections)
+- [6.1 User Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1284) (3 connections)
+- [6.2 Developer Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md#L1325) (3 connections)
+- *... and 92 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Quality Assurance]] (40 shared connections)
+- [[Payment Management]] (36 shared connections)
+- [[Color Management]] (25 shared connections)
+- [[Track Export]] (23 shared connections)
+- [[User Management]] (21 shared connections)
+- [[Lyrics Management]] (17 shared connections)
+- [[Checklist Management]] (15 shared connections)
+- [[Community 1679]] (13 shared connections)
+- [[Track Prompt Management]] (13 shared connections)
+- [[Reference Management]] (13 shared connections)
+- [[unknown]] (9 shared connections)
+- [[Community 2122]] (7 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lazy\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lazy/index.ts)
+- [docs/ru/improvement-plan.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md)
 
 ## Audit Trail
 
-- EXTRACTED: 74 (100%)
+- EXTRACTED: 233 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

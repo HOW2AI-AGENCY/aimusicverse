@@ -1,16 +1,38 @@
 # Context Menu
 
-> 7 nodes · cohesion 0.29
+> 18 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L1) (6 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L35) (1 connections)
-- [hasFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L59) (1 connections)
-- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L28) (1 connections)
-- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L69) (1 connections)
-- [toggleGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L61) (1 connections)
-- [toggleNodeType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L77) (1 connections)
+- [Subscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L1) (17 connections)
+- [LoadingState()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L57) (3 connections)
+- [BenefitItem()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L75) (1 connections)
+- [benefits](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L171) (1 connections)
+- [bestValueProduct](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L125) (1 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L42) (1 connections)
+- [{
+    data: subscriptionProducts,
+    isLoading: isLoadingProducts,
+    error: productsError,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L104) (1 connections)
+- [handleSubscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L157) (1 connections)
+- [{ initiatePayment, flowState, resetFlow }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L122) (1 connections)
+- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L99) (1 connections)
+- [isCurrentTier()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L164) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L52) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L100) (1 connections)
+- [[selectedProduct, setSelectedProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L102) (1 connections)
+- [showExpirationWarning](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L169) (1 connections)
+- [showTrialHighlight](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L101) (1 connections)
+- [{
+    subscription,
+    isLoading: isLoadingStatus,
+    isActive,
+    tier,
+    expiresAt,
+    daysRemaining,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L110) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L98) (1 connections)
 
 ## Relationships
 
@@ -18,12 +40,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\Subscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 34 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,13 +1,20 @@
 # Media Playback
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useAddVocalsProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts#L1) (3 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts#L42) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts#L52) (1 connections)
-- [useAddVocalsProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts#L62) (1 connections)
+- [ProgressSteps.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L1) (10 connections)
+- [Compact](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L43) (1 connections)
+- [Completed](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L39) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L6) (1 connections)
+- [Step1](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L27) (1 connections)
+- [Step2](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L31) (1 connections)
+- [Step3](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L35) (1 connections)
+- [[step, setStep]](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L65) (1 connections)
+- [STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L20) (1 connections)
+- [Vertical](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L47) (1 connections)
+- [WithIcons](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useAddVocalsProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useAddVocalsProgress.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\ProgressSteps.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/ProgressSteps.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

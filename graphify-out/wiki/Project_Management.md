@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [tabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx#L1) (1 connections)
-- [Tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx#L6) (1 connections)
+- [LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L1) (1 connections)
+- [LyricsAutoScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\tabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx)
 
 ## Audit Trail
 

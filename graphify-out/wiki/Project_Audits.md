@@ -1,17 +1,30 @@
 # Project Audits
 
-> 8 nodes · cohesion 0.25
+> 21 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L1) (7 connections)
-- [Pagination()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L7) (1 connections)
-- [PaginationContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L17) (1 connections)
-- [PaginationEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L65) (1 connections)
-- [PaginationItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L24) (1 connections)
-- [PaginationLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L34) (1 connections)
-- [PaginationNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L57) (1 connections)
-- [PaginationPrevious()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L49) (1 connections)
+- [PublicProfilePage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L1) (20 connections)
+- [formatValue()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L652) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L79) (1 connections)
+- [{ data: artists, isLoading: artistsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L182) (1 connections)
+- [{ data: playlists, isLoading: playlistsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L201) (1 connections)
+- [{ data: profile, isLoading: profileLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L91) (1 connections)
+- [{ data: projects, isLoading: projectsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L163) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L110) (1 connections)
+- [{ data: tracks, isLoading: tracksLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L148) (1 connections)
+- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L229) (1 connections)
+- [handleShare()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L219) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L78) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L82) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L76) (1 connections)
+- [profileDescription](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L266) (1 connections)
+- [profileUrl](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L265) (1 connections)
+- [{ shouldShowUIButton: showUIBackButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L85) (1 connections)
+- [[showFullBio, setShowFullBio]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L80) (1 connections)
+- [socialLinks](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L235) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L77) (1 connections)
+- [{ userId }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L75) (1 connections)
 
 ## Relationships
 
@@ -19,12 +32,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\PublicProfilePage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 40 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

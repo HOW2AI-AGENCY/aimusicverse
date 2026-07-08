@@ -1,11 +1,17 @@
 # Audio Logging
 
-> 2 nodes · cohesion 1.00
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [isAssistant](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L15) (1 connections)
-- [ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L1) (1 connections)
+- [useGenerateFormValidation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L1) (7 connections)
+- [setupValidationHook()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L51) (2 connections)
+- [boosted](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L99) (1 connections)
+- [boostPromise](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L155) (1 connections)
+- [resolveInvoke()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L144) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L87) (1 connections)
+- [{ result, setDescription, setStyle }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L105) (1 connections)
+- [{ result, setStyle }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L187) (1 connections)
 
 ## Relationships
 
@@ -13,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useGenerateFormValidation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

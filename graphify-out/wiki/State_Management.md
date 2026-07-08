@@ -1,23 +1,29 @@
 # State Management
 
-> 2 nodes · cohesion 1.00
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [SafeAreaContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx#L1) (1 connections)
-- [SafeAreaContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx#L25) (1 connections)
+- [aimusicverse Development Guidelines](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md#L1) (4 connections)
+- [Add commands for Markdown, GitHub Flavored Markdown, Mermaid diagrams](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md#L18) (3 connections)
+- [specify-rules.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md#L1) (2 connections)
+- [Active Technologies](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md#L5) (1 connections)
+- [Code Style](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md#L20) (1 connections)
+- [Commands](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md#L16) (1 connections)
+- [Project Structure](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md#L9) (1 connections)
+- [Recent Changes](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md#L24) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[E-commerce Bot]] (14 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SafeAreaContainer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaContainer.tsx)
+- [.kilocode/rules/specify-rules.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/rules/specify-rules.md)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

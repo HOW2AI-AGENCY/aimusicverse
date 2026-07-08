@@ -150,8 +150,8 @@ Week 4 (July 28 - Aug 1):
 | ------- | ------------------------------------------------- | ---------- |
 | **057** | E2E CI green + Branch Protection complete         | 📋 Planned |
 | **058** | i18n EN/RU (3 домена: mashup, studio, generation) | 📋 Planned |
-| **059** | Collaboration features (realtime sessions)        | 💡 Concept |
-| **060** | Public Developer API + Webhooks                   | 💡 Concept |
+| **059** | Bundle optimization + API/Service unit tests      | 📋 Planned |
+| **060** | Design polish (search, skeleton, transitions)     | 📋 Planned |
 
 ---
 

@@ -1,11 +1,16 @@
 # Instrument Management
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [VersionBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionBadge.tsx#L1) (1 connections)
-- [VersionBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionBadge.tsx#L16) (1 connections)
+- [EssentialsKnobGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L1) (6 connections)
+- [advancedChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L46) (1 connections)
+- [ESSENTIAL_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L27) (1 connections)
+- [essentialChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L43) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L40) (1 connections)
+- [knobSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L48) (1 connections)
+- [[showAll, setShowAll]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\VersionBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\EssentialsKnobGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

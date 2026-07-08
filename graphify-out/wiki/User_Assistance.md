@@ -1,25 +1,27 @@
 # User Assistance
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Итоговый отчет: Улучшение документации и репозитория](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md) (0 connections)
+- [AGENTS.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/rules-architect/AGENTS.md#L1) (2 connections)
+- [AGENTS.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/rules-architect/AGENTS.md#L1) (1 connections)
+- [Non-Obvious Architectural Constraints](file:///D:/.MUSICVERSE/aimusicverse/.roo/rules-architect/AGENTS.md#L5) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2392]] (4 shared connections)
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md)
+- [.roo/rules-architect/AGENTS.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/rules-architect/AGENTS.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

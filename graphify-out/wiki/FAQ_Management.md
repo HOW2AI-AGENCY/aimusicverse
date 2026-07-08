@@ -1,29 +1,41 @@
 # FAQ Management
 
-> 8 nodes · cohesion 0.25
+> 20 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [useGenerateFormValidation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L1) (7 connections)
-- [boosted](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L99) (1 connections)
-- [boostPromise](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L155) (1 connections)
-- [resolveInvoke()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L144) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L87) (1 connections)
-- [{ result, setDescription, setStyle }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L105) (1 connections)
-- [{ result, setStyle }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L187) (1 connections)
-- [setupValidationHook()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts#L51) (1 connections)
+- [Mobile & Telegram Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L1) (8 connections)
+- [Mobile Design Patterns](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L130) (5 connections)
+- [Telegram Mini App](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L23) (5 connections)
+- [Common Issues](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L207) (4 connections)
+- [mobile-telegram.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L1) (1 connections)
+- [Bottom Sheet](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L187) (1 connections)
+- [Commands](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L275) (1 connections)
+- [Deep Linking](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L70) (1 connections)
+- [Expertise](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L7) (1 connections)
+- [Haptic Feedback](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L44) (1 connections)
+- [Initialization](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L25) (1 connections)
+- [Issue: Keyboard pushing content](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L240) (1 connections)
+- [Issue: Telegram theme not applying](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L259) (1 connections)
+- [Issue: Viewport height on mobile](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L209) (1 connections)
+- [Key Files](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L16) (1 connections)
+- [Role](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L3) (1 connections)
+- [Safe Area](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L146) (1 connections)
+- [Sharing](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L107) (1 connections)
+- [Swipe Gestures](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L164) (1 connections)
+- [Touch Targets](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md#L132) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Blog Skeletons]] (38 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useGenerateFormValidation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateFormValidation.test.ts)
+- [.github/agents/mobile-telegram.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/mobile-telegram.md)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 38 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

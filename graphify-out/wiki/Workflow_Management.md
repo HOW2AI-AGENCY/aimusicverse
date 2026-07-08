@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useStudioState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L1) (2 connections)
-- [DEFAULT_STEM_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L61) (1 connections)
-- [useStudioState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L68) (1 connections)
+- [Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L1) (2 connections)
+- [roundedClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L78) (1 connections)
+- [widths](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L110) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx)
 
 ## Audit Trail
 

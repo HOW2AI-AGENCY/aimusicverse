@@ -1,22 +1,35 @@
 # Music Tagging
 
-> 13 nodes · cohesion 0.15
+> 38 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [ExperimentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L1) (12 connections)
-- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L216) (1 connections)
-- [conversions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L215) (1 connections)
-- [experiments](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L65) (1 connections)
-- [isWinner](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L217) (1 connections)
-- [MOCK_RESULTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L29) (1 connections)
-- [participants](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L214) (1 connections)
-- [[selectedExperiment, setSelectedExperiment]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L62) (1 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L76) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L177) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L170) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L178) (1 connections)
-- [totalParticipants](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L180) (1 connections)
+- [StudioShell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L1) (37 connections)
+- [{ activeStems, limitedStems, showFallbackWarning, dismissWarning }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L133) (1 connections)
+- [audioEngine](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L155) (1 connections)
+- [audioTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L97) (1 connections)
+- [autoSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L138) (1 connections)
+- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L258) (1 connections)
+- [ctxTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L261) (1 connections)
+- [{ data: lyricsData }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L190) (1 connections)
+- [{ data: replacedSectionsData }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L192) (1 connections)
+- [{ data: sourceTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L187) (1 connections)
+- [detectedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L191) (1 connections)
+- [dialogs](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L87) (1 connections)
+- [displayTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L362) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L166) (1 connections)
+- [handleMobileTrackAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L289) (1 connections)
+- [{ handleSave, handleBack, handleAddTrack, handleSeek, handlePlayPause, handleStemSeparation, isSeparating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L169) (1 connections)
+- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L349) (1 connections)
+- [hasSoloTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L387) (1 connections)
+- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L201) (1 connections)
+- [inst](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L557) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L56) (1 connections)
+- [{ isMountedRef }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L184) (1 connections)
+- [mainAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L94) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L55) (1 connections)
+- [operationLock](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx#L199) (1 connections)
+- *... and 13 more nodes in this community*
 
 ## Relationships
 
@@ -24,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ExperimentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 74 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

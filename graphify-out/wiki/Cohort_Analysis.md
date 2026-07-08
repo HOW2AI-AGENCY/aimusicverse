@@ -1,13 +1,20 @@
 # Cohort Analysis
 
-> 4 nodes · cohesion 0.67
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L1) (3 connections)
-- [useSectionNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L158) (2 connections)
-- [useSectionNotesData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L97) (2 connections)
-- [sectionNotesKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L35) (1 connections)
+- [form.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L1) (10 connections)
+- [Form](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L9) (1 connections)
+- [FormControl](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L85) (1 connections)
+- [FormDescription](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L102) (1 connections)
+- [FormField](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L20) (1 connections)
+- [FormFieldContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L18) (1 connections)
+- [FormItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L62) (1 connections)
+- [FormItemContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L60) (1 connections)
+- [FormLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L75) (1 connections)
+- [FormMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L111) (1 connections)
+- [useFormField()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\form.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

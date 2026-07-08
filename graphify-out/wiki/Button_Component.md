@@ -1,15 +1,24 @@
 # Button Component
 
-> 6 nodes · cohesion 0.33
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L1) (5 connections)
-- [closeTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L40) (1 connections)
-- [confettiTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L37) (1 connections)
-- [fireConfetti()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L28) (1 connections)
-- [[showContent, setShowContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L20) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx#L25) (1 connections)
+- [ChordDiagramUnified.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L1) (14 connections)
+- [adjustedFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L159) (1 connections)
+- [Component](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L67) (1 connections)
+- [componentProps](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L68) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L42) (1 connections)
+- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L41) (1 connections)
+- [firstString](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L163) (1 connections)
+- [{ frets, fingers = [], barres = [] }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L61) (1 connections)
+- [lastString](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L164) (1 connections)
+- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L62) (1 connections)
+- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L63) (1 connections)
+- [numFrets](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L64) (1 connections)
+- [SIZE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L23) (1 connections)
+- [startFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L65) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L162) (1 connections)
 
 ## Relationships
 
@@ -17,11 +26,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\popups\WelcomeBonusPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/WelcomeBonusPopup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagramUnified.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,14 +1,22 @@
 # Invoice Management
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L1) (4 connections)
-- [TrackListContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L16) (1 connections)
-- [TrackListProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L27) (1 connections)
-- [useTrackInList()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L51) (1 connections)
-- [useTrackListContext()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L43) (1 connections)
+- [analysis.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L1) (12 connections)
+- [chainMock()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L26) (2 connections)
+- [analysis](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L46) (1 connections)
+- [bucket](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L87) (1 connections)
+- [file](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L92) (1 connections)
+- [id](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L109) (1 connections)
+- [mockFrom](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L22) (1 connections)
+- [mockFunctions](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L23) (1 connections)
+- [mockStorage](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L24) (1 connections)
+- [recording](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L197) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L48) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L149) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts#L93) (1 connections)
 
 ## Relationships
 
@@ -16,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\analysis.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analysis.api.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 24 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,16 +1,26 @@
 # Testing Utilities
 
-> 7 nodes · cohesion 0.29
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [useEnhancedAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L1) (6 connections)
-- [useActiveUsersStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L143) (1 connections)
-- [useContentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L247) (1 connections)
-- [useErrorDistribution()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L184) (1 connections)
-- [useGenerationModeStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L99) (1 connections)
-- [useModelUsageStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L47) (1 connections)
-- [useSourceDistribution()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L273) (1 connections)
+- [UnifiedVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L1) (16 connections)
+- [fetchVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L82) (2 connections)
+- [if()](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L263) (2 connections)
+- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L71) (1 connections)
+- [[activeVersionId, setActiveVersionId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L75) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L278) (1 connections)
+- [handlePreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L170) (1 connections)
+- [handleSwitch](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L121) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L70) (1 connections)
+- [[hasFetched, setHasFetched]](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L79) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L230) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L76) (1 connections)
+- [isPreviewing](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L310) (1 connections)
+- [[isSwitching, setIsSwitching]](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L77) (1 connections)
+- [[previewingId, setPreviewingId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L78) (1 connections)
+- [{ setPrimaryVersionAsync }](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L72) (1 connections)
+- [[versions, setVersions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx#L74) (1 connections)
 
 ## Relationships
 
@@ -18,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEnhancedAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\shared\UnifiedVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/shared/UnifiedVersionSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 34 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

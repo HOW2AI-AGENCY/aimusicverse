@@ -1,12 +1,19 @@
 # Product Attributes
 
-> 3 nodes · cohesion 1.00
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L1) (2 connections)
-- [getScoreLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L36) (2 connections)
-- [ProducerResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L43) (2 connections)
+- [breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L1) (9 connections)
+- [BREAKPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L15) (1 connections)
+- [GAPS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L111) (1 connections)
+- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L42) (1 connections)
+- [hideBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L168) (1 connections)
+- [LAYOUT_RATIOS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L131) (1 connections)
+- [matchesBreakpoint()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L182) (1 connections)
+- [MAX_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L83) (1 connections)
+- [showBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L175) (1 connections)
+- [SIDEBAR_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L154) (1 connections)
 
 ## Relationships
 
@@ -14,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

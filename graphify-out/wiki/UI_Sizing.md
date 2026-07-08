@@ -1,12 +1,17 @@
 # UI Sizing
 
-> 3 nodes · cohesion 0.67
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [useGenerationResult.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerationResult.test.ts#L1) (2 connections)
-- [EXPECT_RESULT_KEY](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerationResult.test.ts#L18) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerationResult.test.ts#L50) (1 connections)
+- [VisualStyleEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L1) (7 connections)
+- [handleAddKeyword()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L80) (2 connections)
+- [handleRemoveKeyword()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L90) (2 connections)
+- [[formData, setFormData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L65) (1 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L97) (1 connections)
+- [IMAGE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L45) (1 connections)
+- [[newKeyword, setNewKeyword]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L78) (1 connections)
+- [TYPOGRAPHY_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -14,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useGenerationResult.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerationResult.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\VisualStyleEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/VisualStyleEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (88%)
+- INFERRED: 2 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,12 +1,18 @@
 # Funnel Analytics
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L1) (2 connections)
-- [roundedClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L78) (1 connections)
-- [widths](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L110) (1 connections)
+- [AudioPoolMonitor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L1) (8 connections)
+- [[activeElements, setActiveElements]](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L23) (1 connections)
+- [getPriorityColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L52) (1 connections)
+- [getPriorityLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L39) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L27) (1 connections)
+- [isAtLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L37) (1 connections)
+- [isNearLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L36) (1 connections)
+- [[stats, setStats]](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L22) (1 connections)
+- [utilizationPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -14,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\debug\AudioPoolMonitor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

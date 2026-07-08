@@ -1,19 +1,19 @@
-# Architectural Compass - D:\.MUSICVERSE\aimusicverse (2026-07-04)
+# Architectural Compass - D:\.MUSICVERSE\aimusicverse (2026-07-09)
 
 > [!NOTE]
 > This is a token-optimized summary. For deep logic, see GRAPH_REPORT.md.
 
 ## Core Abstractions (God Nodes)
-1. `from` (514 edges)
-2. `{ error }` (489 edges)
-3. `Select` (370 edges)
-4. `map` (259 edges)
-5. `now` (215 edges)
-6. `success` (151 edges)
-7. `sendMessage()` (136 edges)
-8. `invoke()` (134 edges)
-9. `editMessageText()` (131 edges)
-10. `useAuth()` (128 edges)
+1. `{ error }` (564 edges)
+2. `from` (545 edges)
+3. `eq()` (374 edges)
+4. `Select` (372 edges)
+5. `map` (348 edges)
+6. `slice()` (245 edges)
+7. `filter()` (241 edges)
+8. `trim()` (225 edges)
+9. `now` (224 edges)
+10. `split()` (179 edges)
 
 ## System Layers
 - **L0: Global/Entry**: 

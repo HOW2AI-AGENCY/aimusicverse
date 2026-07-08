@@ -63,37 +63,43 @@
 
 ---
 
-## 🆕 Сессия 2026-07-08 — AI Agent Activity Panel & dead-code cleanup 🔄
+## 🆕 Сессия 2026-07-09 — Sprint 057 (E2E CI Green + Branch Protection) ✅
 
 **Uncommitted work (to be pushed)** — branch: `feat/ai-agent-activity-panel-cleanup`
 
 ### Выполнено:
 
-1. **AI Agent Activity Panel** ✅
-   - Новый компонент `src/components/lyrics-workspace/ai-agent/AIAgentActivityPanel.tsx` — компактная панель прозрачности действий агента: контекст (проект / трек / секция / текущий текст), текущее действие, задачи workflow, история действий агента.
-   - Типы `AIAgentContext`, `AgentAction`, `WorkflowState` в `src/components/lyrics-workspace/ai-agent/types.ts`.
-   - Интегрирован в `LyricsAIChatAgent.tsx` и `MobileAIAgentPanel.tsx`.
+1. **9Router cleanup** ✅
+   - Удалены файлы: `src/services/ninerouter/`, `src/services/lyrics/ninerouter-lyrics.service.ts`, `src/services/lyrics/ai-lyrics-router.service.ts`, `src/hooks/useNineRouter.ts`.
+   - Удалены ссылки из CLAUDE.md, README.md, PROJECT_STATUS.md, SPRINT-PROGRESS.md, FUTURE_WORK_PLAN.md, .env.example.
+   - Восстановлен `.claude/skills/9router/SKILL.md` (для общения с Claude).
+   - `tsc --noEmit` 0 ошибок, `npm test -- --run` 1489 passing.
 
-2. **Dead-code cleanup** ✅
-   - Удалены неиспользуемые модули: `src/lib/a11y*`, `src/lib/accessibility.ts`, `src/components/suno/*`, `src/lib/{common,feature-flags,gesture-*,haptics,lazy,motion-variants,performance-utils,retry,sanitizeFilename,stateMachine,storage,workflow-engine}.ts`, `src/stores/middleware/withHistory.ts`, `src/types/branded.ts`.
-   - Удалены устаревшие тесты: `src/__tests__/feature-flags/generate-sheet-redesign-flag.test.ts`, `src/__tests__/lib/accessibility.test.ts`, `src/__tests__/lib/performance.test.ts`, `src/__tests__/stores/withHistory.test.ts`.
-   - Чистка не затронула собираемость: `tsc --noEmit` 0 ошибок, `npm test -- --run` 1484 passing.
+2. **E2E стабилизация** ✅
+   - `generation.mobile-taps.spec.ts` — исправлен локатор для чипов на главной (`[role="tab"]` → `button[aria-label*="тег"]`).
+   - Тест проходит flaky (3 попытки), CI зелёный.
 
-3. **9Router lyrics service** ✅
-   - Обновлён `src/services/lyrics/ninerouter-lyrics.service.ts` и `src/hooks/useNineRouter.ts`.
-   - Добавлен smart router в `src/services/ninerouter/ninerouter.service.ts`.
+3. **Branch Protection Phase 2** ✅
+   - Ruleset `18581121`: required checks `quality`, `build`, E2E (chromium), E2E (Mobile Chrome).
+   - Force-push и deletion заблокированы, `bypass_actors: []`.
 
-4. **Tooling fixes** ✅
-   - `scripts/count-any.mjs`: добавлен `existsSync` guard для удалённых tracked-файлов — больше не падает с `ENOENT`.
-   - `.claude/settings.json`: отформатирован prettier.
+4. **Документация обновлена** ✅
+   - README.md: метрики (1489 unit tests, 1161 компонентов, 434 хука, 30 API файлов, 24 stores, 37 сервисов).
+   - PROJECT_STATUS.md: сессия 2026-07-09, Sprint 057 ✅.
+   - FUTURE_WORK_PLAN.md: Sprint 057 → E2E CI Green + Branch Protection, Sprint 058 → i18n EN/RU.
 
 ### Метрики сессии:
 
 - TypeScript: 0 errors ✅
-- Unit тесты: 1484 passing (121 test files) ✅
+- Unit тесты: 1489 passing (122 test files) ✅
 - `any` budget: 0/50 ✅
 - Файлов >800 LOC в `src/`: 0 ✅
 - Eager bundle: 508 KB gzip ✅
+- Компонентов: 1161 (было 1009)
+- Хуков: 434 (было 438)
+- API файлов: 30 (было 31)
+- Сервисов: 37 (было 49)
+- Stores: 24 (было 22)
 
 ---
 

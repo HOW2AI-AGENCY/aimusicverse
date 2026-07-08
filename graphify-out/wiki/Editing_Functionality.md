@@ -1,18 +1,46 @@
 # Editing Functionality
 
-> 9 nodes · cohesion 0.22
+> 25 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L113) (1 connections)
-- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L33) (1 connections)
-- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L70) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L65) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L49) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L46) (1 connections)
-- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L34) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L47) (1 connections)
+- [Index.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L1) (26 connections)
+- [activeTrack](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L58) (1 connections)
+- [aiSuggestBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L175) (1 connections)
+- [AudioActionDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L47) (1 connections)
+- [[audioDialogOpen, setAudioDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L62) (1 connections)
+- [bottomPadding](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L181) (1 connections)
+- [cleanup](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L79) (1 connections)
+- [createBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L120) (1 connections)
+- [discoverBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L133) (1 connections)
+- [displayUser](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L111) (1 connections)
+- [GenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L43) (1 connections)
+- [[generateSheetOpen, setGenerateSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L60) (1 connections)
+- [genresBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L169) (1 connections)
+- [{ goToProfile, handleCreate, handleTrackClick, handleQuickGenrePreset }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L101) (1 connections)
+- [heroBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L114) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L57) (1 connections)
+- [{ isNewUser }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L85) (1 connections)
+- [MusicRecognitionDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L44) (1 connections)
+- [openAudioDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L69) (1 connections)
+- [openGenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L68) (1 connections)
+- [openRecognitionDialog](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L70) (1 connections)
+- [{
+    recentTracks,
+    popularTracks,
+    tracksByGenre,
+    isLoading,
+    hasMoreRecent,
+    isLoadingMoreRecent,
+    fetchMoreRecent,
+    hasMorePopular,
+    isLoadingMorePopular,
+    fetchMorePopular,
+    refresh,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L87) (1 connections)
+- [[recognitionDialogOpen, setRecognitionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L61) (1 connections)
+- [trendingBlock](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L156) (1 connections)
+- [{ user: telegramUser }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -20,11 +48,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Index.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Index.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 50 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

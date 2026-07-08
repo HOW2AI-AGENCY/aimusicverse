@@ -1,10 +1,11 @@
 # Sprint Status
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Sprint 025 Status - Quick Reference](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_STATUS.md) (0 connections)
+- [Visualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/Visualizer.tsx#L1) (1 connections)
+- [Visualizer](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/Visualizer.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_025_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_STATUS.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\Visualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/Visualizer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

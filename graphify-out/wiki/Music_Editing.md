@@ -1,16 +1,27 @@
 # Music Editing
 
-> 7 nodes · cohesion 0.38
+> 18 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L1) (6 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L46) (3 connections)
-- [handleRedo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L34) (2 connections)
-- [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L24) (2 connections)
-- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L75) (1 connections)
-- [historyLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L74) (1 connections)
-- [{ undo, redo, canUndo, canRedo, getHistoryLength, getHistoryIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L22) (1 connections)
+- [ReferenceMidiSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L1) (18 connections)
+- [availableStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L77) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L152) (1 connections)
+- [[error, setError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L72) (1 connections)
+- [FORMAT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L51) (1 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L132) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L153) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L154) (1 connections)
+- [MODEL_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L58) (1 connections)
+- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L70) (1 connections)
+- [[result, setResult]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L71) (1 connections)
+- [[selectedFormat, setSelectedFormat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L68) (1 connections)
+- [[selectedModel, setSelectedModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L69) (1 connections)
+- [[selectedStem, setSelectedStem]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L67) (1 connections)
+- [STEM_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L42) (1 connections)
+- [transcribeMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L74) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L66) (1 connections)
+- [validModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L86) (1 connections)
 
 ## Relationships
 
@@ -18,11 +29,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceMidiSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 35 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

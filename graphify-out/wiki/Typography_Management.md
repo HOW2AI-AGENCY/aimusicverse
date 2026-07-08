@@ -1,28 +1,39 @@
 # Typography Management
 
-> 7 nodes · cohesion 0.29
+> 18 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L1) (6 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L92) (1 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L42) (1 connections)
-- [categoryShortcuts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L110) (1 connections)
-- [KeyBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L54) (1 connections)
-- [ShortcutRow](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L71) (1 connections)
-- [SHORTCUTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx#L21) (1 connections)
+- [Решение](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L10) (10 connections)
+- [ADR-003: Архитектура оптимизации производительности](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L1) (6 connections)
+- [Последствия](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L106) (3 connections)
+- [ADR-003-Performance-Optimization-Architecture.md](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L1) (1 connections)
+- [1. Консолидация запросов данных](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L14) (1 connections)
+- [2. Оптимизированное кэширование TanStack Query](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L25) (1 connections)
+- [3. Виртуализация списков](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L37) (1 connections)
+- [4. Ленивая загрузка изображений](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L48) (1 connections)
+- [5. Batch-запросы для счётчиков](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L59) (1 connections)
+- [6. Studio State Management (NEW - 2026-01-07)](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L65) (1 connections)
+- [7. Waveform Caching (NEW - 2026-01-07)](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L76) (1 connections)
+- [8. Optimized Playback (NEW - 2026-01-07)](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L87) (1 connections)
+- [9. Optimized Components (NEW - 2026-01-07)](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L97) (1 connections)
+- [Контекст](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L6) (1 connections)
+- [Метрики](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L123) (1 connections)
+- [Отрицательные:](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L117) (1 connections)
+- [Положительные:](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L108) (1 connections)
+- [Связанные изменения](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md#L133) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (34 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/KeyboardShortcutsDialog.tsx)
+- [ADR/ADR-003-Performance-Optimization-Architecture.md](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR-003-Performance-Optimization-Architecture.md)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 34 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

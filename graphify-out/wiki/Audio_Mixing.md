@@ -1,24 +1,31 @@
 # Audio Mixing
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L1) (2 connections)
-- [asDialogTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L41) (1 connections)
-- [exportTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L90) (1 connections)
+- [Layer Violations — Sprint 039](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L1) (9 connections)
+- [LAYER_VIOLATIONS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L1) (1 connections)
+- [Категория 1: Storage (30 нарушений, 15 файлов)](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L26) (1 connections)
+- [Категория 2: Auth (12 нарушений, 12 файлов)](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L51) (1 connections)
+- [Категория 3: Data Reads (25 нарушений, 14 файлов)](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L75) (1 connections)
+- [Категория 4: Data Writes (20 нарушений, 13 файлов)](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L103) (1 connections)
+- [Категория 5: RPC (8 нарушений, 5 файлов)](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L127) (1 connections)
+- [Новые API-функции (добавлены в рамках 039-02)](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L139) (1 connections)
+- [Прогресс исправлений](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L165) (1 connections)
+- [Статус по категориям](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md#L12) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (18 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx)
+- [docs/LAYER_VIOLATIONS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYER_VIOLATIONS.md)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

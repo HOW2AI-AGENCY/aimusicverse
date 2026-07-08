@@ -1,16 +1,27 @@
 # Carousel Component
 
-> 7 nodes · cohesion 0.29
+> 18 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L1) (6 connections)
-- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L27) (1 connections)
-- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L22) (1 connections)
-- [LANGUAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L13) (1 connections)
-- [[preserveSyllables, setPreserveSyllables]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L20) (1 connections)
-- [sourceLanguage](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L25) (1 connections)
-- [[targetLanguage, setTargetLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L19) (1 connections)
+- [BuyCredits.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L1) (17 connections)
+- [LoadingState()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L29) (3 connections)
+- [CreditInfoItem()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L48) (1 connections)
+- [{ data: groupedProducts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L83) (1 connections)
+- [displayProducts](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L108) (1 connections)
+- [handleProductClick()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L110) (1 connections)
+- [handlePurchase()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L115) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L78) (1 connections)
+- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L77) (1 connections)
+- [isBestValue](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L250) (1 connections)
+- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L121) (1 connections)
+- [{ pay: payWithTinkoff, isLoading: isTinkoffLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L84) (1 connections)
+- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L247) (1 connections)
+- [[selectedProduct, setSelectedProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L80) (1 connections)
+- [[showPurchasePanel, setShowPurchasePanel]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L81) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L123) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L76) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L79) (1 connections)
 
 ## Relationships
 
@@ -18,12 +29,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\BuyCredits.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 34 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,13 +1,19 @@
 # Feature Toggles
 
-> 4 nodes · cohesion 0.50
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [useGenerateDraft.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L1) (3 connections)
-- [draft](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L47) (1 connections)
-- [DRAFT_KEY](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L9) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts#L18) (1 connections)
+- [DrumRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L1) (9 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L73) (2 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L81) (2 connections)
+- [audio](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L39) (1 connections)
+- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L31) (1 connections)
+- [handleUseAsReference()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L89) (1 connections)
+- [{ pauseTrack, isPlaying: globalIsPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L33) (1 connections)
+- [[recordingTime, setRecordingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L34) (1 connections)
+- [sourceId](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L32) (1 connections)
+- [timerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -15,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useGenerateDraft.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useGenerateDraft.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (90%)
+- INFERRED: 2 (10%)
 - AMBIGUOUS: 0 (0%)
 
 ---

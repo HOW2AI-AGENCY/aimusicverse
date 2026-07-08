@@ -1,10 +1,11 @@
 # Game Player Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [/speckit.taskstoissues command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.taskstoissues.md) (0 connections)
+- [TrackBadges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/TrackBadges.tsx#L1) (1 connections)
+- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/TrackBadges.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.roo/commands/speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.taskstoissues.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\shared\TrackBadges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/TrackBadges.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

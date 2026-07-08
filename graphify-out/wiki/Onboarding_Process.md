@@ -1,13 +1,12 @@
 # Onboarding Process
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TrackChangelogTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx#L1) (3 connections)
-- [{ data: changelog, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx#L11) (1 connections)
-- [getChangeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx#L13) (1 connections)
-- [getChangeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx#L26) (1 connections)
+- [historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L1) (2 connections)
+- [createHistorySlice()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L47) (1 connections)
+- [DEFAULT_EXCLUDE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -15,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackChangelogTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackChangelogTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\zustand\historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

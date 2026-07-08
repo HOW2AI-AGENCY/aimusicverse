@@ -1,11 +1,15 @@
 # Device Detection
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L1) (1 connections)
-- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L21) (1 connections)
+- [LyricsVisualEditor.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsVisualEditor.stories.tsx#L1) (5 connections)
+- [CustomSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsVisualEditor.stories.tsx#L65) (1 connections)
+- [DragDemo](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsVisualEditor.stories.tsx#L81) (1 connections)
+- [Empty](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsVisualEditor.stories.tsx#L35) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsVisualEditor.stories.tsx#L13) (1 connections)
+- [PopTemplate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsVisualEditor.stories.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics\LyricsVisualEditor.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsVisualEditor.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

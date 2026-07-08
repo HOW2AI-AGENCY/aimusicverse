@@ -1,11 +1,16 @@
 # Data Access
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [EditableLyricsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx#L1) (1 connections)
-- [EditableLyricsContent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx#L18) (1 connections)
+- [AddVocalsToReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L1) (7 connections)
+- [addVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L45) (1 connections)
+- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L41) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L39) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L40) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L42) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\EditableLyricsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/EditableLyricsContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\AddVocalsToReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 13 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

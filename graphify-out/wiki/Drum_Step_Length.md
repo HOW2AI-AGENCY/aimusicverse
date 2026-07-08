@@ -1,12 +1,26 @@
 # Drum Step Length
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useHealthAlert.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L1) (2 connections)
-- [useForceHealthAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L16) (1 connections)
-- [useSendTestHealthAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts#L10) (1 connections)
+- [AddTrackDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L1) (8 connections)
+- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L43) (2 connections)
+- [handleSuccess()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L53) (2 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L87) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L88) (1 connections)
+- [isSuggested](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L89) (1 connections)
+- [[selectedType, setSelectedType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L30) (1 connections)
+- [[styleHint, setStyleHint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L31) (1 connections)
+- [{
+    trackContext,
+    isLoadingContext,
+    refetchContext,
+    generateStem,
+    isGenerating,
+    generationProgress,
+    lastGeneration,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -14,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useHealthAlert.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useHealthAlert.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddTrackDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddTrackDrawer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 16 (89%)
+- INFERRED: 2 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

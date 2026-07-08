@@ -1,10 +1,11 @@
 # E-commerce Bot
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Global Components and UX](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md) (0 connections)
+- [ConfirmationDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx#L22) (1 connections)
+- [ConfirmationDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/UI_UX_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ConfirmationDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ConfirmationDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,11 +1,16 @@
 # Track Selection
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L1) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L46) (1 connections)
+- [presetIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L1) (6 connections)
+- [getLyricsPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L54) (1 connections)
+- [getProjectPresetIconById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L68) (1 connections)
+- [getTrackPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L38) (1 connections)
+- [LYRICS_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L43) (1 connections)
+- [PROJECT_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L59) (1 connections)
+- [TRACK_PRESET_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\presetIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/presetIcons.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

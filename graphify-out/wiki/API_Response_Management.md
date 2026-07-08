@@ -1,14 +1,22 @@
 # API Response Management
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [app.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L1) (4 connections)
-- [getComingSoonFeatures()](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L65) (2 connections)
-- [APP_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L6) (1 connections)
-- [FEATURE_METADATA](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L74) (1 connections)
-- [isFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L58) (1 connections)
+- [StudioMusicLabSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L1) (12 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L121) (2 connections)
+- [barCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L137) (1 connections)
+- [handleRecordToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L128) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L157) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L274) (1 connections)
+- [{ isActive: isPro }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L98) (1 connections)
+- [isLocked](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L158) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L203) (1 connections)
+- [MODE_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L85) (1 connections)
+- [musicLab](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L100) (1 connections)
+- [RECORDING_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L61) (1 connections)
+- [threshold](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx#L273) (1 connections)
 
 ## Relationships
 
@@ -16,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\config\app.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioMusicLabSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMusicLabSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 24 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

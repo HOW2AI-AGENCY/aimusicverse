@@ -1,10 +1,14 @@
 # Repository Audit
 
-> 1 nodes · cohesion 1.00
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/index.ts#L1) (0 connections)
+- [MobileSectionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L58) (1 connections)
+- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L45) (1 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L47) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -12,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSectionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

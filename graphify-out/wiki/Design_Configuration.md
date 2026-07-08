@@ -1,19 +1,35 @@
 # Design Configuration
 
-> 10 nodes · cohesion 0.24
+> 30 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L1) (9 connections)
-- [checkFileName()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L63) (4 connections)
-- [shouldIgnore()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L59) (2 connections)
-- [walkDirectory()](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L109) (2 connections)
-- [checkedFiles](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L57) (1 connections)
-- [IGNORE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L17) (1 connections)
-- [PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L43) (1 connections)
-- [SRC_DIR](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L16) (1 connections)
-- [srcPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L130) (1 connections)
-- [violations](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js#L56) (1 connections)
+- [schemas.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L1) (29 connections)
+- [clipSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L70) (1 connections)
+- [commentSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L285) (1 connections)
+- [createCommentSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L298) (1 connections)
+- [createProjectParamsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L180) (1 connections)
+- [createReportSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L314) (1 connections)
+- [generationParamsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L270) (1 connections)
+- [lyricsFormDataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L260) (1 connections)
+- [noteTypeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L230) (1 connections)
+- [paginationSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L22) (1 connections)
+- [projectStatusSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L132) (1 connections)
+- [reportReasonSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L309) (1 connections)
+- [schemas](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L323) (1 connections)
+- [sortSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L30) (1 connections)
+- [stemsModeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L137) (1 connections)
+- [studioLyricVersionSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L235) (1 connections)
+- [studioProjectSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L157) (1 connections)
+- [studioSectionNoteSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L247) (1 connections)
+- [studioTrackSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L97) (1 connections)
+- [trackEffectsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L88) (1 connections)
+- [trackFormDataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L119) (1 connections)
+- [trackMetadataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L50) (1 connections)
+- [trackStatusSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L45) (1 connections)
+- [trackTypeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L40) (1 connections)
+- [trackVersionSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L59) (1 connections)
+- *... and 5 more nodes in this community*
 
 ## Relationships
 
@@ -21,12 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\validation\schemas.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 58 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,36 +1,47 @@
 # Rendering Metrics
 
-> 15 nodes · cohesion 0.13
+> 41 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [screenshotMockData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L1) (14 connections)
-- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L94) (1 connections)
-- [mockAchievements](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L237) (1 connections)
-- [mockArtists](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L203) (1 connections)
-- [mockCredits](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L64) (1 connections)
-- [mockGenerationFormData](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L250) (1 connections)
-- [mockLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L259) (1 connections)
-- [mockPlaylists](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L163) (1 connections)
-- [mockProfile](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L24) (1 connections)
-- [mockProjects](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L117) (1 connections)
-- [mockStats](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L49) (1 connections)
-- [mockTracks](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L97) (1 connections)
-- [moods](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L95) (1 connections)
-- [screenshotScreens](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L278) (1 connections)
-- [trackTitles](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts#L76) (1 connections)
+- [Telegram Bot Utilities Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L1) (9 connections)
+- [💡 Best Practices](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L470) (6 connections)
+- [📮 Message Manager (`message-manager.ts`)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L252) (6 connections)
+- [🎮 Button Builder (`button-builder.ts`)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L122) (5 connections)
+- [🎨 Message Formatter (`message-formatter.ts`)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L7) (5 connections)
+- [📝 Text Processor (`text-processor.ts`)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L350) (5 connections)
+- [Available Functions](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L32) (4 connections)
+- [🎯 Common Patterns](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L576) (4 connections)
+- [🔧 Troubleshooting](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L695) (4 connections)
+- [TELEGRAM_BOT_UTILITIES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L1) (1 connections)
+- [1. Message Tracking](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L472) (1 connections)
+- [2. Error Handling](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L485) (1 connections)
+- [3. Loading States](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L508) (1 connections)
+- [4. Input Validation](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L531) (1 connections)
+- [5. Button Organization](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L546) (1 connections)
+- [Auto-Replace Logic](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L294) (1 connections)
+- [Basic Usage](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L11) (1 connections)
+- [Basic Usage](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L126) (1 connections)
+- [Basic Usage](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L256) (1 connections)
+- [Button Actions](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L154) (1 connections)
+- [Formatting Helpers](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L50) (1 connections)
+- [Helper Functions](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L335) (1 connections)
+- [HTML Processing](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L384) (1 connections)
+- [Issue: Buttons Not Working](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L708) (1 connections)
+- [Issue: MarkdownV2 Parse Error](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md#L697) (1 connections)
+- *... and 16 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Admin Post Management]] (80 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\screenshotMockData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/screenshotMockData.ts)
+- [docs/TELEGRAM_BOT_UTILITIES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_UTILITIES.md)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 80 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

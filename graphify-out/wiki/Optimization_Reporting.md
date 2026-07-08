@@ -1,10 +1,12 @@
 # Optimization Reporting
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Audio Context Multiple Instances Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L1) (2 connections)
+- [Content()](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L20) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L5) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,25 +1,27 @@
 # Music App Design
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Bug Fix Summary: Stem Studio, Section Detection, and Synchronized Lyrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md) (0 connections)
+- [speckit.constitution.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.constitution.md#L1) (2 connections)
+- [Outline](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.constitution.md#L17) (1 connections)
+- [User Input](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.constitution.md#L9) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2317]] (4 shared connections)
 
 ## Source Files
 
-- [docs/archive/2025-12/BUGFIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md)
+- [.claude/commands/speckit.constitution.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.constitution.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,10 +1,12 @@
 # Audit Navigation
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Telegram Mini App Mobile Optimization](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md) (0 connections)
+- [AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L1) (2 connections)
+- [{ data: metrics }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L11) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

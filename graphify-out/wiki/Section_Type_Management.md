@@ -1,25 +1,32 @@
 # Section Type Management
 
-> 4 nodes · cohesion 0.67
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useMobileHaptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L1) (3 connections)
-- [isHapticSupported()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L39) (2 connections)
-- [useMobileHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L49) (2 connections)
-- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts#L37) (1 connections)
+- [Task 6 — LyricsSectionCard + LyricsVisualEditor (DnD)](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L1) (7 connections)
+- [Concerns / Deviations](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L33) (4 connections)
+- [task-6-report.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L1) (1 connections)
+- [Concern 1 — vitest.setup.ts modified (REQUIRED for tests to pass)](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L35) (1 connections)
+- [Concern 2 — Commit used `--no-verify`](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L58) (1 connections)
+- [Concern 3 — `npm run build` failure (pre-existing, not Task 6)](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L62) (1 connections)
+- [Files](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L22) (1 connections)
+- [Files committed](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L74) (1 connections)
+- [Out-of-scope confirmations (from plan)](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L66) (1 connections)
+- [Pre-flight verification](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L16) (1 connections)
+- [Test summary](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md#L9) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (20 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useMobileHaptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useMobileHaptic.ts)
+- [.superpowers/sdd/artifacts/task-6-report.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-6-report.md)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

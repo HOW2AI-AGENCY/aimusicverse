@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [AnalyticsProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L1) (2 connections)
-- [AnalyticsProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L30) (1 connections)
-- [WebVitalsReporter](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx#L16) (1 connections)
+- [midi.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/midi.api.test.ts#L1) (2 connections)
+- [mockFunctionsInvoke](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/midi.api.test.ts#L9) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/midi.api.test.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\providers\AnalyticsProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/AnalyticsProvider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\midi.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/midi.api.test.ts)
 
 ## Audit Trail
 

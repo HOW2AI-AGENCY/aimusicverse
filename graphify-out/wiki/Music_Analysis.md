@@ -1,20 +1,12 @@
 # Music Analysis
 
-> 11 nodes · cohesion 0.18
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L1) (10 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L227) (1 connections)
-- [getGreeting()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L39) (1 connections)
-- [handleMenuClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L82) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L73) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L74) (1 connections)
-- [[menuOpen, setMenuOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L71) (1 connections)
-- [MoreMenuSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L28) (1 connections)
-- [{ safeTransition }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L80) (1 connections)
-- [{ text, icon, gradient }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L70) (1 connections)
-- [unreadCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L72) (1 connections)
+- [LyricsParser.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/lib/lyrics/LyricsParser.test.ts#L1) (2 connections)
+- [lyrics](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/lib/lyrics/LyricsParser.test.ts#L29) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/lib/lyrics/LyricsParser.test.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -22,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\lib\lyrics\LyricsParser.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/lib/lyrics/LyricsParser.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

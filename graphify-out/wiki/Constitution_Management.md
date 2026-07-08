@@ -1,10 +1,11 @@
 # Constitution Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [studio-entities.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/studio-entities.ts#L1) (0 connections)
+- [DrumEffects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx#L1) (1 connections)
+- [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx#L162) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\studio-entities.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/studio-entities.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumEffects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

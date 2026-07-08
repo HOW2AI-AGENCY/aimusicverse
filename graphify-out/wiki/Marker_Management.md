@@ -1,11 +1,15 @@
 # Marker Management
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useScrollLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollLock.ts#L1) (1 connections)
-- [useScrollLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollLock.ts#L8) (1 connections)
+- [MusicXMLViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L1) (2 connections)
+- [useMusicXML.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L1) (2 connections)
+- [MusicXMLViewer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L30) (2 connections)
+- [useMusicXML()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L30) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L207) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -13,12 +17,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useScrollLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollLock.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\MusicXMLViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicXML.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (80%)
+- INFERRED: 2 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

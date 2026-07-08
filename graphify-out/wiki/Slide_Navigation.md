@@ -1,20 +1,35 @@
 # Slide Navigation
 
-> 11 nodes · cohesion 0.18
+> 30 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L1) (10 connections)
-- [compact](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L59) (1 connections)
-- [compactBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L73) (1 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L66) (1 connections)
-- [last](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L71) (1 connections)
-- [lastBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L72) (1 connections)
-- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L53) (1 connections)
-- [mountCompact()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L21) (1 connections)
-- [SAMPLE_TRACK](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L10) (1 connections)
-- [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L65) (1 connections)
-- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L36) (1 connections)
+- [InteractiveChordWheel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L1) (29 connections)
+- [toHsla()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L12) (2 connections)
+- [[activeChord, setActiveChord]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L44) (1 connections)
+- [alpha](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L109) (1 connections)
+- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L77) (1 connections)
+- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L42) (1 connections)
+- [centerX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L88) (1 connections)
+- [centerY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L89) (1 connections)
+- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L80) (1 connections)
+- [current](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L48) (1 connections)
+- [dpr](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L83) (1 connections)
+- [gradient](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L107) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L187) (1 connections)
+- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L208) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L41) (1 connections)
+- [[hoveredChord, setHoveredChord]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L43) (1 connections)
+- [innerRadius](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L91) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L98) (1 connections)
+- [isHovered](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L99) (1 connections)
+- [labelRadius](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L124) (1 connections)
+- [labelX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L125) (1 connections)
+- [labelY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L126) (1 connections)
+- [minutes](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L170) (1 connections)
+- [outerRadius](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L90) (1 connections)
+- [playheadAngle](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx#L147) (1 connections)
+- *... and 5 more nodes in this community*
 
 ## Relationships
 
@@ -22,12 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\InteractiveChordWheel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/InteractiveChordWheel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 58 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

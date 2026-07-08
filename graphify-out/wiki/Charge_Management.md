@@ -1,46 +1,51 @@
 # Charge Management
 
-> 24 nodes · cohesion 0.08
+> 59 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L1) (23 connections)
-- [handleProjectSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L87) (2 connections)
-- [{ activeReference }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L61) (1 connections)
-- [[advancedOpen, setAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L72) (1 connections)
-- [[artistDialogOpen, setArtistDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L65) (1 connections)
-- [{ artists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L59) (1 connections)
-- [[audioActionDialogOpen, setAudioActionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L66) (1 connections)
-- [chordInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L332) (1 connections)
-- [form](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L77) (1 connections)
-- [FormSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L43) (1 connections)
-- [GenerateFormCustom](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L38) (1 connections)
-- [GenerateFormSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L35) (1 connections)
-- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L100) (1 connections)
-- [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L68) (1 connections)
-- [[lyricsAssistantOpen, setLyricsAssistantOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L69) (1 connections)
-- [[projectDialogOpen, setProjectDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L64) (1 connections)
-- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L58) (1 connections)
-- [projectTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L85) (1 connections)
-- [[projectTrackStep, setProjectTrackStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L71) (1 connections)
-- [qc](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L73) (1 connections)
-- [[stylesOpen, setStylesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L70) (1 connections)
-- [{ tracks: allTracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L60) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L74) (1 connections)
-- [[voiceCloneOpen, setVoiceCloneOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L67) (1 connections)
+- [Spec 038: Комплексный аудит дизайна и UX — Спецификация доработок](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L1) (11 connections)
+- [2.1 Критические (Severity: HIGH)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L48) (6 connections)
+- [2.2 Значительные (Severity: MEDIUM)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L72) (6 connections)
+- [6. Адаптивность и Responsive Design](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L299) (6 connections)
+- [9. Критерии приёмки](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L464) (6 connections)
+- [4. User Journey Оптимизация](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L189) (5 connections)
+- [5. Система анимаций и микро-взаимодействий](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L253) (5 connections)
+- [7. Design System Консистентность](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L357) (5 connections)
+- [8. План реализации](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L412) (5 connections)
+- [2.3 Косметические (Severity: LOW)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L94) (4 connections)
+- [2. Обнаруженные проблемы](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L46) (4 connections)
+- [3.1 Унификация компонентов (Phase 1)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L112) (4 connections)
+- [3. Спецификация улучшений](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L110) (4 connections)
+- [1. Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L24) (1 connections)
+- [3.2 Player Experience Redesign (Phase 2)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L155) (1 connections)
+- [3.3 Navigation Consistency (Phase 2)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L172) (1 connections)
+- [4.1 Первый запуск (New User)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L191) (1 connections)
+- [4.2 Генерация трека (Core Flow)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L207) (1 connections)
+- [4.3 Прослушивание (Engagement Flow)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L223) (1 connections)
+- [4.4 Возврат пользователя (Retention Flow)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L238) (1 connections)
+- [5.1 Принципы](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L255) (1 connections)
+- [5.2 Animation Catalog (стандартизировать)](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L263) (1 connections)
+- [5.3 Reduced Motion](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L280) (1 connections)
+- [5.4 Telegram-специфичные взаимодействия](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L289) (1 connections)
+- [6.1 Breakpoint стратегия](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md#L301) (1 connections)
+- *... and 34 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[unknown]] (82 shared connections)
+- [[Form Generation]] (21 shared connections)
+- [[Critical System Files]] (13 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx)
+- [specs/038-design-ux-audit/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/038-design-ux-audit/spec.md)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 117 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

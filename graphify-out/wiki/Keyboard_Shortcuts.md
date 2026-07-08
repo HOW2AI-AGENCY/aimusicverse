@@ -1,12 +1,18 @@
 # Keyboard Shortcuts
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L1) (2 connections)
-- [Alert](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L21) (1 connections)
-- [alertVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L6) (1 connections)
+- [StarsPaymentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L1) (8 connections)
+- [handleExportCSV()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L85) (3 connections)
+- [getStatusBadgeVariant()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L123) (2 connections)
+- [getStatusLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L138) (2 connections)
+- [{ data: stats, isLoading: statsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L40) (1 connections)
+- [{ data: transactions, isLoading: transactionsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L61) (1 connections)
+- [filteredTransactions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L74) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L36) (1 connections)
+- [[statusFilter, setStatusFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -14,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\StarsPaymentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/StarsPaymentsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (90%)
+- INFERRED: 2 (10%)
 - AMBIGUOUS: 0 (0%)
 
 ---

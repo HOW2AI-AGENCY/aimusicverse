@@ -1,12 +1,18 @@
 # Data Fetching
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [queryKeys.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L1) (2 connections)
-- [createKeys()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L20) (1 connections)
-- [queryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts#L30) (1 connections)
+- [useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L1) (8 connections)
+- [defaultProps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L19) (1 connections)
+- [largeTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L260) (1 connections)
+- [lineIndex](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L189) (1 connections)
+- [mockTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L11) (1 connections)
+- [onActiveLineChange](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L205) (1 connections)
+- [{ rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L207) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L32) (1 connections)
+- [seekTime](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L169) (1 connections)
 
 ## Relationships
 
@@ -14,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\queryKeys.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/queryKeys.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\lyrics\useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

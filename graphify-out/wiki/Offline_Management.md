@@ -1,13 +1,19 @@
 # Offline Management
 
-> 4 nodes · cohesion 0.50
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [VoiceLibraryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L1) (3 connections)
-- [statusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L10) (1 connections)
-- [{ voices, isLoading, deleteVoice, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L34) (1 connections)
-- [[wizardOpen, setWizardOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx#L35) (1 connections)
+- [ModerationReportsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L1) (9 connections)
+- [{ data: reports, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L42) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L43) (1 connections)
+- [handleQuickAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L46) (1 connections)
+- [REASON_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L32) (1 connections)
+- [STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L25) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L124) (1 connections)
+- [[statusFilter, setStatusFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L41) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L126) (1 connections)
+- [updateStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -15,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\VoiceLibraryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceLibraryPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\ModerationReportsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

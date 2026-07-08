@@ -1,47 +1,58 @@
 # Canvas Interaction
 
-> 33 nodes · cohesion 0.06
+> 72 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [unified-studio.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L1) (32 connections)
-- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L249) (1 connections)
-- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L154) (1 connections)
-- [button](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L175) (1 connections)
-- [buttonCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L172) (1 connections)
-- [buttons](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L171) (1 connections)
-- [content](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L151) (1 connections)
-- [createButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L112) (1 connections)
-- [dialog](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L127) (1 connections)
-- [errorBoundary](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L220) (1 connections)
-- [finalHeap](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L373) (1 connections)
-- [focusedElement](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L308) (1 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L253) (1 connections)
-- [hasCreateButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L115) (1 connections)
-- [hasError](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L221) (1 connections)
-- [hasIndicator](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L271) (1 connections)
-- [hasProjects](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L114) (1 connections)
-- [heapGrowth](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L382) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L66) (1 connections)
-- [initialHeap](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L351) (1 connections)
-- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L340) (1 connections)
-- [offlineIndicator](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L268) (1 connections)
-- [pauseButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L95) (1 connections)
-- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L48) (1 connections)
-- [projectsContainer](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts#L111) (1 connections)
-- *... and 8 more nodes in this community*
+- [Voice Cloning API Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L1) (18 connections)
+- [Suno Voice API Endpoints](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L249) (6 connections)
+- [Common Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L532) (4 connections)
+- [🚀 Deployment & Configuration](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L489) (4 connections)
+- [🧪 Testing Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L720) (4 connections)
+- [VoiceCloningStudio Interface](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L407) (4 connections)
+- [Для Лучшего Результата](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L616) (4 connections)
+- [📁 Созданные файлы и компоненты](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L95) (4 connections)
+- [Существующая интеграция](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L643) (4 connections)
+- [📚 Additional Resources](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L748) (3 connections)
+- [Backend Services](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L97) (3 connections)
+- [Database Schema](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L152) (3 connections)
+- [🗄️ Database Schema](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L352) (3 connections)
+- [📋 Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L10) (3 connections)
+- [Frontend Components](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L126) (3 connections)
+- [✅ Integration Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L765) (3 connections)
+- [📝 Monitoring & Logging](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L680) (3 connections)
+- [📊 Performance Metrics](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L591) (3 connections)
+- [🐛 Troubleshooting](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L530) (3 connections)
+- [🔧 Usage Examples](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L436) (3 connections)
+- [🔄 6-Step Voice Cloning Workflow](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L182) (2 connections)
+- [🔌 API Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L247) (2 connections)
+- [🎯 Best Practices](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L614) (2 connections)
+- [🔗 Integration Points](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L641) (2 connections)
+- [🎛️ UI/UX Design](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md#L405) (2 connections)
+- *... and 47 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (52 shared connections)
+- [[unknown]] (27 shared connections)
+- [[Player Control Bar]] (13 shared connections)
+- [[Community 1806]] (11 shared connections)
+- [[Community 2215]] (7 shared connections)
+- [[Community 2216]] (7 shared connections)
+- [[Community 2361]] (5 shared connections)
+- [[Community 2362]] (5 shared connections)
+- [[Community 2363]] (5 shared connections)
+- [[Community 2364]] (5 shared connections)
+- [[Community 2365]] (5 shared connections)
+- [[Product Attributes]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\studio\unified-studio.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio.spec.ts)
+- [docs/VOICE_CLONING_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md)
 
 ## Audit Trail
 
-- EXTRACTED: 64 (100%)
+- EXTRACTED: 143 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

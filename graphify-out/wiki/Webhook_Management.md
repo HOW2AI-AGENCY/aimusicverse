@@ -1,28 +1,35 @@
 # Webhook Management
 
-> 5 nodes · cohesion 0.60
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [OnboardingTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L8) (3 connections)
-- [useOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L20) (3 connections)
-- [useShouldShowOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L77) (3 connections)
-- [useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L1) (2 connections)
-- [OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L1) (1 connections)
+- [Task 9 Report — ReferenceChipsRow Implementation](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L1) (9 connections)
+- [Implementation Details](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L19) (4 connections)
+- [task-9-report.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L1) (1 connections)
+- [Commit Details](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L46) (1 connections)
+- [Deviations from Plan](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L42) (1 connections)
+- [Files Created](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L21) (1 connections)
+- [Key Features](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L26) (1 connections)
+- [Next Steps](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L66) (1 connections)
+- [Out of Scope (As Per Brief)](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L61) (1 connections)
+- [Summary](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L7) (1 connections)
+- [Test Coverage](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L35) (1 connections)
+- [Test Results](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L11) (1 connections)
+- [Verification Checklist](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md#L53) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Navigation Controls]] (24 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts)
+- [.superpowers/sdd/artifacts/task-9-report.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/artifacts/task-9-report.md)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (67%)
-- INFERRED: 4 (33%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

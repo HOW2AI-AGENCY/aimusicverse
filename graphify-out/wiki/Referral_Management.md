@@ -1,37 +1,47 @@
 # Referral Management
 
-> 15 nodes · cohesion 0.14
+> 42 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L1) (8 connections)
-- [StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L1) (7 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L177) (2 connections)
-- [stemType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L47) (2 connections)
-- [emojiMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L224) (1 connections)
-- [groupedActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L48) (1 connections)
-- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L50) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L46) (1 connections)
-- [isDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L176) (1 connections)
-- [isGuitar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L97) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L89) (1 connections)
-- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L46) (1 connections)
-- [midiModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L96) (1 connections)
-- [[selectedMidiModel, setSelectedMidiModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L90) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L67) (1 connections)
+- [🎵 MusicVerse AI - Professional Studio Implementation Roadmap](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L1) (13 connections)
+- [🚀 Getting Started](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L344) (5 connections)
+- [📅 Sprint Breakdown](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L68) (5 connections)
+- [🔄 Next Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L434) (4 connections)
+- [🎯 Success Metrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L406) (4 connections)
+- [🎨 UI/UX Highlights](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L287) (4 connections)
+- [📚 Additional Resources](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L478) (3 connections)
+- [🏗️ Architecture Overview](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L213) (3 connections)
+- [📝 Documentation Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L380) (3 connections)
+- [🎯 Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L30) (3 connections)
+- [📋 Quick Reference](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L9) (3 connections)
+- [What's Being Built](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L34) (2 connections)
+- [IMPLEMENTATION_ROADMAP.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L1) (1 connections)
+- [Business Metrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L424) (1 connections)
+- [Completed ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L382) (1 connections)
+- [📞 Contacts](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L463) (1 connections)
+- [Core Features](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L36) (1 connections)
+- [Current State Analysis](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L46) (1 connections)
+- [Desktop Layout](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L289) (1 connections)
+- [Documentation Files](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L11) (1 connections)
+- [External References](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L487) (1 connections)
+- [For Designers](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L354) (1 connections)
+- [For Developers](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L362) (1 connections)
+- [For Product Managers](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L346) (1 connections)
+- [For QA](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md#L370) (1 connections)
+- *... and 17 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Drag-and-Drop]] (82 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\actions\StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx)
+- [docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 82 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

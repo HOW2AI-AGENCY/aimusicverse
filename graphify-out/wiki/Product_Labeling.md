@@ -1,12 +1,17 @@
 # Product Labeling
 
-> 3 nodes · cohesion 0.67
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [useAuth.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useAuth.test.ts#L1) (2 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useAuth.test.ts#L37) (1 connections)
-- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useAuth.test.ts#L25) (1 connections)
+- [TrackDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L1) (7 connections)
+- [energyPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L47) (1 connections)
+- [hasNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L40) (1 connections)
+- [hasParams](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L37) (1 connections)
+- [hasStylePrompt](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L41) (1 connections)
+- [hasTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L39) (1 connections)
+- [LYRICS_STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L29) (1 connections)
+- [VOCAL_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -14,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useAuth.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useAuth.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\TrackDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackDetailsCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

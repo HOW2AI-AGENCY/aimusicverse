@@ -1,14 +1,21 @@
 # Hint Management
 
-> 5 nodes · cohesion 0.40
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [dev-overlay.force-visible.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L1) (4 connections)
-- [btn](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L42) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L66) (1 connections)
-- [probe](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L62) (1 connections)
-- [top](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts#L77) (1 connections)
+- [FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L1) (11 connections)
+- [[currentSlide, setCurrentSlide]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L225) (1 connections)
+- [currentSlideData](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L253) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L247) (1 connections)
+- [handleNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L232) (1 connections)
+- [handlePrev](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L242) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L224) (1 connections)
+- [isFirstSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L230) (1 connections)
+- [isLastSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L229) (1 connections)
+- [slides](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L228) (1 connections)
+- [tutorial](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L227) (1 connections)
+- [TUTORIALS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -16,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\dev-overlay.force-visible.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/dev-overlay.force-visible.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeatureTutorialDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

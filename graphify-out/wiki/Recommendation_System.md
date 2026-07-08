@@ -1,24 +1,30 @@
 # Recommendation System
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [CoreProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L1) (2 connections)
-- [CoreProviders](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L48) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L24) (1 connections)
+- [Integration Scenarios](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L6) (6 connections)
+- [Quickstart: Mobile Performance & UX Redesign](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L1) (3 connections)
+- [quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L1) (1 connections)
+- [Quick Reference](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L118) (1 connections)
+- [Scenario 1: Using Design Tokens in a New Component](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L8) (1 connections)
+- [Scenario 2: Adding Gesture Support to a Component](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L26) (1 connections)
+- [Scenario 3: Accessing User Preferences](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L50) (1 connections)
+- [Scenario 4: Applying Minimalist Screen Template](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L76) (1 connections)
+- [Scenario 5: Performance Monitoring During Development](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md#L102) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (16 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\providers\CoreProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx)
+- [specs/036-mobile-perf-ux-redesign/quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/036-mobile-perf-ux-redesign/quickstart.md)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

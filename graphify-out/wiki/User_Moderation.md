@@ -1,75 +1,58 @@
 # User Moderation
 
-> 43 nodes · cohesion 0.06
+> 147 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [LyricsValidator](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L127) (17 connections)
-- [LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L1) (9 connections)
-- [.validateForSuno()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L177) (8 connections)
-- [LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L1) (6 connections)
-- [LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L1) (5 connections)
-- [LyricsFormatter](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L101) (5 connections)
-- [.validate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L131) (5 connections)
-- [handleAutoFix()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L31) (4 connections)
-- [.findInvalidSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L439) (4 connections)
-- [isValidSectionTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L110) (3 connections)
-- [.validateTagInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L576) (3 connections)
-- [.calculateCharCount()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L169) (2 connections)
-- [.formatFinal()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L105) (2 connections)
-- [sanitizeTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L63) (2 connections)
-- [wrapInBrackets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L82) (2 connections)
-- [.autoFixIssues()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L401) (2 connections)
-- [.calculateValidationScore()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L378) (2 connections)
-- [.checkConflictingTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L271) (2 connections)
-- [.checkMissingEndTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L219) (2 connections)
-- [.checkRussianTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L236) (2 connections)
-- [.checkSectionBalance()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L545) (2 connections)
-- [.checkStructureTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L356) (2 connections)
-- [.checkTagOverload()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L302) (2 connections)
-- [.checkWrongBrackets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L326) (2 connections)
-- [.isDynamicTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L457) (2 connections)
-- *... and 18 more nodes in this community*
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class LyricsFormatter {
-        +LyricsFormatter.ts()
-        +.formatFinal()
-        +.calculateCharCount()
-        +.extractSections()
-        +.validateStructure()
-    }
-    class LyricsValidator {
-        +LyricsValidator.ts()
-        +.validate()
-        +.validateForSuno()
-        +.checkMissingEndTag()
-        +.checkRussianTags()
-        +.checkConflictingTags()
-        +.checkTagOverload()
-        +.checkWrongBrackets()
-        +.checkStructureTags()
-        +.calculateValidationScore()
-    }
-```
+- [📊 Дашборд проекта MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L1) (12 connections)
+- [🛠️ Руководство разработчика MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L1) (12 connections)
+- [🗺️ Навигация по репозиторию MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%9D%D0%90%D0%92%D0%98%D0%93%D0%90%D0%A6%D0%98%D0%AF.md#L1) (10 connections)
+- [🎯 Быстрый доступ к ключевым разделам](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%9D%D0%90%D0%92%D0%98%D0%93%D0%90%D0%A6%D0%98%D0%AF.md#L536) (6 connections)
+- [📁 Структура директорий](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%9D%D0%90%D0%92%D0%98%D0%93%D0%90%D0%A6%D0%98%D0%AF.md#L68) (6 connections)
+- [📊 Best Practices](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L692) (5 connections)
+- [📁 Ключевые директории](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L139) (5 connections)
+- [🔄 Рабочий процесс](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L216) (5 connections)
+- [🏗️ Сборка и деплой](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L439) (5 connections)
+- [🧪 Тестирование](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L329) (5 connections)
+- [📊 Аналитика](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L277) (4 connections)
+- [📊 Метрики качества](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L64) (4 connections)
+- [🎯 Обзор проекта](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L25) (4 connections)
+- [🐛 Проблемы и решения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L206) (4 connections)
+- [📈 Статистика разработки](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L166) (4 connections)
+- [🔄 Текущий спринт](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L102) (4 connections)
+- [🎯 Цели и KPI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L236) (4 connections)
+- [🔗 Кросс-ссылки](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%9D%D0%90%D0%92%D0%98%D0%93%D0%90%D0%A6%D0%98%D0%AF.md#L512) (4 connections)
+- [🎯 Component Patterns](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L694) (4 connections)
+- [🔍 Диагностика](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L514) (4 connections)
+- [🔧 Инструменты](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L835) (4 connections)
+- [🐛 Решение проблем](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L512) (4 connections)
+- [📚 Структура кода](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L119) (4 connections)
+- [🏗️ Установка и настройка](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md#L57) (4 connections)
+- [ДАШБОРД.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md#L1) (3 connections)
+- *... and 122 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Status Management]] (78 shared connections)
+- [[unknown]] (58 shared connections)
+- [[Media Playback]] (47 shared connections)
+- [[Product Labeling]] (27 shared connections)
+- [[Music Management]] (26 shared connections)
+- [[User Management]] (17 shared connections)
+- [[Audit Management]] (15 shared connections)
+- [[Mobile Optimization]] (13 shared connections)
+- [[Mobile UI Framework]] (13 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts)
+- [docs/archive/2026-07-03-ru-docs-duplicate/ДАШБОРД.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%94%D0%90%D0%A8%D0%91%D0%9E%D0%A0%D0%94.md)
+- [docs/archive/2026-07-03-ru-docs-duplicate/НАВИГАЦИЯ.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%9D%D0%90%D0%92%D0%98%D0%93%D0%90%D0%A6%D0%98%D0%AF.md)
+- [docs/archive/2026-07-03-ru-docs-duplicate/РУКОВОДСТВО_РАЗРАБОТЧИКА.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-07-03-ru-docs-duplicate/%D0%A0%D0%A3%D0%9A%D0%9E%D0%92%D0%9E%D0%94%D0%A1%D0%A2%D0%92%D0%9E_%D0%A0%D0%90%D0%97%D0%A0%D0%90%D0%91%D0%9E%D0%A2%D0%A7%D0%98%D0%9A%D0%90.md)
 
 ## Audit Trail
 
-- EXTRACTED: 108 (93%)
-- INFERRED: 8 (7%)
+- EXTRACTED: 294 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

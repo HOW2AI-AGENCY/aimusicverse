@@ -1,10 +1,11 @@
 # Mobile Optimization
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Mobile Interface Optimization Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/mobile/README.md) (0 connections)
+- [PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/mobile/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/mobile/README.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

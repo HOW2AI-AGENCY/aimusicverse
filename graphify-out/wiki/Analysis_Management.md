@@ -1,13 +1,20 @@
 # Analysis Management
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useMidiSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L1) (3 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L37) (1 connections)
-- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L14) (1 connections)
-- [useMidiSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L44) (1 connections)
+- [useGenerateSheetValidation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L1) (10 connections)
+- [creditsReason](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L44) (1 connections)
+- [emptyForm](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L14) (1 connections)
+- [long](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L49) (1 connections)
+- [lyricsReason](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L53) (1 connections)
+- [noTitle](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L66) (1 connections)
+- [realisticForm](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L73) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L30) (1 connections)
+- [styleReason](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L31) (1 connections)
+- [titleReason](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L38) (1 connections)
+- [valid](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts#L58) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMidiSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useGenerateSheetValidation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useGenerateSheetValidation.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

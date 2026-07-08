@@ -1,11 +1,16 @@
 # Mobile Analytics
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [GenrePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx#L94) (1 connections)
+- [DeeplinkTrendsChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L1) (6 connections)
+- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L60) (1 connections)
+- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L130) (1 connections)
+- [labels](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L125) (1 connections)
+- [trend](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L39) (1 connections)
+- [trendColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L70) (1 connections)
+- [TrendIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\GenrePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/GenrePicker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\DeeplinkTrendsChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

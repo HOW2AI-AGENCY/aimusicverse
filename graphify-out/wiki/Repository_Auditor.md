@@ -1,10 +1,11 @@
 # Repository Auditor
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Audio Architecture Analysis (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md) (0 connections)
+- [ActorCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L14) (1 connections)
+- [ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\actors\ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

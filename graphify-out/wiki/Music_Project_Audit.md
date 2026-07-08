@@ -1,10 +1,12 @@
 # Music Project Audit
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Generation Form Too Bulky Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [ReferenceChipsRow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/ReferenceChipsRow.test.tsx#L1) (2 connections)
+- [onAdd](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/ReferenceChipsRow.test.tsx#L41) (1 connections)
+- [onRemove](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/ReferenceChipsRow.test.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\components\lyrics\ReferenceChipsRow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/ReferenceChipsRow.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

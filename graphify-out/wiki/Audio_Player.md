@@ -1,45 +1,49 @@
 # Audio Player
 
-> 24 nodes · cohesion 0.08
+> 58 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L1) (24 connections)
-- [ACCEPTED_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L40) (1 connections)
-- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L45) (1 connections)
-- [[audioUrl, setAudioUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L49) (1 connections)
-- [{ duration: probedDuration }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L58) (1 connections)
-- [[duration, setDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L50) (1 connections)
-- [[file, setFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L48) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L44) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L85) (1 connections)
-- [handleDragLeave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L132) (1 connections)
-- [handleDragOver](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L126) (1 connections)
-- [handleDrop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L138) (1 connections)
-- [handleFileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L95) (1 connections)
-- [handleInputChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L152) (1 connections)
-- [[isComplete, setIsComplete]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L55) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L47) (1 connections)
-- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L53) (1 connections)
-- [MAX_FILE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L39) (1 connections)
-- [resetState](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L70) (1 connections)
-- [TRACK_TYPE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L30) (1 connections)
-- [[trackName, setTrackName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L51) (1 connections)
-- [[trackType, setTrackType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L52) (1 connections)
-- [[uploadProgress, setUploadProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L54) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L43) (1 connections)
+- [Доступные методы и возможности](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L283) (13 connections)
+- [Telegram Mini App Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L1) (11 connections)
+- [Best Practices](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L1019) (7 connections)
+- [Troubleshooting](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L939) (7 connections)
+- [Компоненты аутентификации](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L69) (5 connections)
+- [Решение](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L728) (5 connections)
+- [Интеграция с устройством](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L636) (4 connections)
+- [Настройка проекта](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L877) (4 connections)
+- [3. Тестирование](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L913) (3 connections)
+- [Safe Area и адаптация UI](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L722) (3 connections)
+- [Архитектура авторизации](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L29) (3 connections)
+- [Telegram Mini App API](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L281) (2 connections)
+- [Обзор системы](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L15) (2 connections)
+- [TELEGRAM_MINI_APP_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L1) (1 connections)
+- [10. Sharing](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L578) (1 connections)
+- [11. Platform Info](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L593) (1 connections)
+- [12. Events](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L610) (1 connections)
+- [1. CSS Safe Area Insets](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L730) (1 connections)
+- [1. "Hash validation failed"](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L941) (1 connections)
+- [1. TelegramContext (`src/contexts/TelegramContext.tsx`)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L71) (1 connections)
+- [1. Viewport (Экран)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L285) (1 connections)
+- [1. Всегда используйте HapticFeedback](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L1021) (1 connections)
+- [1. Создание Telegram бота](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L879) (1 connections)
+- [2. "No initData available"](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L959) (1 connections)
+- [2. Telegram CSS Variables](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md#L781) (1 connections)
+- *... and 33 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[unknown]] (82 shared connections)
+- [[Pointer Events]] (25 shared connections)
+- [[Community 2275]] (7 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md)
 
 ## Audit Trail
 
-- EXTRACTED: 47 (100%)
+- EXTRACTED: 114 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

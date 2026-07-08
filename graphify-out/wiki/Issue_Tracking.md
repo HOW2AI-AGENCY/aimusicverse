@@ -1,10 +1,11 @@
 # Issue Tracking
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [payment_transactions](file:///D:/.MUSICVERSE/aimusicverse/supabase/migrations/20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql) (0 connections)
+- [TranscriptionInProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L1) (1 connections)
+- [TranscriptionInProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [supabase\migrations\20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql](file:///D:/.MUSICVERSE/aimusicverse/supabase/migrations/20260104094159_a4bac6e9-904c-4f02-9ffe-2d384b03eb31.sql)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\TranscriptionInProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

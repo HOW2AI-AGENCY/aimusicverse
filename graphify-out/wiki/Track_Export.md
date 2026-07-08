@@ -1,11 +1,15 @@
 # Track Export
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L1) (1 connections)
-- [useSwipeActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts#L34) (1 connections)
+- [StatsHighlightBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L1) (5 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L88) (1 connections)
+- [{ formatted, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L44) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L87) (1 connections)
+- [statColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L19) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSwipeActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSwipeActions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\StatsHighlightBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,18 @@
 # Music Structure
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L1) (2 connections)
-- [mapStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L49) (1 connections)
-- [useSystemHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L60) (1 connections)
+- [RemixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L1) (9 connections)
+- [handlePresetClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L48) (1 connections)
+- [[isInstrumental, setIsInstrumental]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L45) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L44) (1 connections)
+- [remixMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L46) (1 connections)
+- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L29) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L43) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L42) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -14,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\RemixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 17 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

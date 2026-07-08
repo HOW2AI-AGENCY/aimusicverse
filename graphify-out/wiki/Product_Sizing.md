@@ -1,13 +1,20 @@
 # Product Sizing
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L1) (3 connections)
-- [calculateRMS()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L36) (1 connections)
-- [DEFAULT_LEVELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L27) (1 connections)
-- [useStemAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L47) (1 connections)
+- [CreativeTools.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L1) (10 connections)
+- [handleProgressionExport()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L34) (2 connections)
+- [handleTabExport()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L40) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L32) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L105) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L99) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L100) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L31) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L30) (1 connections)
+- [renderToolContent()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L46) (1 connections)
+- [tools](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -15,12 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\CreativeTools.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/CreativeTools.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (91%)
+- INFERRED: 2 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

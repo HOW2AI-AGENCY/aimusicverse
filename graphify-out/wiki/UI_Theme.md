@@ -1,26 +1,35 @@
 # UI Theme
 
-> 5 nodes · cohesion 0.40
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L1) (4 connections)
-- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L18) (1 connections)
-- [categoryInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L38) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L39) (1 connections)
-- [resolvedCategory](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L37) (1 connections)
+- [Task 2 Review: `useScrollLock` hook](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L1) (8 connections)
+- [Concerns Raised by Implementer — Verdicts](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L61) (5 connections)
+- [Code Quality Checklist](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L37) (2 connections)
+- [task-2-review.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L1) (1 connections)
+- [Concern 1: Commit subject lower-cased](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L63) (1 connections)
+- [Concern 2: No ref-counting for nested `useScrollLock(true)` calls](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L75) (1 connections)
+- [Concern 3: iOS Safari rubber-band — does `overflow: hidden` on `<body>` actually achieve what the JSDoc claims?](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L93) (1 connections)
+- [Concern 4: Missing test for `active` flip `true → false → true` cycle](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L116) (1 connections)
+- [Issues to Fix](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L150) (1 connections)
+- [Items Flagged as "Cannot Verify from Diff"](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L165) (1 connections)
+- [Minor notes (non-blocking)](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L51) (1 connections)
+- [Overall Summary](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L172) (1 connections)
+- [Spec Compliance Checklist](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L18) (1 connections)
+- [Verdict Summary](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md#L9) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Stem Type Management]] (26 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx)
+- [.superpowers/sdd/task-2-review.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-2-review.md)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

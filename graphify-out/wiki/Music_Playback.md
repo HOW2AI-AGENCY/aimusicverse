@@ -1,13 +1,21 @@
 # Music Playback
 
-> 4 nodes · cohesion 0.50
+> 12 nodes · cohesion 0.26
 
 ## Key Concepts
 
-- [QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L1) (3 connections)
-- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L33) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L34) (1 connections)
-- [StatItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L16) (1 connections)
+- [lyricsCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L1) (12 connections)
+- [getDB()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L28) (6 connections)
+- [getCachedLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L68) (4 connections)
+- [getCacheKey()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L61) (4 connections)
+- [cleanupExpiredLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L169) (3 connections)
+- [deleteCachedLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L148) (3 connections)
+- [getLyricsCacheStats()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L205) (2 connections)
+- [CACHE_EXPIRY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L13) (1 connections)
+- [DB_NAME](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L10) (1 connections)
+- [DB_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L11) (1 connections)
+- [dbPromise](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L23) (1 connections)
+- [STORE_NAME](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts#L12) (1 connections)
 
 ## Relationships
 
@@ -15,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyricsCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyricsCache.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 37 (95%)
+- INFERRED: 2 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,11 +1,16 @@
 # Contextual Information
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [StudioShellMobileNav.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellMobileNav.tsx#L1) (1 connections)
-- [StudioShellMobileNav](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellMobileNav.tsx#L43) (1 connections)
+- [generation.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/generation.api.test.ts#L1) (6 connections)
+- [createChainMock()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/generation.api.test.ts#L23) (2 connections)
+- [chain](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/generation.api.test.ts#L70) (1 connections)
+- [mockData](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/generation.api.test.ts#L61) (1 connections)
+- [mockFrom](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/generation.api.test.ts#L20) (1 connections)
+- [mockRpc](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/generation.api.test.ts#L21) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/generation.api.test.ts#L64) (1 connections)
 
 ## Relationships
 
@@ -13,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellMobileNav.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellMobileNav.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\generation.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/generation.api.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (92%)
+- INFERRED: 1 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,29 +1,44 @@
 # Stem Management
 
-> 8 nodes · cohesion 0.25
+> 23 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L1) (7 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L106) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L179) (1 connections)
-- [handleCreate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L29) (1 connections)
-- [handleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L34) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L25) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L27) (1 connections)
-- [reducedMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx#L26) (1 connections)
+- [📊 Сводка улучшений документации MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L1) (8 connections)
+- [1️⃣ docs/ИНДЕКС.md — Мастер-индекс документации](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L24) (7 connections)
+- [✅ Реализованные улучшения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L22) (4 connections)
+- [🎯 Ключевые достижения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L143) (3 connections)
+- [📈 Покрытие документации](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L87) (3 connections)
+- [🎨 Дизайн и форматирование](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L111) (2 connections)
+- [SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L1) (1 connections)
+- [2️⃣ Обновление README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L75) (1 connections)
+- [3️⃣ SUMMARY.md — Этот документ](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L80) (1 connections)
+- [🔗 Быстрые ссылки](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L67) (1 connections)
+- [🎓 Визуальные пути обучения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L71) (1 connections)
+- [✅ Выполненные задачи](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L145) (1 connections)
+- [До улучшений](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L89) (1 connections)
+- [Использованные элементы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L113) (1 connections)
+- [🗺️ Карта документации](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L40) (1 connections)
+- [🆕 Недавно обновленные документы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L63) (1 connections)
+- [📋 Основные разделы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L30) (1 connections)
+- [После улучшений](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L99) (1 connections)
+- [🎉 Проект завершён!](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L164) (1 connections)
+- [🎯 Рекомендуемые пути обучения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L56) (1 connections)
+- [📊 Статистика создания](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L124) (1 connections)
+- [📈 Улучшения UX](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L154) (1 connections)
+- [🎯 Цель проекта](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md#L16) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[UI Expansion]] (44 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeQuickCreate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeQuickCreate.tsx)
+- [docs/archive/2026-06-27/SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-06-27/SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 44 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

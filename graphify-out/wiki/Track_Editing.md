@@ -1,11 +1,15 @@
 # Track Editing
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [separator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx#L1) (1 connections)
-- [Separator](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx#L6) (1 connections)
+- [lunr.da.min.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.da.min.js#L1) (5 connections)
+- [s()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.da.min.js#L18) (2 connections)
+- [t()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.da.min.js#L18) (2 connections)
+- [e()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.da.min.js#L18) (1 connections)
+- [n()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.da.min.js#L18) (1 connections)
+- [o()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.da.min.js#L18) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\separator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\site\assets\javascripts\lunr\min\lunr.da.min.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.da.min.js)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

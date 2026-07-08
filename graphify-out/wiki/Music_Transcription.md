@@ -1,10 +1,12 @@
 # Music Transcription
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Plan: Fix BottomNav/Player Overlap + e2e Quick Start](file:///D:/.MUSICVERSE/aimusicverse/.lovable/plan.md) (0 connections)
+- [useMixExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L1) (2 connections)
+- [DEFAULT_MASTERING](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L39) (1 connections)
+- [useMixExport()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts#L46) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [.lovable/plan.md](file:///D:/.MUSICVERSE/aimusicverse/.lovable/plan.md)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMixExport.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMixExport.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

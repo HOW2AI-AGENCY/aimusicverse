@@ -1,25 +1,27 @@
 # Research Audit
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Archive Readme](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/README.md) (0 connections)
+- [speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.taskstoissues.md#L1) (2 connections)
+- [Outline](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.taskstoissues.md#L14) (1 connections)
+- [User Input](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.taskstoissues.md#L6) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2434]] (4 shared connections)
 
 ## Source Files
 
-- [docs/archive/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/README.md)
+- [.kilocode/workflows/speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.taskstoissues.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

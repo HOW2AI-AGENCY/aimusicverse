@@ -1,16 +1,25 @@
 # Step Navigation
 
-> 7 nodes · cohesion 0.29
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L1) (6 connections)
-- [AvatarPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L22) (1 connections)
-- [CardPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L18) (1 connections)
-- [Inactive](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L48) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L4) (1 connections)
-- [TextLinePlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L26) (1 connections)
-- [TrackCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx#L36) (1 connections)
+- [EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L1) (17 connections)
+- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L57) (2 connections)
+- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L64) (2 connections)
+- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L36) (1 connections)
+- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L30) (1 connections)
+- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L32) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L40) (1 connections)
+- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L37) (1 connections)
+- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L33) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L29) (1 connections)
+- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L34) (1 connections)
+- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L35) (1 connections)
+- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L38) (1 connections)
+- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L31) (1 connections)
+- [{ updateArtist, isUpdating, deleteArtist, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L27) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -18,12 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Shimmer.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Shimmer.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 32 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

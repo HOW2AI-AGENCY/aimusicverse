@@ -1,16 +1,28 @@
 # Section Management
 
-> 7 nodes · cohesion 0.29
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L1) (6 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L49) (1 connections)
-- [handleLike()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L56) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L48) (1 connections)
-- [likeComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L46) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L51) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L45) (1 connections)
+- [AddInstrumentalDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L1) (18 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L57) (1 connections)
+- [addInstrumentalMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L54) (1 connections)
+- [[audioWeight, setAudioWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L66) (1 connections)
+- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L61) (1 connections)
+- [effectiveStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L73) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L148) (1 connections)
+- [handleInstrumentSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L76) (1 connections)
+- [handleSubmit](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L88) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L53) (1 connections)
+- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L37) (1 connections)
+- [[instrumentType, setInstrumentType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L60) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L201) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L56) (1 connections)
+- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L63) (1 connections)
+- [preset](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L200) (1 connections)
+- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L70) (1 connections)
+- [[styleWeight, setStyleWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L67) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -18,11 +30,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddInstrumentalDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

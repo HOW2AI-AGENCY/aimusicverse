@@ -1,40 +1,49 @@
 # Audio Timeline
 
-> 17 nodes · cohesion 0.12
+> 46 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L1) (15 connections)
-- [handleCopy()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L103) (3 connections)
-- [getSectionTypeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L36) (2 connections)
-- [renderSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L114) (2 connections)
-- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/services/studio.service.ts#L58) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L92) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L335) (1 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L91) (1 connections)
-- [hasNoTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L101) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L257) (1 connections)
-- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L256) (1 connections)
-- [parsed](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L95) (1 connections)
-- [proAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L98) (1 connections)
-- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L139) (1 connections)
-- [TAG_TYPE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L24) (1 connections)
-- [TAG_TYPE_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L41) (1 connections)
-- [tagType](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L255) (1 connections)
+- [Music Player System - Quick Start Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L1) (15 connections)
+- [Best Practices](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L251) (6 connections)
+- [Advanced Features](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L180) (5 connections)
+- [Common Tasks](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L129) (5 connections)
+- [Performance Tips](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L353) (5 connections)
+- [Core Concepts](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L100) (4 connections)
+- [Quick Start](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L7) (4 connections)
+- [Troubleshooting](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L407) (4 connections)
+- [API Reference](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L432) (3 connections)
+- [Components](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L310) (3 connections)
+- [Examples](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L448) (2 connections)
+- [1. Always Clean Up Audio](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L253) (1 connections)
+- [1. Reduce Re-renders](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L355) (1 connections)
+- [2. Debounce Rapid Updates](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L369) (1 connections)
+- [2. Use Memoization for Expensive Operations](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L265) (1 connections)
+- [3. Handle Loading States](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L273) (1 connections)
+- [3. Use Virtual Scrolling for Large Queues](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L377) (1 connections)
+- [4. Preload Next Track](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L395) (1 connections)
+- [4. Provide User Feedback](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L283) (1 connections)
+- [5. Optimize for Mobile](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L293) (1 connections)
+- [Audio Playback](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L63) (1 connections)
+- [Audio Sources](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L114) (1 connections)
+- [Audio Won't Play](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L409) (1 connections)
+- [Basic Player Usage](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L9) (1 connections)
+- [Change Player UI Mode](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md#L171) (1 connections)
+- *... and 21 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Audio Processing]] (90 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\services\studio.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/studio.service.ts)
+- [docs/PLAYER_README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md)
 
 ## Audit Trail
 
-- EXTRACTED: 31 (86%)
-- INFERRED: 5 (14%)
+- EXTRACTED: 91 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

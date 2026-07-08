@@ -1,28 +1,38 @@
 # Achievements Management
 
-> 7 nodes · cohesion 0.29
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [LazyImage.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L1) (6 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L38) (1 connections)
-- [ErrorFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L63) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L13) (1 connections)
-- [SmallThumbnail](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L73) (1 connections)
-- [TrackCover](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L83) (1 connections)
-- [WithAspectRatio](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx#L48) (1 connections)
+- [React Hooks Undefined Error - Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L1) (9 connections)
+- [📊 Results](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L76) (4 connections)
+- [🛡️ Prevention](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L127) (3 connections)
+- [✅ Solution](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L39) (3 connections)
+- [FIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L1) (1 connections)
+- [After Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L50) (1 connections)
+- [Before Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L41) (1 connections)
+- [Bundle Size Impact](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L92) (1 connections)
+- [📖 Full Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L167) (1 connections)
+- [Module Load Order (Correct)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L78) (1 connections)
+- [Pattern to Watch For](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L129) (1 connections)
+- [🔴 Problem](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L3) (1 connections)
+- [📚 Related Fixes](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L157) (1 connections)
+- [🔍 Root Cause](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L14) (1 connections)
+- [Rule](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L147) (1 connections)
+- [✨ Status](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L179) (1 connections)
+- [Verification](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md#L108) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Configuration Management]] (32 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\LazyImage.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/LazyImage.stories.tsx)
+- [docs/archive/2025-12/FIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

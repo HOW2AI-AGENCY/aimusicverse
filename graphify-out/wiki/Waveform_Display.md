@@ -1,10 +1,12 @@
 # Waveform Display
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Chunk 16: Player & Audio Components - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_16_FILES.md) (0 connections)
+- [useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L1) (2 connections)
+- [MAX_TASKS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L17) (1 connections)
+- [useReplacementTasks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [CHUNK_16_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_16_FILES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

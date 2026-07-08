@@ -1,10 +1,11 @@
 # Command Implementation
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Bot Profile Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/profile.jpg) (0 connections)
+- [DrumKitSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx#L1) (1 connections)
+- [DrumKitSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [public/images/bot/profile.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/profile.jpg)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumKitSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

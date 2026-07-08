@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L1) (2 connections)
-- [Content()](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L20) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx#L5) (1 connections)
+- [useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L1) (2 connections)
+- [useSimpleVirtualization()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L143) (1 connections)
+- [useVirtualizedTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\CollapsibleSection.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/CollapsibleSection.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts)
 
 ## Audit Trail
 

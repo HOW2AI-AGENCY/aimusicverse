@@ -1,25 +1,27 @@
 # Data Model UI
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Browser Tests Implementation Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md) (0 connections)
+- [speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.taskstoissues.md#L1) (2 connections)
+- [Outline](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.taskstoissues.md#L14) (1 connections)
+- [User Input](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.taskstoissues.md#L6) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2391]] (4 shared connections)
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md)
+- [.roo/commands/speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.taskstoissues.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

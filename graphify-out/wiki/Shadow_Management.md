@@ -1,11 +1,16 @@
 # Shadow Management
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L1) (1 connections)
-- [backgroundUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L9) (1 connections)
+- [PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L1) (6 connections)
+- [PresetsManager()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L89) (2 connections)
+- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L72) (1 connections)
+- [CategoryIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L241) (1 connections)
+- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L64) (1 connections)
+- [genrePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L80) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L218) (1 connections)
 
 ## Relationships
 
@@ -13,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (92%)
+- INFERRED: 1 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

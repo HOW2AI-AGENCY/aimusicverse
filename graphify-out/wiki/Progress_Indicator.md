@@ -1,45 +1,58 @@
 # Progress Indicator
 
-> 23 nodes · cohesion 0.09
+> 58 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L1) (22 connections)
-- [handleBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L95) (2 connections)
-- [handleCostChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L135) (2 connections)
-- [handleCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L115) (2 connections)
-- [handleFeatureToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L154) (2 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L174) (1 connections)
-- [[broadcastMessage, setBroadcastMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L77) (1 connections)
-- [[broadcastOpen, setBroadcastOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L70) (1 connections)
-- [[broadcastTitle, setBroadcastTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L76) (1 connections)
-- [[costOpen, setCostOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L72) (1 connections)
-- [[creditAmount, setCreditAmount]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L80) (1 connections)
-- [[creditOpen, setCreditOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L71) (1 connections)
-- [[creditReason, setCreditReason]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L81) (1 connections)
-- [{ data: features }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L93) (1 connections)
-- [[featureOpen, setFeatureOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L73) (1 connections)
-- [[newCost, setNewCost]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L84) (1 connections)
-- [quickBroadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L89) (1 connections)
-- [quickCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L90) (1 connections)
-- [[selectedFeature, setSelectedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L87) (1 connections)
-- [toggleFeature](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L92) (1 connections)
-- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L91) (1 connections)
-- [useQuickBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L32) (1 connections)
-- [useQuickCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L51) (1 connections)
+- [Sprint Analysis Summary - Sprints 008 & 009](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L1) (15 connections)
+- [Documentation Usage Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L511) (5 connections)
+- [Documents Created](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L71) (5 connections)
+- [Appendix: Quick Reference](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L656) (4 connections)
+- [Conclusion](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L627) (4 connections)
+- [High Priority Risks](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L270) (4 connections)
+- [Next Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L573) (4 connections)
+- [Recommendations](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L339) (4 connections)
+- [Risk Assessment](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L268) (4 connections)
+- [Sprint 008: Library & Player MVP](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L154) (4 connections)
+- [Sprint 009: Track Details & Actions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L209) (4 connections)
+- [Velocity & Capacity](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L487) (4 connections)
+- [Key Findings](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L26) (3 connections)
+- [Success Metrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L407) (3 connections)
+- [Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L9) (2 connections)
+- [Low Priority Risks](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L324) (2 connections)
+- [Medium Priority Risks](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L311) (2 connections)
+- [SPRINT_ANALYSIS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L1) (1 connections)
+- [1. @dnd-kit Dependencies Missing ⚠️](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L272) (1 connections)
+- [1. SPRINT_READINESS_ASSESSMENT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L75) (1 connections)
+- [2. Gesture Conflicts (swipe vs scroll) ⚠️](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L285) (1 connections)
+- [2. SPRINT_IMPLEMENTATION_GUIDE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L98) (1 connections)
+- [3. Performance on Old Devices ⚠️](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L298) (1 connections)
+- [3. SPRINT_008_KICKOFF_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L119) (1 connections)
+- [4. Backend API Delays (Sprint 009)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md#L313) (1 connections)
+- *... and 33 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Experience]] (25 shared connections)
+- [[unknown]] (18 shared connections)
+- [[User Management]] (17 shared connections)
+- [[Community 2107]] (7 shared connections)
+- [[Community 2108]] (7 shared connections)
+- [[Community 2109]] (7 shared connections)
+- [[Community 2110]] (7 shared connections)
+- [[Community 2111]] (7 shared connections)
+- [[Community 2112]] (7 shared connections)
+- [[Community 2113]] (7 shared connections)
+- [[Community 2304]] (5 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx)
+- [docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_ANALYSIS_SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (92%)
-- INFERRED: 4 (8%)
+- EXTRACTED: 114 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

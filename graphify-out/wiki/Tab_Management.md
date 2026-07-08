@@ -1,11 +1,15 @@
 # Tab Management
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L1) (1 connections)
-- [useMultiTrackAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L26) (1 connections)
+- [useMixerHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L1) (3 connections)
+- [useMixerHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L70) (2 connections)
+- [useUndoRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts#L27) (2 connections)
+- [useUndoRedo.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts#L1) (1 connections)
+- [DEFAULT_STEM_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L61) (1 connections)
+- [MAX_HISTORY](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -13,12 +17,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useUndoRedo.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useUndoRedo.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\useMixerHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useMixerHistoryStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (80%)
+- INFERRED: 2 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---

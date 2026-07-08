@@ -1,16 +1,26 @@
 # Data Analysis Integration
 
-> 7 nodes · cohesion 0.29
+> 17 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L1) (6 connections)
-- [BATCH_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L115) (1 connections)
-- [GENRE_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L120) (1 connections)
-- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L27) (1 connections)
-- [GENRE_QUERIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L16) (1 connections)
-- [PUBLIC_CONTENT_GC_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L110) (1 connections)
-- [PUBLIC_CONTENT_STALE_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L105) (1 connections)
+- [AnalyticsDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L1) (9 connections)
+- [exportAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L57) (7 connections)
+- [exportUtils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L1) (6 connections)
+- [handleExport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L71) (5 connections)
+- [downloadFile()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L40) (3 connections)
+- [toCSV()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L17) (3 connections)
+- [formatDeeplinksForExport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L138) (2 connections)
+- [formatErrorsForExport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L115) (2 connections)
+- [formatTelemetryForExport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L79) (2 connections)
+- [ALL_TIME_INTERVAL](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L53) (1 connections)
+- [{ data: errorTrends, isLoading: errorsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L61) (1 connections)
+- [{ data: generationStats, isLoading: generationLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L62) (1 connections)
+- [{ data: telemetry, isLoading: telemetryLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L60) (1 connections)
+- [deeplinkTimeRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L69) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L66) (1 connections)
+- [rpcPeriod](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L58) (1 connections)
+- [[timePeriod, setTimePeriod]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -18,12 +28,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\AnalyticsDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\analytics\exportUtils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 34 (72%)
+- INFERRED: 13 (28%)
 - AMBIGUOUS: 0 (0%)
 
 ---

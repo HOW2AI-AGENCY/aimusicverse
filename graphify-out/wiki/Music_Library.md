@@ -1,11 +1,16 @@
 # Music Library
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [useStudioShellState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts#L1) (1 connections)
-- [useStudioShellState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts#L12) (1 connections)
+- [suno-task-details.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/suno-task-details.api.test.ts#L1) (6 connections)
+- [edges](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/suno-task-details.api.test.ts#L25) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/suno-task-details.api.test.ts#L34) (1 connections)
+- [mockFunctions](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/suno-task-details.api.test.ts#L9) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/suno-task-details.api.test.ts#L18) (1 connections)
+- [response](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/suno-task-details.api.test.ts#L16) (1 connections)
+- [types](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/suno-task-details.api.test.ts#L24) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioShellState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\suno-task-details.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/suno-task-details.api.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

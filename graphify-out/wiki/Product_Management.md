@@ -1,10 +1,14 @@
 # Product Management
 
-> 1 nodes · cohesion 1.00
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [contract_unified-form-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-form.types.ts) (0 connections)
+- [HorizontalTrackScroller.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HorizontalTrackScroller.tsx#L1) (4 connections)
+- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HorizontalTrackScroller.tsx#L46) (1 connections)
+- [onScroll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HorizontalTrackScroller.tsx#L48) (1 connections)
+- [scrollerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HorizontalTrackScroller.tsx#L44) (1 connections)
+- [sentinelRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HorizontalTrackScroller.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -12,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-form.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-form.types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HorizontalTrackScroller.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HorizontalTrackScroller.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

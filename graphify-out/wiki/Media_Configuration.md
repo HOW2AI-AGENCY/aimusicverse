@@ -1,35 +1,48 @@
 # Media Configuration
 
-> 13 nodes · cohesion 0.15
+> 37 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [FullscreenPager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L1) (13 connections)
-- [index](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L36) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L107) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L34) (1 connections)
-- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L39) (1 connections)
-- [goTo](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L48) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L57) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L16) (1 connections)
-- [ro](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L43) (1 connections)
-- [SWIPE_DISTANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L30) (1 connections)
-- [SWIPE_VELOCITY](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L31) (1 connections)
-- [update()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L41) (1 connections)
-- [[width, setWidth]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx#L35) (1 connections)
+- [✅ Telegram Integration - Quick Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L1) (10 connections)
+- [🎯 SPRINT 1: Bot Core + Notifications (21 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L7) (6 connections)
+- [🎨 SPRINT 2: Mini App Advanced (18 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L60) (6 connections)
+- [💰 SPRINT 3: Integration + Payments (24 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L109) (6 connections)
+- [🚀 SPRINT 4: Advanced + Polish (15 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L160) (6 connections)
+- [🔧 ENVIRONMENT SETUP CHECKLIST](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L241) (4 connections)
+- [📝 NOTES](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L271) (4 connections)
+- [TELEGRAM_INTEGRATION_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L1) (1 connections)
+- [Advanced Features (Remaining)](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L97) (1 connections)
+- [AI Recommendations](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L170) (1 connections)
+- [Analytics](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L149) (1 connections)
+- [Biometric](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L88) (1 connections)
+- [Blockers](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L273) (1 connections)
+- [Bot Commands](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L18) (1 connections)
+- [CloudStorage](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L47) (1 connections)
+- [Collaboration](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L162) (1 connections)
+- [Deep Linking](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L38) (1 connections)
+- [Dependencies](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L281) (1 connections)
+- [Deployment](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L194) (1 connections)
+- [Frontend Setup](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L262) (1 connections)
+- [Infrastructure & Setup](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L9) (1 connections)
+- [Inline Mode](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L111) (1 connections)
+- [Notifications](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L28) (1 connections)
+- [Payments](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L120) (1 connections)
+- [Polish](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md#L185) (1 connections)
+- *... and 12 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Text Editing]] (72 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenPager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPager.tsx)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md)
 
 ## Audit Trail
 
-- EXTRACTED: 25 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 72 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

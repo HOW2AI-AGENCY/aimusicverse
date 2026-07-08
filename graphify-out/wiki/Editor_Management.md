@@ -1,16 +1,25 @@
 # Editor Management
 
-> 7 nodes · cohesion 0.29
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L1) (6 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L19) (1 connections)
-- [Dot](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L21) (1 connections)
-- [Labels](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L45) (1 connections)
-- [MaxCount](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L25) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L5) (1 connections)
-- [StatusIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx#L34) (1 connections)
+- [seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L1) (15 connections)
+- [canonical](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L50) (1 connections)
+- [checks](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L30) (1 connections)
+- [DIST](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L10) (1 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L12) (1 connections)
+- [fail()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L15) (1 connections)
+- [html](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L29) (1 connections)
+- [indexPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L22) (1 connections)
+- [ogUrl](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L52) (1 connections)
+- [PUBLIC](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L11) (1 connections)
+- [robots](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L67) (1 connections)
+- [sitemap](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L59) (1 connections)
+- [txt](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L70) (1 connections)
+- [warn](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L13) (1 connections)
+- [warnMsg()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L18) (1 connections)
+- [xml](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L62) (1 connections)
 
 ## Relationships
 
@@ -18,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\NotificationBadge.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/NotificationBadge.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

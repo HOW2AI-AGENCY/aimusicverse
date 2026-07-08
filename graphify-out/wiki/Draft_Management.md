@@ -1,43 +1,55 @@
 # Draft Management
 
-> 20 nodes · cohesion 0.14
+> 51 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L1) (15 connections)
-- [queueNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L42) (8 connections)
-- [processQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L58) (7 connections)
-- [notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L1) (6 connections)
-- [notifyGenerationComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L139) (3 connections)
-- [sendTelegramMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L98) (3 connections)
-- [delay()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L87) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L10) (2 connections)
-- [notifyAchievement()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L189) (2 connections)
-- [notifyGenerationFailed()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L150) (2 connections)
-- [notifySocialEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L161) (2 connections)
-- [sendCustomMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L211) (2 connections)
-- [DEDUPE_TIMEOUT_MS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L19) (1 connections)
-- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L37) (1 connections)
-- [MAX_RETRIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L34) (1 connections)
-- [MAX_STORED_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L20) (1 connections)
-- [notificationQueue](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L36) (1 connections)
-- [notify](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L54) (1 connections)
-- [RETRY_DELAY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L35) (1 connections)
-- [shownNotifications](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L18) (1 connections)
+- [🗄️ Database Schema - MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L1) (15 connections)
+- [Основные таблицы приложения](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L145) (11 connections)
+- [Основные таблицы](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L384) (8 connections)
+- [Диаграммы взаимодействия](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L899) (5 connections)
+- [Database Functions](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L601) (4 connections)
+- [Оптимизация](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L832) (4 connections)
+- [Performance Tips](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L995) (3 connections)
+- [Row Level Security (RLS)](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L794) (3 connections)
+- [Схема связей таблиц](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L45) (3 connections)
+- [Troubleshooting](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L1044) (2 connections)
+- [Обзор](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L19) (2 connections)
+- [database-schema.md](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L1) (1 connections)
+- [1. suno_meta_tags (174+ записей)](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L386) (1 connections)
+- [2. music_styles (277+ записей)](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L440) (1 connections)
+- [3. tag_relationships (500+ связей)](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L479) (1 connections)
+- [4. style_tag_mappings](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L519) (1 connections)
+- [5. user_tag_preferences](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L538) (1 connections)
+- [6. prompt_templates](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L560) (1 connections)
+- [7. generation_tag_usage](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L581) (1 connections)
+- [artists](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L254) (1 connections)
+- [Backup](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L889) (1 connections)
+- [build_suno_prompt](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L680) (1 connections)
+- [generation_tasks](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L298) (1 connections)
+- [get_complementary_tags](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L603) (1 connections)
+- [playlist_tracks](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md#L239) (1 connections)
+- *... and 26 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (47 shared connections)
+- [[Music App Design]] (15 shared connections)
+- [[unknown]] (9 shared connections)
+- [[Community 2184]] (7 shared connections)
+- [[Community 2185]] (7 shared connections)
+- [[Community 2334]] (5 shared connections)
+- [[Community 2335]] (5 shared connections)
+- [[Community 2336]] (5 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\services\telegram\notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts)
+- [prd/docs/database-schema.md](file:///D:/.MUSICVERSE/aimusicverse/prd/docs/database-schema.md)
 
 ## Audit Trail
 
-- EXTRACTED: 57 (92%)
-- INFERRED: 5 (8%)
+- EXTRACTED: 100 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

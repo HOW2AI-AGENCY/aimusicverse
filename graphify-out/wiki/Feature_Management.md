@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackPromptSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx#L1) (1 connections)
-- [TrackPromptSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx#L18) (1 connections)
+- [LyricsSectionTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsSectionTemplates.ts#L1) (1 connections)
+- [LYRICS_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsSectionTemplates.ts#L13) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackPromptSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics\LyricsSectionTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics/LyricsSectionTemplates.ts)
 
 ## Audit Trail
 

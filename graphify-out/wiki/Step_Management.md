@@ -1,12 +1,18 @@
 # Step Management
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.31
 
 ## Key Concepts
 
-- [useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L1) (2 connections)
-- [MAX_TASKS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L17) (1 connections)
-- [useReplacementTasks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts#L19) (1 connections)
+- [chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L1) (8 connections)
+- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L120) (4 connections)
+- [getChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L142) (3 connections)
+- [getChordsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L164) (3 connections)
+- [getAllChords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L157) (2 connections)
+- [hasChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L150) (2 connections)
+- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L13) (1 connections)
+- [FINGER_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L102) (1 connections)
+- [STRING_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L111) (1 connections)
 
 ## Relationships
 
@@ -14,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useReplacementTasks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useReplacementTasks.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (88%)
+- INFERRED: 3 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

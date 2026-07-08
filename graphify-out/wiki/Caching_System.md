@@ -1,16 +1,26 @@
 # Caching System
 
-> 7 nodes · cohesion 0.29
+> 17 nodes · cohesion 0.21
 
 ## Key Concepts
 
-- [VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L1) (6 connections)
-- [buttonSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L44) (1 connections)
-- [currentLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L42) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L29) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L48) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L43) (1 connections)
-- [isStudioVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L47) (1 connections)
+- [lunr.fr.min.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L1) (16 connections)
+- [k()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (5 connections)
+- [w()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (5 connections)
+- [l()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (4 connections)
+- [_()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (3 connections)
+- [m()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (3 connections)
+- [n()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (3 connections)
+- [a()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (2 connections)
+- [c()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (2 connections)
+- [e()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (2 connections)
+- [f()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (2 connections)
+- [i()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (2 connections)
+- [t()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (2 connections)
+- [u()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (2 connections)
+- [b()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (1 connections)
+- [d()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (1 connections)
+- [o()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js#L18) (1 connections)
 
 ## Relationships
 
@@ -18,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx)
+- [D:\.MUSICVERSE\aimusicverse\site\assets\javascripts\lunr\min\lunr.fr.min.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.fr.min.js)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 56 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

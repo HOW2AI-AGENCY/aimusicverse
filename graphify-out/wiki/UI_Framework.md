@@ -1,16 +1,26 @@
 # UI Framework
 
-> 7 nodes · cohesion 0.33
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L1) (6 connections)
-- [getFlagsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L158) (3 connections)
-- [useFeatureFlags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L44) (2 connections)
-- [useIsFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L151) (2 connections)
-- [FLAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L35) (1 connections)
-- [useToggleFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L62) (1 connections)
-- [useUpdateFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L111) (1 connections)
+- [OptimizedTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L1) (16 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L225) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L165) (1 connections)
+- [ControlButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L115) (1 connections)
+- [effectiveMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L170) (1 connections)
+- [handleOpenMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L176) (1 connections)
+- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L173) (1 connections)
+- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L174) (1 connections)
+- [handleToggleVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L177) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L175) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L166) (1 connections)
+- [isBusy](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L171) (1 connections)
+- [[showVolume, setShowVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L163) (1 connections)
+- [STATUS_META](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L79) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L168) (1 connections)
+- [statusMeta](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L167) (1 connections)
+- [TRACK_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -18,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedTrackRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (88%)
-- INFERRED: 2 (12%)
+- EXTRACTED: 32 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

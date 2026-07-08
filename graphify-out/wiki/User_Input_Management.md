@@ -1,14 +1,22 @@
 # User Input Management
 
-> 5 nodes · cohesion 0.50
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [AutoSaveIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L1) (4 connections)
-- [formatTimeSince()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L18) (2 connections)
-- [getStatusConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L38) (2 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L85) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx#L86) (1 connections)
+- [CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L1) (12 connections)
+- [addComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L31) (1 connections)
+- [{ data: comments = [], isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L30) (1 connections)
+- [deleteComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L32) (1 connections)
+- [formInput](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L123) (1 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L56) (1 connections)
+- [handleReply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L46) (1 connections)
+- [handleReport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L60) (1 connections)
+- [handleSubmitComment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L41) (1 connections)
+- [mappedComments](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L72) (1 connections)
+- [[replyTo, setReplyTo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L34) (1 connections)
+- [[reportTarget, setReportTarget]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L35) (1 connections)
+- [title](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AutoSaveIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AutoSaveIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

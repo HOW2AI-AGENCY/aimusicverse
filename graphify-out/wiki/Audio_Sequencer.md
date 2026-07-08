@@ -1,32 +1,48 @@
 # Audio Sequencer
 
-> 11 nodes · cohesion 0.18
+> 31 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L1) (10 connections)
-- [[cursorPosition, setCursorPosition]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L37) (1 connections)
-- [handleOpenTagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L65) (1 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L60) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L35) (1 connections)
-- [lineTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L100) (1 connections)
-- [[localContent, setLocalContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L36) (1 connections)
-- [sectionLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L40) (1 connections)
-- [syllableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L42) (1 connections)
-- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L41) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L38) (1 connections)
+- [Core Features](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L11) (12 connections)
+- [MusicVerse AI Platform Specification](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L1) (10 connections)
+- [API Integrations](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L194) (4 connections)
+- [Technical Architecture](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L114) (4 connections)
+- [Database Schema](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L165) (3 connections)
+- [Reusable Components](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L143) (3 connections)
+- [10. Social Features (P1) ✅ NEW](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L95) (1 connections)
+- [11. AI Lyrics Tools (P2) ✅ NEW](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L106) (1 connections)
+- [1. Music Generation (P1)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L13) (1 connections)
+- [2. Track Library (P1)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L24) (1 connections)
+- [3. Playlist System (P2)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L35) (1 connections)
+- [4. AI Artist System (P2)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L44) (1 connections)
+- [5. Stem Separation Studio (P2)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L51) (1 connections)
+- [6. Audio Player (P1)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L59) (1 connections)
+- [7. Telegram Integration (P1)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L70) (1 connections)
+- [8. Music Projects (P2)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L82) (1 connections)
+- [9. User Onboarding (P3)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L89) (1 connections)
+- [Backend (Lovable Cloud)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L126) (1 connections)
+- [Core Tables](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L167) (1 connections)
+- [Frontend Stack](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L116) (1 connections)
+- [Key Fields](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L186) (1 connections)
+- [Key Optimizations](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L133) (1 connections)
+- [Library Components (NEW)](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L145) (1 connections)
+- [Lovable AI](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L213) (1 connections)
+- [Mobile-First Design](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md#L240) (1 connections)
+- *... and 6 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Error Handling]] (60 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\suno\SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx)
+- [docs/PROJECT_SPECIFICATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 61 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

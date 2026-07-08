@@ -1,14 +1,22 @@
 # Model Metadata
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L1) (4 connections)
-- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L151) (1 connections)
-- [getPresetsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L158) (1 connections)
-- [QUICK_CREATE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L25) (1 connections)
-- [searchPresetsByTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L165) (1 connections)
+- [HintsSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L1) (4 connections)
+- [useContextualHints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L1) (4 connections)
+- [useCloudStorage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L37) (3 connections)
+- [useCloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L1) (2 connections)
+- [HintsSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L29) (2 connections)
+- [isAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L125) (2 connections)
+- [useCloudStorageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L112) (2 connections)
+- [useContextualHints()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L317) (2 connections)
+- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L27) (1 connections)
+- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L17) (1 connections)
+- [CONTEXTUAL_HINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L43) (1 connections)
+- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L314) (1 connections)
+- [VISITS_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L315) (1 connections)
 
 ## Relationships
 
@@ -16,12 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\HintsSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useCloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useContextualHints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (85%)
+- INFERRED: 4 (15%)
 - AMBIGUOUS: 0 (0%)
 
 ---

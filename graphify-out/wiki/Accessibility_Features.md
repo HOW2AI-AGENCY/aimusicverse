@@ -1,11 +1,15 @@
 # Accessibility Features
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useRemixTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts#L1) (1 connections)
-- [useRemixTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts#L19) (1 connections)
+- [EmptyState.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L1) (5 connections)
+- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L36) (1 connections)
+- [LongDescription](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L58) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L14) (1 connections)
+- [Minimal](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L51) (1 connections)
+- [WithAction](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRemixTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRemixTrack.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\EmptyState.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/EmptyState.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

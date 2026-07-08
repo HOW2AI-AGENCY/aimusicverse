@@ -1,12 +1,19 @@
 # Visual Indicators
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [FeatureDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L1) (2 connections)
-- [feature](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L25) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L28) (1 connections)
+- [AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L1) (9 connections)
+- [handleTabChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L75) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L63) (2 connections)
+- [activeTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L69) (1 connections)
+- [CurrentTabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L96) (1 connections)
+- [{ data: auth, isLoading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L66) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L65) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L64) (1 connections)
+- [TAB_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L41) (1 connections)
+- [TabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L130) (1 connections)
 
 ## Relationships
 
@@ -14,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\FeatureDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

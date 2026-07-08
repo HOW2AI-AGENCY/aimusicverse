@@ -1,11 +1,15 @@
 # Navigation System
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useMusicRecognition.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts#L1) (1 connections)
-- [useMusicRecognition()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts#L27) (1 connections)
+- [SavedLyricsSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L1) (5 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L40) (2 connections)
+- [filteredTemplates](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L29) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L26) (1 connections)
+- [[selectedId, setSelectedId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L27) (1 connections)
+- [{ templates, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -13,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicRecognition.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicRecognition.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SavedLyricsSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SavedLyricsSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

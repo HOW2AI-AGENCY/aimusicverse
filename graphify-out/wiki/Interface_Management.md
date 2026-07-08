@@ -1,14 +1,23 @@
 # Interface Management
 
-> 5 nodes · cohesion 0.40
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [AdminSendMessageDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L1) (5 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L71) (1 connections)
-- [[message, setMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L38) (1 connections)
-- [sendMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L40) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L37) (1 connections)
+- [ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L1) (14 connections)
+- [baseFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L214) (1 connections)
+- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L10) (1 connections)
+- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L184) (1 connections)
+- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L194) (1 connections)
+- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L213) (1 connections)
+- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L212) (1 connections)
+- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L183) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L186) (1 connections)
+- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L195) (1 connections)
+- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L196) (1 connections)
+- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L193) (1 connections)
+- [{ width, height, fontSize, dotSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L192) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L273) (1 connections)
 
 ## Relationships
 
@@ -16,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminSendMessageDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 9 (100%)
+- EXTRACTED: 27 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

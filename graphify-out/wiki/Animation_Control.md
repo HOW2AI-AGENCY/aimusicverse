@@ -1,11 +1,15 @@
 # Animation Control
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useLyricsSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSync.ts#L1) (1 connections)
-- [useLyricsSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSync.ts#L39) (1 connections)
+- [useStemTranscription.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L1) (5 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L14) (1 connections)
+- [useDeleteTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L253) (1 connections)
+- [useSaveTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L171) (1 connections)
+- [useStemTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L69) (1 connections)
+- [useTrackTranscriptions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L124) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useLyricsSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useLyricsSync.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStemTranscription.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

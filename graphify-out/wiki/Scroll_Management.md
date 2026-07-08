@@ -1,16 +1,27 @@
 # Scroll Management
 
-> 7 nodes · cohesion 0.29
+> 18 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [EssentialsKnobGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L1) (6 connections)
-- [advancedChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L46) (1 connections)
-- [ESSENTIAL_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L27) (1 connections)
-- [essentialChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L43) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L40) (1 connections)
-- [knobSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L48) (1 connections)
-- [[showAll, setShowAll]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L39) (1 connections)
+- [mixer-renders.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L1) (15 connections)
+- [stems](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L19) (2 connections)
+- [useStudioTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioTrackStems.ts#L17) (2 connections)
+- [useStudioTrackStems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioTrackStems.ts#L1) (1 connections)
+- [benchmarkResult](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L125) (1 connections)
+- [finalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L42) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L185) (1 connections)
+- [initialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L34) (1 connections)
+- [renderCounter](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L12) (1 connections)
+- [reRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L43) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L26) (1 connections)
+- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L147) (1 connections)
+- [stem1FinalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L101) (1 connections)
+- [stem1InitialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L93) (1 connections)
+- [stem1ReRenders](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L104) (1 connections)
+- [stem2FinalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L102) (1 connections)
+- [stem2InitialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L94) (1 connections)
+- [stem2ReRenders](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L105) (1 connections)
 
 ## Relationships
 
@@ -18,12 +29,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\EssentialsKnobGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioTrackStems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioTrackStems.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\performance\mixer-renders.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 32 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

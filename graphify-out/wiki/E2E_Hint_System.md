@@ -1,10 +1,12 @@
 # E2E Hint System
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ПОЛНЫЙ*АНАЛИЗ*ЛОГИКИ*И*ИНТЕРФЕЙСА.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/%D0%9F%D0%9E%D0%9B%D0%9D%D0%AB%D0%99_%D0%90%D0%9D%D0%90%D0%9B%D0%98%D0%97_%D0%9B%D0%9E%D0%93%D0%98%D0%9A%D0%98_%D0%98_%D0%98%D0%9D%D0%A2%D0%95%D0%A0%D0%A4%D0%95%D0%99%D0%A1%D0%90.md#L1) (0 connections)
+- [StemTrackRowDesktop.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/stem-tracks/StemTrackRowDesktop.tsx#L1) (2 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/stem-tracks/StemTrackRowDesktop.tsx#L39) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/stem-tracks/StemTrackRowDesktop.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/archive/audits/ПОЛНЫЙ*АНАЛИЗ*ЛОГИКИ*И*ИНТЕРФЕЙСА.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/%D0%9F%D0%9E%D0%9B%D0%9D%D0%AB%D0%99_%D0%90%D0%9D%D0%90%D0%9B%D0%98%D0%97_%D0%9B%D0%9E%D0%93%D0%98%D0%9A%D0%98_%D0%98_%D0%98%D0%9D%D0%A2%D0%95%D0%A0%D0%A4%D0%95%D0%99%D0%A1%D0%90.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\stem-tracks\StemTrackRowDesktop.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/stem-tracks/StemTrackRowDesktop.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

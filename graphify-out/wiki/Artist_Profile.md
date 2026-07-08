@@ -1,49 +1,47 @@
 # Artist Profile
 
-> 17 nodes · cohesion 0.12
+> 45 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [Subscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L1) (17 connections)
-- [BenefitItem()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L75) (1 connections)
-- [benefits](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L171) (1 connections)
-- [bestValueProduct](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L125) (1 connections)
-- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L42) (1 connections)
-- [{
-    data: subscriptionProducts,
-    isLoading: isLoadingProducts,
-    error: productsError,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L104) (1 connections)
-- [handleSubscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L157) (1 connections)
-- [{ initiatePayment, flowState, resetFlow }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L122) (1 connections)
-- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L99) (1 connections)
-- [isCurrentTier()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L164) (1 connections)
-- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L52) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L100) (1 connections)
-- [[selectedProduct, setSelectedProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L102) (1 connections)
-- [showExpirationWarning](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L169) (1 connections)
-- [showTrialHighlight](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L101) (1 connections)
-- [{
-    subscription,
-    isLoading: isLoadingStatus,
-    isActive,
-    tier,
-    expiresAt,
-    daysRemaining,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L110) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L98) (1 connections)
+- [🚀 Оптимизация проекта - Сессия 9 декабря 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L1) (11 connections)
+- [P1 Критические задачи (4 выполнено)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L27) (6 connections)
+- [✅ Выполненные улучшения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L25) (5 connections)
+- [💡 Ключевые достижения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L247) (5 connections)
+- [🔧 Модифицированные файлы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L165) (5 connections)
+- [Code Review Fixes (2 замечания)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L86) (3 connections)
+- [🔒 Security](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L281) (3 connections)
+- [Приоритет P2: Высокий](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L213) (3 connections)
+- [Приоритет P3: Средний](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L229) (3 connections)
+- [📈 Следующие шаги](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L211) (3 connections)
+- [Lint Fixes (1 warning исправлен)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L77) (2 connections)
+- [Security Fixes (1 уязвимость устранена)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L61) (2 connections)
+- [📊 Итоговые результаты](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L9) (2 connections)
+- [📦 Новые файлы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L144) (2 connections)
+- [🎯 Оставшиеся P1 задачи](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L193) (2 connections)
+- [🔍 Проверенные реализации](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L102) (2 connections)
+- [OPTIMIZATION_SESSION_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L1) (1 connections)
+- [1. Redundant cleanup call ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L88) (1 connections)
+- [1. src/hooks/generation/useGenerateForm.ts](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L167) (1 connections)
+- [2. src/stores/lyricsWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L174) (1 connections)
+- [2. Validation timer cleanup ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L94) (1 connections)
+- [3. supabase/functions/telegram-bot/config.ts](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L181) (1 connections)
+- [4. src/hooks/generation/index.ts](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L186) (1 connections)
+- [CodeQL: js/incomplete-sanitization ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L63) (1 connections)
+- [📝 Commits](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md#L300) (1 connections)
+- *... and 20 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Slider Component]] (88 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\Subscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx)
+- [docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md)
 
 ## Audit Trail
 
-- EXTRACTED: 33 (100%)
+- EXTRACTED: 88 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

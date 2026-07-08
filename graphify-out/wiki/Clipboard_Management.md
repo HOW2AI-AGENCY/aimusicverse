@@ -1,17 +1,31 @@
 # Clipboard Management
 
-> 8 nodes · cohesion 0.25
+> 22 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [ProjectMeta.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L1) (7 connections)
-- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L36) (1 connections)
-- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L38) (1 connections)
-- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L45) (1 connections)
-- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L64) (1 connections)
-- [ProjectStatusBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L152) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L62) (1 connections)
-- [typeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L63) (1 connections)
+- [motion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L1) (21 connections)
+- [bounceTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L164) (1 connections)
+- [fadeIn](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L41) (1 connections)
+- [getReducedMotionVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L190) (1 connections)
+- [infiniteTransition()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L116) (1 connections)
+- [MOTION_DURATION](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L170) (1 connections)
+- [MOTION_EASING](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L180) (1 connections)
+- [pulse](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L97) (1 connections)
+- [quickTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L149) (1 connections)
+- [scaleIn](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L71) (1 connections)
+- [scaleUp](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L77) (1 connections)
+- [shake](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L129) (1 connections)
+- [slideDown](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L53) (1 connections)
+- [slideInFromLeft](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L65) (1 connections)
+- [slideInFromRight](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L59) (1 connections)
+- [slideUp](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L47) (1 connections)
+- [slowerTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L159) (1 connections)
+- [slowTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L154) (1 connections)
+- [smoothTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L144) (1 connections)
+- [springTransition](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L138) (1 connections)
+- [staggerContainer](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L83) (1 connections)
+- [staggerItem](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts#L91) (1 connections)
 
 ## Relationships
 
@@ -19,11 +33,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMeta.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\motion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/motion.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 42 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

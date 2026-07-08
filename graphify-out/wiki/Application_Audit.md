@@ -1,10 +1,12 @@
 # Application Audit
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Klang.io Music Transcription API](file:///D:/.MUSICVERSE/aimusicverse/docs/KLANG_IO_API_GUIDE_RU.md) (0 connections)
+- [useLyricsHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L1) (2 connections)
+- [MAX_HISTORY](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L53) (1 connections)
+- [useLyricsHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/KLANG_IO_API_GUIDE_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KLANG_IO_API_GUIDE_RU.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\useLyricsHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

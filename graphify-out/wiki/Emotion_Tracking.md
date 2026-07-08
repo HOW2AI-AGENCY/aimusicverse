@@ -1,12 +1,19 @@
 # Emotion Tracking
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L1) (2 connections)
-- [AIProgressIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L30) (1 connections)
-- [STEP_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L16) (1 connections)
+- [editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L1) (9 connections)
+- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L65) (2 connections)
+- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L37) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L83) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L70) (1 connections)
+- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L55) (1 connections)
+- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L38) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L36) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L89) (1 connections)
+- [titleSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L95) (1 connections)
 
 ## Relationships
 
@@ -14,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

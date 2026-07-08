@@ -1,39 +1,48 @@
 # Product Selection
 
-> 14 nodes · cohesion 0.14
+> 39 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [UnifiedWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L1) (13 connections)
-- [{ beatGrid }](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L144) (1 connections)
-- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L157) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L121) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L117) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L116) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L148) (1 connections)
-- [handleSeek()](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L167) (1 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L118) (1 connections)
-- [MODE_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L67) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L151) (1 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L76) (1 connections)
-- [waveformData](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L147) (1 connections)
-- [{
-    waveformData: loadedData,
-    duration: loadedDuration,
-    isLoading,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx#L133) (1 connections)
+- [📊 Система Мониторинга Спринтов](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L1) (15 connections)
+- [📊 Компоненты Системы](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L75) (5 connections)
+- [🚨 Alerting](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L246) (3 connections)
+- [🔄 Best Practices](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L303) (3 connections)
+- [🎯 Roadmap Системы](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L319) (3 connections)
+- [🤖 Автоматизация](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L141) (3 connections)
+- [🚀 Быстрый Старт](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L38) (3 connections)
+- [🎨 Визуализация](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L222) (3 connections)
+- [📚 Дополнительные Ресурсы](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L287) (3 connections)
+- [🔗 Интеграция с GitHub](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L198) (3 connections)
+- [📈 Метрики](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L177) (3 connections)
+- [📞 Поддержка](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L263) (3 connections)
+- [1. MONITORING.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L77) (1 connections)
+- [2. AUTOMATED_REPORT.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L92) (1 connections)
+- [3. TRACKING_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L108) (1 connections)
+- [4. VISUAL_DASHBOARD.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L124) (1 connections)
+- [Automatic Sync](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L200) (1 connections)
+- [Blocker Alerts](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L248) (1 connections)
+- [Cron Jobs](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L143) (1 connections)
+- [Escalation Levels](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L256) (1 connections)
+- [Example Gantt Chart](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L234) (1 connections)
+- [Health Score Components](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L189) (1 connections)
+- [KPIs](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L179) (1 connections)
+- [Label Mapping](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L213) (1 connections)
+- [Mermaid Diagrams](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md#L224) (1 connections)
+- *... and 14 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[UI Layout]] (76 shared connections)
+- [[Product Attributes]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\UnifiedWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/UnifiedWaveform.tsx)
+- [SPRINTS/README_MONITORING.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/README_MONITORING.md)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 77 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

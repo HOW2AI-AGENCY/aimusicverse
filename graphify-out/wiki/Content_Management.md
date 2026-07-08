@@ -1,23 +1,28 @@
 # Content Management
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [CardCoverActionBar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardCoverActionBar.tsx#L18) (1 connections)
-- [CardCoverActionBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardCoverActionBar.tsx#L1) (1 connections)
+- [Task Generation Rules](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md#L67) (4 connections)
+- [speckit.tasks.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md#L1) (3 connections)
+- [Checklist Format (REQUIRED)](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md#L73) (1 connections)
+- [Outline](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md#L22) (1 connections)
+- [Phase Structure](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md#L130) (1 connections)
+- [Task Organization](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md#L105) (1 connections)
+- [User Input](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md#L14) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Sprint Summary]] (12 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\CardCoverActionBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/CardCoverActionBar.tsx)
+- [.claude/commands/speckit.tasks.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,13 +1,21 @@
 # Compression Settings
 
-> 4 nodes · cohesion 0.50
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L1) (3 connections)
-- [is4K](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L55) (1 connections)
-- [isUltraWide](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L54) (1 connections)
-- [maxWidthClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L29) (1 connections)
+- [studio-generation.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L1) (11 connections)
+- [chainMock()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L34) (2 connections)
+- [completedChain](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L105) (1 connections)
+- [edgeTests](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L185) (1 connections)
+- [logs](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L116) (1 connections)
+- [mockFrom](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L31) (1 connections)
+- [mockFunctions](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L32) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L56) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L214) (1 connections)
+- [startedChain](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L104) (1 connections)
+- [task](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L54) (1 connections)
+- [tasks](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts#L95) (1 connections)
 
 ## Relationships
 
@@ -15,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\studio-generation.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/studio-generation.api.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

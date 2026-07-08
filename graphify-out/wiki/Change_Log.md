@@ -1,14 +1,59 @@
 # Change Log
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L1) (4 connections)
-- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L67) (1 connections)
-- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L57) (1 connections)
-- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L62) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L55) (1 connections)
+- [DrumMachine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L1) (12 connections)
+- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L92) (1 connections)
+- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L26) (1 connections)
+- [getAvailableKits()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L182) (1 connections)
+- [getPresetPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L288) (1 connections)
+- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L68) (1 connections)
+- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L75) (1 connections)
+- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L102) (1 connections)
+- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L130) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L111) (1 connections)
+- [{
+    isReady,
+    isPlaying,
+    currentStep,
+    bpm,
+    swing,
+    volume,
+    currentKit,
+    pattern,
+    soloTracks,
+    mutedTracks,
+    stepLength,
+    recordingState,
+    recordedAudioUrl,
+    recordedAudioBlob,
+    trackEffects,
+    initialize,
+    play,
+    stop,
+    toggleStep,
+    triggerSound,
+    setBpm,
+    setSwing,
+    setVolume,
+    setKit,
+    loadPattern,
+    clearPattern,
+    toggleSolo,
+    toggleMute,
+    getAvailableKits,
+    getPresetPatterns,
+    setStepLength,
+    startRecording,
+    stopRecording,
+    clearRecording,
+    setTrackEffect,
+    exportToMidi,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L28) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L24) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -16,11 +61,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumMachine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,18 @@
 # Product Information
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L1) (2 connections)
-- [useScrollReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L44) (1 connections)
-- [useStaggeredReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L119) (1 connections)
+- [SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L1) (8 connections)
+- [{ analytics, getRecommendations, topRated, history }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L28) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L80) (1 connections)
+- [deletePreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L36) (1 connections)
+- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L49) (1 connections)
+- [handleApplyRecommendation](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L42) (1 connections)
+- [loadPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L32) (1 connections)
+- [recommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L40) (1 connections)
+- [userPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -14,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

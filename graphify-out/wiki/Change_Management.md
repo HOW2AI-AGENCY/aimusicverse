@@ -1,13 +1,21 @@
 # Change Management
 
-> 4 nodes · cohesion 0.50
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L1) (3 connections)
-- [MOCK_COHORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L56) (1 connections)
-- [MOCK_RETENTION_TREND](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L48) (1 connections)
-- [summaryStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L66) (1 connections)
+- [PromptDJErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L1) (11 connections)
+- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L74) (2 connections)
+- [componentDidMount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L81) (2 connections)
+- [componentWillUnmount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L89) (2 connections)
+- [constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L35) (1 connections)
+- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L120) (1 connections)
+- [{ error, errorType, retryCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L196) (1 connections)
+- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L45) (1 connections)
+- [loadTone()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L104) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L16) (1 connections)
+- [reason](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L97) (1 connections)
+- [Tone](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L117) (1 connections)
 
 ## Relationships
 
@@ -15,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (88%)
+- INFERRED: 3 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

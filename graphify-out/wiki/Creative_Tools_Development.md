@@ -1,21 +1,35 @@
 # Creative Tools Development
 
-> 12 nodes · cohesion 0.17
+> 34 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [MobileBottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L1) (11 connections)
-- [backdropOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L46) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L124) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L42) (1 connections)
-- [currentHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L48) (1 connections)
-- [[currentSnap, setCurrentSnap]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L43) (1 connections)
-- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L26) (1 connections)
-- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L84) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L50) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L41) (1 connections)
-- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L27) (1 connections)
-- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L45) (1 connections)
+- [starsPayment.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L1) (33 connections)
+- [chargeId](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L262) (1 connections)
+- [creditsAfterDuplicate](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L313) (1 connections)
+- [creditsAfterFirst](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L296) (1 connections)
+- [data](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L80) (1 connections)
+- [{ data: inactiveProduct }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L104) (1 connections)
+- [{ data: product }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L36) (1 connections)
+- [{ data: profile }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L237) (1 connections)
+- [{ data: profile1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L291) (1 connections)
+- [{ data: profile2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L308) (1 connections)
+- [{ data: transaction }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L246) (1 connections)
+- [{ data: user }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L28) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L350) (1 connections)
+- [invoiceData](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L173) (1 connections)
+- [invoiceResponse](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L161) (1 connections)
+- [payload1](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L266) (1 connections)
+- [paymentPayload](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L203) (1 connections)
+- [paymentResponse](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L226) (1 connections)
+- [preCheckoutPayload](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L177) (1 connections)
+- [preCheckoutResponse](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L192) (1 connections)
+- [request](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L351) (1 connections)
+- [requests](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L347) (1 connections)
+- [response](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L68) (1 connections)
+- [response1](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L282) (1 connections)
+- [response2](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts#L299) (1 connections)
+- *... and 9 more nodes in this community*
 
 ## Relationships
 
@@ -23,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileBottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\starsPayment.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/starsPayment.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 66 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,13 +1,20 @@
 # AI Assistant
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L1) (3 connections)
-- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L68) (1 connections)
-- [TAG_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L82) (1 connections)
-- [UI_TRANSLATIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L32) (1 connections)
+- [AddVocalsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L1) (11 connections)
+- [addVocalsMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L33) (1 connections)
+- [[advancedSettings, setAdvancedSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L36) (1 connections)
+- [handleStyleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L122) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L28) (1 connections)
+- [[lyrics, setLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L24) (1 connections)
+- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L27) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L32) (1 connections)
+- [[showProgress, setShowProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L29) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L25) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\suno\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\AddVocalsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AddVocalsDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 21 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

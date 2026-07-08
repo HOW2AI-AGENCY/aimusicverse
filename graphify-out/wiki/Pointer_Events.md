@@ -1,11 +1,16 @@
 # Pointer Events
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [TimelineRuler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx#L1) (1 connections)
-- [markers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx#L17) (1 connections)
+- [lyricsWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L1) (4 connections)
+- [cloneSections()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L175) (2 connections)
+- [useLyricsWizardStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L182) (2 connections)
+- [useDebouncedSectionUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts#L8) (2 connections)
+- [useDebouncedSectionUpdate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts#L1) (1 connections)
+- [INITIAL_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L136) (1 connections)
+- [MAX_HISTORY_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -13,12 +18,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\TimelineRuler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\lyrics\useDebouncedSectionUpdate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/lyrics/useDebouncedSectionUpdate.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\lyricsWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (77%)
+- INFERRED: 3 (23%)
 - AMBIGUOUS: 0 (0%)
 
 ---

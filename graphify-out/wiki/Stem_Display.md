@@ -1,12 +1,17 @@
 # Stem Display
 
-> 3 nodes · cohesion 0.67
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [track.page.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L1) (2 connections)
-- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L27) (1 connections)
-- [consoleErrors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L15) (1 connections)
+- [HelpCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L1) (7 connections)
+- [[expandedFaq, setExpandedFaq]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L138) (1 connections)
+- [faqItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L45) (1 connections)
+- [filteredFaq](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L140) (1 connections)
+- [helpTopics](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L88) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L298) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L136) (1 connections)
+- [[selectedTopic, setSelectedTopic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx#L137) (1 connections)
 
 ## Relationships
 
@@ -14,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\track.page.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\help\HelpCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/help/HelpCenter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

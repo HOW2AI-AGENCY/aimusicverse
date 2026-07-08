@@ -1,54 +1,47 @@
 # Analytics Dashboard
 
-> 12 nodes · cohesion 0.17
+> 34 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [StudioShellDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L1) (11 connections)
-- [{
-    addTrack,
-    addClip,
-    addPendingTrack,
-    resolvePendingTrack,
-    removeTrack: removeTrackFromStore,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L149) (1 connections)
-- [clearSelection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L158) (1 connections)
-- [currentVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L543) (1 connections)
-- [existingTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L542) (1 connections)
-- [firstTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L174) (1 connections)
-- [{
-    isMobile,
-    project,
-    sourceTrackId,
-    sourceTrack,
-    duration,
-    currentTime,
-    isPlaying,
-    audioTracks,
-    detectedSections,
-    hasUnsavedChanges,
-    isSaving,
-    isSeparating,
-    trackEffects,
-    setTrackEffects,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L132) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L156) (1 connections)
-- [{ newTrackId, existingInstrumentalId, versions }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L526) (1 connections)
-- [nextLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L544) (1 connections)
-- [{ replaceTrackAudio, addTrackVersion, removeTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L530) (1 connections)
-- [selectedVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx#L527) (1 connections)
+- [Work Completed Summary - UI/UX Audit & Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L1) (9 connections)
+- [🔄 Implementation Flow](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L305) (6 connections)
+- [✅ Work Completed](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L29) (6 connections)
+- [🎯 Key Deliverables](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L269) (5 connections)
+- [📋 Next Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L337) (4 connections)
+- [📊 Statistics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L240) (4 connections)
+- [1. Comprehensive Audit & Research](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L31) (2 connections)
+- [2. API Contracts](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L79) (2 connections)
+- [3. Task Breakdown](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L109) (2 connections)
+- [4. Sprint Updates](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L169) (2 connections)
+- [WORK_COMPLETED_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L1) (1 connections)
+- [5. Summary Document](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L217) (1 connections)
+- [Code Structure Analyzed](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L259) (1 connections)
+- [Created Documents:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L35) (1 connections)
+- [Created Specifications:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L83) (1 connections)
+- [Documentation Created](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L242) (1 connections)
+- [For Design](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L287) (1 connections)
+- [For Development](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L278) (1 connections)
+- [For Product/Business](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L271) (1 connections)
+- [For QA](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L295) (1 connections)
+- [Generated 105 Tasks:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L113) (1 connections)
+- [Immediate (Sprint 007 - This Week)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L339) (1 connections)
+- [Next Month (Sprint 009-010)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L362) (1 connections)
+- [📝 Problem Statement (Original Request)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L10) (1 connections)
+- [📞 Questions?](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md#L384) (1 connections)
+- *... and 9 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Data Visualization]] (66 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShellDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShellDialogs.tsx)
+- [docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 66 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

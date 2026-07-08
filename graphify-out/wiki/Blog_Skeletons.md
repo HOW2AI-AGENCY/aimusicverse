@@ -1,13 +1,20 @@
 # Blog Skeletons
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useVoiceInput()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts#L15) (2 connections)
-- [VoiceInputButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx#L16) (2 connections)
-- [VoiceInputButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx#L1) (1 connections)
-- [useVoiceInput.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts#L1) (1 connections)
+- [Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L1) (10 connections)
+- [{ data: adminAuth }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L30) (1 connections)
+- [{ data: posts, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L33) (1 connections)
+- [{ data: selectedPost, isLoading: isLoadingPost }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L34) (1 connections)
+- [deletePost](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L35) (1 connections)
+- [[editingPost, setEditingPost]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L37) (1 connections)
+- [isAdmin](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L31) (1 connections)
+- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L38) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L26) (1 connections)
+- [postSlug](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L28) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -15,13 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\VoiceInputButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useVoiceInput.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,12 +1,18 @@
 # String Manipulation
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L18) (1 connections)
-- [useTelegramOrientationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L40) (1 connections)
+- [artists.service.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L1) (8 connections)
+- [artist](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L33) (1 connections)
+- [mockCreateArtist](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L23) (1 connections)
+- [mockFetchPublic](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L26) (1 connections)
+- [mockGeneratePortrait](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L25) (1 connections)
+- [mockUpdateArtist](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L24) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L35) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L112) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts#L100) (1 connections)
 
 ## Relationships
 
@@ -14,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\services\artists.service.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/artists.service.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

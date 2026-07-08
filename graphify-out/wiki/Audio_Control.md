@@ -1,11 +1,15 @@
 # Audio Control
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useSourceTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSourceTrack.ts#L1) (1 connections)
-- [useSourceTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSourceTrack.ts#L12) (1 connections)
+- [audio-upscale.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/audio-upscale.api.test.ts#L1) (5 connections)
+- [chainMock()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/audio-upscale.api.test.ts#L12) (2 connections)
+- [mockFrom](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/audio-upscale.api.test.ts#L10) (1 connections)
+- [mockFunctions](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/audio-upscale.api.test.ts#L9) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/audio-upscale.api.test.ts#L28) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/audio-upscale.api.test.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -13,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useSourceTrack.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useSourceTrack.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\audio-upscale.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/audio-upscale.api.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

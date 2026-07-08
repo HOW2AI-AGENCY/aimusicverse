@@ -1,11 +1,15 @@
 # Project Configuration
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [SkeletonPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SkeletonPage.tsx#L1) (1 connections)
-- [PageHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SkeletonPage.tsx#L20) (1 connections)
+- [unified-form.types.ts](file:///D:/.MUSICVERSE/aimusicverse/site/specs/002-ui-component-unification/contracts/unified-form.types.ts#L1) (5 connections)
+- [isCheckboxInputProps()](file:///D:/.MUSICVERSE/aimusicverse/site/specs/002-ui-component-unification/contracts/unified-form.types.ts#L281) (1 connections)
+- [isNumberInputProps()](file:///D:/.MUSICVERSE/aimusicverse/site/specs/002-ui-component-unification/contracts/unified-form.types.ts#L263) (1 connections)
+- [isRadioInputProps()](file:///D:/.MUSICVERSE/aimusicverse/site/specs/002-ui-component-unification/contracts/unified-form.types.ts#L290) (1 connections)
+- [isSelectInputProps()](file:///D:/.MUSICVERSE/aimusicverse/site/specs/002-ui-component-unification/contracts/unified-form.types.ts#L272) (1 connections)
+- [isTextInputProps()](file:///D:/.MUSICVERSE/aimusicverse/site/specs/002-ui-component-unification/contracts/unified-form.types.ts#L254) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\SkeletonPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SkeletonPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\site\specs\002-ui-component-unification\contracts\unified-form.types.ts](file:///D:/.MUSICVERSE/aimusicverse/site/specs/002-ui-component-unification/contracts/unified-form.types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

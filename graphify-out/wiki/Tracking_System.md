@@ -1,11 +1,16 @@
 # Tracking System
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [MobileFormField.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileFormField.tsx#L1) (1 connections)
-- [MobileFormField](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileFormField.tsx#L24) (1 connections)
+- [AchievementsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L1) (6 connections)
+- [category](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L39) (1 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L7) (1 connections)
+- [{ data: achievements, isLoading: loadingAchievements }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L20) (1 connections)
+- [{ data: userAchievements, isLoading: loadingUserAchievements }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L21) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L23) (1 connections)
+- [isUnlocked](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L67) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileFormField.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileFormField.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\AchievementsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,11 @@
 # Architecture Audit
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Sprint 027: Architecture Cleanup - Initial Audit](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_027_AUDIT.md) (0 connections)
+- [PrivacyTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx#L1) (1 connections)
+- [PrivacyTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_027_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_027_AUDIT.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\PrivacyTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

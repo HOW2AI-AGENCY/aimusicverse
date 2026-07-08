@@ -1,21 +1,35 @@
 # UI Configuration
 
-> 12 nodes · cohesion 0.17
+> 33 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L1) (11 connections)
-- [formatRelative()](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L11) (2 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L36) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L37) (1 connections)
-- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L34) (1 connections)
-- [keepEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L81) (1 connections)
-- [pending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L77) (1 connections)
-- [pendingRelative](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L38) (1 connections)
-- [ready](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L27) (1 connections)
-- [selected](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L35) (1 connections)
-- [selectedPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L31) (1 connections)
-- [{ voices, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L26) (1 connections)
+- [check-css-imports.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L1) (32 connections)
+- [RED](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L22) (2 connections)
+- [abs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L37) (1 connections)
+- [absPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L100) (1 connections)
+- [before](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L66) (1 connections)
+- [BOLD](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L27) (1 connections)
+- [code](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L72) (1 connections)
+- [color()](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L30) (1 connections)
+- [CYAN](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L25) (1 connections)
+- [DIM](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L26) (1 connections)
+- [__dirname](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L17) (1 connections)
+- [end](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L57) (1 connections)
+- [filePath](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L99) (1 connections)
+- [firstOtherLine](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L47) (1 connections)
+- [firstOtherText](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L48) (1 connections)
+- [GREEN](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L24) (1 connections)
+- [hasError](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L34) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L52) (1 connections)
+- [inBlockComment](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L49) (1 connections)
+- [isCharset](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L78) (1 connections)
+- [isEmptyLayer](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L79) (1 connections)
+- [isImport](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L77) (1 connections)
+- [line](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L53) (1 connections)
+- [lines](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L44) (1 connections)
+- [projectRoot](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs#L18) (1 connections)
+- *... and 8 more nodes in this community*
 
 ## Relationships
 
@@ -23,12 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\voice-clone\CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\check-css-imports.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-css-imports.mjs)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 64 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

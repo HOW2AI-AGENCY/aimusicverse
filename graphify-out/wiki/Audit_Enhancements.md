@@ -1,10 +1,11 @@
 # Audit Enhancements
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [/speckit.tasks command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md) (0 connections)
+- [GenerateSheetFooter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/GenerateSheetFooter.tsx#L1) (1 connections)
+- [paddingBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/GenerateSheetFooter.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.claude/commands/speckit.tasks.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-sheet\GenerateSheetFooter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/GenerateSheetFooter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

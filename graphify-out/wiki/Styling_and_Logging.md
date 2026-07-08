@@ -1,15 +1,24 @@
 # Styling and Logging
 
-> 6 nodes · cohesion 0.33
+> 15 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [useStudioPerformance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L1) (5 connections)
-- [MAX_RENDER_SAMPLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L24) (1 connections)
-- [MEMORY_WARNING_THRESHOLD_MB](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L23) (1 connections)
-- [useCustomDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L148) (1 connections)
-- [useStudioPerformance()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L26) (1 connections)
-- [useThrottledCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L109) (1 connections)
+- [imageOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L1) (19 connections)
+- [getOptimizedImageUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L253) (5 connections)
+- [generateSrcSet()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L204) (3 connections)
+- [toSupabaseRenderUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L197) (3 connections)
+- [generateBlurPlaceholder()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L373) (2 connections)
+- [getTrackCoverUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L321) (2 connections)
+- [useAdaptiveImageQuality()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L450) (2 connections)
+- [useResponsiveImage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L490) (2 connections)
+- [CACHE_TTL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L19) (1 connections)
+- [generatePlaceholder()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L364) (1 connections)
+- [getOptimalImageSize()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L227) (1 connections)
+- [getThumbnailPlaceholderColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L357) (1 connections)
+- [imageCache](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L17) (1 connections)
+- [MAX_CACHE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L18) (1 connections)
+- [useLazyImage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L50) (1 connections)
 
 ## Relationships
 
@@ -17,12 +26,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioPerformance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\imageOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 41 (91%)
+- INFERRED: 4 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

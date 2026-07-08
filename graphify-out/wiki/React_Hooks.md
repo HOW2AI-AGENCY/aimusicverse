@@ -1,10 +1,12 @@
 # React Hooks
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Waveform Black Color Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [useProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L1) (2 connections)
+- [projectLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L18) (1 connections)
+- [useProjectStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L47) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

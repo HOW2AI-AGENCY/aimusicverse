@@ -1,25 +1,27 @@
 # Music Optimization
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Comprehensive Application Audit](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/COMPREHENSIVE_APPLICATION_AUDIT_2025-12-03.md) (0 connections)
+- [speckit.implement.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.implement.md#L1) (2 connections)
+- [Outline](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.implement.md#L13) (1 connections)
+- [User Input](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.implement.md#L5) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2318]] (4 shared connections)
 
 ## Source Files
 
-- [docs/archive/2025-12/COMPREHENSIVE_APPLICATION_AUDIT_2025-12-03.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/COMPREHENSIVE_APPLICATION_AUDIT_2025-12-03.md)
+- [.claude/commands/speckit.implement.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.implement.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

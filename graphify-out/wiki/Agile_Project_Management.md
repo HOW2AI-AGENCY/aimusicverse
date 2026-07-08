@@ -1,10 +1,11 @@
 # Agile Project Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/index.ts#L1) (0 connections)
+- [HomeSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSection.tsx#L1) (1 connections)
+- [HomeSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSection.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

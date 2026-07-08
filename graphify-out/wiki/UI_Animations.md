@@ -1,40 +1,48 @@
 # UI Animations
 
-> 19 nodes · cohesion 0.11
+> 49 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [MobileGraphView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L1) (18 connections)
-- [handleBack](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L117) (2 connections)
-- [handleSwipe()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L138) (2 connections)
-- [currentItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L102) (1 connections)
-- [[drillLevel, setDrillLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L41) (1 connections)
-- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L47) (1 connections)
-- [GroupCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L390) (1 connections)
-- [groupedData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L80) (1 connections)
-- [groups](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L177) (1 connections)
-- [handleClusterSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L128) (1 connections)
-- [handleGroupSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L133) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L306) (1 connections)
-- [NODE_TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L26) (1 connections)
-- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L33) (1 connections)
-- [related](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L326) (1 connections)
-- [relatedId](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L325) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L44) (1 connections)
-- [[selectedCluster, setSelectedCluster]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L42) (1 connections)
-- [[selectedGroup, setSelectedGroup]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L43) (1 connections)
+- [Deployment Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L1) (8 connections)
+- [📋 Pre-Deployment Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L9) (6 connections)
+- [🚀 Deployment Process](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L116) (5 connections)
+- [🚨 Emergency Contacts](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L372) (4 connections)
+- [📊 Post-Deployment Monitoring (First 24 Hours)](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L220) (4 connections)
+- [🔄 Rollback Procedures](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L248) (4 connections)
+- [Rollback Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L260) (4 connections)
+- [Step 3: Deployment Execution](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L150) (4 connections)
+- [🎯 Success Criteria](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L342) (4 connections)
+- [Code & Testing ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L13) (3 connections)
+- [Database & Backend 💾](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L76) (3 connections)
+- [External Integrations 🔗](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L95) (3 connections)
+- [Performance 🚀](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L56) (3 connections)
+- [Security 🔒](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L33) (3 connections)
+- [Step 4: Post-Deployment Verification (15 minutes after)](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L186) (3 connections)
+- [DEPLOYMENT_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L1) (2 connections)
+- [📝 Deployment Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L303) (2 connections)
+- [Code Review](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L25) (1 connections)
+- [Communication](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L106) (1 connections)
+- [Configuration](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L44) (1 connections)
+- [Data Safety](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L87) (1 connections)
+- [Deployment Record](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L305) (1 connections)
+- [Docker Rollback](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L272) (1 connections)
+- [Escalation Contacts](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L381) (1 connections)
+- [Extended Monitoring (First 24 Hours)](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md#L230) (1 connections)
+- *... and 24 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Media Playback]] (96 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\MobileGraphView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx)
+- [docs/DEPLOYMENT_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/DEPLOYMENT_CHECKLIST.md)
 
 ## Audit Trail
 
-- EXTRACTED: 38 (100%)
+- EXTRACTED: 97 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

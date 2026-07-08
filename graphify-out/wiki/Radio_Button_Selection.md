@@ -1,11 +1,23 @@
 # Radio Button Selection
 
-> 2 nodes · cohesion 1.00
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L1) (1 connections)
-- [shadows](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L7) (1 connections)
+- [RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L1) (7 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L69) (2 connections)
+- [barProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L92) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L51) (1 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L93) (1 connections)
+- [{
+    isPlaying,
+    currentTime,
+    duration: audioDuration,
+    toggle,
+    audioRef,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L34) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L75) (1 connections)
+- [togglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -13,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

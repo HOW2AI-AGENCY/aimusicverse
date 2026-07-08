@@ -1,11 +1,15 @@
 # User Input
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L1) (1 connections)
-- [useOptimisticVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts#L36) (1 connections)
+- [Button.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L1) (5 connections)
+- [Large](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L41) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L7) (1 connections)
+- [Primary](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L28) (1 connections)
+- [Secondary](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L35) (1 connections)
+- [Small](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L48) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimisticVersions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimisticVersions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Button.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

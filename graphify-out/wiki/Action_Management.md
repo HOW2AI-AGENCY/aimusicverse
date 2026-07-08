@@ -1,25 +1,33 @@
 # Action Management
 
-> 4 nodes · cohesion 0.50
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L1) (3 connections)
-- [GAMIFICATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L73) (1 connections)
-- [GENERATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L24) (1 connections)
-- [SOCIAL_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L51) (1 connections)
+- [MusicVerse AI: Comprehensive Project Analysis Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L1) (6 connections)
+- [📋 Analysis Results](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L9) (3 connections)
+- [📚 Complete Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L38) (3 connections)
+- [✅ Expected Outcomes](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L70) (2 connections)
+- [COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L1) (1 connections)
+- [After 8 Weeks](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L72) (1 connections)
+- [Critical Findings](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L18) (1 connections)
+- [Current State](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L11) (1 connections)
+- [🚀 Next Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L83) (1 connections)
+- [Primary Deliverables](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L40) (1 connections)
+- [🎯 Sprint Plan Created](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L27) (1 connections)
+- [Supporting Analysis](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md#L54) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Authentication]] (22 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx)
+- [docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/COMPREHENSIVE_PROJECT_ANALYSIS_2025-12-11.md)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

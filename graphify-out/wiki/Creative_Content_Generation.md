@@ -1,47 +1,52 @@
 # Creative Content Generation
 
-> 30 nodes · cohesion 0.07
+> 67 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [VoiceCloneWizard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L1) (30 connections)
-- [active](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L274) (1 connections)
-- [[audioDuration, setAudioDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L39) (1 connections)
-- [close()](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L127) (1 connections)
-- [description](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L111) (1 connections)
-- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L41) (1 connections)
-- [{ duration: probedDuration }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L76) (1 connections)
-- [[file, setFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L35) (1 connections)
-- [[language, setLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L44) (1 connections)
-- [lastStepRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L95) (1 connections)
-- [MAX_SEGMENT_SEC](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L25) (1 connections)
-- [MIN_PHRASE_REC_SEC](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L26) (1 connections)
-- [MIN_SOURCE_SEC](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L24) (1 connections)
-- [phraseRecorder](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L32) (1 connections)
-- [phraseUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L64) (1 connections)
-- [progressPct](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L162) (1 connections)
-- [[selectedStem, setSelectedStem]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L37) (1 connections)
-- [sourceBlob](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L49) (1 connections)
-- [sourceRecorder](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L33) (1 connections)
-- [[sourceTab, setSourceTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L34) (1 connections)
-- [sourceUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L53) (1 connections)
-- [[stemBlob, setStemBlob]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L36) (1 connections)
-- [[stemLoading, setStemLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L38) (1 connections)
-- [stemsQuery](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L46) (1 connections)
-- [{ step, voice, isWorking, lastError, canRetry, startValidation, submitRecording, retryLast, reset }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx#L29) (1 connections)
-- *... and 5 more nodes in this community*
+- [📚 Итоговый отчет: Улучшение документации и репозитория](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L1) (15 connections)
+- [📝 Новые файлы (11 документов)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L17) (8 connections)
+- [📚 Ссылки на созданные файлы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L599) (6 connections)
+- [🎯 Epic E008: Новые задачи](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L242) (5 connections)
+- [🎨 Визуальные улучшения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L333) (5 connections)
+- [🎉 Заключение](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L561) (5 connections)
+- [✅ Acceptance Criteria](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L524) (4 connections)
+- [🚀 Влияние на проект](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L410) (4 connections)
+- [Ключевые задачи](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L268) (4 connections)
+- [📈 Метрики улучшения](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L292) (4 connections)
+- [🎯 Следующие шаги](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L491) (4 connections)
+- [📊 Статистика](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L212) (4 connections)
+- [🔄 Улучшенные файлы (3 документа)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L148) (4 connections)
+- [📊 ROI (Return on Investment)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L465) (3 connections)
+- [✅ Выполненные работы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L15) (3 connections)
+- [🔗 Навигация и cross-linking](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L368) (3 connections)
+- [DOCUMENTATION_IMPROVEMENTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L1) (2 connections)
+- [1. CODE_OF_CONDUCT.md ✨](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L19) (1 connections)
+- [1. README.md ⭐](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L150) (1 connections)
+- [2. CONTRIBUTING.md 🤝](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L164) (1 connections)
+- [2. SECURITY.md 🔐](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L31) (1 connections)
+- [3. CHANGELOG.md 📜](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L44) (1 connections)
+- [3. SPRINTS/BACKLOG.md 📊](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L188) (1 connections)
+- [4. docs/INDEX.md 🗺️](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L56) (1 connections)
+- [5. docs/QUICK_START.md 🚀](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md#L76) (1 connections)
+- *... and 42 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[unknown]] (67 shared connections)
+- [[User Management]] (29 shared connections)
+- [[App Stability]] (15 shared connections)
+- [[Dependency Management]] (15 shared connections)
+- [[Logging System]] (5 shared connections)
+- [[UI Components]] (2 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\voice-clone\VoiceCloneWizard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/VoiceCloneWizard.tsx)
+- [docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 59 (100%)
+- EXTRACTED: 133 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

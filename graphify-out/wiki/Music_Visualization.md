@@ -1,14 +1,22 @@
 # Music Visualization
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [projectPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L1) (4 connections)
-- [getProjectPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L143) (1 connections)
-- [getProjectPresetIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L123) (1 connections)
-- [getProjectTypeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L148) (1 connections)
-- [PROJECT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts#L26) (1 connections)
+- [HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L1) (12 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L146) (1 connections)
+- [displayValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L101) (1 connections)
+- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L64) (1 connections)
+- [handlePosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L48) (1 connections)
+- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L93) (1 connections)
+- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L84) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L45) (1 connections)
+- [normalizedValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L47) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L124) (1 connections)
+- [trackRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L44) (1 connections)
+- [updateValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L50) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L103) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\projectPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/projectPresets.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,12 @@
 # Documentation Improvement
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Onboarding Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/ONBOARDING.md) (0 connections)
+- [track.page.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L1) (2 connections)
+- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L27) (1 connections)
+- [consoleErrors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts#L15) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/ONBOARDING.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ONBOARDING.md)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\track.page.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/track.page.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,11 +1,16 @@
 # Lyrics History
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L1) (1 connections)
-- [ProducerToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L12) (1 connections)
+- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L1) (5 connections)
+- [EmptyState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L99) (2 connections)
+- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L122) (1 connections)
+- [ICON_SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L92) (1 connections)
+- [SIZE_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L86) (1 connections)
+- [VARIANT_DEFAULTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmptyState.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,12 @@
 # Music Audit
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/index.ts#L1) (0 connections)
+- [ValidationReasonsSheet.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/ValidationReasonsSheet.test.tsx#L1) (2 connections)
+- [onOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/ValidationReasonsSheet.test.tsx#L33) (1 connections)
+- [reasons](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/ValidationReasonsSheet.test.tsx#L6) (1 connections)
 
 ## Relationships
 
@@ -12,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\components\lyrics\ValidationReasonsSheet.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/ValidationReasonsSheet.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

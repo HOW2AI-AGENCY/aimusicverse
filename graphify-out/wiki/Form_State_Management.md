@@ -1,16 +1,28 @@
 # Form State Management
 
-> 7 nodes · cohesion 0.29
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [ChordProgressionDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L1) (6 connections)
-- [currentChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L40) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L21) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L74) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L75) (1 connections)
-- [progressionString](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L36) (1 connections)
-- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx#L32) (1 connections)
+- [AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L1) (18 connections)
+- [analyser](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L41) (1 connections)
+- [analyserRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L21) (1 connections)
+- [animationFrameRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L22) (1 connections)
+- [audioContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L40) (1 connections)
+- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L20) (1 connections)
+- [dataArray](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L52) (1 connections)
+- [getColorClass()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L94) (1 connections)
+- [getLevelStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L101) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L123) (1 connections)
+- [isPeak](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L124) (1 connections)
+- [[level, setLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L18) (1 connections)
+- [[peakLevel, setPeakLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L19) (1 connections)
+- [segmentLevel](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L122) (1 connections)
+- [source](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L42) (1 connections)
+- [sourceRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L23) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L109) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L110) (1 connections)
+- [updateLevel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -18,11 +30,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\ChordProgressionDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/ChordProgressionDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,13 +1,20 @@
 # Musical Pitch
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useStudioTrackState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L38) (2 connections)
-- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L17) (2 connections)
-- [useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L1) (1 connections)
-- [useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L1) (1 connections)
+- [Auth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L1) (10 connections)
+- [handleAuth()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L26) (3 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L15) (3 connections)
+- [handleGuestMode()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L36) (2 connections)
+- [{ enableGuestMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L19) (1 connections)
+- [{ isAuthenticated, loading, authenticateWithTelegram }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L17) (1 connections)
+- [[isAuthenticating, setIsAuthenticating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L20) (1 connections)
+- [nextPath](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L24) (1 connections)
+- [rawNext](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L23) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L16) (1 connections)
+- [{ webApp, user, isInitialized, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -15,13 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\hooks\useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Auth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 24 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

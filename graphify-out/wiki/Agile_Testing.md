@@ -1,10 +1,12 @@
 # Agile Testing
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Tutorials Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/tutorials.svg) (0 connections)
+- [GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L1) (2 connections)
+- [GenerationBridge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L13) (1 connections)
+- [usePresetToParams()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -12,11 +14,11 @@
 
 ## Source Files
 
-- [stories/assets/tutorials.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/tutorials.svg)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,11 +1,15 @@
 # Data Visualization
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [safe-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx#L1) (1 connections)
-- [SafeArea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx#L43) (1 connections)
+- [AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L1) (5 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L72) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L110) (1 connections)
+- [groupedHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L78) (1 connections)
+- [mockHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L37) (1 connections)
+- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L205) (1 connections)
 
 ## Relationships
 
@@ -13,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\safe-area\safe-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

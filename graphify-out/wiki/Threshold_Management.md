@@ -1,13 +1,20 @@
 # Threshold Management
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L1) (3 connections)
-- [Collapsible](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L3) (1 connections)
-- [CollapsibleContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L7) (1 connections)
-- [CollapsibleTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L5) (1 connections)
+- [ValidationReasonsSheet.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L1) (10 connections)
+- [errorAndWarningReasons](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L51) (1 connections)
+- [errorReasons](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L36) (1 connections)
+- [ErrorsOnly](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L81) (1 connections)
+- [ErrorsPlusWarnings](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L96) (1 connections)
+- [KeyboardNavigation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L149) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L14) (1 connections)
+- [ScreenReaderSupport](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L173) (1 connections)
+- [Valid](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L126) (1 connections)
+- [warningReasons](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L66) (1 connections)
+- [WarningsOnly](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx#L111) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-sheet\ValidationReasonsSheet.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/ValidationReasonsSheet.stories.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

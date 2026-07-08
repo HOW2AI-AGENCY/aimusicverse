@@ -1,13 +1,20 @@
 # Music Playlist Management
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [TelegramList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L1) (3 connections)
-- [columnClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L149) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L155) (1 connections)
-- [handleItemPress](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L54) (1 connections)
+- [AlertHistoryPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L1) (11 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L114) (1 connections)
+- [{ data: alerts, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L30) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L31) (1 connections)
+- [isResolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L117) (1 connections)
+- [[resolutionNote, setResolutionNote]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L35) (1 connections)
+- [resolveAlert](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L32) (1 connections)
+- [[resolveDialogOpen, setResolveDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L33) (1 connections)
+- [[selectedAlertId, setSelectedAlertId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L34) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L23) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx#L116) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AlertHistoryPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AlertHistoryPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 21 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

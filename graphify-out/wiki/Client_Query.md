@@ -1,11 +1,16 @@
 # Client Query
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.38
 
 ## Key Concepts
 
-- [FeatureDescriptions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDescriptions.ts#L1) (1 connections)
-- [FEATURE_DESCRIPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDescriptions.ts#L11) (1 connections)
+- [NowPlayingRail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NowPlayingRail.tsx#L1) (6 connections)
+- [togglePlay()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NowPlayingRail.tsx#L26) (3 connections)
+- [pauseTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NowPlayingRail.tsx#L25) (2 connections)
+- [playTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NowPlayingRail.tsx#L24) (2 connections)
+- [activeTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NowPlayingRail.tsx#L22) (1 connections)
+- [isPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NowPlayingRail.tsx#L23) (1 connections)
+- [styleTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NowPlayingRail.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\FeatureDescriptions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDescriptions.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\NowPlayingRail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NowPlayingRail.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

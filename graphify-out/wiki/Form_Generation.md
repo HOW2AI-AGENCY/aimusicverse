@@ -1,25 +1,26 @@
 # Form Generation
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [CONTRIBUTING.md](file:///D:/.MUSICVERSE/aimusicverse/CONTRIBUTING.md) (0 connections)
+- [task-1-brief.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-1-brief.md#L1) (1 connections)
+- [Task 1: Add feature flag and split `useGenerateForm.ts`](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-1-brief.md#L1) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2464]] (2 shared connections)
 
 ## Source Files
 
-- [CONTRIBUTING.md](file:///D:/.MUSICVERSE/aimusicverse/CONTRIBUTING.md)
+- [.superpowers/sdd/task-1-brief.md](file:///D:/.MUSICVERSE/aimusicverse/.superpowers/sdd/task-1-brief.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

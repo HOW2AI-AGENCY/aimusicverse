@@ -1,11 +1,16 @@
 # MusicVerse AI
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx#L36) (1 connections)
+- [EnhancedMessages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L1) (6 connections)
+- [LyricsGeneratedMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L40) (3 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L397) (1 connections)
+- [failCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L282) (1 connections)
+- [passCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L280) (1 connections)
+- [statusIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L284) (1 connections)
+- [warnCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx#L281) (1 connections)
 
 ## Relationships
 
@@ -13,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentMethodSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentMethodSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\messages\EnhancedMessages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/messages/EnhancedMessages.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (86%)
+- INFERRED: 2 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

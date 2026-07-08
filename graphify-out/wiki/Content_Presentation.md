@@ -1,14 +1,22 @@
 # Content Presentation
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
-- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
-- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
-- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
-- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
+- [QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L1) (12 connections)
+- [handleActionClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L107) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L101) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L147) (1 connections)
+- [displayActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L105) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L102) (1 connections)
+- [hasProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L136) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L134) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L103) (1 connections)
+- [professionalActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L34) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L89) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L135) (1 connections)
+- [statusIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\QuickAccessPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/QuickAccessPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

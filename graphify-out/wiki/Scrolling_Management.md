@@ -1,37 +1,47 @@
 # Scrolling Management
 
-> 16 nodes · cohesion 0.12
+> 45 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [ChordTimelineMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L1) (15 connections)
-- [activeChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L68) (1 connections)
-- [[activeChordIndex, setActiveChordIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L20) (1 connections)
-- [chordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L32) (1 connections)
-- [handleChordTap](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L40) (1 connections)
-- [handleShowDiagram](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L49) (1 connections)
-- [index](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L25) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L132) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L167) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L130) (1 connections)
-- [navigateChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L54) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L69) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L18) (1 connections)
-- [[showDiagram, setShowDiagram]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L21) (1 connections)
-- [{ tap, selectionChanged }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L19) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L131) (1 connections)
+- [📊 Final Report: MusicVerse AI Project, Logic, and Interface Audit](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L1) (14 connections)
+- [🎯 Audit Areas (7 User Stories)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L54) (4 connections)
+- [🎉 Conclusion](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L472) (4 connections)
+- [Priority P1 - Critical (Weeks 1-2)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L56) (4 connections)
+- [🎓 Recommendations and Next Steps](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L399) (4 connections)
+- [📈 Expected Improvements](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L303) (3 connections)
+- [🗓️ Implementation Timeline](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L193) (3 connections)
+- [Priority P2 - High Impact (Weeks 2-3)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L103) (3 connections)
+- [Priority P3 - Important (Weeks 3-4)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L137) (3 connections)
+- [🔧 Tools and Methodologies](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L232) (3 connections)
+- [📦 Artifacts and Deliverables](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L265) (2 connections)
+- [✅ Constitution Compliance Validation](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L378) (2 connections)
+- [🎯 Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L9) (2 connections)
+- [🚨 Identified Issues](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L347) (2 connections)
+- [📊 Key Metrics and Success Criteria](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L172) (2 connections)
+- [📋 Project Structure](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L35) (2 connections)
+- [Quality Analysis Results](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L349) (2 connections)
+- [📞 Support and Questions](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L444) (2 connections)
+- [AUDIT_SUMMARY_EN.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L1) (1 connections)
+- [1. 🏗️ Component Architecture Analysis (US1)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L58) (1 connections)
+- [2. 🎨 Design System Compliance Audit (US2)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L72) (1 connections)
+- [3. ♿ Accessibility Compliance Assessment (US3)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L86) (1 connections)
+- [4. 📱 Mobile-First Implementation Review (US4)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L105) (1 connections)
+- [5. ⚡ Performance Bottleneck Analysis (US5)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L120) (1 connections)
+- [6. 🔄 User Interaction Pattern Consistency Review (US6)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md#L139) (1 connections)
+- *... and 20 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Music Recording]] (88 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordTimelineMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx)
+- [specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 88 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

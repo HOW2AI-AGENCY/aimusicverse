@@ -1,17 +1,30 @@
 # Mobile Platform Development
 
-> 8 nodes · cohesion 0.25
+> 21 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [horizontal-scroll-fade.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L1) (7 connections)
-- [[canScrollLeft, setCanScrollLeft]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L24) (1 connections)
-- [[canScrollRight, setCanScrollRight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L25) (1 connections)
-- [checkScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L27) (1 connections)
-- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L36) (1 connections)
-- [resizeObserver](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L42) (1 connections)
-- [scrollBy()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L51) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L23) (1 connections)
+- [Artists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L1) (20 connections)
+- [filterArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L73) (2 connections)
+- [activeTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L29) (1 connections)
+- [{ artists: myArtists, isLoading: myLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L32) (1 connections)
+- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L42) (1 connections)
+- [currentArtists](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L86) (1 connections)
+- [{ data: publicArtists, isLoading: publicLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L31) (1 connections)
+- [[detailsPanelOpen, setDetailsPanelOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L44) (1 connections)
+- [filteredMyArtists](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L84) (1 connections)
+- [filteredPublicArtists](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L83) (1 connections)
+- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L22) (1 connections)
+- [handleArtistClick()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L88) (1 connections)
+- [handleTabChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L65) (1 connections)
+- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L25) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L85) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L26) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L28) (1 connections)
+- [[searchParams, setSearchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L27) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L40) (1 connections)
+- [[selectedArtist, setSelectedArtist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L43) (1 connections)
+- [[selectedGenre, setSelectedGenre]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -19,12 +32,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\horizontal-scroll-fade.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Artists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Artists.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 40 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

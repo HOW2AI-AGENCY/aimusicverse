@@ -1,49 +1,50 @@
 # Web Accessibility
 
-> 26 nodes · cohesion 0.09
+> 61 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L1) (13 connections)
-- [styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L1) (11 connections)
-- [parseStyleTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L80) (4 connections)
-- [parseTrackTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L196) (3 connections)
-- [cleanTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L46) (2 connections)
-- [getDisplayTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L215) (2 connections)
-- [isValidTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L58) (2 connections)
-- [addTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L123) (2 connections)
-- [detectCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L31) (1 connections)
-- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L23) (1 connections)
-- [MOOD_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L18) (1 connections)
-- [STRUCTURE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L25) (1 connections)
-- [TEMPO_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L22) (1 connections)
-- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L20) (1 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L121) (1 connections)
-- [addBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L136) (1 connections)
-- [ADVANCED_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L112) (1 connections)
-- [BACK_VOCAL_EFFECTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L98) (1 connections)
-- [[backVocals, setBackVocals]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L120) (1 connections)
-- [clearAll](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L176) (1 connections)
-- [copyToClipboard](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L167) (1 connections)
-- [generateCompoundTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L149) (1 connections)
-- [removeBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L145) (1 connections)
-- [removeTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L132) (1 connections)
-- [[selectedTags, setSelectedTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L119) (1 connections)
-- *... and 1 more nodes in this community*
+- [Tasks: UI/UX Audit and Optimization Project](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L1) (20 connections)
+- [Dependencies & Execution Order](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L451) (6 connections)
+- [Phase 7: User Story 5 - Performance Bottleneck Analysis (Priority: P2)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L236) (6 connections)
+- [Implementation Strategy](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L574) (5 connections)
+- [Phase 5: User Story 3 - Accessibility Compliance Assessment (Priority: P1)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L136) (5 connections)
+- [Phase 6: User Story 4 - Mobile-First Implementation Review (Priority: P2)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L187) (5 connections)
+- [Phase 9: User Story 7 - Documentation and Pattern Library Creation (Priority: P3)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L356) (5 connections)
+- [Parallel Execution Examples](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L526) (4 connections)
+- [Phase 4: User Story 2 - Design System Compliance Audit (Priority: P1)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L99) (4 connections)
+- [Phase 8: User Story 6 - User Interaction Pattern Consistency Review (Priority: P3)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L305) (4 connections)
+- [Time Estimates](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L652) (4 connections)
+- [Phase 3: User Story 1 - Component Architecture Analysis (Priority: P1) 🎯](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L67) (3 connections)
+- [tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L1) (1 connections)
+- [4-Week Parallel Workstream Strategy](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L580) (1 connections)
+- [Audit Execution Approach](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L576) (1 connections)
+- [By User Story](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L654) (1 connections)
+- [Critical Path](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L516) (1 connections)
+- [Format: `- [ ] [ID] [P?] [Story?] Description`](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L10) (1 connections)
+- [Next Steps After Audit Completion](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L729) (1 connections)
+- [Notes](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L716) (1 connections)
+- [Parallel Opportunities](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L496) (1 connections)
+- [Parallel Opportunities Identified](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L684) (1 connections)
+- [Path Conventions](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L16) (1 connections)
+- [Phase 10: Validation & Finalization (Week 4 Final Days)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L425) (1 connections)
+- [Phase 1: Setup & Infrastructure (Week 1 Days 1-2)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md#L25) (1 connections)
+- *... and 36 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[unknown]] (86 shared connections)
+- [[User Management]] (29 shared connections)
+- [[Community 2283]] (5 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts)
+- [specs/001-ui-ux-audit/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md)
 
 ## Audit Trail
 
-- EXTRACTED: 54 (95%)
-- INFERRED: 3 (5%)
+- EXTRACTED: 120 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

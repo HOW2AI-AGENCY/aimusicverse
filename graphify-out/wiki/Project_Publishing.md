@@ -1,18 +1,44 @@
 # Project Publishing
 
-> 9 nodes · cohesion 0.22
+> 26 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L1) (8 connections)
-- [bgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L84) (1 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L83) (1 connections)
-- [DEVICE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L26) (1 connections)
-- [isGood](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L42) (1 connections)
-- [isPoor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L43) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L45) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L46) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx#L52) (1 connections)
+- [UnifiedTrackSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L1) (25 connections)
+- [fetchStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L91) (2 connections)
+- [{
+    actionState,
+    isProcessing,
+    dialogs,
+    closeDialog,
+    executeAction,
+    handleConfirmDelete,
+    stems,
+    enableVideoStatusFetch,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L64) (1 connections)
+- [hasHdAudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L129) (1 connections)
+- [isUpscaling](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L130) (1 connections)
+- [showAddInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L112) (1 connections)
+- [showAddVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L111) (1 connections)
+- [showCopyLink](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L121) (1 connections)
+- [showCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L108) (1 connections)
+- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L124) (1 connections)
+- [showDownloadStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L119) (1 connections)
+- [showExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L109) (1 connections)
+- [showGenerateCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L107) (1 connections)
+- [showMp3](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L117) (1 connections)
+- [showPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L122) (1 connections)
+- [showProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L123) (1 connections)
+- [showRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L110) (1 connections)
+- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L114) (1 connections)
+- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L116) (1 connections)
+- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L115) (1 connections)
+- [showStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L113) (1 connections)
+- [showTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L120) (1 connections)
+- [showTogglePublic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L125) (1 connections)
+- [showUpscaleHd](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L126) (1 connections)
+- [showWav](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L118) (1 connections)
+- *... and 1 more nodes in this community*
 
 ## Relationships
 
@@ -20,12 +46,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\UnifiedTrackSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 50 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

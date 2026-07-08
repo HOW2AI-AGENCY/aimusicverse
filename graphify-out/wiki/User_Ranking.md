@@ -1,32 +1,48 @@
 # User Ranking
 
-> 11 nodes · cohesion 0.18
+> 31 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L1) (11 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L27) (1 connections)
-- [currentWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L51) (1 connections)
-- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L36) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L143) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L144) (1 connections)
-- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L163) (1 connections)
-- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L34) (1 connections)
-- [lyricsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L28) (1 connections)
-- [lyricsText](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L37) (1 connections)
-- [wordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L54) (1 connections)
+- [📚 Документация MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L1) (11 connections)
+- [🎯 Документация по категориям](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L112) (7 connections)
+- [🎓 Образовательные пути](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L244) (5 connections)
+- [📊 Статистика](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L369) (4 connections)
+- [📋 Чеклисты](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L316) (4 connections)
+- [🔍 Быстрый поиск](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L344) (3 connections)
+- [🎯 Best Practices](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L403) (2 connections)
+- [🗺️ Навигационные диаграммы](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L186) (2 connections)
+- [🤖 Telegram](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L163) (1 connections)
+- [🏗️ Архитектура](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L125) (1 connections)
+- [🎯 Быстрый старт](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L8) (1 connections)
+- [🎨 Дизайн и UI](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L138) (1 connections)
+- [Документация по статусу](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L378) (1 connections)
+- [Документация по типу](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L386) (1 connections)
+- [Документация по языкам](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L371) (1 connections)
+- [Карта документации](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L188) (1 connections)
+- [📝 Написание документации](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L405) (1 connections)
+- [🚀 Начало работы](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L114) (1 connections)
+- [✅ Первая неделя](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L327) (1 connections)
+- [✅ Первый день в документации](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L318) (1 connections)
+- [✅ Первый месяц](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L335) (1 connections)
+- [По компоненту](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L357) (1 connections)
+- [По технологии](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L346) (1 connections)
+- [🧪 Путь QA инженера (3-5 дней)](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L295) (1 connections)
+- [🏗️ Путь архитектора (1-2 недели)](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md#L265) (1 connections)
+- *... and 6 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[UI Framework]] (60 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx)
+- [docs/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/README.md)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 61 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,14 +1,21 @@
 # Game State
 
-> 5 nodes · cohesion 0.40
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L1) (4 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L4) (1 connections)
-- [Sizes](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L32) (1 connections)
-- [WithFallback](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L14) (1 connections)
-- [WithImage](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx#L23) (1 connections)
+- [MobileNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L1) (11 connections)
+- [parseTimeSignature()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L46) (2 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L258) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L132) (1 connections)
+- [handleNoteClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L127) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L43) (1 connections)
+- [NOTE_NAMES_RU](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L44) (1 connections)
+- [parsedTimeSignature](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L74) (1 connections)
+- [processedNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L77) (1 connections)
+- [[selectedNoteIndex, setSelectedNoteIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L72) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L103) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L71) (1 connections)
 
 ## Relationships
 
@@ -16,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Avatar.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Avatar.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\MobileNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

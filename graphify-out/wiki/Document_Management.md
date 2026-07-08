@@ -1,10 +1,11 @@
 # Document Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [github-repo-auditor agent](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/github-repo-auditor.md) (0 connections)
+- [FormStepper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormStepper.tsx#L1) (1 connections)
+- [FormStepper()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormStepper.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.claude/agents/github-repo-auditor.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/github-repo-auditor.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\FormStepper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormStepper.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

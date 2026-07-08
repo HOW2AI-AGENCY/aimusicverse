@@ -1,13 +1,20 @@
 # Content Generation
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L1) (3 connections)
-- [useAdminModerationReports()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L32) (1 connections)
-- [useModerationStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L111) (1 connections)
-- [useUpdateReportStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L74) (1 connections)
+- [PlayerProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L1) (10 connections)
+- [bufferedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L72) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L52) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L51) (1 connections)
+- [densityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L28) (1 connections)
+- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L59) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L48) (1 connections)
+- [[isHovering, setIsHovering]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L50) (1 connections)
+- [[localTime, setLocalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L49) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L71) (1 connections)
+- [waveformMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\PlayerProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

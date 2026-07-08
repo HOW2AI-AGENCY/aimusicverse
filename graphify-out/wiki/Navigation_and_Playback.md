@@ -1,10 +1,12 @@
 # Navigation and Playback
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Testing & Quality Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/testing-quality.md) (0 connections)
+- [TouchTarget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L1) (2 connections)
+- [TouchIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L39) (1 connections)
+- [TouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [.github/agents/testing-quality.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/testing-quality.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\TouchTarget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchTarget.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

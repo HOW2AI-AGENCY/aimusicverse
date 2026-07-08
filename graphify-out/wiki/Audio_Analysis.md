@@ -1,28 +1,24 @@
 # Audio Analysis
 
-> 7 nodes · cohesion 0.29
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L1) (6 connections)
-- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L76) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L78) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L79) (1 connections)
-- [isSkipped](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L77) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L75) (1 connections)
-- [WorkflowProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx#L25) (1 connections)
+- [speckit.clarify.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md#L1) (2 connections)
+- [Outline](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md#L17) (1 connections)
+- [User Input](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md#L9) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2316]] (4 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\WorkflowProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowProgress.tsx)
+- [.claude/commands/speckit.clarify.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

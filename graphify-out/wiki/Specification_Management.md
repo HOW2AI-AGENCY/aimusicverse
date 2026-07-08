@@ -1,10 +1,11 @@
 # Specification Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [YouTube Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/youtube.svg) (0 connections)
+- [PatternBank.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx#L1) (1 connections)
+- [PatternBank](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [stories/assets/youtube.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/youtube.svg)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\PatternBank.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

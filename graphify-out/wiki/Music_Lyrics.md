@@ -1,13 +1,20 @@
 # Music Lyrics
 
-> 4 nodes · cohesion 0.67
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L1) (3 connections)
-- [usePaymentHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L24) (2 connections)
-- [useRecentTransactions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L56) (2 connections)
-- [paymentHistoryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L10) (1 connections)
+- [FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L1) (10 connections)
+- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L184) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L74) (1 connections)
+- [hasValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L44) (1 connections)
+- [inputPaddingTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L60) (1 connections)
+- [isFloating](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L45) (1 connections)
+- [[isFocused, setIsFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L41) (1 connections)
+- [isPassword](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L46) (1 connections)
+- [labelSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L54) (1 connections)
+- [[showPassword, setShowPassword]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L42) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

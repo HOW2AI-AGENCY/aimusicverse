@@ -1,46 +1,53 @@
 # Music Timing
 
-> 25 nodes · cohesion 0.08
+> 60 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L1) (24 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L83) (1 connections)
-- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L121) (1 connections)
-- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L30) (1 connections)
-- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L113) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L28) (1 connections)
-- [centerX](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L78) (1 connections)
-- [centerY](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L79) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L29) (1 connections)
-- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L115) (1 connections)
-- [[dimensions, setDimensions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L38) (1 connections)
-- [[dragStart, setDragStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L36) (1 connections)
-- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L41) (1 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L204) (1 connections)
-- [handleMouseDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L193) (1 connections)
-- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L198) (1 connections)
-- [[hoveredNode, setHoveredNode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L37) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L35) (1 connections)
-- [{ nodes, edges }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L118) (1 connections)
-- [[pan, setPan]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L34) (1 connections)
-- [positions](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L119) (1 connections)
-- [positionsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L31) (1 connections)
-- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L84) (1 connections)
-- [updateDimensions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L97) (1 connections)
-- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L33) (1 connections)
+- [Security Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L1) (7 connections)
+- [Code Security](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L11) (6 connections)
+- [🚨 Incident Response Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L175) (6 connections)
+- [📋 Routine Security Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L99) (5 connections)
+- [📊 Compliance Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L309) (4 connections)
+- [✅ Deployment Verification Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L337) (4 connections)
+- [Infrastructure Security](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L53) (4 connections)
+- [🚀 Pre-Deployment Security Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L9) (4 connections)
+- [Code Review Security](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L271) (3 connections)
+- [Containment (First 4 Hours for P0-P1)](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L213) (3 connections)
+- [Daily Security Tasks](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L101) (3 connections)
+- [🔧 Development Security Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L269) (3 connections)
+- [Initial Response (First 15 Minutes)](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L177) (3 connections)
+- [Investigation (First Hour)](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L195) (3 connections)
+- [Monthly Security Tasks](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L137) (3 connections)
+- [Post-Incident (Within 7 Days)](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L249) (3 connections)
+- [Quarterly Security Tasks](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L155) (3 connections)
+- [Resolution (Within 24-48 Hours for P0-P1)](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L231) (3 connections)
+- [Testing Security](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L79) (3 connections)
+- [Testing Security](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L289) (3 connections)
+- [Weekly Security Tasks](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L119) (3 connections)
+- [SECURITY_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L1) (1 connections)
+- [Access Review](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L129) (1 connections)
+- [Activation](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L187) (1 connections)
+- [Analysis](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md#L197) (1 connections)
+- *... and 35 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Telegram Bot]] (26 shared connections)
+- [[Music Player]] (25 shared connections)
+- [[User Management]] (22 shared connections)
+- [[Bug Fix Testing]] (16 shared connections)
+- [[Web Crawling]] (13 shared connections)
+- [[Form Generation]] (11 shared connections)
+- [[Text Processing]] (5 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx)
+- [docs/SECURITY_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/SECURITY_CHECKLIST.md)
 
 ## Audit Trail
 
-- EXTRACTED: 48 (100%)
+- EXTRACTED: 118 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

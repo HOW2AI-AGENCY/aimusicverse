@@ -1,38 +1,48 @@
 # User Profile Management
 
-> 17 nodes · cohesion 0.12
+> 46 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [TrackVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L1) (16 connections)
-- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L270) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L327) (1 connections)
-- [hasAnyAssets](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L127) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L160) (1 connections)
-- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L291) (1 connections)
-- [isMaster](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L293) (1 connections)
-- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L292) (1 connections)
-- [masterVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L275) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L114) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L47) (1 connections)
-- [STEM_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L55) (1 connections)
-- [{ stems, transcriptions, guitarRecordings, isLoading, hasStems, hasTranscriptions, hasGuitarRecordings }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L115) (1 connections)
-- [{ tracksBySlot, isLoading, setMasterTrack, isSettingMaster }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L271) (1 connections)
-- [useTrackAssets()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L64) (1 connections)
-- [versions](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L273) (1 connections)
-- [versionsCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx#L274) (1 connections)
+- [Quality Gates Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L1) (13 connections)
+- [🔒 Pre-Merge Gates (CI/CD)](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L69) (5 connections)
+- [🎨 Code Quality Standards](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L410) (4 connections)
+- [Local Development Checks](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L22) (4 connections)
+- [Production Quality Gates](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L351) (4 connections)
+- [📋 Quality Gate Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L453) (4 connections)
+- [Security Automation Workflow](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L231) (4 connections)
+- [Accessibility Automation Workflow](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L299) (3 connections)
+- [Performance Monitoring Workflow](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L121) (3 connections)
+- [Quality Check Workflow](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L76) (3 connections)
+- [♿ Accessibility Gates (Planned)](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L297) (2 connections)
+- [E2E Test Workflow](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L193) (2 connections)
+- [🚀 Future Enhancements](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L543) (2 connections)
+- [📊 Post-Merge Monitoring](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L349) (2 connections)
+- [🚦 Pre-Commit Gates](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L20) (2 connections)
+- [📈 Quality Metrics](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L522) (2 connections)
+- [🔐 Security Gates (Planned)](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L229) (2 connections)
+- [🔧 Troubleshooting](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L484) (2 connections)
+- [Automated Quality Checks](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L71) (1 connections)
+- [Before Committing](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L455) (1 connections)
+- [Before Creating PR](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L464) (1 connections)
+- [Before Merging](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L473) (1 connections)
+- [Common Gate Failures](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L486) (1 connections)
+- [CSS/Tailwind Standards](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L439) (1 connections)
+- [Current Status (2026-06-24)](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md#L524) (1 connections)
+- *... and 21 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Engagement]] (90 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\TrackVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackVersionsPanel.tsx)
+- [docs/QUALITY_GATES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
+- EXTRACTED: 91 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

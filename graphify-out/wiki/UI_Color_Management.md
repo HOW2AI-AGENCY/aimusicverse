@@ -1,28 +1,40 @@
 # UI Color Management
 
-> 7 nodes · cohesion 0.33
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L1) (6 connections)
-- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L65) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L63) (2 connections)
-- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L42) (1 connections)
-- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L52) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L104) (1 connections)
-- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx#L72) (1 connections)
+- [React & TypeScript Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L1) (9 connections)
+- [Common Errors](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L209) (4 connections)
+- [Component Patterns](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L24) (4 connections)
+- [TypeScript Best Practices](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L264) (3 connections)
+- [Animation Patterns](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L166) (2 connections)
+- [react-typescript.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L1) (1 connections)
+- [Commands](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L307) (1 connections)
+- [Custom Hook Template](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L60) (1 connections)
+- [Discriminated Unions](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L266) (1 connections)
+- [Error: "Cannot read properties of undefined"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L211) (1 connections)
+- [Error: "Cannot update state on unmounted component"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L243) (1 connections)
+- [Error: "Too many re-renders"](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L224) (1 connections)
+- [Expertise](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L7) (1 connections)
+- [Framer Motion](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L168) (1 connections)
+- [Functional Component Template](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L26) (1 connections)
+- [Generic Components](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L287) (1 connections)
+- [Key Files](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L16) (1 connections)
+- [Role](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L3) (1 connections)
+- [Zustand Store Template](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md#L113) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Preset Management]] (36 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextualHint.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextualHint.tsx)
+- [.github/agents/react-typescript.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/react-typescript.md)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,11 @@
 # AI Music Development
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Feature Specification Unified Interface Application](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/spec.md) (0 connections)
+- [MiniWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx#L1) (1 connections)
+- [MiniWaveform](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [specs/001-unified-interface/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/spec.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\MiniWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

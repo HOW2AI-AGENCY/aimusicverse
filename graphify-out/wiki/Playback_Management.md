@@ -1,17 +1,30 @@
 # Playback Management
 
-> 8 nodes · cohesion 0.25
+> 21 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L1) (7 connections)
-- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L28) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L24) (1 connections)
-- [handleBeatClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L56) (1 connections)
-- [handleTimelineClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L45) (1 connections)
-- [[hoveredBeat, setHoveredBeat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L25) (1 connections)
-- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L38) (1 connections)
-- [trackDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L35) (1 connections)
+- [LyricsPreviewSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L1) (20 connections)
+- [cleanLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L97) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L40) (1 connections)
+- [draftLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L60) (1 connections)
+- [[editedLyrics, setEditedLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L43) (1 connections)
+- [[editedNotes, setEditedNotes]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L44) (1 connections)
+- [generatedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L59) (1 connections)
+- [getLyricsStatusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L101) (1 connections)
+- [handleApproveLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L76) (1 connections)
+- [handleLyricsGenerated()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L91) (1 connections)
+- [handleSaveLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L71) (1 connections)
+- [handleSaveNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L86) (1 connections)
+- [handleStartEditLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L66) (1 connections)
+- [handleStartEditNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L81) (1 connections)
+- [hasDraftLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L63) (1 connections)
+- [hasGeneratedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L62) (1 connections)
+- [[isEditingLyrics, setIsEditingLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L41) (1 connections)
+- [[isEditingNotes, setIsEditingNotes]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L42) (1 connections)
+- [lyricsStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L64) (1 connections)
+- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L61) (1 connections)
+- [[showChatAssistant, setShowChatAssistant]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -19,12 +32,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\LyricsPreviewSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/LyricsPreviewSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 40 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,10 +1,11 @@
 # Player Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Player Fixes Summary (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_SUMMARY_RU.md) (0 connections)
+- [FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L1) (1 connections)
+- [backgroundUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L9) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/archive/implementation-reports/PLAYER_FIXES_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_SUMMARY_RU.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

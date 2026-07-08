@@ -8,7 +8,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Technology Stack:** React 19.2 + TypeScript 5.9 + Vite 5.0
 - **Backend:** Supabase (PostgreSQL + Edge Functions + Storage)
-- **AI Gateway:** 9Router (local/remote, OpenAI-compatible REST) — 129+ LLM models, image gen, TTS, STT
 - **UI Framework:** Tailwind CSS 3.4 + shadcn/ui + Radix UI
 - **State Management:** Zustand 5.0 (global) + TanStack Query 5.90 (server state)
 - **Audio Processing:** Tone.js 14.9, Wavesurfer.js 7.8
@@ -82,9 +81,7 @@ The application follows a layered architecture:
 
 - **`src/api/`** (24 files) - Direct Supabase database operations, type-safe queries
 - **`src/services/`** (56 files) - Business logic layer, data transformation, complex operations
-  - `ninerouter/` — 9Router AI Gateway client (chat, image, TTS, STT, embeddings)
 - **`src/hooks/`** (419 files) - Custom React hooks for UI logic and state management
-  - `useNineRouter.ts` — React hooks for 9Router (chat, image, lyrics, models, health)
 - **`src/stores/`** (27 files) - Zustand stores for complex global state (player, unified studio, lyrics)
 - **`src/components/`** (1136 files) - React components organized by feature
   - `ui/` - shadcn/ui base components + custom components (LazyImage, GlowButton, etc.)
@@ -613,7 +610,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-07-07 (Sprint 050 ✅ Complete; 9Router AI Gateway integrated; tsc 0 errors; 1525 unit tests; Lighthouse CI added; Branch Protection active)
+**Last Updated:** 2026-07-09 (Sprint 050 ✅ Complete; tsc 0 errors; 1525 unit tests; Lighthouse CI added; Branch Protection active)
 
 ## graphify
 

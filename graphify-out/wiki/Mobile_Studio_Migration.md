@@ -1,10 +1,14 @@
 # Mobile Studio Migration
 
-> 1 nodes · cohesion 1.00
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/index.ts#L1) (0 connections)
+- [ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L1) (4 connections)
+- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L38) (1 connections)
+- [hasMetadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L37) (1 connections)
+- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L36) (1 connections)
+- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -12,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

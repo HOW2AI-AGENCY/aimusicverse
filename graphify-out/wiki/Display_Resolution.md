@@ -1,23 +1,21 @@
 # Display Resolution
 
-> 4 nodes · cohesion 0.50
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [voice-clone.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L1) (3 connections)
-- [VoiceApiError](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L6) (2 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L8) (1 connections)
-- [voiceCloneApi](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts#L24) (1 connections)
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class VoiceApiError {
-        +voice-clone.api.ts()
-        +.constructor()
-    }
-```
+- [MobileBottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L1) (11 connections)
+- [backdropOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L46) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L124) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L42) (1 connections)
+- [currentHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L48) (1 connections)
+- [[currentSnap, setCurrentSnap]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L43) (1 connections)
+- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L26) (1 connections)
+- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L84) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L50) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L41) (1 connections)
+- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L27) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -25,11 +23,11 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\voice-clone.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/voice-clone.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileBottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileBottomSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

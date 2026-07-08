@@ -1,11 +1,17 @@
 # STEM Prioritization
 
-> 2 nodes · cohesion 1.00
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [TracksGridSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx#L1) (1 connections)
-- [displayTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx#L66) (1 connections)
+- [cdn.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L1) (7 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L28) (1 connections)
+- [observerSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L181) (1 connections)
+- [providers](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L64) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L35) (1 connections)
+- [support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L160) (1 connections)
+- [timing](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L269) (1 connections)
+- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L196) (1 connections)
 
 ## Relationships
 
@@ -13,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\TracksGridSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TracksGridSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\cdn.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

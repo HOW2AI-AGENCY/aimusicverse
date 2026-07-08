@@ -1,32 +1,48 @@
 # Media Attributes
 
-> 10 nodes · cohesion 0.20
+> 27 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L34) (2 connections)
-- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
-- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L43) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L32) (1 connections)
-- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
-- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
-- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
+- [Player Crash Fix - December 9, 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L1) (11 connections)
+- [Architecture Guidelines](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L151) (3 connections)
+- [Code Changes](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L62) (3 connections)
+- [Impact](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L116) (3 connections)
+- [Related Files](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L197) (3 connections)
+- [Root Cause Analysis](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L8) (3 connections)
+- [Testing](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L132) (3 connections)
+- [The Solution](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L44) (3 connections)
+- [Code Pattern Reference](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L167) (2 connections)
+- [PLAYER_CRASH_FIX_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L1) (1 connections)
+- [1. `useGlobalAudioPlayer.ts` - Removed Duplicate Singleton](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L64) (1 connections)
+- [2. `useAudioTime.ts` - Enhanced Null Safety](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L88) (1 connections)
+- [Architecture Change](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L46) (1 connections)
+- [Build Verification](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L134) (1 connections)
+- [DO ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L153) (1 connections)
+- [DON'T ❌](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L160) (1 connections)
+- [Fixed Components](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L118) (1 connections)
+- [Key Architecture Files](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L204) (1 connections)
+- [Lessons Learned](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L211) (1 connections)
+- [Maintained Functionality](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L125) (1 connections)
+- [Manual Testing Required](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L141) (1 connections)
+- [Modified](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L199) (1 connections)
+- [Prevention](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L218) (1 connections)
+- [Problem Statement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L3) (1 connections)
+- [Safe Audio Hook Pattern](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md#L169) (1 connections)
+- *... and 2 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Referral Sharing]] (52 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
+- [docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 52 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

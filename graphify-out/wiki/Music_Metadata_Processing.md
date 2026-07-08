@@ -1,47 +1,57 @@
 # Music Metadata Processing
 
-> 30 nodes · cohesion 0.07
+> 66 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [library.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L1) (29 connections)
-- [accessibleCards](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L331) (1 connections)
-- [accessibleCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L335) (1 connections)
-- [actionsButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L194) (1 connections)
-- [actionsCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L198) (1 connections)
-- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L32) (1 connections)
-- [bodyBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L265) (1 connections)
-- [contentCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L40) (1 connections)
-- [emptyCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L80) (1 connections)
-- [emptyState](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L75) (1 connections)
-- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L22) (1 connections)
-- [filterCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L63) (1 connections)
-- [filters](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L59) (1 connections)
-- [focusedElement](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L322) (1 connections)
-- [h1](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L310) (1 connections)
-- [h1Count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L311) (1 connections)
-- [hasFocus](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L323) (1 connections)
-- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L23) (1 connections)
-- [hasSearch](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L112) (1 connections)
-- [hasTrack](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L169) (1 connections)
-- [inputCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L51) (1 connections)
-- [libraryContent](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L36) (1 connections)
-- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L183) (1 connections)
-- [playCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L187) (1 connections)
-- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts#L20) (1 connections)
-- *... and 5 more nodes in this community*
+- [Sprint 008 Completion Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L1) (17 connections)
+- [Player Integration Tasks (9/9) ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L114) (9 connections)
+- [🔧 Enhanced Components](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L350) (7 connections)
+- [🎯 Technical Requirements Met](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L431) (5 connections)
+- [🏗️ Architecture Decisions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L491) (4 connections)
+- [📦 Build & Deployment](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L572) (4 connections)
+- [🎓 Learnings & Best Practices](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L598) (4 connections)
+- [Library Enhancements (3/3) ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L29) (4 connections)
+- [Manual Testing Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L538) (4 connections)
+- [🚀 User Experience Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L466) (4 connections)
+- [Acceptance Criteria](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L644) (3 connections)
+- [📋 Completed Tasks Breakdown](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L27) (3 connections)
+- [📝 Documentation Updates](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L625) (3 connections)
+- [🆕 New Components Created](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L316) (3 connections)
+- [🚀 Next Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L669) (3 connections)
+- [🎯 Sprint 008 Success Criteria](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L642) (2 connections)
+- [🔍 Testing Requirements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L536) (2 connections)
+- [SPRINT_008_COMPLETION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L1) (1 connections)
+- [1. TrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L352) (1 connections)
+- [1. VolumeControl.tsx](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L318) (1 connections)
+- [2. Library.tsx](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L362) (1 connections)
+- [2. useTracksInfinite.tsx](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L334) (1 connections)
+- [3. FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L373) (1 connections)
+- [4. ResizablePlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L383) (1 connections)
+- [5. ExpandedPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md#L392) (1 connections)
+- *... and 41 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[unknown]] (28 shared connections)
+- [[User Authentication]] (27 shared connections)
+- [[User Management]] (17 shared connections)
+- [[Sprint Reporting]] (13 shared connections)
+- [[Auth E2E Tests]] (7 shared connections)
+- [[Test Automation]] (7 shared connections)
+- [[Community 2100]] (7 shared connections)
+- [[Community 2101]] (7 shared connections)
+- [[Community 2102]] (7 shared connections)
+- [[Community 2302]] (5 shared connections)
+- [[Community 2303]] (5 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\library.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/library.spec.ts)
+- [docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 58 (100%)
+- EXTRACTED: 130 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

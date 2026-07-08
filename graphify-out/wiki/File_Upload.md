@@ -1,15 +1,39 @@
 # File Upload
 
-> 6 nodes · cohesion 0.33
+> 16 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L1) (5 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L147) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L65) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L57) (1 connections)
-- [listContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L11) (1 connections)
-- [listItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L16) (1 connections)
+- [MobilePlayerPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L1) (14 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L43) (3 connections)
+- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L193) (2 connections)
+- [handleCloseFullscreen()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L199) (2 connections)
+- [TrackLoadError](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L29) (2 connections)
+- [currentMode](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L185) (1 connections)
+- [{
+    data: track,
+    isLoading,
+    error,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L48) (1 connections)
+- [description](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L240) (1 connections)
+- [[hasStartedPlayback, setHasStartedPlayback]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L45) (1 connections)
+- [{ playTrack, setPlayerMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L44) (1 connections)
+- [reason](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L231) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L170) (1 connections)
+- [title](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L232) (1 connections)
+- [{ trackId }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L42) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L33) (1 connections)
+- [UUID_RE](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx#L25) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class TrackLoadError {
+        +MobilePlayerPage.tsx()
+        +.constructor()
+    }
+```
 
 ## Relationships
 
@@ -17,11 +41,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\MobilePlayerPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MobilePlayerPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 34 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

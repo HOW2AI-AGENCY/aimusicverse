@@ -1,11 +1,15 @@
 # Data Loading
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useAdminDailyStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts#L1) (1 connections)
-- [useAdminDailyStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts#L12) (1 connections)
+- [BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L1) (5 connections)
+- [getReadingTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L22) (3 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L38) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L35) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L147) (1 connections)
+- [readingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -13,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminDailyStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminDailyStats.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogPostCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogPostCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (86%)
+- INFERRED: 2 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

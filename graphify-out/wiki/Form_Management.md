@@ -1,12 +1,18 @@
 # Form Management
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L1) (2 connections)
-- [audioLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L23) (1 connections)
-- [useAudioPlayer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L44) (1 connections)
+- [StudioPendingTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L1) (8 connections)
+- [[animatedProgress, setAnimatedProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L42) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L62) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L85) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L47) (1 connections)
+- [stage](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L46) (1 connections)
+- [statusMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L86) (1 connections)
+- [statusMessages](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L30) (1 connections)
+- [taskProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -14,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioPendingTrackRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioPendingTrackRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

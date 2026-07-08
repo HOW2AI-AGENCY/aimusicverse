@@ -1,14 +1,22 @@
 # Drawer Management
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L1) (4 connections)
-- [{ addTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L52) (1 connections)
-- [handleSwipeAddToQueue](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L55) (1 connections)
-- [handleSwipeSwitchVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L61) (1 connections)
-- [{ sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet, isOwnTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L50) (1 connections)
+- [PackageComparisonTable.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L1) (12 connections)
+- [baseCredits](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L61) (1 connections)
+- [basePricePerCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L62) (1 connections)
+- [bestValueId](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L47) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L136) (1 connections)
+- [currentPricePerCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L64) (1 connections)
+- [getBestValueId()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L27) (1 connections)
+- [isBestValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L53) (1 connections)
+- [isFeatured](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L54) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L52) (1 connections)
+- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L57) (1 connections)
+- [savingsPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L68) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PackageComparisonTable.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

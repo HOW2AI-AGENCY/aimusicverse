@@ -1,10 +1,11 @@
 # Critical System Files
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [/speckit.taskstoissues command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.taskstoissues.md) (0 connections)
+- [GenerateSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/GenerateSheetHeader.tsx#L1) (1 connections)
+- [GenerateSheetHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/GenerateSheetHeader.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.claude/commands/speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.taskstoissues.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-sheet\GenerateSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-sheet/GenerateSheetHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

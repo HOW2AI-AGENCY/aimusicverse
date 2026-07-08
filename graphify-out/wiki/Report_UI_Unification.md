@@ -1,25 +1,27 @@
 # Report UI Unification
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MusicVerse AI - Аудит и Улучшения - 2025-12-02](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md) (0 connections)
+- [speckit.implement.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.implement.md#L1) (2 connections)
+- [Outline](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.implement.md#L13) (1 connections)
+- [User Input](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.implement.md#L5) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Community 2390]] (4 shared connections)
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md)
+- [.roo/commands/speckit.implement.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.implement.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

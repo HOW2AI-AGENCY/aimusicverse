@@ -1,10 +1,12 @@
 # UI/UX Optimization
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Tooltips Not Working on Mobile Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [AdvancedSettings.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/AdvancedSettings.test.tsx#L1) (2 connections)
+- [defaults](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/AdvancedSettings.test.tsx#L6) (1 connections)
+- [onStyleWeightChange](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/AdvancedSettings.test.tsx#L73) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\components\lyrics\AdvancedSettings.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/components/lyrics/AdvancedSettings.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

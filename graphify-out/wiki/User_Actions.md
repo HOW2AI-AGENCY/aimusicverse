@@ -1,14 +1,22 @@
 # User Actions
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L114) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L165) (1 connections)
-- [TelegramMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L28) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L159) (1 connections)
+- [LyricsWorkspace.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L1) (12 connections)
+- [addSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L86) (1 connections)
+- [deleteSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L110) (1 connections)
+- [[detailsOpen, setDetailsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L84) (1 connections)
+- [getSectionTypeInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L139) (1 connections)
+- [hasNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L165) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L82) (1 connections)
+- [openDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L122) (1 connections)
+- [SECTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L54) (1 connections)
+- [[selectedSection, setSelectedSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L83) (1 connections)
+- [typeInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L164) (1 connections)
+- [updateSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L100) (1 connections)
+- [updateSectionTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx#L132) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsWorkspace.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsWorkspace.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

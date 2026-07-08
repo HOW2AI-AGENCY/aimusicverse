@@ -1,11 +1,22 @@
 # Toggle Management
 
-> 2 nodes · cohesion 1.00
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [AdminUserCreditsDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L31) (1 connections)
-- [AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L1) (1 connections)
+- [StudioNotationPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L1) (7 connections)
+- [availableFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L153) (1 connections)
+- [{
+    data: rawTranscription,
+    isLoading,
+    error,
+    refetch,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L72) (1 connections)
+- [downloadFile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L128) (1 connections)
+- [durationSeconds](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L70) (1 connections)
+- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L68) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L67) (1 connections)
+- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -13,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioNotationPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

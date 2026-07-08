@@ -1,17 +1,32 @@
 # Text Editing
 
-> 8 nodes · cohesion 0.25
+> 23 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L1) (8 connections)
-- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L153) (1 connections)
-- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L154) (1 connections)
-- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L112) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L63) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L152) (1 connections)
-- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L123) (1 connections)
-- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L69) (1 connections)
+- [UnifiedDAWLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L1) (22 connections)
+- [barDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L326) (1 connections)
+- [barNumber](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L348) (1 connections)
+- [beatCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L327) (1 connections)
+- [beatDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L325) (1 connections)
+- [bpm](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L324) (1 connections)
+- [disabledOperations](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L151) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L435) (1 connections)
+- [getDisabledReason](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L171) (1 connections)
+- [handleMasterMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L216) (1 connections)
+- [handleMixerToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L221) (1 connections)
+- [handlePlayPause](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L245) (1 connections)
+- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L250) (1 connections)
+- [handleTrackToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L226) (1 connections)
+- [handleTrackVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L238) (1 connections)
+- [isBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L347) (1 connections)
+- [[masterMuted, setMasterMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L145) (1 connections)
+- [[mixerOpen, setMixerOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L144) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L143) (1 connections)
+- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L260) (1 connections)
+- [safeAreaTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L258) (1 connections)
+- [time](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L345) (1 connections)
+- [trackStates](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx#L202) (1 connections)
 
 ## Relationships
 
@@ -19,11 +34,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedDAWLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedDAWLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 44 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

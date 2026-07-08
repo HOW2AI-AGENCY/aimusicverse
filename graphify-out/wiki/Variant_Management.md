@@ -1,24 +1,30 @@
 # Variant Management
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L1) (2 connections)
-- [{ data: metrics }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L11) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx#L12) (1 connections)
+- [Document Entities](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L10) (5 connections)
+- [Data Model: Редизайн документации репозитория](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L1) (4 connections)
+- [data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L1) (1 connections)
+- [1. README.md Structure](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L12) (1 connections)
+- [2. DOCUMENTATION_INDEX.md Structure](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L31) (1 connections)
+- [3. Footer Template](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L53) (1 connections)
+- [4. KNOWLEDGE_BASE.md Decomposition Map](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L62) (1 connections)
+- [File Operations Summary](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L76) (1 connections)
+- [Overview](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md#L6) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (16 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBot.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBot.tsx)
+- [specs/035-repo-docs-revamp/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/035-repo-docs-revamp/data-model.md)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

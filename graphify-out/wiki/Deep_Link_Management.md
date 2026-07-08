@@ -1,14 +1,22 @@
 # Deep Link Management
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L1) (4 connections)
-- [Accordion](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L7) (1 connections)
-- [AccordionContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L37) (1 connections)
-- [AccordionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L9) (1 connections)
-- [AccordionTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L17) (1 connections)
+- [ReplacementProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L1) (12 connections)
+- [formatElapsed()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L58) (2 connections)
+- [completedTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L43) (1 connections)
+- [{ data: activeTasks = [] }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L18) (1 connections)
+- [[elapsedTime, setElapsedTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L19) (1 connections)
+- [estimatedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L51) (1 connections)
+- [failedTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L45) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L31) (1 connections)
+- [latestCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L47) (1 connections)
+- [latestFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L48) (1 connections)
+- [pendingTask](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L23) (1 connections)
+- [pendingTasks](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L38) (1 connections)
+- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -16,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\ReplacementProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 24 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

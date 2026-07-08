@@ -1,10 +1,11 @@
 # Audio Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-improvements/contracts/index.ts#L1) (0 connections)
+- [AudioHub](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx#L26) (1 connections)
+- [AudioHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\001-ui-improvements\contracts\index.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-improvements/contracts/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\AudioHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

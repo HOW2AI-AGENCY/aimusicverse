@@ -1,40 +1,35 @@
 # User Interface Tutorial
 
-> 12 nodes · cohesion 0.17
+> 33 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [ProjectDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L1) (11 connections)
-- [dialogs](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L56) (1 connections)
-- [generateTracklistArgs()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L139) (1 connections)
-- [handleMainButtonClick()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L86) (1 connections)
-- [handlers](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L59) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L30) (1 connections)
-- [mainButtonConfig](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L74) (1 connections)
-- [projectDescription](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L135) (1 connections)
-- [{
-    projectId,
-    project,
-    tracks,
-    isLoading,
-    authLoading,
-    tracksLoading,
-    isAuthenticated,
-    isGenerating,
-    totalTracks,
-    tracksWithMaster,
-    completedTracks,
-    draftCount,
-    isReadyToPublish,
-    isPublished,
-    navigate,
-    reorderTracks,
-    generateTracklist,
-    updateTrack,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L34) (1 connections)
-- [projectTitle](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L134) (1 connections)
-- [projectUrl](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L133) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx#L31) (1 connections)
+- [StudioLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L1) (33 connections)
+- [detectSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L157) (3 connections)
+- [groupLinesIntoSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L110) (3 connections)
+- [activeIdx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L265) (1 connections)
+- [[activeLineIndex, setActiveLineIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L247) (1 connections)
+- [calculateReplacementBounds()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L176) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L507) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L249) (1 connections)
+- [{ data: lyricsData, isLoading: loading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L245) (1 connections)
+- [DOUBLE_CLICK_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L298) (1 connections)
+- [handleConfirmSelection](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L373) (1 connections)
+- [handleLineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L340) (1 connections)
+- [handleSelectSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L389) (1 connections)
+- [handleSmartSelectSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L301) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L532) (1 connections)
+- [[isCollapsed, setIsCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L246) (1 connections)
+- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L535) (1 connections)
+- [isLineHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L398) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L250) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L533) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L534) (1 connections)
+- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L578) (1 connections)
+- [lastClickRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L297) (1 connections)
+- [LINE_END_TOLERANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L23) (1 connections)
+- [LINE_START_TOLERANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx#L22) (1 connections)
+- *... and 8 more nodes in this community*
 
 ## Relationships
 
@@ -42,12 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\ProjectDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ProjectDetail.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StudioLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StudioLyricsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 67 (97%)
+- INFERRED: 2 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

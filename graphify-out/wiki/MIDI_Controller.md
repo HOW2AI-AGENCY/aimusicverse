@@ -1,35 +1,48 @@
 # MIDI Controller
 
-> 14 nodes · cohesion 0.14
+> 40 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L1) (13 connections)
-- [{ activeTrack, isPlaying, playTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L28) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L136) (1 connections)
-- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L52) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L45) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L119) (1 connections)
-- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L120) (1 connections)
-- [isThisSwitching](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L121) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L118) (1 connections)
-- [originalTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L37) (1 connections)
-- [[pendingActiveId, setPendingActiveId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L34) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L30) (1 connections)
-- [{ setPrimaryVersionAsync, isSettingPrimary }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L29) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L39) (1 connections)
+- [⚡ Quick Reference Guide - MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L1) (11 connections)
+- [🎯 Частые задачи](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L28) (7 connections)
+- [🐛 Отладка](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L327) (5 connections)
+- [🔍 Поиск по коду](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L164) (5 connections)
+- [🚀 Deployment](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L366) (4 connections)
+- [📚 Полезные команды](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L393) (4 connections)
+- [📊 Работа с данными](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L200) (4 connections)
+- [🎨 Стили и UI](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L244) (4 connections)
+- [🧪 Тестирование](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L285) (3 connections)
+- [🗺️ Быстрая навигация](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L9) (2 connections)
+- [Automatic Deployment](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L377) (1 connections)
+- [Database (через Lovable)](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L415) (1 connections)
+- [Debug логи](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L350) (1 connections)
+- [Development](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L395) (1 connections)
+- [Git](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L406) (1 connections)
+- [Manual Deployment](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L381) (1 connections)
+- [Pre-deployment Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L368) (1 connections)
+- [Адаптивный дизайн](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L256) (1 connections)
+- [Анимации с Framer Motion](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L268) (1 connections)
+- [Добавить Edge Function](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L135) (1 connections)
+- [Добавить UI компонент](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L61) (1 connections)
+- [Добавить новую страницу](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L96) (1 connections)
+- [Добавить новую таблицу](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L202) (1 connections)
+- [Добавить новую фичу](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L30) (1 connections)
+- [Запустить тесты](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md#L287) (1 connections)
+- *... and 15 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Audio Management]] (78 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx)
+- [docs/QUICK_REFERENCE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/QUICK_REFERENCE.md)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 79 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

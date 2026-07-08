@@ -1,14 +1,22 @@
 # Mobile Studio V2
 
-> 5 nodes · cohesion 0.40
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L1) (4 connections)
-- [useBroadcastNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L30) (1 connections)
-- [useBroadcastTemplates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L55) (1 connections)
-- [useDeleteBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L99) (1 connections)
-- [useSaveBroadcastTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts#L70) (1 connections)
+- [playlists.service.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L1) (12 connections)
+- [mockAddTrack](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L24) (1 connections)
+- [mockCreate](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L22) (1 connections)
+- [mockFetchById](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L27) (1 connections)
+- [mockFetchTracks](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L25) (1 connections)
+- [mockGetMax](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L23) (1 connections)
+- [mockReorder](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L26) (1 connections)
+- [newPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L92) (1 connections)
+- [playlist](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L34) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L36) (1 connections)
+- [source](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L91) (1 connections)
+- [sourceTracks](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L93) (1 connections)
+- [tracks](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts#L77) (1 connections)
 
 ## Relationships
 
@@ -16,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBroadcast.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBroadcast.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\services\playlists.service.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/services/playlists.service.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

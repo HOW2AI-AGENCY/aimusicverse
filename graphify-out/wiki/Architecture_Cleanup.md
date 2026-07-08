@@ -1,10 +1,11 @@
 # Architecture Cleanup
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Sprint Planning Work Summary December 12 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md) (0 connections)
+- [ActiveTabIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx#L8) (1 connections)
+- [ActiveTabIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\ActiveTabIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/ActiveTabIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

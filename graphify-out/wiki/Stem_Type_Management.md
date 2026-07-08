@@ -1,11 +1,17 @@
 # Stem Type Management
 
-> 2 nodes · cohesion 1.00
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [PatternBank.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx#L1) (1 connections)
-- [PatternBank](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx#L14) (1 connections)
+- [analytics.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts#L1) (7 connections)
+- [createChainMock()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts#L20) (2 connections)
+- [chain](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts#L52) (1 connections)
+- [data](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts#L196) (1 connections)
+- [mockFrom](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts#L17) (1 connections)
+- [mockRpc](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts#L18) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts#L86) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts#L76) (1 connections)
 
 ## Relationships
 
@@ -13,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\PatternBank.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\analytics.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/analytics.api.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

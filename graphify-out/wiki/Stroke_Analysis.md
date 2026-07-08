@@ -1,12 +1,18 @@
 # Stroke Analysis
 
-> 3 nodes · cohesion 1.00
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [useTrackEnhancedData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackEnhancedData.ts#L1) (2 connections)
-- [useSingleTrackEnhancedData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackEnhancedData.ts#L184) (2 connections)
-- [useTrackEnhancedData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackEnhancedData.ts#L33) (2 connections)
+- [StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L1) (8 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L94) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L96) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L36) (1 connections)
+- [isFailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L37) (1 connections)
+- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L38) (1 connections)
+- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L95) (1 connections)
+- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L19) (1 connections)
+- [stemTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -14,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackEnhancedData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackEnhancedData.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemSeparationProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemSeparationProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

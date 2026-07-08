@@ -1,10 +1,11 @@
 # Checklist Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Music and Sound Wave Banner Image](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg) (0 connections)
+- [promptHistoryTypes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/promptHistoryTypes.ts#L1) (1 connections)
+- [scrollbarStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/promptHistoryTypes.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -12,11 +13,11 @@
 
 ## Source Files
 
-- [assets/banner.jpg](file:///D:/.MUSICVERSE/aimusicverse/assets/banner.jpg)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\promptHistoryTypes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/promptHistoryTypes.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

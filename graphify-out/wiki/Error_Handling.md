@@ -1,12 +1,11 @@
 # Error Handling
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L1) (2 connections)
-- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L24) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L25) (1 connections)
+- [errors.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/lib/errors.test.ts#L1) (1 connections)
+- [error](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/lib/errors.test.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -14,11 +13,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\workflows\ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\lib\errors.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/lib/errors.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,12 @@
 # OAuth Integration
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/PROJECT_STATUS.md) (0 connections)
+- [result.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L1) (2 connections)
+- [e](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L16) (1 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts#L9) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/PROJECT_STATUS.md)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\__tests__\result.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/__tests__/result.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

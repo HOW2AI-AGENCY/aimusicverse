@@ -1,16 +1,25 @@
 # Track Display
 
-> 7 nodes · cohesion 0.29
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [visual.blank-frame.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L1) (6 connections)
-- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L20) (1 connections)
-- [rootHTML](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L39) (1 connections)
-- [ROUTES](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L9) (1 connections)
-- [shot](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L31) (1 connections)
-- [TICKS_MS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L15) (1 connections)
-- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts#L10) (1 connections)
+- [ChordTimelineMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L1) (15 connections)
+- [activeChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L68) (1 connections)
+- [[activeChordIndex, setActiveChordIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L20) (1 connections)
+- [chordElement](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L32) (1 connections)
+- [handleChordTap](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L40) (1 connections)
+- [handleShowDiagram](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L49) (1 connections)
+- [index](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L25) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L132) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L167) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L130) (1 connections)
+- [navigateChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L54) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L69) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L18) (1 connections)
+- [[showDiagram, setShowDiagram]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L21) (1 connections)
+- [{ tap, selectionChanged }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L19) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx#L131) (1 connections)
 
 ## Relationships
 
@@ -18,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\visual.blank-frame.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/visual.blank-frame.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordTimelineMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordTimelineMobile.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

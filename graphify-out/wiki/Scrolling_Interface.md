@@ -1,11 +1,17 @@
 # Scrolling Interface
 
-> 2 nodes · cohesion 1.00
+> 8 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [layer-boundary.js](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js#L1) (1 connections)
-- [noSupabaseFromInComponent](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js#L14) (1 connections)
+- [ActivityItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L1) (7 connections)
+- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L66) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L57) (2 connections)
+- [getActivityColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L38) (1 connections)
+- [getActivityIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L20) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L58) (1 connections)
+- [iconColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L59) (1 connections)
+- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx#L61) (1 connections)
 
 ## Relationships
 
@@ -13,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\eslint-rules\layer-boundary.js](file:///D:/.MUSICVERSE/aimusicverse/eslint-rules/layer-boundary.js)
+- [D:\.MUSICVERSE\aimusicverse\src\components\social\ActivityItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/ActivityItem.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

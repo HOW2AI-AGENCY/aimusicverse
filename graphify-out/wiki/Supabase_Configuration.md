@@ -1,12 +1,18 @@
 # Supabase Configuration
 
-> 3 nodes · cohesion 0.67
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L1) (2 connections)
-- [Label](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L9) (1 connections)
-- [labelVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L7) (1 connections)
+- [useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L1) (3 connections)
+- [getTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L206) (3 connections)
+- [SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L1) (2 connections)
+- [TierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L21) (2 connections)
+- [EditorTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L31) (2 connections)
+- [SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L1) (1 connections)
+- [SubscriptionTierEditor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L45) (1 connections)
+- [formatPeriod()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L223) (1 connections)
+- [useSubscriptionTiers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L82) (1 connections)
 
 ## Relationships
 
@@ -14,12 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (75%)
+- INFERRED: 4 (25%)
 - AMBIGUOUS: 0 (0%)
 
 ---

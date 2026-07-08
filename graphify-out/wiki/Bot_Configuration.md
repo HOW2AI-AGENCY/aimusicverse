@@ -1,10 +1,11 @@
 # Bot Configuration
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Library Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md) (0 connections)
+- [tinyseg.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/tinyseg.js#L1) (1 connections)
+- [TinySegmenter()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/tinyseg.js#L33) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/UI_UX_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md)
+- [D:\.MUSICVERSE\aimusicverse\site\assets\javascripts\lunr\tinyseg.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/tinyseg.js)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

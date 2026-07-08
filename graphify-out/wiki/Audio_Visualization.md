@@ -1,10 +1,14 @@
 # Audio Visualization
 
-> 1 nodes · cohesion 1.00
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [contract_unified-skeleton-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-skeleton.types.ts) (0 connections)
+- [TrackPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L1) (4 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L157) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L155) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L89) (1 connections)
+- [TRACK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -12,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-skeleton.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-skeleton.types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\TrackPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,29 @@
 # UI Navigation
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.27
 
 ## Key Concepts
 
-- [VocalMapResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L1) (2 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L158) (1 connections)
-- [VocalMapResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx#L28) (1 connections)
+- [suno-error-mapper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L1) (8 connections)
+- [mapSunoError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L410) (4 connections)
+- [detectErrorCode()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L356) (3 connections)
+- [createSunoError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L484) (2 connections)
+- [getRetryDelay()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L460) (2 connections)
+- [isRetryableError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L452) (2 connections)
+- [SunoError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L468) (2 connections)
+- [ERROR_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L92) (1 connections)
+- [FAQ_URLS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L80) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L469) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class SunoError {
+        +suno-error-mapper.ts()
+        +.constructor()
+    }
+```
 
 ## Relationships
 
@@ -14,12 +31,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\VocalMapResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/VocalMapResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\suno-error-mapper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 24 (92%)
+- INFERRED: 2 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

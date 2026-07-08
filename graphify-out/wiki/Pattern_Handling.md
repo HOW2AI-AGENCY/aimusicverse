@@ -1,25 +1,32 @@
 # Pattern Handling
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [type-guards.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L1) (3 connections)
-- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L22) (1 connections)
-- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L10) (1 connections)
-- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts#L16) (1 connections)
+- [Guitar Studio Page](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L1) (7 connections)
+- [Interactions](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L56) (4 connections)
+- [21-guitar-studio.md](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L1) (1 connections)
+- [API Dependencies](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L90) (1 connections)
+- [Fields](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L43) (1 connections)
+- [Layout](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L19) (1 connections)
+- [Overview](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L7) (1 connections)
+- [Page Relationships](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L98) (1 connections)
+- [Start Recording](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L58) (1 connections)
+- [Stop Recording](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L69) (1 connections)
+- [Transcribe Chords](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md#L80) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (20 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\type-guards.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/type-guards.ts)
+- [prd/pages/21-guitar-studio.md](file:///D:/.MUSICVERSE/aimusicverse/prd/pages/21-guitar-studio.md)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,10 +1,12 @@
 # MIDI Transcription
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Chunk 18: Lyrics & Content Creation - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_18_FILES.md) (0 connections)
+- [useStudioModals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L1) (2 connections)
+- [useStudioModalHandlers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L105) (1 connections)
+- [useStudioModals()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L64) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [CHUNK_18_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_18_FILES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioModals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

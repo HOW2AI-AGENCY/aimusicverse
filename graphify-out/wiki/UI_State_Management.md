@@ -1,11 +1,15 @@
 # UI State Management
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useTrackVersionManagement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackVersionManagement.tsx#L1) (1 connections)
-- [useTrackVersionManagement()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackVersionManagement.tsx#L8) (1 connections)
+- [genreMoodIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L1) (6 connections)
+- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L48) (1 connections)
+- [GENRE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L25) (1 connections)
+- [getGenreIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L57) (1 connections)
+- [getMoodIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L62) (1 connections)
+- [MOOD_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts#L37) (1 connections)
 
 ## Relationships
 
@@ -13,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackVersionManagement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackVersionManagement.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\genreMoodIcons.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/genreMoodIcons.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 11 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

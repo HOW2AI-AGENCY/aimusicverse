@@ -1,11 +1,12 @@
 # Lyrics Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useWaveform.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts#L1) (1 connections)
-- [useWaveform()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts#L31) (1 connections)
+- [useTelegramActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L1) (2 connections)
+- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L14) (1 connections)
+- [useTelegramActions()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useWaveform.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\useTelegramActions.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/useTelegramActions.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,12 +1,19 @@
 # Type Selection
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [vitest.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L1) (2 connections)
-- [__dirname](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L6) (1 connections)
-- [__filename](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts#L5) (1 connections)
+- [TransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L186) (2 connections)
+- [currentBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L94) (1 connections)
+- [currentBeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L95) (1 connections)
+- [handleMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L83) (1 connections)
+- [handleTapTempo](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L52) (1 connections)
+- [[isMuted, setIsMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L46) (1 connections)
+- [[prevVolume, setPrevVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L47) (1 connections)
+- [[showTapIndicator, setShowTapIndicator]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L49) (1 connections)
+- [tapTimesRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -14,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\vitest.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\TransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/TransportBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

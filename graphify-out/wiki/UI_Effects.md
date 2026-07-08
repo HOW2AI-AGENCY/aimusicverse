@@ -1,12 +1,19 @@
 # UI Effects
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L1) (2 connections)
-- [LoadingSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L25) (1 connections)
-- [{ transactions, isLoading, hasMore, loadMore, isLoadingMore, refetch, isRefetching }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L48) (1 connections)
+- [LyricsEditor.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L1) (9 connections)
+- [baseProps](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L20) (1 connections)
+- [historyEntry](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L99) (1 connections)
+- [newSections](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L51) (1 connections)
+- [onHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L77) (1 connections)
+- [{ onHaptic: _onHaptic, ...props }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L92) (1 connections)
+- [onOpenAi](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L76) (1 connections)
+- [onRestoreFromHistory](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L98) (1 connections)
+- [props](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L79) (1 connections)
+- [sampleSection](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -14,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\lyrics-studio\__tests__\LyricsEditor.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/lyrics-studio/__tests__/LyricsEditor.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

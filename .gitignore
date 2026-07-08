@@ -133,3 +133,7 @@ site/
 .impeccable/live/deferred-svelte-component-accepts.json
 .impeccable/live/*.png
 # impeccable-ignore-end
+
+.claude/settings.local.json
+.claude/cache/
+.claude\cache\

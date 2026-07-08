@@ -1,12 +1,17 @@
 # Navigation Components
 
-> 3 nodes · cohesion 0.67
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L1) (2 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L15) (1 connections)
-- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L27) (1 connections)
+- [StyleConvertToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L1) (7 connections)
+- [ARTIST_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L25) (1 connections)
+- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L39) (1 connections)
+- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L43) (1 connections)
+- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L41) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L37) (1 connections)
+- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L38) (1 connections)
+- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -14,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\integration\paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\StyleConvertToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StyleConvertToolPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

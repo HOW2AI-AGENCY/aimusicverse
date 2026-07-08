@@ -1,26 +1,35 @@
 # Fullscreen Management
 
-> 5 nodes · cohesion 0.40
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L1) (4 connections)
-- [breadcrumbItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L38) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L80) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L35) (1 connections)
-- [ROUTE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L17) (1 connections)
+- [Исправление Краша Приложения при Запуске](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L1) (9 connections)
+- [Тестирование](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L49) (3 connections)
+- [Проблема](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L6) (2 connections)
+- [Решение](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L25) (2 connections)
+- [FIX_SUMMARY_CRASH_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L1) (1 connections)
+- [Важные Заметки для Разработчиков](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L76) (1 connections)
+- [Влияние](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L69) (1 connections)
+- [Изменения в коде:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L27) (1 connections)
+- [Коммит](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L90) (1 connections)
+- [Причина](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L16) (1 connections)
+- [Проверки:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L51) (1 connections)
+- [Результаты:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L58) (1 connections)
+- [Симптомы:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L10) (1 connections)
+- [Скриншоты](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md#L96) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Configuration Management]] (26 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx)
+- [docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

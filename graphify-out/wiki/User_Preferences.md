@@ -1,26 +1,35 @@
 # User Preferences
 
-> 13 nodes · cohesion 0.15
+> 35 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [Pricing.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L1) (13 connections)
-- [{
-    data: products,
-    isLoading,
-    error,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L69) (1 connections)
-- [err](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L145) (1 connections)
-- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L50) (1 connections)
-- [mapToStarsProduct()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L32) (1 connections)
-- [[purchasingProduct, setPurchasingProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L53) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L51) (1 connections)
-- [response](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L127) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L136) (1 connections)
-- [token](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L120) (1 connections)
-- [{ user, session }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L49) (1 connections)
-- [userId](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L52) (1 connections)
-- [{ webApp, showAlert }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L48) (1 connections)
+- [LyricsEditorMetricsOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L1) (34 connections)
+- [downloadBlob()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L40) (3 connections)
+- [readMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L35) (3 connections)
+- [sample()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L230) (3 connections)
+- [tick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L204) (3 connections)
+- [loop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L255) (2 connections)
+- [toCSV()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L52) (2 connections)
+- [COLLAPSED_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L20) (1 connections)
+- [[collapsed, setCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L151) (1 connections)
+- [exportCSV](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L311) (1 connections)
+- [exportJSON](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L299) (1 connections)
+- [FLASH_MS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L21) (1 connections)
+- [[flashing, setFlashing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L161) (1 connections)
+- [flashTimerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L168) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L266) (1 connections)
+- [hide](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L290) (1 connections)
+- [HISTORY_INTERVAL_MS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L25) (1 connections)
+- [HISTORY_MAX](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L24) (1 connections)
+- [[history, setHistory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L162) (1 connections)
+- [historyIntervalRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L170) (1 connections)
+- [id](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L252) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L140) (1 connections)
+- [lastSampleRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L167) (1 connections)
+- [lastSyncsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L166) (1 connections)
+- [onKey()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L177) (1 connections)
+- *... and 10 more nodes in this community*
 
 ## Relationships
 
@@ -28,12 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Pricing.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dev\LyricsEditorMetricsOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 25 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 74 (95%)
+- INFERRED: 4 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

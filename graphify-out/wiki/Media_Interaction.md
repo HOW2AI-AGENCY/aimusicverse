@@ -1,41 +1,48 @@
 # Media Interaction
 
-> 19 nodes · cohesion 0.11
+> 49 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [VUMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L1) (18 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L121) (2 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L182) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L50) (1 connections)
-- [db](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L51) (1 connections)
-- [dbScale](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L23) (1 connections)
-- [displayDb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L240) (1 connections)
-- [ledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L99) (1 connections)
-- [leds](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L101) (1 connections)
-- [peakRotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L163) (1 connections)
-- [percentage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L241) (1 connections)
-- [rotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L162) (1 connections)
-- [segments](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L276) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L31) (1 connections)
-- [toDB()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L26) (1 connections)
-- [x1](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L183) (1 connections)
-- [x2](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L185) (1 connections)
-- [y1](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L184) (1 connections)
-- [y2](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L186) (1 connections)
+- [Fix Summary: Dependency Conflicts and Import Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L1) (11 connections)
+- [Issues Found and Fixed](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L27) (6 connections)
+- [Verification Steps Performed](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L215) (6 connections)
+- [2. React Effect setState Issues (11 files)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L56) (4 connections)
+- [3. Math.random() Purity Issues (4 files)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L94) (4 connections)
+- [4. Explicit 'any' Type Issues (5 files)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L122) (4 connections)
+- [5. Missing Dependency Warnings (2 files)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L182) (4 connections)
+- [Files Modified](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L255) (4 connections)
+- [Technical Patterns Established](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L296) (4 connections)
+- [1. Vite Configuration Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L29) (3 connections)
+- [Impact Assessment](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L343) (3 connections)
+- [Known Remaining Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L282) (3 connections)
+- [Recommendations](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L360) (3 connections)
+- [Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L13) (2 connections)
+- [FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L1) (1 connections)
+- [1. Dependency Installation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L217) (1 connections)
+- [1. setState in Effects Pattern](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L298) (1 connections)
+- [2. Random Values Pattern](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L319) (1 connections)
+- [2. TypeScript Compilation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L224) (1 connections)
+- [3. Build Verification](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L231) (1 connections)
+- [3. Type Safety Pattern](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L331) (1 connections)
+- [4. Dev Server Startup](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L239) (1 connections)
+- [5. ESLint Check (Frontend)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L247) (1 connections)
+- [Components (11 files)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L261) (1 connections)
+- [Conclusion](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md#L375) (1 connections)
+- *... and 24 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Musical Timing]] (96 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\VUMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx)
+- [docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 96 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

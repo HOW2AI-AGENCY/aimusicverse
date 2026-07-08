@@ -1,48 +1,70 @@
 # User Achievements
 
-> 559 nodes · cohesion 0.00
+> 1354 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [useAuth()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AuthContext.tsx#L285) (128 connections)
-- [smoke.app-boots.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/smoke.app-boots.spec.ts#L1) (17 connections)
-- [performance-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance-utils.ts#L1) (14 connections)
-- [useHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L14) (14 connections)
-- [StatsWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/StatsWidget.tsx#L1) (13 connections)
-- [audioElementPool.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/audio/audioElementPool.test.ts#L1) (13 connections)
-- [useGamification.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGamification.ts#L1) (10 connections)
-- [useMediaQuery()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L24) (9 connections)
-- [useFeatureAccess()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useFeatureAccess.ts#L72) (9 connections)
-- [useLibraryData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useLibraryData.ts#L29) (9 connections)
-- [use-media-query.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-media-query.ts#L1) (8 connections)
-- [useCredits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCredits.ts#L1) (8 connections)
-- [usePaywallTrigger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaywallTrigger.ts#L1) (8 connections)
-- [usePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePresets.ts#L1) (8 connections)
-- [suno-error-mapper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L1) (8 connections)
-- [useProfile()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useProfile.tsx#L36) (8 connections)
-- [useSubscriptionStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSubscriptionStatus.ts#L25) (8 connections)
-- [NotificationContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/NotificationContext.tsx#L1) (7 connections)
-- [useKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useKeyboardShortcuts.ts#L1) (7 connections)
-- [useGuestMode()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/GuestModeContext.tsx#L165) (7 connections)
-- [useGenerateFormState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useGenerateFormState.ts#L51) (7 connections)
-- [usePaywallTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaywallTrigger.ts#L62) (7 connections)
-- [useUserCredits()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserCredits.ts#L23) (7 connections)
-- [useGenerateDraft.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useGenerateDraft.ts#L1) (6 connections)
-- [useReferrals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferrals.ts#L1) (6 connections)
-- *... and 534 more nodes in this community*
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-controls-2/manager-bundle.js#L1) (500 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/essentials-controls-2/manager-bundle.js#L1) (500 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-docs-4/manager-bundle.js#L1) (468 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/essentials-docs-4/manager-bundle.js#L1) (468 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/interactions-10/manager-bundle.js#L1) (356 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/interactions-10/manager-bundle.js#L1) (356 connections)
+- [map](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/smoke.app-boots.spec.ts#L213) (348 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/a11y-11/manager-bundle.js#L1) (264 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/a11y-11/manager-bundle.js#L1) (264 connections)
+- [filter()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/wordcut.js#L3167) (241 connections)
+- [split()](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-manager/globals-runtime.js#L16496) (179 connections)
+- [toString()](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-manager/globals-runtime.js#L16710) (126 connections)
+- [match()](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-manager/globals-runtime.js#L20582) (123 connections)
+- [test()](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-manager/globals-runtime.js#L24523) (115 connections)
+- [C()](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/interactions-10/manager-bundle.js#L133) (87 connections)
+- [a](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/interactions-10/manager-bundle.js#L131) (86 connections)
+- [isArray()](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/wordcut.js#L6533) (85 connections)
+- [e](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/interactions-10/manager-bundle.js#L131) (76 connections)
+- [l](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/links-1/manager-bundle.js#L2) (75 connections)
+- [t](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/interactions-10/manager-bundle.js#L2) (75 connections)
+- [fn()](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/interactions-10/manager-bundle.js#L214) (69 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-actions-3/manager-bundle.js#L1) (63 connections)
+- [manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/essentials-actions-3/manager-bundle.js#L1) (63 connections)
+- [n()](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/interactions-10/manager-bundle.js#L131) (61 connections)
+- [s()](file:///D:/.MUSICVERSE/aimusicverse/storybook-static/sb-addons/interactions-10/manager-bundle.js#L131) (58 connections)
+- *... and 1329 more nodes in this community*
 
 ## Class Diagram
 
 ```mermaid
 classDiagram
-    class MockAudio {
-        +audioElementPool.test.ts()
-        +.play()
-        +.pause()
+    class LyricsFormatter {
+        +LyricsFormatter.ts()
+        +.formatFinal()
+        +.calculateCharCount()
+        +.extractSections()
+        +.validateStructure()
     }
-    class SunoError {
-        +suno-error-mapper.ts()
-        +.constructor()
+    class LyricsParser {
+        +LyricsParser.ts()
+        +.parse()
+        +.extractSections()
+        +.detectSectionType()
+        +.extractInlineTags()
+        +.detectTagType()
+        +.extractAllTags()
+        +.validateTags()
+        +.analyzeSyllables()
+        +.countSyllables()
+    }
+    class LyricsValidator {
+        +LyricsValidator.ts()
+        +.validate()
+        +.validateForSuno()
+        +.checkMissingEndTag()
+        +.checkRussianTags()
+        +.checkConflictingTags()
+        +.checkTagOverload()
+        +.checkWrongBrackets()
+        +.checkStructureTags()
+        +.calculateValidationScore()
     }
 ```
 
@@ -52,31 +74,31 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\App.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/App.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\audio\audioElementPool.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/audio/audioElementPool.test.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\GlobalGenerationIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/GlobalGenerationIndicator.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\GuestModeBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/GuestModeBanner.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\EngagementChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/EngagementChart.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\ReportCommentDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/ReportCommentDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\modal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/modal.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\engagement\LikeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/LikeButton.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\UserLevel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UserLevel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerateFormReferences.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormReferences.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\QueuePosition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QueuePosition.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\SmartAlertProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProvider.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\useAntiSpam.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/useAntiSpam.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\QuickStartOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/QuickStartOverlay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\CreatePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\FeatureGate.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/FeatureGate.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\PaywallProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PaywallProvider.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\StatsWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/StatsWidget.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileSetupGuard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileSetupGuard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\check-md-links.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-md-links.mjs)
+- [D:\.MUSICVERSE\aimusicverse\scripts\count-any.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/count-any.mjs)
+- [D:\.MUSICVERSE\aimusicverse\scripts\lint-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/lint-filenames.js)
+- [D:\.MUSICVERSE\aimusicverse\site\assets\javascripts\lunr\min\lunr.el.min.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/min/lunr.el.min.js)
+- [D:\.MUSICVERSE\aimusicverse\site\assets\javascripts\lunr\wordcut.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/lunr/wordcut.js)
+- [D:\.MUSICVERSE\aimusicverse\site\assets\javascripts\workers\search.f8cc74c7.min.js](file:///D:/.MUSICVERSE/aimusicverse/site/assets/javascripts/workers/search.f8cc74c7.min.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\a11y-11\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/a11y-11/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\essentials-actions-3\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-actions-3/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\essentials-backgrounds-5\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-backgrounds-5/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\essentials-controls-2\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-controls-2/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\essentials-docs-4\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-docs-4/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\essentials-measure-8\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-measure-8/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\essentials-outline-9\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-outline-9/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\essentials-toolbars-7\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-toolbars-7/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\essentials-viewport-6\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/essentials-viewport-6/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\interactions-10\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/interactions-10/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\site\storybook-static\sb-addons\links-1\manager-bundle.js](file:///D:/.MUSICVERSE/aimusicverse/site/storybook-static/sb-addons/links-1/manager-bundle.js)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\batch.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/batch.api.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\presets.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/presets.api.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\recordings.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/recordings.api.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 900 (64%)
-- INFERRED: 507 (36%)
+- EXTRACTED: 10914 (79%)
+- INFERRED: 2959 (21%)
 - AMBIGUOUS: 0 (0%)
 
 ---

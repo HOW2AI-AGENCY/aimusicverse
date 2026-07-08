@@ -1,34 +1,48 @@
 # Pricing Information
 
-> 11 nodes · cohesion 0.20
+> 33 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
-- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
-- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L23) (3 connections)
-- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
-- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
-- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L247) (1 connections)
-- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L275) (1 connections)
-- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L157) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L136) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
+- [Critical Bug Fixes - Telegram Integration Audit](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L1) (13 connections)
+- [Deployment Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L466) (5 connections)
+- [📊 Database Optimizations - COMPLETE](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L278) (4 connections)
+- [Future Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L556) (4 connections)
+- [🔴 Critical Fixes (P0) - COMPLETE](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L20) (3 connections)
+- [⚪ Low Priority (P3) - PENDING](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L407) (3 connections)
+- [Testing Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L431) (3 connections)
+- [Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L7) (2 connections)
+- [🟡 High Priority Fixes (P1) - COMPLETE](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L153) (2 connections)
+- [🟢 Medium Priority (P2) - IN PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L217) (2 connections)
+- [CRITICAL_FIXES_TELEGRAM_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L1) (1 connections)
+- [1. Race Condition in Payment Webhook ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L22) (1 connections)
+- [2. Missing Rate Limiting ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L86) (1 connections)
+- [3. Poor Error Handling for Expired InitData ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L155) (1 connections)
+- [4. Console.log in Production ⚠️](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L219) (1 connections)
+- [Cleanup Job Created ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L325) (1 connections)
+- [Contact](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L590) (1 connections)
+- [Critical Path Testing](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L433) (1 connections)
+- [Deployment Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L477) (1 connections)
+- [Input Validation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L419) (1 connections)
+- [Known Limitations](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L537) (1 connections)
+- [Long Term (3 months)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L572) (1 connections)
+- [Medium Term (1 month)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L565) (1 connections)
+- [Missing Indexes Added ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L280) (1 connections)
+- [Monitoring Function ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md#L369) (1 connections)
+- *... and 8 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Form Styling]] (64 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
+- [docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CRITICAL_FIXES_TELEGRAM_INTEGRATION.md)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (87%)
-- INFERRED: 3 (13%)
+- EXTRACTED: 64 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

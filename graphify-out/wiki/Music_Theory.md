@@ -1,13 +1,19 @@
 # Music Theory
 
-> 4 nodes · cohesion 0.50
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L1) (3 connections)
-- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L21) (1 connections)
-- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L18) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L6) (1 connections)
+- [ConversionFunnelStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L146) (1 connections)
+- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L119) (1 connections)
+- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L62) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L117) (1 connections)
+- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L57) (1 connections)
+- [overallConversion](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L80) (1 connections)
+- [STAGE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L37) (1 connections)
+- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L49) (1 connections)
+- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L118) (1 connections)
 
 ## Relationships
 
@@ -15,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

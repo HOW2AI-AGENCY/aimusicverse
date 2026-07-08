@@ -1,13 +1,20 @@
 # Biometric Authentication
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [SwipeableListItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L1) (3 connections)
-- [hasLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L45) (1 connections)
-- [hasRight](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L46) (1 connections)
-- [{ offset, isOpen, activeAction, handlers, executeAction, close }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L38) (1 connections)
+- [HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L1) (10 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L227) (1 connections)
+- [getGreeting()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L39) (1 connections)
+- [handleMenuClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L82) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L73) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L74) (1 connections)
+- [[menuOpen, setMenuOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L71) (1 connections)
+- [MoreMenuSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L28) (1 connections)
+- [{ safeTransition }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L80) (1 connections)
+- [{ text, icon, gradient }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L70) (1 connections)
+- [unreadCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L72) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\SwipeableListItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,29 +1,41 @@
 # Lyrics Visualization
 
-> 8 nodes · cohesion 0.25
+> 20 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [useSunoMidi.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L1) (7 connections)
-- [createTestQueryClient()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L48) (1 connections)
-- [createWrapper()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L57) (1 connections)
-- [out](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L106) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L82) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L83) (1 connections)
-- [TEST_USER_ID](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L45) (1 connections)
-- [TEST_VERSION_ID](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx#L46) (1 connections)
+- [Phase 9: Deduplication & Refactoring Plan](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L1) (10 connections)
+- [Sprint 9A: Объединение дубликатов компонентов ✅ ЗАВЕРШЁН](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L20) (4 connections)
+- [Sprint 9C: Консолидация Lyrics-экосистемы](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L105) (3 connections)
+- [Sprint 9D: Реорганизация components/ui/](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L143) (3 connections)
+- [Sprint 9A+: Mobile UX & Dialog Migration ✅ ЗАВЕРШЁН (2026-06-25)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L62) (2 connections)
+- [Sprint 9B: Разбиение файлов-гигантов](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L82) (2 connections)
+- [PHASE_9_DEDUPLICATION_PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L1) (1 connections)
+- [9A.1 — Простые дубликаты (одинаковая функциональность)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L25) (1 connections)
+- [9A.2 — Компоненты-вариации (нужно объединить API)](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L42) (1 connections)
+- [9A.3 — Lyrics-компоненты с одинаковыми именами](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L51) (1 connections)
+- [Sprint 9E: Финальная верификация](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L164) (1 connections)
+- [Контекст](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L9) (1 connections)
+- [Приоритет выполнения](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L193) (1 connections)
+- [Результаты](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L66) (1 connections)
+- [Суммарные ожидания](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L177) (1 connections)
+- [Текущее состояние: 30+ файлов в 6 директориях](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L109) (1 connections)
+- [Текущее состояние: 90+ файлов в плоской структуре](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L147) (1 connections)
+- [Топ-10 файлов для рефакторинга](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L86) (1 connections)
+- [Целевая структура](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L120) (1 connections)
+- [Целевая структура](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md#L149) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Offline Management]] (38 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useSunoMidi.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSunoMidi.test.tsx)
+- [SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/PHASE_9_DEDUPLICATION_PLAN.md)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 38 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

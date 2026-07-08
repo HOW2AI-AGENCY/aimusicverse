@@ -1,12 +1,19 @@
 # Grid Layout
 
-> 3 nodes · cohesion 0.67
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L1) (2 connections)
-- [changedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L35) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx#L32) (1 connections)
+- [QuickBuyButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L1) (9 connections)
+- [{ balance, isLoading, isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L24) (1 connections)
+- [balanceColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L53) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L42) (1 connections)
+- [handleDismiss()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L47) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L26) (1 connections)
+- [[isDismissed, setIsDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L28) (1 connections)
+- [{ isFreeUser, isBalanceLimitReached }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L25) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L27) (1 connections)
+- [showButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -14,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyCategory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyCategory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\QuickBuyButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

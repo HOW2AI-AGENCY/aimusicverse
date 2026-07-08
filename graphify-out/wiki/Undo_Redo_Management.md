@@ -1,15 +1,25 @@
 # Undo Redo Management
 
-> 6 nodes · cohesion 0.33
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L1) (5 connections)
-- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L34) (2 connections)
-- [constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L25) (1 connections)
-- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L30) (1 connections)
-- [isDev](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L81) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L9) (1 connections)
+- [NavigationShell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L1) (15 connections)
+- [children()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L113) (1 connections)
+- [handleSidebarCollapsedChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L83) (1 connections)
+- [hasOwnBottomNav](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L50) (1 connections)
+- [isCompactDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L48) (1 connections)
+- [isDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L47) (1 connections)
+- [isMobileLandscape](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L49) (1 connections)
+- [mainMarginClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L89) (1 connections)
+- [navH](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L71) (1 connections)
+- [playerH](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L72) (1 connections)
+- [root](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L69) (1 connections)
+- [showBottomNav](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L70) (1 connections)
+- [SIDEBAR_COLLAPSED_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L22) (1 connections)
+- [[sidebarCollapsed, setSidebarCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L52) (1 connections)
+- [sidebarWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L88) (1 connections)
+- [useHasOwnBottomNav()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -17,12 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\NavigationShell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/NavigationShell.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (91%)
-- INFERRED: 1 (9%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

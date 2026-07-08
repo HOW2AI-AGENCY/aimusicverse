@@ -1,39 +1,48 @@
 # Dashboard Storage
 
-> 17 nodes · cohesion 0.12
+> 47 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L1) (17 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L101) (2 connections)
-- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L57) (1 connections)
-- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L64) (1 connections)
-- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L36) (1 connections)
-- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L30) (1 connections)
-- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L32) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L40) (1 connections)
-- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L37) (1 connections)
-- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L33) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L29) (1 connections)
-- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L34) (1 connections)
-- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L35) (1 connections)
-- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L38) (1 connections)
-- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L31) (1 connections)
-- [{ updateArtist, isUpdating, deleteArtist, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L27) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L26) (1 connections)
+- [Sprint 011 Continuation Plan - December 13, 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L1) (13 connections)
+- [Tasks Breakdown](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L38) (10 connections)
+- [Implementation Order (Recommended)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L322) (4 connections)
+- [Next Actions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L454) (4 connections)
+- [Risk Mitigation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L391) (4 connections)
+- [Technical Stack Reminder](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L425) (4 connections)
+- [Current Sprint Status](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L9) (3 connections)
+- [Dependencies & Prerequisites](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L477) (3 connections)
+- [Resources](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L496) (3 connections)
+- [Success Criteria](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L366) (3 connections)
+- [Team Communication](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L513) (3 connections)
+- [Phase 10: Content Moderation - Not in Original Sprint 011](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L347) (2 connections)
+- [Phase 9: Privacy Controls Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L32) (2 connections)
+- [SPRINT_011_CONTINUATION_PLAN_2025-12-13.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L1) (1 connections)
+- [Actual Phase 10: Integration & Testing (from tasks.md)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L351) (1 connections)
+- [Backend](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L436) (1 connections)
+- [Before Starting Phase 9:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L479) (1 connections)
+- [Completed Phases ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L11) (1 connections)
+- [Daily Standup Topics:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L515) (1 connections)
+- [Day 1: Core Privacy Components (8 hours)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L324) (1 connections)
+- [Day 2: Integration & Handlers (8 hours)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L331) (1 connections)
+- [Day 3: Testing & Polish (5 hours)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L338) (1 connections)
+- [Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L498) (1 connections)
+- [External Dependencies:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L487) (1 connections)
+- [Frontend](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md#L427) (1 connections)
+- *... and 22 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Lyric Parsing]] (92 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\artist\EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx)
+- [docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_CONTINUATION_PLAN_2025-12-13.md)
 
 ## Audit Trail
 
-- EXTRACTED: 33 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 92 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

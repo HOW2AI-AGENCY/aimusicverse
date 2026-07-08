@@ -1,4 +1,8 @@
 {
+  "env": {
+    "NINEROUTER_URL": "https://rwzzpje.abc-tunnel.us",
+    "NINEROUTER_KEY": "sk-8519f3ae1e69adf3-ma3t4e-43bd4d9c"
+  },
   "permissions": {
     "allow": [
       "Bash(npm test:*)",

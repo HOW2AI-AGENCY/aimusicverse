@@ -1,82 +1,56 @@
 # Broadcast Management
 
-> 21 nodes · cohesion 0.11
+> 54 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L1) (11 connections)
-- [logError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L140) (5 connections)
-- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L8) (3 connections)
-- [isAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L99) (3 connections)
-- [.toJSON()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L25) (2 connections)
-- [AuthError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L53) (2 connections)
-- [getUserErrorMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L106) (2 connections)
-- [NetworkError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L44) (2 connections)
-- [NotFoundError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L60) (2 connections)
-- [PermissionError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L67) (2 connections)
-- [RateLimitError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L74) (2 connections)
-- [ServiceUnavailableError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L83) (2 connections)
-- [ValidationError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L37) (2 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L9) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L54) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L45) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L61) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L68) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L75) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L84) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts#L38) (1 connections)
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class AppError {
-        +errors.ts()
-        +.constructor()
-        +.toJSON()
-    }
-    class AuthError {
-        +errors.ts()
-        +.constructor()
-    }
-    class NetworkError {
-        +errors.ts()
-        +.constructor()
-    }
-    class NotFoundError {
-        +errors.ts()
-        +.constructor()
-    }
-    class PermissionError {
-        +errors.ts()
-        +.constructor()
-    }
-    class RateLimitError {
-        +errors.ts()
-        +.constructor()
-    }
-    class ServiceUnavailableError {
-        +errors.ts()
-        +.constructor()
-    }
-    class ValidationError {
-        +errors.ts()
-        +.constructor()
-    }
-```
+- [🔐 Environment Variables - MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L1) (14 connections)
+- [Common Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L398) (6 connections)
+- [🎛️ Optional Environment Variables](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L122) (6 connections)
+- [2. Get Required Credentials](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L300) (5 connections)
+- [🔧 Best Practices](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L480) (5 connections)
+- [📋 Required Environment Variables](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L15) (5 connections)
+- [🚀 Setup Instructions](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L288) (5 connections)
+- [🌍 Environment-Specific Configuration](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L361) (4 connections)
+- [🔗 Quick Reference](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L580) (4 connections)
+- [📁 Environment Files](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L211) (3 connections)
+- [🔒 Security Guidelines](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L170) (3 connections)
+- [📊 Variable Access Patterns](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L454) (3 connections)
+- [📝 Adding New Variables](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L512) (2 connections)
+- [🔍 Troubleshooting](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L396) (2 connections)
+- [1. Initial Setup](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L290) (1 connections)
+- [1. Supabase Connection Failed](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L400) (1 connections)
+- [1. Variable Naming](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L482) (1 connections)
+- [2. Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L489) (1 connections)
+- [2. Suno API Returns 401](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L410) (1 connections)
+- [3. Configure Environment Variables](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L328) (1 connections)
+- [3. Security](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L496) (1 connections)
+- [3. Telegram Bot Not Responding](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L420) (1 connections)
+- [4. Environment Variables Not Loading](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L430) (1 connections)
+- [4. Testing](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L503) (1 connections)
+- [4. Verify Configuration](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md#L346) (1 connections)
+- *... and 29 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Prompt Management]] (40 shared connections)
+- [[unknown]] (18 shared connections)
+- [[Sprint Management]] (13 shared connections)
+- [[UI Provisioning]] (11 shared connections)
+- [[Community 2193]] (7 shared connections)
+- [[User Management]] (7 shared connections)
+- [[Community 2341]] (5 shared connections)
+- [[Community 2342]] (5 shared connections)
+- [[Media Player]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors.ts)
+- [docs/ENVIRONMENT_VARIABLES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ENVIRONMENT_VARIABLES.md)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (96%)
-- INFERRED: 2 (4%)
+- EXTRACTED: 107 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

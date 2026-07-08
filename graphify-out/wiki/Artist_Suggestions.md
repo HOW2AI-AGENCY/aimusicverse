@@ -1,14 +1,21 @@
 # Artist Suggestions
 
-> 5 nodes · cohesion 0.40
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [Card.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L1) (4 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L17) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L7) (1 connections)
-- [TrackCard](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L51) (1 connections)
-- [WithFooter](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx#L31) (1 connections)
+- [ArtistDetailsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L1) (11 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L34) (1 connections)
+- [{ data: artistTracks, isLoading: tracksLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L51) (1 connections)
+- [{ data: canMakePrivate }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L40) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L64) (1 connections)
+- [[editDialogOpen, setEditDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L35) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L187) (1 connections)
+- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L188) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L37) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L31) (1 connections)
+- [{ playTrack, activeTrack, isPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L33) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -16,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Card.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Card.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\ArtistDetailsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistDetailsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

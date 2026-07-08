@@ -1,10 +1,14 @@
 # Configuration Management
 
-> 1 nodes · cohesion 1.00
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [playwright.config.ts](file:///D:/.MUSICVERSE/aimusicverse/playwright.config.ts#L1) (0 connections)
+- [ResponsiveGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L1) (4 connections)
+- [GAP_SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L43) (1 connections)
+- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L33) (1 connections)
+- [GRID_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L80) (1 connections)
+- [ResponsiveGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L52) (1 connections)
 
 ## Relationships
 
@@ -12,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\playwright.config.ts](file:///D:/.MUSICVERSE/aimusicverse/playwright.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\ResponsiveGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

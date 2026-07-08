@@ -1,35 +1,48 @@
 # Chart Visualization
 
-> 14 nodes · cohesion 0.14
+> 40 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [StudioDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L1) (13 connections)
-- [downloadableTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L59) (1 connections)
-- [downloadAllAsZip](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L124) (1 connections)
-- [[downloadedTracks, setDownloadedTracks]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L47) (1 connections)
-- [[downloadingTrackId, setDownloadingTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L46) (1 connections)
-- [[downloadProgress, setDownloadProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L45) (1 connections)
-- [downloadTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L65) (1 connections)
-- [[format, setFormat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L43) (1 connections)
-- [getTrackAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L50) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L211) (1 connections)
-- [isDownloaded](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L213) (1 connections)
-- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L44) (1 connections)
-- [isThisDownloading](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L212) (1 connections)
-- [TRACK_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L29) (1 connections)
+- [Generation Form Redesign Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L1) (19 connections)
+- [Generation Form Redesign](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/specs/2026-07-03-generation-form-redesign-design.md#L9) (13 connections)
+- [File Structure](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L28) (5 connections)
+- [3. Design Tokens](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/specs/2026-07-03-generation-form-redesign-design.md#L43) (3 connections)
+- [2026-07-03-generation-form-redesign.md](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L1) (2 connections)
+- [2026-07-03-generation-form-redesign-design.md](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/specs/2026-07-03-generation-form-redesign-design.md#L1) (2 connections)
+- [Execution Handoff](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L1284) (1 connections)
+- [Global Constraints](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L13) (1 connections)
+- [Modified files](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L35) (1 connections)
+- [New files](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L30) (1 connections)
+- [New tests](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L50) (1 connections)
+- [Out of scope (DO NOT TOUCH)](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L56) (1 connections)
+- [Self-Review (against spec)](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L1259) (1 connections)
+- [Task 10: `VoiceInputButton` default `aria-label`](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L985) (1 connections)
+- [Task 11: `GenerateSheet` — z-index, safe-area, scroll-lock wiring](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L1020) (1 connections)
+- [Task 12: Accessibility test for `VocalsToggle`](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L1085) (1 connections)
+- [Task 13: E2E mobile scenario](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L1142) (1 connections)
+- [Task 14: Final verification + bundle check](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L1214) (1 connections)
+- [Task 1: `cnInteractive()` design-token utility](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L64) (1 connections)
+- [Task 2: `useScrollLock` hook](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L165) (1 connections)
+- [Task 3: `TextareaWithOverlay` component (TDD)](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L253) (1 connections)
+- [Task 4: `FormSection` elevated glass-card surface](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L470) (1 connections)
+- [Task 5: `VocalsToggle` — real `role="radiogroup"`](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L573) (1 connections)
+- [Task 6: `GenerateFormSimple` — adopt new components](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L748) (1 connections)
+- [Task 7: `StyleSection` — adopt `TextareaWithOverlay`](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md#L858) (1 connections)
+- *... and 15 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Check-in]] (78 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx)
+- [docs/superpowers/plans/2026-07-03-generation-form-redesign.md](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/plans/2026-07-03-generation-form-redesign.md)
+- [docs/superpowers/specs/2026-07-03-generation-form-redesign-design.md](file:///D:/.MUSICVERSE/aimusicverse/docs/superpowers/specs/2026-07-03-generation-form-redesign-design.md)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 78 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

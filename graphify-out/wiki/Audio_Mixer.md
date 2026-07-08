@@ -1,15 +1,24 @@
 # Audio Mixer
 
-> 6 nodes · cohesion 0.33
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L1) (5 connections)
-- [{ isOnline }](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L17) (1 connections)
-- [showBanner](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L41) (1 connections)
-- [[showReconnected, setShowReconnected]](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L18) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L33) (1 connections)
-- [wasOfflineRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L19) (1 connections)
+- [UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L1) (14 connections)
+- [background](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L81) (1 connections)
+- [containerClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L58) (1 connections)
+- [defaultMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L67) (1 connections)
+- [[dismissed, setDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L199) (1 connections)
+- [displayMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L75) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L202) (1 connections)
+- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L43) (1 connections)
+- [[loadingTime, setLoadingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L197) (1 connections)
+- [retryTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L207) (1 connections)
+- [shouldReduceMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L42) (1 connections)
+- [[showRetry, setShowRetry]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L198) (1 connections)
+- [simulatedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L215) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L48) (1 connections)
+- [zIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L82) (1 connections)
 
 ## Relationships
 
@@ -17,11 +26,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\offline\OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

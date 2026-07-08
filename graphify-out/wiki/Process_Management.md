@@ -1,11 +1,16 @@
 # Process Management
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L1) (1 connections)
-- [useStudioDialogState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L19) (1 connections)
+- [storage.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/storage.api.test.ts#L1) (6 connections)
+- [createBucketMock()](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/storage.api.test.ts#L15) (2 connections)
+- [bucket](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/storage.api.test.ts#L30) (1 connections)
+- [file](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/storage.api.test.ts#L32) (1 connections)
+- [mockStorage](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/storage.api.test.ts#L11) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/storage.api.test.ts#L33) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/storage.api.test.ts#L110) (1 connections)
 
 ## Relationships
 
@@ -13,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\api\storage.api.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/api/storage.api.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (92%)
+- INFERRED: 1 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

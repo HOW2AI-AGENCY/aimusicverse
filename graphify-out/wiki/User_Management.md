@@ -1,10 +1,12 @@
 # User Management
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Discord Icon](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/discord.svg) (0 connections)
+- [useMonitoringHealth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useMonitoringHealth.ts#L1) (2 connections)
+- [useMonitoringHealthStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useMonitoringHealth.ts#L9) (1 connections)
+- [useSystemHealthStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useMonitoringHealth.ts#L23) (1 connections)
 
 ## Relationships
 
@@ -12,11 +14,11 @@
 
 ## Source Files
 
-- [stories/assets/discord.svg](file:///D:/.MUSICVERSE/aimusicverse/stories/assets/discord.svg)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useMonitoringHealth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useMonitoringHealth.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

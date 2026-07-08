@@ -1,15 +1,25 @@
 # Channel Management
 
-> 6 nodes · cohesion 0.40
+> 16 nodes · cohesion 0.19
 
 ## Key Concepts
 
-- [ProjectDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L1) (5 connections)
-- [handleOpenProject()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L47) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L42) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L77) (1 connections)
-- [statusInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L44) (1 connections)
-- [typeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx#L45) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L1) (15 connections)
+- [getMiniAppDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L37) (9 connections)
+- [getTelegramShareUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L117) (3 connections)
+- [getArtistDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L77) (2 connections)
+- [getGenerateDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L85) (2 connections)
+- [getInviteDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L100) (2 connections)
+- [getPlaylistDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L53) (2 connections)
+- [getProfileDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L69) (2 connections)
+- [getProjectDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L61) (2 connections)
+- [getRecognizeDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L92) (2 connections)
+- [getTrackDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L45) (2 connections)
+- [getBotMention()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L108) (1 connections)
+- [TELEGRAM_APP_SHORT_NAME](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L20) (1 connections)
+- [TELEGRAM_BOT_START_URL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L30) (1 connections)
+- [TELEGRAM_BOT_USERNAME](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L14) (1 connections)
+- [TELEGRAM_MINI_APP_BASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts#L25) (1 connections)
 
 ## Relationships
 
@@ -17,12 +27,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\ProjectDetailPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/ProjectDetailPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\telegram\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telegram/constants.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 46 (96%)
+- INFERRED: 2 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

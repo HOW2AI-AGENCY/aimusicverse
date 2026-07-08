@@ -1,14 +1,21 @@
 # Character Limit
 
-> 5 nodes · cohesion 0.40
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [Skeleton.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L1) (4 connections)
-- [Card](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L22) (1 connections)
-- [Circle](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L18) (1 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L14) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx#L4) (1 connections)
+- [ProjectsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L1) (12 connections)
+- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L67) (1 connections)
+- [[createSheetOpen, setCreateSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L49) (1 connections)
+- [[deleteConfirmId, setDeleteConfirmId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L50) (1 connections)
+- [filteredProjects](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L53) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L46) (1 connections)
+- [{ projects, isLoading, deleteProject, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L47) (1 connections)
+- [publishedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L66) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L48) (1 connections)
+- [statusLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L25) (1 connections)
+- [typeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L33) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -16,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stories\ui\Skeleton.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/ui/Skeleton.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\tabs\ProjectsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/ProjectsTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 23 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

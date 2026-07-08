@@ -1,11 +1,25 @@
 # Gap Management
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L1) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L16) (1 connections)
+- [social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L1) (6 connections)
+- [followButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L192) (1 connections)
+- [{
+    isLiked,
+    likesCount,
+    toggleLike,
+    isLikePending,
+    isFollowing,
+    toggleFollow,
+    share,
+    isSharing,
+  }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L66) (1 connections)
+- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L142) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L101) (1 connections)
+- [shareButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L160) (1 connections)
+- [user](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L133) (1 connections)
 
 ## Relationships
 
@@ -13,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

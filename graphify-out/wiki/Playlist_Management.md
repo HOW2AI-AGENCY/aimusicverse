@@ -1,15 +1,25 @@
 # Playlist Management
 
-> 6 nodes · cohesion 0.33
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L1) (5 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L110) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L72) (1 connections)
-- [groupedHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L78) (1 connections)
-- [mockHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L37) (1 connections)
-- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L205) (1 connections)
+- [StudioArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L1) (15 connections)
+- [addInstrumentalMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L49) (1 connections)
+- [[audioWeight, setAudioWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L60) (1 connections)
+- [handleGenerate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L66) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L51) (1 connections)
+- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L56) (1 connections)
+- [PRESET_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L30) (1 connections)
+- [selectPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L119) (1 connections)
+- [{ session }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L48) (1 connections)
+- [[showAdvanced, setShowAdvanced]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L59) (1 connections)
+- [[step, setStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L50) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L55) (1 connections)
+- [[styleWeight, setStyleWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L61) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L54) (1 connections)
+- [vocalAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L64) (1 connections)
+- [[weirdness, setWeirdness]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -17,11 +27,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioArrangementDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

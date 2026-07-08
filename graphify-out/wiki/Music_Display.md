@@ -1,11 +1,16 @@
 # Music Display
 
-> 2 nodes · cohesion 1.00
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [AddToHomeScreen()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/AddToHomeScreen.tsx#L11) (1 connections)
-- [AddToHomeScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/AddToHomeScreen.tsx#L1) (1 connections)
+- [storage.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L1) (6 connections)
+- [buckets](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L87) (1 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L29) (1 connections)
+- [fileApiSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L113) (1 connections)
+- [quotaSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L129) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L37) (1 connections)
+- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L178) (1 connections)
 
 ## Relationships
 
@@ -13,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\AddToHomeScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/AddToHomeScreen.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\storage.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

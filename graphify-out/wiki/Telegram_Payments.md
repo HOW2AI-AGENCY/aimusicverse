@@ -1,13 +1,20 @@
 # Telegram Payments
 
-> 4 nodes · cohesion 0.50
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useConfirm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L1) (3 connections)
-- [ConfirmContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L43) (1 connections)
-- [ConfirmProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L50) (1 connections)
-- [useConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L96) (1 connections)
+- [TrimRegionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L1) (10 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L25) (1 connections)
+- [[dragStartRegion, setDragStartRegion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L24) (1 connections)
+- [[dragStartX, setDragStartX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L23) (1 connections)
+- [getPositionFromTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L37) (1 connections)
+- [getTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L27) (1 connections)
+- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L45) (1 connections)
+- [handleMouseMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L75) (1 connections)
+- [handleMouseUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L111) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L22) (1 connections)
+- [[region, setRegion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -15,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useConfirm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\TrimRegionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

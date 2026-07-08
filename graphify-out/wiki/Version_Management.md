@@ -1,11 +1,15 @@
 # Version Management
 
-> 2 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useAudioVisualizer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts#L1) (1 connections)
-- [useAudioVisualizer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts#L34) (1 connections)
+- [musicNotationUtils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/musicNotationUtils.ts#L1) (5 connections)
+- [parseTimeSignature()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/musicNotationUtils.ts#L9) (2 connections)
+- [getNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/musicNotationUtils.ts#L22) (1 connections)
+- [getNoteNameRu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/musicNotationUtils.ts#L26) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/musicNotationUtils.ts#L6) (1 connections)
+- [NOTE_NAMES_RU](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/musicNotationUtils.ts#L7) (1 connections)
 
 ## Relationships
 
@@ -13,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useAudioVisualizer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioVisualizer.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\musicNotationUtils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/musicNotationUtils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---
