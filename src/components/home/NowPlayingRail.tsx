@@ -21,7 +21,9 @@ interface NowPlayingRailProps {
 export const NowPlayingRail = memo(function NowPlayingRail({ className }: NowPlayingRailProps) {
   const activeTrack = usePlayerStore((s) => s.activeTrack);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
-  const togglePlay = usePlayerStore((s) => s.togglePlayPause);
+  const playTrack = usePlayerStore((s) => s.playTrack);
+  const pauseTrack = usePlayerStore((s) => s.pauseTrack);
+  const togglePlay = () => (isPlaying ? pauseTrack() : playTrack());
 
   if (!activeTrack) return null;
 
