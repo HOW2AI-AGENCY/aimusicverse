@@ -12,7 +12,6 @@
  *
  * Sprint 052-C cleanup:
  *   - form fields extracted to <MashupFormFields /> (Dumb sub-component for stories)
- *   - localized strings extracted to MASHUP_STRINGS (@/lib/locale/mashupStrings)
  */
 
 import { useMemo, useState } from "react";
@@ -28,7 +27,7 @@ import { validatePromptForGeneration, showGenerationError } from "@/lib/errorHan
 import { useTracks } from "@/hooks/useTracks";
 import { useSunoMashup } from "@/hooks/studio/useSunoMashup";
 import { MashupFormFields } from "@/components/mashup/MashupFormFields";
-import { MASHUP_STRINGS } from "@/lib/locale/mashupStrings";
+import { useMashupStrings } from "@/hooks/useMashupStrings";
 
 interface MashupDialogProps {
   open: boolean;
@@ -43,7 +42,7 @@ const MODEL_OPTIONS = getAvailableModels();
 export const MashupDialog = ({ open, onOpenChange, initialTrackId, projectId }: MashupDialogProps) => {
   const isMobile = useIsMobile();
   const { tracks } = useTracks({ statusFilter: ["completed"] });
-  const t = MASHUP_STRINGS;
+  const t = useMashupStrings();
 
   // Source tracks
   const [trackAId, setTrackAId] = useState<string>(initialTrackId ?? "");

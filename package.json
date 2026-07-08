@@ -125,7 +125,7 @@
     "dompurify": "^3.3.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.24",
-    "i18next": "^26.3.4",
+    "i18next": "^26.3.5",
     "i18next-browser-languagedetector": "^8.2.1",
     "jszip": "^3.10.1",
     "lamejs": "^1.2.1",

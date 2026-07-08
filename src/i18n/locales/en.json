@@ -30,7 +30,33 @@
       "tracksMustDiffer": "Tracks must be different",
       "specifyStyle": "Specify a style",
       "specifyTitle": "Specify a title",
-      "promptOrInstrumental": "Add a description or select instrumental mode"
+      "promptOrInstrumental": "Add a description or select instrumental mode",
+      "fallback": "Untitled track"
+    },
+    "persona": {
+      "footerButtonLabel": "Persona",
+      "dialogTitle": "Train Persona",
+      "dialogDescription": "Suno will create a reusable persona from this track — you can select it in future generations.",
+      "nameLabel": "Persona name *",
+      "namePlaceholder": "E.g. my voice",
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Warm female voice, pop style",
+      "cancel": "Cancel",
+      "submit": "Train",
+      "submitting": "Starting…",
+      "successToastReady": "Persona is ready to use.",
+      "successToastPending": "Persona is training",
+      "validation": {
+        "specifyName": "Specify a persona name",
+        "nameTooLong": "Persona name — max 80 characters",
+        "trainingFailed": "Failed to start persona training"
+      }
+    },
+    "generationResult": {
+      "fallbackTrackTitle": "New track",
+      "versionSwitchError": "Could not switch version",
+      "playButtonLabel": "Play",
+      "pauseButtonLabel": "Pause"
     }
   },
   "common": {

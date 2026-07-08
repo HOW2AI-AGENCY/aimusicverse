@@ -31,6 +31,7 @@ import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { DesktopDashboardLayout } from "@/components/layout/desktop";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -311,6 +312,9 @@ export const ProfilePage = () => {
           rightColumn={
             <div className="space-y-4">
               <InviteFriendsCard variant="banner" />
+              <div className="flex justify-center">
+                <LanguageSwitcher />
+              </div>
               {ActionCards}
             </div>
           }
@@ -479,6 +483,14 @@ export const ProfilePage = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* === Language switcher ======================================= */}
+      <div className="mt-6 px-4">
+        <div className="flex items-center justify-between mb-2">
+          <p className="section-title">Язык</p>
+        </div>
+        <LanguageSwitcher />
       </div>
 
       {/* === Account section ========================================== */}

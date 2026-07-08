@@ -31,7 +31,7 @@ import { useTrackVersionsList } from "@/hooks/generation/useTrackVersionsList";
 import { useSunoPersona } from "@/hooks/studio/useSunoPersona";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
-import { MASHUP_STRINGS } from "@/lib/locale/mashupStrings";
+import { useMashupStrings } from "@/hooks/useMashupStrings";
 
 interface TrackVersion {
   id: string;
@@ -89,8 +89,9 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
   // Sprint 052-B5 — kick off Persona training. Track must have at least one
   // ready version (selectedVersionData has an audioUrl below — we check
   // against that when the user actually clicks "Train Persona").
-  const personaStrings = MASHUP_STRINGS.persona;
-  const generationResultStrings = MASHUP_STRINGS.generationResult;
+  const t = useMashupStrings();
+  const personaStrings = t.persona;
+  const generationResultStrings = t.generationResult;
 
   const handleTrainPersona = useCallback(async () => {
     if (!trackId) return;

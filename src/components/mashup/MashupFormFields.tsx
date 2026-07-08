@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
-import { MASHUP_STRINGS } from "@/lib/locale/mashupStrings";
+import { useMashupStrings } from "@/hooks/useMashupStrings";
 
 export interface MashupModelOption {
   key: string;
@@ -92,7 +92,7 @@ export const MashupFormFields = ({
   onSubmit,
   ariaLabelledBy,
 }: MashupFormFieldsProps) => {
-  const t = MASHUP_STRINGS;
+  const t = useMashupStrings();
 
   return (
     <div className="space-y-4" aria-labelledby={ariaLabelledBy}>
