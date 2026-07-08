@@ -74,11 +74,7 @@ export const HorizontalTrackScroller = memo(function HorizontalTrackScroller({
       ))}
 
       {hasMore && onLoadMore && (
-        <div
-          ref={sentinelRef}
-          className="flex-shrink-0 w-[140px] flex items-center justify-center"
-          aria-hidden="true"
-        >
+        <div ref={sentinelRef} className="flex-shrink-0 w-[140px] flex items-center justify-center" aria-hidden="true">
           {isLoadingMore ? (
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           ) : (

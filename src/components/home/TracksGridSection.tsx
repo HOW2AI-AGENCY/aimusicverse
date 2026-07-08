@@ -99,13 +99,7 @@ export const TracksGridSection = memo(function TracksGridSection({
         <>
           <ResponsiveGrid columns={columns} gap={2}>
             {displayTracks.map((track, idx) => (
-              <UnifiedTrackCard
-                key={track.id}
-                variant="enhanced"
-                track={track}
-                onRemix={onRemix}
-                priority={idx < 4}
-              />
+              <UnifiedTrackCard key={track.id} variant="enhanced" track={track} onRemix={onRemix} priority={idx < 4} />
             ))}
           </ResponsiveGrid>
 

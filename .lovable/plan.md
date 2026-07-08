@@ -33,17 +33,20 @@
 ## Фаза 2 — Технический долг и качество кода (2-3 недели)
 
 ### Sprint 058 — Edge Functions Decomposition
+
 - Декомпозировать 11 файлов >800 LOC в `supabase/functions/` (до 1871 LOC — вероятно, `suno-*` семейство).
 - Выделить общие модули в `supabase/functions/_shared/` (сейчас там уже есть `cors.ts`, `logger.ts`, `telegram-utils.ts`, `suno.ts`).
 - Целевая планка: 0 файлов >500 LOC в edge functions.
 - Добавить unit-тесты для критичных helper-модулей через Deno test.
 
 ### Sprint 059 — Test Coverage Recovery
+
 - Восстановить (или явно списать) 4 удалённых тестовых файла: `accessibility.test.ts`, `performance.test.ts`, `withHistory.test.ts`, `generate-sheet-redesign-flag.test.ts`.
 - Поднять покрытие критичных модулей: `GlobalAudioProvider`, `useUnifiedStudioStore`, `useVersionSwitcher`, `secure_credit_update` RPC.
 - Цель: 1500+ unit tests, ≥70% branch coverage на критичных путях.
 
 ### Sprint 060 — Security & Dependencies
+
 - Разрешить 6 уязвимостей `npm audit` (1 high, 4 moderate, 1 low) — либо через обновление, либо через явные overrides с обоснованием.
 - Прогнать `security--run_security_scan` и обработать все P0/P1 findings.
 - Аудит RLS-политик: убедиться, что все `public.*` таблицы имеют явные GRANT и политики (по проектной памяти).
@@ -51,21 +54,25 @@
 ## Фаза 3 — UX и производительность (4-6 недель)
 
 ### Sprint 061 — Mobile Studio Polish
+
 - Пройти по `MOBILE_AUDIT_F1-F12.md` и `MBILE_FIXES_F3F6F7.md`, закрыть остатки.
 - Валидация touch targets 44×44px, safe areas, keyboard handling на реальном iOS Safari через Telegram.
 - Haptic feedback consistency: аудит по мемори «Standardized Haptic Feedback».
 
 ### Sprint 062 — Performance Budget Hardening
+
 - Bundle size сейчас 508 KB gzip eager (лимит 950 KB) — есть запас, но задача: снизить до 400 KB через lazy loading второй волны (Studio, StemSeparation, MidiEditor).
 - Lighthouse CI: закрепить порог Performance ≥90 на mobile, LCP <2.5s, TBT <200ms.
 - Аудит `react-virtuoso` использования — все списки >50 элементов должны быть виртуализированы.
 
 ### Sprint 063 — A/B Testing & Analytics Loop
+
 - Замкнуть цикл `useExperiment` → `deeplink-tracker` → аналитика в admin панели.
 - Дашборд конверсий по `ConversionStage` (visit → engaged → registered → generation → payment).
 - Автоматические отчёты в Telegram-канал по ключевым метрикам недели.
 
 ### Sprint 064 — Collaboration Features (перенумерованный)
+
 - Совместное редактирование проектов (real-time через Supabase Realtime).
 - Роли в проекте (owner, editor, viewer) через `user_roles` паттерн.
 - Комментарии с таймкодами к трекам.
