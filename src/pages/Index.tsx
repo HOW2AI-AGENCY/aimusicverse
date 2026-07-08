@@ -223,7 +223,7 @@ const Index = () => {
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 items-start">
             <div
               className={cn(
-                "lg:col-span-8 xl:col-span-9 2xl:col-span-10 min-w-0",
+                "lg:col-span-8 xl:col-span-8 2xl:col-span-9 min-w-0",
                 sectionTokens.blockGap,
               )}
             >
@@ -237,7 +237,7 @@ const Index = () => {
 
             <aside
               className={cn(
-                "lg:col-span-4 xl:col-span-3 2xl:col-span-2 min-w-0",
+                "hidden lg:block lg:col-span-4 xl:col-span-4 2xl:col-span-3 min-w-0",
                 "lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain",
                 "lg:border-l lg:border-border/40 lg:pl-6 xl:pl-8",
                 "scrollbar-thin scrollbar-thumb-border/40 scrollbar-track-transparent",
