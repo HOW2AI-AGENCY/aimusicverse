@@ -28,7 +28,7 @@ export const HorizontalTrackScroller = memo(function HorizontalTrackScroller({
   hasMore = false,
   isLoadingMore = false,
   onLoadMore,
-  priorityCount = 4,
+  priorityCount = 8,
 }: Props) {
   const sentinelRef = useAutoLoadMore<HTMLDivElement>({
     hasMore,
@@ -57,11 +57,11 @@ export const HorizontalTrackScroller = memo(function HorizontalTrackScroller({
   return (
     <div
       ref={scrollerRef}
-      className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scroll-smooth touch-pan-x scrollbar-hide"
+      className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 scroll-smooth touch-pan-x scrollbar-hide"
       style={{ WebkitOverflowScrolling: "touch" }}
     >
       {tracks.map((track, idx) => (
-        <div key={track.id} className="flex-shrink-0 w-[165px] sm:w-[180px] lg:w-[200px] xl:w-[220px] group">
+        <div key={track.id} className="flex-shrink-0 w-40 sm:w-44 xl:w-48 group">
           <UnifiedTrackCard
             track={track}
             variant="grid"
@@ -74,7 +74,7 @@ export const HorizontalTrackScroller = memo(function HorizontalTrackScroller({
       ))}
 
       {hasMore && onLoadMore && (
-        <div ref={sentinelRef} className="flex-shrink-0 w-[140px] flex items-center justify-center" aria-hidden="true">
+        <div ref={sentinelRef} className="flex-shrink-0 w-36 flex items-center justify-center" aria-hidden="true">
           {isLoadingMore ? (
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           ) : (

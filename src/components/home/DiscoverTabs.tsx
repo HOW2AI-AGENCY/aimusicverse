@@ -30,7 +30,7 @@ const gridVariants: Variants = {
 // Windowing kicks in once the list has grown past the first page, so the
 // plain animated grid is used for the initial viewport and virtualizer takes
 // over after "Load more" adds more rows.
-const VIRTUALIZE_THRESHOLD = 16;
+const VIRTUALIZE_THRESHOLD = 48;
 
 interface DiscoverTabsProps {
   popularTracks: TrackData[];
@@ -76,7 +76,7 @@ const Grid = memo(function Grid({
     <motion.div
       ref={gridRef}
       className="grid gap-2.5 sm:gap-3"
-      style={{ gridTemplateColumns: `repeat(${columns}, minmax(160px, 1fr))` }}
+      style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       initial={prefersReducedMotion ? undefined : "hidden"}
       animate={prefersReducedMotion ? undefined : isInView ? "visible" : "hidden"}
       variants={prefersReducedMotion ? undefined : gridVariants}
@@ -123,7 +123,7 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
       forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ children, style, ...props }, ref) => (
         <div
           ref={ref}
-          style={{ ...style, display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(160px, 1fr))` }}
+          style={{ ...style, display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
           className="gap-2.5 sm:gap-3"
           {...props}
         >
