@@ -14,6 +14,7 @@ import { sendMessage, editMessageText, deleteMessage, answerCallbackQuery } from
 import { escapeMarkdown, trackMetric } from "../utils/index.ts";
 import { createLogger } from "../../_shared/logger.ts";
 import { setActiveMenuMessageId, deleteActiveMenu } from "../core/active-menu-manager.ts";
+import { resolveContentType, getFileUrl, getTypeLabel, getGenderLabel } from "../_shared/audio-utils.ts";
 import { sendAutoDeleteMessage, AUTO_DELETE_TIMINGS } from "../utils/auto-delete.ts";
 import { handleSubmenu } from "./dynamic-menu.ts";
 const logger = createLogger("audio-classifier");
@@ -453,80 +454,6 @@ function buildUploadedActionKeyboard(referenceId: string, skipStems: boolean): I
 }
 
 // Helper functions
-
-function getTypeLabel(type: AudioType): string {
-  switch (type) {
-    case "instrumental":
-      return "Инструментал";
-    case "vocal":
-      return "Только вокал";
-    case "full":
-      return "Вокал + Инструментал";
-    default:
-      return "Неизвестно";
-  }
-}
-
-function getGenderLabel(gender: VocalGender): string {
-  switch (gender) {
-    case "male":
-      return "Мужской";
-    case "female":
-      return "Женский";
-    case "duet":
-      return "Дуэт";
-    default:
-      return "";
-  }
-}
-
-function resolveContentType(ext: string, mimeType?: string, msgType?: "audio" | "voice" | "document"): string {
-  const t = (mimeType || "").toLowerCase();
-  if (t.startsWith("audio/")) return t;
-  if (msgType === "voice") return "audio/ogg";
-
-  switch (ext) {
-    case "mp3":
-      return "audio/mpeg";
-    case "wav":
-      return "audio/wav";
-    case "ogg":
-    case "oga":
-    case "opus":
-      return "audio/ogg";
-    case "m4a":
-    case "mp4":
-      return "audio/mp4";
-    case "flac":
-      return "audio/flac";
-    default:
-      return "audio/mpeg";
-  }
-}
-
-async function getFileUrl(fileId: string): Promise<string | null> {
-  try {
-    const botToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
-
-    const response = await fetch(`https://api.telegram.org/bot${botToken}/getFile`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ file_id: fileId }),
-    });
-
-    const data = await response.json();
-
-    if (!data.ok || !data.result?.file_path) {
-      logger.warn("getFile failed", { data });
-      return null;
-    }
-
-    return `https://api.telegram.org/file/bot${botToken}/${data.result.file_path}`;
-  } catch (error) {
-    logger.error("Error getting file URL", error);
-    return null;
-  }
-}
 
 type InlineButton = { text: string; callback_data?: string; web_app?: { url: string } };
 

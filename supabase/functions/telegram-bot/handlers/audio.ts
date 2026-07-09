@@ -8,6 +8,7 @@ import { sendMessage, sendAudio, deleteMessage } from "../telegram-api.ts";
 import { consumePendingUpload, type PendingUpload, setPendingAudio } from "../core/db-session-store.ts";
 import { escapeMarkdown, trackMetric } from "../utils/index.ts";
 import { createLogger } from "../../_shared/logger.ts";
+import { resolveContentType, getFileUrl } from "../_shared/audio-utils.ts";
 import { deleteActiveMenu, setActiveMenuMessageId } from "../core/active-menu-manager.ts";
 import { setPendingClassification, showClassificationPrompt, type PendingClassification } from "./audio-classifier.ts";
 
@@ -329,37 +330,6 @@ async function handleAutoUploadWithPipeline(
     const sanitizedName = `audio_${Date.now()}.${extension}`;
     const storagePath = `${profile.user_id}/reference-audio/${sanitizedName}`;
 
-    const resolveContentType = (
-      ext: string,
-      telegramOrBlobType?: string,
-      msgType?: "audio" | "voice" | "document",
-    ): string => {
-      const t = (telegramOrBlobType || "").toLowerCase();
-      if (t.startsWith("audio/")) return t;
-
-      // Voice messages are typically OGG/Opus
-      if (msgType === "voice") return "audio/ogg";
-
-      switch (ext) {
-        case "mp3":
-          return "audio/mpeg";
-        case "wav":
-          return "audio/wav";
-        case "ogg":
-        case "oga":
-        case "opus":
-          return "audio/ogg";
-        case "m4a":
-          return "audio/mp4";
-        case "mp4":
-          return "audio/mp4";
-        case "flac":
-          return "audio/flac";
-        default:
-          return "audio/mpeg";
-      }
-    };
-
     const safeContentType = resolveContentType(
       extension,
       ("mime_type" in audio ? audio.mime_type : undefined) || audioBlob.type,
@@ -582,30 +552,8 @@ async function storeTemporaryAudio(
 
 /**
  * Get file URL from Telegram
+ * (re-exported from _shared/audio-utils.ts)
  */
-async function getFileUrl(fileId: string): Promise<string | null> {
-  try {
-    const botToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
-
-    const response = await fetch(`https://api.telegram.org/bot${botToken}/getFile`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ file_id: fileId }),
-    });
-
-    const data = await response.json();
-
-    if (!data.ok || !data.result?.file_path) {
-      logger.warn("getFile failed", { data });
-      return null;
-    }
-
-    return `https://api.telegram.org/file/bot${botToken}/${data.result.file_path}`;
-  } catch (error) {
-    logger.error("Error getting file URL", error);
-    return null;
-  }
-}
 
 /**
  * Handle cloud upload with full analysis - save audio to storage with style analysis and lyrics extraction
