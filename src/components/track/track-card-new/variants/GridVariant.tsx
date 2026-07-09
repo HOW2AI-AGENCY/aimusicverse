@@ -26,7 +26,6 @@ const UnifiedTrackSheet = lazy(() =>
 );
 import { QuickLikeButton } from "@/components/track/QuickLikeButton";
 import { QuickQueueButton } from "@/components/track/QuickQueueButton";
-import { UnifiedVersionSelector } from "@/components/shared/UnifiedVersionSelector";
 import { useTrackCardState } from "../hooks/useTrackCardState";
 import { SimplifiedTagsRow } from "./SimplifiedTagsRow";
 import { CardCoverActionBar } from "../components/CardCoverActionBar";
@@ -245,7 +244,7 @@ export const GridVariant = memo(function GridVariant({
           <div className="p-3 flex flex-col gap-1 min-h-[48px]">
             <div className="flex items-start justify-between gap-1.5 sm:gap-2 min-h-0">
               <h3
-                className="font-semibold text-xs sm:text-sm flex-1 min-w-0 leading-tight line-clamp-1 break-words truncate"
+                className="font-semibold text-xs sm:text-sm flex-1 min-w-0 leading-tight truncate"
                 title={track.title || undefined}
               >
                 {track.title || "Без названия"}
@@ -257,7 +256,7 @@ export const GridVariant = memo(function GridVariant({
                   size="icon"
                   variant="ghost"
                   className={cn(
-                    "w-9 h-9 min-w-[44px] min-h-[44px] flex-shrink-0 -mt-1 transition-opacity rounded-full flex items-center justify-center",
+                    "w-8 h-8 min-w-8 min-h-8 flex-shrink-0 -mt-1 transition-opacity rounded-full flex items-center justify-center",
                     isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100",
                   )}
                   onClick={(e) => {
