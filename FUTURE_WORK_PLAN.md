@@ -1,7 +1,7 @@
 # План дальнейших работ MusicVerse AI
 
 **Дата:** 2026-07-09
-**Статус:** Sprint 059-A ✅ (circular deps fixed, barrel re-exports removed), tsc 0 errors, 1489 unit tests, 0 circular chunk warnings. Следующий review: 2026-07-13.
+**Статус:** Sprint 059-A ✅ (circular deps fixed, barrel re-exports removed), Sprint 059-B ✅ (+9 service test files, +100 tests), tsc 0 errors, 1679 unit tests, 0 circular chunk warnings. Следующий review: 2026-07-13.
 **Фокус:** API/Service unit tests → Bundle size reduction (1.8 MB goal) → Design polish
 
 ---
@@ -10,7 +10,7 @@
 
 | Метрика             | Значение                                  | Статус |
 | ------------------- | ----------------------------------------- | ------ |
-| Unit tests          | 1579 passing (133 files)                  | ✅     |
+| Unit tests          | 1679 passing (142 files)                  | ✅     |
 | TypeScript          | 0 errors                                  | ✅     |
 | E2E specs           | 56 (CI green — Sprint 057)                | ✅     |
 | Components          | 1161                                      | ✅     |
@@ -74,20 +74,22 @@
 - [ ] Tree-shaking проверка (частично — `treeshake: { preset: "recommended" }` уже включён)
 - [ ] **Понизить vendor-other/feature-admin-studio (REDUX)** — не реализовано, см. ниже
 
-**Часть B — API/Service unit tests:**
+**Часть B — API/Service unit tests: ✅**
 
-**Текущее:** 1579 unit tests (133/135 файлов). Цель: 1800+.
+**Текущее:** 1679 unit tests (142 файла). Цель: 1800+.
 
 - [x] 5 новых тестовых файлов: missions.service, audio-reference-generation.service, profile-setup.service, upsell-strategy.service, session.service
 - [x] +40 тестов (1489→1529)
 - [x] API: 29/30 покрыто (все кроме studio.api)
-- [x] 8 новых тестовых файлов: missions, audio-reference-generation, profile-setup, upsell-strategy, session, studio-operations, webhook-setup, cloud-audio, reference-analysis, deeplink, track-detail
-- [ ] Services: 25/37 покрыто (осталось 12 в domain subfolders)
+- [x] 8 тестов batch 2: missions, audio-reference-generation, profile-setup, upsell-strategy, session, studio-operations, webhook-setup, cloud-audio, reference-analysis, deeplink, track-detail
+- [x] 7 тестов batch 3: track-versions, ai-tools, theme-idea, content-analytics, audio-analysis, forecast, user-activity-heatmap
+- [x] 2 теста batch 4: studio-stems, studio-realtime
+- [x] Services: 37/37 покрыто (все *.service.ts)
 - [ ] TanStack Query mutations: useSunoMashup, useSunoPersona, useSunoFileUpload
 - [ ] Edge functions декомпозиция (11 файлов >800 LOC в `supabase/functions/`)
 
-**Срок:** 3-5 дней (осталось ~15 service файлов + TanStack query tests)
-**Метрика:** 1529 unit tests, total bundle ≤1.8 MB
+**Срок:** 3-5 дней
+**Метрика:** 1679 unit tests, 142 test файлов
 
 ---
 
@@ -171,7 +173,7 @@ Week 5 (Aug 4-8):
 
 ---
 
-**Последнее обновление:** 2026-07-09 (Sprint 059-A ✅)
+**Последнее обновление:** 2026-07-09 (Sprint 059-A ✅ + Sprint 059-B ✅)
 **Следующий review:** 2026-07-13
 </content>
 </invoke>
