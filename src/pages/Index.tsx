@@ -40,9 +40,14 @@ import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
 import { HomeDesktopSidebar } from "@/components/home/HomeDesktopSidebar";
-import { FeaturedSection } from "@/components/home/FeaturedSection";
-import { GenreTabsSection } from "@/components/home/GenreTabsSection";
-import { AiSuggestions } from "@/components/home/AiSuggestions";
+
+const FeaturedSection = lazy(() =>
+  import("@/components/home/FeaturedSection").then((m) => ({ default: m.FeaturedSection })),
+);
+const GenreTabsSection = lazy(() =>
+  import("@/components/home/GenreTabsSection").then((m) => ({ default: m.GenreTabsSection })),
+);
+const AiSuggestions = lazy(() => import("@/components/home/AiSuggestions").then((m) => ({ default: m.AiSuggestions })));
 import { Section, sectionTokens } from "@/components/layout/Section";
 
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
