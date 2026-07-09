@@ -281,17 +281,21 @@ const Index = () => {
         <SEOHead {...SEO_PRESETS.home} canonical="https://aimusicverse.lovable.app/" />
         <span className="sr-only">{t("home.seo.srOnly")}</span>
 
-        <HomeHeader
-          userName={displayUser?.first_name || displayUser?.username?.split("@")[0]}
-          userPhotoUrl={displayUser?.photo_url}
-          onProfileClick={goToProfile}
-        />
+        <ErrorBoundary>
+          <HomeHeader
+            userName={displayUser?.first_name || displayUser?.username?.split("@")[0]}
+            userPhotoUrl={displayUser?.photo_url}
+            onProfileClick={goToProfile}
+          />
+        </ErrorBoundary>
 
         <div className="my-3 w-full">
           <HomeSearchBar onSearch={(q) => navigate(`/library?q=${encodeURIComponent(q)}`)} />
         </div>
 
-        <BotContextBanner />
+        <ErrorBoundary>
+          <BotContextBanner />
+        </ErrorBoundary>
 
         <PullToRefreshWrapper onRefresh={refresh} disabled={!isMobile} className="relative">
           {/*
