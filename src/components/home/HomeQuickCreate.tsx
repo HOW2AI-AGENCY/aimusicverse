@@ -26,7 +26,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
   const { t } = useTranslation();
   const { hapticFeedback } = useTelegram();
   const reducedMotion = useReducedMotion();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded] = useState(false);
 
   const handleCreate = useCallback(
     (mode?: "track" | "riff" | "cover" | "remix") => {
@@ -39,11 +39,6 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
   const handleFabClick = useCallback(() => {
     handleCreate();
   }, [handleCreate]);
-
-  const handleExpand = useCallback(() => {
-    hapticFeedback("light");
-    setIsExpanded(!isExpanded);
-  }, [hapticFeedback, isExpanded]);
 
   return (
     <section
