@@ -12,7 +12,7 @@
   "mcp": {
     "server": {
       "name": "musicverse-ai-mcp",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "title": "MusicVerse AI"
     },
     "tools": [
@@ -95,6 +95,98 @@
               "maximum": 100
             }
           }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_my_profile",
+        "title": "Get my profile",
+        "description": "Get the signed-in user's MusicVerse AI profile: display name, username, avatar, bio, and public flag.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_my_credits",
+        "title": "Get my credit balance",
+        "description": "Get the signed-in user's current credit balance and gamification stats (level, XP, streak).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_my_playlists",
+        "title": "List my playlists",
+        "description": "List the signed-in user's playlists with title, description, cover, and track count.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "default": 20,
+              "description": "Max results (1-100).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "like_track",
+        "title": "Like or unlike a track",
+        "description": "Toggle a like on a public track as the signed-in user. Returns the new like state.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "track_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "UUID of the track to like/unlike."
+            },
+            "action": {
+              "default": "like",
+              "description": "Whether to add or remove the like.",
+              "type": "string",
+              "enum": [
+                "like",
+                "unlike"
+              ]
+            }
+          },
+          "required": [
+            "track_id"
+          ]
         },
         "outputSchema": null
       }

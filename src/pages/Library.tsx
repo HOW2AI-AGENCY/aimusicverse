@@ -65,9 +65,10 @@ export default function Library() {
   const qRef = useRef(searchParams.get("q"));
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
 
-  // Desktop sidebar state — default to collapsed on ≤1440px screens so the form doesn't crowd the grid.
+  // Desktop sidebar state — default expanded on ≥1024px (lg) so the generation form is immediately visible.
+  // Collapse to icon rail only on narrow tablets (<1024px) where it would crowd the grid.
   const [generateSidebarCollapsed, setGenerateSidebarCollapsed] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1440 : true,
+    typeof window !== "undefined" ? window.innerWidth < 1024 : false,
   );
 
   // Desktop: Selected track for detail panel
