@@ -10,7 +10,7 @@
 
 | Метрика             | Значение                                  | Статус |
 | ------------------- | ----------------------------------------- | ------ |
-| Unit tests          | 1489 passing (122 files)                  | ✅     |
+| Unit tests          | 1529 passing (127 files)                  | ✅     |
 | TypeScript          | 0 errors                                  | ✅     |
 | E2E specs           | 56 (CI green — Sprint 057)                | ✅     |
 | Components          | 1161                                      | ✅     |
@@ -76,15 +76,17 @@
 
 **Часть B — API/Service unit tests:**
 
-**Текущее:** 1489 unit tests (122/124 files). Цель: 1800+.
+**Текущее:** 1529 unit tests (127/129 файлов). Цель: 1800+.
 
-- [ ] `src/api/*.api.ts` (30 файлов) — по 3-5 тестов (mocked Supabase client)
-- [ ] `src/services/*.service.ts` (37 файлов) — по 5-8 тестов
+- [x] 5 новых тестовых файлов: missions.service, audio-reference-generation.service, profile-setup.service, upsell-strategy.service, session.service
+- [x] +40 тестов (1489→1529)
+- [x] API: 29/30 покрыто (все кроме studio.api)
+- [ ] Services: 22/37 покрыто (осталось 15 в domain subfolders)
 - [ ] TanStack Query mutations: useSunoMashup, useSunoPersona, useSunoFileUpload
 - [ ] Edge functions декомпозиция (11 файлов >800 LOC в `supabase/functions/`)
 
-**Срок:** 5-7 дней
-**Метрика:** 1800+ unit tests, total bundle ≤1.8 MB
+**Срок:** 3-5 дней (осталось ~15 service файлов + TanStack query tests)
+**Метрика:** 1529 unit tests, total bundle ≤1.8 MB
 
 ---
 
