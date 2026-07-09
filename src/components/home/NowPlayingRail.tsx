@@ -36,7 +36,7 @@ export const NowPlayingRail = memo(function NowPlayingRail({ className }: NowPla
   return (
     <section
       aria-label="Сейчас играет"
-      className={cn(glass.card, "overflow-hidden rounded-2xl p-4 flex flex-col gap-3", className)}
+      className={cn(glass.card, "overflow-hidden rounded-2xl p-3 flex flex-col gap-3", className)}
     >
       <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
         <Music2 className="w-3.5 h-3.5" />

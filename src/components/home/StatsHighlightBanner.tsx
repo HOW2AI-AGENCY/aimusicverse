@@ -76,7 +76,7 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({ classNa
         // 2x2 grid at every size — fits both rail (≈380px) and full-width
         // mobile cleanly. Previous lg:grid-cols-4 caused clipped labels when
         // rendered inside the right rail.
-        "grid grid-cols-2 gap-2 sm:gap-3",
+        "grid grid-cols-2 gap-2.5 sm:gap-3",
         className,
       )}
       initial={{ opacity: 0, y: 10 }}
@@ -91,7 +91,7 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({ classNa
           <motion.div
             key={stat.id}
             className={cn(
-              "flex items-center gap-2.5 px-3 py-2.5 rounded-xl min-w-0",
+              "flex items-center gap-2.5 px-3 py-3 rounded-xl min-w-0",
               glass.subtle,
               "border",
               colors.border,

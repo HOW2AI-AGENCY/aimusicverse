@@ -13,6 +13,7 @@
 import { Drawer } from "vaul";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { AlertTriangle, XCircle } from "@/lib/icons";
 import { hapticImpact } from "@/lib/haptic";
 import type { ValidationReason } from "@/hooks/generation/useGenerateSheetValidation";
 
@@ -55,13 +56,13 @@ export function ValidationReasonsSheet({ open, onOpenChange, reasons }: Props) {
 }
 
 function ReasonRow({ reason, tone }: { reason: ValidationReason; tone: "error" | "warning" }) {
-  const icon = tone === "error" ? "❌" : "⚠️";
+  const Icon = tone === "error" ? XCircle : AlertTriangle;
   const cls = tone === "error" ? "border-destructive/40 bg-destructive/5" : "border-yellow-500/30 bg-yellow-500/5";
 
   return (
     <div className={cn("rounded-xl border p-3 space-y-1", cls)}>
       <div className="flex items-start gap-2">
-        <span aria-hidden>{icon}</span>
+        <Icon className="w-4 h-4 flex-shrink-0" aria-hidden />
         <div className="flex-1">
           <p className="text-sm font-medium">{reason.messageRu}</p>
           {reason.deepLink && (

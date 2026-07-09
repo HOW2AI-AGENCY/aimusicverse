@@ -193,3 +193,412 @@
 | Bundle / Architecture |            0 |                3 |           7 |      10 |
 | Accessibility / UX    |            0 |                1 |           9 |      10 |
 | **Total**             |        **5** |           **47** |      **48** | **100** |
+
+---
+
+## 11. Structured Spacing Specification — All Components
+
+**Methodology:** Every margin/padding/gap value extracted from source files. Tailwind class → px conversion uses 4px base scale (`p-1` = 4px, `gap-2.5` = 10px, etc.). Inconsistencies marked with ⚠️.
+
+### 11.1 Section Tokens (Design System Source of Truth)
+
+**File:** [src/components/layout/Section.tsx](src/components/layout/Section.tsx)
+
+| Token              | Class                    | Value (mobile) | Value (desktop) |
+| ------------------ | ------------------------ | -------------- | --------------- |
+| `blockGap`         | `space-y-6 xl:space-y-8` | 24px           | 32px (xl+)      |
+| `containerPadding` | `px-4 sm:px-6 lg:px-8`   | 16px           | 32px (lg+)      |
+| `shellMaxWidth`    | `max-w-screen-xl`        | —              | 1280px          |
+
+**Density maps (body gap / header gap / inner pad):**
+
+| Density                  | Body Gap (mobile → desktop)                             | Header Gap                          | Inner Pad                      |
+| ------------------------ | ------------------------------------------------------- | ----------------------------------- | ------------------------------ |
+| `compact`                | `space-y-3` (12px)                                      | `mb-3` (12px)                       | `p-3 sm:p-4` (12→16px)         |
+| `comfortable` ⭐ default | `space-y-4 sm:space-y-5` (16→20px)                      | `mb-4` (16px)                       | `p-4 sm:p-5` (16→20px)         |
+| `spacious`               | `space-y-6 sm:space-y-8` (24→32px)                      | `mb-5 sm:mb-6` (20→24px)            | `p-5 sm:p-7` (20→28px)         |
+| `auto`                   | `space-y-3 sm:space-y-5 lg:space-y-7` (12→20→28px)      | `mb-3 sm:mb-4 lg:mb-6`              | `p-3 sm:p-5 md:p-6`            |
+| `4xl`                    | `space-y-8 sm:space-y-10 xl:space-y-12 2xl:space-y-14`  | `mb-8 sm:mb-10 xl:mb-12`            | `p-6 sm:p-8 xl:p-10 2xl:p-12`  |
+| `5xl`                    | `space-y-10 sm:space-y-12 xl:space-y-16 2xl:space-y-20` | `mb-10 sm:mb-12 xl:mb-16 2xl:mb-20` | `p-8 sm:p-10 xl:p-12 2xl:p-16` |
+
+### 11.2 HomeHeader
+
+**File:** [src/components/home/HomeHeader.tsx](src/components/home/HomeHeader.tsx)
+
+| Variant     | Property            | Value                                 | Px                      |
+| ----------- | ------------------- | ------------------------------------- | ----------------------- |
+| **Desktop** | bottom margin       | `mb-6 lg:mb-8`                        | 24→32px                 |
+| Desktop     | items gap           | `gap-3 sm:gap-4 lg:gap-5`             | 12→16→20px              |
+| Desktop     | icon size           | `w-12 h-12 lg:w-14 lg:h-14`           | 48→56px                 |
+| Desktop     | icon border-radius  | `rounded-xl lg:rounded-2xl`           | 12→16px                 |
+| Desktop     | subtitle top margin | `mt-0.5 lg:mt-1`                      | 2→4px                   |
+| **Mobile**  | container padding   | `-mx-4 px-3 pb-2`                     | -16→12→8px              |
+| Mobile      | padding-top         | `TELEGRAM_SAFE_AREA.stickyHeaderTop`  | ~0.5rem above safe area |
+| Mobile      | items gap           | `gap-2`                               | 8px                     |
+| Mobile      | icon size           | `w-8 h-8`                             | 32px                    |
+| Mobile      | icon border-radius  | `rounded-xl`                          | 12px                    |
+| Mobile      | menu button         | `w-11 h-11 min-w-[44px] min-h-[44px]` | 44×44px ✅              |
+| Mobile      | menu border-radius  | `rounded-xl`                          | 12px                    |
+| Mobile      | avatar button       | `w-11 h-11 min-w-[44px] min-h-[44px]` | 44×44px ✅              |
+
+**⚠️ Inconsistency:** Desktop rounded-2xl (16px) vs Mobile rounded-xl (12px).
+
+### 11.3 Track Cards
+
+#### GridVariant
+
+**File:** [src/components/track/track-card-new/variants/GridVariant.tsx](src/components/track/track-card-new/variants/GridVariant.tsx)
+
+| Property                       | Value                     | Px      |
+| ------------------------------ | ------------------------- | ------- |
+| Card border-radius             | `rounded-2xl`             | 16px    |
+| Card padding                   | `p-2`                     | 8px ⚠️  |
+| Content gap                    | `gap-1`                   | 4px     |
+| Content min-height             | `min-h-[56px]`            | 56px    |
+| Title-gap between title + more | `gap-1.5 sm:gap-2`        | 6→8px   |
+| More button                    | `w-8 h-8 min-w-8 min-h-8` | 32px ⚠️ |
+| Cover aspect-ratio             | `aspect-square`           | 1:1     |
+| Stem badge padding             | `px-1.5 py-0.5`           | 6×2px   |
+| Stem badge position            | `bottom-2 left-2`         | 8px     |
+| Like indicator width           | `w-16`                    | 64px    |
+| Delete indicator width         | `w-16`                    | 64px    |
+
+**⚠️ Touch target violation:** More button 32×32px < 44×44px minimum.
+
+#### ListVariant
+
+**File:** [src/components/track/track-card-new/variants/ListVariant.tsx](src/components/track/track-card-new/variants/ListVariant.tsx)
+
+| Property           | Value                             | Px                    |
+| ------------------ | --------------------------------- | --------------------- |
+| Card border-radius | `rounded-xl`                      | 12px ⚠️               |
+| Card padding       | `p-3`                             | 12px ⚠️               |
+| Card grid          | `grid-cols-[64px_1fr_44px] gap-3` | 64px cover / 12px gap |
+| Cover size         | 64×64px                           | —                     |
+| Play button        | `w-10 h-10`                       | 40px                  |
+| Menu button        | `w-11 h-11`                       | 44px ✅               |
+
+**⚠️ GridVariant (p-2, rounded-2xl) vs ListVariant (p-3, rounded-xl) — no unified card scale.**
+
+### 11.4 DiscoverTabs
+
+**File:** [src/components/home/DiscoverTabs.tsx](src/components/home/DiscoverTabs.tsx)
+
+| Property                        | Value              | Px      |
+| ------------------------------- | ------------------ | ------- |
+| Grid gap                        | `gap-2.5 sm:gap-3` | 10→12px |
+| Tab container space             | `space-y-3`        | 12px    |
+| TabsList height                 | `h-9`              | 36px    |
+| Tab trigger gap                 | `gap-1.5`          | 6px     |
+| Count badge margin              | `ml-1`             | 4px     |
+| Empty state padding             | `py-8`             | 32px    |
+| Loading spinner padding         | `pt-3`             | 12px    |
+| Sentinel height                 | `h-4`              | 16px    |
+| Skeleton count                  | `columns * 2`      | —       |
+| Columns (mobile/tablet/desktop) | 2 / 3 / 4          | —       |
+| Virtualize threshold            | 48 tracks          | —       |
+| VirtuosoGrid overscan           | 400px              | —       |
+
+### 11.5 MainLayout
+
+**File:** [src/components/MainLayout.tsx](src/components/MainLayout.tsx)
+
+| Property               | Value                                                  | Px             |
+| ---------------------- | ------------------------------------------------------ | -------------- |
+| Guest mode padding-top | `pt-9`                                                 | 36px           |
+| Desktop main padding   | `p-6`                                                  | 24px           |
+| Mobile main padding    | `py-3`                                                 | 12px           |
+| SafeArea minPadding    | 1rem                                                   | 16px           |
+| Content max-width      | `max-w-screen-2xl`                                     | 1536px         |
+| Bottom padding calc    | `var(--nav-h) + var(--player-h) + safe-area + 0.75rem` | dynamic + 12px |
+
+### 11.6 BottomNavigation
+
+**File:** [src/components/BottomNavigation.tsx](src/components/BottomNavigation.tsx)
+
+| Property                  | Value                                     | Px          |
+| ------------------------- | ----------------------------------------- | ----------- |
+| Nav height                | `h-14`                                    | 56px        |
+| Horizontal padding        | `px-1`                                    | 4px         |
+| Tab item gap              | `gap-0.5`                                 | 2px         |
+| Tab item padding          | `py-1.5`                                  | 6px         |
+| Tab item border-radius    | `rounded-xl`                              | 12px        |
+| Active pill height        | `h-7`                                     | 28px        |
+| Active pill width         | `w-10`                                    | 40px        |
+| Active pill position      | `top-1`                                   | 4px         |
+| Icon size                 | `w-5 h-5`                                 | 20px        |
+| FAB size                  | `w-12 h-12`                               | 48px        |
+| FAB border-radius         | `rounded-2xl`                             | 16px        |
+| FAB ring offset           | `ring-offset-2`                           | 8px         |
+| Hint card padding         | `px-3 py-1.5`                             | 12×6px      |
+| Hint card border-radius   | `rounded-lg`                              | 8px         |
+| Hint card gap             | `gap-1.5`                                 | 6px         |
+| Hint dismiss padding      | `p-0.5`                                   | 2px         |
+| Generation badge height   | `h-4 min-w-4`                             | 16px        |
+| Generation badge padding  | `px-1`                                    | 4px         |
+| Generation badge position | `-top-1 -right-0.5`                       | -4px, -2px  |
+| Progress badge offset     | `keyboardHeight + 80` or `max(5rem, ...)` | 80px offset |
+
+### 11.7 Sidebar
+
+**File:** [src/components/Sidebar.tsx](src/components/Sidebar.tsx)
+
+| Property                   | Value                               | Px                           |
+| -------------------------- | ----------------------------------- | ---------------------------- |
+| Collapsed width            | `w-16`                              | 64px                         |
+| Expanded width             | `w-64`                              | 256px                        |
+| Header padding             | `p-4`                               | 16px                         |
+| Header items gap           | `gap-1`                             | 4px                          |
+| Collapse button            | `h-9 w-9 min-h-[44px] min-w-[44px]` | 36px icon, 44px touch ✅     |
+| Create button area padding | `py-4 px-3`                         | 16×12px                      |
+| Create button height       | `h-11`                              | 44px                         |
+| Create button gap          | `gap-2`                             | 8px                          |
+| Generation panel padding   | `px-3 pb-3`                         | 12px                         |
+| Generation panel inner     | `rounded-lg p-3`                    | 8px border, 12px pad         |
+| Generation panel gap       | `gap-2 mb-2`                        | 8px                          |
+| Generation progress bar    | `h-1`                               | 4px                          |
+| Generation button          | `h-7`                               | 28px                         |
+| Nav scroll area padding    | `px-3` / `px-2` (collapsed)         | 12/8px                       |
+| Nav spacing                | `space-y-1`                         | 4px                          |
+| Nav button height          | `h-10`                              | 40px                         |
+| Nav button gap             | `gap-3`                             | 12px                         |
+| Nav button icon            | `w-4 h-4`                           | 16px                         |
+| Nav section header         | `h-8 px-2`                          | 32px                         |
+| Nav section gap            | `pt-4` before each section          | 16px                         |
+| Nav section content        | `space-y-1 pt-1`                    | 4px gap, 4px top             |
+| Badge height               | `h-5 px-1.5`                        | 20px                         |
+| Collapsed generation icon  | `h-11 min-h-[44px]`                 | 44px ✅                      |
+| Footer padding             | `p-3`                               | 12px                         |
+| Admin section gap          | `pt-4 space-y-1`                    | 16px top, 4px items          |
+| Admin header gap           | `gap-2 px-2 pb-1`                   | 8px gap, 8px pad, 4px bottom |
+
+### 11.8 CompactPlayer
+
+**File:** [src/components/player/CompactPlayer.tsx](src/components/player/CompactPlayer.tsx)
+
+| Breakpoint            | Property      | Value                                                        | Px                |
+| --------------------- | ------------- | ------------------------------------------------------------ | ----------------- |
+| **Mobile (<640px)**   | padding       | `px-3 pt-3 pb-1.5` → `px-3 pb-3`                             | 12px / 6px bottom |
+| Mobile                | cover         | `w-12 h-12`                                                  | 48px              |
+| **Mid (640-1023px)**  | gap           | `gap-3`                                                      | 12px              |
+| Mid                   | padding       | `px-3 py-2.5`                                                | 12×10px           |
+| Mid                   | max-width     | `max-w-3xl`                                                  | 768px             |
+| Mid                   | cover         | `w-11 h-11`                                                  | 44px              |
+| **Desktop (≥1024px)** | gap           | `gap-4`                                                      | 16px              |
+| Desktop               | padding       | `px-4 py-2.5`                                                | 16×10px           |
+| Desktop               | max-width     | `max-w-5xl 2xl:max-w-[1280px]`                               | 1024→1280px       |
+| Desktop               | cover         | `w-14 h-14 xl:w-16 2xl:w-[72px]`                             | 56→64→72px        |
+| All                   | bottom offset | `calc(bottomBase + ...safe-area...)` — uses `--bottom-nav-h` | dynamic           |
+
+### 11.9 GenerateSheet Components
+
+#### GenerateSheet (wrapper)
+
+**File:** [src/components/GenerateSheet.tsx](src/components/GenerateSheet.tsx)
+
+| Property              | Value                                       | Px                   |
+| --------------------- | ------------------------------------------- | -------------------- |
+| Content height        | `h-dvh sm:h-[85vh] lg:h-dvh`                | full viewport        |
+| Desktop max-width     | `lg:max-w-[680px]`                          | 680px                |
+| Desktop border-radius | `lg:rounded-2xl`                            | 16px                 |
+| Desktop margin        | `lg:mx-auto`                                | auto                 |
+| Inner padding         | `p-0`                                       | 0 (child-controlled) |
+| Loading overlay       | `inset-0 bg-background/90 backdrop-blur-sm` | —                    |
+
+#### GenerateSheetHeader
+
+**File:** [src/components/generate-sheet/GenerateSheetHeader.tsx](src/components/generate-sheet/GenerateSheetHeader.tsx)
+
+| Property          | Value                               | Px         |
+| ----------------- | ----------------------------------- | ---------- |
+| Container padding | `px-4`                              | 16px       |
+| Border            | `border-b`                          | 1px bottom |
+| Background        | `bg-background/95 backdrop-blur-xl` | —          |
+
+#### GenerateSheetFooter
+
+**File:** [src/components/generate-sheet/GenerateSheetFooter.tsx](src/components/generate-sheet/GenerateSheetFooter.tsx)
+
+| Property               | Value                               | Px              |
+| ---------------------- | ----------------------------------- | --------------- |
+| Padding                | `px-4 pt-3`                         | 16px / 12px top |
+| Border                 | `border-t`                          | 1px top         |
+| Button height          | `h-14`                              | 56px            |
+| Button border-radius   | `rounded-2xl`                       | 16px            |
+| Summary margin         | `mt-1.5`                            | 6px             |
+| Summary text-size      | `text-[11px]`                       | 11px            |
+| Dynamic bottom padding | `paddingBottom: keyboardHeight + 8` | dynamic         |
+
+#### FormStepper
+
+**File:** [src/components/generate-form/FormStepper.tsx](src/components/generate-form/FormStepper.tsx)
+
+| Property           | Value               | Px         |
+| ------------------ | ------------------- | ---------- |
+| Pill gap           | `gap-1.5`           | 6px        |
+| Pill padding       | `px-3 py-1`         | 12×4px     |
+| Pill border-radius | `rounded-full`      | ∞          |
+| Pill text-size     | `text-[11px]`       | 11px       |
+| Sticky position    | `sticky top-0 z-10` | 0 from top |
+
+#### CollapsibleFormHeader
+
+**File:** [src/components/generate-form/CollapsibleFormHeader.tsx](src/components/generate-form/CollapsibleFormHeader.tsx)
+
+| Property                     | Value                                  | Px                     |
+| ---------------------------- | -------------------------------------- | ---------------------- |
+| Container                    | `space-y-3 py-2`                       | 12px gap, 8px vertical |
+| Title row gap                | `gap-3`                                | 12px                   |
+| Balance pill                 | `gap-1.5 px-2.5 py-1.5 rounded-full`   | 6px gap, 10×6px pad    |
+| Mode segmented padding       | `p-1`                                  | 4px                    |
+| Mode segmented border-radius | `rounded-2xl`                          | 16px                   |
+| Segment buttons              | `min-h-[44px] rounded-xl`              | 44px, 12px radius      |
+| Model/History buttons        | `min-h-[44px] min-w-[44px] rounded-xl` | 44×44px ✅             |
+
+#### FormSection
+
+**File:** [src/components/generate-form/FormSection.tsx](src/components/generate-form/FormSection.tsx)
+
+| Property                     | Value         | Px   |
+| ---------------------------- | ------------- | ---- |
+| Section spacing              | `space-y-2.5` | 10px |
+| Elevated/group padding       | `p-3.5`       | 14px |
+| Elevated/group border-radius | `rounded-2xl` | 16px |
+| Elevated/group left pad      | `pl-4`        | 16px |
+| Group header gap             | `gap-2.5`     | 10px |
+| Step badge                   | `w-6 h-6`     | 24px |
+
+#### SectionLabel
+
+**File:** [src/components/generate-form/SectionLabel.tsx](src/components/generate-form/SectionLabel.tsx)
+
+| Property               | Value                   | Px                                |
+| ---------------------- | ----------------------- | --------------------------------- |
+| Container gap          | `gap-1.5`               | 6px                               |
+| Hint button            | `h-11 w-11 -my-2 -mx-2` | 44×44px ✅ (neg margin alignment) |
+| Hint popover max-width | `max-w-[240px]`         | 240px                             |
+| Hint popover padding   | `p-3`                   | 12px                              |
+
+### 11.10 Home Page Sidebar Widgets
+
+#### HomeDesktopSidebar
+
+**File:** [src/components/home/HomeDesktopSidebar.tsx](src/components/home/HomeDesktopSidebar.tsx)
+
+| Property   | Value            | Px         |
+| ---------- | ---------------- | ---------- |
+| Widget gap | `gap-5 xl:gap-6` | 20→24px ⚠️ |
+
+**⚠️ Gap (20-24px) 4px less than main content blockGap (24-32px).**
+
+#### DailyTipCard
+
+**File:** [src/components/home/DailyTipCard.tsx](src/components/home/DailyTipCard.tsx)
+
+| Property           | Value                       | Px      |
+| ------------------ | --------------------------- | ------- |
+| Card padding       | `p-3 lg:p-4`                | 12→16px |
+| Card border-radius | `rounded-xl lg:rounded-2xl` | 12→16px |
+| Icon size          | `w-9 h-9 lg:w-11 lg:h-11`   | 36→44px |
+| Dismiss button     | 44×44px                     | ✅      |
+
+#### NowPlayingRail
+
+**File:** [src/components/home/NowPlayingRail.tsx](src/components/home/NowPlayingRail.tsx)
+
+| Property      | Value         | Px   |
+| ------------- | ------------- | ---- |
+| Padding       | `p-4`         | 16px |
+| Border-radius | `rounded-2xl` | 16px |
+| Gap           | `gap-3`       | 12px |
+| Label gap     | `gap-2`       | 8px  |
+| Tags gap      | `gap-1.5`     | 6px  |
+| Icon size     | `w-10 h-10`   | 40px |
+
+#### StatsHighlightBanner
+
+**File:** [src/components/home/StatsHighlightBanner.tsx](src/components/home/StatsHighlightBanner.tsx)
+
+| Property     | Value                   | Px         |
+| ------------ | ----------------------- | ---------- |
+| Grid gap     | `gap-2 sm:gap-3`        | 8→12px ⚠️  |
+| Item padding | `px-3 py-2.5`           | 12×10px ⚠️ |
+| Icon size    | `w-8 h-8 lg:w-9 lg:h-9` | 32→36px    |
+
+**⚠️ gap 8px vs DiscoverTabs 10px (different grid base). ⚠️ Asymmetric padding (px 12px ≠ py 10px).**
+
+### 11.11 Index.tsx (Home Page Layout)
+
+**File:** [src/pages/Index.tsx](src/pages/Index.tsx)
+
+| Property                     | Value                                 | Px               |
+| ---------------------------- | ------------------------------------- | ---------------- |
+| Main grid gap                | `gap-6 lg:gap-8 xl:gap-10 2xl:gap-12` | 24→32→40→48px    |
+| Main column                  | `lg:col-span-8 xl:col-span-9`         | 8/12→9/12        |
+| Sidebar column               | `lg:col-span-4 xl:col-span-3`         | 4/12→3/12        |
+| Sidebar sticky top           | `top-6`                               | 24px             |
+| Search bar margin            | `mt-3 mb-2`                           | 12px / 8px ⚠️    |
+| Search bar max-width         | `max-w-md`                            | 448px            |
+| Bottom padding (no player)   | 6rem                                  | 96px             |
+| Bottom padding (with player) | 12rem                                 | 192px            |
+| Section density              | `comfortable` (all blocks)            | 16→20px body gap |
+
+**⚠️ Search bar asymmetric margin: mt-3 (12px) ≠ mb-2 (8px).**
+
+### 11.12 Library.tsx
+
+**File:** [src/pages/Library.tsx](src/pages/Library.tsx)
+
+| Property                    | Value                                               | Px               |
+| --------------------------- | --------------------------------------------------- | ---------------- |
+| AppHeader                   | `!static !mx-0 flex-shrink-0`                       | no sticky        |
+| Filter bar margin           | `-mx-4`                                             | -16px (negative) |
+| Filter bar padding          | `px-5 sm:px-6`                                      | 20→24px          |
+| Filter bar vertical padding | `py-4 sm:py-5`                                      | 16→20px          |
+| Content padding             | `py-6 sm:py-8`                                      | 24→32px          |
+| Play button                 | `min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9` | 44→36px          |
+
+### 11.13 Consistency Scorecard
+
+| Aspect             | Components                                             | Values Found              | Verdict                       |
+| ------------------ | ------------------------------------------------------ | ------------------------- | ----------------------------- |
+| Card padding       | GridVariant, ListVariant, DailyTipCard, NowPlayingRail | 8px, 12px, 12-16px, 16px  | ❌ No unified scale           |
+| Card border-radius | GridVariant, ListVariant, DailyTipCard, BottomNav tabs | 12px, 16px, 12-16px, 12px | ⚠️ Two scales used            |
+| Section/block gap  | Section.blockGap, Sidebar widget gap, Index main gap   | 24-32px, 20-24px, 24-48px | ⚠️ Sidebar 4px less           |
+| Grid gap (cards)   | DiscoverTabs, StatsHighlightBanner                     | 10-12px, 8-12px           | ⚠️ Different base             |
+| Touch targets      | GridVariant more, BottomNav tabs, FAB, Sidebar buttons | 32px, 48px, 48px, 44px    | ❌ GridVariant more=32px      |
+| Form spacing       | FormSection, SectionLabel, CollapsibleFormHeader       | 10px, 6px, 12px           | ❌ 3 different gaps           |
+| Content padding    | MainLayout desktop, mobile, GenerateSheet              | 24px, 12-16px, 16px       | ⚠️ No unified page padding    |
+| Icon sizes (nav)   | BottomNav, Sidebar, HomeHeader mobile                  | 20px, 16px, 20px          | ⚠️ BottomNav 20 vs Sidebar 16 |
+
+### 11.14 Fix Recommendations — Ordered by Impact
+
+| #   | Issue                              | Affected Files                                                                                    | Fix                                                                                                | Effort           |
+| --- | ---------------------------------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------- |
+| 1   | **No unified card padding scale**  | GridVariant (p-2=8px), ListVariant (p-3=12px), DailyTipCard (p-3=12px), NowPlayingRail (p-4=16px) | Standardize: all cards → `p-3` (12px) base                                                         | 4 files, 4 lines |
+| 2   | **No unified border-radius**       | GridVariant (rounded-2xl=16px), ListVariant (rounded-xl=12px)                                     | Standardize: all cards → `rounded-2xl` (16px)                                                      | 2 files, 2 lines |
+| 3   | **Touch target violation**         | GridVariant more button (w-8 h-8=32px)                                                            | → `min-w-[44px] min-h-[44px]` with `w-9 h-9` visual                                                | 1 file, 1 line   |
+| 4   | **Asymmetric search bar margin**   | Index.tsx:242 (`mt-3 mb-2`)                                                                       | → unified `my-3` (12px)                                                                            | 1 file, 1 line   |
+| 5   | **Sidebar gap 4px less than main** | HomeDesktopSidebar (gap-5=20px) vs Section.blockGap (24px)                                        | → `gap-6 xl:gap-8` to match                                                                        | 1 file, 1 line   |
+| 6   | **Stats grid gap inconsistent**    | StatsHighlightBanner (gap-2=8px) vs DiscoverTabs (gap-2.5=10px)                                   | → `gap-2.5 sm:gap-3` to match DiscoverTabs                                                         | 1 file, 1 line   |
+| 7   | **Form section gap fragmentation** | FormSection (space-y-2.5=10px), FormStepper (top-0), CollapsibleFormHeader (space-y-3=12px)       | Unify form gaps → `space-y-3` (12px)                                                               | 3 files, 3 lines |
+| 8   | **Card content min-height**        | GridVariant `min-h-[56px]`                                                                        | → `min-h-[48px]` (saves 8px per card)                                                              | 1 file, 1 line   |
+| 9   | **Nav icon size mismatch**         | BottomNav (20px) vs Sidebar (16px)                                                                | Decision: keep BottomNav 20px (touch-first). Sidebar is desktop-only → 16px acceptable. No change. | 0                |
+| 10  | **Content padding unification**    | MainLayout desktop (p-6=24px), GenerateSheet (px-4=16px), Library filter (px-5=20px)              | Adopt `px-4 sm:px-6 lg:px-8` (Section.containerPadding) across all pages                           | 3+ files         |
+
+## Summary Matrix
+
+| Area                  | P0 (fix now) | P1 (next sprint) | P2 (polish) |   Total |
+| --------------------- | -----------: | ---------------: | ----------: | ------: |
+| Data Loading          |            4 |                4 |           0 |       8 |
+| Render / Rerender     |            0 |                7 |           3 |      10 |
+| Track Card Design     |            0 |                7 |           3 |      10 |
+| Spacing / Layout      |            0 |                6 |           4 |      10 |
+| GenerateSheet         |            1 |                6 |           3 |      10 |
+| Images / LCP          |            0 |                6 |           4 |      10 |
+| Mobile Specific       |            0 |                5 |           5 |      10 |
+| DiscoverTabs / Grid   |            0 |                2 |           8 |      10 |
+| Bundle / Architecture |            0 |                3 |           7 |      10 |
+| Accessibility / UX    |            0 |                1 |           9 |      10 |
+| Spacing Spec (new)    |            0 |                6 |           4 |      10 |
+| **Total**             |        **5** |           **53** |      **52** | **110** |

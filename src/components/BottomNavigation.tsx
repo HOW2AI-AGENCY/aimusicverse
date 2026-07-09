@@ -129,7 +129,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                         typographyClass.caption,
                       )}
                     >
-                      <span>Создайте первый трек здесь! ✨</span>
+                      <span>Создайте первый трек здесь!</span>
                       <button
                         onClick={dismissHint}
                         className="ml-1 p-0.5 hover:bg-muted rounded text-muted-foreground hover:text-foreground font-bold"

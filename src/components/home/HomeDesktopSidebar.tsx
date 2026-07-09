@@ -28,7 +28,7 @@ export const HomeDesktopSidebar = memo(function HomeDesktopSidebar({
   className,
 }: HomeDesktopSidebarProps) {
   return (
-    <div className={cn("flex flex-col gap-5 xl:gap-6", className)}>
+    <div className={cn("flex flex-col gap-6 xl:gap-8", className)}>
       <NowPlayingRail />
       {isAuthenticated && <YouStrip />}
       <DailyTipCard />

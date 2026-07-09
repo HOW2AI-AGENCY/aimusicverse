@@ -14,65 +14,72 @@ import {
   ExternalLink,
   CreditCard,
   Shield,
+  AlertTriangle,
+  CalendarDays,
+  Hash,
+  ShieldCheck,
+  Frown,
+  Ban,
 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { logger } from "@/lib/logger";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { cn } from "@/lib/utils";
+import type { LucideIcon } from "@/lib/icons";
 import { glass, gradientGlass } from "@/lib/glass";
 
 // Common Tinkoff error codes with user-friendly messages
-const ERROR_MESSAGES: Record<string, { title: string; description: string; icon?: string }> = {
+const ERROR_MESSAGES: Record<string, { title: string; description: string; icon: LucideIcon }> = {
   "0": {
     title: "Операция отменена",
     description: "Вы отменили платёж. Деньги не были списаны.",
-    icon: "🚫",
+    icon: Ban,
   },
   "99": {
     title: "Платёж отклонён банком",
     description: "Попробуйте использовать другую карту или обратитесь в банк.",
-    icon: "🏦",
+    icon: CreditCard,
   },
   "100": {
     title: "Недостаточно средств",
     description: "На карте недостаточно средств для оплаты.",
-    icon: "💳",
+    icon: CreditCard,
   },
   "101": {
     title: "Карта заблокирована",
     description: "Карта заблокирована. Обратитесь в банк.",
-    icon: "🔒",
+    icon: Shield,
   },
   "102": {
     title: "Превышен лимит",
     description: "Превышен лимит на операции по карте.",
-    icon: "📊",
+    icon: CalendarDays,
   },
   "103": {
     title: "Срок действия карты истёк",
     description: "Используйте другую карту с действующим сроком.",
-    icon: "📅",
+    icon: CalendarDays,
   },
   "119": {
     title: "Превышены попытки ввода PIN",
     description: "Попробуйте позже или обратитесь в банк.",
-    icon: "🔢",
+    icon: Ban,
   },
   "191": {
     title: "Некорректная сумма",
     description: "Произошла техническая ошибка. Попробуйте снова.",
-    icon: "⚠️",
+    icon: AlertTriangle,
   },
   "1006": {
     title: "Ошибка 3D-Secure",
     description: "Проблема с подтверждением платежа. Попробуйте снова.",
-    icon: "🔐",
+    icon: ShieldCheck,
   },
   "1051": {
     title: "Недостаточно средств",
     description: "На карте недостаточно средств для оплаты.",
-    icon: "💸",
+    icon: Frown,
   },
 };
 
@@ -133,7 +140,7 @@ export default function PaymentFail() {
     return {
       title: "Платёж не был завершён",
       description: message || "Произошла ошибка при обработке платежа. Попробуйте ещё раз.",
-      icon: "😔",
+      icon: Frown,
     };
   };
 
@@ -230,7 +237,7 @@ export default function PaymentFail() {
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.6, type: "spring" }}
                   >
-                    {errorInfo.icon}
+                    {errorInfo.icon && <errorInfo.icon className="w-6 h-6 text-destructive" />}
                   </motion.div>
                 </motion.div>
 
