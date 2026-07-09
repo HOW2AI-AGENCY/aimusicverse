@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/></a>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
   <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
-  <img alt="Unit tests" src="https://img.shields.io/badge/unit_tests-1489_passing-10B981?style=for-the-badge&logo=vitest"/>
+  <img alt="Unit tests" src="https://img.shields.io/badge/unit_tests-1691_passing-10B981?style=for-the-badge&logo=vitest"/>
 </p>
 
 <!-- BADGES:START -->
@@ -53,7 +53,7 @@
 | ⭐ GitHub Stars                |            ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)             |
 | 📦 Eager load (холодный старт) |        ![](https://img.shields.io/badge/508_KB_gzip-↓_from_1.19_MB-10B981?style=flat-square&logo=webpack)        |
 | 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
-| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1489_passing-10B981?style=flat-square&logo=vitest)          |
+| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1691_passing-10B981?style=flat-square&logo=vitest)          |
 | 🔒 Безопасность                |  ![](<https://img.shields.io/badge/Security-6_vulns_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=flat-square>)   |
 | 📊 Спринтов завершено          |                                             **49** (050–056 + 052-C)                                             |
 | 🏗 Компонентов                  |                                              **1009** (1164 total)                                               |

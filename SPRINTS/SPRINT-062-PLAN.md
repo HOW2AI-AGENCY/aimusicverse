@@ -5,6 +5,9 @@
 **Зависимость:** Sprint 061 ✅ (vendor splits + barrel cleanup + chunk split)
 **Цель:** Закрыть P0/P1 UX-проблемы по результатам полного UI-ревью (см. ниже). Повысить Design Score C+ → B.
 
+**Фаза A ✅** (коммит `805a1d41e`) · **Фаза B ✅** (коммит `21bcae087`)
+**Фаза C 🔄** (2 P2 items done in A/B) — step indicator + volume slider + GenerateSheet h-dvh pending
+
 ---
 
 ## Контекст ревью

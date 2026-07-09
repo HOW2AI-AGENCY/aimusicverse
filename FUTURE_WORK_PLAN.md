@@ -122,9 +122,9 @@
 
 3 фазы:
 
-- **A (день 1)** — P0 блокеры: Suspense fallback, QuickCreate опции, touch targets, градиент
-- **B (дни 2-3)** — P1 фиксы: Error Boundary на Index, i18n миграция, PullToRefresh scope, waveform shimmer, MixerChannel empty state
-- **C (дни 4-5)** — P2 polish: step indicator, volume slider UX, поиск clear button, memo
+- **A (день 1)** — P0 блокеры: Suspense fallback, QuickCreate опции, touch targets, градиент ✅
+- **B (день 2)** — P1 фиксы: Error Boundary на Index, i18n миграция, PullToRefresh scope, waveform shimmer, MixerChannel empty state ✅
+- **C (день 3)** — P2 polish: step indicator, volume slider UX, GenerateSheet h-dvh, memo 🔄
 
 **Цель:** Design Score C+ → B.
 
@@ -166,14 +166,14 @@ Week 5 (Aug 4-8):
 
 ## 🚀 Q3 2026 (после стабилизации)
 
-| Sprint  | Фокус                                                | Статус          |
-| ------- | ---------------------------------------------------- | --------------- |
-| **057** | E2E CI green + Branch Protection complete            | ✅ ЗАВЕРШЁН     |
-| **058** | i18n EN/RU (mashup + generation домены)              | ✅ ЗАВЕРШЁН     |
-| **059** | Bundle optimization (A) + API/Service unit tests (B) | ✅ ЗАВЕРШЁН     |
-| **060** | Design polish (search, skeleton, transitions)        | ✅ ЗАВЕРШЁН     |
-| **061** | Bundle: vendor splits + barrel cleanup + chunk split | ✅ ЗАВЕРШЁН     |
-| **062** | UI/UX Audit: P0/P1/P2 fixes + Design Score C+ → B    | 🔴 ЗАПЛАНИРОВАН |
+| Sprint  | Фокус                                                | Статус      |
+| ------- | ---------------------------------------------------- | ----------- |
+| **057** | E2E CI green + Branch Protection complete            | ✅ ЗАВЕРШЁН |
+| **058** | i18n EN/RU (mashup + generation домены)              | ✅ ЗАВЕРШЁН |
+| **059** | Bundle optimization (A) + API/Service unit tests (B) | ✅ ЗАВЕРШЁН |
+| **060** | Design polish (search, skeleton, transitions)        | ✅ ЗАВЕРШЁН |
+| **061** | Bundle: vendor splits + barrel cleanup + chunk split | ✅ ЗАВЕРШЁН |
+| **062** | UI/UX Audit: P0/P1 fixes (A+B ✅), P2 polish (C 🔄)  | 🔄 В РАБОТЕ |
 
 ---
 

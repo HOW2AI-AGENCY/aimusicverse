@@ -993,6 +993,44 @@ Sprint 056 успешно завершён:
 
 ---
 
+## 🆕 Сессия 2026-07-09 — Sprint 062 Phase B (UI/UX Audit: P1 fixes) ✅
+
+**Commits:** `21bcae087` (Phase B)
+
+### Выполнено:
+
+1. **B-1: Error Boundary на Index.tsx** ✅
+   - Обернуты 3 контент-блока: `DiscoverTabs`, `FeaturedSection`, `GenreTabsSection`
+   - `FallbackSection` с локализованным сообщением + reload
+2. **B-2: i18n миграция homepage + player** ✅
+   - Мигрированы: `HomeQuickCreate`, `HomeSearchBar`, `Index.tsx`, `CompactPlayer`, `CompactPlayerButtons`
+   - +96 ключей RU, +95 ключей EN (`home.*`, `player.*`, `common.refresh`)
+3. **B-3: PullToRefresh scope** ✅
+   - `PullToRefreshWrapper` теперь оборачивает только контент, не header/search
+4. **B-4: Player waveform shimmer** ✅
+   - Buffering shimmer overlay добавлен на mid/desktop варианты `CompactPlayer`
+5. **B-5: MixerChannel empty state** ✅
+   - Новый `disabled` prop: пустой канал отображает «Нет аудио» placeholder
+6. **useRetry hook** ✅
+   - `src/hooks/useRetry.ts` — retry на ошибку 524 с exponential backoff
+
+### Метрики:
+
+- TypeScript: 0 errors ✅
+- Unit тесты: 1691+ passing ✅
+- i18n hardcoded RU strings на homepage/player: 25+ → 0 ✅
+- PullToRefresh scope: header outside ✅
+- Design Score: C+ → B (цель)
+
+### Следующий шаг: Sprint 062 Phase C (P2 polish)
+
+- C-1: Step indicator в Custom mode
+- C-2: Volume slider hover UX (desktop)
+- C-3: GenerateSheet `h-[95dvh]` → `h-dvh`
+- C-4: HomeSearchBar memo (done in Phase B)
+
+---
+
 ## 🆕 Сессия 2026-07-09 — Sprint 058 (i18n EN/RU) ✅
 
 **Commits:** `423db524b` (B — mashup + switcher), `85593b2a4` (C — generation)
