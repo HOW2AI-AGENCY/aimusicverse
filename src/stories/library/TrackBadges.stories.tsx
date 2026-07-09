@@ -16,8 +16,18 @@ type Story = StoryObj<typeof TrackBadges>;
 
 export const Default: Story = {
   args: {
-    status: "completed",
-    isPublic: true,
-    generationMode: "generate",
+    trackId: "track-1",
+    versionCount: 2,
+    stemCount: 4,
+    queuePosition: 3,
+  },
+};
+
+export const NoContent: Story = {
+  args: {
+    trackId: "track-1",
+    versionCount: 1,
+    stemCount: 0,
+    queuePosition: null,
   },
 };

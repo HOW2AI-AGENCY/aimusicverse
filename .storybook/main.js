@@ -27,6 +27,8 @@ const config = {
       '@/contexts/telegram/index': path.join(mockDir, 'TelegramContext.tsx'),
       '@/contexts/telegram': path.join(mockDir, 'TelegramContext.tsx'),
       '@/contexts/ThemeContext': path.join(mockDir, 'ThemeContext.tsx'),
+      '@/contexts/NotificationContext': path.join(mockDir, 'NotificationContext.tsx'),
+      '@/hooks/useNotifications': path.join(mockDir, 'NotificationContext.tsx'),
     };
     return config;
   },

@@ -3,8 +3,6 @@
  */
 import type { Meta, StoryObj } from "@storybook/react";
 import { BottomNavigation } from "@/components/BottomNavigation";
-import { BrowserRouter } from "react-router-dom";
-
 const meta: Meta<typeof BottomNavigation> = {
   title: "Navigation/BottomNavigation",
   component: BottomNavigation,
@@ -12,11 +10,9 @@ const meta: Meta<typeof BottomNavigation> = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <BrowserRouter>
-        <div className="fixed bottom-0 left-0 right-0">
-          <Story />
-        </div>
-      </BrowserRouter>
+      <div className="fixed bottom-0 left-0 right-0">
+        <Story />
+      </div>
     ),
   ],
 };
