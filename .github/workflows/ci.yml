@@ -91,6 +91,16 @@ jobs:
         # Capture the FULL stdout+stderr of `vite build` so PR reviewers
         # see every warning/error without re-running locally.
 
+      - name: Fail on circular chunk warnings
+        run: |
+          if grep -i "Circular chunk:" vite-build.log; then
+            echo "❌ Circular chunk warnings detected. This causes TDZ crashes in production."
+            echo "Merge interdependent manualChunks or remove the catch-all vendor-other."
+            exit 1
+          fi
+        # Hard-block future TDZ regressions. Rollup circular chunks happen when
+        # manualChunks split modules that import each other.
+
       - name: Upload Vite build log
         if: always()
         uses: actions/upload-artifact@v4

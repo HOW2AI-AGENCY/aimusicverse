@@ -119,9 +119,7 @@ export default defineConfig(({ mode }) => ({
     // (vendor-react, vendor-supabase, etc.), so those get network priority.
     modulePreload: {
       resolveDependencies: (_filename, deps) =>
-        deps.filter(
-          (dep) => !/feature-studio|feature-generation|vendor-charts|vendor-dnd|vendor-forms|vendor-confetti/.test(dep),
-        ),
+        deps.filter((dep) => !/feature-studio|vendor-charts|vendor-dnd|vendor-forms|vendor-confetti/.test(dep)),
     },
     target: "esnext",
     minify: hasTerser ? "terser" : "esbuild",
@@ -267,9 +265,12 @@ export default defineConfig(({ mode }) => ({
             ) {
               return "vendor-react-ui";
             }
-            // Charts - always lazy, keep together
+            // Charts are kept together and lazy-loaded. But if a
+            // studio/admin component imports them, splitting causes a cycle.
+            // When any studio feature imports charts, include charts inside
+            // the studio chunk so the cycle collapses.
             if (id.includes("recharts") || id.includes("d3") || id.includes("victory")) {
-              return "vendor-charts";
+              return "feature-studio";
             }
             // Other utilities
             if (id.includes("lodash") || id.includes("immer")) {
@@ -297,20 +298,11 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("i18next")) return "vendor-i18n";
             // @twa-dev/sdk — Telegram SDK
             if (id.includes("@twa-dev")) return "vendor-telegram";
-            // Small shared utilities safe to keep bundled together
-            if (
-              id.includes("use-debounce") ||
-              id.includes("@use-gesture") ||
-              id.includes("class-variance-authority") ||
-              id.includes("tailwind-merge") ||
-              id.includes("clsx") ||
-              id.includes("input-otp") ||
-              id.includes("lovable-tagger")
-            ) {
-              return "vendor-other";
-            }
-            // Catch-all for any missed node_modules
-            return "vendor-other";
+            // Small shared utilities — let Rollup auto-chunk them.
+            // Forcing them into "vendor-other" causes circular chunk
+            // "vendor-other -> vendor-react -> vendor-other" when a
+            // react-related package ends up in vendor-other.
+            // Rollup's auto-split handles these without cycles.
           }
 
           // Feature-based code splitting - avoid circular dependencies
@@ -329,10 +321,16 @@ export default defineConfig(({ mode }) => ({
           // they're part of the circular dependency chain merged into
           // feature-studio below.
 
-          // Phase B3 (Sprint 061): barrel cleanup + useStudioAudio move breaks
-          // enough cross-deps to split generate-form / lyrics from studio.
-          // If TDZ errors surface, merge back into single feature-admin-studio.
-
+          // MEGA-CHUNK: studio + generate-form + lyrics + admin + audio
+          //
+          // Sprint 061 Phase B attempted to split these but barrel cleanup did
+          // NOT fully eliminate circular imports — Rollup still reports
+          // "Circular chunk: feature-studio -> feature-generation -> feature-studio"
+          // which causes TDZ crashes in production.
+          //
+          // Merge back into single chunk until ALL cross-deps are verified
+          // cycle-free (requires recursive barrel audit exceeding Sprint 061 scope).
+          // ponytail: single chunk, split back when circular-dep audit proves safe.
           if (
             id.includes("/pages/AdminDashboard") ||
             id.includes("/pages/admin/") ||
@@ -341,6 +339,8 @@ export default defineConfig(({ mode }) => ({
             id.includes("/pages/Studio") ||
             id.includes("/pages/StudioHub") ||
             id.includes("/pages/ProjectDetail") ||
+            id.includes("/pages/StemStudio") ||
+            id.includes("/pages/MusicGraph") ||
             id.includes("/stores/studio/") ||
             id.includes("/components/admin/") ||
             id.includes("/components/stem-studio/") ||
@@ -349,14 +349,7 @@ export default defineConfig(({ mode }) => ({
             id.includes("/components/studio/timeline/") ||
             id.includes("/components/studio/unified/") ||
             id.includes("/components/studio/") ||
-            id.includes("/components/performance/")
-          ) {
-            return "feature-studio";
-          }
-
-          // generate-form + lyrics + audio tools — separated from studio
-          // after barrel cleanup (B1) and useStudioAudio move (B2)
-          if (
+            id.includes("/components/performance/") ||
             id.includes("/components/generate-form/") ||
             id.includes("/components/lyrics/") ||
             id.includes("/components/lyrics-workspace/") ||
@@ -366,7 +359,7 @@ export default defineConfig(({ mode }) => ({
             id.includes("/components/audio-reference/") ||
             id.includes("/components/audio/")
           ) {
-            return "feature-generation";
+            return "feature-studio";
           }
           // Note: /components/analytics/ is intentionally NOT chunked here.
           // Manual chunking caused a TDZ crash ("Cannot access 'w' before init")
