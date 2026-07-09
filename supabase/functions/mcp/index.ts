@@ -89,6 +89,127 @@ var list_my_tracks_default = defineTool3({
   }
 });
 
+// src/lib/mcp/tools/get-my-profile.ts
+import { createClient as createClient4 } from "npm:@supabase/supabase-js@^2.86.0";
+import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.20.0";
+var get_my_profile_default = defineTool4({
+  name: "get_my_profile",
+  title: "Get my profile",
+  description: "Get the signed-in user's MusicVerse AI profile: display name, username, avatar, bio, and public flag.",
+  inputSchema: {},
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
+  handler: async (_input, ctx) => {
+    if (!ctx.isAuthenticated()) {
+      return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
+    }
+    const supabase = createClient4(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
+      global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    const { data, error } = await supabase.from("profiles").select("id, user_id, username, display_name, avatar_url, bio, is_public, created_at").eq("user_id", ctx.getUserId()).maybeSingle();
+    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
+    return {
+      content: [{ type: "text", text: JSON.stringify(data ?? {}, null, 2) }],
+      structuredContent: { profile: data }
+    };
+  }
+});
+
+// src/lib/mcp/tools/get-my-credits.ts
+import { createClient as createClient5 } from "npm:@supabase/supabase-js@^2.86.0";
+import { defineTool as defineTool5 } from "npm:@lovable.dev/mcp-js@0.20.0";
+var get_my_credits_default = defineTool5({
+  name: "get_my_credits",
+  title: "Get my credit balance",
+  description: "Get the signed-in user's current credit balance and gamification stats (level, XP, streak).",
+  inputSchema: {},
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
+  handler: async (_input, ctx) => {
+    if (!ctx.isAuthenticated()) {
+      return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
+    }
+    const supabase = createClient5(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
+      global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    const { data, error } = await supabase.from("user_credits").select("*").eq("user_id", ctx.getUserId()).maybeSingle();
+    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
+    return {
+      content: [{ type: "text", text: JSON.stringify(data ?? { balance: 0 }, null, 2) }],
+      structuredContent: { credits: data }
+    };
+  }
+});
+
+// src/lib/mcp/tools/list-my-playlists.ts
+import { createClient as createClient6 } from "npm:@supabase/supabase-js@^2.86.0";
+import { defineTool as defineTool6 } from "npm:@lovable.dev/mcp-js@0.20.0";
+import { z as z4 } from "npm:zod@^4.4.3";
+var list_my_playlists_default = defineTool6({
+  name: "list_my_playlists",
+  title: "List my playlists",
+  description: "List the signed-in user's playlists with title, description, cover, and track count.",
+  inputSchema: {
+    limit: z4.number().int().min(1).max(100).default(20).describe("Max results (1-100).")
+  },
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
+  handler: async ({ limit }, ctx) => {
+    if (!ctx.isAuthenticated()) {
+      return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
+    }
+    const supabase = createClient6(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
+      global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    const { data, error } = await supabase.from("playlists").select("*").eq("user_id", ctx.getUserId()).order("updated_at", { ascending: false }).limit(limit);
+    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
+    return {
+      content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
+      structuredContent: { playlists: data ?? [] }
+    };
+  }
+});
+
+// src/lib/mcp/tools/like-track.ts
+import { createClient as createClient7 } from "npm:@supabase/supabase-js@^2.86.0";
+import { defineTool as defineTool7 } from "npm:@lovable.dev/mcp-js@0.20.0";
+import { z as z5 } from "npm:zod@^4.4.3";
+var like_track_default = defineTool7({
+  name: "like_track",
+  title: "Like or unlike a track",
+  description: "Toggle a like on a public track as the signed-in user. Returns the new like state.",
+  inputSchema: {
+    track_id: z5.string().uuid().describe("UUID of the track to like/unlike."),
+    action: z5.enum(["like", "unlike"]).default("like").describe("Whether to add or remove the like.")
+  },
+  annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: false, openWorldHint: false },
+  handler: async ({ track_id, action }, ctx) => {
+    if (!ctx.isAuthenticated()) {
+      return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
+    }
+    const supabase = createClient7(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
+      global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    if (action === "unlike") {
+      const { error: error2 } = await supabase.from("track_likes").delete().eq("track_id", track_id).eq("user_id", ctx.getUserId());
+      if (error2) return { content: [{ type: "text", text: error2.message }], isError: true };
+      return {
+        content: [{ type: "text", text: `Unliked track ${track_id}` }],
+        structuredContent: { track_id, liked: false }
+      };
+    }
+    const { error } = await supabase.from("track_likes").insert({ track_id, user_id: ctx.getUserId() });
+    if (error && !error.message.toLowerCase().includes("duplicate")) {
+      return { content: [{ type: "text", text: error.message }], isError: true };
+    }
+    return {
+      content: [{ type: "text", text: `Liked track ${track_id}` }],
+      structuredContent: { track_id, liked: true }
+    };
+  }
+});
+
 // src/lib/mcp/index.ts
 var projectRef = "ygmvthybdrqymfsqifmj";
 var mcp_default = defineMcp({
@@ -100,7 +221,7 @@ var mcp_default = defineMcp({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated"
   }),
-  tools: [search_public_tracks_default, get_track_default, list_my_tracks_default]
+  tools: [search_public_tracks_default, get_track_default, list_my_tracks_default, get_my_profile_default, get_my_credits_default, list_my_playlists_default, like_track_default]
 });
 
 // lovable-mcp-supabase-entry.ts
