@@ -11,6 +11,7 @@
  */
 
 import { useState, useCallback, useEffect, lazy, Suspense } from "react";
+import { Loader2 } from "@/lib/icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
@@ -251,17 +252,17 @@ const Index = () => {
         </div>
 
         {generateSheetOpen && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<Loader2 className="h-6 w-6 animate-spin text-primary" />}>
             <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
           </Suspense>
         )}
         {recognitionDialogOpen && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<Loader2 className="h-6 w-6 animate-spin text-primary" />}>
             <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />
           </Suspense>
         )}
         {audioDialogOpen && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<Loader2 className="h-6 w-6 animate-spin text-primary" />}>
             <AudioActionDialog
               open={audioDialogOpen}
               onOpenChange={setAudioDialogOpen}

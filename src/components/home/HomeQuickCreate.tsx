@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { glass } from "@/lib/glass";
 
 interface HomeQuickCreateProps {
-  onCreateClick: () => void;
+  onCreateClick: (mode?: "track" | "riff" | "cover" | "remix") => void;
   className?: string;
 }
 
@@ -26,10 +26,17 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
   const reducedMotion = useReducedMotion();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const handleCreate = useCallback(() => {
-    hapticFeedback("medium");
-    onCreateClick();
-  }, [hapticFeedback, onCreateClick]);
+  const handleCreate = useCallback(
+    (mode?: "track" | "riff" | "cover" | "remix") => {
+      hapticFeedback("medium");
+      onCreateClick(mode);
+    },
+    [hapticFeedback, onCreateClick],
+  );
+
+  const handleFabClick = useCallback(() => {
+    handleCreate();
+  }, [handleCreate]);
 
   const handleExpand = useCallback(() => {
     hapticFeedback("light");
@@ -83,10 +90,10 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
         {/* FAB - Primary action */}
         <div className="flex items-center gap-3 lg:gap-4">
           <Button
-            onClick={handleCreate}
+            onClick={handleFabClick}
             className={cn(
               "flex-1 h-12 lg:h-14 min-h-touch",
-              "bg-gradient-to-r from-primary to-generate",
+              "bg-gradient-to-r from-primary to-primary/60",
               "text-white font-semibold lg:text-lg",
               "shadow-lg shadow-primary/25 glow-primary",
               "hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5",
@@ -133,10 +140,10 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
             >
               <div className="mt-3 lg:mt-4 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3">
                 {[
-                  { Icon: Music2, label: "Трек", description: "Полный трек" },
-                  { Icon: Guitar, label: "Рифф", description: "Инструментал" },
-                  { Icon: Mic2, label: "Кавер", description: "Переделка" },
-                  { Icon: Wand2, label: "Ремикс", description: "Новый звук" },
+                  { Icon: Music2, label: "Трек", description: "Полный трек", mode: "track" as const },
+                  { Icon: Guitar, label: "Рифф", description: "Инструментал", mode: "riff" as const },
+                  { Icon: Mic2, label: "Кавер", description: "Переделка", mode: "cover" as const },
+                  { Icon: Wand2, label: "Ремикс", description: "Новый звук", mode: "remix" as const },
                 ].map((opt, i) => (
                   <motion.div
                     key={opt.label}
@@ -148,7 +155,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
                       Icon={opt.Icon}
                       label={opt.label}
                       description={opt.description}
-                      onClick={handleCreate}
+                      onClick={() => handleCreate(opt.mode)}
                     />
                   </motion.div>
                 ))}
