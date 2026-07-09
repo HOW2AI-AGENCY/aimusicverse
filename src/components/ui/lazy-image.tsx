@@ -64,7 +64,7 @@ export const LazyImage = memo(function LazyImage({
           observerRef.current?.disconnect();
         }
       },
-      { rootMargin: "160px" },
+      { rootMargin: "800px" },
     );
 
     observerRef.current.observe(element);
