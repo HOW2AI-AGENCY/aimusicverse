@@ -259,7 +259,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   const PrevButton = <PrevBtn onClick={handlePrevTrack} />;
   const CloseButton = <CloseBtn onClick={handleClose} />;
   const LikeButton = <LikeBtn onClick={handleLike} isLiked={isLiked} />;
-  const VolumePopover = <VolumeControl volume={volume} setVolume={setVolume} />;
+  const VolumePopover = <VolumeControl volume={volume} setVolume={setVolume} variant={variant} />;
   const ExpandButton = <ExpandBtn onClick={handleExpand} />;
 
   const Waveform = ({ heightClass, isLoading }: { heightClass: string; isLoading?: boolean }) => (

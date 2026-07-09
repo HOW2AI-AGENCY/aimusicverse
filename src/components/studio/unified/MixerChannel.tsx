@@ -57,6 +57,21 @@ export const MixerChannel = memo(function MixerChannel({
 }: MixerChannelProps) {
   const haptic = useHapticFeedback();
 
+  const handleMute = useCallback(() => {
+    haptic.select();
+    onToggleMute();
+  }, [haptic, onToggleMute]);
+
+  const handleSolo = useCallback(() => {
+    haptic.select();
+    onToggleSolo();
+  }, [haptic, onToggleSolo]);
+
+  const handleEffects = useCallback(() => {
+    haptic.select();
+    onOpenEffects?.();
+  }, [haptic, onOpenEffects]);
+
   // Empty state — no stem loaded, show placeholder
   if (disabled) {
     return (
@@ -80,21 +95,6 @@ export const MixerChannel = memo(function MixerChannel({
       </motion.div>
     );
   }
-
-  const handleMute = useCallback(() => {
-    haptic.select();
-    onToggleMute();
-  }, [haptic, onToggleMute]);
-
-  const handleSolo = useCallback(() => {
-    haptic.select();
-    onToggleSolo();
-  }, [haptic, onToggleSolo]);
-
-  const handleEffects = useCallback(() => {
-    haptic.select();
-    onOpenEffects?.();
-  }, [haptic, onOpenEffects]);
 
   if (compact) {
     return (
