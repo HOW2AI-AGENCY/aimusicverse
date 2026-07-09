@@ -343,7 +343,7 @@ const Index = () => {
         )}
       </div>
 
-      <HomeStickyCTA />
+      {/* HomeStickyCTA removed — Create is available in the sidebar (desktop) and bottom nav (mobile). */}
       {!isMobile && <ContextHints context="generation" delay={4000} />}
     </div>
   );
