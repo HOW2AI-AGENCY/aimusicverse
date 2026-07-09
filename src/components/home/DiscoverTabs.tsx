@@ -282,7 +282,7 @@ export const DiscoverTabs = memo(function DiscoverTabs({
   }
 
   return (
-    <Tabs value={tab} onValueChange={(v) => setTab(v as "popular" | "new")} className="w-full space-y-3">
+    <Tabs value={tab} onValueChange={(v) => setTab(v as "popular" | "new")} className="w-full space-y-2">
       <TabsList className="inline-flex h-9">
         <TabsTrigger value="popular" className="text-xs sm:text-sm gap-1.5">
           <TrendingUp className="h-3.5 w-3.5" />

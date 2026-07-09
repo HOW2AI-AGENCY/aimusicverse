@@ -136,7 +136,7 @@ const Index = () => {
   // === 4 semantic clusters — every one wrapped in <Section/> ===
   const heroBlock = useMemo(
     () => (
-      <Section sectionId="hero" density="comfortable" tone="plain">
+      <Section sectionId="hero" density="compact" tone="plain">
         {isNewUser ? (
           <FirstTimeHeroCard onCreateClick={handleCreate} />
         ) : (
@@ -154,7 +154,7 @@ const Index = () => {
         eyebrow={t("home.section.create")}
         title={t("home.section.title")}
         subtitle={t("home.section.subtitle")}
-        density="comfortable"
+        density="compact"
       >
         <HomeQuickCreate onCreateClick={handleCreate} />
         <CreativePresetsSection onTrackPresetSelect={handleQuickGenrePreset} />
@@ -211,7 +211,7 @@ const Index = () => {
 
   const trendingBlock = useMemo(
     () => (
-      <Section sectionId="trending" density="comfortable" tone="plain">
+      <Section sectionId="trending" density="compact" tone="plain">
         <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackTrending")} />}>
           <FeaturedSection
             tracks={popularTracks}
@@ -255,10 +255,10 @@ const Index = () => {
   // ponytail: inline style for var() dynamic padding not expressible in Tailwind classes
   const bottomPaddingStyle = useMemo(() => {
     if (isMobile) {
-      const rem = activeTrack ? "8rem" : "4rem";
+      const rem = activeTrack ? "6rem" : "3rem";
       return `calc(env(safe-area-inset-bottom, 0px) + ${rem})`;
     }
-    return activeTrack ? "4rem" : "1rem";
+    return activeTrack ? "2rem" : "1rem";
   }, [isMobile, activeTrack]);
 
   return (
