@@ -186,13 +186,13 @@ export default defineConfig(({ mode }) => ({
             ) {
               return "vendor-react";
             }
-            if (id.includes("react-router") || id.includes("react-redux")) {
+            if (
+              id.includes("react-router") ||
+              id.includes("zustand") ||
+              id.includes("use-sync-external-store") ||
+              id.includes("react-redux")
+            ) {
               return "vendor-react";
-            }
-            // Zustand + sync-external-store: separate to break circular chunk
-            // (vendor-other(catch-all) → vendor-react(zustand) → vendor-other)
-            if (id.includes("zustand") || id.includes("use-sync-external-store")) {
-              return "vendor-state";
             }
             // opensheetmusicdisplay - ENORMOUS (1.2MB), always lazy loaded
             if (id.includes("opensheetmusicdisplay")) {
