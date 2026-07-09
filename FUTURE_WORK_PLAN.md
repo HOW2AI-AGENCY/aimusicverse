@@ -1,8 +1,8 @@
 # План дальнейших работ MusicVerse AI
 
 **Дата:** 2026-07-09
-**Статус:** Sprint 059-A ✅ (circular deps fixed, barrel re-exports removed), Sprint 059-B ✅ (+9 service test files, +100 tests), tsc 0 errors, 1679 unit tests, 0 circular chunk warnings. Следующий review: 2026-07-13.
-**Фокус:** API/Service unit tests → Bundle size reduction (1.8 MB goal) → Design polish
+**Статус:** Sprint 063 ✅ (Homepage UX fixes, 100-point audit P0/P1 complete). tsc 0 errors, 1691 unit tests, 0 circular chunk warnings. Следующий review: 2026-07-13.
+**Фокус:** Remaining P2 items from audit → Edge function decomposition → Bundle size (2.11 MB → ≤1.8 MB)
 
 ---
 
@@ -145,21 +145,22 @@
 
 ```
 Week 1 (July 9-13):
-  Mon-Tue:  Sprint 058 setup (react-i18next install, locales structure)
-  Wed-Fri:  Pilot domain migration (MASHUP_STRINGS → t('mashup.*'))
+  Mon-Tue:  Sprint 063 — Homepage UI/UX P0/P1 fixes (completed)
+  Wed-Fri:  Sprint 064 — P2 polish + Edge func decomp planning
 
 Week 2 (July 14-20):
-  Mon-Wed:  Sprint 058 completion (2nd domain, language switcher)
-  Thu-Fri:  Sprint 059 part A — bundle analysis, size:why
+  Mon-Wed:  Sprint 064-A — P2 audit items (stagger, motion, tablet cols, sheet right-side)
+  Thu-Fri:  Sprint 064-B — Edge function decomposition (telegram-bot, suno-callback)
 
 Week 3 (July 21-27):
-  Mon-Fri:  Sprint 059 part B — API/Service unit tests, edge function decomp
+  Mon-Wed:  Sprint 064-C — Bundle reduction (lazy modals, image sizes, feature-studio audit)
+  Thu-Fri:  Sprint 065 — API/Service tests + Storybook coverage (target: 1700+ tests, 50+ stories)
 
 Week 4 (July 28 - Aug 3):
-  Mon-Fri:  Sprint 060 — design polish (search, skeleton, transitions)
+  Mon-Fri:  Sprint 066 — Sentry vulnerability fixes + perf budgets CI
 
 Week 5 (Aug 4-8):
-  Backlog: Edge functions декомпозиция, Storybook coverage
+  Backlog: Translation pipeline, license compliance, Lighthouse CI
 ```
 
 ---
@@ -173,7 +174,9 @@ Week 5 (Aug 4-8):
 | **059** | Bundle optimization (A) + API/Service unit tests (B) | ✅ ЗАВЕРШЁН |
 | **060** | Design polish (search, skeleton, transitions)        | ✅ ЗАВЕРШЁН |
 | **061** | Bundle: vendor splits + barrel cleanup + chunk split | ✅ ЗАВЕРШЁН |
-| **062** | UI/UX Audit: P0/P1 fixes (A+B ✅), P2 polish (C 🔄)  | 🔄 В РАБОТЕ |
+| **062** | UI/UX Audit: P0/P1 fixes (A+B ✅), P2 polish (C ✅)  | ✅ ЗАВЕРШЁН |
+| **063** | Homepage UX audit P0/P1 fixes                        | ✅ ЗАВЕРШЁН |
+| **064** | P2 polish + Edge func decomp + Bundle                | 📋 ПЛАН     |
 
 ---
 
@@ -197,7 +200,7 @@ Week 5 (Aug 4-8):
 
 ---
 
-**Последнее обновление:** 2026-07-09 (Sprint 061 ✅ + Sprint 062 📋)
+**Последнее обновление:** 2026-07-09 (Sprint 063 ✅ + Sprint 064 📋)
 **Следующий review:** 2026-07-13
 </content>
 </invoke>

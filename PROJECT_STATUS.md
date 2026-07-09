@@ -995,14 +995,14 @@ Sprint 056 успешно завершён:
 
 ## 🆕 Сессия 2026-07-09 — Sprint 063 (Homepage UI/UX Fixes) ✅
 
-**Commit:** `tbd` (pending)
+**Commits:** `7013e55c4` (core) · `c662d0a4a` (follow-up)
 
 ### Выполнено:
 
 1. **P0: Data Loading** ✅
    - `usePublicContentBatch`: `staleTime: Infinity` (was 5 min)
    - Removed `prompt` column from SELECT (no unused data)
-   - Removed `user?.id` from query key (no refetch on login/logout)
+   - Queries already parallel via `Promise.all` (audit 1.1 false positive)
 
 2. **P0: GenerateSheet Desktop** ✅
    - Added `lg:max-h-[90vh] lg:max-w-[680px] lg:rounded-2xl lg:mx-auto`
@@ -1013,17 +1013,26 @@ Sprint 056 успешно завершён:
    - Version selector hidden when `showActions=false`
    - Swipe drag disabled on discovery cards
    - Card height: `min-h-[84px]`→`[56px]`, tags 3→2, title clamp 2→1 line
+   - Hover effects: 3 properties → 1 (shadow only)
+   - Grid gaps: `gap-3 sm:gap-4` → `gap-2.5 sm:gap-3`
 
 4. **P1: Section Spacing** ✅
    - Grid gap: `gap-6 lg:gap-8 xl:gap-10 2xl:gap-12` → `gap-4 lg:gap-6 xl:gap-8 2xl:gap-10`
    - Section density: genres/ai-suggest `comfortable`→`compact`
    - Bottom padding: mobile 12rem→8rem/6rem→4rem, desktop 6rem→4rem
+   - `bottomPadding` style memoized (was inline object per render)
 
 5. **P1: Performance** ✅
    - Preload covers: 4→8
    - Virtualization threshold: 24→16
    - Index sections wrapped in `useMemo`
    - Sidebar padding reduced: `pl-6 xl:pl-8` → `pl-4 xl:pl-5`
+
+6. **P1: False Positives Confirmed** ✅
+   - 7.2 — HomeStickyCTA already shows once, self-dismisses
+   - 9.8 — query key already clean (no `user?.id`)
+   - 6.1 — HorizontalTrackScroller already has `priorityCount=4`
+   - 2.9 — sheets already state-gated
 
 ### Метрики:
 
