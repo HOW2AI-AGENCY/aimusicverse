@@ -264,10 +264,10 @@ export const EnhancedVariant = memo(function EnhancedVariant({
             </div>
 
             {/* Content - increased padding for mobile */}
-            <div className={cn("relative", compact ? "p-2.5" : "p-3 sm:p-2.5")}>
+            <div className={cn("relative min-w-0", compact ? "p-2.5" : "p-3 sm:p-2.5")}>
               <h3
                 className={cn(
-                  "font-semibold line-clamp-2 transition-colors",
+                  "font-semibold line-clamp-2 break-words transition-colors",
                   compact ? "text-xs" : "text-sm",
                   isHovered && "text-primary",
                 )}
@@ -277,7 +277,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
 
               {/* Creator Info */}
               {(track.creator_name || track.creator_username) && (
-                <div className="flex items-center gap-1.5 mt-1">
+                  <div className="flex min-w-0 items-center gap-1.5 mt-1">
                   <CreatorAvatar
                     userId={track.user_id}
                     photoUrl={track.creator_photo_url}
@@ -289,12 +289,12 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                     userId={track.user_id}
                     name={track.creator_name}
                     username={track.creator_username}
-                    className="text-overline text-muted-foreground truncate max-w-32"
+                      className="min-w-0 flex-1 text-overline text-muted-foreground truncate"
                   />
 
                   {/* Follow badge if following */}
                   {isFollowing && (
-                    <span className="inline-flex items-center gap-0.5 text-overline text-primary bg-primary/10 px-1.5 py-0.5 rounded-full font-medium">
+                    <span className="inline-flex shrink-0 items-center gap-0.5 text-overline text-primary bg-primary/10 px-1.5 py-0.5 rounded-full font-medium">
                       <Check className="w-2.5 h-2.5" aria-hidden="true" />
                       Подписка
                     </span>

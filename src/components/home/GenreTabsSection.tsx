@@ -238,7 +238,7 @@ export function GenreTabsSection({
               tracks={tracksByGenre[genre.id] || []}
               isLoading={isLoading || (genre.id === activeGenre && isActiveGenreLoading)}
               maxTracks={20}
-              columns={2}
+              columns={4}
               showMoreLink={`/community?genre=${genre.id}`}
               showMoreLabel={`Все ${genre.label.toLowerCase()}`}
               onRemix={onRemix}
