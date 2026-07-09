@@ -201,6 +201,7 @@ const App = () => (
                       <Routes>
                         <Route path="/auth" element={<Auth />} />
                         <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
+                        <Route path="/connect" element={<Connect />} />
 
                         {/* Routes with BottomNavigation */}
                         <Route
