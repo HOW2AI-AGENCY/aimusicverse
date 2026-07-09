@@ -24,7 +24,7 @@ import { useHomePageEffects } from "@/hooks/useHomePageEffects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useOpenGenerateFromDeeplink } from "@/hooks/useOpenGenerateFromDeeplink";
 import { listenOpenGenerateSheet } from "@/lib/events";
-import { HomeStickyCTA } from "@/components/home/HomeStickyCTA";
+// HomeStickyCTA removed — primary Create action is in the nav (sidebar on desktop, bottom nav on mobile).
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { HomeSearchBar } from "@/components/home/HomeSearchBar";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
@@ -282,7 +282,7 @@ const Index = () => {
           onProfileClick={goToProfile}
         />
 
-        <div className={cn("mt-3 mb-2", isMobile ? "" : "max-w-md")}>
+        <div className="mt-3 mb-2 w-full">
           <HomeSearchBar onSearch={(q) => navigate(`/library?q=${encodeURIComponent(q)}`)} />
         </div>
 
@@ -298,8 +298,8 @@ const Index = () => {
               2xl+   (ultra):      10/2 compact, generous internal breathing room
             items-start prevents the aside from stretching vertically.
           */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 items-start">
-            <div className={cn("lg:col-span-8 xl:col-span-8 2xl:col-span-9 min-w-0", sectionTokens.blockGap)}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-start">
+            <div className={cn("lg:col-span-8 xl:col-span-9 min-w-0", sectionTokens.blockGap)}>
               {heroBlock}
               {createBlock}
               {trendingBlock}
@@ -310,9 +310,8 @@ const Index = () => {
 
             <aside
               className={cn(
-                "hidden lg:block lg:col-span-4 xl:col-span-4 2xl:col-span-3 min-w-0",
+                "hidden lg:block lg:col-span-4 xl:col-span-3 min-w-0",
                 "lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain",
-                "lg:border-l lg:border-border/40 lg:pl-4 xl:pl-5",
                 "scrollbar-thin scrollbar-thumb-border/40 scrollbar-track-transparent",
               )}
               aria-label={t("home.section.sidebar")}
@@ -343,7 +342,7 @@ const Index = () => {
         )}
       </div>
 
-      <HomeStickyCTA />
+      {/* HomeStickyCTA removed — Create is available in the sidebar (desktop) and bottom nav (mobile). */}
       {!isMobile && <ContextHints context="generation" delay={4000} />}
     </div>
   );
