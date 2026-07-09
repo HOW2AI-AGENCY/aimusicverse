@@ -8,7 +8,7 @@
  * - Swipe gestures preserved
  */
 
-import { memo, useState, useCallback } from "react";
+import { memo, useState, useCallback, lazy, Suspense } from "react";
 import { motion, PanInfo } from "@/lib/motion";
 import { Heart, Trash2, MoreHorizontal, Layers, Music2 } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
@@ -19,7 +19,11 @@ import { hapticImpact, hapticNotification } from "@/lib/haptic";
 import { notify } from "@/lib/notifications";
 import { LazyImage } from "@/components/ui/lazy-image";
 import { PlayOverlay, DurationBadge } from "@/components/library/shared";
-import { UnifiedTrackSheet } from "@/components/track-actions";
+
+// Lazy — heavy track-actions tree (~30KB+), only 1% of cards have sheet open at once
+const UnifiedTrackSheet = lazy(() =>
+  import("@/components/track-actions").then((m) => ({ default: m.UnifiedTrackSheet })),
+);
 import { QuickLikeButton } from "@/components/track/QuickLikeButton";
 import { QuickQueueButton } from "@/components/track/QuickQueueButton";
 import { UnifiedVersionSelector } from "@/components/shared/UnifiedVersionSelector";
@@ -29,16 +33,30 @@ import { CardCoverActionBar } from "../components/CardCoverActionBar";
 import { CardFollowButton } from "../components/CardFollowButton";
 import type { StandardTrackCardProps } from "../types";
 import type { Track } from "@/types/track";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+
+// Lazy — AlertDialog only renders on delete swipe (~0.5% of cards)
+const AlertDialog = lazy(() => import("@/components/ui/alert-dialog").then((m) => ({ default: m.AlertDialog })));
+const AlertDialogAction = lazy(() =>
+  import("@/components/ui/alert-dialog").then((m) => ({ default: m.AlertDialogAction })),
+);
+const AlertDialogCancel = lazy(() =>
+  import("@/components/ui/alert-dialog").then((m) => ({ default: m.AlertDialogCancel })),
+);
+const AlertDialogContent = lazy(() =>
+  import("@/components/ui/alert-dialog").then((m) => ({ default: m.AlertDialogContent })),
+);
+const AlertDialogDescription = lazy(() =>
+  import("@/components/ui/alert-dialog").then((m) => ({ default: m.AlertDialogDescription })),
+);
+const AlertDialogFooter = lazy(() =>
+  import("@/components/ui/alert-dialog").then((m) => ({ default: m.AlertDialogFooter })),
+);
+const AlertDialogHeader = lazy(() =>
+  import("@/components/ui/alert-dialog").then((m) => ({ default: m.AlertDialogHeader })),
+);
+const AlertDialogTitle = lazy(() =>
+  import("@/components/ui/alert-dialog").then((m) => ({ default: m.AlertDialogTitle })),
+);
 
 export const GridVariant = memo(function GridVariant({
   track,
@@ -272,35 +290,37 @@ export const GridVariant = memo(function GridVariant({
       </motion.div>
 
       {/* Track Sheet — only in library/feature context, not discovery */}
-      {showActions && (
-        <UnifiedTrackSheet
-          track={track as unknown as Track}
-          open={sheetOpen}
-          onOpenChange={setSheetOpen}
-          onDelete={onDelete}
-          onDownload={onDownload}
-        />
-      )}
+      <Suspense fallback={null}>
+        {showActions && (
+          <UnifiedTrackSheet
+            track={track as unknown as Track}
+            open={sheetOpen}
+            onOpenChange={setSheetOpen}
+            onDelete={onDelete}
+            onDownload={onDownload}
+          />
+        )}
 
-      {/* Delete Confirmation — only when delete is possible */}
-      {canDelete && (
-        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Удалить трек?</AlertDialogTitle>
-              <AlertDialogDescription>
-                Вы уверены, что хотите удалить "{track.title}"? Это действие нельзя отменить.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Отмена</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
-                Удалить
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      )}
+        {/* Delete Confirmation — only when delete is possible */}
+        {canDelete && (
+          <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Удалить трек?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Вы уверены, что хотите удалить "{track.title}"? Это действие нельзя отменить.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Отмена</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
+                  Удалить
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
+      </Suspense>
     </>
   );
 });
