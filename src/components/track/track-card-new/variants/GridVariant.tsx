@@ -227,7 +227,7 @@ export const GridVariant = memo(function GridVariant({
           <div className="p-2 flex flex-col gap-1 min-h-[56px]">
             <div className="flex items-start justify-between gap-1.5 sm:gap-2 min-h-0">
               <h3
-                className="font-semibold text-xs sm:text-sm flex-1 min-w-0 leading-tight line-clamp-1 break-words"
+                className="font-semibold text-xs sm:text-sm flex-1 min-w-0 leading-tight line-clamp-1 break-words truncate"
                 title={track.title || undefined}
               >
                 {track.title || "Без названия"}
@@ -239,7 +239,7 @@ export const GridVariant = memo(function GridVariant({
                   size="icon"
                   variant="ghost"
                   className={cn(
-                    "w-9 h-9 min-w-[44px] min-h-[44px] flex-shrink-0 -mt-1 transition-opacity rounded-full",
+                    "w-8 h-8 min-w-8 min-h-8 flex-shrink-0 -mt-1 transition-opacity rounded-full",
                     isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100",
                   )}
                   onClick={(e) => {
@@ -263,15 +263,7 @@ export const GridVariant = memo(function GridVariant({
               className="mt-auto"
             />
 
-            {/* Version switcher - only when multiple versions exist and actions shown */}
-            {showActions && versionCount > 1 && (
-              <UnifiedVersionSelector
-                trackId={track.id}
-                variant="inline"
-                showLabels={false}
-                className="flex-shrink-0"
-              />
-            )}
+            {/* Version switcher removed — version switching is in UnifiedTrackSheet */}
           </div>
         </Card>
       </motion.div>

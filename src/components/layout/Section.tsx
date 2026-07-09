@@ -189,7 +189,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
  */
 export const sectionTokens = {
   /** Gap between top-level Section blocks on a page. */
-  blockGap: "space-y-10 xl:space-y-14",
+  blockGap: "space-y-6 xl:space-y-8",
   /** Inner container horizontal padding. */
   containerPadding: "px-4 sm:px-6 lg:px-8",
   /** Max width for the page shell. */

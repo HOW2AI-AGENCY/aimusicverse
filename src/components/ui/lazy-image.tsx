@@ -15,6 +15,8 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   responsive?: boolean;
   /** Aspect ratio for container (e.g., "1/1", "16/9") */
   aspectRatio?: string;
+  /** Max retry attempts on image load error (default 1) */
+  maxRetries?: number;
 }
 
 export const LazyImage = memo(function LazyImage({
@@ -27,10 +29,12 @@ export const LazyImage = memo(function LazyImage({
   priority = false,
   responsive = false,
   aspectRatio,
+  maxRetries = 1,
   ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const [shouldLoad, setShouldLoad] = useState(priority);
@@ -72,12 +76,13 @@ export const LazyImage = memo(function LazyImage({
     return () => {
       observerRef.current?.disconnect();
     };
-  }, [priority, shouldLoad]);
+  }, [priority, shouldLoad, src]);
 
   // Reset state when src changes
   useEffect(() => {
     setIsLoaded(false);
     setHasError(false);
+    setRetryCount(0);
   }, [src]);
 
   const handleLoad = useCallback(() => {
@@ -85,8 +90,17 @@ export const LazyImage = memo(function LazyImage({
   }, []);
 
   const handleError = useCallback(() => {
-    setHasError(true);
-  }, []);
+    if (retryCount < maxRetries) {
+      const delay = 800 * (retryCount + 1);
+      setTimeout(() => {
+        setRetryCount((c) => c + 1);
+        setHasError(false);
+        setIsLoaded(false);
+      }, delay);
+    } else {
+      setHasError(true);
+    }
+  }, [retryCount, maxRetries]);
 
   // Resolve container style: explicit width/height OR aspectRatio reserve space to prevent CLS.
   const hasFixedSize = props.width != null && props.height != null;

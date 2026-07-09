@@ -135,7 +135,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
       >
         <SheetContent
           side="bottom"
-          className="h-dvh sm:h-[85vh] lg:max-h-[90vh] lg:max-w-[680px] lg:rounded-2xl lg:mx-auto flex flex-col frost-sheet p-0 w-full max-w-full min-w-0 overflow-x-hidden"
+          className="h-dvh sm:h-[85vh] lg:h-dvh lg:max-w-[680px] lg:rounded-2xl lg:mx-auto flex flex-col frost-sheet p-0 w-full max-w-full min-w-0 overflow-x-hidden"
           hideCloseButton
           hideTitle
           accessibleTitle="Создание музыки"

@@ -242,51 +242,28 @@ export function GenerateFormSimple({
 
       <FormDivider />
 
-      {/* ========== TRACK TYPE — segmented control ========== */}
+      {/* ========== TRACK TYPE — single toggle ========== */}
       <FormSection>
         <div className="space-y-2">
           <SectionLabel label={g.form.trackType} hint={hints.trackType} />
-          <div
-            className="relative grid grid-cols-2 gap-1 p-1 h-11 bg-muted/40 rounded-full border border-border/50"
-            role="radiogroup"
-            aria-label={g.form.trackType}
+          <button
+            type="button"
+            onClick={() => handleVocalsToggle(!hasVocals)}
+            className={cn(
+              "flex items-center justify-center gap-2 h-11 px-4 rounded-full text-body-sm font-semibold transition-all border",
+              hasVocals
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-muted/40 text-muted-foreground hover:text-foreground border-border/50",
+            )}
+            aria-pressed={hasVocals}
           >
-            <motion.div
-              layout
-              transition={{ type: "spring", stiffness: 400, damping: 32 }}
-              className="absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full bg-gradient-to-br from-primary to-primary/85 shadow-[0_4px_14px_-4px_hsl(var(--primary)/0.5)]"
-              style={{ x: hasVocals ? 0 : "calc(100% + 4px)" }}
-              aria-hidden="true"
-            />
-            <button
-              type="button"
-              role="radio"
-              aria-checked={hasVocals}
-              onClick={() => handleVocalsToggle(true)}
-              className={cn(
-                "relative z-10 flex items-center justify-center gap-1.5 h-full rounded-full text-body-sm font-semibold transition-colors",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                hasVocals ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground",
-              )}
-            >
+            {hasVocals ? (
               <Mic className="w-4 h-4" aria-hidden="true" />
-              {g.vocalToggle.vocalLabel}
-            </button>
-            <button
-              type="button"
-              role="radio"
-              aria-checked={!hasVocals}
-              onClick={() => handleVocalsToggle(false)}
-              className={cn(
-                "relative z-10 flex items-center justify-center gap-1.5 h-full rounded-full text-body-sm font-semibold transition-colors",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                !hasVocals ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground",
-              )}
-            >
+            ) : (
               <Music2 className="w-4 h-4" aria-hidden="true" />
-              {g.vocalToggle.instrumentalLabel}
-            </button>
-          </div>
+            )}
+            {hasVocals ? g.vocalToggle.vocalLabel : g.vocalToggle.instrumentalLabel}
+          </button>
         </div>
       </FormSection>
 

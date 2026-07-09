@@ -166,7 +166,10 @@ export function SmartPromptSuggestions({
           <span>Быстрые идеи:</span>
         </div>
 
-        <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain pb-1 scrollbar-none -mx-1 px-1">
+        <div
+          className="w-full min-w-0 overflow-x-auto overscroll-x-contain pb-1 -mx-1 px-1"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           <div className="inline-flex gap-1.5 min-w-max pr-2">
             {PROMPT_TEMPLATES.slice(0, 6).map((template) => {
               const Icon = template.icon;

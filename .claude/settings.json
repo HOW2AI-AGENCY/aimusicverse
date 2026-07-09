@@ -42,9 +42,7 @@
       "Bash(mkdir -p node_modules/.cache)",
       "Bash(git log --oneline *)"
     ],
-    "additionalDirectories": [
-      "D://.MUSICVERSE//aimusicverse"
-    ]
+    "additionalDirectories": ["D://.MUSICVERSE//aimusicverse"]
   },
   "hooks": {
     "SessionStart": [
@@ -131,5 +129,8 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "lovable@claude-plugins-official": true
   }
 }

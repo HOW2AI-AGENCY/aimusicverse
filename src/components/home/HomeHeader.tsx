@@ -142,7 +142,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
     <motion.header
       className={cn("sticky top-0 z-20 -mx-4 px-3 pb-2", glass.nav, "border-b border-border/50", className)}
       style={{
-        paddingTop: TELEGRAM_SAFE_AREA.homeHeaderTop,
+        paddingTop: TELEGRAM_SAFE_AREA.stickyHeaderTop,
       }}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}

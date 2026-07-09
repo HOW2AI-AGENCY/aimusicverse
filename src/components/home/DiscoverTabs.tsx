@@ -9,11 +9,12 @@
  */
 
 import { memo, useState, forwardRef, useMemo, useCallback, useRef } from "react";
+import { useAutoLoadMore } from "@/hooks/useAutoLoadMore";
 import { VirtuosoGrid } from "react-virtuoso";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UnifiedTrackCard } from "@/components/track/track-card-new";
 import { Button } from "@/components/ui/button";
-import { Loader2, TrendingUp, Sparkles, Clock, RefreshCw } from "@/lib/icons";
+import { Loader2, TrendingUp, Sparkles, RefreshCw } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useIsTablet } from "@/hooks/use-media-query";
@@ -110,11 +111,15 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
   columns,
   onTrackClick,
   onRemix,
+  onEndReached,
+  endReachedLoading,
 }: {
   tracks: TrackData[];
   columns: number;
   onTrackClick?: (track: TrackData) => void;
   onRemix?: (id: string) => void;
+  onEndReached?: () => void;
+  endReachedLoading?: boolean;
 }) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -157,30 +162,30 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
   );
 
   return (
-    <VirtuosoGrid
-      useWindowScroll
-      totalCount={tracks.length}
-      computeItemKey={computeItemKey}
-      components={gridComponents}
-      itemContent={renderItem}
-      overscan={400}
-    />
+    <>
+      <VirtuosoGrid
+        useWindowScroll
+        totalCount={tracks.length}
+        computeItemKey={computeItemKey}
+        components={gridComponents}
+        itemContent={renderItem}
+        overscan={400}
+        endReached={onEndReached}
+      />
+      {endReachedLoading && (
+        <div className="flex justify-center pt-3">
+          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+        </div>
+      )}
+    </>
   );
 });
 
-const LoadMore = ({ visible, loading, onClick }: { visible?: boolean; loading?: boolean; onClick?: () => void }) => {
-  if (!visible || !onClick) return null;
+const LoadingIndicator = ({ loading }: { loading?: boolean }) => {
+  if (!loading) return null;
   return (
     <div className="flex justify-center pt-3">
-      <Button variant="outline" size="sm" onClick={onClick} disabled={loading} className="min-w-[140px]">
-        {loading ? (
-          <>
-            <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> Загрузка…
-          </>
-        ) : (
-          "Загрузить ещё"
-        )}
-      </Button>
+      <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
     </div>
   );
 };
@@ -192,11 +197,52 @@ function TracksGrid(props: {
   columns: number;
   onTrackClick?: (track: TrackData) => void;
   onRemix?: (id: string) => void;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
+  onLoadMore?: () => void;
 }) {
   if (!props.tracks.length) {
     return <p className="text-sm text-muted-foreground text-center py-8">Пока ничего нет</p>;
   }
-  return props.tracks.length >= VIRTUALIZE_THRESHOLD ? <VirtualizedGrid {...props} /> : <Grid {...props} />;
+  // ponytail: VirtuosoGrid has its own endReached; non-virtualized grid uses IO sentinel
+  if (props.tracks.length >= VIRTUALIZE_THRESHOLD) {
+    return (
+      <VirtualizedGrid
+        tracks={props.tracks}
+        columns={props.columns}
+        onTrackClick={props.onTrackClick}
+        onRemix={props.onRemix}
+        onEndReached={props.hasMore && props.onLoadMore ? props.onLoadMore : undefined}
+        endReachedLoading={props.isLoadingMore}
+      />
+    );
+  }
+  return (
+    <>
+      <Grid tracks={props.tracks} columns={props.columns} onTrackClick={props.onTrackClick} onRemix={props.onRemix} />
+      <AutoLoadSentinel hasMore={props.hasMore} isLoading={props.isLoadingMore} onLoadMore={props.onLoadMore} />
+      <LoadingIndicator loading={props.isLoadingMore} />
+    </>
+  );
+}
+
+// Sentinel component wraps useAutoLoadMore hook to get its ref
+function AutoLoadSentinel({
+  hasMore,
+  isLoading,
+  onLoadMore,
+}: {
+  hasMore?: boolean;
+  isLoading?: boolean;
+  onLoadMore?: () => void;
+}) {
+  const sentinelRef = useAutoLoadMore<HTMLDivElement>({
+    hasMore: !!hasMore,
+    isLoading: !!isLoading,
+    onLoadMore: onLoadMore ?? (() => {}),
+  });
+  if (!hasMore || !onLoadMore) return null;
+  return <div ref={sentinelRef} className="h-4" aria-hidden="true" />;
 }
 
 export const DiscoverTabs = memo(function DiscoverTabs({
@@ -258,10 +304,15 @@ export const DiscoverTabs = memo(function DiscoverTabs({
         {isLoading && popularTracks.length === 0 ? (
           <GridSkeleton columns={columns} count={columns * 2} />
         ) : (
-          <>
-            <TracksGrid tracks={popularTracks} columns={columns} onTrackClick={onTrackClick} onRemix={onRemix} />
-            <LoadMore visible={hasMorePopular} loading={isLoadingMorePopular} onClick={onLoadMorePopular} />
-          </>
+          <TracksGrid
+            tracks={popularTracks}
+            columns={columns}
+            onTrackClick={onTrackClick}
+            onRemix={onRemix}
+            hasMore={hasMorePopular}
+            isLoadingMore={isLoadingMorePopular}
+            onLoadMore={onLoadMorePopular}
+          />
         )}
       </TabsContent>
 
@@ -269,15 +320,17 @@ export const DiscoverTabs = memo(function DiscoverTabs({
         {isLoading && recentTracks.length === 0 ? (
           <GridSkeleton columns={columns} count={columns * 2} />
         ) : (
-          <>
-            <TracksGrid tracks={recentTracks} columns={columns} onTrackClick={onTrackClick} onRemix={onRemix} />
-            <LoadMore visible={hasMoreRecent} loading={isLoadingMoreRecent} onClick={onLoadMoreRecent} />
-          </>
+          <TracksGrid
+            tracks={recentTracks}
+            columns={columns}
+            onTrackClick={onTrackClick}
+            onRemix={onRemix}
+            hasMore={hasMoreRecent}
+            isLoadingMore={isLoadingMoreRecent}
+            onLoadMore={onLoadMoreRecent}
+          />
         )}
       </TabsContent>
     </Tabs>
   );
 });
-
-// Suppress unused-import warning for Clock (kept for future "Recent" tab)
-void Clock;
