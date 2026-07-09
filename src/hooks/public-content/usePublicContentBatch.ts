@@ -10,7 +10,6 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProfilesMap, enrichTrackWithProfile } from "@/lib/enrichTracksWithProfiles";
-import { useAuth } from "../useAuth";
 import type { PublicContentData, PublicTrackWithCreator } from "./types";
 import {
   GENRE_QUERIES,
@@ -47,17 +46,15 @@ import {
  * ```
  */
 export function usePublicContentBatch() {
-  const { user } = useAuth();
-
   return useQuery({
-    queryKey: ["public-content-optimized", user?.id],
+    queryKey: ["public-content-optimized"],
     queryFn: async (): Promise<PublicContentData> => {
       // PARALLEL FETCH: Main tracks + Genre-specific tracks
       const [mainResult, ...genreResults] = await Promise.all([
         // 1. Main tracks for featured/recent/popular
         supabase
           .from("tracks")
-          .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,prompt")
+          .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre")
           .eq("is_public", true)
           .eq("status", "completed")
           .not("audio_url", "is", null)
@@ -68,7 +65,7 @@ export function usePublicContentBatch() {
         ...GENRE_QUERIES.map((genre) =>
           supabase
             .from("tracks")
-            .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,prompt")
+            .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre")
             .eq("is_public", true)
             .eq("status", "completed")
             .not("audio_url", "is", null)

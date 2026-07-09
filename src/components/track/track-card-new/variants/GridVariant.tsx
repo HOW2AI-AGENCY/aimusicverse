@@ -112,7 +112,7 @@ export const GridVariant = memo(function GridVariant({
   return (
     <>
       <motion.div
-        drag={isMobile && !sheetOpen ? "x" : false}
+        drag={isMobile && !sheetOpen && showActions ? "x" : false}
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.2}
         onDrag={handleDrag}
@@ -188,21 +188,28 @@ export const GridVariant = memo(function GridVariant({
             {/* Play Overlay */}
             <PlayOverlay isPlaying={isCurrentlyPlaying} isMobile={isMobile} onPlay={handlePlay} />
 
-            {/* Top action bar - Like / Queue / Follow, always visible on the cover */}
-            <CardCoverActionBar position="top" align="between">
-              <QuickLikeButton
-                trackId={track.id}
-                isLiked={(track as Track & { user_liked?: boolean }).is_liked}
-                size="sm"
-                variant="overlay"
-              />
-              <div className="flex items-center gap-1.5">
-                <QuickQueueButton track={track as unknown as Track} size="sm" variant="overlay" />
-                {!isOwnTrack && (
-                  <CardFollowButton userId={track.user_id} isOwnTrack={isOwnTrack} show={showFollowButton} size="sm" />
-                )}
-              </div>
-            </CardCoverActionBar>
+            {/* Top action bar - Like / Queue / Follow, visible only when showActions */}
+            {showActions && (
+              <CardCoverActionBar position="top" align="between">
+                <QuickLikeButton
+                  trackId={track.id}
+                  isLiked={(track as Track & { user_liked?: boolean }).is_liked}
+                  size="sm"
+                  variant="overlay"
+                />
+                <div className="flex items-center gap-1.5">
+                  <QuickQueueButton track={track as unknown as Track} size="sm" variant="overlay" />
+                  {!isOwnTrack && (
+                    <CardFollowButton
+                      userId={track.user_id}
+                      isOwnTrack={isOwnTrack}
+                      show={showFollowButton}
+                      size="sm"
+                    />
+                  )}
+                </div>
+              </CardCoverActionBar>
+            )}
 
             {/* Stem badge - only when stems available, kept off the action row */}
             {stemCount > 0 && (
@@ -217,10 +224,10 @@ export const GridVariant = memo(function GridVariant({
           </div>
 
           {/* Content */}
-          <div className="p-3 flex flex-col gap-1.5 min-h-[84px]">
+          <div className="p-2 flex flex-col gap-1 min-h-[56px]">
             <div className="flex items-start justify-between gap-1.5 sm:gap-2 min-h-0">
               <h3
-                className="font-semibold text-xs sm:text-sm xl:text-base 2xl:text-lg flex-1 min-w-0 leading-tight line-clamp-2 break-words"
+                className="font-semibold text-xs sm:text-sm xl:text-base flex-1 min-w-0 leading-tight line-clamp-1 break-words"
                 title={track.title || undefined}
               >
                 {track.title || "Без названия"}
@@ -251,12 +258,12 @@ export const GridVariant = memo(function GridVariant({
               style={track.style}
               tags={track.tags}
               onClick={onTagClick}
-              maxTags={3}
+              maxTags={2}
               className="mt-auto"
             />
 
-            {/* Version switcher - only when multiple versions exist */}
-            {versionCount > 1 && (
+            {/* Version switcher - only when multiple versions exist and actions shown */}
+            {showActions && versionCount > 1 && (
               <UnifiedVersionSelector
                 trackId={track.id}
                 variant="inline"

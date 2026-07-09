@@ -22,7 +22,7 @@ interface UseHomePageDataOptions {
 }
 
 export function useHomePageData(options: UseHomePageDataOptions = {}) {
-  const { preloadCount = 4, pageSize = 20 } = options;
+  const { preloadCount = 8, pageSize = 20 } = options;
 
   // Single optimized query for all public content (genres, featured, etc.)
   const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();

@@ -5,10 +5,10 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--08_AI_Activity_Panel-10B981?style=for-the-badge"/>
+  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--09_Homepage_UX_Fixes-10B981?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99.6%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1484_passing-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1691_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
   <img alt="Dependencies" src="https://img.shields.io/badge/deps-6_vulnerabilities_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=for-the-badge"/>
@@ -57,7 +57,7 @@
 ### Метрики:
 
 - TypeScript: 0 errors ✅
-- Unit тесты: 1484 passing ✅
+- Unit тесты: 1691 passing ✅
 - E2E Mobile Chrome: 30 passed ✅
 - Branch Protection: Active ✅
 
@@ -990,6 +990,46 @@ Sprint 056 успешно завершён:
 **Коммиты:** Все изменения в Sprint 056 ветке, готово к merge в main
 
 **Next Steps:** Merge to main → Begin Sprint 050 completion tasks
+
+---
+
+## 🆕 Сессия 2026-07-09 — Sprint 063 (Homepage UI/UX Fixes) ✅
+
+**Commit:** `tbd` (pending)
+
+### Выполнено:
+
+1. **P0: Data Loading** ✅
+   - `usePublicContentBatch`: `staleTime: Infinity` (was 5 min)
+   - Removed `prompt` column from SELECT (no unused data)
+   - Removed `user?.id` from query key (no refetch on login/logout)
+
+2. **P0: GenerateSheet Desktop** ✅
+   - Added `lg:max-h-[90vh] lg:max-w-[680px] lg:rounded-2xl lg:mx-auto`
+   - Fits laptop screens now
+
+3. **P1: Card Optimizations** ✅
+   - Cover action bar hidden when `showActions=false` (discovery grid)
+   - Version selector hidden when `showActions=false`
+   - Swipe drag disabled on discovery cards
+   - Card height: `min-h-[84px]`→`[56px]`, tags 3→2, title clamp 2→1 line
+
+4. **P1: Section Spacing** ✅
+   - Grid gap: `gap-6 lg:gap-8 xl:gap-10 2xl:gap-12` → `gap-4 lg:gap-6 xl:gap-8 2xl:gap-10`
+   - Section density: genres/ai-suggest `comfortable`→`compact`
+   - Bottom padding: mobile 12rem→8rem/6rem→4rem, desktop 6rem→4rem
+
+5. **P1: Performance** ✅
+   - Preload covers: 4→8
+   - Virtualization threshold: 24→16
+   - Index sections wrapped in `useMemo`
+   - Sidebar padding reduced: `pl-6 xl:pl-8` → `pl-4 xl:pl-5`
+
+### Метрики:
+
+- TypeScript: 0 errors ✅
+- Build: 0 circular chunk warnings ✅
+- Unit tests: 1691 passing ✅
 
 ---
 

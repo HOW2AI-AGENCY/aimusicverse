@@ -100,9 +100,9 @@ export const GENRE_PLAYLISTS: GenrePlaylistConfig[] = [
 ];
 
 /**
- * Default stale time for public content queries (5 minutes)
+ * Default stale time for public content queries (cached until manual refresh)
  */
-export const PUBLIC_CONTENT_STALE_TIME = 1000 * 60 * 5;
+export const PUBLIC_CONTENT_STALE_TIME = Infinity;
 
 /**
  * Default gc time for public content queries (15 minutes)

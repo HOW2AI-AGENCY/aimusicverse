@@ -36,9 +36,10 @@ const fadeInVariants: Variants = {
   visible: { opacity: 1, transition: { duration: 0.2 } },
 };
 
-// Only worth windowing once a list has grown past several "load more" pages —
-// the homepage's first page (pageSize=20) always uses the plain animated Grid.
-const VIRTUALIZE_THRESHOLD = 24;
+// Windowing kicks in once the list has grown past the first page, so the
+// plain animated grid is used for the initial viewport and virtualizer takes
+// over after "Load more" adds more rows.
+const VIRTUALIZE_THRESHOLD = 16;
 
 interface DiscoverTabsProps {
   popularTracks: TrackData[];
@@ -77,7 +78,7 @@ const Grid = memo(function Grid({
   }
   return (
     <motion.div
-      className="grid gap-3 sm:gap-4"
+      className="grid gap-2.5 sm:gap-3"
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       initial={prefersReducedMotion ? undefined : "hidden"}
       animate={prefersReducedMotion ? undefined : "visible"}
@@ -126,7 +127,7 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
         <div
           ref={ref}
           style={{ ...style, display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
-          className="gap-3 sm:gap-4"
+          className="gap-2.5 sm:gap-3"
           {...props}
         >
           {children}

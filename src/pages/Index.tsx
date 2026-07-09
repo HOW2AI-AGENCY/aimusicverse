@@ -10,7 +10,7 @@
  * Single layout function for desktop (12-col grid) and mobile (stack).
  */
 
-import { useState, useCallback, useEffect, lazy, Suspense } from "react";
+import { useState, useCallback, useMemo, useEffect, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Loader2 } from "@/lib/icons";
 import { useNavigate } from "react-router-dom";
@@ -105,19 +105,18 @@ const Index = () => {
 
   const { isNewUser } = useUserJourneyState();
 
-  const {
-    recentTracks,
-    popularTracks,
-    tracksByGenre,
-    isLoading,
-    hasMoreRecent,
-    isLoadingMoreRecent,
-    fetchMoreRecent,
-    hasMorePopular,
-    isLoadingMorePopular,
-    fetchMorePopular,
-    refresh,
-  } = useHomePageData();
+  const homePageData = useHomePageData();
+  const recentTracks = homePageData.recentTracks;
+  const popularTracks = homePageData.popularTracks;
+  const tracksByGenre = homePageData.tracksByGenre;
+  const isLoading = homePageData.isLoading;
+  const hasMoreRecent = homePageData.hasMoreRecent;
+  const isLoadingMoreRecent = homePageData.isLoadingMoreRecent;
+  const fetchMoreRecent = homePageData.fetchMoreRecent;
+  const hasMorePopular = homePageData.hasMorePopular;
+  const isLoadingMorePopular = homePageData.isLoadingMorePopular;
+  const fetchMorePopular = homePageData.fetchMorePopular;
+  const refresh = homePageData.refresh;
 
   const { goToProfile, handleCreate, handleTrackClick, handleQuickGenrePreset } = useHomePageHandlers({
     onOpenGenerateSheet: openGenerateSheet,
@@ -132,90 +131,125 @@ const Index = () => {
   const displayUser = profile || telegramUser;
 
   // === 4 semantic clusters — every one wrapped in <Section/> ===
-  const heroBlock = (
-    <Section sectionId="hero" density="comfortable" tone="plain">
-      {isNewUser ? <FirstTimeHeroCard onCreateClick={handleCreate} /> : <ContinueDraftCard onContinue={handleCreate} />}
-    </Section>
+  // === 4 semantic clusters — every one wrapped in <Section/> ===
+  const heroBlock = useMemo(
+    () => (
+      <Section sectionId="hero" density="comfortable" tone="plain">
+        {isNewUser ? (
+          <FirstTimeHeroCard onCreateClick={handleCreate} />
+        ) : (
+          <ContinueDraftCard onContinue={handleCreate} />
+        )}
+      </Section>
+    ),
+    [isNewUser, handleCreate],
   );
 
-  const createBlock = (
-    <Section
-      sectionId="create"
-      eyebrow={t("home.section.create")}
-      title={t("home.section.title")}
-      subtitle={t("home.section.subtitle")}
-      density="comfortable"
-    >
-      <HomeQuickCreate onCreateClick={handleCreate} />
-      <CreativePresetsSection onTrackPresetSelect={handleQuickGenrePreset} />
-    </Section>
+  const createBlock = useMemo(
+    () => (
+      <Section
+        sectionId="create"
+        eyebrow={t("home.section.create")}
+        title={t("home.section.title")}
+        subtitle={t("home.section.subtitle")}
+        density="comfortable"
+      >
+        <HomeQuickCreate onCreateClick={handleCreate} />
+        <CreativePresetsSection onTrackPresetSelect={handleQuickGenrePreset} />
+      </Section>
+    ),
+    [t, handleCreate, handleQuickGenrePreset],
   );
 
-  const discoverBlock = (
-    <Section
-      sectionId="discover"
-      eyebrow={t("home.section.discoverEyebrow")}
-      title={t("home.section.discoverTitle")}
-      subtitle={t("home.section.discoverSubtitle")}
-      density="comfortable"
-    >
-      <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackDiscover")} />}>
-        <DiscoverTabs
-          popularTracks={popularTracks}
-          recentTracks={recentTracks}
-          isLoading={isLoading}
-          hasMorePopular={hasMorePopular}
-          isLoadingMorePopular={isLoadingMorePopular}
-          onLoadMorePopular={fetchMorePopular}
-          hasMoreRecent={hasMoreRecent}
-          isLoadingMoreRecent={isLoadingMoreRecent}
-          onLoadMoreRecent={fetchMoreRecent}
-          onTrackClick={handleTrackClick}
-        />
-      </ErrorBoundary>
-    </Section>
+  const discoverBlock = useMemo(
+    () => (
+      <Section
+        sectionId="discover"
+        eyebrow={t("home.section.discoverEyebrow")}
+        title={t("home.section.discoverTitle")}
+        subtitle={t("home.section.discoverSubtitle")}
+        density="comfortable"
+      >
+        <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackDiscover")} />}>
+          <DiscoverTabs
+            popularTracks={popularTracks}
+            recentTracks={recentTracks}
+            isLoading={isLoading}
+            hasMorePopular={hasMorePopular}
+            isLoadingMorePopular={isLoadingMorePopular}
+            onLoadMorePopular={fetchMorePopular}
+            hasMoreRecent={hasMoreRecent}
+            isLoadingMoreRecent={isLoadingMoreRecent}
+            onLoadMoreRecent={fetchMoreRecent}
+            onTrackClick={handleTrackClick}
+          />
+        </ErrorBoundary>
+      </Section>
+    ),
+    [
+      popularTracks,
+      recentTracks,
+      isLoading,
+      hasMorePopular,
+      isLoadingMorePopular,
+      fetchMorePopular,
+      hasMoreRecent,
+      isLoadingMoreRecent,
+      fetchMoreRecent,
+      handleTrackClick,
+      t,
+    ],
   );
 
-  const trendingBlock = (
-    <Section sectionId="trending" density="comfortable" tone="plain">
-      <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackTrending")} />}>
-        <FeaturedSection
-          tracks={popularTracks}
-          isLoading={isLoading}
-          onTrackClick={handleTrackClick}
-          hasMore={hasMorePopular}
-          isLoadingMore={isLoadingMorePopular}
-          onLoadMore={fetchMorePopular}
-        />
-      </ErrorBoundary>
-    </Section>
+  const trendingBlock = useMemo(
+    () => (
+      <Section sectionId="trending" density="comfortable" tone="plain">
+        <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackTrending")} />}>
+          <FeaturedSection
+            tracks={popularTracks}
+            isLoading={isLoading}
+            onTrackClick={handleTrackClick}
+            hasMore={hasMorePopular}
+            isLoadingMore={isLoadingMorePopular}
+            onLoadMore={fetchMorePopular}
+          />
+        </ErrorBoundary>
+      </Section>
+    ),
+    [popularTracks, isLoading, handleTrackClick, hasMorePopular, isLoadingMorePopular, fetchMorePopular, t],
   );
 
-  const genresBlock = (
-    <Section
-      sectionId="genres"
-      eyebrow={t("home.section.genresEyebrow")}
-      title={t("home.section.genresTitle")}
-      density="comfortable"
-    >
-      <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackGenres")} />}>
-        <GenreTabsSection tracks={popularTracks} tracksByGenre={tracksByGenre} isLoading={isLoading} />
-      </ErrorBoundary>
-    </Section>
+  const genresBlock = useMemo(
+    () => (
+      <Section
+        sectionId="genres"
+        eyebrow={t("home.section.genresEyebrow")}
+        title={t("home.section.genresTitle")}
+        density="compact"
+      >
+        <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackGenres")} />}>
+          <GenreTabsSection tracks={popularTracks} tracksByGenre={tracksByGenre} isLoading={isLoading} />
+        </ErrorBoundary>
+      </Section>
+    ),
+    [popularTracks, tracksByGenre, isLoading, t],
   );
 
-  const aiSuggestBlock = (
-    <Section sectionId="ai-suggest" density="comfortable" tone="plain">
-      <AiSuggestions onCreateClick={handleCreate} />
-    </Section>
+  const aiSuggestBlock = useMemo(
+    () => (
+      <Section sectionId="ai-suggest" density="compact" tone="plain">
+        <AiSuggestions onCreateClick={handleCreate} />
+      </Section>
+    ),
+    [handleCreate],
   );
 
   const bottomPadding = isMobile
     ? activeTrack
-      ? "calc(env(safe-area-inset-bottom, 0px) + 12rem)"
-      : "calc(env(safe-area-inset-bottom, 0px) + 6rem)"
+      ? "calc(env(safe-area-inset-bottom, 0px) + 8rem)"
+      : "calc(env(safe-area-inset-bottom, 0px) + 4rem)"
     : activeTrack
-      ? "6rem"
+      ? "4rem"
       : "1rem";
 
   return (
@@ -255,7 +289,7 @@ const Index = () => {
               2xl+   (ultra):      10/2 compact, generous internal breathing room
             items-start prevents the aside from stretching vertically.
           */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 items-start">
             <div className={cn("lg:col-span-8 xl:col-span-8 2xl:col-span-9 min-w-0", sectionTokens.blockGap)}>
               {heroBlock}
               {createBlock}
@@ -269,7 +303,7 @@ const Index = () => {
               className={cn(
                 "hidden lg:block lg:col-span-4 xl:col-span-4 2xl:col-span-3 min-w-0",
                 "lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain",
-                "lg:border-l lg:border-border/40 lg:pl-6 xl:pl-8",
+                "lg:border-l lg:border-border/40 lg:pl-4 xl:pl-5",
                 "scrollbar-thin scrollbar-thumb-border/40 scrollbar-track-transparent",
               )}
               aria-label={t("home.section.sidebar")}
