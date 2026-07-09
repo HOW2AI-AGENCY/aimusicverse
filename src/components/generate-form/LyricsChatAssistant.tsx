@@ -578,6 +578,7 @@ export function LyricsChatAssistant({
             bottom: 0,
             height: "auto",
             maxHeight: "none",
+            paddingBottom: "max(1rem, max(0px, env(safe-area-inset-bottom, 0px)))",
           }}
         >
           <DrawerHeader

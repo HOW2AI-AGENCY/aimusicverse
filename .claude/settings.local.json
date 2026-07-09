@@ -53,7 +53,8 @@
       "Bash(Test-Path *)",
       "Bash(graphify explain *)",
       "Bash(graphify query *)",
-      "Bash(graphify update *)"
+      "Bash(graphify update *)",
+      "mcp__lovable__list_workspaces"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",

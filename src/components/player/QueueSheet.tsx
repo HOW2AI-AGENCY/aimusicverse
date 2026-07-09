@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useScrollLock } from "@/hooks/useScrollLock";
+import { hapticImpact, hapticNotification } from "@/lib/haptic";
 import {
   Trash2,
   ListMusic,
@@ -114,6 +115,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     if (!over || active.id === over.id) {
       return;
     }
+    hapticImpact("medium");
 
     const oldIndex = queue.findIndex((track) => track.id === active.id);
     const newIndex = queue.findIndex((track) => track.id === over.id);
@@ -126,12 +128,14 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
   const handleClearQueue = () => {
     if (queue.length === 0) return;
 
+    hapticNotification("warning");
     clearQueue();
     toast.success("Очередь очищена");
     onOpenChange(false);
   };
 
   const handleToggleVersionMode = () => {
+    hapticImpact("light");
     toggleVersionMode();
     toast.success(versionMode === "active" ? "Режим: все версии треков" : "Режим: только активные версии");
   };
@@ -142,6 +146,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
   const handleSaveAsPlaylist = async () => {
     if (!user || queue.length === 0) return;
 
+    hapticImpact("medium");
     setIsSaving(true);
     try {
       // Create playlist

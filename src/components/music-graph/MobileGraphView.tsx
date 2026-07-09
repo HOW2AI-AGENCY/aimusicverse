@@ -294,6 +294,9 @@ export function MobileGraphView({ data, onNodeClick, selectedNode, filter }: Mob
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             className="fixed bottom-20 left-0 right-0 z-50 p-4"
+            style={{
+              paddingBottom: `calc(0.6rem + max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))`,
+            }}
           >
             <div className="bg-card border border-border rounded-2xl p-4 shadow-xl">
               <div className="flex items-start justify-between mb-3">
