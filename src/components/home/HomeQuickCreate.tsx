@@ -89,7 +89,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
           </span>
         </div>
 
-        {/* FAB - Primary action */}
+        {/* Primary action — a single, full-width CTA. Secondary quick actions live in the desktop sidebar and mobile bottom nav. */}
         <div className="flex items-center gap-3 lg:gap-4">
           <Button
             onClick={handleFabClick}
@@ -107,24 +107,6 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
             <Plus className="w-5 h-5 lg:w-6 lg:h-6 mr-2" aria-hidden="true" />
             Создать трек
           </Button>
-          {/* Quick expand toggle */}
-          <button
-            onClick={handleExpand}
-            aria-label={isExpanded ? t("home.quickCreate.collapseLabel") : t("home.quickCreate.expandLabel")}
-            aria-pressed={isExpanded}
-            className={cn(
-              "w-12 h-12 lg:w-14 lg:h-14 min-w-touch rounded-xl lg:rounded-2xl",
-              "bg-card/80 backdrop-blur-sm",
-              "border border-border/50",
-              "flex items-center justify-center",
-              "hover:bg-card hover:border-primary/30 hover:shadow-md",
-              "active:scale-95",
-              "transition-all duration-150",
-            )}
-            style={{ transform: isExpanded ? "rotate(45deg)" : "rotate(0deg)" }}
-          >
-            <Plus className="w-5 h-5 lg:w-6 lg:h-6 text-foreground" aria-hidden="true" />
-          </button>
         </div>
 
         {/* Expanded options */}
