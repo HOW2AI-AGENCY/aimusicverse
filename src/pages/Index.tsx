@@ -282,7 +282,7 @@ const Index = () => {
           onProfileClick={goToProfile}
         />
 
-        <div className={cn("mt-3 mb-2", isMobile ? "" : "max-w-md")}>
+        <div className="mt-3 mb-2 w-full">
           <HomeSearchBar onSearch={(q) => navigate(`/library?q=${encodeURIComponent(q)}`)} />
         </div>
 
