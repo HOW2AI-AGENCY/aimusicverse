@@ -93,18 +93,18 @@
 
 ---
 
-### Sprint 060 — Design Polish
+### Sprint 060 — Design Polish ✅
 
-**5 quick wins применены (2026-07-06):** color-scheme: dark, font consolidation, H2→H3.
+**5 quick wins применены (2026-07-06 + 09):** color-scheme: dark, font consolidation, H2→H3, search box на главной.
 
-- [ ] **Search box на главной** (high impact — music app needs search) — 1-2 дня
-- [ ] **Skeleton loading states** (medium — content pops in) — 1 день
-- [ ] **Route transition animation** (polish — SPA feels static) — 1 день
-- [ ] **Border-radius hierarchy** (3 tiers: sm/md/lg) — 0.5 дня
-- [ ] **Nav simplification** (group 10 tabs into primary/secondary) — 1 день
+- [x] **Search box на главной** (high impact — music app needs search) — added HomeSearchBar, reads ?q= in Library
+- [x] **Skeleton loading states** (already exist — GridSkeleton, TrackCardSkeleton, HorizontalScrollSkeleton)
+- [x] **Route transition animation** (already exists — RouteWithTransition + PageTransition + MobilePageTransition)
+- [x] **Border-radius hierarchy** (already exists — design-tokens.ts: sm=8, md=12, lg=16)
+- [x] **Nav simplification** (already simple — 5 items: Home, Library, Create, Projects, Profile)
 
-**Срок:** 5-7 дней
-**Метрика:** Design score C+ → B+
+**Срок:** 1 день (только search box)
+**Метрика:** Design score C+ → B- (search box added, other items already existed)
 
 ---
 
@@ -144,12 +144,12 @@ Week 5 (Aug 4-8):
 
 ## 🚀 Q3 2026 (после стабилизации)
 
-| Sprint  | Фокус                                                | Статус                          |
-| ------- | ---------------------------------------------------- | ------------------------------- |
-| **057** | E2E CI green + Branch Protection complete            | ✅ ЗАВЕРШЁН                     |
-| **058** | i18n EN/RU (mashup + generation домены)              | ✅ ЗАВЕРШЁН                     |
-| **059** | Bundle optimization (A) + API/Service unit tests (B) | 🔄 Часть A ✅ / Часть B активна |
-| **060** | Design polish (search, skeleton, transitions)        | 📋 Planned                      |
+| Sprint  | Фокус                                                | Статус      |
+| ------- | ---------------------------------------------------- | ----------- |
+| **057** | E2E CI green + Branch Protection complete            | ✅ ЗАВЕРШЁН |
+| **058** | i18n EN/RU (mashup + generation домены)              | ✅ ЗАВЕРШЁН |
+| **059** | Bundle optimization (A) + API/Service unit tests (B) | ✅ ЗАВЕРШЁН |
+| **060** | Design polish (search, skeleton, transitions)        | ✅ ЗАВЕРШЁН |
 
 ---
 
@@ -166,14 +166,14 @@ Week 5 (Aug 4-8):
 
 - **Suno API 28/28 (100%)** — все категории реализованы, 46 edge functions
 - **God-file decomposition завершена** — 0 файлов >800 LOC в `src/`
-- **Design-review C+** — функциональный, не хватает search + motion polish
+- **Design-review C+** — функциональный, search box добавлен (Sprint 060)
 - **Branch protection Phase 2** — required checks active, force-push заблокирован
 - **9Router fully removed** — Sprint 057 (использовался только как Claude skill, не код)
 - **Collaboration features** — out of scope per user decision 2026-07-08
 
 ---
 
-**Последнее обновление:** 2026-07-09 (Sprint 059-A ✅ + Sprint 059-B ✅)
+**Последнее обновление:** 2026-07-09 (Sprint 059 ✅ + Sprint 060 ✅)
 **Следующий review:** 2026-07-13
 </content>
 </invoke>
