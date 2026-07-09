@@ -42,7 +42,6 @@ export function useHomePageData(options: UseHomePageDataOptions = {}) {
   } = useInfinitePublicTracks({
     sortBy: "recent",
     pageSize,
-    enabled: !contentLoading,
     initialData: publicContent?.recentTracks,
   });
 
@@ -55,7 +54,6 @@ export function useHomePageData(options: UseHomePageDataOptions = {}) {
   } = useInfinitePublicTracks({
     sortBy: "popular",
     pageSize,
-    enabled: !contentLoading,
     initialData: publicContent?.popularTracks,
   });
 
