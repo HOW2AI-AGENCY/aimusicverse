@@ -94,8 +94,8 @@ var projectRef = "ygmvthybdrqymfsqifmj";
 var mcp_default = defineMcp({
   name: "musicverse-ai-mcp",
   title: "MusicVerse AI",
-  version: "0.1.0",
-  instructions: "Tools for MusicVerse AI \u2014 an AI music creation platform. Use `search_public_tracks` and `get_track` to browse the public catalog. Use `list_my_tracks` to read the signed-in user's own tracks (requires OAuth).",
+  version: "0.2.0",
+  instructions: "Tools for MusicVerse AI \u2014 an AI music creation platform. Public: `search_public_tracks`, `get_track`. Authenticated (OAuth): `list_my_tracks`, `list_my_playlists`, `get_my_profile`, `get_my_credits`, `like_track`.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated"
