@@ -11,6 +11,7 @@
  */
 
 import { useState, useCallback, useEffect, lazy, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useProfile } from "@/hooks/useProfile.tsx";
@@ -22,6 +23,7 @@ import { useOpenGenerateFromDeeplink } from "@/hooks/useOpenGenerateFromDeeplink
 import { listenOpenGenerateSheet } from "@/lib/events";
 import { HomeStickyCTA } from "@/components/home/HomeStickyCTA";
 import { HomeHeader } from "@/components/home/HomeHeader";
+import { HomeSearchBar } from "@/components/home/HomeSearchBar";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -51,6 +53,7 @@ const AudioActionDialog = lazy(() =>
 import { ContextHints } from "@/components/hints";
 
 const Index = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { user: telegramUser } = useTelegram();
   const { data: profile } = useProfile();
@@ -207,6 +210,10 @@ const Index = () => {
             userPhotoUrl={displayUser?.photo_url}
             onProfileClick={goToProfile}
           />
+
+          <div className={cn("mt-3 mb-2", isMobile ? "" : "max-w-md")}>
+            <HomeSearchBar onSearch={(q) => navigate(`/library?q=${encodeURIComponent(q)}`)} />
+          </div>
 
           <BotContextBanner />
 

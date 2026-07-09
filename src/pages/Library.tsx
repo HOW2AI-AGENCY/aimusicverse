@@ -10,9 +10,9 @@
  * - Contextual onboarding tips (Phase 4)
  */
 
-import { useState, useEffect, useCallback, lazy, Suspense } from "react";
+import { useState, useEffect, useCallback, lazy, Suspense, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import {
   Search,
@@ -61,6 +61,8 @@ export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const qRef = useRef(searchParams.get("q"));
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
 
   // Desktop sidebar state
@@ -101,7 +103,13 @@ export default function Library() {
     midiStatusMap,
   } = useLibraryData();
 
-  // Consolidated handlers
+  // Read ?q= from URL on mount — triggers search from homepage
+  useEffect(() => {
+    const q = qRef.current;
+    if (q) {
+      setSearchQuery(q);
+    }
+  }, []);
   const { handlePlay, handlePlayAll, handleShuffleAll, handleDownload, handleTagClick, activeTrackId } =
     useLibraryHandlers({
       filteredTracks,
