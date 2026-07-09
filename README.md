@@ -1,32 +1,48 @@
+<!-- ╔══════════════════════════════════════════════════╗ -->
+<!-- ║  NAVIGATION HEADER                               ║ -->
+<!-- ╚══════════════════════════════════════════════════╝ -->
+
 <div align="center">
 
-![AI MusicVerse](https://shieldcn.dev/header/surface.svg?title=AI+MusicVerse&subtitle=%D0%93%D0%B5%D0%BD%D0%B5%D1%80%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5%2C+%D1%80%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5%2C+%D1%81%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5+%D0%B8+%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D1%83%D0%B9%D1%82%D0%B5+%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D1%83+%D1%81+%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E+%D0%98%D0%98%2C+%D0%BD%D0%B5+%D0%B2%D1%8B%D1%85%D0%BE%D0%B4%D1%8F+%D0%B8%D0%B7+Telegram.&mode=dark&theme=slate)
+# 🎵 MusicVerse AI — Music Creation in Telegram
 
-**AI-powered music creation platform — прямо в Telegram**
+**Профессиональная AI-генерация музыки прямо в Telegram Mini App. Suno AI v5, мультитрек-студия, A/B версии, MIDI, вокальный клон — без единого перехода во внешний сервис.**
 
 <p>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/actions/workflows/quality-check.yml"><img alt="Quality &amp; Build" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/quality-check.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981&label=Quality+%26+Build"/></a>
+  <img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/>
   <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.0-475569?style=for-the-badge"/>
-  <a href="LICENSE"><img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/></a>
-  <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
-  <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
-  <img alt="Unit tests" src="https://img.shields.io/badge/unit_tests-1691_passing-10B981?style=for-the-badge&logo=vitest"/>
+  <img alt="Quality & Build" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/quality-check.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981&label=Quality+%26+Build"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit_tests-1691_passing-10B981?style=for-the-badge&logo=vitest"/>
+  <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
+  <img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/>
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript"/>
+  <img alt="React" src="https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react"/>
+  <img alt="Supabase" src="https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase"/>
 </p>
-
-<!-- BADGES:START -->
-
-![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat-square) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=flat-square) ![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?style=flat-square) ![Tailwind](https://img.shields.io/badge/Tailwind-3.4.18-06B6D4?style=flat-square) ![Vitest](https://img.shields.io/badge/Vitest-4.0.14-6E9F18?style=flat-square) ![Playwright](https://img.shields.io/badge/Playwright-1.61.1-2EAD33?style=flat-square)
-<!-- BADGES:END -->
 
 <p>
-  <a href="#-быстрый-старт"><img src="https://img.shields.io/badge/🚀-Быстрый_старт-26A5E4?style=for-the-badge"/></a>
-  <a href="#-для-инвесторов"><img src="https://img.shields.io/badge/💰-Инвесторам-10B981?style=for-the-badge"/></a>
-  <a href="#-скриншоты"><img src="https://img.shields.io/badge/📱-Скриншоты-9333EA?style=for-the-badge"/></a>
-  <a href="#-возможности"><img src="https://img.shields.io/badge/✨-Возможности-9333EA?style=for-the-badge"/></a>
-  <a href="DOCUMENTATION_INDEX.md"><img src="https://img.shields.io/badge/📚-Документация-10B981?style=for-the-badge"/></a>
-  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/🤝-Контрибуция-F59E0B?style=for-the-badge"/></a>
-  <a href="ROADMAP.md"><img src="https://img.shields.io/badge/🗺-Дорожная_карта-EF4444?style=for-the-badge"/></a>
+  <a href="#🚀-быстрый-старт">🚀 Быстрый старт</a> ·
+  <a href="#✨-возможности">✨ Возможности</a> ·
+  <a href="#📱-скриншоты">📱 Скриншоты</a> ·
+  <a href="#🏛-архитектура">🏛 Архитектура</a> ·
+  <a href="#📊-прогресс-проекта">📊 Прогресс</a> ·
+  <a href="#🛠-технический-стек">🛠 Стек</a> ·
+  <a href="#📁-структура-проекта">📁 Структура</a> ·
+  <a href="#📖-документация">📖 Документация</a>
 </p>
+
+</div>
+
+---
+
+<!-- ╔══════════════════════════════════════════════════╗ -->
+<!-- ║  SITE NAVIGATION (next-prev between sections)    ║ -->
+<!-- ╚══════════════════════════════════════════════════╝ -->
+
+<div align="center">
+
+| ← [DOCUMENTATION_INDEX](DOCUMENTATION_INDEX.md) | [ARCHITECTURE_HUB](ARCHITECTURE_HUB.md) → |
+| :---------------------------------------------: | :---------------------------------------: |
 
 </div>
 
@@ -44,106 +60,70 @@
 
 </div>
 
----
-
-## 💰 Для инвесторов
-
-| Метрика                        |                                                     Значение                                                     |
-| ------------------------------ | :--------------------------------------------------------------------------------------------------------------: |
-| ⭐ GitHub Stars                |            ![](https://img.shields.io/badge/stars-Private_Repo-475569?style=flat-square&logo=github)             |
-| 📦 Eager load (холодный старт) |        ![](https://img.shields.io/badge/508_KB_gzip-↓_from_1.19_MB-10B981?style=flat-square&logo=webpack)        |
-| 📦 Всего JS (все чанки)        | ![](https://img.shields.io/badge/2.11_MB_gzip-see_docs%2FBUNDLE__ANALYSIS-475569?style=flat-square&logo=webpack) |
-| 🧪 Покрытие кода               |          ![](https://img.shields.io/badge/unit_tests-1691_passing-10B981?style=flat-square&logo=vitest)          |
-| 🔒 Безопасность                |  ![](<https://img.shields.io/badge/Security-6_vulns_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=flat-square>)   |
-| 📊 Спринтов завершено          |                                             **49** (050–056 + 052-C)                                             |
-| 🏗 Компонентов                  |                                              **1009** (1164 total)                                               |
-| 🔧 Хуков                       |                                                     **438**                                                      |
-| 🚀 Стадия                      |                                        **Pre-Seed / Active Development**                                         |
-
-> **MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
-
-- **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
-- **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Текущий фокус**: 🔄 Сессия 2026-07-09 — Sprint 057 (E2E стабилизация, Branch Protection, 9Router cleanup ✅). Далее: Sprint 058 (i18n EN/RU), Sprint 059 (Bundle optimization + Edge Functions декомпозиция).
-- **Метрики (2026-07-09):** tsc 0 errors · 1489 unit tests (122 test files) · 56 E2E specs · 1161 React components · 434 hooks · 30 API files · 24 stores · 37 services · 0 файлов >800 LOC в `src/` · 0/50 `any` budget · 508 KB gzip eager load
-- **Закрыто (2026-07-08):** AI Agent Activity Panel интегрирован в `LyricsAIChatAgent` и `MobileAIAgentPanel`; dead-code cleanup: удалены `src/lib/a11y*`, `src/lib/accessibility.ts`, `src/components/suno/*`, `src/lib/{common,feature-flags,gesture-*,haptics,lazy,motion-variants,performance-utils,retry,sanitizeFilename,stateMachine,storage,workflow-engine}.ts`, `src/stores/middleware/withHistory.ts`, `src/types/branded.ts` и 4 устаревших тестовых файла. Все проверки (tsc, unit tests, `count-any.mjs`) проходят. Подробнее: [PROJECT_STATUS.md](./PROJECT_STATUS.md).
-- **Закрыто (2026-07-03, #568/#567):** Eager JS на холодной загрузке главной сокращён с ~1.19 МБ до ~508 КБ gzip (лишние `modulePreload` тяжёлых admin/studio/charts/dnd/forms-чанков и barrel-импорт устранены — см. [docs/BUNDLE_ANALYSIS.md](./docs/BUNDLE_ANALYSIS.md)); все оставшиеся 58 `no-explicit-any` ошибок ESLint устранены (репозиторий на 0 использований `any`, было 342), попутно исправлены 2 бага, скрытые за `any`-кастами.
-- **Закрыто (2026-07-03, #566/#562/#559):** Редизайн карточек треков на мобильной главной, восстановлена связность секций главной страницы (homepage reconnect), scroll-reveal и микро-взаимодействия на мобильной главной.
-- **Закрыто (Sprint 049 ✅):** Mobile UX по багрепорту — залипание скролла на главной (guard `usePullToRefresh` читал `scrollTop` не с того элемента и глушил нативный скролл), исчезающие жанровые секции, переключение A/B версий теперь обновляет карточку целиком (обложка/теги/время/текст из `track_versions.metadata`), лайки переведены на per-version схему (`track_likes.track_version_id`, миграция ждёт применения на прод БД), полноэкранный плеер: починен «залипший» свайп страниц (`dragConstraints`), фрагментированные теги Suno больше не протекают в лирику, автоскролл с пилюлей «К текущей строке», теги-чипы на «О треке». См. [CHANGELOG.md](./CHANGELOG.md#unreleased) и [PROJECT_STATUS.md](./PROJECT_STATUS.md).
-- **Закрыто ранее (Sprint 048 ✅):** Creation-Flow Motion Pass + Mobile Perf Fixes — анимации для создания проекта/артиста, AI-чата ассистента и создания трека в проекте, затем баг-фикс проход по итогам мобильного QA: обрезка бейджей у скруглённых углов `Button` (корневая причина — `overflow: hidden` в `.btn-enhanced`, исправлено на уровне CSS-примитива для всего приложения), лаги JS-driven анимаций на мобильных (заменены на CSS keyframes), глюки скролла (убран `smooth`-скролл в чате, JS `whileHover` заменён на CSS `:hover`). См. [CHANGELOG.md](./CHANGELOG.md#unreleased) и [PROJECT_STATUS.md](./PROJECT_STATUS.md).
-- **Закрыто ранее (Sprint 044 ✅):** Type Safety Wave 2 — 7/7 задач. Итог: `any` в `src/components/**` 155 → 0; в `src/hooks/**` 164 → 6; в `src/stores/**` 12 → 0; `Result<T,E>` в `src/lib/result.ts` + 9 тестов; 16 методов 3 сервисов на `Result`; ESLint `no-explicit-any: error` + whitelist + `scripts/count-any.mjs` ≤50. +54 unit-теста за спринт (282 passing в 17 suites).
-- **Далее**: доработка AI Agent Activity Panel (runtime actions, workflow tasks), завершение Sprint 050-C Branch Protection Phase 2, E2E стабилизация (56 specs → CI green), i18n-старт (EN/RU). План: [FUTURE_WORK_PLAN.md](./FUTURE_WORK_PLAN.md).
+<sub><a href="#top">↑ К началу</a> · <a href="#✨-возможности">Далее: Возможности →</a></sub>
 
 ---
 
-## 📊 Прогресс проекта
+## ✨ Возможности
 
-```mermaid
-gantt
-    title Дорожная карта 2026
-    dateFormat YYYY-MM-DD
-    axisFormat %b %d
-    section Завершено ✅
-    Sprint 033: UX-аудит              :done, 033, 2026-04-01, 2026-04-30
-    Sprint 034: Надёжность генерации   :done, 034, 2026-05-01, 2026-05-31
-    Sprint 035: Стабилизация           :done, 035, 2026-06-01, 2026-06-20
-    Sprint 036: Рефакторинг слоёв      :done, 036, 2026-06-01, 2026-06-20
-    Sprint 037: Infrastructure         :done, 037, 2026-06-21, 2026-06-29
-    Sprint 038: Design System          :done, 038, 2026-06-29, 2026-06-30
-    Sprint 039: Архит. рефакторинг     :done, 039, 2026-06-30, 2026-06-30
-    Sprint 042: Page Decomp + Audio     :done, 042, 2026-07-01, 2026-07-02
-    Sprint 043: Layer Compliance       :done, 043, 2026-07-02, 2026-07-02
-    Sprint 044: Type Safety Wave 2     :done, 044, 2026-07-02, 2026-07-02
-    Sprint 047: Creation-Flow Motion   :done, 047, 2026-07-03, 2026-07-03
-    Sprint 049: Mobile UX fixes        :done, 049, 2026-07-03, 2026-07-03
-    Sprint 052: Suno Mashup+Persona    :done, 052, 2026-07-04, 2026-07-04
-    Sprint 053: Suno Sounds+MIDI       :done, 053, 2026-07-04, 2026-07-04
-    Sprint 054: Suno Details Suite     :done, 054, 2026-07-04, 2026-07-04
-    Sprint 055: UX P0/P1 Fixes         :done, 055, 2026-07-06, 2026-07-06
-    Sprint 052-C: Cleanup              :done, 052c, 2026-07-04, 2026-07-04
+| Категория         | Функция                                      | Статус |
+| ----------------- | -------------------------------------------- | :----: |
+| 🎵 AI-генерация   | Suno API v5 с A/B версиями                   |   ✅   |
+| 🎤 Voice Clone    | Клонирование голоса                          |   ✅   |
+| 📝 Lyrics AI      | AI-помощник для текстов                      |   ✅   |
+| 🎸 Инструменты    | Гитара, драм-машина, микшер                  |   ✅   |
+| 🏗 Студия          | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
+| 👥 Сообщество     | Лента, артисты, блог                         |   ✅   |
+| 🎛 MIDI            | Klang.io транскрипция (6 моделей)            |   ✅   |
+| 🔀 Стем-сепарация | Извлечение вокала/барабанов/баса             |   ✅   |
+| 💎 Монетизация    | Stars Payment, подписки                      |   ✅   |
+| 📊 Аналитика      | Dashboard, A/B тесты                         |   ✅   |
+| 🔔 Уведомления    | In-app + Push (завершение генерации)         |   ✅   |
+| ♿ Доступность    | WCAG AA, 14px min, клавиатурная навигация    |   ✅   |
+| 📱 Telegram       | MainButton, BackButton, Haptic, CloudStorage |   ✅   |
+| 🌐 Локализация    | i18n EN/RU (react-i18next)                   |   ✅   |
 
+<sub><a href="#📱-скриншоты">← Назад: Скриншоты</a> · <a href="#top">↑ К началу</a> · <a href="#🏛-архитектура">Далее: Архитектура →</a></sub>
 
-    Sprint 056: GenerateSheet Redesign  :done, 056, 2026-07-06, 2026-07-06
-    Sprint 050-B: Mobile Audit F1-F12   :done, 050b, 2026-07-06, 2026-07-06
-    Sprint 051-A: Test Debt Phase A-C   :done, 051a, 2026-07-06, 2026-07-06
-    Sprint 051-B: God Files Completion  :done, 051b, 2026-07-06, 2026-07-06
-    Sprint 057: Audio Analysis Refactor :done, 057a, 2026-07-06, 2026-07-06
+---
 
-    section В работе 🔄
-    Sprint 050-C: Branch Protection     :active, 050c, 2026-07-07, 2026-07-08
-    section Запланировано ⚪
-    Sprint 057: E2E CI Green + Branch Prot :057, 2026-07-09, 2026-07-15
-    Sprint 058: i18n EN/RU              :058, 2026-07-16, 2026-07-22
+## 🏛 Архитектура
+
+```
+┌─────────────────────────────────────────────┐
+│  Telegram Mini App (WebView)                │
+├─────────────────────────────────────────────┤
+│  Pages (35+)                  Route-level    │
+├─────────────────────────────────────────────┤
+│  Components (1161)           Feature + UI    │
+├─────────────────────────────────────────────┤
+│  Hooks (434)                 Reusable logic  │
+├─────────────────────────────────────────────┤
+│  Services (56)               Business logic  │
+├─────────────────────────────────────────────┤
+│  API Layer (24)              Supabase        │
+├─────────────────────────────────────────────┤
+│  Stores (27 Zustand)         Global state    │
+└─────────────────────────────────────────────┘
 ```
 
-|   Спринт    | Название                                           | Статус |        Прогресс        |
-| :---------: | -------------------------------------------------- | :----: | :--------------------: |
-|     033     | UX-аудит и переработка                             |   ✅   |          100%          |
-|     034     | Надёжность генерации                               |   ✅   |          100%          |
-|     035     | Стабилизация + Чистка                              |   ✅   |          100%          |
-|     036     | Рефакторинг слоёв + Type Safety                    |   ✅   |          100%          |
-|     037     | Infrastructure Hardening                           |   ✅   |          100%          |
-|     038     | Design System Unification                          |   ✅   |         28/28          |
-|     039     | Архитектурный рефакторинг                          |   ✅   |         14/14          |
-|   **042**   | **Page Decomp + Audio Pooling**                    |   ✅   |         10/10          |
-|   **043**   | **Layer Compliance (65 → 0)**                      |   ✅   |          6/6           |
-|   **044**   | **Type Safety Wave 2**                             |   ✅   |          7/7           |
-|   **047**   | **Creation-Flow Motion + Mobile Perf Fixes**       |   ✅   |          2/2           |
-|   **049**   | **Mobile UX: A/B версии, лайки, плеер, главная**   |   ✅   |          4/4           |
-|   **052**   | **Suno Mashup + Persona + Upload + 052-C cleanup** |   ✅   |   10/10 + cleanup ✅   |
-|   **050**   | **Main Green + Mobile Audit**                      |   ✅   |      Phase A-B ✅      |
-| **051-A-C** | **Test Debt Phase A-C**                            |   ✅   |     925 passing ✅     |
-|  **051-D**  | **God Files Completion**                           |   ✅   | 9/9 (0 files >800 LOC) |
-|   **053**   | **Suno Sounds + MIDI + Boost**                     |   ✅   |         6/6 ✅         |
-|   **054**   | **Suno Details Suite**                             |   ✅   |         6/6 ✅         |
-|   **055**   | **UX Critical Fixes P0/P1**                        |   ✅   |        13/13 ✅        |
-|   **056**   | **GenerateSheet Redesign**                         |   ✅   |      Phase A-D ✅      |
-|  **050-C**  | **Branch Protection Phase 2**                      |   🔄   | Phase 1 ✅, Phase 2 ⏳ |
-|   **057**   | **E2E CI Green + Branch Protection**               |   ⏳   |          0/6           |
-|   **058**   | **i18n EN/RU Localization**                        |   ⏳   |          0/5           |
-|   **059**   | **Bundle Optimization + Unit Tests**               |   ⏳   |          0/4           |
+```mermaid
+graph TD
+    A[Telegram Mini App] --> B[React 19.2 SPA]
+    B --> C[TanStack Query]
+    B --> D[Zustand]
+    C --> E[Supabase API]
+    D --> E
+    E --> F[(PostgreSQL + RLS)]
+    E --> G[Edge Functions · Deno]
+    G --> H[Suno API v5]
+    E --> I[Realtime]
+    E --> J[Storage CDN]
+```
 
-<sub>Подробнее: [ROADMAP.md](./ROADMAP.md) · [PROJECT_STATUS.md](./PROJECT_STATUS.md) · [SPRINTS/SPRINT-042-043-PLAN.md](./SPRINTS/SPRINT-042-043-PLAN.md)</sub>
+**Данные**: API Layer → Service Layer → Hooks → Components. Однонаправленный поток. RLS на всех таблицах с пользовательскими данными.
+
+<sub><a href="#✨-возможности">← Назад: Возможности</a> · <a href="#top">↑ К началу</a> · <a href="#🚀-быстрый-старт">Далее: Быстрый старт →</a></sub>
 
 ---
 
@@ -153,107 +133,210 @@ gantt
 git clone https://github.com/HOW2AI-AGENCY/aimusicverse.git
 cd aimusicverse
 npm install
-npm run dev        # http://localhost:5173
-npm run check-all  # lint + format + typecheck + test
+npm run dev              # → http://localhost:8080
 ```
 
-> [!TIP]
-> Откройте [http://localhost:5173](http://localhost:5173) в браузере. Приложение оптимизировано под мобильные устройства (375×812).
+```bash
+# Проверка качества перед коммитом
+npm run check-all        # lint + format + typecheck
+npm test -- --run        # 1691 unit tests
+npm run build            # production build
+```
+
+> **Требования**: Node.js 22+, npm 11+. Приложение оптимизировано под мобильные устройства (375×812 Telegram WebView).
+
+<sub><a href="#🏛-архитектура">← Назад: Архитектура</a> · <a href="#top">↑ К началу</a> · <a href="#📊-прогресс-проекта">Далее: Прогресс →</a></sub>
 
 ---
 
-## ✨ Возможности
+## 📊 Прогресс проекта
 
-| Категория       | Функция                                      | Статус |
-| --------------- | -------------------------------------------- | :----: |
-| 🎵 AI-генерация | Suno API v5 с A/B версиями                   |   ✅   |
-| 🎤 Voice Clone  | Клонирование голоса                          |   ✅   |
-| 📝 Lyrics AI    | AI-помощник для текстов                      |   ✅   |
-| 🎸 Инструменты  | Гитара, драм-машина, микшер                  |   ✅   |
-| 🏗 Студия        | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
-| 👥 Сообщество   | Лента, артисты, блог                         |   ✅   |
-| 💎 Монетизация  | Stars Payment, подписки                      |   ✅   |
-| 📊 Аналитика    | Dashboard, A/B тесты                         |   ✅   |
-| 🔔 Уведомления  | In-app + Push (завершение генерации)         |   ✅   |
-| ♿ Доступность  | WCAG AA, 14px min, клавиатурная навигация    |   ✅   |
-| 📱 Telegram     | MainButton, BackButton, Haptic, CloudStorage |   ✅   |
+| Метрика                 | Значение                      | Статус |
+| ----------------------- | ----------------------------- | :----: |
+| Unit тесты              | 1691 passing (145 test files) |   ✅   |
+| TypeScript              | 0 errors (`--noEmit`)         |   ✅   |
+| E2E specs               | 56                            |   ✅   |
+| Components              | 1161                          |   ✅   |
+| Hooks                   | 434                           |   ✅   |
+| API files               | 30                            |   ✅   |
+| Services                | 37 `*.service.ts`             |   ✅   |
+| Stores                  | 27                            |   ✅   |
+| Suno edge functions     | 46 (28/28 API — 100%)         |   ✅   |
+| Files >800 LOC в `src/` | 0                             |   ✅   |
+| `any` budget            | 0/50                          |   ✅   |
+| Bundle eager JS         | ~508 KB gzip                  |   ✅   |
+| Bundle total            | 2.11 MB gzip                  |   🟡   |
+| Branch Protection       | Phase 2 active                |   ✅   |
+| Design Score            | C+ (AI Slop: B)               |   🟡   |
+| Спринтов завершено      | 50+                           |   ✅   |
 
----
+### Последние спринты
 
-## 🏛 Архитектура
+| Спринт | Фокус                                   | Статус |
+| ------ | --------------------------------------- | :----: |
+| 059    | Bundle optimization + API/Service tests |   ✅   |
+| 060    | Design polish (search, search box)      |   ✅   |
+| 061    | Vendor splits + barrel cleanup          |   ✅   |
+| 062    | UI/UX Audit P0/P1/P2 (A+B+C)            |   ✅   |
 
-```mermaid
-graph TD
-    A[Telegram Mini App] --> B[React 19.2 SPA]
-    B --> C[TanStack Query]
-    B --> D[Zustand]
-    C --> E[Supabase API]
-    D --> E
-    E --> F[(PostgreSQL)]
-    E --> G[Edge Functions]
-    G --> H[Suno API v5]
-    E --> I[Realtime]
-    E --> J[Storage CDN]
-```
-
-<sub>Подробнее: [ARCHITECTURE_HUB.md](./ARCHITECTURE_HUB.md) · [ADR/](./ADR/)</sub>
+<sub><a href="#🚀-быстрый-старт">← Назад: Быстрый старт</a> · <a href="#top">↑ К началу</a> · <a href="#🛠-технический-стек">Далее: Технический стек →</a></sub>
 
 ---
 
 ## 🛠 Технический стек
 
-| Слой       | Технология                             |
-| ---------- | -------------------------------------- |
-| Frontend   | React 19.2, TypeScript 5.9, Vite 5     |
-| Стиль      | Tailwind CSS 3.4, shadcn/ui            |
-| Состояние  | Zustand, TanStack Query                |
-| Бэкенд     | Supabase (PostgreSQL + RLS + Realtime) |
-| Serverless | 120+ Edge Functions (Deno/TypeScript)  |
-| Тесты      | Vitest 4.x, Playwright 1.61            |
-| CI/CD      | GitHub Actions (5 jobs, 3 браузера)    |
-| Платформа  | Telegram Mini App (WebView)            |
+| Слой                     | Технология                                        |
+| ------------------------ | ------------------------------------------------- |
+| **Фреймворк**            | React 19.2, TypeScript 5.9, Vite 5.4              |
+| **Стилизация**           | Tailwind CSS 3.4, shadcn/ui, Radix UI             |
+| **Глобальное состояние** | Zustand 5.0 (27 stores)                           |
+| **Серверное состояние**  | TanStack Query 5.90                               |
+| **Бэкенд**               | Supabase (PostgreSQL + RLS + Realtime + Storage)  |
+| **Serverless**           | 120+ Edge Functions (Deno/TypeScript)             |
+| **Аудио**                | Tone.js 14.9, Wavesurfer.js 7.8                   |
+| **MIDI**                 | Klang.io (6 моделей транскрипции)                 |
+| **Формы**                | React Hook Form + Zod                             |
+| **Тесты unit**           | Vitest 4.x (jsdom)                                |
+| **Тесты e2e**            | Playwright 1.61 (Chrome, Firefox, Safari, Mobile) |
+| **Анимации**             | Framer Motion (через tree-shaking обёртку)        |
+| **CI/CD**                | GitHub Actions (5 jobs, 3 браузера)               |
+| **Платформа**            | Telegram Mini App (@twa-dev/sdk 8.0.2)            |
+| **Локализация**          | react-i18next, i18next-browser-languagedetector   |
+
+<sub><a href="#📊-прогресс-проекта">← Назад: Прогресс</a> · <a href="#top">↑ К началу</a> · <a href="#📁-структура-проекта">Далее: Структура →</a></sub>
 
 ---
 
 ## 📁 Структура проекта
 
-```text
+```
 aimusicverse/
 ├── src/
-│   ├── components/     # 987 компонентов
-│   ├── hooks/          # 347 хуков
-│   ├── pages/          # 57 страниц
-│   ├── api/            # 20 API-файлов
-│   ├── services/       # 18 сервисов
-│   ├── stores/         # 17 Zustand stores
-│   └── lib/            # Утилиты, дизайн-токены
-├── supabase/           # 120+ Edge Functions
-├── docs/               # 100+ файлов документации
-├── specs/              # 14 спец-директорий
-├── SPRINTS/            # 50+ спринт-файлов
-└── tests/              # unit + e2e тесты
+│   ├── api/              # 30 — Supabase запросы
+│   ├── components/       # 1161 — UI + feature компоненты
+│   │   ├── ui/           # shadcn/ui primitives
+│   │   ├── player/       # Аудиоплеер (compact/expanded/fullscreen)
+│   │   ├── generate-form/ # Форма генерации (simple/custom)
+│   │   ├── studio/       # Unified Studio + микшер + стемы
+│   │   ├── library/      # Библиотека треков
+│   │   └── ...
+│   ├── hooks/            # 434 — кастомные React хуки
+│   ├── pages/            # 35 — роуты с lazy loading
+│   ├── services/         # 56 — бизнес-логика
+│   ├── stores/           # 27 — Zustand stores
+│   ├── contexts/         # 10 — React Context (Auth, Theme, Telegram)
+│   ├── lib/              # Утилиты, аудио, логгер
+│   ├── i18n/             # Локализация EN/RU
+│   └── App.tsx           # Root с lazy-роутами
+├── supabase/
+│   ├── functions/        # 120+ Edge Functions
+│   └── migrations/       # PostgreSQL миграции
+├── docs/                 # 100+ файлов документации
+├── specs/                # 14 директорий спецификаций
+├── SPRINTS/              # Планы спринтов
+├── tests/
+│   ├── e2e/              # Playwright: 56 specs
+│   └── unit/             # Vitest: 1691 test
+└── scripts/              # Утилиты CI/CD
+```
+
+<sub><a href="#🛠-технический-стек">← Назад: Стек</a> · <a href="#top">↑ К началу</a> · <a href="#📖-документация">Далее: Документация →</a></sub>
+
+---
+
+## 📖 Документация
+
+| Раздел                      | Адрес                                                                      | Для кого       |
+| --------------------------- | -------------------------------------------------------------------------- | -------------- |
+| 📚 **Documentation Index**  | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)                           | Все роли       |
+| 🏛 **Архитектура**           | [ARCHITECTURE_HUB.md](ARCHITECTURE_HUB.md)                                 | Разработчики   |
+| 🗺 **Roadmap**               | [ROADMAP.md](ROADMAP.md)                                                   | PM / инвесторы |
+| 📊 **Статус проекта**       | [PROJECT_STATUS.md](PROJECT_STATUS.md)                                     | Все            |
+| 📝 **Changelog**            | [CHANGELOG.md](CHANGELOG.md)                                               | Все            |
+| 🤝 **Contributing**         | [CONTRIBUTING.md](CONTRIBUTING.md)                                         | Контрибьюторы  |
+| 🔒 **Security**             | [SECURITY.md](SECURITY.md)                                                 | Безопасность   |
+| 🗂 **Структура репозитория** | [REPOSITORY_STRUCTURE.md](REPOSITORY_STRUCTURE.md)                         | Онбординг      |
+| 🛠 **Dev гайд**              | [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)                         | Разработчики   |
+| 🎨 **Design System**        | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайнеры      |
+
+<sub><a href="#📁-структура-проекта">← Назад: Структура</a> · <a href="#top">↑ К началу</a> · <a href="#💰-для-инвесторов">Далее: Инвесторам →</a></sub>
+
+---
+
+## 💰 Для инвесторов
+
+| Метрика                        | Значение                            |
+| ------------------------------ | ----------------------------------- |
+| ⭐ GitHub Stars                | Private repo                        |
+| 📦 Eager load (холодный старт) | 508 KB gzip (↓ с 1.19 MB)           |
+| 📦 Всего JS (все чанки)        | 2.11 MB gzip                        |
+| 🧪 Покрытие кода               | 1691 unit tests                     |
+| 🔒 Безопасность                | 6 vulns (1 high, 4 moderate, 1 low) |
+| 📊 Спринтов завершено          | 50+                                 |
+| 🏗 Компонентов                  | 1161                                |
+| 🔧 Хуков                       | 434                                 |
+| 🚀 Стадия                      | Pre-Seed / Active Development       |
+
+**MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
+
+- **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
+- **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
+- **Конкурентное преимущество**: Всё в одном — генерация, редактирование, микширование, MIDI, вокальный клон — без выхода из Telegram
+
+<sub><a href="#📖-документация">← Назад: Документация</a> · <a href="#top">↑ К началу</a></sub>
+
+---
+
+<!-- ╔══════════════════════════════════════════════════╗ -->
+<!-- ║  FOOTER — полная карта документации и ссылки      ║ -->
+<!-- ╚══════════════════════════════════════════════════╝ -->
+
+<div align="center">
+
+### 🗺 Навигация по репозиторию
+
+| Раздел               | Ссылка                              | Описание             |
+| -------------------- | ----------------------------------- | -------------------- |
+| 🏠 **Главная**       | [README](README.md)                 | Этот документ        |
+| 📚 **Документация**  | [Index](DOCUMENTATION_INDEX.md)     | Полный каталог docs/ |
+| 🏛 **Архитектура**    | [Hub](ARCHITECTURE_HUB.md)          | ADR, диаграммы, слои |
+| 🗺 **Дорожная карта** | [ROADMAP](ROADMAP.md)               | План Q3 2026         |
+| 📊 **Статус**        | [PROJECT_STATUS](PROJECT_STATUS.md) | Метрики, спринты     |
+| 📝 **Changelog**     | [CHANGELOG](CHANGELOG.md)           | Релизы               |
+
+### 🔁 Быстрые ссылки
+
+| Назначение           | Команда / Ссылка                                 |
+| -------------------- | ------------------------------------------------ |
+| Запустить dev-сервер | `npm run dev` (порт 8080)                        |
+| Запустить тесты      | `npm test -- --run`                              |
+| Собрать production   | `npm run build`                                  |
+| Проверить бандл      | `npm run size`                                   |
+| Storybook            | `npm run storybook` (порт 6006)                  |
+| Telegram бот         | [@AIMusicVerseBot](https://t.me/AIMusicVerseBot) |
+| Сайт                 | [how2ai.agency](https://how2ai.agency)           |
+
+### 🧭 Потоки онбординга
+
+```
+Новичок     → README → ARCHITECTURE_HUB → CONTRIBUTING
+Разработчик → CLAUDE.md → REPOSITORY_STRUCTURE → ARCHITECTURE_HUB
+Дизайнер    → DESIGN_SYSTEM → DESIGN_TOKENS → LAYOUT_SYSTEM
+PM/Инвестор → PROJECT_STATUS → ROADMAP → CHANGELOG
+Контрибьютор→ CONTRIBUTING → Issues → SECURITY
 ```
 
 ---
 
-## 📞 Контакты и ссылки
+<p>
+  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github"/></a>
+  <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Bot-26A5E4?style=for-the-badge&logo=telegram"/></a>
+  <a href="https://how2ai.agency"><img alt="Web" src="https://img.shields.io/badge/Web-how2ai.agency-9333EA?style=for-the-badge"/></a>
+  <a href="mailto:hello@how2ai.agency"><img alt="Email" src="https://img.shields.io/badge/Email-hello@how2ai.agency-EA4335?style=for-the-badge&logo=gmail"/></a>
+</p>
 
-| Ресурс          | Ссылка                                           |
-| --------------- | ------------------------------------------------ |
-| 🤖 Telegram бот | [@AIMusicVerseBot](https://t.me/AIMusicVerseBot) |
-| 📧 Email        | `hello@how2ai.agency`                            |
-| 🌐 Сайт         | [how2ai.agency](https://how2ai.agency)           |
-| 🛡 Безопасность  | `security@how2ai.agency`                         |
-| 📄 Лицензия     | [MIT](LICENSE)                                   |
+**Лицензия:** MIT · **Авторские права:** HOW2AI Agency © 2025–2026 · **Безопасность:** `security@how2ai.agency`
 
----
-
-<div align="center">
-
-### 🔗 Навигация
-
-[📚 Документация](./DOCUMENTATION_INDEX.md) · [🗺 Roadmap](./ROADMAP.md) · [📊 Статус](./PROJECT_STATUS.md) · [📝 Changelog](./CHANGELOG.md) · [🤝 Contributing](./CONTRIBUTING.md)
-
-<sub>Обновлено: 06.07.2026 (Quality gate green: typecheck + lint + format ✅; 1431 unit-тестов; GenerateSheet design review) · HOW2AI Agency © 2025-2026</sub>
+<sub>Последнее обновление: 2026-07-09 · Sprint 062 ✅ (UI/UX Audit Phase A+B+C) · tsc 0 errors · 1691 tests passing</sub>
 
 </div>

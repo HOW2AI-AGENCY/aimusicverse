@@ -190,11 +190,48 @@ export const ExpandBtn = memo(function ExpandBtn({ onClick }: NavProps) {
 interface VolumeProps {
   volume: number;
   setVolume: (v: number) => void;
+  variant?: CompactVariant;
 }
 
-export const VolumeControl = memo(function VolumeControl({ volume, setVolume }: VolumeProps) {
+export const VolumeControl = memo(function VolumeControl({ volume, setVolume, variant }: VolumeProps) {
   const { t } = useTranslation();
   const Icon = volume === 0 ? VolumeX : volume < 0.5 ? Volume1 : Volume2;
+
+  // Desktop: hover reveal slider inline (P2-4 — no click needed)
+  if (variant === "desktop") {
+    return (
+      <div className="relative group flex items-center h-10 w-10">
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn("h-10 w-10 rounded-full hover:bg-muted/50 transition-all motion-reduce:transition-none", TOUCH)}
+          aria-label={t("player.buttons.volumeLabel")}
+        >
+          <Icon className="h-4 w-4" aria-hidden="true" />
+        </Button>
+        <div
+          className={cn(
+            "absolute right-0 top-1/2 -translate-y-1/2 hidden",
+            "group-hover:flex group-focus-within:flex items-center gap-2 h-10 px-3",
+            "bg-popover border rounded-full shadow-md z-10",
+          )}
+        >
+          <Slider
+            value={[Math.round(volume * 100)]}
+            onValueChange={(v) => setVolume(v[0] / 100)}
+            min={0}
+            max={100}
+            step={1}
+            className="w-24"
+            aria-label={t("player.buttons.volumeLabel")}
+          />
+          <span className="text-xs tabular-nums text-muted-foreground min-w-[3ch]">{Math.round(volume * 100)}%</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Mobile/mid: popover on click (existing behavior)
   return (
     <Popover>
       <PopoverTrigger asChild>
