@@ -482,7 +482,9 @@ export default function Library() {
                 </>
               )}
             </PullToRefreshWrapper>
+            </div>
           </div>
+
 
           {/* Desktop: Track Detail Panel */}
           {!isMobile && selectedTrack && (
