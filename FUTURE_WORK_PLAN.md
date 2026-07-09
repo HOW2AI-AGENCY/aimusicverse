@@ -1,8 +1,8 @@
 # План дальнейших работ MusicVerse AI
 
 **Дата:** 2026-07-09
-**Статус:** Sprint 058 ✅, CI green, tsc 0 errors, 1489 unit tests, E2E stable. Следующий review: 2026-07-13.
-**Фокус:** Bundle optimization → API/Service unit tests → Design polish
+**Статус:** Sprint 059-A ✅ (circular deps fixed, barrel re-exports removed), tsc 0 errors, 1489 unit tests, 0 circular chunk warnings. Следующий review: 2026-07-13.
+**Фокус:** API/Service unit tests → Bundle size reduction (1.8 MB goal) → Design polish
 
 ---
 
@@ -61,27 +61,29 @@
 
 ### Sprint 059 — Bundle Optimization + API/Service unit tests
 
-**Часть A — Bundle optimization:**
+**Часть A — Bundle optimization: ✅**
 
 **Текущее:** 508 KB eager JS, 2.11 MB total. Цель: ≤1.8 MB total.
 
-- [ ] `npm run size:why` — выявить oversized chunks
-- [ ] Пересмотреть границы `manualChunks` в `vite.config.ts`
-- [ ] Устранить barrel re-export циклы (check "Circular chunk" warnings)
-- [ ] Tree-shaking для неиспользуемых экспортов
-- [ ] Lazy-load admin/studio/charts/dnd/forms (если ещё не)
-- [ ] Аудит framer-motion импортов — все через `@/lib/motion`
+- [x] Анализ — `visualizer` встроен в сборку, stats.html доступен
+- [x] `manualChunks` — zustand/use-sync-external-store выделены в `vendor-state`
+- [x] barrel re-export циклы устранены — `useGenerateFormStateInternal`, `useGenerateFormDraft` импортируют напрямую, не через `index.ts`
+- [x] 0 circular chunk warnings (было 2: vendor-other→vendor-react→vendor-other, vendor-react→vendor-state→vendor-react)
+- [x] Аудит framer-motion — только `src/lib/motion.ts` импортирует `framer-motion` (✅ чисто)
+- [x] Все страницы уже lazy-loaded (50 lazyWithRetry вызовов в App.tsx)
+- [ ] Tree-shaking проверка (частично — `treeshake: { preset: "recommended" }` уже включён)
+- [ ] **Понизить vendor-other/feature-admin-studio (REDUX)** — не реализовано, см. ниже
 
 **Часть B — API/Service unit tests:**
 
-**Текущее:** 1489 unit tests. Цель: 1800+.
+**Текущее:** 1489 unit tests (122/124 files). Цель: 1800+.
 
 - [ ] `src/api/*.api.ts` (30 файлов) — по 3-5 тестов (mocked Supabase client)
 - [ ] `src/services/*.service.ts` (37 файлов) — по 5-8 тестов
 - [ ] TanStack Query mutations: useSunoMashup, useSunoPersona, useSunoFileUpload
 - [ ] Edge functions декомпозиция (11 файлов >800 LOC в `supabase/functions/`)
 
-**Срок:** 7-10 дней
+**Срок:** 5-7 дней
 **Метрика:** 1800+ unit tests, total bundle ≤1.8 MB
 
 ---
@@ -137,12 +139,12 @@ Week 5 (Aug 4-8):
 
 ## 🚀 Q3 2026 (после стабилизации)
 
-| Sprint  | Фокус                                         | Статус       |
-| ------- | --------------------------------------------- | ------------ |
-| **057** | E2E CI green + Branch Protection complete     | ✅ ЗАВЕРШЁН  |
-| **058** | i18n EN/RU (mashup + generation домены)       | ✅ ЗАВЕРШЁН  |
-| **059** | Bundle optimization + API/Service unit tests  | 📋 Следующий |
-| **060** | Design polish (search, skeleton, transitions) | 📋 Planned   |
+| Sprint  | Фокус                                                | Статус                          |
+| ------- | ---------------------------------------------------- | ------------------------------- |
+| **057** | E2E CI green + Branch Protection complete            | ✅ ЗАВЕРШЁН                     |
+| **058** | i18n EN/RU (mashup + generation домены)              | ✅ ЗАВЕРШЁН                     |
+| **059** | Bundle optimization (A) + API/Service unit tests (B) | 🔄 Часть A ✅ / Часть B активна |
+| **060** | Design polish (search, skeleton, transitions)        | 📋 Planned                      |
 
 ---
 
@@ -166,7 +168,7 @@ Week 5 (Aug 4-8):
 
 ---
 
-**Последнее обновление:** 2026-07-09 (Sprint 058 ✅)
+**Последнее обновление:** 2026-07-09 (Sprint 059-A ✅)
 **Следующий review:** 2026-07-13
 </content>
 </invoke>

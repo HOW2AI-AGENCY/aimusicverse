@@ -110,7 +110,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
         name: trimmed,
         description: personaDescription.trim() || undefined,
       });
-      logger.info(personaStrings.logEvent, { personaId: result.personaId, status: result.status });
+      logger.info("train_persona", { personaId: result.personaId, status: result.status });
       toast.success(personaStrings.successToastPending, {
         description:
           result.status === "pending"
@@ -121,10 +121,10 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
       setPersonaName("");
       setPersonaDescription("");
     } catch (err) {
-      logger.error(personaStrings.logEventFailed, { err });
+      logger.error("train_persona_failed", { err });
       toast.error(personaStrings.validation.trainingFailed);
     }
-  }, [trackId, personaName, personaDescription, personaMutation, personaStrings.logEventFailed]);
+  }, [trackId, personaName, personaDescription, personaMutation]);
 
   // Handle version preview (play/pause)
   const handlePreview = useCallback(

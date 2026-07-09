@@ -1026,7 +1026,28 @@ Sprint 056 успешно завершён:
 - +1 хук (useGenerationStrings), +1 компонент (LanguageSwitcher)
 - −102 строки (mashupStrings.ts удалён)
 
-### Следующий спринт: Sprint 059 — Bundle optimization + API/Service unit tests
+### Следующий спринт: Sprint 059-A ✅ (частично) — Bundle optimization — circular deps fixed
+
+**Дата:** 2026-07-09
+**Результат:** bundle build clean (0 circular chunk warnings)
+
+- [x] Rollup-визуализатор встроен — `dist/stats.html` генерируется при сборке
+- [x] `manualChunks`: zustand + use-sync-external-store → `vendor-state` (ломает цикл vendor-other↔vendor-react)
+- [x] Barrel re-export cycles устранены: `useGenerateFormStateInternal.ts`, `useGenerateFormDraft.ts` импортируют напрямую, не через `index.ts`
+- [x] 0 circular chunk warnings (было 2: vendor-other→vendor-react→vendor-other, vendor-react→vendor-state→vendor-react)
+- [x] Аудит framer-motion — только `src/lib/motion.ts` импортирует напрямую (✅ все импорты через `@/lib/motion`)
+- [x] Все страницы уже lazy-loaded (50 вызовов `lazyWithRetry` в `App.tsx`)
+- [ ] Tree-shaking unused exports audit (частично — `treeshake: { preset: "recommended" }` уже включён)
+- [ ] REDUX: понизить vendor-other (476KB br) и feature-admin-studio (2096KB br) — deferred
+
+**Коммиты:** pending
+**Метрика:** 0 circular warnings, tsc 0 errors, 1489 tests, all size-limits green
+
+### Sprint 059-B — API/Service unit tests (in progress)
+
+- [ ] `src/api/*.api.ts` (30 файлов)
+- [ ] `src/services/*.service.ts` (37 файлов)
+- [ ] TanStack Query mutations
 
 ---
 
@@ -1172,6 +1193,6 @@ Sprint 057 успешно завершён:
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-07-09 (Sprint 058 ✅ — i18n EN/RU); Sprint 059 (Bundle optimization + API/Service tests) — следующий</sub>
+<sub>Последнее обновление: 2026-07-09 (Sprint 059-A ✅ — bundle optimization); Sprint 059-B (API/Service tests) — активен</sub>
 
 </div>
