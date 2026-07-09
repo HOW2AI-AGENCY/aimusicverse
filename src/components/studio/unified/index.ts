@@ -3,6 +3,13 @@
  *
  * Components for the integrated studio experience combining
  * section replacement and stem mixing in one interface.
+ *
+ * ponytail: deliberately avoids re-exporting hooks/stores/lyrics.
+ * Those are imported directly by consumers — barrel re-exports
+ * create false chunk dependency edges that prevent Rollup from
+ * splitting this module out of the feature-admin-studio mega-chunk.
+ * If a consumer needs useSwipeNavigation, import from
+ * @/hooks/useSwipeNavigation directly.
  */
 
 export { IntegratedStemTracks } from "./IntegratedStemTracks";
@@ -77,31 +84,7 @@ export { OptimizedMixerPanel } from "./OptimizedMixerPanel";
 export { OptimizedTransport } from "./OptimizedTransport";
 export { OptimizedStemTrack } from "./OptimizedStemTrack";
 
-// Re-export hooks for convenience
-export { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
-export { useStudioPerformance, useThrottledCallback, useCustomDeferredValue } from "@/hooks/useStudioPerformance";
-export { useUnifiedStudio } from "@/hooks/studio/useUnifiedStudio";
-export { useStudioMixer } from "@/hooks/studio/useStudioMixer";
-export { useLyricsSync } from "@/hooks/lyrics/useLyricsSync";
-
-// Re-export configs
-export {
-  getActionsForStemType,
-  getGroupedActions,
-  CATEGORY_LABELS,
-  normalizeTrackType,
-} from "@/hooks/studio/stemActionsConfig";
-export { MIX_PRESETS, getMixPreset } from "@/hooks/studio/mixPresetsConfig";
-
-// Re-export stores for convenience
-export { useStemMixerStore, useStemState, useStemActions, useMasterControls } from "@/stores/useStemMixerStore";
-export { usePlaybackStore, usePlaybackStatus, usePlaybackControls } from "@/stores/usePlaybackStore";
-
-// Re-export optimized lyrics
-export { OptimizedLyricsPanel } from "@/components/lyrics/OptimizedLyricsPanel";
-export { OptimizedLyricsLine } from "@/components/lyrics/OptimizedLyricsLine";
-
-// Type exports
+// Type exports — type-only imports do not create chunk eval edges
 export type { UnifiedStudioMobileProps } from "./UnifiedStudioMobile";
 export type { StemAction, StemType } from "@/hooks/studio/stemActionsConfig";
 export type { MixPreset, StemMixSettings } from "@/hooks/studio/mixPresetsConfig";

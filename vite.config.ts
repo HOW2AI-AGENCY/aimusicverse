@@ -119,7 +119,9 @@ export default defineConfig(({ mode }) => ({
     // (vendor-react, vendor-supabase, etc.), so those get network priority.
     modulePreload: {
       resolveDependencies: (_filename, deps) =>
-        deps.filter((dep) => !/feature-admin-studio|vendor-charts|vendor-dnd|vendor-forms|vendor-confetti/.test(dep)),
+        deps.filter(
+          (dep) => !/feature-studio|feature-generation|vendor-charts|vendor-dnd|vendor-forms|vendor-confetti/.test(dep),
+        ),
     },
     target: "esnext",
     minify: hasTerser ? "terser" : "esbuild",
@@ -325,14 +327,12 @@ export default defineConfig(({ mode }) => ({
           // Note: /pages/Projects, /pages/LyricsStudio, /pages/LyricsWorkspace,
           // and /pages/AdminDashboard are intentionally NOT chunked separately —
           // they're part of the circular dependency chain merged into
-          // feature-admin-studio below.
-          // Feature components - grouped to avoid circular deps
-          //
-          // IMPORTANT: page-admin, feature-generation-form, feature-stem-studio,
-          // feature-lyrics-wizard, feature-studio, feature-studio-unified,
-          // store-studio, and page-lyrics-studio form a circular dependency chain.
-          // We merge ALL of them into a single chunk to prevent chunk-level TDZ
-          // errors ("Cannot access X before initialization").
+          // feature-studio below.
+
+          // Phase B3 (Sprint 061): barrel cleanup + useStudioAudio move breaks
+          // enough cross-deps to split generate-form / lyrics from studio.
+          // If TDZ errors surface, merge back into single feature-admin-studio.
+
           if (
             id.includes("/pages/AdminDashboard") ||
             id.includes("/pages/admin/") ||
@@ -344,10 +344,6 @@ export default defineConfig(({ mode }) => ({
             id.includes("/stores/studio/") ||
             id.includes("/components/admin/") ||
             id.includes("/components/stem-studio/") ||
-            id.includes("/components/audio-reference/") ||
-            id.includes("/components/lyrics/") ||
-            id.includes("/components/lyrics-workspace/") ||
-            id.includes("/components/generate-form/") ||
             id.includes("/components/studio/mixer/") ||
             id.includes("/components/studio/editor/") ||
             id.includes("/components/studio/timeline/") ||
@@ -355,7 +351,22 @@ export default defineConfig(({ mode }) => ({
             id.includes("/components/studio/") ||
             id.includes("/components/performance/")
           ) {
-            return "feature-admin-studio";
+            return "feature-studio";
+          }
+
+          // generate-form + lyrics + audio tools — separated from studio
+          // after barrel cleanup (B1) and useStudioAudio move (B2)
+          if (
+            id.includes("/components/generate-form/") ||
+            id.includes("/components/lyrics/") ||
+            id.includes("/components/lyrics-workspace/") ||
+            id.includes("/components/guitar/") ||
+            id.includes("/components/drum-machine/") ||
+            id.includes("/components/audio-record/") ||
+            id.includes("/components/audio-reference/") ||
+            id.includes("/components/audio/")
+          ) {
+            return "feature-generation";
           }
           // Note: /components/analytics/ is intentionally NOT chunked here.
           // Manual chunking caused a TDZ crash ("Cannot access 'w' before init")
