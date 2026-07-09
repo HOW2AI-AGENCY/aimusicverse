@@ -14,6 +14,22 @@ const config = {
     name: '@storybook/react-vite',
     options: {},
   },
+  viteFinal: async (config) => {
+    const path = require('path');
+    const mockDir = path.resolve(__dirname, 'mocks');
+    // Mock context modules for Storybook
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      '@/contexts/AuthContext': path.join(mockDir, 'AuthContext.tsx'),
+      '@/contexts/TelegramContext': path.join(mockDir, 'TelegramContext.tsx'),
+      '@/contexts/telegram/TelegramProvider': path.join(mockDir, 'TelegramContext.tsx'),
+      '@/contexts/telegram/index': path.join(mockDir, 'TelegramContext.tsx'),
+      '@/contexts/telegram': path.join(mockDir, 'TelegramContext.tsx'),
+      '@/contexts/ThemeContext': path.join(mockDir, 'ThemeContext.tsx'),
+    };
+    return config;
+  },
   docs: {
     autodocs: 'tag',
   },

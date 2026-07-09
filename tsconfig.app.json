@@ -23,6 +23,8 @@
     "**/*.test.tsx",
     "**/*.spec.ts",
     "**/*.spec.tsx",
+    "**/*.stories.tsx",
+    "**/*.stories.ts",
     "tests",
     "src/lib/mcp/**",
     "supabase/functions/mcp/**"

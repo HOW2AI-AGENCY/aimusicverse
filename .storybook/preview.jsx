@@ -16,13 +16,12 @@ const preview = {
     },
   },
   decorators: [
-    (Story) => (
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <Story />
-        </MemoryRouter>
-      </QueryClientProvider>
-    ),
+    (Story) =>
+      React.createElement(
+        QueryClientProvider,
+        { client: queryClient },
+        React.createElement(MemoryRouter, null, React.createElement(Story)),
+      ),
   ],
 };
 

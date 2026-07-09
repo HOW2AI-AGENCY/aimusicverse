@@ -291,6 +291,10 @@ export default defineConfig(({ mode }) => ({
             // `tone` rule above merges them into vendor-tone.
             if (id.includes("dompurify")) return "vendor-dompurify";
             if (id.includes("fast-check")) return "vendor-fastcheck";
+            // i18next — every-page dep, better cached separately
+            if (id.includes("i18next")) return "vendor-i18n";
+            // @twa-dev/sdk — Telegram SDK
+            if (id.includes("@twa-dev")) return "vendor-telegram";
             // Small shared utilities safe to keep bundled together
             if (
               id.includes("use-debounce") ||
