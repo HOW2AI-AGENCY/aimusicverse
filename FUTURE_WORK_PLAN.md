@@ -66,9 +66,9 @@
 **Текущее:** 508 KB eager JS, 2.11 MB total. Цель: ≤1.8 MB total.
 
 - [x] Анализ — `visualizer` встроен в сборку, stats.html доступен
-- [x] `manualChunks` — zustand/use-sync-external-store выделены в `vendor-state`
+- [x] `manualChunks` — zustand/use-sync-external-store остались в `vendor-react` (попытка `vendor-state` вызвала runtime crash: React.createContext undefined. Причина: порядок загрузки чанков.)
 - [x] barrel re-export циклы устранены — `useGenerateFormStateInternal`, `useGenerateFormDraft` импортируют напрямую, не через `index.ts`
-- [x] 0 circular chunk warnings (было 2: vendor-other→vendor-react→vendor-other, vendor-react→vendor-state→vendor-react)
+- [x] 1 benign circular warning: vendor-other→vendor-react→vendor-other (косметический, React всегда грузится первым)
 - [x] Аудит framer-motion — только `src/lib/motion.ts` импортирует `framer-motion` (✅ чисто)
 - [x] Все страницы уже lazy-loaded (50 lazyWithRetry вызовов в App.tsx)
 - [ ] Tree-shaking проверка (частично — `treeshake: { preset: "recommended" }` уже включён)
