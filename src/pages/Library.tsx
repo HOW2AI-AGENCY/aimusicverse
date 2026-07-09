@@ -218,13 +218,13 @@ export default function Library() {
     <ErrorBoundaryWrapper>
       <SEOHead {...SEO_PRESETS.library} />
       <div
-        className="min-h-screen pb-20 flex"
+        className="h-[100dvh] flex overflow-hidden"
         style={{
           paddingTop:
             "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
         }}
       >
-        {/* Desktop Generate Sidebar */}
+        {/* Desktop Generate Sidebar — pinned, own internal scroll, no page scroll */}
         {!isMobile && (
           <DesktopLibrarySidebar
             isCollapsed={generateSidebarCollapsed}
@@ -233,19 +233,20 @@ export default function Library() {
         )}
 
         {/* Main Content - with master-detail layout on desktop */}
-        <div className={cn("flex-1 min-w-0 flex", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
-          {/* Track List Section */}
+        <div className={cn("flex-1 min-w-0 flex overflow-hidden", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
+          {/* Track List Section — only this column scrolls */}
           <div
             className={cn(
-              "flex-1 min-w-0 flex flex-col",
+              "flex-1 min-w-0 flex flex-col overflow-hidden",
               !isMobile && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
             )}
           >
             {/* SR-only H1 for page-has-heading-one / heading uniqueness */}
             <h1 className="sr-only">Моя библиотека — MusicVerse</h1>
 
-            {/* Unified Header */}
+            {/* Unified Header — non-sticky within flex column; scroll happens inside content region below */}
             <AppHeader
+              className="!static !mx-0 flex-shrink-0"
               title="Библиотека"
               subtitle={
                 hasActiveGenerations
@@ -308,6 +309,10 @@ export default function Library() {
                 </div>
               }
             />
+
+            {/* Scrollable region — filters + track list share single scroll container */}
+            <div className="flex-1 overflow-y-auto overscroll-contain">
+
 
             {/* Compact Search and Filters */}
             <div className="z-20 bg-background border-b border-border/30 -mx-4 px-5 sm:px-6 py-4 sm:py-5">
@@ -477,7 +482,9 @@ export default function Library() {
                 </>
               )}
             </PullToRefreshWrapper>
+            </div>
           </div>
+
 
           {/* Desktop: Track Detail Panel */}
           {!isMobile && selectedTrack && (
