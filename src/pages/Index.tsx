@@ -298,8 +298,8 @@ const Index = () => {
               2xl+   (ultra):      10/2 compact, generous internal breathing room
             items-start prevents the aside from stretching vertically.
           */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 xl:gap-8 2xl:gap-10 items-start">
-            <div className={cn("lg:col-span-8 xl:col-span-8 2xl:col-span-9 min-w-0", sectionTokens.blockGap)}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-start">
+            <div className={cn("lg:col-span-8 xl:col-span-9 min-w-0", sectionTokens.blockGap)}>
               {heroBlock}
               {createBlock}
               {trendingBlock}
@@ -310,9 +310,8 @@ const Index = () => {
 
             <aside
               className={cn(
-                "hidden lg:block lg:col-span-4 xl:col-span-4 2xl:col-span-3 min-w-0",
+                "hidden lg:block lg:col-span-4 xl:col-span-3 min-w-0",
                 "lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:overscroll-contain",
-                "lg:border-l lg:border-border/40 lg:pl-4 xl:pl-5",
                 "scrollbar-thin scrollbar-thumb-border/40 scrollbar-track-transparent",
               )}
               aria-label={t("home.section.sidebar")}
