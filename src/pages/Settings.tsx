@@ -260,6 +260,14 @@ export default function Settings() {
             >
               Конфиденциальность
             </Button>
+            <span>•</span>
+            <Button
+              variant="link"
+              className="h-auto p-0 text-muted-foreground hover:text-primary transition-colors lg:text-base"
+              onClick={() => settings.navigateTo("/connect")}
+            >
+              Подключить ассистента
+            </Button>
           </div>
           <p className="mt-2 text-xs lg:text-sm">MusicVerse AI © 2025</p>
         </motion.div>
