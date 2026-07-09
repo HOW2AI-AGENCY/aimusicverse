@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { GenerationLoadingState } from "@/components/generate-form/GenerationLoadingState";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -57,6 +59,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
   const qc = useQueryClient();
   const { user } = useAuth();
   const { keyboardHeight, isKeyboardOpen } = useKeyboardAware();
+  const isMobile = useIsMobile();
 
   const controller = useGenerateSheetController({ open, onOpenChange, initialProjectId: projectId });
 
@@ -134,8 +137,12 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
         }}
       >
         <SheetContent
-          side="bottom"
-          className="h-dvh sm:h-[85vh] lg:h-dvh lg:max-w-[680px] lg:rounded-2xl lg:mx-auto flex flex-col frost-sheet p-0 w-full max-w-full min-w-0 overflow-x-hidden"
+          side={isMobile ? "bottom" : "left"}
+          className={cn(
+            isMobile
+              ? "h-dvh sm:h-[85vh] flex flex-col frost-sheet p-0 w-full max-w-full min-w-0 overflow-x-hidden"
+              : "w-[440px] flex flex-col frost-sheet p-0 overflow-x-hidden !left-[4rem] xl:!left-64",
+          )}
           hideCloseButton
           hideTitle
           accessibleTitle="Создание музыки"
