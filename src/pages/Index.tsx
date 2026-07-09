@@ -24,7 +24,7 @@ import { useHomePageEffects } from "@/hooks/useHomePageEffects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useOpenGenerateFromDeeplink } from "@/hooks/useOpenGenerateFromDeeplink";
 import { listenOpenGenerateSheet } from "@/lib/events";
-import { HomeStickyCTA } from "@/components/home/HomeStickyCTA";
+// HomeStickyCTA removed — primary Create action is in the nav (sidebar on desktop, bottom nav on mobile).
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { HomeSearchBar } from "@/components/home/HomeSearchBar";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
