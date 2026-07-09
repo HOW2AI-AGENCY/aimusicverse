@@ -1,7 +1,7 @@
 # План дальнейших работ MusicVerse AI
 
 **Дата:** 2026-07-09
-**Статус:** Sprint 063 ✅ (Homepage UX fixes, 100-point audit P0/P1 complete). tsc 0 errors, 1691 unit tests, 0 circular chunk warnings. Следующий review: 2026-07-13.
+**Статус:** Sprint 063 ✅ + Sprint 064 ✅ (P2 polish: tablet cols, error/retry, More label). tsc 0 errors, 1691 unit tests, 0 circular chunk warnings. Следующий review: 2026-07-13.
 **Фокус:** Remaining P2 items from audit → Edge function decomposition → Bundle size (2.11 MB → ≤1.8 MB)
 
 ---
@@ -176,7 +176,7 @@ Week 5 (Aug 4-8):
 | **061** | Bundle: vendor splits + barrel cleanup + chunk split | ✅ ЗАВЕРШЁН |
 | **062** | UI/UX Audit: P0/P1 fixes (A+B ✅), P2 polish (C ✅)  | ✅ ЗАВЕРШЁН |
 | **063** | Homepage UX audit P0/P1 fixes                        | ✅ ЗАВЕРШЁН |
-| **064** | P2 polish + Edge func decomp + Bundle                | 📋 ПЛАН     |
+| **064** | P2 polish (tablet cols, error, More label)           | ✅ ЗАВЕРШЁН |
 
 ---
 

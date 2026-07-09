@@ -25,7 +25,13 @@ export function useHomePageData(options: UseHomePageDataOptions = {}) {
   const { preloadCount = 8, pageSize = 20 } = options;
 
   // Single optimized query for all public content (genres, featured, etc.)
-  const { data: publicContent, isLoading: contentLoading, refetch: refetchContent } = usePublicContentBatch();
+  const {
+    data: publicContent,
+    isLoading: contentLoading,
+    isError,
+    error,
+    refetch: refetchContent,
+  } = usePublicContentBatch();
 
   // Infinite scroll for "New Tracks" section
   const {
@@ -95,6 +101,8 @@ export function useHomePageData(options: UseHomePageDataOptions = {}) {
 
     // Loading states
     isLoading,
+    isError,
+    error,
 
     // Recent tracks infinite scroll
     hasMoreRecent,

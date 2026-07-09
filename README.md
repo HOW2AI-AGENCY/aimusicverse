@@ -179,6 +179,7 @@ npm run build            # production build
 | 061    | Vendor splits + barrel cleanup          |   ✅   |
 | 062    | UI/UX Audit P0/P1/P2 (A+B+C)            |   ✅   |
 | 063    | Homepage UX fixes + card refinement     |   ✅   |
+| 064    | P2 polish: tablet cols, error, More     |   ✅   |
 
 <sub><a href="#🚀-быстрый-старт">← Назад: Быстрый старт</a> · <a href="#top">↑ К началу</a> · <a href="#🛠-технический-стек">Далее: Технический стек →</a></sub>
 
@@ -338,6 +339,6 @@ PM/Инвестор → PROJECT_STATUS → ROADMAP → CHANGELOG
 
 **Лицензия:** MIT · **Авторские права:** HOW2AI Agency © 2025–2026 · **Безопасность:** `security@how2ai.agency`
 
-<sub>Последнее обновление: 2026-07-09 · Sprint 063 ✅ (Homepage UX Fixes) · tsc 0 errors · 1691 tests · Sprint 063 ✅</sub>
+<sub>Последнее обновление: 2026-07-09 · Sprint 064 ✅ (P2 Polish) · tsc 0 errors · 1691 tests · Sprint 064 ✅</sub>
 
 </div>

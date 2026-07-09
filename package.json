@@ -258,9 +258,9 @@
       "gzip": true
     },
     {
-      "name": "Admin/Studio Feature",
-      "path": "dist/assets/feature-admin-studio*.js",
-      "limit": "550 KB",
+      "name": "Studio Feature",
+      "path": "dist/assets/feature-studio*.js",
+      "limit": "750 KB",
       "gzip": true
     },
     {

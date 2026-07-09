@@ -249,6 +249,7 @@ export const GridVariant = memo(function GridVariant({
                   aria-label="Дополнительные действия"
                 >
                   <MoreHorizontal className="w-4 h-4" />
+                  <span className="sr-only">Ещё</span>
                 </Button>
               )}
             </div>

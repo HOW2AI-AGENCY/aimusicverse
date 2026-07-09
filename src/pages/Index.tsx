@@ -110,13 +110,15 @@ const Index = () => {
   const popularTracks = homePageData.popularTracks;
   const tracksByGenre = homePageData.tracksByGenre;
   const isLoading = homePageData.isLoading;
+  const isError = homePageData.isError;
+  const error = homePageData.error;
+  const refresh = homePageData.refresh;
   const hasMoreRecent = homePageData.hasMoreRecent;
   const isLoadingMoreRecent = homePageData.isLoadingMoreRecent;
   const fetchMoreRecent = homePageData.fetchMoreRecent;
   const hasMorePopular = homePageData.hasMorePopular;
   const isLoadingMorePopular = homePageData.isLoadingMorePopular;
   const fetchMorePopular = homePageData.fetchMorePopular;
-  const refresh = homePageData.refresh;
 
   const { goToProfile, handleCreate, handleTrackClick, handleQuickGenrePreset } = useHomePageHandlers({
     onOpenGenerateSheet: openGenerateSheet,
@@ -175,6 +177,9 @@ const Index = () => {
             popularTracks={popularTracks}
             recentTracks={recentTracks}
             isLoading={isLoading}
+            isError={isError}
+            error={error}
+            onRetry={refresh}
             hasMorePopular={hasMorePopular}
             isLoadingMorePopular={isLoadingMorePopular}
             onLoadMorePopular={fetchMorePopular}
@@ -190,6 +195,9 @@ const Index = () => {
       popularTracks,
       recentTracks,
       isLoading,
+      isError,
+      error,
+      refresh,
       hasMorePopular,
       isLoadingMorePopular,
       fetchMorePopular,

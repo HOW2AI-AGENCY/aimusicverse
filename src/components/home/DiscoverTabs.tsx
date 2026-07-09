@@ -8,32 +8,23 @@
  * Goal: drastically reduce visual noise on the home page.
  */
 
-import { memo, useState, forwardRef, useMemo, useCallback } from "react";
+import { memo, useState, forwardRef, useMemo, useCallback, useRef } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UnifiedTrackCard } from "@/components/track/track-card-new";
 import { Button } from "@/components/ui/button";
-import { Loader2, TrendingUp, Sparkles, Clock } from "@/lib/icons";
+import { Loader2, TrendingUp, Sparkles, Clock, RefreshCw } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { motion, type Variants } from "@/lib/motion";
+import { useIsTablet } from "@/hooks/use-media-query";
+import { motion, type Variants, useInView as useFramerInView } from "@/lib/motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { GridSkeleton } from "@/components/ui/skeleton-components";
 import type { TrackData } from "@/components/track/track-card-new/types";
 
 const gridVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.035 } },
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 18, scale: 0.96 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] } },
-};
-
-const fadeInVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.2 } },
+  hidden: { opacity: 0.9, y: 8 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } },
 };
 
 // Windowing kicks in once the list has grown past the first page, so the
@@ -45,6 +36,9 @@ interface DiscoverTabsProps {
   popularTracks: TrackData[];
   recentTracks: TrackData[];
   isLoading?: boolean;
+  isError?: boolean;
+  error?: Error | null;
+  onRetry?: () => void;
   hasMorePopular?: boolean;
   isLoadingMorePopular?: boolean;
   onLoadMorePopular?: () => void;
@@ -72,24 +66,27 @@ const Grid = memo(function Grid({
   onRemix?: (id: string) => void;
 }) {
   const prefersReducedMotion = useReducedMotion();
+  const gridRef = useRef<HTMLDivElement>(null);
+  const isInView = useFramerInView(gridRef, { once: true, margin: "100px" });
 
   if (!tracks.length) {
     return <p className="text-sm text-muted-foreground text-center py-8">Пока ничего нет</p>;
   }
   return (
     <motion.div
+      ref={gridRef}
       className="grid gap-2.5 sm:gap-3"
-      style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+      style={{ gridTemplateColumns: `repeat(${columns}, minmax(160px, 1fr))` }}
       initial={prefersReducedMotion ? undefined : "hidden"}
-      animate={prefersReducedMotion ? undefined : "visible"}
+      animate={prefersReducedMotion ? undefined : isInView ? "visible" : "hidden"}
       variants={prefersReducedMotion ? undefined : gridVariants}
     >
       {tracks.map((track) => (
-        <motion.div
+        <div
           key={track.id}
-          variants={prefersReducedMotion ? undefined : cardVariants}
-          whileHover={prefersReducedMotion ? undefined : { y: -3 }}
-          whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
+          className={
+            prefersReducedMotion ? undefined : "hover:translate-y-[-3px] active:scale-[0.97] transition-transform"
+          }
         >
           <UnifiedTrackCard
             track={track}
@@ -98,7 +95,7 @@ const Grid = memo(function Grid({
             showActions={false}
             data-onremix={onRemix ? "true" : undefined}
           />
-        </motion.div>
+        </div>
       ))}
     </motion.div>
   );
@@ -126,7 +123,7 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
       forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ children, style, ...props }, ref) => (
         <div
           ref={ref}
-          style={{ ...style, display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+          style={{ ...style, display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(160px, 1fr))` }}
           className="gap-2.5 sm:gap-3"
           {...props}
         >
@@ -145,13 +142,7 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
       const track = tracks[index];
       if (!track) return null;
       return (
-        <motion.div
-          initial={prefersReducedMotion ? undefined : "hidden"}
-          animate={prefersReducedMotion ? undefined : "visible"}
-          variants={prefersReducedMotion ? undefined : fadeInVariants}
-          whileHover={prefersReducedMotion ? undefined : { y: -3 }}
-          whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
-        >
+        <div className="hover:translate-y-[-3px] active:scale-[0.97] transition-transform">
           <UnifiedTrackCard
             track={track}
             variant="grid"
@@ -159,10 +150,10 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
             showActions={false}
             data-onremix={onRemix ? "true" : undefined}
           />
-        </motion.div>
+        </div>
       );
     },
-    [tracks, onTrackClick, onRemix, prefersReducedMotion],
+    [tracks, onTrackClick, onRemix],
   );
 
   return (
@@ -172,6 +163,7 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
       computeItemKey={computeItemKey}
       components={gridComponents}
       itemContent={renderItem}
+      overscan={400}
     />
   );
 });
@@ -179,7 +171,7 @@ const VirtualizedGrid = memo(function VirtualizedGrid({
 const LoadMore = ({ visible, loading, onClick }: { visible?: boolean; loading?: boolean; onClick?: () => void }) => {
   if (!visible || !onClick) return null;
   return (
-    <div className="flex justify-center pt-4">
+    <div className="flex justify-center pt-3">
       <Button variant="outline" size="sm" onClick={onClick} disabled={loading} className="min-w-[140px]">
         {loading ? (
           <>
@@ -211,6 +203,9 @@ export const DiscoverTabs = memo(function DiscoverTabs({
   popularTracks,
   recentTracks,
   isLoading,
+  isError,
+  error,
+  onRetry,
   hasMorePopular,
   isLoadingMorePopular,
   onLoadMorePopular,
@@ -221,19 +216,41 @@ export const DiscoverTabs = memo(function DiscoverTabs({
   onRemix,
 }: DiscoverTabsProps) {
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
   const [tab, setTab] = useState<"popular" | "new">("popular");
-  const columns = isMobile ? 2 : 4;
+  const columns = isMobile ? 2 : isTablet ? 3 : 4;
+
+  // Error state UI
+  if (isError && popularTracks.length === 0 && recentTracks.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <p className="text-muted-foreground text-sm mb-4">Не удалось загрузить треки</p>
+        {onRetry && (
+          <Button variant="outline" size="sm" onClick={onRetry}>
+            <RefreshCw className="mr-2 h-3.5 w-3.5" />
+            Повторить
+          </Button>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <Tabs value={tab} onValueChange={(v) => setTab(v as "popular" | "new")} className="w-full space-y-4">
-      <TabsList className="w-full sm:w-auto grid grid-cols-2 sm:inline-grid sm:grid-cols-2 h-9">
+    <Tabs value={tab} onValueChange={(v) => setTab(v as "popular" | "new")} className="w-full space-y-3">
+      <TabsList className="inline-flex h-9">
         <TabsTrigger value="popular" className="text-xs sm:text-sm gap-1.5">
           <TrendingUp className="h-3.5 w-3.5" />
           Популярное
+          {popularTracks.length > 0 && (
+            <span className="ml-1 text-[10px] text-muted-foreground tabular-nums">{popularTracks.length}</span>
+          )}
         </TabsTrigger>
         <TabsTrigger value="new" className="text-xs sm:text-sm gap-1.5">
           <Sparkles className="h-3.5 w-3.5" />
           Новинки
+          {recentTracks.length > 0 && (
+            <span className="ml-1 text-[10px] text-muted-foreground tabular-nums">{recentTracks.length}</span>
+          )}
         </TabsTrigger>
       </TabsList>
 
