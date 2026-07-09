@@ -65,8 +65,10 @@ export default function Library() {
   const qRef = useRef(searchParams.get("q"));
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
 
-  // Desktop sidebar state
-  const [generateSidebarCollapsed, setGenerateSidebarCollapsed] = useState(false);
+  // Desktop sidebar state — default to collapsed on ≤1440px screens so the form doesn't crowd the grid.
+  const [generateSidebarCollapsed, setGenerateSidebarCollapsed] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 1440 : true,
+  );
 
   // Desktop: Selected track for detail panel
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
