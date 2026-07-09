@@ -11,6 +11,7 @@
  * never accidentally triggers expand.
  */
 import { memo, useCallback, useState, type KeyboardEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { Music2, ChevronUp, AlertCircle } from "@/lib/icons";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -44,6 +45,7 @@ const formatTime = (s: number) => {
 };
 
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
+  const { t } = useTranslation();
   const reducedMotion = useReducedMotion();
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume } =
     usePlayerStore();
@@ -164,13 +166,13 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           className="relative flex-shrink-0 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-xl"
           role="button"
           tabIndex={0}
-          aria-label={`Меню трека: ${track.title || "Без названия"}`}
+          aria-label={t("player.compact.menuLabel", { title: track.title || t("player.compact.titleFallback") })}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           {track.cover_url ? (
             <LazyImage
               src={track.cover_url}
-              alt={track.title || "Обложка трека"}
+              alt={track.title || ""}
               coverSize="small"
               priority={isPlaying}
               aspectRatio="1/1"
@@ -230,14 +232,14 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       className="flex-1 min-w-0 text-left cursor-pointer py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
       role="button"
       tabIndex={0}
-      aria-label={`Развернуть плеер: ${track.title || "Без названия"}`}
+      aria-label={t("player.compact.expandLabel", { title: track.title || t("player.compact.titleFallback") })}
       data-testid="compact-player-expand"
     >
       <p className={cn("font-medium line-clamp-1", variant === "desktop" ? "text-base" : "text-sm")}>
-        {track.title || "Без названия"}
+        {track.title || t("player.compact.titleFallback")}
       </p>
       <p className={cn("text-muted-foreground line-clamp-1", variant === "desktop" ? "text-sm" : "text-xs")}>
-        {track.style || "Без стиля"}
+        {track.style || t("player.compact.styleFallback")}
       </p>
     </div>
   );
@@ -260,8 +262,8 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   const VolumePopover = <VolumeControl volume={volume} setVolume={setVolume} />;
   const ExpandButton = <ExpandBtn onClick={handleExpand} />;
 
-  const Waveform = ({ heightClass }: { heightClass: string }) => (
-    <div className={cn("flex-1 min-w-0", heightClass)}>
+  const Waveform = ({ heightClass, isLoading }: { heightClass: string; isLoading?: boolean }) => (
+    <div className={cn("flex-1 min-w-0 relative", heightClass)}>
       <PlayerProgress
         audioUrl={track.streaming_url || track.audio_url}
         trackId={track.id}
@@ -274,6 +276,17 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         showLabels={false}
         className="pointer-events-auto"
       />
+      {/* Buffering shimmer overlay — non-flickering CSS-only */}
+      {isLoading && (
+        <div
+          className="absolute inset-0 rounded-md overflow-hidden bg-primary/5 pointer-events-none"
+          aria-hidden="true"
+        >
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary/10">
+            <div className="h-full w-1/3 bg-primary/70 animate-shimmer" />
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -290,7 +303,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           className="px-3 pt-3 pb-1.5 cursor-pointer min-h-[44px] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
           role="button"
           tabIndex={0}
-          aria-label="Развернуть плеер"
+          aria-label={t("player.compact.expandAria")}
         >
           <div className="flex-1 min-w-0 relative">
             <Waveform heightClass="h-6" />
@@ -318,7 +331,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             className="mx-3 mb-1.5 flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1 text-[11px] text-destructive"
           >
             <AlertCircle className="h-3 w-3 flex-shrink-0" />
-            <span className="line-clamp-1">{playbackError || "Ошибка воспроизведения"}</span>
+            <span className="line-clamp-1">{playbackError || t("player.compact.errorFallback")}</span>
           </div>
         )}
         <div className="flex items-center gap-2 px-3 pb-3 min-w-0">
@@ -339,7 +352,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         {Cover}
         <div className="flex flex-col flex-1 min-w-0 gap-1">
           {TitleBlock}
-          <Waveform heightClass="h-5" />
+          <Waveform heightClass="h-5" isLoading={isLoading} />
         </div>
         <div className="flex items-center gap-0.5 flex-shrink-0">
           {PlayButton}
@@ -362,11 +375,11 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         <span
           className="text-xs text-muted-foreground tabular-nums w-10 text-right flex-shrink-0"
           role="timer"
-          aria-label={`Текущее время воспроизведения: ${formatTime(currentTime)}`}
+          aria-label={t("player.compact.timeLabel", { currentTime: formatTime(currentTime) })}
         >
           <span aria-hidden="true">{formatTime(currentTime)}</span>
         </span>
-        <Waveform heightClass="h-8" />
+        <Waveform heightClass="h-8" isLoading={isLoading} />
         <span className="text-xs text-muted-foreground tabular-nums w-10 flex-shrink-0" aria-hidden="true">
           {formatTime(duration)}
         </span>
@@ -395,7 +408,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       className="fixed left-0 right-0 z-player px-3 sm:px-4"
       style={{ ...bottomStyle, ...horizontalPadding }}
       role="region"
-      aria-label="Музыкальный плеер"
+      aria-label={t("player.compact.regionLabel")}
       data-testid="compact-player"
       {...gestureHandlers}
       onMouseEnter={() => setShowExpandHint(true)}

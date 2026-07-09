@@ -140,6 +140,98 @@
       "vocalsNeedLyrics": "Для вокального трека требуется текст песни"
     }
   },
+  "home": {
+    "quickCreate": {
+      "title": "Создать музыку",
+      "subtitle": "AI сгенерирует трек за минуту",
+      "fabLabel": "Создать новый музыкальный трек с помощью AI",
+      "credits": "10–12 кредитов",
+      "expandLabel": "Раскрыть опции создания",
+      "collapseLabel": "Свернуть опции создания",
+      "track": "Трек",
+      "riff": "Рифф",
+      "cover": "Кавер",
+      "remix": "Ремикс",
+      "trackDesc": "Полный трек",
+      "riffDesc": "Инструментал",
+      "coverDesc": "Переделка",
+      "remixDesc": "Новый звук",
+      "createLabel": "Создать ${label.toLowerCase()}: ${description}",
+      "optionTrack": "Создать трек",
+      "optionRiff": "Создать рифф",
+      "optionCover": "Создать кавер",
+      "optionRemix": "Создать ремикс"
+    },
+    "search": {
+      "placeholder": "Поиск треков...",
+      "clearLabel": "Очистить поиск",
+      "ariaLabel": "Поиск треков"
+    },
+    "header": {
+      "profileLabel": "Профиль"
+    },
+    "hero": {
+      "firstTimeTitle": "Добро пожаловать в MusicVerse",
+      "firstTimeSubtitle": "Создавайте музыку с помощью AI"
+    },
+    "section": {
+      "hero": "Приветствие",
+      "create": "Создать",
+      "title": "Что сегодня сочиняем?",
+      "subtitle": "Начните с быстрого ввода или выберите жанр",
+      "discoverEyebrow": "Сообщество",
+      "discoverTitle": "Открыть для себя",
+      "discoverSubtitle": "Лучшие треки сообщества и свежие релизы",
+      "trending": "В тренде",
+      "genresEyebrow": "Жанры",
+      "genresTitle": "По жанрам",
+      "fallbackDiscover": "Сейчас играет",
+      "fallbackTrending": "В тренде",
+      "fallbackGenres": "По жанрам",
+      "sidebar": "Панель состояния"
+    },
+    "seo": {
+      "srOnly": "MusicVerse — Платформа для генерации музыки с AI"
+    }
+  },
+  "player": {
+    "compact": {
+      "expandLabel": "Развернуть плеер: ${title || 'Без названия'}",
+      "expandAria": "Развернуть плеер",
+      "titleFallback": "Без названия",
+      "styleFallback": "Без стиля",
+      "menuLabel": "Меню трека: ${title || 'Без названия'}",
+      "errorFallback": "Ошибка воспроизведения",
+      "timeLabel": "Текущее время воспроизведения: ${currentTime}",
+      "regionLabel": "Музыкальный плеер"
+    },
+    "mobileFullscreen": {
+      "regionLabel": "Полноэкранный плеер",
+      "playLabel": "Воспроизвести",
+      "pauseLabel": "Пауза",
+      "nextLabel": "Следующий трек",
+      "prevLabel": "Предыдущий трек",
+      "queueLabel": "Очередь",
+      "karaokeLabel": "Караоке",
+      "likeLabel": "Нравится",
+      "coverPage": "Обложка",
+      "lyricsPage": "Текст",
+      "detailsPage": "Детали"
+    },
+    "buttons": {
+      "playLabel": "Воспроизвести",
+      "pauseLabel": "Пауза",
+      "nextLabel": "Следующий",
+      "prevLabel": "Предыдущий",
+      "closeLabel": "Закрыть плеер",
+      "expandLabel": "Развернуть",
+      "likeLabel": "Нравится",
+      "unlikeLabel": "Убрать из понравившихся",
+      "volumeLabel": "Громкость",
+      "loadingLabel": "Загрузка",
+      "errorLabel": "Ошибка"
+    }
+  },
   "common": {
     "loading": "Загрузка...",
     "error": "Ошибка",
@@ -150,6 +242,8 @@
     "close": "Закрыть",
     "back": "Назад",
     "next": "Далее",
-    "finish": "Завершить"
+    "finish": "Завершить",
+    "refresh": "Обновить страницу",
+    "loading": "Не удалось загрузить"
   }
 }

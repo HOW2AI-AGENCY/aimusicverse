@@ -4,6 +4,7 @@
  */
 
 import { useState, useCallback, memo } from "react";
+import { useTranslation } from "react-i18next";
 import { Search, X } from "@/lib/icons";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,7 @@ interface HomeSearchBarProps {
 }
 
 export const HomeSearchBar = memo(function HomeSearchBar({ onSearch, className }: HomeSearchBarProps) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
 
   const handleSubmit = useCallback(
@@ -36,16 +38,16 @@ export const HomeSearchBar = memo(function HomeSearchBar({ onSearch, className }
         type="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Поиск треков..."
+        placeholder={t("home.search.placeholder")}
         className="h-11 min-h-[44px] pl-10 pr-10 rounded-xl bg-secondary/50 border-border/50 placeholder:text-muted-foreground/60"
-        aria-label="Поиск треков"
+        aria-label={t("home.search.ariaLabel")}
       />
       {query.length > 0 && (
         <button
           type="button"
           onClick={handleClear}
           className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-          aria-label="Очистить поиск"
+          aria-label={t("home.search.clearLabel")}
         >
           <X className="w-4 h-4" aria-hidden="true" />
         </button>

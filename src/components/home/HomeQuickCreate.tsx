@@ -8,6 +8,7 @@
  */
 
 import { memo, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Sparkles, Plus, Music2, Mic2, Guitar, Wand2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -22,6 +23,7 @@ interface HomeQuickCreateProps {
 }
 
 export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, className }: HomeQuickCreateProps) {
+  const { t } = useTranslation();
   const { hapticFeedback } = useTelegram();
   const reducedMotion = useReducedMotion();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -73,17 +75,17 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
             </motion.div>
             <div className="min-w-0 flex-1">
               <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight font-display">
-                Создать музыку
+                {t("home.quickCreate.title")}
               </h2>
               <p className="text-xs sm:text-sm lg:text-base text-muted-foreground leading-snug">
-                AI сгенерирует трек за минуту
+                {t("home.quickCreate.subtitle")}
               </p>
             </div>
           </div>
           {/* Credits cost badge */}
           <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm">
             <Music2 className="w-3 h-3 lg:w-3.5 lg:h-3.5" aria-hidden="true" />
-            10–12 кредитов
+            {t("home.quickCreate.credits")}
           </span>
         </div>
 
@@ -100,7 +102,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
               "active:scale-95",
               "transition-all duration-200",
             )}
-            aria-label="Создать новый музыкальный трек с помощью AI"
+            aria-label={t("home.quickCreate.fabLabel")}
           >
             <Plus className="w-5 h-5 lg:w-6 lg:h-6 mr-2" aria-hidden="true" />
             Создать трек
@@ -108,7 +110,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
           {/* Quick expand toggle */}
           <button
             onClick={handleExpand}
-            aria-label={isExpanded ? "Свернуть опции создания" : "Раскрыть опции создания"}
+            aria-label={isExpanded ? t("home.quickCreate.collapseLabel") : t("home.quickCreate.expandLabel")}
             aria-pressed={isExpanded}
             className={cn(
               "w-12 h-12 lg:w-14 lg:h-14 min-w-touch rounded-xl lg:rounded-2xl",
@@ -140,10 +142,30 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
             >
               <div className="mt-3 lg:mt-4 grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3">
                 {[
-                  { Icon: Music2, label: "Трек", description: "Полный трек", mode: "track" as const },
-                  { Icon: Guitar, label: "Рифф", description: "Инструментал", mode: "riff" as const },
-                  { Icon: Mic2, label: "Кавер", description: "Переделка", mode: "cover" as const },
-                  { Icon: Wand2, label: "Ремикс", description: "Новый звук", mode: "remix" as const },
+                  {
+                    Icon: Music2,
+                    label: t("home.quickCreate.track"),
+                    description: t("home.quickCreate.trackDesc"),
+                    mode: "track" as const,
+                  },
+                  {
+                    Icon: Guitar,
+                    label: t("home.quickCreate.riff"),
+                    description: t("home.quickCreate.riffDesc"),
+                    mode: "riff" as const,
+                  },
+                  {
+                    Icon: Mic2,
+                    label: t("home.quickCreate.cover"),
+                    description: t("home.quickCreate.coverDesc"),
+                    mode: "cover" as const,
+                  },
+                  {
+                    Icon: Wand2,
+                    label: t("home.quickCreate.remix"),
+                    description: t("home.quickCreate.remixDesc"),
+                    mode: "remix" as const,
+                  },
                 ].map((opt, i) => (
                   <motion.div
                     key={opt.label}
@@ -191,7 +213,7 @@ const QuickCreateOption = memo(function QuickCreateOption({
   return (
     <button
       onClick={handleClick}
-      aria-label={`Создать ${label.toLowerCase()}: ${description}`}
+      aria-label={`${label}: ${description}`}
       className={cn(
         "flex flex-col items-center justify-center min-h-[44px] min-w-[44px]",
         "p-3 lg:p-4 rounded-xl lg:rounded-2xl",

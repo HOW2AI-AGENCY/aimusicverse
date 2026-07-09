@@ -1,11 +1,12 @@
 /**
  * MixerChannel - Individual channel strip for the mixer
- * Includes volume fader, pan knob, mute/solo, and level meter
+ * Includes volume fader, pan knob, mute/solo, and level meter.
+ * Empty/disabled state shown when `disabled` is true (no stem loaded).
  */
 
 import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Volume2, VolumeX, Headphones, Sliders } from "@/lib/icons";
+import { Volume2, VolumeX, Headphones, Sliders, Music2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
@@ -23,6 +24,7 @@ export interface MixerChannelProps {
   solo: boolean;
   isPlaying?: boolean;
   hasEffects?: boolean;
+  disabled?: boolean;
   onVolumeChange: (volume: number) => void;
   onPanChange?: (pan: number) => void;
   onToggleMute: () => void;
@@ -51,8 +53,33 @@ export const MixerChannel = memo(function MixerChannel({
   onOpenEffects,
   compact = false,
   delay = 0,
+  disabled = false,
 }: MixerChannelProps) {
   const haptic = useHapticFeedback();
+
+  // Empty state — no stem loaded, show placeholder
+  if (disabled) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay }}
+        className={cn(
+          "flex flex-col items-center justify-center p-3 rounded-xl border min-w-[90px]",
+          "bg-muted/20 border-dashed border-border/30 opacity-50",
+        )}
+        aria-label={`${name}: нет аудио`}
+      >
+        <div className="w-12 h-12 rounded-lg flex items-center justify-center text-xl mb-2 bg-muted/30">
+          <Music2 className="w-5 h-5 text-muted-foreground/40" />
+        </div>
+        <p className="text-xs font-medium text-center truncate w-full mb-2 text-muted-foreground/40">
+          {shortName || name}
+        </p>
+        <span className="text-[10px] text-muted-foreground/30">Нет аудио</span>
+      </motion.div>
+    );
+  }
 
   const handleMute = useCallback(() => {
     haptic.select();

@@ -7,6 +7,7 @@
  * Pure presentation: all behaviour comes from props/handlers.
  */
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
   Play,
@@ -49,6 +50,7 @@ export const PlayBtn = memo(function PlayBtn({
   playbackError,
   onClick,
 }: PlayProps) {
+  const { t } = useTranslation();
   const iconSize = variant === "desktop" ? "h-6 w-6" : "h-5 w-5";
   return (
     <Button
@@ -64,16 +66,16 @@ export const PlayBtn = memo(function PlayBtn({
       )}
       aria-label={
         hasError
-          ? `Ошибка: ${playbackError || "не удалось загрузить"}`
+          ? t("player.buttons.errorLabel")
           : isLoading
-            ? "Загрузка трека"
+            ? t("player.buttons.loadingLabel")
             : isPlaying
-              ? "Пауза"
-              : "Воспроизвести"
+              ? t("player.buttons.pauseLabel")
+              : t("player.buttons.playLabel")
       }
       aria-busy={isLoading}
       aria-pressed={isPlaying}
-      title={hasError ? playbackError || "Ошибка воспроизведения" : undefined}
+      title={hasError ? playbackError || t("player.compact.errorFallback") : undefined}
       data-testid="compact-player-play"
     >
       {hasError ? (
@@ -95,6 +97,7 @@ interface NavProps {
 }
 
 export const NextBtn = memo(function NextBtn({ onClick, disabled }: NavProps) {
+  const { t } = useTranslation();
   return (
     <Button
       variant="ghost"
@@ -108,7 +111,7 @@ export const NextBtn = memo(function NextBtn({ onClick, disabled }: NavProps) {
         "hover:scale-105 motion-reduce:hover:scale-100",
         disabled && "opacity-40",
       )}
-      aria-label="Следующий трек"
+      aria-label={t("player.buttons.nextLabel")}
     >
       <SkipForward className="h-4 w-4" aria-hidden="true" />
     </Button>
@@ -116,13 +119,14 @@ export const NextBtn = memo(function NextBtn({ onClick, disabled }: NavProps) {
 });
 
 export const PrevBtn = memo(function PrevBtn({ onClick }: NavProps) {
+  const { t } = useTranslation();
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={onClick}
       className={cn("h-10 w-10", TOUCH, ROUND, "hover:scale-105 motion-reduce:hover:scale-100")}
-      aria-label="Предыдущий трек"
+      aria-label={t("player.buttons.prevLabel")}
     >
       <SkipBack className="h-4 w-4" aria-hidden="true" />
     </Button>
@@ -130,6 +134,7 @@ export const PrevBtn = memo(function PrevBtn({ onClick }: NavProps) {
 });
 
 export const CloseBtn = memo(function CloseBtn({ onClick }: NavProps) {
+  const { t } = useTranslation();
   return (
     <Button
       variant="ghost"
@@ -139,7 +144,7 @@ export const CloseBtn = memo(function CloseBtn({ onClick }: NavProps) {
         "h-10 w-10 rounded-full hover:bg-destructive/15 hover:text-destructive active:scale-95 transition-all motion-reduce:transition-none motion-reduce:active:scale-100",
         TOUCH,
       )}
-      aria-label="Закрыть плеер"
+      aria-label={t("player.buttons.closeLabel")}
       data-testid="compact-player-close"
     >
       <X className="h-4 w-4" aria-hidden="true" />
@@ -152,13 +157,14 @@ interface LikeProps extends NavProps {
 }
 
 export const LikeBtn = memo(function LikeBtn({ onClick, isLiked }: LikeProps) {
+  const { t } = useTranslation();
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={onClick}
       className={cn("h-10 w-10", TOUCH, ROUND)}
-      aria-label={isLiked ? "Убрать из избранного" : "В избранное"}
+      aria-label={isLiked ? t("player.buttons.unlikeLabel") : t("player.buttons.likeLabel")}
       aria-pressed={isLiked}
     >
       <Heart className={cn("h-4 w-4", isLiked && "fill-primary text-primary")} aria-hidden="true" />
@@ -167,13 +173,14 @@ export const LikeBtn = memo(function LikeBtn({ onClick, isLiked }: LikeProps) {
 });
 
 export const ExpandBtn = memo(function ExpandBtn({ onClick }: NavProps) {
+  const { t } = useTranslation();
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={onClick}
       className={cn("h-10 w-10", TOUCH, ROUND)}
-      aria-label="Развернуть плеер"
+      aria-label={t("player.buttons.expandLabel")}
     >
       <ChevronUp className="h-4 w-4" aria-hidden="true" />
     </Button>
@@ -186,6 +193,7 @@ interface VolumeProps {
 }
 
 export const VolumeControl = memo(function VolumeControl({ volume, setVolume }: VolumeProps) {
+  const { t } = useTranslation();
   const Icon = volume === 0 ? VolumeX : volume < 0.5 ? Volume1 : Volume2;
   return (
     <Popover>
@@ -195,7 +203,7 @@ export const VolumeControl = memo(function VolumeControl({ volume, setVolume }: 
           size="icon"
           onClick={(e) => e.stopPropagation()}
           className={cn("h-10 w-10 rounded-full hover:bg-muted/50 transition-all motion-reduce:transition-none", TOUCH)}
-          aria-label={`Громкость ${Math.round(volume * 100)}%`}
+          aria-label={t("player.buttons.volumeLabel")}
         >
           <Icon className="h-4 w-4" aria-hidden="true" />
         </Button>
@@ -207,7 +215,7 @@ export const VolumeControl = memo(function VolumeControl({ volume, setVolume }: 
           min={0}
           max={100}
           step={1}
-          aria-label="Уровень громкости"
+          aria-label={t("player.buttons.volumeLabel")}
         />
         <div className="mt-2 text-center text-xs tabular-nums text-muted-foreground">{Math.round(volume * 100)}%</div>
       </PopoverContent>

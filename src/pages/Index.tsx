@@ -11,6 +11,7 @@
  */
 
 import { useState, useCallback, useEffect, lazy, Suspense } from "react";
+import { useTranslation } from "react-i18next";
 import { Loader2 } from "@/lib/icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -20,6 +21,7 @@ import { useUserJourneyState } from "@/hooks/useUserJourneyState";
 import { useHomePageData } from "@/hooks/useHomePageData";
 import { useHomePageHandlers } from "@/hooks/useHomePageHandlers";
 import { useHomePageEffects } from "@/hooks/useHomePageEffects";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useOpenGenerateFromDeeplink } from "@/hooks/useOpenGenerateFromDeeplink";
 import { listenOpenGenerateSheet } from "@/lib/events";
 import { HomeStickyCTA } from "@/components/home/HomeStickyCTA";
@@ -53,7 +55,22 @@ const AudioActionDialog = lazy(() =>
 
 import { ContextHints } from "@/components/hints";
 
+const FallbackSection = ({ title }: { title: string }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="py-12 text-center">
+      <p className="text-sm text-muted-foreground">
+        {t("common.loading")}: {title}
+      </p>
+      <button onClick={() => window.location.reload()} className="mt-3 text-sm text-primary hover:underline">
+        {t("common.refresh")}
+      </button>
+    </div>
+  );
+};
+
 const Index = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { user: telegramUser } = useTelegram();
@@ -124,9 +141,9 @@ const Index = () => {
   const createBlock = (
     <Section
       sectionId="create"
-      eyebrow="Создать"
-      title="Что сегодня сочиняем?"
-      subtitle="Начните с быстрого ввода или выберите жанр"
+      eyebrow={t("home.section.create")}
+      title={t("home.section.title")}
+      subtitle={t("home.section.subtitle")}
       density="comfortable"
     >
       <HomeQuickCreate onCreateClick={handleCreate} />
@@ -137,42 +154,53 @@ const Index = () => {
   const discoverBlock = (
     <Section
       sectionId="discover"
-      eyebrow="Сообщество"
-      title="Открыть для себя"
-      subtitle="Лучшие треки сообщества и свежие релизы"
+      eyebrow={t("home.section.discoverEyebrow")}
+      title={t("home.section.discoverTitle")}
+      subtitle={t("home.section.discoverSubtitle")}
       density="comfortable"
     >
-      <DiscoverTabs
-        popularTracks={popularTracks}
-        recentTracks={recentTracks}
-        isLoading={isLoading}
-        hasMorePopular={hasMorePopular}
-        isLoadingMorePopular={isLoadingMorePopular}
-        onLoadMorePopular={fetchMorePopular}
-        hasMoreRecent={hasMoreRecent}
-        isLoadingMoreRecent={isLoadingMoreRecent}
-        onLoadMoreRecent={fetchMoreRecent}
-        onTrackClick={handleTrackClick}
-      />
+      <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackDiscover")} />}>
+        <DiscoverTabs
+          popularTracks={popularTracks}
+          recentTracks={recentTracks}
+          isLoading={isLoading}
+          hasMorePopular={hasMorePopular}
+          isLoadingMorePopular={isLoadingMorePopular}
+          onLoadMorePopular={fetchMorePopular}
+          hasMoreRecent={hasMoreRecent}
+          isLoadingMoreRecent={isLoadingMoreRecent}
+          onLoadMoreRecent={fetchMoreRecent}
+          onTrackClick={handleTrackClick}
+        />
+      </ErrorBoundary>
     </Section>
   );
 
   const trendingBlock = (
     <Section sectionId="trending" density="comfortable" tone="plain">
-      <FeaturedSection
-        tracks={popularTracks}
-        isLoading={isLoading}
-        onTrackClick={handleTrackClick}
-        hasMore={hasMorePopular}
-        isLoadingMore={isLoadingMorePopular}
-        onLoadMore={fetchMorePopular}
-      />
+      <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackTrending")} />}>
+        <FeaturedSection
+          tracks={popularTracks}
+          isLoading={isLoading}
+          onTrackClick={handleTrackClick}
+          hasMore={hasMorePopular}
+          isLoadingMore={isLoadingMorePopular}
+          onLoadMore={fetchMorePopular}
+        />
+      </ErrorBoundary>
     </Section>
   );
 
   const genresBlock = (
-    <Section sectionId="genres" eyebrow="Жанры" title="По жанрам" density="comfortable">
-      <GenreTabsSection tracks={popularTracks} tracksByGenre={tracksByGenre} isLoading={isLoading} />
+    <Section
+      sectionId="genres"
+      eyebrow={t("home.section.genresEyebrow")}
+      title={t("home.section.genresTitle")}
+      density="comfortable"
+    >
+      <ErrorBoundary fallback={() => <FallbackSection title={t("home.section.fallbackGenres")} />}>
+        <GenreTabsSection tracks={popularTracks} tracksByGenre={tracksByGenre} isLoading={isLoading} />
+      </ErrorBoundary>
     </Section>
   );
 
@@ -198,26 +226,26 @@ const Index = () => {
           "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
       }}
     >
-      <PullToRefreshWrapper onRefresh={refresh} disabled={!isMobile} className="relative">
-        <div
-          className={cn("w-full mx-auto relative z-10", sectionTokens.shellMaxWidth, sectionTokens.containerPadding)}
-          style={{ paddingBottom: bottomPadding }}
-        >
-          <SEOHead {...SEO_PRESETS.home} canonical="https://aimusicverse.lovable.app/" />
-          <span className="sr-only">MusicVerse — Платформа для генерации музыки с AI</span>
+      <div
+        className={cn("w-full mx-auto relative z-10", sectionTokens.shellMaxWidth, sectionTokens.containerPadding)}
+        style={{ paddingBottom: bottomPadding }}
+      >
+        <SEOHead {...SEO_PRESETS.home} canonical="https://aimusicverse.lovable.app/" />
+        <span className="sr-only">{t("home.seo.srOnly")}</span>
 
-          <HomeHeader
-            userName={displayUser?.first_name || displayUser?.username?.split("@")[0]}
-            userPhotoUrl={displayUser?.photo_url}
-            onProfileClick={goToProfile}
-          />
+        <HomeHeader
+          userName={displayUser?.first_name || displayUser?.username?.split("@")[0]}
+          userPhotoUrl={displayUser?.photo_url}
+          onProfileClick={goToProfile}
+        />
 
-          <div className={cn("mt-3 mb-2", isMobile ? "" : "max-w-md")}>
-            <HomeSearchBar onSearch={(q) => navigate(`/library?q=${encodeURIComponent(q)}`)} />
-          </div>
+        <div className={cn("mt-3 mb-2", isMobile ? "" : "max-w-md")}>
+          <HomeSearchBar onSearch={(q) => navigate(`/library?q=${encodeURIComponent(q)}`)} />
+        </div>
 
-          <BotContextBanner />
+        <BotContextBanner />
 
+        <PullToRefreshWrapper onRefresh={refresh} disabled={!isMobile} className="relative">
           {/*
             Adaptive shell — 4 breakpoint tiers:
               < md   (mobile):     single column, natural stack
@@ -227,7 +255,7 @@ const Index = () => {
               2xl+   (ultra):      10/2 compact, generous internal breathing room
             items-start prevents the aside from stretching vertically.
           */}
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 items-start">
             <div className={cn("lg:col-span-8 xl:col-span-8 2xl:col-span-9 min-w-0", sectionTokens.blockGap)}>
               {heroBlock}
               {createBlock}
@@ -244,12 +272,12 @@ const Index = () => {
                 "lg:border-l lg:border-border/40 lg:pl-6 xl:pl-8",
                 "scrollbar-thin scrollbar-thumb-border/40 scrollbar-track-transparent",
               )}
-              aria-label="Панель состояния"
+              aria-label={t("home.section.sidebar")}
             >
               <HomeDesktopSidebar isAuthenticated={!!user} />
             </aside>
           </div>
-        </div>
+        </PullToRefreshWrapper>
 
         {generateSheetOpen && (
           <Suspense fallback={<Loader2 className="h-6 w-6 animate-spin text-primary" />}>
@@ -270,10 +298,10 @@ const Index = () => {
             />
           </Suspense>
         )}
+      </div>
 
-        <HomeStickyCTA />
-        {!isMobile && <ContextHints context="generation" delay={4000} />}
-      </PullToRefreshWrapper>
+      <HomeStickyCTA />
+      {!isMobile && <ContextHints context="generation" delay={4000} />}
     </div>
   );
 };

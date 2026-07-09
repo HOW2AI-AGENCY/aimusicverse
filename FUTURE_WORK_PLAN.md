@@ -108,7 +108,29 @@
 
 ---
 
-### Backlog (после Sprint 060)
+### Sprint 061 — Bundle: vendor splits + barrel cleanup + chunk split ✅
+
+**Результат:** `feature-admin-studio` (366 KB gzip) разделён на `feature-generation` (184 KB) + `feature-studio` (223 KB). useStudioAudio перенесён в hooks/audio. Super-barrel очищен от 30+ dead re-exports.
+
+**Коммит:** `bcf56fba4`
+
+---
+
+### Sprint 062 — UI/UX Audit: P0/P1/P2 Fixes 📋
+
+**План:** [SPRINTS/SPRINT-062-PLAN.md](SPRINTS/SPRINT-062-PLAN.md)
+
+3 фазы:
+
+- **A (день 1)** — P0 блокеры: Suspense fallback, QuickCreate опции, touch targets, градиент
+- **B (дни 2-3)** — P1 фиксы: Error Boundary на Index, i18n миграция, PullToRefresh scope, waveform shimmer, MixerChannel empty state
+- **C (дни 4-5)** — P2 polish: step indicator, volume slider UX, поиск clear button, memo
+
+**Цель:** Design Score C+ → B.
+
+---
+
+### Backlog (после Sprint 062)
 
 - **Edge Functions декомпозиция** — 11 файлов >800 LOC (telegram-bot 1871, suno-callback-handler ~1200, …). Изолированная задача, не блокирует другие.
 - **Storybook Story покрытие** — 31 story, цель 50+
@@ -144,12 +166,14 @@ Week 5 (Aug 4-8):
 
 ## 🚀 Q3 2026 (после стабилизации)
 
-| Sprint  | Фокус                                                | Статус      |
-| ------- | ---------------------------------------------------- | ----------- |
-| **057** | E2E CI green + Branch Protection complete            | ✅ ЗАВЕРШЁН |
-| **058** | i18n EN/RU (mashup + generation домены)              | ✅ ЗАВЕРШЁН |
-| **059** | Bundle optimization (A) + API/Service unit tests (B) | ✅ ЗАВЕРШЁН |
-| **060** | Design polish (search, skeleton, transitions)        | ✅ ЗАВЕРШЁН |
+| Sprint  | Фокус                                                | Статус          |
+| ------- | ---------------------------------------------------- | --------------- |
+| **057** | E2E CI green + Branch Protection complete            | ✅ ЗАВЕРШЁН     |
+| **058** | i18n EN/RU (mashup + generation домены)              | ✅ ЗАВЕРШЁН     |
+| **059** | Bundle optimization (A) + API/Service unit tests (B) | ✅ ЗАВЕРШЁН     |
+| **060** | Design polish (search, skeleton, transitions)        | ✅ ЗАВЕРШЁН     |
+| **061** | Bundle: vendor splits + barrel cleanup + chunk split | ✅ ЗАВЕРШЁН     |
+| **062** | UI/UX Audit: P0/P1/P2 fixes + Design Score C+ → B    | 🔴 ЗАПЛАНИРОВАН |
 
 ---
 
@@ -173,7 +197,7 @@ Week 5 (Aug 4-8):
 
 ---
 
-**Последнее обновление:** 2026-07-09 (Sprint 059 ✅ + Sprint 060 ✅)
+**Последнее обновление:** 2026-07-09 (Sprint 061 ✅ + Sprint 062 📋)
 **Следующий review:** 2026-07-13
 </content>
 </invoke>

@@ -166,6 +166,97 @@
       "vocalsNeedLyrics": "A vocal track requires lyrics"
     }
   },
+  "home": {
+    "quickCreate": {
+      "title": "Create Music",
+      "subtitle": "AI will generate a track in a minute",
+      "fabLabel": "Create a new music track with AI",
+      "credits": "10–12 credits",
+      "expandLabel": "Show creation options",
+      "collapseLabel": "Hide creation options",
+      "track": "Track",
+      "riff": "Riff",
+      "cover": "Cover",
+      "remix": "Remix",
+      "trackDesc": "Full track",
+      "riffDesc": "Instrumental",
+      "coverDesc": "Rework",
+      "remixDesc": "New sound",
+      "optionTrack": "Create track",
+      "optionRiff": "Create riff",
+      "optionCover": "Create cover",
+      "optionRemix": "Create remix"
+    },
+    "search": {
+      "placeholder": "Search tracks...",
+      "clearLabel": "Clear search",
+      "ariaLabel": "Search tracks"
+    },
+    "header": {
+      "profileLabel": "Profile"
+    },
+    "hero": {
+      "firstTimeTitle": "Welcome to MusicVerse",
+      "firstTimeSubtitle": "Create music with AI"
+    },
+    "section": {
+      "hero": "Hero",
+      "create": "Create",
+      "title": "What are we making today?",
+      "subtitle": "Start with quick input or choose a genre",
+      "discoverEyebrow": "Community",
+      "discoverTitle": "Discover",
+      "discoverSubtitle": "Best community tracks and fresh releases",
+      "trending": "Trending",
+      "genresEyebrow": "Genres",
+      "genresTitle": "By genre",
+      "fallbackDiscover": "Now Playing",
+      "fallbackTrending": "Trending",
+      "fallbackGenres": "By Genre",
+      "sidebar": "Status panel"
+    },
+    "seo": {
+      "srOnly": "MusicVerse — AI Music Generation Platform"
+    }
+  },
+  "player": {
+    "compact": {
+      "expandLabel": "Expand player: ${title || 'Untitled'}",
+      "expandAria": "Expand player",
+      "titleFallback": "Untitled",
+      "styleFallback": "No style",
+      "menuLabel": "Track menu: ${title || 'Untitled'}",
+      "errorFallback": "Playback error",
+      "timeLabel": "Current playback time: ${currentTime}",
+      "regionLabel": "Music player"
+    },
+    "mobileFullscreen": {
+      "regionLabel": "Fullscreen player",
+      "playLabel": "Play",
+      "pauseLabel": "Pause",
+      "nextLabel": "Next track",
+      "prevLabel": "Previous track",
+      "queueLabel": "Queue",
+      "karaokeLabel": "Karaoke",
+      "likeLabel": "Like",
+      "coverPage": "Cover",
+      "lyricsPage": "Lyrics",
+      "detailsPage": "Details"
+    },
+    "buttons": {
+      "playLabel": "Play",
+      "pauseLabel": "Pause",
+      "nextLabel": "Next",
+      "prevLabel": "Previous",
+      "closeLabel": "Close player",
+      "expandLabel": "Expand",
+      "likeLabel": "Like",
+      "unlikeLabel": "Unlike",
+      "volumeLabel": "Volume",
+      "loadingLabel": "Loading",
+      "errorLabel": "Error"
+    }
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
@@ -176,6 +267,8 @@
     "close": "Close",
     "back": "Back",
     "next": "Next",
-    "finish": "Finish"
+    "finish": "Finish",
+    "refresh": "Refresh page",
+    "loading": "Failed to load"
   }
 }
