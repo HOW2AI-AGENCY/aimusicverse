@@ -25,11 +25,17 @@ export { useLyricsStore } from "./useLyricsStore";
 export { useStudioHistoryStore, selectHistoryState, selectCanUndo, selectCanRedo } from "./useStudioHistoryStore";
 
 // Re-export for convenience
-export { useProjectStore as useStudioProjectStore };
-export { useTrackStore as useStudioTrackStore };
-export { useViewStore as useStudioViewStore };
-export { usePlaybackStore as useStudioPlaybackStore };
-export { useLyricsStore as useStudioLyricsStore };
+// ponytail: direct re-export pattern avoids Babel parse error in Storybook
+import { useProjectStore as _uPS } from "./useProjectStore";
+export const useStudioProjectStore = _uPS;
+import { useTrackStore as _uTS } from "./useTrackStore";
+export const useStudioTrackStore = _uTS;
+import { useViewStore as _uVS } from "./useViewStore";
+export const useStudioViewStore = _uVS;
+import { usePlaybackStore as _uPbS } from "./usePlaybackStore";
+export const useStudioPlaybackStore = _uPbS;
+import { useLyricsStore as _uLS } from "./useLyricsStore";
+export const useStudioLyricsStore = _uLS;
 // useStudioHistoryStore is already exported above
 
 /**
