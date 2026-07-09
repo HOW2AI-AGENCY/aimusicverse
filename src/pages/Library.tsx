@@ -244,8 +244,9 @@ export default function Library() {
             {/* SR-only H1 for page-has-heading-one / heading uniqueness */}
             <h1 className="sr-only">Моя библиотека — MusicVerse</h1>
 
-            {/* Unified Header */}
+            {/* Unified Header — non-sticky within flex column; scroll happens inside content region below */}
             <AppHeader
+              className="!static !mx-0 flex-shrink-0"
               title="Библиотека"
               subtitle={
                 hasActiveGenerations
@@ -308,6 +309,10 @@ export default function Library() {
                 </div>
               }
             />
+
+            {/* Scrollable region — filters + track list share single scroll container */}
+            <div className="flex-1 overflow-y-auto overscroll-contain">
+
 
             {/* Compact Search and Filters */}
             <div className="z-20 bg-background border-b border-border/30 -mx-4 px-5 sm:px-6 py-4 sm:py-5">
