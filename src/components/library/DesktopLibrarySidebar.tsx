@@ -126,7 +126,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
     <>
       <motion.div
         initial={{ width: 0, opacity: 0 }}
-        animate={{ width: 340, opacity: 1 }}
+        animate={{ width: 320, opacity: 1 }}
         exit={{ width: 0, opacity: 0 }}
         transition={{ duration: 0.2 }}
         className={cn("flex-shrink-0 bg-card/50 border-r border-border/30 flex flex-col overflow-hidden", className)}
