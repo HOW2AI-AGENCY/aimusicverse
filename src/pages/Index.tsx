@@ -244,13 +244,14 @@ const Index = () => {
     [handleCreate],
   );
 
-  const bottomPadding = isMobile
-    ? activeTrack
-      ? "calc(env(safe-area-inset-bottom, 0px) + 8rem)"
-      : "calc(env(safe-area-inset-bottom, 0px) + 4rem)"
-    : activeTrack
-      ? "4rem"
-      : "1rem";
+  // ponytail: inline style for var() dynamic padding not expressible in Tailwind classes
+  const bottomPaddingStyle = useMemo(() => {
+    if (isMobile) {
+      const rem = activeTrack ? "8rem" : "4rem";
+      return `calc(env(safe-area-inset-bottom, 0px) + ${rem})`;
+    }
+    return activeTrack ? "4rem" : "1rem";
+  }, [isMobile, activeTrack]);
 
   return (
     <div
@@ -262,7 +263,7 @@ const Index = () => {
     >
       <div
         className={cn("w-full mx-auto relative z-10", sectionTokens.shellMaxWidth, sectionTokens.containerPadding)}
-        style={{ paddingBottom: bottomPadding }}
+        style={{ paddingBottom: bottomPaddingStyle }}
       >
         <SEOHead {...SEO_PRESETS.home} canonical="https://aimusicverse.lovable.app/" />
         <span className="sr-only">{t("home.seo.srOnly")}</span>

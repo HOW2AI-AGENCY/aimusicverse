@@ -150,7 +150,7 @@ export const GridVariant = memo(function GridVariant({
           className={cn(
             "group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl",
             "bg-card/80 backdrop-blur-sm border-border/40",
-            "hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30",
+            "hover:shadow-md hover:shadow-primary/10",
             isMobile && "active:scale-[0.98]",
             !isMobile && "hover:bg-card/95",
             isCurrentlyPlaying && "ring-2 ring-primary shadow-glow bg-primary/5",
