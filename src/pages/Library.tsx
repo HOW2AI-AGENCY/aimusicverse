@@ -520,9 +520,6 @@ export default function Library() {
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
-
-      {/* Contextual hints — single canonical overlay */}
-      <ContextHints context="library" delay={3000} />
     </ErrorBoundaryWrapper>
   );
 }
