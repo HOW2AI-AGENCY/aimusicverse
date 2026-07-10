@@ -12,7 +12,7 @@
   "mcp": {
     "server": {
       "name": "musicverse-ai-mcp",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "title": "MusicVerse AI"
     },
     "tools": [
@@ -186,6 +186,275 @@
           },
           "required": [
             "track_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_playlist",
+        "title": "Create a playlist",
+        "description": "Create a new playlist for the signed-in user. Returns the new playlist's id and metadata.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "description": "Playlist display name."
+            },
+            "description": {
+              "description": "Optional description.",
+              "type": "string",
+              "maxLength": 500
+            },
+            "is_public": {
+              "default": false,
+              "description": "If true, playlist is visible to everyone.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "add_track_to_playlist",
+        "title": "Add track to playlist",
+        "description": "Add a track to one of the signed-in user's playlists. RLS ensures the playlist must belong to the user.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "playlist_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Target playlist UUID (must be owned by the user)."
+            },
+            "track_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Track UUID to add."
+            }
+          },
+          "required": [
+            "playlist_id",
+            "track_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "remove_track_from_playlist",
+        "title": "Remove track from playlist",
+        "description": "Remove a track from a user-owned playlist. RLS enforces ownership.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": true,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "playlist_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Target playlist UUID."
+            },
+            "track_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Track UUID to remove."
+            }
+          },
+          "required": [
+            "playlist_id",
+            "track_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_track_stems",
+        "title": "Get track stems",
+        "description": "Fetch stems (vocals, drums, bass, other) for a track. Returns stems only if the track is public or belongs to the signed-in user.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "track_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "UUID of the track."
+            }
+          },
+          "required": [
+            "track_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_track_versions",
+        "title": "List track versions",
+        "description": "List all A/B versions for a track with version_label, is_primary, audio_url and metadata.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "track_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "UUID of the track."
+            }
+          },
+          "required": [
+            "track_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "switch_active_version",
+        "title": "Switch active track version",
+        "description": "Set which A/B version of a track is active/primary. Updates both tracks.active_version_id and track_versions.is_primary. Only works on tracks owned by the signed-in user (RLS).",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "track_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Track UUID (must be owned by the user)."
+            },
+            "version_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Version UUID to make active/primary."
+            }
+          },
+          "required": [
+            "track_id",
+            "version_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "generate_track",
+        "title": "Generate a new music track",
+        "description": "Start an AI music generation job using Suno. Returns a task_id immediately; poll `get_generation_status` for completion. Consumes credits from the signed-in user's balance.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": false,
+          "destructiveHint": false,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000,
+              "description": "Musical idea, lyrics, or description to generate from."
+            },
+            "style": {
+              "description": "Optional style tags, e.g. 'lo-fi, chill, jazz'.",
+              "type": "string",
+              "maxLength": 200
+            },
+            "title": {
+              "description": "Optional track title.",
+              "type": "string",
+              "maxLength": 120
+            },
+            "is_instrumental": {
+              "default": false,
+              "description": "If true, generate instrumental (no vocals).",
+              "type": "boolean"
+            },
+            "model": {
+              "default": "V5",
+              "description": "Suno model version.",
+              "type": "string",
+              "enum": [
+                "V3_5",
+                "V4",
+                "V4_5",
+                "V5"
+              ]
+            }
+          },
+          "required": [
+            "prompt"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_generation_status",
+        "title": "Get generation task status",
+        "description": "Check the status of an in-progress or completed generation job. Returns status, progress, and — when done — the created track ids.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "task_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Task id returned by generate_track."
+            }
+          },
+          "required": [
+            "task_id"
           ]
         },
         "outputSchema": null
