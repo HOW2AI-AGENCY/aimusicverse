@@ -183,6 +183,21 @@ export default function Library() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobile, isPlaying, pauseTrack, selectedTrack, selectedTrackId, filteredTracks, handlePlay]);
 
+  // Auto-switch grid → list when the tracks column becomes too narrow for a proper grid.
+  // Uses ResizeObserver on the actual column, so it works regardless of sidebar / detail-panel state.
+  useEffect(() => {
+    const el = trackColumnRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width ?? 0;
+      if (w > 0 && w < 420 && viewMode !== "list") {
+        setViewMode("list");
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [viewMode, setViewMode]);
+
   // Handle track selection (for desktop detail panel)
   const handleTrackSelect = useCallback(
     (trackId: string) => {
