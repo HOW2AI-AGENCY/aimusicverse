@@ -317,7 +317,7 @@ export default function Library() {
 
 
             {/* Compact Search and Filters */}
-            <div className="z-20 bg-background border-b border-border/30 -mx-4 px-5 sm:px-6 py-4 sm:py-5">
+            <div className="z-20 bg-background border-b border-border/30 px-4 sm:px-6 py-4 sm:py-5">
               {isMobile ? (
                 <CompactFilterBar
                   searchQuery={searchQuery}
