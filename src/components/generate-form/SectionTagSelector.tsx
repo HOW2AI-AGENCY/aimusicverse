@@ -153,29 +153,23 @@ export function SectionTagSelector({
         {selectedTags.length > 0 ? (
           selectedTags.map((tag) => <TagBadge key={tag} tag={tag} size="sm" onRemove={() => removeTag(tag)} />)
         ) : (
-          <span className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground/60">
-            теги · none
-          </span>
+          <span className="font-mono text-overline text-xs tracking-wide text-muted-foreground/60">теги · none</span>
         )}
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2 gap-1 font-mono text-overline uppercase tracking-[0.18em]"
-            >
+            <Button variant="ghost" size="sm" className="h-7 px-2 gap-1 font-mono text-overline text-xs tracking-wide">
               <Plus className="h-3 w-3" />
               <span>теги</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="bottom" className="h-[85vh] max-h-[85vh] flex flex-col p-0">
             <SheetHeader className="px-5 pt-6 pb-4 border-b border-foreground/15">
-              <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+              <p className="font-mono text-overline text-xs tracking-wide text-muted-foreground">
                 tags · {sectionName}
               </p>
               <SheetTitle className="font-display text-heading-1 tracking-tight">Теги секции</SheetTitle>
-              <SheetDescription className="font-mono text-caption uppercase tracking-[0.16em] text-muted-foreground">
+              <SheetDescription className="font-mono text-caption text-xs tracking-wide text-muted-foreground">
                 вокал · инструменты · динамика · эмоции
               </SheetDescription>
             </SheetHeader>
@@ -206,11 +200,9 @@ export function SectionTagSelector({
       <header className="px-5 sm:px-6 pt-5 pb-4 border-b border-foreground/15 flex items-baseline justify-between gap-3">
         <div className="flex items-center gap-2">
           <Tag className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
-          <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
-            tags · {sectionName}
-          </p>
+          <p className="font-mono text-overline text-xs tracking-wide text-muted-foreground">tags · {sectionName}</p>
         </div>
-        <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+        <p className="font-mono text-overline text-xs tracking-wide text-muted-foreground">
           <span className="tabular-nums">{selectedTags.length.toString().padStart(2, "0")}</span>
           <span aria-hidden> · </span>
           <span>selected</span>
@@ -256,7 +248,7 @@ function TagSelectorBody({
     <div className="flex-1 min-h-0 flex flex-col">
       {/* Selected tray */}
       <div className="px-5 sm:px-6 pt-4 pb-4 border-b border-foreground/10">
-        <div className="flex items-center justify-between gap-3 font-mono text-overline uppercase tracking-[0.18em]">
+        <div className="flex items-center justify-between gap-3 font-mono text-overline text-xs tracking-wide">
           <p className="text-muted-foreground">
             <span>выбрано</span>
             <span aria-hidden> · </span>
@@ -289,7 +281,7 @@ function TagSelectorBody({
                   onClick={() => toggleTag(tag)}
                   className={cn(
                     "h-7 px-2.5 inline-flex items-center gap-1.5 font-mono",
-                    "text-overline uppercase tracking-[0.16em]",
+                    "text-overline text-xs tracking-wide",
                     "bg-foreground text-background border border-foreground",
                     "hover:bg-background hover:text-foreground transition-colors",
                   )}
@@ -302,7 +294,7 @@ function TagSelectorBody({
             ))}
           </ul>
         ) : (
-          <p className="mt-3 font-mono text-caption uppercase tracking-[0.16em] text-muted-foreground/60">
+          <p className="mt-3 font-mono text-caption text-xs tracking-wide text-muted-foreground/60">
             пока пусто · выбери ниже
           </p>
         )}
@@ -317,12 +309,10 @@ function TagSelectorBody({
               <section key={category.key} aria-label={category.label}>
                 {/* Numbered category header */}
                 <header className="flex items-baseline justify-between gap-3">
-                  <p className="font-mono text-overline uppercase tracking-[0.18em] text-foreground">
-                    <span className="tabular-nums">{String(idx + 1).padStart(2, "0")}</span>
-                    <span aria-hidden> · </span>
+                  <p className="font-mono text-xs text-foreground">
                     <span>{category.label}</span>
                   </p>
-                  <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+                  <p className="font-mono text-overline text-xs tracking-wide text-muted-foreground">
                     <span className="tabular-nums">{selectedInCategory.toString().padStart(2, "0")}</span>
                     <span aria-hidden> / </span>
                     <span className="tabular-nums">{category.tags.length.toString().padStart(2, "0")}</span>
@@ -342,7 +332,7 @@ function TagSelectorBody({
                           aria-pressed={isSelected}
                           className={cn(
                             "h-8 px-3 inline-flex items-center gap-1.5 font-mono",
-                            "text-caption uppercase tracking-[0.14em]",
+                            "text-caption text-xs tracking-wide",
                             "border transition-colors",
                             isSelected
                               ? "bg-foreground text-background border-foreground"
@@ -372,7 +362,7 @@ function TagSelectorBody({
       <div className="border-t border-foreground/15 px-5 sm:px-6 py-4 safe-area-bottom">
         <Label
           htmlFor="section-tag-custom"
-          className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground"
+          className="font-mono text-overline text-xs tracking-wide text-muted-foreground"
         >
           добавить свой тег
         </Label>
@@ -395,7 +385,7 @@ function TagSelectorBody({
             disabled={!customTag.trim()}
             className={cn(
               "h-10 px-4 inline-flex items-center gap-1.5 font-mono",
-              "text-overline uppercase tracking-[0.18em]",
+              "text-overline text-xs tracking-wide",
               "border border-foreground bg-background text-foreground",
               "hover:bg-foreground hover:text-background transition-colors",
               "disabled:opacity-40 disabled:pointer-events-none",

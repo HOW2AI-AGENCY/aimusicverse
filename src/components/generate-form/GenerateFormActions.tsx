@@ -27,12 +27,12 @@ const ActionChip = memo(function ActionChip({ icon: Icon, label, onClick, ariaLa
       aria-label={ariaLabel}
       className={cn(
         "group relative flex flex-col items-center justify-center gap-1 min-h-[60px] px-2 rounded-xl",
-        "border transition-all duration-200 active:scale-[0.96] touch-manipulation",
+        "border transition-all duration-200 touch-manipulation",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        "hover:-translate-y-0.5 hover:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.35)]",
+        "hover:shadow-sm",
         accent
           ? "bg-primary/10 border-primary/30 hover:bg-primary/15 hover:border-primary/50"
-          : "bg-muted/30 border-border/50 hover:bg-primary/8 hover:border-primary/40",
+          : "bg-muted/30 border-border/50 hover:bg-muted/50 hover:border-border",
       )}
     >
       <Icon

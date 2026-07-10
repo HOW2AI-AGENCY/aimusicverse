@@ -1,0 +1,476 @@
+/**
+ * Glass Aurora Effects System
+ * Feature: Full UI Redesign — glassmorphism, animated gradients, neon glow, progressive blur
+ *
+ * All effects are pure CSS — zero JS cost, GPU-composited (transform/opacity/filter).
+ * Degrades gracefully on @media (prefers-reduced-motion: reduce).
+ */
+
+/* ========================================================================
+ * 1. GLASS VARIANTS — progressive blur + saturation
+ * ======================================================================== */
+
+@layer utilities {
+  .glass-sm {
+    background: hsla(var(--glass-sm-bg, var(--glass-bg)));
+    backdrop-filter: blur(4px) saturate(160%);
+    -webkit-backdrop-filter: blur(4px) saturate(160%);
+    border: 1px solid hsl(var(--glass-border) / 0.4);
+  }
+
+  .glass-md {
+    background: hsla(var(--glass-md-bg, var(--glass-bg)));
+    backdrop-filter: blur(8px) saturate(170%);
+    -webkit-backdrop-filter: blur(8px) saturate(170%);
+    border: 1px solid hsl(var(--glass-border) / 0.5);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-lg {
+    background: hsla(var(--glass-lg-bg, var(--glass-bg)));
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid hsl(var(--glass-border) / 0.55);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-heavy {
+    background: hsla(var(--glass-heavy-bg, 0 0% 0% / 0.25));
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid hsl(var(--glass-border) / 0.3);
+    box-shadow:
+      0 1px 0 0 hsl(0 0% 100% / 0.06) inset,
+      0 -1px 0 0 hsl(0 0% 0% / 0.3) inset,
+      0 16px 48px -12px hsl(240 60% 2% / 0.6);
+  }
+
+  .glass-edge {
+    border: 1px solid hsl(var(--glass-border) / 0.3);
+    box-shadow:
+      0 0 0 1px hsl(var(--glass-border) / 0.3) inset,
+      0 1px 0 0 hsl(0 0% 100% / 0.04) inset;
+  }
+}
+
+/* .light .glass-sm  — already handled by --glass-bg vars */
+
+/* ========================================================================
+ * 2. ANIMATED GRADIENTS — CSS @property for hardware-accelerated hue
+ * ======================================================================== */
+
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --gradient-pos {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: false;
+}
+
+@keyframes gradient-rotate {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    --gradient-pos: 0%;
+  }
+  50% {
+    --gradient-pos: 100%;
+  }
+  100% {
+    --gradient-pos: 0%;
+  }
+}
+
+.animated-gradient {
+  --gradient-angle: 0deg;
+  background: linear-gradient(
+    var(--gradient-angle),
+    hsl(var(--primary) / 0.8),
+    hsl(var(--accent) / 0.6),
+    hsl(var(--generate) / 0.7)
+  );
+  animation: gradient-rotate 8s linear infinite;
+}
+
+.animated-gradient-shift {
+  --gradient-pos: 0%;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.6) var(--gradient-pos),
+    hsl(var(--accent) / 0.5) calc(var(--gradient-pos) + 30%),
+    hsl(var(--generate) / 0.5) calc(var(--gradient-pos) + 60%)
+  );
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+/* Text gradient — animated version */
+.animated-gradient-text {
+  --gradient-angle: 0deg;
+  background: linear-gradient(
+    var(--gradient-angle),
+    hsl(var(--primary)),
+    hsl(var(--accent)),
+    hsl(var(--generate)),
+    hsl(var(--primary))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-rotate 6s linear infinite;
+  background-size: 200% auto;
+}
+
+/* ========================================================================
+ * 3. NEON GLOW — text + box glow with breathing pulse
+ * ======================================================================== */
+
+@keyframes neon-pulse {
+  0%,
+  100% {
+    filter: brightness(1) drop-shadow(0 0 8px hsl(var(--primary) / 0.4));
+  }
+  50% {
+    filter: brightness(1.15) drop-shadow(0 0 16px hsl(var(--primary) / 0.6));
+  }
+}
+
+@keyframes glow-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 12px hsl(var(--primary) / 0.3),
+      0 0 24px hsl(var(--primary) / 0.15),
+      inset 0 0 12px hsl(var(--primary) / 0.05);
+  }
+  50% {
+    box-shadow:
+      0 0 20px hsl(var(--primary) / 0.5),
+      0 0 40px hsl(var(--primary) / 0.25),
+      inset 0 0 20px hsl(var(--primary) / 0.1);
+  }
+}
+
+@keyframes glow-breathe-accent {
+  0%,
+  100% {
+    box-shadow:
+      0 0 12px hsl(var(--accent) / 0.3),
+      0 0 24px hsl(var(--accent) / 0.15);
+  }
+  50% {
+    box-shadow:
+      0 0 20px hsl(var(--accent) / 0.5),
+      0 0 40px hsl(var(--accent) / 0.25);
+  }
+}
+
+.neon-glow {
+  animation: neon-pulse 3s ease-in-out infinite;
+}
+
+.neon-glow-text {
+  text-shadow:
+    0 0 7px hsl(var(--primary) / 0.3),
+    0 0 10px hsl(var(--primary) / 0.2),
+    0 0 21px hsl(var(--primary) / 0.1);
+  animation: neon-pulse 3s ease-in-out infinite;
+}
+
+.glow-breathe {
+  animation: glow-breathe 3s ease-in-out infinite;
+}
+
+.glow-breathe-accent {
+  animation: glow-breathe-accent 3s ease-in-out infinite;
+}
+
+/* Per-section glow colors */
+.glow-generate {
+  animation: glow-breathe 3s ease-in-out infinite;
+  --primary: var(--generate);
+}
+
+.glow-library {
+  animation: glow-breathe-accent 3s ease-in-out infinite;
+  --accent: var(--library);
+}
+
+/* ========================================================================
+ * 4. AURORA BACKGROUND — drifting color blobs
+ * ======================================================================== */
+
+@keyframes aurora-drift-1 {
+  0%,
+  100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  25% {
+    transform: translate(15%, -10%) scale(1.1);
+  }
+  50% {
+    transform: translate(-5%, 5%) scale(0.95);
+  }
+  75% {
+    transform: translate(10%, 15%) scale(1.05);
+  }
+}
+
+@keyframes aurora-drift-2 {
+  0%,
+  100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  20% {
+    transform: translate(-10%, 10%) scale(0.9);
+  }
+  60% {
+    transform: translate(20%, -5%) scale(1.15);
+  }
+  80% {
+    transform: translate(-15%, -10%) scale(0.95);
+  }
+}
+
+@keyframes aurora-drift-3 {
+  0%,
+  100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  33% {
+    transform: translate(10%, 15%) scale(1.05);
+  }
+  66% {
+    transform: translate(-20%, -5%) scale(0.9);
+  }
+}
+
+.aurora-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.aurora-bg::before,
+.aurora-bg::after {
+  content: "";
+  position: absolute;
+  inset: -100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Blob 1 — primary color, large */
+.aurora-bg::before {
+  width: 60%;
+  height: 60%;
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(
+    ellipse at center,
+    hsl(var(--primary) / 0.12) 0%,
+    hsl(var(--primary) / 0.04) 40%,
+    transparent 70%
+  );
+  animation: aurora-drift-1 12s ease-in-out infinite;
+}
+
+/* Blob 2 — accent/lavender, offset */
+.aurora-bg::after {
+  width: 50%;
+  height: 50%;
+  bottom: -15%;
+  right: -10%;
+  background: radial-gradient(
+    ellipse at center,
+    hsl(var(--accent) / 0.1) 0%,
+    hsl(var(--accent) / 0.03) 35%,
+    transparent 65%
+  );
+  animation: aurora-drift-2 15s ease-in-out infinite;
+}
+
+/* Blob 3 — generate/mint, added via extra pseudo layer or child */
+.aurora-blob-3 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aurora-blob-3::before {
+  content: "";
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  top: 40%;
+  left: 30%;
+  background: radial-gradient(
+    ellipse at center,
+    hsl(var(--generate) / 0.08) 0%,
+    hsl(var(--generate) / 0.02) 30%,
+    transparent 60%
+  );
+  animation: aurora-drift-3 18s ease-in-out infinite;
+}
+
+/* Content inside aurora sits above blobs */
+.aurora-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark mode uses stronger blobs */
+.dark .aurora-bg::before {
+  background: radial-gradient(
+    ellipse at center,
+    hsl(var(--primary) / 0.15) 0%,
+    hsl(var(--primary) / 0.05) 40%,
+    transparent 70%
+  );
+}
+
+.dark .aurora-bg::after {
+  background: radial-gradient(
+    ellipse at center,
+    hsl(var(--accent) / 0.12) 0%,
+    hsl(var(--accent) / 0.04) 35%,
+    transparent 65%
+  );
+}
+
+/* Ambient background — full-page aurora */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient-bg::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, hsl(var(--primary) / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 80% 60%, hsl(var(--accent) / 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 80%, hsl(var(--generate) / 0.05) 0%, transparent 50%);
+  animation: aurora-drift-1 20s ease-in-out infinite;
+}
+
+/* ========================================================================
+ * 5. PROGRESSIVE BLUR — scroll-based (Chrome 115+)
+ * ======================================================================== */
+
+@keyframes blur-in {
+  0% {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  100% {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+.blur-progressive {
+  animation: blur-in linear forwards;
+  animation-timeline: scroll();
+  animation-range: 0 120px;
+}
+
+@supports not (animation-timeline: scroll()) {
+  .blur-progressive {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* ========================================================================
+ * 6. FROSTED DEPTH — layered backdrop for overlapping elements (modals, sheets)
+ * ======================================================================== */
+
+.frost-1 {
+  background: hsl(var(--background) / 0.92);
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+}
+
+.frost-2 {
+  background: hsl(var(--background) / 0.96);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+}
+
+.frost-3 {
+  background: hsl(var(--background) / 0.98);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+}
+
+/* ========================================================================
+ * 7. NOISE TEXTURE OVERLAY — refined grain
+ * ======================================================================== */
+
+.noise-texture {
+  position: relative;
+}
+
+.noise-texture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  mix-blend-mode: overlay;
+  z-index: 9999;
+}
+
+/* ========================================================================
+ * 8. REDUCED MOTION
+ * ======================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-gradient,
+  .animated-gradient-shift,
+  .animated-gradient-text,
+  .neon-glow,
+  .neon-glow-text,
+  .glow-breathe,
+  .glow-breathe-accent,
+  .glow-generate,
+  .glow-library,
+  .aurora-bg::before,
+  .aurora-bg::after,
+  .aurora-blob-3::before,
+  .ambient-bg::before,
+  .blur-progressive {
+    animation: none !important;
+  }
+
+  .neon-glow-text {
+    text-shadow: none;
+  }
+
+  .ambient-bg {
+    display: none;
+  }
+
+  .aurora-bg::before,
+  .aurora-bg::after {
+    display: none;
+  }
+}

@@ -212,19 +212,19 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
         {/* Masthead — editorial header */}
         <header className="px-6 pt-7 pb-5 border-b border-border/40">
           <div className="flex items-baseline justify-between gap-4">
-            <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+            <p className="font-mono text-xs text-muted-foreground">
               {hasMultipleVersions
                 ? `№ 001 · ${String(versions.length).padStart(2, "0")} takes`
                 : "№ 001 · single take"}
             </p>
-            <p className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+            <p className="font-mono text-xs text-muted-foreground">
               {new Date().toLocaleDateString("ru-RU", { day: "2-digit", month: "short" })}
             </p>
           </div>
           <h2 className="mt-3 font-display text-display-2 leading-[0.95] tracking-tight truncate">
             {trackTitle || "Untitled"}
           </h2>
-          <p className="mt-2 font-mono text-caption uppercase tracking-[0.22em] text-muted-foreground">
+          <p className="mt-2 font-mono text-xs text-muted-foreground">
             {hasMultipleVersions ? "A / B · choose your take" : "ready to ship"}
           </p>
         </header>
@@ -271,7 +271,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                       <div className="grid grid-cols-[auto_1fr_auto] items-center gap-5 px-6 py-6">
                         {/* Big letter — Unbounded */}
                         <div className="flex items-baseline gap-2">
-                          <span className="font-mono text-overline uppercase tracking-[0.18em] text-muted-foreground">
+                          <span className="font-mono text-xs text-muted-foreground">
                             {String(index + 1).padStart(2, "0")}/{String(totalLabel).padStart(2, "0")}
                           </span>
                           <span
@@ -287,14 +287,14 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
 
                         {/* Centre column — metadata + status */}
                         <div className="flex flex-col gap-1.5 min-w-0">
-                          <div className="flex items-center gap-3 font-mono text-caption uppercase tracking-[0.18em] text-muted-foreground">
+                          <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground">
                             <span>Stereo</span>
                             <span aria-hidden>·</span>
                             <span>44.1 kHz</span>
                             <span aria-hidden>·</span>
                             <span>{version.duration ? `${durMin}:${durSec}` : "—:—"}</span>
                           </div>
-                          <div className="flex items-center gap-2 font-mono text-overline uppercase tracking-[0.18em]">
+                          <div className="flex items-center gap-2 font-mono text-xs">
                             {version.isPrimary && <span className="text-primary">★ Master take</span>}
                             {isCurrentlyPlaying && (
                               <motion.span
@@ -340,7 +340,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                           </Button>
                           <span
                             className={cn(
-                              "font-mono text-overline uppercase tracking-[0.22em] transition-colors",
+                              "font-mono text-[10px] transition-colors",
                               isSelected ? "text-foreground" : "text-muted-foreground/40",
                             )}
                           >
@@ -398,7 +398,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                 "transition-colors",
               )}
             >
-              <span className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground">
+              <span className="font-mono text-xs text-muted-foreground">
                 {settingPrimary ? "saving…" : "promote to master"}
               </span>
               <span className="font-display text-heading-3 text-foreground">Version {selectedVersionData.label} →</span>
@@ -414,9 +414,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                 "hover:bg-foreground/[0.03] transition-colors",
               )}
             >
-              <span className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground">
-                02 · archive
-              </span>
+              <span className="font-mono text-xs text-muted-foreground">archive</span>
               <span className="font-display text-heading-3 text-foreground">Library →</span>
             </button>
             <button
@@ -427,9 +425,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                 "hover:bg-foreground hover:text-background transition-colors",
               )}
             >
-              <span className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground group-hover:text-background/70">
-                03 · open
-              </span>
+              <span className="font-mono text-xs text-muted-foreground group-hover:text-background/70">open</span>
               <span className="font-display text-heading-3">Studio →</span>
             </button>
             <button
@@ -442,9 +438,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                 !trackId && "opacity-50 cursor-not-allowed",
               )}
             >
-              <span className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground group-hover:text-background/70">
-                04 · voice
-              </span>
+              <span className="font-mono text-xs text-muted-foreground group-hover:text-background/70">voice</span>
               <span className="font-display text-heading-3 flex items-center gap-2">
                 <Mic className="w-4 h-4" />
                 Persona
@@ -452,7 +446,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
             </button>
           </div>
 
-          <p className="font-mono text-overline uppercase tracking-[0.22em] text-muted-foreground/70">
+          <p className="font-mono text-xs text-muted-foreground/70">
             stems · mix · arrange · master · persona — all in studio
           </p>
         </footer>

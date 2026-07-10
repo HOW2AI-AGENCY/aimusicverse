@@ -66,9 +66,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
           <h2 className="text-base font-bold tracking-tight text-foreground truncate">Создание трека</h2>
-          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70 mt-0.5">
-            MusicVerse Studio
-          </p>
+          <p className="text-[10px] font-medium text-muted-foreground/70 mt-0.5">MusicVerse Studio</p>
         </div>
 
         <div
@@ -84,7 +82,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
         >
           <span
             className={cn(
-              "w-1.5 h-1.5 rounded-full animate-pulse",
+              "w-1.5 h-1.5 rounded-full",
               balance == null
                 ? "bg-muted-foreground"
                 : lowBalance
@@ -134,7 +132,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 }}
                 aria-pressed={isActive}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200 active:scale-[0.98]",
+                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200",
                   isActive
                     ? "bg-background text-foreground shadow-sm ring-1 ring-border/60"
                     : "text-muted-foreground hover:text-foreground",

@@ -155,7 +155,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
                     glass.subtle,
                     "hover:ring-1 hover:ring-primary/30 hover:scale-[1.01]",
                     "focus:outline-none focus:ring-2 focus:ring-primary/50",
-                    "touch-manipulation active:scale-[0.98]",
+                    "touch-manipulation ",
                   )}
                 >
                   <div className="flex items-center gap-2 mb-1.5">
@@ -190,7 +190,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
                     glass.subtle,
                     "hover:ring-1 hover:ring-primary/30",
                     "focus:outline-none focus:ring-2 focus:ring-primary/50",
-                    "touch-manipulation active:scale-[0.98]",
+                    "touch-manipulation ",
                     currentStyle?.toLowerCase().includes(genre.label.toLowerCase()) &&
                       "ring-1 ring-primary bg-primary/10",
                   )}

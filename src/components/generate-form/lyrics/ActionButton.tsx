@@ -31,7 +31,7 @@ export const ActionButton = memo(function ActionButton({
       disabled={disabled}
       className={cn(
         "flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200",
-        "hover:scale-[1.02] active:scale-[0.98]",
+        "hover:scale-[1.02] ",
         "disabled:opacity-50 disabled:cursor-not-allowed",
         destructive
           ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"

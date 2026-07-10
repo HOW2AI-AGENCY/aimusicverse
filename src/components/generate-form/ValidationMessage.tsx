@@ -47,7 +47,7 @@ const levelConfig: Record<
   },
   info: {
     icon: Info,
-    color: "text-blue-600 dark:text-blue-400",
+    color: "text-blue-600 dark:text-blue-300",
     bgColor: "bg-blue-50 dark:bg-blue-950/30",
     borderColor: "border-blue-200 dark:border-blue-800/50",
   },

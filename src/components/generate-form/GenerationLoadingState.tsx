@@ -173,7 +173,7 @@ export function GenerationLoadingState({
                 variant="ghost"
                 size="sm"
                 onClick={onCancel}
-                className="text-muted-foreground hover:text-destructive"
+                className="text-muted-foreground hover:text-destructive focus-visible:text-destructive"
               >
                 <XCircle className="h-4 w-4 mr-2" />
                 Отменить

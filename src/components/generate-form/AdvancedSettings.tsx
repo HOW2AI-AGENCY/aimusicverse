@@ -69,8 +69,8 @@ export function AdvancedSettings({ open, onOpenChange, ...props }: AdvancedSetti
           variant="outline"
           size="sm"
           className={cn(
-            "w-full justify-between gap-2 h-11 px-3 rounded-xl border-dashed border-muted-foreground/30",
-            "hover:border-primary/50 hover:bg-primary/5 transition-all",
+            "w-full justify-between gap-2 h-11 px-3 rounded-xl",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
           )}
         >
           <span className="flex items-center gap-2 text-xs font-semibold text-foreground/80">

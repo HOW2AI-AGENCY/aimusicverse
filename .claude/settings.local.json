@@ -54,7 +54,15 @@
       "Bash(graphify explain *)",
       "Bash(graphify query *)",
       "Bash(graphify update *)",
-      "mcp__lovable__list_workspaces"
+      "mcp__lovable__list_workspaces",
+      "mcp__lovable__get_me",
+      "mcp__lovable__create_workspace_skill",
+      "mcp__lovable__list_workspace_skills",
+      "Bash(node *)",
+      "Skill(impeccable)",
+      "Bash(higgsfield workspace *)",
+      "WebFetch(domain:higgsfield.ai)",
+      "WebSearch"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
@@ -63,9 +71,36 @@
       "\\d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out"
     ]
   },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\\\Users\\\\oat70\\\\.claude\\\\skills\\\\impeccable\\\\scripts\\\\hook.mjs\"",
+            "timeout": 5,
+            "statusMessage": "Checking UI changes"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/skills/impeccable/scripts/hook.mjs\"",
+            "timeout": 5,
+            "statusMessage": "Checking UI changes"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "bash .claude/statusline.sh",
     "refreshInterval": 30
-  }
+  },
+  "description": "Impeccable design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as system reminders."
 }

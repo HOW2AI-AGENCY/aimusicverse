@@ -29,11 +29,11 @@ const TONE_ACCENT: Record<FormSectionTone, string> = {
 };
 
 const TONE_BAR: Record<FormSectionTone, string> = {
-  default: "before:bg-border/50",
-  style: "before:bg-border/60",
-  lyrics: "before:bg-border/60",
-  voice: "before:bg-border/60",
-  settings: "before:bg-border/50",
+  default: "after:bg-border/50",
+  style: "after:bg-border/60",
+  lyrics: "after:bg-border/60",
+  voice: "after:bg-border/60",
+  settings: "after:bg-border/50",
 };
 
 interface FormSectionProps {
@@ -74,8 +74,8 @@ export const FormSection = memo(function FormSection({
         (elevated || isGroup) && cn("p-3.5 rounded-2xl", glass.subtle),
         isGroup &&
           cn(
-            "relative pl-4 before:absolute before:left-2 before:top-3.5 before:bottom-3.5",
-            "before:w-[3px] before:rounded-full",
+            "relative pt-3.5",
+            "after:absolute after:left-3.5 after:right-3.5 after:top-0 after:h-[2px] after:rounded-full",
             TONE_BAR[tone],
           ),
         className,

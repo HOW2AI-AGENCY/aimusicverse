@@ -100,7 +100,7 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
         className={cn(
           "p-3 cursor-pointer transition-all group relative",
           "hover:bg-accent hover:border-primary/50",
-          "active:scale-[0.98]",
+          "",
         )}
         onClick={handleApply}
       >
