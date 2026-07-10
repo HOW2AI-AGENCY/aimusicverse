@@ -63,6 +63,7 @@ export default function Library() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const qRef = useRef(searchParams.get("q"));
+  const trackColumnRef = useRef<HTMLDivElement | null>(null);
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
 
   // Desktop sidebar state — default expanded on ≥1024px (lg) so the generation form is immediately visible.
