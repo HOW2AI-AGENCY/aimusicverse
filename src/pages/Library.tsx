@@ -236,8 +236,9 @@ export default function Library() {
         <div className={cn("flex-1 min-w-0 flex overflow-hidden", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
           {/* Track List Section — only this column scrolls */}
           <div
+            ref={trackColumnRef}
             className={cn(
-              "flex-1 min-w-0 flex flex-col overflow-hidden",
+              "flex-1 min-w-0 flex flex-col overflow-hidden @container",
               !isMobile && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
             )}
           >
