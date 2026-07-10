@@ -103,24 +103,30 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
 
   if (isCollapsed) {
     return (
-      <div
+      <button
+        type="button"
+        onClick={onToggleCollapse}
+        title="Открыть форму генерации"
+        aria-label="Открыть форму генерации"
         className={cn(
-          "w-12 flex-shrink-0 bg-card/50 border-r border-border/30 flex flex-col items-center py-4",
+          "group w-14 flex-shrink-0 bg-card/50 hover:bg-card/80 border-r border-border/40 flex flex-col items-center gap-3 py-4 transition-colors",
           className,
         )}
       >
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onToggleCollapse}
-          className="h-11 w-11 min-h-touch min-w-touch rounded-xl bg-primary/10 hover:bg-primary/20"
-          title="Открыть форму генерации"
-        >
+        <span className="flex items-center justify-center h-10 w-10 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
           <Sparkles className="w-5 h-5 text-primary" />
-        </Button>
-      </div>
+        </span>
+        <span
+          className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors"
+          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+        >
+          Создать трек
+        </span>
+        <ChevronRight className="w-4 h-4 text-muted-foreground mt-auto" />
+      </button>
     );
   }
+
 
   return (
     <>
