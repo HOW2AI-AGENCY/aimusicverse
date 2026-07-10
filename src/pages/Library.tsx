@@ -63,6 +63,7 @@ export default function Library() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const qRef = useRef(searchParams.get("q"));
+  const trackColumnRef = useRef<HTMLDivElement | null>(null);
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
 
   // Desktop sidebar state — default expanded on ≥1024px (lg) so the generation form is immediately visible.
@@ -182,6 +183,21 @@ export default function Library() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobile, isPlaying, pauseTrack, selectedTrack, selectedTrackId, filteredTracks, handlePlay]);
 
+  // Auto-switch grid → list when the tracks column becomes too narrow for a proper grid.
+  // Uses ResizeObserver on the actual column, so it works regardless of sidebar / detail-panel state.
+  useEffect(() => {
+    const el = trackColumnRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width ?? 0;
+      if (w > 0 && w < 420 && viewMode !== "list") {
+        setViewMode("list");
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [viewMode, setViewMode]);
+
   // Handle track selection (for desktop detail panel)
   const handleTrackSelect = useCallback(
     (trackId: string) => {
@@ -236,8 +252,9 @@ export default function Library() {
         <div className={cn("flex-1 min-w-0 flex overflow-hidden", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
           {/* Track List Section — only this column scrolls */}
           <div
+            ref={trackColumnRef}
             className={cn(
-              "flex-1 min-w-0 flex flex-col overflow-hidden",
+              "flex-1 min-w-0 flex flex-col overflow-hidden @container",
               !isMobile && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
             )}
           >
@@ -315,7 +332,7 @@ export default function Library() {
 
 
             {/* Compact Search and Filters */}
-            <div className="z-20 bg-background border-b border-border/30 -mx-4 px-5 sm:px-6 py-4 sm:py-5">
+            <div className="z-20 bg-background border-b border-border/30 px-4 sm:px-6 py-4 sm:py-5">
               {isMobile ? (
                 <CompactFilterBar
                   searchQuery={searchQuery}
