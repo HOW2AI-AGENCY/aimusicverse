@@ -2,6 +2,9 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders, tinkoffCharge } from "../_shared/tinkoff.ts";
 import { authorize } from "../_shared/auth.ts";
+import { auditLog, authMethodOf } from "../_shared/auditLog.ts";
+
+const FUNCTION_NAME = "tinkoff-recurrent-charge";
 
 interface ChargeRequest {
   subscriptionId?: string;
@@ -16,11 +19,26 @@ serve(async (req) => {
   // Only allow service-role (cron) or admin callers to trigger charges.
   const auth = await authorize(req, { requireAdmin: true });
   if (!auth.ok) {
+    auditLog({
+      functionName: FUNCTION_NAME,
+      action: "recurrent_charge",
+      outcome: "denied",
+      authMethod: "none",
+      status: auth.status,
+      reason: auth.error,
+    });
     return new Response(JSON.stringify({ error: auth.error }), {
       status: auth.status,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+  auditLog({
+    functionName: FUNCTION_NAME,
+    action: "recurrent_charge",
+    outcome: "allowed",
+    authMethod: authMethodOf(auth),
+    userId: auth.user?.id ?? null,
+  });
 
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
