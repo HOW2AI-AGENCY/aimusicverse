@@ -9,6 +9,9 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Replicate from "https://esm.sh/replicate@0.25.2";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { authorize } from "../_shared/auth.ts";
+import { auditLog, authMethodOf } from "../_shared/auditLog.ts";
+
+const FUNCTION_NAME = "separate-reference-stems";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
