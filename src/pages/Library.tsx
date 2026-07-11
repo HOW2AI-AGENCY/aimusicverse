@@ -36,6 +36,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
 import { TrackCardSkeleton, TrackRowSkeleton } from "@/components/ui/skeleton-components";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { MobileListSkeleton, MobileGridSkeleton } from "@/components/mobile/MobileSkeletons";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
 import { CompactFilterBar } from "@/components/library/CompactFilterBar";
