@@ -508,7 +508,7 @@ export default function Library() {
 
 
           {/* Desktop: Track Detail Panel */}
-          {!isMobile && selectedTrack && (
+          {isDesktop && selectedTrack && (
             <div className="lg:w-[40%] xl:w-[45%] 2xl:w-[50%] min-w-[320px] max-w-[480px] xl:max-w-[560px] 2xl:max-w-[640px] bg-card/50 flex-shrink-0">
               <TrackDetailPanel track={selectedTrack} onPlay={handlePlay} onClose={() => setSelectedTrackId(null)} />
             </div>
