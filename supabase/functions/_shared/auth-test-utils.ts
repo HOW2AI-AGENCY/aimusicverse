@@ -1,7 +1,10 @@
 // Shared helpers for edge-function authorization tests.
-// Loads env from .env (via dotenv) so tests can hit the deployed function URL
-// with realistic anon / no-auth requests.
-import "https://deno.land/std@0.224.0/dotenv/load.ts";
+// Loads env from the project's .env file with allowEmptyValues so unrelated
+// example-only VITE_* keys don't fail the test bootstrap.
+import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+
+await load({ export: true, allowEmptyValues: true, examplePath: null });
+
 
 export const SUPABASE_URL =
   Deno.env.get("VITE_SUPABASE_URL") ?? Deno.env.get("SUPABASE_URL") ?? "";
