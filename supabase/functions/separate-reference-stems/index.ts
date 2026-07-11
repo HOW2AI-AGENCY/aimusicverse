@@ -8,11 +8,13 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Replicate from "https://esm.sh/replicate@0.25.2";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { authorize } from "../_shared/auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
 
 interface SeparationRequest {
   reference_id: string;
