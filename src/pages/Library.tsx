@@ -484,7 +484,7 @@ export default function Library() {
                     getMidiStatus={(trackId) => midiStatusMap[trackId]}
                     onPlay={(track) => {
                       handlePlay(track);
-                      if (!isMobile) setSelectedTrackId(track.id);
+                      if (isDesktop) setSelectedTrackId(track.id);
                     }}
                     onDelete={(id) => deleteTrack(id)}
                     onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}
