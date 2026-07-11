@@ -82,11 +82,26 @@ serve(async (req) => {
 
   const auth = await authorize(req);
   if (!auth.ok) {
+    auditLog({
+      functionName: FUNCTION_NAME,
+      action: "separate_reference_stems",
+      outcome: "denied",
+      authMethod: "none",
+      status: auth.status,
+      reason: auth.error,
+    });
     return new Response(JSON.stringify({ error: auth.error }), {
       status: auth.status,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+  auditLog({
+    functionName: FUNCTION_NAME,
+    action: "separate_reference_stems",
+    outcome: "allowed",
+    authMethod: authMethodOf(auth),
+    userId: auth.user?.id ?? null,
+  });
 
   try {
     const REPLICATE_API_KEY = Deno.env.get("REPLICATE_API_KEY");
