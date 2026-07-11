@@ -5,8 +5,10 @@ import { corsHeaders } from "../_shared/cors.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { getStemSeparationCost } from "../_shared/economy.ts";
 import { authorize } from "../_shared/auth.ts";
+import { auditLog, authMethodOf } from "../_shared/auditLog.ts";
 
 const logger = createLogger("suno-separate-vocals");
+const FUNCTION_NAME = "suno-separate-vocals";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -15,11 +17,26 @@ serve(async (req) => {
 
   const auth = await authorize(req);
   if (!auth.ok) {
+    auditLog({
+      functionName: FUNCTION_NAME,
+      action: "stem_separation",
+      outcome: "denied",
+      authMethod: "none",
+      status: auth.status,
+      reason: auth.error,
+    });
     return new Response(JSON.stringify({ error: auth.error }), {
       status: auth.status,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+  auditLog({
+    functionName: FUNCTION_NAME,
+    action: "stem_separation",
+    outcome: "allowed",
+    authMethod: authMethodOf(auth),
+    userId: auth.user?.id ?? null,
+  });
 
   try {
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
