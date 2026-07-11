@@ -171,7 +171,7 @@ export const AudioCoverDialog = ({
       } else {
         setModel("V4_5PLUS");
       }
-      toast.info("Модель автоматически выбрана для вашего аудио");
+      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [probedDuration]);

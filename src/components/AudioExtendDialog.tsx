@@ -146,7 +146,7 @@ export const AudioExtendDialog = ({
       if (probedDuration <= 180) setModel("V3_5");
       else if (probedDuration <= 240) setModel("V5");
       else setModel("V4_5PLUS");
-      toast.info("Модель автоматически выбрана");
+      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [probedDuration]);
