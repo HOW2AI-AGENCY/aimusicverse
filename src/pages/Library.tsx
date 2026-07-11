@@ -36,6 +36,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
 import { TrackCardSkeleton, TrackRowSkeleton } from "@/components/ui/skeleton-components";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { MobileListSkeleton, MobileGridSkeleton } from "@/components/mobile/MobileSkeletons";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
 import { CompactFilterBar } from "@/components/library/CompactFilterBar";
@@ -60,16 +61,19 @@ import { ContextHints } from "@/components/hints";
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
+  // Desktop mode must match NavigationShell's ≥1024px breakpoint. Between 768–1023 the
+  // app already renders a mobile bottom nav — showing the desktop split-form sidebar too
+  // would collide with it and steal vertical space.
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const qRef = useRef(searchParams.get("q"));
   const trackColumnRef = useRef<HTMLDivElement | null>(null);
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
 
-  // Desktop sidebar state — default expanded on ≥1024px (lg) so the generation form is immediately visible.
-  // Collapse to icon rail only on narrow tablets (<1024px) where it would crowd the grid.
+  // Desktop sidebar state — default expanded on ≥1280px (xl), collapsed to icon rail on lg (1024–1279px).
   const [generateSidebarCollapsed, setGenerateSidebarCollapsed] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false,
+    typeof window !== "undefined" ? window.innerWidth < 1280 : false,
   );
 
   // Desktop: Selected track for detail panel
@@ -201,11 +205,11 @@ export default function Library() {
   // Handle track selection (for desktop detail panel)
   const handleTrackSelect = useCallback(
     (trackId: string) => {
-      if (!isMobile) {
+      if (isDesktop) {
         setSelectedTrackId(trackId);
       }
     },
-    [isMobile],
+    [isDesktop],
   );
 
   // Navigate to studio
@@ -241,7 +245,7 @@ export default function Library() {
         }}
       >
         {/* Desktop Generate Sidebar — pinned, own internal scroll, no page scroll */}
-        {!isMobile && (
+        {isDesktop && (
           <DesktopLibrarySidebar
             isCollapsed={generateSidebarCollapsed}
             onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
@@ -249,13 +253,13 @@ export default function Library() {
         )}
 
         {/* Main Content - with master-detail layout on desktop */}
-        <div className={cn("flex-1 min-w-0 flex overflow-hidden", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
+        <div className={cn("flex-1 min-w-0 flex overflow-hidden", isDesktop && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
           {/* Track List Section — only this column scrolls */}
           <div
             ref={trackColumnRef}
             className={cn(
               "flex-1 min-w-0 flex flex-col overflow-hidden @container",
-              !isMobile && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
+              isDesktop && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
             )}
           >
             {/* SR-only H1 for page-has-heading-one / heading uniqueness */}
@@ -480,7 +484,7 @@ export default function Library() {
                     getMidiStatus={(trackId) => midiStatusMap[trackId]}
                     onPlay={(track) => {
                       handlePlay(track);
-                      if (!isMobile) setSelectedTrackId(track.id);
+                      if (isDesktop) setSelectedTrackId(track.id);
                     }}
                     onDelete={(id) => deleteTrack(id)}
                     onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}
@@ -504,7 +508,7 @@ export default function Library() {
 
 
           {/* Desktop: Track Detail Panel */}
-          {!isMobile && selectedTrack && (
+          {isDesktop && selectedTrack && (
             <div className="lg:w-[40%] xl:w-[45%] 2xl:w-[50%] min-w-[320px] max-w-[480px] xl:max-w-[560px] 2xl:max-w-[640px] bg-card/50 flex-shrink-0">
               <TrackDetailPanel track={selectedTrack} onPlay={handlePlay} onClose={() => setSelectedTrackId(null)} />
             </div>
