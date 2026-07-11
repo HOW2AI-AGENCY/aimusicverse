@@ -95,7 +95,7 @@ const GridContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
       ref={ref}
       style={style}
       {...props}
-      className="grid grid-cols-1 @[420px]:grid-cols-2 @[640px]:grid-cols-3 @[860px]:grid-cols-4 @[1100px]:grid-cols-5 @[1340px]:grid-cols-6 gap-4 sm:gap-5 px-4 sm:px-6"
+      className="grid grid-cols-2 @[420px]:grid-cols-3 @[600px]:grid-cols-4 @[780px]:grid-cols-5 @[960px]:grid-cols-6 @[1180px]:grid-cols-7 @[1400px]:grid-cols-8 gap-3 @[600px]:gap-4 px-4 sm:px-6"
     >
       {children}
     </div>
