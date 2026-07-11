@@ -304,8 +304,8 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
       <aside
         aria-label="Боковая навигация"
         className={cn(
-          "h-full flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-all duration-300 z-navigation",
-          isCollapsed ? "w-16" : "w-64",
+          "h-full flex flex-col bg-surface text-foreground border-r border-border transition-all duration-300 z-navigation",
+          isCollapsed ? "w-14" : "w-56",
         )}
       >
         {/* Header */}

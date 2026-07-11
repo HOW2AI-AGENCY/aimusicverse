@@ -181,7 +181,7 @@ export function LyricsHeader({
         />
       }
       icon={<PenLine className="w-4 h-4 text-primary" />}
-      leftAction={
+      navSlot={
         <Button variant="ghost" size="icon" onClick={onBack} className="h-8 w-8">
           <ChevronLeft className="w-5 h-5" />
         </Button>

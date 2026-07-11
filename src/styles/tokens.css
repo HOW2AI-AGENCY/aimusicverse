@@ -34,9 +34,9 @@
   --color-error: hsl(var(--destructive));
 
   /* ── Surface Tokens (Phase A: progressive contrast) ── */
-  --surface-primary: hsl(var(--surface-1));
-  --surface-secondary: hsl(var(--surface-2));
-  --surface-elevated: hsl(var(--surface-3));
+  --surface-primary: hsl(var(--surface));
+  --surface-secondary: hsl(var(--elevated));
+  --surface-elevated: hsl(var(--floating));
 
   /* ── Text Tokens ── */
   --text-primary: hsl(var(--foreground));

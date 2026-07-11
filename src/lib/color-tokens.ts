@@ -32,9 +32,9 @@ export const sectionColors = {
 // ============================================================================
 
 export const surfaceColors = {
-  surface1: "hsl(var(--surface-1))",
-  surface2: "hsl(var(--surface-2))",
-  surface3: "hsl(var(--surface-3))",
+  base: "hsl(var(--surface))",
+  elevated: "hsl(var(--elevated))",
+  floating: "hsl(var(--floating))",
   scrim: "hsl(var(--overlay-scrim))",
 } as const;
 
@@ -163,6 +163,6 @@ export const colorTokens = {
 } as const;
 
 export type SectionColor = keyof typeof sectionColors;
-export type SurfaceLevel = 1 | 2 | 3;
+export type SurfaceLevel = "base" | "elevated" | "floating";
 export type StateColor = keyof typeof stateColors;
 export type UIColor = keyof typeof uiColors;

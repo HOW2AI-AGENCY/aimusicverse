@@ -246,6 +246,24 @@ aimusicverse/
 
 ---
 
+## 🎬 StoryForge AI
+
+**Side-project** для [Higgsfield $100K App Contest](https://higgsfield.ai/supercomputer/apps). Инструмент создания персонажей, сценариев, раскадровки и видео через Higgsfield AI.
+
+```
+storyforge/
+├── README.md        # Описание и быстрый старт
+├── SPEC.md          # Техническая спецификация
+├── PROGRESS.md      # Трекинг задач и спринтов
+├── docs/            # Документация
+├── assets/          # Сгенерированные файлы
+└── logs/            # Логи генераций
+```
+
+[→ Открыть StoryForge](storyforge/README.md)
+
+---
+
 ## 📖 Документация
 
 | Раздел                      | Адрес                                                                      | Для кого       |

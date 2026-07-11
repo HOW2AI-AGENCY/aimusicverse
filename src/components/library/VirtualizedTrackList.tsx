@@ -94,7 +94,7 @@ const GridContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
       ref={ref}
       style={style}
       {...props}
-      className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4 px-4 sm:px-6"
+      className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-5 px-4 sm:px-6"
     >
       {children}
     </div>
@@ -470,7 +470,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
       <PullToRefreshIndicator pullDistance={pullDistance} isRefreshing={isRefreshing} threshold={PULL_THRESHOLD} />
       <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         <TrackListProvider tracks={tracks}>
-          <div className="flex flex-col gap-3 px-4 sm:px-6">
+          <div className="flex flex-col gap-4 px-4 sm:px-6">
             {tracks.map((track, index) => (
               <div key={track.id}>{renderTrackItem(index, track)}</div>
             ))}

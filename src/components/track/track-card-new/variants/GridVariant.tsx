@@ -172,6 +172,7 @@ export const GridVariant = memo(function GridVariant({
             !isMobile && "hover:bg-card/95",
             isCurrentlyPlaying && "ring-2 ring-primary shadow-glow bg-primary/5",
             "card-waveform-hover",
+            "focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2",
             className,
           )}
           data-playing={isCurrentlyPlaying ? "true" : undefined}

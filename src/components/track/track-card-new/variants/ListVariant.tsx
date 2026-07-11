@@ -72,6 +72,7 @@ export const ListVariant = memo(function ListVariant({
         !isMobile && "hover:bg-muted/60 hover:shadow-md hover:scale-[1.01] hover:ring-1 hover:ring-primary/20",
         isMobile && "active:bg-muted/70 active:scale-[0.99]",
         isCurrentlyPlaying && "ring-1 ring-primary/30 bg-primary/5",
+        "focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2",
         className,
       )}
       onClick={handleCardClick}

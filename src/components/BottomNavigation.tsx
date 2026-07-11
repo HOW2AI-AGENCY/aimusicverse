@@ -125,7 +125,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                   {showCreateHint && (
                     <div
                       className={cn(
-                        "absolute -top-12 -translate-y-full bg-popover/95 border border-primary/20 backdrop-blur px-3 py-1.5 rounded-lg shadow-lg font-medium text-foreground whitespace-nowrap z-50 animate-bounce flex items-center gap-1.5",
+                        "absolute -top-12 -translate-y-full bg-popover/95 border border-primary/20 backdrop-blur px-3 py-1.5 rounded-lg shadow-lg font-medium text-foreground whitespace-nowrap z-50 animate-bob-subtle flex items-center gap-1.5",
                         typographyClass.caption,
                       )}
                     >
@@ -147,7 +147,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                       "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground",
                       "aurora-glow glow-primary motion-reduce:animate-none",
                       "active:scale-90 hover:scale-105 transition-transform duration-300",
-                      "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
+                      "[transition-timing-function:cubic-bezier(0.25,0.1,0.25,1)]",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                       activeGenCount > 0 && "sheen ring-2 ring-primary/40 ring-offset-2 ring-offset-background",
                     )}
@@ -203,7 +203,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 <item.icon
                   className={cn(
                     "relative w-5 h-5 transition-transform duration-300",
-                    "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
+                    "[transition-timing-function:cubic-bezier(0.25,0.1,0.25,1)]",
                     "motion-reduce:transition-none",
                     active && "text-primary scale-110 -translate-y-0.5",
                   )}
@@ -212,7 +212,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 <span
                   className={cn(
                     "relative transition-all duration-300",
-                    "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
+                    "[transition-timing-function:cubic-bezier(0.25,0.1,0.25,1)]",
                     "motion-reduce:transition-none",
                     typographyClass.caption,
                     active ? "font-semibold text-foreground -translate-y-0.5" : "font-medium",

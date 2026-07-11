@@ -49,10 +49,15 @@ import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
 import { TrackDetailPanel } from "@/components/library/TrackDetailPanel";
 
+const GenerationResultSheet = lazy(() =>
+  import("@/components/generate-form/GenerationResultSheet").then((m) => ({ default: m.GenerationResultSheet })),
+);
+
 // Extracted hooks and components
 import { useLibraryData, type SortOption } from "@/hooks/useLibraryData";
 import { useLibraryHandlers } from "@/hooks/useLibraryHandlers";
 import { useLibraryDeepLinks } from "@/hooks/useLibraryDeepLinks";
+import { useGenerationResult } from "@/hooks/generation/useGenerationResult";
 import { LibraryDialogs } from "@/components/library/LibraryDialogs";
 
 import { ContextHints } from "@/components/hints";
@@ -125,6 +130,9 @@ export default function Library() {
       tracks,
       onPlayTrack: handlePlay,
     });
+
+  // Generation result sheet — show post-generation result in library
+  const { resultOpen, resultTrackId, resultTrackTitle, setResultOpen } = useGenerationResult();
 
   // Get selected track data for detail panel
   const selectedTrack = selectedTrackId ? (filteredTracks.find((t) => t.id === selectedTrackId) ?? null) : null;
@@ -233,7 +241,9 @@ export default function Library() {
         )}
 
         {/* Main Content - with master-detail layout on desktop */}
-        <div className={cn("flex-1 min-w-0 flex overflow-hidden", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
+        <div
+          className={cn("flex-1 min-w-0 flex overflow-hidden", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}
+        >
           {/* Track List Section — only this column scrolls */}
           <div
             className={cn(
@@ -312,132 +322,104 @@ export default function Library() {
 
             {/* Scrollable region — filters + track list share single scroll container */}
             <div className="flex-1 overflow-y-auto overscroll-contain">
-
-
-            {/* Compact Search and Filters */}
-            <div className="z-20 bg-background border-b border-border/30 -mx-4 px-5 sm:px-6 py-4 sm:py-5">
-              {isMobile ? (
-                <CompactFilterBar
-                  searchQuery={searchQuery}
-                  onSearchChange={setSearchQuery}
-                  activeFilter={typeFilter}
-                  onFilterChange={setTypeFilter}
-                  sortBy={sortBy}
-                  onSortChange={setSortBy}
-                  statusFilter={statusFilter}
-                  onStatusFilterChange={setStatusFilter}
-                  counts={filterCounts}
-                />
-              ) : (
-                <div className="flex flex-col gap-2">
-                  <div className="flex gap-2">
-                    <div className="relative flex-1 group">
-                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground w-3.5 h-3.5 group-focus-within:text-primary" />
-                      <Input
-                        type="search"
-                        aria-label="Поиск треков"
-                        placeholder="Поиск..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-8 h-8 text-xs rounded-md border-border/50 bg-card/50 focus:bg-card"
-                      />
+              {/* Sticky Search and Filters — secondary nav for large libraries */}
+              <div className="sticky top-0 z-10 bg-background border-b border-border/30 -mx-4 px-5 sm:px-6 py-4 sm:py-5">
+                {isMobile ? (
+                  <CompactFilterBar
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    activeFilter={typeFilter}
+                    onFilterChange={setTypeFilter}
+                    sortBy={sortBy}
+                    onSortChange={setSortBy}
+                    statusFilter={statusFilter}
+                    onStatusFilterChange={setStatusFilter}
+                    counts={filterCounts}
+                  />
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2">
+                      <div className="relative flex-1 group">
+                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-foreground/70 w-3.5 h-3.5 group-focus-within:text-primary transition-colors" />
+                        <Input
+                          type="search"
+                          aria-label="Поиск треков"
+                          placeholder="Поиск..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="pl-8 h-8 text-xs rounded-md border-border/80 bg-card/80 focus:bg-card focus:border-primary/50 placeholder:text-muted-foreground/80"
+                        />
+                      </div>
+                      <Select value={sortBy} onValueChange={(v: SortOption) => setSortBy(v)}>
+                        <SelectTrigger className="w-32 h-8 text-[11px] rounded-md border-border/50 bg-card/50">
+                          <SlidersHorizontal className="w-3 h-3 mr-1 text-muted-foreground" />
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-md">
+                          <SelectItem value="recent" className="text-xs">
+                            Недавние
+                          </SelectItem>
+                          <SelectItem value="popular" className="text-xs">
+                            Популярные
+                          </SelectItem>
+                          <SelectItem value="liked" className="text-xs">
+                            Любимые
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
-                    <Select value={sortBy} onValueChange={(v: SortOption) => setSortBy(v)}>
-                      <SelectTrigger className="w-32 h-8 text-[11px] rounded-md border-border/50 bg-card/50">
-                        <SlidersHorizontal className="w-3 h-3 mr-1 text-muted-foreground" />
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-md">
-                        <SelectItem value="recent" className="text-xs">
-                          Недавние
-                        </SelectItem>
-                        <SelectItem value="popular" className="text-xs">
-                          Популярные
-                        </SelectItem>
-                        <SelectItem value="liked" className="text-xs">
-                          Любимые
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <LibraryFilterChips
+                      activeFilter={typeFilter}
+                      onFilterChange={setTypeFilter}
+                      counts={filterCounts}
+                    />
                   </div>
-                  <LibraryFilterChips activeFilter={typeFilter} onFilterChange={setTypeFilter} counts={filterCounts} />
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-            {/* Content with Pull to Refresh */}
-            <PullToRefreshWrapper
-              onRefresh={async () => {
-                await refetchTracks();
-              }}
-              disabled={!isMobile}
-              className="py-6 sm:py-8 flex-1"
-            >
-              {!isMobile && <div className="mb-4" />}
+              {/* Content with Pull to Refresh */}
+              <PullToRefreshWrapper
+                onRefresh={async () => {
+                  await refetchTracks();
+                }}
+                disabled={!isMobile}
+                className="py-6 sm:py-8 flex-1"
+              >
+                {!isMobile && <div className="mb-4" />}
 
-              {/* Active Tag Filter Indicator */}
-              {tagFilter && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-3 px-5 py-3 mb-6 mx-5 sm:mx-6 bg-primary/10 border border-primary/20 rounded-xl"
-                >
-                  <Tag className="w-4 h-4 text-primary flex-shrink-0" />
-                  <Text variant="bodySm" className="text-primary font-medium truncate" as="span">
-                    Фильтр: {tagFilter}
-                  </Text>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={clearTagFilter}
-                    className="ml-auto h-7 w-7 p-0 rounded-full hover:bg-primary/20"
-                    aria-label="Убрать фильтр"
+                {/* Active Tag Filter Indicator */}
+                {tagFilter && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-3 px-5 py-3 mb-6 mx-5 sm:mx-6 bg-primary/10 border border-primary/20 rounded-xl"
                   >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </motion.div>
-              )}
+                    <Tag className="w-4 h-4 text-primary flex-shrink-0" />
+                    <Text variant="bodySm" className="text-primary font-medium truncate" as="span">
+                      Фильтр: {tagFilter}
+                    </Text>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={clearTagFilter}
+                      className="ml-auto h-7 w-7 p-0 rounded-full hover:bg-primary/20"
+                      aria-label="Убрать фильтр"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </motion.div>
+                )}
 
-              {/* Active Generations Section */}
-              {hasActiveGenerations && (
-                <div className="mb-8 @container">
-                  <Heading
-                    level="h3"
-                    className="text-xs font-medium text-muted-foreground mb-4 flex items-center gap-2"
-                  >
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Генерируется ({activeGenerations.length})
-                  </Heading>
-                  <div
-                    className={
-                      viewMode === "grid"
-                        ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 @xl:grid-cols-6 gap-4 @sm:gap-5 @lg:gap-6"
-                        : "flex flex-col gap-3 sm:gap-4"
-                    }
-                  >
-                    {activeGenerations.map((task) => (
-                      <GeneratingTrackSkeleton
-                        key={task.id}
-                        status={task.status}
-                        prompt={task.prompt}
-                        createdAt={task.created_at}
-                        layout={viewMode}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Track List Content */}
-              {isLoading ? (
-                <div data-safe-skeleton="" className="@container">
-                  {isMobile ? (
-                    viewMode === "grid" ? (
-                      <MobileGridSkeleton count={4} />
-                    ) : (
-                      <MobileListSkeleton count={5} />
-                    )
-                  ) : (
+                {/* Active Generations Section */}
+                {hasActiveGenerations && (
+                  <div className="mb-8 @container">
+                    <Heading
+                      level="h3"
+                      className="text-xs font-medium text-muted-foreground mb-4 flex items-center gap-2"
+                    >
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Генерируется ({activeGenerations.length})
+                    </Heading>
                     <div
                       className={
                         viewMode === "grid"
@@ -445,46 +427,75 @@ export default function Library() {
                           : "flex flex-col gap-3 sm:gap-4"
                       }
                     >
-                      {Array.from({ length: 6 }).map((_, i) =>
-                        viewMode === "grid" ? <TrackCardSkeleton key={i} /> : <TrackRowSkeleton key={i} />,
-                      )}
+                      {activeGenerations.map((task) => (
+                        <GeneratingTrackSkeleton
+                          key={task.id}
+                          status={task.status}
+                          prompt={task.prompt}
+                          createdAt={task.created_at}
+                          layout={viewMode}
+                        />
+                      ))}
                     </div>
-                  )}
-                </div>
-              ) : filteredTracks.length === 0 && !hasActiveGenerations ? (
-                <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
-              ) : (
-                <>
-                  <VirtualizedTrackList
-                    tracks={filteredTracks}
-                    viewMode={viewMode}
-                    activeTrackId={activeTrackId}
-                    getCountsForTrack={getCountsForTrack}
-                    getMidiStatus={(trackId) => midiStatusMap[trackId]}
-                    onPlay={(track) => {
-                      handlePlay(track);
-                      if (!isMobile) setSelectedTrackId(track.id);
-                    }}
-                    onDelete={(id) => deleteTrack(id)}
-                    onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}
-                    onToggleLike={(id, isLiked) => toggleLike({ trackId: id, isLiked })}
-                    onTagClick={handleTagClick}
-                    onLoadMore={fetchNextPage}
-                    hasMore={hasNextPage}
-                    isLoadingMore={isFetchingNextPage}
-                  />
+                  </div>
+                )}
 
-                  {!hasNextPage && (tracks?.length ?? 0) > 0 && (
-                    <Text variant="bodySm" muted className="py-8 text-center">
-                      Все треки загружены
-                    </Text>
-                  )}
-                </>
-              )}
-            </PullToRefreshWrapper>
+                {/* Track List Content */}
+                {isLoading ? (
+                  <div data-safe-skeleton="" className="@container">
+                    {isMobile ? (
+                      viewMode === "grid" ? (
+                        <MobileGridSkeleton count={4} />
+                      ) : (
+                        <MobileListSkeleton count={5} />
+                      )
+                    ) : (
+                      <div
+                        className={
+                          viewMode === "grid"
+                            ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 @xl:grid-cols-6 gap-4 @sm:gap-5 @lg:gap-6"
+                            : "flex flex-col gap-3 sm:gap-4"
+                        }
+                      >
+                        {Array.from({ length: 6 }).map((_, i) =>
+                          viewMode === "grid" ? <TrackCardSkeleton key={i} /> : <TrackRowSkeleton key={i} />,
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ) : filteredTracks.length === 0 && !hasActiveGenerations ? (
+                  <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
+                ) : (
+                  <>
+                    <VirtualizedTrackList
+                      tracks={filteredTracks}
+                      viewMode={viewMode}
+                      activeTrackId={activeTrackId}
+                      getCountsForTrack={getCountsForTrack}
+                      getMidiStatus={(trackId) => midiStatusMap[trackId]}
+                      onPlay={(track) => {
+                        handlePlay(track);
+                        if (!isMobile) setSelectedTrackId(track.id);
+                      }}
+                      onDelete={(id) => deleteTrack(id)}
+                      onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}
+                      onToggleLike={(id, isLiked) => toggleLike({ trackId: id, isLiked })}
+                      onTagClick={handleTagClick}
+                      onLoadMore={fetchNextPage}
+                      hasMore={hasNextPage}
+                      isLoadingMore={isFetchingNextPage}
+                    />
+
+                    {!hasNextPage && (tracks?.length ?? 0) > 0 && (
+                      <Text variant="bodySm" muted className="py-8 text-center">
+                        Все треки загружены
+                      </Text>
+                    )}
+                  </>
+                )}
+              </PullToRefreshWrapper>
             </div>
           </div>
-
 
           {/* Desktop: Track Detail Panel */}
           {!isMobile && selectedTrack && (
@@ -503,6 +514,18 @@ export default function Library() {
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
+
+      {/* Generation result sheet */}
+      {resultOpen && (
+        <Suspense fallback={null}>
+          <GenerationResultSheet
+            trackId={resultTrackId!}
+            trackTitle={resultTrackTitle!}
+            open={resultOpen}
+            onOpenChange={setResultOpen}
+          />
+        </Suspense>
+      )}
 
       {/* Contextual hints — single canonical overlay */}
       <ContextHints context="library" delay={3000} />

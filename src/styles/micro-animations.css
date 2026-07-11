@@ -99,7 +99,7 @@
 }
 
 .animate-pop-in {
-  animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: pop-in 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
 /* ========== Stagger Delays ========== */
@@ -202,7 +202,7 @@
   }
 }
 
-@keyframes bounce-subtle {
+@keyframes bob-subtle {
   0%,
   100% {
     transform: translateY(0);
@@ -216,8 +216,8 @@
   animation: spin-slow 3s linear infinite;
 }
 
-.animate-bounce-subtle {
-  animation: bounce-subtle 1s ease-in-out infinite;
+.animate-bob-subtle {
+  animation: bob-subtle 1s ease-in-out infinite;
 }
 
 /* ========== Button Micro-interactions ========== */
@@ -331,7 +331,7 @@
   .animate-float,
   .animate-wiggle,
   .animate-spin-slow,
-  .animate-bounce-subtle,
+  .animate-bob-subtle,
   .animate-count-up {
     animation: none !important;
   }

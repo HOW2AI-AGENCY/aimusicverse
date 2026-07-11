@@ -98,7 +98,7 @@ export const FormSection = memo(function FormSection({
           </span>
           <div className="min-w-0 flex-1 pt-px">
             <h3 className="text-sm font-semibold text-foreground leading-tight">{title}</h3>
-            {description && <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">{description}</p>}
+            {description && <p className="text-xs text-muted-foreground leading-snug mt-0.5">{description}</p>}
           </div>
         </div>
       )}

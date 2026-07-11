@@ -85,8 +85,8 @@ export function NavigationShell({ hasActiveTrack, children }: NavigationShellPro
     localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(collapsed));
   }, []);
 
-  const sidebarWidth = sidebarCollapsed ? "w-16" : "w-64";
-  const mainMarginClass = isDesktop ? (sidebarCollapsed ? "ml-16" : "ml-64") : isMobileLandscape ? "ml-14" : "";
+  const sidebarWidth = sidebarCollapsed ? "w-14" : "w-56";
+  const mainMarginClass = isDesktop ? (sidebarCollapsed ? "ml-14" : "ml-56") : isMobileLandscape ? "ml-14" : "";
 
   return (
     <>

@@ -128,7 +128,7 @@ export function AdvancedSettings({ open, onOpenChange, ...props }: AdvancedSetti
                 variant={props.vocalGender === value ? "default" : "outline"}
                 size="sm"
                 onClick={() => props.onVocalGenderChange(value)}
-                className="text-xs h-9 rounded-lg"
+                className="text-xs h-11 min-h-touch rounded-lg"
               >
                 {label}
               </Button>

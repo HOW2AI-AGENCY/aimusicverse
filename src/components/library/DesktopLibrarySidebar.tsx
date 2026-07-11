@@ -30,6 +30,7 @@ import { ProjectTrackSelector } from "@/components/generate-form/ProjectTrackSel
 import { PromptHistory } from "@/components/generate-form/PromptHistory";
 import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
 import { StylePresetSelector } from "@/components/generate-form/StylePresetSelector";
+import { FormStepper } from "@/components/generate-form/FormStepper";
 
 // Lazy load heavy form components
 const GenerateFormSimple = lazy(() =>
@@ -169,7 +170,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
 
         {/* Form Content */}
         <ScrollArea className="flex-1">
-          <div className="px-3 py-3 space-y-3">
+          <div className="px-4 py-3 space-y-3">
             {/* Quick Actions */}
             <GenerateFormActions
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
@@ -197,6 +198,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
             />
 
             {/* Form Content */}
+            {form.mode === "custom" && <FormStepper />}
             <Suspense fallback={<FormSkeleton />}>
               <AnimatePresence mode="wait">
                 {form.mode === "simple" ? (

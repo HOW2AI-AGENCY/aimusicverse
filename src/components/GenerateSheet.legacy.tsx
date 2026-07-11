@@ -18,6 +18,7 @@ import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButto
 import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFeatureUsageTracking } from "@/hooks/analytics/useFeatureUsageTracking";
+import { FormStepper } from "@/components/generate-form/FormStepper";
 
 // Form components - lazy loaded for bundle optimization
 // GenerateFormHeaderCompact removed - using CollapsibleFormHeader only
@@ -365,6 +366,7 @@ export const LegacyGenerateSheet = ({ open, onOpenChange, projectId: initialProj
               />
 
               {/* Mode Content with Animation - Wizard removed for UX simplification */}
+              {form.mode === "custom" && <FormStepper />}
               <Suspense fallback={<FormSkeleton />}>
                 <AnimatePresence mode="wait">
                   {form.mode === "simple" ? (
