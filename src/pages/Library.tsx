@@ -343,15 +343,11 @@ export default function Library() {
 
             {/* Scrollable region — filters + track list share single scroll container */}
             <div className="flex-1 overflow-y-auto overscroll-contain">
-                    </div>
-                    <LibraryFilterChips
-                      activeFilter={typeFilter}
-                      onFilterChange={setTypeFilter}
-                      counts={filterCounts}
-                    />
-                  </div>
-                )}
-              </div>
+              <LibraryFilterChips
+                activeFilter={typeFilter}
+                onFilterChange={setTypeFilter}
+                counts={filterCounts}
+              />
 
               {/* Content with Pull to Refresh */}
               <PullToRefreshWrapper
@@ -386,47 +382,6 @@ export default function Library() {
                   </motion.div>
                 )}
 
-                    <div
-                      className={
-                        viewMode === "grid"
-                          ? "grid grid-cols-2 @[420px]:grid-cols-3 @[600px]:grid-cols-4 @[780px]:grid-cols-5 @[960px]:grid-cols-6 @[1180px]:grid-cols-7 gap-3 @[600px]:gap-4"
-                          : "flex flex-col gap-3 sm:gap-4"
-                      }
-                    >
-                      {activeGenerations.map((task) => (
-                        <GeneratingTrackSkeleton
-                          key={task.id}
-                          status={task.status}
-                          prompt={task.prompt}
-                          createdAt={task.created_at}
-                          layout={viewMode}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ) : filteredTracks.length === 0 && !hasActiveGenerations ? (
-                <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
-              ) : (
-                <>
-                  <VirtualizedTrackList
-                    tracks={filteredTracks}
-                    viewMode={viewMode}
-                    activeTrackId={activeTrackId}
-                    getCountsForTrack={getCountsForTrack}
-                    getMidiStatus={(trackId) => midiStatusMap[trackId]}
-                    onPlay={(track) => {
-                      handlePlay(track);
-                      if (isDesktop) setSelectedTrackId(track.id);
-                    }}
-                    onDelete={(id) => deleteTrack(id)}
-                    onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}
-                    onToggleLike={(id, isLiked) => toggleLike({ trackId: id, isLiked })}
-                    onTagClick={handleTagClick}
-                    onLoadMore={fetchNextPage}
-                    hasMore={hasNextPage}
-                    isLoadingMore={isFetchingNextPage}
-                  />
-
                 {/* Track List Content */}
                 {isLoading ? (
                   <div data-safe-skeleton="" className="@container">
@@ -440,7 +395,7 @@ export default function Library() {
                       <div
                         className={
                           viewMode === "grid"
-                            ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 @xl:grid-cols-6 gap-4 @sm:gap-5 @lg:gap-6"
+                            ? "grid grid-cols-2 @[420px]:grid-cols-3 @[600px]:grid-cols-4 @[780px]:grid-cols-5 @[960px]:grid-cols-6 @[1180px]:grid-cols-7 gap-3 @[600px]:gap-4"
                             : "flex flex-col gap-3 sm:gap-4"
                         }
                       >
@@ -482,6 +437,7 @@ export default function Library() {
                 )}
               </PullToRefreshWrapper>
             </div>
+
           </div>
 
           {/* Desktop: Track Detail Panel */}
