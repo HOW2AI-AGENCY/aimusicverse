@@ -1,121 +1,109 @@
-# План дальнейших работ — AI MusicVerse
 
-На основе аудита от 2026-07-07. План разбит на 4 фазы по приоритету: от критичных гигиенических фиксов до стратегических улучшений качества и UX.
+# План: MCP-расширение + аудит Telegram-интеграции
 
-## Фаза 0 — Гигиена репозитория (сегодня, ~2 часа)
+## Часть 1. Аудит Telegram-интеграции (без изменений кода)
 
-Цель: устранить P0-риски, вернуть CI/скрипты в зелёный статус.
+Что уже есть в проекте (по факту сканирования):
 
-1. **Разобрать незакоммиченные изменения (−5135 LOC, 28 удалённых файлов)**
-   - Сделать `git diff --stat` и просмотреть каждую группу удалений.
-   - Проверить импорты удалённых модулей (`a11y.ts`, `a11yHelpers.ts`, `accessibility.ts`, `gesture-manager.ts`, `stateMachine.ts`, `retry.ts`, `haptics.ts`, `branded.ts`, Suno `SectionBlock/SunoTimeline/TagMenu`) через `rg` по `src/`.
-   - Если импортов нет — закоммитить одним `refactor:` commit'ом с явным списком удалений.
-   - Если импорты есть — восстановить файлы через `git restore` и открыть отдельный спринт на плавную деприкацию.
+- **Frontend TG-обвязка:** `src/contexts/telegram/` — 7 модулей, 1,53k LOC (Provider, DeepLinkHandler, hooks Init/Actions, mockWebApp, types).
+- **Edge Functions TG (8 штук, ~4k LOC):** `telegram-bot`, `telegram-auth`, `telegram-webhook-setup`, `bot-api`, `send-telegram-notification` (1,1k LOC!), `queue/process/retry-telegram-notifications`, `tinkoff-create-bot-payment`.
+- **152 файла** в `src/` импортируют `useTelegram`/`@twa-dev/sdk` или `TelegramContext`.
+- **Таблицы в БД:** 13 `telegram_*` таблиц (bot_config, bot_logs, metrics, sessions, menu_items, menu_state, notification_queue, failed_notifications, rate_limits, voice_transcriptions, wizard_state, bot_metrics).
 
-2. **Починить `scripts/count-any.mjs`**
-   - Добавить `fs.existsSync(abs)` guard перед `readFileSync` в цикле по `git ls-files`, чтобы не падать на удалённых-но-tracked файлах.
+### Вердикт по «переходу на ванильное Lovable»
 
-3. **Починить Prettier gate**
-   - Прогнать `npx prettier --write .claude/settings.json` (и любые другие файлы, которые всплывут в `format:check`).
+**Полный отказ от кастомного TG-бота не рекомендуется.** Причины:
 
-4. **Проверить полный `npm run check-all`** — lint + format:check + typecheck + test должны быть зелёными.
+1. **Аудитория проекта — Telegram-first.** Все флоу построены под Mini App: платежи через Telegram Stars, deep links, шаринг в Stories, native buttons. Уйти в чистый web — потерять весь дистрибуционный канал.
+2. **Объём вложенного функционала:** 4k LOC edge-функций + 13 таблиц + очередь нотификаций с retry-логикой. Это не «легко переписать под встроенные Lovable-фичи» — у Lovable нет встроенного эквивалента (нет Stars-биллинга, TG-меню-редактора, notification queue).
+3. **«Ванильное Lovable» = web-app.** Стандартный Lovable-паттерн — это Supabase Auth + edge functions. Он **уже используется под капотом**. TG-специфика (safe areas, MainButton, CloudStorage) — это тонкая надстройка, а не архитектурный анти-паттерн.
 
-## Фаза 1 — Синхронизация документации (1-2 дня)
+### Что реально стоит упростить (Sprint-worthy, не сейчас)
 
-Цель: устранить расхождения между `README.md`, `PROJECT_STATUS.md`, `ROADMAP.md`, `CLAUDE.md`.
+| Проблема | Что делать |
+|---|---|
+| `send-telegram-notification` 1,1k LOC — god-file | Декомпозировать по типам уведомлений (matches ADR-041 практике) |
+| Дублирование `notification_queue` + `failed_notifications` + `retry` | Слить в один queue с полем `status`/`retry_count` |
+| 13 `telegram_*` таблиц — часть overlap с `notifications`/`user_activity` | Аудит и мердж (`bot_logs` vs `telemetry_events`) |
+| `useTelegramActions.ts` 531 LOC | Разбить по доменам (buttons / dialogs / sharing / storage) |
+| Опубликовать **параллельно web-версию** на `music.how2ai.world` | Уже есть custom domain — просто заменить TG-only gates на graceful degrade (в основном `useTelegram()` возвращает mock, safe areas дают 0px) |
 
-1. **Единый источник счётчиков.** Обновить `scripts/update-badges.mjs`, чтобы он рекурсивно считал `src/services/**/*.service.ts`, `src/stores/**/*.ts`, `src/api/**/*.api.ts`, `src/components/**/*.tsx`, `src/hooks/**/*.ts`. Прогнать и обновить бейджи.
-2. **Разрешить конфликт статуса Sprint 050.** В `PROJECT_STATUS.md` перевести из «🔄 В работе» в «✅ Завершён» (PR #657 merged, Branch Protection Phase 2 активен).
-3. **Разрешить коллизию номеров Sprint 057.** Переименовать один из них (Audio Analysis Refactoring остаётся 057, Collaboration Features → 058).
-4. **Обновить метрику unit tests** после решения по Фазе 0 (1484 или восстановленные 1497).
-5. **Добавить в scope аудита `supabase/functions/`** — 11 файлов >800 LOC не покрыты ни одним спринтом. Явно указать это в `PROJECT_STATUS.md` как известный tech debt.
+Веб-версия уже почти работает через `createMockWebApp`. Формально «двойная сборка» не нужна — один build, ветвление в рантайме.
 
-## Фаза 2 — Технический долг и качество кода (2-3 недели)
+**Итог:** оставить TG Mini App как основной канал, вложиться в web fallback (небольшие правки, не миграция), в отдельном спринте — рефактор god-file'ов и мердж таблиц. Никакой массовой миграции сейчас — риск сломать production ради архитектурной чистоты.
 
-### Sprint 058 — Edge Functions Decomposition
+---
 
-- Декомпозировать 11 файлов >800 LOC в `supabase/functions/` (до 1871 LOC — вероятно, `suno-*` семейство).
-- Выделить общие модули в `supabase/functions/_shared/` (сейчас там уже есть `cors.ts`, `logger.ts`, `telegram-utils.ts`, `suno.ts`).
-- Целевая планка: 0 файлов >500 LOC в edge functions.
-- Добавить unit-тесты для критичных helper-модулей через Deno test.
+## Часть 2. Расширение MCP-сервера (реализация в build mode)
 
-### Sprint 059 — Test Coverage Recovery
+### Новые тулы
 
-- Восстановить (или явно списать) 4 удалённых тестовых файла: `accessibility.test.ts`, `performance.test.ts`, `withHistory.test.ts`, `generate-sheet-redesign-flag.test.ts`.
-- Поднять покрытие критичных модулей: `GlobalAudioProvider`, `useUnifiedStudioStore`, `useVersionSwitcher`, `secure_credit_update` RPC.
-- Цель: 1500+ unit tests, ≥70% branch coverage на критичных путях.
+Все — авторизованные (OAuth issuer уже настроен). Каждый — отдельный файл в `src/lib/mcp/tools/`, реэкспорт в `src/lib/mcp/index.ts`.
 
-### Sprint 060 — Security & Dependencies
+#### A. Управление плейлистами (3 тула)
 
-- Разрешить 6 уязвимостей `npm audit` (1 high, 4 moderate, 1 low) — либо через обновление, либо через явные overrides с обоснованием.
-- Прогнать `security--run_security_scan` и обработать все P0/P1 findings.
-- Аудит RLS-политик: убедиться, что все `public.*` таблицы имеют явные GRANT и политики (по проектной памяти).
+1. **`create_playlist`** — `{ name: string, description?: string, is_public?: boolean }` → INSERT в `playlists` с `user_id = ctx.getUserId()`, RLS-safe через bearer-forward.
+2. **`add_track_to_playlist`** — `{ playlist_id, track_id }` → INSERT в `playlist_tracks` с проверкой владения плейлистом (RLS).
+3. **`remove_track_from_playlist`** — `{ playlist_id, track_id }` → DELETE. `annotations.destructiveHint: true`.
 
-## Фаза 3 — UX и производительность (4-6 недель)
+#### B. Стемы и версии (3 тула, read-only)
 
-### Sprint 061 — Mobile Studio Polish
+4. **`get_track_stems`** — `{ track_id }` → SELECT из `track_stems` (vocals/drums/bass/other + URL). Проверка: трек либо публичный, либо принадлежит юзеру.
+5. **`list_track_versions`** — `{ track_id }` → SELECT из `track_versions` (A/B, is_primary, version_label).
+6. **`switch_active_version`** — `{ track_id, version_id }` → UPDATE `tracks.active_version_id` + `track_versions.is_primary` атомарно через RPC (использовать существующий паттерн из `useVersionSwitcher`). `destructiveHint: false, idempotentHint: true`.
 
-- Пройти по `MOBILE_AUDIT_F1-F12.md` и `MBILE_FIXES_F3F6F7.md`, закрыть остатки.
-- Валидация touch targets 44×44px, safe areas, keyboard handling на реальном iOS Safari через Telegram.
-- Haptic feedback consistency: аудит по мемори «Standardized Haptic Feedback».
+#### C. Генерация треков (1 тул, с нюансами)
 
-### Sprint 062 — Performance Budget Hardening
+7. **`generate_track`** — самый сложный.
+   - Input: `{ prompt: string, style?: string, is_instrumental?: boolean, model?: 'v4'|'v5' }`.
+   - Проверки в handler: (a) `ctx.isAuthenticated()`, (b) баланс кредитов через `user_credits` (SELECT), (c) списание через RPC `secure_credit_update` (уже есть, соблюдает memory rule).
+   - Инвокация: fetch на существующую edge-функцию `suno-music-generate` с `Authorization: Bearer ${ctx.getToken()}`.
+   - Ответ: **не ждём завершения** (генерация асинхронная, 30–120s). Возвращаем `{ task_id, status: 'pending', poll_hint: 'Use get_generation_status with task_id' }` — соответствует правилу «MCP tool = синхронный request/response с timeout».
+   - `annotations: { readOnlyHint: false, destructiveHint: false }` (тратит кредиты, но не удаляет данные).
 
-- Bundle size сейчас 508 KB gzip eager (лимит 950 KB) — есть запас, но задача: снизить до 400 KB через lazy loading второй волны (Studio, StemSeparation, MidiEditor).
-- Lighthouse CI: закрепить порог Performance ≥90 на mobile, LCP <2.5s, TBT <200ms.
-- Аудит `react-virtuoso` использования — все списки >50 элементов должны быть виртуализированы.
+8. **`get_generation_status`** — `{ task_id }` → SELECT из `generation_tasks` для polling'а.
 
-### Sprint 063 — A/B Testing & Analytics Loop
+### Обновление manifest
 
-- Замкнуть цикл `useExperiment` → `deeplink-tracker` → аналитика в admin панели.
-- Дашборд конверсий по `ConversionStage` (visit → engaged → registered → generation → payment).
-- Автоматические отчёты в Telegram-канал по ключевым метрикам недели.
+- `defineMcp.version`: `0.2.0` → `0.3.0`.
+- Обновить `instructions` с описанием новых capabilities.
+- Запустить `app_mcp_server--extract_mcp_manifest`.
+- Задеплоить edge-функцию `mcp` через `supabase--deploy_edge_functions`.
 
-### Sprint 064 — Collaboration Features (перенумерованный)
+### Безопасность
 
-- Совместное редактирование проектов (real-time через Supabase Realtime).
-- Роли в проекте (owner, editor, viewer) через `user_roles` паттерн.
-- Комментарии с таймкодами к трекам.
-
-## Фаза 4 — Стратегические улучшения (квартальный горизонт)
-
-1. **AI Quality Layer** — метрики качества генерации (loudness, LUFS, spectral balance) через существующий `AudioAnalysisService`. Показывать пользователю «Оценка трека: 8.5/10».
-2. **Voice Cloning Studio v2** — расширить `Voice Library` и `Voice History` (страницы 16-17 из PRD) с превью и версионированием.
-3. **Marketplace / Community** — публичные треки, лайки, ремиксы. Использовать существующие `track_likes`, `comments`, `safe_public_profiles`.
-4. **Telegram Bot v2** — inline queries для поиска треков, deep links в конкретные Studio-сессии, Stars payment flow ready.
+- Все тулы используют `getToken()` + bearer-forward — RLS работает как под юзерской сессией.
+- `generate_track` **не принимает** `user_id` из input (memory rule: `isOwnTrack` validation).
+- Никаких service-role ключей в MCP handler'ах.
+- Не логируем токены.
 
 ## Технические детали
 
-- **Git flow:** conventional commits, PR review обязательный (Branch Protection Phase 2 активен).
-- **Test gates:** `check-all` = lint + format:check + typecheck + test; должен быть зелёный до merge.
-- **Bundle gate:** `npm run size` (950 KB limit) — не превышать.
-- **Design tokens:** строго через `src/lib/design-tokens.ts` и `src/lib/glass.ts`.
-- **Логирование:** только `logger.error()` / `logger.warn()`, никаких `console.*`.
-- **Импорты:** `framer-motion` → `@/lib/motion`, `lucide-react` → `@/lib/icons`, никаких `supabase.from()` в компонентах (только через API layer).
+**Файлы к созданию:**
+- `src/lib/mcp/tools/create-playlist.ts`
+- `src/lib/mcp/tools/add-track-to-playlist.ts`
+- `src/lib/mcp/tools/remove-track-from-playlist.ts`
+- `src/lib/mcp/tools/get-track-stems.ts`
+- `src/lib/mcp/tools/list-track-versions.ts`
+- `src/lib/mcp/tools/switch-active-version.ts`
+- `src/lib/mcp/tools/generate-track.ts`
+- `src/lib/mcp/tools/get-generation-status.ts`
 
-## Порядок исполнения
+**Файлы к правке:**
+- `src/lib/mcp/index.ts` — импорт + регистрация 8 новых тулов, bump version.
 
-```text
-Фаза 0 (сегодня)
-   │
-   ▼
-Фаза 1 (1-2 дня)  ──►  готовность к спринт-планированию
-   │
-   ▼
-Фаза 2 (Sprints 058-060, 2-3 недели, параллельно)
-   │
-   ▼
-Фаза 3 (Sprints 061-064, 4-6 недель, последовательно)
-   │
-   ▼
-Фаза 4 (квартал, стратегия)
-```
+**Пост-действия:**
+1. `app_mcp_server--extract_mcp_manifest` — валидация манифеста.
+2. `supabase--deploy_edge_functions` с `function_names: ["mcp"]`.
+3. Обновить `src/pages/Connect.tsx` — актуальный список capabilities.
 
-## Критерии приёмки плана
+**Что НЕ делаем в этом плане:**
+- Никаких изменений в TG-коде (только аудит текстом).
+- Никакой миграции на «ванильное Lovable».
+- Никаких изменений схемы БД (все новые тулы работают с существующими таблицами).
 
-- Все P0-риски из аудита закрыты в Фазе 0.
-- Документация синхронизирована в Фазе 1 (один источник правды).
-- Tech debt в edge functions ликвидирован в Sprint 058.
-- Test coverage ≥70% на критичных путях в Sprint 059.
-- Bundle eager ≤400 KB в Sprint 062.
-- Lighthouse Performance ≥90 (mobile) закреплено в CI.
+## Проверка после реализации
+
+- Изучить манифест `.lovable/mcp/manifest.json` — должно быть 15 тулов (7 старых + 8 новых).
+- Проверить через `supabase--test_edge_functions` что `/functions/v1/mcp` отвечает 200 на `POST` с MCP `tools/list`.
+- Открыть `/connect` в preview — актуальный список.

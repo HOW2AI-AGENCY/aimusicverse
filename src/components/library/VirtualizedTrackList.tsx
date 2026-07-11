@@ -87,14 +87,15 @@ interface VirtualizedTrackListProps {
   enablePullToRefresh?: boolean;
 }
 
-// Optimized grid container - using CSS grid for better performance
+// Optimized grid container - responds to container width (works with desktop sidebar / detail panel).
+// Uses Tailwind container queries; parent column must have the `@container` class.
 const GridContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ children, style, ...props }, ref) => (
     <div
       ref={ref}
       style={style}
       {...props}
-      className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-5 px-4 sm:px-6"
+className="grid grid-cols-2 @[420px]:grid-cols-3 @[600px]:grid-cols-4 @[780px]:grid-cols-5 @[960px]:grid-cols-6 @[1180px]:grid-cols-7 @[1400px]:grid-cols-8 gap-3 @[600px]:gap-4 px-4 sm:px-6"
     >
       {children}
     </div>

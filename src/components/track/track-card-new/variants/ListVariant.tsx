@@ -67,9 +67,11 @@ export const ListVariant = memo(function ListVariant({
   const listContent = (
     <Card
       className={cn(
-        "group grid grid-cols-[64px_1fr_44px] items-center gap-3 p-3 transition-all touch-manipulation rounded-2xl min-h-[80px]",
+        // Fixed cover column, flexible middle (min-w-0 to allow truncation),
+        // auto-width actions column so Play + Menu (desktop) and single More (mobile) fit without clipping.
+        "group grid grid-cols-[64px_minmax(0,1fr)_auto] items-center gap-3 p-3 transition-all touch-manipulation rounded-2xl min-h-[80px]",
         "bg-card/60 backdrop-blur-sm border-border/40",
-        !isMobile && "hover:bg-muted/60 hover:shadow-md hover:scale-[1.01] hover:ring-1 hover:ring-primary/20",
+        !isMobile && "hover:bg-muted/60 hover:shadow-md hover:scale-[1.005] hover:ring-1 hover:ring-primary/20",
         isMobile && "active:bg-muted/70 active:scale-[0.99]",
         isCurrentlyPlaying && "ring-1 ring-primary/30 bg-primary/5",
         "focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2",
@@ -120,7 +122,8 @@ export const ListVariant = memo(function ListVariant({
       </div>
 
       {/* Actions Column */}
-      <div className="flex flex-col items-center justify-center gap-1">
+      <div className="flex flex-col items-end justify-center gap-1 pl-1 flex-shrink-0">
+
         {/* Version Toggle - using UnifiedVersionSelector */}
         {versionCount > 1 && (
           <UnifiedVersionSelector

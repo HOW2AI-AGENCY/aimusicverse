@@ -103,42 +103,28 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
   };
 
   if (isCollapsed) {
-    return (
-      <div
-        className={cn(
-          "w-12 flex-shrink-0 bg-card/50 border-r border-border/30 flex flex-col items-center py-4",
-          className,
-        )}
-      >
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onToggleCollapse}
-          className="h-11 w-11 min-h-touch min-w-touch rounded-xl bg-primary/10 hover:bg-primary/20"
-          title="Открыть форму генерации"
-        >
-          <Sparkles className="w-5 h-5 text-primary" />
-        </Button>
-      </div>
-    );
+    // Collapsed state renders nothing — the app-level navigation already exposes
+    // a "Create" entry point, so a second vertical rail here just clutters the UI.
+    return null;
   }
+
+
 
   return (
     <>
       <motion.div
         initial={{ width: 0, opacity: 0 }}
-        animate={{ width: 320, opacity: 1 }}
+        animate={{ width: 380, opacity: 1 }}
         exit={{ width: 0, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className={cn("flex-shrink-0 bg-card/50 border-r border-border/30 flex flex-col overflow-hidden", className)}
+        className={cn(
+          "relative flex-shrink-0 bg-card/40 border-r border-border/30 flex flex-col overflow-hidden",
+          className,
+        )}
       >
-        {/* Header */}
-        <div className="px-3 py-3 border-b border-border/30 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <h3 className="text-sm font-semibold">Создать трек</h3>
-          </div>
-          <div className="flex items-center gap-1">
+        {/* Compact header — mode tabs + model + collapse */}
+        <div className="flex items-stretch gap-1 px-3 pt-3 pb-2 border-b border-border/30">
+          <div className="flex-1 min-w-0">
             <CollapsibleFormHeader
               balance={form.userBalance ?? undefined}
               cost={form.generationCost}
@@ -148,10 +134,16 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
               onModelChange={form.setModel}
               onOpenHistory={() => setHistoryOpen(true)}
             />
-            <Button variant="ghost" size="icon" onClick={onToggleCollapse} className="h-7 w-7">
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleCollapse}
+            className="h-8 w-8 self-start mt-1 flex-shrink-0"
+            aria-label="Свернуть форму"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
         </div>
 
         {/* Loading Overlay */}

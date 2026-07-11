@@ -36,6 +36,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
 import { TrackCardSkeleton, TrackRowSkeleton } from "@/components/ui/skeleton-components";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { MobileListSkeleton, MobileGridSkeleton } from "@/components/mobile/MobileSkeletons";
 import { LibraryFilterChips } from "@/components/library/LibraryFilterChips";
 import { CompactFilterBar } from "@/components/library/CompactFilterBar";
@@ -65,15 +66,19 @@ import { ContextHints } from "@/components/hints";
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
+  // Desktop mode must match NavigationShell's ≥1024px breakpoint. Between 768–1023 the
+  // app already renders a mobile bottom nav — showing the desktop split-form sidebar too
+  // would collide with it and steal vertical space.
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const qRef = useRef(searchParams.get("q"));
+  const trackColumnRef = useRef<HTMLDivElement | null>(null);
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
 
-  // Desktop sidebar state — default expanded on ≥1024px (lg) so the generation form is immediately visible.
-  // Collapse to icon rail only on narrow tablets (<1024px) where it would crowd the grid.
+  // Desktop sidebar state — default expanded on ≥1280px (xl), collapsed to icon rail on lg (1024–1279px).
   const [generateSidebarCollapsed, setGenerateSidebarCollapsed] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false,
+    typeof window !== "undefined" ? window.innerWidth < 1280 : false,
   );
 
   // Desktop: Selected track for detail panel
@@ -190,14 +195,29 @@ export default function Library() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobile, isPlaying, pauseTrack, selectedTrack, selectedTrackId, filteredTracks, handlePlay]);
 
+  // Auto-switch grid → list when the tracks column becomes too narrow for a proper grid.
+  // Uses ResizeObserver on the actual column, so it works regardless of sidebar / detail-panel state.
+  useEffect(() => {
+    const el = trackColumnRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width ?? 0;
+      if (w > 0 && w < 420 && viewMode !== "list") {
+        setViewMode("list");
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [viewMode, setViewMode]);
+
   // Handle track selection (for desktop detail panel)
   const handleTrackSelect = useCallback(
     (trackId: string) => {
-      if (!isMobile) {
+      if (isDesktop) {
         setSelectedTrackId(trackId);
       }
     },
-    [isMobile],
+    [isDesktop],
   );
 
   // Navigate to studio
@@ -233,7 +253,7 @@ export default function Library() {
         }}
       >
         {/* Desktop Generate Sidebar — pinned, own internal scroll, no page scroll */}
-        {!isMobile && (
+        {isDesktop && (
           <DesktopLibrarySidebar
             isCollapsed={generateSidebarCollapsed}
             onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
@@ -246,9 +266,10 @@ export default function Library() {
         >
           {/* Track List Section — only this column scrolls */}
           <div
+            ref={trackColumnRef}
             className={cn(
-              "flex-1 min-w-0 flex flex-col overflow-hidden",
-              !isMobile && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
+              "flex-1 min-w-0 flex flex-col overflow-hidden @container",
+              isDesktop && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
             )}
           >
             {/* SR-only H1 for page-has-heading-one / heading uniqueness */}
@@ -322,51 +343,6 @@ export default function Library() {
 
             {/* Scrollable region — filters + track list share single scroll container */}
             <div className="flex-1 overflow-y-auto overscroll-contain">
-              {/* Sticky Search and Filters — secondary nav for large libraries */}
-              <div className="sticky top-0 z-10 bg-background border-b border-border/30 -mx-4 px-5 sm:px-6 py-4 sm:py-5">
-                {isMobile ? (
-                  <CompactFilterBar
-                    searchQuery={searchQuery}
-                    onSearchChange={setSearchQuery}
-                    activeFilter={typeFilter}
-                    onFilterChange={setTypeFilter}
-                    sortBy={sortBy}
-                    onSortChange={setSortBy}
-                    statusFilter={statusFilter}
-                    onStatusFilterChange={setStatusFilter}
-                    counts={filterCounts}
-                  />
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex gap-2">
-                      <div className="relative flex-1 group">
-                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-foreground/70 w-3.5 h-3.5 group-focus-within:text-primary transition-colors" />
-                        <Input
-                          type="search"
-                          aria-label="Поиск треков"
-                          placeholder="Поиск..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="pl-8 h-8 text-xs rounded-md border-border/80 bg-card/80 focus:bg-card focus:border-primary/50 placeholder:text-muted-foreground/80"
-                        />
-                      </div>
-                      <Select value={sortBy} onValueChange={(v: SortOption) => setSortBy(v)}>
-                        <SelectTrigger className="w-32 h-8 text-[11px] rounded-md border-border/50 bg-card/50">
-                          <SlidersHorizontal className="w-3 h-3 mr-1 text-muted-foreground" />
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-md">
-                          <SelectItem value="recent" className="text-xs">
-                            Недавние
-                          </SelectItem>
-                          <SelectItem value="popular" className="text-xs">
-                            Популярные
-                          </SelectItem>
-                          <SelectItem value="liked" className="text-xs">
-                            Любимые
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
                     </div>
                     <LibraryFilterChips
                       activeFilter={typeFilter}
@@ -410,20 +386,10 @@ export default function Library() {
                   </motion.div>
                 )}
 
-                {/* Active Generations Section */}
-                {hasActiveGenerations && (
-                  <div className="mb-8 @container">
-                    <Heading
-                      level="h3"
-                      className="text-xs font-medium text-muted-foreground mb-4 flex items-center gap-2"
-                    >
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Генерируется ({activeGenerations.length})
-                    </Heading>
                     <div
                       className={
                         viewMode === "grid"
-                          ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 @xl:grid-cols-6 gap-4 @sm:gap-5 @lg:gap-6"
+                          ? "grid grid-cols-2 @[420px]:grid-cols-3 @[600px]:grid-cols-4 @[780px]:grid-cols-5 @[960px]:grid-cols-6 @[1180px]:grid-cols-7 gap-3 @[600px]:gap-4"
                           : "flex flex-col gap-3 sm:gap-4"
                       }
                     >
@@ -438,7 +404,28 @@ export default function Library() {
                       ))}
                     </div>
                   </div>
-                )}
+                ) : filteredTracks.length === 0 && !hasActiveGenerations ? (
+                <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
+              ) : (
+                <>
+                  <VirtualizedTrackList
+                    tracks={filteredTracks}
+                    viewMode={viewMode}
+                    activeTrackId={activeTrackId}
+                    getCountsForTrack={getCountsForTrack}
+                    getMidiStatus={(trackId) => midiStatusMap[trackId]}
+                    onPlay={(track) => {
+                      handlePlay(track);
+                      if (isDesktop) setSelectedTrackId(track.id);
+                    }}
+                    onDelete={(id) => deleteTrack(id)}
+                    onDownload={(id, audioUrl, coverUrl) => handleDownload(id, audioUrl, coverUrl)}
+                    onToggleLike={(id, isLiked) => toggleLike({ trackId: id, isLiked })}
+                    onTagClick={handleTagClick}
+                    onLoadMore={fetchNextPage}
+                    hasMore={hasNextPage}
+                    isLoadingMore={isFetchingNextPage}
+                  />
 
                 {/* Track List Content */}
                 {isLoading ? (
@@ -498,7 +485,7 @@ export default function Library() {
           </div>
 
           {/* Desktop: Track Detail Panel */}
-          {!isMobile && selectedTrack && (
+          {isDesktop && selectedTrack && (
             <div className="lg:w-[40%] xl:w-[45%] 2xl:w-[50%] min-w-[320px] max-w-[480px] xl:max-w-[560px] 2xl:max-w-[640px] bg-card/50 flex-shrink-0">
               <TrackDetailPanel track={selectedTrack} onPlay={handlePlay} onClose={() => setSelectedTrackId(null)} />
             </div>
@@ -515,20 +502,6 @@ export default function Library() {
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
 
-      {/* Generation result sheet */}
-      {resultOpen && (
-        <Suspense fallback={null}>
-          <GenerationResultSheet
-            trackId={resultTrackId!}
-            trackTitle={resultTrackTitle!}
-            open={resultOpen}
-            onOpenChange={setResultOpen}
-          />
-        </Suspense>
-      )}
-
-      {/* Contextual hints — single canonical overlay */}
-      <ContextHints context="library" delay={3000} />
     </ErrorBoundaryWrapper>
   );
 }
