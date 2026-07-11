@@ -432,7 +432,7 @@ export default function Library() {
                   <div
                     className={
                       viewMode === "grid"
-                        ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 @xl:grid-cols-6 gap-4 @sm:gap-5 @lg:gap-6"
+                        ? "grid grid-cols-2 @[420px]:grid-cols-3 @[600px]:grid-cols-4 @[780px]:grid-cols-5 @[960px]:grid-cols-6 @[1180px]:grid-cols-7 gap-3 @[600px]:gap-4"
                         : "flex flex-col gap-3 sm:gap-4"
                     }
                   >
@@ -462,7 +462,7 @@ export default function Library() {
                     <div
                       className={
                         viewMode === "grid"
-                          ? "grid grid-cols-2 @sm:grid-cols-3 @md:grid-cols-4 @lg:grid-cols-5 @xl:grid-cols-6 gap-4 @sm:gap-5 @lg:gap-6"
+                          ? "grid grid-cols-2 @[420px]:grid-cols-3 @[600px]:grid-cols-4 @[780px]:grid-cols-5 @[960px]:grid-cols-6 @[1180px]:grid-cols-7 gap-3 @[600px]:gap-4"
                           : "flex flex-col gap-3 sm:gap-4"
                       }
                     >
