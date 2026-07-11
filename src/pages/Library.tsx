@@ -205,11 +205,11 @@ export default function Library() {
   // Handle track selection (for desktop detail panel)
   const handleTrackSelect = useCallback(
     (trackId: string) => {
-      if (!isMobile) {
+      if (isDesktop) {
         setSelectedTrackId(trackId);
       }
     },
-    [isMobile],
+    [isDesktop],
   );
 
   // Navigate to studio
