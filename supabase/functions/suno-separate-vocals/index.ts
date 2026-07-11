@@ -4,12 +4,21 @@ import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { getStemSeparationCost } from "../_shared/economy.ts";
+import { authorize } from "../_shared/auth.ts";
 
 const logger = createLogger("suno-separate-vocals");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  const auth = await authorize(req);
+  if (!auth.ok) {
+    return new Response(JSON.stringify({ error: auth.error }), {
+      status: auth.status,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   try {
@@ -23,13 +32,16 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 
     const body = await req.json();
-    const { taskId, audioId, mode = "simple", userId } = body;
+    const { taskId, audioId, mode = "simple" } = body;
+    // Derive userId from verified session; only allow body override for service-role callers
+    const userId = auth.isService ? body.userId : auth.user!.id;
 
     logger.info("Vocal separation request", { taskId, audioId, mode, userId });
 
     if (!taskId || !audioId || !userId) {
       throw new Error("taskId, audioId, and userId are required");
     }
+
 
     // Calculate cost based on mode
     const cost = getStemSeparationCost(mode as "simple" | "detailed");
