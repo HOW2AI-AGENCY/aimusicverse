@@ -77,6 +77,14 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const auth = await authorize(req);
+  if (!auth.ok) {
+    return new Response(JSON.stringify({ error: auth.error }), {
+      status: auth.status,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   try {
     const REPLICATE_API_KEY = Deno.env.get("REPLICATE_API_KEY");
 
@@ -88,7 +96,9 @@ serve(async (req) => {
     const replicate = new Replicate({ auth: REPLICATE_API_KEY });
 
     const body: SeparationRequest = await req.json();
-    const { reference_id, user_id, telegram_chat_id, telegram_message_id, mode = "simple" } = body;
+    const { reference_id, telegram_chat_id, telegram_message_id, mode = "simple" } = body;
+    // Derive user_id from verified JWT; only service-role callers may override.
+    const user_id = auth.isService ? body.user_id : auth.user!.id;
 
     if (!reference_id || !user_id) {
       return new Response(JSON.stringify({ error: "reference_id and user_id are required" }), {
@@ -96,6 +106,7 @@ serve(async (req) => {
         status: 400,
       });
     }
+
 
     // Get reference audio
     const { data: refAudio, error: refError } = await supabase
