@@ -7,6 +7,9 @@ import {
   type TinkoffInitRequest,
 } from "../_shared/tinkoff.ts";
 import { isServiceRoleToken } from "../_shared/auth.ts";
+import { auditLog } from "../_shared/auditLog.ts";
+
+const FUNCTION_NAME = "tinkoff-create-bot-payment";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -26,11 +29,26 @@ serve(async (req) => {
 
   // Only trusted internal callers (e.g. telegram-bot) may create bot payments.
   if (!isServiceRoleToken(req)) {
+    auditLog({
+      functionName: FUNCTION_NAME,
+      action: "create_bot_payment",
+      outcome: "denied",
+      authMethod: "none",
+      status: 401,
+      reason: "service_role_required",
+    });
     return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
       status: 401,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+  auditLog({
+    functionName: FUNCTION_NAME,
+    action: "create_bot_payment",
+    outcome: "allowed",
+    authMethod: "service_role",
+  });
+
 
 
   try {

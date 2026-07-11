@@ -1,6 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Replicate from "https://esm.sh/replicate@0.25.2";
 import { authorize } from "../_shared/auth.ts";
+import { auditLog, authMethodOf } from "../_shared/auditLog.ts";
+
+const FUNCTION_NAME = "recognize-lyrics";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -18,11 +21,26 @@ serve(async (req) => {
 
   const auth = await authorize(req);
   if (!auth.ok) {
+    auditLog({
+      functionName: FUNCTION_NAME,
+      action: "recognize_lyrics",
+      outcome: "denied",
+      authMethod: "none",
+      status: auth.status,
+      reason: auth.error,
+    });
     return new Response(JSON.stringify({ error: auth.error }), {
       status: auth.status,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+  auditLog({
+    functionName: FUNCTION_NAME,
+    action: "recognize_lyrics",
+    outcome: "allowed",
+    authMethod: authMethodOf(auth),
+    userId: auth.user?.id ?? null,
+  });
 
   try {
 
