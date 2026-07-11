@@ -92,7 +92,7 @@ export function useGenerationResult() {
     if (!user?.id) return;
 
     const channel = supabase
-      .channel("generation-result-listener")
+      .channel(`generation-result-listener-${user.id}-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         {
