@@ -245,7 +245,7 @@ export default function Library() {
         }}
       >
         {/* Desktop Generate Sidebar — pinned, own internal scroll, no page scroll */}
-        {!isMobile && (
+        {isDesktop && (
           <DesktopLibrarySidebar
             isCollapsed={generateSidebarCollapsed}
             onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
@@ -253,13 +253,13 @@ export default function Library() {
         )}
 
         {/* Main Content - with master-detail layout on desktop */}
-        <div className={cn("flex-1 min-w-0 flex overflow-hidden", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
+        <div className={cn("flex-1 min-w-0 flex overflow-hidden", isDesktop && selectedTrackId && "xl:gap-6 2xl:gap-8")}>
           {/* Track List Section — only this column scrolls */}
           <div
             ref={trackColumnRef}
             className={cn(
               "flex-1 min-w-0 flex flex-col overflow-hidden @container",
-              !isMobile && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
+              isDesktop && selectedTrackId && "lg:max-w-[60%] xl:max-w-[55%] 2xl:max-w-[50%]",
             )}
           >
             {/* SR-only H1 for page-has-heading-one / heading uniqueness */}
