@@ -61,16 +61,19 @@ import { ContextHints } from "@/components/hints";
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
+  // Desktop mode must match NavigationShell's ≥1024px breakpoint. Between 768–1023 the
+  // app already renders a mobile bottom nav — showing the desktop split-form sidebar too
+  // would collide with it and steal vertical space.
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const qRef = useRef(searchParams.get("q"));
   const trackColumnRef = useRef<HTMLDivElement | null>(null);
   const { playTrack, pauseTrack, isPlaying } = usePlayerStore();
 
-  // Desktop sidebar state — default expanded on ≥1024px (lg) so the generation form is immediately visible.
-  // Collapse to icon rail only on narrow tablets (<1024px) where it would crowd the grid.
+  // Desktop sidebar state — default expanded on ≥1280px (xl), collapsed to icon rail on lg (1024–1279px).
   const [generateSidebarCollapsed, setGenerateSidebarCollapsed] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false,
+    typeof window !== "undefined" ? window.innerWidth < 1280 : false,
   );
 
   // Desktop: Selected track for detail panel
