@@ -99,8 +99,10 @@ export function getSectionColor(section: keyof typeof sectionColors): string {
  * Get a surface color by level (1-3)
  */
 export function getSurfaceColor(level: 1 | 2 | 3): string {
-  return surfaceColors[`surface${level}` as const];
+  const map = { 1: surfaceColors.base, 2: surfaceColors.elevated, 3: surfaceColors.floating } as const;
+  return map[level];
 }
+
 
 /**
  * Get a state color
