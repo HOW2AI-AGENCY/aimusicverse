@@ -41,7 +41,7 @@ export const SectionCard = memo(function SectionCard({
       className={cn(
         "group relative rounded-xl border-2 bg-card p-4 transition-all duration-200",
         isActive
-          ? `border-[${sectionColor}] shadow-[0_0_0_4px_rgba(var(--${sectionColor}),0.3)]`
+          ? `${sectionColor.border} shadow-[0_0_0_4px_hsl(var(--primary)/0.25)]`
           : "border-border hover:border-primary/50",
         disabled && "opacity-50",
       )}
@@ -51,9 +51,7 @@ export const SectionCard = memo(function SectionCard({
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-xs font-mono text-muted-foreground">{sectionNumber + 1}.</span>
-          <span
-            className={cn("rounded-lg px-3 py-1 text-xs font-semibold uppercase", `bg-[${sectionColor}] text-white`)}
-          >
+          <span className={cn("rounded-lg px-3 py-1 text-xs font-semibold uppercase", sectionColor.dot, "text-white")}>
             {section.type}
           </span>
         </div>
