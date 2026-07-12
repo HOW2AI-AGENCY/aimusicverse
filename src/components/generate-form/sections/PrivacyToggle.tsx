@@ -46,7 +46,10 @@ export function PrivacyToggle({ isPublic, onIsPublicChange, canMakePrivate = fal
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button type="button" className="text-muted-foreground/60 hover:text-muted-foreground transition-colors">
+              <button
+                type="button"
+                className="text-muted-foreground/60 hover:text-muted-foreground transition-colors min-w-[44px] min-h-[44px] inline-flex items-center justify-center"
+              >
                 <HelpCircle className="w-3.5 h-3.5" />
               </button>
             </TooltipTrigger>

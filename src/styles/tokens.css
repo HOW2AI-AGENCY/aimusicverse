@@ -41,7 +41,7 @@
   /* ── Text Tokens ── */
   --text-primary: hsl(var(--foreground));
   --text-secondary: hsl(var(--muted-foreground));
-  --text-tertiary: hsl(var(--muted-foreground) / 0.7);
+  --text-tertiary: hsl(var(--muted-foreground) / 0.85);
 
   /* ── Font Families (Phase A: Inter removed) ── */
   --font-display: "Space Grotesk", "Unbounded", "DM Sans", system-ui, sans-serif;

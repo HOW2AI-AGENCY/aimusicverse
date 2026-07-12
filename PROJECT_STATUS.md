@@ -5,10 +5,10 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--09_Homepage_UX_Fixes-10B981?style=for-the-badge"/>
+  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--11_Sprint_063_Start-10B981?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99.6%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1691_passing-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1803_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
   <img alt="Dependencies" src="https://img.shields.io/badge/deps-6_vulnerabilities_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=for-the-badge"/>

@@ -24,9 +24,9 @@ describe("ValidationReasonsSheet", () => {
 
   it("shows error and warning indicators for each reason", () => {
     render(<ValidationReasonsSheet open={true} onOpenChange={vi.fn()} reasons={reasons} />);
-    // 2 errors in the test data → 2 ❌ icons; 1 warning → 1 ⚠️ icon
-    expect(screen.getAllByText("❌")).toHaveLength(2);
-    expect(screen.getAllByText("⚠️")).toHaveLength(1);
+    // 2 errors in the test data → 2 error icons; 1 warning → 1 warning icon
+    expect(screen.getAllByText(/Ошибка/)).toHaveLength(2);
+    expect(screen.getAllByText(/Предупреждение/)).toHaveLength(1);
   });
 
   it("calls onOpenChange(false) when close button clicked", () => {
