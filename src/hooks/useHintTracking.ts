@@ -152,7 +152,7 @@ export function useMultipleHints(hintIds: string[]) {
  */
 export const HINT_IDS = {
   // Track interactions
-  SWIPE_GESTURE: "swipe-gesture",
+  // SWIPE_GESTURE removed — swipe hint broke layout and interrupted users.
   VERSION_BADGE: "version-badge",
   WAVEFORM_SEEK: "waveform-seek",
   TRACK_MENU: "track-menu",

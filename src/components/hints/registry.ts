@@ -22,14 +22,7 @@ export interface HintEntry {
 
 export const HINT_REGISTRY = {
   // ─── library ─────────────────────────────────────────────────────────
-  "swipe-gesture": {
-    id: "swipe-gesture",
-    title: "Жесты свайпа",
-    message: "Свайпните трек влево для добавления в очередь, вправо — для смены версии",
-    emoji: "👆",
-    priority: 1,
-    context: "library",
-  },
+  // "swipe-gesture" removed — swipe hint broke layout and interrupted users.
   "version-badge": {
     id: "version-badge",
     title: "Версии A/B",
