@@ -24,7 +24,7 @@ import { TrackTypeIcons } from "@/components/library/TrackTypeIcons";
 import { ScrollableTagsRow } from "@/components/library/ScrollableTagsRow";
 import { MarqueeTitle } from "@/components/library/MarqueeTitle";
 import { SwipeableTrackItem } from "@/components/library/SwipeableTrackItem";
-import { UnifiedTipCard } from "@/components/hints";
+// UnifiedTipCard removed: swipe hint broke layout and interrupted users.
 import { UnifiedTrackMenu, UnifiedTrackSheet } from "@/components/track-actions";
 import { usePlaybackQueue } from "@/hooks/audio/usePlaybackQueue";
 import { toast } from "sonner";
