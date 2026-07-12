@@ -188,16 +188,7 @@ export const ListVariant = memo(function ListVariant({
       ) : (
         listContent
       )}
-      {isMobile && isOwnTrack && isFirstSwipeableItem && (
-        <UnifiedTipCard
-          id="swipe-gesture"
-          title="Жесты свайпа"
-          message="Свайпните трек влево для добавления в очередь, вправо — для смены версии"
-          emoji="👆"
-          delay={1500}
-          onDismiss={() => {}}
-        />
-      )}
+      {/* Swipe hint removed: it broke layout and interrupted users. */}
       <UnifiedTrackSheet
         track={track as unknown as Track}
         open={sheetOpen}
