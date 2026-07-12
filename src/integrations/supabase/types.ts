@@ -2296,6 +2296,7 @@ export type Database = {
           ttfb_ms: number | null
           tti_ms: number | null
           url: string | null
+          user_id: string | null
         }
         Insert: {
           branch?: string | null
@@ -2322,6 +2323,7 @@ export type Database = {
           ttfb_ms?: number | null
           tti_ms?: number | null
           url?: string | null
+          user_id?: string | null
         }
         Update: {
           branch?: string | null
@@ -2348,6 +2350,7 @@ export type Database = {
           ttfb_ms?: number | null
           tti_ms?: number | null
           url?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
