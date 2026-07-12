@@ -19,7 +19,7 @@ try {
   /* optional dependency, Lovable sandbox only */
 }
 try {
-  visualizer = (await import("rollup-plugin-visualizer")).visualizer;
+  visualizer = (await import("rollup-plugin-visualizer")).visualizer as unknown as typeof visualizer;
 } catch {
   /* optional dependency */
 }
