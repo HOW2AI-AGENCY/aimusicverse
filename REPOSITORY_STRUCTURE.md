@@ -151,7 +151,7 @@ Detail: [`docs/API.md`](docs/API.md).
 
 |            📚 Index             |       🏛 Architecture       |         🧩 KB         |         🤝 Contributing         |             🪲 Issues             |
 | :-----------------------------: | :------------------------: | :-------------------: | :-----------------------------: | :-------------------------------: |
-| [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
+| [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md) | [Issues](docs/KNOWN_ISSUES.md) |
 
 ---
 

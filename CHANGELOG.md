@@ -255,7 +255,7 @@
 
 - **`MashupFormFields`** ([src/components/mashup/MashupFormFields.tsx](src/components/mashup/MashupFormFields.tsx)) — pure-Dumb под-компонент формы mashup'а, вынесенный из `MashupDialog`. Все значения через props, без React Query хуков. Используется в `MashupDialog` (`src/components/MashupDialog.tsx`).
 - **Storybook stories для `MashupFormFields`** ([src/stories/mashup/MashupFormFields.stories.tsx](src/stories/mashup/MashupFormFields.stories.tsx)) — 5 stories: Empty / FilledA / Instrumental / Loading / Invalid. Не требуют мока TanStack Query (работают в текущей инфраструктуре SB 8.1).
-- **`MASHUP_STRINGS`** ([src/lib/locale/mashupStrings.ts](src/lib/locale/mashupStrings.ts)) — единый источник UX-копи для MashupDialog + PersonaDialog + Telegram `/mashup`/`/persona` команд. Текущая модель: только RU (i18n-система отсутствует в проекте, см. PROJECT_STATUS); EN добавляется в Sprint 055 при вводе `react-i18next`.
+- **`MASHUP_STRINGS`** (`src/lib/locale/mashupStrings.ts`) — единый источник UX-копи для MashupDialog + PersonaDialog + Telegram `/mashup`/`/persona` команд. Текущая модель: только RU (i18n-система отсутствует в проекте, см. PROJECT_STATUS); EN добавляется в Sprint 055 при вводе `react-i18next`.
 - **Sprint 052 retro** ([docs/sprints/SPRINT-052-RETRO.md](docs/sprints/SPRINT-052-RETRO.md)) — разбор «почему 052 влился без зелёного typecheck»: корневые причины (MashupDialog data→tracks баг + interface→type для invoke), что сработало / не сработало, action items для Sprint 050-A4/051/053+.
 
 #### Changed
@@ -792,7 +792,7 @@ Full-surface desktop-layout audit (40+ компонентов) на брейкп
 
 |            📚 Указатель             |       🗺 Дорожная карта       |          📊 Статус          |             🪲 Проблемы             |         🤝 Контрибуция         |
 | :---------------------------------: | :--------------------------: | :-------------------------: | :---------------------------------: | :----------------------------: |
-| [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Статус](PROJECT_STATUS.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
+| [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Статус](PROJECT_STATUS.md) | [Проблемы](docs/KNOWN_ISSUES.md) | [Контрибуция](CONTRIBUTING.md) |
 
 <sub>Последнее обновление: 2026-07-03</sub>
 
