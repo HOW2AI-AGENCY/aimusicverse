@@ -13,9 +13,8 @@
 import * as Sentry from "@sentry/react";
 
 // DSN is safe to expose in client code - it only allows sending errors
-const SENTRY_DSN =
-  import.meta.env.VITE_SENTRY_DSN ||
-  "https://c5b78ff8198243ead020079930e99dc0@o4510153936076800.ingest.de.sentry.io/4510651370242128";
+// HIGH-3 FIX: removed hardcoded production DSN fallback
+const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
 export const isSentryEnabled = !!SENTRY_DSN;
 
@@ -35,7 +34,7 @@ export function initSentry(): void {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: import.meta.env.MODE,
-    sendDefaultPii: true,
+    sendDefaultPii: false,
     enableLogs: true,
     integrations: [
       Sentry.browserTracingIntegration(),
@@ -43,12 +42,12 @@ export function initSentry(): void {
         levels: ["warn", "error"],
       }),
       Sentry.replayIntegration({
-        maskAllText: false,
-        blockAllMedia: false,
+        maskAllText: true, maskAllInputs: true,
+        blockAllMedia: true,
       }),
     ],
     tracesSampleRate: 0.1,
-    replaysSessionSampleRate: 0.1,
+    replaysSessionSampleRate: import.meta.env.PROD ? 0.01 : 0.1,
     replaysOnErrorSampleRate: 1.0,
     beforeSend(event) {
       // Filter out non-actionable errors
@@ -464,7 +463,7 @@ export function setUserContext(
   if (userId) {
     Sentry.setUser({
       id: userId,
-      email: extra?.email,
+      // email removed for privacy (HIGH-3)
       username: extra?.username || extra?.telegramId?.toString(),
     });
     if (extra?.tier) {
