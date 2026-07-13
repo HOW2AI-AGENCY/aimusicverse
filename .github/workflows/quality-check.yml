@@ -2,7 +2,6 @@ name: Quality & Build
 
 on:
   push:
-    branches: [main]
   pull_request:
     branches: [main]
 
