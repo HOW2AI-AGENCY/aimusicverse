@@ -27,11 +27,24 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Lint
         run: npm run lint
 
-      - name: TypeScript check
+      - name: Swipe-hint guard
+        run: node scripts/check-no-swipe-hints.mjs
+
+      - name: TypeScript check (npm)
         run: npm run typecheck
+        env:
+          CI: true
+
+      - name: TypeScript check (bun)
+        run: bun run typecheck
         env:
           CI: true
 
