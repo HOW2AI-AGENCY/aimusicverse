@@ -59,7 +59,6 @@ serve(async (req) => {
       throw new Error("taskId, audioId, and userId are required");
     }
 
-
     // Calculate cost based on mode
     const cost = getStemSeparationCost(mode as "simple" | "detailed");
     logger.info("Stem separation cost calculated", { cost, mode });

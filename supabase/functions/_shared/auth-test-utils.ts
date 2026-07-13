@@ -5,13 +5,9 @@ import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 
 await load({ export: true, allowEmptyValues: true, examplePath: null });
 
-
-export const SUPABASE_URL =
-  Deno.env.get("VITE_SUPABASE_URL") ?? Deno.env.get("SUPABASE_URL") ?? "";
+export const SUPABASE_URL = Deno.env.get("VITE_SUPABASE_URL") ?? Deno.env.get("SUPABASE_URL") ?? "";
 export const SUPABASE_ANON_KEY =
-  Deno.env.get("VITE_SUPABASE_PUBLISHABLE_KEY") ??
-  Deno.env.get("SUPABASE_ANON_KEY") ??
-  "";
+  Deno.env.get("VITE_SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 
 export function functionUrl(name: string): string {
   if (!SUPABASE_URL) throw new Error("SUPABASE_URL not set for auth guard tests");

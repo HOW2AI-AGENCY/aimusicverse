@@ -149,7 +149,7 @@ flowchart LR
 | [CHANGELOG](CHANGELOG.md)                                 | Release notes     |   ✅   |
 | [ROADMAP](ROADMAP.md)                                     | Roadmap           |   ✅   |
 | [PROJECT_STATUS](PROJECT_STATUS.md)                       | Current status    |   ✅   |
-| [KNOWN_ISSUES_TRACKED](KNOWN_ISSUES_TRACKED.md)           | Known issues      |   ✅   |
+| [KNOWN_ISSUES_TRACKED](docs/KNOWN_ISSUES.md)              | Known issues      |   ✅   |
 | [AGENTS](AGENTS.md)                                       | Agent notes       |   ✅   |
 | [docs/DEVELOPMENT_WORKFLOW](docs/DEVELOPMENT_WORKFLOW.md) | Dev workflow      |   ✅   |
 | [docs/WORKFLOW-GUIDE](docs/WORKFLOW-GUIDE.md)             | Practical guide   |   ✅   |

@@ -20,10 +20,9 @@ const ROOT = process.cwd();
 const SRC = join(ROOT, "src");
 
 const ALLOWLIST = new Set(
-  [
-    "src/__tests__/hints/no-swipe-hint.test.ts",
-    "src/__tests__/hints/list-variant-no-swipe-hint.test.tsx",
-  ].map((p) => p.split("/").join(sep)),
+  ["src/__tests__/hints/no-swipe-hint.test.ts", "src/__tests__/hints/list-variant-no-swipe-hint.test.tsx"].map((p) =>
+    p.split("/").join(sep),
+  ),
 );
 
 const TRACK_CARD_DIR = join("src", "components", "track", "track-card-new");
@@ -32,9 +31,7 @@ const HINT_TRACKING = join("src", "hooks", "useHintTracking.ts");
 
 // Strips line/block comments so we only inspect executable code.
 function stripComments(src) {
-  return src
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/(^|[^:])\/\/[^\n]*/g, "$1");
+  return src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
 }
 
 const findings = [];
@@ -64,10 +61,7 @@ function scan(file) {
   if (rel === HINT_TRACKING && /\bSWIPE_GESTURE\b\s*:/.test(code)) {
     findings.push(`${rel}: SWIPE_GESTURE constant re-added to HINT_IDS`);
   }
-  if (
-    rel.startsWith(TRACK_CARD_DIR) &&
-    /^\s*import\s+\{[^}]*UnifiedTipCard[^}]*\}\s+from/m.test(code)
-  ) {
+  if (rel.startsWith(TRACK_CARD_DIR) && /^\s*import\s+\{[^}]*UnifiedTipCard[^}]*\}\s+from/m.test(code)) {
     findings.push(`${rel}: UnifiedTipCard import in track-card variant`);
   }
 }

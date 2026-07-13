@@ -33,9 +33,7 @@ export default defineTool({
       };
     }
 
-    const { error } = await supabase
-      .from("track_likes")
-      .insert({ track_id, user_id: ctx.getUserId() });
+    const { error } = await supabase.from("track_likes").insert({ track_id, user_id: ctx.getUserId() });
     if (error && !error.message.toLowerCase().includes("duplicate")) {
       return { content: [{ type: "text", text: error.message }], isError: true };
     }

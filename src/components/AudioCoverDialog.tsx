@@ -171,7 +171,6 @@ export const AudioCoverDialog = ({
       } else {
         setModel("V4_5PLUS");
       }
-      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [probedDuration]);

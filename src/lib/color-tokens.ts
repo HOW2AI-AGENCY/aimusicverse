@@ -103,7 +103,6 @@ export function getSurfaceColor(level: 1 | 2 | 3): string {
   return map[level];
 }
 
-
 /**
  * Get a state color
  */

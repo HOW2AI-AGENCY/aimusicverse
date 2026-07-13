@@ -202,7 +202,7 @@
 
 ### 11.1 Section Tokens (Design System Source of Truth)
 
-**File:** [src/components/layout/Section.tsx](src/components/layout/Section.tsx)
+**File:** `src/components/layout/Section.tsx`
 
 | Token              | Class                    | Value (mobile) | Value (desktop) |
 | ------------------ | ------------------------ | -------------- | --------------- |
@@ -223,7 +223,7 @@
 
 ### 11.2 HomeHeader
 
-**File:** [src/components/home/HomeHeader.tsx](src/components/home/HomeHeader.tsx)
+**File:** `src/components/home/HomeHeader.tsx`
 
 | Variant     | Property            | Value                                 | Px                      |
 | ----------- | ------------------- | ------------------------------------- | ----------------------- |
@@ -247,7 +247,7 @@
 
 #### GridVariant
 
-**File:** [src/components/track/track-card-new/variants/GridVariant.tsx](src/components/track/track-card-new/variants/GridVariant.tsx)
+**File:** `src/components/track/track-card-new/variants/GridVariant.tsx`
 
 | Property                       | Value                     | Px      |
 | ------------------------------ | ------------------------- | ------- |
@@ -267,7 +267,7 @@
 
 #### ListVariant
 
-**File:** [src/components/track/track-card-new/variants/ListVariant.tsx](src/components/track/track-card-new/variants/ListVariant.tsx)
+**File:** `src/components/track/track-card-new/variants/ListVariant.tsx`
 
 | Property           | Value                             | Px                    |
 | ------------------ | --------------------------------- | --------------------- |
@@ -282,7 +282,7 @@
 
 ### 11.4 DiscoverTabs
 
-**File:** [src/components/home/DiscoverTabs.tsx](src/components/home/DiscoverTabs.tsx)
+**File:** `src/components/home/DiscoverTabs.tsx`
 
 | Property                        | Value              | Px      |
 | ------------------------------- | ------------------ | ------- |
@@ -301,7 +301,7 @@
 
 ### 11.5 MainLayout
 
-**File:** [src/components/MainLayout.tsx](src/components/MainLayout.tsx)
+**File:** `src/components/MainLayout.tsx`
 
 | Property               | Value                                                  | Px             |
 | ---------------------- | ------------------------------------------------------ | -------------- |
@@ -314,7 +314,7 @@
 
 ### 11.6 BottomNavigation
 
-**File:** [src/components/BottomNavigation.tsx](src/components/BottomNavigation.tsx)
+**File:** `src/components/BottomNavigation.tsx`
 
 | Property                  | Value                                     | Px          |
 | ------------------------- | ----------------------------------------- | ----------- |
@@ -341,7 +341,7 @@
 
 ### 11.7 Sidebar
 
-**File:** [src/components/Sidebar.tsx](src/components/Sidebar.tsx)
+**File:** `src/components/Sidebar.tsx`
 
 | Property                   | Value                               | Px                           |
 | -------------------------- | ----------------------------------- | ---------------------------- |
@@ -374,7 +374,7 @@
 
 ### 11.8 CompactPlayer
 
-**File:** [src/components/player/CompactPlayer.tsx](src/components/player/CompactPlayer.tsx)
+**File:** `src/components/player/CompactPlayer.tsx`
 
 | Breakpoint            | Property      | Value                                                        | Px                |
 | --------------------- | ------------- | ------------------------------------------------------------ | ----------------- |
@@ -394,7 +394,7 @@
 
 #### GenerateSheet (wrapper)
 
-**File:** [src/components/GenerateSheet.tsx](src/components/GenerateSheet.tsx)
+**File:** `src/components/GenerateSheet.tsx`
 
 | Property              | Value                                       | Px                   |
 | --------------------- | ------------------------------------------- | -------------------- |
@@ -407,7 +407,7 @@
 
 #### GenerateSheetHeader
 
-**File:** [src/components/generate-sheet/GenerateSheetHeader.tsx](src/components/generate-sheet/GenerateSheetHeader.tsx)
+**File:** `src/components/generate-sheet/GenerateSheetHeader.tsx`
 
 | Property          | Value                               | Px         |
 | ----------------- | ----------------------------------- | ---------- |
@@ -417,7 +417,7 @@
 
 #### GenerateSheetFooter
 
-**File:** [src/components/generate-sheet/GenerateSheetFooter.tsx](src/components/generate-sheet/GenerateSheetFooter.tsx)
+**File:** `src/components/generate-sheet/GenerateSheetFooter.tsx`
 
 | Property               | Value                               | Px              |
 | ---------------------- | ----------------------------------- | --------------- |
@@ -431,7 +431,7 @@
 
 #### FormStepper
 
-**File:** [src/components/generate-form/FormStepper.tsx](src/components/generate-form/FormStepper.tsx)
+**File:** `src/components/generate-form/FormStepper.tsx`
 
 | Property           | Value               | Px         |
 | ------------------ | ------------------- | ---------- |
@@ -443,7 +443,7 @@
 
 #### CollapsibleFormHeader
 
-**File:** [src/components/generate-form/CollapsibleFormHeader.tsx](src/components/generate-form/CollapsibleFormHeader.tsx)
+**File:** `src/components/generate-form/CollapsibleFormHeader.tsx`
 
 | Property                     | Value                                  | Px                     |
 | ---------------------------- | -------------------------------------- | ---------------------- |
@@ -457,7 +457,7 @@
 
 #### FormSection
 
-**File:** [src/components/generate-form/FormSection.tsx](src/components/generate-form/FormSection.tsx)
+**File:** `src/components/generate-form/FormSection.tsx`
 
 | Property                     | Value         | Px   |
 | ---------------------------- | ------------- | ---- |
@@ -470,7 +470,7 @@
 
 #### SectionLabel
 
-**File:** [src/components/generate-form/SectionLabel.tsx](src/components/generate-form/SectionLabel.tsx)
+**File:** `src/components/generate-form/SectionLabel.tsx`
 
 | Property               | Value                   | Px                                |
 | ---------------------- | ----------------------- | --------------------------------- |
@@ -483,7 +483,7 @@
 
 #### HomeDesktopSidebar
 
-**File:** [src/components/home/HomeDesktopSidebar.tsx](src/components/home/HomeDesktopSidebar.tsx)
+**File:** `src/components/home/HomeDesktopSidebar.tsx`
 
 | Property   | Value            | Px         |
 | ---------- | ---------------- | ---------- |
@@ -493,7 +493,7 @@
 
 #### DailyTipCard
 
-**File:** [src/components/home/DailyTipCard.tsx](src/components/home/DailyTipCard.tsx)
+**File:** `src/components/home/DailyTipCard.tsx`
 
 | Property           | Value                       | Px      |
 | ------------------ | --------------------------- | ------- |
@@ -504,7 +504,7 @@
 
 #### NowPlayingRail
 
-**File:** [src/components/home/NowPlayingRail.tsx](src/components/home/NowPlayingRail.tsx)
+**File:** `src/components/home/NowPlayingRail.tsx`
 
 | Property      | Value         | Px   |
 | ------------- | ------------- | ---- |
@@ -517,7 +517,7 @@
 
 #### StatsHighlightBanner
 
-**File:** [src/components/home/StatsHighlightBanner.tsx](src/components/home/StatsHighlightBanner.tsx)
+**File:** `src/components/home/StatsHighlightBanner.tsx`
 
 | Property     | Value                   | Px         |
 | ------------ | ----------------------- | ---------- |
@@ -529,7 +529,7 @@
 
 ### 11.11 Index.tsx (Home Page Layout)
 
-**File:** [src/pages/Index.tsx](src/pages/Index.tsx)
+**File:** `src/pages/Index.tsx`
 
 | Property                     | Value                                 | Px               |
 | ---------------------------- | ------------------------------------- | ---------------- |
@@ -547,7 +547,7 @@
 
 ### 11.12 Library.tsx
 
-**File:** [src/pages/Library.tsx](src/pages/Library.tsx)
+**File:** `src/pages/Library.tsx`
 
 | Property                    | Value                                               | Px               |
 | --------------------------- | --------------------------------------------------- | ---------------- |

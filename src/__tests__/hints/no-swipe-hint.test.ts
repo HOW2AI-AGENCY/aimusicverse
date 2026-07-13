@@ -12,11 +12,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import {
-  HINT_REGISTRY,
-  getHintsByContext,
-  resolveHint,
-} from "@/components/hints/registry";
+import { HINT_REGISTRY, getHintsByContext, resolveHint } from "@/components/hints/registry";
 import { HINT_IDS } from "@/hooks/useHintTracking";
 
 describe("swipe-gesture hint removal (regression)", () => {
@@ -43,10 +39,7 @@ describe("swipe-gesture hint removal (regression)", () => {
 
   it("ListVariant does not import UnifiedTipCard", () => {
     const src = readFileSync(
-      resolve(
-        process.cwd(),
-        "src/components/track/track-card-new/variants/ListVariant.tsx",
-      ),
+      resolve(process.cwd(), "src/components/track/track-card-new/variants/ListVariant.tsx"),
       "utf8",
     );
     expect(src).not.toMatch(/^import\s+\{[^}]*UnifiedTipCard[^}]*\}\s+from/m);

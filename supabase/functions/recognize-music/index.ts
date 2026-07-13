@@ -63,7 +63,6 @@ serve(async (req) => {
   });
 
   try {
-
     const auddApiKey = Deno.env.get("AUDD_API_KEY");
     if (!auddApiKey) {
       console.error("AUDD_API_KEY not configured");

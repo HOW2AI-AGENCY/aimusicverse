@@ -18,7 +18,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-
 interface SeparationRequest {
   reference_id: string;
   user_id: string;
@@ -124,7 +123,6 @@ serve(async (req) => {
         status: 400,
       });
     }
-
 
     // Get reference audio
     const { data: refAudio, error: refError } = await supabase

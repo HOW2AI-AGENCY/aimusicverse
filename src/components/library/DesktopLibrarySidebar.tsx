@@ -108,8 +108,6 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
     return null;
   }
 
-
-
   return (
     <>
       <motion.div

@@ -123,7 +123,6 @@ export const ListVariant = memo(function ListVariant({
 
       {/* Actions Column */}
       <div className="flex flex-col items-end justify-center gap-1 pl-1 flex-shrink-0">
-
         {/* Version Toggle - using UnifiedVersionSelector */}
         {versionCount > 1 && (
           <UnifiedVersionSelector

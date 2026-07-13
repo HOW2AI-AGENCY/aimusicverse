@@ -72,6 +72,10 @@ export default tseslint.config(
       "node_modules",
       // Vendored worktree from other tooling — not project source.
       ".kilo/**",
+      // Claude Code assistant config + vendored skill scripts (browser automation,
+      // detectors). Not project source; they use Node/browser globals outside the
+      // TS-eslint config and would otherwise flood the gate with no-undef errors.
+      ".claude/**",
       // Generated Playwright artifacts (also gitignored; ignored here so a
       // local run doesn't surface phantom errors).
       "playwright-report/**",
