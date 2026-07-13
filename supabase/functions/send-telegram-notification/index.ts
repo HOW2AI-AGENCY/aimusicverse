@@ -2,6 +2,7 @@ import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { getTelegramConfig, getTrackDeepLink, getBotMention } from "../_shared/telegram-config.ts";
 import { escapeMarkdown } from "../_shared/telegram-utils.ts";
 import { createLogger } from "../_shared/logger.ts";
+import { authorize } from "../_shared/auth.ts";
 
 // Get bot mention once at module level
 const BOT_MENTION = getBotMention();
@@ -566,6 +567,16 @@ async function getChatIdForUser(supabase: any, userId: string): Promise<number |
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // HIGH-1 FIX: require service-role token or authenticated user
+  const auth = await authorize(req, { requireAdmin: false });
+  if (!auth.ok && !auth.isService) {
+    logger.warn("Unauthorized attempt to send notification", { status: 401 });
+    return new Response(
+      JSON.stringify({ success: false, error: "Unauthorized — internal use only" }),
+      { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   }
 
   try {

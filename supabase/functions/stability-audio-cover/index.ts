@@ -319,6 +319,7 @@ async function pollForResult(
   const maxAttempts = 60; // 5 minutes max
   const pollInterval = 5000; // 5 seconds
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     await new Promise((resolve) => setTimeout(resolve, pollInterval));
@@ -385,7 +386,10 @@ async function pollForResult(
           if (telegramChatId) {
             await fetch(`${supabaseUrl}/functions/v1/send-telegram-notification`, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${serviceKey}`,
+              },"Content-Type": "application/json" },
               body: JSON.stringify({
                 chatId: telegramChatId,
                 message: "🎵 Ваш кавер от Stability AI готов!",

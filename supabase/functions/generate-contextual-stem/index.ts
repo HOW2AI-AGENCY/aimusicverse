@@ -227,7 +227,10 @@ serve(async (req) => {
 
       await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-telegram-notification`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+        },
         body: JSON.stringify({
           userId: user.id,
           type: "stem_generated",
