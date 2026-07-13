@@ -26,7 +26,7 @@ vi.mock("@/components/track-actions", () => ({
 vi.mock("@/components/library/SwipeableTrackItem", () => ({
   SwipeableTrackItem: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-vi.mock("../hooks/useTrackCardState", () => ({
+vi.mock("@/components/track/track-card-new/hooks/useTrackCardState", () => ({
   useTrackCardState: () => ({
     sheetOpen: false,
     setSheetOpen: vi.fn(),
