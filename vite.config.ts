@@ -19,10 +19,14 @@ try {
   /* optional dependency, Lovable sandbox only */
 }
 try {
-  visualizer = (await import("rollup-plugin-visualizer")).visualizer as unknown as typeof visualizer;
+  const mod = (await import("rollup-plugin-visualizer")) as {
+    visualizer: (opts: Record<string, unknown>) => Plugin;
+  };
+  visualizer = mod.visualizer;
 } catch {
   /* optional dependency */
 }
+
 try {
   viteCompression = (await import("vite-plugin-compression")).default;
 } catch {
