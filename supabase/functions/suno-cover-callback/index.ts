@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
-import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { isSunoSuccessCode, verifySunoSignature, getSunoSignatureHeaders } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { createLogger } from "../_shared/logger.ts";
 
@@ -14,7 +14,16 @@ serve(async (req) => {
   try {
     const supabase = getSupabaseClient();
 
-    const payload = await req.json();
+    // HIGH-2 FIX: verify Suno webhook signature before processing
+    const rawBody = await req.text();
+    const { signature, timestamp } = getSunoSignatureHeaders(req);
+    if (!(await verifySunoSignature(rawBody, signature, timestamp))) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Invalid signature" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    const payload = JSON.parse(rawBody);
     logger.info("Received cover callback from SunoAPI", { payload });
 
     const { code, msg, data } = payload;

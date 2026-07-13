@@ -14,7 +14,16 @@ serve(async (req) => {
   try {
     const supabase = getSupabaseClient();
 
-    const callbackData = await req.json();
+    // HIGH-2 FIX: verify Suno webhook signature before processing
+    const rawBody = await req.text();
+    const { signature, timestamp } = getSunoSignatureHeaders(req);
+    if (!(await verifySunoSignature(rawBody, signature, timestamp))) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Invalid signature" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    const callbackData = JSON.parse(rawBody);
 
     console.log("Lyrics callback received:", callbackData);
 

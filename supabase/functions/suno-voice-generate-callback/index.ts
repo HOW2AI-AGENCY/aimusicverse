@@ -6,8 +6,8 @@ const WEBHOOK_SECRET = Deno.env.get("SUNO_WEBHOOK_SECRET");
 
 async function verifySignature(payload: string, signature: string | null, timestamp: string | null): Promise<boolean> {
   if (!WEBHOOK_SECRET) {
-    console.warn("[suno-voice-generate-callback] SUNO_WEBHOOK_SECRET not set, skipping signature verification");
-    return true;
+    console.error("[suno-voice-generate-callback] SUNO_WEBHOOK_SECRET not set, rejecting callback");
+    return false;
   }
   if (!signature || !timestamp) return false;
   const enc = new TextEncoder();
