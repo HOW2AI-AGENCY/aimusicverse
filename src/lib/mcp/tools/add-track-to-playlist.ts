@@ -5,7 +5,8 @@ import { z } from "zod";
 export default defineTool({
   name: "add_track_to_playlist",
   title: "Add track to playlist",
-  description: "Add a track to one of the signed-in user's playlists. RLS ensures the playlist must belong to the user.",
+  description:
+    "Add a track to one of the signed-in user's playlists. RLS ensures the playlist must belong to the user.",
   inputSchema: {
     playlist_id: z.string().uuid().describe("Target playlist UUID (must be owned by the user)."),
     track_id: z.string().uuid().describe("Track UUID to add."),

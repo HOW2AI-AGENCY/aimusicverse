@@ -43,7 +43,6 @@ serve(async (req) => {
   });
 
   try {
-
     const replicateApiKey = Deno.env.get("REPLICATE_API_KEY");
     if (!replicateApiKey) {
       console.error("REPLICATE_API_KEY not configured");

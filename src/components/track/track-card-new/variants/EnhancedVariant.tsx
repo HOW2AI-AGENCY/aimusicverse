@@ -277,7 +277,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
 
               {/* Creator Info */}
               {(track.creator_name || track.creator_username) && (
-                  <div className="flex min-w-0 items-center gap-1.5 mt-1">
+                <div className="flex min-w-0 items-center gap-1.5 mt-1">
                   <CreatorAvatar
                     userId={track.user_id}
                     photoUrl={track.creator_photo_url}
@@ -289,7 +289,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                     userId={track.user_id}
                     name={track.creator_name}
                     username={track.creator_username}
-                      className="min-w-0 flex-1 text-overline text-muted-foreground truncate"
+                    className="min-w-0 flex-1 text-overline text-muted-foreground truncate"
                   />
 
                   {/* Follow badge if following */}

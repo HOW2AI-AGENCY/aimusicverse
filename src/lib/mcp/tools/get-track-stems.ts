@@ -17,10 +17,7 @@ export default defineTool({
       auth: { persistSession: false, autoRefreshToken: false },
     });
 
-    const { data, error } = await supabase
-      .from("track_stems")
-      .select("*")
-      .eq("track_id", track_id);
+    const { data, error } = await supabase.from("track_stems").select("*").eq("track_id", track_id);
 
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {

@@ -42,10 +42,7 @@ export default defineTool({
     if (clearErr) return { content: [{ type: "text", text: clearErr.message }], isError: true };
 
     // Set is_primary on target
-    const { error: setErr } = await supabase
-      .from("track_versions")
-      .update({ is_primary: true })
-      .eq("id", version_id);
+    const { error: setErr } = await supabase.from("track_versions").update({ is_primary: true }).eq("id", version_id);
     if (setErr) return { content: [{ type: "text", text: setErr.message }], isError: true };
 
     // Update parent track's active_version_id

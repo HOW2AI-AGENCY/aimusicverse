@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy, Check, Bot, MessageSquare } from "lucide-react";
+import { Copy, Check, Bot, MessageSquare } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -22,7 +22,8 @@ export default function Connect() {
       <header className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Подключить AI-ассистента</h1>
         <p className="text-muted-foreground">
-          Подключите ChatGPT или Claude к MusicVerse AI, чтобы искать треки и работать со своей библиотекой через ассистента.
+          Подключите ChatGPT или Claude к MusicVerse AI, чтобы искать треки и работать со своей библиотекой через
+          ассистента.
         </p>
       </header>
 
@@ -115,8 +116,8 @@ export default function Connect() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            Искать публичные треки MusicVerse AI, получать детали конкретного трека и — после входа в ваш аккаунт — читать
-            вашу собственную библиотеку. При первом обращении ассистент попросит вас войти через MusicVerse AI.
+            Искать публичные треки MusicVerse AI, получать детали конкретного трека и — после входа в ваш аккаунт —
+            читать вашу собственную библиотеку. При первом обращении ассистент попросит вас войти через MusicVerse AI.
           </p>
         </CardContent>
       </Card>

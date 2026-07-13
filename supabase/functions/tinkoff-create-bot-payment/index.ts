@@ -49,8 +49,6 @@ serve(async (req) => {
     authMethod: "service_role",
   });
 
-
-
   try {
     const terminalKey = Deno.env.get("TINKOFF_TERMINAL_KEY");
     const secretKey = Deno.env.get("TINKOFF_SECRET_KEY");

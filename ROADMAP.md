@@ -163,8 +163,8 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### 🔗 Related Documentation
 
-|            📚 Index             |       🏛 Architecture       |          📊 Status          |       📝 Changelog        |             🪲 Issues             |
-| :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :-------------------------------: |
+|            📚 Index             |       🏛 Architecture       |          📊 Status          |       📝 Changelog        |           🪲 Issues            |
+| :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :----------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](docs/KNOWN_ISSUES.md) |
 
 <sub>Last updated: 2026-07-04, вечер (Sprint 050 начат — A0 P0-хотфикс влит, PR #576/#577; план закрытия спринтов — [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md); ранее: progress audit — [report](docs/audit/PROGRESS-AUDIT-2026-07-04.md))</sub>

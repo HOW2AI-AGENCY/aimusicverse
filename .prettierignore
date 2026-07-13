@@ -22,6 +22,15 @@ graphify-out/cache/
 # Vendored Python virtualenv — not project source
 .venv/
 
+# AI-assistant / agent tooling & scratch dirs — vendored, not project source.
+# Mirrors the eslint.config.js ignore list (.claude, .kilo, .lovable, .mimocode).
+.claude/
+.kilo/
+.lovable/
+.mimocode/
+.tokensave/
+.playwright-mcp/
+
 # Design/spec artifacts — contain non-TS contract files (markdown in .ts)
 specs/
 

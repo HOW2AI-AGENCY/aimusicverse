@@ -343,11 +343,7 @@ export default function Library() {
 
             {/* Scrollable region — filters + track list share single scroll container */}
             <div className="flex-1 overflow-y-auto overscroll-contain">
-              <LibraryFilterChips
-                activeFilter={typeFilter}
-                onFilterChange={setTypeFilter}
-                counts={filterCounts}
-              />
+              <LibraryFilterChips activeFilter={typeFilter} onFilterChange={setTypeFilter} counts={filterCounts} />
 
               {/* Content with Pull to Refresh */}
               <PullToRefreshWrapper
@@ -437,7 +433,6 @@ export default function Library() {
                 )}
               </PullToRefreshWrapper>
             </div>
-
           </div>
 
           {/* Desktop: Track Detail Panel */}
@@ -457,7 +452,6 @@ export default function Library() {
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
-
     </ErrorBoundaryWrapper>
   );
 }
