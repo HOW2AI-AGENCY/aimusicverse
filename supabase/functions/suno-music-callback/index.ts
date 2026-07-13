@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
-import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { isSunoSuccessCode, verifySunoSignature, getSunoSignatureHeaders } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { sanitizeAndCleanTitle, generateFallbackTitle } from "../_shared/track-naming.ts";
 import { TrackNameBuilder, APP_NAME } from "../_shared/track-name-builder.ts";
@@ -111,11 +111,22 @@ serve(async (req) => {
   }
 
   try {
+    // HIGH-2 FIX: verify Suno webhook signature before processing
+    const rawBody = await req.text();
+    const { signature, timestamp } = getSunoSignatureHeaders(req);
+    if (!(await verifySunoSignature(rawBody, signature, timestamp))) {
+      logger.warn("Invalid Suno signature", { signature: !!signature, timestamp: !!timestamp });
+      return new Response(
+        JSON.stringify({ success: false, error: "Invalid signature" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = getSupabaseClient();
 
-    const payload = await req.json();
+    const payload = JSON.parse(rawBody);
     logger.info("Callback received from SunoAPI", { code: payload.code, callbackType: payload.data?.callbackType });
 
     const { code, msg, data } = payload;
