@@ -40,6 +40,7 @@ import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
 import { HomeDesktopSidebar } from "@/components/home/HomeDesktopSidebar";
+import { HomeMobileSynthHero } from "@/components/home/HomeMobileSynthHero";
 
 const FeaturedSection = lazy(() =>
   import("@/components/home/FeaturedSection").then((m) => ({ default: m.FeaturedSection })),
