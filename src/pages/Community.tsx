@@ -116,6 +116,8 @@ const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
 });
 
 export default function Community() {
+  const navigate = useNavigate();
+
   // Telegram BackButton
   useTelegramBackButton({
     visible: true,
