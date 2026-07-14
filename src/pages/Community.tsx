@@ -415,11 +415,21 @@ export default function Community() {
                     )}
                   />
                 )
-              ) : (
+              ) : searchQuery || selectedGenre ? (
                 <EmptyState
                   icon={Music}
                   title="Треки не найдены"
                   description="Попробуйте изменить поисковый запрос или фильтры"
+                />
+              ) : (
+                <BrandEmptyState
+                  icon={Sparkles}
+                  eyebrow="Сообщество"
+                  title="Здесь скоро появятся треки"
+                  description="Стань первым автором сегодня — публикуй свои треки и вдохновляй других."
+                  hints={["Фонк", "Lo-Fi", "Синтвейв", "Хип-хоп"]}
+                  primaryAction={{ label: "Создать трек", onClick: () => navigate("/?create=1"), icon: Rocket }}
+                  secondaryAction={{ label: "Смотреть артистов", onClick: () => setActiveTab("artists") }}
                 />
               )}
             </div>
