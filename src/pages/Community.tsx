@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, forwardRef, memo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Globe, Music, Users, TrendingUp, Heart, Search, X, RefreshCw, Sparkles, Compass } from "@/lib/icons";
+import { Globe, Music, Users, TrendingUp, Heart, Search, X, RefreshCw, Sparkles, Rocket } from "@/lib/icons";
 import { BrandEmptyState } from "@/components/common/BrandEmptyState";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
