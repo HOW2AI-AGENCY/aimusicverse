@@ -86,6 +86,41 @@ jobs:
       - name: Bundle size check
         run: npm run size
 
+  visual-home:
+    name: Visual Regression (Home)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Home visual regression
+        run: npm run test:visual:home
+        env:
+          CI: true
+
+      - name: Upload visual diff artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-home-diffs
+          path: |
+            playwright-visual-report
+            test-results
+          retention-days: 7
+
   lighthouse:
     name: Lighthouse CI
     runs-on: ubuntu-latest
