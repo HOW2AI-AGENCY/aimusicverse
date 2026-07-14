@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef, forwardRef, memo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Globe, Music, Users, TrendingUp, Heart, Search, X, RefreshCw } from "@/lib/icons";
+import { Globe, Music, Users, TrendingUp, Heart, Search, X, RefreshCw, Sparkles, Rocket } from "@/lib/icons";
+import { BrandEmptyState } from "@/components/common/BrandEmptyState";
+import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -114,6 +116,8 @@ const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
 });
 
 export default function Community() {
+  const navigate = useNavigate();
+
   // Telegram BackButton
   useTelegramBackButton({
     visible: true,
@@ -411,11 +415,21 @@ export default function Community() {
                     )}
                   />
                 )
-              ) : (
+              ) : searchQuery || selectedGenre ? (
                 <EmptyState
                   icon={Music}
                   title="Треки не найдены"
                   description="Попробуйте изменить поисковый запрос или фильтры"
+                />
+              ) : (
+                <BrandEmptyState
+                  icon={Sparkles}
+                  eyebrow="Сообщество"
+                  title="Здесь скоро появятся треки"
+                  description="Стань первым автором сегодня — публикуй свои треки и вдохновляй других."
+                  hints={["Фонк", "Lo-Fi", "Синтвейв", "Хип-хоп"]}
+                  primaryAction={{ label: "Создать трек", onClick: () => navigate("/?create=1"), icon: Rocket }}
+                  secondaryAction={{ label: "Смотреть артистов", onClick: () => setActiveTab("artists") }}
                 />
               )}
             </div>
@@ -479,10 +493,12 @@ export default function Community() {
                   )}
                 </div>
               ) : (
-                <EmptyState
+                <BrandEmptyState
                   icon={TrendingUp}
+                  eyebrow="Топ чарт"
                   title="Пока нет популярных треков"
-                  description="Лайкайте треки, чтобы они попадали в топ"
+                  description="Лайкайте понравившиеся треки — самые залайканные попадут сюда."
+                  primaryAction={{ label: "Открыть все треки", onClick: () => setActiveTab("tracks"), icon: Music }}
                 />
               )}
             </div>
@@ -509,11 +525,19 @@ export default function Community() {
                   </motion.div>
                 ))}
               </div>
-            ) : (
+            ) : searchQuery || selectedGenre ? (
               <EmptyState
                 icon={Users}
                 title="Артисты не найдены"
                 description="Попробуйте изменить поисковый запрос или фильтры"
+              />
+            ) : (
+              <BrandEmptyState
+                icon={Users}
+                eyebrow="Артисты"
+                title="Стань первым артистом"
+                description="Опубликуй профиль и трек — сообщество увидит тебя здесь."
+                primaryAction={{ label: "Создать трек", onClick: () => navigate("/?create=1"), icon: Rocket }}
               />
             )}
           </TabsContent>
