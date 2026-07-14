@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FolderOpen, Search, Plus, LayoutGrid, LayoutList, Sparkles, TrendingUp } from "@/lib/icons";
 import { EmptyState } from "@/components/common/EmptyState";
+import { BrandEmptyState } from "@/components/common/BrandEmptyState";
 import { ProjectCreationWizard } from "@/components/project/ProjectCreationWizard";
 import { toast } from "sonner";
 import { VirtualizedProjectsList } from "@/components/content-hub/VirtualizedProjectsList";
