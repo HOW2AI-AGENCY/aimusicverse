@@ -525,11 +525,19 @@ export default function Community() {
                   </motion.div>
                 ))}
               </div>
-            ) : (
+            ) : searchQuery || selectedGenre ? (
               <EmptyState
                 icon={Users}
                 title="Артисты не найдены"
                 description="Попробуйте изменить поисковый запрос или фильтры"
+              />
+            ) : (
+              <BrandEmptyState
+                icon={Users}
+                eyebrow="Артисты"
+                title="Стань первым артистом"
+                description="Опубликуй профиль и трек — сообщество увидит тебя здесь."
+                primaryAction={{ label: "Создать трек", onClick: () => navigate("/?create=1"), icon: Rocket }}
               />
             )}
           </TabsContent>
