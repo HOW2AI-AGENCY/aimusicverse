@@ -113,7 +113,7 @@ function BrandEmptyStateImpl({
 
 
         {(primaryAction || secondaryAction) && (
-          <div className="mt-6 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-center gap-2 w-full sm:w-auto">
+          <div className="mt-4 sm:mt-6 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-center gap-2 w-full sm:w-auto">
             {secondaryAction && (
               <button
                 type="button"
