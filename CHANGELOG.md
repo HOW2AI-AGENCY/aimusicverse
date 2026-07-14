@@ -45,6 +45,9 @@
 #### Fixed
 
 - **`FUTURE_WORK_PLAN.md`** — удалены битые артефакты `</content></invoke>` в конце файла (последствие некорректной записи в прошлой сессии).
+- **CI «Quality Check»** — синтаксическая ошибка в `supabase/functions/stability-audio-cover/index.ts` (дублирующий заголовок после уже закрытого объекта `headers`) роняла `prettier --check .` и маскировала дрейф форматирования ещё в 16 файлах. Ошибка исправлена, файлы отформатированы (только форматирование, без изменения логики).
+- **CI «Build & Bundle Size»** — сверка `size-limit` с реальной сборкой: удалён устаревший бюджет `Radix UI Vendor` (чанк `vendor-radix*.js` больше не эмитится — Rollup сворачивает `@radix-ui` в mega-chunk `feature-studio`); лимит `Studio Feature` поднят 750 KB → 1.05 MB под фактические ~1.0 MB gzip (+~7% запас). Реальное сокращение mega-chunk — Sprint 067/069.
+- **CI «Markdown lint & link check»** — lychee падал на 26 ссылках `t.me/*` (Telegram bot/deep-links недостижимы с CI-раннеров); добавлен `--exclude '^https?://t\.me/'` в `.github/workflows/docs.yml`.
 
 #### Verified (2026-07-14)
 
