@@ -116,10 +116,10 @@ serve(async (req) => {
     const { signature, timestamp } = getSunoSignatureHeaders(req);
     if (!(await verifySunoSignature(rawBody, signature, timestamp))) {
       logger.warn("Invalid Suno signature", { signature: !!signature, timestamp: !!timestamp });
-      return new Response(
-        JSON.stringify({ success: false, error: "Invalid signature" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Invalid signature" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;

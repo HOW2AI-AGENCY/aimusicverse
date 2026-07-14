@@ -326,7 +326,6 @@ const Index = () => {
               {aiSuggestBlock}
             </div>
 
-
             <aside
               className={cn(
                 "hidden lg:block lg:col-span-4 xl:col-span-3 min-w-0",

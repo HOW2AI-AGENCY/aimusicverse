@@ -247,11 +247,7 @@ export function GenerateFormSimple({
         <div className="space-y-4">
           <div className="space-y-2">
             <SectionLabel label={g.form.trackType} hint={hints.trackType} />
-            <div
-              role="radiogroup"
-              aria-label={g.form.trackType}
-              className="grid grid-cols-2 gap-2"
-            >
+            <div role="radiogroup" aria-label={g.form.trackType} className="grid grid-cols-2 gap-2">
               {[
                 { value: false, Icon: Music2, label: g.vocalToggle.instrumentalLabel },
                 { value: true, Icon: Mic, label: g.vocalToggle.vocalLabel },
@@ -294,12 +290,15 @@ export function GenerateFormSimple({
               aria-describedby={titleValidation ? "simple-title-error" : undefined}
             />
             {titleValidation && (
-              <ValidationMessage message={titleValidation.message} level={titleValidation.level} fieldId="simple-title" />
+              <ValidationMessage
+                message={titleValidation.message}
+                level={titleValidation.level}
+                fieldId="simple-title"
+              />
             )}
           </div>
         </div>
       </FormSection>
-
     </motion.div>
   );
 }

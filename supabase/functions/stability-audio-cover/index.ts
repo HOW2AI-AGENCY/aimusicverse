@@ -389,7 +389,7 @@ async function pollForResult(
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${serviceKey}`,
-              },"Content-Type": "application/json" },
+              },
               body: JSON.stringify({
                 chatId: telegramChatId,
                 message: "🎵 Ваш кавер от Stability AI готов!",

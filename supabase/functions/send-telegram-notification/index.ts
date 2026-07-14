@@ -573,10 +573,10 @@ Deno.serve(async (req) => {
   const auth = await authorize(req, { requireAdmin: false });
   if (!auth.ok && !auth.isService) {
     logger.warn("Unauthorized attempt to send notification", { status: 401 });
-    return new Response(
-      JSON.stringify({ success: false, error: "Unauthorized — internal use only" }),
-      { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ success: false, error: "Unauthorized — internal use only" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   try {

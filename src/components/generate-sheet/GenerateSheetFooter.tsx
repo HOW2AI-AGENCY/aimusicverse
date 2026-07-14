@@ -41,8 +41,7 @@ export function GenerateSheetFooter(props: Props) {
               style={{ boxShadow: "0 0 8px #22E4A7" }}
             />
             <span className="text-[11px] text-muted-foreground">
-              Стоимость:{" "}
-              <span className="font-semibold text-foreground tabular-nums">{props.generationCost}</span>{" "}
+              Стоимость: <span className="font-semibold text-foreground tabular-nums">{props.generationCost}</span>{" "}
               кредитов
             </span>
           </div>

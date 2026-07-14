@@ -173,10 +173,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <Icon
-                  className={cn("w-3.5 h-3.5", isActive && "text-[#22E4A7]")}
-                  aria-hidden="true"
-                />
+                <Icon className={cn("w-3.5 h-3.5", isActive && "text-[#22E4A7]")} aria-hidden="true" />
                 <span>{config.label}</span>
               </button>
             );
@@ -212,10 +209,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                   <DropdownMenuItem
                     key={m.key}
                     onClick={() => onModelChange(m.key)}
-                    className={cn(
-                      "flex items-center gap-2 text-xs",
-                      model === m.key && "bg-[#22E4A7]/10",
-                    )}
+                    className={cn("flex items-center gap-2 text-xs", model === m.key && "bg-[#22E4A7]/10")}
                     aria-current={model === m.key ? "true" : undefined}
                   >
                     {Icon ? <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" /> : null}

@@ -18,10 +18,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: 1,
-  reporter: [
-    ["html", { outputFolder: "playwright-visual-report", open: "never" }],
-    ["list"],
-  ],
+  reporter: [["html", { outputFolder: "playwright-visual-report", open: "never" }], ["list"]],
   expect: {
     toHaveScreenshot: {
       // Small threshold — flag any meaningful layout drift.
