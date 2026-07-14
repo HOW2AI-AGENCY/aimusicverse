@@ -28,16 +28,43 @@ export function GenerateSheetFooter(props: Props) {
 
   return (
     <div
-      className="px-4 pt-3 border-t border-border/40 bg-background/95 backdrop-blur-xl"
+      className="px-4 pt-3 border-t border-white/5 bg-[#0A0B14]/85 backdrop-blur-xl"
       style={{ paddingBottom, transition: "padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)" }}
     >
+      {/* Balance strip — matches Neo-dark cohesive direction (mint status + refill link) */}
+      {props.shouldShowUIButton && (
+        <div className="mb-2 flex items-center justify-between px-1">
+          <div className="flex items-center gap-2">
+            <span
+              aria-hidden
+              className="h-1.5 w-1.5 rounded-full bg-[#22E4A7]"
+              style={{ boxShadow: "0 0 8px #22E4A7" }}
+            />
+            <span className="text-[11px] text-muted-foreground">
+              Стоимость:{" "}
+              <span className="font-semibold text-foreground tabular-nums">{props.generationCost}</span>{" "}
+              кредитов
+            </span>
+          </div>
+          {props.hasWarnings && (
+            <button
+              type="button"
+              onClick={props.onShowReasons}
+              className="text-[11px] font-semibold text-[#7C5CFF] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C5CFF]/60 rounded"
+            >
+              {props.warningCount} {props.warningCount === 1 ? "замечание" : "замечаний"}
+            </button>
+          )}
+        </div>
+      )}
+
       <div className="flex gap-2">
         {props.shouldShowSecondaryUIButton && (
           <Button
             onClick={props.onSaveDraft}
             variant="outline"
             disabled={props.loading || !props.hasUnsavedData}
-            className="flex-1 h-14 text-sm font-semibold rounded-2xl border-border/60"
+            className="flex-1 h-14 text-sm font-semibold rounded-2xl border-white/10 bg-[#12142B] text-foreground hover:bg-[#12142B]/80"
           >
             Черновик
           </Button>
@@ -46,44 +73,39 @@ export function GenerateSheetFooter(props: Props) {
           <Button
             onClick={props.canGenerate ? props.onGenerate : props.onShowReasons}
             disabled={props.loading}
+            aria-label={
+              props.loading
+                ? "Идёт создание трека"
+                : props.canGenerate
+                  ? `Сгенерировать трек за ${props.generationCost} кредитов`
+                  : "Открыть причины, почему нельзя сгенерировать"
+            }
             className={cn(
-              "h-14 text-sm font-bold gap-2 rounded-2xl flex items-center justify-center leading-none transition-all active:scale-[0.98]",
-              "bg-gradient-to-br from-primary to-primary/90 text-primary-foreground",
-              "shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)]",
+              "h-14 text-[15px] font-bold gap-2 rounded-2xl flex items-center justify-center leading-none transition-all active:scale-[0.98]",
+              "bg-[#22E4A7] text-[#0A0B14] hover:bg-[#22E4A7]/90",
+              "shadow-[0_8px_24px_rgba(34,228,167,0.28)]",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#22E4A7]/60",
               props.shouldShowSecondaryUIButton ? "flex-1" : "w-full",
-              !props.canGenerate && !props.loading && "opacity-60",
+              !props.canGenerate && !props.loading && "bg-muted text-muted-foreground shadow-none",
             )}
           >
             {props.loading ? (
               <span className="flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin" aria-hidden />
                 Создание…
               </span>
             ) : props.canGenerate ? (
-              <span className="flex flex-col items-center gap-0.5">
-                <span className="flex items-center gap-2 text-[15px]">
-                  <Sparkles className="w-4 h-4" />
-                  Сгенерировать
-                  {props.hasWarnings && (
-                    <span className="ml-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full text-[10px] bg-yellow-500 text-yellow-950">
-                      {props.warningCount}
-                    </span>
-                  )}
-                </span>
-                {/* F6: cost is plain text — the old cost Popover rendered a <button>
-                    inside this <Button> (button-in-button, invalid DOM). Total cost
-                    stays visible; the itemized breakdown was dropped to resolve the
-                    nesting without violating the 44px touch-target rule. */}
-                <span className="flex items-center gap-1 text-[10px] font-medium tabular-nums text-primary-foreground/75">
-                  <Coins className="w-3 h-3" />
-                  {props.generationCost} кредитов
+              <span className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4" aria-hidden />
+                Сгенерировать
+                <span className="inline-flex items-center gap-1 rounded-md bg-[#0A0B14]/15 px-2 py-0.5 text-[11px] font-extrabold tabular-nums">
+                  <Coins className="w-3 h-3" aria-hidden />
+                  {props.generationCost}
                 </span>
               </span>
             ) : (
-              // F7: dimmed-but-tappable — make the action explicit so users know the
-              // tap opens ValidationReasonsSheet instead of reading the button as disabled.
-              <span className="flex items-center gap-2 text-[15px]">
-                <Info className="w-4 h-4" />
+              <span className="flex items-center gap-2">
+                <Info className="w-4 h-4" aria-hidden />
                 Почему нельзя?
               </span>
             )}
