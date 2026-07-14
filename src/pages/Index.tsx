@@ -310,13 +310,22 @@ const Index = () => {
           */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-start">
             <div className={cn("lg:col-span-8 xl:col-span-9 min-w-0", sectionTokens.blockGap)}>
-              {heroBlock}
-              {createBlock}
+              {isMobile ? (
+                <Section sectionId="synth-hero" density="compact" tone="plain">
+                  <HomeMobileSynthHero onCreateClick={handleCreate} />
+                </Section>
+              ) : (
+                <>
+                  {heroBlock}
+                  {createBlock}
+                </>
+              )}
               {trendingBlock}
               {genresBlock}
               {discoverBlock}
               {aiSuggestBlock}
             </div>
+
 
             <aside
               className={cn(
