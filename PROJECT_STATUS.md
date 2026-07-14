@@ -5,10 +5,10 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--11_Sprint_063_Start-10B981?style=for-the-badge"/>
+  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--14_Sprint_065-10B981?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99.6%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1803_passing-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1810_passing-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
   <img alt="Dependencies" src="https://img.shields.io/badge/deps-6_vulnerabilities_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=for-the-badge"/>
@@ -31,6 +31,38 @@
 
 > [!NOTE]
 > Обновляется еженедельно во время ревью спринта. Для статуса CI в реальном времени см. [вкладку Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
+
+## 🆕 Сессия 2026-07-14 — Sprint 065 + сверка расхождений планов 🔄
+
+**Ветка:** `claude/work-plan-task-status-7dfndr` · **План работ:** [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)
+
+### Контекст: устранён дрейф планирующих документов
+
+Бейджи и трекеры разошлись между собой и с `git`: `PROJECT_STATUS` заявлял «Sprint 063 / 1803 тестов», `ROADMAP` — «Sprint 057 / 1497», `SPRINT-PROGRESS` — «062 в работе / 1489», `FUTURE_WORK_PLAN` — «063+064 done / 1691». Фактически последние коммиты содержат **не задокументированную ни в одном спринте** работу (Generate v2 + Home Redesign). Она зафиксирована как **Sprint 065**; бэклог переопределён (066–069).
+
+### Sprint 065 — Generate v2 + Home Redesign + Visual Regression (в `main`)
+
+1. **Generate v2** ✅ — редизайн формы: `GenerateFormSimple`, `CollapsibleFormHeader`, `generate-sheet/GenerateSheetFooter`, `ReferenceChipsRow`.
+2. **Home Redesign** ✅ — мобильный synth-hero `home/HomeMobileSynthHero.tsx` (+190), `pages/Index.tsx`.
+3. **BrandEmptyState** ✅ — общий компонент пустого состояния (+141); выравнивание `Community.tsx`, `content-hub/tabs/ProjectsTab.tsx`.
+4. **Visual Regression** ✅ — `playwright.visual.config.ts`, `tests/visual/home.spec.ts`, шаг в `quality-check.yml`.
+5. **Edge/DB** ✅ — рефактор `supabase/functions/mcp/index.ts` (нетто-сокращение), миграция `65ceef14`.
+6. **Closure 🔄** — эталонные визуальные снимки, Storybook для новых компонентов, docs sync.
+
+### Проверенные метрики (2026-07-14)
+
+- **TypeScript: 0 errors** ✅ (реальный прогон `npm run typecheck:app`)
+- **Unit-тесты: 1810 passed** ✅ (166 файлов, +2 skip-файла, 4 skip, 31 todo — `npm test`, vitest 4.1.9). Прежние бейджи 1489/1497/1691/1803 — устаревшие снимки.
+- Сервисы: 37 · API: 30 · Хуки: 440 · Unit-тест файлы: 184 · E2E specs: 58 (`find`/`wc`)
+- Файлов >800 LOC в `src/`: **0** ✅ (исключая статический `drum-kits.ts`)
+
+### 🔴 Новые tech-debt находки
+
+- **Установка зависимостей** падает штатным `npm install` (ERESOLVE): `vite@8.1.4` ↔ `@storybook/react-vite@8.6.18` (peer требует `vite ≤6`). Обход — `--legacy-peer-deps`. → **Sprint 066** (приоритет №1).
+- **`supabase/functions/`**: ≥10 файлов >800 LOC (до 1330). Не покрыто ни одним спринтом. → **Sprint 067**.
+- **Version drift:** `CLAUDE.md` заявляет «Vite 5.0», фактически `vite@8`. → синхронизировать в Sprint 066.
+
+---
 
 ## 🆕 Сессия 2026-07-07 — Phase 1 Tech Debt Closure ✅
 

@@ -24,6 +24,33 @@
 
 ## [Unreleased]
 
+### 📋 Sprint 065 + сверка расхождений планов (2026-07-14)
+
+> Планирующие документы разошлись между собой (заявленные спринты 057↔064, unit-тесты 1489↔1803) и с `git`. Проведена сверка с файловой системой и `git`; фактически отгруженная, но не задокументированная работа зафиксирована как **Sprint 065**.
+
+#### Added
+
+- **Home mobile synth-hero** — `src/components/home/HomeMobileSynthHero.tsx` (+190), интегрирован в `pages/Index.tsx`.
+- **BrandEmptyState** — общий компонент пустого состояния `src/components/common/BrandEmptyState.tsx` (+141).
+- **Visual regression testing** — `playwright.visual.config.ts`, `tests/visual/home.spec.ts`, шаг проверки в `.github/workflows/quality-check.yml`.
+- **План работ** — `WORKPLAN-2026-07-14.md`: сверка расхождений, Sprint 065, переопределённый бэклог 066–069.
+
+#### Changed
+
+- **Generate v2** — редизайн формы генерации: `GenerateFormSimple`, `CollapsibleFormHeader`, `generate-sheet/GenerateSheetFooter`, `generate-sheet/ReferenceChipsRow`.
+- **Community / Projects** — выравнивание под редизайн (`pages/Community.tsx`, `content-hub/tabs/ProjectsTab.tsx`).
+- **Edge `mcp`** — рефактор `supabase/functions/mcp/index.ts` (нетто-сокращение) + миграция `65ceef14`.
+- **Docs sync** — `PROJECT_STATUS.md`, `SPRINTS/SPRINT-PROGRESS.md`, `ROADMAP.md`, `FUTURE_WORK_PLAN.md` приведены к единому состоянию (Sprint 065 в работе, бэклог 066–069).
+
+#### Fixed
+
+- **`FUTURE_WORK_PLAN.md`** — удалены битые артефакты `</content></invoke>` в конце файла (последствие некорректной записи в прошлой сессии).
+
+#### Verified (2026-07-14)
+
+- **TypeScript: 0 errors** (`npm run typecheck:app`). Файлов >800 LOC в `src/`: 0 (исключая статический `drum-kits.ts`). Сервисы 37 · API 30 · хуки 440 · unit-тест файлы 184 · E2E specs 58.
+- **Tech-debt найдено:** установка зависимостей требует `--legacy-peer-deps` (конфликт `vite@8.1.4` ↔ `@storybook/react-vite@8.6` peer `vite ≤6`), что дополнительно роняет peer `@testing-library/dom` — оба ведут в Sprint 066. `supabase/functions/`: ≥10 файлов >800 LOC — Sprint 067.
+
 ### ✅ Quality gate green — typecheck + lint + format restored (2026-07-06)
 
 > `main` had been red across recent commits (typecheck regressions, phantom lint errors, format drift). All four quality gates now pass locally and will go green on push.

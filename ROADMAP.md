@@ -5,9 +5,9 @@
 **Where MusicVerse AI is going — quarter by quarter.**
 
 <p>
-  <img alt="Progress" src="https://img.shields.io/badge/2026-99.5%25_complete-10B981?style=for-the-badge"/>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-057-26A5E4?style=for-the-badge"/>
-  <img alt="Unit Tests" src="https://img.shields.io/badge/unit--tests-1497_passing-10B981?style=for-the-badge"/>
+  <img alt="Progress" src="https://img.shields.io/badge/2026-99.6%25_complete-10B981?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-065-26A5E4?style=for-the-badge"/>
+  <img alt="Unit Tests" src="https://img.shields.io/badge/unit--tests-1810_passing-10B981?style=for-the-badge"/>
   <img alt="Health" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
 </p>
 
@@ -41,11 +41,16 @@ gantt
     UX Critical Fixes (055)      :done, 2026-07, 2026-07
     GenerateSheet Redesign (056) :done, 2026-07, 2026-07
     God Files Decomposition (051):done, 2026-07, 2026-07
+    E2E CI Green + BP (057)      :done, 2026-07, 2026-07
+    i18n EN/RU (058)             :done, 2026-07, 2026-07
+    UI/UX Audit Fixes (062-064)  :done, 2026-07, 2026-07
     section In progress
-    i18n EN/RU (057)             :active, 2026-07, 2026-08
-    E2E Stabilization            :active, 2026-07, 2026-08
+    Generate v2 + Home (065)     :active, 2026-07, 2026-07
+    Dependency Health (066)      :active, 2026-07, 2026-08
     section Planned
-    Collaboration Features (058) : 2026-08, 2026-09
+    Edge Fn Decomposition (067)  : 2026-07, 2026-08
+    Bundle + Perf Budgets (069)  : 2026-08, 2026-08
+    Collaboration Features       : 2026-08, 2026-09
     Marketplace MVP (059)        : 2026-09, 2026-10
     A/B Testing Framework (060)  : 2026-10, 2026-11
     Public Developer API         : 2026-11, 2027-01
@@ -108,7 +113,8 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### In Progress
 
-- **Sprint 056 Phase C-D** — GenerateSheet docs + stories verification
+- **Sprint 065 — Generate v2 + Home Redesign + Visual Regression** — форма генерации v2, мобильный synth-hero, `BrandEmptyState`, инфраструктура визуальной регрессии уже в `main`; остаётся closure (эталонные снимки, Storybook, docs sync). План: [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)
+- **Sprint 066 — Dependency Health** — конфликт `vite@8` ↔ `@storybook/react-vite@8.6` (peer ≤6) требует `--legacy-peer-deps`; это ломает peer `@testing-library/dom` при локальной установке. Приоритет №1.
 
 ### Completed (recent)
 
@@ -167,6 +173,6 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 | :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :----------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](docs/KNOWN_ISSUES.md) |
 
-<sub>Last updated: 2026-07-04, вечер (Sprint 050 начат — A0 P0-хотфикс влит, PR #576/#577; план закрытия спринтов — [SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md](SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md); ранее: progress audit — [report](docs/audit/PROGRESS-AUDIT-2026-07-04.md))</sub>
+<sub>Last updated: 2026-07-14 (Sprint 065 зафиксирован, бэклог 066–069 переопределён; сверка расхождений планов — [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md))</sub>
 
 </div>
