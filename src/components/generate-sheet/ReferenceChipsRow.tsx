@@ -1,9 +1,13 @@
 // src/components/generate-sheet/ReferenceChipsRow.tsx
-import { Plus, X, Folder, User, Music, Mic } from "@/lib/icons";
+// v2 — 2x2 source-selection grid (Audio / Voice / Persona / Project)
+// with roving tabindex keyboard navigation, clear active state,
+// and a Neon-Studio mint accent to align with the redesigned footer.
+import { useCallback, useRef, KeyboardEvent } from "react";
+import { Plus, X, Folder, User, Music, Mic, Check } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
-export type ReferenceKind = "project" | "artist" | "audio" | "voice";
+export type ReferenceKind = "audio" | "voice" | "artist" | "project";
 
 interface ReferenceItem {
   id: string;
@@ -23,68 +27,147 @@ interface Props {
   onRemove: (kind: ReferenceKind, id: string) => void;
 }
 
-const KIND_META: Record<ReferenceKind, { label: string; icon: typeof Plus }> = {
-  project: { label: "Альбом", icon: Folder },
-  artist: { label: "Артист", icon: User },
-  audio: { label: "Аудио", icon: Music },
-  voice: { label: "Голос", icon: Mic },
+const KIND_META: Record<
+  ReferenceKind,
+  { label: string; hint: string; icon: typeof Plus }
+> = {
+  audio: { label: "Аудио", hint: "Референс-трек", icon: Music },
+  voice: { label: "Голос", hint: "Клон вокала", icon: Mic },
+  artist: { label: "Персона", hint: "Стиль артиста", icon: User },
+  project: { label: "Проект", hint: "Альбом/проект", icon: Folder },
 };
+
+const ORDER: ReferenceKind[] = ["audio", "voice", "artist", "project"];
 
 export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
   const haptic = useHapticFeedback();
+  const refs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  const focusIndex = useCallback((i: number) => {
+    const n = ORDER.length;
+    const next = ((i % n) + n) % n;
+    refs.current[next]?.focus();
+  }, []);
+
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLButtonElement>, idx: number) => {
+      switch (e.key) {
+        case "ArrowRight":
+          e.preventDefault();
+          focusIndex(idx + 1);
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          focusIndex(idx - 1);
+          break;
+        case "ArrowDown":
+          e.preventDefault();
+          focusIndex(idx + 2);
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          focusIndex(idx - 2);
+          break;
+        case "Home":
+          e.preventDefault();
+          focusIndex(0);
+          break;
+        case "End":
+          e.preventDefault();
+          focusIndex(ORDER.length - 1);
+          break;
+      }
+    },
+    [focusIndex],
+  );
+
+  // roving tabindex: first active card is tab stop, else first card.
+  const firstActive = ORDER.findIndex((k) => references[k]);
+  const tabStop = firstActive >= 0 ? firstActive : 0;
+
   return (
     <div
-      className="flex items-center gap-1.5 overflow-x-auto -mx-4 px-4 pb-1 scrollbar-none"
       role="group"
-      aria-label="Референсы"
+      aria-label="Источники и референсы"
+      className="grid grid-cols-2 gap-2"
     >
-      {(Object.keys(KIND_META) as ReferenceKind[]).map((kind) => {
+      {ORDER.map((kind, idx) => {
         const item = references[kind];
-        const { label, icon: Icon } = KIND_META[kind];
-        if (item) {
-          return (
-            <button
-              key={kind}
-              type="button"
-              onClick={() => {
-                haptic.impact("light");
-                onRemove(kind, item.id);
-              }}
-
-              aria-label={`Удалить ${label.toLowerCase()}: ${item.label}`}
-              className={cn(
-                "group inline-flex items-center gap-1.5 h-11 px-3 rounded-full text-xs font-medium shrink-0",
-                "bg-foreground/[0.06] text-foreground border border-foreground/10",
-                "hover:bg-foreground/10 active:scale-[0.97] transition-all",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              )}
-            >
-              <Icon className="w-3.5 h-3.5 opacity-70" />
-              <span className="max-w-[140px] truncate">{item.label}</span>
-              <X className="w-3 h-3 opacity-60 group-hover:opacity-100" />
-            </button>
-          );
-        }
+        const { label, hint, icon: Icon } = KIND_META[kind];
+        const active = !!item;
         return (
           <button
             key={kind}
-            type="button"
-            onClick={() => {
-              haptic.selectionChanged();
-              onAdd(kind);
+            ref={(el) => {
+              refs.current[idx] = el;
             }}
-
-            aria-label={`Добавить ${label.toLowerCase()}`}
+            type="button"
+            tabIndex={idx === tabStop ? 0 : -1}
+            onKeyDown={(e) => onKeyDown(e, idx)}
+            onClick={() => {
+              if (active) {
+                haptic.impact("light");
+                onRemove(kind, item!.id);
+              } else {
+                haptic.selectionChanged();
+                onAdd(kind);
+              }
+            }}
+            aria-pressed={active}
+            aria-label={
+              active
+                ? `${label}: ${item!.label}. Нажмите чтобы удалить`
+                : `Добавить ${label.toLowerCase()} — ${hint}`
+            }
             className={cn(
-              "inline-flex items-center gap-1.5 h-11 px-3 rounded-full text-xs font-medium shrink-0",
-              "border border-dashed border-border/70 text-muted-foreground",
-              "hover:border-foreground/40 hover:text-foreground hover:bg-foreground/[0.03]",
-              "active:scale-[0.97] transition-all",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              "group relative flex flex-col items-start gap-1.5 min-h-[68px] p-3 rounded-2xl border text-left transition-all",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              "active:scale-[0.98]",
+              active
+                ? "border-primary/60 bg-primary/10 text-foreground shadow-[0_0_0_1px_hsl(var(--primary)/0.25)]"
+                : "border-dashed border-border/60 bg-muted/20 text-muted-foreground hover:border-foreground/40 hover:text-foreground hover:bg-foreground/[0.03]",
             )}
           >
-            <Plus className="w-3.5 h-3.5" />
-            {label}
+            <div className="flex items-center gap-2 w-full">
+              <span
+                className={cn(
+                  "flex items-center justify-center w-7 h-7 rounded-lg border",
+                  active
+                    ? "border-primary/50 bg-primary/15 text-primary"
+                    : "border-border/50 bg-background/40 text-muted-foreground",
+                )}
+                aria-hidden
+              >
+                <Icon className="w-3.5 h-3.5" />
+              </span>
+              <span className="text-xs font-semibold flex-1 truncate">
+                {label}
+              </span>
+              {active ? (
+                <span
+                  className="flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground"
+                  aria-hidden
+                >
+                  <Check className="w-3 h-3" />
+                </span>
+              ) : (
+                <Plus className="w-3.5 h-3.5 opacity-60" aria-hidden />
+              )}
+            </div>
+            <span
+              className={cn(
+                "text-[10.5px] leading-tight truncate w-full",
+                active ? "text-foreground/80 font-medium" : "text-muted-foreground/80",
+              )}
+            >
+              {active ? item!.label : hint}
+            </span>
+            {active && (
+              <X
+                className="absolute top-2 right-2 w-3 h-3 opacity-0 group-hover:opacity-70 transition-opacity"
+                aria-hidden
+              />
+            )}
           </button>
         );
       })}

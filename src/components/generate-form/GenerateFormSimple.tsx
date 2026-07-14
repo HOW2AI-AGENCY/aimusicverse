@@ -242,51 +242,64 @@ export function GenerateFormSimple({
 
       <FormDivider />
 
-      {/* ========== TRACK TYPE — single toggle ========== */}
-      <FormSection>
-        <div className="space-y-2">
-          <SectionLabel label={g.form.trackType} hint={hints.trackType} />
-          <button
-            type="button"
-            onClick={() => handleVocalsToggle(!hasVocals)}
-            className={cn(
-              "flex items-center justify-center gap-2 h-11 px-4 rounded-full text-body-sm font-semibold transition-all border",
-              hasVocals
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-muted/40 text-muted-foreground hover:text-foreground border-border/50",
+      {/* ========== TRACK TYPE + TITLE — merged surface card ========== */}
+      <FormSection elevated>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <SectionLabel label={g.form.trackType} hint={hints.trackType} />
+            <div
+              role="radiogroup"
+              aria-label={g.form.trackType}
+              className="grid grid-cols-2 gap-2"
+            >
+              {[
+                { value: false, Icon: Music2, label: g.vocalToggle.instrumentalLabel },
+                { value: true, Icon: Mic, label: g.vocalToggle.vocalLabel },
+              ].map(({ value, Icon, label }) => {
+                const active = hasVocals === value;
+                return (
+                  <button
+                    key={String(value)}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    onClick={() => handleVocalsToggle(value)}
+                    className={cn(
+                      "flex items-center justify-center gap-2 h-11 px-4 rounded-xl text-body-sm font-semibold transition-all border",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                      active
+                        ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                        : "bg-muted/40 text-muted-foreground hover:text-foreground border-border/50",
+                    )}
+                  >
+                    <Icon className="w-4 h-4" aria-hidden="true" />
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="h-px bg-border/40" aria-hidden />
+
+          <div className="space-y-2">
+            <SectionLabel label={g.form.title} htmlFor="simple-title" hint={hints.title} suffix={g.form.titleSuffix} />
+            <Input
+              id="simple-title"
+              placeholder={g.form.titlePlaceholder}
+              value={title}
+              onChange={(e) => onTitleChange(e.target.value)}
+              className="min-h-[44px] text-body-lg rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20 focus-visible:ring-2 focus-visible:ring-primary/60"
+              aria-invalid={title.length > validation.title.maxLength}
+              aria-describedby={titleValidation ? "simple-title-error" : undefined}
+            />
+            {titleValidation && (
+              <ValidationMessage message={titleValidation.message} level={titleValidation.level} fieldId="simple-title" />
             )}
-            aria-pressed={hasVocals}
-          >
-            {hasVocals ? (
-              <Mic className="w-4 h-4" aria-hidden="true" />
-            ) : (
-              <Music2 className="w-4 h-4" aria-hidden="true" />
-            )}
-            {hasVocals ? g.vocalToggle.vocalLabel : g.vocalToggle.instrumentalLabel}
-          </button>
+          </div>
         </div>
       </FormSection>
 
-      <FormDivider />
-
-      {/* ========== TITLE SECTION ========== */}
-      <FormSection>
-        <div className="space-y-2">
-          <SectionLabel label={g.form.title} htmlFor="simple-title" hint={hints.title} suffix={g.form.titleSuffix} />
-          <Input
-            id="simple-title"
-            placeholder={g.form.titlePlaceholder}
-            value={title}
-            onChange={(e) => onTitleChange(e.target.value)}
-            className="min-h-[44px] text-body-lg rounded-xl bg-muted/30 border-muted-foreground/20 focus:border-primary/50 focus:ring-primary/20"
-            aria-invalid={title.length > validation.title.maxLength}
-            aria-describedby={titleValidation ? "simple-title-error" : undefined}
-          />
-          {titleValidation && (
-            <ValidationMessage message={titleValidation.message} level={titleValidation.level} fieldId="simple-title" />
-          )}
-        </div>
-      </FormSection>
     </motion.div>
   );
 }

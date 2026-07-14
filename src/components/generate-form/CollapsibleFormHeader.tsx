@@ -1,11 +1,12 @@
 /**
- * CollapsibleFormHeader - Symmetric header for GenerateSheet
- * Two-row layout: title + balance pill on top, full-width segmented mode switcher below.
- * Matches the "Symmetric structured panel" design direction.
+ * CollapsibleFormHeader v2 — Neon Studio cohesive with the redesigned footer.
+ * - Row 1: title + status pill (balance) + close.
+ * - Row 2: full-width segmented mode switch (radiogroup semantics) + compact model + history.
+ * - Mint (#22E4A7) accent on active states + primary focus rings for keyboard users.
  */
 
-import { memo, useMemo } from "react";
-import { Zap, Settings2, History, X, ChevronDown } from "@/lib/icons";
+import { memo, useMemo, useRef, useCallback, KeyboardEvent } from "react";
+import { Zap, Settings2, History, ChevronDown, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -31,16 +32,10 @@ interface CollapsibleFormHeaderProps {
   onClose?: () => void;
 }
 
-interface ModeConfig {
-  icon: typeof Zap;
-  label: string;
-  description: string;
-}
-
-const MODE_CONFIG: Record<GenerationMode, ModeConfig> = {
-  simple: { icon: Zap, label: "Быстро", description: "Простое описание" },
-  custom: { icon: Settings2, label: "Полный", description: "Все настройки" },
-};
+const MODE_CONFIG = {
+  simple: { icon: Zap, label: "Быстро", desc: "Простое описание" },
+  custom: { icon: Settings2, label: "Полный", desc: "Все настройки" },
+} as const;
 
 const MODE_KEYS: GenerationMode[] = ["simple", "custom"];
 
@@ -56,17 +51,47 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
 }: CollapsibleFormHeaderProps) {
   const availableModels = useMemo(() => getAvailableModels(), []);
   const currentModel = SUNO_MODELS[model] || SUNO_MODELS.V4_5ALL;
-  // F4: balance is null while the credits query loads — must not read as "0 / low".
   const lowBalance = balance != null && balance < cost;
   const haptic = useHapticFeedback();
+  const modeRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  const onModeKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLButtonElement>, idx: number) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        const next = (idx + (e.key === "ArrowRight" ? 1 : -1) + MODE_KEYS.length) % MODE_KEYS.length;
+        modeRefs.current[next]?.focus();
+        if (mode !== MODE_KEYS[next]) {
+          haptic.selectionChanged();
+          onModeChange?.(MODE_KEYS[next]);
+        }
+      }
+    },
+    [mode, onModeChange, haptic],
+  );
+
+  const balanceLabel =
+    balance == null
+      ? "Баланс кредитов загружается"
+      : lowBalance
+        ? `Недостаточно кредитов: ${Math.floor(balance)} из ${cost}`
+        : `Баланс ${Math.floor(balance)} кредитов, стоимость ${cost}`;
 
   return (
     <div className="space-y-3 py-2">
-      {/* Row 1: Title block + balance pill + close */}
+      {/* Row 1 */}
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <h2 className="text-base font-bold tracking-tight text-foreground truncate">Создание трека</h2>
-          <p className="text-[10px] font-medium text-muted-foreground/70 mt-0.5">MusicVerse Studio</p>
+          <h2
+            id="generate-sheet-title"
+            className="text-base font-bold tracking-tight text-foreground truncate"
+            style={{ fontFamily: '"Bricolage Grotesque", var(--font-display, inherit)' }}
+          >
+            Создание трека
+          </h2>
+          <p className="text-[10px] font-medium text-muted-foreground/80 mt-0.5 uppercase tracking-wider">
+            MusicVerse Studio
+          </p>
         </div>
 
         <div
@@ -76,9 +101,11 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
               ? "bg-muted/40 border-border/50 text-muted-foreground"
               : lowBalance
                 ? "bg-destructive/10 border-destructive/30 text-destructive"
-                : "bg-primary/10 border-primary/20 text-primary",
+                : "bg-[#22E4A7]/10 border-[#22E4A7]/30 text-[#22E4A7]",
           )}
-          aria-label={balance == null ? "Баланс загружается" : `Баланс ${Math.floor(balance)} из ${cost} кредитов`}
+          role="status"
+          aria-live="polite"
+          aria-label={balanceLabel}
         >
           <span
             className={cn(
@@ -87,58 +114,69 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 ? "bg-muted-foreground"
                 : lowBalance
                   ? "bg-destructive shadow-[0_0_8px_hsl(var(--destructive))]"
-                  : "bg-primary shadow-[0_0_8px_hsl(var(--primary))]",
+                  : "bg-[#22E4A7] shadow-[0_0_8px_#22E4A7]",
             )}
             aria-hidden
           />
           <span className="text-xs font-semibold leading-none tabular-nums">
             {balance == null ? "…" : Math.floor(balance)}
           </span>
-          <span className="text-[10px] leading-none opacity-60 tabular-nums">/ {cost}</span>
+          <span className="text-[10px] leading-none opacity-70 tabular-nums">/ {cost}</span>
         </div>
 
         {onClose && (
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted flex-shrink-0"
+            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted flex-shrink-0 focus-visible:ring-2 focus-visible:ring-primary/60"
             onClick={onClose}
-            aria-label="Закрыть"
+            aria-label="Закрыть форму генерации"
           >
-            <X className="w-5 h-5 text-muted-foreground" />
+            <X className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
           </Button>
         )}
       </div>
 
-      {/* Row 2: Mode segmented + model + history */}
+      {/* Row 2 */}
       <div className="flex items-center gap-2">
-        {/* Full-width segmented mode switcher */}
+        {/* Segmented mode switch — radiogroup with roving tabindex */}
         <div
           className="relative grid grid-cols-2 flex-1 p-1 rounded-2xl bg-muted/40 border border-border/50"
-          role="group"
+          role="radiogroup"
           aria-label="Режим генерации"
         >
-          {MODE_KEYS.map((modeKey) => {
+          {MODE_KEYS.map((modeKey, idx) => {
             const config = MODE_CONFIG[modeKey];
             const Icon = config.icon;
             const isActive = mode === modeKey;
             return (
               <button
                 key={modeKey}
+                ref={(el) => {
+                  modeRefs.current[idx] = el;
+                }}
                 type="button"
+                role="radio"
+                aria-checked={isActive}
+                tabIndex={isActive ? 0 : -1}
+                onKeyDown={(e) => onModeKeyDown(e, idx)}
                 onClick={() => {
                   if (mode !== modeKey) haptic.selectionChanged();
                   onModeChange?.(modeKey);
                 }}
-                aria-pressed={isActive}
+                aria-label={`${config.label} — ${config.desc}`}
                 className={cn(
                   "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                   isActive
-                    ? "bg-background text-foreground shadow-sm ring-1 ring-border/60"
+                    ? "bg-background text-foreground shadow-sm ring-1 ring-[#22E4A7]/40"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <Icon className={cn("w-3.5 h-3.5", isActive && "text-primary")} aria-hidden="true" />
+                <Icon
+                  className={cn("w-3.5 h-3.5", isActive && "text-[#22E4A7]")}
+                  aria-hidden="true"
+                />
                 <span>{config.label}</span>
               </button>
             );
@@ -151,8 +189,8 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="flex items-center gap-1 min-h-[44px] min-w-[44px] px-2.5 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted transition-all"
-                aria-label={`Модель ${currentModel.name}`}
+                className="flex items-center gap-1 min-h-[44px] min-w-[44px] px-2.5 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70"
+                aria-label={`Модель генерации: ${currentModel.name}. Открыть список моделей`}
               >
                 {(() => {
                   const info = getModelDisplayInfo(currentModel.apiModel ?? model);
@@ -166,7 +204,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 <ChevronDown className="w-3 h-3 text-muted-foreground" aria-hidden="true" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[180px] bg-popover">
+            <DropdownMenuContent align="end" className="min-w-[200px] bg-popover">
               {availableModels.map((m) => {
                 const info = getModelDisplayInfo(m.apiModel ?? m.key);
                 const Icon = info?.icon;
@@ -174,7 +212,11 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                   <DropdownMenuItem
                     key={m.key}
                     onClick={() => onModelChange(m.key)}
-                    className={cn("flex items-center gap-2 text-xs", model === m.key && "bg-primary/10")}
+                    className={cn(
+                      "flex items-center gap-2 text-xs",
+                      model === m.key && "bg-[#22E4A7]/10",
+                    )}
+                    aria-current={model === m.key ? "true" : undefined}
                   >
                     {Icon ? <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" /> : null}
                     <div className="flex flex-col flex-1 min-w-0">
@@ -182,7 +224,9 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                       <span className="text-[9px] text-muted-foreground">{m.cost} кр.</span>
                     </div>
                     {m.status === "latest" && (
-                      <span className="text-[8px] px-1 py-0.5 rounded bg-primary/20 text-primary font-medium">NEW</span>
+                      <span className="text-[8px] px-1 py-0.5 rounded bg-[#22E4A7]/20 text-[#22E4A7] font-semibold">
+                        NEW
+                      </span>
                     )}
                   </DropdownMenuItem>
                 );
@@ -196,14 +240,14 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl bg-muted/40 border border-border/50 hover:bg-muted flex-shrink-0"
+            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl bg-muted/40 border border-border/50 hover:bg-muted flex-shrink-0 focus-visible:ring-2 focus-visible:ring-primary/60"
             onClick={(e) => {
               e.stopPropagation();
               onOpenHistory();
             }}
-            aria-label="История промптов"
+            aria-label="Открыть историю промптов"
           >
-            <History className="w-4 h-4 text-muted-foreground" />
+            <History className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
           </Button>
         )}
       </div>
