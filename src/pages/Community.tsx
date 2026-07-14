@@ -347,18 +347,18 @@ export default function Community() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
-            <TabsTrigger value="tracks" className="gap-2">
-              <Music className="w-4 h-4" />
-              <span className="hidden sm:inline">Треки</span>
+          <TabsList className="grid w-full grid-cols-3 mb-6 h-11">
+            <TabsTrigger value="tracks" aria-label="Треки" className="gap-1.5 text-xs sm:text-sm px-1 min-h-11 touch-manipulation transition-transform active:scale-[0.97]">
+              <Music className="w-4 h-4 shrink-0" />
+              <span className="truncate">Треки</span>
             </TabsTrigger>
-            <TabsTrigger value="popular" className="gap-2">
-              <TrendingUp className="w-4 h-4" />
-              <span className="hidden sm:inline">Популярное</span>
+            <TabsTrigger value="popular" aria-label="Популярное" className="gap-1.5 text-xs sm:text-sm px-1 min-h-11 touch-manipulation transition-transform active:scale-[0.97]">
+              <TrendingUp className="w-4 h-4 shrink-0" />
+              <span className="truncate">Топ</span>
             </TabsTrigger>
-            <TabsTrigger value="artists" className="gap-2">
-              <Users className="w-4 h-4" />
-              <span className="hidden sm:inline">Артисты</span>
+            <TabsTrigger value="artists" aria-label="Артисты" className="gap-1.5 text-xs sm:text-sm px-1 min-h-11 touch-manipulation transition-transform active:scale-[0.97]">
+              <Users className="w-4 h-4 shrink-0" />
+              <span className="truncate">Артисты</span>
             </TabsTrigger>
           </TabsList>
 
