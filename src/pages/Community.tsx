@@ -493,10 +493,12 @@ export default function Community() {
                   )}
                 </div>
               ) : (
-                <EmptyState
+                <BrandEmptyState
                   icon={TrendingUp}
+                  eyebrow="Топ чарт"
                   title="Пока нет популярных треков"
-                  description="Лайкайте треки, чтобы они попадали в топ"
+                  description="Лайкайте понравившиеся треки — самые залайканные попадут сюда."
+                  primaryAction={{ label: "Открыть все треки", onClick: () => setActiveTab("tracks"), icon: Music }}
                 />
               )}
             </div>
