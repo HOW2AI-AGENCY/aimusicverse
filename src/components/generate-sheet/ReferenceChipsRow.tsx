@@ -98,7 +98,9 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
         return (
           <button
             key={kind}
-            ref={(el) => (refs.current[idx] = el)}
+            ref={(el) => {
+              refs.current[idx] = el;
+            }}
             type="button"
             tabIndex={idx === tabStop ? 0 : -1}
             onKeyDown={(e) => onKeyDown(e, idx)}
