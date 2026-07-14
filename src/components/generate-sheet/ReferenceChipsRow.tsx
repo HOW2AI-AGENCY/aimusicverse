@@ -27,10 +27,7 @@ interface Props {
   onRemove: (kind: ReferenceKind, id: string) => void;
 }
 
-const KIND_META: Record<
-  ReferenceKind,
-  { label: string; hint: string; icon: typeof Plus }
-> = {
+const KIND_META: Record<ReferenceKind, { label: string; hint: string; icon: typeof Plus }> = {
   audio: { label: "Аудио", hint: "Референс-трек", icon: Music },
   voice: { label: "Голос", hint: "Клон вокала", icon: Mic },
   artist: { label: "Персона", hint: "Стиль артиста", icon: User },
@@ -86,11 +83,7 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
   const tabStop = firstActive >= 0 ? firstActive : 0;
 
   return (
-    <div
-      role="group"
-      aria-label="Источники и референсы"
-      className="grid grid-cols-2 gap-2"
-    >
+    <div role="group" aria-label="Источники и референсы" className="grid grid-cols-2 gap-2">
       {ORDER.map((kind, idx) => {
         const item = references[kind];
         const { label, hint, icon: Icon } = KIND_META[kind];
@@ -115,9 +108,7 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
             }}
             aria-pressed={active}
             aria-label={
-              active
-                ? `${label}: ${item!.label}. Нажмите чтобы удалить`
-                : `Добавить ${label.toLowerCase()} — ${hint}`
+              active ? `${label}: ${item!.label}. Нажмите чтобы удалить` : `Добавить ${label.toLowerCase()} — ${hint}`
             }
             className={cn(
               "group relative flex flex-col items-start gap-1.5 min-h-[68px] p-3 rounded-2xl border text-left transition-all",
@@ -140,9 +131,7 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
               >
                 <Icon className="w-3.5 h-3.5" />
               </span>
-              <span className="text-xs font-semibold flex-1 truncate">
-                {label}
-              </span>
+              <span className="text-xs font-semibold flex-1 truncate">{label}</span>
               {active ? (
                 <span
                   className="flex items-center justify-center w-5 h-5 rounded-full bg-primary text-primary-foreground"

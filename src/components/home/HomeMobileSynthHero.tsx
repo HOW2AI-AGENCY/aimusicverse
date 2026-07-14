@@ -56,11 +56,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#12142B] px-3 py-1.5"
             aria-label={`Баланс: ${balance} кредитов`}
           >
-            <span
-              className="h-2 w-2 rounded-full bg-[#7C5CFF]"
-              style={{ boxShadow: "0 0 8px #7C5CFF" }}
-              aria-hidden
-            />
+            <span className="h-2 w-2 rounded-full bg-[#7C5CFF]" style={{ boxShadow: "0 0 8px #7C5CFF" }} aria-hidden />
             <Zap className="h-3 w-3 text-[#B7A6FF]" aria-hidden />
             <span className="text-[11px] font-medium uppercase tracking-wider text-[#EDEDF5] font-sans">
               {balance} кредитов
@@ -106,8 +102,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           id="synth-hero-title"
           className="relative z-10 mb-4 text-2xl leading-tight text-white"
           style={{
-            fontFamily:
-              '"Bricolage Grotesque", "Inter", ui-sans-serif, system-ui, sans-serif',
+            fontFamily: '"Bricolage Grotesque", "Inter", ui-sans-serif, system-ui, sans-serif',
             fontWeight: 700,
             letterSpacing: "-0.01em",
           }}
@@ -159,8 +154,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           <div
             className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl"
             style={{
-              background:
-                "linear-gradient(135deg, #7C5CFF 0%, #22E4A7 100%)",
+              background: "linear-gradient(135deg, #7C5CFF 0%, #22E4A7 100%)",
             }}
             aria-hidden
           >
@@ -173,9 +167,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
             >
               Продолжи создавать
             </p>
-            <p className="mt-1 truncate text-sm font-semibold text-[#EDEDF5] font-sans">
-              Новая идея ждёт
-            </p>
+            <p className="mt-1 truncate text-sm font-semibold text-[#EDEDF5] font-sans">Новая идея ждёт</p>
           </div>
           <ArrowRight
             className="h-5 w-5 shrink-0 text-[#B4B6D6] transition-transform group-hover:translate-x-0.5"

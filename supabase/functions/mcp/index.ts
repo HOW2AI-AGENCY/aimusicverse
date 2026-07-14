@@ -12,26 +12,34 @@ import { z } from "npm:zod@^4.4.3";
 var search_public_tracks_default = defineTool({
   name: "search_public_tracks",
   title: "Search public tracks",
-  description: "Search MusicVerse AI's public track catalog by title, genre, or mood. Returns id, title, genre, mood, duration, play count, and audio/cover URLs.",
+  description:
+    "Search MusicVerse AI's public track catalog by title, genre, or mood. Returns id, title, genre, mood, duration, play count, and audio/cover URLs.",
   inputSchema: {
     query: z.string().trim().min(1).describe("Search text matched against title, genre, mood, and prompt."),
-    limit: z.number().int().min(1).max(50).default(10).describe("Max results (1-50).")
+    limit: z.number().int().min(1).max(50).default(10).describe("Max results (1-50)."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ query, limit }) => {
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
     const like = `%${query}%`;
-    const { data, error } = await supabase.from("tracks").select(
-      "id, title, computed_genre, mood, duration_seconds, play_count, likes_count, audio_url, cover_url, created_at"
-    ).eq("is_public", true).eq("status", "completed").or(`title.ilike.${like},computed_genre.ilike.${like},mood.ilike.${like},prompt.ilike.${like}`).order("play_count", { ascending: false }).limit(limit);
+    const { data, error } = await supabase
+      .from("tracks")
+      .select(
+        "id, title, computed_genre, mood, duration_seconds, play_count, likes_count, audio_url, cover_url, created_at",
+      )
+      .eq("is_public", true)
+      .eq("status", "completed")
+      .or(`title.ilike.${like},computed_genre.ilike.${like},mood.ilike.${like},prompt.ilike.${like}`)
+      .order("play_count", { ascending: false })
+      .limit(limit);
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
-      structuredContent: { tracks: data ?? [] }
+      structuredContent: { tracks: data ?? [] },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/get-track.ts
@@ -43,21 +51,26 @@ var get_track_default = defineTool2({
   title: "Get track details",
   description: "Fetch full details for a single public track including all A/B versions, lyrics, and audio URLs.",
   inputSchema: {
-    track_id: z2.string().uuid().describe("UUID of the track.")
+    track_id: z2.string().uuid().describe("UUID of the track."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ track_id }) => {
     const supabase = createClient2(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("tracks").select("*, track_versions(*)").eq("id", track_id).eq("is_public", true).maybeSingle();
+    const { data, error } = await supabase
+      .from("tracks")
+      .select("*, track_versions(*)")
+      .eq("id", track_id)
+      .eq("is_public", true)
+      .maybeSingle();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     if (!data) return { content: [{ type: "text", text: "Track not found or not public." }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
-      structuredContent: { track: data }
+      structuredContent: { track: data },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/list-my-tracks.ts
@@ -67,9 +80,10 @@ import { z as z3 } from "npm:zod@^4.4.3";
 var list_my_tracks_default = defineTool3({
   name: "list_my_tracks",
   title: "List my tracks",
-  description: "List the signed-in user's own tracks (public and private) with title, status, genre, duration, and audio URL.",
+  description:
+    "List the signed-in user's own tracks (public and private) with title, status, genre, duration, and audio URL.",
   inputSchema: {
-    limit: z3.number().int().min(1).max(100).default(20).describe("Max results (1-100).")
+    limit: z3.number().int().min(1).max(100).default(20).describe("Max results (1-100)."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ limit }, ctx) => {
@@ -78,15 +92,20 @@ var list_my_tracks_default = defineTool3({
     }
     const supabase = createClient3(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("tracks").select("id, title, status, computed_genre, mood, duration_seconds, is_public, audio_url, cover_url, created_at").eq("user_id", ctx.getUserId()).order("created_at", { ascending: false }).limit(limit);
+    const { data, error } = await supabase
+      .from("tracks")
+      .select("id, title, status, computed_genre, mood, duration_seconds, is_public, audio_url, cover_url, created_at")
+      .eq("user_id", ctx.getUserId())
+      .order("created_at", { ascending: false })
+      .limit(limit);
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
-      structuredContent: { tracks: data ?? [] }
+      structuredContent: { tracks: data ?? [] },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/get-my-profile.ts
@@ -104,15 +123,19 @@ var get_my_profile_default = defineTool4({
     }
     const supabase = createClient4(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("profiles").select("id, user_id, username, display_name, avatar_url, bio, is_public, created_at").eq("user_id", ctx.getUserId()).maybeSingle();
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("id, user_id, username, display_name, avatar_url, bio, is_public, created_at")
+      .eq("user_id", ctx.getUserId())
+      .maybeSingle();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? {}, null, 2) }],
-      structuredContent: { profile: data }
+      structuredContent: { profile: data },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/get-my-credits.ts
@@ -130,15 +153,19 @@ var get_my_credits_default = defineTool5({
     }
     const supabase = createClient5(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("user_credits").select("*").eq("user_id", ctx.getUserId()).maybeSingle();
+    const { data, error } = await supabase
+      .from("user_credits")
+      .select("*")
+      .eq("user_id", ctx.getUserId())
+      .maybeSingle();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? { balance: 0 }, null, 2) }],
-      structuredContent: { credits: data }
+      structuredContent: { credits: data },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/list-my-playlists.ts
@@ -150,7 +177,7 @@ var list_my_playlists_default = defineTool6({
   title: "List my playlists",
   description: "List the signed-in user's playlists with title, description, cover, and track count.",
   inputSchema: {
-    limit: z4.number().int().min(1).max(100).default(20).describe("Max results (1-100).")
+    limit: z4.number().int().min(1).max(100).default(20).describe("Max results (1-100)."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ limit }, ctx) => {
@@ -159,15 +186,20 @@ var list_my_playlists_default = defineTool6({
     }
     const supabase = createClient6(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("playlists").select("*").eq("user_id", ctx.getUserId()).order("updated_at", { ascending: false }).limit(limit);
+    const { data, error } = await supabase
+      .from("playlists")
+      .select("*")
+      .eq("user_id", ctx.getUserId())
+      .order("updated_at", { ascending: false })
+      .limit(limit);
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
-      structuredContent: { playlists: data ?? [] }
+      structuredContent: { playlists: data ?? [] },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/like-track.ts
@@ -180,7 +212,7 @@ var like_track_default = defineTool7({
   description: "Toggle a like on a public track as the signed-in user. Returns the new like state.",
   inputSchema: {
     track_id: z5.string().uuid().describe("UUID of the track to like/unlike."),
-    action: z5.enum(["like", "unlike"]).default("like").describe("Whether to add or remove the like.")
+    action: z5.enum(["like", "unlike"]).default("like").describe("Whether to add or remove the like."),
   },
   annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: false, openWorldHint: false },
   handler: async ({ track_id, action }, ctx) => {
@@ -189,14 +221,18 @@ var like_track_default = defineTool7({
     }
     const supabase = createClient7(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
     if (action === "unlike") {
-      const { error: error2 } = await supabase.from("track_likes").delete().eq("track_id", track_id).eq("user_id", ctx.getUserId());
+      const { error: error2 } = await supabase
+        .from("track_likes")
+        .delete()
+        .eq("track_id", track_id)
+        .eq("user_id", ctx.getUserId());
       if (error2) return { content: [{ type: "text", text: error2.message }], isError: true };
       return {
         content: [{ type: "text", text: `Unliked track ${track_id}` }],
-        structuredContent: { track_id, liked: false }
+        structuredContent: { track_id, liked: false },
       };
     }
     const { error } = await supabase.from("track_likes").insert({ track_id, user_id: ctx.getUserId() });
@@ -205,9 +241,9 @@ var like_track_default = defineTool7({
     }
     return {
       content: [{ type: "text", text: `Liked track ${track_id}` }],
-      structuredContent: { track_id, liked: true }
+      structuredContent: { track_id, liked: true },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/create-playlist.ts
@@ -221,7 +257,7 @@ var create_playlist_default = defineTool8({
   inputSchema: {
     name: z6.string().trim().min(1).max(120).describe("Playlist display name."),
     description: z6.string().trim().max(500).optional().describe("Optional description."),
-    is_public: z6.boolean().default(false).describe("If true, playlist is visible to everyone.")
+    is_public: z6.boolean().default(false).describe("If true, playlist is visible to everyone."),
   },
   annotations: { readOnlyHint: false, idempotentHint: false, destructiveHint: false, openWorldHint: false },
   handler: async ({ name, description, is_public }, ctx) => {
@@ -230,15 +266,19 @@ var create_playlist_default = defineTool8({
     }
     const supabase = createClient8(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("playlists").insert({ name, description: description ?? null, is_public, user_id: ctx.getUserId() }).select().single();
+    const { data, error } = await supabase
+      .from("playlists")
+      .insert({ name, description: description ?? null, is_public, user_id: ctx.getUserId() })
+      .select()
+      .single();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: `Created playlist "${data.name}" (id: ${data.id})` }],
-      structuredContent: { playlist: data }
+      structuredContent: { playlist: data },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/add-track-to-playlist.ts
@@ -248,10 +288,11 @@ import { z as z7 } from "npm:zod@^4.4.3";
 var add_track_to_playlist_default = defineTool9({
   name: "add_track_to_playlist",
   title: "Add track to playlist",
-  description: "Add a track to one of the signed-in user's playlists. RLS ensures the playlist must belong to the user.",
+  description:
+    "Add a track to one of the signed-in user's playlists. RLS ensures the playlist must belong to the user.",
   inputSchema: {
     playlist_id: z7.string().uuid().describe("Target playlist UUID (must be owned by the user)."),
-    track_id: z7.string().uuid().describe("Track UUID to add.")
+    track_id: z7.string().uuid().describe("Track UUID to add."),
   },
   annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: false, openWorldHint: false },
   handler: async ({ playlist_id, track_id }, ctx) => {
@@ -260,7 +301,7 @@ var add_track_to_playlist_default = defineTool9({
     }
     const supabase = createClient9(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
     const { error } = await supabase.from("playlist_tracks").insert({ playlist_id, track_id });
     if (error && !error.message.toLowerCase().includes("duplicate")) {
@@ -268,9 +309,9 @@ var add_track_to_playlist_default = defineTool9({
     }
     return {
       content: [{ type: "text", text: `Added track ${track_id} to playlist ${playlist_id}` }],
-      structuredContent: { playlist_id, track_id, added: true }
+      structuredContent: { playlist_id, track_id, added: true },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/remove-track-from-playlist.ts
@@ -283,7 +324,7 @@ var remove_track_from_playlist_default = defineTool10({
   description: "Remove a track from a user-owned playlist. RLS enforces ownership.",
   inputSchema: {
     playlist_id: z8.string().uuid().describe("Target playlist UUID."),
-    track_id: z8.string().uuid().describe("Track UUID to remove.")
+    track_id: z8.string().uuid().describe("Track UUID to remove."),
   },
   annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: true, openWorldHint: false },
   handler: async ({ playlist_id, track_id }, ctx) => {
@@ -292,15 +333,19 @@ var remove_track_from_playlist_default = defineTool10({
     }
     const supabase = createClient10(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { error } = await supabase.from("playlist_tracks").delete().eq("playlist_id", playlist_id).eq("track_id", track_id);
+    const { error } = await supabase
+      .from("playlist_tracks")
+      .delete()
+      .eq("playlist_id", playlist_id)
+      .eq("track_id", track_id);
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: `Removed track ${track_id} from playlist ${playlist_id}` }],
-      structuredContent: { playlist_id, track_id, removed: true }
+      structuredContent: { playlist_id, track_id, removed: true },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/get-track-stems.ts
@@ -310,23 +355,24 @@ import { z as z9 } from "npm:zod@^4.4.3";
 var get_track_stems_default = defineTool11({
   name: "get_track_stems",
   title: "Get track stems",
-  description: "Fetch stems (vocals, drums, bass, other) for a track. Returns stems only if the track is public or belongs to the signed-in user.",
+  description:
+    "Fetch stems (vocals, drums, bass, other) for a track. Returns stems only if the track is public or belongs to the signed-in user.",
   inputSchema: {
-    track_id: z9.string().uuid().describe("UUID of the track.")
+    track_id: z9.string().uuid().describe("UUID of the track."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ track_id }, ctx) => {
     const supabase = createClient11(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: ctx.isAuthenticated() ? { headers: { Authorization: `Bearer ${ctx.getToken()}` } } : {},
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
     const { data, error } = await supabase.from("track_stems").select("*").eq("track_id", track_id);
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
-      structuredContent: { track_id, stems: data ?? [] }
+      structuredContent: { track_id, stems: data ?? [] },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/list-track-versions.ts
@@ -338,21 +384,25 @@ var list_track_versions_default = defineTool12({
   title: "List track versions",
   description: "List all A/B versions for a track with version_label, is_primary, audio_url and metadata.",
   inputSchema: {
-    track_id: z10.string().uuid().describe("UUID of the track.")
+    track_id: z10.string().uuid().describe("UUID of the track."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ track_id }, ctx) => {
     const supabase = createClient12(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: ctx.isAuthenticated() ? { headers: { Authorization: `Bearer ${ctx.getToken()}` } } : {},
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("track_versions").select("*").eq("track_id", track_id).order("clip_index", { ascending: true });
+    const { data, error } = await supabase
+      .from("track_versions")
+      .select("*")
+      .eq("track_id", track_id)
+      .order("clip_index", { ascending: true });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
-      structuredContent: { track_id, versions: data ?? [] }
+      structuredContent: { track_id, versions: data ?? [] },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/switch-active-version.ts
@@ -362,10 +412,11 @@ import { z as z11 } from "npm:zod@^4.4.3";
 var switch_active_version_default = defineTool13({
   name: "switch_active_version",
   title: "Switch active track version",
-  description: "Set which A/B version of a track is active/primary. Updates both tracks.active_version_id and track_versions.is_primary. Only works on tracks owned by the signed-in user (RLS).",
+  description:
+    "Set which A/B version of a track is active/primary. Updates both tracks.active_version_id and track_versions.is_primary. Only works on tracks owned by the signed-in user (RLS).",
   inputSchema: {
     track_id: z11.string().uuid().describe("Track UUID (must be owned by the user)."),
-    version_id: z11.string().uuid().describe("Version UUID to make active/primary.")
+    version_id: z11.string().uuid().describe("Version UUID to make active/primary."),
   },
   annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: false, openWorldHint: false },
   handler: async ({ track_id, version_id }, ctx) => {
@@ -374,24 +425,36 @@ var switch_active_version_default = defineTool13({
     }
     const supabase = createClient13(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data: version, error: verErr } = await supabase.from("track_versions").select("id, track_id").eq("id", version_id).eq("track_id", track_id).maybeSingle();
+    const { data: version, error: verErr } = await supabase
+      .from("track_versions")
+      .select("id, track_id")
+      .eq("id", version_id)
+      .eq("track_id", track_id)
+      .maybeSingle();
     if (verErr) return { content: [{ type: "text", text: verErr.message }], isError: true };
     if (!version) {
       return { content: [{ type: "text", text: "Version not found for this track." }], isError: true };
     }
-    const { error: clearErr } = await supabase.from("track_versions").update({ is_primary: false }).eq("track_id", track_id).neq("id", version_id);
+    const { error: clearErr } = await supabase
+      .from("track_versions")
+      .update({ is_primary: false })
+      .eq("track_id", track_id)
+      .neq("id", version_id);
     if (clearErr) return { content: [{ type: "text", text: clearErr.message }], isError: true };
     const { error: setErr } = await supabase.from("track_versions").update({ is_primary: true }).eq("id", version_id);
     if (setErr) return { content: [{ type: "text", text: setErr.message }], isError: true };
-    const { error: trackErr } = await supabase.from("tracks").update({ active_version_id: version_id }).eq("id", track_id);
+    const { error: trackErr } = await supabase
+      .from("tracks")
+      .update({ active_version_id: version_id })
+      .eq("id", track_id);
     if (trackErr) return { content: [{ type: "text", text: trackErr.message }], isError: true };
     return {
       content: [{ type: "text", text: `Set version ${version_id} as active for track ${track_id}` }],
-      structuredContent: { track_id, active_version_id: version_id }
+      structuredContent: { track_id, active_version_id: version_id },
     };
-  }
+  },
 });
 
 // src/lib/mcp/tools/generate-track.ts
@@ -400,13 +463,14 @@ import { z as z12 } from "npm:zod@^4.4.3";
 var generate_track_default = defineTool14({
   name: "generate_track",
   title: "Generate a new music track",
-  description: "Start an AI music generation job using Suno. Returns a task_id immediately; poll `get_generation_status` for completion. Consumes credits from the signed-in user's balance.",
+  description:
+    "Start an AI music generation job using Suno. Returns a task_id immediately; poll `get_generation_status` for completion. Consumes credits from the signed-in user's balance.",
   inputSchema: {
     prompt: z12.string().trim().min(1).max(2e3).describe("Musical idea, lyrics, or description to generate from."),
     style: z12.string().trim().max(200).optional().describe("Optional style tags, e.g. 'lo-fi, chill, jazz'."),
     title: z12.string().trim().max(120).optional().describe("Optional track title."),
     is_instrumental: z12.boolean().default(false).describe("If true, generate instrumental (no vocals)."),
-    model: z12.enum(["V3_5", "V4", "V4_5", "V5"]).default("V5").describe("Suno model version.")
+    model: z12.enum(["V3_5", "V4", "V4_5", "V5"]).default("V5").describe("Suno model version."),
   },
   annotations: { readOnlyHint: false, idempotentHint: false, destructiveHint: false, openWorldHint: true },
   handler: async ({ prompt, style, title, is_instrumental, model }, ctx) => {
@@ -421,7 +485,7 @@ var generate_track_default = defineTool14({
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-          apikey: process.env.SUPABASE_PUBLISHABLE_KEY
+          apikey: process.env.SUPABASE_PUBLISHABLE_KEY,
         },
         body: JSON.stringify({
           prompt,
@@ -429,14 +493,14 @@ var generate_track_default = defineTool14({
           title: title ?? "",
           instrumental: is_instrumental,
           model,
-          customMode: !!style
-        })
+          customMode: !!style,
+        }),
       });
       const bodyText = await response.text();
       if (!response.ok) {
         return {
           content: [{ type: "text", text: `Generation failed [${response.status}]: ${bodyText}` }],
-          isError: true
+          isError: true,
         };
       }
       let body = {};
@@ -450,16 +514,18 @@ var generate_track_default = defineTool14({
         content: [
           {
             type: "text",
-            text: taskId ? `Generation started. task_id=${taskId}. Poll get_generation_status to check progress (typically 30\u2013120s).` : `Generation submitted. Response: ${bodyText.slice(0, 500)}`
-          }
+            text: taskId
+              ? `Generation started. task_id=${taskId}. Poll get_generation_status to check progress (typically 30\u2013120s).`
+              : `Generation submitted. Response: ${bodyText.slice(0, 500)}`,
+          },
         ],
-        structuredContent: { task_id: taskId, status: "pending", raw: body }
+        structuredContent: { task_id: taskId, status: "pending", raw: body },
       };
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       return { content: [{ type: "text", text: `Network error: ${msg}` }], isError: true };
     }
-  }
+  },
 });
 
 // src/lib/mcp/tools/get-generation-status.ts
@@ -469,9 +535,10 @@ import { z as z13 } from "npm:zod@^4.4.3";
 var get_generation_status_default = defineTool15({
   name: "get_generation_status",
   title: "Get generation task status",
-  description: "Check the status of an in-progress or completed generation job. Returns status, progress, and \u2014 when done \u2014 the created track ids.",
+  description:
+    "Check the status of an in-progress or completed generation job. Returns status, progress, and \u2014 when done \u2014 the created track ids.",
   inputSchema: {
-    task_id: z13.string().min(1).describe("Task id returned by generate_track.")
+    task_id: z13.string().min(1).describe("Task id returned by generate_track."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ task_id }, ctx) => {
@@ -480,28 +547,33 @@ var get_generation_status_default = defineTool15({
     }
     const supabase = createClient14(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
       global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-      auth: { persistSession: false, autoRefreshToken: false }
+      auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data, error } = await supabase.from("generation_tasks").select("*").or(`id.eq.${task_id},external_task_id.eq.${task_id}`).maybeSingle();
+    const { data, error } = await supabase
+      .from("generation_tasks")
+      .select("*")
+      .or(`id.eq.${task_id},external_task_id.eq.${task_id}`)
+      .maybeSingle();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     if (!data) return { content: [{ type: "text", text: `No generation task found for ${task_id}` }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
-      structuredContent: { task: data }
+      structuredContent: { task: data },
     };
-  }
+  },
 });
 
 // src/lib/mcp/index.ts
-var projectRef = "ygmvthybdrqymfsqifmj";
+var projectRef = '"ygmvthybdrqymfsqifmj"';
 var mcp_default = defineMcp({
   name: "musicverse-ai-mcp",
   title: "MusicVerse AI",
   version: "0.3.0",
-  instructions: "Tools for MusicVerse AI \u2014 an AI music creation platform. Public: search_public_tracks, get_track, get_track_stems, list_track_versions. Authenticated (OAuth): list_my_tracks, list_my_playlists, get_my_profile, get_my_credits, like_track, create_playlist, add_track_to_playlist, remove_track_from_playlist, switch_active_version, generate_track (starts a Suno job, consumes credits), get_generation_status (poll a running job).",
+  instructions:
+    "Tools for MusicVerse AI \u2014 an AI music creation platform. Public: search_public_tracks, get_track, get_track_stems, list_track_versions. Authenticated (OAuth): list_my_tracks, list_my_playlists, get_my_profile, get_my_credits, like_track, create_playlist, add_track_to_playlist, remove_track_from_playlist, switch_active_version, generate_track (starts a Suno job, consumes credits), get_generation_status (poll a running job).",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
-    acceptedAudiences: "authenticated"
+    acceptedAudiences: "authenticated",
   }),
   tools: [
     search_public_tracks_default,
@@ -518,8 +590,8 @@ var mcp_default = defineMcp({
     list_track_versions_default,
     switch_active_version_default,
     generate_track_default,
-    get_generation_status_default
-  ]
+    get_generation_status_default,
+  ],
 });
 
 // lovable-mcp-supabase-entry.ts

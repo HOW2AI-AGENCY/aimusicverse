@@ -59,6 +59,7 @@ jobs:
             --exclude-path SPRINTS/completed
             --exclude '^https?://localhost'
             --exclude '^https?://127\.0\.0\.1'
+            --exclude '^https?://t\.me/'
             --exclude 'lovable\.app'
             --exclude 'how2ai\.agency'
             --exclude 'klang\.io'

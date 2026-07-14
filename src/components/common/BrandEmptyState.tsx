@@ -91,9 +91,7 @@ function BrandEmptyStateImpl({
           {title}
         </h3>
 
-        {description && (
-          <p className="mt-2 max-w-sm text-sm text-muted-foreground">{description}</p>
-        )}
+        {description && <p className="mt-2 max-w-sm text-sm text-muted-foreground">{description}</p>}
 
         {hints && hints.length > 0 && (
           <ul className="mt-5 flex flex-wrap justify-center gap-2" aria-label="Идеи для старта">

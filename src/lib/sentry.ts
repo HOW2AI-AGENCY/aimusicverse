@@ -42,7 +42,8 @@ export function initSentry(): void {
         levels: ["warn", "error"],
       }),
       Sentry.replayIntegration({
-        maskAllText: true, maskAllInputs: true,
+        maskAllText: true,
+        maskAllInputs: true,
         blockAllMedia: true,
       }),
     ],

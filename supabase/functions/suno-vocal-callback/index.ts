@@ -39,10 +39,10 @@ serve(async (req) => {
     const rawBody = await req.text();
     const { signature, timestamp } = getSunoSignatureHeaders(req);
     if (!(await verifySunoSignature(rawBody, signature, timestamp))) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Invalid signature" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Invalid signature" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     const payload = JSON.parse(rawBody);
     console.log("🎛️ Received vocal separation callback:", JSON.stringify(payload, null, 2));

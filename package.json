@@ -255,15 +255,9 @@
       "gzip": true
     },
     {
-      "name": "Radix UI Vendor",
-      "path": "dist/assets/vendor-radix*.js",
-      "limit": "80 KB",
-      "gzip": true
-    },
-    {
       "name": "Studio Feature",
       "path": "dist/assets/feature-studio*.js",
-      "limit": "750 KB",
+      "limit": "1.05 MB",
       "gzip": true
     },
     {

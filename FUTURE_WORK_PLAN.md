@@ -1,8 +1,8 @@
 # План дальнейших работ MusicVerse AI
 
-**Дата:** 2026-07-09
-**Статус:** Sprint 063 ✅ + Sprint 064 ✅ (P2 polish: tablet cols, error/retry, More label). tsc 0 errors, 1691 unit tests, 0 circular chunk warnings. Следующий review: 2026-07-13.
-**Фокус:** Remaining P2 items from audit → Edge function decomposition → Bundle size (2.11 MB → ≤1.8 MB)
+**Дата:** 2026-07-14 (сверка расхождений — актуальный операционный план: [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md))
+**Статус:** Sprint 063 ✅ + 064 ✅ закрыты; **Sprint 065 🔄** (Generate v2 + Home Redesign + Visual Regression — в `main`). tsc 0 errors ✅ (верифицировано `npm run typecheck:app`). Бэклог переопределён: 066 Dependency Health → 067 Edge Decomposition → 068 Test/Story → 069 Bundle.
+**Фокус:** Sprint 065 closure → разрешить конфликт зависимостей (`vite@8` ↔ Storybook 8.6) → декомпозиция edge-функций (≥10 файлов >800 LOC) → bundle 2.11 MB → ≤1.8 MB
 
 ---
 
@@ -177,6 +177,11 @@ Week 5 (Aug 4-8):
 | **062** | UI/UX Audit: P0/P1 fixes (A+B ✅), P2 polish (C ✅)  | ✅ ЗАВЕРШЁН |
 | **063** | Homepage UX audit P0/P1 fixes                        | ✅ ЗАВЕРШЁН |
 | **064** | P2 polish (tablet cols, error, More label)           | ✅ ЗАВЕРШЁН |
+| **065** | Generate v2 + Home Redesign + Visual Regression      | 🔄 В РАБОТЕ |
+| **066** | Dependency Health (vite↔storybook) + build hygiene   | ⏳ ПЛАН     |
+| **067** | Edge Functions Decomposition (≥10 файлов >800 LOC)   | ⏳ ПЛАН     |
+| **068** | Test & Story Coverage (Storybook 31→50+, visual reg) | ⏳ ПЛАН     |
+| **069** | Bundle 2.11 MB → ≤1.8 MB + Lighthouse budgets в CI   | ⏳ ПЛАН     |
 
 ---
 
@@ -200,7 +205,5 @@ Week 5 (Aug 4-8):
 
 ---
 
-**Последнее обновление:** 2026-07-09 (Sprint 063 ✅ + Sprint 064 📋)
-**Следующий review:** 2026-07-13
-</content>
-</invoke>
+**Последнее обновление:** 2026-07-14 (Sprint 065 🔄 зафиксирован; бэклог 066–069 переопределён; актуальный операционный план — [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md))
+**Следующий review:** 2026-07-21
