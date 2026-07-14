@@ -188,25 +188,22 @@ export function ProjectsTab({ onProjectSelect, selectedProjectId }: ProjectsTabP
           onProjectSelect={onProjectSelect}
           selectedProjectId={selectedProjectId}
         />
-      ) : (
+      ) : searchQuery ? (
         <EmptyState
-          icon={FolderOpen}
-          title={searchQuery ? "Ничего не найдено" : "Нет проектов"}
-          description={
-            searchQuery ? "Попробуйте изменить поисковый запрос" : "Создайте первый проект для организации ваших треков"
-          }
+          icon={Search}
+          title="Ничего не найдено"
+          description="Попробуйте изменить поисковый запрос"
           variant="compact"
-          actions={
-            !searchQuery
-              ? [
-                  {
-                    label: "Создать проект",
-                    onClick: () => setCreateSheetOpen(true),
-                    icon: Plus,
-                  },
-                ]
-              : undefined
-          }
+        />
+      ) : (
+        <BrandEmptyState
+          icon={FolderOpen}
+          eyebrow="Первый шаг"
+          title="Собери свой первый релиз"
+          description="Проект — это папка для треков одного альбома, EP или сингла. Здесь удобно готовить релиз к публикации."
+          hints={["Сингл за 5 минут", "EP из 4 треков", "Обложка + описание"]}
+          primaryAction={{ label: "Создать проект", onClick: () => setCreateSheetOpen(true), icon: Plus }}
+          secondaryAction={{ label: "Как это работает", onClick: () => window.open("/docs/projects", "_blank") }}
         />
       )}
 
