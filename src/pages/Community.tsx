@@ -259,22 +259,25 @@ export default function Community() {
         }}
       >
         {/* Header */}
-        <motion.header className="mb-6" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 rounded-full glass-card border-primary/20">
-              <Globe className="w-6 h-6 text-primary" />
+        <motion.header className="mb-4 sm:mb-6" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+          <div className="flex items-center gap-2.5 sm:gap-3 mb-2">
+            <div className="p-2 sm:p-3 rounded-full glass-card border-primary/20 shrink-0">
+              <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
             </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-lg sm:text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent leading-tight truncate">
                 Сообщество
               </h1>
-              <p className="text-sm text-muted-foreground">Открывайте музыку и артистов со всего мира</p>
+              <p className="text-[11px] sm:text-sm text-muted-foreground leading-snug truncate">
+                Музыка и артисты со всего мира
+              </p>
             </div>
 
             {/* View mode toggle */}
-            <ViewModeToggle viewMode={viewMode} onChange={setViewMode} className="ml-auto" />
+            <ViewModeToggle viewMode={viewMode} onChange={setViewMode} className="ml-auto shrink-0" />
           </div>
         </motion.header>
+
 
         {/* Search */}
         {/* Active tag indicator */}

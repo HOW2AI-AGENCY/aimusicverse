@@ -45,7 +45,7 @@ function BrandEmptyStateImpl({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-6 sm:p-8 text-center",
+        "relative overflow-hidden rounded-2xl sm:rounded-3xl border border-primary/15 bg-gradient-to-br from-primary/10 via-background to-background p-4 sm:p-8 text-center",
         className,
       )}
       role="region"
@@ -54,30 +54,30 @@ function BrandEmptyStateImpl({
       {/* mint glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full"
+        className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 sm:h-40 sm:w-40 rounded-full"
         style={{ background: "#22E4A7", filter: "blur(70px)", opacity: 0.18 }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-12 -bottom-12 h-40 w-40 rounded-full"
+        className="pointer-events-none absolute -left-12 -bottom-12 h-32 w-32 sm:h-40 sm:w-40 rounded-full"
         style={{ background: "#7C5CFF", filter: "blur(70px)", opacity: 0.22 }}
       />
 
       <div className="relative z-10 mx-auto flex max-w-md flex-col items-center">
         {/* Brand anchor */}
         <div
-          className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl shadow-[0_10px_40px_rgba(124,92,255,0.35)]"
+          className="mb-3 sm:mb-5 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-xl sm:rounded-2xl shadow-[0_10px_40px_rgba(124,92,255,0.35)]"
           style={{
             background: "linear-gradient(135deg, #7C5CFF 0%, #22E4A7 100%)",
           }}
           aria-hidden
         >
-          <Icon className="h-8 w-8 text-[#0A0B14]" />
+          <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-[#0A0B14]" />
         </div>
 
         {eyebrow && (
           <p
-            className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-primary"
+            className="mb-1.5 sm:mb-2 text-[10px] font-bold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-primary"
             style={{ fontFamily: BRICOLAGE }}
           >
             {eyebrow}
@@ -85,20 +85,25 @@ function BrandEmptyStateImpl({
         )}
 
         <h3
-          className="text-xl sm:text-2xl font-bold text-foreground"
+          className="text-base sm:text-2xl font-bold text-foreground leading-tight text-balance"
           style={{ fontFamily: BRICOLAGE, letterSpacing: "-0.01em" }}
         >
           {title}
         </h3>
 
-        {description && <p className="mt-2 max-w-sm text-sm text-muted-foreground">{description}</p>}
+        {description && (
+          <p className="mt-1.5 sm:mt-2 max-w-sm text-xs sm:text-sm text-muted-foreground leading-snug text-balance">
+            {description}
+          </p>
+        )}
+
 
         {hints && hints.length > 0 && (
-          <ul className="mt-5 flex flex-wrap justify-center gap-2" aria-label="Идеи для старта">
+          <ul className="mt-3 sm:mt-5 flex flex-wrap justify-center gap-1.5 sm:gap-2" aria-label="Идеи для старта">
             {hints.map((hint) => (
               <li
                 key={hint}
-                className="rounded-full border border-border/60 bg-background/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm"
+                className="rounded-full border border-border/60 bg-background/60 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs text-muted-foreground backdrop-blur-sm"
               >
                 {hint}
               </li>
@@ -106,8 +111,9 @@ function BrandEmptyStateImpl({
           </ul>
         )}
 
+
         {(primaryAction || secondaryAction) && (
-          <div className="mt-6 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-center gap-2 w-full sm:w-auto">
+          <div className="mt-4 sm:mt-6 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-center gap-2 w-full sm:w-auto">
             {secondaryAction && (
               <button
                 type="button"
