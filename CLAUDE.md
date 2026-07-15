@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **State Management:** Zustand 5.0 (global) + TanStack Query 5.90 (server state)
 - **Audio Processing:** Tone.js 14.9, Wavesurfer.js 7.8
 - **Telegram Integration:** @twa-dev/sdk 8.0.2
-- **Testing:** Vitest 4.x (unit), Playwright 1.57 (E2E)
+- **Testing:** Vitest 4.x (unit), Playwright 1.61 (E2E)
 
 ## Development Commands
 
@@ -56,17 +56,17 @@ The application follows a layered architecture:
 
 ```
 ┌─────────────────────────────────────────────┐
-│  Pages (76)                                 │  Route-level components with lazy loading
+│  Pages (74)                                 │  Route-level components with lazy loading
 ├─────────────────────────────────────────────┤
-│  Components (1136)                          │  Feature-specific & UI components
+│  Components (~1043)                         │  Feature-specific & UI components
 ├─────────────────────────────────────────────┤
-│  Hooks (419)                                │  Reusable React logic
+│  Hooks (440)                                │  Reusable React logic
 ├─────────────────────────────────────────────┤
-│  Services (56)                              │  Business logic & data transformation
+│  Services (37)                              │  Business logic & data transformation
 ├─────────────────────────────────────────────┤
-│  API Layer (24)                             │  Direct Supabase queries
+│  API Layer (30)                             │  Direct Supabase queries
 ├─────────────────────────────────────────────┤
-│  Stores (27 Zustand)                        │  Global state (player, studio, lyrics)
+│  Stores (24 Zustand)                        │  Global state (player, studio, lyrics)
 └─────────────────────────────────────────────┘
 ```
 
@@ -79,11 +79,11 @@ The application follows a layered architecture:
 
 ### Critical Directory Purposes
 
-- **`src/api/`** (24 files) - Direct Supabase database operations, type-safe queries
-- **`src/services/`** (56 files) - Business logic layer, data transformation, complex operations
-- **`src/hooks/`** (419 files) - Custom React hooks for UI logic and state management
-- **`src/stores/`** (27 files) - Zustand stores for complex global state (player, unified studio, lyrics)
-- **`src/components/`** (1136 files) - React components organized by feature
+- **`src/api/`** (30 files) - Direct Supabase database operations, type-safe queries
+- **`src/services/`** (37 files) - Business logic layer, data transformation, complex operations
+- **`src/hooks/`** (440 files) - Custom React hooks for UI logic and state management
+- **`src/stores/`** (24 stores) - Zustand stores for complex global state (player, unified studio, lyrics)
+- **`src/components/`** (~1043 files) - React components organized by feature
   - `ui/` - shadcn/ui base components + custom components (LazyImage, GlowButton, etc.)
   - `player/` - Audio player (CompactPlayer, ExpandedPlayer, MobileFullscreenPlayer)
   - `generate-form/` - Music generation form modules
@@ -505,11 +505,11 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: **051 ✅ Complete** (Test Debt Phase A-C: god-file decomposition 9/9 done + API/Service тесты), Sprint **055 ✅ Complete** (UX P0/P1 Fixes 13/13), Sprint **056 ✅ Complete** (GenerateSheet Redesign + Storybook), Sprint **053+054 ✅ Complete** (Suno API 28/28 — 100% покрытие). Design-review проведён 2026-07-06 (Score C+, AI Slop B). План на 2-4 недели — [FUTURE_WORK_PLAN.md](FUTURE_WORK_PLAN.md).
+- Sprint: **065 🔄 In progress** (Generate v2 + Home Redesign + Visual Regression). Recent: Sprint **056 ✅** (GenerateSheet Redesign + Storybook), **055 ✅** (UX P0/P1 13/13), **053+054 ✅** (Suno API 28/28), **051 ✅** (Test Debt A-C). Security audit 2026-07-13 — all 3 P0 findings (open notification endpoint, unsigned Suno callbacks, unmasked Sentry Replay) ✅ remediated. Canonical plan & backlog (066–069): [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md).
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
-- Components: 1161, Hooks: 434, Stores: 24 (12 top-level + 12 in domain slices under `src/stores/*/`), API files: 30, Services: 37 *.service.ts (12 top-level + 25 in domain subfolders under `src/services/*/`) — recursive `find`/`wc -l` count, verified 2026-07-07 (see [docs/audit/PROGRESS-AUDIT-2026-07-07.md](docs/audit/PROGRESS-AUDIT-2026-07-07.md)). Previous snapshot (1037/413/12/26/12, verified 2026-07-06) undercounted files nested in domain subfolders.
+- Components: ~1043 (`src/components/*.tsx`), Hooks: 440, Stores: 24 (12 top-level + 12 in domain slices under `src/stores/*/`), API files: 30, Services: 37 *.service.ts, Stories: 59 — recursive `find`/`wc -l` count, verified 2026-07-14 (see [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)).
 - Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks. См. [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)
-- Unit Tests: **1497 passing** (125 test files, 123 passed + 2 skipped), E2E: 56 specs
+- Unit Tests: **1810 passing** (166 test files passed + 2 skipped; 4 skipped, 31 todo), E2E: 58 specs — verified 2026-07-14 (`npm test`, vitest 4.1.9)
 - Key Issues: 0 layer-boundary violations, 0/50 `any` budget, **0 файлов >800 LOC в `src/`** (исключая generated types.ts и статический drum-kits.ts) — `supabase/functions/` не входит в этот scope и содержит 11 файлов >800 LOC (до 1871 LOC), не охваченных ни одним sprint'ом, см. [docs/audit/PROGRESS-AUDIT-2026-07-07.md](docs/audit/PROGRESS-AUDIT-2026-07-07.md); tsc 0 errors, rules-of-hooks `"error"`
 - Overall Progress: 99% (49 sprints complete in PROJECT_STATUS; в SPRINT-PROGRESS.md — компактная нумерация до 045)
 
@@ -610,7 +610,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-07-09 (Sprint 050 ✅ Complete; tsc 0 errors; 1525 unit tests; Lighthouse CI added; Branch Protection active)
+**Last Updated:** 2026-07-14 (Sprint 065 🔄 in progress — Generate v2 + Home Redesign + Visual Regression; tsc 0 errors; **1810 unit tests passing**; Storybook stories added for `HomeMobileSynthHero` + `BrandEmptyState`. Canonical plan: [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md))
 
 ## graphify
 
