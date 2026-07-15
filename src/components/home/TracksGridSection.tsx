@@ -105,7 +105,7 @@ export const TracksGridSection = memo(function TracksGridSection({
 
           {/* Auto-load sentinel + fallback button */}
           {hasMore && onLoadMore && (
-            <div ref={sentinelRef} className="flex justify-center pt-3 sm:pt-4" aria-hidden="true">
+            <div ref={sentinelRef} className="flex justify-center pt-3 sm:pt-4">
               <Button
                 variant="outline"
                 size="default"
