@@ -53,22 +53,26 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           aria-label="Статистика аккаунта"
         >
           <div
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#12142B] px-3 py-1.5"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[hsl(var(--synth-surface))] px-3 py-1.5"
             aria-label={`Баланс: ${balance} кредитов`}
           >
-            <span className="h-2 w-2 rounded-full bg-[#7C5CFF]" style={{ boxShadow: "0 0 8px #7C5CFF" }} aria-hidden />
-            <Zap className="h-3 w-3 text-[#B7A6FF]" aria-hidden />
-            <span className="text-[11px] font-medium uppercase tracking-wider text-[#EDEDF5] font-sans">
+            <span
+              className="h-2 w-2 rounded-full bg-[hsl(var(--synth-primary))]"
+              style={{ boxShadow: "0 0 8px hsl(var(--synth-primary))" }}
+              aria-hidden
+            />
+            <Zap className="h-3 w-3 text-[hsl(var(--synth-primary-soft))]" aria-hidden />
+            <span className="text-[11px] font-medium uppercase tracking-wider text-[hsl(var(--synth-text))] font-sans">
               {balance} кредитов
             </span>
           </div>
 
           <div
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#12142B] px-3 py-1.5"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[hsl(var(--synth-surface))] px-3 py-1.5"
             aria-label={`Серия: ${streak} ${streak === 1 ? "день" : "дней"}`}
           >
-            <Flame className="h-3 w-3 text-[#22E4A7]" aria-hidden />
-            <span className="text-[11px] font-medium uppercase tracking-wider text-[#EDEDF5] font-sans">
+            <Flame className="h-3 w-3 text-[hsl(var(--synth-mint))]" aria-hidden />
+            <span className="text-[11px] font-medium uppercase tracking-wider text-[hsl(var(--synth-text))] font-sans">
               {streak} {streak === 1 ? "день" : "дней"}
             </span>
           </div>
@@ -83,7 +87,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
         className="relative overflow-hidden rounded-[28px] p-6"
         style={{
-          background: "linear-gradient(135deg, #7C5CFF 0%, #3B2A8A 100%)",
+          background: "linear-gradient(135deg, hsl(var(--synth-primary)) 0%, hsl(var(--synth-primary-deep)) 100%)",
         }}
         aria-labelledby="synth-hero-title"
       >
@@ -92,7 +96,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           aria-hidden
           className="pointer-events-none absolute -right-6 -top-6 h-32 w-32 rounded-full"
           style={{
-            background: "#22E4A7",
+            background: "hsl(var(--synth-mint))",
             filter: "blur(60px)",
             opacity: 0.3,
           }}
@@ -102,7 +106,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           id="synth-hero-title"
           className="relative z-10 mb-4 text-2xl leading-tight text-white"
           style={{
-            fontFamily: '"Bricolage Grotesque", "Inter", ui-sans-serif, system-ui, sans-serif',
+            fontFamily: "var(--font-display)",
             fontWeight: 700,
             letterSpacing: "-0.01em",
           }}
@@ -124,7 +128,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
             onChange={(e) => setPrompt(e.target.value)}
             placeholder={PROMPT_PLACEHOLDER}
             aria-describedby="synth-hero-hint"
-            className="w-full rounded-2xl border border-white/25 bg-black/40 px-4 py-4 pr-28 text-sm text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-[#22E4A7] focus-visible:ring-2 focus-visible:ring-[#22E4A7]/60"
+            className="w-full rounded-2xl border border-white/25 bg-black/40 px-4 py-4 pr-28 text-sm text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60"
           />
           <span id="synth-hero-hint" className="sr-only">
             Нажмите Enter или кнопку «Создать», чтобы начать генерацию
@@ -132,7 +136,8 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           <button
             type="submit"
             aria-label={prompt.trim() ? `Создать трек: ${prompt.trim()}` : "Открыть форму создания трека"}
-            className="absolute bottom-2 right-2 top-2 inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-[#22E4A7] px-4 text-sm font-bold text-[#0A0B14] shadow-[0_6px_20px_rgba(34,228,167,0.35)] transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+            className="absolute bottom-2 right-2 top-2 inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-[hsl(var(--synth-mint))] px-4 text-sm font-bold text-[hsl(var(--synth-bg))] transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+            style={{ boxShadow: "0 6px 20px hsl(var(--synth-mint) / 0.35)" }}
           >
             Создать
             <ArrowRight className="h-4 w-4" aria-hidden />
@@ -149,28 +154,30 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-          className="group flex w-full items-center gap-4 rounded-3xl border border-white/10 bg-[#12142B] p-4 text-left transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#22E4A7]/60"
+          className="group flex w-full items-center gap-4 rounded-3xl border border-white/10 bg-[hsl(var(--synth-surface))] p-4 text-left transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60"
         >
           <div
             className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl"
             style={{
-              background: "linear-gradient(135deg, #7C5CFF 0%, #22E4A7 100%)",
+              background: "linear-gradient(135deg, hsl(var(--synth-primary)) 0%, hsl(var(--synth-mint)) 100%)",
             }}
             aria-hidden
           >
-            <Music2 className="h-6 w-6 text-[#0A0B14]" />
+            <Music2 className="h-6 w-6 text-[hsl(var(--synth-bg))]" />
           </div>
           <div className="min-w-0 flex-1">
             <p
-              className="truncate text-[10px] uppercase tracking-[0.2em] text-[#B4B6D6]"
-              style={{ fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 700 }}
+              className="truncate text-[10px] uppercase tracking-[0.2em] text-[hsl(var(--synth-text-muted))]"
+              style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
             >
               Продолжи создавать
             </p>
-            <p className="mt-1 truncate text-sm font-semibold text-[#EDEDF5] font-sans">Новая идея ждёт</p>
+            <p className="mt-1 truncate text-sm font-semibold text-[hsl(var(--synth-text))] font-sans">
+              Новая идея ждёт
+            </p>
           </div>
           <ArrowRight
-            className="h-5 w-5 shrink-0 text-[#B4B6D6] transition-transform group-hover:translate-x-0.5"
+            className="h-5 w-5 shrink-0 text-[hsl(var(--synth-text-muted))] transition-transform group-hover:translate-x-0.5"
             aria-hidden
           />
         </motion.button>

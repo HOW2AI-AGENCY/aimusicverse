@@ -16,6 +16,18 @@
   --brand-primary-hover: hsl(155 40% 45%);
   --brand-primary-active: hsl(155 40% 40%);
 
+  /* ── Cyber-synth surface tokens (HomeMobileSynthHero + future cyber-synth surfaces).
+       Raw HSL triplets — use hsl(var(--synth-primary)) or hsl(var(--synth-primary) / 0.3).
+       Locked palette: bg #0A0B14, surface #12142B, primary #7C5CFF, mint #22E4A7. ── */
+  --synth-bg: 234 33% 6%;
+  --synth-surface: 236 41% 12%;
+  --synth-primary: 252 100% 68%;
+  --synth-primary-deep: 251 53% 35%;
+  --synth-mint: 161 78% 51%;
+  --synth-primary-soft: 252 100% 83%;
+  --synth-text: 240 28% 95%;
+  --synth-text-muted: 236 29% 77%;
+
   /* ── Neutral Scale ── */
   --neutral-50: hsl(0 0% 98%);
   --neutral-100: hsl(0 0% 96%);
@@ -43,9 +55,9 @@
   --text-secondary: hsl(var(--muted-foreground));
   --text-tertiary: hsl(var(--muted-foreground) / 0.85);
 
-  /* ── Font Families (Phase A: Inter removed) ── */
-  --font-display: "Space Grotesk", "Unbounded", "DM Sans", system-ui, sans-serif;
-  --font-body: "DM Sans", "Onest", system-ui, sans-serif;
+  /* ── Font Families (Bricolage Grotesque display + DM Sans body, loaded in index.html) ── */
+  --font-display: "Bricolage Grotesque", "DM Sans", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Roboto Mono", ui-monospace, monospace;
   --font-size-xs: calc(12px * var(--text-scale));
   --font-size-sm: calc(14px * var(--text-scale));

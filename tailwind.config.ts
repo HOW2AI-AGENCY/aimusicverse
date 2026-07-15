@@ -41,10 +41,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"DM Sans"', '"Onest"', "system-ui", "sans-serif"],
+        sans: ['"DM Sans"', "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "Roboto Mono", "monospace"],
-        display: ['"Space Grotesk"', '"Unbounded"', '"Onest"', "system-ui", "sans-serif"],
-        body: ['"DM Sans"', '"Onest"', "system-ui", "sans-serif"],
+        display: ['"Bricolage Grotesque"', "system-ui", "sans-serif"],
+        body: ['"DM Sans"', "system-ui", "sans-serif"],
       },
       fontSize: {
         // Professional Typography Scale (from 032-professional-ui spec)
