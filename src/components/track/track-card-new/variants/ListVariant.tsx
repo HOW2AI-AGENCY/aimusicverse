@@ -12,7 +12,10 @@
  */
 
 import { memo, useCallback } from "react";
-import { MoreHorizontal, Play, Pause, Music2 } from "@/lib/icons";
+import { MoreHorizontal, Play, Pause, Music2, Headphones, Heart } from "@/lib/icons";
+
+// ponytail: inline compact count (1.2k); extract a shared formatCount util if more callers appear.
+const formatCount = (n: number): string => (n >= 1000 ? `${(n / 1000).toFixed(1).replace(".0", "")}k` : String(n));
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -50,6 +53,11 @@ export const ListVariant = memo(function ListVariant({
   const { sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet, isOwnTrack } =
     useTrackCardState({ track, onPlay, isPlaying: isPlayingProp });
   const { addTrack } = usePlaybackQueue();
+
+  // Social-proof counts (play_count + likes). Like field name varies across track shapes.
+  const playCount = (track as { play_count?: number }).play_count ?? 0;
+  const likeCount =
+    (track as { likes_count?: number }).likes_count ?? (track as { like_count?: number }).like_count ?? 0;
 
   // Swipe action handlers
   const handleSwipeAddToQueue = useCallback(() => {
@@ -105,7 +113,7 @@ export const ListVariant = memo(function ListVariant({
           <MarqueeTitle title={track.title || "Без названия"} />
         </div>
 
-        {/* Row 2: Type Icons */}
+        {/* Row 2: Type Icons + social-proof counts */}
         <div className="flex items-center gap-1.5 mt-0.5">
           <TrackTypeIcons
             track={track as unknown as Track}
@@ -115,6 +123,22 @@ export const ListVariant = memo(function ListVariant({
             hasPdf={midiStatus?.hasPdf}
             hasGp5={midiStatus?.hasGp5}
           />
+          {(playCount > 0 || likeCount > 0) && (
+            <div className="ml-auto flex items-center gap-2 text-muted-foreground" aria-hidden>
+              {playCount > 0 && (
+                <span className="inline-flex items-center gap-0.5 text-caption tabular-nums">
+                  <Headphones className="h-3 w-3" />
+                  {formatCount(playCount)}
+                </span>
+              )}
+              {likeCount > 0 && (
+                <span className="inline-flex items-center gap-0.5 text-caption tabular-nums">
+                  <Heart className="h-3 w-3" />
+                  {formatCount(likeCount)}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Row 3: Scrollable Tags */}
