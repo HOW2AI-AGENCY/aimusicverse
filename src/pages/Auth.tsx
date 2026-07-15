@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
@@ -46,9 +46,31 @@ const Auth = () => {
 
   // Splash logic removed - handled by index.html + Suspense fallback
 
-  // Auto-authenticate in development mode
+  // Auto-authenticate in development mode.
+  //
+  // Two guards protect this convenience shortcut:
+  //   1. `autoAuthAttempted` (one-shot ref) — the dev sign-in can fail
+  //      (bad creds, offline, CORS). Without a latch the effect re-fires on
+  //      every `isAuthenticating` false→true→false cycle, producing an
+  //      infinite retry storm. Fire at most once; the manual "Войти как Test
+  //      User" button stays available for a retry.
+  //   2. `navigator.webdriver` — under an automated browser (Playwright sets
+  //      this in every engine) the headless Supabase password sign-in is
+  //      CORS-blocked in WebKit and surfaces as an uncaught page error, which
+  //      fails the smoke suite's `pageErrors === []` assertion. E2E runs
+  //      exercise the guest/manual surfaces, so skip auto-auth entirely there.
+  const autoAuthAttempted = useRef(false);
   useEffect(() => {
-    if (isDevelopmentMode && !isAuthenticated && !loading && !isAuthenticating) {
+    const isAutomatedBrowser = typeof navigator !== "undefined" && navigator.webdriver === true;
+    if (
+      isDevelopmentMode &&
+      !isAutomatedBrowser &&
+      !isAuthenticated &&
+      !loading &&
+      !isAuthenticating &&
+      !autoAuthAttempted.current
+    ) {
+      autoAuthAttempted.current = true;
       logger.debug("Auto-authenticating in dev mode...");
       handleAuth();
     }
