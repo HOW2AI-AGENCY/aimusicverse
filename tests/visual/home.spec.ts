@@ -18,7 +18,7 @@ test.describe("Home visual regression", () => {
   for (const bp of BREAKPOINTS) {
     test(`home @ ${bp.name} (${bp.width}x${bp.height})`, async ({ page }) => {
       await page.setViewportSize({ width: bp.width, height: bp.height });
-      await page.goto("/", { waitUntil: "networkidle" });
+      await page.goto("/", { waitUntil: "domcontentloaded" });
 
       // Freeze animations & disable motion for a stable snapshot.
       await page.addStyleTag({
