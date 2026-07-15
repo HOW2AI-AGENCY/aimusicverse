@@ -97,7 +97,6 @@ function BrandEmptyStateImpl({
           </p>
         )}
 
-
         {hints && hints.length > 0 && (
           <ul className="mt-3 sm:mt-5 flex flex-wrap justify-center gap-1.5 sm:gap-2" aria-label="Идеи для старта">
             {hints.map((hint) => (
@@ -110,7 +109,6 @@ function BrandEmptyStateImpl({
             ))}
           </ul>
         )}
-
 
         {(primaryAction || secondaryAction) && (
           <div className="mt-4 sm:mt-6 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-center gap-2 w-full sm:w-auto">
