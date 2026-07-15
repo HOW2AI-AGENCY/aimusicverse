@@ -3,7 +3,6 @@
  */
 
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { Lock, Globe, Crown, HelpCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -36,11 +35,9 @@ export function PrivacyToggle({ isPublic, onIsPublicChange, canMakePrivate = fal
         className,
       )}
     >
-      <div className="flex items-center gap-2">
+      <label htmlFor="privacy-toggle" className="flex items-center gap-2 min-h-[44px] cursor-pointer">
         {isPublic ? <Globe className="w-4 h-4 text-muted-foreground" /> : <Lock className="w-4 h-4 text-primary" />}
-        <Label htmlFor="privacy-toggle" className="text-sm cursor-pointer">
-          {isPublic ? g.form.privacyPublic : g.form.privacyPrivate}
-        </Label>
+        <span className="text-sm">{isPublic ? g.form.privacyPublic : g.form.privacyPrivate}</span>
 
         {/* Help icon */}
         <TooltipProvider delayDuration={200}>
@@ -58,7 +55,7 @@ export function PrivacyToggle({ isPublic, onIsPublicChange, canMakePrivate = fal
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </div>
+      </label>
 
       <div className="flex items-center gap-2">
         {!canMakePrivate && !isPublic && (
