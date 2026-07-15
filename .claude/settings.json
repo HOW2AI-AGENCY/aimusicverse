@@ -2,7 +2,7 @@
   "env": {
     "ANTHROPIC_BASE_URL": "https://rwzzpje.abc-tunnel.us",
     "ANTHROPIC_AUTH_TOKEN": "sk-8519f3ae1e69adf3-ma3t4e-43bd4d9c",
-    "ANTHROPIC_MODEL": "china",
+    "ANTHROPIC_MODEL": "minimax",
     "CLAUDE_CODE_EFFORT_LEVEL": "max",
     "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "262144"
   },

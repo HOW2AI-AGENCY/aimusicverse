@@ -172,7 +172,7 @@
     "@storybook/addon-onboarding": "^8.1.0",
     "@storybook/blocks": "^8.1.0",
     "@storybook/react": "^8.1.0",
-    "@storybook/react-vite": "^8.1.0",
+    "@storybook/react-vite": "^8.6.18",
     "@storybook/test": "^8.1.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "@testing-library/jest-dom": "^6.9.1",

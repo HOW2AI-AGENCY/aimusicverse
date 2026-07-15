@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **MusicVerse AI** is a professional AI-powered music creation platform delivered as a Telegram Mini App. Built with React 19, TypeScript, and Vite, it integrates Suno AI v5 for music generation with extensive editing, mixing, and collaboration features.
 
-- **Technology Stack:** React 19.2 + TypeScript 5.9 + Vite 5.0
+- **Technology Stack:** React 19.2 + TypeScript 5.9 + Vite 8.1
 - **Backend:** Supabase (PostgreSQL + Edge Functions + Storage)
 - **UI Framework:** Tailwind CSS 3.4 + shadcn/ui + Radix UI
 - **State Management:** Zustand 5.0 (global) + TanStack Query 5.90 (server state)
