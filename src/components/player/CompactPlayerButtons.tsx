@@ -53,41 +53,49 @@ export const PlayBtn = memo(function PlayBtn({
   const { t } = useTranslation();
   const iconSize = variant === "desktop" ? "h-6 w-6" : "h-5 w-5";
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={onClick}
-      disabled={isLoading}
-      className={cn(
-        "rounded-full bg-primary/10 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:hover:scale-100",
-        variant === "desktop" ? "h-12 w-12" : "h-11 w-11",
-        TOUCH,
-        hasError && "bg-destructive/15 hover:bg-destructive/25",
+    <span className="relative inline-flex items-center justify-center">
+      {isLoading && !hasError && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -m-1.5 rounded-full border-2 border-primary/50 pulse-ring motion-reduce:hidden"
+        />
       )}
-      aria-label={
-        hasError
-          ? t("player.buttons.errorLabel")
-          : isLoading
-            ? t("player.buttons.loadingLabel")
-            : isPlaying
-              ? t("player.buttons.pauseLabel")
-              : t("player.buttons.playLabel")
-      }
-      aria-busy={isLoading}
-      aria-pressed={isPlaying}
-      title={hasError ? playbackError || t("player.compact.errorFallback") : undefined}
-      data-testid="compact-player-play"
-    >
-      {hasError ? (
-        <AlertCircle className={cn("text-destructive", iconSize)} aria-hidden="true" />
-      ) : isLoading ? (
-        <Loader2 className={cn("animate-spin motion-reduce:animate-none", iconSize)} aria-hidden="true" />
-      ) : isPlaying ? (
-        <Pause className={iconSize} fill="currentColor" aria-hidden="true" />
-      ) : (
-        <Play className={cn("ml-0.5", iconSize)} fill="currentColor" aria-hidden="true" />
-      )}
-    </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={onClick}
+        disabled={isLoading}
+        className={cn(
+          "relative rounded-full bg-primary/10 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:hover:scale-100",
+          variant === "desktop" ? "h-12 w-12" : "h-11 w-11",
+          TOUCH,
+          hasError && "bg-destructive/15 hover:bg-destructive/25",
+        )}
+        aria-label={
+          hasError
+            ? t("player.buttons.errorLabel")
+            : isLoading
+              ? t("player.buttons.loadingLabel")
+              : isPlaying
+                ? t("player.buttons.pauseLabel")
+                : t("player.buttons.playLabel")
+        }
+        aria-busy={isLoading}
+        aria-pressed={isPlaying}
+        title={hasError ? playbackError || t("player.compact.errorFallback") : undefined}
+        data-testid="compact-player-play"
+      >
+        {hasError ? (
+          <AlertCircle className={cn("text-destructive", iconSize)} aria-hidden="true" />
+        ) : isLoading ? (
+          <Loader2 className={cn("animate-spin motion-reduce:animate-none", iconSize)} aria-hidden="true" />
+        ) : isPlaying ? (
+          <Pause className={iconSize} fill="currentColor" aria-hidden="true" />
+        ) : (
+          <Play className={cn("ml-0.5", iconSize)} fill="currentColor" aria-hidden="true" />
+        )}
+      </Button>
+    </span>
   );
 });
 
