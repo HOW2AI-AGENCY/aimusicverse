@@ -79,7 +79,8 @@ export const InviteFriendsCard = memo(function InviteFriendsCard({
               </div>
 
               {/* Action */}
-              <Button size="sm" onClick={handleShare} className="flex-shrink-0 gap-1.5 h-9">
+              {/* ponytail: text hidden below sm → icon-only on mobile, aria-label keeps it named */}
+              <Button size="sm" aria-label="Пригласить" onClick={handleShare} className="flex-shrink-0 gap-1.5 h-9">
                 <Share2 className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Пригласить</span>
               </Button>

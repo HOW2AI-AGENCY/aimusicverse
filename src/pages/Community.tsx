@@ -319,8 +319,12 @@ export default function Community() {
         </motion.div>
 
         {/* Genre Filter Pills */}
+        {/* ponytail: scrollable chip row — tabIndex makes it keyboard-scrollable; chips should be real <button> for full nav (upgrade) */}
         <motion.div
           className="flex gap-2 overflow-x-auto pb-4 mb-4 scrollbar-hide -mx-4 px-4"
+          tabIndex={0}
+          role="group"
+          aria-label="Жанры"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.15 }}

@@ -9,7 +9,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const HOST = process.env.E2E_DEV_HOST || "127.0.0.1";
-const PORT = process.env.E2E_DEV_PORT || "5173";
+// ponytail: match vite.config.ts server.port (8080) so the auto-started webServer passes its health check.
+const PORT = process.env.E2E_DEV_PORT || "8080";
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || `http://${HOST}:${PORT}`;
 
 export default defineConfig({

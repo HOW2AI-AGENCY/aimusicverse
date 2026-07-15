@@ -77,6 +77,7 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label="Очистить поиск"
                 className="absolute right-1 top-1/2 -translate-y-1/2 h-9 w-9"
                 onClick={handleSearchToggle}
               >
@@ -93,7 +94,13 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
             className="flex-1 flex items-center gap-2"
           >
             {/* Search button - 44x44 touch target */}
-            <Button variant="outline" size="icon" className="h-11 w-11 shrink-0" onClick={handleSearchToggle}>
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Поиск"
+              className="h-11 w-11 shrink-0"
+              onClick={handleSearchToggle}
+            >
               <Search className="w-5 h-5" />
             </Button>
 
@@ -105,6 +112,7 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
               <Button
                 variant={viewMode === "grid" ? "secondary" : "ghost"}
                 size="icon"
+                aria-label="Вид сеткой"
                 className={cn("h-10 w-10 transition-all", viewMode === "grid" && "shadow-sm")}
                 onClick={() => handleViewModeChange("grid")}
               >
@@ -113,6 +121,7 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
               <Button
                 variant={viewMode === "list" ? "secondary" : "ghost"}
                 size="icon"
+                aria-label="Вид списком"
                 className={cn("h-10 w-10 transition-all", viewMode === "list" && "shadow-sm")}
                 onClick={() => handleViewModeChange("list")}
               >
@@ -126,7 +135,12 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
       {/* FAB Create Button - always visible */}
       {!isSearchExpanded && (
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.95 }}>
-          <Button size="icon" className="h-11 w-11 rounded-xl shadow-lg" onClick={handleCreateClick}>
+          <Button
+            size="icon"
+            aria-label="Создать проект"
+            className="h-11 w-11 rounded-xl shadow-lg"
+            onClick={handleCreateClick}
+          >
             <Plus className="w-5 h-5" />
           </Button>
         </motion.div>
