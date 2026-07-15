@@ -1,3 +1,0 @@
-src\stories\assets\youtube.svg
-verification\error.png
-verification\library_page.png

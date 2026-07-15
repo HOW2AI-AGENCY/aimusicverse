@@ -1,1 +1,0 @@
-{"nodes": [{"id": "QUALITY_GATES", "label": "Quality Gates Documentation", "file_type": "documentation", "source_file": "docs/QUALITY_GATES.md", "attributes": {"purpose": "Define quality standards and automated checks", "bundle_limit": "950 KB", "test_coverage_threshold": "70%", "lighthouse_performance": "\u226575%"}}], "edges": [], "hyperedges": []}

@@ -166,3 +166,5 @@ skills-lock.json
 .tokensave/*.db
 .tokensave/*.db-shm
 .tokensave/*.db-wal
+.tokensave/config.json
+chromatic-diag.json

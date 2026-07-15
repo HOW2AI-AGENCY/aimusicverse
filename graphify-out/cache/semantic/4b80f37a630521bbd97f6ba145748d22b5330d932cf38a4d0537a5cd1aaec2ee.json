@@ -1,1 +1,0 @@
-{"nodes": [{"id": "TELEGRAM_BOT_ARCHITECTURE", "label": "Telegram Bot Architecture", "file_type": "documentation", "source_file": "docs/TELEGRAM_BOT_ARCHITECTURE.md", "attributes": {"version": "2.1", "pattern": "Single Message UI with reactive updates", "tech_stack": ["grammY 1.x", "TypeScript 5.x", "Supabase"]}}], "edges": [], "hyperedges": []}

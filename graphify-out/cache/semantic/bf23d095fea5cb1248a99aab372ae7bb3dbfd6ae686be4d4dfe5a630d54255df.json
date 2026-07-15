@@ -1,1 +1,0 @@
-{"nodes": [{"id": "PROJECT_MANAGEMENT", "label": "Project Management Guide", "file_type": "documentation", "source_file": "docs/PROJECT_MANAGEMENT.md", "attributes": {"methodology": "Scrum", "roles": ["Product Owner", "Scrum Master", "Development Team"], "events": ["Sprint Planning", "Daily Standup", "Sprint Review", "Retrospective"]}}], "edges": [], "hyperedges": []}
