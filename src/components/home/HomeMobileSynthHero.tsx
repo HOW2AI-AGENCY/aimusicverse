@@ -157,9 +157,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
                 <Lightbulb className="h-3 w-3" aria-hidden />
                 <span>Идеи</span>
               </button>
-              {isTooShort ? (
-                <span className="text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span>
-              ) : null}
+              {isTooShort ? <span className="text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span> : null}
             </div>
             <span
               id="synth-hero-charcount"
@@ -173,7 +171,12 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
 
           {/* Tips row */}
           {showTips && (
-            <div id="synth-hero-tips" className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Быстрые подсказки">
+            <div
+              id="synth-hero-tips"
+              className="mt-2 flex flex-wrap gap-1.5"
+              role="group"
+              aria-label="Быстрые подсказки"
+            >
               {QUICK_TIPS.map((tip) => (
                 <button
                   key={tip}
@@ -188,7 +191,6 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           )}
         </div>
       </motion.form>
-
 
       {/* Continue creating strip (only when signed in) */}
       {showChips && (
