@@ -1,7 +1,7 @@
 # 🔒 Детальный план устранения рисков и оптимизации Bundle
 
 **Дата:** 2026-07-13  
-**Основание:** Аудит интерфейса и интеграций [INTERFACE_INTEGRATION_AUDIT_2026-07-13.md](docs/audit/INTERFACE_INTEGRATION_AUDIT_2026-07-13.md) + `size-limit` CI failure  
+**Основание:** Аудит интерфейса и интеграций [INTERFACE_INTEGRATION_AUDIT_2026-07-13.md](audit/INTERFACE_INTEGRATION_AUDIT_2026-07-13.md) + `size-limit` CI failure  
 **Цель:** Закрыть 3 HIGH-риска безопасности, оптимизировать bundle до green CI, устранить 5 Medium-рисков.
 
 ---

@@ -94,6 +94,7 @@ storybook-static
 *.png
 verify.cjs
 *.html
+!docs/presentation.html
 
 # Claude Code
 .claude/settings.local.json

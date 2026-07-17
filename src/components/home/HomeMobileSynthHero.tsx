@@ -99,7 +99,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-        className="relative overflow-hidden rounded-[28px] bg-gradient-brand p-6 shadow-glow-generate"
+        className="relative overflow-hidden rounded-[24px] bg-gradient-brand p-4 sm:p-6 shadow-glow-generate"
         aria-labelledby="synth-hero-title"
       >
         {/* mint glow */}
@@ -110,7 +110,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
 
         <h1
           id="synth-hero-title"
-          className="relative z-10 mb-4 text-2xl leading-tight text-white font-display font-bold tracking-tight"
+          className="relative z-10 mb-3 sm:mb-4 text-lg sm:text-2xl leading-tight text-white font-display font-bold tracking-tight"
         >
           {HERO_TITLE}
           <br />
@@ -121,37 +121,48 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           <label htmlFor="synth-hero-prompt" className="sr-only">
             Опиши идею трека
           </label>
-          <input
-            id="synth-hero-prompt"
-            type="text"
-            inputMode="text"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder={PROMPT_PLACEHOLDER}
-            aria-describedby="synth-hero-hint"
-            className="w-full rounded-2xl border border-white/25 bg-black/40 px-4 py-4 pr-28 text-sm text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-mint focus-visible:ring-2 focus-visible:ring-mint/60"
-          />
+          <div className="relative">
+            <input
+              id="synth-hero-prompt"
+              type="text"
+              inputMode="text"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder={PROMPT_PLACEHOLDER}
+              aria-describedby="synth-hero-hint"
+              className="w-full rounded-2xl border border-white/25 bg-black/40 pl-3 pr-[104px] py-3 text-sm text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-mint focus-visible:ring-2 focus-visible:ring-mint/60"
+            />
+            <button
+              type="submit"
+              aria-label={prompt.trim() ? `Создать трек: ${prompt.trim()}` : "Открыть форму создания трека"}
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-9 items-center gap-1 rounded-xl bg-mint px-3 text-xs font-bold text-background shadow-glow transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+            >
+              Создать
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </button>
+          </div>
+
           <div
             id="synth-hero-hint"
-            className="mb-3 mt-2 flex min-h-[1.25rem] items-center justify-between gap-2 text-xs"
+            className="mt-2 flex min-h-[1.25rem] items-center justify-between gap-2 text-[11px] sm:text-xs"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 min-w-0">
               <button
                 type="button"
                 onClick={() => setShowTips((s) => !s)}
                 aria-expanded={showTips}
                 aria-controls="synth-hero-tips"
-                className="inline-flex min-h-touch items-center gap-1 rounded-md text-white/60 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                className="inline-flex items-center gap-1 rounded-md text-white/70 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               >
                 <Lightbulb className="h-3 w-3" aria-hidden />
                 <span>Идеи</span>
               </button>
-              {isTooShort ? <span className="text-white/70">Минимум {MIN_PROMPT_LENGTH} символов</span> : null}
+              {isTooShort ? <span className="text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span> : null}
             </div>
             <span
               id="synth-hero-charcount"
               aria-live="polite"
-              className={`shrink-0 font-mono tabular-nums ${isNearLimit ? "text-mint" : "text-white/40"}`}
+              className={`shrink-0 font-mono tabular-nums ${isNearLimit ? "text-mint" : "text-white/50"}`}
             >
               {charCount}
               {charCount >= MIN_PROMPT_LENGTH ? `/${RECOMMENDED_LENGTH}` : ""}
@@ -160,28 +171,24 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
 
           {/* Tips row */}
           {showTips && (
-            <div id="synth-hero-tips" className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Быстрые подсказки">
+            <div
+              id="synth-hero-tips"
+              className="mt-2 flex flex-wrap gap-1.5"
+              role="group"
+              aria-label="Быстрые подсказки"
+            >
               {QUICK_TIPS.map((tip) => (
                 <button
                   key={tip}
                   type="button"
                   onClick={() => handleTipClick(tip)}
-                  className="inline-flex min-h-touch items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[11px] text-white/80 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                  className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[11px] text-white/85 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 >
                   {tip}
                 </button>
               ))}
             </div>
           )}
-
-          <button
-            type="submit"
-            aria-label={prompt.trim() ? `Создать трек: ${prompt.trim()}` : "Открыть форму создания трека"}
-            className="absolute bottom-2 right-2 top-2 inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-mint px-4 text-sm font-bold text-background shadow-glow transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-          >
-            Создать
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </button>
         </div>
       </motion.form>
 
