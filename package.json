@@ -24,6 +24,7 @@
     "test:visual:update": "playwright test tests/e2e/visual.section.spec.ts --project=chromium --update-snapshots",
     "test:visual:home": "playwright test -c playwright.visual.config.ts",
     "test:visual:home:update": "playwright test -c playwright.visual.config.ts --update-snapshots",
+    "test:responsive": "playwright test -c playwright.visual.config.ts tests/visual/responsive-audit.spec.ts",
     "e2e:wait-server": "node scripts/wait-for-dev-server.mjs",
     "test:e2e:hints:wait": "npm run e2e:wait-server && npm run test:e2e:hints",
     "test:e2e:hints:update": "npm run e2e:wait-server && npx playwright test tests/e2e/hints*.spec.ts --update-snapshots --reporter=list",
