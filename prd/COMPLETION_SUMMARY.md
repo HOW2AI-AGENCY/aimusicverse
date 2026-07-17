@@ -12,7 +12,7 @@
 
 ### Technology Stack
 
-- **Frontend:** React 19.2 + TypeScript 5.9 + Vite 5.0
+- **Frontend:** React 19.2 + TypeScript 5.9 + Vite 6.4.3
 - **Backend:** Supabase (PostgreSQL + Edge Functions)
 - **UI:** Tailwind CSS 3.4 + shadcn/ui + Radix UI
 - **State:** Zustand 5.0 + TanStack Query 5.90

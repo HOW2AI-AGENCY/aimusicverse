@@ -31,7 +31,7 @@
 ### Ключевые Характеристики
 
 - **Платформа:** Telegram Mini App (веб-среда внутри Telegram)
-- **Технологический стек:** React 19.2 + TypeScript 5.9 + Vite 5.0
+- **Технологический стек:** React 19.2 + TypeScript 5.9 + Vite 6.4.3
 - **UI библиотека:** Tailwind CSS 3.4 + shadcn/ui + Radix UI
 - **Управление состоянием:** Zustand 5.0 (глобальное) + TanStack Query 5.90 (серверное)
 - **Аудио обработка:** Tone.js 14.9, Wavesurfer.js 7.8

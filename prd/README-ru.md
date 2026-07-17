@@ -3,7 +3,7 @@
 > 📅 **Создано:** 27.06.2026  
 > 📊 **Версия:** 2.0 (расширенная)  
 > 🌐 **Язык:** Русский  
-> 🏗️ **Framework:** React 19.2 + TypeScript 5.9 + Vite 5.0  
+> 🏗️ **Framework:** React 19.2 + TypeScript 5.9 + Vite 6.4.3  
 > 💾 **Backend:** Supabase (PostgreSQL + Edge Functions)  
 > 📱 **Платформа:** Telegram Mini App
 
@@ -113,7 +113,7 @@
 
 | Слой               | Технология                                 | Назначение               |
 | ------------------ | ------------------------------------------ | ------------------------ |
-| **Frontend**       | React 19.2 + TypeScript 5.9 + Vite 5.0     | UI фреймворк, компиляция |
+| **Frontend**       | React 19.2 + TypeScript 5.9 + Vite 6.4.3   | UI фреймворк, компиляция |
 | **UI Library**     | Tailwind CSS 3.4 + shadcn/ui + Radix UI    | Компоненты, стили        |
 | **State**          | Zustand 5.0 (global) + TanStack Query 5.90 | Состояние приложения     |
 | **Audio**          | Tone.js 14.9, Wavesurfer.js 7.8            | Обработка аудио          |

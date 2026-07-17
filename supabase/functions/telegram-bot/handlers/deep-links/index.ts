@@ -1,560 +1,32 @@
 /**
- * Enhanced Deep Links Handler
- * Handles all deep link types with rich previews and analytics
+ * Deep links router.
+ * Complex handlers extracted to modules; simple one-off cases stay inline.
  */
-
-import { getSupabaseClient } from "../core/supabase-client.ts";
-import { sendMessage, sendPhoto, sendAudio } from "../telegram-api.ts";
+import { sendMessage } from "../telegram-api.ts";
 import { ButtonBuilder } from "../utils/button-builder.ts";
-import { buildMessage, createProgressBar } from "../utils/message-formatter.ts";
-import { BOT_CONFIG, SUPPORT_URL, NEWS_CHANNEL_URL } from "../config.ts";
-import { trackMessage } from "../utils/message-manager.ts";
+import { buildMessage } from "../utils/message-formatter.ts";
+import { BOT_CONFIG, NEWS_CHANNEL_URL, SUPPORT_URL } from "../config.ts";
 import { getMenuImage } from "../keyboards/menu-images.ts";
 import { logger } from "../utils/index.ts";
 import { parseDeepLink, type DeepLinkType } from "../_shared/deeplink-parser.ts";
+import { handleTrackDeepLink } from "./track.ts";
+import { handleProjectDeepLink } from "./project.ts";
+import { handleArtistDeepLink } from "./artist.ts";
+import { handleQuickGenDeepLink } from "./quickgen.ts";
+import { handlePaymentDeepLink } from "./payment.ts";
+import { handleProfileDeepLink } from "./profile.ts";
+import { handleInviteDeepLink } from "./invite.ts";
+import { handleLeaderboardDeepLink } from "./leaderboard.ts";
+import { handleAchievementsDeepLink } from "./achievements.ts";
+import { handleAnalyzeDeepLink } from "./analyze.ts";
+import { trackDeepLinkAnalytics } from "./deep-link-analytics.ts";
 
-const supabase = getSupabaseClient();
-
-interface DeepLinkResult {
+export interface DeepLinkResult {
   handled: boolean;
   type?: DeepLinkType;
   entityId?: string;
 }
 
-/**
- * Track deep link analytics
- */
-async function trackDeepLinkAnalytics(
-  type: DeepLinkType,
-  value: string,
-  userId: number,
-  converted: boolean = false,
-): Promise<void> {
-  try {
-    await supabase.from("deeplink_analytics").insert({
-      deeplink_type: type,
-      deeplink_value: value,
-      telegram_user_id: userId,
-      source: "telegram_bot",
-      converted,
-      metadata: { timestamp: new Date().toISOString() },
-    });
-  } catch (error) {
-    logger.error("Failed to track deep link analytics", error);
-  }
-}
-
-/**
- * Handle track deep link with rich preview
- */
-async function handleTrackDeepLink(chatId: number, userId: number, trackId: string): Promise<void> {
-  // Fetch track details
-  const { data: track } = await supabase
-    .from("tracks")
-    .select("id, title, style, audio_url, cover_url, duration_seconds, likes_count, play_count, user_id")
-    .eq("id", trackId)
-    .single();
-
-  if (!track) {
-    await sendMessage(chatId, "❌ Трек не найден или был удалён", undefined, null);
-    return;
-  }
-
-  // Get creator info
-  const { data: creator } = await supabase
-    .from("profiles")
-    .select("username, display_name, photo_url")
-    .eq("user_id", track.user_id)
-    .single();
-
-  const creatorName = creator?.display_name || creator?.username || "Unknown";
-  const duration = track.duration_seconds
-    ? `${Math.floor(track.duration_seconds / 60)}:${(track.duration_seconds % 60).toString().padStart(2, "0")}`
-    : "—";
-
-  const caption = buildMessage({
-    title: track.title || "Без названия",
-    emoji: "🎵",
-    description: track.style || "AI Generated Track",
-    sections: [
-      {
-        title: "Информация",
-        content: `👤 ${creatorName}\n⏱ ${duration} │ ❤️ ${track.likes_count || 0} │ ▶️ ${track.play_count || 0}`,
-        emoji: "📊",
-      },
-    ],
-  });
-
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Открыть трек",
-      emoji: "🎵",
-      action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}?startapp=track_${trackId}` },
-    })
-    .addRow(
-      {
-        text: "В студию",
-        emoji: "🎛️",
-        action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}/studio/${trackId}` },
-      },
-      {
-        text: "Ремикс",
-        emoji: "🔄",
-        action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}/generate?remix=${trackId}` },
-      },
-    )
-    .addButton({
-      text: "Главное меню",
-      emoji: "🏠",
-      action: { type: "callback", data: "nav_main" },
-    })
-    .build();
-
-  // Send with cover if available
-  if (track.cover_url) {
-    await sendPhoto(chatId, track.cover_url, { caption, replyMarkup: keyboard });
-  } else {
-    const menuImage = await getMenuImage("library");
-    await sendPhoto(chatId, menuImage, { caption, replyMarkup: keyboard });
-  }
-
-  await trackDeepLinkAnalytics("track", trackId, userId, true);
-}
-
-/**
- * Handle project deep link with enhanced preview
- */
-async function handleProjectDeepLink(chatId: number, userId: number, projectId: string): Promise<void> {
-  const { data: project } = await supabase
-    .from("music_projects")
-    .select("id, title, description, cover_url, genre, mood, status, project_type, user_id, created_at")
-    .eq("id", projectId)
-    .single();
-
-  if (!project) {
-    await sendMessage(chatId, "❌ Проект не найден или был удалён", undefined, null);
-    return;
-  }
-
-  // Get track count and progress
-  const { data: projectTracks, count: trackCount } = await supabase
-    .from("project_tracks")
-    .select("id, track_id", { count: "exact" })
-    .eq("project_id", projectId);
-
-  const completedTracks = projectTracks?.filter((t) => t.track_id).length || 0;
-  const totalTracks = trackCount || 0;
-  const progress = totalTracks > 0 ? Math.round((completedTracks / totalTracks) * 100) : 0;
-
-  // Get creator info
-  const { data: creator } = await supabase
-    .from("profiles")
-    .select("username, display_name")
-    .eq("user_id", project.user_id)
-    .single();
-
-  const creatorName = creator?.display_name || creator?.username || "Unknown";
-
-  // Status and type labels
-  const statusLabels: Record<string, string> = {
-    draft: "📝 Черновик",
-    in_progress: "🔄 В работе",
-    completed: "✅ Завершён",
-    released: "🚀 Выпущен",
-    published: "🌐 Опубликован",
-  };
-
-  const typeLabels: Record<string, string> = {
-    single: "🎵 Сингл",
-    ep: "💿 EP",
-    album: "📀 Альбом",
-    mixtape: "🎚️ Микстейп",
-  };
-
-  const status = statusLabels[project.status || "draft"] || "📝 Черновик";
-  const type = typeLabels[project.project_type || "single"] || "🎵 Сингл";
-
-  // Build progress bar
-  const progressBar = "█".repeat(Math.round(progress / 10)) + "░".repeat(10 - Math.round(progress / 10));
-
-  const caption = buildMessage({
-    title: project.title || "Проект",
-    emoji: "📁",
-    description: project.description || "Музыкальный проект",
-    sections: [
-      {
-        title: "Детали",
-        content: `${type} • ${status}\n👤 ${creatorName}`,
-        emoji: "📋",
-      },
-      {
-        title: "Прогресс",
-        content: `${progressBar} ${progress}%\n🎵 ${completedTracks}/${totalTracks} треков готово`,
-        emoji: "📊",
-      },
-      ...(project.genre || project.mood
-        ? [
-            {
-              title: "Стиль",
-              content: [project.genre, project.mood].filter(Boolean).join(" • "),
-              emoji: "🎵",
-            },
-          ]
-        : []),
-    ],
-  });
-
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Открыть проект",
-      emoji: "📁",
-      action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}?startapp=project_${projectId}` },
-    })
-    .addRow(
-      {
-        text: "Треки",
-        emoji: "🎵",
-        action: { type: "callback", data: `project_tracks_${projectId}` },
-      },
-      {
-        text: "Поделиться",
-        emoji: "📤",
-        action: { type: "callback", data: `project_share_${projectId}` },
-      },
-    )
-    .addButton({
-      text: "Главное меню",
-      emoji: "🏠",
-      action: { type: "callback", data: "nav_main" },
-    })
-    .build();
-
-  // Send with cover if available
-  const defaultCover = "https://ygmvthybdrqymfsqifmj.supabase.co/storage/v1/object/public/bot-assets/project-cover.png";
-  const coverUrl = project.cover_url || defaultCover;
-
-  try {
-    await sendPhoto(chatId, coverUrl, { caption, replyMarkup: keyboard });
-  } catch (e) {
-    // Fallback if cover fails
-    const menuImage = await getMenuImage("projects");
-    await sendPhoto(chatId, menuImage, { caption, replyMarkup: keyboard });
-  }
-
-  await trackDeepLinkAnalytics("project", projectId, userId, true);
-}
-
-/**
- * Handle artist deep link
- */
-async function handleArtistDeepLink(chatId: number, userId: number, artistId: string): Promise<void> {
-  const { data: artist } = await supabase
-    .from("artists")
-    .select("id, name, bio, avatar_url, genre_tags, is_ai_generated")
-    .eq("id", artistId)
-    .single();
-
-  if (!artist) {
-    await sendMessage(chatId, "❌ Артист не найден", undefined, null);
-    return;
-  }
-
-  const caption = buildMessage({
-    title: artist.name,
-    emoji: artist.is_ai_generated ? "🤖" : "👤",
-    description: artist.bio || "AI Artist",
-    sections: artist.genre_tags?.length
-      ? [
-          {
-            title: "Жанры",
-            content: artist.genre_tags.join(", "),
-            emoji: "🎵",
-          },
-        ]
-      : [],
-  });
-
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Открыть артиста",
-      emoji: "👤",
-      action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}/artists/${artistId}` },
-    })
-    .addButton({
-      text: "Главное меню",
-      emoji: "🏠",
-      action: { type: "callback", data: "nav_main" },
-    })
-    .build();
-
-  if (artist.avatar_url) {
-    await sendPhoto(chatId, artist.avatar_url, { caption, replyMarkup: keyboard });
-  } else {
-    await sendMessage(chatId, caption, keyboard, "MarkdownV2");
-  }
-
-  await trackDeepLinkAnalytics("artist", artistId, userId, true);
-}
-
-/**
- * Handle quick generation deep link
- */
-async function handleQuickGenDeepLink(chatId: number, userId: number, style: string): Promise<void> {
-  const styleEmojis: Record<string, string> = {
-    rock: "🎸",
-    pop: "🎹",
-    electronic: "🎧",
-    hiphop: "🎤",
-    jazz: "🎺",
-    classical: "🎻",
-    ambient: "🌙",
-    lofi: "☕",
-    metal: "🤘",
-    rnb: "💜",
-    folk: "🪕",
-    country: "🤠",
-  };
-
-  const emoji = styleEmojis[style.toLowerCase()] || "🎵";
-
-  const caption = buildMessage({
-    title: `Быстрая генерация: ${style}`,
-    emoji,
-    description: "Нажмите кнопку для мгновенной генерации трека в выбранном стиле",
-    sections: [
-      {
-        title: "Или настройте детали",
-        content: "Откройте генератор для точной настройки стиля, темпа и других параметров",
-        emoji: "⚙️",
-      },
-    ],
-  });
-
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Генерировать сейчас",
-      emoji: "🚀",
-      action: { type: "callback", data: `confirm_quick_gen_${style.toLowerCase()}` },
-    })
-    .addButton({
-      text: "Настроить детали",
-      emoji: "⚙️",
-      action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}/generate?style=${encodeURIComponent(style)}` },
-    })
-    .addButton({
-      text: "Главное меню",
-      emoji: "🏠",
-      action: { type: "callback", data: "nav_main" },
-    })
-    .build();
-
-  await sendMessage(chatId, caption, keyboard, "MarkdownV2");
-  await trackDeepLinkAnalytics("quick", style, userId);
-}
-
-/**
- * Handle payment/credits deep link
- */
-async function handlePaymentDeepLink(
-  chatId: number,
-  userId: number,
-  type: "buy" | "credits" | "subscribe",
-  productCode?: string,
-): Promise<void> {
-  // Build payment URL with optional product pre-selection
-  let paymentUrl = `${BOT_CONFIG.miniAppUrl}/payment`;
-  if (productCode) {
-    paymentUrl += `?product=${encodeURIComponent(productCode)}`;
-  } else if (type === "credits") {
-    paymentUrl += "?select=popular";
-  }
-
-  const caption = buildMessage({
-    title: "Пополнение кредитов",
-    emoji: "💳",
-    description: "Оплата банковской картой через защищённое соединение",
-    sections: [
-      {
-        title: "Как работают кредиты",
-        content: "3 кредита = 1 AI-трек • 1 кредит = разделение на стемы",
-        emoji: "⚡",
-      },
-      {
-        title: "Безопасность",
-        content: "PCI DSS сертификация • 3D-Secure • Мгновенное зачисление",
-        emoji: "🔒",
-      },
-    ],
-  });
-
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Открыть магазин",
-      emoji: "💳",
-      action: { type: "webapp", url: paymentUrl },
-    })
-    .addButton({
-      text: "Главное меню",
-      emoji: "🏠",
-      action: { type: "callback", data: "nav_main" },
-    })
-    .build();
-
-  await sendMessage(chatId, caption, keyboard, "MarkdownV2");
-  await trackDeepLinkAnalytics(type, productCode || "", userId);
-}
-
-/**
- * Handle profile deep link
- */
-async function handleProfileDeepLink(chatId: number, userId: number, profileUserId: string): Promise<void> {
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("user_id, username, display_name, photo_url, bio, followers_count, following_count")
-    .eq("user_id", profileUserId)
-    .single();
-
-  if (!profile) {
-    await sendMessage(chatId, "❌ Профиль не найден", undefined, null);
-    return;
-  }
-
-  const caption = buildMessage({
-    title: profile.display_name || profile.username || "Пользователь",
-    emoji: "👤",
-    description: profile.bio || "",
-    sections: [
-      {
-        title: "Статистика",
-        content: `👥 ${profile.followers_count || 0} подписчиков │ ${profile.following_count || 0} подписок`,
-        emoji: "📊",
-      },
-    ],
-  });
-
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Открыть профиль",
-      emoji: "👤",
-      action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}/profile/${profileUserId}` },
-    })
-    .addButton({
-      text: "Главное меню",
-      emoji: "🏠",
-      action: { type: "callback", data: "nav_main" },
-    })
-    .build();
-
-  if (profile.photo_url) {
-    await sendPhoto(chatId, profile.photo_url, { caption, replyMarkup: keyboard });
-  } else {
-    await sendMessage(chatId, caption, keyboard, "MarkdownV2");
-  }
-
-  await trackDeepLinkAnalytics("profile", profileUserId, userId, true);
-}
-
-/**
- * Handle referral/invite deep link
- */
-async function handleInviteDeepLink(chatId: number, userId: number, inviteCode: string): Promise<void> {
-  // Process referral
-  const { data: referrer } = await supabase
-    .from("profiles")
-    .select("user_id, username, display_name")
-    .eq("user_id", inviteCode)
-    .single();
-
-  const referrerName = referrer?.display_name || referrer?.username || "друга";
-
-  const caption = buildMessage({
-    title: "Добро пожаловать в MusicVerse!",
-    emoji: "🎉",
-    description: `Вас пригласил ${referrerName}`,
-    sections: [
-      {
-        title: "Бонус за регистрацию",
-        content: "🎁 +10 кредитов для генерации музыки",
-        emoji: "💰",
-      },
-    ],
-  });
-
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Начать создавать музыку",
-      emoji: "🎵",
-      action: { type: "webapp", url: BOT_CONFIG.miniAppUrl },
-    })
-    .build();
-
-  await sendMessage(chatId, caption, keyboard, "MarkdownV2");
-
-  // Log referral
-  await trackDeepLinkAnalytics("invite", inviteCode, userId, true);
-}
-
-/**
- * Handle leaderboard deep link
- */
-async function handleLeaderboardDeepLink(chatId: number, userId: number): Promise<void> {
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Открыть лидерборд",
-      emoji: "🏆",
-      action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}/leaderboard` },
-    })
-    .addButton({
-      text: "Главное меню",
-      emoji: "🏠",
-      action: { type: "callback", data: "nav_main" },
-    })
-    .build();
-
-  await sendMessage(
-    chatId,
-    "🏆 *Лидерборд MusicVerse*\n\nСоревнуйтесь с другими музыкантами\\!",
-    keyboard,
-    "MarkdownV2",
-  );
-
-  await trackDeepLinkAnalytics("leaderboard", "", userId);
-}
-
-/**
- * Handle achievements deep link
- */
-async function handleAchievementsDeepLink(chatId: number, userId: number): Promise<void> {
-  const keyboard = new ButtonBuilder()
-    .addButton({
-      text: "Мои достижения",
-      emoji: "🏅",
-      action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}/achievements` },
-    })
-    .addButton({
-      text: "Главное меню",
-      emoji: "🏠",
-      action: { type: "callback", data: "nav_main" },
-    })
-    .build();
-
-  await sendMessage(chatId, "🏅 *Достижения*\n\nОткройте все достижения и получите награды\\!", keyboard, "MarkdownV2");
-
-  await trackDeepLinkAnalytics("achievements", "", userId);
-}
-
-/**
- * Handle analyze/recognize deep link
- */
-async function handleAnalyzeDeepLink(chatId: number, userId: number): Promise<void> {
-  const { handleAnalyzeCommand } = await import("../commands/analyze.ts");
-  await handleAnalyzeCommand(chatId, userId, "");
-  await trackDeepLinkAnalytics("analyze", "", userId);
-}
-
-/**
- * Main deep link handler
- */
 export async function handleDeepLink(chatId: number, userId: number, startParam: string): Promise<DeepLinkResult> {
   const { type, value } = parseDeepLink(startParam);
 
@@ -593,7 +65,6 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         if (value) {
           await handleProfileDeepLink(chatId, userId, value);
         } else {
-          // Own profile
           const profileKeyboard = new ButtonBuilder()
             .addButton({
               text: "Открыть профиль",
@@ -623,7 +94,7 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
       case "recognize":
         await handleAnalyzeDeepLink(chatId, userId);
         break;
-      case "studio":
+      case "studio": {
         const studioKb = new ButtonBuilder()
           .addButton({
             text: "Открыть студию",
@@ -634,7 +105,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🎛️ Открываем студию\\.\\.\\.", studioKb, "MarkdownV2");
         await trackDeepLinkAnalytics("studio", value, userId);
         break;
-      case "remix":
+      }
+      case "remix": {
         const remixKeyboard = new ButtonBuilder()
           .addButton({
             text: "Создать ремикс",
@@ -645,7 +117,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🔄 Создаём ремикс\\.\\.\\.", remixKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("remix", value, userId);
         break;
-      case "mashup":
+      }
+      case "mashup": {
         const mashupKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть Mashup",
@@ -656,7 +129,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🎼 Открываем mashup\\.\\.\\.", mashupKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("mashup", value, userId);
         break;
-      case "lyrics":
+      }
+      case "lyrics": {
         const lyricsKeyboard = new ButtonBuilder()
           .addButton({
             text: "Смотреть текст",
@@ -667,7 +141,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "📝 Открываем текст песни\\.\\.\\.", lyricsKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("lyrics", value, userId);
         break;
-      case "stats":
+      }
+      case "stats": {
         const statsKeyboard = new ButtonBuilder()
           .addButton({
             text: "Смотреть статистику",
@@ -678,7 +153,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "📊 Открываем статистику\\.\\.\\.", statsKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("stats", value, userId);
         break;
-      case "blog":
+      }
+      case "blog": {
         const blogKeyboard = new ButtonBuilder()
           .addButton({
             text: "Читать статью",
@@ -689,7 +165,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "📖 Открываем статью\\.\\.\\.", blogKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("blog", value, userId);
         break;
-      case "playlist":
+      }
+      case "playlist": {
         const playlistKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть плейлист",
@@ -700,7 +177,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "📀 Открываем плейлист\\.\\.\\.", playlistKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("playlist", value, userId);
         break;
-      case "album":
+      }
+      case "album": {
         const albumKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть альбом",
@@ -711,17 +189,20 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "💿 Открываем альбом\\.\\.\\.", albumKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("album", value, userId);
         break;
-      case "onboarding":
-        const { handleDashboard: showDashboard } = await import("./dashboard.ts");
-        await showDashboard(chatId, userId);
+      }
+      case "onboarding": {
+        const { handleDashboard } = await import("../dashboard.ts");
+        await handleDashboard(chatId, userId);
         await trackDeepLinkAnalytics("onboarding", "", userId);
         break;
-      case "help":
+      }
+      case "help": {
         const { handleHelp } = await import("../commands/help.ts");
         await handleHelp(chatId);
         await trackDeepLinkAnalytics("help", "", userId);
         break;
-      case "settings":
+      }
+      case "settings": {
         const settingsKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть настройки",
@@ -732,7 +213,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "⚙️ Открываем настройки\\.\\.\\.", settingsKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("settings", "", userId);
         break;
-      case "feedback":
+      }
+      case "feedback": {
         const feedbackKeyboard = new ButtonBuilder()
           .addButton({
             text: "Написать отзыв",
@@ -753,19 +235,20 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("feedback", "", userId);
         break;
-
-      // Navigation shortcuts
-      case "library":
+      }
+      case "library": {
         const { handleLibrary } = await import("../commands/library.ts");
         await handleLibrary(chatId, userId);
         await trackDeepLinkAnalytics("library", "", userId);
         break;
-      case "projects_list":
+      }
+      case "projects_list": {
         const { handleProjects } = await import("../commands/projects.ts");
         await handleProjects(chatId, userId);
         await trackDeepLinkAnalytics("projects_list", "", userId);
         break;
-      case "artists_list":
+      }
+      case "artists_list": {
         const artistsKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть AI Артисты",
@@ -786,7 +269,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("artists_list", "", userId);
         break;
-      case "playlists_list":
+      }
+      case "playlists_list": {
         const playlistsListKb = new ButtonBuilder()
           .addButton({
             text: "Мои плейлисты",
@@ -802,9 +286,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "📀 *Плейлисты*\n\nВаши музыкальные коллекции", playlistsListKb, "MarkdownV2");
         await trackDeepLinkAnalytics("playlists_list", "", userId);
         break;
-
-      // Content Hub
-      case "content_hub":
+      }
+      case "content_hub": {
         const contentHubKb = new ButtonBuilder()
           .addButton({
             text: "Открыть Content Hub",
@@ -833,9 +316,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("content_hub", "", userId);
         break;
-
-      // Cloud storage
-      case "cloud":
+      }
+      case "cloud": {
         const cloudKb = new ButtonBuilder()
           .addButton({
             text: "Открыть облако",
@@ -851,9 +333,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "☁️ *Облачное хранилище*\n\nВаши аудио и референсы", cloudKb, "MarkdownV2");
         await trackDeepLinkAnalytics("cloud", "", userId);
         break;
-
-      // Templates
-      case "templates":
+      }
+      case "templates": {
         const templatesKb = new ButtonBuilder()
           .addButton({
             text: "Открыть шаблоны",
@@ -874,9 +355,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("templates", "", userId);
         break;
-
-      // Analytics
-      case "analytics":
+      }
+      case "analytics": {
         const analyticsKb = new ButtonBuilder()
           .addButton({
             text: "Моя статистика",
@@ -905,9 +385,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("analytics", "", userId);
         break;
-
-      // Rewards
-      case "rewards":
+      }
+      case "rewards": {
         const rewardsKb = new ButtonBuilder()
           .addButton({
             text: "Ежедневный бонус",
@@ -931,9 +410,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🎁 *Награды*\n\nПолучайте бонусы за активность", rewardsKb, "MarkdownV2");
         await trackDeepLinkAnalytics("rewards", "", userId);
         break;
-
-      // Community
-      case "community":
+      }
+      case "community": {
         const communityKb = new ButtonBuilder()
           .addButton({
             text: "Лента треков",
@@ -958,10 +436,9 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("community", "", userId);
         break;
-
-      // MusicLab shortcuts
+      }
       case "creative":
-      case "musiclab":
+      case "musiclab": {
         const musicLabKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть Music Lab",
@@ -977,7 +454,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🎹 *Music Lab*\n\nВыберите инструмент:", musicLabKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("musiclab", "", userId);
         break;
-      case "drums":
+      }
+      case "drums": {
         const drumsKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть Drum Machine",
@@ -988,7 +466,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🥁 Открываем Drum Machine\\.\\.\\.", drumsKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("drums", "", userId);
         break;
-      case "dj":
+      }
+      case "dj": {
         const djKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть PromptDJ",
@@ -999,7 +478,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🎧 Открываем PromptDJ\\.\\.\\.", djKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("dj", "", userId);
         break;
-      case "guitar":
+      }
+      case "guitar": {
         const guitarKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть Guitar Detector",
@@ -1010,7 +490,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🎸 Открываем детектор аккордов\\.\\.\\.", guitarKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("guitar", "", userId);
         break;
-      case "melody":
+      }
+      case "melody": {
         const melodyKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть Melody Mixer",
@@ -1021,8 +502,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🎼 Открываем Melody Mixer\\.\\.\\.", melodyKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("melody", "", userId);
         break;
-      case "reference":
-        // Reference audio deep link - open in app
+      }
+      case "reference": {
         const referenceKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть аудио",
@@ -1055,7 +536,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("reference", value, userId);
         break;
-      case "share":
+      }
+      case "share": {
         const shareKeyboard = new ButtonBuilder()
           .addButton({
             text: "Открыть трек",
@@ -1066,9 +548,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, "🔗 Открываем по ссылке\\.\\.\\.", shareKeyboard, "MarkdownV2");
         await trackDeepLinkAnalytics("share", value, userId);
         break;
-
-      // Tutorials and guides
-      case "tutorials":
+      }
+      case "tutorials": {
         const tutorialsMessage = buildMessage({
           title: "Обучающие материалы",
           emoji: "📚",
@@ -1133,8 +614,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         });
         await trackDeepLinkAnalytics("tutorials", "", userId);
         break;
-
-      case "getting_started":
+      }
+      case "getting_started": {
         const gettingStartedKb = new ButtonBuilder()
           .addButton({
             text: "Начать обучение",
@@ -1160,8 +641,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("getting_started", "", userId);
         break;
-
-      case "guide":
+      }
+      case "guide": {
         const guideKb = new ButtonBuilder()
           .addButton({
             text: "Открыть справку",
@@ -1186,8 +667,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         );
         await trackDeepLinkAnalytics("guide", "", userId);
         break;
-
-      case "faq":
+      }
+      case "faq": {
         const faqMessage = buildMessage({
           title: "Часто задаваемые вопросы",
           emoji: "❓",
@@ -1229,8 +710,8 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, faqMessage, faqKb, "MarkdownV2");
         await trackDeepLinkAnalytics("faq", "", userId);
         break;
-
-      case "tips":
+      }
+      case "tips": {
         const tipsMessage = buildMessage({
           title: "Советы по генерации",
           emoji: "💡",
@@ -1272,33 +753,7 @@ export async function handleDeepLink(chatId: number, userId: number, startParam:
         await sendMessage(chatId, tipsMessage, tipsKb, "MarkdownV2");
         await trackDeepLinkAnalytics("tips", "", userId);
         break;
-
-      case "blog":
-        const blogKb = new ButtonBuilder()
-          .addButton({
-            text: "Читать блог",
-            emoji: "📝",
-            action: { type: "webapp", url: `${BOT_CONFIG.miniAppUrl}/blog` },
-          })
-          .addRow(
-            { text: "Новости", emoji: "📰", action: { type: "callback", data: "nav_news" } },
-            { text: "Канал", emoji: "📢", action: { type: "url", url: NEWS_CHANNEL_URL } },
-          )
-          .addButton({
-            text: "Главное меню",
-            emoji: "🏠",
-            action: { type: "callback", data: "nav_main" },
-          })
-          .build();
-        await sendMessage(
-          chatId,
-          "📝 *Блог MusicVerse*\n\nСтатьи, новости и руководства по созданию музыки с AI",
-          blogKb,
-          "MarkdownV2",
-        );
-        await trackDeepLinkAnalytics("blog", "", userId);
-        break;
-
+      }
       default:
         return { handled: false };
     }

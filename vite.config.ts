@@ -269,10 +269,27 @@ export default defineConfig(({ mode }) => ({
             ) {
               return "vendor-react-ui";
             }
-            // Charts are kept together and lazy-loaded. But if a
-            // studio/admin component imports them, splitting causes a cycle.
-            // When any studio feature imports charts, include charts inside
-            // the studio chunk so the cycle collapses.
+            // Charts are kept together and merged into feature-studio.
+            //
+            // Audit 2026-07-17 found 14 components in /components/admin/,
+            // /components/analytics/, and /pages/admin/ that STATICALLY import
+            // recharts (e.g. admin/analytics/ForecastPanel.tsx:11,
+            // admin/RevenueForecast.tsx:24). Because those components are part of
+            // the feature-studio chunk (via the /components/admin/ rule below),
+            // a static recharts edge forces vendor-charts <-> feature-studio, and
+            // Rollup reports "Circular chunk: vendor-charts -> feature-studio ->
+            // vendor-charts" — which the CI gate hard-fails on.
+            //
+            // To split charts into a lazy vendor-charts chunk, FIRST migrate all
+            // 14 static `from "recharts"` imports in admin/analytics components to
+            // the existing `@/lib/recharts-lazy` useRecharts() hook (which uses
+            // dynamic import("recharts")). Until then, keep charts in feature-studio.
+            //
+            // NOTE: `@/lib/recharts-lazy` already implements the dynamic-import
+            // pattern correctly and is used by PerformanceChart.tsx — it is the
+            // migration target. Also: the dead shadcn-generated
+            // `src/components/ui/chart.tsx` was removed in this audit (0 importers,
+            // static recharts import); do NOT reintroduce static recharts in shared UI.
             if (id.includes("recharts") || id.includes("d3") || id.includes("victory")) {
               return "feature-studio";
             }
@@ -322,19 +339,34 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("/pages/StudioHub")) return "page-studio-hub";
           // Note: /pages/Projects, /pages/LyricsStudio, /pages/LyricsWorkspace,
           // and /pages/AdminDashboard are intentionally NOT chunked separately —
-          // they're part of the circular dependency chain merged into
-          // feature-studio below.
+          // they are shared across studio/admin/audio code paths and were
+          // historically part of the merged feature-studio chunk.
 
           // MEGA-CHUNK: studio + generate-form + lyrics + admin + audio
           //
-          // Sprint 061 Phase B attempted to split these but barrel cleanup did
-          // NOT fully eliminate circular imports — Rollup still reports
-          // "Circular chunk: feature-studio -> feature-generation -> feature-studio"
-          // which causes TDZ crashes in production.
+          // Audit 2026-07-17 (madge --circular over 2220 src files) confirmed
+          // there is NO source-level (TypeScript import) cycle between generate/
+          // lyrics and studio/admin. HOWEVER a Rollup chunk-graph cycle STILL
+          // appears when generate-form is split into its own feature-generation
+          // chunk, caused by cross-feature module edges (NOT source cycles):
+          //   - generate-form/GuitarModeRecorder.tsx imports BOTH
+          //     /components/guitar/ChordDiagram AND /hooks/studio/useStudioAudio
+          //     (both land in feature-studio) → edge feature-generation → feature-studio
+          //   - shared hook /hooks/useRealtimeChordDetection is imported by both
+          //     chunks; Rollup must place it in one of them, creating the reverse
+          //     edge feature-studio → feature-generation.
+          //   Result: "Circular chunk: feature-studio -> feature-generation ->
+          //   feature-studio", which the CI gate (ci.yml) hard-fails on.
           //
-          // Merge back into single chunk until ALL cross-deps are verified
-          // cycle-free (requires recursive barrel audit exceeding Sprint 061 scope).
-          // ponytail: single chunk, split back when circular-dep audit proves safe.
+          // To split feature-generation out, FIRST break these edges:
+          //   1. Move /components/guitar/ChordDiagram to /components/ui/ (zero
+          //      feature deps) so it lands in a neutral shared chunk.
+          //   2. Relocate generate-form/GuitarModeRecorder.tsx + GuitarRecordDialog.tsx
+          //      into /components/guitar/ (they are guitar-recording UI, not
+          //      generation-form), OR decouple them from useStudioAudio.
+          //   3. Assign /hooks/useRealtimeChordDetection + /lib/chord-detection to
+          //      a neutral chunk so neither feature pulls the other.
+          // Until that refactor lands, keep generate-form/lyrics in feature-studio.
           if (
             id.includes("/pages/AdminDashboard") ||
             id.includes("/pages/admin/") ||
@@ -353,7 +385,6 @@ export default defineConfig(({ mode }) => ({
             id.includes("/components/studio/timeline/") ||
             id.includes("/components/studio/unified/") ||
             id.includes("/components/studio/") ||
-            id.includes("/components/performance/") ||
             id.includes("/components/generate-form/") ||
             id.includes("/components/lyrics/") ||
             id.includes("/components/lyrics-workspace/") ||

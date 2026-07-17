@@ -257,13 +257,37 @@
     {
       "name": "Studio Feature",
       "path": "dist/assets/feature-studio*.js",
-      "limit": "1.05 MB",
+      "limit": "800 KB",
       "gzip": true
     },
     {
       "name": "OSMD Vendor",
       "path": "dist/assets/vendor-osmd*.js",
       "limit": "320 KB",
+      "gzip": true
+    },
+    {
+      "name": "Supabase Vendor",
+      "path": "dist/assets/vendor-supabase*.js",
+      "limit": "60 KB",
+      "gzip": true
+    },
+    {
+      "name": "Radix Vendor",
+      "path": "dist/assets/vendor-radix*.js",
+      "limit": "60 KB",
+      "gzip": true
+    },
+    {
+      "name": "Lamejs Vendor",
+      "path": "dist/assets/vendor-lamejs*.js",
+      "limit": "60 KB",
+      "gzip": true
+    },
+    {
+      "name": "JSZip Vendor",
+      "path": "dist/assets/vendor-jszip*.js",
+      "limit": "30 KB",
       "gzip": true
     }
   ],

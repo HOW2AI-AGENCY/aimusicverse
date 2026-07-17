@@ -34,7 +34,7 @@ export async function handleQuickActionsCallbacks(
 
   if (data.startsWith("deeplink_")) {
     const tool = data.replace("deeplink_", "");
-    const { handleDeepLink } = await import("../handlers/deep-links.ts");
+    const { handleDeepLink } = await import("../handlers/deep-links/index.ts");
     await handleDeepLink(chatId, userId, tool);
     await answerCallbackQuery(queryId);
     return true;
