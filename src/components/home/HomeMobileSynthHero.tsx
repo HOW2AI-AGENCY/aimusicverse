@@ -8,11 +8,13 @@
  * violet-gradient prompt card ("О чём будет твой следующий хит?"), and a
  * compact "Продолжи создавать" continue-draft strip. Desktop keeps the existing
  * cluster layout — this component renders only on mobile.
+ *
+ * P0+P1: Token consolidation + hero affordances (char-count, tips, soft min-char hint).
  */
 
 import { memo, useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Zap, Flame, ArrowRight, Music2 } from "@/lib/icons";
+import { Zap, Flame, ArrowRight, Music2, Lightbulb } from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserCredits } from "@/hooks/useUserCredits";
 
@@ -24,10 +26,15 @@ const HERO_TITLE = "О чём будет твой";
 const HERO_TITLE_2 = "следующий хит?";
 const PROMPT_PLACEHOLDER = "Напр. фонк про ночной Токио…";
 
+const MIN_PROMPT_LENGTH = 5;
+const RECOMMENDED_LENGTH = 120;
+const QUICK_TIPS = ["Фонк про ночь", "Лёгкий lo-fi", "Энергичный поп"] as const;
+
 function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
   const { user } = useAuth();
   const { balance, credits } = useUserCredits();
   const [prompt, setPrompt] = useState("");
+  const [showTips, setShowTips] = useState(false);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -39,6 +46,14 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
 
   const streak = credits?.current_streak ?? 0;
   const showChips = !!user;
+  const charCount = prompt.length;
+  const isTooShort = charCount > 0 && charCount < MIN_PROMPT_LENGTH;
+  const isNearLimit = charCount >= RECOMMENDED_LENGTH;
+
+  const handleTipClick = useCallback((tip: string) => {
+    setPrompt(tip);
+    setShowTips(false);
+  }, []);
 
   return (
     <section aria-label="Быстрое создание трека" className="w-full space-y-5">
@@ -139,11 +154,49 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
             className="absolute bottom-2 right-2 top-2 inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-[hsl(var(--synth-mint))] px-4 text-sm font-bold text-[hsl(var(--synth-bg))] transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
             style={{ boxShadow: "0 6px 20px hsl(var(--synth-mint) / 0.35)" }}
           >
-            Создать
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </button>
+            <div className="flex items-center gap-2 min-w-0">
+              <button
+                type="button"
+                onClick={() => setShowTips((s) => !s)}
+                aria-expanded={showTips}
+                aria-controls="synth-hero-tips"
+                className="inline-flex items-center gap-1 rounded-md text-white/70 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              >
+                <Lightbulb className="h-3 w-3" aria-hidden />
+                <span>Идеи</span>
+              </button>
+              {isTooShort ? (
+                <span className="text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span>
+              ) : null}
+            </div>
+            <span
+              id="synth-hero-charcount"
+              aria-live="polite"
+              className={`shrink-0 font-mono tabular-nums ${isNearLimit ? "text-mint" : "text-white/50"}`}
+            >
+              {charCount}
+              {charCount >= MIN_PROMPT_LENGTH ? `/${RECOMMENDED_LENGTH}` : ""}
+            </span>
+          </div>
+
+          {/* Tips row */}
+          {showTips && (
+            <div id="synth-hero-tips" className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Быстрые подсказки">
+              {QUICK_TIPS.map((tip) => (
+                <button
+                  key={tip}
+                  type="button"
+                  onClick={() => handleTipClick(tip)}
+                  className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[11px] text-white/85 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                >
+                  {tip}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </motion.form>
+
 
       {/* Continue creating strip (only when signed in) */}
       {showChips && (

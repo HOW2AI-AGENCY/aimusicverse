@@ -220,6 +220,16 @@ All colors MUST be HSL.
     --warning: 38 90% 60%;
     --warning-glow: 38 90% 50%;
 
+    /* Cyber-synth brand palette (mobile hero / unified brand direction).
+       Saturated violet + mint — distinct from desaturated Phase A section tokens.
+       Defined in :root AND .dark so the hero renders identically in either theme. */
+    --brand-violet: 252 100% 68%;
+    --brand-violet-deep: 251 53% 35%;
+    --brand-violet-soft: 251 100% 82%;
+    --mint: 161 78% 51%;
+    --gradient-brand: linear-gradient(135deg, hsl(252 100% 68%), hsl(251 53% 35%));
+    --gradient-brand-accent: linear-gradient(135deg, hsl(252 100% 68%), hsl(161 78% 51%));
+
     /* Glassmorphism variables */
     --glass-bg: 0 0% 100% / 0.8;
     --glass-border: 220 15% 90%;
@@ -310,6 +320,14 @@ All colors MUST be HSL.
     --success-glow: 155 40% 40%;
     --warning: 38 90% 60%;
     --warning-glow: 38 90% 50%;
+
+    /* Cyber-synth brand palette (mobile hero / unified brand direction). */
+    --brand-violet: 252 100% 68%;
+    --brand-violet-deep: 251 53% 35%;
+    --brand-violet-soft: 251 100% 82%;
+    --mint: 161 78% 51%;
+    --gradient-brand: linear-gradient(135deg, hsl(252 100% 68%), hsl(251 53% 35%));
+    --gradient-brand-accent: linear-gradient(135deg, hsl(252 100% 68%), hsl(161 78% 51%));
 
     /* Glassmorphism — cool glass */
     --glass-bg: 240 33% 10% / 0.72;

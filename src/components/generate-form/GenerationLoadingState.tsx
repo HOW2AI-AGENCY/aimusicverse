@@ -58,14 +58,10 @@ export function GenerationLoadingState({
   const [elapsedTime, setElapsedTime] = useState(0);
   const [estimatedTotal, setEstimatedTotal] = useState(90);
 
-  // Calculate estimated time and progress
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => {
-    const currentStageIndex = GENERATION_STAGES.findIndex((s) => s.id === stage);
-    if (currentStageIndex === -1) return;
+  // Full-run estimate across all stages so the bar advances В очереди → Финализация.
 
-    // Calculate total estimated time based on current stage
-    const total = GENERATION_STAGES.slice(0, currentStageIndex + 1).reduce((sum, s) => sum + s.duration, 0);
+  useEffect(() => {
+    const total = GENERATION_STAGES.reduce((sum, s) => sum + s.duration, 0);
     setEstimatedTotal(total);
 
     // Update elapsed time every second
@@ -90,13 +86,28 @@ export function GenerationLoadingState({
     return `${Math.floor(seconds)}с`;
   };
 
-  const currentStage = GENERATION_STAGES.find((s) => s.id === stage);
+  // Advance the visible stage with progress. Callers (GenerateSheet) hold `stage`
+  // fixed at "processing" for the whole run, so derive the display stage from the
+  // elapsed-time estimate rather than the static prop.
+  // ponytail: thresholds track GENERATION_STAGES durations; replace with real
+  // clip-based progress (useGenerationTaskProgress) when GenerateSheet wires currentTaskId through.
+  const displayStageIndex =
+    stage === "completed"
+      ? GENERATION_STAGES.length - 1
+      : progressPercentage < 8
+        ? 0
+        : progressPercentage < 45
+          ? 1
+          : progressPercentage < 90
+            ? 2
+            : 3;
+  const currentStage = GENERATION_STAGES[displayStageIndex];
   const StageIcon = currentStage?.icon || Loader2;
 
   if (compact) {
     return (
       <div className="flex items-center gap-2 text-sm">
-        <StageIcon className="h-4 w-4 animate-spin text-primary" />
+        <StageIcon className="h-4 w-4 animate-spin text-generate" />
         <span className="text-muted-foreground">
           {currentStage?.label || "Генерация"}
           {remainingSeconds > 0 && ` • ${formatRemainingTime(remainingSeconds)}`}
@@ -119,10 +130,10 @@ export function GenerationLoadingState({
           {/* Stage indicator with icon */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping" />
-              <div className="relative bg-primary/10 p-3 rounded-full">
+              <div className="absolute inset-0 bg-generate/20 rounded-full animate-ping" />
+              <div className="relative bg-generate/10 p-3 rounded-full">
                 <StageIcon
-                  className={cn("h-6 w-6 text-primary", stage !== "completed" && stage !== "failed" && "animate-spin")}
+                  className={cn("h-6 w-6 text-generate", stage !== "completed" && stage !== "failed" && "animate-spin")}
                 />
               </div>
             </div>
@@ -144,7 +155,7 @@ export function GenerationLoadingState({
           {/* Stage timeline */}
           <div className="flex justify-between gap-1">
             {GENERATION_STAGES.map((s, index) => {
-              const activeIndex = GENERATION_STAGES.findIndex((stg) => stg.id === stage);
+              const activeIndex = displayStageIndex;
               const isCompleted = index < activeIndex;
               const isActive = index === activeIndex;
 
@@ -153,8 +164,8 @@ export function GenerationLoadingState({
                   key={s.id}
                   className={cn(
                     "flex-1 h-1 rounded-full transition-colors",
-                    isCompleted && "bg-primary",
-                    isActive && "bg-primary/50",
+                    isCompleted && "bg-generate",
+                    isActive && "bg-generate/50",
                     !isCompleted && !isActive && "bg-muted",
                   )}
                   initial={false}

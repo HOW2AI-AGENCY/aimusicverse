@@ -131,6 +131,15 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           glow: "hsl(var(--warning-glow))",
         },
+        // Cyber-synth brand palette (mobile hero / unified brand)
+        mint: {
+          DEFAULT: "hsl(var(--mint))",
+        },
+        "brand-violet": {
+          DEFAULT: "hsl(var(--brand-violet))",
+          deep: "hsl(var(--brand-violet-deep))",
+          soft: "hsl(var(--brand-violet-soft))",
+        },
         // Phase 1 UI unification — semantic surfaces & state tokens
         surface: {
           1: "hsl(var(--surface-1))",
@@ -214,6 +223,8 @@ export default {
         "gradient-hero": "var(--gradient-hero)",
         "gradient-generate": "var(--gradient-generate)",
         "gradient-success": "var(--gradient-success)",
+        "gradient-brand": "var(--gradient-brand)",
+        "gradient-brand-accent": "var(--gradient-brand-accent)",
       },
       boxShadow: {
         glow: "var(--shadow-glow)",
