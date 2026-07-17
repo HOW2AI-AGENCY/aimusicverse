@@ -36,6 +36,10 @@ graphify-out/cache/
 # Design/spec artifacts — contain non-TS contract files (markdown in .ts)
 specs/
 
+# Standalone presentation document — hand-formatted HTML with embedded
+# base64 woff2 fonts (data URIs); prettier reformatting is unwanted here.
+docs/presentation.html
+
 # Test sources — gated by jest/playwright, not prettier; several contain
 # JSX in .ts files that prettier can't parse. Matches eslint ignores.
 tests/
