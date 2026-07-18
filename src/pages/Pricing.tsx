@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
-import { PricingCard, type StarsProduct } from "@/components/payment/PricingCard";
+import { PricingCard, type StarsProduct } from "@/components/payments/PricingCard";
 import { TierComparisonCard } from "@/components/premium/TierComparisonCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";

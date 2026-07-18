@@ -24,7 +24,7 @@ import { PlayerTransitionProvider } from "./player/PlayerTransitionProvider";
 
 // Lazy load heavy dialogs - not needed on initial render
 const SubscriptionRequiredDialog = lazy(() =>
-  import("./dialogs/SubscriptionRequiredDialog").then((m) => ({ default: m.SubscriptionRequiredDialog })),
+  import("./dialog/SubscriptionRequiredDialog").then((m) => ({ default: m.SubscriptionRequiredDialog })),
 );
 const GamificationOnboarding = lazy(() =>
   import("./gamification/GamificationOnboarding").then((m) => ({ default: m.GamificationOnboarding })),
