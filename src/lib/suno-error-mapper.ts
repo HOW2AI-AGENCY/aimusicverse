@@ -350,18 +350,29 @@ const ERROR_MESSAGES: Record<SunoErrorCode, Omit<UserFriendlyError, "code" | "te
 };
 
 /**
+ * Narrow an unknown thrown value into a record-like shape for code detection.
+ */
+function asErrorLike(value: unknown): { code?: unknown; message?: string; status?: number; statusCode?: number } {
+  if (typeof value === "object" && value !== null) return value as Record<string, unknown>;
+  if (typeof value === "string") return { message: value };
+  return {};
+}
+
+/**
  * Detect error code from error object or message
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Accepts any thrown value (Error, string, plain object) for code detection
-export function detectErrorCode(error: any): SunoErrorCode {
+export function detectErrorCode(error: unknown): SunoErrorCode {
+  const err = asErrorLike(error);
+  const code = err.code as string | undefined;
+
   // Error code explicitly provided
-  if (error.code && Object.values(SunoErrorCode).includes(error.code)) {
-    return error.code as SunoErrorCode;
+  if (code && Object.values(SunoErrorCode).includes(code as SunoErrorCode)) {
+    return code as SunoErrorCode;
   }
 
   // Error message pattern matching
-  const message = error.message?.toLowerCase() || "";
-  const status = error.status || error.statusCode;
+  const message = err.message?.toLowerCase() || "";
+  const status = err.status || err.statusCode;
 
   // Status code mapping
   if (status === 429) return SunoErrorCode.RATE_LIMIT;
@@ -408,8 +419,7 @@ export function detectErrorCode(error: any): SunoErrorCode {
  * Map error to user-friendly format
  */
 export function mapSunoError(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Accepts any thrown value for Suno error mapping
-  error: any,
+  error: unknown,
   context?: {
     requiredCredits?: number;
     balanceCredits?: number;
@@ -430,7 +440,7 @@ export function mapSunoError(
     ...baseMessage,
     message,
     code: errorCode,
-    technical: error.message || String(error),
+    technical: asErrorLike(error).message || String(error),
   };
 
   // Log error for debugging
@@ -448,8 +458,7 @@ export function mapSunoError(
 /**
  * Check if error is retryable
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Accepts any thrown value to test retryability
-export function isRetryableError(error: any): boolean {
+export function isRetryableError(error: unknown): boolean {
   const mapped = mapSunoError(error);
   return mapped.retryable;
 }
@@ -469,8 +478,7 @@ export class SunoError extends Error {
   constructor(
     public code: SunoErrorCode,
     message?: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Preserves original thrown value for diagnostics
-    public originalError?: any,
+    public originalError?: unknown,
   ) {
     super(message || ERROR_MESSAGES[code].message);
     this.name = "SunoError";
@@ -480,8 +488,7 @@ export class SunoError extends Error {
 /**
  * Create a SunoError from any error
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Accepts any thrown value for SunoError wrapping
-export function createSunoError(error: any): SunoError {
+export function createSunoError(error: unknown): SunoError {
   const code = detectErrorCode(error);
-  return new SunoError(code, error.message, error);
+  return new SunoError(code, asErrorLike(error).message, error);
 }
