@@ -135,25 +135,31 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           <label htmlFor="synth-hero-prompt" className="sr-only">
             Опиши идею трека
           </label>
-          <input
-            id="synth-hero-prompt"
-            type="text"
-            inputMode="text"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder={PROMPT_PLACEHOLDER}
-            aria-describedby="synth-hero-hint"
-            className="w-full rounded-2xl border border-white/25 bg-black/40 px-4 py-4 pr-28 text-sm text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60"
-          />
-          <span id="synth-hero-hint" className="sr-only">
-            Нажмите Enter или кнопку «Создать», чтобы начать генерацию
-          </span>
-          <button
-            type="submit"
-            aria-label={prompt.trim() ? `Создать трек: ${prompt.trim()}` : "Открыть форму создания трека"}
-            className="absolute bottom-2 right-2 top-2 inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-[hsl(var(--synth-mint))] px-4 text-sm font-bold text-[hsl(var(--synth-bg))] transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-            style={{ boxShadow: "0 6px 20px hsl(var(--synth-mint) / 0.35)" }}
-          >
+          <div className="relative">
+            <input
+              id="synth-hero-prompt"
+              type="text"
+              inputMode="text"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder={PROMPT_PLACEHOLDER}
+              aria-describedby="synth-hero-hint"
+              className="w-full rounded-2xl border border-white/25 bg-black/40 px-4 py-3 pr-[104px] text-sm text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60"
+            />
+            <span id="synth-hero-hint" className="sr-only">
+              Нажмите Enter или кнопку «Создать», чтобы начать генерацию
+            </span>
+            <button
+              type="submit"
+              aria-label={prompt.trim() ? `Создать трек: ${prompt.trim()}` : "Открыть форму создания трека"}
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-9 items-center gap-1.5 rounded-xl bg-[hsl(var(--synth-mint))] px-3 text-sm font-bold text-[hsl(var(--synth-bg))] transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+              style={{ boxShadow: "0 6px 20px hsl(var(--synth-mint) / 0.35)" }}
+            >
+              Создать
+            </button>
+          </div>
+
+          <div className="mt-2 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
               <button
                 type="button"
@@ -163,21 +169,20 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
                 className="inline-flex items-center gap-1 rounded-md text-white/70 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               >
                 <Lightbulb className="h-3 w-3" aria-hidden />
-                <span>Идеи</span>
+                <span className="text-[11px]">Идеи</span>
               </button>
-              {isTooShort ? <span className="text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span> : null}
+              {isTooShort ? <span className="text-[11px] text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span> : null}
             </div>
             <span
               id="synth-hero-charcount"
               aria-live="polite"
-              className={`shrink-0 font-mono tabular-nums ${isNearLimit ? "text-mint" : "text-white/50"}`}
+              className={`shrink-0 text-[11px] font-mono tabular-nums ${isNearLimit ? "text-[hsl(var(--synth-mint))]" : "text-white/50"}`}
             >
               {charCount}
               {charCount >= MIN_PROMPT_LENGTH ? `/${RECOMMENDED_LENGTH}` : ""}
             </span>
           </div>
 
-          {/* Tips row */}
           {showTips && (
             <div
               id="synth-hero-tips"
