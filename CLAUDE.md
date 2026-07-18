@@ -505,14 +505,14 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: **063 ✅ + 064 ✅** (Accessibility/Polish + A11y audit), Sprint **065 🔄 in progress** (Generate v2 + Home Redesign + Visual Regression, A1-A8 done, closure B2/B3/B4). Спринты 051/053-056/061-062 ✅. Design-review 2026-07-06 (Score C+, AI Slop B). **Актуальный оперплан:** [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md) (Sprint 065 closure → backlog 066-069; Sprint 066 deps ✅ и 067 edge-decomposition начаты — `4ace6f0e8`/`7a2a41fc8`, 2026-07-16).
+- Sprint: **065 🔄 in progress** (Generate v2 + Home Redesign). **Актуальный оперплан:** [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)
+- **Архитектурный рефакторинг 2026-07-18** (6/7 задач): peer dep vite↔storybook ✅, дублирующиеся директории объединены ✅, `AudioRecordDialog` 715→143 строк ✅, 7k-line supabase types в `types/_generated.ts` ✅, `any→unknown` в 2 критических файлах (6 eslint-disable удалено) ✅, 39 stale sprint файлов в архив ✅. Осталось: **бандл 7.9 MB → 2.3 MB** ⏸️ (отложено).
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
-- Components: 1043, Hooks: 440, Stores: 25 (12 top-level + 13 in domain slices under `src/stores/*/`), API files: 32, Services: 37 *.service.ts (12 top-level + 25 in domain subfolders under `src/services/*/`) — recursive `find`/`wc -l` count, verified 2026-07-16 (see [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md) §1).
-- Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks. См. [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)
+- Components: 1042, Hooks: 439, Stores: 23, API files: 32, Services: 62, Pages: 71, Lib: 138 — верифицировано 2026-07-18.
+- Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks.
 - Unit Tests: **1810 passing** (166 test files), E2E: 59 specs
-- Key Issues: 0 layer-boundary violations, 0/50 `any` budget, **0 файлов >800 LOC в `src/`** (исключая generated types.ts и статический drum-kits.ts) — `supabase/functions/` не входит в этот scope и содержит **7 файлов >800 LOC** (макс 1132, `send-telegram-notification`); топ-3 (`suno-music-callback` 1330→173, `telegram-bot/handlers/deep-links` удалён, `handlers/audio` 993→299) декомпозированы в `4ace6f0e8` (2026-07-16), остаток — Sprint 067, см. [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md) §1; tsc 0 errors, rules-of-hooks `"error"`
-- Security audit 2026-07-13 — all 3 P0 findings (open notification endpoint, unsigned Suno callbacks, unmasked Sentry Replay) ✅ remediated. Stories: 50 (Storybook). Deps: конфликт vite↔storybook снят (`7a2a41fc8`), vite 6.4.3, единый `package-lock.json` (+`deno.lock` для edge).
-- Overall Progress: 99% (49 sprints complete in PROJECT_STATUS; в SPRINT-PROGRESS.md — компактная нумерация до 045)
+- Key Issues: 0 layer-boundary violations, tsc 0 errors, rules-of-hooks `"error"`. `any`-budget: 6 eslint-disables `no-explicit-any` удалены из `suno-error-mapper.ts` + `errorHandling.ts`; остаётся ~182 файла с `any`. **0 файлов >800 LOC в `src/`** (исключая generated types и drum-kits.ts). `supabase/functions/`: 7 файлов >800 LOC (Sprint 067).
+- Security audit 2026-07-13 — all 3 P0 findings ✅ remediated. Deps: конфликт vite↔storybook снят ✅, `npm install` без `--legacy-peer-deps`. Stories: 53 (Storybook).
 
 ## Telegram Bot Integration
 
@@ -611,7 +611,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-07-17 (техдолг-ревизия: edge decomposition топ-3 ✅ `4ace6f0e8`, deps vite↔storybook ✅ `7a2a41fc8`; осталось 7 edge-файлов >800 LOC; tsc 0 errors; 1810 unit tests; 59 E2E specs; 1043 components / 440 hooks / 25 stores / 32 API files; vite 6.4.3)
+**Last Updated:** 2026-07-18 (архитектурный рефакторинг 6/7 задач: deps ✅, dirs ✅, AudioRecordDialog decomposition ✅, supabase types ✅, any→unknown ✅, sprint docs ✅; tsc 0 errors; 1042 components / 439 hooks / 23 stores / 32 API / 62 services; vite 6.4.3 без `--legacy-peer-deps`)
 
 ## graphify
 
