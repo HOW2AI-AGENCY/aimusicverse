@@ -370,7 +370,7 @@ export function parseGenerationError(response: unknown): GenerationErrorResponse
     success: false,
     error: r.error || "Неизвестная ошибка",
     errorCode: r.errorCode,
-    originalError: r.originalError,
+    originalError: typeof r.originalError === "string" ? r.originalError : undefined,
     canRetry: r.canRetry ?? true,
     retryAfter: r.retryAfter,
     balance: r.balance,
