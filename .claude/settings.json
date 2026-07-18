@@ -4,7 +4,10 @@
     "ANTHROPIC_AUTH_TOKEN": "sk-8519f3ae1e69adf3-ma3t4e-43bd4d9c",
     "ANTHROPIC_MODEL": "minimax",
     "CLAUDE_CODE_EFFORT_LEVEL": "max",
-    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "262144"
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "262144",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_FLOW_V3_ENABLED": "true",
+    "CLAUDE_FLOW_HOOKS_ENABLED": "true"
   },
   "permissions": {
     "allow": [
@@ -40,7 +43,11 @@
       "Bash(.claude/hooks/stop/*)",
       "Bash(npx prettier --write *)",
       "Bash(mkdir -p node_modules/.cache)",
-      "Bash(git log --oneline *)"
+      "Bash(git log --oneline *)",
+      "Bash(npx @claude-flow*)",
+      "Bash(npx claude-flow*)",
+      "Bash(node .claude/*)",
+      "mcp__claude-flow__*"
     ],
     "additionalDirectories": [
       "D://.MUSICVERSE//aimusicverse"

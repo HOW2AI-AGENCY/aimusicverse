@@ -349,20 +349,32 @@ export function getErrorCodeInfo(errorCode: string): ErrorCodeInfo | null {
   return ERROR_CODE_MESSAGES[errorCode] || null;
 }
 
+/** Shape expected from generation API error responses */
+interface GenerationErrorResponseShape {
+  error?: string;
+  errorCode?: string;
+  originalError?: unknown;
+  canRetry?: boolean;
+  retryAfter?: number;
+  balance?: number;
+  required?: number;
+}
+
 /**
  * Parse error response from generation API
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Generation API error responses have heterogeneous shapes; we narrow field-by-field
-export function parseGenerationError(response: any): GenerationErrorResponse {
+export function parseGenerationError(response: unknown): GenerationErrorResponse {
+  const r = (response ?? {}) as GenerationErrorResponseShape;
+
   return {
     success: false,
-    error: response?.error || "Неизвестная ошибка",
-    errorCode: response?.errorCode,
-    originalError: response?.originalError,
-    canRetry: response?.canRetry ?? true,
-    retryAfter: response?.retryAfter,
-    balance: response?.balance,
-    required: response?.required,
+    error: r.error || "Неизвестная ошибка",
+    errorCode: r.errorCode,
+    originalError: r.originalError,
+    canRetry: r.canRetry ?? true,
+    retryAfter: r.retryAfter,
+    balance: r.balance,
+    required: r.required,
   };
 }
 

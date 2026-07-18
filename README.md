@@ -12,7 +12,7 @@
   <img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/>
   <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.0-475569?style=for-the-badge"/>
   <img alt="Quality & Build" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/quality-check.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981&label=Quality+%26+Build"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit_tests-1691_passing-10B981?style=for-the-badge&logo=vitest"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit_tests-1810_passing-10B981?style=for-the-badge&logo=vitest"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/>
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript"/>
@@ -93,17 +93,17 @@
 ┌─────────────────────────────────────────────┐
 │  Telegram Mini App (WebView)                │
 ├─────────────────────────────────────────────┤
-│  Pages (35+)                  Route-level    │
+│  Pages (74)                  Route-level    │
 ├─────────────────────────────────────────────┤
-│  Components (1161)           Feature + UI    │
+│  Components (1043)           Feature + UI    │
 ├─────────────────────────────────────────────┤
-│  Hooks (434)                 Reusable logic  │
+│  Hooks (440)                 Reusable logic  │
 ├─────────────────────────────────────────────┤
-│  Services (56)               Business logic  │
+│  Services (37)               Business logic  │
 ├─────────────────────────────────────────────┤
-│  API Layer (24)              Supabase        │
+│  API Layer (32)              Supabase        │
 ├─────────────────────────────────────────────┤
-│  Stores (27 Zustand)         Global state    │
+│  Stores (25 Zustand)         Global state    │
 └─────────────────────────────────────────────┘
 ```
 
@@ -139,7 +139,7 @@ npm run dev              # → http://localhost:8080
 ```bash
 # Проверка качества перед коммитом
 npm run check-all        # lint + format + typecheck
-npm test -- --run        # 1691 unit tests
+npm test -- --run        # 1810 unit tests
 npm run build            # production build
 ```
 
@@ -153,14 +153,14 @@ npm run build            # production build
 
 | Метрика                 | Значение                      | Статус |
 | ----------------------- | ----------------------------- | :----: |
-| Unit тесты              | 1691 passing (145 test files) |   ✅   |
+| Unit тесты              | 1810 passing (166 test files) |   ✅   |
 | TypeScript              | 0 errors (`--noEmit`)         |   ✅   |
-| E2E specs               | 56                            |   ✅   |
-| Components              | 1161                          |   ✅   |
-| Hooks                   | 434                           |   ✅   |
-| API files               | 30                            |   ✅   |
+| E2E specs               | 59                            |   ✅   |
+| Components              | 1043                          |   ✅   |
+| Hooks                   | 440                           |   ✅   |
+| API files               | 32                            |   ✅   |
 | Services                | 37 `*.service.ts`             |   ✅   |
-| Stores                  | 27                            |   ✅   |
+| Stores                  | 25                            |   ✅   |
 | Suno edge functions     | 46 (28/28 API — 100%)         |   ✅   |
 | Files >800 LOC в `src/` | 0                             |   ✅   |
 | `any` budget            | 0/50                          |   ✅   |
@@ -172,14 +172,15 @@ npm run build            # production build
 
 ### Последние спринты
 
-| Спринт | Фокус                                   | Статус |
-| ------ | --------------------------------------- | :----: |
-| 059    | Bundle optimization + API/Service tests |   ✅   |
-| 060    | Design polish (search, search box)      |   ✅   |
-| 061    | Vendor splits + barrel cleanup          |   ✅   |
-| 062    | UI/UX Audit P0/P1/P2 (A+B+C)            |   ✅   |
-| 063    | Homepage UX fixes + card refinement     |   ✅   |
-| 064    | P2 polish: tablet cols, error, More     |   ✅   |
+| Спринт | Фокус                                     | Статус |
+| ------ | ----------------------------------------- | :----: |
+| 059    | Bundle optimization + API/Service tests   |   ✅   |
+| 060    | Design polish (search, search box)        |   ✅   |
+| 061    | Vendor splits + barrel cleanup            |   ✅   |
+| 062    | UI/UX Audit P0/P1/P2 (A+B+C)              |   ✅   |
+| 063    | Homepage UX fixes + card refinement       |   ✅   |
+| 064    | P2 polish: tablet cols, error, More       |   ✅   |
+| 065    | Generate v2 + Home Redesign + Visual Regr |   🔄   |
 
 <sub><a href="#🚀-быстрый-старт">← Назад: Быстрый старт</a> · <a href="#top">↑ К началу</a> · <a href="#🛠-технический-стек">Далее: Технический стек →</a></sub>
 
@@ -189,9 +190,9 @@ npm run build            # production build
 
 | Слой                     | Технология                                        |
 | ------------------------ | ------------------------------------------------- |
-| **Фреймворк**            | React 19.2, TypeScript 5.9, Vite 5.4              |
+| **Фреймворк**            | React 19.2, TypeScript 5.9, Vite 6.4.3            |
 | **Стилизация**           | Tailwind CSS 3.4, shadcn/ui, Radix UI             |
-| **Глобальное состояние** | Zustand 5.0 (27 stores)                           |
+| **Глобальное состояние** | Zustand 5.0 (25 stores)                           |
 | **Серверное состояние**  | TanStack Query 5.90                               |
 | **Бэкенд**               | Supabase (PostgreSQL + RLS + Realtime + Storage)  |
 | **Serverless**           | 120+ Edge Functions (Deno/TypeScript)             |
@@ -214,18 +215,18 @@ npm run build            # production build
 ```
 aimusicverse/
 ├── src/
-│   ├── api/              # 30 — Supabase запросы
-│   ├── components/       # 1161 — UI + feature компоненты
+│   ├── api/              # 32 — Supabase запросы
+│   ├── components/       # 1043 — UI + feature компоненты
 │   │   ├── ui/           # shadcn/ui primitives
 │   │   ├── player/       # Аудиоплеер (compact/expanded/fullscreen)
 │   │   ├── generate-form/ # Форма генерации (simple/custom)
 │   │   ├── studio/       # Unified Studio + микшер + стемы
 │   │   ├── library/      # Библиотека треков
 │   │   └── ...
-│   ├── hooks/            # 434 — кастомные React хуки
-│   ├── pages/            # 35 — роуты с lazy loading
-│   ├── services/         # 56 — бизнес-логика
-│   ├── stores/           # 27 — Zustand stores
+│   ├── hooks/            # 440 — кастомные React хуки
+│   ├── pages/            # 74 — роуты с lazy loading
+│   ├── services/         # 37 — бизнес-логика
+│   ├── stores/           # 25 — Zustand stores
 │   ├── contexts/         # 10 — React Context (Auth, Theme, Telegram)
 │   ├── lib/              # Утилиты, аудио, логгер
 │   ├── i18n/             # Локализация EN/RU
@@ -237,8 +238,8 @@ aimusicverse/
 ├── specs/                # 14 директорий спецификаций
 ├── SPRINTS/              # Планы спринтов
 ├── tests/
-│   ├── e2e/              # Playwright: 56 specs
-│   └── unit/             # Vitest: 1691 test
+│   ├── e2e/              # Playwright: 59 specs
+│   └── unit/             # Vitest: 1810 test
 └── scripts/              # Утилиты CI/CD
 ```
 
@@ -290,11 +291,11 @@ storyforge/
 | ⭐ GitHub Stars                | Private repo                        |
 | 📦 Eager load (холодный старт) | 508 KB gzip (↓ с 1.19 MB)           |
 | 📦 Всего JS (все чанки)        | 2.11 MB gzip                        |
-| 🧪 Покрытие кода               | 1691 unit tests                     |
+| 🧪 Покрытие кода               | 1810 unit tests                     |
 | 🔒 Безопасность                | 6 vulns (1 high, 4 moderate, 1 low) |
 | 📊 Спринтов завершено          | 50+                                 |
-| 🏗 Компонентов                  | 1161                                |
-| 🔧 Хуков                       | 434                                 |
+| 🏗 Компонентов                  | 1043                                |
+| 🔧 Хуков                       | 440                                 |
 | 🚀 Стадия                      | Pre-Seed / Active Development       |
 
 **MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
@@ -357,6 +358,6 @@ PM/Инвестор → PROJECT_STATUS → ROADMAP → CHANGELOG
 
 **Лицензия:** MIT · **Авторские права:** HOW2AI Agency © 2025–2026 · **Безопасность:** `security@how2ai.agency`
 
-<sub>Последнее обновление: 2026-07-09 · Sprint 064 ✅ (P2 Polish) · tsc 0 errors · 1691 tests · Sprint 064 ✅</sub>
+<sub>Последнее обновление: 2026-07-16 · Sprint 065 🔄 (Generate v2 + Home Redesign + Visual Regression) · tsc 0 errors · 1810 unit tests · 59 E2E specs · Vite 6.4.3</sub>
 
 </div>

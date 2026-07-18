@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "sqz": {
+      "command": ["sqz-mcp", "--transport", "stdio"],
+      "enabled": true,
+      "type": "local"
+    }
+  }
+}

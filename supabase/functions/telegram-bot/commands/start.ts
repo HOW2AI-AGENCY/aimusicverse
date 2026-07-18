@@ -1,5 +1,5 @@
 import { handleDashboard } from "../handlers/dashboard.ts";
-import { handleDeepLink } from "../handlers/deep-links.ts";
+import { handleDeepLink } from "../handlers/deep-links/index.ts";
 
 export async function handleStart(chatId: number, userId: number, startParam?: string) {
   // Handle deep links first

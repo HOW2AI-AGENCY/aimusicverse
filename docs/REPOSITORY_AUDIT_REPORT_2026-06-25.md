@@ -95,7 +95,7 @@ aimusicverse/
 
 #### Core Technologies
 
-- **Frontend**: React 19.2, TypeScript 5.9, Vite 5.0
+- **Frontend**: React 19.2, TypeScript 5.9, Vite 6.4.3
 - **UI Framework**: Tailwind CSS 3.4, Radix UI, shadcn/ui, Framer Motion 12
 - **State Management**: Zustand 5.0, TanStack Query 5.90
 - **Backend**: Supabase 2.86 (PostgreSQL, Edge Functions)

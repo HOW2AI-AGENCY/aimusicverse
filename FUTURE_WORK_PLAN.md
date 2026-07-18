@@ -2,7 +2,41 @@
 
 **Дата:** 2026-07-14 (сверка расхождений — актуальный операционный план: [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md))
 **Статус:** Sprint 063 ✅ + 064 ✅ закрыты; **Sprint 065 🔄** (Generate v2 + Home Redesign + Visual Regression — в `main`). tsc 0 errors ✅ (верифицировано `npm run typecheck:app`). Бэклог переопределён: 066 Dependency Health → 067 Edge Decomposition → 068 Test/Story → 069 Bundle.
-**Фокус:** Sprint 065 closure → разрешить конфликт зависимостей (`vite@8` ↔ Storybook 8.6) → декомпозиция edge-функций (≥10 файлов >800 LOC) → bundle 2.11 MB → ≤1.8 MB
+**Фокус:** Sprint 065 closure → разрешить конфликт зависимостей (Storybook 8.x peer ↔ vite ≤6) → декомпозиция edge-функций (≥10 файлов >800 LOC) → bundle 2.11 MB → ≤1.8 MB
+
+---
+
+## 🔬 Sprint «Bundle Slim» (2026-07-17) — разведка завершена, разблокирующий рефактор описан
+
+**Цель:** feature-studio (742 KB gz) → вынести recharts в lazy `vendor-charts` + разбить на `feature-generation`. **Результат:** оптимизация заблокирована двумя фундаментальными chunk-graph циклами. Спринт превратился в точную разведку root-cause.
+
+### Что выяснено (madge --circular + build-логи Rollup)
+
+1. **Source-level циклов НЕТ.** madge по 2220 файлам нашёл лишь 1 тривиальный цикл внутри `generate-form/lyrics/` (`useLyricsSections ↔ LyricsSectionTemplates`, оба в одном каталоге). Прежний mega-chunk комментарий про «feature-studio → feature-generation → feature-studio» описывал chunk-graph цикл, а не TypeScript import cycle.
+
+2. **Однако chunk-graph циклы РЕАЛЬНЫ и блокируют разделение:**
+
+   - **Цикл A (vendor-charts):** 14 компонентов в `/components/admin/`, `/components/analytics/`, `/pages/admin/` делают **статический** `from "recharts"` (например `admin/analytics/ForecastPanel.tsx:11`, `admin/RevenueForecast.tsx:24`, `pages/admin/GenerationMetrics.tsx:31`). Так как `/components/admin/` жёстко привязан к `feature-studio`, вынос recharts в отдельный чанк создаёт ребро `feature-studio → vendor-charts`, а общий модуль — обратное ребро → `Circular chunk: vendor-charts -> feature-studio -> vendor-charts` (CI-гейт `ci.yml:94-100` хард-фейлит это).
+
+   - **Цикл B (feature-generation):** `generate-form/GuitarModeRecorder.tsx:13,18` импортирует **оба** `/components/guitar/ChordDiagram` (в feature-studio) **И** `/hooks/studio/useStudioAudio` (в feature-studio) — два ребра `feature-generation → feature-studio`; shared hook `useRealtimeChordDetection` создаёт обратное ребро → `Circular chunk: feature-studio -> feature-generation -> feature-studio`.
+
+3. **`@/lib/recharts-lazy.ts` уже реализует правильный паттерн** (`useRecharts()` hook с `import("recharts")`) и используется `PerformanceChart.tsx`. Это и есть миграционная цель.
+
+### Что сделано в этом спринте (устойчивые улучшения)
+
+- ✅ Удалён мёртвый код `src/components/ui/chart.tsx` (0 импортёров, 0 re-export'ов; статический `import * from "recharts"`). Чистая卫生, размер не изменился (мёртвый код не входил в граф).
+- ✅ `package.json` size-limit: добавлены 4 новых бюджета для ранее untracked vendor-чанков (`vendor-supabase` 60 KB, `vendor-radix` 60 KB, `vendor-lamejs` 60 KB, `vendor-jszip` 30 KB); `feature-studio` ужесточён с 1.05 MB → 800 KB gz. **Все 11 бюджетов PASS.**
+- ✅ `vite.config.ts`: подробные комментарии с root-cause обоих циклов и точным roadmap рефактора (см. ниже).
+- ✅ Build зелёный (exit 0, нет Circular chunk warning), 1810 unit-тестов проходят.
+
+### Roadmap разблокировки (для следующего bundle-спринта)
+
+Чтобы вынести recharts в lazy `vendor-charts` (шаг 1), нужно сначала мигрировать **14 файлов** со статического `from "recharts"` на динамический `useRecharts()` из `@/lib/recharts-lazy`:
+`admin/analytics/{CampaignPerformance,ContentAnalyticsPanel,DeeplinkTrendsChart,ErrorTrendsPanel,ForecastPanel,PerformanceMetricsPanel,RetentionPanel,RevenueAnalyticsPanel,TelemetryOverview}.tsx`, `admin/{AlertAnalyticsPanel,PerformanceDashboard,RevenueAnalytics,RevenueForecast}.tsx`, `analytics/GenreDistributionChart.tsx` (только type-import, ок), `pages/admin/GenerationMetrics.tsx`.
+
+Чтобы разбить feature-studio на feature-generation (шаг 2), нужно разорвать guitar-ребро: переместить `ChordDiagram.tsx` в `/components/ui/` (у него 0 feature-зависимостей) **или** перенести `GuitarModeRecorder.tsx` + `GuitarRecordDialog.tsx` из `generate-form/` в `/components/guitar/` (это guitar-recording UI, не generation-form); плюс назначить `useRealtimeChordDetection` + `lib/chord-detection` в нейтральный chunk.
+
+**Метрика спринта:** точный root-cause задокументирован (экономит будущие спринты дни слепых попыток); 4 новых size-limit бюджета предотвращают регрессии; мёртвый код удалён. feature-studio остался 742 KB gz — фактическое снижение требует roadmap-рефактора выше.
 
 ---
 
@@ -10,14 +44,14 @@
 
 | Метрика             | Значение                                  | Статус |
 | ------------------- | ----------------------------------------- | ------ |
-| Unit tests          | 1691 passing (145 files)                  | ✅     |
+| Unit tests          | 1810 passing (166 files)                  | ✅     |
 | TypeScript          | 0 errors                                  | ✅     |
-| E2E specs           | 56 (CI green — Sprint 057)                | ✅     |
-| Components          | 1161                                      | ✅     |
-| Hooks               | 434                                       | ✅     |
-| API files           | 30                                        | ✅     |
+| E2E specs           | 59 (CI green — Sprint 057)                | ✅     |
+| Components          | 1043                                      | ✅     |
+| Hooks               | 440                                       | ✅     |
+| API files           | 32                                        | ✅     |
 | Services            | 37 *.service.ts (12 top + 25 в subfolder) | ✅     |
-| Stores              | 24                                        | ✅     |
+| Stores              | 25                                        | ✅     |
 | Suno edge functions | 46 (28/28 API — 100%)                     | ✅     |
 | Files >800 LOC src/ | 0                                         | ✅     |
 | `any` budget        | 0/50                                      | ✅     |
@@ -76,7 +110,7 @@
 
 **Часть B — API/Service unit tests: ✅**
 
-**Текущее:** 1691 unit tests (145 файлов). Цель: 1800+.
+**Текущее:** 1810 unit tests (166 файлов). Цель: 1800+ ✅ достигнуто.
 
 - [x] 5 новых тестовых файлов: missions.service, audio-reference-generation.service, profile-setup.service, upsell-strategy.service, session.service
 - [x] +40 тестов (1489→1529)
@@ -89,7 +123,7 @@
 - [ ] Edge functions декомпозиция (11 файлов >800 LOC в `supabase/functions/`)
 
 **Срок:** 3-5 дней
-**Метрика:** 1691 unit tests, 145 test файлов
+**Метрика:** 1810 unit tests, 166 test файлов
 
 ---
 

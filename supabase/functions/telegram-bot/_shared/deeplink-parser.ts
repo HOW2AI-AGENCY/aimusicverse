@@ -1,6 +1,6 @@
 /**
  * Deep Link Parser — pure utility for parsing Telegram Mini App deep link parameters.
- * Extracted from handlers/deep-links.ts.
+ * Extracted from handlers/deep-links/index.ts.
  */
 
 // Deep link type definitions

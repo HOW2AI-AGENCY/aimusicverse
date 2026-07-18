@@ -37,7 +37,7 @@ test.describe("Mobile visual regression — key screens", () => {
     for (const route of ROUTES) {
       test(`${route.name} @ ${vp.name} (${vp.width}x${vp.height})`, async ({ page }) => {
         await page.setViewportSize({ width: vp.width, height: vp.height });
-        await page.goto(route.path, { waitUntil: "networkidle" });
+        await page.goto(route.path, { waitUntil: "domcontentloaded" });
         await page.addStyleTag({ content: FREEZE_ANIM_CSS });
         await page.waitForSelector("main, [role='main'], body", { timeout: 8000 });
         await page.waitForTimeout(400);
@@ -63,7 +63,7 @@ test.describe("Mobile accessibility — key screens", () => {
   for (const route of ROUTES) {
     test(`${route.name} a11y @ 375x720`, async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 720 });
-      await page.goto(route.path, { waitUntil: "networkidle" });
+      await page.goto(route.path, { waitUntil: "domcontentloaded" });
       await page.waitForTimeout(400);
 
       const results = await new AxeBuilder({ page })

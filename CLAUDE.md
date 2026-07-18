@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **MusicVerse AI** is a professional AI-powered music creation platform delivered as a Telegram Mini App. Built with React 19, TypeScript, and Vite, it integrates Suno AI v5 for music generation with extensive editing, mixing, and collaboration features.
 
-- **Technology Stack:** React 19.2 + TypeScript 5.9 + Vite 8.1
+- **Technology Stack:** React 19.2 + TypeScript 5.9 + Vite 6.4.3
 - **Backend:** Supabase (PostgreSQL + Edge Functions + Storage)
 - **UI Framework:** Tailwind CSS 3.4 + shadcn/ui + Radix UI
 - **State Management:** Zustand 5.0 (global) + TanStack Query 5.90 (server state)
@@ -79,10 +79,10 @@ The application follows a layered architecture:
 
 ### Critical Directory Purposes
 
-- **`src/api/`** (30 files) - Direct Supabase database operations, type-safe queries
+- **`src/api/`** (32 files) - Direct Supabase database operations, type-safe queries
 - **`src/services/`** (37 files) - Business logic layer, data transformation, complex operations
 - **`src/hooks/`** (440 files) - Custom React hooks for UI logic and state management
-- **`src/stores/`** (24 stores) - Zustand stores for complex global state (player, unified studio, lyrics)
+- **`src/stores/`** (25 stores) - Zustand stores for complex global state (player, unified studio, lyrics)
 - **`src/components/`** (~1043 files) - React components organized by feature
   - `ui/` - shadcn/ui base components + custom components (LazyImage, GlowButton, etc.)
   - `player/` - Audio player (CompactPlayer, ExpandedPlayer, MobileFullscreenPlayer)
@@ -505,19 +505,14 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: **063 ✅ + 064 ✅** (Accessibility/Polish + A11y audit), Sprint **065 🔄 in progress** (Generate v2 + Home Redesign + Visual Regression, A1-A8 done, closure B2/B3/B4). Спринты 051/053-056/061-062 ✅. Design-review 2026-07-06 (Score C+, AI Slop B). **Актуальный оперплан:** [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md) (Sprint 065 closure → backlog 066-069).
+- Sprint: **065 🔄 in progress** (Generate v2 + Home Redesign). **Актуальный оперплан:** [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)
+- **Архитектурный рефакторинг 2026-07-18** (6/7 задач): peer dep vite↔storybook ✅, дублирующиеся директории объединены ✅, `AudioRecordDialog` 715→143 строк ✅, 7k-line supabase types в `types/_generated.ts` ✅, `any→unknown` в 2 критических файлах (6 eslint-disable удалено) ✅, 39 stale sprint файлов в архив ✅. Осталось: **бандл 7.9 MB → 2.3 MB** ⏸️ (отложено).
 - Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
-- Components: 1041, Hooks: 440, Stores: 24 (12 top-level + 12 in domain slices under `src/stores/*/`), API files: 30, Services: 37 *.service.ts (12 top-level + 25 in domain subfolders under `src/services/*/`) — recursive `find`/`wc -l` count, verified 2026-07-14 (see [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md) §1).
-- Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks. См. [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)
-- Unit Tests: **1810 passing** (166 test files), E2E: 58 specs
-- Key Issues: 0 layer-boundary violations, 0/50 `any` budget, **0 файлов >800 LOC в `src/`** (исключая generated types.ts и статический drum-kits.ts) — `supabase/functions/` не входит в этот scope и содержит ≥10 файлов >800 LOC (до 1330 LOC, `suno-music-callback`), не охваченных ни одним sprint'ом (Sprint 067), см. [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md) §1; tsc 0 errors, rules-of-hooks `"error"`
-- Sprint: **065 🔄 In progress** (Generate v2 + Home Redesign + Visual Regression). Recent: Sprint **056 ✅** (GenerateSheet Redesign + Storybook), **055 ✅** (UX P0/P1 13/13), **053+054 ✅** (Suno API 28/28), **051 ✅** (Test Debt A-C). Security audit 2026-07-13 — all 3 P0 findings (open notification endpoint, unsigned Suno callbacks, unmasked Sentry Replay) ✅ remediated. Canonical plan & backlog (066–069): [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md).
-- Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
-- Components: ~1043 (`src/components/*.tsx`), Hooks: 440, Stores: 24 (12 top-level + 12 in domain slices under `src/stores/*/`), API files: 30, Services: 37 *.service.ts, Stories: 59 — recursive `find`/`wc -l` count, verified 2026-07-14 (see [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)).
-- Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks. См. [docs/BUNDLE_ANALYSIS.md](docs/BUNDLE_ANALYSIS.md)
-- Unit Tests: **1810 passing** (166 test files passed + 2 skipped; 4 skipped, 31 todo), E2E: 58 specs — verified 2026-07-14 (`npm test`, vitest 4.1.9)
-- Key Issues: 0 layer-boundary violations, 0/50 `any` budget, **0 файлов >800 LOC в `src/`** (исключая generated types.ts и статический drum-kits.ts) — `supabase/functions/` не входит в этот scope и содержит 11 файлов >800 LOC (до 1871 LOC), не охваченных ни одним sprint'ом, см. [docs/audit/PROGRESS-AUDIT-2026-07-07.md](docs/audit/PROGRESS-AUDIT-2026-07-07.md); tsc 0 errors, rules-of-hooks `"error"`
-- Overall Progress: 99% (49 sprints complete in PROJECT_STATUS; в SPRINT-PROGRESS.md — компактная нумерация до 045)
+- Components: 1042, Hooks: 439, Stores: 23, API files: 32, Services: 62, Pages: 71, Lib: 138 — верифицировано 2026-07-18.
+- Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks.
+- Unit Tests: **1810 passing** (166 test files), E2E: 59 specs
+- Key Issues: 0 layer-boundary violations, tsc 0 errors, rules-of-hooks `"error"`. `any`-budget: 6 eslint-disables `no-explicit-any` удалены из `suno-error-mapper.ts` + `errorHandling.ts`; остаётся ~182 файла с `any`. **0 файлов >800 LOC в `src/`** (исключая generated types и drum-kits.ts). `supabase/functions/`: 7 файлов >800 LOC (Sprint 067).
+- Security audit 2026-07-13 — all 3 P0 findings ✅ remediated. Deps: конфликт vite↔storybook снят ✅, `npm install` без `--legacy-peer-deps`. Stories: 53 (Storybook).
 
 ## Telegram Bot Integration
 
@@ -616,7 +611,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-07-15 (Sprint 065 🔄 in progress — closure B4 docs sync; tsc 0 errors; 1810 unit tests; 58 E2E specs; 1041 components / 440 hooks)
+**Last Updated:** 2026-07-18 (архитектурный рефакторинг 6/7 задач: deps ✅, dirs ✅, AudioRecordDialog decomposition ✅, supabase types ✅, any→unknown ✅, sprint docs ✅; tsc 0 errors; 1042 components / 439 hooks / 23 stores / 32 API / 62 services; vite 6.4.3 без `--legacy-peer-deps`)
 
 ## graphify
 
@@ -642,3 +637,82 @@ This project maintains extensive documentation at the root level:
 - **MAINTENANCE.md** — how to keep documentation up to date after changes
 
 To update documentation after code changes: follow the checklist in `MAINTENANCE.md`.
+
+<!-- BEGIN sqz-claude-guidance (auto-installed by sqz init; remove this block to disable) -->
+
+## sqz — Context Compression (READ FIRST)
+
+sqz is installed in this project. It compresses tool output so large
+files, long logs, and verbose command output cost far fewer tokens.
+There are **two ways** sqz is wired in, and you should prefer each
+one in the situations below.
+
+### Preferred tools (MCP)
+
+The `sqz-mcp` server is registered in this project's MCP config. It
+exposes three read-only tools that compress their output through the
+sqz pipeline:
+
+- **`sqz_read_file`** — read a file from disk and return a compressed
+  view. **PREFER this over the built-in `Read` tool** for any file
+  larger than ~2KB or any file you might read more than once in the
+  same session. Repeat reads return a 13-token `§ref:HASH§` reference
+  instead of the full content.
+
+- **`sqz_grep`** — search files for a literal string or regex.
+  **PREFER this over the built-in `Grep`** for anything that might
+  match more than a handful of lines. Caps at 200 matches by default;
+  raise with `max_matches` if needed.
+
+- **`sqz_list_dir`** — list a directory. Skips `.git`, `node_modules`,
+  `target`, `dist`, `build`, `vendor`, `__pycache__` so the output
+  stays focused. **PREFER this over `ls -la` via Bash** when you want
+  to see a project layout.
+
+The built-in `Read`, `Grep`, `Glob` tools remain available. Use them for:
+
+- Tiny config files (<1KB) where compression can't help.
+- Byte-exact reads you'll hash or diff (lockfiles, signatures).
+- Globbing (sqz has no glob tool; `Glob` is still the right choice).
+
+### Bash commands (hooked automatically)
+
+When you run a shell command through the `Bash` tool, a PreToolUse hook
+rewrites it to pipe output through `sqz compress`. This is transparent:
+you don't need to remember to add anything, but it's useful to know
+that these commands get compressed automatically:
+
+```bash
+git status           # → git status 2>&1 | sqz compress --cmd git
+cargo test           # → cargo test 2>&1 | sqz compress --cmd cargo
+docker ps            # → docker ps 2>&1 | sqz compress --cmd docker
+kubectl get pods     # → kubectl get pods 2>&1 | sqz compress --cmd kubectl
+```
+
+The rewrite is skipped for interactive commands (`vim`, `ssh`,
+`python`), compound commands (`a && b`, `a > file.txt`), and anything
+already going through sqz.
+
+### Escape hatch — when you see a `§ref:HASH§` token
+
+If tool output contains a `§ref:a1b2c3d4§` token and you need the full
+content it points at, resolve it. Three equivalent ways:
+
+- Shell: `C:/Users/oat70/.cargo/bin/sqz.exe expand a1b2c3d4` (or paste the whole token
+  `C:/Users/oat70/.cargo/bin/sqz.exe expand §ref:a1b2c3d4§`).
+- MCP tool: call `expand` with `{ "prefix": "a1b2c3d4" }`.
+- To get uncompressed output for one command: prefix it with
+  `SQZ_NO_DEDUP=1` (e.g. `SQZ_NO_DEDUP=1 git log | sqz compress`).
+
+If the compressed output is actively making the task harder (looping
+on refs, small retries replacing one big read), call the `passthrough`
+MCP tool to get raw text.
+
+### When NOT to use sqz tools
+
+- Writing or editing files — use the built-in `Write`/`Edit` tools.
+  sqz has no write tools (by design; see issue #5 follow-up).
+- Running commands interactively or in watch mode.
+- Reading very small files (<1KB) where compression can't help.
+
+<!-- END sqz-claude-guidance -->

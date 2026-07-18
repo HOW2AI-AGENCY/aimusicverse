@@ -2,7 +2,7 @@
 
 > **Generated:** 2026-06-26  
 > **Version:** 1.0  
-> **Framework:** React 19 + TypeScript 5.9 + Vite 5.0  
+> **Framework:** React 19 + TypeScript 5.9 + Vite 6.4.3  
 > **Backend:** Supabase (PostgreSQL + Edge Functions)  
 > **Platform:** Telegram Mini App
 
@@ -193,7 +193,7 @@
 **Frontend:**
 
 - React 19.2 + TypeScript 5.9
-- Vite 5.0 (build system, dev server)
+- Vite 6.4.3 (build system, dev server)
 - React Router 6 (client-side routing)
 - Tailwind CSS 3.4 (styling)
 - shadcn/ui + Radix UI (component library)

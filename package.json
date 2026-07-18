@@ -24,6 +24,7 @@
     "test:visual:update": "playwright test tests/e2e/visual.section.spec.ts --project=chromium --update-snapshots",
     "test:visual:home": "playwright test -c playwright.visual.config.ts",
     "test:visual:home:update": "playwright test -c playwright.visual.config.ts --update-snapshots",
+    "test:responsive": "playwright test -c playwright.visual.config.ts tests/visual/responsive-audit.spec.ts",
     "e2e:wait-server": "node scripts/wait-for-dev-server.mjs",
     "test:e2e:hints:wait": "npm run e2e:wait-server && npm run test:e2e:hints",
     "test:e2e:hints:update": "npm run e2e:wait-server && npx playwright test tests/e2e/hints*.spec.ts --update-snapshots --reporter=list",
@@ -58,6 +59,7 @@
     "typecheck:app": "tsc --noEmit --project tsconfig.app.json",
     "typecheck:strict": "tsc --noEmit --project tsconfig.app.json --strict",
     "typecheck:any-count": "node scripts/count-any.mjs",
+    "supabase:types": "supabase gen types typescript --linked > src/integrations/supabase/types/_generated.ts",
     "check-all": "npm run lint && npm run format:check && npm run typecheck && npm run test",
     "clean": "rm -rf dist coverage storybook-static node_modules",
     "ci:build": "npm run lint && npm run build && npm run test:coverage",
@@ -166,7 +168,7 @@
     "@size-limit/file": "^12.0.0",
     "@storybook/addon-a11y": "^8.1.0",
     "@storybook/addon-docs": "^8.1.0",
-    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-essentials": "^8.1.0",
     "@storybook/addon-interactions": "^8.1.0",
     "@storybook/addon-links": "^8.1.0",
     "@storybook/addon-onboarding": "^8.1.0",
@@ -213,7 +215,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.0",
-    "vite": "^8.1.4",
+    "vite": "^6.4.3",
     "vite-plugin-compression": "^0.5.1",
     "vitest": "^4.0.14"
   },
@@ -257,13 +259,37 @@
     {
       "name": "Studio Feature",
       "path": "dist/assets/feature-studio*.js",
-      "limit": "1.05 MB",
+      "limit": "800 KB",
       "gzip": true
     },
     {
       "name": "OSMD Vendor",
       "path": "dist/assets/vendor-osmd*.js",
       "limit": "320 KB",
+      "gzip": true
+    },
+    {
+      "name": "Supabase Vendor",
+      "path": "dist/assets/vendor-supabase*.js",
+      "limit": "60 KB",
+      "gzip": true
+    },
+    {
+      "name": "Radix Vendor",
+      "path": "dist/assets/vendor-radix*.js",
+      "limit": "60 KB",
+      "gzip": true
+    },
+    {
+      "name": "Lamejs Vendor",
+      "path": "dist/assets/vendor-lamejs*.js",
+      "limit": "60 KB",
+      "gzip": true
+    },
+    {
+      "name": "JSZip Vendor",
+      "path": "dist/assets/vendor-jszip*.js",
+      "limit": "30 KB",
       "gzip": true
     }
   ],

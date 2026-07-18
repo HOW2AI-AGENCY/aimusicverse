@@ -12,7 +12,7 @@ This guide provides comprehensive instructions for deploying MusicVerse AI to pr
 
 ### Architecture Components
 
-- **Frontend**: React 19.2 + TypeScript 5.9 + Vite 5.0
+- **Frontend**: React 19.2 + TypeScript 5.9 + Vite 6.4.3
 - **Backend**: Supabase (PostgreSQL + Edge Functions + Storage)
 - **AI Integration**: Suno AI v5 API
 - **Payment**: Tinkoff Payment Integration

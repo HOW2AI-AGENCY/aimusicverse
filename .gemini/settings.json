@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "run_shell_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/Users/oat70/.cargo/bin/sqz.exe hook gemini"
+          }
+        ]
+      }
+    ]
+  }
+}

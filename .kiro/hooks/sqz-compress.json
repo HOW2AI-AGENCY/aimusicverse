@@ -1,0 +1,13 @@
+{
+  "name": "sqz compress",
+  "version": "1.0.0",
+  "description": "Compress shell command output through sqz for token savings",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": ["shell"]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "C:/Users/oat70/.cargo/bin/sqz.exe hook kiro"
+  }
+}
