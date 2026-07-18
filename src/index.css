@@ -2413,34 +2413,36 @@ select:focus-visible,
     border: 1px solid hsl(var(--glass-border));
   }
 
-  /* Semantic typography utilities (T038-21) — use CSS var so they're responsive */
+  /* Semantic typography utilities (T038-21) — use CSS var so they're responsive.
+     Font families resolve to the global --font-display / --font-sans tokens
+     (Bricolage Grotesque + DM Sans) so all three type systems render the same fonts. */
   .text-display {
     font-size: var(--text-display);
-    font-family: "Space Grotesk", "Unbounded", "Onest", system-ui, sans-serif;
+    font-family: var(--font-display);
     line-height: 1.15;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
   .text-heading {
     font-size: var(--text-heading);
-    font-family: "Space Grotesk", "Unbounded", "Onest", system-ui, sans-serif;
+    font-family: var(--font-display);
     line-height: 1.25;
     font-weight: 600;
     letter-spacing: -0.01em;
   }
   .text-body-base {
     font-size: var(--text-body);
-    font-family: "DM Sans", "Onest", system-ui, sans-serif;
+    font-family: var(--font-sans);
     line-height: 1.5;
   }
   .text-caption-base {
     font-size: var(--text-caption);
-    font-family: "DM Sans", "Onest", system-ui, sans-serif;
+    font-family: var(--font-sans);
     line-height: 1.4;
   }
   .text-overline {
     font-size: var(--text-overline);
-    font-family: "DM Sans", "Onest", system-ui, sans-serif;
+    font-family: var(--font-sans);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 600;
