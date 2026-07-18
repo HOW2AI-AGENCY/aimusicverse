@@ -379,7 +379,7 @@ export function detectErrorCode(error: unknown): SunoErrorCode {
   if (status === 401) return SunoErrorCode.UNAUTHORIZED;
   if (status === 402) return SunoErrorCode.INSUFFICIENT_CREDITS;
   if (status === 400) return SunoErrorCode.INVALID_INPUT;
-  if (status >= 500) return SunoErrorCode.SERVER_ERROR;
+  if (typeof status === "number" && status >= 500) return SunoErrorCode.SERVER_ERROR;
   if (status === 503) return SunoErrorCode.SERVICE_UNAVAILABLE;
 
   // Message pattern matching
