@@ -102,5 +102,8 @@
     "command": "bash .claude/statusline.sh",
     "refreshInterval": 30
   },
-  "description": "Impeccable design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as system reminders."
+  "description": "Impeccable design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as system reminders.",
+  "enabledMcpjsonServers": [
+    "claude-flow"
+  ]
 }

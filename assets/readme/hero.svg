@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380">
+  <defs>
+    <linearGradient id="primary-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="accent-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="380" fill="#0A0A0F"/>
+
+  <!-- 24px grid -->
+  <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+    <path d="M24 0v24H0" fill="none" stroke="rgba(124,92,255,0.035)" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="380" fill="url(#grid)"/>
+
+  <!-- ===== LEFT: TEXT CONTENT ===== -->
+
+  <!-- Category badge -->
+  <rect x="48" y="40" width="168" height="28" rx="14" fill="rgba(124,58,237,0.15)" stroke="rgba(124,58,237,0.3)" stroke-width="1"/>
+  <text x="132" y="58" text-anchor="middle" fill="#A78BFA" font-family="'JetBrains Mono','SF Mono',Monaco,monospace" font-size="11" font-weight="500" letter-spacing="0.8">TELEGRAM MINI APP</text>
+
+  <!-- Project name -->
+  <text x="48" y="125" fill="#F8FAFC" font-family="'Bricolage Grotesque',system-ui,-apple-system,sans-serif" font-size="68" font-weight="700" letter-spacing="-0.025">MusicVerse</text>
+  <text x="48" y="180" fill="url(#primary-grad)" font-family="'Bricolage Grotesque',system-ui,-apple-system,sans-serif" font-size="68" font-weight="700" letter-spacing="-0.025">AI</text>
+
+  <!-- Tagline -->
+  <text x="48" y="228" fill="#94A3B8" font-family="'DM Sans',system-ui,-apple-system,sans-serif" font-size="22" font-weight="400">AI Music Creation in Telegram</text>
+
+  <!-- Stat badges -->
+  <g font-family="'JetBrains Mono','SF Mono',Monaco,monospace" font-size="13" font-weight="600">
+    <!-- 1810+ tests -->
+    <rect x="48" y="256" width="138" height="34" rx="8" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.18)" stroke-width="1"/>
+    <text x="63" y="277" fill="#10B981">1810+ tests</text>
+
+    <!-- 0 errors -->
+    <rect x="198" y="256" width="118" height="34" rx="8" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.18)" stroke-width="1"/>
+    <text x="213" y="277" fill="#10B981">0 errors</text>
+
+    <!-- 1042 components -->
+    <rect x="328" y="256" width="156" height="34" rx="8" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.18)" stroke-width="1"/>
+    <text x="343" y="277" fill="#10B981">1042 components</text>
+  </g>
+
+  <!-- ===== WAVEFORM MOTIF (bottom) ===== -->
+  <g opacity="0.12">
+    <rect x="48" y="328" width="4" height="28" rx="2" fill="#7C3AED"/>
+    <rect x="58" y="316" width="4" height="40" rx="2" fill="#7C3AED"/>
+    <rect x="68" y="304" width="4" height="52" rx="2" fill="#7C3AED"/>
+    <rect x="78" y="294" width="4" height="62" rx="2" fill="#7C3AED"/>
+    <rect x="88" y="290" width="4" height="66" rx="2" fill="#7C3AED"/>
+    <rect x="98" y="284" width="4" height="72" rx="2" fill="#7C3AED"/>
+    <rect x="108" y="280" width="4" height="76" rx="2" fill="#7C3AED"/>
+    <rect x="118" y="278" width="4" height="78" rx="2" fill="#7C3AED"/>
+    <rect x="128" y="282" width="4" height="74" rx="2" fill="#7C3AED"/>
+    <rect x="138" y="288" width="4" height="68" rx="2" fill="#7C3AED"/>
+    <rect x="148" y="296" width="4" height="60" rx="2" fill="#7C3AED"/>
+    <rect x="158" y="306" width="4" height="50" rx="2" fill="#7C3AED"/>
+    <rect x="168" y="318" width="4" height="38" rx="2" fill="#7C3AED"/>
+    <rect x="178" y="326" width="4" height="30" rx="2" fill="#7C3AED"/>
+    <rect x="188" y="320" width="4" height="36" rx="2" fill="#7C3AED"/>
+    <rect x="198" y="310" width="4" height="46" rx="2" fill="#7C3AED"/>
+    <rect x="208" y="298" width="4" height="58" rx="2" fill="#7C3AED"/>
+    <rect x="218" y="288" width="4" height="68" rx="2" fill="#7C3AED"/>
+    <rect x="228" y="282" width="4" height="74" rx="2" fill="#7C3AED"/>
+    <rect x="238" y="278" width="4" height="78" rx="2" fill="#7C3AED"/>
+    <rect x="248" y="276" width="4" height="80" rx="2" fill="#7C3AED"/>
+    <rect x="258" y="280" width="4" height="76" rx="2" fill="#7C3AED"/>
+    <rect x="268" y="286" width="4" height="70" rx="2" fill="#7C3AED"/>
+    <rect x="278" y="294" width="4" height="62" rx="2" fill="#7C3AED"/>
+    <rect x="288" y="304" width="4" height="52" rx="2" fill="#7C3AED"/>
+    <rect x="298" y="314" width="4" height="42" rx="2" fill="#7C3AED"/>
+    <rect x="308" y="324" width="4" height="32" rx="2" fill="#7C3AED"/>
+    <rect x="318" y="330" width="4" height="26" rx="2" fill="#7C3AED"/>
+    <rect x="328" y="320" width="4" height="36" rx="2" fill="#7C3AED"/>
+    <rect x="338" y="308" width="4" height="48" rx="2" fill="#7C3AED"/>
+    <rect x="348" y="296" width="4" height="60" rx="2" fill="#7C3AED"/>
+    <rect x="358" y="286" width="4" height="70" rx="2" fill="#7C3AED"/>
+    <rect x="368" y="280" width="4" height="76" rx="2" fill="#7C3AED"/>
+    <rect x="378" y="278" width="4" height="78" rx="2" fill="#7C3AED"/>
+    <rect x="388" y="284" width="4" height="72" rx="2" fill="#7C3AED"/>
+    <rect x="398" y="292" width="4" height="64" rx="2" fill="#7C3AED"/>
+    <rect x="408" y="302" width="4" height="54" rx="2" fill="#7C3AED"/>
+    <rect x="418" y="312" width="4" height="44" rx="2" fill="#7C3AED"/>
+    <rect x="428" y="322" width="4" height="34" rx="2" fill="#7C3AED"/>
+    <rect x="438" y="328" width="4" height="28" rx="2" fill="#7C3AED"/>
+    <rect x="448" y="318" width="4" height="38" rx="2" fill="#7C3AED"/>
+    <rect x="458" y="306" width="4" height="50" rx="2" fill="#7C3AED"/>
+    <rect x="468" y="294" width="4" height="62" rx="2" fill="#7C3AED"/>
+    <rect x="478" y="286" width="4" height="70" rx="2" fill="#7C3AED"/>
+    <rect x="488" y="280" width="4" height="76" rx="2" fill="#7C3AED"/>
+    <rect x="498" y="284" width="4" height="72" rx="2" fill="#7C3AED"/>
+    <rect x="508" y="292" width="4" height="64" rx="2" fill="#7C3AED"/>
+    <rect x="518" y="302" width="4" height="54" rx="2" fill="#7C3AED"/>
+    <rect x="528" y="314" width="4" height="42" rx="2" fill="#7C3AED"/>
+    <rect x="538" y="324" width="4" height="32" rx="2" fill="#7C3AED"/>
+    <rect x="548" y="316" width="4" height="40" rx="2" fill="#7C3AED"/>
+    <rect x="558" y="304" width="4" height="52" rx="2" fill="#7C3AED"/>
+    <rect x="568" y="294" width="4" height="62" rx="2" fill="#7C3AED"/>
+    <rect x="578" y="286" width="4" height="70" rx="2" fill="#7C3AED"/>
+    <rect x="588" y="282" width="4" height="74" rx="2" fill="#7C3AED"/>
+    <rect x="598" y="288" width="4" height="68" rx="2" fill="#7C3AED"/>
+    <rect x="608" y="298" width="4" height="58" rx="2" fill="#7C3AED"/>
+    <rect x="618" y="310" width="4" height="46" rx="2" fill="#7C3AED"/>
+    <rect x="628" y="322" width="4" height="34" rx="2" fill="#7C3AED"/>
+    <rect x="638" y="328" width="4" height="28" rx="2" fill="#7C3AED"/>
+    <rect x="648" y="318" width="4" height="38" rx="2" fill="#7C3AED"/>
+    <rect x="658" y="306" width="4" height="50" rx="2" fill="#7C3AED"/>
+    <rect x="668" y="296" width="4" height="60" rx="2" fill="#7C3AED"/>
+    <rect x="678" y="290" width="4" height="66" rx="2" fill="#7C3AED"/>
+    <rect x="688" y="294" width="4" height="62" rx="2" fill="#7C3AED"/>
+    <rect x="698" y="304" width="4" height="52" rx="2" fill="#7C3AED"/>
+  </g>
+
+  <!-- Spectrum envelope line -->
+  <path d="M48,356 Q100,340 160,348 Q220,356 280,344 Q340,332 400,340 Q460,348 520,336 Q580,324 640,332 Q700,340 720,336" fill="none" stroke="rgba(124,58,237,0.1)" stroke-width="1.5"/>
+
+  <!-- ===== RIGHT: PHONE MOCKUP ===== -->
+
+  <g transform="translate(740, 28)">
+    <!-- Outer bezel -->
+    <rect x="0" y="0" width="192" height="324" rx="22" fill="none" stroke="rgba(124,92,255,0.25)" stroke-width="2"/>
+
+    <!-- Inner screen -->
+    <rect x="8" y="8" width="176" height="308" rx="16" fill="rgba(124,58,237,0.04)"/>
+
+    <!-- Status bar -->
+    <rect x="8" y="8" width="176" height="28" rx="16" fill="rgba(124,58,237,0.07)"/>
+    <circle cx="26" cy="22" r="3" fill="#475569"/>
+    <rect x="120" y="19" width="32" height="6" rx="3" fill="#475569"/>
+    <rect x="156" y="19" width="18" height="6" rx="3" fill="#475569"/>
+
+    <!-- Notch / time -->
+    <text x="96" y="26" text-anchor="middle" fill="#64748B" font-family="'DM Sans',system-ui,sans-serif" font-size="10" font-weight="600">9:41</text>
+
+    <!-- Navigation header -->
+    <rect x="20" y="48" width="152" height="22" rx="6" fill="rgba(124,58,237,0.12)"/>
+
+    <!-- Track card 1 -->
+    <rect x="20" y="82" width="152" height="56" rx="10" fill="rgba(124,58,237,0.06)" stroke="rgba(124,92,255,0.08)" stroke-width="1"/>
+    <rect x="32" y="94" width="44" height="32" rx="6" fill="rgba(124,58,237,0.12)"/>
+    <rect x="84" y="96" width="72" height="8" rx="3" fill="rgba(248,250,252,0.3)"/>
+    <rect x="84" y="110" width="48" height="6" rx="3" fill="rgba(148,163,184,0.3)"/>
+
+    <!-- Track card 2 -->
+    <rect x="20" y="148" width="152" height="56" rx="10" fill="rgba(124,58,237,0.06)" stroke="rgba(124,92,255,0.08)" stroke-width="1"/>
+    <rect x="32" y="160" width="44" height="32" rx="6" fill="rgba(124,58,237,0.12)"/>
+    <rect x="84" y="162" width="64" height="8" rx="3" fill="rgba(248,250,252,0.3)"/>
+    <rect x="84" y="176" width="52" height="6" rx="3" fill="rgba(148,163,184,0.3)"/>
+
+    <!-- Track card 3 -->
+    <rect x="20" y="214" width="152" height="56" rx="10" fill="rgba(124,58,237,0.06)" stroke="rgba(124,92,255,0.08)" stroke-width="1"/>
+    <rect x="32" y="226" width="44" height="32" rx="6" fill="rgba(124,58,237,0.12)"/>
+    <rect x="84" y="228" width="60" height="8" rx="3" fill="rgba(248,250,252,0.3)"/>
+    <rect x="84" y="242" width="56" height="6" rx="3" fill="rgba(148,163,184,0.3)"/>
+
+    <!-- Player bar pinned at bottom -->
+    <rect x="20" y="280" width="152" height="28" rx="10" fill="rgba(16,185,129,0.1)"/>
+    <rect x="32" y="290" width="64" height="8" rx="3" fill="rgba(16,185,129,0.3)"/>
+    <circle cx="148" cy="294" r="8" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+    <polygon points="146,290 152,294 146,298" fill="rgba(16,185,129,0.4)"/>
+  </g>
+
+  <!-- Violet accent line bottom-left -->
+  <rect x="48" y="362" width="72" height="3" rx="1.5" fill="url(#primary-grad)"/>
+</svg>

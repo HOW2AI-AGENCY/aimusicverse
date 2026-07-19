@@ -8,6 +8,8 @@
 
 **Профессиональная AI-генерация музыки прямо в Telegram Mini App. Suno AI v5, мультитрек-студия, A/B версии, MIDI, вокальный клон — без единого перехода во внешний сервис.**
 
+![banner](assets\readme\hero.svg)
+
 <p>
   <img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/>
   <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.0-475569?style=for-the-badge"/>
@@ -88,6 +90,8 @@
 ---
 
 ## 🏛 Архитектура
+
+![workflow](assets\readme\workflow.svg)
 
 ```
 ┌─────────────────────────────────────────────┐
