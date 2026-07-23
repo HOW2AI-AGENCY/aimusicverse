@@ -330,6 +330,22 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
 .tl-item li::before{content:'';position:absolute;left:2px;top:14px;width:8px;height:1.5px;background:var(--dim)}
 .tl-item li b{color:var(--paper);font-weight:600}
 .tl-item li .pr{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.05em;margin-left:8px;white-space:nowrap}
+/* завершённые вехи в таймлайне разработки */
+.tl-item.done::before{background:var(--green);box-shadow:0 0 10px rgba(70,194,134,.5)}
+.pill.done{color:var(--green);border:1px solid rgba(70,194,134,.45)}
+
+/* ————— Проблемы и решения ————— */
+.ps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(22px,3vw,40px);margin-top:clamp(36px,5vw,60px)}
+@media (max-width:820px){.ps-grid{grid-template-columns:1fr}}
+.ps{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direction:column;gap:12px}
+.ps .ps-k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.ps h3{font-size:17.5px;font-weight:500}
+.ps .ps-p{color:var(--mute);font-size:15px}
+.ps .ps-s{border-left:2px solid var(--green);padding-left:14px}
+.ps .ps-s b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:5px;font-weight:600}
+.ps .ps-s p{color:var(--paper);font-size:15px}
+.ps .ps-r{margin-top:auto;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.04em;padding-top:6px}
+.ps .ps-r em{color:var(--green);font-style:normal}
 
 /* ————— Финал ————— */
 .cta{margin-top:clamp(72px,10vw,128px)}
@@ -373,6 +389,8 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
       <a href="#features">Возможности</a>
       <a href="#studio">Студия</a>
       <a href="#tech">Технология</a>
+      <a href="#story">Разработка</a>
+      <a href="#solved">Решения</a>
       <a href="#roadmap">Планы</a>
     </nav>
     <a class="btn btn-blue" href="https://t.me/AIMusicVerseBot/app" target="_blank" rel="noopener">Открыть в Telegram</a>
@@ -617,6 +635,122 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
       </div>
 
       <p class="sec-note rv">Безопасность: RLS-политики на каждой таблице с пользовательскими данными, подписанные колбэки Suno, маскирование сессий в аналитике. Аудит июля 2026 — все критические находки закрыты. Доступность — WCAG AA, интерфейс на русском и английском.</p>
+    </div>
+  </section>
+
+  <!-- ————— ПУТЬ РАЗРАБОТКИ ————— -->
+  <section class="blk" id="story">
+    <div class="wrap">
+      <div class="blk-head mono rv"><span class="lbl">Разработка</span><span class="meta">ноябрь 2025 → июль 2026 · 8 месяцев</span></div>
+      <div class="two-col">
+        <h2 class="rv">Восемь месяцев — от каркаса до зрелой платформы</h2>
+        <p class="lead rv" style="--d:.1s">Продукт рос последовательными этапами. Каждый добавлял законченный блок ценности, не ломая то, что уже работало.</p>
+      </div>
+
+      <div class="tl">
+        <div class="tl-item done rv">
+          <div class="tl-q"><span class="q">Ноя–Дек 2025</span><span class="pill done">готово</span></div>
+          <h3>Фундамент</h3>
+          <ul>
+            <li>Архитектура на современном стеке: <b>React 19, TypeScript, Vite, Supabase</b></li>
+            <li>Каркас нативного <b>Telegram Mini App</b> и базовые сценарии</li>
+            <li>Слоистая структура «данные → логика → интерфейс» под устойчивый рост</li>
+          </ul>
+        </div>
+        <div class="tl-item done rv" style="--d:.06s">
+          <div class="tl-q"><span class="q">Янв–Фев 2026</span><span class="pill done">готово</span></div>
+          <h3>Сердце продукта</h3>
+          <ul>
+            <li>Интеграция <b>Suno AI v5</b> — движок генерации музыки</li>
+            <li>Единый плеер в трёх режимах: компактный, расширенный, полноэкранный</li>
+            <li>Оптимизация под iOS Safari: стабильная работа со звуком на технике Apple</li>
+          </ul>
+        </div>
+        <div class="tl-item done rv" style="--d:.12s">
+          <div class="tl-q"><span class="q">Мар–Апр 2026</span><span class="pill done">готово</span></div>
+          <h3>Библиотека и версии</h3>
+          <ul>
+            <li><b>Библиотека треков</b> с виртуализацией — плавно даже на сотнях записей</li>
+            <li><b>Версии A/B:</b> каждая генерация даёт два варианта с мгновенным переключением</li>
+            <li>Разделение записи на <b>стемы</b>: вокал и инструменты по отдельности</li>
+          </ul>
+        </div>
+        <div class="tl-item done rv" style="--d:.18s">
+          <div class="tl-q"><span class="q">Май–Июн 2026</span><span class="pill done">готово</span></div>
+          <h3>Unified Studio</h3>
+          <ul>
+            <li>Единая студия: <b>микшер, стемы, замена секций, сравнение A/B</b> на одном экране</li>
+            <li><b>MIDI-транскрипция</b> с выбором из нескольких моделей</li>
+            <li>Полноценная мобильная студия с жестами и адаптивным интерфейсом</li>
+          </ul>
+        </div>
+        <div class="tl-item now rv" style="--d:.24s">
+          <div class="tl-q"><span class="q">Июль 2026</span><span class="pill a">текущий этап</span></div>
+          <h3>Полировка и подготовка к росту</h3>
+          <ul>
+            <li>Редизайн главного экрана и формы генерации: единый визуальный язык</li>
+            <li>Мультиязычный интерфейс с переключателем <b>RU / EN</b></li>
+            <li>Архитектурный рефакторинг: крупные модули разбиты, технический долг закрыт</li>
+            <li>Аудит безопасности: критические замечания устранены<span class="pr">здоровье 99/100</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ————— ПРОБЛЕМЫ И РЕШЕНИЯ ————— -->
+  <section class="blk" id="solved">
+    <div class="wrap">
+      <div class="blk-head mono rv"><span class="lbl">Инженерные вызовы</span><span class="meta">проблема · решение · результат</span></div>
+      <div class="two-col">
+        <h2 class="rv">Сложные задачи, которые пришлось решить</h2>
+        <p class="lead rv" style="--d:.1s">За гладким интерфейсом — несколько нетривиальных инженерных проблем. Вот главные из них и то, как они закрыты.</p>
+      </div>
+
+      <div class="ps-grid">
+        <article class="ps rv">
+          <span class="ps-k">Аудио на iOS</span>
+          <h3>Safari падает от множества плееров</h3>
+          <p class="ps-p">Safari на iPhone аварийно закрывает вкладку, когда на странице больше десятка аудиоэлементов. Музыкальному приложению их нужно много: превью версий, стемы, запись голоса.</p>
+          <div class="ps-s"><b>Решение</b><p>Весь звук идёт через один аудиоэлемент на всё приложение, плюс пул переиспользуемых элементов для превью.</p></div>
+          <p class="ps-r">Результат: <em>плеер не падает и не заикается даже на старых iPhone.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.06s">
+          <span class="ps-k">Скорость запуска</span>
+          <h3>Мгновенное открытие против объёма кода</h3>
+          <p class="ps-p">Мини-приложение должно открываться сразу, но полный интерфейс — это больше мегабайта кода при первом входе.</p>
+          <div class="ps-s"><b>Решение</b><p>Разбиение на модули, ленивая загрузка экранов и точечная сборка с жёстким бюджетом на размер.</p></div>
+          <p class="ps-r">Результат: <em>холодный старт 508 КБ, вдвое с лишним легче.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.12s">
+          <span class="ps-k">Версии A/B</span>
+          <h3>Показано одно, играет другое</h3>
+          <p class="ps-p">У каждого трека два варианта. При переключении легко получить рассинхрон: на экране версия A, а из динамика звучит B.</p>
+          <div class="ps-s"><b>Решение</b><p>Активная версия переключается атомарно: все связанные данные меняются одной операцией, с журналом изменений.</p></div>
+          <p class="ps-r">Результат: <em>то, что вы видите, всегда совпадает с тем, что слышите.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.18s">
+          <span class="ps-k">Эргономика телефона</span>
+          <h3>Клавиатура и вырезы перекрывают экран</h3>
+          <p class="ps-p">Клавиатура Telegram и вырезы дисплея закрывают интерфейс, а попадать пальцем по мелким кнопкам неудобно.</p>
+          <div class="ps-s"><b>Решение</b><p>Интерфейс подстраивается под видимую область: безопасные отступы, цели касания ≥ 44 px, шторки вместо диалогов и тактильный отклик.</p></div>
+          <p class="ps-r">Результат: <em>студия удобно управляется одним большим пальцем.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.24s">
+          <span class="ps-k">Надёжность при росте</span>
+          <h3>Быстрый темп грозит регрессиями</h3>
+          <p class="ps-p">Функциональность растёт быстро, и без страховки любое изменение рискует незаметно сломать соседний модуль.</p>
+          <div class="ps-s"><b>Решение</b><p>1810 автотестов и 58 E2E-сценариев в шести браузерах, строгая типизация без «any», проверки на каждый коммит.</p></div>
+          <p class="ps-r">Результат: <em>релизы без сюрпризов, ноль ошибок типизации.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.3s">
+          <span class="ps-k">Безопасность данных</span>
+          <h3>Чувствительные данные и платежи</h3>
+          <p class="ps-p">Генерации, треки и оплаты — данные, которые нельзя терять или раскрывать, а секреты недопустимо держать на стороне клиента.</p>
+          <div class="ps-s"><b>Решение</b><p>Доступ ограничен политиками на уровне базы данных, секреты живут только в серверных функциях, внешние колбэки подписаны, зависимости регулярно проверяются.</p></div>
+          <p class="ps-r">Результат: <em>аудит июля 2026, критические замечания закрыты.</em></p>
+        </article>
+      </div>
     </div>
   </section>
 
