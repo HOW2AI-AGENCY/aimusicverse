@@ -21,9 +21,11 @@ interface Props {
   onOpenChange: (open: boolean) => void;
   currentText: string;
   onApply: (text: string, targetSectionId?: string) => void;
+  onApplyTitle?: (title: string) => void;
+  onApplyStyle?: (style: string) => void;
 }
 
-export function LyricsAssistantSheet({ open, onOpenChange, currentText, onApply }: Props) {
+export function LyricsAssistantSheet({ open, onOpenChange, currentText, onApply, onApplyTitle, onApplyStyle }: Props) {
   const [previewCollapsed, setPreviewCollapsed] = useState(false);
 
   // Lock body scroll while lyrics assistant sheet is open
@@ -33,7 +35,10 @@ export function LyricsAssistantSheet({ open, onOpenChange, currentText, onApply 
     <Drawer.Root open={open} onOpenChange={onOpenChange}>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40 z-[80]" />
-        <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[81] bg-background rounded-t-2xl p-4 pb-safe max-h-[85dvh] flex flex-col">
+        <Drawer.Content
+          className="fixed bottom-0 left-0 right-0 z-[81] bg-background rounded-t-2xl p-4 pb-safe flex flex-col"
+          style={{ maxHeight: "calc(85dvh - var(--keyboard-h, 0px))" }}
+        >
           <Drawer.Handle className="mx-auto w-12 h-1.5 rounded-full bg-muted-foreground/30 mb-3" />
 
           <div className="flex items-center justify-between mb-3">
@@ -74,7 +79,12 @@ export function LyricsAssistantSheet({ open, onOpenChange, currentText, onApply 
           )}
 
           <div className="flex-1 overflow-hidden">
-            <LyricsAssistantChat onApply={onApply} />
+            <LyricsAssistantChat
+              currentLyrics={currentText}
+              onApply={onApply}
+              onApplyTitle={onApplyTitle}
+              onApplyStyle={onApplyStyle}
+            />
           </div>
         </Drawer.Content>
       </Drawer.Portal>

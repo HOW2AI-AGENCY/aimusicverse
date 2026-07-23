@@ -265,6 +265,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
         onOpenChange={controller.dialogs.lyricsAssistant.setOpen}
         currentText={controller.form.lyrics}
         onApply={(text) => controller.form.setLyrics(text)}
+        onApplyTitle={(title) => controller.form.setTitle(title)}
+        onApplyStyle={(style) => controller.form.setStyle(style)}
       />
 
       <ValidationReasonsSheet

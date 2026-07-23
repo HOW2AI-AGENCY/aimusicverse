@@ -1,47 +1,60 @@
 /**
  * LyricsAssistantChat
  *
- * Sprint 056 — Task 7. Thin wrapper composing the existing
- * `ChatMessageList` + `ChatInputArea` primitives from the
- * lyrics-chat module. Designed to live inside the vaul bottom
- * sheet produced by `LyricsAssistantSheet`. Imports are direct
- * (no barrel) to avoid circular re-export cycles per CLAUDE.md
- * pitfall #10.
+ * Sprint 056 — Task 7. Chat body composed from lyrics-chat primitives.
+ * Now wired to useLyricsAssistant hook for actual AI interaction.
  */
+
 import { ChatMessageList } from "@/components/generate-form/lyrics-chat/ChatMessageList";
 import { ChatInputArea } from "@/components/generate-form/lyrics-chat/ChatInputArea";
+import { useLyricsAssistant } from "@/hooks/lyrics/useLyricsAssistant";
 
 interface Props {
+  currentLyrics: string;
   onApply: (text: string, targetSectionId?: string) => void;
+  onApplyTitle?: (title: string) => void;
+  onApplyStyle?: (style: string) => void;
 }
 
-export function LyricsAssistantChat({ onApply }: Props) {
+export function LyricsAssistantChat({ currentLyrics, onApply, onApplyTitle, onApplyStyle }: Props) {
+  const state = useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApplyStyle });
+
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto">
-        <ChatMessageList
-          messages={[]}
-          isLoading={false}
-          selectedGenre=""
-          selectedMoods={[]}
-          selectedStructure=""
-          copied={false}
-          saved={false}
-          isSaving={false}
-          generatedLyrics=""
-          onGenreSelect={() => undefined}
-          onMoodSelect={() => undefined}
-          onMoodConfirm={() => undefined}
-          onStructureSelect={() => undefined}
-          onOptionClick={() => undefined}
-          onCopy={() => undefined}
-          onSave={() => undefined}
-          onRegenerate={() => undefined}
-          onApply={() => onApply("")}
-          onContinue={() => undefined}
-        />
-      </div>
-      <ChatInputArea value="" onChange={() => undefined} onSend={() => undefined} onApply={onApply} />
+      <ChatMessageList
+        messages={state.messages}
+        isLoading={state.isLoading}
+        selectedGenre={state.selectedGenre}
+        selectedMoods={state.selectedMoods}
+        selectedStructure={state.selectedStructure}
+        copied={state.copied}
+        saved={state.saved}
+        isSaving={state.isSaving}
+        generatedLyrics={state.generatedLyrics}
+        showApplyButton
+        onGenreSelect={state.handleGenreSelect}
+        onMoodSelect={state.handleMoodSelect}
+        onMoodConfirm={state.handleMoodConfirm}
+        onStructureSelect={state.handleStructureSelect}
+        onOptionClick={state.handleOptionClick}
+        onCopy={state.handleCopy}
+        onSave={state.handleSave}
+        onRegenerate={state.handleRegenerate}
+        onApply={state.handleApply}
+        onContinue={state.handleContinue}
+        onRequestEdit={state.handleRequestEdit}
+        onTitleChange={state.handleTitleChange}
+        onStyleChange={state.handleStyleChange}
+      />
+      <ChatInputArea
+        value={state.inputValue}
+        onChange={state.setInputValue}
+        onSend={state.handleSend}
+        isLoading={state.isLoading}
+        placeholder={state.isMobile ? "Опиши песню..." : "Напишите о чём песня..."}
+        requireShiftEnter={state.isMobile}
+        onApply={onApply}
+      />
     </div>
   );
 }

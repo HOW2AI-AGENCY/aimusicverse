@@ -16,12 +16,8 @@ interface ChatInputAreaProps {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
-  /**
-   * Optional callback used by callers (e.g. LyricsAssistantSheet in
-   * Sprint 056) that want to be notified when the input applies its
-   * content. Not invoked by this component — purely a pass-through
-   * so consumers can read `onApply` from props if needed.
-   */
+  /** When true, Enter without Shift does NOT send (mobile-friendly). */
+  requireShiftEnter?: boolean;
   onApply?: (text: string, targetSectionId?: string) => void;
 }
 
@@ -36,6 +32,7 @@ export const ChatInputArea = memo(
     placeholder = "Напишите о чём песня...",
     disabled = false,
     className,
+    requireShiftEnter = false,
     onApply: _onApply,
   }: ChatInputAreaProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -61,8 +58,8 @@ export const ChatInputArea = memo(
           return;
         }
 
-        // Enter without shift to send (single line mode)
-        if (e.key === "Enter" && !e.shiftKey) {
+        // Enter without shift to send (unless requireShiftEnter)
+        if (!requireShiftEnter && e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
           if (!disabled && !isLoading && value.trim()) {
             onSend();
