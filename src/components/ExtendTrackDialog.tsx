@@ -26,9 +26,10 @@ interface ExtendTrackDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   track: Track;
+  activeAudioUrl?: string;
 }
 
-export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDialogProps) => {
+export const ExtendTrackDialog = ({ open, onOpenChange, track, activeAudioUrl }: ExtendTrackDialogProps) => {
   const navigate = useNavigate();
   const playTrack = usePlayerStore((s) => s.playTrack);
   const extendProgress = useExtendProgress();
@@ -90,6 +91,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
     try {
       const { data, error } = await extendMusicMutation.mutateAsync({
         sourceTrackId: track.id,
+        audioUrl: activeAudioUrl,
         defaultParamFlag: useCustomParams,
         continueAt: useCustomParams ? continueAt : undefined,
         prompt: useCustomParams ? prompt : undefined,

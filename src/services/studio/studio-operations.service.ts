@@ -68,6 +68,7 @@ export async function extendTrack(params: {
 
 export interface ExtendMusicParams {
   sourceTrackId: string;
+  audioUrl?: string;
   defaultParamFlag?: boolean;
   continueAt?: number;
   prompt?: string;
@@ -86,6 +87,7 @@ export async function extendMusic(params: ExtendMusicParams): Promise<{ data: un
   try {
     const { data, error } = await studioApi.invokeSunoMusicExtend({
       sourceTrackId: params.sourceTrackId,
+      audioUrl: params.audioUrl,
       defaultParamFlag: params.defaultParamFlag,
       continueAt: params.continueAt,
       prompt: params.prompt,

@@ -44,6 +44,7 @@ serve(async (req) => {
     const body = await req.json();
     const {
       sourceTrackId,
+      audioUrl: overrideAudioUrl,
       defaultParamFlag = false, // false means use custom parameters
       continueAt,
       prompt,
@@ -176,7 +177,7 @@ serve(async (req) => {
     // Create track version relationship
     await supabase.from("track_versions").insert({
       track_id: newTrack.id,
-      audio_url: sourceTrack.audio_url || "",
+      audio_url: overrideAudioUrl || sourceTrack.audio_url || "",
       cover_url: sourceTrack.cover_url,
       duration_seconds: sourceTrack.duration_seconds,
       version_type: "extended_from",

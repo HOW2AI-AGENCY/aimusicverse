@@ -105,6 +105,7 @@ export function TrackDialogsPortal({
         open={dialogs.extend}
         onOpenChange={(open) => !open && onCloseDialog("extend")}
         track={track}
+        activeAudioUrl={activeVersion?.audioUrl}
       />
 
       <AudioCoverDialog
