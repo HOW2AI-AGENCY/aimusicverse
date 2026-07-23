@@ -41,7 +41,10 @@ if 'graphify-out/' not in s and any(e in s for e in exts):
     sys.stdout.write('1')
 " <<< "$TOOL_INPUT" 2>/dev/null || true)
 
-if [ "$HIT" = "1" ] && [ -f graphify-out/graph.json ]; then
+SESSION_ID=$(python3 -c "import json,sys;print(json.loads(sys.stdin.read()).get('session_id',''))" <<< "$TOOL_INPUT" 2>/dev/null || true)
+MARKER="${TMPDIR:-/tmp}/.graphify-hint-${SESSION_ID:-default}"
+if [ "$HIT" = "1" ] && [ -f graphify-out/graph.json ] && [ ! -f "$MARKER" ]; then
+  touch "$MARKER" 2>/dev/null || true
   cat << 'EOF'
 {
   "hookSpecificOutput": {

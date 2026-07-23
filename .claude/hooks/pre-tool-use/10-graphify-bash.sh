@@ -28,7 +28,10 @@ except Exception:
 # Each pattern is checked against the full command string
 case "$CMD" in
   *grep*|*rg\ *|*ripgrep*|*find\ *|*fd\ *|*ack\ *|*ag\ *)
-    if [ -f graphify-out/graph.json ]; then
+    SESSION_ID=$(python3 -c "import json,sys;print(json.loads(sys.stdin.read()).get('session_id',''))" <<< "$TOOL_INPUT" 2>/dev/null || true)
+    MARKER="${TMPDIR:-/tmp}/.graphify-hint-${SESSION_ID:-default}"
+    if [ -f graphify-out/graph.json ] && [ ! -f "$MARKER" ]; then
+      touch "$MARKER" 2>/dev/null || true
       cat << 'EOF'
 {
   "hookSpecificOutput": {

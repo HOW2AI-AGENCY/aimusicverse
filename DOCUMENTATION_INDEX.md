@@ -16,6 +16,7 @@
   <a href="ARCHITECTURE_HUB.md">🏛 Architecture</a> ·
   <a href="ROADMAP.md">🗺 Roadmap</a> ·
   <a href="CHANGELOG.md">📝 Changelog</a> ·
+  <a href="DEVLOG.md">🎵 DevLog</a> ·
   <a href="CONTRIBUTING.md">🤝 Contributing</a>
 </p>
 
@@ -50,7 +51,8 @@ flowchart LR
     Tokens --> Layout[docs/LAYOUT_SYSTEM]
 
     PM --> Status[PROJECT_STATUS]
-    Status --> Road[ROADMAP]
+    Status --> DevLog[DEVLOG]
+    DevLog --> Road[ROADMAP]
     Road --> Change[CHANGELOG]
 
     Contributor --> Contrib2[CONTRIBUTING]
