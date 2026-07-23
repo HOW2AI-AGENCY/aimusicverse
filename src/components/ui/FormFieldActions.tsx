@@ -178,7 +178,7 @@ export const FormFieldActions = memo(function FormFieldActions({
   const showCopyClear = !shouldHideWhenEmpty || !isEmpty;
 
   return (
-    <div className={cn("flex items-center gap-0.5", className)}>
+    <div className={cn("flex items-center gap-0.5 flex-nowrap overflow-x-auto scrollbar-none", className)}>
       {/* Custom Actions - Styles, Templates, Studio */}
       {hasCustomActions && (
         <>

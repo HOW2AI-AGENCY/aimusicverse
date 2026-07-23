@@ -52,7 +52,7 @@ export function GenerateSheetBody({
 }: Props) {
   return (
     <ScrollArea className="flex-1 overflow-x-hidden">
-      <div className="px-4 py-3 space-y-3 w-full max-w-full min-w-0 overflow-x-hidden">
+      <div className="px-3 sm:px-4 py-3 space-y-3 w-full max-w-full min-w-0">
         {/* Sprint 055-B5: sticky step indicator for custom mode */}
         {form.mode === "custom" && <FormStepper />}
         <ReferenceChipsRow

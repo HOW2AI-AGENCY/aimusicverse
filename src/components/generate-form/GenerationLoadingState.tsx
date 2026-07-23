@@ -11,7 +11,7 @@
 
 import { memo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, Music, Sparkles, CheckCircle2, XCircle } from "@/lib/icons";
+import { Loader2, Music, Sparkles, CheckCircle2, XCircle, AlertCircle, RefreshCw } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
@@ -41,8 +41,12 @@ interface GenerationLoadingStateProps {
   onCancel?: () => void;
   /** Show cancel button */
   showCancel?: boolean;
-  /** Custom message */
+  /** Custom message (shown as secondary text) */
   message?: string;
+  /** Error description shown when stage="failed" */
+  errorMessage?: string;
+  /** Callback when user clicks retry after failure */
+  onRetry?: () => void;
   /** Compact mode for inline display */
   compact?: boolean;
 }
@@ -53,6 +57,8 @@ export function GenerationLoadingState({
   onCancel,
   showCancel = true,
   message,
+  errorMessage = "Произошла ошибка при генерации",
+  onRetry,
   compact = false,
 }: GenerationLoadingStateProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -104,6 +110,44 @@ export function GenerationLoadingState({
   const currentStage = GENERATION_STAGES[displayStageIndex];
   const StageIcon = currentStage?.icon || Loader2;
 
+  if (stage === "failed") {
+    if (compact) {
+      return (
+        <span className={cn("inline-flex items-center gap-1.5 text-sm text-destructive", compact ? "" : "")}>
+          <AlertCircle className="h-3.5 w-3.5" />
+          <span>{errorMessage}</span>
+        </span>
+      );
+    }
+    return (
+      <Card className="p-6 space-y-4 border-destructive/30">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <div className="w-14 h-14 rounded-full bg-destructive/10 flex items-center justify-center">
+            <AlertCircle className="h-7 w-7 text-destructive" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-lg">Ошибка генерации</h3>
+            <p className="text-sm text-muted-foreground mt-1">{errorMessage}</p>
+          </div>
+          <div className="flex gap-3 mt-2">
+            {onRetry && (
+              <Button onClick={onRetry} variant="outline" className="gap-2">
+                <RefreshCw className="h-4 w-4" />
+                Попробовать снова
+              </Button>
+            )}
+            {showCancel && onCancel && (
+              <Button onClick={onCancel} variant="ghost" className="gap-2 text-muted-foreground">
+                <XCircle className="h-4 w-4" />
+                Закрыть
+              </Button>
+            )}
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
   if (compact) {
     return (
       <div className="flex items-center gap-2 text-sm">
@@ -117,7 +161,7 @@ export function GenerationLoadingState({
   }
 
   return (
-    <Card className="p-6 space-y-4">
+    <Card className="p-4 sm:p-6 space-y-3 sm:space-y-4 max-w-full">
       <AnimatePresence mode="wait">
         <motion.div
           key={stage}
@@ -125,7 +169,7 @@ export function GenerationLoadingState({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
-          className="space-y-4"
+          className="space-y-3 sm:space-y-4"
         >
           {/* Stage indicator with icon */}
           <div className="flex items-center gap-3">

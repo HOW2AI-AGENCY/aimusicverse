@@ -48,12 +48,18 @@ function InfoTip({ text }: { text: string }) {
         <button
           type="button"
           aria-label="Подробнее"
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground"
+          className="h-6 w-6 flex items-center justify-center text-muted-foreground hover:text-foreground rounded"
         >
           <Info className="w-3.5 h-3.5" />
         </button>
       </PopoverTrigger>
-      <PopoverContent side="top" className="w-64 text-xs">
+      <PopoverContent
+        side="top"
+        align="end"
+        sideOffset={4}
+        collisionPadding={8}
+        className="w-56 max-w-[calc(100vw-2rem)] text-xs leading-relaxed"
+      >
         {text}
       </PopoverContent>
     </Popover>
@@ -81,12 +87,12 @@ export function AdvancedSettings({ open, onOpenChange, ...props }: AdvancedSetti
         </Button>
       </CollapsibleTrigger>
 
-      <CollapsibleContent className={cn("space-y-2 p-3.5 mt-2 rounded-xl", glass.subtle)}>
+      <CollapsibleContent className={cn("space-y-2.5 p-4 mt-2 rounded-xl", glass.subtle)}>
         {/* Card: Стиль влияния */}
-        <div className="rounded-xl border bg-card/40 p-3 space-y-2">
-          <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium">🎚 Влияние стиля</Label>
-            <div className="flex items-center gap-2">
+        <div className="rounded-xl border bg-card/40 p-3 space-y-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <Label className="text-xs font-medium shrink-0">🎚 Влияние стиля</Label>
+            <div className="flex items-center gap-1.5">
               <span className="text-xs font-semibold tabular-nums">{Math.round(props.styleWeight[0] * 100)}%</span>
               <InfoTip text="Как сильно AI следует описанию стиля. Ниже — креативнее, выше — точнее." />
             </div>
@@ -95,10 +101,10 @@ export function AdvancedSettings({ open, onOpenChange, ...props }: AdvancedSetti
         </div>
 
         {/* Card: Креативность */}
-        <div className="rounded-xl border bg-card/40 p-3 space-y-2">
-          <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium">🎲 Креативность</Label>
-            <div className="flex items-center gap-2">
+        <div className="rounded-xl border bg-card/40 p-3 space-y-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <Label className="text-xs font-medium shrink-0">🎲 Креативность</Label>
+            <div className="flex items-center gap-1.5">
               <span className="text-xs font-semibold tabular-nums">
                 {Math.round(props.weirdnessConstraint[0] * 100)}%
               </span>
@@ -115,9 +121,9 @@ export function AdvancedSettings({ open, onOpenChange, ...props }: AdvancedSetti
         </div>
 
         {/* Card: Пол вокала */}
-        <div className="rounded-xl border bg-card/40 p-3 space-y-2">
-          <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium">🎤 Пол вокала</Label>
+        <div className="rounded-xl border bg-card/40 p-3 space-y-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <Label className="text-xs font-medium shrink-0">🎤 Пол вокала</Label>
             <InfoTip text="Женский / мужской вокал или авто-выбор." />
           </div>
           <div className="grid grid-cols-3 gap-1.5">
@@ -128,7 +134,7 @@ export function AdvancedSettings({ open, onOpenChange, ...props }: AdvancedSetti
                 variant={props.vocalGender === value ? "default" : "outline"}
                 size="sm"
                 onClick={() => props.onVocalGenderChange(value)}
-                className="text-xs h-11 min-h-touch rounded-lg"
+                className="text-xs h-10 rounded-lg"
               >
                 {label}
               </Button>
@@ -138,12 +144,12 @@ export function AdvancedSettings({ open, onOpenChange, ...props }: AdvancedSetti
 
         {/* Card: Сила аудио/персоны (conditional) */}
         {(props.hasReferenceAudio || props.hasPersona) && (
-          <div className="rounded-xl border bg-card/40 p-3 space-y-2">
-            <div className="flex items-center justify-between">
-              <Label className="text-xs font-medium">
+          <div className="rounded-xl border bg-card/40 p-3 space-y-2.5">
+            <div className="flex items-center justify-between gap-2">
+              <Label className="text-xs font-medium shrink-0">
                 🎯 {getAudioWeightLabel(props.hasReferenceAudio, !!props.hasPersona)}
               </Label>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 <span className="text-xs font-semibold tabular-nums">{Math.round(props.audioWeight[0] * 100)}%</span>
                 <InfoTip text="Влияние выбранного аудио или персоны на результат." />
               </div>
@@ -153,9 +159,9 @@ export function AdvancedSettings({ open, onOpenChange, ...props }: AdvancedSetti
         )}
 
         {/* Card: Исключить */}
-        <div className="rounded-xl border bg-card/40 p-3 space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="negative-tags" className="text-xs font-medium">
+        <div className="rounded-xl border bg-card/40 p-3 space-y-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <Label htmlFor="negative-tags" className="text-xs font-medium shrink-0">
               🚫 Исключить
             </Label>
             <InfoTip text="Теги, которые AI будет избегать в генерации." />
