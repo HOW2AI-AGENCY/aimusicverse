@@ -230,7 +230,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 
         {/* Editor area */}
         {showPreview ? (
-          <LyricsPreview value={lyrics} />
+          <LyricsPreview value={lyrics} onAIAssist={onOpenLyricsAssistant} />
         ) : showVisualEditor ? (
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
@@ -249,9 +249,9 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                 const el = e.currentTarget;
                 selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
               }}
-              rows={10}
+              rows={6}
               className={cn(
-                "text-sm min-h-[220px] max-h-[400px] overflow-y-auto whitespace-pre-wrap",
+                "text-sm min-h-[100px] sm:min-h-[180px] max-h-[400px] overflow-y-auto whitespace-pre-wrap",
                 "pb-12 pt-3 px-3 rounded-xl resize-none",
                 "bg-muted/30 text-foreground placeholder:text-muted-foreground",
                 "border-border/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
@@ -306,30 +306,6 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                 </div>
               </div>
             </div>
-
-            {/* AI suggestion button - appears when empty, positioned above floating toolbar */}
-            {!lyrics && (
-              <motion.button
-                type="button"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className={cn(
-                  "absolute left-1/2 -translate-x-1/2 top-6",
-                  "flex items-center gap-2 px-3 py-2 rounded-full",
-                  "bg-primary/10 border border-dashed border-primary/40",
-                  "hover:bg-primary/15 hover:border-primary/60",
-                  "transition-all duration-200 cursor-pointer",
-                )}
-                onClick={() => {
-                  hapticFeedback("medium");
-                  onOpenLyricsAssistant();
-                }}
-                aria-label="Создать текст с AI"
-              >
-                <Wand2 className="w-4 h-4 text-primary" />
-                <span className="text-xs font-medium text-primary">Создать с AI</span>
-              </motion.button>
-            )}
           </div>
         )}
 

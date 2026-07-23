@@ -7,6 +7,7 @@
 
 import { memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { Sparkles } from "@/lib/icons";
 import { LYRIC_SECTION_BY_VALUE, getLyricSectionColor, normalizeSectionType } from "./lyricsSectionMeta";
 
 interface ParsedSection {
@@ -69,9 +70,10 @@ function parse(text: string): ParsedSection[] {
 interface LyricsPreviewProps {
   value: string;
   className?: string;
+  onAIAssist?: () => void;
 }
 
-export const LyricsPreview = memo(function LyricsPreview({ value, className }: LyricsPreviewProps) {
+export const LyricsPreview = memo(function LyricsPreview({ value, className, onAIAssist }: LyricsPreviewProps) {
   const sections = useMemo(() => parse(value), [value]);
   const totalLines = useMemo(
     () => sections.reduce((n, s) => n + s.lines.filter((l) => l.trim()).length, 0),
@@ -82,12 +84,23 @@ export const LyricsPreview = memo(function LyricsPreview({ value, className }: L
     return (
       <div
         className={cn(
-          "rounded-xl border border-dashed border-border/60 bg-muted/20 p-6 text-center",
-          "text-xs text-muted-foreground",
+          "rounded-xl border border-dashed border-border/60 bg-muted/20 p-4 text-center space-y-3",
           className,
         )}
       >
-        Пока пусто. Добавьте секции и текст — здесь появится финальный вид песни.
+        <p className="text-xs text-muted-foreground">
+          Пока пусто. Добавьте секции и текст — здесь появится финальный вид песни.
+        </p>
+        {onAIAssist && (
+          <button
+            type="button"
+            onClick={onAIAssist}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-dashed border-primary/40 hover:bg-primary/15 text-xs font-medium text-primary transition-colors"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            Создать с AI
+          </button>
+        )}
       </div>
     );
   }
