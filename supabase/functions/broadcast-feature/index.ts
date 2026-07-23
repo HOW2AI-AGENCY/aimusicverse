@@ -7,6 +7,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { successResponse, errorResponse, optionsResponse } from "../_shared/response-utils.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { getTelegramConfig } from "../_shared/telegram-config.ts";
+import { authorize } from "../_shared/auth.ts";
 
 const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN")!;
 const { miniAppUrl: MINI_APP_URL } = getTelegramConfig();
@@ -26,6 +27,11 @@ serve(async (req: Request) => {
   }
 
   try {
+    const auth = await authorize(req, { requireAdmin: true });
+    if (!auth.ok) {
+      return errorResponse(auth.error, auth.status);
+    }
+
     const supabase = getSupabaseClient();
     const body: BroadcastRequest = await req.json();
     const { type, testMode = false } = body;
