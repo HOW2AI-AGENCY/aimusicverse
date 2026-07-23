@@ -1,718 +1,141 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this repository.
 
 ## Project Overview
 
-**MusicVerse AI** is a professional AI-powered music creation platform delivered as a Telegram Mini App. Built with React 19, TypeScript, and Vite, it integrates Suno AI v5 for music generation with extensive editing, mixing, and collaboration features.
+**MusicVerse AI** — professional AI music-creation platform delivered as a **native Telegram Mini App** (not a web app with Telegram login). Integrates Suno AI v5 for generation plus editing, mixing, stems, and collaboration.
 
-- **Technology Stack:** React 19.2 + TypeScript 5.9 + Vite 6.4.3
+- **Stack:** React 19.2 · TypeScript 5.9 (strict) · Vite 6.4.3
 - **Backend:** Supabase (PostgreSQL + Edge Functions + Storage)
-- **UI Framework:** Tailwind CSS 3.4 + shadcn/ui + Radix UI
-- **State Management:** Zustand 5.0 (global) + TanStack Query 5.90 (server state)
-- **Audio Processing:** Tone.js 14.9, Wavesurfer.js 7.8
-- **Telegram Integration:** @twa-dev/sdk 8.0.2
-- **Testing:** Vitest 4.x (unit), Playwright 1.61 (E2E)
+- **UI:** Tailwind 3.4 · shadcn/ui · Radix
+- **State:** Zustand 5.0 (global UI) · TanStack Query 5.90 (server) · React Hook Form + Zod (forms)
+- **Audio:** Tone.js 14.9 · Wavesurfer.js 7.8
+- **Testing:** Vitest 4 (unit) · Playwright 1.61 (E2E)
 
-## Development Commands
+Live metrics (sprint status, counts, audit findings) live in [PROJECT_STATUS.md](PROJECT_STATUS.md) — do not duplicate them here.
+
+## Commands
 
 ```bash
-# Development
-npm run dev              # Start dev server on port 8080
-npm install              # Install dependencies
-
-# Building
-npm run build            # Production build with optimizations
-npm run build:dev        # Development build with sourcemaps
-npm preview              # Preview production build
-
-# Testing
-npm test                 # Run Vitest unit tests
-npm run test:coverage    # Unit tests with coverage report
-npm run test:e2e         # Run all Playwright E2E tests
-npm run test:e2e:headed  # E2E tests with visible browser
-npm run test:e2e:ui      # Playwright UI test runner
-npm run test:e2e:mobile  # Mobile-specific E2E tests (Pixel 5, iPhone 12)
-npm run test:e2e:report  # View HTML test report
-
-# Code Quality
-npm run lint             # Run ESLint
-npm run format           # Format code with Prettier
-
-# Bundle Analysis
-npm run size             # Check bundle size (950 KB limit)
-npm run size:why         # Detailed bundle size analysis
-
-# Component Development
-npm run storybook        # Start Storybook on port 6006
-npm run build-storybook  # Build Storybook static site
+npm run dev              # dev server on :8080
+npm run build            # production build
+npm test                 # Vitest unit tests
+npm run test:coverage    # unit + coverage
+npm run test:e2e         # Playwright E2E (auto-starts dev server, baseURL :5173)
+npm run test:e2e:mobile  # mobile browsers only (Pixel 5, iPhone 12)
+npm run lint             # ESLint
+npm run format           # Prettier
+npm run size             # bundle-size check (950 KB limit)
+npm run storybook        # Storybook on :6006
 ```
 
-## Architecture & Code Organization
-
-### High-Level Architecture
-
-The application follows a layered architecture:
-
-```
-┌─────────────────────────────────────────────┐
-│  Pages (74)                                 │  Route-level components with lazy loading
-├─────────────────────────────────────────────┤
-│  Components (~1043)                         │  Feature-specific & UI components
-├─────────────────────────────────────────────┤
-│  Hooks (440)                                │  Reusable React logic
-├─────────────────────────────────────────────┤
-│  Services (37)                              │  Business logic & data transformation
-├─────────────────────────────────────────────┤
-│  API Layer (30)                             │  Direct Supabase queries
-├─────────────────────────────────────────────┤
-│  Stores (24 Zustand)                        │  Global state (player, studio, lyrics)
-└─────────────────────────────────────────────┘
-```
+## Architecture
 
-**Data Flow Pattern:** API Layer → Service Layer → Hooks → Components
+**Layered, one-way data flow:** `API → Service → Hooks → Components`
 
-- **API Layer** (`src/api/*.api.ts`): Direct Supabase queries, type-safe
-- **Service Layer** (`src/services/*.service.ts`): Business logic, data transformation
-- **Hook Layer** (`src/hooks/*.ts`): React Query integration, state management
-- **Component Layer** (`src/components/*.tsx`): UI presentation
+- **`src/api/*.api.ts`** — direct Supabase queries, type-safe. RLS handles authz.
+- **`src/services/*.service.ts`** — business logic, data transformation.
+- **`src/hooks/*.ts`** — TanStack Query integration, UI state.
+- **`src/components/*.tsx`** — presentation, organized by feature (`ui/`, `player/`, `generate-form/`, `stem-studio/`, `studio/unified/`, `library/`, `track-actions/`).
+- **`src/stores/`** — Zustand stores for complex global state.
+- **`src/pages/`** — route pages, all lazy-loaded via `React.lazy()`.
+- **`src/lib/`** — utilities (audio, logging, performance, error handling).
 
-### Critical Directory Purposes
+**Key files:**
 
-- **`src/api/`** (32 files) - Direct Supabase database operations, type-safe queries
-- **`src/services/`** (37 files) - Business logic layer, data transformation, complex operations
-- **`src/hooks/`** (440 files) - Custom React hooks for UI logic and state management
-- **`src/stores/`** (25 stores) - Zustand stores for complex global state (player, unified studio, lyrics)
-- **`src/components/`** (~1043 files) - React components organized by feature
-  - `ui/` - shadcn/ui base components + custom components (LazyImage, GlowButton, etc.)
-  - `player/` - Audio player (CompactPlayer, ExpandedPlayer, MobileFullscreenPlayer)
-  - `generate-form/` - Music generation form modules
-  - `stem-studio/` - Stem separation and mixing interface
-  - `studio/unified/` - Unified Studio Mobile components
-  - `library/` - Track library with virtualization
-  - `track-actions/` - Unified action menus
-- **`src/lib/`** (60+ files) - Utility functions (audio, logging, performance, error handling)
-- **`src/pages/`** (76 files) - Route pages with code splitting
-- **`src/contexts/`** (10 files) - React Context providers (Auth, Theme, Telegram, Notification)
+- `src/App.tsx` — root, lazy routes, global providers
+- `src/components/GlobalAudioProvider.tsx` — single `<audio>` element manager (**critical**)
+- `src/hooks/audio/usePlayerState.ts` — Zustand player store hook
+- `src/lib/motion.ts` — tree-shakeable framer-motion exports
+- `src/lib/logger.ts` — structured logging + Sentry
 
-### Key Architecture Files
+### State management — right tool per job
 
-- **`src/App.tsx`** - Root component with lazy-loaded routes, global providers
-- **`src/components/GlobalAudioProvider.tsx`** - Single HTMLAudioElement management (CRITICAL)
-- **`src/hooks/audio/usePlayerState.ts`** - Zustand player store hook
-- **`src/lib/motion.ts`** - Tree-shakeable framer-motion exports
-- **`src/lib/logger.ts`** - Structured logging with Sentry integration
+1. **Global UI state → Zustand** (`playerStore`, `useUnifiedStudioStore`, `useLyricsHistoryStore`, `useMixerHistoryStore`). Never use Context API for global state.
+2. **Server state → TanStack Query** (`staleTime: 30s`, `gcTime: 10min`). Optimistic updates for likes/plays/version switches. Never raw `fetch`/`axios` for server state.
+3. **Form state → React Hook Form + Zod.** Drafts auto-save to localStorage.
+4. **Component state → `useState`/`useReducer`.**
 
-### State Management Strategy
+### Audio system — single source pattern
 
-**Use the right tool for the right job:**
+The **entire app uses ONE `<audio>` element** managed by `GlobalAudioProvider`.
 
-1. **Global UI State:** Zustand stores
-   - `playerStore` - Audio playback state, queue, current track
-   - `useUnifiedStudioStore` - Complex studio state (38KB, largest store)
-   - `useLyricsHistoryStore` - Lyrics editing history
-   - `useMixerHistoryStore` - Mixer state history
+- Access playback via `useGlobalAudioPlayer()` (`@/contexts/GlobalAudioContext`) or `usePlayerStore()` — **never create `<audio>` elements directly.**
+- iOS Safari crashes with >10 audio elements → use `src/lib/audioElementPool.ts`.
+- **UI preview audio** (versions, stems, recordings, dialogs) → `usePreviewAudio()` (`src/hooks/audio/usePreviewAudio.ts`), which wraps the pool + studio-audio coordinator. Replaces `new Audio(...)`.
+- Waveforms: `src/lib/audioCache.ts`, `src/lib/waveformGenerator.ts`.
 
-2. **Server State:** TanStack Query with optimized caching
-   - Default: `staleTime: 30s`, `gcTime: 10min`
-   - Use `usePublicContentOptimized` for batched homepage queries
-   - Optimistic updates for likes, plays, version switches
+### Track versioning (A/B)
 
-3. **Form State:** React Hook Form + Zod validation
-   - Auto-save drafts to localStorage (30 min expiry)
-   - `useGenerateDraft` for generation form persistence
+Every generation creates **2 versions**. Schema: `tracks.active_version_id` FK → `track_versions`, which has `is_primary`, `version_label` ('A'/'B'), `clip_index` (0/1). Version A (clip_index 0) is initially primary.
 
-4. **Component State:** React hooks (useState, useReducer)
+**Switching versions must update `is_primary` AND `active_version_id` atomically** — never one without the other. Hooks: `useTrackVersions`, `useVersionSwitcher`, `useActiveVersion`. Changes logged to `track_change_log`.
 
-### Audio System Architecture
+## Build & performance
 
-**Single Audio Source Pattern** - The entire app uses ONE `<audio>` element managed by `GlobalAudioProvider`:
+- **Bundle limit: 950 KB** (enforced by size-limit; run `npm run size` before large features).
+- Code splitting in `vite.config.ts`: `vendor-*` and `feature-*` chunks; React Priority Plugin loads React first. Terser 2-pass, gzip + brotli.
+- **Lazy-load** all pages and heavy components; images always via `LazyImage`.
+- **Virtualize** lists >50 items with `react-virtuoso`.
+- **Motion:** import from `@/lib/motion` — never the whole `framer-motion` package.
+- **Animate `transform`/`opacity`**, not width/height (60 FPS).
+- **TDZ traps** (check `npm run build` for "Circular chunk" warnings):
+  - Don't create barrel re-export cycles — if a barrel re-exports a module that imports from the same barrel, import from the source module directly instead.
+  - Don't split interdependent modules into separate `manualChunks` — merge them into one chunk with a comment.
 
-- **Provider:** `src/components/GlobalAudioProvider.tsx` (625 lines, comprehensive)
-- **Hook:** `usePlayerStore()` from `src/hooks/audio/usePlayerState.ts` - Access player controls
-- **Store:** `playerStore` (Zustand) - Playback state, queue, current track
-- **Player Modes:** Compact → Expanded → Fullscreen (mobile)
-- **Audio Element Pool:** `src/lib/audioElementPool.ts` - Reuse audio elements (iOS Safari crash prevention)
-- **Audio Cache:** `src/lib/audioCache.ts` - Pre-computed waveforms, CDN optimization
+## Mobile & Telegram
 
-**Important:** Never create multiple `<audio>` elements. Always use `usePlayerStore()` or `useGlobalAudioPlayer()`.
+- **Native Telegram Mini App.** SDK integration: `src/contexts/TelegramContext.tsx`; sharing: `src/services/telegram-share.ts`; viewport/keyboard fixes: `src/main.tsx`.
+- **Touch targets ≥ 44×44px.** Use `safe-bottom` for notch/island. Keyboard height via `visualViewport`. Gestures via `@use-gesture/react`. Haptics via `hapticImpact()` / `hapticNotification()`.
+- **Mobile modals → `MobileBottomSheet` (vaul)**, not `Dialog`. All mobile screens need `MobileHeaderBar`.
+- Mobile-first, then enhance. Breakpoints: `xs 375 · sm 640 · md 768 · lg 1024 · xl 1280 · 2xl 1536`. Always test in Telegram mobile, not just desktop.
+- **Bot** (separate component): edge functions `telegram-bot/`, `suno-send-audio/`, `send-telegram-notification/`. Deep links `t.me/AIMusicVerseBot/app?startapp=<track_ID|playlist_ID|studio_ID>` — parse `startapp` and show `BotContextBanner`.
 
-### Track Versioning System (A/B)
+## Conventions
 
-Every music generation creates **2 versions (A/B)**:
+- **Imports:** always the `@/` alias (`@/* → ./src/*`), never relative `../../`.
+- **TypeScript:** strict, no `any`; validate external data with Zod.
+- **Styling:** Tailwind only; class-based dark mode (`dark:`). Merge classes with `cn()` (`@/lib/utils`). Custom colors: `generate`, `library`, `projects`, `community`, `success`, `warning`.
+- **Logging:** never `console.log` — use `logger` from `@/lib/logger` (persists to sessionStorage + Sentry).
+- **Components/stores:** split anything >500 lines. One version selector only: `UnifiedVersionSelector`.
+- **Post-generation:** show `GenerationResultSheet` (must be in `MainLayout`); don't redirect straight to library.
 
-**Database Schema:**
+## Security
 
-- `tracks` table has `active_version_id` (FK to track_versions)
-- `track_versions` table has `is_primary` (boolean), `version_label` ('A'/'B'), `clip_index` (0/1)
-- Version A (clip_index: 0) is initially primary
-- Switching versions updates BOTH `is_primary` AND `active_version_id`
+- **RLS** on all user-data tables. Public content gated by `is_public` + `profiles.is_public`.
+- **Secrets only in Edge Functions**, never in frontend code.
+- **Validate input** client-side (Zod) and server-side (Edge Functions).
+- **Sanitize** user-generated HTML with DOMPurify.
 
-**Key Hooks:**
+## Testing
 
-- `useTrackVersions(trackId)` - Fetch all versions
-- `useVersionSwitcher(trackId)` - Switch primary version
-- `useActiveVersion(trackId)` - Get current active version
-
-**Changelog:** All version changes logged to `track_change_log` table with `change_type`, `old_value`, `new_value`.
-
-## Build System & Performance
-
-### Vite Configuration Highlights
-
-**Code Splitting Strategy** (`vite.config.ts`):
-
-- Vendor chunks: `vendor-react`, `vendor-framer`, `vendor-tone`, `vendor-wavesurfer`, `vendor-query`, `vendor-radix`, `vendor-icons`, `vendor-supabase`, `vendor-forms`, `vendor-charts`
-- Feature chunks: `feature-studio`, `feature-lyrics`, `feature-generation`
-- React Priority Plugin ensures React vendor loads first
-
-**Production Optimizations:**
-
-- Terser minification (2-pass, console/debugger removal)
-- Gzip + Brotli compression (10KB threshold)
-- Bundle size limit: **950 KB** (enforced by size-limit)
-- Tree-shaking enabled (no external modules)
-
-### Performance Patterns
-
-1. **Lazy Loading**
-   - Route-level code splitting (React.lazy)
-   - `src/components/lazy/` for heavy components
-   - LazyImage component for all images (blur placeholder + shimmer)
-
-2. **List Virtualization**
-   - Use `react-virtuoso` for large lists (Library, Queue)
-   - `<Virtuoso>` for vertical lists, `<VirtuosoGrid>` for grids
-
-3. **Optimized Motion**
-   - Import from `@/lib/motion` (tree-shaking wrapper for framer-motion)
-   - Never import entire `framer-motion` package
-
-4. **Batch Queries**
-   - `usePublicContentOptimized` - Single query for homepage (Featured + New + Popular + AutoPlaylists)
-   - `useTrackCounts` - Batch version/stem counts
-
-5. **Denormalized Counters**
-   - `likes_count`, `play_count` on tracks (updated via triggers)
-   - `track_count`, `total_duration` on playlists (auto-updated)
-
-## Mobile-First Development
-
-### Telegram Mini App Integration
-
-This is a **native Telegram Mini App**, not a web app with Telegram login:
-
-**Key Files:**
-
-- `src/contexts/TelegramContext.tsx` - Telegram Web App SDK integration
-- `src/services/telegram-share.ts` - Stories, chat sharing, deep links
-- `src/main.tsx` - Viewport height fixes, keyboard tracking
-
-**Critical Mobile Patterns:**
-
-- **Touch Targets:** Minimum 44×44px (iOS HIG standard)
-- **Safe Areas:** Use `safe-bottom` spacing for notch/island
-- **Keyboard Handling:** `visualViewport` API for keyboard height tracking
-- **Gestures:** `@use-gesture/react` for swipe, long-press, pull-to-refresh
-- **Audio Pooling:** iOS Safari crashes with >10 audio elements - use `audioElementPool`
-
-**Mobile Components:**
-
-- `src/components/mobile/` - General mobile components
-- `src/components/studio/unified/Mobile*.tsx` - Unified Studio mobile UI
-- `src/components/player/MobileFullscreenPlayer.tsx` - Mobile fullscreen player
-
-### Responsive Design
-
-**Tailwind Breakpoints:**
-
-- `xs: 375px` (small phones)
-- `sm: 640px`
-- `md: 768px`
-- `lg: 1024px`
-- `xl: 1280px`
-- `2xl: 1536px`
-
-**Always design mobile-first, then progressively enhance.**
-
-## Testing Strategy
-
-### Unit Tests (Vitest)
-
-**Configuration:** `vitest.config.ts`
-
-- Test environment: jsdom
-- Globals: enabled (no import needed for describe/it/expect)
-- Path mapping: `@/` → `./src/`
-- Setup: `src/__tests__/vitest.setup.ts` (mocks for matchMedia, Telegram, Supabase, Audio, etc.)
-- Timeout: 10s (for property-based tests)
-
-**Test Patterns:**
-
-- `src/__tests__/**/*.{test,spec}.{ts,tsx}`
-- `tests/unit/**/*.{test,spec}.{ts,tsx}`
-
-**Testing Libraries:**
-
-- `@testing-library/react` - Component testing
-- `@testing-library/jest-dom` - DOM matchers
-- `fast-check` - Property-based testing
-- `axe-core` - Accessibility testing
-- `fake-indexeddb` - IndexedDB mocking
-
-### E2E Tests (Playwright)
-
-**Configuration:** `playwright.config.ts`
-
-- Test directory: `./tests/e2e`
-- Base URL: `http://localhost:5173`
-- Auto-start dev server
-
-**Browser Coverage:**
-
-- Desktop: Chrome, Firefox, Safari, Edge (1920×1080)
-- Mobile: Pixel 5 (Chrome), iPhone 12 (Safari)
-
-**Run Specific Tests:**
-
-- `npm run test:e2e:chromium` - Chrome only
-- `npm run test:e2e:mobile` - Mobile browsers only
-- `npm run test:e2e:ui` - Interactive UI mode
-
-## Common Development Tasks
-
-### Working with Audio
-
-**Always use the global audio player:**
-
-```typescript
-import { useGlobalAudioPlayer } from "@/contexts/GlobalAudioContext";
-
-const { play, pause, currentTrack, isPlaying } = useGlobalAudioPlayer();
-
-// Play a track
-play(track);
-
-// Pause
-pause();
-
-// Check playback state
-if (isPlaying) {
-  /* ... */
-}
-```
-
-**Audio Utilities:**
-
-- `src/lib/audioContextManager.ts` - Web Audio API context management
-- `src/lib/audioElementPool.ts` - Audio element pooling (iOS Safari)
-- `src/lib/audioCache.ts` - Waveform caching
-- `src/lib/waveformGenerator.ts` - Waveform generation
-
-### Working with Tracks
-
-**Fetching Tracks:**
-
-```typescript
-import { useTracks } from "@/hooks/useTracks";
-
-const { data, isLoading, error } = useTracks({
-  userId: user?.id,
-  isPublic: true,
-  limit: 20,
-});
-```
-
-**Track Versions:**
-
-```typescript
-import { useTrackVersions } from "@/hooks/useTrackVersions";
-import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
-
-const { data: versions } = useTrackVersions(trackId);
-const { switchVersion, isPending } = useVersionSwitcher(trackId);
-
-// Switch to version B
-await switchVersion(versionB.id);
-```
-
-### Working with the Unified Studio
-
-**The Unified Studio is the main editing interface** (`src/pages/studio-v2/UnifiedStudioPage.tsx`):
-
-**Key Features:**
-
-- Section replacement (regenerate parts of a track)
-- Stem separation (vocals, drums, bass, instruments)
-- Mixing (volume, pan, solo, mute)
-- MIDI transcription (6 AI models)
-- Waveform editing
-- A/B comparison
-
-**Store:** `useUnifiedStudioStore` (Zustand, 38KB)
-
-**Mobile Version:** `src/components/studio/unified/Mobile*.tsx`
-
-### Adding New Pages
-
-1. Create page in `src/pages/YourPage.tsx`
-2. Add lazy-loaded route in `src/App.tsx`:
-   ```typescript
-   const YourPage = lazy(() => import("./pages/YourPage"));
-   ```
-3. Add route in the router:
-   ```typescript
-   <Route path="/your-path" element={<YourPage />} />
-   ```
-
-### Creating New Components
-
-**Follow shadcn/ui patterns:**
-
-1. Base components go in `src/components/ui/`
-2. Feature components go in `src/components/feature-name/`
-3. Use `cn()` utility for className merging:
-   ```typescript
-   import { cn } from "@/lib/utils";
-   className={cn("base-classes", conditional && "extra-class", className)}
-   ```
-4. For images, always use `LazyImage`:
-   ```typescript
-   import { LazyImage } from "@/components/ui/lazy-image";
-   <LazyImage src={url} alt="..." />
-   ```
-
-### Working with Supabase
-
-**API Layer** (`src/api/*.api.ts`):
-
-- Direct Supabase queries
-- Type-safe with generated types
-- RLS policies handle authorization
-
-**Service Layer** (`src/services/*.service.ts`):
-
-- Business logic
-- Data transformation
-- Complex operations
-
-**Example:**
-
-```typescript
-// API Layer (src/api/tracks.api.ts)
-export const getTrackById = async (id: string) => {
-  const { data, error } = await supabase.from("tracks").select("*, track_versions(*)").eq("id", id).single();
-  return { data, error };
-};
-
-// Service Layer (src/services/tracks.service.ts)
-export const enrichTrackWithMetadata = async (track: Track) => {
-  // Add computed fields, format data, etc.
-  return enrichedTrack;
-};
-
-// Hook Layer (src/hooks/useTracks.ts)
-export const useTrack = (id: string) => {
-  return useQuery({
-    queryKey: ["track", id],
-    queryFn: () => getTrackById(id),
-  });
-};
-```
-
-## Key Conventions
-
-### Import Paths
-
-Always use `@/` alias for absolute imports:
-
-```typescript
-// ✅ Correct
-import { Button } from "@/components/ui/button";
-import { useTracks } from "@/hooks/useTracks";
-
-// ❌ Incorrect
-import { Button } from "../../components/ui/button";
-```
-
-### TypeScript
-
-- **Strict mode enabled** - No `any` types
-- **Path mapping:** `@/*` → `./src/*`
-- All components should have proper type definitions
-- Use Zod for runtime validation (forms, API responses)
-
-### Styling
-
-- **Tailwind CSS** for all styling
-- **Dark mode:** Class-based (`dark:` prefix)
-- **Custom colors:** `generate`, `library`, `projects`, `community`, `success`, `warning`
-- **Custom animations:** `accordion`, `pulse-glow`, `shimmer`, `float`, `slide-up`, `vinyl-spin`, `pulse-ring`
-
-### Logging
-
-**Never use `console.log` directly.** Use the logger utility:
-
-```typescript
-import { logger } from "@/lib/logger";
-
-logger.info("Operation completed", { trackId });
-logger.warn("Potential issue", { context });
-logger.error("Operation failed", { error, trackId });
-```
-
-Logger persists to sessionStorage and integrates with Sentry.
-
-## Security & Best Practices
-
-### Security
-
-- **RLS Policies:** All tables with user data have Row Level Security enabled
-- **Public Content:** Controlled by `is_public` field + `profiles.is_public`
-- **Secrets:** Only in Edge Functions, never in frontend code
-- **Input Validation:** Client-side (Zod) + Server-side (Edge Functions)
-- **HTML Sanitization:** Use DOMPurify for user-generated content
-
-### Performance
-
-- **Bundle Size:** Keep under 950 KB (enforced by size-limit)
-- **Code Splitting:** Lazy load heavy features
-- **Image Optimization:** Always use LazyImage component
-- **List Virtualization:** Use react-virtuoso for >50 items
-- **Query Caching:** Use TanStack Query with appropriate stale times
-- **Audio Element Pooling:** Reuse audio elements (iOS Safari limitation)
-
-### Accessibility
-
-- **Touch Targets:** Minimum 44×44px
-- **Keyboard Navigation:** All interactive elements accessible via keyboard
-- **ARIA Labels:** Proper labels for screen readers
-- **Color Contrast:** WCAG AA compliant
-- **Focus Indicators:** Visible focus states
+- **Unit (Vitest):** jsdom, globals on, `@/`→`src/`. Setup mocks in `src/__tests__/vitest.setup.ts`. Patterns: `src/__tests__/**` and `tests/unit/**`. Libs: `@testing-library/react`, `jest-dom`, `fast-check`, `axe-core`, `fake-indexeddb`.
+- **E2E (Playwright):** `tests/e2e`, baseURL `:5173`, auto-starts dev server. Desktop Chrome/Firefox/Safari/Edge + mobile Pixel 5 / iPhone 12.
+- Run `npm test` and `npm run test:e2e` before pushing.
 
 ## Documentation
 
-**Full documentation available in:**
-
-- [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) - Complete documentation map
-- [PROJECT_STATUS.md](PROJECT_STATUS.md) - Current sprint status and progress
-- [docs/ARCHITECTURE_DIAGRAMS.md](docs/ARCHITECTURE_DIAGRAMS.md) - Visual architecture diagrams
-- [docs/DATABASE.md](docs/DATABASE.md) - Database schema and ERD
-- [docs/PLAYER_ARCHITECTURE.md](docs/PLAYER_ARCHITECTURE.md) - Audio player architecture
-- [docs/SUNO_API.md](docs/SUNO_API.md) - Suno AI integration
-- [SPRINTS/](SPRINTS/) - Sprint planning and task tracking
-- [specs/](specs/) - Technical specifications
-
-**Current Status:**
-
-- Sprint: **065 🔄 in progress** (Generate v2 + Home Redesign). **Актуальный оперплан:** [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)
-- **Архитектурный рефакторинг 2026-07-18** (6/7 задач): peer dep vite↔storybook ✅, дублирующиеся директории объединены ✅, `AudioRecordDialog` 715→143 строк ✅, 7k-line supabase types в `types/_generated.ts` ✅, `any→unknown` в 2 критических файлах (6 eslint-disable удалено) ✅, 39 stale sprint файлов в архив ✅. Осталось: **бандл 7.9 MB → 2.3 MB** ⏸️ (отложено).
-- Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
-- Components: 1042, Hooks: 439, Stores: 23, API files: 32, Services: 62, Pages: 71, Lib: 138 — верифицировано 2026-07-18.
-- Bundle Size: ~508 KB gzip eager JS; 2.11 MB total across all chunks.
-- Unit Tests: **1810 passing** (166 test files), E2E: 59 specs
-- Key Issues: 0 layer-boundary violations, tsc 0 errors, rules-of-hooks `"error"`. `any`-budget: 6 eslint-disables `no-explicit-any` удалены из `suno-error-mapper.ts` + `errorHandling.ts`; остаётся ~182 файла с `any`. **0 файлов >800 LOC в `src/`** (исключая generated types и drum-kits.ts). `supabase/functions/`: 7 файлов >800 LOC (Sprint 067).
-- Security audit 2026-07-13 — all 3 P0 findings ✅ remediated. Deps: конфликт vite↔storybook снят ✅, `npm install` без `--legacy-peer-deps`. Stories: 53 (Storybook).
-
-## Telegram Bot Integration
-
-**The Telegram bot is a separate component** that interacts with the Mini App:
-
-**Edge Functions:**
-
-- `supabase/functions/telegram-bot/` - Command handler (/generate, /library, etc.)
-- `supabase/functions/suno-send-audio/` - Send audio files to Telegram
-- `supabase/functions/send-telegram-notification/` - User notifications
-
-**Deep Links:**
-
-- Format: `t.me/AIMusicVerseBot/app?startapp=PARAM`
-- Track: `startapp=track_ID`
-- Playlist: `startapp=playlist_ID`
-- Studio: `startapp=studio_ID`
-
-**Bot Features:**
-
-- Inline queries for track search
-- Commands: `/generate`, `/cover`, `/extend`, `/library`
-- Stories sharing
-- Audio file sending (FormData multipart)
-
-## Common Pitfalls
-
-### Audio & Playback
-
-1. **Don't create multiple audio elements** - Use `useGlobalAudioPlayer()` or `usePlayerStore()`
-2. **Don't create audio elements on iOS** - Use `audioElementPool` (iOS Safari limit of 10)
-3. **Don't forget audio element pooling** - iOS Safari crashes with >10 audio elements
-4. **For UI preview audio (versions, stems, recordings, dialogs) — use `usePreviewAudio()`** (`src/hooks/audio/usePreviewAudio.ts`). Wraps `audioElementPool` + `useStudioAudio` coordinator. Replaces `new Audio(...)` in 28+ component files. Returns `{ isPlaying, play, pause, toggle, seek, setVolume, audioRef }`.
-
-### Performance & Bundle
-
-4. **Don't import entire framer-motion** - Use `@/lib/motion` (tree-shaking wrapper)
-5. **Don't exceed bundle limit** - Run `npm run size` (950KB max)
-6. **Don't skip lazy loading** - All pages use `React.lazy()`
-7. **Don't skip LazyImage** - All images must lazy load with blur placeholder
-8. **Don't animate width/height** - Use `transform: scale()` for 60 FPS
-9. **Don't render large lists without virtualization** - Use `react-virtuoso`
-10. **Don't create barrel re-export cycles** — When a barrel file (`index.ts`) re-exports a module that also imports from the same barrel, it creates a circular dependency that causes TDZ crashes at runtime. Always import directly from the source module if the barrel would create a cycle. Check `npm run build` for "Circular chunk" warnings.
-11. **Don't put interdependent modules in separate manualChunks** — If `vite.config.ts` manualChunks splits modules that import each other into different chunks, Rollup produces chunk-level TDZ errors. Merge them into a single chunk with a comment explaining why.
-
-### Mobile & Touch
-
-10. **Don't forget mobile touch targets** - Minimum 44-56px
-11. **Don't use Dialog on mobile** - Use `MobileBottomSheet` from `vaul`
-12. **Don't ignore safe areas** - Use `safe-bottom` utility for notch/island
-13. **Don't skip haptic feedback** - Use `hapticImpact()` and `hapticNotification()`
-14. **Don't test only on desktop** - Always test on Telegram mobile
-
-### Component Architecture
-
-15. **Don't duplicate version selector components** - Use ONLY `UnifiedVersionSelector`
-16. **Don't create custom modals** - Use `MobileBottomSheet` or `Dialog`
-17. **Don't skip MobileHeaderBar** - All mobile screens need proper header
-18. **Don't create components >500 lines** - Split into subcomponents
-19. **Don't create stores >500 lines** - Split into domain slices
-
-### State & Data
-
-20. **Don't use raw fetch/axios** - Use TanStack Query for server state
-21. **Don't use Context API for global state** - Use Zustand stores
-22. **Don't batch version updates** - Update `is_primary` AND `active_version_id` atomically
-23. **Don't forget optimistic updates** - For likes, plays, version switches
-
-### Logging & Debugging
-
-24. **Don't use console.log** - Use `logger` utility from `@/lib/logger`
-
-### Security
-
-25. **Don't skip input validation** - Use Zod for client + server validation
-26. **Don't expose secrets in frontend** - Only in Edge Functions
-
-### Post-Generation Flow
-
-27. **Don't redirect to library without showing result** - Use `GenerationResultSheet`
-28. **Don't skip expectGenerationResult()** - Call before starting generation
-29. **Don't forget to integrate GenerationResultSheet** - Must be in `MainLayout`
-
-### Telegram Bot Integration
-
-30. **Don't ignore deep link parameters** - Parse `startapp` and show `BotContextBanner`
-31. **Don't skip bot context** - User should know why they navigated from bot
-
-## Getting Help
-
-- Check existing documentation in `docs/` and `SPRINTS/`
-- Review similar implementations in the codebase
-- Test on multiple devices (desktop + mobile)
-- Run `npm run size` before committing large features
-- Run `npm test` and `npm run test:e2e` before pushing
-
----
-
-**Last Updated:** 2026-07-18 (архитектурный рефакторинг 6/7 задач: deps ✅, dirs ✅, AudioRecordDialog decomposition ✅, supabase types ✅, any→unknown ✅, sprint docs ✅; tsc 0 errors; 1042 components / 439 hooks / 23 stores / 32 API / 62 services; vite 6.4.3 без `--legacy-peer-deps`)
+- [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) — role-based navigation hub
+- [ARCHITECTURE_HUB.md](ARCHITECTURE_HUB.md) — canonical architecture, Mermaid diagrams, ADRs
+- [PROJECT_STATUS.md](PROJECT_STATUS.md) — sprint status, metrics, audit findings
+- [ROADMAP.md](ROADMAP.md) · [CHANGELOG.md](CHANGELOG.md) · [DEVLOG.md](DEVLOG.md) (client-facing journal)
+- [docs/DATABASE.md](docs/DATABASE.md) · [docs/PLAYER_ARCHITECTURE.md](docs/PLAYER_ARCHITECTURE.md) · [docs/SUNO_API.md](docs/SUNO_API.md)
+- After code changes, follow [MAINTENANCE.md](MAINTENANCE.md) to keep docs current.
 
 ## graphify
 
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
-
-Rules:
-
-- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
-- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
-- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
-
-## Documentation
-
-This project maintains extensive documentation at the root level:
-
-- **README.md** — project landing page with screenshots, progress, and investor info
-- **DOCUMENTATION_INDEX.md** — role-based navigation hub (Developer, Designer, PM, Investor, Contributor)
-- **ARCHITECTURE_HUB.md** — canonical architecture reference with Mermaid diagrams and ADRs
-- **PROJECT_STATUS.md** — current sprint status, metrics, and audit findings
-- **ROADMAP.md** — quarterly roadmap with Gantt chart and objectives
-- **CHANGELOG.md** — Keep a Changelog format release notes
-- **MAINTENANCE.md** — how to keep documentation up to date after changes
-
-To update documentation after code changes: follow the checklist in `MAINTENANCE.md`.
+Knowledge graph at `graphify-out/`. For codebase questions run `graphify query "<question>"` (falls back to `graphify path "<A>" "<B>"` and `graphify explain "<concept>"`) before broad grepping — it returns a scoped subgraph. Use `graphify-out/wiki/index.md` for navigation, `GRAPH_REPORT.md` only for broad architecture review. After modifying code, run `graphify update .` (AST-only, no API cost).
 
 <!-- BEGIN sqz-claude-guidance (auto-installed by sqz init; remove this block to disable) -->
 
-## sqz — Context Compression (READ FIRST)
+## sqz — context compression
 
-sqz is installed in this project. It compresses tool output so large
-files, long logs, and verbose command output cost far fewer tokens.
-There are **two ways** sqz is wired in, and you should prefer each
-one in the situations below.
+sqz compresses tool output. Prefer its MCP tools over the built-ins for anything sizeable:
 
-### Preferred tools (MCP)
+- **`sqz_read_file`** over `Read` for files >~2KB or re-reads (repeat reads return a `§ref:HASH§` token).
+- **`sqz_grep`** over `Grep` when matches may exceed a few lines.
+- **`sqz_list_dir`** over `ls -la` for project layout.
 
-The `sqz-mcp` server is registered in this project's MCP config. It
-exposes three read-only tools that compress their output through the
-sqz pipeline:
-
-- **`sqz_read_file`** — read a file from disk and return a compressed
-  view. **PREFER this over the built-in `Read` tool** for any file
-  larger than ~2KB or any file you might read more than once in the
-  same session. Repeat reads return a 13-token `§ref:HASH§` reference
-  instead of the full content.
-
-- **`sqz_grep`** — search files for a literal string or regex.
-  **PREFER this over the built-in `Grep`** for anything that might
-  match more than a handful of lines. Caps at 200 matches by default;
-  raise with `max_matches` if needed.
-
-- **`sqz_list_dir`** — list a directory. Skips `.git`, `node_modules`,
-  `target`, `dist`, `build`, `vendor`, `__pycache__` so the output
-  stays focused. **PREFER this over `ls -la` via Bash** when you want
-  to see a project layout.
-
-The built-in `Read`, `Grep`, `Glob` tools remain available. Use them for:
-
-- Tiny config files (<1KB) where compression can't help.
-- Byte-exact reads you'll hash or diff (lockfiles, signatures).
-- Globbing (sqz has no glob tool; `Glob` is still the right choice).
-
-### Bash commands (hooked automatically)
-
-When you run a shell command through the `Bash` tool, a PreToolUse hook
-rewrites it to pipe output through `sqz compress`. This is transparent:
-you don't need to remember to add anything, but it's useful to know
-that these commands get compressed automatically:
-
-```bash
-git status           # → git status 2>&1 | sqz compress --cmd git
-cargo test           # → cargo test 2>&1 | sqz compress --cmd cargo
-docker ps            # → docker ps 2>&1 | sqz compress --cmd docker
-kubectl get pods     # → kubectl get pods 2>&1 | sqz compress --cmd kubectl
-```
-
-The rewrite is skipped for interactive commands (`vim`, `ssh`,
-`python`), compound commands (`a && b`, `a > file.txt`), and anything
-already going through sqz.
-
-### Escape hatch — when you see a `§ref:HASH§` token
-
-If tool output contains a `§ref:a1b2c3d4§` token and you need the full
-content it points at, resolve it. Three equivalent ways:
-
-- Shell: `C:/Users/oat70/.cargo/bin/sqz.exe expand a1b2c3d4` (or paste the whole token
-  `C:/Users/oat70/.cargo/bin/sqz.exe expand §ref:a1b2c3d4§`).
-- MCP tool: call `expand` with `{ "prefix": "a1b2c3d4" }`.
-- To get uncompressed output for one command: prefix it with
-  `SQZ_NO_DEDUP=1` (e.g. `SQZ_NO_DEDUP=1 git log | sqz compress`).
-
-If the compressed output is actively making the task harder (looping
-on refs, small retries replacing one big read), call the `passthrough`
-MCP tool to get raw text.
-
-### When NOT to use sqz tools
-
-- Writing or editing files — use the built-in `Write`/`Edit` tools.
-  sqz has no write tools (by design; see issue #5 follow-up).
-- Running commands interactively or in watch mode.
-- Reading very small files (<1KB) where compression can't help.
-
+Keep `Read`/`Grep`/`Glob` for tiny files, byte-exact reads, and globbing. Bash output is auto-piped through `sqz compress` by a hook. To expand a token: `sqz expand <HASH>` (or the `expand` MCP tool). If refs get in the way, call the `passthrough` MCP tool for raw text.
 <!-- END sqz-claude-guidance -->
