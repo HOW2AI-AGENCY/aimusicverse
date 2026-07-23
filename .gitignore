@@ -178,9 +178,12 @@ skills-lock.json
 daemon.pid
 daemon-state.json
 
-# Tokensave runtime state (local-only DB; tracked files remain in repo)
-.tokensave/*.db
-.tokensave/*.db-shm
-.tokensave/*.db-wal
-.tokensave/config.json
+# Tokensave runtime state (local-only)
+.tokensave/
+
+# Other AI agent runtime artifacts
+agentdb.rvf.lock
+playwright-visual-report/
+.venv/
+
 chromatic-diag.json

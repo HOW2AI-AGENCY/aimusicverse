@@ -5,85 +5,38 @@
   },
   "permissions": {
     "allow": [
-      "Bash(npm test:*)",
-      "Bash(npx tsc:*)",
-      "Bash(npm run build:*)",
-      "Bash(npm run size:*)",
-      "Bash(git fetch:*)",
-      "Bash(cd:*)",
-      "Bash(tree:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(git:*)",
       "Bash(grep:*)",
       "Bash(find:*)",
       "Bash(ls:*)",
-      "Bash(powershell.exe:*)",
-      "Bash(git checkout:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(cat specs/001-ui-improvements/plan.md)",
       "Bash(powershell:*)",
-      "Bash(findstr:*)",
+      "Bash(node:*)",
+      "Bash(gh:*)",
+      "Bash(graphify:*)",
       "Read(//c/**)",
-      "Bash(npm run:*)",
-      "Bash(npm list:*)",
-      "Bash(mkdir -p .husky)",
-      "Bash(chmod +x .husky/pre-commit)",
-      "Bash(mkdir -p .husky/_)",
-      "Bash(python -c \"import graphify; print\\('graphify is installed'\\)\")",
-      "Bash(python -c \"import sys; open\\('graphify-out/.graphify_python', 'w', encoding='utf-8'\\).write\\(sys.executable\\)\")",
-      "Bash(python -c \"import sys; open\\('graphify-out/.graphify_root', 'w', encoding='utf-8'\\).write\\(sys.stdin.read\\(\\).strip\\(\\)\\)\")",
-      "Bash(git status *)",
-      "Bash(git push *)",
-      "Bash(python --version)",
-      "Bash(git pull *)",
-      "Bash(git stash *)",
-      "Bash(node test_regex.js)",
-      "Bash(echo \"=== Project CLAUDE.md ===\" && wc -l ./CLAUDE.md 2>/dev/null || echo \"0\" && echo \"\" && echo \"=== User Global CLAUDE.md ===\" && wc -l ~/.claude/CLAUDE.md 2>/dev/null || echo \"0\" && echo \"\" && echo \"=== Rules Directory ===\" && ls .claude/rules/*.md 2>/dev/null | wc -l || echo \"0\")",
-      "Read(//c/Users/oat70/.claude/**)",
-      "Bash(grep -oE '\\\\.[a-z]+$')",
-      "Bash(split -l 25 graphify-out/.graphify_uncached.txt graphify-out/.chunk_)",
-      "Bash(mkdir -p \"/d/.MUSICVERSE/aimusicverse/graphify-out\")",
-      "Bash(graphify export *)",
-      "Bash(npm run *)",
-      "Bash(git add *)",
-      "Bash(git commit *)",
-      "Bash(awk -F'|' '{names[$1]=names[$1] \", \" $2} END {for\\(f in names\\) print f \":\" names[f]}')",
+      "Read(//d/**)",
       "Read(//tmp/**)",
-      "Bash(gh pr *)",
-      "Bash(gh run *)",
-      "Bash(Test-Path *)",
-      "Bash(graphify explain *)",
-      "Bash(graphify query *)",
-      "Bash(graphify update *)",
-      "mcp__lovable__list_workspaces",
-      "mcp__lovable__get_me",
-      "mcp__lovable__create_workspace_skill",
-      "mcp__lovable__list_workspace_skills",
-      "Bash(node *)",
-      "Skill(impeccable)",
-      "Bash(higgsfield workspace *)",
-      "WebFetch(domain:higgsfield.ai)",
       "WebSearch"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
       "D:\\.MUSICVERSE\\aimusicverse\\.husky",
-      "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out",
-      "\\d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out"
+      "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out"
     ]
+  },
+  "enabledMcpjsonServers": [
+    "claude-flow"
+  ],
+  "skillOverrides": {
+    "9router-embeddings": "off",
+    "9router-stt": "off",
+    "9router-web-fetch": "off",
+    "9router-web-search": "off"
   },
   "hooks": {
     "PostToolUse": [
-      {
-        "matcher": "Edit|Write|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"C:\\\\Users\\\\oat70\\\\.claude\\\\skills\\\\impeccable\\\\scripts\\\\hook.mjs\"",
-            "timeout": 5,
-            "statusMessage": "Checking UI changes"
-          }
-        ]
-      },
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
@@ -102,8 +55,5 @@
     "command": "bash .claude/statusline.sh",
     "refreshInterval": 30
   },
-  "description": "Impeccable design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as system reminders.",
-  "enabledMcpjsonServers": [
-    "claude-flow"
-  ]
+  "description": "Impeccable design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as system reminders."
 }
