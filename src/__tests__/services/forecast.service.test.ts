@@ -132,21 +132,31 @@ describe("analytics/forecast.service", () => {
 
   describe("getForecastData", () => {
     it("fetches 4 series and builds ForecastData", async () => {
-      vi.mocked(adminApi.fetchProfileSignupsForForecast).mockResolvedValue([{ created_at: "2026-07-09T10:00:00Z" }]);
-      vi.mocked(adminApi.fetchCompletedStarsRevenueForForecast).mockResolvedValue([
-        { created_at: "2026-07-09T10:00:00Z", stars_amount: 500 },
-      ]);
-      vi.mocked(adminApi.fetchGenerationTaskCreatedForForecast).mockResolvedValue([]);
-      vi.mocked(adminApi.fetchTracksCreatedForForecast).mockResolvedValue([]);
+      // Freeze the clock so the fixture date (2026-07-09) stays inside the
+      // 14-day aggregation window. Without this the test is date-brittle: once
+      // the real "today" drifts >13 days past the fixture, the series gains an
+      // extra out-of-window bucket and the length assertions fail.
+      vi.useFakeTimers({ toFake: ["Date"] });
+      vi.setSystemTime(new Date("2026-07-16T12:00:00Z"));
+      try {
+        vi.mocked(adminApi.fetchProfileSignupsForForecast).mockResolvedValue([{ created_at: "2026-07-09T10:00:00Z" }]);
+        vi.mocked(adminApi.fetchCompletedStarsRevenueForForecast).mockResolvedValue([
+          { created_at: "2026-07-09T10:00:00Z", stars_amount: 500 },
+        ]);
+        vi.mocked(adminApi.fetchGenerationTaskCreatedForForecast).mockResolvedValue([]);
+        vi.mocked(adminApi.fetchTracksCreatedForForecast).mockResolvedValue([]);
 
-      const result = await getForecastData("7 days");
+        const result = await getForecastData("7 days");
 
-      expect(result.users).toHaveLength(14);
-      expect(result.revenue.some((d) => d.value > 0)).toBe(true);
-      expect(result.generations).toHaveLength(14);
-      expect(result.tracks).toHaveLength(14);
-      expect(result.predictions.usersNext30).toBeGreaterThanOrEqual(0);
-      expect(typeof result.growth.users).toBe("number");
+        expect(result.users).toHaveLength(14);
+        expect(result.revenue.some((d) => d.value > 0)).toBe(true);
+        expect(result.generations).toHaveLength(14);
+        expect(result.tracks).toHaveLength(14);
+        expect(result.predictions.usersNext30).toBeGreaterThanOrEqual(0);
+        expect(typeof result.growth.users).toBe("number");
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 });
