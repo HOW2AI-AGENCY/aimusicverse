@@ -29,8 +29,12 @@ serve(async (req: Request) => {
   try {
     const auth = await authorize(req, { requireAdmin: true });
     if (!auth.ok) {
-      return errorResponse(auth.error, auth.status);
+      return new Response(JSON.stringify({ success: false, error: auth.error }), {
+        status: auth.status,
+        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      });
     }
+
 
     const supabase = getSupabaseClient();
     const body: BroadcastRequest = await req.json();
