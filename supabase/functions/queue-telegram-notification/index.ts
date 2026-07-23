@@ -7,6 +7,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
+import { authorize } from "../_shared/auth.ts";
 
 const logger = createLogger("queue-telegram-notification");
 
@@ -38,9 +39,39 @@ serve(async (req) => {
   }
 
   try {
+    const auth = await authorize(req);
+    if (!auth.ok) {
+      return new Response(JSON.stringify({ success: false, error: auth.error }), {
+        status: auth.status,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const supabase = getSupabaseClient();
 
     const body: QueueRequest = await req.json();
+
+    // Non-service callers may only queue notifications addressed to themselves,
+    // and cannot supply an arbitrary chatId (must be resolved from their own profile).
+    if (!auth.isService) {
+      if (!auth.user) {
+        return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (body.userId && body.userId !== auth.user.id) {
+        return new Response(
+          JSON.stringify({ success: false, error: "Cannot queue notifications for other users" }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      body.userId = auth.user.id;
+      // Force chatId to be resolved server-side from the caller's own profile.
+      body.chatId = undefined;
+      // Disallow attacker-controlled inline buttons/markup for non-service callers.
+      body.replyMarkup = undefined;
+    }
 
     logger.info("Queueing notification", { type: body.type, userId: body.userId });
 
