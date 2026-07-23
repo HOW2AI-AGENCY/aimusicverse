@@ -1,4 +1,6 @@
 // Import centralized channel config
+import { authorize } from "../_shared/auth.ts";
+
 const CHANNEL_USERNAME = Deno.env.get("TELEGRAM_CHANNEL_USERNAME") || "AIMusiicVerse";
 
 const corsHeaders = {
@@ -37,10 +39,19 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const auth = await authorize(req, { requireAdmin: true });
+    if (!auth.ok) {
+      return new Response(JSON.stringify({ success: false, error: auth.error }), {
+        status: auth.status,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     if (!supabaseUrl) {
       throw new Error("SUPABASE_URL not configured");
     }
+
 
     // Parse request body for webhook type selection
     let webhookType = "bot"; // default
