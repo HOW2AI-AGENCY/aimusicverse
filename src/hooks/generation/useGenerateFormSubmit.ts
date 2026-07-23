@@ -355,6 +355,7 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
               weirdnessConstraint: weirdnessConstraint[0],
               audioWeight: audioWeight[0],
               projectId: selectedProjectId || initialProjectId,
+              voiceId: customVoiceId || undefined,
             },
           });
           data = result.data;

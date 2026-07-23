@@ -17,6 +17,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   copyrighted: "Текст содержит защищённый материал. Измените слова.",
   "rate limit": "Слишком много запросов. Подождите минуту.",
   credits: "Недостаточно кредитов на балансе.",
+  voice: "Кастомный голос недоступен или был отозван. Выберите другой голос или отключите его.",
 };
 
 /**
@@ -568,6 +569,7 @@ serve(async (req) => {
       if (lowerError.includes("artist name")) errorCode = "ARTIST_NAME_NOT_ALLOWED";
       if (lowerError.includes("copyrighted")) errorCode = "COPYRIGHTED_CONTENT";
       if (lowerError.includes("malformed")) errorCode = "MALFORMED_LYRICS";
+      if (lowerError.includes("voice")) errorCode = "VOICE_UNAVAILABLE";
 
       return new Response(
         JSON.stringify({
@@ -575,7 +577,12 @@ serve(async (req) => {
           error: userFriendlyError,
           errorCode,
           originalError: lastErrorMsg,
-          canRetry: !["ARTIST_NAME_NOT_ALLOWED", "COPYRIGHTED_CONTENT", "MALFORMED_LYRICS"].includes(errorCode),
+          canRetry: ![
+            "ARTIST_NAME_NOT_ALLOWED",
+            "COPYRIGHTED_CONTENT",
+            "MALFORMED_LYRICS",
+            "VOICE_UNAVAILABLE",
+          ].includes(errorCode),
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 },
       );
