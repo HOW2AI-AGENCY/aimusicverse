@@ -43,6 +43,7 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose }: U
   const [activeVersion, setActiveVersion] = useState<{
     versionLabel: string;
     audioUrl: string;
+    sunoId?: string;
   } | null>(null);
   const [stems, setStems] = useState<Array<{ id: string; stem_type: string; audio_url: string }>>([]);
   const [dialogs, setDialogs] = useState<DialogStates>({
@@ -88,7 +89,7 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose }: U
         supabase.from("track_stems").select("id, stem_type, audio_url").eq("track_id", track.id),
         supabase
           .from("track_versions")
-          .select("version_label, audio_url")
+          .select("id, version_label, audio_url, metadata")
           .eq("track_id", track.id)
           .order("clip_index", { ascending: true }),
       ]);
@@ -100,13 +101,19 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose }: U
 
       // Find active version (track.active_version_id points to the primary version)
       if (versionsResult.data?.length) {
-        const versions = versionsResult.data as Array<{ id?: string; version_label: string; audio_url: string }>;
+        const versions = versionsResult.data as Array<{
+          id?: string;
+          version_label: string;
+          audio_url: string;
+          metadata?: { suno_id?: string };
+        }>;
         const active = track.active_version_id
           ? versions.find((v) => v.id === track.active_version_id) || versions[0]
           : versions[0];
         setActiveVersion({
           versionLabel: active.version_label || "A",
           audioUrl: active.audio_url || track.audio_url || "",
+          sunoId: active.metadata?.suno_id || track.suno_id || undefined,
         });
       }
     };
@@ -230,13 +237,13 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose }: U
           onClose?.();
           break;
         case "stems_simple":
-          await handleSeparateVocals(track, "simple");
+          await handleSeparateVocals(track, "simple", activeVersion?.sunoId);
           // Автоматически открыть студию после запуска разделения
           navigate(`/studio-v2/track/${track.id}?stems=pending`);
           onClose?.();
           break;
         case "stems_detailed":
-          await handleSeparateVocals(track, "detailed");
+          await handleSeparateVocals(track, "detailed", activeVersion?.sunoId);
           // Автоматически открыть студию после запуска разделения
           navigate(`/studio-v2/track/${track.id}?stems=pending`);
           onClose?.();

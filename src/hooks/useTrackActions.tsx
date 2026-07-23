@@ -72,8 +72,9 @@ export function useTrackActions() {
     }
   };
 
-  const handleSeparateVocals = async (track: Track, mode: "simple" | "detailed" = "simple") => {
-    if (!track.suno_task_id || !track.suno_id) {
+  const handleSeparateVocals = async (track: Track, mode: "simple" | "detailed" = "simple", versionSunoId?: string) => {
+    const sunoId = versionSunoId || track.suno_id;
+    if (!track.suno_task_id || !sunoId) {
       toast.error("Невозможно разделить вокал для этого трека");
       return;
     }
@@ -88,7 +89,7 @@ export function useTrackActions() {
       const { data, error } = await supabase.functions.invoke("suno-separate-vocals", {
         body: {
           taskId: track.suno_task_id,
-          audioId: track.suno_id,
+          audioId: sunoId,
           mode,
           userId: user.id,
         },
