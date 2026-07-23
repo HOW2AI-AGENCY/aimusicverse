@@ -178,9 +178,7 @@ export function GenerationLoadingState({
             <div className="relative">
               <div className="absolute inset-0 bg-generate/20 rounded-full animate-ping" />
               <div className="relative bg-generate/10 p-3 rounded-full">
-                <StageIcon
-                  className={cn("h-6 w-6 text-generate", stage !== "completed" && stage !== "failed" && "animate-spin")}
-                />
+                <StageIcon className={cn("h-6 w-6 text-generate", stage !== "completed" && "animate-spin")} />
               </div>
             </div>
             <div className="flex-1">

@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Home,
@@ -36,9 +36,7 @@ import { Progress } from "./ui/progress";
 import { ScrollArea } from "./ui/scroll-area";
 import { preloadRoute } from "@/lib/route-preloader";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "./ui/tooltip";
-
-// Lazy load GenerateSheet
-const GenerateSheet = lazy(() => import("./GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
+import { dispatchOpenGenerateSheet } from "@/lib/events";
 
 const SIDEBAR_COLLAPSED_KEY = "sidebar-collapsed";
 
@@ -90,7 +88,6 @@ interface SidebarProps {
 export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: SidebarProps = {}) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [generateOpen, setGenerateOpen] = useState(false);
   const [musicOpen, setMusicOpen] = useState(true);
   const [accountOpen, setAccountOpen] = useState(false);
   const { playlists } = usePlaylists();
@@ -142,7 +139,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
       if (shortcut) {
         e.preventDefault();
         if (shortcut === "generate") {
-          setGenerateOpen(true);
+          dispatchOpenGenerateSheet();
         } else {
           navigate(shortcut);
         }
@@ -538,12 +535,6 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
           </p>
         </div>
       </aside>
-
-      {generateOpen && (
-        <Suspense fallback={null}>
-          <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
-        </Suspense>
-      )}
     </TooltipProvider>
   );
 };

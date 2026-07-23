@@ -106,6 +106,21 @@ serve(async (req) => {
     });
   } catch (error: any) {
     logger.error("Callback processing error", error);
+
+    // Revert project track to failed on any unhandled error
+    if (trackId) {
+      try {
+        const supabase = getSupabaseClient();
+        await supabase
+          .from("project_tracks")
+          .update({ status: "failed", error_message: error?.message?.substring(0, 200) || "Callback error" })
+          .eq("track_id", trackId)
+          .eq("status", "in_progress");
+      } catch (_) {
+        /* best-effort */
+      }
+    }
+
     return new Response(JSON.stringify({ success: false, error: error.message || "Unknown error" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
