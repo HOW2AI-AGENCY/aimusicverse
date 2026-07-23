@@ -101,6 +101,7 @@ export function UnifiedTrackMenu({
           onCloseDialog={closeDialog}
           onConfirmDelete={handleConfirmDelete}
           stems={stems}
+          activeVersion={activeVersion}
         />
       </>
     );
@@ -218,6 +219,7 @@ export function UnifiedTrackMenu({
         onCloseDialog={closeDialog}
         onConfirmDelete={handleConfirmDelete}
         stems={stems}
+        activeVersion={activeVersion}
       />
     </>
   );

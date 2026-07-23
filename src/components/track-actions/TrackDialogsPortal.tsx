@@ -42,9 +42,10 @@ interface DialogStates {
 interface TrackDialogsPortalProps {
   track: Track;
   dialogs: DialogStates;
-  onCloseDialog: (key: keyof DialogStates) => void;
-  onConfirmDelete: () => void;
+  onCloseDialog: (name: keyof DialogStates) => void;
+  onConfirmDelete?: () => void;
   stems?: SimpleStem[];
+  activeVersion?: { versionLabel: string; audioUrl: string } | null;
 }
 
 export function TrackDialogsPortal({
@@ -53,6 +54,7 @@ export function TrackDialogsPortal({
   onCloseDialog,
   onConfirmDelete,
   stems = [],
+  activeVersion,
 }: TrackDialogsPortalProps) {
   const isMobile = useIsMobile();
   const [coverAudioFile, setCoverAudioFile] = useState<File | null>(null);
