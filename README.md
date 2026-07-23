@@ -8,7 +8,7 @@
 
 **Профессиональная AI-генерация музыки прямо в Telegram Mini App. Suno AI v5, мультитрек-студия, A/B версии, MIDI, вокальный клон — без единого перехода во внешний сервис.**
 
-![banner](assets\readme\hero.svg)
+![banner](assets/readme/hero.svg)
 
 <p>
   <img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/>
@@ -91,41 +91,96 @@
 
 ## 🏛 Архитектура
 
-![workflow](assets\readme\workflow.svg)
+![workflow](assets/readme/workflow.svg)
 
-```
-┌─────────────────────────────────────────────┐
-│  Telegram Mini App (WebView)                │
-├─────────────────────────────────────────────┤
-│  Pages (74)                  Route-level    │
-├─────────────────────────────────────────────┤
-│  Components (1043)           Feature + UI    │
-├─────────────────────────────────────────────┤
-│  Hooks (440)                 Reusable logic  │
-├─────────────────────────────────────────────┤
-│  Services (37)               Business logic  │
-├─────────────────────────────────────────────┤
-│  API Layer (32)              Supabase        │
-├─────────────────────────────────────────────┤
-│  Stores (25 Zustand)         Global state    │
-└─────────────────────────────────────────────┘
-```
+### Системная архитектура
 
 ```mermaid
-graph TD
-    A[Telegram Mini App] --> B[React 19.2 SPA]
-    B --> C[TanStack Query]
-    B --> D[Zustand]
-    C --> E[Supabase API]
-    D --> E
-    E --> F[(PostgreSQL + RLS)]
-    E --> G[Edge Functions · Deno]
-    G --> H[Suno API v5]
-    E --> I[Realtime]
-    E --> J[Storage CDN]
+flowchart TB
+    subgraph Client["📱 Telegram Mini App"]
+        Pages[Pages · React Router]
+        Comps[1043+ Components]
+        Hooks[440+ Hooks]
+        State[Zustand · TanStack Query]
+        Audio[GlobalAudioProvider]
+    end
+    subgraph Backend["☁️ Supabase"]
+        Auth[Auth · JWT + RLS]
+        DB[(PostgreSQL)]
+        Edge[120+ Edge Functions]
+        Storage[Object Storage]
+        Realtime[Realtime channels]
+    end
+    subgraph External["🌐 External APIs"]
+        Suno[Suno AI v5]
+        Klang[Klang.io]
+        Bot[Telegram Bot API]
+    end
+    Client --> Auth
+    Client --> Edge
+    Client --> Realtime
+    Client --> Storage
+    Edge --> DB
+    Edge --> Suno
+    Edge --> Klang
+    Edge --> Bot
+    Bot --> Client
 ```
 
-**Данные**: API Layer → Service Layer → Hooks → Components. Однонаправленный поток. RLS на всех таблицах с пользовательскими данными.
+### Слоёная архитектура (Layered)
+
+```mermaid
+flowchart LR
+    P[Pages · 74] --> C[Components · 1043]
+    C --> H[Hooks · 440]
+    H --> Sv[Services · 37]
+    Sv --> API[API Layer · 32]
+    API --> Edge[Edge Functions]
+    Edge --> Suno[Suno API v5]
+```
+
+Однонаправленный поток: Pages → Components → Hooks → Services → API → Edge Functions. RLS на всех таблицах с пользовательскими данными.
+
+### Pipeline генерации
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant FE as Mini App
+    participant EF as Edge Function
+    participant SA as Suno API
+    participant DB as Postgres
+    U->>FE: Форма генерации
+    FE->>EF: POST suno-music-generate
+    EF->>DB: INSERT generation_tasks
+    EF->>SA: create job
+    SA-->>EF: task_id
+    loop polling (3s)
+        FE->>EF: poll status
+        EF->>SA: status
+        SA-->>EF: status + clips
+    end
+    EF->>DB: INSERT tracks + track_versions (A/B)
+    EF-->>FE: ready
+    FE-->>U: GenerationResultSheet
+```
+
+### Схема базы данных
+
+```mermaid
+erDiagram
+    profiles ||--o{ tracks : owns
+    tracks ||--o{ track_versions : has
+    tracks ||--o{ track_stems : has
+    profiles ||--o{ user_credits : has
+    profiles ||--o{ user_roles : has
+    tracks ||--o{ comments : has
+    tracks ||--o{ track_likes : has
+    music_projects ||--o{ project_tracks : groups
+    playlists ||--o{ playlist_tracks : groups
+```
+
+> Подробнее: [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/SUNO_API.md`](docs/SUNO_API.md)
 
 <sub><a href="#✨-возможности">← Назад: Возможности</a> · <a href="#top">↑ К началу</a> · <a href="#🚀-быстрый-старт">Далее: Быстрый старт →</a></sub>
 
@@ -248,26 +303,6 @@ aimusicverse/
 ```
 
 <sub><a href="#🛠-технический-стек">← Назад: Стек</a> · <a href="#top">↑ К началу</a> · <a href="#📖-документация">Далее: Документация →</a></sub>
-
----
-
-## 🎬 StoryForge AI
-
-**Side-project** для [Higgsfield $100K App Contest](https://higgsfield.ai/supercomputer/apps). Инструмент создания персонажей, сценариев, раскадровки и видео через Higgsfield AI.
-
-```
-storyforge/
-├── README.md        # Описание и быстрый старт
-├── SPEC.md          # Техническая спецификация
-├── PROGRESS.md      # Трекинг задач и спринтов
-├── docs/            # Документация
-├── assets/          # Сгенерированные файлы
-└── logs/            # Логи генераций
-```
-
-[→ Открыть StoryForge](storyforge/README.md)
-
----
 
 ## 📖 Документация
 
