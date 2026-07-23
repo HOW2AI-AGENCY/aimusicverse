@@ -66,6 +66,12 @@ export function KeyboardShortcutsProvider({ children, onOpenGenerateSheet }: Key
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      // Never intercept keys mid-IME-composition (CJK / accented input). The
+      // keydown that updates or commits a candidate reports isComposing=true
+      // and must reach the textarea untouched — otherwise a chord like
+      // Ctrl+Shift+M would fire the mute shortcut while the user is composing.
+      if (e.isComposing) return;
+
       // Skip if typing in input/textarea/contenteditable
       const target = e.target as HTMLElement;
       const isInput = target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable;
@@ -101,6 +107,11 @@ export function KeyboardShortcutsProvider({ children, onOpenGenerateSheet }: Key
 
       // Skip rest of shortcuts if in input (no modifier)
       if (isInput) return;
+
+      // The shortcuts below are single, unmodified keys. Bail if any modifier
+      // is held so chords such as Ctrl+Shift+M (dev metrics overlay toggle) or
+      // Cmd+M (native minimize) aren't swallowed by the mute / play handlers.
+      if (hasModifier || e.shiftKey) return;
 
       // Space: Play/Pause
       if (code === "Space") {
