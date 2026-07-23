@@ -323,6 +323,24 @@
           transform: scaleY(1);
         }
       }
+      /* Skip-to-content — hidden until focused */
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 16px;
+        z-index: 9999;
+        padding: 12px 20px;
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+        border: 2px solid hsl(var(--neon));
+      }
+      .skip-link:focus {
+        top: 16px;
+      }
       /* Fallback is removed automatically once React renders (root content replaced). */
     </style>
 
@@ -360,6 +378,8 @@
   </head>
 
   <body>
+    <!-- Skip-to-content link for keyboard users -->
+    <a href="#main-content" class="skip-link">Пропустить навигацию</a>
     <div id="root">
       <!-- Fallback loading UI shown before React hydrates -->
       <div id="loading-fallback">

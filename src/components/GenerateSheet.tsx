@@ -90,6 +90,17 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
     else hideProgress();
   }, [controller.form.loading, showProgress, hideProgress]);
 
+  // Sprint P3.2: move focus into the sheet when it opens (accessibility)
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => {
+        const sheet = document.querySelector('[role="dialog"]') as HTMLElement | null;
+        sheet?.focus();
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
   if (!isRedesign) {
     return <LegacyGenerateSheet open={open} onOpenChange={onOpenChange} projectId={projectId} />;
   }

@@ -17,6 +17,7 @@ import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/formatters";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface GenerationStage {
   id: string;
@@ -63,6 +64,7 @@ export function GenerationLoadingState({
 }: GenerationLoadingStateProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [estimatedTotal, setEstimatedTotal] = useState(90);
+  const reducedMotion = useReducedMotion();
 
   // Full-run estimate across all stages so the bar advances В очереди → Финализация.
 
@@ -165,10 +167,10 @@ export function GenerationLoadingState({
       <AnimatePresence mode="wait">
         <motion.div
           key={stage}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+          initial={reducedMotion ? undefined : { opacity: 0, y: 10 }}
+          animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          exit={reducedMotion ? undefined : { opacity: 0, y: -10 }}
+          transition={reducedMotion ? undefined : { duration: 0.3 }}
           className="space-y-3 sm:space-y-4"
         >
           {/* Stage indicator with icon */}
@@ -212,10 +214,14 @@ export function GenerationLoadingState({
                     isActive && "bg-generate/50",
                     !isCompleted && !isActive && "bg-muted",
                   )}
-                  initial={false}
-                  animate={{
-                    opacity: isCompleted ? 1 : isActive ? 0.8 : 0.3,
-                  }}
+                  initial={reducedMotion ? undefined : false}
+                  animate={
+                    reducedMotion
+                      ? undefined
+                      : {
+                          opacity: isCompleted ? 1 : isActive ? 0.8 : 0.3,
+                        }
+                  }
                 />
               );
             })}

@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Home, ArrowLeft, RefreshCw, AlertTriangle } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { getBotMention } from "@/lib/telegram";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface ErrorPageProps {
   error?: Error | null;
@@ -16,6 +17,7 @@ interface ErrorPageProps {
 export default function ErrorPage({ error, statusCode = 500 }: ErrorPageProps) {
   const navigate = useNavigate();
   const { hapticFeedback, showBackButton, hideBackButton } = useTelegram();
+  const reducedMotion = useReducedMotion();
 
   const errorMessage = error?.message || "Произошла неизвестная ошибка";
   const errorDetails = error?.stack?.split("\n")[0] || "";
@@ -54,18 +56,18 @@ export default function ErrorPage({ error, statusCode = 500 }: ErrorPageProps) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-destructive/5 p-4">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        initial={reducedMotion ? undefined : { opacity: 0, y: 20 }}
+        animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+        transition={reducedMotion ? undefined : { duration: 0.4 }}
         className="w-full max-w-md"
       >
         <Card className="border-2 border-destructive/20">
           <CardContent className="pt-6 text-center">
             {/* Icon */}
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              initial={reducedMotion ? undefined : { scale: 0 }}
+              animate={reducedMotion ? undefined : { scale: 1 }}
+              transition={reducedMotion ? undefined : { delay: 0.2, type: "spring", stiffness: 200 }}
               className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-destructive/10"
             >
               <AlertTriangle className="h-12 w-12 text-destructive" />
