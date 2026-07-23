@@ -16,6 +16,9 @@ import { SmartAlertProvider } from "./notifications/smart-alerts";
 import { useGenerationResult } from "@/hooks/generation/useGenerationResult";
 import { useWelcomeBonusCheck } from "@/hooks/useCreditsLimits";
 import { useAdminDailyStats } from "@/hooks/useAdminDailyStats";
+import { useActiveGenerations } from "@/hooks/generation/useActiveGenerations";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useTelegramEmojiStatus } from "@/hooks/telegram";
 import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvider";
 import { SafeAreaContainer } from "./layout/SafeAreaContainer";
 import { OnboardingFlow } from "./onboarding/OnboardingFlow";
@@ -59,6 +62,21 @@ export const MainLayout = () => {
 
   // Track play counts when tracks are played
   usePlaybackTracking();
+
+  // Emoji status sync — shows 🎵 during generation, 🎧 during playback
+  const { setStatus: setEmoji, clearStatus: clearEmoji } = useTelegramEmojiStatus();
+  const { data: activeGenerations = [] } = useActiveGenerations();
+  const hasActiveGenerations = activeGenerations.length > 0;
+
+  useEffect(() => {
+    if (hasActiveGenerations) {
+      setEmoji("generating");
+    } else if (hasActiveTrack) {
+      setEmoji("listening");
+    } else {
+      clearEmoji();
+    }
+  }, [hasActiveGenerations, hasActiveTrack, setEmoji, clearEmoji]);
 
   // Show daily admin stats notification (only for admins)
   useAdminDailyStats();

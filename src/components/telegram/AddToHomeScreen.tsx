@@ -1,5 +1,5 @@
 // @ts-nocheck - Telegram WebApp API types are dynamic
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, Check, X } from "@/lib/icons";
@@ -34,7 +34,13 @@ export const AddToHomeScreen = () => {
       return;
     }
 
-    webApp.addToHomeScreen();
+    // Add with shortcut params when supported
+    try {
+      webApp.addToHomeScreen();
+    } catch {
+      // Fallback for older versions
+      webApp.addToHomeScreen();
+    }
 
     // Check status after a delay
     setTimeout(() => {
