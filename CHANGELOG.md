@@ -24,6 +24,22 @@
 
 ## [Unreleased]
 
+### 🔒 Устранение уязвимостей зависимостей (2026-07-23)
+
+**Security**
+
+- Закрыты все 3 алерта GitHub Dependabot (1 critical, 1 medium, 1 low) и попутные находки `npm audit` — все в build/dev/test-зависимостях:
+  - `@babel/traverse` → `^7.25.0` (через `overrides`) — critical RCE при компиляции (GHSA-67hx-6x53-jw92), тянулся `@storybook/csf-tools`.
+  - `esbuild` → `^0.25.0` (через `overrides`) — medium (GHSA-67mh-4wv8-2f99) + low (GHSA-g7r4-m6w7-qqqr) в dev-сервере, тянулись `@storybook/core-common` и `@lovable.dev/mcp-js`.
+  - `dompurify` `3.4.11 → 3.4.12` — обход санитайзера HTML (**прод-зависимость**).
+  - `vitest` + `@vitest/*` `4.1.9 → 4.1.10` — critical обход файлового доступа в browser-mode (GHSA-p63j-vcc4-9vmv).
+  - `brace-expansion`, `fast-uri` — high (DoS / host confusion).
+- Остались 2 medium-алерта без безопасного фикса (`@hono/node-server`, `uuid`): требуют мажорного даунгрейда Storybook или недоступного обновления родителя — отложены как несоразмерные.
+
+**Fixed**
+
+- Детерминирован date-brittle unit-тест `forecast.service` (заморозка часов) — начал падать 2026-07-23 из-за дрейфа окна агрегации.
+
 ### 🧹 Наведение порядка в репозитории (2026-07-23)
 
 **Changed**
