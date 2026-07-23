@@ -80,8 +80,11 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       .eq("version_label", versionLabel)
       .single();
 
+    const clipModelName = clip.modelName || clip.model_name;
+    const clipImageUrl = getImageUrl(clip);
     const versionData = {
       audio_url: finalAudioUrl,
+      cover_url: clipImageUrl || null,
       duration_seconds: Math.round(clip.duration) || null,
       metadata: {
         suno_id: clip.id,
@@ -90,7 +93,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
         title: trackTitle,
         tags: clip.tags,
         lyrics: clip.prompt,
-        model_name: clip.model_name,
+        model_name: clipModelName,
         prompt: task.prompt,
         local_storage: { audio: localAudioUrl },
         status: "completed",
@@ -142,12 +145,13 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
           audio_url: finalAudioUrl,
           streaming_url: streamUrl || finalAudioUrl,
           local_audio_url: localAudioUrl,
+          cover_url: clipImageUrl || null,
           title: trackTitle,
           duration_seconds: Math.round(clip.duration) || null,
           tags: clip.tags || task.tracks?.tags,
           lyrics: clip.prompt || task.tracks?.lyrics,
           suno_id: clip.id,
-          model_name: clip.model_name || "chirp-v4",
+          model_name: clipModelName || "chirp-v4",
           suno_task_id: sunoTaskId,
           project_id: safeProjectId,
           project_track_id: projectTrackId,
@@ -160,7 +164,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       user_id: task.user_id,
       change_type: "version_created",
       changed_by: "suno_api",
-      ai_model_used: clip.model_name || "chirp-v4",
+      ai_model_used: clipModelName || "chirp-v4",
       prompt_used: task.prompt,
       new_value: versionLabel,
       metadata: { version_label: versionLabel, clip_index: i, suno_clip_id: clip.id, title: trackTitle },
