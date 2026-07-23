@@ -85,7 +85,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <h2
             id="generate-sheet-title"
             className="text-base font-bold tracking-tight text-foreground truncate"
-            style={{ fontFamily: '"Bricolage Grotesque", var(--font-display, inherit)' }}
+            style={{ fontFamily: 'var(--font-display), "Space Grotesque", system-ui, sans-serif' }}
           >
             Создание трека
           </h2>

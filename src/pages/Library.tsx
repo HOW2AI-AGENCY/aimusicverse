@@ -116,6 +116,9 @@ export default function Library() {
     midiStatusMap,
   } = useLibraryData();
 
+  // Sprint P2.3: distinguish initial load (full skeletons) from refresh (compact indicator)
+  const isInitialLoad = isLoading && (!tracks || tracks.length === 0);
+
   // Read ?q= from URL on mount — triggers search from homepage
   useEffect(() => {
     const q = qRef.current;
@@ -379,7 +382,7 @@ export default function Library() {
                 )}
 
                 {/* Track List Content */}
-                {isLoading ? (
+                {isInitialLoad ? (
                   <div data-safe-skeleton="" className="@container">
                     {isMobile ? (
                       viewMode === "grid" ? (
@@ -405,6 +408,12 @@ export default function Library() {
                   <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
                 ) : (
                   <>
+                    {/* Refresh indicator — compact when data exists and is reloading */}
+                    {isLoading && !isInitialLoad && (
+                      <div className="flex justify-center py-2">
+                        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                      </div>
+                    )}
                     <VirtualizedTrackList
                       tracks={filteredTracks}
                       viewMode={viewMode}

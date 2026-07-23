@@ -1,5 +1,6 @@
 // src/components/generate-sheet/GenerateSheetFooter.tsx
-import { Sparkles, Loader2, Coins, Info } from "@/lib/icons";
+import { useState, useEffect, useRef } from "react";
+import { Sparkles, Loader2, Coins, Info, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +27,24 @@ export function GenerateSheetFooter(props: Props) {
     ? `${props.keyboardHeight + 16}px`
     : "max(1rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))";
 
+  // Sprint P2.2: brief "saved" indicator when draft auto-saves
+  const [showSaved, setShowSaved] = useState(false);
+  const prevUnsavedRef = useRef(props.hasUnsavedData);
+
+  useEffect(() => {
+    // Transition from unsaved → saved: show indicator briefly
+    if (prevUnsavedRef.current && !props.hasUnsavedData) {
+      setShowSaved(true);
+      const t = setTimeout(() => setShowSaved(false), 2000);
+      return () => clearTimeout(t);
+    }
+    // Transition from saved → unsaved: hide indicator
+    if (!prevUnsavedRef.current && props.hasUnsavedData) {
+      setShowSaved(false);
+    }
+    prevUnsavedRef.current = props.hasUnsavedData;
+  }, [props.hasUnsavedData]);
+
   return (
     <div
       className="px-4 pt-3 border-t border-border/10 bg-sheet/85 backdrop-blur-xl"
@@ -37,13 +56,19 @@ export function GenerateSheetFooter(props: Props) {
           <div className="flex items-center gap-2">
             <span
               aria-hidden
-              className="h-1.5 w-1.5 rounded-full bg-[#22E4A7]"
-              style={{ boxShadow: "0 0 8px #22E4A7" }}
+              className="h-1.5 w-1.5 rounded-full bg-neon"
+              style={{ boxShadow: "0 0 8px hsl(var(--neon))" }}
             />
-            <span className="text-[11px] text-muted-foreground">
-              Стоимость: <span className="font-semibold text-foreground tabular-nums">{props.generationCost}</span>{" "}
-              кредитов
-            </span>
+            {showSaved ? (
+              <span className="text-[11px] text-neon/80 flex items-center gap-1">
+                <Check className="w-3 h-3" /> Сохранено
+              </span>
+            ) : (
+              <span className="text-[11px] text-muted-foreground">
+                Стоимость: <span className="font-semibold text-foreground tabular-nums">{props.generationCost}</span>{" "}
+                кредитов
+              </span>
+            )}
           </div>
           {props.hasWarnings && (
             <button
