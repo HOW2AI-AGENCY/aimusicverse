@@ -33,6 +33,8 @@ interface ChatMessageListProps {
   onRequestEdit?: (instruction: string) => void;
   onTitleChange?: (title: string) => void;
   onStyleChange?: (style: string) => void;
+  recommendedTags?: Record<string, string[]> | null;
+  onAiAction?: (action: string, params?: Record<string, unknown>) => void;
 }
 
 export const ChatMessageList = memo(
@@ -62,6 +64,8 @@ export const ChatMessageList = memo(
         onRequestEdit,
         onTitleChange,
         onStyleChange,
+        recommendedTags,
+        onAiAction,
       },
       ref,
     ) => {
@@ -144,6 +148,8 @@ export const ChatMessageList = memo(
                       onTitleChange={onTitleChange}
                       onStyleChange={onStyleChange}
                       showApplyButton={showApplyButton}
+                      recommendedTags={recommendedTags}
+                      onAiAction={onAiAction}
                     />
                   </motion.div>
                 )}

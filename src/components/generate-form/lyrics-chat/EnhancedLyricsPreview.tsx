@@ -45,6 +45,10 @@ interface EnhancedLyricsPreviewProps {
   fullHeight?: boolean;
   /** Show apply button in UI (false when MainButton is used) */
   showApplyButton?: boolean;
+  /** Recommended tags from AI for the selected genre/mood */
+  recommendedTags?: Record<string, string[]> | null;
+  /** Execute an AI action on the generated lyrics */
+  onAiAction?: (action: string, params?: Record<string, unknown>) => void;
 }
 
 const QUICK_EDIT_SUGGESTIONS = [
@@ -74,6 +78,8 @@ export function EnhancedLyricsPreview({
   onStyleChange,
   fullHeight = false,
   showApplyButton = true,
+  recommendedTags,
+  onAiAction,
 }: EnhancedLyricsPreviewProps) {
   const [editMode, setEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title || "");
@@ -228,6 +234,82 @@ export function EnhancedLyricsPreview({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Recommended tags from AI */}
+      {recommendedTags && Object.keys(recommendedTags).length > 0 && (
+        <div className="space-y-1.5">
+          <span className="text-[10px] text-muted-foreground">Рекомендованные теги:</span>
+          <div className="flex flex-col gap-1.5">
+            {recommendedTags.vocal && recommendedTags.vocal.length > 0 && (
+              <div className="flex items-center gap-1 flex-wrap">
+                <span className="text-[10px] text-muted-foreground shrink-0">Вокал:</span>
+                {recommendedTags.vocal.slice(0, 4).map((tag) => (
+                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            {recommendedTags.instruments && recommendedTags.instruments.length > 0 && (
+              <div className="flex items-center gap-1 flex-wrap">
+                <span className="text-[10px] text-muted-foreground shrink-0">Инстр:</span>
+                {recommendedTags.instruments.slice(0, 4).map((tag) => (
+                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            {recommendedTags.dynamics && recommendedTags.dynamics.length > 0 && (
+              <div className="flex items-center gap-1 flex-wrap">
+                <span className="text-[10px] text-muted-foreground shrink-0">Динам:</span>
+                {recommendedTags.dynamics.slice(0, 4).map((tag) => (
+                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            {recommendedTags.emotions && recommendedTags.emotions.length > 0 && (
+              <div className="flex items-center gap-1 flex-wrap">
+                <span className="text-[10px] text-muted-foreground shrink-0">Эмоции:</span>
+                {recommendedTags.emotions.slice(0, 4).map((tag) => (
+                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* AI actions */}
+      {onAiAction && (
+        <div className="space-y-1.5">
+          <span className="text-[10px] text-muted-foreground">Действия с AI:</span>
+          <div className="flex flex-wrap gap-1">
+            {[
+              { label: "🎤 Продюсер", action: "producer_review" },
+              { label: "📊 Анализ", action: "full_analysis" },
+              { label: "✅ Валидация", action: "validate_suno_v5" },
+              { label: "🎯 Хуки", action: "hook_generator" },
+              { label: "🔄 Стиль", action: "style_convert" },
+              { label: "📝 Парафраз", action: "paraphrase" },
+            ].map((item) => (
+              <button
+                key={item.action}
+                type="button"
+                className="text-[10px] px-2 py-1 rounded-md bg-muted/40 hover:bg-muted/60 text-foreground/70 transition-colors"
+                onClick={() => onAiAction(item.action)}
+                disabled={isLoading}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Action buttons - responsive grid */}
       <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">

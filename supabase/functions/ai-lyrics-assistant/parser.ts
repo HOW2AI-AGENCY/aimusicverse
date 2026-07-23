@@ -26,10 +26,10 @@ export function parseResponse(action: string, content: string): Record<string, u
     return res;
   }
 
-  // Full-json-obj match (multi-line, non-greedy)
+  // Full-json-obj match — greedy so nested braces inside lyrics don't truncate
   const strictMatch =
     action === "generate" || action === "smart_generate" || action === "improve" || action === "add_tags"
-      ? content.match(/\{[\s\S]*?\}(?=\s*$|\s*```)/)
+      ? content.match(/\{[\s\S]*\}(?=\s*$|(?:\s*```\s*$))/)
       : content.match(/\{[\s\S]*\}/);
 
   if (!strictMatch) {

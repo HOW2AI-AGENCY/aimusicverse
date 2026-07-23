@@ -45,6 +45,8 @@ export function LyricsAssistantChat({ currentLyrics, onApply, onApplyTitle, onAp
         onRequestEdit={state.handleRequestEdit}
         onTitleChange={state.handleTitleChange}
         onStyleChange={state.handleStyleChange}
+        recommendedTags={state.recommendedTags}
+        onAiAction={state.handleAiAction}
       />
       <ChatInputArea
         value={state.inputValue}

@@ -11,6 +11,7 @@ import { useState, useCallback } from "react";
 import { sendAiChatMessage } from "@/services/lyrics/ai-tools.service";
 import { invokeLyricsAssistant } from "@/api/lyrics.api";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { parseLyrics } from "@/components/generate-form/lyricsEditorHelpers";
 import type { ChatMessage } from "@/components/generate-form/lyrics-chat/types";
 
 interface UseLyricsAssistantOptions {
@@ -50,6 +51,12 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
   const [generatedLyrics, setGeneratedLyrics] = useState("");
   const [generatedTitle, setGeneratedTitle] = useState("");
   const [generatedStyle, setGeneratedStyle] = useState("");
+  const [recommendedTags, setRecommendedTags] = useState<{
+    vocal?: string[];
+    instruments?: string[];
+    dynamics?: string[];
+    emotions?: string[];
+  } | null>(null);
 
   // Actions state
   const [copied, setCopied] = useState(false);
@@ -125,23 +132,31 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
         });
 
         if (data?.lyrics) {
-          const title = data?.suggestions?.[0] || "Новый трек";
-          const style = `${selectedGenre} — ${selectedMoods.join("/")}`;
+          // Validate sections
+          const sections = parseLyrics(data.lyrics);
+          const hasValidSections = sections.length > 0;
+          const title = data?.title || data?.suggestions?.[0] || "Новый трек";
+          const style = data?.style || `${selectedGenre} — ${selectedMoods.join("/")}`;
+
           setGeneratedLyrics(data.lyrics);
           setGeneratedTitle(title);
           setGeneratedStyle(style);
 
+          // Store recommended tags from Edge Function metadata
+          if (data?.metadata?.recommendedTags) {
+            setRecommendedTags(data.metadata.recommendedTags as RecommendedTags);
+          }
+
           // Remove the "creating..." message and show result
           setMessages((prev) => prev.filter((m) => m.content !== "Создаю текст..."));
-          addAssistantMessage(
-            "Вот что получилось! Можешь отредактировать, скопировать или применить:",
-            "lyrics-preview",
-            {
-              lyrics: data.lyrics,
-              title,
-              style,
-            },
-          );
+          const resultMsg = hasValidSections
+            ? `Готово! ${sections.length} секций. Можешь скопировать, применить или продолжить:`
+            : "Текст создан, но секции не распознаны. Проверь формат тегов [Verse], [Chorus]...";
+          addAssistantMessage(resultMsg, "lyrics-preview", {
+            lyrics: data.lyrics,
+            title,
+            style,
+          });
         } else {
           setMessages((prev) => prev.filter((m) => m.content !== "Создаю текст..."));
           addAssistantMessage("Что-то пошло не так. Попробуй ещё раз или напиши, что изменить.");
@@ -312,6 +327,44 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
     }
   }, []);
 
+  // Execute arbitrary AI action (analysis, validation, etc.)
+  const handleAiAction = useCallback(
+    async (action: string, params?: Record<string, unknown>) => {
+      setIsLoading(true);
+      try {
+        const { data } = await invokeLyricsAssistant({
+          action,
+          genre: selectedGenre,
+          mood: selectedMoods.join(", "),
+          structure: selectedStructure,
+          language: "ru",
+          lyrics: generatedLyrics || currentLyrics,
+          ...params,
+        });
+
+        if (data?.lyrics) {
+          setGeneratedLyrics(data.lyrics);
+          addAssistantMessage("Результат:", "lyrics-preview", {
+            lyrics: data.lyrics,
+            title: data.title,
+            style: data.style,
+          });
+        } else if (data?.message) {
+          addAssistantMessage(data.message as string);
+        } else if (data?.fullAnalysis) {
+          addAssistantMessage(JSON.stringify(data.fullAnalysis, null, 2).substring(0, 500));
+        } else {
+          addAssistantMessage("Готово! Результат обработан.");
+        }
+      } catch {
+        addAssistantMessage("Ошибка при выполнении действия.");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [selectedGenre, selectedMoods, selectedStructure, generatedLyrics, currentLyrics, addAssistantMessage],
+  );
+
   return {
     // State
     messages,
@@ -323,6 +376,7 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
     generatedLyrics,
     generatedTitle,
     generatedStyle,
+    recommendedTags,
     copied,
     saved,
     isSaving,
@@ -348,5 +402,6 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
     handleRequestEdit,
     handleTitleChange,
     handleStyleChange,
+    handleAiAction,
   };
 }
