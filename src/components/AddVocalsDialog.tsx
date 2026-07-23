@@ -18,9 +18,11 @@ interface AddVocalsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   track: Track;
+  activeAudioUrl?: string;
 }
 
-export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogProps) => {
+export const AddVocalsDialog = ({ open, onOpenChange, track, activeAudioUrl }: AddVocalsDialogProps) => {
+  const audioForApi = activeAudioUrl || track.audio_url;
   const [lyrics, setLyrics] = useState("");
   const [style, setStyle] = useState(track.style || "pop, powerful vocals, professional singing");
   const [title, setTitle] = useState("");
@@ -42,7 +44,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
   });
 
   const handleSubmit = async () => {
-    if (!track.audio_url) {
+    if (!audioForApi) {
       toast.error("У трека отсутствует аудио файл");
       return;
     }
@@ -74,7 +76,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
         error,
       } = await addVocalsMutation.mutateAsync({
         trackId: track.id,
-        audioUrl: track.audio_url,
+        audioUrl: audioForApi,
         prompt: lyrics,
         style: effectiveStyle,
         title: effectiveTitle,
@@ -197,7 +199,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Отмена
           </Button>
-          <Button onClick={handleSubmit} disabled={loading || !track.audio_url || !lyrics.trim()}>
+          <Button onClick={handleSubmit} disabled={loading || !audioForApi || !lyrics.trim()}>
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />

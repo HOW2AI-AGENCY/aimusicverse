@@ -59,13 +59,14 @@ export function TrackDialogsPortal({
   const isMobile = useIsMobile();
   const [coverAudioFile, setCoverAudioFile] = useState<File | null>(null);
 
-  // Auto-load track audio when cover dialog opens
+  // Auto-load track audio when cover dialog opens — use active version if available
   useEffect(() => {
-    if (dialogs.cover && track.audio_url && !coverAudioFile) {
+    const audioUrl = activeVersion?.audioUrl || track.audio_url;
+    if (dialogs.cover && audioUrl && !coverAudioFile) {
       // Fetch the track audio and create a File object
       const loadAudio = async () => {
         try {
-          const response = await fetch(track.audio_url!);
+          const response = await fetch(audioUrl!);
           const blob = await response.blob();
           const fileName = `${track.title || "track"}.mp3`;
           const file = new File([blob], fileName, { type: "audio/mpeg" });
@@ -180,6 +181,7 @@ export function TrackDialogsPortal({
         open={dialogs.addVocals}
         onOpenChange={(open) => !open && onCloseDialog("addVocals")}
         track={track}
+        activeAudioUrl={activeVersion?.audioUrl}
       />
 
       {/* Add Instrumental dialog */}
@@ -187,6 +189,7 @@ export function TrackDialogsPortal({
         open={dialogs.addInstrumental}
         onOpenChange={(open) => !open && onCloseDialog("addInstrumental")}
         track={track}
+        activeAudioUrl={activeVersion?.audioUrl}
       />
     </>
   );

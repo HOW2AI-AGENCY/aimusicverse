@@ -21,9 +21,11 @@ interface AddInstrumentalDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   track: Track;
+  activeAudioUrl?: string;
 }
 
-export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrumentalDialogProps) => {
+export const AddInstrumentalDialog = ({ open, onOpenChange, track, activeAudioUrl }: AddInstrumentalDialogProps) => {
+  const audioForApi = activeAudioUrl || track.audio_url;
   const navigate = useNavigate();
   const playTrack = usePlayerStore((s) => s.playTrack);
   const instrumentalProgress = useAddInstrumentalProgress();
@@ -53,7 +55,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
   const loading = instrumentalProgress.status === "submitting";
 
   const handleSubmit = async () => {
-    if (!track.audio_url) {
+    if (!audioForApi) {
       toast.error("У трека отсутствует аудио файл");
       return;
     }
@@ -72,7 +74,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
         taskId,
         error,
       } = await addInstrumentalMutation.mutateAsync({
-        audioUrl: track.audio_url,
+        audioUrl: audioForApi,
         style: style.trim(),
         title: effectiveTitle,
         negativeTags: negativeTags.trim() || "low quality, distorted, noise",
@@ -248,7 +250,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={loading || instrumentalProgress.isActive || !track.audio_url || !style.trim()}
+            disabled={loading || instrumentalProgress.isActive || !audioForApi || !style.trim()}
           >
             {loading || instrumentalProgress.isActive ? (
               <>
