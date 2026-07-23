@@ -40,6 +40,27 @@ Deno.serve(async (req) => {
       tags?: string[];
     };
 
+    // Verify caller owns the target track before mutating its tags.
+    const { data: trackRow, error: trackErr } = await supabase
+      .from("tracks")
+      .select("id, user_id")
+      .eq("id", trackData.id)
+      .maybeSingle();
+
+    if (trackErr || !trackRow) {
+      return new Response(JSON.stringify({ error: "Track not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (trackRow.user_id !== user.id) {
+      return new Response(JSON.stringify({ error: "Forbidden: not the track owner" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     console.log("Syncing tags for track:", trackData.id);
 
     // Extract tags from different sources
