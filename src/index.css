@@ -204,10 +204,12 @@ All colors MUST be HSL.
     --z-toast: 300;
     /* Toasts/announcements — top of the world */
 
-    /* Section-specific accent colors — Glass Aurora (desaturated Phase A) */
     --generate: 155 40% 50%;
-    /* desaturated emerald */
     --generate-glow: 155 40% 40%;
+    --neon: 165 79% 51%;
+    --neon-glow: 165 79% 42%;
+    --sheet: 232 33% 6%;
+    --sheet-card: 235 41% 12%;
     --library: 255 92% 76%;
     /* lavender */
     --library-glow: 255 92% 66%;
@@ -305,11 +307,12 @@ All colors MUST be HSL.
     --input: 222 30% 22%;
     --ring: 155 40% 50%;
 
-    /* Section-specific accent colors — Glass Aurora (desaturated Phase A) */
     --generate: 155 40% 50%;
-    /* desaturated emerald — was 142 71% 58% */
     --generate-glow: 155 40% 40%;
-    --library: 255 92% 76%;
+    --neon: 165 79% 51%;
+    --neon-glow: 165 79% 42%;
+    --sheet: 232 33% 6%;
+    --sheet-card: 235 41% 12%;
     /* lavender — unchanged */
     --library-glow: 255 92% 66%;
     --projects: 199 70% 62%;

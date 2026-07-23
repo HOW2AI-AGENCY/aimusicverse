@@ -28,7 +28,7 @@ export function GenerateSheetFooter(props: Props) {
 
   return (
     <div
-      className="px-4 pt-3 border-t border-white/5 bg-[#0A0B14]/85 backdrop-blur-xl"
+      className="px-4 pt-3 border-t border-border/10 bg-sheet/85 backdrop-blur-xl"
       style={{ paddingBottom, transition: "padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)" }}
     >
       {/* Balance strip — matches Neo-dark cohesive direction (mint status + refill link) */}
@@ -49,7 +49,7 @@ export function GenerateSheetFooter(props: Props) {
             <button
               type="button"
               onClick={props.onShowReasons}
-              className="text-[11px] font-semibold text-[#7C5CFF] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C5CFF]/60 rounded"
+              className="text-[11px] font-semibold text-amber-400 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 rounded"
             >
               {props.warningCount} {props.warningCount === 1 ? "замечание" : "замечаний"}
             </button>
@@ -63,7 +63,7 @@ export function GenerateSheetFooter(props: Props) {
             onClick={props.onSaveDraft}
             variant="outline"
             disabled={props.loading || !props.hasUnsavedData}
-            className="flex-1 h-14 text-sm font-semibold rounded-2xl border-white/10 bg-[#12142B] text-foreground hover:bg-[#12142B]/80"
+            className="flex-1 h-14 text-sm font-semibold rounded-2xl border-border/10 bg-sheet-card text-foreground hover:bg-sheet-card/80"
           >
             Черновик
           </Button>
@@ -81,9 +81,9 @@ export function GenerateSheetFooter(props: Props) {
             }
             className={cn(
               "h-14 text-[15px] font-bold gap-2 rounded-2xl flex items-center justify-center leading-none transition-all active:scale-[0.98]",
-              "bg-[#22E4A7] text-[#0A0B14] hover:bg-[#22E4A7]/90",
-              "shadow-[0_8px_24px_rgba(34,228,167,0.28)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#22E4A7]/60",
+              "bg-neon text-sheet hover:bg-neon/90",
+              "shadow-[0_8px_24px_hsl(var(--neon)/0.28)]",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon/60",
               props.shouldShowSecondaryUIButton ? "flex-1" : "w-full",
               !props.canGenerate && !props.loading && "bg-muted text-muted-foreground shadow-none",
             )}
@@ -97,7 +97,7 @@ export function GenerateSheetFooter(props: Props) {
               <span className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4" aria-hidden />
                 Сгенерировать
-                <span className="inline-flex items-center gap-1 rounded-md bg-[#0A0B14]/15 px-2 py-0.5 text-[11px] font-extrabold tabular-nums">
+                <span className="inline-flex items-center gap-1 rounded-md bg-sheet/15 px-2 py-0.5 text-[11px] font-extrabold tabular-nums">
                   <Coins className="w-3 h-3" aria-hidden />
                   {props.generationCost}
                 </span>

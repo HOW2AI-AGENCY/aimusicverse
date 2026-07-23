@@ -111,6 +111,14 @@ export default {
           DEFAULT: "hsl(var(--generate))",
           glow: "hsl(var(--generate-glow))",
         },
+        neon: {
+          DEFAULT: "hsl(var(--neon))",
+          glow: "hsl(var(--neon-glow))",
+        },
+        sheet: {
+          DEFAULT: "hsl(var(--sheet))",
+          card: "hsl(var(--sheet-card))",
+        },
         library: {
           DEFAULT: "hsl(var(--library))",
           glow: "hsl(var(--library-glow))",

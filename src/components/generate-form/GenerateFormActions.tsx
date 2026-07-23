@@ -26,7 +26,7 @@ const ActionChip = memo(function ActionChip({ icon: Icon, label, onClick, ariaLa
       onClick={onClick}
       aria-label={ariaLabel}
       className={cn(
-        "group relative flex flex-col items-center justify-center gap-1 min-h-[60px] px-2 rounded-xl",
+        "group relative flex flex-col items-center justify-center gap-1 min-h-[56px] sm:min-h-[60px] px-1.5 sm:px-2 rounded-xl",
         "border transition-all duration-200 touch-manipulation",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "hover:shadow-sm",
@@ -66,7 +66,7 @@ export function GenerateFormActions({
     fn();
   }, []);
   return (
-    <div className="grid grid-cols-4 gap-2" role="group" aria-label={g.actions.groupLabel}>
+    <div className="grid grid-cols-4 gap-1.5 sm:gap-2" role="group" aria-label={g.actions.groupLabel}>
       <ActionChip
         icon={AudioLines}
         label={g.actions.audio}

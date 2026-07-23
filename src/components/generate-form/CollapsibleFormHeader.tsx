@@ -101,7 +101,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
               ? "bg-muted/40 border-border/50 text-muted-foreground"
               : lowBalance
                 ? "bg-destructive/10 border-destructive/30 text-destructive"
-                : "bg-[#22E4A7]/10 border-[#22E4A7]/30 text-[#22E4A7]",
+                : "bg-neon/10 border-neon/30 text-neon",
           )}
           role="status"
           aria-live="polite"
@@ -114,7 +114,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 ? "bg-muted-foreground"
                 : lowBalance
                   ? "bg-destructive shadow-[0_0_8px_hsl(var(--destructive))]"
-                  : "bg-[#22E4A7] shadow-[0_0_8px_#22E4A7]",
+                  : "bg-neon shadow-[0_0_8px_hsl(var(--neon))]",
             )}
             aria-hidden
           />
@@ -141,7 +141,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
       <div className="flex items-center gap-2">
         {/* Segmented mode switch — radiogroup with roving tabindex */}
         <div
-          className="relative grid grid-cols-2 flex-1 p-1 rounded-2xl bg-muted/40 border border-border/50"
+          className="relative grid grid-cols-2 flex-1 p-1 rounded-2xl bg-muted/40 border border-border/50 overflow-hidden"
           role="radiogroup"
           aria-label="Режим генерации"
         >
@@ -166,14 +166,14 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 }}
                 aria-label={`${config.label} — ${config.desc}`}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200",
+                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200 relative",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                   isActive
-                    ? "bg-background text-foreground shadow-sm ring-1 ring-[#22E4A7]/40"
+                    ? "bg-background text-foreground shadow-sm ring-1 ring-neon/40 after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-8 after:h-0.5 after:rounded-full after:bg-neon"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <Icon className={cn("w-3.5 h-3.5", isActive && "text-[#22E4A7]")} aria-hidden="true" />
+                <Icon className={cn("w-3.5 h-3.5", isActive && "text-neon")} aria-hidden="true" />
                 <span>{config.label}</span>
               </button>
             );
@@ -209,7 +209,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                   <DropdownMenuItem
                     key={m.key}
                     onClick={() => onModelChange(m.key)}
-                    className={cn("flex items-center gap-2 text-xs", model === m.key && "bg-[#22E4A7]/10")}
+                    className={cn("flex items-center gap-2 text-xs", model === m.key && "bg-neon/10")}
                     aria-current={model === m.key ? "true" : undefined}
                   >
                     {Icon ? <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" /> : null}
@@ -218,9 +218,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                       <span className="text-[9px] text-muted-foreground">{m.cost} кр.</span>
                     </div>
                     {m.status === "latest" && (
-                      <span className="text-[8px] px-1 py-0.5 rounded bg-[#22E4A7]/20 text-[#22E4A7] font-semibold">
-                        NEW
-                      </span>
+                      <span className="text-[8px] px-1 py-0.5 rounded bg-neon/20 text-neon font-semibold">NEW</span>
                     )}
                   </DropdownMenuItem>
                 );
