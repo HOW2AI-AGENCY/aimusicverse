@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, memo, useCallback, useEffect } from "react";
+import { useState, memo, useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Home, Plus, Library, FolderOpen, User } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -10,9 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { preloadRoute } from "@/lib/route-preloader";
 import { typographyClass } from "@/lib/design-tokens";
 import { GenerationProgressBadge } from "@/components/loading/GenerationProgressBadge";
-
-// Lazy load heavy sheet component
-const GenerateSheet = lazy(() => import("./GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
+import { dispatchOpenGenerateSheet } from "@/lib/events";
 
 /**
  * Optimized navigation - 5 items with FAB in center
@@ -37,7 +35,6 @@ export const BottomNavigation = memo(function BottomNavigation() {
   const location = useLocation();
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
-  const [generateOpen, setGenerateOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const { data: activeGenerations = [] } = useActiveGenerations();
   const activeGenCount = activeGenerations.length;
@@ -82,7 +79,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
 
   const handleGenerateClick = useCallback(() => {
     hapticFeedback("medium");
-    setGenerateOpen(true);
+    dispatchOpenGenerateSheet();
     dismissHint();
   }, [hapticFeedback, dismissHint]);
 
@@ -225,13 +222,6 @@ export const BottomNavigation = memo(function BottomNavigation() {
           })}
         </div>
       </nav>
-
-      {/* Lazy load GenerateSheet only when opened */}
-      {generateOpen && (
-        <Suspense fallback={null}>
-          <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />
-        </Suspense>
-      )}
     </>
   );
 });

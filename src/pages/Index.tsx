@@ -23,7 +23,7 @@ import { useHomePageHandlers } from "@/hooks/useHomePageHandlers";
 import { useHomePageEffects } from "@/hooks/useHomePageEffects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useOpenGenerateFromDeeplink } from "@/hooks/useOpenGenerateFromDeeplink";
-import { listenOpenGenerateSheet } from "@/lib/events";
+import { dispatchOpenGenerateSheet } from "@/lib/events";
 // HomeStickyCTA removed — primary Create action is in the nav (sidebar on desktop, bottom nav on mobile).
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { HomeSearchBar } from "@/components/home/HomeSearchBar";
@@ -51,7 +51,6 @@ const GenreTabsSection = lazy(() =>
 const AiSuggestions = lazy(() => import("@/components/home/AiSuggestions").then((m) => ({ default: m.AiSuggestions })));
 import { Section, sectionTokens } from "@/components/layout/Section";
 
-const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
 const MusicRecognitionDialog = lazy(() =>
   import("@/components/music-recognition/MusicRecognitionDialog").then((m) => ({ default: m.MusicRecognitionDialog })),
 );
@@ -84,15 +83,11 @@ const Index = () => {
   const isMobile = useIsMobile();
   const activeTrack = usePlayerStore((s) => s.activeTrack);
 
-  const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [recognitionDialogOpen, setRecognitionDialogOpen] = useState(false);
   const [audioDialogOpen, setAudioDialogOpen] = useState(false);
 
-  // Stable across renders (setState functions are guaranteed stable) so the
-  // memoized handlers in useHomePageHandlers/useHomePageEffects don't get
-  // recreated on every Index render, which would defeat memo() on their
-  // consumers (FirstTimeHeroCard, HomeQuickCreate, AiSuggestions, DiscoverTabs).
-  const openGenerateSheet = useCallback(() => setGenerateSheetOpen(true), []);
+  // Delegate to MainLayout's single GenerateSheet instance via custom event
+  const openGenerateSheet = useCallback(() => dispatchOpenGenerateSheet(), []);
   const openAudioDialog = useCallback(() => setAudioDialogOpen(true), []);
   const openRecognitionDialog = useCallback(() => setRecognitionDialogOpen(true), []);
 
@@ -100,14 +95,6 @@ const Index = () => {
   // DeepLinkHandler navigates here with `?openGenerate=1`; the hook below opens
   // the sheet and strips the param so reload doesn't reopen it.
   useOpenGenerateFromDeeplink(openGenerateSheet);
-
-  // Sprint 055-B7: Listen for custom event to open generate sheet (from HomeStickyCTA)
-  useEffect(() => {
-    const cleanup = listenOpenGenerateSheet(() => {
-      setGenerateSheetOpen(true);
-    });
-    return cleanup;
-  }, []);
 
   const { isNewUser } = useUserJourneyState();
 
@@ -339,11 +326,6 @@ const Index = () => {
           </div>
         </PullToRefreshWrapper>
 
-        {generateSheetOpen && (
-          <Suspense fallback={<Loader2 className="h-6 w-6 animate-spin text-primary" />}>
-            <GenerateSheet open={generateSheetOpen} onOpenChange={setGenerateSheetOpen} />
-          </Suspense>
-        )}
         {recognitionDialogOpen && (
           <Suspense fallback={<Loader2 className="h-6 w-6 animate-spin text-primary" />}>
             <MusicRecognitionDialog open={recognitionDialogOpen} onOpenChange={setRecognitionDialogOpen} />

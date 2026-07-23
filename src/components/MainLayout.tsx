@@ -21,6 +21,7 @@ import { SafeAreaContainer } from "./layout/SafeAreaContainer";
 import { OnboardingFlow } from "./onboarding/OnboardingFlow";
 import { NavigationShell } from "./navigation/NavigationShell";
 import { PlayerTransitionProvider } from "./player/PlayerTransitionProvider";
+import { listenOpenGenerateSheet } from "@/lib/events";
 
 // Lazy load heavy dialogs - not needed on initial render
 const SubscriptionRequiredDialog = lazy(() =>
@@ -97,6 +98,12 @@ export const MainLayout = () => {
       return () => clearTimeout(timer);
     }
   }, [shouldShowWelcomeBonus, welcomeBonusOpen]);
+
+  // Single source of truth for GenerateSheet — listen for custom event
+  // so BottomNavigation, Index, and other children can trigger it
+  useEffect(() => {
+    return listenOpenGenerateSheet(() => setGenerateSheetOpen(true));
+  }, []);
 
   const handleWelcomeBonusClose = useCallback(() => {
     setWelcomeBonusOpen(false);
