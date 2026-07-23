@@ -20,8 +20,18 @@ export async function handleFirstCallback(payload: any, task: any) {
     return { success: true, callbackType: "first", skipped: true };
   }
 
-  const streamUrl = firstClip.source_stream_audio_url || firstClip.stream_audio_url;
-  const imageUrl = firstClip.source_image_url || firstClip.image_url;
+  // Support both camelCase (current Suno callback shape) and snake_case (legacy).
+  const streamUrl =
+    firstClip.sourceStreamAudioUrl ||
+    firstClip.source_stream_audio_url ||
+    firstClip.streamAudioUrl ||
+    firstClip.stream_audio_url ||
+    firstClip.sourceAudioUrl ||
+    firstClip.source_audio_url ||
+    firstClip.audioUrl ||
+    firstClip.audio_url;
+  const imageUrl =
+    firstClip.sourceImageUrl || firstClip.source_image_url || firstClip.imageUrl || firstClip.image_url;
 
   logger.debug("First clip data", {
     id: firstClip.id,
