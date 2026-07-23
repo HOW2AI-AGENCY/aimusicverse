@@ -362,7 +362,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             </Tooltip>
           ) : (
             <Button
-              onClick={() => setGenerateOpen(true)}
+              onClick={() => dispatchOpenGenerateSheet()}
               className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 gap-2 shadow-lg h-11"
             >
               <Sparkles className="w-5 h-5" />
