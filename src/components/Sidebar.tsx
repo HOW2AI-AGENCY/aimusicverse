@@ -349,7 +349,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  onClick={() => setGenerateOpen(true)}
+                  onClick={() => dispatchOpenGenerateSheet()}
                   aria-label="Создать трек"
                   aria-haspopup="dialog"
                   className="w-full h-11 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
