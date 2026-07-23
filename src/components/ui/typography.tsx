@@ -22,8 +22,6 @@ export type TextVariant = "body" | "bodySm" | "caption" | "tiny" | "label" | "mo
 
 export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   level: HeadingLevel;
-  /** Apply gradient text effect */
-  gradient?: boolean;
   /** Truncate to single line */
   truncate?: boolean;
 }
@@ -36,15 +34,11 @@ export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
  * <Heading level="h2" gradient>Gradient Header</Heading>
  */
 export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
-  ({ level, gradient, truncate, className, children, ...props }, ref) => {
+  ({ level, truncate, className, children, ...props }, ref) => {
     const Tag = level;
 
     return (
-      <Tag
-        ref={ref}
-        className={cn(`text-${level}`, gradient && "text-gradient", truncate && "truncate-1", className)}
-        {...props}
-      >
+      <Tag ref={ref} className={cn(`text-${level}`, truncate && "truncate-1", className)} {...props}>
         {children}
       </Tag>
     );
@@ -60,8 +54,6 @@ export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant?: TextVariant;
   /** Apply muted foreground color */
   muted?: boolean;
-  /** Apply gradient text effect */
-  gradient?: boolean;
   /** Truncate lines (1, 2, or 3) */
   truncate?: 1 | 2 | 3;
   /** Use span instead of p */
@@ -86,7 +78,7 @@ const variantClasses: Record<TextVariant, string> = {
  * <Text variant="label">FORM LABEL</Text>
  */
 export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
-  ({ variant = "body", muted, gradient, truncate, as = "p", className, children, ...props }, ref) => {
+  ({ variant = "body", muted, truncate, as = "p", className, children, ...props }, ref) => {
     const Tag = as;
 
     return (
@@ -95,7 +87,6 @@ export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
         className={cn(
           variantClasses[variant],
           muted && "text-muted-foreground",
-          gradient && "text-gradient",
           truncate && `truncate-${truncate}`,
           className,
         )}
@@ -112,35 +103,18 @@ Text.displayName = "Text";
 // DISPLAY COMPONENT
 // ============================================================================
 
-export interface DisplayProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  /** Apply gradient text effect */
-  gradient?: boolean;
-}
+export interface DisplayProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 
 /**
  * Display Component - For hero sections and large titles
- *
- * @example
- * <Display>Hero Title</Display>
- * <Display gradient>Gradient Hero</Display>
  */
-export const Display = React.forwardRef<HTMLHeadingElement, DisplayProps>(
-  ({ gradient, className, children, ...props }, ref) => {
-    return (
-      <h1
-        ref={ref}
-        className={cn(
-          "text-4xl sm:text-5xl font-bold leading-tight tracking-tight",
-          gradient && "text-gradient",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </h1>
-    );
-  },
-);
+export const Display = React.forwardRef<HTMLHeadingElement, DisplayProps>(({ className, children, ...props }, ref) => {
+  return (
+    <h1 ref={ref} className={cn("text-4xl sm:text-5xl font-bold leading-tight tracking-tight", className)} {...props}>
+      {children}
+    </h1>
+  );
+});
 Display.displayName = "Display";
 
 // ============================================================================

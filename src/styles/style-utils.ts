@@ -214,7 +214,6 @@ export const cardStyles = {
     "rounded-lg border bg-card text-card-foreground shadow-elevation-1 hover:shadow-elevation-2 hover:border-primary/50 transition-all duration-200 cursor-pointer active:scale-[0.99]",
   selected: "rounded-lg border-2 border-primary bg-card text-card-foreground shadow-elevation-2",
   glass: "glass-card rounded-xl border border-border/50 backdrop-blur-sm",
-  enhanced: "card-enhanced",
   elevated: "rounded-xl border bg-card text-card-foreground shadow-elevation-3",
   floating: "rounded-2xl border bg-card text-card-foreground shadow-elevation-4",
 } as const;

@@ -8,7 +8,6 @@ const cardVariants = cva("rounded-2xl border text-card-foreground transition-all
       default:
         "border-border/60 bg-gradient-to-br from-card/95 to-card/85 shadow-sm hover:shadow-md hover:shadow-primary/5 hover:border-border/80 backdrop-blur-sm",
       glass: "glass-card border-border/50",
-      enhanced: "card-enhanced",
       flat: "border-border bg-card",
       interactive:
         "border-border/60 bg-card cursor-pointer hover:border-primary/50 hover:shadow-md active:scale-[0.99]",

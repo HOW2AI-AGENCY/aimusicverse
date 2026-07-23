@@ -1,8 +1,9 @@
 /**
  * HomeMobileSynthHero — Cyber-synth energy redesign of the mobile home hero.
  *
- * Redesign direction: locked palette (bg #0A0B14, surface #12142B, primary #7C5CFF,
- * mint #22E4A7), Bricolage Grotesque headings + Inter body, mobile feed layout.
+ * Palette: uses --synth-* CSS aliases (defined in index.css .dark block)
+ * which map to brand-violet + mint tokens. Space Grotesk headings + DM Sans body.
+ * Mobile-first feed layout.
  *
  * Composition mirrors the approved prototype: stat chips (credits + streak),
  * violet-gradient prompt card ("О чём будет твой следующий хит?"), and a
@@ -171,7 +172,9 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
                 <Lightbulb className="h-3 w-3" aria-hidden />
                 <span className="text-[11px]">Идеи</span>
               </button>
-              {isTooShort ? <span className="text-[11px] text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span> : null}
+              {isTooShort ? (
+                <span className="text-[11px] text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span>
+              ) : null}
             </div>
             <span
               id="synth-hero-charcount"

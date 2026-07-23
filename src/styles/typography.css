@@ -9,11 +9,12 @@
 /* ========== CSS Variables for Typography ========== */
 
 :root {
-  /* Font Families — Bricolage Grotesque (display) + DM Sans (body). Loaded in index.html. */
+  /* Font Families — Space Grotesk (display) + DM Sans (body).
+     Loaded via @fontsource in package.json. */
   --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono:
     "JetBrains Mono", "Roboto Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  --font-display: "Bricolage Grotesque", "DM Sans", system-ui, sans-serif;
+  --font-display: "Space Grotesk", "DM Sans", system-ui, sans-serif;
 
   /* Font Weights */
   --font-normal: 400;

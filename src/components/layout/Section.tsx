@@ -21,7 +21,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
 export type SectionDensity = "compact" | "comfortable" | "spacious" | "auto" | "4xl" | "5xl";
-export type SectionTone = "plain" | "subtle" | "accent" | "muted" | "light" | "dark" | "blur" | "gradient";
+export type SectionTone = "plain" | "subtle" | "accent" | "muted" | "light" | "dark" | "blur" | "gradient" | "glass";
 export type SectionMaxWidth = "content" | "wide" | "full" | "ultrawide" | "fourk";
 
 export interface SectionProps {
@@ -95,6 +95,7 @@ const toneToSurface: Record<SectionTone, string> = {
   dark: "rounded-2xl bg-foreground/[0.03] border border-border/40 dark:bg-black/20 dark:border-white/5",
   blur: "rounded-2xl bg-card/50 backdrop-blur-xl border border-border/40 supports-[backdrop-filter]:bg-card/30",
   gradient: "rounded-2xl border border-border/40 bg-gradient-to-br from-card/60 via-background to-muted/40",
+  glass: "rounded-2xl bg-card/70 backdrop-blur-xl border border-border/40 shadow-lg shadow-black/5",
 };
 
 const maxWidthToClass: Record<SectionMaxWidth, string> = {

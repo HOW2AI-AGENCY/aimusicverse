@@ -63,6 +63,10 @@ import { LibraryDialogs } from "@/components/library/LibraryDialogs";
 
 import { ContextHints } from "@/components/hints";
 
+// Mobile touch-target size for icon buttons (44px iOS HIG minimum).
+// Desktop shrinks to 36px at lg+.
+const touchIcon = "min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px]";
+
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const isMobile = useIsMobile();
@@ -249,7 +253,7 @@ export default function Library() {
     <ErrorBoundaryWrapper>
       <SEOHead {...SEO_PRESETS.library} />
       <div
-        className="h-[100dvh] flex overflow-hidden"
+        className="h-screen flex overflow-hidden"
         style={{
           paddingTop:
             "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
@@ -296,7 +300,7 @@ export default function Library() {
                       variant="default"
                       size="icon"
                       onClick={handlePlayAll}
-                      className="min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px] rounded-md lg:rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-sm hover:shadow-md transition-shadow"
+                      className={`${touchIcon} rounded-md lg:rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-sm hover:shadow-md transition-shadow`}
                       aria-label="Воспроизвести все"
                     >
                       <Play className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
@@ -307,7 +311,7 @@ export default function Library() {
                       variant="ghost"
                       size="icon"
                       onClick={handleShuffleAll}
-                      className="min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px] rounded-md lg:rounded-lg hover:bg-muted/80 transition-colors"
+                      className={`${touchIcon} rounded-md lg:rounded-lg hover:bg-muted/80 transition-colors`}
                       aria-label="Перемешать"
                     >
                       <Shuffle className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
@@ -320,7 +324,7 @@ export default function Library() {
                       size="icon"
                       onClick={() => setViewMode("grid")}
                       className={cn(
-                        "min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px] rounded lg:rounded-md transition-all",
+                        `${touchIcon} rounded lg:rounded-md transition-all`,
                         viewMode === "grid" && "shadow-sm",
                       )}
                       aria-label="Сетка"
@@ -332,7 +336,7 @@ export default function Library() {
                       size="icon"
                       onClick={() => setViewMode("list")}
                       className={cn(
-                        "min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px] rounded lg:rounded-md transition-all",
+                        `${touchIcon} rounded lg:rounded-md transition-all`,
                         viewMode === "list" && "shadow-sm",
                       )}
                       aria-label="Список"

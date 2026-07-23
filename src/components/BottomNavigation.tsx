@@ -13,14 +13,14 @@ import { GenerationProgressBadge } from "@/components/loading/GenerationProgress
 import { dispatchOpenGenerateSheet } from "@/lib/events";
 
 /**
- * Optimized navigation - 5 items with FAB in center
- * OPTIMIZED: Uses CSS animations instead of framer-motion for better performance
+ * Bottom navigation — 5 items with center FAB.
+ * OPTIMIZED: CSS animations instead of framer-motion.
  *
  * - Home: Main page
- * - Library: Tracks & Projects (combined)
- * - Create (+): Generation FAB
+ * - Library: Tracks & projects
+ * - Create (+): Generation FAB (center)
  * - Projects: Music projects and lyrics
- * - Profile: User profile with settings
+ * - Profile: User profile & settings
  */
 const navItems = [
   { path: "/", icon: Home, label: "Главная", isCenter: false },

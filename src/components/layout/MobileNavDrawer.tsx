@@ -14,6 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "@/components/Sidebar";
 import { VisuallyHidden } from "@/components/ui/visually-hidden";
 import { SheetTitle } from "@/components/ui/sheet";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface MobileNavDrawerProps {
   open: boolean;
@@ -21,6 +22,10 @@ interface MobileNavDrawerProps {
 }
 
 export const MobileNavDrawer = memo(function MobileNavDrawer({ open, onOpenChange }: MobileNavDrawerProps) {
+  const isLandscape = useMediaQuery("(max-width: 1023px) and (orientation: landscape) and (max-height: 500px)");
+
+  if (isLandscape) return null;
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>

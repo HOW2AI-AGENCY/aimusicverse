@@ -67,10 +67,10 @@ export const ProfilePage = () => {
   };
 
   const statItems = [
-    { icon: Music, label: "Треков", value: stats?.totalTracks || 0, color: "text-blue-500" },
-    { icon: Play, label: "Прослушиваний", value: stats?.totalPlays || 0, color: "text-green-500" },
-    { icon: Heart, label: "Лайков", value: stats?.totalLikes || 0, color: "text-red-500" },
-    { icon: Sparkles, label: "Генераций", value: stats?.generationsThisMonth || 0, color: "text-purple-500" },
+    { icon: Music, label: "Треков", value: stats?.totalTracks || 0, color: "text-info" },
+    { icon: Play, label: "Прослушиваний", value: stats?.totalPlays || 0, color: "text-success" },
+    { icon: Heart, label: "Лайков", value: stats?.totalLikes || 0, color: "text-error" },
+    { icon: Sparkles, label: "Генераций", value: stats?.generationsThisMonth || 0, color: "text-accent" },
   ];
 
   const menuItems = [
@@ -79,24 +79,24 @@ export const ProfilePage = () => {
       title: "Мои AI-артисты",
       description: "Управление вашими AI-артистами",
       path: "/artists",
-      color: "text-purple-500",
-      bgColor: "bg-purple-500/10",
+      color: "text-accent",
+      bgColor: "bg-accent/10",
     },
     {
       icon: BarChart3,
       title: "Аналитика",
       description: "Детальная статистика",
       path: "/analytics",
-      color: "text-blue-500",
-      bgColor: "bg-blue-500/10",
+      color: "text-info",
+      bgColor: "bg-primary/10",
     },
     {
       icon: Settings,
       title: "Настройки",
       description: "Профиль, уведомления, Telegram",
       path: "/settings",
-      color: "text-orange-500",
-      bgColor: "bg-orange-500/10",
+      color: "text-warning",
+      bgColor: "bg-warning/10",
     },
   ];
 
@@ -168,25 +168,25 @@ export const ProfilePage = () => {
       <Card className="p-4 lg:p-6 glass-card border-border/50 transition-shadow hover:shadow-md">
         <div className="flex items-center justify-around text-center">
           <div className="transition-transform hover:scale-105">
-            <FolderOpen className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-amber-500" />
+            <FolderOpen className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-warning" />
             <p className="text-lg lg:text-xl font-semibold">{stats?.totalProjects || 0}</p>
             <p className="text-xs lg:text-sm text-muted-foreground">Проектов</p>
           </div>
           <div className="w-px h-10 lg:h-12 bg-border" />
           <div className="transition-transform hover:scale-105">
-            <ListMusic className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-cyan-500" />
+            <ListMusic className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-info" />
             <p className="text-lg lg:text-xl font-semibold">{stats?.totalPlaylists || 0}</p>
             <p className="text-xs lg:text-sm text-muted-foreground">Плейлистов</p>
           </div>
           <div className="w-px h-10 lg:h-12 bg-border" />
           <div className="transition-transform hover:scale-105">
-            <Users className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-violet-500" />
+            <Users className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-accent" />
             <p className="text-lg lg:text-xl font-semibold">{stats?.totalArtists || 0}</p>
             <p className="text-xs lg:text-sm text-muted-foreground">Артистов</p>
           </div>
           <div className="w-px h-10 lg:h-12 bg-border" />
           <div className="transition-transform hover:scale-105">
-            <TrendingUp className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-emerald-500" />
+            <TrendingUp className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-success" />
             <p className="text-lg lg:text-xl font-semibold">{stats?.publicTracks || 0}</p>
             <p className="text-xs lg:text-sm text-muted-foreground">Публичных</p>
           </div>
@@ -231,11 +231,11 @@ export const ProfilePage = () => {
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
       <Card
         onClick={() => handleNavigate("/admin")}
-        className="p-4 hover:bg-red-500/10 transition-all cursor-pointer border-red-500/30 bg-red-500/5"
+        className="p-4 hover:bg-destructive/10 transition-all cursor-pointer border-destructive/30 bg-destructive/5"
       >
         <div className="flex items-center gap-4">
-          <div className="p-3 rounded-lg bg-red-500/10">
-            <Shield className="w-6 h-6 text-red-500" />
+          <div className="p-3 rounded-lg bg-destructive/10">
+            <Shield className="w-6 h-6 text-destructive" />
           </div>
           <div className="flex-1">
             <p className="font-semibold text-lg">Админ-панель</p>

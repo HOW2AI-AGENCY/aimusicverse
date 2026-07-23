@@ -43,8 +43,9 @@ export const glass = {
   // Card glass - optimized for cards (RECOMMENDED)
   card: cn("bg-card/80 backdrop-blur-xl", "border border-border/50", "shadow-lg shadow-black/5"),
 
-  // Navigation glass - sticky headers/navs
-  nav: cn("bg-background/90 backdrop-blur-xl", "border-b border-border/50", "shadow-sm"),
+  // Navigation glass — sticky headers/navs.
+  // bg-background/95 ensures scrolling content is fully obscured.
+  nav: cn("bg-background/95 backdrop-blur-xl", "border-b border-border/50", "shadow-sm"),
 
   // Overlay glass - modals/dialogs
   overlay: cn("bg-background/95 backdrop-blur-2xl", "border border-border/30", "shadow-2xl"),
