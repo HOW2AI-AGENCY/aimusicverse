@@ -348,8 +348,14 @@ serve(async (req) => {
     if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
     if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
-    if (effectivePersonaId) sunoPayload.personaId = effectivePersonaId;
-    if (voiceId) sunoPayload.voiceId = voiceId;
+    if (effectivePersonaId) {
+      sunoPayload.personaId = effectivePersonaId;
+      // If persona is from an artist, use default style_persona
+    } else if (voiceId) {
+      // Custom voice: map voiceId → personaId with voice_persona model
+      sunoPayload.personaId = voiceId;
+      sunoPayload.personaModel = "voice_persona";
+    }
 
     logger.info("Suno generate payload prepared", {
       tag: "[suno-music-generate]",
@@ -360,6 +366,7 @@ serve(async (req) => {
       hasVoiceId: !!voiceId,
       voiceIdHash: voiceId ? String(voiceId).slice(0, 8) : null,
       hasPersonaId: !!effectivePersonaId,
+      personaModel: voiceId && !effectivePersonaId ? "voice_persona" : effectivePersonaId ? "style_persona" : undefined,
       userId: user.id,
     });
     logger.apiCall("suno", "/api/v1/generate", { mode, model: apiModel, instrumental });

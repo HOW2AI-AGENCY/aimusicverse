@@ -181,8 +181,12 @@ serve(async (req) => {
     if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
     if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
-    if (personaId) sunoPayload.personaId = personaId;
-    if (voiceId) sunoPayload.voiceId = voiceId;
+    if (personaId) {
+      sunoPayload.personaId = personaId;
+    } else if (voiceId) {
+      sunoPayload.personaId = voiceId;
+      sunoPayload.personaModel = "voice_persona";
+    }
 
     logger.info("Sending to upload-extend endpoint", {
       ...sunoPayload,
