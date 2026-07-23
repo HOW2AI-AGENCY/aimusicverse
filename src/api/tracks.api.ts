@@ -58,8 +58,9 @@ export async function fetchTracks(filters: TrackFilters, pagination?: Pagination
     query = query.eq("is_public", isPublic);
   }
 
-  // Status filter
-  const statuses = statusFilter || ["completed", "streaming_ready"];
+  // Status filter — default includes all non-failed statuses so
+  // pending/processing tracks are visible to the user immediately after generation.
+  const statuses = statusFilter || ["pending", "processing", "completed", "streaming_ready"];
   query = query.in("status", statuses);
 
   // Project filter
@@ -127,8 +128,9 @@ async function fetchTracksWithTagJoin(filters: TrackFilters, pagination?: Pagina
     query = query.eq("is_public", isPublic);
   }
 
-  // Status filter
-  const statuses = statusFilter || ["completed", "streaming_ready"];
+  // Status filter — default includes all non-failed statuses so
+  // pending/processing tracks are visible to the user immediately after generation.
+  const statuses = statusFilter || ["pending", "processing", "completed", "streaming_ready"];
   query = query.in("status", statuses);
 
   // Project filter

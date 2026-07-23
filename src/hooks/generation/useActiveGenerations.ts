@@ -23,7 +23,8 @@ export function useActiveGenerations() {
         .from("generation_tasks")
         .select("id, prompt, status, generation_mode, model_used, created_at")
         .eq("user_id", user.id)
-        .in("status", ["pending", "processing", "streaming_ready"])
+        .in("status", ["pending", "processing"])
+        // streaming_ready excluded — already returns in main tracks list
         .order("created_at", { ascending: false })
         .limit(10);
 

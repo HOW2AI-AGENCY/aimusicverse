@@ -100,8 +100,23 @@ export function useTracks(params: UseTracksParams = {}) {
           table: "tracks",
           filter: `user_id=eq.${user.id}`,
         },
-        () => {
-          queryClient.invalidateQueries({ queryKey: ["tracks", user.id] });
+        (payload) => {
+          // Only invalidate on meaningful status transitions to avoid
+          // re-fetching all tracks on every incremental update.
+          const newStatus = (payload.new as Record<string, unknown>)?.status as string | undefined;
+          const oldStatus = (payload.old as Record<string, unknown>)?.status as string | undefined;
+
+          // Always invalidate for INSERT (new track) or DELETE
+          // For UPDATE: only if transitioned to completed/failed
+          if (
+            payload.eventType === "INSERT" ||
+            payload.eventType === "DELETE" ||
+            newStatus === "completed" ||
+            newStatus === "failed" ||
+            (oldStatus === "pending" && newStatus === "processing") // first visible transition
+          ) {
+            queryClient.invalidateQueries({ queryKey: ["tracks", user.id] });
+          }
         },
       )
       .subscribe();
