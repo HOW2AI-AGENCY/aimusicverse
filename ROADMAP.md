@@ -6,7 +6,7 @@
 
 <p>
   <img alt="Progress" src="https://img.shields.io/badge/2026-99.6%25_complete-10B981?style=for-the-badge"/>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-065-26A5E4?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-067-26A5E4?style=for-the-badge"/>
   <img alt="Unit Tests" src="https://img.shields.io/badge/unit--tests-1810_passing-10B981?style=for-the-badge"/>
   <img alt="Health" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
 </p>
@@ -45,10 +45,11 @@ gantt
     i18n EN/RU (058)             :done, 2026-07, 2026-07
     UI/UX Audit Fixes (062-064)  :done, 2026-07, 2026-07
     section In progress
-    Generate v2 + Home (065)     :active, 2026-07, 2026-07
-    Dependency Health (066)      :active, 2026-07, 2026-08
+    Generate v2 + Home (065)     :done, 2026-07, 2026-07
+    Dependency Health (066)      :done, 2026-07, 2026-07
+    UI/Logic Audit (067)         :done, 2026-07, 2026-07
     section Planned
-    Edge Fn Decomposition (067)  : 2026-07, 2026-08
+    Edge Fn Decomposition (068)  : 2026-07, 2026-08
     Bundle + Perf Budgets (069)  : 2026-08, 2026-08
     Collaboration Features       : 2026-08, 2026-09
     Marketplace MVP (059)        : 2026-09, 2026-10

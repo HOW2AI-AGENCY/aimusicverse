@@ -40,6 +40,39 @@
 
 - Детерминирован date-brittle unit-тест `forecast.service` (заморозка часов) — начал падать 2026-07-23 из-за дрейфа окна агрегации.
 
+### 🎨 Аудит интерфейса и логики (2026-07-23)
+
+**UI/UX**
+
+- Замена hardcoded-цветов на CSS-токены: `--neon`, `--neon-glow`, `--sheet`, `--sheet-card`
+- Шрифты: Bricolage Grotesque → Space Grotesk (соответствие DESIGN.md)
+- Адаптивная сетка `GenerateFormActions` для экранов 320px
+- Улучшена заметность переключателя Simple/Custom (neon-полоска на активной кнопке)
+- Индикатор автосохранения черновика «✓ Сохранено» в GenerateSheetFooter
+- Различение первой загрузки (полные скелетоны) и обновления (компактный спиннер) в Library
+- `prefers-reduced-motion` в ErrorPage и GenerationLoadingState
+- Skip-to-content ссылка + focus trap в GenerateSheet
+- Дедупликация GenerateSheet: 3 независимых экземпляра → 1 (MainLayout) через custom event
+
+**Generation**
+
+- Треки со статусом pending/processing видны в Library сразу после создания
+- Устранены дубликаты `streaming_ready` между `useActiveGenerations` и `useTracks`
+- Realtime-подписка: инвалидация кеша только при completed/failed/pending→processing
+- `voiceId` передаётся в `suno-upload-extend` (работает кастомный голос с загрузкой файла)
+- Обработка ошибки «голос отозван» в Edge Function (код `VOICE_UNAVAILABLE`, не-retryable)
+
+**Suno API**
+
+- `voiceId` → `personaId` + `personaModel: "voice_persona"` — соответствие документации API
+- Все модели (`V5_5`, `V4_5ALL`) подтверждены и актуальны
+
+**Infrastructure**
+
+- `uuid@^11.1.1` и `@hono/node-server@^2.0.5` через `overrides` (закрыты Dependabot-алерты)
+- `project_track` откатывается в `failed` при необработанных ошибках колбэка
+- TS error в `GenerationLoadingState` исправлен
+
 ### 🧹 Наведение порядка в репозитории (2026-07-23)
 
 **Changed**

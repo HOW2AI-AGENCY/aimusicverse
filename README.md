@@ -12,7 +12,7 @@
 
 <p>
   <img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/>
-  <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.0-475569?style=for-the-badge"/>
+  <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.1-475569?style=for-the-badge"/>
   <img alt="Quality & Build" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/quality-check.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981&label=Quality+%26+Build"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit_tests-1810_passing-10B981?style=for-the-badge&logo=vitest"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
