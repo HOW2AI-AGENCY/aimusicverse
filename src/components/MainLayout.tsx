@@ -17,7 +17,6 @@ import { useGenerationResult } from "@/hooks/generation/useGenerationResult";
 import { useWelcomeBonusCheck } from "@/hooks/useCreditsLimits";
 import { useAdminDailyStats } from "@/hooks/useAdminDailyStats";
 import { useActiveGenerations } from "@/hooks/generation/useActiveGenerations";
-import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useTelegramEmojiStatus } from "@/hooks/telegram";
 import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvider";
 import { SafeAreaContainer } from "./layout/SafeAreaContainer";
