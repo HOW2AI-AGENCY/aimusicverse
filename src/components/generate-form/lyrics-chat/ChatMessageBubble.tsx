@@ -18,11 +18,13 @@ export const ChatMessageBubble = memo(({ message, onOptionClick }: ChatMessageBu
     <div className={cn("flex", isAssistant ? "justify-start" : "justify-end")}>
       <div
         className={cn(
-          "max-w-[90%] sm:max-w-[85%] rounded-2xl px-4 py-3",
-          isAssistant ? cn(glass.subtle, "rounded-bl-md") : "bg-primary text-primary-foreground rounded-br-md",
+          "max-w-[88%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5",
+          isAssistant
+            ? cn("bg-muted/40 text-foreground rounded-bl-lg border border-border/30")
+            : "bg-primary text-primary-foreground rounded-br-lg",
         )}
       >
-        <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+        <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
 
         {/* Quick options */}
         {message.options && message.options.length > 0 && (

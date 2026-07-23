@@ -70,23 +70,23 @@ export const FormSection = memo(function FormSection({
     <motion.div
       data-step={step || undefined}
       className={cn(
-        "space-y-3",
-        (elevated || isGroup) && cn("p-3.5 rounded-2xl", glass.subtle),
+        "space-y-2.5",
+        (elevated || isGroup) && cn("p-3 sm:p-3.5 rounded-2xl", glass.subtle),
         isGroup &&
           cn(
-            "relative pt-3.5",
-            "after:absolute after:left-3.5 after:right-3.5 after:top-0 after:h-[2px] after:rounded-full",
+            "relative pt-3",
+            "after:absolute after:left-3 after:right-3 after:top-0 after:h-px after:rounded-full",
             TONE_BAR[tone],
           ),
         className,
       )}
-      initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
+      initial={prefersReducedMotion ? undefined : { opacity: 0, y: 6 }}
       whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
     >
       {isGroup && (
-        <div className="flex items-start gap-2.5 mb-1">
+        <div className="flex items-center gap-2 mb-0.5">
           <span
             className={cn(
               "shrink-0 flex items-center justify-center w-6 h-6 rounded-lg border text-[11px] font-bold",
