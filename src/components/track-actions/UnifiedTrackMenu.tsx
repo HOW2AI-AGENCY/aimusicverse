@@ -50,12 +50,21 @@ export function UnifiedTrackMenu({
   // Check if current user is the owner of this track
   const isOwner = user?.id === track.user_id;
 
-  const { actionState, isProcessing, dialogs, closeDialog, executeAction, handleConfirmDelete, stems } =
-    useTrackActionsState({
-      track,
-      onDelete,
-      onDownload,
-    });
+  const {
+    actionState,
+    isProcessing,
+    dialogs,
+    closeDialog,
+    executeAction,
+    handleConfirmDelete,
+    stems,
+    activeVersion,
+    versionCount,
+  } = useTrackActionsState({
+    track,
+    onDelete,
+    onDownload,
+  });
 
   // On mobile, use MobileActionSheet pattern
   if (isMobile) {
@@ -78,11 +87,13 @@ export function UnifiedTrackMenu({
           trackList={trackList}
           trackIndex={trackIndex}
           actionState={actionState}
+          stems={stems}
           isProcessing={isProcessing}
           onAction={executeAction}
           isOwner={isOwner}
+          activeVersion={activeVersion}
+          versionCount={versionCount}
         />
-
         {/* Dialogs Portal */}
         <TrackDialogsPortal
           track={track}
@@ -112,6 +123,19 @@ export function UnifiedTrackMenu({
           className="w-56 max-h-[70vh] bg-background/95 backdrop-blur-sm overflow-y-auto"
           style={{ zIndex: 9999 }}
         >
+          {/* Version indicator — user needs to know which version actions apply to */}
+          {activeVersion && versionCount > 1 && (
+            <>
+              <div className="px-2 py-1.5 text-xs text-muted-foreground flex items-center gap-2">
+                <span className="px-1.5 py-0.5 rounded-md bg-primary/10 text-primary font-medium">
+                  Версия {activeVersion.versionLabel}
+                </span>
+                <span>— действия применяются к этой версии</span>
+              </div>
+              <DropdownMenuSeparator />
+            </>
+          )}
+
           {/* Info Actions */}
           <InfoActions
             track={track}

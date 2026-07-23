@@ -57,6 +57,8 @@ interface MobileTrackActionSheetProps {
   onAction: (actionId: ActionId, stemId?: string, stemType?: string) => void;
   /** If false, delete actions will be hidden (for non-owners viewing public tracks) */
   isOwner?: boolean;
+  activeVersion?: { versionLabel: string; audioUrl: string } | null;
+  versionCount?: number;
 }
 
 // Icon mapping for stem types
@@ -92,6 +94,8 @@ export function MobileTrackActionSheet({
   isProcessing,
   onAction,
   isOwner = true,
+  activeVersion,
+  versionCount = 0,
 }: MobileTrackActionSheetProps) {
   // Feature access checks
   const { hasAccess: canReplaceSection, requiredTier: replaceTier } = useFeatureAccess("section_replace");
@@ -405,7 +409,11 @@ export function MobileTrackActionSheet({
       open={open}
       onOpenChange={onOpenChange}
       title={track.title || "Меню трека"}
-      description={track.style ? `${track.style}` : undefined}
+      description={
+        activeVersion && versionCount > 1
+          ? `Версия ${activeVersion.versionLabel} · ${track.style || ""}`
+          : track.style || undefined
+      }
       groups={actions}
       showCancel={true}
       cancelLabel="Отмена"
