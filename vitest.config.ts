@@ -14,15 +14,12 @@ export default defineConfig({
     setupFiles: ["./src/__tests__/vitest.setup.ts"],
     include: ["src/**/*.test.{ts,tsx}", "tests/unit/**/*.{test,spec}.{ts,tsx}"],
     exclude: ["src/__tests__/e2e/**", "node_modules/**"],
+    // Vitest 4 removed `poolOptions`; its fork options are now top-level.
+    // Single isolated fork with a 2 GB heap, run serially to avoid OOM.
     pool: "forks",
-    poolOptions: {
-      forks: {
-        maxForks: 1,
-        minForks: 1,
-        isolate: true,
-        execArgv: ["--max-old-space-size=2048"],
-      },
-    },
+    maxWorkers: 1,
+    isolate: true,
+    execArgv: ["--max-old-space-size=2048"],
     fileParallelism: false,
     testTimeout: 10000,
     coverage: {
