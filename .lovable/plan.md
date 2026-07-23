@@ -1,109 +1,71 @@
+# Аудит и подготовка к миграции инфраструктуры
 
-# План: MCP-расширение + аудит Telegram-интеграции
+## Что уже известно о проекте
+- **Frontend**: React 19 + Vite 6 + TypeScript, ~1042 компонента, ~439 хуков, 23 Zustand-стора, bundle ~508 KB gzip.
+- **Backend**: Lovable Cloud (Supabase managed) — Postgres + Auth + Storage + Edge Functions (Deno).
+- **Edge Functions**: 100+ функций в `supabase/functions/` (Suno API, Telegram bot, платежи Tinkoff, аналитика).
+- **БД**: 100+ таблиц с RLS, кастомными функциями, триггерами, enums.
+- **Интеграции**: Telegram Mini App SDK, Suno AI, Tinkoff Payments, Klangio, Replicate.
+- **Клиент к БД**: жёстко зашитые `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY` в `.env` + `src/integrations/supabase/client.ts` (автогенерируемый).
 
-## Часть 1. Аудит Telegram-интеграции (без изменений кода)
+## Цель
+Провести полный аудит зависимостей от Lovable Cloud и подготовить артефакты, необходимые для переноса на: (а) собственный Supabase self-hosted, либо (б) другой Postgres + Auth-провайдер (например Neon + Clerk/Auth.js) с сохранением функциональности.
 
-Что уже есть в проекте (по факту сканирования):
+## План работ
 
-- **Frontend TG-обвязка:** `src/contexts/telegram/` — 7 модулей, 1,53k LOC (Provider, DeepLinkHandler, hooks Init/Actions, mockWebApp, types).
-- **Edge Functions TG (8 штук, ~4k LOC):** `telegram-bot`, `telegram-auth`, `telegram-webhook-setup`, `bot-api`, `send-telegram-notification` (1,1k LOC!), `queue/process/retry-telegram-notifications`, `tinkoff-create-bot-payment`.
-- **152 файла** в `src/` импортируют `useTelegram`/`@twa-dev/sdk` или `TelegramContext`.
-- **Таблицы в БД:** 13 `telegram_*` таблиц (bot_config, bot_logs, metrics, sessions, menu_items, menu_state, notification_queue, failed_notifications, rate_limits, voice_transcriptions, wizard_state, bot_metrics).
+### Фаза 1 — Инвентаризация (только чтение, без изменений)
+1. **Схема БД**: собрать полный дамп схемы через SQL — таблицы, колонки, FK, enums, sequences, custom indexes, RLS policies, функции (`pg_get_functiondef`), триггеры, extensions (`pg_extension`), cron jobs (`cron.job`), vault secrets (только имена).
+2. **Auth**: собрать список пользователей (`auth.users`, `auth.identities` — count и структура), выявить используемые провайдеры (email/password, Google, Telegram).
+3. **Storage**: перечислить бакеты (public/private), объём, типы файлов.
+4. **Edge Functions**: инвентаризация всех функций в `supabase/functions/`, зависимостей (`Deno.env.get(...)`), CORS, verify_jwt из `supabase/config.toml`, shared-кода в `_shared/`.
+5. **Секреты**: список требуемых env для функций (SUNO_API_KEY, TELEGRAM_BOT_TOKEN, TINKOFF_*, KLANGIO_*, REPLICATE_*, RESEND_*, LOVABLE_API_KEY и т.д.).
+6. **Клиентские точки контакта**: скан `src/` на `supabase.from`, `supabase.functions.invoke`, `supabase.storage`, `supabase.auth`, `.channel` (Realtime), `import.meta.env.VITE_SUPABASE_*`.
 
-### Вердикт по «переходу на ванильное Lovable»
+### Фаза 2 — Артефакты миграции
+Создать в репозитории `migration/` каталог с:
+- `migration/README.md` — обзор процесса.
+- `migration/schema.sql` — единый идемпотентный дамп схемы (extensions → enums → tables → sequences+setval → functions → triggers → indexes → RLS policies → GRANTs).
+- `migration/data-export.md` — инструкции по экспорту данных (COPY per-table, порядок с учётом FK).
+- `migration/auth-export.md` — как перенести `auth.users` (с bcrypt-хэшами `encrypted_password`) и `auth.identities`.
+- `migration/storage-export.md` — стратегия переноса бакетов (rclone / signed URLs для private).
+- `migration/edge-functions.md` — список функций, их зависимости, verify_jwt, required secrets, план деплоя на новую платформу (Supabase self-hosted / Deno Deploy / Cloudflare Workers).
+- `migration/env.template` — шаблон `.env` для нового окружения (frontend + backend).
+- `migration/client-abstraction.md` — план абстрагирования Supabase-клиента (см. Фаза 3).
 
-**Полный отказ от кастомного TG-бота не рекомендуется.** Причины:
+### Фаза 3 — Абстракция клиента (подготовка кода, без смены провайдера)
+Не переписываем API-слой, но снижаем связанность:
+1. Ввести `src/config/backend.ts` — единая точка получения URL/ключей (сейчас читаются в 3+ местах).
+2. Проверить, что все запросы идут через `src/api/*` (layer boundary уже enforced ESLint-правилом `no-restricted-syntax` для прямых `supabase.from`).
+3. Задокументировать все Realtime-каналы и триггеры БД, от которых зависит UI — они самые «липкие» к Supabase.
+4. Отметить edge-функции с `verify_jwt = false` (публичные webhooks — Tinkoff, Suno callbacks, Telegram) — они первыми переезжают и их URL надо будет обновить у внешних сервисов.
 
-1. **Аудитория проекта — Telegram-first.** Все флоу построены под Mini App: платежи через Telegram Stars, deep links, шаринг в Stories, native buttons. Уйти в чистый web — потерять весь дистрибуционный канал.
-2. **Объём вложенного функционала:** 4k LOC edge-функций + 13 таблиц + очередь нотификаций с retry-логикой. Это не «легко переписать под встроенные Lovable-фичи» — у Lovable нет встроенного эквивалента (нет Stars-биллинга, TG-меню-редактора, notification queue).
-3. **«Ванильное Lovable» = web-app.** Стандартный Lovable-паттерн — это Supabase Auth + edge functions. Он **уже используется под капотом**. TG-специфика (safe areas, MainButton, CloudStorage) — это тонкая надстройка, а не архитектурный анти-паттерн.
+### Фаза 4 — Отчёт-риски
+`migration/RISKS.md` со списком:
+- Supabase-специфичные фичи: RLS, `auth.uid()`, `auth.jwt()`, security definer функции, `pg_net`, Storage RLS.
+- Внешние webhooks (Suno callbacks, Tinkoff, Telegram) — требуют обновления URL на стороне провайдеров.
+- Cron jobs (`pg_cron`) — если есть, переносятся вручную.
+- Vault secrets — значения нельзя выгрузить, вводить заново.
+- Telegram Bot — webhook URL надо переустановить (`setWebhook`).
 
-### Что реально стоит упростить (Sprint-worthy, не сейчас)
-
-| Проблема | Что делать |
-|---|---|
-| `send-telegram-notification` 1,1k LOC — god-file | Декомпозировать по типам уведомлений (matches ADR-041 практике) |
-| Дублирование `notification_queue` + `failed_notifications` + `retry` | Слить в один queue с полем `status`/`retry_count` |
-| 13 `telegram_*` таблиц — часть overlap с `notifications`/`user_activity` | Аудит и мердж (`bot_logs` vs `telemetry_events`) |
-| `useTelegramActions.ts` 531 LOC | Разбить по доменам (buttons / dialogs / sharing / storage) |
-| Опубликовать **параллельно web-версию** на `music.how2ai.world` | Уже есть custom domain — просто заменить TG-only gates на graceful degrade (в основном `useTelegram()` возвращает mock, safe areas дают 0px) |
-
-Веб-версия уже почти работает через `createMockWebApp`. Формально «двойная сборка» не нужна — один build, ветвление в рантайме.
-
-**Итог:** оставить TG Mini App как основной канал, вложиться в web fallback (небольшие правки, не миграция), в отдельном спринте — рефактор god-file'ов и мердж таблиц. Никакой массовой миграции сейчас — риск сломать production ради архитектурной чистоты.
-
----
-
-## Часть 2. Расширение MCP-сервера (реализация в build mode)
-
-### Новые тулы
-
-Все — авторизованные (OAuth issuer уже настроен). Каждый — отдельный файл в `src/lib/mcp/tools/`, реэкспорт в `src/lib/mcp/index.ts`.
-
-#### A. Управление плейлистами (3 тула)
-
-1. **`create_playlist`** — `{ name: string, description?: string, is_public?: boolean }` → INSERT в `playlists` с `user_id = ctx.getUserId()`, RLS-safe через bearer-forward.
-2. **`add_track_to_playlist`** — `{ playlist_id, track_id }` → INSERT в `playlist_tracks` с проверкой владения плейлистом (RLS).
-3. **`remove_track_from_playlist`** — `{ playlist_id, track_id }` → DELETE. `annotations.destructiveHint: true`.
-
-#### B. Стемы и версии (3 тула, read-only)
-
-4. **`get_track_stems`** — `{ track_id }` → SELECT из `track_stems` (vocals/drums/bass/other + URL). Проверка: трек либо публичный, либо принадлежит юзеру.
-5. **`list_track_versions`** — `{ track_id }` → SELECT из `track_versions` (A/B, is_primary, version_label).
-6. **`switch_active_version`** — `{ track_id, version_id }` → UPDATE `tracks.active_version_id` + `track_versions.is_primary` атомарно через RPC (использовать существующий паттерн из `useVersionSwitcher`). `destructiveHint: false, idempotentHint: true`.
-
-#### C. Генерация треков (1 тул, с нюансами)
-
-7. **`generate_track`** — самый сложный.
-   - Input: `{ prompt: string, style?: string, is_instrumental?: boolean, model?: 'v4'|'v5' }`.
-   - Проверки в handler: (a) `ctx.isAuthenticated()`, (b) баланс кредитов через `user_credits` (SELECT), (c) списание через RPC `secure_credit_update` (уже есть, соблюдает memory rule).
-   - Инвокация: fetch на существующую edge-функцию `suno-music-generate` с `Authorization: Bearer ${ctx.getToken()}`.
-   - Ответ: **не ждём завершения** (генерация асинхронная, 30–120s). Возвращаем `{ task_id, status: 'pending', poll_hint: 'Use get_generation_status with task_id' }` — соответствует правилу «MCP tool = синхронный request/response с timeout».
-   - `annotations: { readOnlyHint: false, destructiveHint: false }` (тратит кредиты, но не удаляет данные).
-
-8. **`get_generation_status`** — `{ task_id }` → SELECT из `generation_tasks` для polling'а.
-
-### Обновление manifest
-
-- `defineMcp.version`: `0.2.0` → `0.3.0`.
-- Обновить `instructions` с описанием новых capabilities.
-- Запустить `app_mcp_server--extract_mcp_manifest`.
-- Задеплоить edge-функцию `mcp` через `supabase--deploy_edge_functions`.
-
-### Безопасность
-
-- Все тулы используют `getToken()` + bearer-forward — RLS работает как под юзерской сессией.
-- `generate_track` **не принимает** `user_id` из input (memory rule: `isOwnTrack` validation).
-- Никаких service-role ключей в MCP handler'ах.
-- Не логируем токены.
+## Что НЕ делаем в этом заходе
+- Не создаём новый Supabase-проект и не запускаем перенос данных — это отдельный этап после утверждения плана и выбора целевой платформы.
+- Не меняем работающий код клиента (только добавляем документацию и опционально `src/config/backend.ts`).
+- Не трогаем `.env`, `client.ts`, `types.ts`, `config.toml` — они автогенерируемые.
 
 ## Технические детали
 
-**Файлы к созданию:**
-- `src/lib/mcp/tools/create-playlist.ts`
-- `src/lib/mcp/tools/add-track-to-playlist.ts`
-- `src/lib/mcp/tools/remove-track-from-playlist.ts`
-- `src/lib/mcp/tools/get-track-stems.ts`
-- `src/lib/mcp/tools/list-track-versions.ts`
-- `src/lib/mcp/tools/switch-active-version.ts`
-- `src/lib/mcp/tools/generate-track.ts`
-- `src/lib/mcp/tools/get-generation-status.ts`
+**Целевые платформы (нужно выбрать одну до Фазы 2):**
+- **A. Supabase self-hosted** (Docker/Kubernetes) — минимум изменений в коде, полная совместимость RLS/Auth/Storage/Edge Functions.
+- **B. Managed Supabase (собственный аккаунт)** — то же, что A, но у Supabase Inc.; проще всего.
+- **C. Разделённый стек**: Postgres (Neon/Railway/RDS) + Auth (Clerk/Auth.js) + Object Storage (S3/R2) + Functions (Deno Deploy/Cloudflare Workers) — максимальная свобода, но требует переписывания auth-слоя и Storage-API.
 
-**Файлы к правке:**
-- `src/lib/mcp/index.ts` — импорт + регистрация 8 новых тулов, bump version.
+**Инструменты для дампа схемы**: используем `supabase--read_query` (только SELECT) для инвентаризации без изменений БД. Для реального переноса — `pg_dump --schema-only` + `pg_dump --data-only` через собственный доступ к Postgres на новой инфре.
 
-**Пост-действия:**
-1. `app_mcp_server--extract_mcp_manifest` — валидация манифеста.
-2. `supabase--deploy_edge_functions` с `function_names: ["mcp"]`.
-3. Обновить `src/pages/Connect.tsx` — актуальный список capabilities.
+## Открытые вопросы к пользователю
+1. **Куда мигрируем?** Вариант A / B / C выше — от этого зависит объём переписывания кода.
+2. **Данные пользователей**: переносим всех пользователей и их треки, или только схему для чистого запуска?
+3. **Storage-файлы**: сколько примерно ГБ занимает (обложки, аудио)? Важно для оценки времени переноса.
+4. **Downtime**: допустим ли, или нужна zero-downtime миграция с двойной записью?
 
-**Что НЕ делаем в этом плане:**
-- Никаких изменений в TG-коде (только аудит текстом).
-- Никакой миграции на «ванильное Lovable».
-- Никаких изменений схемы БД (все новые тулы работают с существующими таблицами).
-
-## Проверка после реализации
-
-- Изучить манифест `.lovable/mcp/manifest.json` — должно быть 15 тулов (7 старых + 8 новых).
-- Проверить через `supabase--test_edge_functions` что `/functions/v1/mcp` отвечает 200 на `POST` с MCP `tools/list`.
-- Открыть `/connect` в preview — актуальный список.
+## Результат
+После утверждения — репозиторий получит каталог `migration/` со всеми артефактами, готовыми к запуску переноса, и код будет минимально подготовлен (единая точка конфига бэкенда). Сам перенос — отдельный спринт после ответов на 4 вопроса выше.
