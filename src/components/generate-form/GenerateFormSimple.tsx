@@ -90,7 +90,7 @@ export function GenerateFormSimple({
   const handleBoostStyle = useCallback(() => {
     if (!description.trim()) {
       hapticFeedback("light");
-      toast.info(g.actions.aiBoostEmptyHint || "Сначала напишите описание", {
+      notify.info(g.actions.aiBoostEmptyHint || "Сначала напишите описание", {
         description: "AI улучшит уже введённый текст, добавит теги и структуру",
       });
       return;
