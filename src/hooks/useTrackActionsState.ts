@@ -16,6 +16,14 @@ interface UseTrackActionsStateProps {
   onDelete?: () => void;
   onDownload?: () => void;
   onClose?: () => void;
+  /**
+   * Gate the initial fetch of stems / versions until the consumer actually
+   * needs the data (e.g. menu or sheet is opened). Defaults to `true` for
+   * backwards compatibility, but callers rendering the menu/sheet on every
+   * track card should pass `false` until user interaction to avoid N+1
+   * network storms on library load.
+   */
+  enabled?: boolean;
 }
 
 interface DialogStates {
