@@ -14,8 +14,12 @@ import type { PublicTrackWithCreator } from "./usePublicContent";
 const GENRE_DB_VALUES: Record<string, string[]> = {
   hiphop: ["hiphop", "hip-hop", "rap", "trap", "drill"],
   pop: ["pop", "dance", "electropop", "synth-pop"],
-  rock: ["rock", "alternative", "metal", "indie", "punk", "grunge"],
-  electronic: ["electronic", "house", "techno", "edm", "ambient", "dnb", "dubstep"],
+  rock: ["rock", "alternative", "indie", "punk", "grunge"],
+  metal: ["metal", "heavy-metal", "metalcore"],
+  electronic: ["electronic", "house", "techno", "edm", "dnb", "dubstep"],
+  ambient: ["ambient", "chill", "downtempo"],
+  jazz: ["jazz", "swing", "bebop", "fusion"],
+  classical: ["classical", "orchestral", "symphony"],
   folk: ["folk", "acoustic", "country", "americana", "bluegrass"],
 };
 

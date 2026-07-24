@@ -16,8 +16,12 @@ import type { GenreQueryConfig, GenrePlaylistConfig } from "./types";
 export const GENRE_QUERIES: GenreQueryConfig[] = [
   { id: "hiphop", dbValues: ["hiphop", "hip-hop", "rap", "trap"] },
   { id: "pop", dbValues: ["pop", "dance", "electropop"] },
-  { id: "rock", dbValues: ["rock", "alternative", "metal", "indie"] },
-  { id: "electronic", dbValues: ["electronic", "house", "techno", "edm", "ambient"] },
+  { id: "rock", dbValues: ["rock", "alternative", "indie", "punk"] },
+  { id: "metal", dbValues: ["metal", "heavy-metal", "metalcore"] },
+  { id: "electronic", dbValues: ["electronic", "house", "techno", "edm"] },
+  { id: "ambient", dbValues: ["ambient", "chill", "downtempo"] },
+  { id: "jazz", dbValues: ["jazz", "swing", "bebop", "fusion"] },
+  { id: "classical", dbValues: ["classical", "orchestral", "symphony"] },
   { id: "folk", dbValues: ["folk", "acoustic", "country"] },
 ];
 
@@ -100,9 +104,10 @@ export const GENRE_PLAYLISTS: GenrePlaylistConfig[] = [
 ];
 
 /**
- * Default stale time for public content queries (cached until manual refresh)
+ * Default stale time for public content queries (60s — fresh enough to surface
+ * new public tracks without hammering the DB on every navigation).
  */
-export const PUBLIC_CONTENT_STALE_TIME = Infinity;
+export const PUBLIC_CONTENT_STALE_TIME = 60 * 1000;
 
 /**
  * Default gc time for public content queries (15 minutes)
