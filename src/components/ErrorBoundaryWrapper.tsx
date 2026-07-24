@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "@/lib/icons";
 import { logger } from "@/lib/logger";
 import { navigateTo, forceReload } from "@/hooks/useAppNavigate";
-import { captureError, isSentryEnabled, Sentry } from "@/lib/sentry";
+import { isSentryEnabled, Sentry } from "@/lib/sentry";
+import { getErrorScope } from "@/lib/errorContext";
 
 const log = logger.child({ module: "ErrorBoundary" });
 
