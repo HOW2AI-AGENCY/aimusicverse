@@ -43,12 +43,18 @@ serve(async (req) => {
     logger.info("Starting stale tasks sync", { userId: userId || "all users" });
 
     // PHASE 1: Find tasks with completed status but track not updated
-    // This handles cases where callback succeeded but track update failed
+    // This handles cases where callback succeeded but track update failed.
+    // Time-bounded + row-capped to prevent runaway recovery loops on legacy data.
+    const RECOVERY_WINDOW_DAYS = 7;
+    const RECOVERY_LIMIT = 25;
     let recoveryQuery = supabase
       .from("generation_tasks")
       .select("*, tracks(*)")
       .eq("status", "completed")
-      .not("audio_clips", "is", null);
+      .not("audio_clips", "is", null)
+      .gte("created_at", new Date(Date.now() - RECOVERY_WINDOW_DAYS * 24 * 60 * 60 * 1000).toISOString())
+      .order("created_at", { ascending: false })
+      .limit(RECOVERY_LIMIT);
 
     if (userId) {
       recoveryQuery = recoveryQuery.eq("user_id", userId);
