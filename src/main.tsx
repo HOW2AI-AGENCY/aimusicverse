@@ -37,7 +37,7 @@ const bootLog = (msg: string) => {
   const timestamp = new Date().toISOString();
   const entry = `[${timestamp}] ${msg}`;
   BOOT_LOG.push(entry);
-  console.log(`[BOOT] ${entry}`);
+  if (import.meta.env.DEV) console.log(`[BOOT] ${entry}`);
 
   // Also save to sessionStorage for persistence
   try {

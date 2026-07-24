@@ -34,7 +34,10 @@ const EMOJI_MAP: Record<string, string> = {
 export function useTelegramEmojiStatus(): UseTelegramEmojiStatusReturn {
   const { webApp, isInitialized } = useTelegram();
 
-  const isSupported = !!(isInitialized && webApp?.setEmojiStatus);
+  // setEmojiStatus requires Telegram WebApp 7.8+ (Premium-only)
+  const versionOk =
+    typeof webApp?.isVersionAtLeast === "function" ? webApp.isVersionAtLeast("7.8") : false;
+  const isSupported = !!(isInitialized && webApp?.setEmojiStatus && versionOk);
 
   const setStatus = useCallback(
     (key: string, duration: number = 3600) => {
