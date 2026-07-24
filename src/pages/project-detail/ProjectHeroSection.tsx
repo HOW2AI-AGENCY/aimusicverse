@@ -30,7 +30,13 @@ export function ProjectHeroSection({
       <div className="relative">
         <div className="relative w-full aspect-[3/2]">
           {project.cover_url ? (
-            <LazyImage src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+            <LazyImage
+              src={project.cover_url}
+              alt={project.title}
+              priority
+              containerClassName="w-full h-full"
+              className="object-cover"
+            />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-primary/30 via-secondary to-muted flex items-center justify-center">
               <Music className="w-14 h-14 text-muted-foreground/40" />
