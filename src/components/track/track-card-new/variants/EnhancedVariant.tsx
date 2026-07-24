@@ -218,8 +218,8 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 </div>
               )}
 
-              {/* Top Right Actions */}
-              <div className="absolute top-2 right-2 flex items-center gap-1.5">
+              {/* Top Right — Like (compact glass) */}
+              <div className="absolute top-2 right-2">
                 <LikeButton
                   trackId={track.id}
                   likesCount={track.like_count || 0}
@@ -231,36 +231,27 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 />
               </div>
 
-              {/* Bottom Actions - always visible on mobile (touch), hover-reveal on desktop */}
-              <motion.div
-                className="absolute bottom-2 left-2 right-2 flex items-center gap-1.5"
-                initial={false}
-                animate={{
-                  opacity: isMobile || isHovered ? 1 : 0,
-                  y: isMobile || isHovered ? 0 : 10,
-                }}
-                transition={{ duration: 0.2 }}
-              >
-                {/* Add to Queue - 44px touch target */}
-                {user && <QuickQueueButton track={trackForPlayer} size="md" variant="overlay" />}
-
-                {/* Follow Creator */}
-                <CardFollowButton userId={track.user_id} isOwnTrack={isOwnTrack} show={showFollowButton} size="md" />
-
-                {/* Share */}
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  className={cn(
-                    "h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0 ml-auto",
-                    pill.glassDark,
-                  )}
-                  onClick={handleShare}
-                  aria-label="Поделиться"
+              {/* Desktop-only hover actions — mobile stays clean, use detail sheet */}
+              {!isMobile && (
+                <motion.div
+                  className="absolute bottom-2 left-2 right-2 hidden items-center gap-1.5 sm:flex"
+                  initial={false}
+                  animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 10 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <Share2 className="w-5 h-5 sm:w-3.5 sm:h-3.5 text-foreground" />
-                </Button>
-              </motion.div>
+                  {user && <QuickQueueButton track={trackForPlayer} size="md" variant="overlay" />}
+                  <CardFollowButton userId={track.user_id} isOwnTrack={isOwnTrack} show={showFollowButton} size="md" />
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    className={cn("h-7 w-7 rounded-full border-0 ml-auto", pill.glassDark)}
+                    onClick={handleShare}
+                    aria-label="Поделиться"
+                  >
+                    <Share2 className="w-3.5 h-3.5 text-foreground" />
+                  </Button>
+                </motion.div>
+              )}
             </div>
 
             {/* Content - increased padding for mobile */}
