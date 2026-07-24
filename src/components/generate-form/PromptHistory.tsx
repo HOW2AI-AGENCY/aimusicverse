@@ -207,8 +207,24 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     toast.success("Сохраненный промпт загружен");
   };
 
-  const handleDeleteHistory = (e: React.MouseEvent, id: string) => {
+  const handleDeleteHistory = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
+
+    // If it's a DB row (uuid) — delete from DB and refresh sync query
+    if (UUID_RE.test(id) && user?.id) {
+      try {
+        const { error } = await supabase.from("user_generation_history").delete().eq("id", id);
+        if (error) throw error;
+        await queryClient.invalidateQueries({ queryKey: ["db-generation-history", user.id] });
+        toast.success("Промпт удалён из истории");
+      } catch (error) {
+        logger.error("Failed to delete history entry", { error });
+        toast.error("Не удалось удалить промпт");
+      }
+      return;
+    }
+
+    // Otherwise remove from localStorage
     const localHistoryRaw = localStorage.getItem("musicverse_prompt_history");
     if (localHistoryRaw) {
       const parsed = JSON.parse(localHistoryRaw) as PromptHistoryItem[];
@@ -216,7 +232,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
       localStorage.setItem("musicverse_prompt_history", JSON.stringify(updated));
       setLocalHistory((items) => items.filter((item) => item.id !== id));
     }
-    toast.success("Промпт удален из истории");
+    toast.success("Промпт удалён из истории");
   };
 
   const handleDeleteSaved = (e: React.MouseEvent, id: string) => {
