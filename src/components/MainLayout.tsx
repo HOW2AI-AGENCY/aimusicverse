@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { setSubscriptionDialogCallback } from "@/hooks/useTrackActions";
 import { useTelegramSettingsButton } from "@/hooks/telegram";
 import { SmartAlertProvider } from "./notifications/smart-alerts";
-import { useGenerationResult } from "@/hooks/generation/useGenerationResult";
+
 import { useWelcomeBonusCheck } from "@/hooks/useCreditsLimits";
 import { useAdminDailyStats } from "@/hooks/useAdminDailyStats";
 import { useActiveGenerations } from "@/hooks/generation/useActiveGenerations";
@@ -33,9 +33,6 @@ const GamificationOnboarding = lazy(() =>
   import("./gamification/GamificationOnboarding").then((m) => ({ default: m.GamificationOnboarding })),
 );
 const GenerateSheet = lazy(() => import("./GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
-const GenerationResultSheet = lazy(() =>
-  import("./generate-form/GenerationResultSheet").then((m) => ({ default: m.GenerationResultSheet })),
-);
 const WelcomeBonusPopup = lazy(() =>
   import("./popups/WelcomeBonusPopup").then((m) => ({ default: m.WelcomeBonusPopup })),
 );
@@ -56,8 +53,6 @@ export const MainLayout = () => {
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
 
-  // Generation result sheet for post-generation A/B selection
-  const { resultOpen, resultTrackId, resultTrackTitle, setResultOpen } = useGenerationResult();
 
   // Track play counts when tracks are played
   usePlaybackTracking();
@@ -218,17 +213,7 @@ export const MainLayout = () => {
                 </Suspense>
               )}
 
-              {/* Generation Result Sheet - shows A/B versions after track creation */}
-              {resultOpen && resultTrackId && (
-                <Suspense fallback={null}>
-                  <GenerationResultSheet
-                    open={resultOpen}
-                    onOpenChange={setResultOpen}
-                    trackId={resultTrackId}
-                    trackTitle={resultTrackTitle || undefined}
-                  />
-                </Suspense>
-              )}
+              {/* Generation Result Sheet removed — track skeleton in Library provides post-generation feedback */}
 
               <Suspense fallback={null}>
                 <SafeAreaDebugOverlay />

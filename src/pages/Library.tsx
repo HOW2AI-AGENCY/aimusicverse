@@ -50,15 +50,12 @@ import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
 import { TrackDetailPanel } from "@/components/library/TrackDetailPanel";
 
-const GenerationResultSheet = lazy(() =>
-  import("@/components/generate-form/GenerationResultSheet").then((m) => ({ default: m.GenerationResultSheet })),
-);
 
 // Extracted hooks and components
 import { useLibraryData, type SortOption } from "@/hooks/useLibraryData";
 import { useLibraryHandlers } from "@/hooks/useLibraryHandlers";
 import { useLibraryDeepLinks } from "@/hooks/useLibraryDeepLinks";
-import { useGenerationResult } from "@/hooks/generation/useGenerationResult";
+
 import { LibraryDialogs } from "@/components/library/LibraryDialogs";
 
 import { ContextHints } from "@/components/hints";
@@ -143,8 +140,6 @@ export default function Library() {
       onPlayTrack: handlePlay,
     });
 
-  // Generation result sheet — show post-generation result in library
-  const { resultOpen, resultTrackId, resultTrackTitle, setResultOpen } = useGenerationResult();
 
   // Get selected track data for detail panel
   const selectedTrack = selectedTrackId ? (filteredTracks.find((t) => t.id === selectedTrackId) ?? null) : null;
