@@ -95,9 +95,13 @@ export function useTelegramStorage<T>(
 
         cloudStorage.setItem(key, stringValue, (error: Error | null) => {
           if (error) {
-            logger.error("CloudStorage setItem error", error);
+            // Silent fallback on unsupported WebApp versions
             if (options.fallbackToLocalStorage) {
-              localStorage.setItem(`telegram_storage_${key}`, stringValue);
+              try {
+                localStorage.setItem(`telegram_storage_${key}`, stringValue);
+              } catch {
+                /* ignore */
+              }
             }
           }
         });
