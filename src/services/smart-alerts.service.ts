@@ -53,24 +53,24 @@ export interface GenerationErrorPayload {
  * Returns the RealtimeChannel so the caller can call removeChannel() on cleanup.
  */
 export function subscribeToGenerationErrors(userId: string, onError: (errorMessage?: string) => void): RealtimeChannel {
-  return supabase
-    .channel("generation-errors")
-    .on(
-      "postgres_changes",
-      {
-        event: "UPDATE",
-        schema: "public",
-        table: "generation_tasks",
-        filter: `user_id=eq.${userId}`,
-      },
-      (payload: GenerationErrorPayload) => {
-        const newData = payload.new;
-        if (newData.status === "failed") {
-          onError(newData.error_message);
-        }
-      },
-    )
-    .subscribe();
+  const channel = supabase.channel(`generation-errors-${userId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+  channel.on(
+    "postgres_changes",
+    {
+      event: "UPDATE",
+      schema: "public",
+      table: "generation_tasks",
+      filter: `user_id=eq.${userId}`,
+    },
+    (payload: GenerationErrorPayload) => {
+      const newData = payload.new;
+      if (newData.status === "failed") {
+        onError(newData.error_message);
+      }
+    },
+  );
+  channel.subscribe();
+  return channel;
 }
 
 /**
