@@ -140,8 +140,6 @@ export default function Library() {
       onPlayTrack: handlePlay,
     });
 
-  // Generation result sheet — show post-generation result in library
-  const { resultOpen, resultTrackId, resultTrackTitle, setResultOpen } = useGenerationResult();
 
   // Get selected track data for detail panel
   const selectedTrack = selectedTrackId ? (filteredTracks.find((t) => t.id === selectedTrackId) ?? null) : null;
