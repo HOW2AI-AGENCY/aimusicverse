@@ -215,8 +215,10 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
     const startPolling = () => {
       if (pollInterval) clearInterval(pollInterval);
-      // Poll every 2s when visible, 10s when hidden
-      const interval = isVisible ? 2000 : 10000;
+      // Adaptive: fast poll only when there ARE active generations.
+      // Otherwise back off hard — realtime + explicit fetch on new generation wakes it up.
+      const hasActive = activeGenerations.length > 0;
+      const interval = !isVisible ? 30000 : hasActive ? 5000 : 30000;
       pollInterval = setInterval(fetchGenerations, interval);
     };
 
