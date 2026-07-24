@@ -176,23 +176,41 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
 
     setIsLoading(true);
     try {
-      const { data } = await sendAiChatMessage({
+      const conversationHistory = messages
+        .slice(-10)
+        .filter((m) => m.id !== "welcome")
+        .map((m) => ({ role: m.role, content: m.content }));
+
+      const { data, error } = await sendAiChatMessage({
         message: text,
         context: {
           genre: selectedGenre,
           mood: selectedMoods,
           structure: selectedStructure,
           currentLyrics: generatedLyrics || currentLyrics,
+          conversationHistory,
         },
       });
 
+      if (error) {
+        addAssistantMessage("Не получилось связаться с AI. Попробуй ещё раз.");
+        return;
+      }
+
+      const anyData = data as Record<string, unknown> | null;
+      const responseText = typeof anyData?.response === "string" ? (anyData.response as string) : "";
+
       if (data?.lyrics) {
         setGeneratedLyrics(data.lyrics);
-        addAssistantMessage("Готово! Вот обновлённый вариант:", "lyrics-preview", {
+        addAssistantMessage(responseText || "Готово! Вот обновлённый вариант:", "lyrics-preview", {
           lyrics: data.lyrics,
-          title: generatedTitle,
-          style: generatedStyle,
+          title: data.title || generatedTitle,
+          style: data.style || generatedStyle,
         });
+        if (data.title) setGeneratedTitle(data.title);
+        if (data.style) setGeneratedStyle(data.style);
+      } else if (responseText) {
+        addAssistantMessage(responseText);
       } else if (data?.suggestions?.length) {
         addAssistantMessage(data.suggestions.join("\n"));
       } else {
@@ -206,6 +224,7 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
   }, [
     inputValue,
     isLoading,
+    messages,
     selectedGenre,
     selectedMoods,
     selectedStructure,
@@ -272,22 +291,39 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
       setIsLoading(true);
       addUserMessage(instruction);
       try {
-        const { data } = await sendAiChatMessage({
+        const conversationHistory = messages
+          .slice(-10)
+          .filter((m) => m.id !== "welcome")
+          .map((m) => ({ role: m.role, content: m.content }));
+        const { data, error } = await sendAiChatMessage({
           message: instruction,
           context: {
             currentLyrics: generatedLyrics,
             genre: selectedGenre,
             mood: selectedMoods,
             structure: selectedStructure,
+            conversationHistory,
           },
         });
+        if (error) {
+          addAssistantMessage("Ошибка при редактировании.");
+          return;
+        }
+        const anyData = data as Record<string, unknown> | null;
+        const responseText = typeof anyData?.response === "string" ? (anyData.response as string) : "";
         if (data?.lyrics) {
           setGeneratedLyrics(data.lyrics);
-          addAssistantMessage("Обновил:", "lyrics-preview", {
+          addAssistantMessage(responseText || "Обновил:", "lyrics-preview", {
             lyrics: data.lyrics,
-            title: generatedTitle,
-            style: generatedStyle,
+            title: data.title || generatedTitle,
+            style: data.style || generatedStyle,
           });
+          if (data.title) setGeneratedTitle(data.title);
+          if (data.style) setGeneratedStyle(data.style);
+        } else if (responseText) {
+          addAssistantMessage(responseText);
+        } else {
+          addAssistantMessage("Готово.");
         }
       } catch {
         addAssistantMessage("Ошибка при редактировании.");
@@ -296,6 +332,7 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
       }
     },
     [
+      messages,
       generatedLyrics,
       selectedGenre,
       selectedMoods,
@@ -326,8 +363,19 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
   const handleAiAction = useCallback(
     async (action: string, params?: Record<string, unknown>) => {
       setIsLoading(true);
+      const actionLabels: Record<string, string> = {
+        improve: "Улучшить текст",
+        add_tags: "Добавить теги",
+        full_analysis: "Проанализировать",
+        deep_analysis: "Глубокий анализ",
+        producer_review: "Продюсерский разбор",
+        validate_suno_v5: "Проверить теги Suno",
+        hook_generator: "Улучшить хук",
+        vocal_map: "Вокальная карта",
+      };
+      addUserMessage(actionLabels[action] || `Действие: ${action}`);
       try {
-        const { data } = await invokeLyricsAssistant({
+        const { data, error } = await invokeLyricsAssistant({
           action,
           genre: selectedGenre,
           mood: selectedMoods.join(", "),
@@ -337,12 +385,23 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
           ...params,
         });
 
+        if (error) {
+          addAssistantMessage("Ошибка при выполнении действия.");
+          return;
+        }
+
+        if (data?.metadata?.recommendedTags) {
+          setRecommendedTags(data.metadata.recommendedTags as RecommendedTags);
+        }
+
         if (data?.lyrics) {
           setGeneratedLyrics(data.lyrics);
+          if (data.title) setGeneratedTitle(data.title);
+          if (data.style) setGeneratedStyle(data.style);
           addAssistantMessage("Результат:", "lyrics-preview", {
             lyrics: data.lyrics,
-            title: data.title,
-            style: data.style,
+            title: data.title || generatedTitle,
+            style: data.style || generatedStyle,
           });
         } else if (data?.message) {
           addAssistantMessage(data.message as string);
@@ -357,7 +416,17 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
         setIsLoading(false);
       }
     },
-    [selectedGenre, selectedMoods, selectedStructure, generatedLyrics, currentLyrics, addAssistantMessage],
+    [
+      selectedGenre,
+      selectedMoods,
+      selectedStructure,
+      generatedLyrics,
+      currentLyrics,
+      generatedTitle,
+      generatedStyle,
+      addUserMessage,
+      addAssistantMessage,
+    ],
   );
 
   return {
