@@ -333,6 +333,10 @@ serve(async (req) => {
       instrumental,
       model: apiModel,
       callBackUrl: callbackUrl,
+      // Subscribe to all three callback stages (text → first → complete).
+      // Without this, providers may only deliver "complete", so the user
+      // sees no title/lyrics/streaming URL until the final render finishes.
+      callBackType: "all",
     };
 
     if (customMode) {
