@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/card";
 import { logger } from "@/lib/logger";
 import { isAppError, getUserErrorMessage, logError } from "@/lib/errors";
 import { getBotMention } from "@/lib/telegram";
+import { isSentryEnabled, Sentry } from "@/lib/sentry";
+import { getErrorScope } from "@/lib/errorContext";
 
 interface Props {
   children: ReactNode;
