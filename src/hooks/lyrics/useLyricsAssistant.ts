@@ -10,6 +10,7 @@
 import { useState, useCallback } from "react";
 import { sendAiChatMessage } from "@/services/lyrics/ai-tools.service";
 import { invokeLyricsAssistant, type RecommendedTags } from "@/api/lyrics.api";
+import { streamLyricsAssistant } from "@/lib/lyrics/streaming";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { parseLyrics } from "@/components/generate-form/lyricsEditorHelpers";
 import type { ChatMessage } from "@/components/generate-form/lyrics-chat/types";
