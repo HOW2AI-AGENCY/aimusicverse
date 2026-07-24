@@ -42,23 +42,65 @@ interface LyricsSectionAdvancedProps {
   mood?: string;
 }
 
-// Quick templates for lyrics structure
-const QUICK_TEMPLATES = [
-  { id: "verse-chorus", label: "Куплет + Припев", icon: Music2, structure: "[Verse]\n\n\n[Chorus]\n\n" },
-  {
-    id: "full-song",
-    label: "Полная песня",
-    icon: FileText,
-    structure:
-      "[Intro]\n\n\n[Verse 1]\n\n\n[Chorus]\n\n\n[Verse 2]\n\n\n[Chorus]\n\n\n[Bridge]\n\n\n[Chorus]\n\n\n[Outro]\n",
-  },
-  {
-    id: "rap",
-    label: "Рэп трек",
-    icon: Mic2,
-    structure: "[Hook]\n\n\n[Verse 1]\n\n\n[Hook]\n\n\n[Verse 2]\n\n\n[Hook]\n",
-  },
+// Section tag types shown as quick-insert chips above the textarea (in text mode).
+const QUICK_SECTION_TYPES: LyricSectionType[] = [
+  "intro",
+  "verse",
+  "pre",
+  "chorus",
+  "hook",
+  "bridge",
+  "drop",
+  "outro",
 ];
+
+interface ParsedTag {
+  id: string;
+  type: LyricSectionType | null;
+  label: string;
+  glyph: string;
+  colorClass: string;
+  raw: string;
+}
+
+function parseSectionTags(text: string): ParsedTag[] {
+  if (!text.trim()) return [];
+  const tags: ParsedTag[] = [];
+  const lines = text.split("\n");
+  const counters: Partial<Record<LyricSectionType, number>> = {};
+  let idx = 0;
+  for (const line of lines) {
+    const m = line.match(/^\s*\[([\wа-яё\s-]+?)(?:\s+(\d+))?(?:,\s*[^\]]+)?\]\s*$/i);
+    if (!m) continue;
+    const raw = m[1].trim();
+    const explicitOrd = m[2];
+    const type = normalizeSectionType(raw);
+    if (type) {
+      const def = LYRIC_SECTION_BY_VALUE[type];
+      counters[type] = (counters[type] ?? 0) + 1;
+      const ord = explicitOrd ?? String(counters[type]);
+      const color = getLyricSectionColor(type);
+      tags.push({
+        id: `tag-${idx++}`,
+        type,
+        label: `${def.label}${counters[type]! > 1 || explicitOrd ? ` ${ord}` : ""}`,
+        glyph: def.glyph,
+        colorClass: cn(color.bg, color.border, color.text),
+        raw,
+      });
+    } else {
+      tags.push({
+        id: `tag-${idx++}`,
+        type: null,
+        label: raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase(),
+        glyph: "♪",
+        colorClass: "bg-muted/40 text-muted-foreground border-border/60",
+        raw,
+      });
+    }
+  }
+  return tags;
+}
 
 export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   lyrics,
