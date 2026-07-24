@@ -409,21 +409,21 @@ export async function getSectionNotes(sectionId: string): Promise<GetSectionNote
   // Transform the data to match API contract
   type RawNote = { profiles: { id: string; username: string | null }; [key: string]: unknown };
   const notes: SectionNoteWithAuthor[] = (data || []).map((note: RawNote) => ({
-    id: note.id,
-    content: note.notes || "",
-    noteType: note.section_type || "general",
+    id: String(note.id ?? ""),
+    content: String(note.notes ?? ""),
+    noteType: String(note.section_type ?? "general"),
     author: {
       id: note.profiles.id,
-      username: note.profiles.username,
+      username: note.profiles.username ?? "",
     },
-    createdAt: note.created_at || new Date().toISOString(),
-    isResolved: false, // This field may need to be added to the schema
-    sectionId: note.section_id,
-    sectionType: note.section_type,
-    position: note.position,
-    tags: note.tags,
-    audioNoteUrl: note.audio_note_url,
-    referenceAudioUrl: note.reference_audio_url,
+    createdAt: String(note.created_at ?? new Date().toISOString()),
+    isResolved: false,
+    sectionId: String(note.section_id ?? ""),
+    sectionType: note.section_type as string | null,
+    position: note.position as number | null,
+    tags: note.tags as string[] | null,
+    audioNoteUrl: note.audio_note_url as string | null,
+    referenceAudioUrl: note.reference_audio_url as string | null,
     referenceAnalysis: note.reference_analysis,
   }));
 
