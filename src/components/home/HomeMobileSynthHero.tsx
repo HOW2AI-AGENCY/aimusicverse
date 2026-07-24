@@ -146,7 +146,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={PROMPT_PLACEHOLDER}
               aria-describedby="synth-hero-hint"
-              className="w-full rounded-xl border border-white/25 bg-black/40 px-3.5 py-2.5 pr-[88px] text-[13px] text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60 sm:rounded-2xl sm:px-4 sm:py-3 sm:pr-[104px] sm:text-sm"
+              className="w-full rounded-xl border border-white/20 bg-black/30 px-3.5 py-2.5 pr-12 text-[13px] text-white placeholder:text-white/60 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/50 sm:rounded-2xl sm:px-4 sm:py-3 sm:pr-14 sm:text-sm"
             />
             <span id="synth-hero-hint" className="sr-only">
               Нажмите Enter или кнопку «Создать», чтобы начать генерацию
@@ -154,10 +154,9 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
             <button
               type="submit"
               aria-label={prompt.trim() ? `Создать трек: ${prompt.trim()}` : "Открыть форму создания трека"}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-8 items-center gap-1.5 rounded-lg bg-[hsl(var(--synth-mint))] px-2.5 text-xs font-bold text-[hsl(var(--synth-bg))] transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 sm:h-9 sm:rounded-xl sm:px-3 sm:text-sm"
-              style={{ boxShadow: "0 6px 20px hsl(var(--synth-mint) / 0.35)" }}
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-[hsl(var(--synth-mint))] backdrop-blur-md transition-all hover:bg-white/15 active:scale-[0.95] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/70 sm:h-10 sm:w-10 sm:rounded-xl"
             >
-              Создать
+              <ArrowRight className="h-4 w-4 sm:h-[18px] sm:w-[18px]" aria-hidden />
             </button>
 
           </div>
