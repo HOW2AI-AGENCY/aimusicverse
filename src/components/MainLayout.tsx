@@ -33,9 +33,6 @@ const GamificationOnboarding = lazy(() =>
   import("./gamification/GamificationOnboarding").then((m) => ({ default: m.GamificationOnboarding })),
 );
 const GenerateSheet = lazy(() => import("./GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
-const GenerationResultSheet = lazy(() =>
-  import("./generate-form/GenerationResultSheet").then((m) => ({ default: m.GenerationResultSheet })),
-);
 const WelcomeBonusPopup = lazy(() =>
   import("./popups/WelcomeBonusPopup").then((m) => ({ default: m.WelcomeBonusPopup })),
 );
