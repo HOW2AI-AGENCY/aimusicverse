@@ -376,7 +376,7 @@ export async function createPreset(input: CreatePresetInput, userId: string): Pr
       is_system: false,
       user_id: userId,
       usage_count: 0,
-      settings: input.settings as Record<string, unknown>,
+      settings: input.settings as unknown as Json,
     };
 
     const { data, error } = await supabase.from("presets").insert(presetData).select().single();
