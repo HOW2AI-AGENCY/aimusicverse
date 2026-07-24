@@ -238,31 +238,31 @@ export default function Settings() {
 
         {/* Footer */}
         <motion.div
-          className="mt-6 lg:mt-8 text-center text-sm text-muted-foreground pb-4"
+          className="mt-6 lg:mt-8 text-center text-sm text-muted-foreground pb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="flex items-center justify-center gap-4 lg:gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 lg:gap-x-6">
             <Button
               variant="link"
-              className="h-auto p-0 text-muted-foreground hover:text-primary transition-colors lg:text-base"
+              className="h-auto p-0 text-xs lg:text-base text-muted-foreground hover:text-primary transition-colors"
               onClick={() => settings.navigateTo("/terms")}
             >
               Условия использования
             </Button>
-            <span>•</span>
+            <span className="opacity-50">•</span>
             <Button
               variant="link"
-              className="h-auto p-0 text-muted-foreground hover:text-primary transition-colors lg:text-base"
+              className="h-auto p-0 text-xs lg:text-base text-muted-foreground hover:text-primary transition-colors"
               onClick={() => settings.navigateTo("/privacy")}
             >
               Конфиденциальность
             </Button>
-            <span>•</span>
+            <span className="opacity-50">•</span>
             <Button
               variant="link"
-              className="h-auto p-0 text-muted-foreground hover:text-primary transition-colors lg:text-base"
+              className="h-auto p-0 text-xs lg:text-base text-muted-foreground hover:text-primary transition-colors"
               onClick={() => settings.navigateTo("/connect")}
             >
               Подключить ассистента
