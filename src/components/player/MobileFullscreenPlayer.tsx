@@ -38,6 +38,8 @@ import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
 import { useParsedLyrics } from "@/hooks/lyrics/useParsedLyrics";
 import { useLyricsSynchronization } from "@/hooks/lyrics/useLyricsSynchronization";
 import "@/styles/lyrics-sync.css";
+import { StemBatchStatusBadge } from "./StemBatchStatusBadge";
+
 
 perfMark("fullscreen:moduleEval");
 
@@ -277,7 +279,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
             <p className="text-caption-sm font-medium uppercase tracking-[0.18em] text-muted-foreground/60">
               {page === "cover" ? "Сейчас играет" : page === "lyrics" ? "Текст" : "О треке"}
             </p>
+            <div className="mt-1 flex justify-center">
+              <StemBatchStatusBadge variant="fullscreen" />
+            </div>
           </div>
+
 
           <div className="flex items-center justify-end gap-1">
             <Button

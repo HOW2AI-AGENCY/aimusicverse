@@ -30,6 +30,8 @@ import { LazyImage } from "@/components/ui/lazy-image";
 import { LoadingState } from "@/components/ui/loading-state";
 import { usePlayerTransition } from "./PlayerTransitionProvider";
 import { PlayBtn, NextBtn, PrevBtn, CloseBtn, LikeBtn, ExpandBtn, VolumeControl } from "./CompactPlayerButtons";
+import { StemBatchStatusBadge } from "./StemBatchStatusBadge";
+
 
 interface CompactPlayerProps {
   track: Track;
@@ -388,9 +390,11 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         <div className="flex items-center gap-0.5 flex-shrink-0">
           {LikeButton}
           {VolumePopover}
+          <StemBatchStatusBadge className="ml-1" />
           {ExpandButton}
           {CloseButton}
         </div>
+
       </div>
     );
   }
