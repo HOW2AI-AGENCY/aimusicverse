@@ -445,7 +445,7 @@ export async function updatePreset(
     if (input.isPublic !== undefined) updateData.is_public = input.isPublic;
     if (input.settings !== undefined) updateData.settings = input.settings as Record<string, unknown>;
 
-    const { data, error } = await supabase.from("presets").update(updateData).eq("id", presetId).select().single();
+    const { data, error } = await supabase.from("presets").update(updateData as never).eq("id", presetId).select().single();
 
     if (error) {
       throw new Error(error.message);
