@@ -230,7 +230,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
             className="relative h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl bg-muted/40 border border-border/50 hover:bg-muted hover:border-primary/40 focus-visible:border-primary/60 flex-shrink-0 focus-visible:ring-2 focus-visible:ring-primary/60 transition-colors"
             onClick={(e) => {
               e.stopPropagation();
-              haptic("light");
+              haptic.selectionChanged();
               onOpenHistory();
             }}
             aria-label="Открыть историю промптов и вдохновение"
