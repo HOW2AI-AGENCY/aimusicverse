@@ -442,7 +442,7 @@ serve(async (req) => {
               tags: firstClip.tags,
               lyrics: getLyrics(firstClip),
               suno_id: firstClip.id,
-              model_name: firstClip.model_name || "chirp-v4",
+              model_name: getModelName(firstClip) || "chirp-v4",
             })
             .eq("id", task.track_id);
 
@@ -523,7 +523,7 @@ serve(async (req) => {
                 title: clip.title,
                 tags: clip.tags,
                 lyrics: getLyrics(clip),
-                model_name: clip.model_name,
+                model_name: getModelName(clip),
                 synced_by: "sync_stale_tasks",
               },
             };

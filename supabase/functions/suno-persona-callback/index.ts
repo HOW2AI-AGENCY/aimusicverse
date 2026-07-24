@@ -29,6 +29,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { createLogger } from "../_shared/logger.ts";
 import { corsHeaders } from "../_shared/cors.ts";
+import { getAudioUrl, getImageUrl } from "../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("suno-persona-callback");
 
@@ -124,8 +125,8 @@ serve(async (req) => {
         : [];
     const first = items[0] ?? {};
     const personaId = first.personaId ?? first.persona_id;
-    const audioUrl = first.audioUrl ?? first.audio_url ?? null;
-    const imageUrl = first.imageUrl ?? first.image_url ?? null;
+    const audioUrl = getAudioUrl(first);
+    const imageUrl = getImageUrl(first);
 
     if (!personaId) {
       logger.warn("Persona callback complete without personaId", {

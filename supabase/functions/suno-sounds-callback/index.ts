@@ -3,6 +3,7 @@ import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
+import { getAudioUrl, getImageUrl } from "../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("suno-sounds-callback");
 
@@ -87,15 +88,17 @@ serve(async (req) => {
 
     // SUCCESS — extract first clip (SFX always returns single clip per call)
     const clip = clips[0];
-    if (!clip?.audio_url) {
-      throw new Error("callback success but no clip audio_url");
+    const sfxAudioUrl = getAudioUrl(clip);
+    const sfxImageUrl = getImageUrl(clip);
+    if (!sfxAudioUrl) {
+      throw new Error("callback success but no clip audio URL (checked camelCase + snake_case)");
     }
 
     const { error: updateError } = await supabase
       .from("sound_effects")
       .update({
-        audio_url: clip.audio_url,
-        image_url: clip.image_url ?? null,
+        audio_url: sfxAudioUrl,
+        image_url: sfxImageUrl,
         duration: clip.duration ?? null,
         status: "completed",
         updated_at: new Date().toISOString(),

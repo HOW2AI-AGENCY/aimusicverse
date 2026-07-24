@@ -3,6 +3,7 @@ import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { isSunoSuccessCode, verifySunoSignature, getSunoSignatureHeaders } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { createLogger } from "../_shared/logger.ts";
+import { getImageUrl } from "../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("suno-cover-callback");
 
@@ -43,7 +44,8 @@ serve(async (req) => {
 
     // Handle various response formats from SunoAPI
     const coverInfo = coverData?.[0] || coverData;
-    const imageUrl = coverInfo?.imageUrl || coverInfo?.image_url || coverInfo?.url;
+    const imageUrl = getImageUrl(coverInfo) || (coverInfo as { url?: string })?.url || null;
+
 
     if (!imageUrl) {
       logger.error("No cover image URL in callback data", undefined, { data: JSON.stringify(data).substring(0, 500) });

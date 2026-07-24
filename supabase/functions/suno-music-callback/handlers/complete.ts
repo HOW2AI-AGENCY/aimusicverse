@@ -12,7 +12,7 @@ import { getGenerationCost } from "../../_shared/economy.ts";
 import { VERSION_LABELS, getVersionType } from "../utils/version-types.ts";
 import { fetchWithRetry } from "../utils/fetch-retry.ts";
 import { logAuditAction } from "../utils/audit-log.ts";
-import { extractClipFields, getAudioUrl, validateClip, type SkipReason } from "../../_shared/suno-clip-fields.ts";
+import { extractClipFields, getAudioUrl, getModelName, validateClip, type SkipReason } from "../../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("complete-callback");
 
@@ -282,7 +282,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     entityId: trackId,
     userId: task.user_id,
     actorType: "ai",
-    aiModelUsed: clips[0]?.model_name || task.model_used || "suno-chirp-v4",
+    aiModelUsed: (clips[0] ? getModelName(clips[0]) : null) || task.model_used || "suno-chirp-v4",
     actionType: "generated",
     actionCategory: "generation",
     contentUrl: clips[0] ? getAudioUrl(clips[0]) : undefined,
