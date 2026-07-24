@@ -57,7 +57,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
   }, []);
 
   return (
-    <section aria-label="Быстрое создание трека" className="w-full space-y-5">
+    <section aria-label="Быстрое создание трека" className="w-full space-y-3.5 sm:space-y-5">
       {/* Stat chips */}
       {showChips && (
         <motion.div
@@ -101,7 +101,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-        className="relative overflow-hidden rounded-[28px] p-6"
+        className="relative overflow-hidden rounded-[22px] p-4 sm:rounded-[28px] sm:p-6"
         style={{
           background: "linear-gradient(135deg, hsl(var(--synth-primary)) 0%, hsl(var(--synth-primary-deep)) 100%)",
         }}
@@ -110,7 +110,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
         {/* mint glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-6 -top-6 h-32 w-32 rounded-full"
+          className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full sm:h-32 sm:w-32"
           style={{
             background: "hsl(var(--synth-mint))",
             filter: "blur(60px)",
@@ -120,7 +120,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
 
         <h1
           id="synth-hero-title"
-          className="relative z-10 mb-4 text-2xl leading-tight text-white"
+          className="relative z-10 mb-3 text-[1.35rem] leading-[1.15] text-white sm:mb-4 sm:text-2xl"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
@@ -131,6 +131,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           <br />
           {HERO_TITLE_2}
         </h1>
+
 
         <div className="relative z-10">
           <label htmlFor="synth-hero-prompt" className="sr-only">
@@ -145,7 +146,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={PROMPT_PLACEHOLDER}
               aria-describedby="synth-hero-hint"
-              className="w-full rounded-2xl border border-white/25 bg-black/40 px-4 py-3 pr-[104px] text-sm text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60"
+              className="w-full rounded-xl border border-white/25 bg-black/40 px-3.5 py-2.5 pr-[88px] text-[13px] text-white placeholder:text-white/70 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60 sm:rounded-2xl sm:px-4 sm:py-3 sm:pr-[104px] sm:text-sm"
             />
             <span id="synth-hero-hint" className="sr-only">
               Нажмите Enter или кнопку «Создать», чтобы начать генерацию
@@ -153,11 +154,12 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
             <button
               type="submit"
               aria-label={prompt.trim() ? `Создать трек: ${prompt.trim()}` : "Открыть форму создания трека"}
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-9 items-center gap-1.5 rounded-xl bg-[hsl(var(--synth-mint))] px-3 text-sm font-bold text-[hsl(var(--synth-bg))] transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-8 items-center gap-1.5 rounded-lg bg-[hsl(var(--synth-mint))] px-2.5 text-xs font-bold text-[hsl(var(--synth-bg))] transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 sm:h-9 sm:rounded-xl sm:px-3 sm:text-sm"
               style={{ boxShadow: "0 6px 20px hsl(var(--synth-mint) / 0.35)" }}
             >
               Создать
             </button>
+
           </div>
 
           <div className="mt-2 flex items-center justify-between gap-2">
@@ -217,17 +219,18 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-          className="group flex w-full items-center gap-4 rounded-3xl border border-white/10 bg-[hsl(var(--synth-surface))] p-4 text-left transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60"
+          className="group flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-[hsl(var(--synth-surface))] p-3 text-left transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60 sm:gap-4 sm:rounded-3xl sm:p-4"
         >
           <div
-            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg sm:h-14 sm:w-14 sm:rounded-xl"
             style={{
               background: "linear-gradient(135deg, hsl(var(--synth-primary)) 0%, hsl(var(--synth-mint)) 100%)",
             }}
             aria-hidden
           >
-            <Music2 className="h-6 w-6 text-[hsl(var(--synth-bg))]" />
+            <Music2 className="h-5 w-5 text-[hsl(var(--synth-bg))] sm:h-6 sm:w-6" />
           </div>
+
           <div className="min-w-0 flex-1">
             <p
               className="truncate text-[10px] uppercase tracking-[0.2em] text-[hsl(var(--synth-text-muted))]"
