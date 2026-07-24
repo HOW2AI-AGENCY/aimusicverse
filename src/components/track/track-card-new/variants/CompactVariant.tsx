@@ -121,14 +121,14 @@ export const CompactVariant = memo(function CompactVariant({
               <Button
                 size="icon"
                 variant="ghost"
-                className="w-10 h-10 min-w-10 min-h-10 sm:w-11 sm:h-11 sm:min-w-[44px] sm:min-h-[44px] rounded-full opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-foreground/[0.06]"
+                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-foreground/[0.06]"
                 onClick={(e) => {
                   e.stopPropagation();
                   openSheet();
                 }}
                 aria-label="Открыть меню трека"
               >
-                <MoreHorizontal className="w-[18px] h-[18px] sm:w-5 sm:h-5" />
+                <MoreHorizontal className="w-5 h-5" />
               </Button>
             )}
           </div>
