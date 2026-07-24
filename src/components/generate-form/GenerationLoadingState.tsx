@@ -28,10 +28,11 @@ interface GenerationStage {
 
 const GENERATION_STAGES: GenerationStage[] = [
   { id: "queue", label: "В очереди", icon: Loader2, duration: 5 },
-  { id: "processing", label: "Обработка", icon: Sparkles, duration: 30 },
-  { id: "generating", label: "Генерация", icon: Music, duration: 45 },
-  { id: "finalizing", label: "Финализация", icon: CheckCircle2, duration: 10 },
+  { id: "processing", label: "Обдумывание", icon: Sparkles, duration: 30 },
+  { id: "generating", label: "Композиция", icon: Music, duration: 45 },
+  { id: "finalizing", label: "Финальный микс", icon: CheckCircle2, duration: 10 },
 ];
+
 
 interface GenerationLoadingStateProps {
   /** Current generation stage */
@@ -163,38 +164,43 @@ export function GenerationLoadingState({
   }
 
   return (
-    <Card className="p-4 sm:p-6 space-y-3 sm:space-y-4 max-w-full">
+    <Card className="p-5 sm:p-6 space-y-4 max-w-full border-border/40 bg-sheet-card/60 backdrop-blur-sm">
       <AnimatePresence mode="wait">
         <motion.div
           key={stage}
-          initial={reducedMotion ? undefined : { opacity: 0, y: 10 }}
+          initial={reducedMotion ? undefined : { opacity: 0, y: 8 }}
           animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-          exit={reducedMotion ? undefined : { opacity: 0, y: -10 }}
-          transition={reducedMotion ? undefined : { duration: 0.3 }}
-          className="space-y-3 sm:space-y-4"
+          exit={reducedMotion ? undefined : { opacity: 0, y: -8 }}
+          transition={reducedMotion ? undefined : { duration: 0.25 }}
+          className="space-y-4"
         >
-          {/* Stage indicator with icon */}
+          {/* Stage indicator — calm, no ping halo */}
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute inset-0 bg-generate/20 rounded-full animate-ping" />
-              <div className="relative bg-generate/10 p-3 rounded-full">
-                <StageIcon className={cn("h-6 w-6 text-generate", stage !== "completed" && "animate-spin")} />
-              </div>
+            <div className="relative bg-neon/10 border border-neon/30 p-2.5 rounded-full">
+              <StageIcon
+                className={cn("h-5 w-5 text-neon", stage !== "completed" && !reducedMotion && "animate-spin")}
+                aria-hidden
+              />
             </div>
-            <div className="flex-1">
-              <h3 className="font-semibold">{currentStage?.label || "Генерация музыки"}</h3>
-              {message && <p className="text-sm text-muted-foreground">{message}</p>}
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-[15px] text-foreground leading-tight">
+                {currentStage?.label || "Генерация музыки"}
+              </h3>
+              <p className="text-[11px] text-muted-foreground mt-0.5">
+                {message ?? "Модель Suno подбирает звуки и структуру"}
+              </p>
             </div>
           </div>
 
           {/* Progress bar */}
-          <div className="space-y-2">
-            <Progress value={progressPercentage} className="h-2" />
-            <div className="flex justify-between text-xs text-muted-foreground">
+          <div className="space-y-1.5">
+            <Progress value={progressPercentage} className="h-1.5" />
+            <div className="flex justify-between text-[11px] text-muted-foreground tabular-nums">
               <span>{Math.round(progressPercentage)}%</span>
-              {remainingSeconds > 0 && <span>Осталось: ~{formatRemainingTime(remainingSeconds)}</span>}
+              {remainingSeconds > 0 && <span>~{formatRemainingTime(remainingSeconds)}</span>}
             </div>
           </div>
+
 
           {/* Stage timeline */}
           <div className="flex justify-between gap-1">
