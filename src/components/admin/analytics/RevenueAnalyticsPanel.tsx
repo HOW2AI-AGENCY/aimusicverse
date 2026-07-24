@@ -200,7 +200,7 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                   <XAxis
                     dataKey="date"
                     tick={{ fontSize: 10 }}
-                    tickFormatter={(v) => new Date(v).toLocaleDateString("ru", { day: "numeric", month: "short" })}
+                    tickFormatter={(v) => new Date(String(v ?? "")).toLocaleDateString("ru", { day: "numeric", month: "short" })}
                     interval="preserveStartEnd"
                   />
                   <YAxis tick={{ fontSize: 10 }} width={40} />
