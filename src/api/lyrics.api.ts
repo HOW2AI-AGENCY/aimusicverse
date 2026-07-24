@@ -252,8 +252,8 @@ export async function createLyricVersion(
       version_name: request.versionName || null,
       version_number: nextVersionNumber,
       is_current: true,
-      sections_data: request.sectionsData || null,
-      tags: request.tags || null,
+      sections_data: request.sectionsData ?? undefined,
+      tags: request.tags ?? null,
     })
     .select(
       `
