@@ -57,7 +57,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
   }, []);
 
   return (
-    <section aria-label="Быстрое создание трека" className="w-full space-y-5">
+    <section aria-label="Быстрое создание трека" className="w-full space-y-3.5 sm:space-y-5">
       {/* Stat chips */}
       {showChips && (
         <motion.div
