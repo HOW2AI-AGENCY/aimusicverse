@@ -106,6 +106,8 @@ const GENRES: GenreConfig[] = [
   },
 ];
 
+assertGenreIdsMatch("GENRES (UI tabs)", GENRES.map((g) => g.id));
+
 interface GenreTabsSectionProps {
   tracks: PublicTrackWithCreator[];
   tracksByGenre?: Record<string, PublicTrackWithCreator[]>;
