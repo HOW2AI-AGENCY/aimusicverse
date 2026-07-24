@@ -50,9 +50,6 @@ import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
 import { TrackDetailPanel } from "@/components/library/TrackDetailPanel";
 
-const GenerationResultSheet = lazy(() =>
-  import("@/components/generate-form/GenerationResultSheet").then((m) => ({ default: m.GenerationResultSheet })),
-);
 
 // Extracted hooks and components
 import { useLibraryData, type SortOption } from "@/hooks/useLibraryData";
