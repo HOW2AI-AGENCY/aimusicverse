@@ -417,7 +417,12 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
               {/* History Tab */}
               <TabsContent value="history" className="mt-0 h-full">
                 <div data-prompt-scroll className="h-full overflow-y-auto pr-1">
-                  {filteredHistory.length > 0 ? (
+                  {historyLoading && filteredHistory.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full min-h-[200px] gap-2 py-8">
+                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                      <p className="text-xs text-muted-foreground">Загрузка истории…</p>
+                    </div>
+                  ) : filteredHistory.length > 0 ? (
                     <div className="space-y-2">
                       {filteredHistory.map((item) => (
                         <Card
