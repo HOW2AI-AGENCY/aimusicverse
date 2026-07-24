@@ -3764,6 +3764,66 @@ export type Database = {
         }
         Relationships: []
       }
+      suno_generation_events: {
+        Row: {
+          correlation_id: string
+          created_at: string
+          duration_ms: number | null
+          error_code: string | null
+          error_message: string | null
+          fallback_used: boolean
+          http_status: number | null
+          id: string
+          metadata: Json
+          model_requested: string | null
+          model_used: string | null
+          outcome: string
+          retry_count: number
+          suno_task_id: string | null
+          task_id: string | null
+          track_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          correlation_id: string
+          created_at?: string
+          duration_ms?: number | null
+          error_code?: string | null
+          error_message?: string | null
+          fallback_used?: boolean
+          http_status?: number | null
+          id?: string
+          metadata?: Json
+          model_requested?: string | null
+          model_used?: string | null
+          outcome: string
+          retry_count?: number
+          suno_task_id?: string | null
+          task_id?: string | null
+          track_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          correlation_id?: string
+          created_at?: string
+          duration_ms?: number | null
+          error_code?: string | null
+          error_message?: string | null
+          fallback_used?: boolean
+          http_status?: number | null
+          id?: string
+          metadata?: Json
+          model_requested?: string | null
+          model_used?: string | null
+          outcome?: string
+          retry_count?: number
+          suno_task_id?: string | null
+          task_id?: string | null
+          track_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       suno_meta_tags: {
         Row: {
           category: Database["public"]["Enums"]["tag_category"]
@@ -6198,6 +6258,19 @@ export type Database = {
             | null
           tier?: Database["public"]["Enums"]["subscription_tier"] | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      suno_generation_stats_daily: {
+        Row: {
+          avg_duration_ms: number | null
+          day: string | null
+          event_count: number | null
+          fallback_count: number | null
+          http_status: number | null
+          max_retries: number | null
+          model_used: string | null
+          outcome: string | null
         }
         Relationships: []
       }

@@ -1,10 +1,9 @@
-// Suno API call with model fallback + exponential backoff
+// Suno API call with model fallback + exponential backoff.
+// Accepts a correlation-aware logger so the whole retry chain is traceable.
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { MODEL_FALLBACK_CHAIN } from "../_shared/suno-models.ts";
-import { createLogger } from "../_shared/logger.ts";
 import { isRetriableModelError, isTransientError, sleep } from "./errors.ts";
-
-const logger = createLogger("suno-music-generate");
+import type { ScopedLogger } from "./log.ts";
 
 export interface SunoCallResult {
   success: boolean;
@@ -14,45 +13,60 @@ export interface SunoCallResult {
   lastStatus: number | null;
   currentModel: string;
   retryCount: number;
+  totalDurationMs: number;
 }
 
-export async function callSunoWithRetry(
-  sunoApiKey: string,
-  supabase: any,
-  userId: string,
-  sunoPayload: Record<string, unknown>,
-  initialModel: string,
-  maxRetries = 3,
-): Promise<SunoCallResult> {
+export interface CallSunoOptions {
+  sunoApiKey: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: any;
+  userId: string;
+  payload: Record<string, unknown>;
+  initialModel: string;
+  logger: ScopedLogger;
+  maxRetries?: number;
+  fetchImpl?: typeof fetch;
+}
+
+export async function callSunoWithRetry(opts: CallSunoOptions): Promise<SunoCallResult> {
+  const { sunoApiKey, supabase, userId, payload, initialModel, logger } = opts;
+  const maxRetries = opts.maxRetries ?? 3;
+  const fetchImpl = opts.fetchImpl ?? fetch;
+
   let currentModel = initialModel;
   let retryCount = 0;
   let response: Response | null = null;
   let data: Record<string, unknown> | null = null;
   let lastErrorMsg = "";
   let lastStatus: number | null = null;
+  const overallStart = Date.now();
 
   while (retryCount <= maxRetries) {
-    sunoPayload.model = currentModel;
+    payload.model = currentModel;
 
     const startTime = Date.now();
     try {
-      response = await fetch("https://api.sunoapi.org/api/v1/generate", {
+      response = await fetchImpl("https://api.sunoapi.org/api/v1/generate", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${sunoApiKey}`,
           "Content-Type": "application/json",
+          "X-Correlation-Id": logger.correlationId,
         },
-        body: JSON.stringify(sunoPayload),
+        body: JSON.stringify(payload),
         signal: AbortSignal.timeout(30000),
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (networkError: any) {
-      logger.error("Suno API network error", networkError, { attempt: retryCount + 1 });
-      lastErrorMsg = networkError.message || "Network error";
+      logger.error("Suno API network error", networkError, {
+        attempt: retryCount + 1,
+        model: currentModel,
+      });
+      lastErrorMsg = networkError?.message || "Network error";
       lastStatus = null;
       if (retryCount < maxRetries) {
         const backoffMs = Math.min(1000 * Math.pow(2, retryCount), 8000);
-        logger.info(`Retrying after network error in ${backoffMs}ms`, { attempt: retryCount + 1 });
+        logger.info("Retrying after network error", { backoffMs, attempt: retryCount + 1 });
         await sleep(backoffMs);
         retryCount++;
         continue;
@@ -75,7 +89,7 @@ export async function callSunoWithRetry(
       service: "suno",
       endpoint: "generate",
       method: "POST",
-      request_body: { ...sunoPayload, attempt: retryCount + 1 },
+      request_body: { ...payload, attempt: retryCount + 1, correlationId: logger.correlationId },
       response_status: response.status,
       response_body: data,
       duration_ms: duration,
@@ -94,6 +108,7 @@ export async function callSunoWithRetry(
         lastStatus,
         currentModel,
         retryCount,
+        totalDurationMs: Date.now() - overallStart,
       };
     }
 
@@ -115,10 +130,11 @@ export async function callSunoWithRetry(
 
     if (isTransient && retryCount < maxRetries) {
       const backoffMs = Math.min(1000 * Math.pow(2, retryCount), 8000);
-      logger.warn(`Transient error, retrying in ${backoffMs}ms`, {
+      logger.warn("Transient error, retrying", {
         status: response.status,
         error: lastErrorMsg,
         attempt: retryCount + 1,
+        backoffMs,
       });
       await sleep(backoffMs);
       retryCount++;
@@ -136,5 +152,6 @@ export async function callSunoWithRetry(
     lastStatus,
     currentModel,
     retryCount,
+    totalDurationMs: Date.now() - overallStart,
   };
 }
