@@ -1,71 +1,123 @@
-# Аудит и подготовка к миграции инфраструктуры
+# Редизайн пути генерации
 
-## Что уже известно о проекте
-- **Frontend**: React 19 + Vite 6 + TypeScript, ~1042 компонента, ~439 хуков, 23 Zustand-стора, bundle ~508 KB gzip.
-- **Backend**: Lovable Cloud (Supabase managed) — Postgres + Auth + Storage + Edge Functions (Deno).
-- **Edge Functions**: 100+ функций в `supabase/functions/` (Suno API, Telegram bot, платежи Tinkoff, аналитика).
-- **БД**: 100+ таблиц с RLS, кастомными функциями, триггерами, enums.
-- **Интеграции**: Telegram Mini App SDK, Suno AI, Tinkoff Payments, Klangio, Replicate.
-- **Клиент к БД**: жёстко зашитые `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY` в `.env` + `src/integrations/supabase/client.ts` (автогенерируемый).
+Цель — снизить визуальный шум, унифицировать разметку и сократить путь «идея → готовый трек». Дизайн-токены и Neon-палитра остаются прежними (это не смена бренда, а чистка потока).
 
-## Цель
-Провести полный аудит зависимостей от Lovable Cloud и подготовить артефакты, необходимые для переноса на: (а) собственный Supabase self-hosted, либо (б) другой Postgres + Auth-провайдер (например Neon + Clerk/Auth.js) с сохранением функциональности.
+## Текущий путь и его боли
 
-## План работ
+```text
+Home → [триггер генерации]
+  ↓
+GenerateSheet (открытие sheet/dialog)
+  ├─ Header (mode: Simple / Custom / References)   ← 3 таба, каждый со своим состоянием
+  ├─ Body
+  │   ├─ Simple form   (Prompt + Style + Title)
+  │   ├─ Custom form   (Lyrics + Structure + Advanced)
+  │   └─ References    (2×2 grid + upload dialogs)
+  └─ Footer (Generate button + credits + warnings)
+  ↓
+GenerationLoadingState (2-3 мин ожидания)
+  ↓
+GenerationResultSheet  (A/B выбор + первое воспроизведение)
+  ↓
+Library / Player
+```
 
-### Фаза 1 — Инвентаризация (только чтение, без изменений)
-1. **Схема БД**: собрать полный дамп схемы через SQL — таблицы, колонки, FK, enums, sequences, custom indexes, RLS policies, функции (`pg_get_functiondef`), триггеры, extensions (`pg_extension`), cron jobs (`cron.job`), vault secrets (только имена).
-2. **Auth**: собрать список пользователей (`auth.users`, `auth.identities` — count и структура), выявить используемые провайдеры (email/password, Google, Telegram).
-3. **Storage**: перечислить бакеты (public/private), объём, типы файлов.
-4. **Edge Functions**: инвентаризация всех функций в `supabase/functions/`, зависимостей (`Deno.env.get(...)`), CORS, verify_jwt из `supabase/config.toml`, shared-кода в `_shared/`.
-5. **Секреты**: список требуемых env для функций (SUNO_API_KEY, TELEGRAM_BOT_TOKEN, TINKOFF_*, KLANGIO_*, REPLICATE_*, RESEND_*, LOVABLE_API_KEY и т.д.).
-6. **Клиентские точки контакта**: скан `src/` на `supabase.from`, `supabase.functions.invoke`, `supabase.storage`, `supabase.auth`, `.channel` (Realtime), `import.meta.env.VITE_SUPABASE_*`.
+Проблемы, которые я вижу в коде:
 
-### Фаза 2 — Артефакты миграции
-Создать в репозитории `migration/` каталог с:
-- `migration/README.md` — обзор процесса.
-- `migration/schema.sql` — единый идемпотентный дамп схемы (extensions → enums → tables → sequences+setval → functions → triggers → indexes → RLS policies → GRANTs).
-- `migration/data-export.md` — инструкции по экспорту данных (COPY per-table, порядок с учётом FK).
-- `migration/auth-export.md` — как перенести `auth.users` (с bcrypt-хэшами `encrypted_password`) и `auth.identities`.
-- `migration/storage-export.md` — стратегия переноса бакетов (rclone / signed URLs для private).
-- `migration/edge-functions.md` — список функций, их зависимости, verify_jwt, required secrets, план деплоя на новую платформу (Supabase self-hosted / Deno Deploy / Cloudflare Workers).
-- `migration/env.template` — шаблон `.env` для нового окружения (frontend + backend).
-- `migration/client-abstraction.md` — план абстрагирования Supabase-клиента (см. Фаза 3).
+1. **Шум в шапке:** `CollapsibleFormHeader` + `GenerationStepIndicator` + `CreditBalanceIndicator` + `CreditBalanceWarning` дублируют статус.
+2. **Три режима как табы** — пользователь платит когнитивно за выбор *до того*, как поймёт что хочет. На мобиле табы + свёрнутый sidebar ломают ритм.
+3. **Loading state (261 строка)** — большой блок, но не даёт «предпросмотра» (title/lyrics приходят на стадии `text` callback ~10-30с, но не всегда показаны крупно).
+4. **Result sheet (507 строк)** — переносит принятие решения на потом; выбор A/B часто игнорируется.
+5. **Footer:** `GenerateFormActions` + `GenerateSheetFooter` — два футера в разных местах.
 
-### Фаза 3 — Абстракция клиента (подготовка кода, без смены провайдера)
-Не переписываем API-слой, но снижаем связанность:
-1. Ввести `src/config/backend.ts` — единая точка получения URL/ключей (сейчас читаются в 3+ местах).
-2. Проверить, что все запросы идут через `src/api/*` (layer boundary уже enforced ESLint-правилом `no-restricted-syntax` для прямых `supabase.from`).
-3. Задокументировать все Realtime-каналы и триггеры БД, от которых зависит UI — они самые «липкие» к Supabase.
-4. Отметить edge-функции с `verify_jwt = false` (публичные webhooks — Tinkoff, Suno callbacks, Telegram) — они первыми переезжают и их URL надо будет обновить у внешних сервисов.
+## Что делаем
 
-### Фаза 4 — Отчёт-риски
-`migration/RISKS.md` со списком:
-- Supabase-специфичные фичи: RLS, `auth.uid()`, `auth.jwt()`, security definer функции, `pg_net`, Storage RLS.
-- Внешние webhooks (Suno callbacks, Tinkoff, Telegram) — требуют обновления URL на стороне провайдеров.
-- Cron jobs (`pg_cron`) — если есть, переносятся вручную.
-- Vault secrets — значения нельзя выгрузить, вводить заново.
-- Telegram Bot — webhook URL надо переустановить (`setWebhook`).
+### 1. Единый header-статус (объединение 4 компонентов)
 
-## Что НЕ делаем в этом заходе
-- Не создаём новый Supabase-проект и не запускаем перенос данных — это отдельный этап после утверждения плана и выбора целевой платформы.
-- Не меняем работающий код клиента (только добавляем документацию и опционально `src/config/backend.ts`).
-- Не трогаем `.env`, `client.ts`, `types.ts`, `config.toml` — они автогенерируемые.
+Заменить `CollapsibleFormHeader` + `GenerationStepIndicator` + `CreditBalanceIndicator` + `CreditBalanceWarning` одной строкой:
+
+```text
+[Иконка режима] [Название режима]     ●─○─○  120 ⚡
+```
+
+- Один индикатор прогресса (dots), один счётчик кредитов, всё правое поле.
+- Предупреждение о балансе — inline только при `credits < cost`, красным на месте счётчика.
+- Экономит ~80px вертикали.
+
+### 2. Прогрессивное раскрытие вместо табов
+
+Убрать явные табы Simple/Custom/References. Оставить один экран, где:
+- сверху — единое поле «Что создаём?» (prompt),
+- под ним — свернутый аккордеон «Дополнительно: тексты, референсы, продвинутое»,
+- Custom / References активируются автоматически, когда пользователь коснулся соответствующего раздела.
+
+Табы остаются доступны через switcher в углу для power-users, но не блокируют вход.
+
+### 3. Loading state = живой предпросмотр
+
+Использовать `text`-callback (уже приходит на 10-30с), чтобы показать:
+- реальный сгенерированный **заголовок** крупно,
+- **первые 4 строки лирики** с эффектом typewriter,
+- прогресс-бар с явными стадиями: `Обдумывание → Композиция → Финальный микс` (сейчас — три dot'а без семантики).
+
+Убрать псевдо-анимации волн (`GenerationLoadingState`) — они не отражают реальности и добавляют шум.
+
+### 4. Result sheet → inline compare
+
+Вместо отдельного sheet — inline-панель в текущем контексте:
+- две карточки A/B бок-о-бок с одноклик play на каждой,
+- активный вариант автоматически подсвечивается, но переключение — один тап,
+- кнопка «Оставить оба» / «Оставить только этот» одной строкой снизу.
+
+Убирает лишний экран между генерацией и библиотекой.
+
+### 5. Один футер, одно действие
+
+Оставить только `GenerateSheetFooter`, удалить `GenerateFormActions` (или наоборот — выбор по контексту layoutа). Одна primary-кнопка «Создать трек», справа — стоимость.
+
+### 6. Микро-разметка (везде)
+
+- Отступы карточек в `Advanced settings` → `space-y-3` вместо `space-y-6` (сейчас перегружено).
+- `SectionLabel` без иконок в 90% случаев — иконки оставить только для visual-anchor разделов (References, Lyrics).
+- `PromptValidationAlert` → inline hint под полем, не отдельная плашка.
+
+## Файлы, которые буду менять
+
+| Файл | Что |
+| --- | --- |
+| `src/components/GenerateSheet.tsx` | Свести header/footer к единому layoutу |
+| `src/components/generate-form/CollapsibleFormHeader.tsx` | Объединить с `GenerationStepIndicator` + credits |
+| `src/components/generate-form/GenerationLoadingState.tsx` | Использовать `text` callback, стадийный прогресс |
+| `src/components/generate-form/GenerationResultSheet.tsx` | Inline A/B compare вместо отдельного sheet |
+| `src/components/generate-form/GenerateFormSimple.tsx` | Прогрессивный аккордеон вместо трёх режимов |
+| `src/components/generate-sheet/GenerateSheetFooter.tsx` | Единственная точка primary-действия |
+| `src/components/generate-form/PromptValidationAlert.tsx` | Inline hint |
+| `src/components/generate-form/CreditBalanceIndicator.tsx` | Убирается — сливается в header |
+
+Плюс визуальный регресс-тест `tests/visual/generate-flow.spec.ts` на 4 контрольные точки (idle, loading, text-callback, result).
+
+## Что НЕ трогаю
+
+- Neon-палитра, шрифты, дизайн-токены (`src/lib/design-tokens.ts`) — остаются.
+- Логика Suno (callback handlers, RPC, credits).
+- Роутинг и state stores (`useGenerateForm`, `useUnifiedStudioStore`).
+- Компоненты студии, библиотеки, комьюнити — только вход в генерацию.
 
 ## Технические детали
 
-**Целевые платформы (нужно выбрать одну до Фазы 2):**
-- **A. Supabase self-hosted** (Docker/Kubernetes) — минимум изменений в коде, полная совместимость RLS/Auth/Storage/Edge Functions.
-- **B. Managed Supabase (собственный аккаунт)** — то же, что A, но у Supabase Inc.; проще всего.
-- **C. Разделённый стек**: Postgres (Neon/Railway/RDS) + Auth (Clerk/Auth.js) + Object Storage (S3/R2) + Functions (Deno Deploy/Cloudflare Workers) — максимальная свобода, но требует переписывания auth-слоя и Storage-API.
+- Всё через существующие shadcn-примитивы (`Sheet`, `Card`, `Progress`) — новых зависимостей нет.
+- Иконки только из `@/lib/icons` (обёртка над lucide-react).
+- Мобильный layout: остаётся `MobileBottomSheet` (vaul), touch-target ≥ 44px.
+- Safe-area переменные `--tg-*` уже используются — сохраняю.
+- Каждый рефакторнутый файл прогоняю через `bunx tsgo --noEmit`.
 
-**Инструменты для дампа схемы**: используем `supabase--read_query` (только SELECT) для инвентаризации без изменений БД. Для реального переноса — `pg_dump --schema-only` + `pg_dump --data-only` через собственный доступ к Postgres на новой инфре.
+## Порядок работ
 
-## Открытые вопросы к пользователю
-1. **Куда мигрируем?** Вариант A / B / C выше — от этого зависит объём переписывания кода.
-2. **Данные пользователей**: переносим всех пользователей и их треки, или только схему для чистого запуска?
-3. **Storage-файлы**: сколько примерно ГБ занимает (обложки, аудио)? Важно для оценки времени переноса.
-4. **Downtime**: допустим ли, или нужна zero-downtime миграция с двойной записью?
+1. Header consolidation (небольшой, быстрый win) — 1 коммит.
+2. Loading state + text-callback preview — 1 коммит.
+3. Result sheet → inline compare — 1 коммит.
+4. Simple/Custom прогрессивное раскрытие — 1 коммит (риск регрессий выше, поэтому в конце).
+5. Микро-разметка и удаление дублирующих футеров — 1 коммит.
+6. Визуальный regression-тест — финальный коммит.
 
-## Результат
-После утверждения — репозиторий получит каталог `migration/` со всеми артефактами, готовыми к запуску переноса, и код будет минимально подготовлен (единая точка конфига бэкенда). Сам перенос — отдельный спринт после ответов на 4 вопроса выше.
+Каждый шаг можно откатить независимо.
