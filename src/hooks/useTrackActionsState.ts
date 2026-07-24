@@ -127,7 +127,7 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose, ena
     };
 
     fetchData();
-  }, [track?.id]);
+  }, [track?.id, enabled]);
 
   // Check for specific stem types
   const hasVocalStem = stems.some((s) => s.stem_type === "vocal" || s.stem_type === "vocals");
