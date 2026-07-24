@@ -10,17 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  type TooltipValueType,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 import { Target, TrendingUp, Users, MousePointerClick, ChevronUp, ChevronDown } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
@@ -48,6 +39,7 @@ const CHART_COLORS = [
 ];
 
 export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanceProps) {
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
   // Sort campaigns by conversions
   const sortedCampaigns = useMemo(() => {
     return [...campaigns].sort((a, b) => b.conversions - a.conversions);
@@ -78,7 +70,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
     };
   }, [campaigns]);
 
-  if (isLoading) {
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <Card>
         <CardHeader>
@@ -92,6 +84,8 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
       </Card>
     );
   }
+
+  const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } = recharts;
 
   return (
     <div className="space-y-3 sm:space-y-4">

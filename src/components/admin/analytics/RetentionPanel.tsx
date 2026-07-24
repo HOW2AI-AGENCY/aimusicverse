@@ -7,18 +7,8 @@ import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  type TooltipValueType,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 import { Users, UserCheck, UserMinus, TrendingUp, Calendar, Repeat } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
@@ -62,6 +52,7 @@ const MOCK_COHORTS: CohortData[] = [
 ];
 
 export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
   // Calculate summary stats
   const summaryStats = useMemo(() => {
     const latestCohort = MOCK_COHORTS[MOCK_COHORTS.length - 2]; // Skip incomplete
@@ -78,7 +69,7 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
     };
   }, []);
 
-  if (isLoading) {
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <div className="space-y-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -98,6 +89,8 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
       </div>
     );
   }
+
+  const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } = recharts;
 
   return (
     <div className="space-y-4 sm:space-y-6">

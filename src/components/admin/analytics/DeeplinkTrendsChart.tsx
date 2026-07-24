@@ -6,17 +6,8 @@
 
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  type TooltipValueType,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 import { TrendingUp, TrendingDown, Minus } from "@/lib/icons";
 import { format, subDays, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
@@ -35,6 +26,7 @@ interface DeeplinkTrendsChartProps {
 }
 
 export function DeeplinkTrendsChart({ data, timeRange, isLoading }: DeeplinkTrendsChartProps) {
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
   // Calculate trend indicators
   const trend = useMemo(() => {
     if (data.length < 2) return { direction: "neutral", percentage: 0 };
@@ -70,7 +62,7 @@ export function DeeplinkTrendsChart({ data, timeRange, isLoading }: DeeplinkTren
   const trendColor =
     trend.direction === "up" ? "text-green-500" : trend.direction === "down" ? "text-red-500" : "text-muted-foreground";
 
-  if (isLoading) {
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <Card>
         <CardHeader>
@@ -84,6 +76,8 @@ export function DeeplinkTrendsChart({ data, timeRange, isLoading }: DeeplinkTren
       </Card>
     );
   }
+
+  const { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } = recharts;
 
   return (
     <Card>
