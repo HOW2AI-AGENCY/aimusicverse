@@ -319,10 +319,15 @@ export function analyzeProsodyIncremental(
     const sig = signRunFromRaw(run.lines, run.sectionLabel);
     const cached = prevRunsBySig.get(sig);
     if (cached && cached.length === run.lines.length) {
-      // Rewrite indices to match the current layout.
+      // Preserve object identity when nothing about the line changed (index +
+      // section label match); otherwise clone with the new positional info.
       for (let k = 0; k < cached.length; k++) {
         const idx = run.start + k;
-        merged[idx] = { ...cached[k], index: idx, section: run.sectionLabel };
+        const prevLine = cached[k];
+        merged[idx] =
+          prevLine.index === idx && prevLine.section === run.sectionLabel
+            ? prevLine
+            : { ...prevLine, index: idx, section: run.sectionLabel };
       }
       const scheme = prev.sections.find((s) => s.label === run.sectionLabel && signRun(prev.lines, s.startLine, s.endLine, s.label) === sig)?.scheme || "";
       const countable = cached.filter((l) => !l.isTag && !l.isEmpty && !l.isBackVocal);
