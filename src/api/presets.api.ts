@@ -1,6 +1,3 @@
-// @ts-nocheck — schema drift: таблица `presets` и RPC increment_preset_usage /
-// apply_preset_to_track отсутствуют в сгенерированных Database типах.
-// TODO(Sprint 045): восстановить после `supabase gen types typescript`.
 /**
  * Presets API Layer
  * Raw Supabase database operations for mixer and effects presets
