@@ -343,7 +343,9 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose, ena
     activeVersion,
     actionState,
     isProcessing,
+    isLoadingActions,
     stems,
+
 
     // Dialogs
     dialogs,
