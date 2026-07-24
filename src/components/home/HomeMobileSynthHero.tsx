@@ -101,7 +101,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-        className="relative overflow-hidden rounded-[28px] p-6"
+        className="relative overflow-hidden rounded-[22px] p-4 sm:rounded-[28px] sm:p-6"
         style={{
           background: "linear-gradient(135deg, hsl(var(--synth-primary)) 0%, hsl(var(--synth-primary-deep)) 100%)",
         }}
@@ -110,7 +110,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
         {/* mint glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-6 -top-6 h-32 w-32 rounded-full"
+          className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full sm:h-32 sm:w-32"
           style={{
             background: "hsl(var(--synth-mint))",
             filter: "blur(60px)",
@@ -120,7 +120,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
 
         <h1
           id="synth-hero-title"
-          className="relative z-10 mb-4 text-2xl leading-tight text-white"
+          className="relative z-10 mb-3 text-[1.35rem] leading-[1.15] text-white sm:mb-4 sm:text-2xl"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
@@ -131,6 +131,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           <br />
           {HERO_TITLE_2}
         </h1>
+
 
         <div className="relative z-10">
           <label htmlFor="synth-hero-prompt" className="sr-only">
