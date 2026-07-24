@@ -155,20 +155,20 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   // Parsed section tags for the text-mode visualization chip strip.
   const parsedTags = useMemo(() => parseSectionTags(lyrics), [lyrics]);
 
-  // Prosody analysis — cached; used both to badge the toggle and (optionally) render the panel.
+  // Prosody analysis — debounced + incremental via `useProsodyReport`, so
+  // unchanged rows keep identity and the textarea doesn't lose selection.
+  const prosodyReport = useProsodyReport(lyrics);
   const prosodySummary = useMemo(() => {
-    if (!lyrics.trim()) return { errors: 0, warns: 0 };
-    const report = analyzeProsody(lyrics);
     let errors = 0;
     let warns = 0;
-    for (const line of report.lines) {
+    for (const line of prosodyReport.lines) {
       for (const issue of line.issues) {
         if (issue.level === "error") errors++;
         else if (issue.level === "warn") warns++;
       }
     }
     return { errors, warns };
-  }, [lyrics]);
+  }, [prosodyReport]);
 
   const jumpToLine = useCallback(
     (lineIndex: number) => {
