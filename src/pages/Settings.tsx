@@ -128,7 +128,7 @@ export default function Settings() {
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
       style={settings.getContainerStyle(96)}
     >
-      <div className={cn("container mx-auto px-4", isMobile ? "max-w-2xl" : "max-w-6xl")}>
+      <div className={cn("container mx-auto px-3 sm:px-4", isMobile ? "max-w-2xl" : "max-w-6xl")}>
         <AppHeader
           title="Настройки"
           subtitle="Управление аккаунтом"
