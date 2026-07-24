@@ -512,7 +512,7 @@ serve(async (req) => {
                 .insert({
                   track_id: task.track_id,
                   ...versionData,
-                  version_type: i === 0 ? "initial" : "alternative",
+                  version_type: i === 0 ? "initial" : "original",
                   version_label: versionLabel,
                   clip_index: i,
                   is_primary: i === 0,
