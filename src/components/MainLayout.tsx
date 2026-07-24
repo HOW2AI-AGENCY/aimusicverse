@@ -53,8 +53,6 @@ export const MainLayout = () => {
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
 
-  // Generation result sheet for post-generation A/B selection
-  const { resultOpen, resultTrackId, resultTrackTitle, setResultOpen } = useGenerationResult();
 
   // Track play counts when tracks are played
   usePlaybackTracking();
