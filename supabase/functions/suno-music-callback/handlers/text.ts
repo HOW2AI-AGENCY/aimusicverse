@@ -39,13 +39,13 @@ export async function handleTextCallback(payload: any, task: any) {
     status: "processing",
   };
   if (lyrics) trackUpdate.lyrics = lyrics;
-  if (tags && typeof tags === "string") trackUpdate.style_tags = tags;
+  if (tags && typeof tags === "string") trackUpdate.style = tags;
 
   await supabase.from("tracks").update(trackUpdate).eq("id", trackId);
 
   await supabase
     .from("generation_tasks")
-    .update({ status: "processing", title: cleanedTitle })
+    .update({ status: "processing" })
     .eq("id", task.id);
 
   return {
