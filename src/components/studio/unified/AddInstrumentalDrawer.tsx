@@ -54,6 +54,7 @@ export const AddInstrumentalDrawer = memo(function AddInstrumentalDrawer({
   const addInstrumentalMutation = useAddInstrumental();
 
   const [loading, setLoading] = useState(false);
+  const [generationError, setGenerationError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"instrument" | "settings">("instrument");
 
   // Form state
@@ -93,6 +94,7 @@ export const AddInstrumentalDrawer = memo(function AddInstrumentalDrawer({
 
     haptic.tap();
     setLoading(true);
+    setGenerationError(null);
 
     try {
       logger.info("[AddInstrumentalDrawer] Starting instrumental generation", {
@@ -124,9 +126,9 @@ export const AddInstrumentalDrawer = memo(function AddInstrumentalDrawer({
       onOpenChange(false);
     } catch (error) {
       logger.error("[AddInstrumentalDrawer] Generation failed", error);
-      toast.error("Ошибка генерации", {
-        description: error instanceof Error ? error.message : "Попробуйте позже",
-      });
+      const msg = error instanceof Error ? error.message : "Попробуйте позже";
+      toast.error("Ошибка генерации", { description: msg });
+      setGenerationError(msg);
     } finally {
       setLoading(false);
     }
@@ -311,7 +313,13 @@ export const AddInstrumentalDrawer = memo(function AddInstrumentalDrawer({
         </ScrollArea>
 
         {/* Submit button */}
-        <div className="flex-shrink-0 p-4 border-t border-border/50">
+        <div className="flex-shrink-0 p-4 border-t border-border/50 space-y-3">
+          {generationError && (
+            <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/30">
+              <AlertCircle className="w-4 h-4 text-destructive mt-0.5 shrink-0" />
+              <p className="text-xs text-destructive">{generationError}</p>
+            </div>
+          )}
           <Button className="w-full h-12" onClick={handleSubmit} disabled={loading || !effectiveStyle.trim()}>
             {loading ? (
               <>
