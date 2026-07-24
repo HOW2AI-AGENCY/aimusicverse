@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * LyricsPanel - Main lyrics editing interface for the Unified Studio
  *
@@ -63,12 +62,8 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useLyricVersions, useCreateLyricVersion, useRestoreLyricVersion } from "@/hooks/useLyricVersions";
 import { useSectionNotes } from "@/hooks/useSectionNotes";
-import {
-  getLyricsStatistics,
-  formatLyricsForDisplay,
-  type FormattedLyrics,
-  type LyricsSection,
-} from "@/services/lyrics/lyrics-formatting.service";
+import { getLyricsStatistics, formatLyricsForDisplay } from "@/services/lyrics/lyrics-formatting.service";
+import type { FormattedLyrics, LyricsSection } from "@/services/lyrics/lyrics-types";
 import { logger } from "@/lib/logger";
 
 // ============================================================================
@@ -94,7 +89,7 @@ interface LyricsStats {
   wordCount: number;
   lineCount: number;
   characterCount: number;
-  sectionCount: number;
+  sectionsCount: number;
 }
 
 // ============================================================================
@@ -122,7 +117,7 @@ const PanelHeader = memo(function PanelHeader({
         <div>
           <h2 className="text-base font-semibold">Текст песни</h2>
           <p className="text-xs text-muted-foreground">
-            {stats.wordCount} слов • {stats.lineCount} строк • {stats.sectionCount} секций
+            {stats.wordCount} слов • {stats.lineCount} строк • {stats.sectionsCount} секций
           </p>
         </div>
       </div>
@@ -398,7 +393,7 @@ export const LyricsPanel = memo(function LyricsPanel({
       wordCount: statistics.wordCount,
       lineCount: statistics.lineCount,
       characterCount: statistics.characterCount,
-      sectionCount: statistics.sectionCount,
+      sectionsCount: statistics.sectionsCount,
     };
   }, [lyrics]);
 
@@ -434,7 +429,7 @@ export const LyricsPanel = memo(function LyricsPanel({
             setLastSaved(new Date());
             onLyricsSaved?.(lyrics);
             toast.success("Текст сохранён", {
-              description: `${stats.wordCount} слов, ${stats.sectionCount} секций`,
+              description: `${stats.wordCount} слов, ${stats.sectionsCount} секций`,
             });
           },
         },
@@ -452,7 +447,7 @@ export const LyricsPanel = memo(function LyricsPanel({
     async (versionId: string) => {
       hapticFeedback("medium");
       try {
-        const result = await restoreVersion(versionId);
+        const result = await restoreVersion({ versionId });
         setLyrics(result.restoredVersion.content);
         toast.success("Версия восстановлена", {
           description: `Версия ${result.restoredVersion.versionNumber}`,

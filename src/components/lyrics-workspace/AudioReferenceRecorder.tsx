@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * AudioReferenceRecorder - Record or upload audio for section references
  * Supports vocal and guitar recording modes with different audio settings
@@ -14,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { uploadFile } from "@/api/storage.api";
 import { useAuth } from "@/hooks/useAuth";
 import { useReferenceAudioAnalysis } from "@/hooks/audio-reference/useReferenceAudioAnalysis";
-import { ReferenceAnalysis } from "@/hooks/useSectionNotes";
+import type { ReferenceAnalysis } from "@/services/audio-reference/reference-analysis.service";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";

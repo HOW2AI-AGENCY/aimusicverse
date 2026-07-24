@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Section Notes Hook
  *
@@ -244,10 +243,9 @@ export function useSectionNotes(sectionId: string | undefined) {
     onSuccess: (data, params) => {
       // Replace optimistic note with real data
       queryClient.setQueryData<SectionNoteWithAuthor[]>(sectionNotesKeys.forSection(params.sectionId), (old) => {
-        if (!old) return [data];
-        // Remove optimistic note and add real one
+        if (!old) return [data as SectionNoteWithAuthor];
         const filtered = old.filter((note) => !note.id.startsWith("optimistic-"));
-        return [data, ...filtered];
+        return [data as SectionNoteWithAuthor, ...filtered];
       });
 
       toast.success("Note created successfully");

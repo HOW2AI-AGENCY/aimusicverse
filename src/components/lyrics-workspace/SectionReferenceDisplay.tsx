@@ -1,11 +1,10 @@
-// @ts-nocheck
 /**
  * SectionReferenceDisplay - Show analysis results from audio reference for lyrics sections
  */
 
 import { Music2, Gauge, Key, Palette, Zap, Guitar, Tag, Mic } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
-import { ReferenceAnalysis } from "@/hooks/useSectionNotes";
+import type { ReferenceAnalysis } from "@/services/audio-reference/reference-analysis.service";
 import { cn } from "@/lib/utils";
 
 interface SectionReferenceDisplayProps {
@@ -118,7 +117,7 @@ export function SectionReferenceDisplay({ analysis, compact = false, className }
             Инструменты
           </p>
           <div className="flex flex-wrap gap-1">
-            {analysis.instruments.map((inst) => (
+            {analysis.instruments.map((inst: string) => (
               <Badge key={inst} variant="outline" className="text-xs">
                 {inst}
               </Badge>
@@ -132,7 +131,7 @@ export function SectionReferenceDisplay({ analysis, compact = false, className }
         <div>
           <p className="text-xs text-muted-foreground mb-1.5">Аккорды</p>
           <div className="flex flex-wrap gap-1">
-            {analysis.chords.map((chord, i) => (
+            {analysis.chords.map((chord: string, i: number) => (
               <Badge key={i} variant="secondary" className="text-xs font-mono">
                 {chord}
               </Badge>
@@ -157,7 +156,7 @@ export function SectionReferenceDisplay({ analysis, compact = false, className }
             Предложенные теги
           </p>
           <div className="flex flex-wrap gap-1">
-            {analysis.suggested_tags.map((tag) => (
+            {analysis.suggested_tags.map((tag: string) => (
               <Badge key={tag} className="text-xs">
                 {tag}
               </Badge>

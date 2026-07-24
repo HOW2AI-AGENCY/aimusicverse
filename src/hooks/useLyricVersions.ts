@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Lyric Versions Hook
  *
@@ -11,7 +10,7 @@
  * const { restoreVersion, isRestoring } = useRestoreLyricVersion();
  */
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, type QueryKey } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import {
   getLyricVersions,
@@ -267,7 +266,7 @@ export function useRestoreLyricVersion() {
       // Get the current versions to find the track ID
       const queries = queryClient.getQueriesData<{
         versions: LyricVersionWithAuthor[];
-      }>(lyricVersionsKeys.all);
+      }>(lyricVersionsKeys.all as readonly unknown[]);
 
       let trackId: string | undefined;
       let previousVersions: { versions: LyricVersionWithAuthor[] } | undefined;
@@ -360,7 +359,7 @@ export function useRestoreLyricVersion() {
   });
 
   return {
-    restoreVersion: mutation.mutate,
+    restoreVersion: mutation.mutateAsync,
     restoreVersionAsync: mutation.mutateAsync,
     isRestoring: mutation.isPending,
     error: mutation.error,

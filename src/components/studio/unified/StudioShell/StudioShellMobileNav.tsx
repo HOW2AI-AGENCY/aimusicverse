@@ -1,4 +1,3 @@
-// @ts-nocheck — pre-existing mid-refactor breakage; tracked separately from UI unification.
 /**
  * StudioShellMobileNav Component
  *
