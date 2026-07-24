@@ -6,6 +6,7 @@
 import { getSupabaseClient } from "../../_shared/supabase-client.ts";
 import { createLogger } from "../../_shared/logger.ts";
 import { sanitizeAndCleanTitle } from "../../_shared/track-naming.ts";
+import { extractClipFields, validateClip } from "../../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("first-callback");
 
@@ -17,30 +18,34 @@ export async function handleFirstCallback(payload: any, task: any) {
   logger.info("First clip ready for streaming");
   const firstClip = audioData?.[0];
   if (!firstClip) {
-    return { success: true, callbackType: "first", skipped: true };
+    logger.warn("First callback with no clips", { trackId });
+    return { success: true, callbackType: "first", skipped: true, reason: "empty_payload" };
   }
 
-  // Support both camelCase (current Suno callback shape) and snake_case (legacy).
-  const streamUrl =
-    firstClip.sourceStreamAudioUrl ||
-    firstClip.source_stream_audio_url ||
-    firstClip.streamAudioUrl ||
-    firstClip.stream_audio_url ||
-    firstClip.sourceAudioUrl ||
-    firstClip.source_audio_url ||
-    firstClip.audioUrl ||
-    firstClip.audio_url;
-  const imageUrl = firstClip.sourceImageUrl || firstClip.source_image_url || firstClip.imageUrl || firstClip.image_url;
+  const fields = extractClipFields(firstClip);
+  // For "first" callbacks streaming URL is preferred but final audio URL is a valid fallback.
+  const streamUrl = fields.streamUrl || fields.audioUrl;
+  const imageUrl = fields.imageUrl;
 
   logger.debug("First clip data", {
-    id: firstClip.id,
-    title: firstClip.title,
+    id: fields.id,
+    title: fields.title,
     hasStream: !!streamUrl,
     hasImage: !!imageUrl,
+    availableKeys: Object.keys(firstClip),
   });
 
   if (!streamUrl) {
-    return { success: true, callbackType: "first", skipped: true };
+    const skip = validateClip(firstClip, 0, { requireAudio: true });
+    logger.error("First callback missing playable URL — skipping version creation", null, {
+      trackId,
+      skipCode: skip?.code,
+      availableKeys: skip?.availableKeys,
+    });
+    return { success: true, callbackType: "first", skipped: true, reason: skip?.code ?? "missing_stream_url" };
+  }
+  if (!imageUrl) {
+    logger.warn("First clip has no cover image yet", { trackId, clipId: fields.id });
   }
 
   const cleanedTitle = sanitizeAndCleanTitle(firstClip.title || task.tracks?.title, "Трек");
