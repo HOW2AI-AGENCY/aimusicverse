@@ -219,17 +219,18 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-          className="group flex w-full items-center gap-4 rounded-3xl border border-white/10 bg-[hsl(var(--synth-surface))] p-4 text-left transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60"
+          className="group flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-[hsl(var(--synth-surface))] p-3 text-left transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/60 sm:gap-4 sm:rounded-3xl sm:p-4"
         >
           <div
-            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg sm:h-14 sm:w-14 sm:rounded-xl"
             style={{
               background: "linear-gradient(135deg, hsl(var(--synth-primary)) 0%, hsl(var(--synth-mint)) 100%)",
             }}
             aria-hidden
           >
-            <Music2 className="h-6 w-6 text-[hsl(var(--synth-bg))]" />
+            <Music2 className="h-5 w-5 text-[hsl(var(--synth-bg))] sm:h-6 sm:w-6" />
           </div>
+
           <div className="min-w-0 flex-1">
             <p
               className="truncate text-[10px] uppercase tracking-[0.2em] text-[hsl(var(--synth-text-muted))]"
