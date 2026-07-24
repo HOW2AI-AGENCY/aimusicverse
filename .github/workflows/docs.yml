@@ -57,6 +57,7 @@ jobs:
             --exclude-path specs
             --exclude-path plans
             --exclude-path SPRINTS/completed
+            --exclude-path SPRINTS/archived
             --exclude '^https?://localhost'
             --exclude '^https?://127\.0\.0\.1'
             --exclude '^https?://t\.me/'

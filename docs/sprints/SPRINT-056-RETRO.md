@@ -114,7 +114,7 @@
 
 ## 📚 Related Documentation
 
-- [SPRINTS/SPRINT-056-PLAN.md](../../SPRINTS/SPRINT-056-PLAN.md) — Sprint plan
+- [SPRINTS/SPRINT-056-PLAN.md](../../SPRINTS/archived/SPRINT-056-PLAN.md) — Sprint plan
 - [docs/COMPONENTS.md](../COMPONENTS.md) — Component architecture
 - [docs/THIN_ORCHESTRATOR_PATTERN.md](../THIN_ORCHESTRATOR_PATTERN.md) — Pattern docs
 - [CHANGELOG.md](../../CHANGELOG.md) — Changelog entry

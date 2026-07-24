@@ -201,7 +201,7 @@ ALTER TABLE track_versions DROP COLUMN IF EXISTS likes_count;
 
 ## Related Documentation
 
-- [Migration Reconciliation Report](../../SPRINTS/MIGRATION_RECONCILIATION_REPORT.md)
+- [Migration Reconciliation Report](../../SPRINTS/archived/MIGRATION_RECONCILIATION_REPORT.md)
 - Sprint 049 Mobile Audit
 - [PROJECT_STATUS.md](../../PROJECT_STATUS.md)
 

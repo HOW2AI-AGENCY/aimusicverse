@@ -1,7 +1,7 @@
 # Sprint 054 Retrospective — Suno Details Suite + Per-Task Introspection
 
 **Дата:** 2026-07-04
-**Спринт:** [SPRINT-054-PLAN.md](../../SPRINTS/SPRINT-054-PLAN.md) — Suno API: Details Suite + Per-Task Introspection
+**Спринт:** [SPRINT-054-PLAN.md](../../SPRINTS/archived/SPRINT-054-PLAN.md) — Suno API: Details Suite + Per-Task Introspection
 **Закрыт:** 3/3 задачи (~3 дня)
 **Связанные:** [SPRINT-053-RETRO.md](SPRINT-053-RETRO.md) · [SPRINT-052-RETRO.md](SPRINT-052-RETRO.md) · [SPRINT-CLOSURE-PLAN-2026-07.md](../../SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md)
 

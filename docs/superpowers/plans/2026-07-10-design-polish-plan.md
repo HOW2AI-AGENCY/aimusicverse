@@ -2,7 +2,7 @@
 
 > **For agentic workers:** Use this plan to implement design fixes across 4 sprints (Sprint 057–060). Each sprint is self-contained and shippable.
 
-**Goal:** Fix 110 audit findings (5 P0, 53 P1, 52 P2) from [HOME_UIUX_AUDIT_2026-07-09.md](../audit/HOME_UIUX_AUDIT_2026-07-09.md) — unify spacing tokens, fix touch targets, replace emoji icons, tighten card layout, improve data loading and render efficiency.
+**Goal:** Fix 110 audit findings (5 P0, 53 P1, 52 P2) from [HOME_UIUX_AUDIT_2026-07-09.md](../../audit/HOME_UIUX_AUDIT_2026-07-09.md) — unify spacing tokens, fix touch targets, replace emoji icons, tighten card layout, improve data loading and render efficiency.
 
 **Architecture:** Token-driven fixes first (one-line edits per component), then per-component polish, then performance and accessibility. Each phase produces a visually-testable result.
 

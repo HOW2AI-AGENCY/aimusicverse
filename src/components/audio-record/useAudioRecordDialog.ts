@@ -61,10 +61,7 @@ export interface UseAudioRecordDialogReturn {
   handlePlaybackEnded: () => void;
 }
 
-export function useAudioRecordDialog(
-  open: boolean,
-  onOpenChange: (open: boolean) => void,
-): UseAudioRecordDialogReturn {
+export function useAudioRecordDialog(open: boolean, onOpenChange: (open: boolean) => void): UseAudioRecordDialogReturn {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
@@ -342,9 +339,7 @@ export function useAudioRecordDialog(
 
         if (studioProjectId) {
           const settingsLabel =
-            settings?.genre || settings?.mood
-              ? ` (${[settings.genre, settings.mood].filter(Boolean).join(", ")})`
-              : "";
+            settings?.genre || settings?.mood ? ` (${[settings.genre, settings.mood].filter(Boolean).join(", ")})` : "";
           pendingTrackId = store.addPendingTrack({
             name: `Инструментал${settingsLabel} (генерация...)`,
             type: "instrumental",
@@ -356,10 +351,7 @@ export function useAudioRecordDialog(
         action,
         audioUrl,
         title,
-        prompt:
-          action === "instrumental"
-            ? ""
-            : "Добавить профессиональный вокал к этому инструменталу",
+        prompt: action === "instrumental" ? "" : "Добавить профессиональный вокал к этому инструменталу",
         style: action === "instrumental" ? stylePrompt : "professional vocal performance, clear singing",
         negativeTags:
           action === "instrumental"

@@ -153,7 +153,7 @@ export function TrackDialogsPortal({
         confirmLabel="Удалить"
         cancelLabel="Отмена"
         variant="destructive"
-        onConfirm={onConfirmDelete}
+        onConfirm={onConfirmDelete ?? (() => {})}
       />
 
       {/* Rename dialog */}

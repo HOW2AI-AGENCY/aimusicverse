@@ -31,14 +31,18 @@ export function ProcessingActionCards({
       exit={{ opacity: 0, y: 20 }}
       className="space-y-3 pt-4 pb-2"
     >
-      <p className="text-xs sm:text-sm text-muted-foreground text-center">
-        Выберите действие для аудио:
-      </p>
+      <p className="text-xs sm:text-sm text-muted-foreground text-center">Выберите действие для аудио:</p>
 
       <div className="grid grid-cols-2 gap-2 sm:gap-3">
         {/* + Instrumental */}
         <ActionCard
-          icon={processingAction === "instrumental" ? <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-primary" /> : <Music className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />}
+          icon={
+            processingAction === "instrumental" ? (
+              <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-primary" />
+            ) : (
+              <Music className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+            )
+          }
           label="+ Инструментал"
           description="AI создаст аккомпанемент к вокалу"
           className="border-primary/30 bg-primary/5 hover:border-primary hover:bg-primary/10"
@@ -48,7 +52,13 @@ export function ProcessingActionCards({
 
         {/* + Vocals */}
         <ActionCard
-          icon={processingAction === "vocals" ? <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-primary" /> : <MicVocal className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />}
+          icon={
+            processingAction === "vocals" ? (
+              <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-primary" />
+            ) : (
+              <MicVocal className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+            )
+          }
           label="+ Вокал"
           description="AI добавит вокал к инструменталу"
           className="border-border/50 bg-card hover:border-primary/30 hover:bg-primary/5"
@@ -58,7 +68,13 @@ export function ProcessingActionCards({
 
         {/* Cover */}
         <ActionCard
-          icon={processingAction === "cover" ? <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-amber-500" /> : <Disc className="w-6 h-6 sm:w-7 sm:h-7 text-amber-500" />}
+          icon={
+            processingAction === "cover" ? (
+              <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-amber-500" />
+            ) : (
+              <Disc className="w-6 h-6 sm:w-7 sm:h-7 text-amber-500" />
+            )
+          }
           label="Кавер"
           description="Новая версия в другом стиле"
           className="border-amber-500/30 bg-amber-500/5 hover:border-amber-500 hover:bg-amber-500/10"
@@ -68,7 +84,13 @@ export function ProcessingActionCards({
 
         {/* Extend */}
         <ActionCard
-          icon={processingAction === "extend" ? <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-emerald-500" /> : <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-500" />}
+          icon={
+            processingAction === "extend" ? (
+              <Loader2 className="w-6 h-6 sm:w-7 sm:h-7 animate-spin text-emerald-500" />
+            ) : (
+              <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-500" />
+            )
+          }
           label="Расширение"
           description="AI продолжит ваш трек"
           className="border-emerald-500/30 bg-emerald-500/5 hover:border-emerald-500 hover:bg-emerald-500/10"
@@ -105,9 +127,7 @@ function ActionCard({ icon, label, description, className, disabled, onClick }: 
     >
       {icon}
       <span className="text-xs sm:text-sm font-medium">{label}</span>
-      <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">
-        {description}
-      </span>
+      <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">{description}</span>
     </button>
   );
 }

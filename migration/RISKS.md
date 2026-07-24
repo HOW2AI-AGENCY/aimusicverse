@@ -11,6 +11,7 @@
 ## 2. RLS-политики (279 штук) — тонкая связка с `auth.uid()` и `auth.jwt()`
 
 Все политики опираются на функции:
+
 - `auth.uid()` — id текущего пользователя из JWT.
 - `auth.jwt()` — весь payload.
 - `public.has_role(uid, 'admin')` — проверка ролей (security definer, читает `public.user_roles`).
@@ -20,11 +21,13 @@
 ## 3. Realtime — 26 файлов клиента зависят от Postgres Changes
 
 Supabase Realtime = отдельный сервис на `postgres_changes`/replication slot. Аналоги:
+
 - **Supabase self-hosted** — работает из коробки.
 - **Neon/RDS + свой websocket-сервер** (Soketi, Ably, Pusher) — потребует переписать все `.channel()` вызовы.
 - **Polling** — деградация UX, не рекомендую.
 
 Каналы, которые нельзя терять:
+
 - Прогресс генерации (Suno callbacks → `generation_tasks` → Realtime → UI).
 - Уведомления (`notifications` → toast/badge).
 - Стемы, replace-section, extend, add-vocals — все progress-хуки.
@@ -40,6 +43,7 @@ Supabase Realtime = отдельный сервис на `postgres_changes`/repl
 ## 5. Edge Functions — 135 функций на Deno
 
 **Куда переносим:**
+
 - Supabase self-hosted — деплой без изменений (`supabase functions deploy --all`).
 - **Deno Deploy** — совместимо, но CORS/auth-шеринг с `_shared/` требует `deno.json` с import map (сейчас функции используют `npm:` specifiers). Стоимость: платно после 100k req/day.
 - **Cloudflare Workers** — потребует переписывания на Web Standard runtime (fetch API есть, но `Deno.env.get` → `env.VAR`, npm-спецификсы — через wrangler compat). ~2 недели работы.
@@ -48,12 +52,12 @@ Supabase Realtime = отдельный сервис на `postgres_changes`/repl
 
 ## 6. Внешние webhooks — обязательное действие после переезда
 
-| Провайдер | Что менять | Где менять |
-|-----------|-----------|-----------|
-| Telegram Bot | Webhook URL + `secret_token` | `setWebhook` API |
-| Suno | 7 callback URL (music, vocal, cover, wav, video, voice-validate, voice-generate, lyrics) | Панель Suno API |
-| Tinkoff | Notification URL | Кабинет Тинькофф |
-| Telegram Stars | Автоматически через Bot webhook | — |
+| Провайдер      | Что менять                                                                               | Где менять       |
+| -------------- | ---------------------------------------------------------------------------------------- | ---------------- |
+| Telegram Bot   | Webhook URL + `secret_token`                                                             | `setWebhook` API |
+| Suno           | 7 callback URL (music, vocal, cover, wav, video, voice-validate, voice-generate, lyrics) | Панель Suno API  |
+| Tinkoff        | Notification URL                                                                         | Кабинет Тинькофф |
+| Telegram Stars | Автоматически через Bot webhook                                                          | —                |
 
 **Стратегия**: сначала поднять новый бэкенд с публичными URL, потом одновременно переключить все webhook и переустановить `MINI_APP_URL`/`TELEGRAM_BOT_MINIAPP_URL`.
 
@@ -64,6 +68,7 @@ Supabase Realtime = отдельный сервис на `postgres_changes`/repl
 ## 8. Cron-задачи
 
 `pg_cron` **не включён**. Периодические задачи (`cleanup-old-data`, `retry-failed-tasks`, `health-check`, `cleanup-stale-tasks`, `archive-old-activities`, `stars-subscription-check`) сейчас выполняются либо через Supabase Cron UI (managed), либо через внешний планировщик — **проверить у пользователя**. После переезда планировать через:
+
 - Supabase Scheduled Functions (self-hosted).
 - GitHub Actions cron.
 - `cron-job.org` / EasyCron.
@@ -79,6 +84,7 @@ Supabase Realtime = отдельный сервис на `postgres_changes`/repl
 ## 10. Downtime и стратегия
 
 Абсолютный минимум простоя:
+
 1. Настроить новую инфру и запустить полный dry-run миграции на тестовой БД.
 2. Заморозить продакшн (readonly в UI).
 3. Дельта-дамп + импорт (не полный дамп — только новое от последнего snapshot).

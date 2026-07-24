@@ -8,6 +8,7 @@ import { GenrePicker } from "@/components/lyrics/shared/GenrePicker";
 import { MoodPicker } from "@/components/lyrics/shared/MoodPicker";
 import { StructurePicker } from "@/components/lyrics/shared/StructurePicker";
 import { EnhancedLyricsPreview } from "./EnhancedLyricsPreview";
+import type { RecommendedTags } from "@/api/lyrics.api";
 
 interface ChatMessageListProps {
   messages: ChatMessage[];
@@ -33,7 +34,7 @@ interface ChatMessageListProps {
   onRequestEdit?: (instruction: string) => void;
   onTitleChange?: (title: string) => void;
   onStyleChange?: (style: string) => void;
-  recommendedTags?: Record<string, string[]> | null;
+  recommendedTags?: RecommendedTags | null;
   onAiAction?: (action: string, params?: Record<string, unknown>) => void;
 }
 

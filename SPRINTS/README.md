@@ -4,7 +4,7 @@
 **Last Updated:** 2026-07-18
 
 **Current Sprint:** Sprint 065 — Generate v2 + Home Redesign + Visual Regression  
-**Canonical plan:** [`/WORKPLAN-2026-07-14.md`](/WORKPLAN-2026-07-14.md) (source of truth for upcoming work)
+**Canonical plan:** [`/WORKPLAN-2026-07-14.md`](../WORKPLAN-2026-07-14.md) (source of truth for upcoming work)
 
 ---
 
@@ -24,13 +24,13 @@ SPRINTS/
 
 ## Canonical Source of Truth
 
-| Document | Purpose |
-|---|---|
+| Document                  | Purpose                                          |
+| ------------------------- | ------------------------------------------------ |
 | `/WORKPLAN-2026-07-14.md` | ✅ Active — sprint 065 backlog + 066–069 roadmap |
-| `SPRINTS/archived/` | 🗄️ All sprints 034–056, superseded plans |
-| `SPRINTS/completed/` | 🗄️ Completed sprints 001–032 |
+| `SPRINTS/archived/`       | 🗄️ All sprints 034–056, superseded plans         |
+| `SPRINTS/completed/`      | 🗄️ Completed sprints 001–032                     |
 
-Many older planning documents in `archived/` overlap. **Do not create parallel planning docs** — add work items to [`WORKPLAN-2026-07-14.md`](/WORKPLAN-2026-07-14.md).
+Many older planning documents in `archived/` overlap. **Do not create parallel planning docs** — add work items to [`WORKPLAN-2026-07-14.md`](../WORKPLAN-2026-07-14.md).
 
 ## Sprint Conventions
 

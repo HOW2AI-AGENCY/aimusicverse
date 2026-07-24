@@ -8,17 +8,17 @@
 
 ## Оглавление
 
-| Файл | Назначение |
-|------|------------|
-| [`INVENTORY.md`](./INVENTORY.md) | Полный отчёт-снимок текущей системы (что мигрируется) |
-| [`RISKS.md`](./RISKS.md) | Специфика Supabase, риски и точки отказа |
-| [`schema.md`](./schema.md) | Как выгрузить и применить схему БД |
-| [`data-export.md`](./data-export.md) | Экспорт/импорт данных (порядок с FK) |
-| [`auth-export.md`](./auth-export.md) | Перенос пользователей и identities с сохранением паролей |
-| [`storage-export.md`](./storage-export.md) | Перенос бакетов Storage (~25.5 GB) |
-| [`edge-functions.md`](./edge-functions.md) | 135 edge-функций: секреты, `verify_jwt`, план переноса |
-| [`client-abstraction.md`](./client-abstraction.md) | Что править в клиентском коде |
-| [`env.template`](./env.template) | Шаблон `.env` для нового окружения |
+| Файл                                               | Назначение                                               |
+| -------------------------------------------------- | -------------------------------------------------------- |
+| [`INVENTORY.md`](./INVENTORY.md)                   | Полный отчёт-снимок текущей системы (что мигрируется)    |
+| [`RISKS.md`](./RISKS.md)                           | Специфика Supabase, риски и точки отказа                 |
+| [`schema.md`](./schema.md)                         | Как выгрузить и применить схему БД                       |
+| [`data-export.md`](./data-export.md)               | Экспорт/импорт данных (порядок с FK)                     |
+| [`auth-export.md`](./auth-export.md)               | Перенос пользователей и identities с сохранением паролей |
+| [`storage-export.md`](./storage-export.md)         | Перенос бакетов Storage (~25.5 GB)                       |
+| [`edge-functions.md`](./edge-functions.md)         | 135 edge-функций: секреты, `verify_jwt`, план переноса   |
+| [`client-abstraction.md`](./client-abstraction.md) | Что править в клиентском коде                            |
+| [`env.template`](./env.template)                   | Шаблон `.env` для нового окружения                       |
 
 ## Порядок выполнения (когда решено, куда переезжаем)
 

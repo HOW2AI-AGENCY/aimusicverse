@@ -70,22 +70,22 @@ export const backend = {
 
 Сразу после переезда прогнать smoke по каждому:
 
-| Файл | Что подписывается |
-|------|-------------------|
-| `hooks/generation/useGenerationResult.ts` | `generation_tasks` — прогресс новой генерации |
-| `hooks/useGenerationRealtime.tsx` | INSERT в `tracks` |
-| `hooks/useStemSeparationRealtime.ts` | `stem_separation_tasks` |
-| `hooks/useReplaceSectionRealtime.ts` | `generation_tasks` (replace-section) |
-| `hooks/generation/useExtendProgress.ts` | `generation_tasks` (extend) |
-| `hooks/generation/useAddVocalsProgress.ts` | `generation_tasks` (add-vocals) |
-| `hooks/generation/useAddInstrumentalProgress.ts` | `generation_tasks` (add-instrumental) |
-| `hooks/useVideoGenerationStatus.ts` | `video_generation_tasks` |
-| `hooks/useAchievementNotifications.ts` | `user_achievements` |
-| `contexts/NotificationContext.tsx` | `notifications` для юзера |
-| `hooks/useTracks.ts`, `useTrackCounts.ts` | INSERT/UPDATE `tracks` |
-| `hooks/voice/useCustomVoices.ts`, `useVoiceCloneWizard.ts` | `custom_voices` |
-| `services/smart-alerts.service.ts` | `notifications` |
-| `hooks/useProjects.tsx`, `useProjectTracks.tsx`, `studio/useProjectTrackSync.ts` | `music_projects`, `project_tracks` |
-| `api/*.api.ts` (batch, presets, analytics, generation, studio) | вспомогательные live-обновления |
+| Файл                                                                             | Что подписывается                             |
+| -------------------------------------------------------------------------------- | --------------------------------------------- |
+| `hooks/generation/useGenerationResult.ts`                                        | `generation_tasks` — прогресс новой генерации |
+| `hooks/useGenerationRealtime.tsx`                                                | INSERT в `tracks`                             |
+| `hooks/useStemSeparationRealtime.ts`                                             | `stem_separation_tasks`                       |
+| `hooks/useReplaceSectionRealtime.ts`                                             | `generation_tasks` (replace-section)          |
+| `hooks/generation/useExtendProgress.ts`                                          | `generation_tasks` (extend)                   |
+| `hooks/generation/useAddVocalsProgress.ts`                                       | `generation_tasks` (add-vocals)               |
+| `hooks/generation/useAddInstrumentalProgress.ts`                                 | `generation_tasks` (add-instrumental)         |
+| `hooks/useVideoGenerationStatus.ts`                                              | `video_generation_tasks`                      |
+| `hooks/useAchievementNotifications.ts`                                           | `user_achievements`                           |
+| `contexts/NotificationContext.tsx`                                               | `notifications` для юзера                     |
+| `hooks/useTracks.ts`, `useTrackCounts.ts`                                        | INSERT/UPDATE `tracks`                        |
+| `hooks/voice/useCustomVoices.ts`, `useVoiceCloneWizard.ts`                       | `custom_voices`                               |
+| `services/smart-alerts.service.ts`                                               | `notifications`                               |
+| `hooks/useProjects.tsx`, `useProjectTracks.tsx`, `studio/useProjectTrackSync.ts` | `music_projects`, `project_tracks`            |
+| `api/*.api.ts` (batch, presets, analytics, generation, studio)                   | вспомогательные live-обновления               |
 
 Все 26 файлов — обязательный чек-лист QA-после-переезда.

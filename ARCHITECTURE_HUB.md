@@ -26,22 +26,22 @@
 
 ## 1. High-level system
 
-> **Verified:** 2026-06-29 (Sprint 037 infrastructure audit)
+> **Verified:** 2026-07-24 (counts from `find`/`wc` against `src/` and `supabase/functions/`)
 
 ```mermaid
 flowchart TB
     subgraph Client["📱 Telegram Mini App"]
         Pages[Pages · React Router]
-        Comps[1003+ Components]
-        Hooks[330+ Hooks]
-        State[Zustand · React Query]
+        Comps[1044 Components]
+        Hooks[444 Hooks]
+        State[Zustand · TanStack Query]
         Audio[GlobalAudioProvider]
-        Tests[341+ Tests]
+        Tests[1810 unit tests]
     end
     subgraph Backend["☁️ Lovable Cloud (Supabase)"]
         Auth[Auth · JWT + RLS]
         DB[(PostgreSQL)]
-        Edge[246+ Edge Functions]
+        Edge[135 Edge Functions]
         Storage[Object Storage]
         Realtime[Realtime channels]
     end
@@ -182,6 +182,6 @@ Architecture Decision Records under [`ADR/`](ADR/). Notable:
 
 [← REPOSITORY_STRUCTURE.md](./REPOSITORY_STRUCTURE.md) · [↑ К индексу](./DOCUMENTATION_INDEX.md) · [ROADMAP.md →](./ROADMAP.md)
 
-<sub>Обновлено: 29.06.2026</sub>
+<sub>Обновлено: 24.07.2026</sub>
 
 </div>

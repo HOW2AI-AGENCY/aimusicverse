@@ -1,8 +1,10 @@
 # Deployment Guide
 
-**Last Updated**: 2026-06-25  
+**Last Updated**: 2026-07-24  
 **Version**: 1.0.0  
 **Target Audience**: DevOps Engineers, System Administrators
+
+> **Handoff note:** for the full ownership-transfer and acceptance checklist see [`HANDOFF.md`](../HANDOFF.md). The complete environment-variable reference is [`ENVIRONMENT_VARIABLES.md`](ENVIRONMENT_VARIABLES.md).
 
 ---
 
@@ -13,9 +15,9 @@ This guide provides comprehensive instructions for deploying MusicVerse AI to pr
 ### Architecture Components
 
 - **Frontend**: React 19.2 + TypeScript 5.9 + Vite 6.4.3
-- **Backend**: Supabase (PostgreSQL + Edge Functions + Storage)
-- **AI Integration**: Suno AI v5 API
-- **Payment**: Tinkoff Payment Integration
+- **Backend**: Lovable Cloud (managed Supabase — PostgreSQL + Edge Functions + Storage)
+- **AI Integration**: Suno AI v5, Klang.io (MIDI), Lovable AI Gateway
+- **Payment**: Telegram Stars (native) + Tinkoff acquiring (RU cards)
 - **Platform**: Telegram Mini App SDK 8.0
 
 ---
@@ -36,8 +38,11 @@ This guide provides comprehensive instructions for deploying MusicVerse AI to pr
    - Web App URL set
 
 3. **External APIs**
-   - Suno AI API key
-   - Tinkoff Payment API credentials (optional, for production)
+   - Suno AI API key (**required** — core music generation)
+   - Klang.io API key (MIDI transcription)
+   - Lovable AI Gateway key (lyrics, analysis)
+   - Tinkoff acquiring credentials (optional — RU card payments; Telegram Stars needs no separate key)
+   - FAL.ai / Replicate / AudD keys (optional — media features)
 
 4. **Monitoring** (optional but recommended)
    - Sentry account for error monitoring
@@ -71,31 +76,61 @@ cp .env.example .env
 
 ### 2. Environment Configuration
 
-Edit `.env` file with your credentials:
+There are **two separate sets** of variables. Do not mix them.
+
+#### 2a. Frontend `.env` (build-time, `VITE_` prefix — public values only)
+
+These are bundled into the client. Never put secrets here.
 
 ```bash
-# Supabase Configuration
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+# Supabase / Lovable Cloud (public)
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-anon-publishable-key
+VITE_SUPABASE_PROJECT_ID=your-project-ref
 
-# Suno AI Configuration
-SUNO_API_KEY=your-suno-api-key
-SUNO_API_BASE_URL=https://api.suno.ai
-
-# Telegram Configuration
-TELEGRAM_BOT_TOKEN=your-bot-token
-MINI_APP_URL=https://your-app.vercel.app
-
-# Monitoring (Optional)
-SENTRY_DSN=https://your-sentry-dsn@sentry.io/project-id
-NEXT_PUBLIC_SENTRY_DSN=https://your-public-sentry-dsn@sentry.io/project-id
-
-# Feature Flags
-ENABLE_ANALYTICS=true
-ENABLE_PAYMENT_GATEWAY=true
-ENABLE_STEM_SEPARATION=true
+# Monitoring (optional, recommended)
+VITE_SENTRY_DSN=https://xxxxx@sentry.io/xxxxx
 ```
+
+See [`.env.example`](../.env.example) for optional flags (analytics, feature toggles, demo mode).
+
+#### 2b. Backend secrets (Supabase → Settings → Edge Functions → Secrets)
+
+Server-side only — never exposed to the client. `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
+`SUPABASE_SERVICE_ROLE_KEY` are injected automatically by the platform.
+
+```bash
+# Suno AI (required)
+SUNO_API_KEY=your-suno-api-key
+SUNO_WEBHOOK_SECRET=your-suno-webhook-secret
+
+# AI & MIDI
+LOVABLE_API_KEY=your-lovable-ai-key
+KLANGIO_API_KEY=your-klangio-key
+
+# Telegram
+TELEGRAM_BOT_TOKEN=your-bot-token
+TELEGRAM_BOT_USERNAME=AIMusicVerseBot
+TELEGRAM_BOT_MINIAPP_URL=https://your-app-url
+MINI_APP_URL=https://your-app-url
+TELEGRAM_WEBHOOK_SECRET=your-webhook-secret
+TELEGRAM_WEBHOOK_SECRET_TOKEN=your-webhook-header-token
+
+# Payments (optional — RU cards)
+TINKOFF_TERMINAL_KEY=your-terminal-key
+TINKOFF_SECRET_KEY=your-secret-key
+
+# Media services (optional)
+FAL_API_KEY=your-fal-key
+REPLICATE_API_KEY=your-replicate-key
+AUDD_API_KEY=your-audd-key
+
+# Ops
+CRON_SECRET=your-cron-secret
+ENVIRONMENT=production
+```
+
+> Full per-variable documentation: [`ENVIRONMENT_VARIABLES.md`](ENVIRONMENT_VARIABLES.md). Complete transfer register: [`HANDOFF.md`](../HANDOFF.md) §4.
 
 ### 3. Production Build
 
@@ -543,6 +578,6 @@ curl https://your-project.supabase.co/rest/v1/
 
 ---
 
-**Last Updated**: 2026-06-25  
-**Maintained By**: DevOps Team  
-**Contact**: For deployment issues, contact devops@musicverse.ai
+**Last Updated**: 2026-07-24  
+**Maintained By**: HOW2AI Agency  
+**Contact**: For deployment issues, contact hello@how2ai.agency

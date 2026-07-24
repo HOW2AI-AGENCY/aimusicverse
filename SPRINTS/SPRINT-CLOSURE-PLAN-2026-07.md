@@ -1,6 +1,6 @@
 # План закрытия спринтов (составлен 2026-07-04, поздний вечер)
 
-**Основание:** [WORK-PLAN-2026-07-04.md](WORK-PLAN-2026-07-04.md) + живая проверка `main` (HEAD `02fa511`, GitHub Actions) после мержа PR #576/#577. Этот документ — операционный чеклист закрытия: что осталось сделать по каждому открытому спринту, кто его блокирует и какие документы обновить при закрытии.
+**Основание:** [WORK-PLAN-2026-07-04.md](archived/WORK-PLAN-2026-07-04.md) + живая проверка `main` (HEAD `02fa511`, GitHub Actions) после мержа PR #576/#577. Этот документ — операционный чеклист закрытия: что осталось сделать по каждому открытому спринту, кто его блокирует и какие документы обновить при закрытии.
 
 ---
 
@@ -19,7 +19,7 @@
 
 ## 1. Sprint 050 — Main Green + Mobile Audit F1–F12 🔄 ОТКРЫТ (приоритет №1)
 
-План: [SPRINT-050-PLAN.md](SPRINT-050-PLAN.md) с корректировками [WORK-PLAN-2026-07-04.md](WORK-PLAN-2026-07-04.md) §3.
+План: [SPRINT-050-PLAN.md](archived/SPRINT-050-PLAN.md) с корректировками [WORK-PLAN-2026-07-04.md](archived/WORK-PLAN-2026-07-04.md) §3.
 
 ### Фаза A: Main Green — актуализированный статус
 
@@ -69,11 +69,11 @@ Tests-first, порядок принципиален. Входы, добавле
 
 ## 4. Sprint 053 — Suno Sounds + MIDI Direct + Boost Style ⏳ АВГУСТ (~8 дней)
 
-По [SPRINT-053-PLAN.md](SPRINT-053-PLAN.md). Пререквизит: 050-A3 (сверка миграций) завершена. DoD: `suno-sounds`/`suno-midi` (+callbacks) в проде, `SfxGeneratorSheet`, судьба `suno-boost-style` решена (подключён или удалён), Telegram `/sfx`.
+По [SPRINT-053-PLAN.md](archived/SPRINT-053-PLAN.md). Пререквизит: 050-A3 (сверка миграций) завершена. DoD: `suno-sounds`/`suno-midi` (+callbacks) в проде, `SfxGeneratorSheet`, судьба `suno-boost-style` решена (подключён или удалён), Telegram `/sfx`.
 
 ## 5. Sprint 054 — Suno Details Suite ⏳ СЕНТЯБРЬ (~6 дней)
 
-По [SPRINT-054-PLAN.md](SPRINT-054-PLAN.md). DoD: 28/28 категорий Suno API, `suno-check-status` → диспетчер, generic `useSunoTaskDetails`, error-rate polling <2%.
+По [SPRINT-054-PLAN.md](archived/SPRINT-054-PLAN.md). DoD: 28/28 категорий Suno API, `suno-check-status` → диспетчер, generic `useSunoTaskDetails`, error-rate polling <2%.
 
 ## 6. Sprint 055 — Q4 Platform ⏳ ОКТЯБРЬ (черновик)
 

@@ -113,7 +113,7 @@ GenerateSheet теперь тонкий оркестратор (~300 LOC vs ~800
 
 - [ARCHITECTURE_HUB.md](../ARCHITECTURE_HUB.md) — System architecture
 - [PLAYER_ARCHITECTURE.md](PLAYER_ARCHITECTURE.md) — Audio player
-- [SPRINTS/SPRINT-056-PLAN.md](../SPRINTS/SPRINT-056-PLAN.md) — Sprint plan
+- [SPRINTS/SPRINT-056-PLAN.md](../SPRINTS/archived/SPRINT-056-PLAN.md) — Sprint plan
 
 ---
 
