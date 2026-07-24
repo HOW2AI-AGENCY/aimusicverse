@@ -273,7 +273,7 @@ serve(async (req) => {
             if (existingVersion) {
               await supabase
                 .from("track_versions")
-                .update({ ...versionData, is_primary: shouldBePrimary || undefined })
+                .update({ ...versionData, is_primary: shouldBePrimary })
                 .eq("id", existingVersion.id);
               if (!primaryVersionId) primaryVersionId = existingVersion.id;
             } else {

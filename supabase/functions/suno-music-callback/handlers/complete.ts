@@ -117,7 +117,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     if (existing) {
       await supabase
         .from("track_versions")
-        .update({ ...versionData, is_primary: shouldBePrimary || undefined })
+        .update({ ...versionData, is_primary: shouldBePrimary })
         .eq("id", existing.id);
       if (!primaryVersionId) primaryVersionId = existing.id;
     } else {
