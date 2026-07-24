@@ -1156,6 +1156,48 @@ export type Database = {
         }
         Relationships: []
       }
+      generation_skip_metrics: {
+        Row: {
+          available_keys: string[] | null
+          clip_id: string | null
+          clip_index: number | null
+          code: string
+          created_at: string
+          id: string
+          message: string | null
+          source: string
+          task_id: string | null
+          track_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          available_keys?: string[] | null
+          clip_id?: string | null
+          clip_index?: number | null
+          code: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          source?: string
+          task_id?: string | null
+          track_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          available_keys?: string[] | null
+          clip_id?: string | null
+          clip_index?: number | null
+          code?: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          source?: string
+          task_id?: string | null
+          track_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       generation_tag_usage: {
         Row: {
           created_at: string
@@ -5929,6 +5971,16 @@ export type Database = {
       }
     }
     Views: {
+      generation_skip_stats: {
+        Row: {
+          code: string | null
+          last_24h: number | null
+          last_7d: number | null
+          last_seen_at: string | null
+          total: number | null
+        }
+        Relationships: []
+      }
       my_tinkoff_subscriptions: {
         Row: {
           amount_cents: number | null
@@ -6218,6 +6270,15 @@ export type Database = {
       }
       archive_old_api_usage_logs: { Args: never; Returns: Json }
       archive_old_error_logs: { Args: never; Returns: Json }
+      backfill_active_versions: {
+        Args: { p_limit?: number }
+        Returns: {
+          new_active: string
+          previous_active: string
+          reason: string
+          track_id: string
+        }[]
+      }
       backfill_missing_track_versions: {
         Args: { p_limit?: number }
         Returns: {
@@ -6754,6 +6815,14 @@ export type Database = {
           p_transaction_id: string
         }
         Returns: Json
+      }
+      rebuild_track_versions_from_task: {
+        Args: { p_caller?: string; p_task_id: string }
+        Returns: {
+          active_version: string
+          versions_created: number
+          versions_updated: number
+        }[]
       }
       recommend_styles_for_user: {
         Args: { _limit?: number; _user_id: string }
