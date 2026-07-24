@@ -390,9 +390,11 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         <div className="flex items-center gap-0.5 flex-shrink-0">
           {LikeButton}
           {VolumePopover}
+          <StemBatchStatusBadge className="ml-1" />
           {ExpandButton}
           {CloseButton}
         </div>
+
       </div>
     );
   }
