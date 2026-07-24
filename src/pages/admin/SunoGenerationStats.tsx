@@ -281,7 +281,7 @@ export default function SunoGenerationStats() {
                 <YAxis fontSize={12} allowDecimals={false} />
                 <Tooltip
                   labelFormatter={(l) => formatDay(String(l))}
-                  formatter={(v: number, name: string) => [v, OUTCOME_LABEL[name] ?? name]}
+                  formatter={(v: unknown, name: unknown) => [v as number, OUTCOME_LABEL[String(name)] ?? String(name)]}
                 />
                 <Legend formatter={(v) => OUTCOME_LABEL[v] ?? v} />
                 {OUTCOMES.map((o) => (
@@ -317,7 +317,7 @@ export default function SunoGenerationStats() {
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                 <XAxis dataKey="model" fontSize={12} />
                 <YAxis fontSize={12} allowDecimals={false} />
-                <Tooltip formatter={(v: number, name: string) => [v, OUTCOME_LABEL[name] ?? name]} />
+                <Tooltip formatter={(v: unknown, name: unknown) => [v as number, OUTCOME_LABEL[String(name)] ?? String(name)]} />
                 <Legend formatter={(v) => OUTCOME_LABEL[v] ?? v} />
                 <Bar dataKey="success" stackId="a" fill={OUTCOME_COLORS.success} />
                 <Bar dataKey="failure" stackId="a" fill={OUTCOME_COLORS.failure} />
