@@ -725,6 +725,38 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
           )}
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={confirmClearOpen} onOpenChange={setConfirmClearOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Очистить историю промптов?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Это действие удалит все записи из истории генераций
+              {user?.id ? " и не может быть отменено" : ""}. Сохранённые промпты в закладках останутся.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={clearing}>Отмена</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                runClearHistory();
+              }}
+              disabled={clearing}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {clearing ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                  Удаление…
+                </>
+              ) : (
+                "Очистить"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
