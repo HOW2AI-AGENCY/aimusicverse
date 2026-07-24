@@ -64,6 +64,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
   const {
     actionState,
     isProcessing,
+    isLoadingActions,
     dialogs,
     closeDialog,
     executeAction,
@@ -77,6 +78,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
     onClose: () => onOpenChange(false),
     enabled: open,
   });
+
 
   // Enable video status fetch when sheet opens
   useEffect(() => {
