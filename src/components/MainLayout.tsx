@@ -218,17 +218,7 @@ export const MainLayout = () => {
                 </Suspense>
               )}
 
-              {/* Generation Result Sheet - shows A/B versions after track creation */}
-              {resultOpen && resultTrackId && (
-                <Suspense fallback={null}>
-                  <GenerationResultSheet
-                    open={resultOpen}
-                    onOpenChange={setResultOpen}
-                    trackId={resultTrackId}
-                    trackTitle={resultTrackTitle || undefined}
-                  />
-                </Suspense>
-              )}
+              {/* Generation Result Sheet removed — track skeleton in Library provides post-generation feedback */}
 
               <Suspense fallback={null}>
                 <SafeAreaDebugOverlay />
