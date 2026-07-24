@@ -32,7 +32,7 @@ import {
 } from "../lyricsSectionMeta";
 import { LayoutGrid, AlignLeft, Eye, Plus, Music2 } from "@/lib/icons";
 import { LyricsProsodyPanel } from "../lyrics/LyricsProsodyPanel";
-import { analyzeProsody } from "@/lib/lyrics/prosody";
+import { useProsodyReport } from "@/hooks/lyrics/useProsodyReport";
 
 interface LyricsSectionAdvancedProps {
   lyrics: string;
