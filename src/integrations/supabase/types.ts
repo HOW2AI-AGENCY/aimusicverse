@@ -311,6 +311,13 @@ export type Database = {
             foreignKeyName: "audio_analysis_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "audio_analysis_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -537,6 +544,13 @@ export type Database = {
             foreignKeyName: "comments_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "comments_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -710,6 +724,13 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "cover_thumbnails_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: true
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
           {
             foreignKeyName: "cover_thumbnails_track_id_fkey"
             columns: ["track_id"]
@@ -1241,6 +1262,13 @@ export type Database = {
             foreignKeyName: "generation_tag_usage_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "generation_tag_usage_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -1328,6 +1356,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "generation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
           {
             foreignKeyName: "generation_tasks_track_id_fkey"
             columns: ["track_id"]
@@ -1434,6 +1469,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "guitar_recordings_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
           {
             foreignKeyName: "guitar_recordings_track_id_fkey"
             columns: ["track_id"]
@@ -2458,6 +2500,13 @@ export type Database = {
             foreignKeyName: "playlist_tracks_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "playlist_tracks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -2809,6 +2858,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "music_projects"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_tracks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
           },
           {
             foreignKeyName: "project_tracks_track_id_fkey"
@@ -3483,6 +3539,13 @@ export type Database = {
             foreignKeyName: "stem_separation_tasks_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "stem_separation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -3588,6 +3651,13 @@ export type Database = {
             foreignKeyName: "stem_transcriptions_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "stem_transcriptions_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -3673,6 +3743,13 @@ export type Database = {
           view_settings?: Json | null
         }
         Relationships: [
+          {
+            foreignKeyName: "studio_projects_source_track_id_fkey"
+            columns: ["source_track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
           {
             foreignKeyName: "studio_projects_source_track_id_fkey"
             columns: ["source_track_id"]
@@ -4778,6 +4855,13 @@ export type Database = {
             foreignKeyName: "track_analytics_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "track_analytics_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -4848,6 +4932,13 @@ export type Database = {
             foreignKeyName: "track_change_log_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "track_change_log_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -4897,6 +4988,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "track_likes_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
           {
             foreignKeyName: "track_likes_track_id_fkey"
             columns: ["track_id"]
@@ -4975,6 +5073,13 @@ export type Database = {
             foreignKeyName: "track_stems_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "track_stems_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -5027,6 +5132,13 @@ export type Database = {
           track_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "track_tags_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
           {
             foreignKeyName: "track_tags_track_id_fkey"
             columns: ["track_id"]
@@ -5115,6 +5227,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "track_versions"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "track_versions_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
           },
           {
             foreignKeyName: "track_versions_track_id_fkey"
@@ -5352,6 +5471,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "artists"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracks_parent_track_id_fkey"
+            columns: ["parent_track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
           },
           {
             foreignKeyName: "tracks_parent_track_id_fkey"
@@ -5703,6 +5829,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "reference_audio"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_generation_history_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
           },
           {
             foreignKeyName: "user_generation_history_track_id_fkey"
@@ -6105,6 +6238,13 @@ export type Database = {
             foreignKeyName: "video_generation_tasks_track_id_fkey"
             columns: ["track_id"]
             isOneToOne: false
+            referencedRelation: "suno_stuck_completed_tracks"
+            referencedColumns: ["track_id"]
+          },
+          {
+            foreignKeyName: "video_generation_tasks_track_id_fkey"
+            columns: ["track_id"]
+            isOneToOne: false
             referencedRelation: "tracks"
             referencedColumns: ["id"]
           },
@@ -6400,6 +6540,56 @@ export type Database = {
           outcome: string | null
         }
         Relationships: []
+      }
+      suno_stuck_completed_tracks: {
+        Row: {
+          active_version_id: string | null
+          audio_url: string | null
+          cover_url: string | null
+          created_at: string | null
+          status: string | null
+          suno_task_id: string | null
+          title: string | null
+          track_id: string | null
+          updated_at: string | null
+          user_id: string | null
+          versions_count: number | null
+        }
+        Insert: {
+          active_version_id?: string | null
+          audio_url?: string | null
+          cover_url?: string | null
+          created_at?: string | null
+          status?: string | null
+          suno_task_id?: string | null
+          title?: string | null
+          track_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          versions_count?: never
+        }
+        Update: {
+          active_version_id?: string | null
+          audio_url?: string | null
+          cover_url?: string | null
+          created_at?: string | null
+          status?: string | null
+          suno_task_id?: string | null
+          title?: string | null
+          track_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          versions_count?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tracks_active_version_id_fkey"
+            columns: ["active_version_id"]
+            isOneToOne: false
+            referencedRelation: "track_versions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tracks_with_active_audio: {
         Row: {
