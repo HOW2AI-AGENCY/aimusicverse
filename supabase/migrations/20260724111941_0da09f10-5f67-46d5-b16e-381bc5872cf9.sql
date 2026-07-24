@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Users can insert own promo usage" ON public.promo_code_usage;
