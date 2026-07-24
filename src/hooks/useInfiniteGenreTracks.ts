@@ -8,9 +8,11 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { enrichTracksWithProfiles } from "@/lib/enrichTracksWithProfiles";
+import { assertGenreIdsMatch } from "./public-content/constants";
 import type { PublicTrackWithCreator } from "./usePublicContent";
 
-// Genre to computed_genre DB values mapping
+// Genre to computed_genre DB values mapping.
+// Keys MUST match CANONICAL_GENRE_IDS from public-content/constants.
 const GENRE_DB_VALUES: Record<string, string[]> = {
   hiphop: ["hiphop", "hip-hop", "rap", "trap", "drill"],
   pop: ["pop", "dance", "electropop", "synth-pop"],
@@ -22,6 +24,8 @@ const GENRE_DB_VALUES: Record<string, string[]> = {
   classical: ["classical", "orchestral", "symphony"],
   folk: ["folk", "acoustic", "country", "americana", "bluegrass"],
 };
+
+assertGenreIdsMatch("GENRE_DB_VALUES", Object.keys(GENRE_DB_VALUES));
 
 interface UseInfiniteGenreTracksParams {
   /** Genre ID (hiphop, pop, rock, electronic, folk) */

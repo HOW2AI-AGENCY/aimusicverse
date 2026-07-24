@@ -26,6 +26,36 @@ export const GENRE_QUERIES: GenreQueryConfig[] = [
 ];
 
 /**
+ * Canonical set of genre ids. Any list of genres in the app (UI tabs, DB value
+ * maps, infinite scroll config) MUST use exactly these ids. Import
+ * `assertGenreIdsMatch` to validate a foreign list at module init.
+ */
+export const CANONICAL_GENRE_IDS: readonly string[] = Object.freeze(
+  GENRE_QUERIES.map((g) => g.id),
+);
+
+/**
+ * Dev-time guard: throws in development if a list of genre ids drifts from the
+ * canonical set. In production it logs a warning instead of throwing so a stale
+ * bundle can never crash the shell.
+ */
+export function assertGenreIdsMatch(source: string, ids: readonly string[]): void {
+  const canonical = new Set(CANONICAL_GENRE_IDS);
+  const foreign = new Set(ids);
+  const missing = [...canonical].filter((id) => !foreign.has(id));
+  const extra = [...foreign].filter((id) => !canonical.has(id));
+  if (missing.length === 0 && extra.length === 0) return;
+  const msg =
+    `[genre-consistency] ${source} is out of sync with GENRE_QUERIES. ` +
+    `missing=[${missing.join(",")}] extra=[${extra.join(",")}]`;
+  if (import.meta.env?.DEV) {
+    throw new Error(msg);
+  }
+  // eslint-disable-next-line no-console
+  console.warn(msg);
+}
+
+/**
  * Genre playlist configurations for auto-generated playlists
  */
 export const GENRE_PLAYLISTS: GenrePlaylistConfig[] = [
