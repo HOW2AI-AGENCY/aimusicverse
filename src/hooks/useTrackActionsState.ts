@@ -16,6 +16,14 @@ interface UseTrackActionsStateProps {
   onDelete?: () => void;
   onDownload?: () => void;
   onClose?: () => void;
+  /**
+   * Gate the initial fetch of stems / versions until the consumer actually
+   * needs the data (e.g. menu or sheet is opened). Defaults to `true` for
+   * backwards compatibility, but callers rendering the menu/sheet on every
+   * track card should pass `false` until user interaction to avoid N+1
+   * network storms on library load.
+   */
+  enabled?: boolean;
 }
 
 interface DialogStates {
@@ -34,7 +42,7 @@ interface DialogStates {
   mashup: boolean;
 }
 
-export function useTrackActionsState({ track, onDelete, onDownload, onClose }: UseTrackActionsStateProps) {
+export function useTrackActionsState({ track, onDelete, onDownload, onClose, enabled = true }: UseTrackActionsStateProps) {
   const navigate = useNavigate();
 
   // State
@@ -82,7 +90,7 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose }: U
 
   // Fetch counts and stems
   useEffect(() => {
-    if (!track?.id) return;
+    if (!track?.id || !enabled) return;
 
     const fetchData = async () => {
       const [stemsResult, versionsResult] = await Promise.all([
@@ -119,7 +127,7 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose }: U
     };
 
     fetchData();
-  }, [track?.id]);
+  }, [track?.id, enabled]);
 
   // Check for specific stem types
   const hasVocalStem = stems.some((s) => s.stem_type === "vocal" || s.stem_type === "vocals");

@@ -45,6 +45,7 @@ export function UnifiedTrackMenu({
 }: UnifiedTrackMenuProps) {
   const isMobile = useIsMobile();
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user } = useAuth();
 
   // Check if current user is the owner of this track
@@ -64,6 +65,9 @@ export function UnifiedTrackMenu({
     track,
     onDelete,
     onDownload,
+    // Defer network fetch until the user actually opens the menu/sheet —
+    // avoids an N+1 storm when this component is mounted per track card.
+    enabled: isMobile ? mobileSheetOpen : dropdownOpen,
   });
 
   // On mobile, use MobileActionSheet pattern
@@ -110,7 +114,7 @@ export function UnifiedTrackMenu({
   // On desktop, use DropdownMenu
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
           {trigger || (
             <Button size="icon" variant="ghost" className="h-8 w-8">
