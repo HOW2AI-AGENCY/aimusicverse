@@ -242,15 +242,30 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
 
   // ── Task completion ──
   const expectedClips = task.expected_clips ?? 2;
-  const deliveryComplete = clips.length >= expectedClips;
+  const createdClips = clips.length - skippedClips.length;
+  const deliveryComplete = createdClips >= expectedClips;
+  if (skippedClips.length > 0) {
+    logger.warn("Some clips skipped in complete callback", {
+      totalClips: clips.length,
+      skippedCount: skippedClips.length,
+      reasons: skippedClips.map((s) => ({ code: s.code, index: s.clipIndex, keys: s.availableKeys })),
+    });
+  }
   await supabase
     .from("generation_tasks")
     .update({
-      status: deliveryComplete ? "completed" : "partial_delivery",
+      status: deliveryComplete ? "completed" : createdClips === 0 ? "failed" : "partial_delivery",
       completed_at: new Date().toISOString(),
       callback_received_at: new Date().toISOString(),
       audio_clips: JSON.stringify(clips),
-      received_clips: clips.length,
+      received_clips: createdClips,
+      error_message: skippedClips.length > 0
+        ? `${skippedClips.length}/${clips.length} clips skipped: ${skippedClips.map((s) => s.code).join(", ")}`
+        : null,
+      metadata: {
+        skipped_clips: skippedClips,
+        missing_covers: missingCovers,
+      },
     })
     .eq("id", task.id);
 
