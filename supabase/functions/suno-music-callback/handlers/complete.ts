@@ -12,16 +12,16 @@ import { getGenerationCost } from "../../_shared/economy.ts";
 import { VERSION_LABELS, getVersionType } from "../utils/version-types.ts";
 import { fetchWithRetry } from "../utils/fetch-retry.ts";
 import { logAuditAction } from "../utils/audit-log.ts";
+import {
+  extractClipFields,
+  getAudioUrl,
+  getImageUrl,
+  getStreamUrl,
+  validateClip,
+  type SkipReason,
+} from "../../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("complete-callback");
-
-// Suno callbacks arrive in camelCase (audioUrl / sourceAudioUrl / ...), but
-// older payloads and some proxy paths use snake_case. Read both so we don't
-// silently drop clips when the shape changes.
-const getAudioUrl = (clip: any) => clip?.sourceAudioUrl || clip?.source_audio_url || clip?.audioUrl || clip?.audio_url;
-const getStreamUrl = (clip: any) =>
-  clip?.sourceStreamAudioUrl || clip?.source_stream_audio_url || clip?.streamAudioUrl || clip?.stream_audio_url;
-const getImageUrl = (clip: any) => clip?.sourceImageUrl || clip?.source_image_url || clip?.imageUrl || clip?.image_url;
 
 export async function handleCompleteCallback(payload: any, task: any, supabaseUrl: string, supabaseServiceKey: string) {
   const { data } = payload;
@@ -36,17 +36,36 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
   logger.info("Generation complete", { clipsCount: clips.length });
 
   let trackTitle = "";
+  const skippedClips: SkipReason[] = [];
+  const missingCovers: number[] = [];
 
   // ── Version creation per clip ──
   for (let i = 0; i < clips.length; i++) {
     const clip = clips[i];
     const versionLabel = VERSION_LABELS[i] || `V${i + 1}`;
-    const audioUrl = getAudioUrl(clip);
-    const streamUrl = getStreamUrl(clip);
+    const fields = extractClipFields(clip);
+    const skip = validateClip(clip, i, { requireAudio: true });
 
-    if (!audioUrl) {
-      logger.error("No audio URL for clip", null, { clipIndex: i });
+    if (skip) {
+      skippedClips.push(skip);
+      logger.error("Skipping clip — validation failed", null, {
+        skipCode: skip.code,
+        clipIndex: i,
+        versionLabel,
+        availableKeys: skip.availableKeys,
+        message: skip.message,
+      });
       continue;
+    }
+    const audioUrl = fields.audioUrl as string;
+    const streamUrl = fields.streamUrl;
+    if (!fields.imageUrl) {
+      missingCovers.push(i);
+      logger.warn("Clip has no cover image — proceeding without cover", {
+        clipIndex: i,
+        versionLabel,
+        clipId: fields.id,
+      });
     }
 
     // Download + upload to storage (retry)
@@ -223,15 +242,26 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
 
   // ── Task completion ──
   const expectedClips = task.expected_clips ?? 2;
-  const deliveryComplete = clips.length >= expectedClips;
+  const createdClips = clips.length - skippedClips.length;
+  const deliveryComplete = createdClips >= expectedClips;
+  if (skippedClips.length > 0) {
+    logger.warn("Some clips skipped in complete callback", {
+      totalClips: clips.length,
+      skippedCount: skippedClips.length,
+      reasons: skippedClips.map((s) => ({ code: s.code, index: s.clipIndex, keys: s.availableKeys })),
+    });
+  }
   await supabase
     .from("generation_tasks")
     .update({
-      status: deliveryComplete ? "completed" : "partial_delivery",
+      status: deliveryComplete ? "completed" : createdClips === 0 ? "failed" : "partial_delivery",
       completed_at: new Date().toISOString(),
       callback_received_at: new Date().toISOString(),
       audio_clips: JSON.stringify(clips),
-      received_clips: clips.length,
+      received_clips: createdClips,
+      error_message: skippedClips.length > 0
+        ? `${skippedClips.length}/${clips.length} clips skipped: ${skippedClips.map((s) => s.code).join(", ")}`
+        : null,
     })
     .eq("id", task.id);
 
@@ -288,14 +318,31 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
   }
 
   // ── Notifications ──
+  const hasSkips = skippedClips.length > 0;
+  const notifTitle = hasSkips
+    ? createdClips === 0
+      ? "⚠️ Генерация не удалась"
+      : "⚠️ Трек готов частично"
+    : "🎵 Трек готов!";
+  const notifMessage = hasSkips
+    ? `${createdClips}/${clips.length} версий создано. Пропущены: ${skippedClips.map((s) => `#${s.clipIndex + 1} (${s.code})`).join(", ")}`
+    : `Ваш трек "${trackTitle}" успешно сгенерирован (${clips.length} версии)`;
   await supabase.from("notifications").insert({
     user_id: task.user_id,
-    title: "🎵 Трек готов!",
-    message: `Ваш трек "${trackTitle}" успешно сгенерирован (${clips.length} версии)`,
-    type: "success",
+    title: notifTitle,
+    message: notifMessage,
+    type: hasSkips ? (createdClips === 0 ? "error" : "warning") : "success",
     action_url: `/library?track=${trackId}`,
     group_key: `generation_${task.id}`,
-    metadata: { taskId: task.id, trackId, trackTitle, clipsCount: clips.length },
+    metadata: {
+      taskId: task.id,
+      trackId,
+      trackTitle,
+      clipsCount: clips.length,
+      createdClips,
+      skippedClips,
+      missingCovers,
+    },
     priority: 8,
     read: false,
   });
