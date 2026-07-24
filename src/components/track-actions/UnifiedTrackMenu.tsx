@@ -114,7 +114,7 @@ export function UnifiedTrackMenu({
   // On desktop, use DropdownMenu
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
           {trigger || (
             <Button size="icon" variant="ghost" className="h-8 w-8">
