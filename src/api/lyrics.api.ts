@@ -517,7 +517,7 @@ export async function updateSectionNote(
       tags: updates.tags,
       audio_note_url: updates.audioNoteUrl,
       reference_audio_url: updates.referenceAudioUrl,
-      reference_analysis: updates.referenceAnalysis,
+      reference_analysis: updates.referenceAnalysis as Json | undefined,
       updated_at: new Date().toISOString(),
     })
     .eq("id", noteId)
