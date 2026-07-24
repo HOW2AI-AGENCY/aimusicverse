@@ -15,20 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
-  Bar,
-  Legend,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
 import {
   Activity,
   CheckCircle,
@@ -351,6 +338,21 @@ export default function GenerationMetrics() {
   const timeSeries = metrics?.timeSeries || [];
   const errorDistribution = metrics?.errorDistribution || [];
   const modelStats = metrics?.modelStats || [];
+
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
+  const chartsReady = !isLoading && !failuresLoading && !rechartsLoading && recharts;
+
+  if (!chartsReady) {
+    return (
+      <div className="space-y-4">
+        <Skeleton className="h-12 w-64" />
+        <Skeleton className="h-64" />
+      </div>
+    );
+  }
+
+  const { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, Legend } =
+    recharts;
 
   return (
     <div className="space-y-4">

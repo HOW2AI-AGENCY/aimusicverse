@@ -20,21 +20,8 @@ import {
   RefreshCw,
 } from "@/lib/icons";
 import { usePaymentAnalytics, useGamificationAnalytics } from "@/hooks/usePaymentAnalytics";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  Cell,
-  PieChart,
-  Pie,
-  type TooltipValueType,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 
 type TimePeriod = "7 days" | "30 days" | "90 days";
 
@@ -53,6 +40,32 @@ export function RevenueAnalytics() {
   const { data: gamificationData, isLoading: gamificationLoading } = useGamificationAnalytics(period);
 
   const isLoading = paymentLoading || gamificationLoading;
+
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
+  const chartsReady = !isLoading && !rechartsLoading && recharts;
+
+  if (!chartsReady) {
+    return (
+      <div className="space-y-4">
+        <Skeleton className="h-96" />
+      </div>
+    );
+  }
+
+  const {
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    BarChart,
+    Bar,
+    Cell,
+    PieChart,
+    Pie,
+  } = recharts;
 
   // Format currency for display
   const formatCurrency = (value: number) => {

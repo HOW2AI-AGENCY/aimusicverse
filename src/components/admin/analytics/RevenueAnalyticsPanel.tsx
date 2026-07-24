@@ -8,22 +8,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRevenueAnalyticsRaw } from "@/api/analytics.api";
-import {
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  type TooltipValueType,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 import { DollarSign, TrendingUp, Star, CreditCard, Coins, ArrowUpRight, ArrowDownRight } from "@/lib/icons";
 
 interface RevenueAnalyticsPanelProps {
@@ -119,9 +105,27 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
     refetchInterval: 120000,
   });
 
-  if (isLoading) {
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
+
+  if (isLoading || rechartsLoading || !recharts) {
     return <RevenueAnalyticsSkeleton />;
   }
+
+  const {
+    AreaChart,
+    Area,
+    BarChart,
+    Bar,
+    PieChart,
+    Pie,
+    Cell,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    Legend,
+  } = recharts;
 
   if (!data) {
     return (

@@ -6,19 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  type TooltipValueType,
-} from "recharts";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 import { Gauge, Zap, Clock, Monitor, Smartphone, Tablet, TrendingUp, AlertTriangle, CheckCircle2 } from "@/lib/icons";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -125,8 +115,10 @@ function ScoreGauge({ score }: { score: number | null }) {
 export function PerformanceDashboard() {
   const [days, setDays] = useState(7);
   const { stats, dailyTrend, deviceBreakdown, performanceScore, isLoading, thresholds } = usePerformanceMetrics(days);
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
+  const chartsReady = !isLoading && !rechartsLoading && recharts;
 
-  if (isLoading) {
+  if (!chartsReady) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {[1, 2, 3, 4].map((i) => (
@@ -137,6 +129,8 @@ export function PerformanceDashboard() {
       </div>
     );
   }
+
+  const { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } = recharts;
 
   return (
     <div className="space-y-4">

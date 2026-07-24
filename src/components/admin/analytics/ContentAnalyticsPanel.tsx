@@ -6,19 +6,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import {
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  type TooltipValueType,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 import { Music, Palette, Hash, TrendingUp, Mic2, Disc3 } from "@/lib/icons";
 import { useContentAnalytics } from "@/hooks/admin/useContentAnalytics";
 
@@ -28,10 +17,13 @@ interface ContentAnalyticsPanelProps {
 
 export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps) {
   const { data, isLoading } = useContentAnalytics(timePeriod);
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
 
-  if (isLoading) {
+  if (isLoading || rechartsLoading || !recharts) {
     return <ContentAnalyticsSkeleton />;
   }
+
+  const { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } = recharts;
 
   if (!data) {
     return (

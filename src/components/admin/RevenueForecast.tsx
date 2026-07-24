@@ -11,17 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePaymentAnalytics } from "@/hooks/usePaymentAnalytics";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-  type TooltipValueType,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 import { TrendingUp, TrendingDown, Target, AlertCircle, Calculator } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
@@ -154,6 +145,15 @@ export function RevenueForecast() {
     }
     return calculateForecast(paymentData.revenue_by_day, forecastDays);
   }, [paymentData?.revenue_by_day, forecastDays]);
+
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
+  const chartsReady = !isLoading && !rechartsLoading && recharts;
+
+  if (!chartsReady) {
+    return <Skeleton className="h-96" />;
+  }
+
+  const { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } = recharts;
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("ru-RU", {
