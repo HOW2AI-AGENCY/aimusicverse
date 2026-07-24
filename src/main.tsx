@@ -24,6 +24,7 @@ import "./styles/shimmer.css";
 import "./styles/tokens.css";
 import { logger } from "./lib/logger";
 import { initSentry, captureError } from "./lib/sentry";
+import { getErrorScope } from "./lib/errorContext";
 import { initTelemetry } from "./lib/telemetry";
 import { migrateQueueFromPlayerStore } from "./lib/migration";
 import { perfMark, perfMeasure } from "./lib/perfMarks";
@@ -84,8 +85,9 @@ window.addEventListener("unhandledrejection", (event) => {
   }
 
   const error = event.reason instanceof Error ? event.reason : new Error(String(event.reason));
-  mainLogger.error("Unhandled promise rejection", error);
-  captureError(error, { type: "unhandledrejection" });
+  const scope = getErrorScope();
+  mainLogger.error("Unhandled promise rejection", error, { ...scope });
+  captureError(error, { type: "unhandledrejection", ...scope });
   event.preventDefault();
 });
 
@@ -94,15 +96,18 @@ window.addEventListener("error", (event) => {
   bootLog(`Uncaught error: ${event.message} at ${event.filename}:${event.lineno}`);
 
   const error = event.error instanceof Error ? event.error : new Error(event.message);
+  const scope = getErrorScope();
   mainLogger.error("Uncaught error", error, {
     filename: event.filename,
     lineno: event.lineno,
     colno: event.colno,
+    ...scope,
   });
   captureError(error, {
     type: "uncaughterror",
     filename: event.filename,
     lineno: event.lineno,
+    ...scope,
   });
   event.preventDefault();
 });

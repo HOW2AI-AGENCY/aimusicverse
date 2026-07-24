@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "@/lib/icons";
 import { logger } from "@/lib/logger";
 import { navigateTo, forceReload } from "@/hooks/useAppNavigate";
-import { captureError, isSentryEnabled, Sentry } from "@/lib/sentry";
+import { isSentryEnabled, Sentry } from "@/lib/sentry";
+import { getErrorScope } from "@/lib/errorContext";
 
 const log = logger.child({ module: "ErrorBoundary" });
 
@@ -33,12 +34,16 @@ export class ErrorBoundaryWrapper extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     const { name = "unknown" } = this.props;
+    const scope = getErrorScope();
     const context = {
       componentStack: errorInfo.componentStack,
-      page: typeof window !== "undefined" ? window.location.pathname : "unknown",
+      page: scope.route,
       boundaryName: name,
       timestamp: new Date().toISOString(),
       userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "unknown",
+      activeTrackId: scope.activeTrackId,
+      activeTrackTitle: scope.activeTrackTitle,
+      activeVersionId: scope.activeVersionId,
     };
 
     // Log to our logger
@@ -49,14 +54,25 @@ export class ErrorBoundaryWrapper extends Component<Props, State> {
 
     // Send to Sentry with full context
     if (isSentryEnabled) {
-      Sentry.withScope((scope) => {
-        scope.setTag("error_boundary", name);
-        scope.setExtra("componentStack", errorInfo.componentStack);
-        scope.setExtra("page", context.page);
-        scope.setExtra("timestamp", context.timestamp);
+      Sentry.withScope((s) => {
+        s.setTag("error_boundary", name);
+        s.setTag("route", scope.route);
+        if (scope.activeTrackId) s.setTag("has_active_track", "true");
+        s.setExtra("componentStack", errorInfo.componentStack);
+        s.setExtra("page", scope.route);
+        s.setExtra("search", scope.search);
+        s.setExtra("timestamp", context.timestamp);
+        s.setContext("player", {
+          activeTrackId: scope.activeTrackId,
+          activeTrackTitle: scope.activeTrackTitle,
+          activeVersionId: scope.activeVersionId,
+          isPlaying: scope.isPlaying,
+          playerMode: scope.playerMode,
+          queueLength: scope.queueLength,
+        });
 
         // Set fingerprint for better grouping
-        scope.setFingerprint([
+        s.setFingerprint([
           "error-boundary",
           name,
           error.name || "Error",

@@ -1,6 +1,6 @@
 // Unified Track Actions - single source of truth
 export { UnifiedTrackMenu } from "./UnifiedTrackMenu";
-export { UnifiedTrackSheet } from "./UnifiedTrackSheet";
+export { UnifiedTrackSheet } from "./LazyUnifiedTrackSheet";
 export { TrackDialogsPortal } from "./TrackDialogsPortal";
 export { IconGridButton } from "./IconGridButton";
 export { TrackActionTrigger } from "./TrackActionTrigger";
