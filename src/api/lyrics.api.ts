@@ -313,9 +313,10 @@ export async function restoreLyricVersion(versionId: string): Promise<RestoreLyr
     throw new Error(`Failed to fetch version to restore: ${fetchError.message}`);
   }
 
-  if (!versionToRestore) {
+  if (!versionToRestore || !versionToRestore.project_track_id) {
     throw new Error("Version not found");
   }
+  const restoreTrackId = versionToRestore.project_track_id;
 
   // Get the next version number
   const { data: existingVersions, error: versionError } = await supabase
