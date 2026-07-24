@@ -34,6 +34,11 @@ export const GeneratingTrackSkeleton = ({
   prompt,
   createdAt,
   layout = "grid",
+  title,
+  style,
+  coverUrl,
+  model,
+  streamingReady,
 }: GeneratingTrackSkeletonProps) => {
   const [progress, setProgress] = useState(10);
   const [statusMessage, setStatusMessage] = useState("Подготовка...");
