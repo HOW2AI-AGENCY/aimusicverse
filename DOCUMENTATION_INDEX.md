@@ -212,7 +212,7 @@ graph TD
 
 ### 🔗 Related Documentation
 
-|       🏠 Home       |      🏛 Architecture       |      🗺 Roadmap       |         🤝 Contributing         |       🔒 Security       |       📝 Changelog        |
+|       🏠 Home       |       🏛 Architecture       |       🗺 Roadmap       |         🤝 Contributing         |       🔒 Security       |       📝 Changelog        |
 | :-----------------: | :------------------------: | :-------------------: | :-----------------------------: | :---------------------: | :-----------------------: |
 | [README](README.md) | [Hub](ARCHITECTURE_HUB.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
 

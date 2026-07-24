@@ -172,7 +172,7 @@ Architecture Decision Records under [`ADR/`](ADR/). Notable:
 
 ### 🔗 Related Documentation
 
-|            📚 Index             |             🗂 Structure             |      🗺 Roadmap       |         🧩 KB          |       📝 Changelog        |
+|            📚 Index             |             🗂 Structure              |       🗺 Roadmap       |         🧩 KB          |       📝 Changelog        |
 | :-----------------------------: | :----------------------------------: | :-------------------: | :--------------------: | :-----------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Structure](REPOSITORY_STRUCTURE.md) | [Roadmap](ROADMAP.md) | [CLAUDE.md](CLAUDE.md) | [Changelog](CHANGELOG.md) |
 

@@ -79,9 +79,9 @@
 | 🎤 Voice Clone    | Клонирование голоса                          |   ✅   |
 | 📝 Lyrics AI      | AI-помощник для текстов                      |   ✅   |
 | 🎸 Инструменты    | Гитара, драм-машина, микшер                  |   ✅   |
-| 🏗 Студия         | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
+| 🏗 Студия          | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
 | 👥 Сообщество     | Лента, артисты, блог                         |   ✅   |
-| 🎛 MIDI           | Klang.io транскрипция (6 моделей)            |   ✅   |
+| 🎛 MIDI            | Klang.io транскрипция (6 моделей)            |   ✅   |
 | 🔀 Стем-сепарация | Извлечение вокала/барабанов/баса             |   ✅   |
 | 💎 Монетизация    | Telegram Stars + Tinkoff, подписки           |   ✅   |
 | 📊 Аналитика      | Dashboard, A/B тесты                         |   ✅   |
@@ -310,19 +310,19 @@ aimusicverse/
 
 ## 📖 Документация
 
-| Раздел                       | Адрес                                                                      | Для кого       |
-| ---------------------------- | -------------------------------------------------------------------------- | -------------- |
-| 🤝 **Передача проекта**      | [HANDOFF.md](HANDOFF.md)                                                   | Заказчик       |
-| 📚 **Documentation Index**   | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)                           | Все роли       |
+| Раздел                      | Адрес                                                                      | Для кого       |
+| --------------------------- | -------------------------------------------------------------------------- | -------------- |
+| 🤝 **Передача проекта**     | [HANDOFF.md](HANDOFF.md)                                                   | Заказчик       |
+| 📚 **Documentation Index**  | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)                           | Все роли       |
 | 🏛 **Архитектура**           | [ARCHITECTURE_HUB.md](ARCHITECTURE_HUB.md)                                 | Разработчики   |
 | 🗺 **Roadmap**               | [ROADMAP.md](ROADMAP.md)                                                   | PM / инвесторы |
-| 📊 **Статус проекта**        | [PROJECT_STATUS.md](PROJECT_STATUS.md)                                     | Все            |
-| 📝 **Changelog**             | [CHANGELOG.md](CHANGELOG.md)                                               | Все            |
-| 🤝 **Contributing**          | [CONTRIBUTING.md](CONTRIBUTING.md)                                         | Контрибьюторы  |
-| 🔒 **Security**              | [SECURITY.md](SECURITY.md)                                                 | Безопасность   |
+| 📊 **Статус проекта**       | [PROJECT_STATUS.md](PROJECT_STATUS.md)                                     | Все            |
+| 📝 **Changelog**            | [CHANGELOG.md](CHANGELOG.md)                                               | Все            |
+| 🤝 **Contributing**         | [CONTRIBUTING.md](CONTRIBUTING.md)                                         | Контрибьюторы  |
+| 🔒 **Security**             | [SECURITY.md](SECURITY.md)                                                 | Безопасность   |
 | 🗂 **Структура репозитория** | [REPOSITORY_STRUCTURE.md](REPOSITORY_STRUCTURE.md)                         | Онбординг      |
 | 🛠 **Dev гайд**              | [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)                         | Разработчики   |
-| 🎨 **Design System**         | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайнеры      |
+| 🎨 **Design System**        | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайнеры      |
 
 <sub><a href="#📁-структура-проекта">← Назад: Структура</a> · <a href="#top">↑ К началу</a> · <a href="#💰-для-инвесторов">Далее: Инвесторам →</a></sub>
 
@@ -338,7 +338,7 @@ aimusicverse/
 | 🧪 Покрытие кода               | 1810 unit tests                     |
 | 🔒 Безопасность                | 6 vulns (1 high, 4 moderate, 1 low) |
 | 📊 Спринтов завершено          | 50+                                 |
-| 🏗 Компонентов                 | 1043                                |
+| 🏗 Компонентов                  | 1043                                |
 | 🔧 Хуков                       | 440                                 |
 | 🚀 Стадия                      | Pre-Seed / Active Development       |
 
@@ -360,15 +360,15 @@ aimusicverse/
 
 ### 🗺 Навигация по репозиторию
 
-| Раздел                | Ссылка                              | Описание             |
-| --------------------- | ----------------------------------- | -------------------- |
-| 🏠 **Главная**        | [README](README.md)                 | Этот документ        |
-| 🤝 **Передача**       | [HANDOFF](HANDOFF.md)               | Приёмка заказчиком   |
-| 📚 **Документация**   | [Index](DOCUMENTATION_INDEX.md)     | Полный каталог docs/ |
+| Раздел               | Ссылка                              | Описание             |
+| -------------------- | ----------------------------------- | -------------------- |
+| 🏠 **Главная**       | [README](README.md)                 | Этот документ        |
+| 🤝 **Передача**      | [HANDOFF](HANDOFF.md)               | Приёмка заказчиком   |
+| 📚 **Документация**  | [Index](DOCUMENTATION_INDEX.md)     | Полный каталог docs/ |
 | 🏛 **Архитектура**    | [Hub](ARCHITECTURE_HUB.md)          | ADR, диаграммы, слои |
 | 🗺 **Дорожная карта** | [ROADMAP](ROADMAP.md)               | План Q3 2026         |
-| 📊 **Статус**         | [PROJECT_STATUS](PROJECT_STATUS.md) | Метрики, спринты     |
-| 📝 **Changelog**      | [CHANGELOG](CHANGELOG.md)           | Релизы               |
+| 📊 **Статус**        | [PROJECT_STATUS](PROJECT_STATUS.md) | Метрики, спринты     |
+| 📝 **Changelog**     | [CHANGELOG](CHANGELOG.md)           | Релизы               |
 
 ### 🔁 Быстрые ссылки
 
