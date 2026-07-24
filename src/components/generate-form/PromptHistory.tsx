@@ -65,6 +65,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     model: "V4_5ALL",
   });
   const [inspirationUsage, setInspirationUsage] = useState<Record<string, number>>({});
+  const [confirmClearOpen, setConfirmClearOpen] = useState(false);
+  const [clearing, setClearing] = useState(false);
+
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   // Use sync hook for merged DB + localStorage history
   const { history: dbMergedHistory, savedPrompts: dbSavedPrompts, isLoading: historyLoading } = usePromptHistorySync();
