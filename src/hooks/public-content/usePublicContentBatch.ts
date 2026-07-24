@@ -127,6 +127,7 @@ export function usePublicContentBatch() {
     staleTime: PUBLIC_CONTENT_STALE_TIME,
     gcTime: PUBLIC_CONTENT_GC_TIME,
     placeholderData: keepPreviousData,
-    refetchOnMount: false,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 }
