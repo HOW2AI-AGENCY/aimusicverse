@@ -143,8 +143,12 @@ export function GenerateFormSimple({
                 variant="ghost"
                 size="sm"
                 onClick={handleBoostStyle}
-                disabled={boostLoading || !description}
-                className="h-11 px-2.5 gap-1 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-40"
+                disabled={boostLoading}
+                aria-disabled={!description || boostLoading}
+                className={cn(
+                  "h-11 px-2.5 gap-1 text-primary hover:text-primary hover:bg-primary/10 rounded-lg transition-all",
+                  !description && "opacity-60",
+                )}
                 aria-label={g.actions.boostAi}
                 title={!description ? g.actions.aiBoostEmptyHint : undefined}
               >
