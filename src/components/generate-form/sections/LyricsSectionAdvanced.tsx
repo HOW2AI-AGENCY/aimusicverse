@@ -249,80 +249,147 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
         ) : showVisualEditor ? (
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
-          <div className="relative group">
-            {/* Main textarea with premium styling */}
-            <Textarea
-              ref={textareaRef}
-              placeholder="Начните писать текст или выберите шаблон..."
-              value={lyrics}
-              onChange={(e) => {
-                const el = e.currentTarget;
-                selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
-                onLyricsChange(el.value);
-              }}
-              onSelect={(e) => {
-                const el = e.currentTarget;
-                selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
-              }}
-              rows={6}
-              className={cn(
-                "text-sm min-h-[100px] sm:min-h-[180px] max-h-[400px] overflow-y-auto whitespace-pre-wrap",
-                "pb-12 pt-3 px-3 rounded-xl resize-none",
-                "bg-muted/30 text-foreground placeholder:text-muted-foreground",
-                "border-border/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
-                "transition-all duration-200",
-                (lyrics.length > 2800 || hasError) &&
-                  "border-destructive/50 focus:border-destructive focus:ring-destructive/20",
-              )}
-              aria-invalid={hasError || lyrics.length > 3000}
-              aria-describedby={lyricsValidation ? "lyrics-error" : undefined}
-            />
+          <div className="space-y-2">
+            {/* Quick-insert section tag chips */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[10px] uppercase tracking-wide text-muted-foreground/70 mr-0.5">
+                <Plus className="inline h-3 w-3 -mt-0.5 mr-0.5" />
+                Секция:
+              </span>
+              {QUICK_SECTION_TYPES.map((t) => {
+                const def = LYRIC_SECTION_BY_VALUE[t];
+                const color = getLyricSectionColor(t);
+                return (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => insertSectionTag(t)}
+                    className={cn(
+                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[11px] font-medium",
+                      "hover:opacity-100 opacity-80 transition-opacity",
+                      color.bg,
+                      color.border,
+                      color.text,
+                    )}
+                    aria-label={`Вставить [${def.header}]`}
+                  >
+                    <span aria-hidden className="font-mono">
+                      {def.glyph}
+                    </span>
+                    <span>{def.label}</span>
+                  </button>
+                );
+              })}
+            </div>
 
-            {/* Floating toolbar at bottom */}
-            <div
-              className={cn(
-                "absolute bottom-0 left-0 right-0 p-2",
-                "bg-gradient-to-t from-background/95 via-background/80 to-transparent",
-                "backdrop-blur-sm rounded-b-xl",
-              )}
-            >
-              <div className="flex items-center justify-between gap-2">
-                {/* Character count with progress bar */}
-                <div className="flex items-center gap-2">
-                  <div className="h-1 w-16 rounded-full bg-muted overflow-hidden">
-                    <motion.div
-                      className={cn(
-                        "h-full rounded-full transition-colors",
-                        lyrics.length > 2800 ? "bg-destructive" : lyrics.length > 2500 ? "bg-amber-500" : "bg-primary",
-                      )}
-                      initial={false}
-                      animate={{ width: `${Math.min((lyrics.length / 3000) * 100, 100)}%` }}
-                      transition={{ duration: 0.2 }}
+            <div className="relative group">
+              {/* Main textarea with premium styling */}
+              <Textarea
+                ref={textareaRef}
+                placeholder="Пишите текст. Секции задавайте в квадратных скобках: [Verse], [Chorus]…"
+                value={lyrics}
+                onChange={(e) => {
+                  const el = e.currentTarget;
+                  selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
+                  onLyricsChange(el.value);
+                }}
+                onSelect={(e) => {
+                  const el = e.currentTarget;
+                  selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
+                }}
+                rows={8}
+                className={cn(
+                  "text-sm min-h-[160px] sm:min-h-[220px] max-h-[420px] overflow-y-auto whitespace-pre-wrap font-mono",
+                  "pb-12 pt-3 px-3 rounded-xl resize-none leading-relaxed",
+                  "bg-muted/30 text-foreground placeholder:text-muted-foreground",
+                  "border-border/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
+                  "transition-all duration-200",
+                  (lyrics.length > 2800 || hasError) &&
+                    "border-destructive/50 focus:border-destructive focus:ring-destructive/20",
+                )}
+                aria-invalid={hasError || lyrics.length > 3000}
+                aria-describedby={lyricsValidation ? "lyrics-error" : undefined}
+              />
+
+              {/* Floating toolbar at bottom */}
+              <div
+                className={cn(
+                  "absolute bottom-0 left-0 right-0 p-2",
+                  "bg-gradient-to-t from-background/95 via-background/80 to-transparent",
+                  "backdrop-blur-sm rounded-b-xl",
+                )}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  {/* Character count with progress bar */}
+                  <div className="flex items-center gap-2">
+                    <div className="h-1 w-16 rounded-full bg-muted overflow-hidden">
+                      <motion.div
+                        className={cn(
+                          "h-full rounded-full transition-colors",
+                          lyrics.length > 2800
+                            ? "bg-destructive"
+                            : lyrics.length > 2500
+                              ? "bg-amber-500"
+                              : "bg-primary",
+                        )}
+                        initial={false}
+                        animate={{ width: `${Math.min((lyrics.length / 3000) * 100, 100)}%` }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    </div>
+                    <span className={cn("text-[10px] font-mono", charCountColor)}>{lyrics.length}/3000</span>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-1">
+                    <FormFieldActions
+                      value={lyrics}
+                      onClear={() => onLyricsChange("")}
+                      onVoiceInput={onLyricsChange}
+                      voiceContext="lyrics"
+                      appendMode
+                      onAIAssist={onOpenLyricsAssistant}
+                      onOpenTemplates={() => setTemplateSelectorOpen(true)}
+                      onOpenStudio={() => navigate("/lyrics-studio")}
+                      onSave={async () => setSaveDialogOpen(true)}
+                      showSave
+                      size="lg"
                     />
                   </div>
-                  <span className={cn("text-[10px] font-mono", charCountColor)}>{lyrics.length}/3000</span>
-                </div>
-
-                {/* Action buttons */}
-                <div className="flex items-center gap-1">
-                  <FormFieldActions
-                    value={lyrics}
-                    onClear={() => onLyricsChange("")}
-                    onVoiceInput={onLyricsChange}
-                    voiceContext="lyrics"
-                    appendMode
-                    onAIAssist={onOpenLyricsAssistant}
-                    onOpenTemplates={() => setTemplateSelectorOpen(true)}
-                    onOpenStudio={() => navigate("/lyrics-studio")}
-                    onSave={async () => setSaveDialogOpen(true)}
-                    showSave
-                    size="lg"
-                  />
                 </div>
               </div>
             </div>
+
+            {/* Parsed section chips — live visualization of tags in the text */}
+            {parsedTags.length > 0 && (
+              <div
+                className="flex flex-wrap items-center gap-1"
+                role="list"
+                aria-label="Обнаруженные секции"
+              >
+                <span className="text-[10px] uppercase tracking-wide text-muted-foreground/70 mr-1">
+                  Структура · {parsedTags.length}
+                </span>
+                {parsedTags.map((t) => (
+                  <span
+                    key={t.id}
+                    role="listitem"
+                    className={cn(
+                      "inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-medium",
+                      t.colorClass,
+                    )}
+                  >
+                    <span aria-hidden className="font-mono">
+                      {t.glyph}
+                    </span>
+                    <span>{t.label}</span>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         )}
+
 
         {/* Validation message */}
         {lyricsValidation && (
