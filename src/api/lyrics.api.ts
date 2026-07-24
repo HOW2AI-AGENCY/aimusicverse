@@ -407,7 +407,7 @@ export async function getSectionNotes(sectionId: string): Promise<GetSectionNote
   }
 
   // Transform the data to match API contract
-  type RawNote = { profiles: { id: string; username: string }; [key: string]: unknown };
+  type RawNote = { profiles: { id: string; username: string | null }; [key: string]: unknown };
   const notes: SectionNoteWithAuthor[] = (data || []).map((note: RawNote) => ({
     id: note.id,
     content: note.notes || "",
