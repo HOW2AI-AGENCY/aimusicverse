@@ -30,7 +30,9 @@ import {
   normalizeSectionType,
   type LyricSectionType,
 } from "../lyricsSectionMeta";
-import { LayoutGrid, AlignLeft, Eye, Plus } from "@/lib/icons";
+import { LayoutGrid, AlignLeft, Eye, Plus, Music2 } from "@/lib/icons";
+import { LyricsProsodyPanel } from "../lyrics/LyricsProsodyPanel";
+import { analyzeProsody } from "@/lib/lyrics/prosody";
 
 interface LyricsSectionAdvancedProps {
   lyrics: string;
@@ -118,6 +120,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   const showPreview = viewMode === "preview";
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
+  const [showProsody, setShowProsody] = useState(false);
 
   // Preserve cursor/selection in the text-mode textarea across mode switches.
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -151,6 +154,39 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 
   // Parsed section tags for the text-mode visualization chip strip.
   const parsedTags = useMemo(() => parseSectionTags(lyrics), [lyrics]);
+
+  // Prosody analysis — cached; used both to badge the toggle and (optionally) render the panel.
+  const prosodySummary = useMemo(() => {
+    if (!lyrics.trim()) return { errors: 0, warns: 0 };
+    const report = analyzeProsody(lyrics);
+    let errors = 0;
+    let warns = 0;
+    for (const line of report.lines) {
+      for (const issue of line.issues) {
+        if (issue.level === "error") errors++;
+        else if (issue.level === "warn") warns++;
+      }
+    }
+    return { errors, warns };
+  }, [lyrics]);
+
+  const jumpToLine = useCallback(
+    (lineIndex: number) => {
+      const el = textareaRef.current;
+      if (!el) return;
+      const before = lyrics.split("\n").slice(0, lineIndex).join("\n");
+      const offset = before.length + (lineIndex > 0 ? 1 : 0);
+      const lineText = lyrics.split("\n")[lineIndex] ?? "";
+      el.focus();
+      try {
+        el.setSelectionRange(offset, offset + lineText.length);
+      } catch {
+        /* noop */
+      }
+      selectionRef.current = { start: offset, end: offset + lineText.length };
+    },
+    [lyrics],
+  );
 
   // Insert a `[Header]` at cursor position (or append) in text mode.
   const insertSectionTag = useCallback(
@@ -240,6 +276,29 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                 <Eye className="h-3.5 w-3.5" />
               </Button>
             </div>
+            {/* Prosody check toggle — sits next to the mode-pill so users can turn on rhyme/meter diagnostics without switching modes. */}
+            <Button
+              variant={showProsody ? "secondary" : "ghost"}
+              size="icon"
+              aria-label="Проверка ритма и рифмы"
+              aria-pressed={showProsody}
+              className="relative h-8 w-8 min-h-[40px] min-w-[40px] rounded-md"
+              onClick={() => {
+                hapticFeedback("light");
+                setShowProsody((v) => !v);
+              }}
+            >
+              <Music2 className="h-3.5 w-3.5" />
+              {(prosodySummary.errors > 0 || prosodySummary.warns > 0) && (
+                <span
+                  className={cn(
+                    "absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full",
+                    prosodySummary.errors > 0 ? "bg-destructive" : "bg-amber-500",
+                  )}
+                  aria-hidden
+                />
+              )}
+            </Button>
           </div>
         </div>
 
@@ -389,6 +448,11 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
             )}
           </div>
         )}
+
+        {/* Prosody / rhyme-meter diagnostics — visible in every editor mode when enabled. */}
+        {showProsody && <LyricsProsodyPanel lyrics={lyrics} onJumpToLine={jumpToLine} />}
+
+
 
 
         {/* Validation message */}

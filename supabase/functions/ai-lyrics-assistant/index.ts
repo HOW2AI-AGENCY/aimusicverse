@@ -35,8 +35,9 @@ serve(async (req) => {
         status: 401,
       });
 
-    const body: LyricsRequest = await req.json();
+    const body: LyricsRequest & { stream?: boolean } = await req.json();
     const { action, language = "ru" } = body;
+    const wantsStream = body.stream === true;
 
     // Fetch meta tags from DB
     const { data: metaTags } = await supabase
@@ -104,50 +105,149 @@ serve(async (req) => {
       useAdvancedTags: body.useAdvancedTags,
     });
 
-    // Call AI
+    const aiRequestBody = {
+      model: "google/gemini-2.5-flash",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+      max_tokens: action === "suggest_rhymes" ? 300 : action === "continue_line" ? 150 : 2500,
+      stream: wantsStream,
+    };
+
+    // Non-streaming path (default) — behaviour unchanged.
+    if (!wantsStream) {
+      const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + lovableApiKey, "Content-Type": "application/json" },
+        body: JSON.stringify(aiRequestBody),
+      });
+
+      if (!aiResponse.ok) {
+        const errorText = await aiResponse.text();
+        logger.error("AI Gateway error", null, { status: aiResponse.status, error: errorText });
+        if (aiResponse.status === 429)
+          return respond(429, { success: false, error: "Слишком много запросов. Попробуйте позже." });
+        if (aiResponse.status === 402) return respond(402, { success: false, error: "Необходимо пополнить баланс." });
+        throw new Error("AI service error");
+      }
+
+      const aiData = await aiResponse.json();
+      const generatedContent = aiData.choices?.[0]?.message?.content || "";
+      logger.success("Lyrics generated", { action, contentLength: generatedContent.length });
+
+      const response = parseResponse(action, generatedContent);
+
+      addMetadata(
+        response,
+        action,
+        body.genre,
+        body.mood,
+        genreProfile,
+        moodProfile,
+        body.useAdvancedTags ?? false,
+        body.vocalTags,
+        body.instrumentTags,
+        body.dynamicTags,
+        body.emotionalCues,
+      );
+
+      return respond(200, response);
+    }
+
+    // Streaming path — proxy provider SSE, forward chunk deltas, and emit a
+    // final `event: done` with the parsed action response.
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: { Authorization: "Bearer " + lovableApiKey, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt },
-        ],
-        max_tokens: action === "suggest_rhymes" ? 300 : action === "continue_line" ? 150 : 2500,
-      }),
+      body: JSON.stringify(aiRequestBody),
     });
 
-    if (!aiResponse.ok) {
-      const errorText = await aiResponse.text();
-      logger.error("AI Gateway error", null, { status: aiResponse.status, error: errorText });
-      if (aiResponse.status === 429)
-        return respond(429, { success: false, error: "Слишком много запросов. Попробуйте позже." });
-      if (aiResponse.status === 402) return respond(402, { success: false, error: "Необходимо пополнить баланс." });
-      throw new Error("AI service error");
+    if (!aiResponse.ok || !aiResponse.body) {
+      const errorText = await aiResponse.text().catch(() => "");
+      logger.error("AI Gateway stream error", null, { status: aiResponse.status, error: errorText });
+      const status = aiResponse.status === 429 || aiResponse.status === 402 ? aiResponse.status : 500;
+      return respond(status, {
+        success: false,
+        error: aiResponse.status === 429
+          ? "Слишком много запросов. Попробуйте позже."
+          : aiResponse.status === 402
+            ? "Необходимо пополнить баланс."
+            : "AI service error",
+      });
     }
 
-    const aiData = await aiResponse.json();
-    const generatedContent = aiData.choices?.[0]?.message?.content || "";
-    logger.success("Lyrics generated", { action, contentLength: generatedContent.length });
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
+    const reader = aiResponse.body.getReader();
 
-    const response = parseResponse(action, generatedContent);
+    const stream = new ReadableStream({
+      async start(controller) {
+        let fullText = "";
+        let sseBuffer = "";
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            sseBuffer += decoder.decode(value, { stream: true });
+            const events = sseBuffer.split("\n\n");
+            sseBuffer = events.pop() ?? "";
+            for (const evt of events) {
+              const line = evt.split("\n").find((l) => l.startsWith("data:"));
+              if (!line) continue;
+              const payload = line.slice(5).trim();
+              if (!payload || payload === "[DONE]") continue;
+              try {
+                const json = JSON.parse(payload);
+                const delta: string = json.choices?.[0]?.delta?.content ?? "";
+                if (delta) {
+                  fullText += delta;
+                  controller.enqueue(
+                    encoder.encode(`event: chunk\ndata: ${JSON.stringify({ delta })}\n\n`),
+                  );
+                }
+              } catch {
+                /* skip malformed SSE frame */
+              }
+            }
+          }
 
-    addMetadata(
-      response,
-      action,
-      body.genre,
-      body.mood,
-      genreProfile,
-      moodProfile,
-      body.useAdvancedTags ?? false,
-      body.vocalTags,
-      body.instrumentTags,
-      body.dynamicTags,
-      body.emotionalCues,
-    );
+          const parsed = parseResponse(action, fullText);
+          addMetadata(
+            parsed,
+            action,
+            body.genre,
+            body.mood,
+            genreProfile,
+            moodProfile,
+            body.useAdvancedTags ?? false,
+            body.vocalTags,
+            body.instrumentTags,
+            body.dynamicTags,
+            body.emotionalCues,
+          );
+          controller.enqueue(encoder.encode(`event: done\ndata: ${JSON.stringify(parsed)}\n\n`));
+          logger.success("Lyrics streamed", { action, contentLength: fullText.length });
+        } catch (err: any) {
+          controller.enqueue(
+            encoder.encode(
+              `event: error\ndata: ${JSON.stringify({ error: err?.message || "stream error" })}\n\n`,
+            ),
+          );
+        } finally {
+          controller.close();
+        }
+      },
+    });
 
-    return respond(200, response);
+    return new Response(stream, {
+      headers: {
+        ...corsHeaders,
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache, no-transform",
+        "X-Accel-Buffering": "no",
+      },
+    });
   } catch (error: any) {
     logger.error("Error in ai-lyrics-assistant", error);
     return respond(500, { success: false, error: error.message || "Unknown error" });

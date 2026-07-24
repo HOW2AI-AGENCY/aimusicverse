@@ -10,6 +10,7 @@
 import { useState, useCallback } from "react";
 import { sendAiChatMessage } from "@/services/lyrics/ai-tools.service";
 import { invokeLyricsAssistant, type RecommendedTags } from "@/api/lyrics.api";
+import { streamLyricsAssistant } from "@/lib/lyrics/streaming";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { parseLyrics } from "@/components/generate-form/lyricsEditorHelpers";
 import type { ChatMessage } from "@/components/generate-form/lyrics-chat/types";
@@ -106,28 +107,40 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
     addAssistantMessage("Теперь выбери структуру песни:", "structure");
   }, [selectedMoods, addUserMessage, addAssistantMessage]);
 
-  // Structure selection
+  // Structure selection — streams the generation so the editor fills as tokens arrive.
   const handleStructureSelect = useCallback(
     async (structure: string) => {
       setSelectedStructure(structure);
       addUserMessage(`Структура: ${structure}`);
 
-      // Generate lyrics
       setIsLoading(true);
+      // Reset the generated buffer up front so the streamed text replaces prior output.
+      setGeneratedLyrics("");
       addAssistantMessage("Создаю текст...");
 
       try {
-        const { data } = await invokeLyricsAssistant({
+        const { final, aborted } = await streamLyricsAssistant({
           action: "generate",
           genre: selectedGenre,
           mood: selectedMoods.join(", "),
           structure,
           language: "ru",
           lyrics: currentLyrics || undefined,
+          onLyricsProgress: (partial) => {
+            // Live-update the preview state as SSE deltas arrive.
+            setGeneratedLyrics(partial);
+          },
         });
 
+        if (aborted) {
+          setMessages((prev) => prev.filter((m) => m.content !== "Создаю текст..."));
+          addAssistantMessage("Генерация отменена.");
+          return;
+        }
+
+        const data = final;
+
         if (data?.lyrics) {
-          // Validate sections
           const sections = parseLyrics(data.lyrics);
           const hasValidSections = sections.length > 0;
           const title = data?.title || data?.suggestions?.[0] || "Новый трек";
@@ -137,12 +150,10 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
           setGeneratedTitle(title);
           setGeneratedStyle(style);
 
-          // Store recommended tags from Edge Function metadata
           if (data?.metadata?.recommendedTags) {
             setRecommendedTags(data.metadata.recommendedTags as RecommendedTags);
           }
 
-          // Remove the "creating..." message and show result
           setMessages((prev) => prev.filter((m) => m.content !== "Создаю текст..."));
           const resultMsg = hasValidSections
             ? `Готово! ${sections.length} секций. Можешь скопировать, применить или продолжить:`
