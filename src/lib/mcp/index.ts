@@ -14,6 +14,9 @@ import listTrackVersions from "./tools/list-track-versions";
 import switchActiveVersion from "./tools/switch-active-version";
 import generateTrack from "./tools/generate-track";
 import getGenerationStatus from "./tools/get-generation-status";
+import followUser from "./tools/follow-user";
+import getPublicProfile from "./tools/get-public-profile";
+import listTrackComments from "./tools/list-track-comments";
 
 // Build the direct Supabase issuer from the project ref. mcp-js validates that
 // the configured issuer matches the one the discovery document publishes, so
@@ -23,9 +26,12 @@ const projectRef = import.meta.env.VITE_SUPABASE_PROJECT_ID ?? "project-ref-unse
 export default defineMcp({
   name: "musicverse-ai-mcp",
   title: "MusicVerse AI",
-  version: "0.3.0",
+  version: "0.4.0",
   instructions:
-    "Tools for MusicVerse AI — an AI music creation platform. Public: search_public_tracks, get_track, get_track_stems, list_track_versions. Authenticated (OAuth): list_my_tracks, list_my_playlists, get_my_profile, get_my_credits, like_track, create_playlist, add_track_to_playlist, remove_track_from_playlist, switch_active_version, generate_track (starts a Suno job, consumes credits), get_generation_status (poll a running job).",
+    "Tools for MusicVerse AI — an AI music creation platform. " +
+    "Public (no login): search_public_tracks, get_track, get_track_stems, list_track_versions, get_public_profile, list_track_comments. " +
+    "Authenticated (OAuth, act as the signed-in user): list_my_tracks, list_my_playlists, get_my_profile, get_my_credits, like_track, follow_user, create_playlist, add_track_to_playlist, remove_track_from_playlist, switch_active_version, generate_track (starts a Suno job, consumes credits), get_generation_status (poll a running job). " +
+    "See docs/MCP.md in the repo for the full tool reference and usage recipes.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",
@@ -33,11 +39,14 @@ export default defineMcp({
   tools: [
     searchPublicTracks,
     getTrack,
+    getPublicProfile,
+    listTrackComments,
     listMyTracks,
     getMyProfile,
     getMyCredits,
     listMyPlaylists,
     likeTrack,
+    followUser,
     createPlaylist,
     addTrackToPlaylist,
     removeTrackFromPlaylist,
@@ -48,3 +57,4 @@ export default defineMcp({
     getGenerationStatus,
   ],
 });
+

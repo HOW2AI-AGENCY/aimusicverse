@@ -12,7 +12,7 @@
   "mcp": {
     "server": {
       "name": "musicverse-ai-mcp",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "MusicVerse AI"
     },
     "tools": [
@@ -66,6 +66,73 @@
               "format": "uuid",
               "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
               "description": "UUID of the track."
+            }
+          },
+          "required": [
+            "track_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_public_profile",
+        "title": "Get a public profile",
+        "description": "Look up another user's public MusicVerse AI profile by username or user_id. Only fields the owner has chosen to publish are returned.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "username": {
+              "description": "Public username (without @).",
+              "type": "string",
+              "minLength": 1
+            },
+            "user_id": {
+              "description": "UUID of the user (auth.users.id).",
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_track_comments",
+        "title": "List comments on a public track",
+        "description": "Return moderated top-level comments on a public track. Threaded replies are not expanded — pass a parent_id to fetch a specific thread.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "track_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "UUID of the track."
+            },
+            "limit": {
+              "default": 20,
+              "description": "Max results (1-100).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "parent_id": {
+              "description": "Optional: fetch replies to this comment id instead of top-level comments.",
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
             }
           },
           "required": [
@@ -186,6 +253,42 @@
           },
           "required": [
             "track_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "follow_user",
+        "title": "Follow or unfollow a user",
+        "description": "Toggle a follow relationship with another MusicVerse AI user as the signed-in user. Returns the new follow state.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "UUID of the user to follow or unfollow (auth.users.id)."
+            },
+            "action": {
+              "default": "follow",
+              "description": "Whether to follow or unfollow.",
+              "type": "string",
+              "enum": [
+                "follow",
+                "unfollow"
+              ]
+            }
+          },
+          "required": [
+            "user_id"
           ]
         },
         "outputSchema": null
