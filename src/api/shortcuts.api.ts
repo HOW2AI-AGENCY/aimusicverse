@@ -368,8 +368,8 @@ export function mergeShortcuts(
 
   for (const [category, actions] of Object.entries(userShortcuts)) {
     if (actions) {
-      merged[category] = {
-        ...(merged[category] || {}),
+      (merged as Record<string, ShortcutCategory>)[category] = {
+        ...((merged as Record<string, ShortcutCategory>)[category] || {}),
         ...actions,
       };
     }
