@@ -12,7 +12,7 @@
  */
 import { memo, useCallback, useState, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Music2, ChevronUp, AlertCircle } from "@/lib/icons";
+import { Music2, ChevronUp, AlertCircle, RefreshCw } from "@/lib/icons";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGestures } from "@/hooks/useGestures";
@@ -331,7 +331,17 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             className="mx-3 mb-1.5 flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1 text-[11px] text-destructive"
           >
             <AlertCircle className="h-3 w-3 flex-shrink-0" />
-            <span className="line-clamp-1">{playbackError || t("player.compact.errorFallback")}</span>
+            <span className="line-clamp-1 flex-1">{playbackError || t("player.compact.errorFallback")}</span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                playTrack(track);
+              }}
+              className="flex-shrink-0 p-0.5 rounded hover:bg-destructive/20 transition-colors"
+              aria-label={t("player.compact.retry")}
+            >
+              <RefreshCw className="h-3 w-3" />
+            </button>
           </div>
         )}
         <div className="flex items-center gap-2 px-3 pb-3 min-w-0">
