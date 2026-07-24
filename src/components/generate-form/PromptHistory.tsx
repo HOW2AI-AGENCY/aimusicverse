@@ -1,5 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,8 +37,13 @@ import { format, ru } from "@/lib/date-utils";
 import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from "./inspirationPrompts";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 import { usePromptHistorySync } from "@/hooks/usePromptHistorySync";
 import { scrollbarStyles, type PromptMode, type PromptHistoryItem, type SavedPrompt } from "./promptHistoryTypes";
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // Re-export for backward compatibility
 export type { PromptMode, PromptHistoryItem, SavedPrompt };
@@ -50,6 +65,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     model: "V4_5ALL",
   });
   const [inspirationUsage, setInspirationUsage] = useState<Record<string, number>>({});
+  const [confirmClearOpen, setConfirmClearOpen] = useState(false);
+  const [clearing, setClearing] = useState(false);
+
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   // Use sync hook for merged DB + localStorage history
   const { history: dbMergedHistory, savedPrompts: dbSavedPrompts, isLoading: historyLoading } = usePromptHistorySync();
@@ -187,8 +207,24 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     toast.success("Сохраненный промпт загружен");
   };
 
-  const handleDeleteHistory = (e: React.MouseEvent, id: string) => {
+  const handleDeleteHistory = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
+
+    // If it's a DB row (uuid) — delete from DB and refresh sync query
+    if (UUID_RE.test(id) && user?.id) {
+      try {
+        const { error } = await supabase.from("user_generation_history").delete().eq("id", id);
+        if (error) throw error;
+        await queryClient.invalidateQueries({ queryKey: ["db-generation-history", user.id] });
+        toast.success("Промпт удалён из истории");
+      } catch (error) {
+        logger.error("Failed to delete history entry", { error });
+        toast.error("Не удалось удалить промпт");
+      }
+      return;
+    }
+
+    // Otherwise remove from localStorage
     const localHistoryRaw = localStorage.getItem("musicverse_prompt_history");
     if (localHistoryRaw) {
       const parsed = JSON.parse(localHistoryRaw) as PromptHistoryItem[];
@@ -196,7 +232,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
       localStorage.setItem("musicverse_prompt_history", JSON.stringify(updated));
       setLocalHistory((items) => items.filter((item) => item.id !== id));
     }
-    toast.success("Промпт удален из истории");
+    toast.success("Промпт удалён из истории");
   };
 
   const handleDeleteSaved = (e: React.MouseEvent, id: string) => {
@@ -261,12 +297,32 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
   };
 
   const handleClearHistory = () => {
-    if (confirm("Удалить всю историю промптов?")) {
+    setConfirmClearOpen(true);
+  };
+
+  const runClearHistory = async () => {
+    setClearing(true);
+    try {
+      // Wipe DB history when signed in
+      if (user?.id) {
+        const { error } = await supabase.from("user_generation_history").delete().eq("user_id", user.id);
+        if (error) throw error;
+        await queryClient.invalidateQueries({ queryKey: ["db-generation-history", user.id] });
+      }
       setLocalHistory([]);
       localStorage.removeItem("musicverse_prompt_history");
       toast.success("История очищена");
+      setConfirmClearOpen(false);
+    } catch (error) {
+      logger.error("Failed to clear history", { error });
+      toast.error("Не удалось очистить историю");
+    } finally {
+      setClearing(false);
     }
   };
+
+  const historyCount = history.length;
+  const savedCount = savedPrompts.length;
 
   return (
     <>
@@ -277,6 +333,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
             <DialogTitle className="flex items-center gap-2 text-base">
               <Music2 className="w-5 h-5 text-primary" />
               Промпты
+              {historyLoading && <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground" />}
             </DialogTitle>
           </DialogHeader>
 
@@ -286,17 +343,25 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
             className="flex-1 flex flex-col overflow-hidden px-4"
           >
             <TabsList className="grid w-full grid-cols-3 mb-3 shrink-0">
-              <TabsTrigger value="history" className="gap-1 text-xs px-2">
-                <History className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">История</span>
+              <TabsTrigger value="history" className="gap-1.5 text-xs px-2 min-w-0">
+                <History className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">История</span>
+                {historyCount > 0 && (
+                  <span className="ml-0.5 hidden sm:inline text-[10px] text-muted-foreground">
+                    {historyCount > 99 ? "99+" : historyCount}
+                  </span>
+                )}
               </TabsTrigger>
-              <TabsTrigger value="inspiration" className="gap-1 text-xs px-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">Вдохновение</span>
+              <TabsTrigger value="inspiration" className="gap-1.5 text-xs px-2 min-w-0">
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">Идеи</span>
               </TabsTrigger>
-              <TabsTrigger value="saved" className="gap-1 text-xs px-2">
-                <Bookmark className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">Сохраненные</span>
+              <TabsTrigger value="saved" className="gap-1.5 text-xs px-2 min-w-0">
+                <Bookmark className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">Закладки</span>
+                {savedCount > 0 && (
+                  <span className="ml-0.5 hidden sm:inline text-[10px] text-muted-foreground">{savedCount}</span>
+                )}
               </TabsTrigger>
             </TabsList>
 
@@ -308,8 +373,18 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   placeholder="Поиск..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 h-9"
+                  className="pl-9 pr-9 h-9"
                 />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    aria-label="Очистить поиск"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
               {activeTab === "history" && (
                 <Button
@@ -318,6 +393,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   onClick={handleClearHistory}
                   disabled={history.length === 0}
                   title="Очистить историю"
+                  aria-label="Очистить всю историю"
                   className="h-9 w-9 shrink-0"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -329,6 +405,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   size="icon"
                   onClick={() => setShowAddDialog(true)}
                   title="Добавить промпт"
+                  aria-label="Добавить новый промпт"
                   className="h-9 w-9 shrink-0"
                 >
                   <Plus className="w-4 h-4" />
@@ -341,7 +418,12 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
               {/* History Tab */}
               <TabsContent value="history" className="mt-0 h-full">
                 <div data-prompt-scroll className="h-full overflow-y-auto pr-1">
-                  {filteredHistory.length > 0 ? (
+                  {historyLoading && filteredHistory.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full min-h-[200px] gap-2 py-8">
+                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                      <p className="text-xs text-muted-foreground">Загрузка истории…</p>
+                    </div>
+                  ) : filteredHistory.length > 0 ? (
                     <div className="space-y-2">
                       {filteredHistory.map((item) => (
                         <Card
@@ -643,6 +725,38 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
           )}
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={confirmClearOpen} onOpenChange={setConfirmClearOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Очистить историю промптов?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Это действие удалит все записи из истории генераций
+              {user?.id ? " и не может быть отменено" : ""}. Сохранённые промпты в закладках останутся.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={clearing}>Отмена</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                runClearHistory();
+              }}
+              disabled={clearing}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {clearing ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                  Удаление…
+                </>
+              ) : (
+                "Очистить"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
