@@ -473,27 +473,16 @@ export default function PublicProfilePage() {
         {/* Tracks Tab */}
         <TabsContent value="tracks" className="mt-4">
           {tracksLoading ? (
-            <div className="grid grid-cols-2 gap-3">
-              {[...Array(4)].map((_, i) => (
-                <Skeleton key={i} className="aspect-square rounded-xl" />
+            <div className="space-y-2">
+              {[...Array(6)].map((_, i) => (
+                <Skeleton key={i} className="h-16 rounded-xl" />
               ))}
             </div>
           ) : tracks?.length ? (
-            <motion.div
-              className="grid grid-cols-2 sm:grid-cols-3 gap-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
+            <motion.div className="space-y-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               {tracks.map((track, i) => (
-                <motion.div
-                  key={track.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                >
-                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any -- Profile track may include public-only fields not on base Track type */}
-                  <UnifiedTrackCard variant="compact" track={track as any} />
-                </motion.div>
+                /* eslint-disable-next-line @typescript-eslint/no-explicit-any -- Profile track may include public-only fields not on base Track type */
+                <UnifiedTrackCard key={track.id} variant="compact" track={track as any} index={i} />
               ))}
             </motion.div>
           ) : (
