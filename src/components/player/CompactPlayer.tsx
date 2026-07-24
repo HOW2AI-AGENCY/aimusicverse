@@ -30,6 +30,8 @@ import { LazyImage } from "@/components/ui/lazy-image";
 import { LoadingState } from "@/components/ui/loading-state";
 import { usePlayerTransition } from "./PlayerTransitionProvider";
 import { PlayBtn, NextBtn, PrevBtn, CloseBtn, LikeBtn, ExpandBtn, VolumeControl } from "./CompactPlayerButtons";
+import { StemBatchStatusBadge } from "./StemBatchStatusBadge";
+
 
 interface CompactPlayerProps {
   track: Track;
