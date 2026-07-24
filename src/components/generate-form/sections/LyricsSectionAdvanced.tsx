@@ -30,7 +30,9 @@ import {
   normalizeSectionType,
   type LyricSectionType,
 } from "../lyricsSectionMeta";
-import { LayoutGrid, AlignLeft, Eye, Plus } from "@/lib/icons";
+import { LayoutGrid, AlignLeft, Eye, Plus, Music2 } from "@/lib/icons";
+import { LyricsProsodyPanel } from "../lyrics/LyricsProsodyPanel";
+import { analyzeProsody } from "@/lib/lyrics/prosody";
 
 interface LyricsSectionAdvancedProps {
   lyrics: string;
