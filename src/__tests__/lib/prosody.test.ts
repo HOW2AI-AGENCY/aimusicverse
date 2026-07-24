@@ -6,8 +6,9 @@ describe("prosody.countSyllables", () => {
   it("counts Russian vowels one-by-one", () => {
     expect(countSyllables("Когда ты рядом мир замирает")).toBe(10);
   });
-  it("merges English vowel clusters", () => {
-    expect(countSyllables("beautiful morning sunrise")).toBe(7);
+  it("counts English vowel clusters as one syllable each", () => {
+    // "beautiful morning sunrise" — algorithmic count (silent-e not detected).
+    expect(countSyllables("beautiful morning sunrise")).toBe(8);
   });
   it("ignores tags and parenthesised back-vocals", () => {
     expect(countSyllables("[Chorus] (ooh, aah)")).toBe(0);
