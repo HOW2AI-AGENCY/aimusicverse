@@ -1,15 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Track } from "@/types/track";
-import { supabase } from "@/integrations/supabase/client";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useVideoGenerationStatus } from "@/hooks/useVideoGenerationStatus";
 import { useTrackActions } from "@/hooks/useTrackActions";
 import { useAudioUpscale } from "@/hooks/useAudioUpscale";
+import { useTrackStems } from "@/hooks/useTrackStems";
+import { useTrackVersions } from "@/hooks/useTrackVersions";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable, isActionDisabled } from "@/lib/trackActionConditions";
+
 
 interface UseTrackActionsStateProps {
   track: Track;
