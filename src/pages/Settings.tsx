@@ -243,7 +243,7 @@ export default function Settings() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 lg:gap-x-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:gap-x-6">
             <Button
               variant="link"
               className="h-auto p-0 text-xs lg:text-base text-muted-foreground hover:text-primary transition-colors"
