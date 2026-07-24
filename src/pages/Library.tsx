@@ -55,7 +55,7 @@ import { TrackDetailPanel } from "@/components/library/TrackDetailPanel";
 import { useLibraryData, type SortOption } from "@/hooks/useLibraryData";
 import { useLibraryHandlers } from "@/hooks/useLibraryHandlers";
 import { useLibraryDeepLinks } from "@/hooks/useLibraryDeepLinks";
-import { useGenerationResult } from "@/hooks/generation/useGenerationResult";
+
 import { LibraryDialogs } from "@/components/library/LibraryDialogs";
 
 import { ContextHints } from "@/components/hints";
