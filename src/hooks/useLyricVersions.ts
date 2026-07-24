@@ -266,7 +266,7 @@ export function useRestoreLyricVersion() {
       // Get the current versions to find the track ID
       const queries = queryClient.getQueriesData<{
         versions: LyricVersionWithAuthor[];
-      }>(lyricVersionsKeys.all as readonly unknown[]);
+      }>({ queryKey: lyricVersionsKeys.all });
 
       let trackId: string | undefined;
       let previousVersions: { versions: LyricVersionWithAuthor[] } | undefined;
