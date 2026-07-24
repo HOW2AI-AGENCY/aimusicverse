@@ -126,9 +126,9 @@ export default function Settings() {
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
-      style={settings.getContainerStyle(96)}
+      style={settings.getContainerStyle(isMobile ? 140 : 96)}
     >
-      <div className={cn("container mx-auto px-4", isMobile ? "max-w-2xl" : "max-w-6xl")}>
+      <div className={cn("container mx-auto px-3 sm:px-4", isMobile ? "max-w-2xl" : "max-w-6xl")}>
         <AppHeader
           title="Настройки"
           subtitle="Управление аккаунтом"
@@ -158,79 +158,79 @@ export default function Settings() {
         ) : (
           /* Mobile: Horizontal Tabs */
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="-mx-4 px-4 mb-4 overflow-x-auto scrollbar-none">
-              <TabsList className="inline-flex w-max min-w-full gap-1">
-                <TabsTrigger value="profile" className="gap-1.5 px-2.5 flex-shrink-0">
+            <div className="-mx-3 px-3 mt-2 mb-6 overflow-x-auto scrollbar-none sticky top-0 z-10 bg-background/80 backdrop-blur-md py-2">
+              <TabsList className="inline-flex w-max min-w-full gap-1.5 h-auto p-1">
+                <TabsTrigger value="profile" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <User className="w-4 h-4" />
                   <span className="text-xs">Профиль</span>
                 </TabsTrigger>
-                <TabsTrigger value="subscription" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="subscription" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <CreditCard className="w-4 h-4" />
                   <span className="text-xs">Подписка</span>
                 </TabsTrigger>
-                <TabsTrigger value="stats" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="stats" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <BarChart3 className="w-4 h-4" />
                   <span className="text-xs">Статистика</span>
                 </TabsTrigger>
-                <TabsTrigger value="appearance" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="appearance" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <Palette className="w-4 h-4" />
                   <span className="text-xs">Тема</span>
                 </TabsTrigger>
-                <TabsTrigger value="privacy" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="privacy" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <Shield className="w-4 h-4" />
                   <span className="text-xs">Приватность</span>
                 </TabsTrigger>
-                <TabsTrigger value="notifications" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="notifications" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <Bell className="w-4 h-4" />
                   <span className="text-xs">Уведомления</span>
                 </TabsTrigger>
-                <TabsTrigger value="hints" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="hints" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <Lightbulb className="w-4 h-4" />
                   <span className="text-xs">Подсказки</span>
                 </TabsTrigger>
-                <TabsTrigger value="gestures" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="gestures" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <MousePointerClick className="w-4 h-4" />
                   <span className="text-xs">Жесты</span>
                 </TabsTrigger>
-                <TabsTrigger value="midi" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="midi" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <Music className="w-4 h-4" />
                   <span className="text-xs">MIDI</span>
                 </TabsTrigger>
-                <TabsTrigger value="telegram" className="gap-1.5 px-2.5 flex-shrink-0">
+                <TabsTrigger value="telegram" className="gap-1.5 px-3 py-2 flex-shrink-0 min-h-11">
                   <Send className="w-4 h-4" />
                   <span className="text-xs">Telegram</span>
                 </TabsTrigger>
               </TabsList>
             </div>
 
-            <TabsContent value="profile" className="space-y-4">
+            <TabsContent value="profile" className="space-y-5 mt-0">
               {renderContent("profile")}
             </TabsContent>
-            <TabsContent value="subscription" className="space-y-4">
+            <TabsContent value="subscription" className="space-y-5 mt-0">
               {renderContent("subscription")}
             </TabsContent>
-            <TabsContent value="stats" className="space-y-4">
+            <TabsContent value="stats" className="space-y-5 mt-0">
               {renderContent("stats")}
             </TabsContent>
-            <TabsContent value="appearance" className="space-y-4">
+            <TabsContent value="appearance" className="space-y-5 mt-0">
               {renderContent("appearance")}
             </TabsContent>
-            <TabsContent value="privacy" className="space-y-4">
+            <TabsContent value="privacy" className="space-y-5 mt-0">
               {renderContent("privacy")}
             </TabsContent>
-            <TabsContent value="notifications" className="space-y-4">
+            <TabsContent value="notifications" className="space-y-5 mt-0">
               {renderContent("notifications")}
             </TabsContent>
-            <TabsContent value="hints" className="space-y-4">
+            <TabsContent value="hints" className="space-y-5 mt-0">
               {renderContent("hints")}
             </TabsContent>
-            <TabsContent value="gestures" className="space-y-4">
+            <TabsContent value="gestures" className="space-y-5 mt-0">
               {renderContent("gestures")}
             </TabsContent>
-            <TabsContent value="midi" className="space-y-4">
+            <TabsContent value="midi" className="space-y-5 mt-0">
               {renderContent("midi")}
             </TabsContent>
-            <TabsContent value="telegram" className="space-y-4">
+            <TabsContent value="telegram" className="space-y-5 mt-0">
               {renderContent("telegram")}
             </TabsContent>
           </Tabs>
@@ -238,12 +238,12 @@ export default function Settings() {
 
         {/* Footer */}
         <motion.div
-          className="mt-6 lg:mt-8 text-center text-sm text-muted-foreground pb-6"
+          className="mt-10 lg:mt-8 text-center text-sm text-muted-foreground pb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 lg:gap-x-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:gap-x-6">
             <Button
               variant="link"
               className="h-auto p-0 text-xs lg:text-base text-muted-foreground hover:text-primary transition-colors"
