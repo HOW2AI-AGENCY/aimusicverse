@@ -203,7 +203,7 @@ export function RevenueAnalytics() {
                         name === "usd" ? formatCurrency(Number(value)) : `${formatNumber(Number(value))} ⭐`,
                         name === "usd" ? "USD" : "Stars",
                       ]}
-                      labelFormatter={(label) => new Date(label).toLocaleDateString("ru-RU")}
+                      labelFormatter={(label) => new Date(String(label ?? "")).toLocaleDateString("ru-RU")}
                     />
                     <Area
                       type="monotone"
