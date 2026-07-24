@@ -99,13 +99,13 @@ export const CompactVariant = memo(function CompactVariant({
               isLiked={(track as Track & { user_liked?: boolean }).is_liked}
               size="sm"
               variant="minimal"
-              className="hidden sm:flex h-9 w-9 min-w-9 min-h-9"
+              className="hidden sm:flex"
             />
             <QuickQueueButton
               track={track as unknown as Track}
               size="sm"
               variant="minimal"
-              className="hidden sm:flex h-9 w-9 min-w-9 min-h-9"
+              className="hidden sm:flex"
             />
             {!isOwnTrack && (
               <CardFollowButton
