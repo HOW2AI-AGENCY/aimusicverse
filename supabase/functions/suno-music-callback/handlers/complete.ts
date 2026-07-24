@@ -12,14 +12,7 @@ import { getGenerationCost } from "../../_shared/economy.ts";
 import { VERSION_LABELS, getVersionType } from "../utils/version-types.ts";
 import { fetchWithRetry } from "../utils/fetch-retry.ts";
 import { logAuditAction } from "../utils/audit-log.ts";
-import {
-  extractClipFields,
-  getAudioUrl,
-  getImageUrl,
-  getStreamUrl,
-  validateClip,
-  type SkipReason,
-} from "../../_shared/suno-clip-fields.ts";
+import { extractClipFields, getAudioUrl, validateClip, type SkipReason } from "../../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("complete-callback");
 
@@ -38,6 +31,8 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
   let trackTitle = "";
   const skippedClips: SkipReason[] = [];
   const missingCovers: number[] = [];
+  let primaryTrackUpdated = false;
+  let primaryVersionId: string | null = null;
 
   // ── Version creation per clip ──
   for (let i = 0; i < clips.length; i++) {
@@ -86,7 +81,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     }
 
     const finalAudioUrl = localAudioUrl || audioUrl;
-    const rawTitle = clip.title || task.prompt?.split("\n")[0]?.substring(0, 100) || "Трек";
+    const rawTitle = fields.title || task.prompt?.split("\n")[0]?.substring(0, 100) || "Трек";
     trackTitle = sanitizeAndCleanTitle(rawTitle, "Трек");
 
     // Insert or update version
@@ -97,14 +92,16 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       .eq("version_label", versionLabel)
       .single();
 
-    const clipModelName = clip.modelName || clip.model_name;
-    const clipImageUrl = getImageUrl(clip);
+    const clipModelName = fields.modelName;
+    const clipImageUrl = fields.imageUrl;
+    const clipDuration = typeof fields.duration === "number" ? fields.duration : null;
+    const shouldBePrimary = !primaryVersionId;
     const versionData = {
       audio_url: finalAudioUrl,
       cover_url: clipImageUrl || null,
-      duration_seconds: Math.round(clip.duration) || null,
+      duration_seconds: clipDuration ? Math.round(clipDuration) : null,
       metadata: {
-        suno_id: clip.id,
+        suno_id: fields.id,
         suno_task_id: sunoTaskId,
         clip_index: i,
         title: trackTitle,
@@ -118,7 +115,11 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     };
 
     if (existing) {
-      await supabase.from("track_versions").update(versionData).eq("id", existing.id);
+      await supabase
+        .from("track_versions")
+        .update({ ...versionData, is_primary: shouldBePrimary })
+        .eq("id", existing.id);
+      if (!primaryVersionId) primaryVersionId = existing.id;
     } else {
       const generationMode = task.generation_mode || task.tracks?.generation_mode;
       const { data: newVersion } = await supabase
@@ -129,12 +130,13 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
           version_type: getVersionType(generationMode),
           version_label: versionLabel,
           clip_index: i,
-          is_primary: i === 0,
+          is_primary: shouldBePrimary,
         })
         .select()
         .single();
 
-      if (newVersion && i === 0) {
+      if (newVersion && !primaryVersionId) {
+        primaryVersionId = newVersion.id;
         await supabase
           .from("tracks")
           .update({ active_version_id: newVersion.id })
@@ -143,8 +145,8 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       }
     }
 
-    // Update main track on first clip
-    if (i === 0) {
+    // Update main track from the first valid/playable clip, not strictly clip #0.
+    if (!primaryTrackUpdated) {
       const taskMeta =
         typeof task.audio_clips === "string" ? JSON.parse(task.audio_clips || "{}") : task.audio_clips || {};
       const projectTrackId =
@@ -164,16 +166,17 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
           local_audio_url: localAudioUrl,
           cover_url: clipImageUrl || null,
           title: trackTitle,
-          duration_seconds: Math.round(clip.duration) || null,
+          duration_seconds: clipDuration ? Math.round(clipDuration) : null,
           tags: clip.tags || task.tracks?.tags,
           lyrics: clip.prompt || task.tracks?.lyrics,
-          suno_id: clip.id,
+          suno_id: fields.id,
           model_name: clipModelName || "chirp-v4",
           suno_task_id: sunoTaskId,
           project_id: safeProjectId,
           project_track_id: projectTrackId,
         })
         .eq("id", trackId);
+      primaryTrackUpdated = true;
     }
 
     await supabase.from("track_change_log").insert({
@@ -184,8 +187,16 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       ai_model_used: clipModelName || "chirp-v4",
       prompt_used: task.prompt,
       new_value: versionLabel,
-      metadata: { version_label: versionLabel, clip_index: i, suno_clip_id: clip.id, title: trackTitle },
+      metadata: { version_label: versionLabel, clip_index: i, suno_clip_id: fields.id, title: trackTitle },
     });
+  }
+
+  if (primaryVersionId) {
+    await supabase
+      .from("tracks")
+      .update({ active_version_id: primaryVersionId })
+      .eq("id", trackId)
+      .is("active_version_id", null);
   }
 
   // ── Cover generation ──
