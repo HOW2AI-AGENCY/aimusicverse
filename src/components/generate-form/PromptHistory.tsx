@@ -342,17 +342,25 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
             className="flex-1 flex flex-col overflow-hidden px-4"
           >
             <TabsList className="grid w-full grid-cols-3 mb-3 shrink-0">
-              <TabsTrigger value="history" className="gap-1 text-xs px-2">
-                <History className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">История</span>
+              <TabsTrigger value="history" className="gap-1.5 text-xs px-2 min-w-0">
+                <History className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">История</span>
+                {historyCount > 0 && (
+                  <span className="ml-0.5 hidden sm:inline text-[10px] text-muted-foreground">
+                    {historyCount > 99 ? "99+" : historyCount}
+                  </span>
+                )}
               </TabsTrigger>
-              <TabsTrigger value="inspiration" className="gap-1 text-xs px-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">Вдохновение</span>
+              <TabsTrigger value="inspiration" className="gap-1.5 text-xs px-2 min-w-0">
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">Идеи</span>
               </TabsTrigger>
-              <TabsTrigger value="saved" className="gap-1 text-xs px-2">
-                <Bookmark className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline">Сохраненные</span>
+              <TabsTrigger value="saved" className="gap-1.5 text-xs px-2 min-w-0">
+                <Bookmark className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">Закладки</span>
+                {savedCount > 0 && (
+                  <span className="ml-0.5 hidden sm:inline text-[10px] text-muted-foreground">{savedCount}</span>
+                )}
               </TabsTrigger>
             </TabsList>
 
@@ -364,8 +372,18 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   placeholder="Поиск..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 h-9"
+                  className="pl-9 pr-9 h-9"
                 />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    aria-label="Очистить поиск"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
               {activeTab === "history" && (
                 <Button
@@ -374,6 +392,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   onClick={handleClearHistory}
                   disabled={history.length === 0}
                   title="Очистить историю"
+                  aria-label="Очистить всю историю"
                   className="h-9 w-9 shrink-0"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -385,6 +404,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   size="icon"
                   onClick={() => setShowAddDialog(true)}
                   title="Добавить промпт"
+                  aria-label="Добавить новый промпт"
                   className="h-9 w-9 shrink-0"
                 >
                   <Plus className="w-4 h-4" />
