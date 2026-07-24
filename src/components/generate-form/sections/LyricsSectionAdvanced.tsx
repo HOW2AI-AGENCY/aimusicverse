@@ -24,18 +24,13 @@ import { useNavigate } from "react-router-dom";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { LyricsPreview } from "../LyricsPreview";
 import {
-  LayoutGrid,
-  AlignLeft,
-  Sparkles,
-  ChevronDown,
-  BookOpen,
-  Save,
-  Wand2,
-  Music2,
-  Mic2,
-  FileText,
-  Eye,
-} from "@/lib/icons";
+  LYRIC_SECTION_TYPES,
+  LYRIC_SECTION_BY_VALUE,
+  getLyricSectionColor,
+  normalizeSectionType,
+  type LyricSectionType,
+} from "../lyricsSectionMeta";
+import { LayoutGrid, AlignLeft, Eye, Plus } from "@/lib/icons";
 
 interface LyricsSectionAdvancedProps {
   lyrics: string;
