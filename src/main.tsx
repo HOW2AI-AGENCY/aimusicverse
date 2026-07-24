@@ -209,11 +209,13 @@ try {
       /* noop */
     }
   };
-  if ("requestIdleCallback" in window) {
-    (window as unknown as { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(logNavTimings);
+  const ric = (window as unknown as { requestIdleCallback?: (cb: () => void) => void }).requestIdleCallback;
+  if (typeof ric === "function") {
+    ric(logNavTimings);
   } else {
     window.addEventListener("load", () => setTimeout(logNavTimings, 0));
   }
+
 
 } catch (e) {
   bootLog(`CRITICAL: React render failed: ${e}`);
