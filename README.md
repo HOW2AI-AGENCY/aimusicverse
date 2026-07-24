@@ -12,7 +12,7 @@
 
 <p>
   <img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/>
-  <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.1-475569?style=for-the-badge"/>
+  <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.0-475569?style=for-the-badge"/>
   <img alt="Quality & Build" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/quality-check.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981&label=Quality+%26+Build"/>
   <img alt="Unit тесты" src="https://img.shields.io/badge/unit_tests-1810_passing-10B981?style=for-the-badge&logo=vitest"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
@@ -50,6 +50,11 @@
 
 ---
 
+> [!IMPORTANT]
+> **Передаёте или принимаете проект?** Начните с [**🤝 HANDOFF.md**](HANDOFF.md) — что передаётся, какие аккаунты переоформить, как развернуть и принять проект.
+
+---
+
 ## 📱 Скриншоты
 
 <div align="center">
@@ -74,11 +79,11 @@
 | 🎤 Voice Clone    | Клонирование голоса                          |   ✅   |
 | 📝 Lyrics AI      | AI-помощник для текстов                      |   ✅   |
 | 🎸 Инструменты    | Гитара, драм-машина, микшер                  |   ✅   |
-| 🏗 Студия          | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
+| 🏗 Студия         | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
 | 👥 Сообщество     | Лента, артисты, блог                         |   ✅   |
-| 🎛 MIDI            | Klang.io транскрипция (6 моделей)            |   ✅   |
+| 🎛 MIDI           | Klang.io транскрипция (6 моделей)            |   ✅   |
 | 🔀 Стем-сепарация | Извлечение вокала/барабанов/баса             |   ✅   |
-| 💎 Монетизация    | Stars Payment, подписки                      |   ✅   |
+| 💎 Монетизация    | Telegram Stars + Tinkoff, подписки           |   ✅   |
 | 📊 Аналитика      | Dashboard, A/B тесты                         |   ✅   |
 | 🔔 Уведомления    | In-app + Push (завершение генерации)         |   ✅   |
 | ♿ Доступность    | WCAG AA, 14px min, клавиатурная навигация    |   ✅   |
@@ -107,7 +112,7 @@ flowchart TB
     subgraph Backend["☁️ Supabase"]
         Auth[Auth · JWT + RLS]
         DB[(PostgreSQL)]
-        Edge[120+ Edge Functions]
+        Edge[135 Edge Functions]
         Storage[Object Storage]
         Realtime[Realtime channels]
     end
@@ -225,8 +230,7 @@ npm run build            # production build
 | `any` budget            | 0/50                          |   ✅   |
 | Bundle eager JS         | ~508 KB gzip                  |   ✅   |
 | Bundle total            | 2.11 MB gzip                  |   🟡   |
-| Branch Protection       | Phase 2 active                |   ✅   |
-| Design Score            | C+ (AI Slop: B)               |   🟡   |
+| Branch Protection       | активна                       |   ✅   |
 | Спринтов завершено      | 50+                           |   ✅   |
 
 ### Последние спринты
@@ -306,18 +310,19 @@ aimusicverse/
 
 ## 📖 Документация
 
-| Раздел                      | Адрес                                                                      | Для кого       |
-| --------------------------- | -------------------------------------------------------------------------- | -------------- |
-| 📚 **Documentation Index**  | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)                           | Все роли       |
+| Раздел                       | Адрес                                                                      | Для кого       |
+| ---------------------------- | -------------------------------------------------------------------------- | -------------- |
+| 🤝 **Передача проекта**      | [HANDOFF.md](HANDOFF.md)                                                   | Заказчик       |
+| 📚 **Documentation Index**   | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)                           | Все роли       |
 | 🏛 **Архитектура**           | [ARCHITECTURE_HUB.md](ARCHITECTURE_HUB.md)                                 | Разработчики   |
 | 🗺 **Roadmap**               | [ROADMAP.md](ROADMAP.md)                                                   | PM / инвесторы |
-| 📊 **Статус проекта**       | [PROJECT_STATUS.md](PROJECT_STATUS.md)                                     | Все            |
-| 📝 **Changelog**            | [CHANGELOG.md](CHANGELOG.md)                                               | Все            |
-| 🤝 **Contributing**         | [CONTRIBUTING.md](CONTRIBUTING.md)                                         | Контрибьюторы  |
-| 🔒 **Security**             | [SECURITY.md](SECURITY.md)                                                 | Безопасность   |
+| 📊 **Статус проекта**        | [PROJECT_STATUS.md](PROJECT_STATUS.md)                                     | Все            |
+| 📝 **Changelog**             | [CHANGELOG.md](CHANGELOG.md)                                               | Все            |
+| 🤝 **Contributing**          | [CONTRIBUTING.md](CONTRIBUTING.md)                                         | Контрибьюторы  |
+| 🔒 **Security**              | [SECURITY.md](SECURITY.md)                                                 | Безопасность   |
 | 🗂 **Структура репозитория** | [REPOSITORY_STRUCTURE.md](REPOSITORY_STRUCTURE.md)                         | Онбординг      |
 | 🛠 **Dev гайд**              | [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)                         | Разработчики   |
-| 🎨 **Design System**        | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайнеры      |
+| 🎨 **Design System**         | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайнеры      |
 
 <sub><a href="#📁-структура-проекта">← Назад: Структура</a> · <a href="#top">↑ К началу</a> · <a href="#💰-для-инвесторов">Далее: Инвесторам →</a></sub>
 
@@ -333,7 +338,7 @@ aimusicverse/
 | 🧪 Покрытие кода               | 1810 unit tests                     |
 | 🔒 Безопасность                | 6 vulns (1 high, 4 moderate, 1 low) |
 | 📊 Спринтов завершено          | 50+                                 |
-| 🏗 Компонентов                  | 1043                                |
+| 🏗 Компонентов                 | 1043                                |
 | 🔧 Хуков                       | 440                                 |
 | 🚀 Стадия                      | Pre-Seed / Active Development       |
 
@@ -355,14 +360,15 @@ aimusicverse/
 
 ### 🗺 Навигация по репозиторию
 
-| Раздел               | Ссылка                              | Описание             |
-| -------------------- | ----------------------------------- | -------------------- |
-| 🏠 **Главная**       | [README](README.md)                 | Этот документ        |
-| 📚 **Документация**  | [Index](DOCUMENTATION_INDEX.md)     | Полный каталог docs/ |
+| Раздел                | Ссылка                              | Описание             |
+| --------------------- | ----------------------------------- | -------------------- |
+| 🏠 **Главная**        | [README](README.md)                 | Этот документ        |
+| 🤝 **Передача**       | [HANDOFF](HANDOFF.md)               | Приёмка заказчиком   |
+| 📚 **Документация**   | [Index](DOCUMENTATION_INDEX.md)     | Полный каталог docs/ |
 | 🏛 **Архитектура**    | [Hub](ARCHITECTURE_HUB.md)          | ADR, диаграммы, слои |
 | 🗺 **Дорожная карта** | [ROADMAP](ROADMAP.md)               | План Q3 2026         |
-| 📊 **Статус**        | [PROJECT_STATUS](PROJECT_STATUS.md) | Метрики, спринты     |
-| 📝 **Changelog**     | [CHANGELOG](CHANGELOG.md)           | Релизы               |
+| 📊 **Статус**         | [PROJECT_STATUS](PROJECT_STATUS.md) | Метрики, спринты     |
+| 📝 **Changelog**      | [CHANGELOG](CHANGELOG.md)           | Релизы               |
 
 ### 🔁 Быстрые ссылки
 
@@ -379,6 +385,7 @@ aimusicverse/
 ### 🧭 Потоки онбординга
 
 ```
+Заказчик    → HANDOFF → DEPLOYMENT_GUIDE → MAINTENANCE
 Новичок     → README → ARCHITECTURE_HUB → CONTRIBUTING
 Разработчик → CLAUDE.md → REPOSITORY_STRUCTURE → ARCHITECTURE_HUB
 Дизайнер    → DESIGN_SYSTEM → DESIGN_TOKENS → LAYOUT_SYSTEM
@@ -397,6 +404,6 @@ PM/Инвестор → PROJECT_STATUS → ROADMAP → CHANGELOG
 
 **Лицензия:** MIT · **Авторские права:** HOW2AI Agency © 2025–2026 · **Безопасность:** `security@how2ai.agency`
 
-<sub>Последнее обновление: 2026-07-16 · Sprint 065 🔄 (Generate v2 + Home Redesign + Visual Regression) · tsc 0 errors · 1810 unit tests · 59 E2E specs · Vite 6.4.3</sub>
+<sub>Последнее обновление: 2026-07-24 · Sprint 065 (Generate v2 + Home Redesign + Visual Regression) · tsc 0 errors · 1810 unit tests · 59 E2E specs · Vite 6.4.3 · [🤝 Передача проекта](HANDOFF.md)</sub>
 
 </div>

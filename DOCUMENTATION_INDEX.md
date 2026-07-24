@@ -7,12 +7,13 @@
 <p>
   <img alt="Files" src="https://img.shields.io/badge/files-100%2B-475569?style=for-the-badge"/>
   <img alt="Categories" src="https://img.shields.io/badge/categories-8-9333EA?style=for-the-badge"/>
-  <img alt="Updated" src="https://img.shields.io/badge/updated-2026--07--05-26A5E4?style=for-the-badge"/>
+  <img alt="Updated" src="https://img.shields.io/badge/updated-2026--07--24-26A5E4?style=for-the-badge"/>
   <img alt="Audit" src="https://img.shields.io/badge/audit-architecture_complete-10B981?style=for-the-badge"/>
 </p>
 
 <p>
   <a href="README.md">🏠 Home</a> ·
+  <a href="HANDOFF.md">🤝 Handoff</a> ·
   <a href="ARCHITECTURE_HUB.md">🏛 Architecture</a> ·
   <a href="ROADMAP.md">🗺 Roadmap</a> ·
   <a href="CHANGELOG.md">📝 Changelog</a> ·
@@ -64,11 +65,21 @@ flowchart LR
 
 ## 🗺 Categories
 
+### 🤝 Handoff & Delivery
+
+| Doc                                                         | Description                          | Status |
+| ----------------------------------------------------------- | ------------------------------------ | :----: |
+| [HANDOFF](HANDOFF.md)                                       | Приёмка-передача, аккаунты, чек-лист |   ✅   |
+| [docs/DEPLOYMENT_GUIDE](docs/DEPLOYMENT_GUIDE.md)           | Deployment                           |   ✅   |
+| [docs/ENVIRONMENT_VARIABLES](docs/ENVIRONMENT_VARIABLES.md) | Full env-var reference               |   ✅   |
+| [MAINTENANCE](MAINTENANCE.md)                               | Post-handoff maintenance regimen     |   ✅   |
+
 ### 1️⃣ Getting Started
 
 | Doc                                             | Description          | Status |
 | ----------------------------------------------- | -------------------- | :----: |
 | [README](README.md)                             | Project overview     |   ✅   |
+| [HANDOFF](HANDOFF.md)                           | Client handoff guide |   ✅   |
 | [docs/ONBOARDING](docs/ONBOARDING.md)           | Developer onboarding |   ✅   |
 | [docs/DEVELOPER_GUIDE](docs/DEVELOPER_GUIDE.md) | Best practices       |   ✅   |
 
@@ -201,10 +212,10 @@ graph TD
 
 ### 🔗 Related Documentation
 
-|       🏠 Home       |       🏛 Architecture       |       🗺 Roadmap       |         🤝 Contributing         |       🔒 Security       |       📝 Changelog        |
+|       🏠 Home       |      🏛 Architecture       |      🗺 Roadmap       |         🤝 Contributing         |       🔒 Security       |       📝 Changelog        |
 | :-----------------: | :------------------------: | :-------------------: | :-----------------------------: | :---------------------: | :-----------------------: |
 | [README](README.md) | [Hub](ARCHITECTURE_HUB.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
 
-<sub>Last updated: 2026-07-03</sub>
+<sub>Last updated: 2026-07-24</sub>
 
 </div>
