@@ -177,8 +177,44 @@ try {
 
   bootLog("Root element found, rendering App...");
   const root = createRoot(rootElement);
+  perfMark("app:beforeRender");
+  perfMeasure("app: scriptStart → beforeRender", "app:scriptStart", "app:beforeRender");
   root.render(<App />);
+  perfMark("app:renderCalled");
   bootLog("App render called");
+
+  // Measure first paint / interactive frames after render.
+  requestAnimationFrame(() => {
+    perfMark("app:firstFrame");
+    perfMeasure("app: scriptStart → firstFrame", "app:scriptStart", "app:firstFrame");
+    requestAnimationFrame(() => {
+      perfMark("app:secondFrame");
+      perfMeasure("app: scriptStart → secondFrame", "app:scriptStart", "app:secondFrame");
+    });
+  });
+
+  // When the browser is idle, log navigation + paint timings to logger.
+  const logNavTimings = () => {
+    try {
+      const [nav] = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
+      const paints = performance.getEntriesByType("paint");
+      const fcp = paints.find((p) => p.name === "first-contentful-paint");
+      logger.info("[perf] navigation timings", {
+        dom_content_loaded_ms: nav ? Math.round(nav.domContentLoadedEventEnd - nav.startTime) : null,
+        load_event_ms: nav ? Math.round(nav.loadEventEnd - nav.startTime) : null,
+        first_contentful_paint_ms: fcp ? Math.round(fcp.startTime) : null,
+        transfer_size_bytes: nav?.transferSize ?? null,
+      });
+    } catch {
+      /* noop */
+    }
+  };
+  if ("requestIdleCallback" in window) {
+    (window as unknown as { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(logNavTimings);
+  } else {
+    window.addEventListener("load", () => setTimeout(logNavTimings, 0));
+  }
+
 } catch (e) {
   bootLog(`CRITICAL: React render failed: ${e}`);
   captureError(e);
