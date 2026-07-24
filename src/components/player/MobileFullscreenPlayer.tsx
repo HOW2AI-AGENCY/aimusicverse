@@ -38,6 +38,8 @@ import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
 import { useParsedLyrics } from "@/hooks/lyrics/useParsedLyrics";
 import { useLyricsSynchronization } from "@/hooks/lyrics/useLyricsSynchronization";
 import "@/styles/lyrics-sync.css";
+import { StemBatchStatusBadge } from "./StemBatchStatusBadge";
+
 
 perfMark("fullscreen:moduleEval");
 
