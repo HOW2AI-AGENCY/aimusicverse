@@ -27,6 +27,7 @@ import { glass } from "@/lib/glass";
 import { UnifiedTrackMenu } from "@/components/track-actions/UnifiedTrackMenu";
 import { PlayerProgress } from "./PlayerProgress";
 import { LazyImage } from "@/components/ui/lazy-image";
+import { LoadingState } from "@/components/ui/loading-state";
 import { usePlayerTransition } from "./PlayerTransitionProvider";
 import { PlayBtn, NextBtn, PrevBtn, CloseBtn, LikeBtn, ExpandBtn, VolumeControl } from "./CompactPlayerButtons";
 
@@ -276,17 +277,8 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         showLabels={false}
         className="pointer-events-auto"
       />
-      {/* Buffering shimmer overlay — non-flickering CSS-only */}
-      {isLoading && (
-        <div
-          className="absolute inset-0 rounded-md overflow-hidden bg-primary/5 pointer-events-none"
-          aria-hidden="true"
-        >
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary/10">
-            <div className="h-full w-1/3 bg-primary/70 animate-shimmer" />
-          </div>
-        </div>
-      )}
+      {/* Buffering shimmer overlay — shared LoadingState primitive */}
+      {isLoading && <LoadingState variant="shimmer" label="Buffering" />}
     </div>
   );
 

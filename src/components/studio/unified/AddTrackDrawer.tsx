@@ -2,7 +2,7 @@
  * AddTrackDrawer - UI for adding AI-generated stems to the track
  */
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Plus, Loader2, Music2, Sparkles, Wand2, RefreshCw, Check, AlertCircle } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -51,16 +51,33 @@ export function AddTrackDrawer({ open, onOpenChange, trackId, trackUrl, trackTit
     });
   };
 
-  const handleSuccess = () => {
-    setSelectedType(null);
-    setStyleHint("");
-    onOpenChange(false);
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearSuccessTimer = () => {
+    if (successTimerRef.current) {
+      clearTimeout(successTimerRef.current);
+      successTimerRef.current = null;
+    }
   };
 
-  // Check if generation just completed
-  if (lastGeneration?.success && !isGenerating) {
-    setTimeout(handleSuccess, 1500);
-  }
+  // Auto-close on success with a proper effect + cleanup so quickly dismissing
+  // the sheet doesn't leave dangling state updates or timers behind.
+  useEffect(() => {
+    if (!open) {
+      clearSuccessTimer();
+      return;
+    }
+    if (lastGeneration?.success && !isGenerating) {
+      clearSuccessTimer();
+      successTimerRef.current = setTimeout(() => {
+        setSelectedType(null);
+        setStyleHint("");
+        onOpenChange(false);
+        successTimerRef.current = null;
+      }, 1500);
+    }
+    return clearSuccessTimer;
+  }, [open, lastGeneration?.success, isGenerating, onOpenChange]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
