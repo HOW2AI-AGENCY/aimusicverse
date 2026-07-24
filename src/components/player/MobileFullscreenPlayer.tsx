@@ -11,6 +11,7 @@
 import { lazy, Suspense, useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { X, ListMusic, Music2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
+import { LoadingState, EmptyState } from "@/components/ui/states";
 import { PlayerProgress } from "./PlayerProgress";
 import { FullscreenBackground } from "./FullscreenBackground";
 import { UnifiedPlayerControls } from "./UnifiedPlayerControls";
@@ -209,6 +210,19 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     [onClose],
   );
 
+  if (!audioUrl) {
+    return (
+      <div className="fixed inset-0 z-fullscreen flex flex-col items-center justify-center bg-background">
+        <EmptyState
+          icon={Music2}
+          title="Аудио недоступно"
+          description="Не удалось загрузить источник трека. Попробуйте позднее."
+          action={{ label: "Закрыть", onClick: onClose }}
+        />
+      </div>
+    );
+  }
+
   return (
     <motion.div
       initial={prefersReducedMotion ? { opacity: 0, y: 0 } : { opacity: 1, y: "100%" }}
@@ -342,12 +356,14 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       </div>
 
       {/* Queue Sheet */}
-      <Suspense fallback={null}>{queueOpen && <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />}</Suspense>
+      <Suspense fallback={<LoadingState variant="block" label="Загрузка очереди…" />}>
+        {queueOpen && <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />}
+      </Suspense>
 
       {/* Karaoke */}
       <AnimatePresence>
         {karaokeMode && lyricsLines && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<LoadingState variant="block" label="Загрузка караоке…" />}>
             <KaraokeView
               lyricsLines={lyricsLines}
               currentTime={syncedTime}

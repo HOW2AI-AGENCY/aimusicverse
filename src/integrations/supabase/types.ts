@@ -3405,6 +3405,45 @@ export type Database = {
         }
         Relationships: []
       }
+      stem_batches: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json
+          mode: string | null
+          progress: number
+          results: Json
+          status: string
+          track_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          mode?: string | null
+          progress?: number
+          results?: Json
+          status?: string
+          track_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          mode?: string | null
+          progress?: number
+          results?: Json
+          status?: string
+          track_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       stem_separation_tasks: {
         Row: {
           completed_at: string | null
@@ -6451,6 +6490,95 @@ export type Database = {
           track_id: string
           versions_created: number
         }[]
+      }
+      batch_stem_cancel: {
+        Args: { p_batch_id: string }
+        Returns: {
+          created_at: string
+          id: string
+          metadata: Json
+          mode: string | null
+          progress: number
+          results: Json
+          status: string
+          track_id: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "stem_batches"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      batch_stem_get: {
+        Args: { p_batch_id: string }
+        Returns: {
+          created_at: string
+          id: string
+          metadata: Json
+          mode: string | null
+          progress: number
+          results: Json
+          status: string
+          track_id: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "stem_batches"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      batch_stem_start: {
+        Args: { p_metadata?: Json; p_mode?: string; p_track_id: string }
+        Returns: {
+          created_at: string
+          id: string
+          metadata: Json
+          mode: string | null
+          progress: number
+          results: Json
+          status: string
+          track_id: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "stem_batches"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      batch_stem_update_progress: {
+        Args: {
+          p_batch_id: string
+          p_progress: number
+          p_results?: Json
+          p_status?: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          metadata: Json
+          mode: string | null
+          progress: number
+          results: Json
+          status: string
+          track_id: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "stem_batches"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       build_suno_prompt: {
         Args: { _style_id?: string; _tag_ids: string[] }
