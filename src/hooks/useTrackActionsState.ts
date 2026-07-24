@@ -90,7 +90,7 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose, ena
 
   // Fetch counts and stems
   useEffect(() => {
-    if (!track?.id) return;
+    if (!track?.id || !enabled) return;
 
     const fetchData = async () => {
       const [stemsResult, versionsResult] = await Promise.all([
