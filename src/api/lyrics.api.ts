@@ -276,7 +276,7 @@ export async function createLyricVersion(
     content: data.lyrics,
     author: {
       id: data.profiles.id,
-      username: data.profiles.username,
+      username: data.profiles.username ?? "",
     },
     createdAt: data.created_at,
     isCurrent: data.is_current ?? false,
