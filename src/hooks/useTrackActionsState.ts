@@ -42,7 +42,7 @@ interface DialogStates {
   mashup: boolean;
 }
 
-export function useTrackActionsState({ track, onDelete, onDownload, onClose }: UseTrackActionsStateProps) {
+export function useTrackActionsState({ track, onDelete, onDownload, onClose, enabled = true }: UseTrackActionsStateProps) {
   const navigate = useNavigate();
 
   // State
