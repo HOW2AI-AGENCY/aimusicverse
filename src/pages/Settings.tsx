@@ -126,7 +126,7 @@ export default function Settings() {
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5"
-      style={settings.getContainerStyle(96)}
+      style={settings.getContainerStyle(isMobile ? 140 : 96)}
     >
       <div className={cn("container mx-auto px-3 sm:px-4", isMobile ? "max-w-2xl" : "max-w-6xl")}>
         <AppHeader
