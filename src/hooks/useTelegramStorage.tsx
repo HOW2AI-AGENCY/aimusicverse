@@ -121,9 +121,12 @@ export function useTelegramStorage<T>(
     if (hasCloudStorage) {
       cloudStorage.removeItem(key, (error: Error | null) => {
         if (error) {
-          logger.error("CloudStorage removeItem error", error);
           if (options.fallbackToLocalStorage) {
-            localStorage.removeItem(`telegram_storage_${key}`);
+            try {
+              localStorage.removeItem(`telegram_storage_${key}`);
+            } catch {
+              /* ignore */
+            }
           }
         }
       });
