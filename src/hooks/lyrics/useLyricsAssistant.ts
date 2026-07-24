@@ -363,8 +363,19 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
   const handleAiAction = useCallback(
     async (action: string, params?: Record<string, unknown>) => {
       setIsLoading(true);
+      const actionLabels: Record<string, string> = {
+        improve: "Улучшить текст",
+        add_tags: "Добавить теги",
+        full_analysis: "Проанализировать",
+        deep_analysis: "Глубокий анализ",
+        producer_review: "Продюсерский разбор",
+        validate_suno_v5: "Проверить теги Suno",
+        hook_generator: "Улучшить хук",
+        vocal_map: "Вокальная карта",
+      };
+      addUserMessage(actionLabels[action] || `Действие: ${action}`);
       try {
-        const { data } = await invokeLyricsAssistant({
+        const { data, error } = await invokeLyricsAssistant({
           action,
           genre: selectedGenre,
           mood: selectedMoods.join(", "),
@@ -374,12 +385,23 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
           ...params,
         });
 
+        if (error) {
+          addAssistantMessage("Ошибка при выполнении действия.");
+          return;
+        }
+
+        if (data?.metadata?.recommendedTags) {
+          setRecommendedTags(data.metadata.recommendedTags as RecommendedTags);
+        }
+
         if (data?.lyrics) {
           setGeneratedLyrics(data.lyrics);
+          if (data.title) setGeneratedTitle(data.title);
+          if (data.style) setGeneratedStyle(data.style);
           addAssistantMessage("Результат:", "lyrics-preview", {
             lyrics: data.lyrics,
-            title: data.title,
-            style: data.style,
+            title: data.title || generatedTitle,
+            style: data.style || generatedStyle,
           });
         } else if (data?.message) {
           addAssistantMessage(data.message as string);
@@ -394,7 +416,17 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
         setIsLoading(false);
       }
     },
-    [selectedGenre, selectedMoods, selectedStructure, generatedLyrics, currentLyrics, addAssistantMessage],
+    [
+      selectedGenre,
+      selectedMoods,
+      selectedStructure,
+      generatedLyrics,
+      currentLyrics,
+      generatedTitle,
+      generatedStyle,
+      addUserMessage,
+      addAssistantMessage,
+    ],
   );
 
   return {
