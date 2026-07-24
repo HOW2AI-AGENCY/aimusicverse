@@ -38,7 +38,7 @@ export function useTelegramStorage<T>(
           // Use Telegram CloudStorage
           cloudStorage.getItem(key, (error: Error | null, result: string | null) => {
             if (error) {
-              logger.error("CloudStorage getItem error", error);
+              // WebAppMethodUnsupported and similar — fall back silently
               if (options.fallbackToLocalStorage) {
                 loadFromLocalStorage();
               }
@@ -58,7 +58,14 @@ export function useTelegramStorage<T>(
           setIsLoading(false);
         }
       } catch (error) {
-        logger.error("Error loading from storage", error);
+        // Silent fallback — CloudStorage failures shouldn't surface as errors
+        if (options.fallbackToLocalStorage) {
+          try {
+            loadFromLocalStorage();
+          } catch {
+            /* ignore */
+          }
+        }
         setIsLoading(false);
       }
     };
