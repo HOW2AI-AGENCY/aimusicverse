@@ -1,5 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,8 +37,13 @@ import { format, ru } from "@/lib/date-utils";
 import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from "./inspirationPrompts";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 import { usePromptHistorySync } from "@/hooks/usePromptHistorySync";
 import { scrollbarStyles, type PromptMode, type PromptHistoryItem, type SavedPrompt } from "./promptHistoryTypes";
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // Re-export for backward compatibility
 export type { PromptMode, PromptHistoryItem, SavedPrompt };
