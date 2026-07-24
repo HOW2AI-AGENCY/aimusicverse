@@ -24,9 +24,11 @@ export function useTelegramStorage<T>(
   const [value, setValue] = useState<T>(initialValue);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check if CloudStorage is available
+  // Check if CloudStorage is available (requires Telegram WebApp 6.9+)
   const cloudStorage = (webApp as TelegramWithCloudStorage | null)?.CloudStorage;
-  const hasCloudStorage = isInitialized && !!cloudStorage;
+  const isVersionSupported =
+    typeof webApp?.isVersionAtLeast === "function" ? webApp.isVersionAtLeast("6.9") : false;
+  const hasCloudStorage = isInitialized && !!cloudStorage && isVersionSupported;
 
   // Load initial value
   useEffect(() => {
