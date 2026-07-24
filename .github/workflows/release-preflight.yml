@@ -1,0 +1,66 @@
+name: Release preflight
+
+# Manual / release-branch gate: runs the full release:preflight script
+# (lint → typecheck → test → build → smoke) so a release cut proves the
+# app boots on real routes before we tag it.
+#
+# Triggers:
+#   - workflow_dispatch (manual button in the Actions tab)
+#   - push to release/* branches
+#
+# Individual quality/build/smoke jobs still run on every PR via ci.yml
+# and quality-check.yml — this workflow is the release-time superset.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "release/**"
+
+concurrency:
+  group: release-preflight-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    name: release:preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Storybook peer conflict tracked in Sprint 066 — install with
+      # --legacy-peer-deps until vite@8 ↔ @storybook/react-vite is resolved.
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Playwright browsers (chromium)
+        run: npx playwright install --with-deps chromium
+
+      - name: Run release preflight
+        run: npm run release:preflight
+        env:
+          CI: "true"
+
+      - name: Upload build output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preflight-dist
+          path: dist/
+          retention-days: 7
+
+      - name: Upload smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preflight-smoke
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
