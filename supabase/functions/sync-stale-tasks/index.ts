@@ -258,7 +258,7 @@ serve(async (req) => {
                 audio_url: localAudioUrl || getAudioUrl(clip),
                 cover_url: localCoverUrl || getImageUrl(clip),
                 duration_seconds: Math.round(clip.duration) || null,
-                version_type: i === 0 ? "initial" : "alternative",
+                version_type: i === 0 ? "initial" : "original",
                 version_label: versionLabel,
                 clip_index: i,
                 is_primary: i === 0,
@@ -512,7 +512,7 @@ serve(async (req) => {
                 .insert({
                   track_id: task.track_id,
                   ...versionData,
-                  version_type: i === 0 ? "initial" : "alternative",
+                  version_type: i === 0 ? "initial" : "original",
                   version_label: versionLabel,
                   clip_index: i,
                   is_primary: i === 0,
