@@ -276,6 +276,29 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                 <Eye className="h-3.5 w-3.5" />
               </Button>
             </div>
+            {/* Prosody check toggle — sits next to the mode-pill so users can turn on rhyme/meter diagnostics without switching modes. */}
+            <Button
+              variant={showProsody ? "secondary" : "ghost"}
+              size="icon"
+              aria-label="Проверка ритма и рифмы"
+              aria-pressed={showProsody}
+              className="relative h-8 w-8 min-h-[40px] min-w-[40px] rounded-md"
+              onClick={() => {
+                hapticFeedback("light");
+                setShowProsody((v) => !v);
+              }}
+            >
+              <Music2 className="h-3.5 w-3.5" />
+              {(prosodySummary.errors > 0 || prosodySummary.warns > 0) && (
+                <span
+                  className={cn(
+                    "absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full",
+                    prosodySummary.errors > 0 ? "bg-destructive" : "bg-amber-500",
+                  )}
+                  aria-hidden
+                />
+              )}
+            </Button>
           </div>
         </div>
 
