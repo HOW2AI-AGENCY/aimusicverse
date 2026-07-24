@@ -47,29 +47,19 @@ export function GenerateSheetFooter(props: Props) {
 
   return (
     <div
-      className="px-4 pt-3 border-t border-border/10 bg-sheet/85 backdrop-blur-xl"
+      className="px-4 pt-2.5 border-t border-border/10 bg-sheet/85 backdrop-blur-xl"
       style={{ paddingBottom, transition: "padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)" }}
     >
-      {/* Balance strip — matches Neo-dark cohesive direction (mint status + refill link) */}
-      {props.shouldShowUIButton && (
-        <div className="mb-2 flex items-center justify-between px-1">
-          <div className="flex items-center gap-2">
-            <span
-              aria-hidden
-              className="h-1.5 w-1.5 rounded-full bg-neon"
-              style={{ boxShadow: "0 0 8px hsl(var(--neon))" }}
-            />
-            {showSaved ? (
-              <span className="text-[11px] text-neon/80 flex items-center gap-1">
-                <Check className="w-3 h-3" /> Сохранено
-              </span>
-            ) : (
-              <span className="text-[11px] text-muted-foreground">
-                Стоимость: <span className="font-semibold text-foreground tabular-nums">{props.generationCost}</span>{" "}
-                кредитов
-              </span>
-            )}
-          </div>
+      {/* Status strip: saved indicator or warning link. Cost lives in the CTA badge. */}
+      {props.shouldShowUIButton && (showSaved || props.hasWarnings) && (
+        <div className="mb-1.5 flex items-center justify-between px-1 min-h-[16px]">
+          {showSaved ? (
+            <span className="text-[11px] text-neon/80 flex items-center gap-1">
+              <Check className="w-3 h-3" aria-hidden /> Черновик сохранён
+            </span>
+          ) : (
+            <span />
+          )}
           {props.hasWarnings && (
             <button
               type="button"
@@ -88,7 +78,7 @@ export function GenerateSheetFooter(props: Props) {
             onClick={props.onSaveDraft}
             variant="outline"
             disabled={props.loading || !props.hasUnsavedData}
-            className="flex-1 h-14 text-sm font-semibold rounded-2xl border-border/10 bg-sheet-card text-foreground hover:bg-sheet-card/80"
+            className="h-12 px-4 text-sm font-semibold rounded-2xl border-border/10 bg-sheet-card text-foreground hover:bg-sheet-card/80"
           >
             Черновик
           </Button>
@@ -105,11 +95,10 @@ export function GenerateSheetFooter(props: Props) {
                   : "Открыть причины, почему нельзя сгенерировать"
             }
             className={cn(
-              "h-14 text-[15px] font-bold gap-2 rounded-2xl flex items-center justify-center leading-none transition-all active:scale-[0.98]",
+              "h-12 text-[15px] font-bold gap-2 rounded-2xl flex-1 flex items-center justify-center leading-none transition-all active:scale-[0.98]",
               "bg-neon text-sheet hover:bg-neon/90",
               "shadow-[0_8px_24px_hsl(var(--neon)/0.28)]",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon/60",
-              props.shouldShowSecondaryUIButton ? "flex-1" : "w-full",
               !props.canGenerate && !props.loading && "bg-muted text-muted-foreground shadow-none",
             )}
           >
@@ -136,10 +125,7 @@ export function GenerateSheetFooter(props: Props) {
           </Button>
         )}
       </div>
-      {/* Sprint 055-B2: generation summary */}
-      {props.summary && props.shouldShowUIButton && !props.loading && (
-        <p className="mt-1.5 text-center text-[11px] text-muted-foreground">{props.summary}</p>
-      )}
     </div>
   );
 }
+

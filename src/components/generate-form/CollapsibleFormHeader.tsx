@@ -78,25 +78,20 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
         : `Баланс ${Math.floor(balance)} кредитов, стоимость ${cost}`;
 
   return (
-    <div className="space-y-3 py-2">
-      {/* Row 1 */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="min-w-0 flex-1">
-          <h2
-            id="generate-sheet-title"
-            className="text-base font-bold tracking-tight text-foreground truncate"
-            style={{ fontFamily: 'var(--font-display), "Space Grotesque", system-ui, sans-serif' }}
-          >
-            Создание трека
-          </h2>
-          <p className="text-[10px] font-medium text-muted-foreground/80 mt-0.5 uppercase tracking-wider">
-            MusicVerse Studio
-          </p>
-        </div>
+    <div className="space-y-2 py-2">
+      {/* Row 1: title + status pill + close */}
+      <div className="flex items-center justify-between gap-2">
+        <h2
+          id="generate-sheet-title"
+          className="text-[15px] font-semibold tracking-tight text-foreground truncate min-w-0 flex-1"
+          style={{ fontFamily: 'var(--font-display), "Space Grotesque", system-ui, sans-serif' }}
+        >
+          Создание трека
+        </h2>
 
         <div
           className={cn(
-            "flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border tabular-nums",
+            "flex items-center gap-1.5 px-2 py-1 rounded-full border tabular-nums shrink-0",
             balance == null
               ? "bg-muted/40 border-border/50 text-muted-foreground"
               : lowBalance
@@ -118,24 +113,24 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
             )}
             aria-hidden
           />
-          <span className="text-xs font-semibold leading-none tabular-nums">
+          <span className="text-[11px] font-semibold leading-none tabular-nums">
             {balance == null ? "…" : Math.floor(balance)}
           </span>
-          <span className="text-[10px] leading-none opacity-70 tabular-nums">/ {cost}</span>
         </div>
 
         {onClose && (
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted flex-shrink-0 focus-visible:ring-2 focus-visible:ring-primary/60"
+            className="h-10 w-10 min-h-[40px] min-w-[40px] rounded-full hover:bg-muted flex-shrink-0 focus-visible:ring-2 focus-visible:ring-primary/60"
             onClick={onClose}
             aria-label="Закрыть форму генерации"
           >
-            <X className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
+            <X className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
           </Button>
         )}
       </div>
+
 
       {/* Row 2 */}
       <div className="flex items-center gap-2">
