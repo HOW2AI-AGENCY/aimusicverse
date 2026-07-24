@@ -278,6 +278,7 @@ const App = () => (
                             <Route path="deeplinks" element={<DeeplinkAnalyticsPanel />} />
                             <Route path="alerts" element={<AdminAlerts />} />
                             <Route path="generation-metrics" element={<GenerationMetrics />} />
+                            <Route path="suno-stats" element={<SunoGenerationStats />} />
                             <Route path="broadcast" element={<AdminBroadcast />} />
                           </Route>
 
