@@ -157,7 +157,10 @@ serve(async (req) => {
           }
         }
 
-        if (!task.tracks || task.tracks.status === "completed") continue;
+        // Skip only if track is fully healed (status=completed AND has audio_url).
+        // Otherwise recover: track may be marked "completed" but missing audio_url/versions.
+        if (!task.tracks) continue;
+        if (task.tracks.status === "completed" && task.tracks.audio_url) continue;
 
         logger.info("Recovering track from completed task", { trackId: task.track_id, taskId: task.id });
 
