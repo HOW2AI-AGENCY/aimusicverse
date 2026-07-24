@@ -318,14 +318,31 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
   }
 
   // ── Notifications ──
+  const hasSkips = skippedClips.length > 0;
+  const notifTitle = hasSkips
+    ? createdClips === 0
+      ? "⚠️ Генерация не удалась"
+      : "⚠️ Трек готов частично"
+    : "🎵 Трек готов!";
+  const notifMessage = hasSkips
+    ? `${createdClips}/${clips.length} версий создано. Пропущены: ${skippedClips.map((s) => `#${s.clipIndex + 1} (${s.code})`).join(", ")}`
+    : `Ваш трек "${trackTitle}" успешно сгенерирован (${clips.length} версии)`;
   await supabase.from("notifications").insert({
     user_id: task.user_id,
-    title: "🎵 Трек готов!",
-    message: `Ваш трек "${trackTitle}" успешно сгенерирован (${clips.length} версии)`,
-    type: "success",
+    title: notifTitle,
+    message: notifMessage,
+    type: hasSkips ? (createdClips === 0 ? "error" : "warning") : "success",
     action_url: `/library?track=${trackId}`,
     group_key: `generation_${task.id}`,
-    metadata: { taskId: task.id, trackId, trackTitle, clipsCount: clips.length },
+    metadata: {
+      taskId: task.id,
+      trackId,
+      trackTitle,
+      clipsCount: clips.length,
+      createdClips,
+      skippedClips,
+      missingCovers,
+    },
     priority: 8,
     read: false,
   });
