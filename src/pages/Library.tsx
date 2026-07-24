@@ -149,6 +149,22 @@ export default function Library() {
   // Get selected track data for detail panel
   const selectedTrack = selectedTrackId ? (filteredTracks.find((t) => t.id === selectedTrackId) ?? null) : null;
 
+  // Split off in-flight tracks (no audio yet, still pending/processing) — they render as skeletons
+  const { inFlightTracks, readyTracks } = (() => {
+    const inFlight: typeof filteredTracks = [];
+    const ready: typeof filteredTracks = [];
+    for (const t of filteredTracks) {
+      const status = (t as any).status as string | undefined;
+      const noAudio = !(t as any).audio_url && !(t as any).streaming_url;
+      if ((status === "pending" || status === "processing") && noAudio) {
+        inFlight.push(t);
+      } else {
+        ready.push(t);
+      }
+    }
+    return { inFlightTracks: inFlight, readyTracks: ready };
+  })();
+
   // Keyboard shortcuts for desktop
   useEffect(() => {
     if (isMobile) return;
@@ -418,8 +434,34 @@ export default function Library() {
                         <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
                       </div>
                     )}
+                    {/* In-flight tracks — render live skeletons that reveal fields as they arrive */}
+                    {inFlightTracks.length > 0 && (
+                      <div
+                        className={
+                          viewMode === "grid"
+                            ? "grid grid-cols-2 @[420px]:grid-cols-3 @[600px]:grid-cols-4 @[780px]:grid-cols-5 @[960px]:grid-cols-6 @[1180px]:grid-cols-7 gap-3 @[600px]:gap-4 mb-3 sm:mb-4 @container"
+                            : "flex flex-col gap-3 sm:gap-4 mb-3 sm:mb-4"
+                        }
+                      >
+                        {inFlightTracks.map((t) => (
+                          <GeneratingTrackSkeleton
+                            key={t.id}
+                            layout={viewMode}
+                            status={(t as any).status || "processing"}
+                            prompt={(t as any).prompt || (t as any).description || (t as any).style || undefined}
+                            createdAt={(t as any).created_at}
+                            title={(t as any).title || null}
+                            style={(t as any).style || null}
+                            coverUrl={(t as any).cover_url || null}
+                            model={(t as any).suno_model || (t as any).model_used || null}
+                            streamingReady={(t as any).status === "streaming_ready" || !!(t as any).streaming_url}
+                          />
+                        ))}
+                      </div>
+                    )}
+
                     <VirtualizedTrackList
-                      tracks={filteredTracks}
+                      tracks={readyTracks}
                       viewMode={viewMode}
                       activeTrackId={activeTrackId}
                       getCountsForTrack={getCountsForTrack}
