@@ -3,14 +3,11 @@ import { authorize } from "../_shared/auth.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { corsHeaders } from "../_shared/cors.ts";
+import { getAudioUrl, getImageUrl, getModelName, getStreamUrl } from "../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("sync-stale-tasks");
 
-// Helper functions for snake_case field access (Suno API uses snake_case)
-const getAudioUrl = (clip: any) => clip.source_audio_url || clip.audio_url;
-const getStreamUrl = (clip: any) => clip.source_stream_audio_url || clip.stream_audio_url;
-const getImageUrl = (clip: any) => clip.source_image_url || clip.image_url;
-const getLyrics = (clip: any) => clip.prompt || clip.lyric || ""; // Suno uses 'prompt' for lyrics
+const getLyrics = (clip: any) => clip?.prompt || clip?.lyrics || clip?.lyric || ""; // Suno uses 'prompt' for lyrics
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -157,10 +154,10 @@ serve(async (req) => {
           }
         }
 
-        // Skip only if track is fully healed (status=completed AND has audio_url).
+        // Skip only if track is fully healed (status=completed, has audio, and has an active version).
         // Otherwise recover: track may be marked "completed" but missing audio_url/versions.
         if (!task.tracks) continue;
-        if (task.tracks.status === "completed" && task.tracks.audio_url) continue;
+        if (task.tracks.status === "completed" && task.tracks.audio_url && task.tracks.active_version_id) continue;
 
         logger.info("Recovering track from completed task", { trackId: task.track_id, taskId: task.id });
 
@@ -237,15 +234,19 @@ serve(async (req) => {
               tags: firstClip.tags || task.tracks?.tags,
               lyrics: lyrics,
               suno_id: firstClip.id,
-              model_name: firstClip.model_name || "chirp-v4",
+              model_name: getModelName(firstClip) || "chirp-v4",
             })
             .eq("id", task.track_id);
 
           // Create versions for all clips
           const versionLabels = ["A", "B", "C", "D", "E"];
+          let primaryVersionId = task.tracks?.active_version_id || null;
           for (let i = 0; i < clips.length; i++) {
             const clip = clips[i];
             const versionLabel = versionLabels[i] || `V${i + 1}`;
+            const clipAudioUrl = getAudioUrl(clip);
+            const clipImageUrl = getImageUrl(clip);
+            const shouldBePrimary = !primaryVersionId;
 
             // Check if version already exists
             const { data: existingVersion } = await supabase
@@ -255,26 +256,46 @@ serve(async (req) => {
               .eq("version_label", versionLabel)
               .single();
 
-            if (!existingVersion) {
-              await supabase.from("track_versions").insert({
-                track_id: task.track_id,
-                audio_url: localAudioUrl || getAudioUrl(clip),
-                cover_url: localCoverUrl || getImageUrl(clip),
-                duration_seconds: Math.round(clip.duration) || null,
-                version_type: i === 0 ? "initial" : "original",
-                version_label: versionLabel,
-                clip_index: i,
-                is_primary: i === 0,
-                metadata: {
-                  suno_id: clip.id,
-                  title: clip.title,
-                  tags: clip.tags,
-                  lyrics: getLyrics(clip),
-                  recovered: true,
-                },
-              });
+            const versionData = {
+              audio_url: i === 0 ? localAudioUrl || clipAudioUrl : clipAudioUrl,
+              cover_url: i === 0 ? localCoverUrl || clipImageUrl : clipImageUrl,
+              duration_seconds: Math.round(clip.duration) || null,
+              metadata: {
+                suno_id: clip.id,
+                title: clip.title,
+                tags: clip.tags,
+                lyrics: getLyrics(clip),
+                model_name: getModelName(clip),
+                recovered: true,
+              },
+            };
+
+            if (existingVersion) {
+              await supabase
+                .from("track_versions")
+                .update({ ...versionData, is_primary: shouldBePrimary || undefined })
+                .eq("id", existingVersion.id);
+              if (!primaryVersionId) primaryVersionId = existingVersion.id;
+            } else {
+              const { data: newVersion } = await supabase
+                .from("track_versions")
+                .insert({
+                  track_id: task.track_id,
+                  ...versionData,
+                  version_type: i === 0 ? "initial" : "original",
+                  version_label: versionLabel,
+                  clip_index: i,
+                  is_primary: shouldBePrimary,
+                })
+                .select("id")
+                .single();
+              if (!primaryVersionId && newVersion) primaryVersionId = newVersion.id;
               logger.info("Version created for recovered track", { versionLabel });
             }
+          }
+
+          if (primaryVersionId && !task.tracks.active_version_id) {
+            await supabase.from("tracks").update({ active_version_id: primaryVersionId }).eq("id", task.track_id);
           }
 
           logger.info("Track recovered successfully", { trackId: task.track_id });
