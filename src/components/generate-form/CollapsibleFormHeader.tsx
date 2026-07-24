@@ -227,14 +227,32 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl bg-muted/40 border border-border/50 hover:bg-muted flex-shrink-0 focus-visible:ring-2 focus-visible:ring-primary/60"
+            className="relative h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl bg-muted/40 border border-border/50 hover:bg-muted hover:border-primary/40 focus-visible:border-primary/60 flex-shrink-0 focus-visible:ring-2 focus-visible:ring-primary/60 transition-colors"
             onClick={(e) => {
               e.stopPropagation();
+              haptic("light");
               onOpenHistory();
             }}
-            aria-label="Открыть историю промптов"
+            aria-label="Открыть историю промптов и вдохновение"
+            title="История промптов"
           >
             <History className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            {typeof window !== "undefined" &&
+              (() => {
+                try {
+                  const raw = window.localStorage.getItem("musicverse_prompt_history");
+                  const hasLocal = !!raw && raw !== "[]";
+                  if (!hasLocal) return null;
+                  return (
+                    <span
+                      aria-hidden="true"
+                      className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-neon shadow-[0_0_6px_hsl(var(--neon))]"
+                    />
+                  );
+                } catch {
+                  return null;
+                }
+              })()}
           </Button>
         )}
       </div>
