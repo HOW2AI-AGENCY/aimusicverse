@@ -1,123 +1,67 @@
-# Редизайн пути генерации
+## Контекст (что подтверждено чтением)
 
-Цель — снизить визуальный шум, унифицировать разметку и сократить путь «идея → готовый трек». Дизайн-токены и Neon-палитра остаются прежними (это не смена бренда, а чистка потока).
+- `PROJECT_STATUS.md`: последняя сессия — Sprint 065 (Generate v2 + Home Redesign). Метрики: TS 0 err, 1810 unit-тестов, eager bundle 508 KB gzip, `any`-бюджет 0/50.
+- Открытые долги, зафиксированные документами:
+  - **Sprint 066 — Dependency Health**: `npm install` падает `ERESOLVE` (vite@8 ↔ `@storybook/react-vite@8.6.18` требует vite ≤6). Обход `--legacy-peer-deps`. Также рассинхрон версий в `CLAUDE.md` (заявлен Vite 5).
+  - **Sprint 068 — Edge Fn Decomposition**: ≥10 функций >800 LOC. Фактически подтверждено: `klangio-analyze` 1084, `generate-track-cover` 1015, `process-audio-pipeline` 822, `suno-music-generate` 759, `sync-stale-tasks` 681, `project-ai` 666, `mcp` 645, `send-telegram-notification` 594.
+  - **Sprint 069 — Bundle + Perf budgets**: запланирован, не начат.
+- Свежие правки (этот тред): Sentry-scope с активным треком в `ErrorBoundary`/`ErrorBoundaryWrapper`/`main.tsx`, lazy `UnifiedTrackSheet`, скрипт `release:preflight`. Их надо валидировать в бою.
+- 6 зависимостей с уязвимостями (1 high, 4 moderate, 1 low) по бейджу `PROJECT_STATUS.md` — не закрыты.
 
-## Текущий путь и его боли
+Планируемые ниже пункты — новая работа; текущее состояние по каждому долгу указано выше на основании прочитанных документов и `wc -l` по `supabase/functions/`.
 
-```text
-Home → [триггер генерации]
-  ↓
-GenerateSheet (открытие sheet/dialog)
-  ├─ Header (mode: Simple / Custom / References)   ← 3 таба, каждый со своим состоянием
-  ├─ Body
-  │   ├─ Simple form   (Prompt + Style + Title)
-  │   ├─ Custom form   (Lyrics + Structure + Advanced)
-  │   └─ References    (2×2 grid + upload dialogs)
-  └─ Footer (Generate button + credits + warnings)
-  ↓
-GenerationLoadingState (2-3 мин ожидания)
-  ↓
-GenerationResultSheet  (A/B выбор + первое воспроизведение)
-  ↓
-Library / Player
-```
+## План работ (6 шагов, каждый шиппится отдельно)
 
-Проблемы, которые я вижу в коде:
+### 1. Валидация недавних правок Sentry + lazy sheet
+- Прогнать `npm run typecheck` и `npm test -- src/lib/errorContext src/components/ErrorBoundary`.
+- Ручной smoke: кинуть тестовое исключение из `/library` при активном треке → убедиться, что в `sessionStorage.musicverse_boot_log` и в Sentry-событии есть `route`, `activeTrackId`, `activeVersionId`.
+- Проверить в build-логе, что `UnifiedTrackSheet.tsx` уехал в отдельный чанк (`vite build` → `dist/assets/…UnifiedTrackSheet-*.js`).
+- Если чанк слипся с library — вынести в `manualChunks`.
 
-1. **Шум в шапке:** `CollapsibleFormHeader` + `GenerationStepIndicator` + `CreditBalanceIndicator` + `CreditBalanceWarning` дублируют статус.
-2. **Три режима как табы** — пользователь платит когнитивно за выбор *до того*, как поймёт что хочет. На мобиле табы + свёрнутый sidebar ломают ритм.
-3. **Loading state (261 строка)** — большой блок, но не даёт «предпросмотра» (title/lyrics приходят на стадии `text` callback ~10-30с, но не всегда показаны крупно).
-4. **Result sheet (507 строк)** — переносит принятие решения на потом; выбор A/B часто игнорируется.
-5. **Footer:** `GenerateFormActions` + `GenerateSheetFooter` — два футера в разных местах.
+### 2. Sprint 066 — Dependency Health (unblock `npm install`)
+- Обновить `@storybook/react-vite` до линии, поддерживающей vite@8 (актуально `^9`), либо, если ломает stories, откатить vite на `^6` (быстрее). Решение выбрать после `npm view @storybook/react-vite versions --json`.
+- Прогнать `npm audit` → зафиксировать 6 CVE, обновить только те deps, что не требуют мажорных миграций; остальное — issue.
+- Синхронизировать `CLAUDE.md` (Vite 8, а не 5) и `AGENTS.md`.
+- Definition of done: `npm ci` без `--legacy-peer-deps`, `npm audit --production` = 0 high.
 
-## Что делаем
+### 3. Sprint 068 — Edge Function Decomposition (первый заход, 4 из 10)
+Разбить только самые крупные, где риск регрессии минимален (нет платежей):
+- `klangio-analyze/index.ts` (1084) → `handlers/{upload,poll,persist}.ts` + `lib/{klangio-client,mapping}.ts`.
+- `generate-track-cover/index.ts` (1015) → `handlers/{generate,upscale,upload}.ts` + `lib/prompt.ts`.
+- `process-audio-pipeline/index.ts` (822) → шаги пайплайна в отдельные модули с общим `context.ts`.
+- `suno-music-generate/index.ts` (759) → выделить `lib/payload-mapper.ts` (camelCase/snake_case) и `handlers/{start,callback-wire}.ts`.
+Для каждой: сохранить точку входа `index.ts` < 200 LOC, тесты в `supabase/functions/<name>/__tests__/`. `process-audio-pipeline` и `suno-music-generate` — с smoke-тестом через `supabase--test_edge_functions`.
 
-### 1. Единый header-статус (объединение 4 компонентов)
+Оставшиеся 4 функции (`sync-stale-tasks`, `project-ai`, `mcp`, `send-telegram-notification`) — во второй заход отдельным PR.
 
-Заменить `CollapsibleFormHeader` + `GenerationStepIndicator` + `CreditBalanceIndicator` + `CreditBalanceWarning` одной строкой:
+### 4. Sprint 069 — Bundle + Perf budgets
+- Установить `size-limit` порог 950 KB (уже используется) на **gzip eager** + новый порог 200 KB на `library` route-chunk.
+- Прогнать `vite build --report`, собрать топ-10 модулей по весу, вынести в issue `perf-budget-followups`.
+- Добавить `npm run size:library` (size-limit конфиг для конкретного чанка).
+- Включить `size` шаг в `.github/workflows/quality-check.yml`.
 
-```text
-[Иконка режима] [Название режима]     ●─○─○  120 ⚡
-```
+### 5. N+1 second pass — фактические подтверждения
+- Добавить в dev-режиме счётчик Supabase-запросов на маршрут через `supabase.channel`-обвязку в `src/integrations/supabase/client.ts` (только `import.meta.env.DEV`), логировать в `logger.debug` c маршрутом.
+- Пройти сценарии: cold `/library`, открыть `UnifiedTrackSheet`, переключить версию, лайкнуть трек. Зафиксировать реальные числа запросов в `docs/perf/library-queries.md` (после чего убрать инструментирование или спрятать за флагом).
 
-- Один индикатор прогресса (dots), один счётчик кредитов, всё правое поле.
-- Предупреждение о балансе — inline только при `credits < cost`, красным на месте счётчика.
-- Экономит ~80px вертикали.
-
-### 2. Прогрессивное раскрытие вместо табов
-
-Убрать явные табы Simple/Custom/References. Оставить один экран, где:
-- сверху — единое поле «Что создаём?» (prompt),
-- под ним — свернутый аккордеон «Дополнительно: тексты, референсы, продвинутое»,
-- Custom / References активируются автоматически, когда пользователь коснулся соответствующего раздела.
-
-Табы остаются доступны через switcher в углу для power-users, но не блокируют вход.
-
-### 3. Loading state = живой предпросмотр
-
-Использовать `text`-callback (уже приходит на 10-30с), чтобы показать:
-- реальный сгенерированный **заголовок** крупно,
-- **первые 4 строки лирики** с эффектом typewriter,
-- прогресс-бар с явными стадиями: `Обдумывание → Композиция → Финальный микс` (сейчас — три dot'а без семантики).
-
-Убрать псевдо-анимации волн (`GenerationLoadingState`) — они не отражают реальности и добавляют шум.
-
-### 4. Result sheet → inline compare
-
-Вместо отдельного sheet — inline-панель в текущем контексте:
-- две карточки A/B бок-о-бок с одноклик play на каждой,
-- активный вариант автоматически подсвечивается, но переключение — один тап,
-- кнопка «Оставить оба» / «Оставить только этот» одной строкой снизу.
-
-Убирает лишний экран между генерацией и библиотекой.
-
-### 5. Один футер, одно действие
-
-Оставить только `GenerateSheetFooter`, удалить `GenerateFormActions` (или наоборот — выбор по контексту layoutа). Одна primary-кнопка «Создать трек», справа — стоимость.
-
-### 6. Микро-разметка (везде)
-
-- Отступы карточек в `Advanced settings` → `space-y-3` вместо `space-y-6` (сейчас перегружено).
-- `SectionLabel` без иконок в 90% случаев — иконки оставить только для visual-anchor разделов (References, Lyrics).
-- `PromptValidationAlert` → inline hint под полем, не отдельная плашка.
-
-## Файлы, которые буду менять
-
-| Файл | Что |
-| --- | --- |
-| `src/components/GenerateSheet.tsx` | Свести header/footer к единому layoutу |
-| `src/components/generate-form/CollapsibleFormHeader.tsx` | Объединить с `GenerationStepIndicator` + credits |
-| `src/components/generate-form/GenerationLoadingState.tsx` | Использовать `text` callback, стадийный прогресс |
-| `src/components/generate-form/GenerationResultSheet.tsx` | Inline A/B compare вместо отдельного sheet |
-| `src/components/generate-form/GenerateFormSimple.tsx` | Прогрессивный аккордеон вместо трёх режимов |
-| `src/components/generate-sheet/GenerateSheetFooter.tsx` | Единственная точка primary-действия |
-| `src/components/generate-form/PromptValidationAlert.tsx` | Inline hint |
-| `src/components/generate-form/CreditBalanceIndicator.tsx` | Убирается — сливается в header |
-
-Плюс визуальный регресс-тест `tests/visual/generate-flow.spec.ts` на 4 контрольные точки (idle, loading, text-callback, result).
-
-## Что НЕ трогаю
-
-- Neon-палитра, шрифты, дизайн-токены (`src/lib/design-tokens.ts`) — остаются.
-- Логика Suno (callback handlers, RPC, credits).
-- Роутинг и state stores (`useGenerateForm`, `useUnifiedStudioStore`).
-- Компоненты студии, библиотеки, комьюнити — только вход в генерацию.
+### 6. Release preflight
+- Проверить, что `npm run release:preflight` проходит локально (lint → typecheck → test → build → `test:smoke:chromium`).
+- Добавить step `release:preflight` в отдельный workflow `release-preflight.yml`, триггер `workflow_dispatch` + `push` в `release/*`.
+- Обновить `CHANGELOG.md` и `PROJECT_STATUS.md` (сессия 2026-07-24, Sprint 066/068/069 частично закрыты).
 
 ## Технические детали
 
-- Всё через существующие shadcn-примитивы (`Sheet`, `Card`, `Progress`) — новых зависимостей нет.
-- Иконки только из `@/lib/icons` (обёртка над lucide-react).
-- Мобильный layout: остаётся `MobileBottomSheet` (vaul), touch-target ≥ 44px.
-- Safe-area переменные `--tg-*` уже используются — сохраняю.
-- Каждый рефакторнутый файл прогоняю через `bunx tsgo --noEmit`.
+- Sentry-контекст трека уже пишется через `getErrorScope()` (`src/lib/errorContext.ts`) — новые edge-функции не задевает; менять контракт не нужно.
+- `LazyUnifiedTrackSheet` рендерит `null` при `open=false`, поэтому чанк не грузится до первого клика по «⋯» — при декомпозиции edge-функций фронтовые импорты не трогаем.
+- Для edge-декомпозиции строгий инвариант: `supabase/config.toml` не редактируем, только добавляем файлы внутри существующих папок функций — деплой конфига остаётся прежним.
+- Все новые модули edge-функций импортируются относительными путями (`./lib/...`), т.к. edge-runtime не резолвит `@/`.
 
-## Порядок работ
+## Что НЕ делаем в этом плане
 
-1. Header consolidation (небольшой, быстрый win) — 1 коммит.
-2. Loading state + text-callback preview — 1 коммит.
-3. Result sheet → inline compare — 1 коммит.
-4. Simple/Custom прогрессивное раскрытие — 1 коммит (риск регрессий выше, поэтому в конце).
-5. Микро-разметка и удаление дублирующих футеров — 1 коммит.
-6. Визуальный regression-тест — финальный коммит.
+- Не трогаем платёжные функции (Tinkoff/Stars) и telegram-bot — отдельный релизный цикл.
+- Не начинаем Q3-эпики (Realtime co-editing, Marketplace) — сначала закрываем tech-debt.
+- Не переписываем Storybook stories, только чиним peer-конфликт.
 
-Каждый шаг можно откатить независимо.
+## Порядок мержа
+
+1 → 2 → 6 (unblock CI и релизный прогон), затем 3 → 4 → 5 параллельными PR.
