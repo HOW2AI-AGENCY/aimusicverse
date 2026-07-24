@@ -75,8 +75,10 @@ export function ProfileEmojiPicker({ onUpgrade }: ProfileEmojiPickerProps) {
     status: STATUS_EMOJIS,
   };
 
-  // Check if emoji status API is available (only on Telegram Premium)
-  const isEmojiStatusAvailable = isTelegram && typeof webApp?.setEmojiStatus === "function";
+  // Check if emoji status API is available (Telegram WebApp 7.8+, Premium-only)
+  const emojiVersionOk =
+    isTelegram && typeof webApp?.isVersionAtLeast === "function" ? webApp.isVersionAtLeast("7.8") : false;
+  const isEmojiStatusAvailable = isTelegram && emojiVersionOk && typeof webApp?.setEmojiStatus === "function";
 
   // Check if user has Telegram Premium
   const isTelegramPremium = isTelegram && webApp?.initDataUnsafe?.user?.is_premium;
