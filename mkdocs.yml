@@ -1,7 +1,7 @@
 site_name: MusicVerse AI Docs
 site_description: Documentation for the MusicVerse AI Telegram Mini App
-site_url: https://aimusicverse.github.io/docs/
-repo_url: https://github.com/aimusicverse/musicverse
+site_url: https://how2ai-agency.github.io/aimusicverse/
+repo_url: https://github.com/how2ai-agency/aimusicverse
 edit_uri: edit/main/
 docs_dir: .
 site_dir: site
@@ -92,6 +92,10 @@ nav:
       - Navigation: docs/NAVIGATION.md
 
 exclude_docs: |
+  # Vite SPA entry at the repo root. Its output path (index.html) collides with
+  # README.md -> index.html, which makes MkDocs drop the homepage (root 404).
+  # Excluding it lets README.md become the site homepage.
+  /index.html
   node_modules/
   dist/
   build/

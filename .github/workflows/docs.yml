@@ -114,5 +114,17 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Assert the "GitHub Actions" Pages build type. The repo also has a legacy
+      # "Deploy from a branch" source active, which triggers the Jekyll-based
+      # pages-build-deployment on every push to main; that builder renders the
+      # whole markdown tree and fails on Liquid ({{ }}) syntax. Enabling the
+      # workflow build type makes this MkDocs deployment the single source of
+      # truth. continue-on-error so a config-API hiccup never blocks the deploy.
+      - name: Configure Pages (assert GitHub Actions source)
+        continue-on-error: true
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
       - id: deployment
         uses: actions/deploy-pages@v4
