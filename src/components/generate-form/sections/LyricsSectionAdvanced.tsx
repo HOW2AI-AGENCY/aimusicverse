@@ -120,6 +120,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   const showPreview = viewMode === "preview";
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
+  const [showProsody, setShowProsody] = useState(false);
 
   // Preserve cursor/selection in the text-mode textarea across mode switches.
   const textareaRef = useRef<HTMLTextAreaElement>(null);
