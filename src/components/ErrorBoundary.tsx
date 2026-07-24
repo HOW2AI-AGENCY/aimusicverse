@@ -54,17 +54,42 @@ export class ErrorBoundary extends Component<Props, State> {
       // Ignore storage errors
     }
 
-    // Use structured error logging
+    const scope = getErrorScope();
+
+    // Structured error log (also forwards to Sentry via dynamic import)
     logError(error, {
       componentStack: errorInfo.componentStack,
       boundary: "ErrorBoundary",
+      route: scope.route,
+      activeTrackId: scope.activeTrackId,
+      activeVersionId: scope.activeVersionId,
     });
+
+    // Attach player + route context on the Sentry scope so this crash is
+    // triaged with the exact screen/track the user was on.
+    if (isSentryEnabled) {
+      Sentry.withScope((s) => {
+        s.setTag("error_boundary", "root");
+        s.setTag("route", scope.route);
+        s.setContext("player", {
+          activeTrackId: scope.activeTrackId,
+          activeTrackTitle: scope.activeTrackTitle,
+          activeVersionId: scope.activeVersionId,
+          isPlaying: scope.isPlaying,
+          playerMode: scope.playerMode,
+          queueLength: scope.queueLength,
+        });
+        s.setExtra("componentStack", errorInfo.componentStack);
+        Sentry.captureException(error);
+      });
+    }
 
     // Also log to existing logger for backwards compatibility
     logger.error("Error caught by boundary", {
       error: error.message,
       stack: error.stack,
       componentStack: errorInfo.componentStack,
+      ...scope,
     });
   }
 
