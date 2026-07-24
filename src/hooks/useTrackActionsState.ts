@@ -1,15 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Track } from "@/types/track";
-import { supabase } from "@/integrations/supabase/client";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useVideoGenerationStatus } from "@/hooks/useVideoGenerationStatus";
 import { useTrackActions } from "@/hooks/useTrackActions";
 import { useAudioUpscale } from "@/hooks/useAudioUpscale";
+import { useTrackStems } from "@/hooks/useTrackStems";
+import { useTrackVersions } from "@/hooks/useTrackVersions";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable, isActionDisabled } from "@/lib/trackActionConditions";
+
 
 interface UseTrackActionsStateProps {
   track: Track;
@@ -45,15 +47,32 @@ interface DialogStates {
 export function useTrackActionsState({ track, onDelete, onDownload, onClose, enabled = true }: UseTrackActionsStateProps) {
   const navigate = useNavigate();
 
-  // State
-  const [stemCount, setStemCount] = useState(0);
-  const [versionCount, setVersionCount] = useState(0);
-  const [activeVersion, setActiveVersion] = useState<{
-    versionLabel: string;
-    audioUrl: string;
-    sunoId?: string;
-  } | null>(null);
-  const [stems, setStems] = useState<Array<{ id: string; stem_type: string; audio_url: string }>>([]);
+  // Cached queries — deduped across menu/sheet, cached across re-opens.
+  const stemsQuery = useTrackStems(enabled && track?.id ? track.id : "");
+  const versionsQuery = useTrackVersions(enabled && track?.id ? track.id : undefined);
+
+  const stems = useMemo(
+    () => (stemsQuery.data || []).map((s) => ({ id: s.id, stem_type: s.stem_type, audio_url: s.audio_url })),
+    [stemsQuery.data],
+  );
+  const stemCount = stems.length;
+  const versions = versionsQuery.data || [];
+  const versionCount = versions.length;
+
+  const activeVersion = useMemo(() => {
+    if (!versions.length) return null;
+    const sorted = [...versions].sort((a, b) => (a.clip_index ?? 0) - (b.clip_index ?? 0));
+    const active = track?.active_version_id
+      ? sorted.find((v) => v.id === track.active_version_id) || sorted[0]
+      : sorted[0];
+    const meta = (active.metadata ?? {}) as { suno_id?: string };
+    return {
+      versionLabel: active.version_label || "A",
+      audioUrl: active.audio_url || track?.audio_url || "",
+      sunoId: meta.suno_id || track?.suno_id || undefined,
+    };
+  }, [versions, track?.active_version_id, track?.audio_url, track?.suno_id]);
+
   const [dialogs, setDialogs] = useState<DialogStates>({
     details: false,
     extend: false,
@@ -88,46 +107,8 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose, ena
   const { upscale: upscaleAudio, isLoading: isUpscaling } = useAudioUpscale();
   const { addToQueue, queue } = usePlayerStore();
 
-  // Fetch counts and stems
-  useEffect(() => {
-    if (!track?.id || !enabled) return;
+  const isLoadingActions = stemsQuery.isLoading || versionsQuery.isLoading;
 
-    const fetchData = async () => {
-      const [stemsResult, versionsResult] = await Promise.all([
-        supabase.from("track_stems").select("id, stem_type, audio_url").eq("track_id", track.id),
-        supabase
-          .from("track_versions")
-          .select("id, version_label, audio_url, metadata")
-          .eq("track_id", track.id)
-          .order("clip_index", { ascending: true }),
-      ]);
-
-      const stemsData = stemsResult.data || [];
-      setStems(stemsData);
-      setStemCount(stemsData.length);
-      setVersionCount(versionsResult.data?.length || 0);
-
-      // Find active version (track.active_version_id points to the primary version)
-      if (versionsResult.data?.length) {
-        const versions = versionsResult.data as Array<{
-          id?: string;
-          version_label: string;
-          audio_url: string;
-          metadata?: { suno_id?: string };
-        }>;
-        const active = track.active_version_id
-          ? versions.find((v) => v.id === track.active_version_id) || versions[0]
-          : versions[0];
-        setActiveVersion({
-          versionLabel: active.version_label || "A",
-          audioUrl: active.audio_url || track.audio_url || "",
-          sunoId: active.metadata?.suno_id || track.suno_id || undefined,
-        });
-      }
-    };
-
-    fetchData();
-  }, [track?.id, enabled]);
 
   // Check for specific stem types
   const hasVocalStem = stems.some((s) => s.stem_type === "vocal" || s.stem_type === "vocals");
@@ -362,7 +343,9 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose, ena
     activeVersion,
     actionState,
     isProcessing,
+    isLoadingActions,
     stems,
+
 
     // Dialogs
     dialogs,
