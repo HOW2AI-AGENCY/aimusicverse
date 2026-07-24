@@ -217,11 +217,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           icon={Music2}
           title="Аудио недоступно"
           description="Не удалось загрузить источник трека. Попробуйте позднее."
-          action={
-            <Button variant="secondary" onClick={onClose} className="min-h-touch">
-              Закрыть
-            </Button>
-          }
+          action={{ label: "Закрыть", onClick: onClose }}
         />
       </div>
     );
