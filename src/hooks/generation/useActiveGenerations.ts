@@ -32,7 +32,12 @@ export function useActiveGenerations() {
       return data as ActiveGeneration[];
     },
     enabled: !!user?.id,
-    refetchInterval: 5000, // Poll every 5 seconds
-    staleTime: 2000,
+    // Adaptive polling: only hammer the DB when something is actually generating
+    refetchInterval: (query) => {
+      const data = query.state.data as ActiveGeneration[] | undefined;
+      return data && data.length > 0 ? 5000 : false;
+    },
+    refetchOnWindowFocus: true,
+    staleTime: 5000,
   });
 }
