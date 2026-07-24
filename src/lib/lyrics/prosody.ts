@@ -255,3 +255,108 @@ export function analyzeProsody(text: string): ProsodyReport {
 
   return { lines, sections, totalIssues, problemLineIndices };
 }
+
+/**
+ * Incremental analyzer — reuses `AnalyzedLine` entries from a previous report
+ * for lines whose raw text AND section context are unchanged.
+ *
+ * The editor calls this on every keystroke; reusing objects keeps
+ * `<LyricsProsodyPanel>` list items referentially stable, so React skips
+ * re-rendering unchanged rows and the textarea keeps caret + selection.
+ *
+ * Rhyme groups are recomputed per contiguous run (section) — but only for
+ * runs that actually changed. Unchanged runs keep the previous scheme and
+ * per-line `rhymeGroup` assignments verbatim.
+ */
+export function analyzeProsodyIncremental(
+  text: string,
+  prev: ProsodyReport | null,
+): ProsodyReport {
+  if (!prev) return analyzeProsody(text);
+
+  const rawLines = text.split("\n");
+
+  // Split into runs the same way `analyzeProsody` does so the cache key
+  // matches: [Tag] and blank lines act as separators.
+  type Run = { start: number; end: number; lines: string[]; sectionLabel: string | null };
+  const runs: Run[] = [];
+  let currentSection: string | null = null;
+  let i = 0;
+  while (i < rawLines.length) {
+    // Advance through tags/empties, tracking section labels.
+    while (i < rawLines.length && (rawLines[i].trim() === "" || isTagLine(rawLines[i]))) {
+      if (isTagLine(rawLines[i])) {
+        const m = rawLines[i].match(/\[([^\]]+)\]/);
+        currentSection = m?.[1] ?? currentSection;
+      }
+      i++;
+    }
+    if (i >= rawLines.length) break;
+    const start = i;
+    while (i < rawLines.length && rawLines[i].trim() !== "" && !isTagLine(rawLines[i])) i++;
+    runs.push({
+      start,
+      end: i - 1,
+      lines: rawLines.slice(start, i),
+      sectionLabel: currentSection,
+    });
+  }
+
+  // Build a map of previous runs keyed by their content signature.
+  const prevRunsBySig = new Map<string, AnalyzedLine[]>();
+  for (const sec of prev.sections) {
+    const key = signRun(prev.lines, sec.startLine, sec.endLine, sec.label);
+    prevRunsBySig.set(key, prev.lines.slice(sec.startLine, sec.endLine + 1));
+  }
+
+  // Build the analyzed line array — start from a fresh full pass to keep
+  // tags/empties/section propagation correct, then splice in reused runs.
+  const fresh = analyzeProsody(text);
+  const merged: AnalyzedLine[] = fresh.lines.slice();
+
+  const reusedSections: ProsodyReport["sections"] = [];
+  for (const run of runs) {
+    const sig = signRunFromRaw(run.lines, run.sectionLabel);
+    const cached = prevRunsBySig.get(sig);
+    if (cached && cached.length === run.lines.length) {
+      // Rewrite indices to match the current layout.
+      for (let k = 0; k < cached.length; k++) {
+        const idx = run.start + k;
+        merged[idx] = { ...cached[k], index: idx, section: run.sectionLabel };
+      }
+      const scheme = prev.sections.find((s) => s.label === run.sectionLabel && signRun(prev.lines, s.startLine, s.endLine, s.label) === sig)?.scheme || "";
+      const countable = cached.filter((l) => !l.isTag && !l.isEmpty && !l.isBackVocal);
+      reusedSections.push({
+        label: run.sectionLabel ?? "Секция",
+        startLine: run.start,
+        endLine: run.end,
+        scheme,
+        issueCount: countable.reduce((sum, l) => sum + l.issues.length, 0),
+      });
+    }
+  }
+
+  // For sections we couldn't reuse, keep the freshly computed entries — they're
+  // already in `merged` and `fresh.sections`. Combine section lists so callers
+  // see one entry per run.
+  const finalSections = fresh.sections.map((s) => {
+    const reused = reusedSections.find((r) => r.startLine === s.startLine && r.endLine === s.endLine);
+    return reused ?? s;
+  });
+
+  const problemLineIndices = merged
+    .filter((l) => l.issues.some((iss) => iss.level !== "info"))
+    .map((l) => l.index);
+  const totalIssues = merged.reduce((sum, l) => sum + l.issues.length, 0);
+
+  return { lines: merged, sections: finalSections, totalIssues, problemLineIndices };
+}
+
+function signRun(lines: AnalyzedLine[], startLine: number, endLine: number, label: string | null): string {
+  const slice = lines.slice(startLine, endLine + 1).map((l) => l.raw).join("\u0001");
+  return `${label ?? ""}\u0002${slice}`;
+}
+function signRunFromRaw(lines: string[], label: string | null): string {
+  return `${label ?? ""}\u0002${lines.join("\u0001")}`;
+}
+
