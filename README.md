@@ -323,6 +323,31 @@ aimusicverse/
 | 🗂 **Структура репозитория** | [REPOSITORY_STRUCTURE.md](REPOSITORY_STRUCTURE.md)                         | Онбординг      |
 | 🛠 **Dev гайд**              | [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)                         | Разработчики   |
 | 🎨 **Design System**        | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайнеры      |
+| 🤖 **MCP-сервер (агенты)**  | [docs/MCP.md](docs/MCP.md)                                                 | AI-интеграции  |
+
+### 🤖 MCP-сервер — управление MusicVerse из AI-ассистентов
+
+MusicVerse AI поставляется со встроенным **Model Context Protocol** сервером —
+ChatGPT, Claude, Cursor, Codex и Lovable могут искать треки в публичном
+каталоге, вести библиотеку и **запускать реальные генерации Suno** прямо из чата.
+
+- **Endpoint:** `https://<project-ref>.supabase.co/functions/v1/mcp`
+- **Аутентификация:** Supabase OAuth 2.1 с dynamic client registration
+  (согласие выдаётся на странице [`/.lovable/oauth/consent`](src/pages/OAuthConsent.tsx))
+- **Публичные инструменты** работают без логина: `search_public_tracks`,
+  `get_track`, `get_track_stems`, `list_track_versions`, `get_public_profile`,
+  `list_track_comments`.
+- **Инструменты с OAuth** действуют от лица авторизованного пользователя (RLS
+  применяется как в UI): `list_my_tracks`, `list_my_playlists`, `get_my_profile`,
+  `get_my_credits`, `like_track`, `follow_user`, `create_playlist`,
+  `add_track_to_playlist`, `remove_track_from_playlist`, `switch_active_version`,
+  `generate_track` (запускает Suno-генерацию, списывает кредиты),
+  `get_generation_status`.
+
+Исходники — [`src/lib/mcp/`](src/lib/mcp), генерируется единственная Supabase
+Edge Function `supabase/functions/mcp/index.ts` (авто-переписывается на каждой
+сборке, редактировать вручную нельзя). Полный справочник инструментов, рецепты
+использования и гайд по добавлению новых — в [docs/MCP.md](docs/MCP.md).
 
 <sub><a href="#📁-структура-проекта">← Назад: Структура</a> · <a href="#top">↑ К началу</a> · <a href="#💰-для-инвесторов">Далее: Инвесторам →</a></sub>
 

@@ -492,13 +492,128 @@ var get_generation_status_default = defineTool15({
   }
 });
 
+// src/lib/mcp/tools/follow-user.ts
+import { createClient as createClient15 } from "npm:@supabase/supabase-js@^2.86.0";
+import { defineTool as defineTool16 } from "npm:@lovable.dev/mcp-js@0.20.1";
+import { z as z14 } from "npm:zod@^4.4.3";
+var follow_user_default = defineTool16({
+  name: "follow_user",
+  title: "Follow or unfollow a user",
+  description: "Toggle a follow relationship with another MusicVerse AI user as the signed-in user. Returns the new follow state.",
+  inputSchema: {
+    user_id: z14.string().uuid().describe("UUID of the user to follow or unfollow (auth.users.id)."),
+    action: z14.enum(["follow", "unfollow"]).default("follow").describe("Whether to follow or unfollow.")
+  },
+  annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: false, openWorldHint: false },
+  handler: async ({ user_id, action }, ctx) => {
+    if (!ctx.isAuthenticated()) {
+      return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
+    }
+    const me = ctx.getUserId();
+    if (me === user_id) {
+      return { content: [{ type: "text", text: "You cannot follow yourself." }], isError: true };
+    }
+    const supabase = createClient15(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
+      global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    if (action === "unfollow") {
+      const { error: error2 } = await supabase.from("user_follows").delete().eq("follower_id", me).eq("following_id", user_id);
+      if (error2) return { content: [{ type: "text", text: error2.message }], isError: true };
+      return {
+        content: [{ type: "text", text: `Unfollowed ${user_id}` }],
+        structuredContent: { user_id, following: false }
+      };
+    }
+    const { error } = await supabase.from("user_follows").insert({ follower_id: me, following_id: user_id });
+    if (error && !error.message.toLowerCase().includes("duplicate")) {
+      return { content: [{ type: "text", text: error.message }], isError: true };
+    }
+    return {
+      content: [{ type: "text", text: `Followed ${user_id}` }],
+      structuredContent: { user_id, following: true }
+    };
+  }
+});
+
+// src/lib/mcp/tools/get-public-profile.ts
+import { createClient as createClient16 } from "npm:@supabase/supabase-js@^2.86.0";
+import { defineTool as defineTool17 } from "npm:@lovable.dev/mcp-js@0.20.1";
+import { z as z15 } from "npm:zod@^4.4.3";
+var get_public_profile_default = defineTool17({
+  name: "get_public_profile",
+  title: "Get a public profile",
+  description: "Look up another user's public MusicVerse AI profile by username or user_id. Only fields the owner has chosen to publish are returned.",
+  inputSchema: {
+    username: z15.string().trim().min(1).optional().describe("Public username (without @)."),
+    user_id: z15.string().uuid().optional().describe("UUID of the user (auth.users.id).")
+  },
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
+  handler: async ({ username, user_id }) => {
+    if (!username && !user_id) {
+      return {
+        content: [{ type: "text", text: "Provide either `username` or `user_id`." }],
+        isError: true
+      };
+    }
+    const supabase = createClient16(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    let query = supabase.from("safe_public_profiles").select(
+      "user_id, username, display_name, bio, photo_url, banner_url, followers_count, following_count, subscription_tier, created_at"
+    ).limit(1);
+    query = user_id ? query.eq("user_id", user_id) : query.eq("username", username);
+    const { data, error } = await query.maybeSingle();
+    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
+    if (!data) {
+      return {
+        content: [{ type: "text", text: "No public profile found for the given identifier." }],
+        structuredContent: { profile: null }
+      };
+    }
+    return {
+      content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+      structuredContent: { profile: data }
+    };
+  }
+});
+
+// src/lib/mcp/tools/list-track-comments.ts
+import { createClient as createClient17 } from "npm:@supabase/supabase-js@^2.86.0";
+import { defineTool as defineTool18 } from "npm:@lovable.dev/mcp-js@0.20.1";
+import { z as z16 } from "npm:zod@^4.4.3";
+var list_track_comments_default = defineTool18({
+  name: "list_track_comments",
+  title: "List comments on a public track",
+  description: "Return moderated top-level comments on a public track. Threaded replies are not expanded \u2014 pass a parent_id to fetch a specific thread.",
+  inputSchema: {
+    track_id: z16.string().uuid().describe("UUID of the track."),
+    limit: z16.number().int().min(1).max(100).default(20).describe("Max results (1-100)."),
+    parent_id: z16.string().uuid().optional().describe("Optional: fetch replies to this comment id instead of top-level comments.")
+  },
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
+  handler: async ({ track_id, limit, parent_id }) => {
+    const supabase = createClient17(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    let query = supabase.from("comments").select("id, track_id, user_id, content, likes_count, parent_id, created_at, updated_at").eq("track_id", track_id).eq("is_moderated", true).order("created_at", { ascending: false }).limit(limit);
+    query = parent_id ? query.eq("parent_id", parent_id) : query.is("parent_id", null);
+    const { data, error } = await query;
+    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
+    return {
+      content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
+      structuredContent: { comments: data ?? [] }
+    };
+  }
+});
+
 // src/lib/mcp/index.ts
 var projectRef = "ygmvthybdrqymfsqifmj";
 var mcp_default = defineMcp({
   name: "musicverse-ai-mcp",
   title: "MusicVerse AI",
-  version: "0.3.0",
-  instructions: "Tools for MusicVerse AI \u2014 an AI music creation platform. Public: search_public_tracks, get_track, get_track_stems, list_track_versions. Authenticated (OAuth): list_my_tracks, list_my_playlists, get_my_profile, get_my_credits, like_track, create_playlist, add_track_to_playlist, remove_track_from_playlist, switch_active_version, generate_track (starts a Suno job, consumes credits), get_generation_status (poll a running job).",
+  version: "0.4.0",
+  instructions: "Tools for MusicVerse AI \u2014 an AI music creation platform. Public (no login): search_public_tracks, get_track, get_track_stems, list_track_versions, get_public_profile, list_track_comments. Authenticated (OAuth, act as the signed-in user): list_my_tracks, list_my_playlists, get_my_profile, get_my_credits, like_track, follow_user, create_playlist, add_track_to_playlist, remove_track_from_playlist, switch_active_version, generate_track (starts a Suno job, consumes credits), get_generation_status (poll a running job). See docs/MCP.md in the repo for the full tool reference and usage recipes.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated"
@@ -506,11 +621,14 @@ var mcp_default = defineMcp({
   tools: [
     search_public_tracks_default,
     get_track_default,
+    get_public_profile_default,
+    list_track_comments_default,
     list_my_tracks_default,
     get_my_profile_default,
     get_my_credits_default,
     list_my_playlists_default,
     like_track_default,
+    follow_user_default,
     create_playlist_default,
     add_track_to_playlist_default,
     remove_track_from_playlist_default,
