@@ -35,8 +35,9 @@ serve(async (req) => {
         status: 401,
       });
 
-    const body: LyricsRequest = await req.json();
+    const body: LyricsRequest & { stream?: boolean } = await req.json();
     const { action, language = "ru" } = body;
+    const wantsStream = body.stream === true;
 
     // Fetch meta tags from DB
     const { data: metaTags } = await supabase
