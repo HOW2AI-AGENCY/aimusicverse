@@ -88,10 +88,17 @@ export function GenerateFormSimple({
   );
 
   const handleBoostStyle = useCallback(() => {
+    if (!description.trim()) {
+      hapticFeedback("light");
+      toast.info(g.actions.aiBoostEmptyHint || "Сначала напишите описание", {
+        description: "AI улучшит уже введённый текст, добавит теги и структуру",
+      });
+      return;
+    }
     hapticFeedback("medium");
     trackAction("ai_boost", "generation", "click", { hasDescription: !!description });
     onBoostStyle();
-  }, [hapticFeedback, onBoostStyle, trackAction, description]);
+  }, [hapticFeedback, onBoostStyle, trackAction, description, g.actions.aiBoostEmptyHint]);
 
   const handleOpenStyles = useCallback(() => {
     hapticFeedback("light");
