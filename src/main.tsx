@@ -24,6 +24,7 @@ import "./styles/shimmer.css";
 import "./styles/tokens.css";
 import { logger } from "./lib/logger";
 import { initSentry, captureError } from "./lib/sentry";
+import { getErrorScope } from "./lib/errorContext";
 import { initTelemetry } from "./lib/telemetry";
 import { migrateQueueFromPlayerStore } from "./lib/migration";
 import { perfMark, perfMeasure } from "./lib/perfMarks";
