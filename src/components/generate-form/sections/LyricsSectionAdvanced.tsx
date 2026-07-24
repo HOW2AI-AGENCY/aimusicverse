@@ -155,6 +155,39 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   // Parsed section tags for the text-mode visualization chip strip.
   const parsedTags = useMemo(() => parseSectionTags(lyrics), [lyrics]);
 
+  // Prosody analysis — cached; used both to badge the toggle and (optionally) render the panel.
+  const prosodySummary = useMemo(() => {
+    if (!lyrics.trim()) return { errors: 0, warns: 0 };
+    const report = analyzeProsody(lyrics);
+    let errors = 0;
+    let warns = 0;
+    for (const line of report.lines) {
+      for (const issue of line.issues) {
+        if (issue.level === "error") errors++;
+        else if (issue.level === "warn") warns++;
+      }
+    }
+    return { errors, warns };
+  }, [lyrics]);
+
+  const jumpToLine = useCallback(
+    (lineIndex: number) => {
+      const el = textareaRef.current;
+      if (!el) return;
+      const before = lyrics.split("\n").slice(0, lineIndex).join("\n");
+      const offset = before.length + (lineIndex > 0 ? 1 : 0);
+      const lineText = lyrics.split("\n")[lineIndex] ?? "";
+      el.focus();
+      try {
+        el.setSelectionRange(offset, offset + lineText.length);
+      } catch {
+        /* noop */
+      }
+      selectionRef.current = { start: offset, end: offset + lineText.length };
+    },
+    [lyrics],
+  );
+
   // Insert a `[Header]` at cursor position (or append) in text mode.
   const insertSectionTag = useCallback(
     (type: LyricSectionType) => {
