@@ -333,6 +333,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
             <DialogTitle className="flex items-center gap-2 text-base">
               <Music2 className="w-5 h-5 text-primary" />
               Промпты
+              {historyLoading && <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground" />}
             </DialogTitle>
           </DialogHeader>
 
