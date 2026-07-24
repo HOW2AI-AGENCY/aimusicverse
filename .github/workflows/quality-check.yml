@@ -3,7 +3,8 @@ name: Quality & Build
 on:
   push:
   pull_request:
-    branches: [main]
+    # Gate merges on every PR (not only PRs targeting main).
+    branches: ["**"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
