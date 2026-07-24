@@ -209,7 +209,10 @@ export function RevenueAnalyticsPanel({ timePeriod }: RevenueAnalyticsPanelProps
                       Number(value).toLocaleString(),
                       name === "stars" ? "Stars" : "Транзакции",
                     ]}
-                    labelFormatter={(label) => new Date(String(label ?? "")).toLocaleDateString("ru")}
+                    labelFormatter={(label) => {
+                      const s = typeof label === "string" || typeof label === "number" ? label : String(label ?? "");
+                      return new Date(s).toLocaleDateString("ru");
+                    }}
                     contentStyle={{
                       backgroundColor: "hsl(var(--card))",
                       border: "1px solid hsl(var(--border))",
