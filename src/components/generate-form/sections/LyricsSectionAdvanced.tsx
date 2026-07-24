@@ -449,6 +449,11 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           </div>
         )}
 
+        {/* Prosody / rhyme-meter diagnostics — visible in every editor mode when enabled. */}
+        {showProsody && <LyricsProsodyPanel lyrics={lyrics} onJumpToLine={jumpToLine} />}
+
+
+
 
         {/* Validation message */}
         {lyricsValidation && (
