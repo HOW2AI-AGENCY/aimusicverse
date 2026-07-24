@@ -262,10 +262,6 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       error_message: skippedClips.length > 0
         ? `${skippedClips.length}/${clips.length} clips skipped: ${skippedClips.map((s) => s.code).join(", ")}`
         : null,
-      metadata: {
-        skipped_clips: skippedClips,
-        missing_covers: missingCovers,
-      },
     })
     .eq("id", task.id);
 
