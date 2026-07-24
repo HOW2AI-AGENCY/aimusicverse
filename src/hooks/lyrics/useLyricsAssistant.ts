@@ -291,22 +291,39 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
       setIsLoading(true);
       addUserMessage(instruction);
       try {
-        const { data } = await sendAiChatMessage({
+        const conversationHistory = messages
+          .slice(-10)
+          .filter((m) => m.id !== "welcome")
+          .map((m) => ({ role: m.role, content: m.content }));
+        const { data, error } = await sendAiChatMessage({
           message: instruction,
           context: {
             currentLyrics: generatedLyrics,
             genre: selectedGenre,
             mood: selectedMoods,
             structure: selectedStructure,
+            conversationHistory,
           },
         });
+        if (error) {
+          addAssistantMessage("Ошибка при редактировании.");
+          return;
+        }
+        const anyData = data as Record<string, unknown> | null;
+        const responseText = typeof anyData?.response === "string" ? (anyData.response as string) : "";
         if (data?.lyrics) {
           setGeneratedLyrics(data.lyrics);
-          addAssistantMessage("Обновил:", "lyrics-preview", {
+          addAssistantMessage(responseText || "Обновил:", "lyrics-preview", {
             lyrics: data.lyrics,
-            title: generatedTitle,
-            style: generatedStyle,
+            title: data.title || generatedTitle,
+            style: data.style || generatedStyle,
           });
+          if (data.title) setGeneratedTitle(data.title);
+          if (data.style) setGeneratedStyle(data.style);
+        } else if (responseText) {
+          addAssistantMessage(responseText);
+        } else {
+          addAssistantMessage("Готово.");
         }
       } catch {
         addAssistantMessage("Ошибка при редактировании.");
@@ -315,6 +332,7 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
       }
     },
     [
+      messages,
       generatedLyrics,
       selectedGenre,
       selectedMoods,
