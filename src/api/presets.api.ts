@@ -1,14 +1,11 @@
-// @ts-nocheck — schema drift: таблица `presets` и RPC increment_preset_usage /
-// apply_preset_to_track отсутствуют в сгенерированных Database типах.
-// TODO(Sprint 045): восстановить после `supabase gen types typescript`.
 /**
  * Presets API Layer
  * Raw Supabase database operations for mixer and effects presets
  *
  * API Contract Reference: specs/031-mobile-studio-v2/contracts/api-contracts.md
  */
-
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 import { logger } from "@/lib/logger";
 
 // ============= Type Definitions =============
@@ -379,7 +376,7 @@ export async function createPreset(input: CreatePresetInput, userId: string): Pr
       is_system: false,
       user_id: userId,
       usage_count: 0,
-      settings: input.settings as Record<string, unknown>,
+      settings: input.settings as unknown as Json,
     };
 
     const { data, error } = await supabase.from("presets").insert(presetData).select().single();
@@ -448,7 +445,7 @@ export async function updatePreset(
     if (input.isPublic !== undefined) updateData.is_public = input.isPublic;
     if (input.settings !== undefined) updateData.settings = input.settings as Record<string, unknown>;
 
-    const { data, error } = await supabase.from("presets").update(updateData).eq("id", presetId).select().single();
+    const { data, error } = await supabase.from("presets").update(updateData as never).eq("id", presetId).select().single();
 
     if (error) {
       throw new Error(error.message);
@@ -543,7 +540,7 @@ export async function incrementPresetUsage(presetId: string): Promise<void> {
     }
   } catch (error: unknown) {
     // Log error but don't throw - usage count is not critical
-    logger.warn("Failed to increment preset usage", error instanceof Error ? error : new Error(String(error)));
+    logger.warn("Failed to increment preset usage", { error: error instanceof Error ? error.message : String(error) });
   }
 }
 

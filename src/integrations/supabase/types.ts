@@ -2516,6 +2516,63 @@ export type Database = {
         }
         Relationships: []
       }
+      presets: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          is_public: boolean
+          is_system: boolean
+          name: string
+          settings: Json
+          updated_at: string
+          usage_count: number
+          user_id: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          is_system?: boolean
+          name: string
+          settings?: Json
+          updated_at?: string
+          usage_count?: number
+          user_id?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          is_system?: boolean
+          name?: string
+          settings?: Json
+          updated_at?: string
+          usage_count?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "presets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "presets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profile_view"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           banner_url: string | null
@@ -2527,6 +2584,7 @@ export type Database = {
           following_count: number | null
           id: string
           is_public: boolean | null
+          keyboard_shortcuts: Json
           language_code: string | null
           last_name: string | null
           photo_url: string | null
@@ -2556,6 +2614,7 @@ export type Database = {
           following_count?: number | null
           id?: string
           is_public?: boolean | null
+          keyboard_shortcuts?: Json
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
@@ -2585,6 +2644,7 @@ export type Database = {
           following_count?: number | null
           id?: string
           is_public?: boolean | null
+          keyboard_shortcuts?: Json
           language_code?: string | null
           last_name?: string | null
           photo_url?: string | null
@@ -6369,6 +6429,10 @@ export type Database = {
         }
         Returns: Json
       }
+      apply_preset_to_track: {
+        Args: { preset_id: string; track_id: string }
+        Returns: Json
+      }
       archive_old_api_usage_logs: { Args: never; Returns: Json }
       archive_old_error_logs: { Args: never; Returns: Json }
       backfill_active_versions: {
@@ -6880,6 +6944,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      increment_preset_usage: {
+        Args: { preset_id: string }
+        Returns: undefined
       }
       increment_track_play_count: {
         Args: { track_id_param: string }

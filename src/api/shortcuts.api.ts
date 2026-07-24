@@ -1,5 +1,3 @@
-// @ts-nocheck — schema drift: колонка profiles.keyboard_shortcuts отсутствует в типах.
-// TODO(Sprint 045): восстановить после `supabase gen types typescript`.
 /**
  * Keyboard Shortcuts API Layer
  * Raw Supabase database operations for user keyboard shortcuts
@@ -190,7 +188,7 @@ export async function updateShortcuts(
 
     const { error } = await supabase
       .from("profiles")
-      .update({ keyboard_shortcuts: request.shortcuts as unknown as unknown })
+      .update({ keyboard_shortcuts: request.shortcuts as unknown as import("@/integrations/supabase/types").Json })
       .eq("user_id", userId);
 
     if (error) {
@@ -222,7 +220,7 @@ export async function resetShortcuts(userId: string): Promise<ResetShortcutsResp
   try {
     const { error } = await supabase
       .from("profiles")
-      .update({ keyboard_shortcuts: DEFAULT_SHORTCUTS as unknown as unknown })
+      .update({ keyboard_shortcuts: DEFAULT_SHORTCUTS as unknown as import("@/integrations/supabase/types").Json })
       .eq("user_id", userId);
 
     if (error) {
@@ -370,8 +368,8 @@ export function mergeShortcuts(
 
   for (const [category, actions] of Object.entries(userShortcuts)) {
     if (actions) {
-      merged[category] = {
-        ...(merged[category] || {}),
+      (merged as Record<string, ShortcutCategory>)[category] = {
+        ...((merged as Record<string, ShortcutCategory>)[category] || {}),
         ...actions,
       };
     }
