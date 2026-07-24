@@ -176,23 +176,41 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
 
     setIsLoading(true);
     try {
-      const { data } = await sendAiChatMessage({
+      const conversationHistory = messages
+        .slice(-10)
+        .filter((m) => m.id !== "welcome")
+        .map((m) => ({ role: m.role, content: m.content }));
+
+      const { data, error } = await sendAiChatMessage({
         message: text,
         context: {
           genre: selectedGenre,
           mood: selectedMoods,
           structure: selectedStructure,
           currentLyrics: generatedLyrics || currentLyrics,
+          conversationHistory,
         },
       });
 
+      if (error) {
+        addAssistantMessage("Не получилось связаться с AI. Попробуй ещё раз.");
+        return;
+      }
+
+      const anyData = data as Record<string, unknown> | null;
+      const responseText = typeof anyData?.response === "string" ? (anyData.response as string) : "";
+
       if (data?.lyrics) {
         setGeneratedLyrics(data.lyrics);
-        addAssistantMessage("Готово! Вот обновлённый вариант:", "lyrics-preview", {
+        addAssistantMessage(responseText || "Готово! Вот обновлённый вариант:", "lyrics-preview", {
           lyrics: data.lyrics,
-          title: generatedTitle,
-          style: generatedStyle,
+          title: data.title || generatedTitle,
+          style: data.style || generatedStyle,
         });
+        if (data.title) setGeneratedTitle(data.title);
+        if (data.style) setGeneratedStyle(data.style);
+      } else if (responseText) {
+        addAssistantMessage(responseText);
       } else if (data?.suggestions?.length) {
         addAssistantMessage(data.suggestions.join("\n"));
       } else {
@@ -206,6 +224,7 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
   }, [
     inputValue,
     isLoading,
+    messages,
     selectedGenre,
     selectedMoods,
     selectedStructure,
