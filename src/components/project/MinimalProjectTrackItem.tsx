@@ -287,42 +287,41 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1">
-              <span className={cn("font-medium truncate", isMobile ? "text-sm" : "text-xs")}>{track.title}</span>
+            <div className="min-w-0">
+              <span className={cn("font-medium truncate block", isMobile ? "text-sm" : "text-xs")}>{track.title}</span>
+            </div>
+
+            {/* Compact meta row: status + params */}
+            <div className="flex items-center gap-1 mt-0.5 flex-wrap">
               <Badge
                 variant="outline"
                 className={cn("text-[9px] h-3.5 px-1 shrink-0", statusConfig.color, "border-current/30")}
               >
                 <StatusIcon className="w-2 h-2 mr-0.5" />
-                {isMobile ? "" : statusConfig.label}
+                {statusConfig.label}
               </Badge>
+              {track.bpm_target && (
+                <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                  {track.bpm_target}
+                </span>
+              )}
+              {track.key_signature && (
+                <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                  {track.key_signature}
+                </span>
+              )}
+              {track.energy_level && (
+                <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                  ⚡{track.energy_level}
+                </span>
+              )}
             </div>
-
-            {/* Track params indicators */}
-            {(track.bpm_target || track.key_signature || track.energy_level) && (
-              <div className="flex items-center gap-1 mt-0.5">
-                {track.bpm_target && (
-                  <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
-                    {track.bpm_target} BPM
-                  </span>
-                )}
-                {track.key_signature && (
-                  <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
-                    {track.key_signature}
-                  </span>
-                )}
-                {track.energy_level && (
-                  <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
-                    ⚡{track.energy_level}
-                  </span>
-                )}
-              </div>
-            )}
 
             {/* Hide style_prompt on mobile to save space */}
             {!isMobile && track.style_prompt && (
               <p className="text-[10px] text-muted-foreground truncate">{track.style_prompt}</p>
             )}
+
 
             {/* Lyrics preview with status indicator */}
             {hasLyricsContent && (
