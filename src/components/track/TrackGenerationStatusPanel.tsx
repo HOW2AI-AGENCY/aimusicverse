@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
-import { AlertCircle, CheckCircle2, ImageOff, Loader2, MicOff } from "@/lib/icons";
+import { useCallback, useEffect, useState } from "react";
+import { AlertCircle, CheckCircle2, ImageOff, Loader2, MicOff, RefreshCw } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
+import { labelForSkipCode } from "@/lib/generation/skipLabels";
+import { toast } from "sonner";
 
 interface SkipReason {
   code: string;
@@ -36,17 +38,10 @@ interface Props {
   className?: string;
 }
 
-const SKIP_LABELS: Record<string, string> = {
-  missing_audio_url: "нет аудио-ссылки",
-  missing_stream_url: "нет потоковой ссылки",
-  missing_image_url: "нет обложки",
-  empty_clip: "пустой клип",
-};
-
 /**
- * Диагностическая панель статуса генерации: показывает версии, обложки
- * и причины skipped/failed из notifications.metadata / generation_tasks.
- * Открывается из меню трека, помогает разобрать проблему без Sentry.
+ * Диагностическая панель статуса генерации: показывает версии, обложки,
+ * человекочитаемые причины skipped/failed и позволяет запросить повторную
+ * обработку задачи, если audio_url/image_url пришли позже.
  */
 export function TrackGenerationStatusPanel({ trackId, className }: Props) {
   const [loading, setLoading] = useState(true);
@@ -54,10 +49,13 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
   const [versions, setVersions] = useState<VersionRow[]>([]);
   const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
   const [skipReasons, setSkipReasons] = useState<SkipReason[]>([]);
+  const [retrying, setRetrying] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
+      setLoading(true);
       try {
         const [{ data: trackData }, { data: versionData }] = await Promise.all([
           supabase.from("tracks").select("active_version_id").eq("id", trackId).maybeSingle(),
@@ -98,7 +96,35 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [trackId]);
+  }, [trackId, reloadKey]);
+
+  const missingAudio = versions.some((v) => !v.audio_url) || versions.length < 2;
+  const missingCover = versions.some((v) => !v.cover_url);
+  const canRetry = Boolean(task?.id) && (missingAudio || missingCover || skipReasons.length > 0);
+
+  const handleRetry = useCallback(async () => {
+    if (!task) return;
+    setRetrying(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("retry-track-processing", {
+        body: { track_id: trackId },
+      });
+      if (error) throw error;
+      const created = data?.versions_created ?? 0;
+      const updated = data?.versions_updated ?? 0;
+      if (created === 0 && updated === 0) {
+        toast.info("Новых данных пока нет. Попробуйте чуть позже.");
+      } else {
+        toast.success(`Готово: создано ${created}, обновлено ${updated}.`);
+      }
+      setReloadKey((k) => k + 1);
+    } catch (err) {
+      logger.error("retry-track-processing failed", err, { trackId });
+      toast.error("Не удалось запустить повторную обработку.");
+    } finally {
+      setRetrying(false);
+    }
+  }, [task, trackId]);
 
   if (loading) {
     return (
@@ -169,22 +195,44 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
             Пропущенные клипы ({skipReasons.length})
           </h4>
           <ul className="space-y-1">
-            {skipReasons.map((r, idx) => (
-              <li key={idx} className="rounded bg-warning/10 p-2 text-xs">
-                <div className="font-medium">
-                  #{r.clipIndex + 1}: {SKIP_LABELS[r.code] ?? r.code}
-                </div>
-                <div className="text-muted-foreground">{r.message}</div>
-                {r.availableKeys && r.availableKeys.length > 0 && (
-                  <div className="mt-0.5 font-mono text-[10px] text-muted-foreground">
-                    keys: {r.availableKeys.slice(0, 8).join(", ")}
-                    {r.availableKeys.length > 8 && "…"}
+            {skipReasons.map((r, idx) => {
+              const label = labelForSkipCode(r.code);
+              return (
+                <li key={idx} className="rounded bg-warning/10 p-2 text-xs">
+                  <div className="font-medium">
+                    #{r.clipIndex + 1}: {label.title}
                   </div>
-                )}
-              </li>
-            ))}
+                  <div className="text-muted-foreground">{label.hint}</div>
+                  {r.availableKeys && r.availableKeys.length > 0 && (
+                    <div className="mt-0.5 font-mono text-[10px] text-muted-foreground">
+                      keys: {r.availableKeys.slice(0, 8).join(", ")}
+                      {r.availableKeys.length > 8 && "…"}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </section>
+      )}
+
+      {canRetry && (
+        <button
+          type="button"
+          onClick={handleRetry}
+          disabled={retrying}
+          className={cn(
+            "inline-flex items-center gap-2 rounded-md border border-border bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground",
+            "hover:bg-primary/90 disabled:opacity-60",
+          )}
+        >
+          {retrying ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <RefreshCw className="h-3.5 w-3.5" />
+          )}
+          Повторить обработку
+        </button>
       )}
     </div>
   );
