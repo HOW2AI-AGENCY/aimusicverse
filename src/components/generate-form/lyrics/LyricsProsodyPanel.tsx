@@ -1,19 +1,25 @@
 /**
  * LyricsProsodyPanel — inline diagnostics panel for the lyrics editor.
  *
- * Shows per-line syllable counts, rhyme groups and issues. Clicking a row jumps
- * the caret to that line in the provided textarea ref.
+ * Uses the debounced+incremental `useProsodyReport` hook so unchanged rows
+ * keep their identity — the list doesn't flicker while the user types and
+ * textarea selection is preserved. Also exposes `.txt` / `.lrc` exports of
+ * the current lyrics with the diagnostic annotations baked in.
  */
 
 import { memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { analyzeProsody, type LineIssueLevel } from "@/lib/lyrics/prosody";
-import { AlertTriangle, AlertCircle, Info, Music2 } from "@/lib/icons";
+import { type LineIssueLevel } from "@/lib/lyrics/prosody";
+import { useProsodyReport } from "@/hooks/lyrics/useProsodyReport";
+import { exportLyricsToTxt, exportLyricsToLrc, downloadTextFile } from "@/lib/lyrics/export";
+import { AlertTriangle, AlertCircle, Info, Music2, Download } from "@/lib/icons";
 
 interface LyricsProsodyPanelProps {
   lyrics: string;
   onJumpToLine?: (lineIndex: number) => void;
   className?: string;
+  /** Optional metadata used as the exported filename base + LRC headers. */
+  exportMeta?: { title?: string; artist?: string };
 }
 
 const LEVEL_STYLES: Record<LineIssueLevel, string> = {
@@ -28,17 +34,38 @@ const LEVEL_ICON: Record<LineIssueLevel, typeof Info> = {
   error: AlertCircle,
 };
 
+function safeFilename(base: string | undefined, ext: string): string {
+  const slug = (base || "lyrics")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60) || "lyrics";
+  return `${slug}.${ext}`;
+}
+
 export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
   lyrics,
   onJumpToLine,
   className,
+  exportMeta,
 }: LyricsProsodyPanelProps) {
-  const report = useMemo(() => analyzeProsody(lyrics), [lyrics]);
+  const report = useProsodyReport(lyrics);
 
   const problemLines = useMemo(
     () => report.lines.filter((l) => l.issues.length > 0 && !l.isTag && !l.isEmpty),
     [report.lines],
   );
+
+  const canExport = lyrics.trim().length > 0;
+
+  const handleExportTxt = () => {
+    const content = exportLyricsToTxt(lyrics, report, { meta: exportMeta, includeInfo: true });
+    downloadTextFile(safeFilename(exportMeta?.title, "txt"), content);
+  };
+  const handleExportLrc = () => {
+    const content = exportLyricsToLrc(lyrics, report, { meta: exportMeta, includeInfo: false });
+    downloadTextFile(safeFilename(exportMeta?.title, "lrc"), content, "application/x-subrip;charset=utf-8");
+  };
 
   if (!lyrics.trim()) {
     return (
@@ -55,7 +82,7 @@ export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
 
   return (
     <div className={cn("rounded-lg border border-border/50 bg-muted/20 p-3 space-y-3", className)}>
-      {/* Summary strip */}
+      {/* Summary strip + export controls */}
       <div className="flex flex-wrap items-center gap-2 text-[11px]">
         <span
           className={cn(
@@ -80,6 +107,35 @@ export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
             <span className="text-foreground">{s.scheme || "—"}</span>
           </span>
         ))}
+
+        <div className="ml-auto flex items-center gap-1">
+          <button
+            type="button"
+            onClick={handleExportTxt}
+            disabled={!canExport}
+            className={cn(
+              "inline-flex items-center gap-1 px-2 py-0.5 rounded border border-border/50 bg-background/60",
+              "hover:bg-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed",
+            )}
+            title="Скачать .txt с комментариями к строкам"
+          >
+            <Download className="h-3 w-3" aria-hidden />
+            <span>.txt</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleExportLrc}
+            disabled={!canExport}
+            className={cn(
+              "inline-flex items-center gap-1 px-2 py-0.5 rounded border border-border/50 bg-background/60",
+              "hover:bg-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed",
+            )}
+            title="Скачать .lrc с таймкодами (плейсхолдер)"
+          >
+            <Download className="h-3 w-3" aria-hidden />
+            <span>.lrc</span>
+          </button>
+        </div>
       </div>
 
       {/* Problems list */}
@@ -129,3 +185,4 @@ export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
     </div>
   );
 });
+
