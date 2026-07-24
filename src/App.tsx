@@ -98,6 +98,9 @@ const AdminAlerts = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "
 const GenerationMetrics = lazyWithRetry(
   () => import(/* webpackChunkName: "admin" */ "./pages/admin/GenerationMetrics"),
 );
+const SunoGenerationStats = lazyWithRetry(
+  () => import(/* webpackChunkName: "admin" */ "./pages/admin/SunoGenerationStats"),
+);
 const AdminTariffs = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTariffs"));
 const ModerationDashboard = lazyWithRetry(
   () => import(/* webpackChunkName: "admin" */ "./pages/admin/ModerationDashboard"),
@@ -275,6 +278,7 @@ const App = () => (
                             <Route path="deeplinks" element={<DeeplinkAnalyticsPanel />} />
                             <Route path="alerts" element={<AdminAlerts />} />
                             <Route path="generation-metrics" element={<GenerationMetrics />} />
+                            <Route path="suno-stats" element={<SunoGenerationStats />} />
                             <Route path="broadcast" element={<AdminBroadcast />} />
                           </Route>
 

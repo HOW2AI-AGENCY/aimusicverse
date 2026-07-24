@@ -42,6 +42,7 @@ const TAB_OPTIONS = [
   { value: "overview", label: "Обзор", icon: Activity, path: "/admin" },
   { value: "analytics", label: "Аналитика", icon: TrendingUp, path: "/admin/analytics" },
   { value: "generation-stats", label: "Генерации", icon: Music, path: "/admin/generation-stats" },
+  { value: "suno-stats", label: "Suno стата", icon: TrendingUp, path: "/admin/suno-stats" },
   { value: "performance", label: "Перформанс", icon: Activity, path: "/admin/performance" },
   { value: "economy", label: "Экономика", icon: Coins, path: "/admin/economy" },
   { value: "users", label: "Пользователи", icon: Users, path: "/admin/users" },
