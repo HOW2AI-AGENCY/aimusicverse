@@ -11,6 +11,11 @@ interface GeneratingTrackSkeletonProps {
   prompt?: string;
   createdAt?: string;
   layout?: "grid" | "list";
+  title?: string | null;
+  style?: string | null;
+  coverUrl?: string | null;
+  model?: string | null;
+  streamingReady?: boolean;
 }
 
 const STATUS_MESSAGES = [
