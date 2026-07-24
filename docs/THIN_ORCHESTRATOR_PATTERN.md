@@ -60,7 +60,7 @@ GenerateSheet (Orchestrator ~300 LOC)
 ## Related Documentation
 
 - [docs/COMPONENTS.md](COMPONENTS.md) — Component architecture
-- [SPRINTS/SPRINT-056-PLAN.md](../SPRINTS/SPRINT-056-PLAN.md) — Sprint 056 plan
+- [SPRINTS/SPRINT-056-PLAN.md](../SPRINTS/archived/SPRINT-056-PLAN.md) — Sprint 056 plan
 
 ---
 

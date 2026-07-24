@@ -25,6 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { StructuredLyricsDisplay } from "@/components/lyrics/StructuredLyricsDisplay";
 import { buttonVariants } from "@/lib/lyrics/constants";
+import type { RecommendedTags } from "@/api/lyrics.api";
 interface EnhancedLyricsPreviewProps {
   lyrics: string;
   title?: string | null;
@@ -46,7 +47,7 @@ interface EnhancedLyricsPreviewProps {
   /** Show apply button in UI (false when MainButton is used) */
   showApplyButton?: boolean;
   /** Recommended tags from AI for the selected genre/mood */
-  recommendedTags?: Record<string, string[]> | null;
+  recommendedTags?: RecommendedTags | null;
   /** Execute an AI action on the generated lyrics */
   onAiAction?: (action: string, params?: Record<string, unknown>) => void;
 }

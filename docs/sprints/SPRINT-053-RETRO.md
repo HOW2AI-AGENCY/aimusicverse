@@ -1,7 +1,7 @@
 # Sprint 053 Retrospective — Suno Sounds + MIDI Direct + Boost Style
 
 **Дата:** 2026-07-04
-**Спринт:** [SPRINT-053-PLAN.md](../../SPRINTS/SPRINT-053-PLAN.md) — Suno API: Sounds + MIDI Direct + Boost Style
+**Спринт:** [SPRINT-053-PLAN.md](../../SPRINTS/archived/SPRINT-053-PLAN.md) — Suno API: Sounds + MIDI Direct + Boost Style
 **Закрыт:** 4/4 задачи (~8 дней)
 **Связанные:** [SPRINT-054-RETRO.md](SPRINT-054-RETRO.md) · [SPRINT-052-RETRO.md](SPRINT-052-RETRO.md) · [SPRINT-CLOSURE-PLAN-2026-07.md](../../SPRINTS/SPRINT-CLOSURE-PLAN-2026-07.md)
 

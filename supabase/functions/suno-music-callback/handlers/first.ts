@@ -30,8 +30,7 @@ export async function handleFirstCallback(payload: any, task: any) {
     firstClip.source_audio_url ||
     firstClip.audioUrl ||
     firstClip.audio_url;
-  const imageUrl =
-    firstClip.sourceImageUrl || firstClip.source_image_url || firstClip.imageUrl || firstClip.image_url;
+  const imageUrl = firstClip.sourceImageUrl || firstClip.source_image_url || firstClip.imageUrl || firstClip.image_url;
 
   logger.debug("First clip data", {
     id: firstClip.id,

@@ -9,7 +9,7 @@
 
 import { useState, useCallback } from "react";
 import { sendAiChatMessage } from "@/services/lyrics/ai-tools.service";
-import { invokeLyricsAssistant } from "@/api/lyrics.api";
+import { invokeLyricsAssistant, type RecommendedTags } from "@/api/lyrics.api";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { parseLyrics } from "@/components/generate-form/lyricsEditorHelpers";
 import type { ChatMessage } from "@/components/generate-form/lyrics-chat/types";
@@ -51,12 +51,7 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
   const [generatedLyrics, setGeneratedLyrics] = useState("");
   const [generatedTitle, setGeneratedTitle] = useState("");
   const [generatedStyle, setGeneratedStyle] = useState("");
-  const [recommendedTags, setRecommendedTags] = useState<{
-    vocal?: string[];
-    instruments?: string[];
-    dynamics?: string[];
-    emotions?: string[];
-  } | null>(null);
+  const [recommendedTags, setRecommendedTags] = useState<RecommendedTags | null>(null);
 
   // Actions state
   const [copied, setCopied] = useState(false);

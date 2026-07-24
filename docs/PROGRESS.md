@@ -321,12 +321,12 @@ xychart-beta
 
 ### 🎯 Sprint документация
 
-| Документ            | Описание             | Ссылка                                                                  |
-| ------------------- | -------------------- | ----------------------------------------------------------------------- |
-| **Sprint Progress** | Прогресс 35 спринтов | [SPRINTS/SPRINT-PROGRESS.md](../SPRINTS/SPRINT-PROGRESS.md)             |
-| **Backlog**         | Бэклог продукта      | [SPRINTS/BACKLOG.md](../SPRINTS/BACKLOG.md)                             |
-| **Future Plans**    | Планы на Q2 2026     | [SPRINTS/FUTURE_WORK_PLAN_2026.md](../SPRINTS/FUTURE_WORK_PLAN_2026.md) |
-| **Improvements**    | Приоритеты улучшений | [SPRINTS/IMPROVEMENT_PLAN_2026.md](../SPRINTS/IMPROVEMENT_PLAN_2026.md) |
+| Документ            | Описание             | Ссылка                                                                           |
+| ------------------- | -------------------- | -------------------------------------------------------------------------------- |
+| **Sprint Progress** | Прогресс 35 спринтов | [SPRINTS/SPRINT-PROGRESS.md](../SPRINTS/SPRINT-PROGRESS.md)                      |
+| **Backlog**         | Бэклог продукта      | [SPRINTS/BACKLOG.md](../SPRINTS/archived/BACKLOG.md)                             |
+| **Future Plans**    | Планы на Q2 2026     | [SPRINTS/FUTURE_WORK_PLAN_2026.md](../SPRINTS/archived/FUTURE_WORK_PLAN_2026.md) |
+| **Improvements**    | Приоритеты улучшений | [SPRINTS/IMPROVEMENT_PLAN_2026.md](../SPRINTS/archived/IMPROVEMENT_PLAN_2026.md) |
 
 ### 🤝 Сообщество и поддержка
 

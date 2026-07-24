@@ -53,4 +53,4 @@ render(<GenerateSheetBody {...mockProps} />);
 
 - [Thin Orchestrator Pattern](./THIN-ORCHESTRATOR-PATTERN.md)
 - [Component Architecture](./COMPONENTS.md)
-- [Sprint 056 Plan](../SPRINTS/SPRINT-056-PLAN.md)
+- [Sprint 056 Plan](../SPRINTS/archived/SPRINT-056-PLAN.md)

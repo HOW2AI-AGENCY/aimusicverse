@@ -52,7 +52,6 @@ Deno.serve(async (req) => {
       throw new Error("SUPABASE_URL not configured");
     }
 
-
     // Parse request body for webhook type selection
     let webhookType = "bot"; // default
     try {

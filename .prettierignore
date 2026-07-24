@@ -17,6 +17,8 @@ supabase/functions/suno-api/index.ts
 # Auto-generated & bundled by the @lovable.dev/mcp-js Vite plugin (banner in file); never hand-edited.
 supabase/functions/mcp/index.ts
 src/integrations/supabase/types.ts
+# Supabase-generated types (same emitter as types.ts); reformatting is reverted on every regeneration.
+src/integrations/supabase/types/_generated.ts
 
 # Ignore graphify cache (auto-generated)
 graphify-out/cache/

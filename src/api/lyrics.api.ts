@@ -622,6 +622,36 @@ export async function getLyricVersionsBatch(trackIds: string[]): Promise<Record<
 // ==========================================
 
 /**
+ * Recommended production tags returned by the ai-lyrics-assistant edge function,
+ * used to pre-fill the generation form's tag chips.
+ */
+export interface RecommendedTags {
+  vocal?: string[];
+  instruments?: string[];
+  dynamics?: string[];
+  emotions?: string[];
+}
+
+/**
+ * Response payload from the ai-lyrics-assistant edge function. The function
+ * serves several actions (generate / analyze / validate / expand), so every
+ * field is optional and callers narrow by presence.
+ */
+export interface LyricsAssistantResponse {
+  lyrics?: string;
+  suggestions?: string[];
+  error?: string;
+  title?: string;
+  style?: string;
+  message?: string;
+  fullAnalysis?: unknown;
+  metadata?: {
+    recommendedTags?: RecommendedTags;
+    [key: string]: unknown;
+  };
+}
+
+/**
  * Invoke the ai-lyrics-assistant edge function. Used by the lyrics wizard
  * to generate theme ideas and by the AI agent to expand lyrics sections.
  */
@@ -638,7 +668,7 @@ export async function invokeLyricsAssistant(body: {
   message?: string;
   context?: Record<string, unknown>;
 }): Promise<{
-  data: { lyrics?: string; suggestions?: string[]; error?: string } | null;
+  data: LyricsAssistantResponse | null;
   error: Error | null;
 }> {
   const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", { body });

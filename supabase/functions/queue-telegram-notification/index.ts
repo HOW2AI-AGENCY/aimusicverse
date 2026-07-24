@@ -61,10 +61,10 @@ serve(async (req) => {
         });
       }
       if (body.userId && body.userId !== auth.user.id) {
-        return new Response(
-          JSON.stringify({ success: false, error: "Cannot queue notifications for other users" }),
-          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-        );
+        return new Response(JSON.stringify({ success: false, error: "Cannot queue notifications for other users" }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
       body.userId = auth.user.id;
       // Force chatId to be resolved server-side from the caller's own profile.

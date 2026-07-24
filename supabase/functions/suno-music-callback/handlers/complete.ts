@@ -18,12 +18,10 @@ const logger = createLogger("complete-callback");
 // Suno callbacks arrive in camelCase (audioUrl / sourceAudioUrl / ...), but
 // older payloads and some proxy paths use snake_case. Read both so we don't
 // silently drop clips when the shape changes.
-const getAudioUrl = (clip: any) =>
-  clip?.sourceAudioUrl || clip?.source_audio_url || clip?.audioUrl || clip?.audio_url;
+const getAudioUrl = (clip: any) => clip?.sourceAudioUrl || clip?.source_audio_url || clip?.audioUrl || clip?.audio_url;
 const getStreamUrl = (clip: any) =>
   clip?.sourceStreamAudioUrl || clip?.source_stream_audio_url || clip?.streamAudioUrl || clip?.stream_audio_url;
-const getImageUrl = (clip: any) =>
-  clip?.sourceImageUrl || clip?.source_image_url || clip?.imageUrl || clip?.image_url;
+const getImageUrl = (clip: any) => clip?.sourceImageUrl || clip?.source_image_url || clip?.imageUrl || clip?.image_url;
 
 export async function handleCompleteCallback(payload: any, task: any, supabaseUrl: string, supabaseServiceKey: string) {
   const { data } = payload;

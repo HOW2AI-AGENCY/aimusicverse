@@ -185,7 +185,7 @@
 
 - **5 ошибок `tsc` на `main`** из Sprint 055: `'feature_usage'` не входит в `EventType` (канонично `'feature_used'`) — `useSunoCancel`, `useOpenGenerateFromDeeplink`, `useCreditsLimits` + 2 теста. Unit 340/340.
 - **Prettier-дрейф** в `.lovable/mcp/manifest.json` и `supabase/functions/mcp/index.ts` (прямые коммиты мимо хуков).
-- **139 битых file-ссылок → 0** по всем сканируемым lychee .md (ранний диагноз «7 ссылок» был по усечённому CI-логу): созданы недостающие [docs/sprints/SPRINT-053-RETRO.md](docs/sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md), [SPRINTS/SPRINT-051-PLAN.md](SPRINTS/SPRINT-051-PLAN.md); исправлены relative-глубины в 055-планах, шаблонах, MANIFEST-053-054, ARCHIVE, PROGRESS, ru/-доках, ADR; `musicverse.ai` исключён из link-check (домен не отвечает); ссылки на выключенные GitHub Discussions заменены на Issues.
+- **139 битых file-ссылок → 0** по всем сканируемым lychee .md (ранний диагноз «7 ссылок» был по усечённому CI-логу): созданы недостающие [docs/sprints/SPRINT-053-RETRO.md](docs/sprints/SPRINT-053-RETRO.md), [docs/sprints/SPRINT-054-RETRO.md](docs/sprints/SPRINT-054-RETRO.md), [SPRINTS/SPRINT-051-PLAN.md](SPRINTS/archived/SPRINT-051-PLAN.md); исправлены relative-глубины в 055-планах, шаблонах, MANIFEST-053-054, ARCHIVE, PROGRESS, ru/-доках, ADR; `musicverse.ai` исключён из link-check (домен не отвечает); ссылки на выключенные GitHub Discussions заменены на Issues.
 
 ### 🔧 Sprint 057 — Audio Analysis Refactoring (2026-07-06)
 

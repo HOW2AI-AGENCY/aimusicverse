@@ -105,7 +105,7 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 > Приоритеты пересмотрены по итогам [аудита прогресса 2026-07-04](docs/audit/PROGRESS-AUDIT-2026-07-04.md): перед фичами — зелёный `main` и процессный фикс для прямых Lovable-коммитов.
 
-- **Sprint 050 — Main Green + Mobile Audit F1–F12** ([детальный план](SPRINTS/SPRINT-050-PLAN.md)). ✅ **Phase A ✅ завершена (6/6).** ✅ **Phase B ✅ завершена (6/6):** B1 ✅ `useScrollLock` на 4 surfaces, B3 ✅ QueueSheet auto-close + toast, B4 ✅ cover_url normalization, B5 ✅ ErrorBoundary, B6 ✅ lazy-imports (lamejs/qrcode/canvas-confetti). GitHub Pages включён.
+- **Sprint 050 — Main Green + Mobile Audit F1–F12** ([детальный план](SPRINTS/archived/SPRINT-050-PLAN.md)). ✅ **Phase A ✅ завершена (6/6).** ✅ **Phase B ✅ завершена (6/6):** B1 ✅ `useScrollLock` на 4 surfaces, B3 ✅ QueueSheet auto-close + toast, B4 ✅ cover_url normalization, B5 ✅ ErrorBoundary, B6 ✅ lazy-imports (lamejs/qrcode/canvas-confetti). GitHub Pages включён.
 - **Sprint 051 — Test Debt + God Files** ✅ **T055 ✅ (395→925 tests). T056 ✅ (9/9 god files decomposed, all <740 LOC). PRs #636-#644 MERGED.**
 - **Sprint 053 — Suno API: Sounds + MIDI Direct + Boost Style** ✅ **ЗАВЕРШЁН.** Все edge functions, hooks, SfxGeneratorSheet, boost-style connected.
 - **Sprint 054 — Suno API: Details Suite** ✅ **ЗАВЕРШЁН.** 6 details endpoints, generic polling hook.
@@ -126,7 +126,7 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 - **Sprint 053** ✅ Complete: SFX/MIDI edge functions, hooks, SfxGeneratorSheet, boost-style connected
 - **Sprint 054** ✅ Complete: 6 details endpoints, generic polling hook
 - **Sprint 055 Phase A+B** ✅ Complete: All P0/P1 UX fixes (Save Draft, Cancel, Deeplink, Welcome Bonus, Dual CTA, Footer Summary, Stepper, VoiceInput, Home CTA)
-- **Sprint 052 — Suno API: Mashup + Persona + File Upload** ([детальный план](SPRINTS/SPRINT-052-PLAN.md)). ✅ ЗАВЕРШЁН 2026-07-04 (8/10 задач). Commits `916cd72a` … `b778bf98`:
+- **Sprint 052 — Suno API: Mashup + Persona + File Upload** ([детальный план](SPRINTS/archived/SPRINT-052-PLAN.md)). ✅ ЗАВЕРШЁН 2026-07-04 (8/10 задач). Commits `916cd72a` … `b778bf98`:
   - **Phase A (edge + DB):** 4 новых edge (`suno-mashup`, `suno-persona`, `suno-persona-callback`, `suno-file-upload`); mashup использует существующий `suno-music-callback` (signature совпадает — отдельный mashup-callback НЕ создавался); DB-миграция `track_personas` + `track_versions.persona_id` (FK) + RLS.
   - **Phase B (UI + bot):** `useSunoMashup`/`useSunoPersona`/`useSunoFileUpload` (TanStack Query mutations); `MashupDialog` с мобильным/десктоп variants; кнопка «Create Persona» в `GenerationResultSheet`; Telegram `/mashup` команда + deep-link `startapp=mashup_<id>`; рефакторинг `suno-upload-cover/extend` через общий `suno-file-uploader.ts`.
   - **E2E:** `tests/e2e/suno-mashup.spec.ts` — smoke deep-link + dialog render.
@@ -162,7 +162,7 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 - **Sprint 034** — Generation Reliability (auto-retry, failure tracking, A/B experiments)
 - **Sprint 033** — Interface Audit & UX Overhaul (114 задач в 13 фазах)
 
-> 📋 Детальный план спринтов 042-044: [SPRINTS/SPRINT-042-043-PLAN.md](SPRINTS/SPRINT-042-043-PLAN.md); отчёты по аудиту (архив): [UI_AUDIT_REPORT_2026-07-03.md](docs/archive/audits/UI_AUDIT_REPORT_2026-07-03.md).
+> 📋 Детальный план спринтов 042-044: [SPRINTS/SPRINT-042-043-PLAN.md](SPRINTS/archived/SPRINT-042-043-PLAN.md); отчёты по аудиту (архив): [UI_AUDIT_REPORT_2026-07-03.md](docs/archive/audits/UI_AUDIT_REPORT_2026-07-03.md).
 
 ---
 

@@ -35,7 +35,6 @@ serve(async (req: Request) => {
       });
     }
 
-
     const supabase = getSupabaseClient();
     const body: BroadcastRequest = await req.json();
     const { type, testMode = false } = body;
