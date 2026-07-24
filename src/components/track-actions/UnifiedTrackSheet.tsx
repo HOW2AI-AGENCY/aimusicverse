@@ -75,6 +75,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
     onDelete,
     onDownload,
     onClose: () => onOpenChange(false),
+    enabled: open,
   });
 
   // Enable video status fetch when sheet opens
