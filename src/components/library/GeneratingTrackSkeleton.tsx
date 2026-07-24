@@ -96,41 +96,67 @@ export const GeneratingTrackSkeleton = ({
   if (layout === "list") {
     return (
       <Card className="p-2.5 border-generate/30 bg-gradient-to-r from-generate/10 to-primary/5 relative overflow-hidden">
+        {/* Shimmer sweep */}
+        <div
+          className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_2.2s_ease-in-out_infinite]"
+          style={{ animationName: "shimmer" }}
+        />
         <div className="flex items-center gap-2.5 relative">
           <motion.div
-            className="w-11 h-11 rounded-lg bg-gradient-to-br from-generate/30 to-primary/20 flex items-center justify-center flex-shrink-0"
+            className="w-11 h-11 rounded-lg bg-gradient-to-br from-generate/30 to-primary/20 flex items-center justify-center flex-shrink-0 relative overflow-hidden"
             animate={{ scale: [1, 1.02, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={iconIndex}
-                initial={{ scale: 0, rotate: -90 }}
-                animate={{ scale: 1, rotate: 0 }}
-                exit={{ scale: 0, rotate: 90 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Icon className="w-5 h-5 text-generate" />
-              </motion.div>
-            </AnimatePresence>
+            {coverUrl ? (
+              <img src={coverUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={iconIndex}
+                  initial={{ scale: 0, rotate: -90 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 90 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Icon className="w-5 h-5 text-generate" />
+                </motion.div>
+              </AnimatePresence>
+            )}
           </motion.div>
 
           <div className="flex-1 min-w-0 space-y-1.5">
             <div className="flex items-center gap-2">
-              <Loader2 className="w-3.5 h-3.5 text-generate animate-spin" />
-              <span className="text-xs font-medium text-generate truncate">{statusMessage}</span>
+              {title ? (
+                <span className="text-sm font-semibold truncate">{title}</span>
+              ) : (
+                <div className="h-3.5 w-32 rounded bg-generate/20 animate-pulse" />
+              )}
+              {streamingReady && (
+                <Badge className="text-[9px] bg-primary/20 text-primary border-0 px-1.5">Стрим</Badge>
+              )}
               <Badge variant="outline" className="ml-auto text-[9px] border-generate/30 text-generate px-1.5">
                 {progress}%
               </Badge>
             </div>
-            <div className="relative h-1.5 bg-muted/50 rounded-full overflow-hidden">
+            <div className="flex items-center gap-2">
+              <Loader2 className="w-3 h-3 text-generate animate-spin" />
+              <span className="text-[10px] font-medium text-generate truncate">{statusMessage}</span>
+              {model && <span className="text-[9px] text-muted-foreground uppercase">{model}</span>}
+            </div>
+            <div className="relative h-1 bg-muted/50 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-gradient-to-r from-generate to-primary rounded-full"
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.5 }}
               />
             </div>
-            {prompt && <p className="text-[10px] text-muted-foreground truncate">{prompt.substring(0, 50)}...</p>}
+            {style ? (
+              <p className="text-[10px] text-muted-foreground truncate">{style}</p>
+            ) : prompt ? (
+              <p className="text-[10px] text-muted-foreground truncate">{prompt.substring(0, 60)}...</p>
+            ) : (
+              <div className="h-2 w-24 rounded bg-muted/40 animate-pulse" />
+            )}
           </div>
         </div>
       </Card>
