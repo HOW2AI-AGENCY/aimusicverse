@@ -158,51 +158,50 @@ export default function Settings() {
         ) : (
           /* Mobile: Horizontal Tabs */
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList
-              className="grid w-full mb-6"
-              style={{ gridTemplateColumns: "repeat(auto-fit, minmax(55px, 1fr))" }}
-            >
-              <TabsTrigger value="profile" className="gap-1 px-1">
-                <User className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Профиль</span>
-              </TabsTrigger>
-              <TabsTrigger value="subscription" className="gap-1 px-1">
-                <CreditCard className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Подписка</span>
-              </TabsTrigger>
-              <TabsTrigger value="stats" className="gap-1 px-1">
-                <BarChart3 className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Статистика</span>
-              </TabsTrigger>
-              <TabsTrigger value="appearance" className="gap-1 px-1">
-                <Palette className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Тема</span>
-              </TabsTrigger>
-              <TabsTrigger value="privacy" className="gap-1 px-1">
-                <Shield className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Приватность</span>
-              </TabsTrigger>
-              <TabsTrigger value="notifications" className="gap-1 px-1">
-                <Bell className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Уведомления</span>
-              </TabsTrigger>
-              <TabsTrigger value="hints" className="gap-1 px-1">
-                <Lightbulb className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Подсказки</span>
-              </TabsTrigger>
-              <TabsTrigger value="gestures" className="gap-1 px-1">
-                <MousePointerClick className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Жесты</span>
-              </TabsTrigger>
-              <TabsTrigger value="midi" className="gap-1 px-1">
-                <Music className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">MIDI</span>
-              </TabsTrigger>
-              <TabsTrigger value="telegram" className="gap-1 px-1">
-                <Send className="w-4 h-4" />
-                <span className="hidden sm:inline text-xs">Telegram</span>
-              </TabsTrigger>
-            </TabsList>
+            <div className="-mx-4 px-4 mb-4 overflow-x-auto scrollbar-none">
+              <TabsList className="inline-flex w-max min-w-full gap-1">
+                <TabsTrigger value="profile" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <User className="w-4 h-4" />
+                  <span className="text-xs">Профиль</span>
+                </TabsTrigger>
+                <TabsTrigger value="subscription" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <CreditCard className="w-4 h-4" />
+                  <span className="text-xs">Подписка</span>
+                </TabsTrigger>
+                <TabsTrigger value="stats" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <BarChart3 className="w-4 h-4" />
+                  <span className="text-xs">Статистика</span>
+                </TabsTrigger>
+                <TabsTrigger value="appearance" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <Palette className="w-4 h-4" />
+                  <span className="text-xs">Тема</span>
+                </TabsTrigger>
+                <TabsTrigger value="privacy" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <Shield className="w-4 h-4" />
+                  <span className="text-xs">Приватность</span>
+                </TabsTrigger>
+                <TabsTrigger value="notifications" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <Bell className="w-4 h-4" />
+                  <span className="text-xs">Уведомления</span>
+                </TabsTrigger>
+                <TabsTrigger value="hints" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <Lightbulb className="w-4 h-4" />
+                  <span className="text-xs">Подсказки</span>
+                </TabsTrigger>
+                <TabsTrigger value="gestures" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <MousePointerClick className="w-4 h-4" />
+                  <span className="text-xs">Жесты</span>
+                </TabsTrigger>
+                <TabsTrigger value="midi" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <Music className="w-4 h-4" />
+                  <span className="text-xs">MIDI</span>
+                </TabsTrigger>
+                <TabsTrigger value="telegram" className="gap-1.5 px-2.5 flex-shrink-0">
+                  <Send className="w-4 h-4" />
+                  <span className="text-xs">Telegram</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
             <TabsContent value="profile" className="space-y-4">
               {renderContent("profile")}
