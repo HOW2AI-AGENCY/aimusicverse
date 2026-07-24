@@ -463,7 +463,7 @@ export async function createSectionNote(
       tags: request.tags || null,
       audio_note_url: request.audioNoteUrl || null,
       reference_audio_url: request.referenceAudioUrl || null,
-      reference_analysis: request.referenceAnalysis || null,
+      reference_analysis: (request.referenceAnalysis as Json | undefined) ?? undefined,
     })
     .select()
     .single();
