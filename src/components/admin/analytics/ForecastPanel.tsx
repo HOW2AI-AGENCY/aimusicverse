@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp, TrendingDown, Users, DollarSign, Music, Zap, Target } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, type TooltipValueType } from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 import { useForecast } from "@/hooks/admin/useForecast";
 
 interface ForecastPanelProps {
@@ -17,8 +18,9 @@ interface ForecastPanelProps {
 
 export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
   const { data, isLoading } = useForecast(timePeriod);
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
 
-  if (isLoading) {
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <Card>
         <CardHeader>
@@ -34,6 +36,8 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
       </Card>
     );
   }
+
+  const { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } = recharts;
 
   const forecasts = [
     {

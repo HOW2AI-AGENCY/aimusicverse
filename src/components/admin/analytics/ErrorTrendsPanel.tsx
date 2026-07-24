@@ -7,19 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
 import { AlertTriangle, AlertCircle, Info, Server, ChevronDown, ChevronUp, Code } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -97,8 +85,9 @@ const COLORS = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#3b82f6", "#8b5cf6"
 
 export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
   const [expandedError, setExpandedError] = useState<number | null>(null);
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
 
-  if (isLoading) {
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <div className="grid gap-4 md:grid-cols-2">
         {[...Array(4)].map((_, i) => (
@@ -111,6 +100,8 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
       </div>
     );
   }
+
+  const { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } = recharts;
 
   if (!data) {
     return (

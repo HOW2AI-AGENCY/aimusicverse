@@ -5,18 +5,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  type TooltipValueType,
-} from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 
 interface TelemetryData {
   total_events: number;
@@ -40,7 +30,9 @@ interface TelemetryOverviewProps {
 const COLORS = ["hsl(var(--primary))", "hsl(var(--secondary))", "hsl(var(--accent))", "#10b981", "#f59e0b", "#ef4444"];
 
 export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
-  if (isLoading) {
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
+
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <div className="grid gap-4 md:grid-cols-2">
         {[...Array(4)].map((_, i) => (
@@ -61,6 +53,8 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
       </Card>
     );
   }
+
+  const { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } = recharts;
 
   // Transform events by type for chart
   const eventsByTypeData = Object.entries(data.events_by_type || {})

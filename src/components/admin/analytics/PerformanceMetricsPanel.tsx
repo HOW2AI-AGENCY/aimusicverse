@@ -9,7 +9,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Gauge, Zap, Clock, MousePointer, Move, TrendingUp, TrendingDown, AlertCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { usePerformanceMetrics } from "@/hooks/admin/usePerformanceMetrics";
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, type TooltipValueType } from "recharts";
+import { useRecharts } from "@/lib/recharts-lazy";
+import type { TooltipValueType } from "recharts";
 
 interface PerformanceMetricsPanelProps {
   timePeriod: string;
@@ -27,8 +28,9 @@ const VITALS_CONFIG = {
 export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelProps) {
   const days = timePeriod === "24 hours" ? 1 : timePeriod === "7 days" ? 7 : timePeriod === "30 days" ? 30 : 90;
   const { stats, dailyTrend, deviceBreakdown, performanceScore, isLoading, thresholds } = usePerformanceMetrics(days);
+  const { recharts, isLoading: rechartsLoading } = useRecharts();
 
-  if (isLoading) {
+  if (isLoading || rechartsLoading || !recharts) {
     return (
       <div className="space-y-3 sm:space-y-4">
         <div className="grid gap-2 sm:gap-4 grid-cols-2 lg:grid-cols-3">
@@ -43,6 +45,8 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
       </div>
     );
   }
+
+  const { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } = recharts;
 
   // Map stats to vitals format
   const vitals = {
