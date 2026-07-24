@@ -5,10 +5,10 @@
 
 import { getSupabaseClient } from "../../_shared/supabase-client.ts";
 import { createLogger } from "../../_shared/logger.ts";
+import { getAudioUrl, getModelName } from "../../_shared/suno-clip-fields.ts";
 import { logAuditAction } from "../utils/audit-log.ts";
 
 const logger = createLogger("replace-callback");
-const getAudioUrl = (clip: any) => clip.source_audio_url || clip.audio_url;
 
 export async function handleReplaceSection(payload: any, task: any, supabaseUrl: string, supabaseServiceKey: string) {
   const { data } = payload;
@@ -152,7 +152,7 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     entityId: trackId,
     userId: task.user_id,
     actorType: "ai",
-    aiModelUsed: clip.model_name || "suno-chirp-v4",
+    aiModelUsed: getModelName(clip) || "suno-chirp-v4",
     actionType: "section_replaced",
     actionCategory: "modification",
     contentUrl: finalAudioUrl,
