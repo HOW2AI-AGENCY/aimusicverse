@@ -36,17 +36,36 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
   logger.info("Generation complete", { clipsCount: clips.length });
 
   let trackTitle = "";
+  const skippedClips: SkipReason[] = [];
+  const missingCovers: number[] = [];
 
   // ── Version creation per clip ──
   for (let i = 0; i < clips.length; i++) {
     const clip = clips[i];
     const versionLabel = VERSION_LABELS[i] || `V${i + 1}`;
-    const audioUrl = getAudioUrl(clip);
-    const streamUrl = getStreamUrl(clip);
+    const fields = extractClipFields(clip);
+    const skip = validateClip(clip, i, { requireAudio: true });
 
-    if (!audioUrl) {
-      logger.error("No audio URL for clip", null, { clipIndex: i });
+    if (skip) {
+      skippedClips.push(skip);
+      logger.error("Skipping clip — validation failed", null, {
+        skipCode: skip.code,
+        clipIndex: i,
+        versionLabel,
+        availableKeys: skip.availableKeys,
+        message: skip.message,
+      });
       continue;
+    }
+    const audioUrl = fields.audioUrl as string;
+    const streamUrl = fields.streamUrl;
+    if (!fields.imageUrl) {
+      missingCovers.push(i);
+      logger.warn("Clip has no cover image — proceeding without cover", {
+        clipIndex: i,
+        versionLabel,
+        clipId: fields.id,
+      });
     }
 
     // Download + upload to storage (retry)
