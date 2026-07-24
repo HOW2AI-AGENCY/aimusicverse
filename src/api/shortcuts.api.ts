@@ -188,7 +188,7 @@ export async function updateShortcuts(
 
     const { error } = await supabase
       .from("profiles")
-      .update({ keyboard_shortcuts: request.shortcuts as unknown as unknown })
+      .update({ keyboard_shortcuts: request.shortcuts as unknown as import("@/integrations/supabase/types").Json })
       .eq("user_id", userId);
 
     if (error) {
@@ -220,7 +220,7 @@ export async function resetShortcuts(userId: string): Promise<ResetShortcutsResp
   try {
     const { error } = await supabase
       .from("profiles")
-      .update({ keyboard_shortcuts: DEFAULT_SHORTCUTS as unknown as unknown })
+      .update({ keyboard_shortcuts: DEFAULT_SHORTCUTS as unknown as import("@/integrations/supabase/types").Json })
       .eq("user_id", userId);
 
     if (error) {
