@@ -37,6 +37,7 @@ export function AddTrackDrawer({ open, onOpenChange, trackId, trackUrl, trackTit
     generateStem,
     isGenerating,
     generationProgress,
+    generationError,
     lastGeneration,
   } = useContextualGeneration({ trackId, trackUrl });
 
@@ -160,6 +161,30 @@ export function AddTrackDrawer({ open, onOpenChange, trackId, trackUrl, trackTit
                   Создаём {selectedType && stemTypeConfig[selectedType].label.toLowerCase()} с учётом контекста трека.
                   Это может занять до 2 минут.
                 </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Generation Error */}
+          <AnimatePresence>
+            {generationError && !isGenerating && !lastGeneration?.success && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="p-4 rounded-xl bg-destructive/10 border border-destructive/30 space-y-3"
+              >
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-destructive" />
+                  <span className="text-sm font-medium text-destructive">Ошибка генерации</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {generationError instanceof Error ? generationError.message : "Не удалось создать дорожку"}
+                </p>
+                <Button variant="outline" size="sm" onClick={handleGenerate} className="gap-2">
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  Попробовать снова
+                </Button>
               </motion.div>
             )}
           </AnimatePresence>
