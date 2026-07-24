@@ -18,6 +18,7 @@ import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import { cn } from "@/lib/utils";
 import { Music2, Disc3, Guitar, Waves, Leaf } from "@/lib/icons";
 import { glass } from "@/lib/glass";
+import { assertGenreIdsMatch } from "@/hooks/public-content/constants";
 
 interface GenreConfig {
   id: string;
