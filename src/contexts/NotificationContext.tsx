@@ -155,12 +155,16 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [user?.id, fetchNotifications]);
 
-  // Fetch active generations with visibility-aware polling
+  // Track active count in a ref so polling loop can adapt without restarting effect
+  const hasActiveRef = useRef(false);
+
+  // Fetch active generations with visibility-aware, adaptive polling
   useEffect(() => {
     if (!user?.id) return;
 
-    let pollInterval: ReturnType<typeof setInterval> | null = null;
+    let pollTimeout: ReturnType<typeof setTimeout> | null = null;
     let isVisible = !document.hidden;
+    let cancelled = false;
 
     const fetchGenerations = async () => {
       const { data, error } = await supabase
@@ -180,7 +184,6 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           .filter((task) => {
             const createdAt = new Date(task.created_at).getTime();
             const elapsed = now - createdAt;
-            // Skip tasks older than 10 minutes - they're likely stuck
             if (elapsed > STALE_THRESHOLD_MS) {
               log.warn("Skipping stale task", { taskId: task.id, ageMinutes: Math.round(elapsed / 60000) });
               return false;
@@ -206,6 +209,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             };
           });
         setActiveGenerations(generations);
+        hasActiveRef.current = generations.length > 0;
 
         generations.forEach((g) => {
           lastGenerationStatus.current.set(g.id, g.status);
@@ -213,32 +217,37 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    const startPolling = () => {
-      if (pollInterval) clearInterval(pollInterval);
-      // Adaptive: fast poll only when there ARE active generations.
-      // Otherwise back off hard — realtime + explicit fetch on new generation wakes it up.
-      const hasActive = activeGenerations.length > 0;
-      const interval = !isVisible ? 30000 : hasActive ? 5000 : 30000;
-      pollInterval = setInterval(fetchGenerations, interval);
+    const scheduleNext = () => {
+      if (cancelled) return;
+      // Adaptive: fast poll only when there ARE active generations AND tab is visible.
+      // Idle tabs poll rarely — realtime subscription wakes us on new inserts.
+      const interval = !isVisible ? 30000 : hasActiveRef.current ? 5000 : 30000;
+      pollTimeout = setTimeout(async () => {
+        await fetchGenerations();
+        scheduleNext();
+      }, interval);
     };
 
     const handleVisibilityChange = () => {
       isVisible = !document.hidden;
+      if (pollTimeout) clearTimeout(pollTimeout);
       if (isVisible) {
-        fetchGenerations(); // Immediate fetch when becoming visible
+        fetchGenerations().then(scheduleNext);
+      } else {
+        scheduleNext();
       }
-      startPolling();
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    fetchGenerations();
-    startPolling();
+    fetchGenerations().then(scheduleNext);
 
     return () => {
-      if (pollInterval) clearInterval(pollInterval);
+      cancelled = true;
+      if (pollTimeout) clearTimeout(pollTimeout);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [user?.id]);
+
 
   // Realtime subscription for notifications
   useEffect(() => {
