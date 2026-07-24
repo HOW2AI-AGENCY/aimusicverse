@@ -12,7 +12,7 @@ import { memo, useState, useCallback } from "react";
 import { MoreHorizontal } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { UnifiedTrackMenu } from "./UnifiedTrackMenu";
-import { UnifiedTrackSheet } from "./UnifiedTrackSheet";
+import { UnifiedTrackSheet } from "./LazyUnifiedTrackSheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 import { cn } from "@/lib/utils";
