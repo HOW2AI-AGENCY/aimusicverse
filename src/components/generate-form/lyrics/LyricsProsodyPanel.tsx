@@ -25,7 +25,7 @@ const LEVEL_STYLES: Record<LineIssueLevel, string> = {
 const LEVEL_ICON: Record<LineIssueLevel, typeof Info> = {
   info: Info,
   warn: AlertTriangle,
-  error: CircleAlert,
+  error: AlertCircle,
 };
 
 export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
