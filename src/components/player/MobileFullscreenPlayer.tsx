@@ -210,6 +210,23 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     [onClose],
   );
 
+  if (!audioUrl) {
+    return (
+      <div className="fixed inset-0 z-fullscreen flex flex-col items-center justify-center bg-background">
+        <EmptyState
+          icon={Music2}
+          title="Аудио недоступно"
+          description="Не удалось загрузить источник трека. Попробуйте позднее."
+          action={
+            <Button variant="secondary" onClick={onClose} className="min-h-touch">
+              Закрыть
+            </Button>
+          }
+        />
+      </div>
+    );
+  }
+
   return (
     <motion.div
       initial={prefersReducedMotion ? { opacity: 0, y: 0 } : { opacity: 1, y: "100%" }}
