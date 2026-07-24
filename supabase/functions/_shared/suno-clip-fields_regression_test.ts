@@ -34,17 +34,16 @@ const FORBIDDEN_FIELDS = [
   "model_name",
 ];
 
-// Identifiers that reference a raw Suno clip payload. Accessing forbidden
-// fields on these values is the bug we're preventing.
+// Identifiers that reference a RAW Suno clip payload (as delivered by the
+// vendor). Accessing forbidden fields on these values is the bug we prevent.
+// Do NOT add locally-constructed / already-normalized arrays here
+// (e.g. `audioClipsData`, `stemsToInsert`).
 const RAW_CLIP_IDENTIFIERS = [
   "clip",
   "clips",
   "firstClip",
   "first",
   "coverInfo",
-  "stem",
-  "audioData",
-  "audioClipsData",
   "clipData",
 ];
 
