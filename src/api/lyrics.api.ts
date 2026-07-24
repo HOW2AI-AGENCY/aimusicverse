@@ -1,5 +1,3 @@
-// @ts-nocheck — schema drift: lyrics RPCs отсутствуют в сгенерированных типах
-// TODO(Sprint 045): восстановить после `supabase gen types typescript`.
 /**
  * Lyrics API Layer
  * Raw Supabase database operations for lyrics versioning and section notes
@@ -8,7 +6,7 @@
  */
 
 import { supabase } from "@/integrations/supabase/client";
-import type { Tables } from "@/integrations/supabase/types";
+import type { Json, Tables } from "@/integrations/supabase/types";
 
 // ============= Type Definitions =============
 
@@ -254,8 +252,8 @@ export async function createLyricVersion(
       version_name: request.versionName || null,
       version_number: nextVersionNumber,
       is_current: true,
-      sections_data: request.sectionsData || null,
-      tags: request.tags || null,
+      sections_data: (request.sectionsData as Json | undefined) ?? undefined,
+      tags: request.tags ?? null,
     })
     .select(
       `
@@ -278,7 +276,7 @@ export async function createLyricVersion(
     content: data.lyrics,
     author: {
       id: data.profiles.id,
-      username: data.profiles.username,
+      username: data.profiles.username ?? "",
     },
     createdAt: data.created_at,
     isCurrent: data.is_current ?? false,
@@ -315,9 +313,10 @@ export async function restoreLyricVersion(versionId: string): Promise<RestoreLyr
     throw new Error(`Failed to fetch version to restore: ${fetchError.message}`);
   }
 
-  if (!versionToRestore) {
+  if (!versionToRestore || !versionToRestore.project_track_id) {
     throw new Error("Version not found");
   }
+  const restoreTrackId = versionToRestore.project_track_id;
 
   // Get the next version number
   const { data: existingVersions, error: versionError } = await supabase
@@ -408,23 +407,23 @@ export async function getSectionNotes(sectionId: string): Promise<GetSectionNote
   }
 
   // Transform the data to match API contract
-  type RawNote = { profiles: { id: string; username: string }; [key: string]: unknown };
+  type RawNote = { profiles: { id: string; username: string | null }; [key: string]: unknown };
   const notes: SectionNoteWithAuthor[] = (data || []).map((note: RawNote) => ({
-    id: note.id,
-    content: note.notes || "",
-    noteType: note.section_type || "general",
+    id: String(note.id ?? ""),
+    content: String(note.notes ?? ""),
+    noteType: String(note.section_type ?? "general"),
     author: {
       id: note.profiles.id,
-      username: note.profiles.username,
+      username: note.profiles.username ?? "",
     },
-    createdAt: note.created_at || new Date().toISOString(),
-    isResolved: false, // This field may need to be added to the schema
-    sectionId: note.section_id,
-    sectionType: note.section_type,
-    position: note.position,
-    tags: note.tags,
-    audioNoteUrl: note.audio_note_url,
-    referenceAudioUrl: note.reference_audio_url,
+    createdAt: String(note.created_at ?? new Date().toISOString()),
+    isResolved: false,
+    sectionId: String(note.section_id ?? ""),
+    sectionType: note.section_type as string | null,
+    position: note.position as number | null,
+    tags: note.tags as string[] | null,
+    audioNoteUrl: note.audio_note_url as string | null,
+    referenceAudioUrl: note.reference_audio_url as string | null,
     referenceAnalysis: note.reference_analysis,
   }));
 
@@ -464,7 +463,7 @@ export async function createSectionNote(
       tags: request.tags || null,
       audio_note_url: request.audioNoteUrl || null,
       reference_audio_url: request.referenceAudioUrl || null,
-      reference_analysis: request.referenceAnalysis || null,
+      reference_analysis: (request.referenceAnalysis as Json | undefined) ?? undefined,
     })
     .select()
     .single();
@@ -518,7 +517,7 @@ export async function updateSectionNote(
       tags: updates.tags,
       audio_note_url: updates.audioNoteUrl,
       reference_audio_url: updates.referenceAudioUrl,
-      reference_analysis: updates.referenceAnalysis,
+      reference_analysis: updates.referenceAnalysis as Json | undefined,
       updated_at: new Date().toISOString(),
     })
     .eq("id", noteId)

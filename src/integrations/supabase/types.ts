@@ -1722,6 +1722,20 @@ export type Database = {
             referencedRelation: "lyrics_templates"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "lyrics_section_notes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lyrics_section_notes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profile_view"
+            referencedColumns: ["id"]
+          },
         ]
       }
       lyrics_templates: {
@@ -1834,6 +1848,20 @@ export type Database = {
             columns: ["project_track_id"]
             isOneToOne: false
             referencedRelation: "project_tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lyrics_versions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lyrics_versions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profile_view"
             referencedColumns: ["id"]
           },
         ]
