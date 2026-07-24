@@ -540,7 +540,7 @@ export async function incrementPresetUsage(presetId: string): Promise<void> {
     }
   } catch (error: unknown) {
     // Log error but don't throw - usage count is not critical
-    logger.warn("Failed to increment preset usage", error instanceof Error ? error : new Error(String(error)));
+    logger.warn("Failed to increment preset usage", { error: error instanceof Error ? error.message : String(error) });
   }
 }
 
