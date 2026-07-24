@@ -12,6 +12,7 @@ import { checkRateLimit, getRateLimitHeaders, RateLimitConfigs } from "../_share
 import { handleReplaceSection } from "./handlers/replace.ts";
 import { handleFirstCallback } from "./handlers/first.ts";
 import { handleCompleteCallback } from "./handlers/complete.ts";
+import { handleTextCallback } from "./handlers/text.ts";
 
 const logger = createLogger("suno-music-callback");
 
@@ -90,6 +91,10 @@ serve(async (req) => {
     // ── Route by generation_mode / callbackType ──
     if (task.generation_mode === "replace_section") {
       return await wrapResult(await handleReplaceSection(payload, task, supabaseUrl, supabaseServiceKey));
+    }
+
+    if (callbackType === "text") {
+      return await wrapResult(await handleTextCallback(payload, task));
     }
 
     if (callbackType === "first") {
