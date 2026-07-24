@@ -149,6 +149,22 @@ export default function Library() {
   // Get selected track data for detail panel
   const selectedTrack = selectedTrackId ? (filteredTracks.find((t) => t.id === selectedTrackId) ?? null) : null;
 
+  // Split off in-flight tracks (no audio yet, still pending/processing) — they render as skeletons
+  const { inFlightTracks, readyTracks } = (() => {
+    const inFlight: typeof filteredTracks = [];
+    const ready: typeof filteredTracks = [];
+    for (const t of filteredTracks) {
+      const status = (t as any).status as string | undefined;
+      const noAudio = !(t as any).audio_url && !(t as any).streaming_url;
+      if ((status === "pending" || status === "processing") && noAudio) {
+        inFlight.push(t);
+      } else {
+        ready.push(t);
+      }
+    }
+    return { inFlightTracks: inFlight, readyTracks: ready };
+  })();
+
   // Keyboard shortcuts for desktop
   useEffect(() => {
     if (isMobile) return;
