@@ -26,6 +26,10 @@ import { logger } from "./lib/logger";
 import { initSentry, captureError } from "./lib/sentry";
 import { initTelemetry } from "./lib/telemetry";
 import { migrateQueueFromPlayerStore } from "./lib/migration";
+import { perfMark, perfMeasure } from "./lib/perfMarks";
+
+perfMark("app:scriptStart");
+
 
 // === CRITICAL: Early error logging for black screen debugging ===
 const BOOT_LOG: string[] = [];
