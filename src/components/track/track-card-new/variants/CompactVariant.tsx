@@ -93,30 +93,42 @@ export const CompactVariant = memo(function CompactVariant({
             </div>
           </div>
 
-          <div className="flex items-center gap-0.5 flex-shrink-0">
+          <div className="flex items-center gap-0 flex-shrink-0">
             <QuickLikeButton
               trackId={track.id}
               isLiked={(track as Track & { user_liked?: boolean }).is_liked}
               size="sm"
               variant="minimal"
+              className="hidden sm:flex h-9 w-9 min-w-9 min-h-9"
             />
-            <QuickQueueButton track={track as unknown as Track} size="sm" variant="minimal" />
+            <QuickQueueButton
+              track={track as unknown as Track}
+              size="sm"
+              variant="minimal"
+              className="hidden sm:flex h-9 w-9 min-w-9 min-h-9"
+            />
             {!isOwnTrack && (
-              <CardFollowButton userId={track.user_id} isOwnTrack={isOwnTrack} show={showFollowButton} size="sm" />
+              <CardFollowButton
+                userId={track.user_id}
+                isOwnTrack={isOwnTrack}
+                show={showFollowButton}
+                size="sm"
+                className="hidden sm:flex"
+              />
             )}
 
             {showActions && (
               <Button
                 size="icon"
                 variant="ghost"
-                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-foreground/[0.06]"
+                className="w-10 h-10 min-w-10 min-h-10 sm:w-11 sm:h-11 sm:min-w-[44px] sm:min-h-[44px] rounded-full opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-foreground/[0.06]"
                 onClick={(e) => {
                   e.stopPropagation();
                   openSheet();
                 }}
                 aria-label="Открыть меню трека"
               >
-                <MoreHorizontal className="w-5 h-5" />
+                <MoreHorizontal className="w-[18px] h-[18px] sm:w-5 sm:h-5" />
               </Button>
             )}
           </div>
