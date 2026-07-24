@@ -297,12 +297,32 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
   };
 
   const handleClearHistory = () => {
-    if (confirm("Удалить всю историю промптов?")) {
+    setConfirmClearOpen(true);
+  };
+
+  const runClearHistory = async () => {
+    setClearing(true);
+    try {
+      // Wipe DB history when signed in
+      if (user?.id) {
+        const { error } = await supabase.from("user_generation_history").delete().eq("user_id", user.id);
+        if (error) throw error;
+        await queryClient.invalidateQueries({ queryKey: ["db-generation-history", user.id] });
+      }
       setLocalHistory([]);
       localStorage.removeItem("musicverse_prompt_history");
       toast.success("История очищена");
+      setConfirmClearOpen(false);
+    } catch (error) {
+      logger.error("Failed to clear history", { error });
+      toast.error("Не удалось очистить историю");
+    } finally {
+      setClearing(false);
     }
   };
+
+  const historyCount = history.length;
+  const savedCount = savedPrompts.length;
 
   return (
     <>
