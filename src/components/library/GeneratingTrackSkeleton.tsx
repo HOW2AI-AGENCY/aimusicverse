@@ -261,7 +261,3 @@ export const GeneratingTrackSkeleton = ({
     </Card>
   );
 };
-      </div>
-    </Card>
-  );
-};
