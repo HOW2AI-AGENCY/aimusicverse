@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AlertCircle, CheckCircle2, ImageOff, Loader2, MusicOff } from "@/lib/icons";
+import { AlertCircle, CheckCircle2, ImageOff, Loader2, MicOff } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -149,7 +149,7 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
                   <span className="truncate text-xs text-muted-foreground">{v.audio_url.split("/").pop()}</span>
                 ) : (
                   <span className="flex items-center gap-1 text-xs text-destructive">
-                    <MusicOff className="h-3 w-3" /> нет аудио
+                    <MicOff className="h-3 w-3" /> нет аудио
                   </span>
                 )}
                 {v.id === activeVersionId && (
