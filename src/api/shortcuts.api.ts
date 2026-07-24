@@ -1,5 +1,3 @@
-// @ts-nocheck — schema drift: колонка profiles.keyboard_shortcuts отсутствует в типах.
-// TODO(Sprint 045): восстановить после `supabase gen types typescript`.
 /**
  * Keyboard Shortcuts API Layer
  * Raw Supabase database operations for user keyboard shortcuts
