@@ -89,13 +89,17 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
     if (!track?.id || !open) return;
 
     const fetchStatus = async () => {
-      const { data } = await fetchStemTranscriptions({ trackId: track.id });
-
-      const transcriptions = data || [];
-      setTrackStatus({
-        hasMidi: transcriptions.some((t) => !!t.midi_url),
-        hasNotes: transcriptions.some((t) => !!t.pdf_url),
-      });
+      try {
+        const { data } = await fetchStemTranscriptions({ trackId: track.id });
+        const transcriptions = data || [];
+        setTrackStatus({
+          hasMidi: transcriptions.some((t) => !!t.midi_url),
+          hasNotes: transcriptions.some((t) => !!t.pdf_url),
+        });
+      } catch {
+        // Silently ignore — MIDI/notes status is non-critical.
+        // The UI shows nothing rather than a stale "no MIDI" badge.
+      }
     };
 
     fetchStatus();
