@@ -8,7 +8,7 @@
 import { memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { analyzeProsody, type LineIssueLevel } from "@/lib/lyrics/prosody";
-import { AlertTriangle, CircleAlert, Info, Music2 } from "@/lib/icons";
+import { AlertTriangle, AlertCircle, Info, Music2 } from "@/lib/icons";
 
 interface LyricsProsodyPanelProps {
   lyrics: string;
