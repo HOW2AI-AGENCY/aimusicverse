@@ -76,6 +76,10 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
   // Reset is exposed via the `clearCurrentTaskId` callback below.
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
 
+  // P0#1: Track generation error so GenerateSheet can show the failed stage
+  // instead of silently dismissing the overlay when loading ends on error.
+  const [generationError, setGenerationError] = useState<string | null>(null);
+
   const {
     retry,
     cancelRetry,
@@ -214,6 +218,7 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
 
     setLoading(true);
     resetRetry();
+    setGenerationError(null);
 
     expectGenerationResult();
 
@@ -517,6 +522,10 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
         action: submissionMode,
       });
 
+      // P0#1: Keep the overlay visible with the failed stage so the user
+      // sees the error card (with retry/close) instead of just a toast.
+      setGenerationError(errorMessage);
+
       addUserActionBreadcrumb("generation_failed", "generation", {
         errorCode,
         retryAttempts: retryCount,
@@ -573,5 +582,8 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
     cancelRetry,
     // Sprint 055 P0-4: exposed so the UI can render a cancel button.
     currentTaskId,
+    // P0#1: error message to show failed stage in loading overlay
+    generationError,
+    clearGenerationError: () => setGenerationError(null),
   };
 }

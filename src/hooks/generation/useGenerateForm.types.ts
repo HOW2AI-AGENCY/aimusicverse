@@ -149,6 +149,8 @@ export interface UseGenerateFormActionsReturn {
   canRetry: boolean;
   cancelRetry: () => void;
   currentTaskId: string | null;
+  generationError: string | null;
+  clearGenerationError: () => void;
 }
 
 /** Deps accepted by `useGenerateFormValidation`. */
@@ -195,6 +197,8 @@ export type UseGenerateFormReturn = UseGenerateFormStateReturn &
     saveDraft: (payload?: unknown) => void;
 
     currentTaskId: string | null;
+    generationError: string | null;
+    clearGenerationError: () => void;
 
     activeReference: unknown;
     clearAudioReference: () => void;

@@ -262,6 +262,8 @@ export function useGenerateForm(params: UseGenerateFormParams): UseGenerateFormR
     clearDraft: realClearDraft,
     saveDraft,
     currentTaskId: actions.currentTaskId ?? null,
+    generationError: actions.generationError ?? null,
+    clearGenerationError: actions.clearGenerationError,
 
     // ─── active reference (used by submit) ─────────────────────────
     activeReference,

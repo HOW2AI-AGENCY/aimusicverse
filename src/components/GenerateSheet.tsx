@@ -172,7 +172,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
           />
 
           <AnimatePresence>
-            {controller.form.loading && (
+            {(controller.form.loading || controller.form.generationError) && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -180,11 +180,24 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
                 className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center"
               >
                 <GenerationLoadingState
-                  stage="processing"
-                  showCancel={!!controller.form.currentTaskId && !isCancelling}
+                  stage={controller.form.generationError ? "failed" : "processing"}
+                  errorMessage={controller.form.generationError ?? undefined}
+                  showCancel={!!(controller.form.currentTaskId || controller.form.generationError) && !isCancelling}
                   compact={false}
+                  onRetry={
+                    controller.form.generationError
+                      ? () => {
+                          controller.form.clearGenerationError();
+                          controller.actions.handleGenerate();
+                        }
+                      : undefined
+                  }
                   onCancel={
-                    controller.form.currentTaskId ? () => cancelGeneration(controller.form.currentTaskId!) : undefined
+                    controller.form.generationError
+                      ? () => controller.form.clearGenerationError()
+                      : controller.form.currentTaskId
+                        ? () => cancelGeneration(controller.form.currentTaskId!)
+                        : undefined
                   }
                 />
               </motion.div>

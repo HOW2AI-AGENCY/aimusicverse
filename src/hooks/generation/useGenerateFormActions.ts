@@ -149,6 +149,8 @@ export function useGenerateFormActions(deps: UseGenerateFormActionsDeps): UseGen
       nextRetryIn: submit.nextRetryIn,
       canRetry: submit.canRetry,
       cancelRetry: submit.cancelRetry,
+      generationError: submit.generationError,
+      clearGenerationError: submit.clearGenerationError,
     }),
     [
       submit.handleGenerate,
@@ -158,6 +160,8 @@ export function useGenerateFormActions(deps: UseGenerateFormActionsDeps): UseGen
       submit.nextRetryIn,
       submit.canRetry,
       submit.cancelRetry,
+      submit.generationError,
+      submit.clearGenerationError,
       handleBoostStylePlaceholder,
       saveDraft,
       clearDraft,
