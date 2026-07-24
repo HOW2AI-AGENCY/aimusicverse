@@ -4,8 +4,8 @@
  *
  * API Contract Reference: specs/031-mobile-studio-v2/contracts/api-contracts.md
  */
-
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 import { logger } from "@/lib/logger";
 
 // ============= Type Definitions =============
