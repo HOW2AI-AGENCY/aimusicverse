@@ -86,7 +86,7 @@ window.addEventListener("unhandledrejection", (event) => {
 
   const error = event.reason instanceof Error ? event.reason : new Error(String(event.reason));
   const scope = getErrorScope();
-  mainLogger.error("Unhandled promise rejection", error, scope);
+  mainLogger.error("Unhandled promise rejection", error, { ...scope });
   captureError(error, { type: "unhandledrejection", ...scope });
   event.preventDefault();
 });
