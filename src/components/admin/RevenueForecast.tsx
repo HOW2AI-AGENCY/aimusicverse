@@ -307,7 +307,7 @@ export function RevenueForecast() {
                   const key = String(name);
                   return [formatCurrency(Number(value)), labels[key] || key];
                 }}
-                labelFormatter={(label) => new Date(label).toLocaleDateString("ru-RU")}
+                labelFormatter={(label) => new Date(String(label ?? "")).toLocaleDateString("ru-RU")}
               />
 
               {/* Projection start line */}
