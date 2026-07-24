@@ -113,12 +113,11 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 }: LyricsSectionAdvancedProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
-  const [viewMode, setViewMode] = useState<"text" | "visual" | "preview">("visual");
+  const [viewMode, setViewMode] = useState<"text" | "visual" | "preview">("text");
   const showVisualEditor = viewMode === "visual";
   const showPreview = viewMode === "preview";
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
-  const [showQuickTemplates, setShowQuickTemplates] = useState(false);
 
   // Preserve cursor/selection in the text-mode textarea across mode switches.
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -150,13 +149,45 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
     return "text-muted-foreground";
   }, [lyrics.length]);
 
-  const handleApplyTemplate = useCallback(
-    (structure: string) => {
-      hapticFeedback("medium");
-      onLyricsChange(structure);
-      setShowQuickTemplates(false);
+  // Parsed section tags for the text-mode visualization chip strip.
+  const parsedTags = useMemo(() => parseSectionTags(lyrics), [lyrics]);
+
+  // Insert a `[Header]` at cursor position (or append) in text mode.
+  const insertSectionTag = useCallback(
+    (type: LyricSectionType) => {
+      hapticFeedback("light");
+      const def = LYRIC_SECTION_BY_VALUE[type];
+      const el = textareaRef.current;
+      const header = `[${def.header}]`;
+      if (!el) {
+        const sep = lyrics.length && !lyrics.endsWith("\n") ? "\n\n" : lyrics.endsWith("\n\n") ? "" : "\n";
+        onLyricsChange(`${lyrics}${sep}${header}\n`);
+        return;
+      }
+      const start = el.selectionStart ?? lyrics.length;
+      const end = el.selectionEnd ?? lyrics.length;
+      const before = lyrics.slice(0, start);
+      const after = lyrics.slice(end);
+      const needsLeading = before && !before.endsWith("\n") ? "\n" : "";
+      const needsTrailing = after && !after.startsWith("\n") ? "\n" : "";
+      const insert = `${needsLeading}${header}${needsTrailing}`;
+      const next = `${before}${insert}${after}`;
+      const caret = (before + insert).length;
+      selectionRef.current = { start: caret, end: caret };
+      onLyricsChange(next);
+      requestAnimationFrame(() => {
+        const t = textareaRef.current;
+        if (t) {
+          t.focus();
+          try {
+            t.setSelectionRange(caret, caret);
+          } catch {
+            /* noop */
+          }
+        }
+      });
     },
-    [hapticFeedback, onLyricsChange],
+    [hapticFeedback, lyrics, onLyricsChange],
   );
 
   const switchView = useCallback(
@@ -166,6 +197,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
     },
     [hapticFeedback],
   );
+
 
   return (
     <>
