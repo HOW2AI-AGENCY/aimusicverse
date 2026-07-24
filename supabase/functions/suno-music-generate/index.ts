@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
-import { createLogger } from "../_shared/logger.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { getApiModelName } from "../_shared/suno-models.ts";
 import { getGenerationCost } from "../_shared/economy.ts";
@@ -17,33 +16,66 @@ import {
   updateFallbackModel,
   bindSunoTaskId,
 } from "./db.ts";
-
-const logger = createLogger("suno-music-generate");
+import { createScopedLogger, generateCorrelationId } from "./log.ts";
+import { recordSunoEvent, type SunoOutcome } from "./metrics.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const correlationId =
+    req.headers.get("X-Correlation-Id") || req.headers.get("x-correlation-id") || generateCorrelationId();
+  const logger = createScopedLogger(correlationId);
+  const requestStart = Date.now();
+
   let createdTrackId: string | null = null;
   let createdTaskId: string | null = null;
   let planTrackIdForCatch: string | null = null;
+  let capturedUserId: string | null = null;
+  let requestedModel: string | null = null;
+
+  const supabase = getSupabaseClient();
+
+  const jsonResponse = (status: number, body: Record<string, unknown>) =>
+    new Response(JSON.stringify({ ...body, correlationId }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json", "X-Correlation-Id": correlationId },
+      status,
+    });
+
+  const emit = (params: {
+    outcome: SunoOutcome;
+    httpStatus?: number | null;
+    errorCode?: string | null;
+    errorMessage?: string | null;
+    modelRequested?: string | null;
+    modelUsed?: string | null;
+    retryCount?: number;
+    fallbackUsed?: boolean;
+    trackId?: string | null;
+    taskId?: string | null;
+    sunoTaskId?: string | null;
+    metadata?: Record<string, unknown>;
+  }) =>
+    recordSunoEvent(supabase, {
+      correlationId,
+      userId: capturedUserId,
+      durationMs: Date.now() - requestStart,
+      modelRequested: params.modelRequested ?? requestedModel,
+      ...params,
+    });
 
   try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
     if (!sunoApiKey) throw new Error("SUNO_API_KEY not configured");
-
-    const supabase = getSupabaseClient();
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 
     // Auth
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       logger.warn("No authorization header");
-      return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 401,
-      });
+      await emit({ outcome: "unauthorized", httpStatus: 401, errorCode: "NO_AUTH_HEADER" });
+      return jsonResponse(401, { success: false, error: "Unauthorized" });
     }
 
     const {
@@ -53,11 +85,15 @@ serve(async (req) => {
 
     if (userError || !user) {
       logger.error("User authentication failed", userError);
-      return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 401,
+      await emit({
+        outcome: "unauthorized",
+        httpStatus: 401,
+        errorCode: "AUTH_FAILED",
+        errorMessage: userError?.message,
       });
+      return jsonResponse(401, { success: false, error: "Unauthorized" });
     }
+    capturedUserId = user.id;
 
     const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
     logger.info("User role check", { userId: user.id, isAdmin: !!isAdmin });
@@ -84,15 +120,15 @@ serve(async (req) => {
       language = "ru",
       isPublic = true,
     } = body;
-    // language kept for downstream compatibility (currently unused)
     void language;
 
+    requestedModel = model;
     planTrackIdForCatch = planTrackId || null;
     const generationCost = getGenerationCost(model);
+    logger.info("Request received", { mode, model, instrumental, hasPlanTrack: !!planTrackId });
 
-    // Balance check (non-admin)
+    // Balance check
     if (!isAdmin) {
-      logger.info("Checking user credits balance", { userId: user.id });
       const { data: userCredits, error: creditsError } = await supabase
         .from("user_credits")
         .select("balance")
@@ -101,30 +137,34 @@ serve(async (req) => {
 
       if (creditsError) {
         logger.error("Failed to fetch user credits", creditsError);
-        return new Response(JSON.stringify({ success: false, error: "Ошибка проверки баланса" }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-          status: 500,
+        await emit({
+          outcome: "exception",
+          httpStatus: 500,
+          errorCode: "CREDITS_FETCH_FAILED",
+          errorMessage: creditsError.message,
         });
+        return jsonResponse(500, { success: false, error: "Ошибка проверки баланса" });
       }
 
       const userBalance = userCredits?.balance ?? 0;
-      logger.info("User credit balance", { userId: user.id, balance: userBalance, required: generationCost, model });
-
       if (userBalance < generationCost) {
         logger.warn("Insufficient user credits", { balance: userBalance, required: generationCost });
-        return new Response(
-          JSON.stringify({
-            success: false,
-            error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${generationCost}`,
-            errorCode: "INSUFFICIENT_CREDITS",
-            balance: userBalance,
-            required: generationCost,
-          }),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 402 },
-        );
+        await emit({
+          outcome: "insufficient_credits",
+          httpStatus: 402,
+          errorCode: "INSUFFICIENT_CREDITS",
+          metadata: { balance: userBalance, required: generationCost, scope: "user_wallet" },
+        });
+        return jsonResponse(402, {
+          success: false,
+          error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${generationCost}`,
+          errorCode: "INSUFFICIENT_CREDITS",
+          balance: userBalance,
+          required: generationCost,
+        });
       }
     } else {
-      logger.info("Admin user - skipping personal balance check, using shared API balance");
+      logger.info("Admin user - skipping personal balance check");
     }
 
     if (planTrackId) {
@@ -133,35 +173,33 @@ serve(async (req) => {
 
     // Validation
     const customMode = mode === "custom";
-    if (!prompt && (mode === "simple" || (customMode && !instrumental))) {
-      logger.warn("Prompt is required", { mode, instrumental });
-      return new Response(JSON.stringify({ success: false, error: "Требуется описание музыки" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 400,
+    const validationFail = (msg: string, code: string, extra?: Record<string, unknown>) => {
+      logger.warn("Validation failed", { code, msg, ...extra });
+      emit({
+        outcome: "validation_error",
+        httpStatus: 400,
+        errorCode: code,
+        errorMessage: msg,
+        metadata: extra,
       });
+      return jsonResponse(400, { success: false, error: msg, errorCode: code });
+    };
+    if (!prompt && (mode === "simple" || (customMode && !instrumental))) {
+      return validationFail("Требуется описание музыки", "PROMPT_REQUIRED", { mode, instrumental });
     }
     if (customMode && !style) {
-      logger.warn("Style is required in custom mode");
-      return new Response(JSON.stringify({ success: false, error: "Укажите стиль музыки в custom режиме" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 400,
-      });
+      return validationFail("Укажите стиль музыки в custom режиме", "STYLE_REQUIRED");
     }
     if (!customMode && prompt && prompt.length > 500) {
-      logger.warn("Prompt too long for simple mode", { promptLength: prompt.length });
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: `Описание слишком длинное (${prompt.length}/500 символов). Сократите текст или используйте Custom режим.`,
-        }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 },
+      return validationFail(
+        `Описание слишком длинное (${prompt.length}/500 символов). Сократите текст или используйте Custom режим.`,
+        "PROMPT_TOO_LONG_SIMPLE",
+        { promptLength: prompt.length },
       );
     }
     if (customMode && !instrumental && prompt && prompt.length > 5000) {
-      logger.warn("Prompt too long", { promptLength: prompt.length });
-      return new Response(JSON.stringify({ success: false, error: "Текст слишком длинный (макс. 5000 символов)" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 400,
+      return validationFail("Текст слишком длинный (макс. 5000 символов)", "PROMPT_TOO_LONG_CUSTOM", {
+        promptLength: prompt.length,
       });
     }
 
@@ -180,7 +218,6 @@ serve(async (req) => {
     }
     const effectivePersonaId = artistData?.suno_persona_id || personaId;
 
-    // Profile for creator + telegram
     const { data: profile } = await supabase
       .from("profiles")
       .select("telegram_id, display_name, username, first_name")
@@ -190,38 +227,47 @@ serve(async (req) => {
     const creatorDisplayName = profile?.display_name || profile?.username || profile?.first_name || null;
 
     // Create records
-    const track = await createTrackRecord(supabase, {
-      userId: user.id,
-      projectId,
-      planTrackId,
-      parentTrackId,
-      prompt,
-      title,
-      style,
-      instrumental,
-      isPublic,
-      mode,
-      model,
-      vocalGender,
-      styleWeight,
-      negativeTags,
-      customMode,
-      artistData: artistData
-        ? { id: artistData.id, name: artistData.name, avatar_url: artistData.avatar_url }
-        : null,
-      creatorDisplayName,
-    });
+    const track = await createTrackRecord(
+      supabase,
+      {
+        userId: user.id,
+        projectId,
+        planTrackId,
+        parentTrackId,
+        prompt,
+        title,
+        style,
+        instrumental,
+        isPublic,
+        mode,
+        model,
+        vocalGender,
+        styleWeight,
+        negativeTags,
+        customMode,
+        artistData: artistData
+          ? { id: artistData.id, name: artistData.name, avatar_url: artistData.avatar_url }
+          : null,
+        creatorDisplayName,
+      },
+      logger,
+    );
     createdTrackId = track.id;
 
-    const task = await createGenerationTask(supabase, {
-      userId: user.id,
-      prompt,
-      telegramChatId,
-      trackId: track.id,
-      mode,
-      model,
-      planTrackId,
-    });
+    const task = await createGenerationTask(
+      supabase,
+      {
+        userId: user.id,
+        prompt,
+        telegramChatId,
+        trackId: track.id,
+        mode,
+        model,
+        planTrackId,
+        correlationId,
+      },
+      logger,
+    );
     createdTaskId = task.id;
 
     // Suno payload
@@ -234,7 +280,6 @@ serve(async (req) => {
       instrumental,
       model: apiModel,
       callBackUrl: callbackUrl,
-      // Subscribe to all three callback stages (text → first → complete).
       callBackType: "all",
     };
     if (customMode) {
@@ -257,64 +302,97 @@ serve(async (req) => {
     }
 
     logger.info("Suno generate payload prepared", {
-      tag: "[suno-music-generate]",
       event: "payload_prepared",
       mode,
       model: apiModel,
       instrumental,
       hasVoiceId: !!voiceId,
-      voiceIdHash: voiceId ? String(voiceId).slice(0, 8) : null,
       hasPersonaId: !!effectivePersonaId,
-      personaModel: voiceId && !effectivePersonaId ? "voice_persona" : effectivePersonaId ? "style_persona" : undefined,
-      userId: user.id,
     });
     logger.apiCall("suno", "/api/v1/generate", { mode, model: apiModel, instrumental });
 
     // Call Suno with retry
-    const result = await callSunoWithRetry(sunoApiKey, supabase, user.id, sunoPayload, apiModel);
+    const result = await callSunoWithRetry({
+      sunoApiKey,
+      supabase,
+      userId: user.id,
+      payload: sunoPayload,
+      initialModel: apiModel,
+      logger: logger.child({ phase: "suno_call" }),
+    });
     const { data: sunoData, lastErrorMsg, lastStatus, currentModel, retryCount } = result;
 
     if (!result.success) {
       logger.error("SunoAPI error (final)", null, {
         status: lastStatus,
-        data: sunoData,
         attempts: retryCount + 1,
         finalModel: currentModel,
+        error: lastErrorMsg,
       });
 
       const userFriendlyError = getUserFriendlyError(lastErrorMsg);
 
       if (lastStatus === 429) {
-        const rateLimitMsg = "Превышен лимит запросов. Попробуйте через минуту.";
-        await markFailure(supabase, task.id, track.id, rateLimitMsg);
-        return new Response(
-          JSON.stringify({ success: false, error: rateLimitMsg, errorCode: "RATE_LIMIT", retryAfter: 60 }),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 429 },
-        );
+        const msg = "Превышен лимит запросов. Попробуйте через минуту.";
+        await markFailure(supabase, task.id, track.id, msg, logger);
+        await emit({
+          outcome: "rate_limit",
+          httpStatus: 429,
+          errorCode: "RATE_LIMIT",
+          errorMessage: lastErrorMsg,
+          modelUsed: currentModel,
+          retryCount,
+          fallbackUsed: currentModel !== apiModel,
+          trackId: track.id,
+          taskId: task.id,
+        });
+        return jsonResponse(429, {
+          success: false,
+          error: msg,
+          errorCode: "RATE_LIMIT",
+          retryAfter: 60,
+        });
       }
 
       if (lastStatus === 402) {
-        const creditsMsg = "Недостаточно кредитов на аккаунте";
-        await markFailure(supabase, task.id, track.id, creditsMsg);
-        return new Response(
-          JSON.stringify({ success: false, error: creditsMsg, errorCode: "INSUFFICIENT_CREDITS" }),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 402 },
-        );
+        const msg = "Недостаточно кредитов на аккаунте";
+        await markFailure(supabase, task.id, track.id, msg, logger);
+        await emit({
+          outcome: "insufficient_credits",
+          httpStatus: 402,
+          errorCode: "INSUFFICIENT_CREDITS",
+          errorMessage: lastErrorMsg,
+          modelUsed: currentModel,
+          retryCount,
+          fallbackUsed: currentModel !== apiModel,
+          trackId: track.id,
+          taskId: task.id,
+          metadata: { scope: "provider_account" },
+        });
+        return jsonResponse(402, { success: false, error: msg, errorCode: "INSUFFICIENT_CREDITS" });
       }
 
-      await markFailure(supabase, task.id, track.id, userFriendlyError);
+      await markFailure(supabase, task.id, track.id, userFriendlyError, logger);
 
       const errorCode = classifyErrorCode(lastErrorMsg);
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: userFriendlyError,
-          errorCode,
-          originalError: lastErrorMsg,
-          canRetry: !NON_RETRIABLE_ERROR_CODES.includes(errorCode),
-        }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 },
-      );
+      await emit({
+        outcome: "failure",
+        httpStatus: lastStatus ?? 500,
+        errorCode,
+        errorMessage: lastErrorMsg,
+        modelUsed: currentModel,
+        retryCount,
+        fallbackUsed: currentModel !== apiModel,
+        trackId: track.id,
+        taskId: task.id,
+      });
+      return jsonResponse(500, {
+        success: false,
+        error: userFriendlyError,
+        errorCode,
+        originalError: lastErrorMsg,
+        canRetry: !NON_RETRIABLE_ERROR_CODES.includes(errorCode),
+      });
     }
 
     if (currentModel !== apiModel) {
@@ -345,7 +423,19 @@ serve(async (req) => {
         artist_name: artistData?.name,
         fallback_used: currentModel !== apiModel,
         retry_count: retryCount,
+        correlation_id: correlationId,
       },
+    });
+
+    await emit({
+      outcome: "success",
+      httpStatus: 200,
+      modelUsed: currentModel,
+      retryCount,
+      fallbackUsed: currentModel !== apiModel,
+      trackId: track.id,
+      taskId: task.id,
+      sunoTaskId,
     });
 
     logger.success("Generation started", {
@@ -356,17 +446,13 @@ serve(async (req) => {
       retries: retryCount,
     });
 
-    return new Response(
-      JSON.stringify({ success: true, trackId: track.id, taskId: task.id, sunoTaskId }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
-    );
+    return jsonResponse(200, { success: true, trackId: track.id, taskId: task.id, sunoTaskId });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     logger.error("Error in suno-music-generate", error);
     const message = (error?.message || "Unknown error").toString();
 
     try {
-      const supabase = getSupabaseClient();
       if (createdTaskId) {
         await supabase
           .from("generation_tasks")
@@ -392,29 +478,32 @@ serve(async (req) => {
     }
 
     try {
-      const authHeader = req.headers.get("Authorization");
-      if (authHeader) {
-        const supabase = getSupabaseClient();
-        const {
-          data: { user },
-        } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
-        if (user) {
-          await supabase.from("notifications").insert({
-            user_id: user.id,
-            type: "error",
-            title: "Ошибка генерации",
-            message: message.substring(0, 250),
-            metadata: { error_type: "generation_error", original_message: message },
-          });
-        }
+      if (capturedUserId) {
+        await supabase.from("notifications").insert({
+          user_id: capturedUserId,
+          type: "error",
+          title: "Ошибка генерации",
+          message: message.substring(0, 250),
+          metadata: {
+            error_type: "generation_error",
+            original_message: message,
+            correlation_id: correlationId,
+          },
+        });
       }
     } catch (logError) {
       logger.error("Failed to log error notification", logError);
     }
 
-    return new Response(JSON.stringify({ success: false, error: message }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
+    await emit({
+      outcome: "exception",
+      httpStatus: 500,
+      errorCode: "UNCAUGHT_EXCEPTION",
+      errorMessage: message,
+      trackId: createdTrackId,
+      taskId: createdTaskId,
     });
+
+    return jsonResponse(500, { success: false, error: message });
   }
 });

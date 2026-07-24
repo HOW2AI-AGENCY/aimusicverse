@@ -1,7 +1,5 @@
 // DB helpers for suno-music-generate: track/task creation and failure handling
-import { createLogger } from "../_shared/logger.ts";
-
-const logger = createLogger("suno-music-generate");
+import type { ScopedLogger } from "./log.ts";
 
 export interface CreateTrackParams {
   userId: string;
@@ -23,7 +21,8 @@ export interface CreateTrackParams {
   creatorDisplayName: string | null;
 }
 
-export async function createTrackRecord(supabase: any, p: CreateTrackParams) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function createTrackRecord(supabase: any, p: CreateTrackParams, logger?: ScopedLogger) {
   const { data: track, error: trackError } = await supabase
     .from("tracks")
     .insert({
@@ -52,13 +51,14 @@ export async function createTrackRecord(supabase: any, p: CreateTrackParams) {
     .single();
 
   if (trackError || !track) {
-    logger.error("Track creation error", trackError);
+    logger?.error("Track creation error", trackError);
     throw new Error("Failed to create track record");
   }
   return track;
 }
 
 export async function createGenerationTask(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
   params: {
     userId: string;
@@ -68,8 +68,16 @@ export async function createGenerationTask(
     mode: string;
     model: string;
     planTrackId?: string | null;
+    correlationId?: string;
   },
+  logger?: ScopedLogger,
 ) {
+  const audioClips = params.planTrackId
+    ? JSON.stringify({ project_track_id: params.planTrackId, correlation_id: params.correlationId })
+    : params.correlationId
+      ? JSON.stringify({ correlation_id: params.correlationId })
+      : null;
+
   const { data: task, error: taskError } = await supabase
     .from("generation_tasks")
     .insert({
@@ -81,24 +89,27 @@ export async function createGenerationTask(
       source: "mini_app",
       generation_mode: params.mode,
       model_used: params.model,
-      audio_clips: params.planTrackId ? JSON.stringify({ project_track_id: params.planTrackId }) : null,
+      audio_clips: audioClips,
     })
     .select()
     .single();
 
   if (taskError || !task) {
-    logger.error("Task creation error", taskError);
+    logger?.error("Task creation error", taskError);
     throw new Error("Failed to create generation task");
   }
   return task;
 }
 
 export async function markFailure(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
   taskId: string,
   trackId: string,
   errorMessage: string,
+  logger?: ScopedLogger,
 ) {
+  logger?.warn("Marking generation as failed", { taskId, trackId, errorMessage });
   await supabase
     .from("generation_tasks")
     .update({ status: "failed", error_message: errorMessage })
@@ -110,6 +121,7 @@ export async function markFailure(
 }
 
 export async function updateFallbackModel(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
   taskId: string,
   trackId: string,
@@ -120,6 +132,7 @@ export async function updateFallbackModel(
 }
 
 export async function bindSunoTaskId(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
   taskId: string,
   trackId: string,
