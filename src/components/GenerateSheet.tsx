@@ -19,13 +19,6 @@ import { useTelegramMainButton, useTelegramSecondaryButton, useTelegramBackButto
 import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { useSunoCancel } from "@/hooks/generation/useSunoCancel";
-import { useFeatureFlag } from "@/hooks/useFeatureFlag";
-// ponytail: inlined from deleted @/lib/feature-flags (single flag, single caller)
-const GENERATE_SHEET_REDESIGN_ENABLED = {
-  default: false,
-  storageKey: "ff.generate-sheet-redesign",
-  environments: { dev: 1, staging: 1, prod: { start: 0.1, rampTo: 1, rampDays: 5 } },
-} as const;
 import { useProjects } from "@/hooks/useProjects";
 import { useArtists } from "@/hooks/useArtists";
 import { useTracks } from "@/hooks/useTracks";
@@ -33,12 +26,11 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { GenerateSheetHeader } from "./generate-sheet/GenerateSheetHeader";
-import { GenerateSheetBody } from "./generate-sheet/GenerateSheetBody";
 import { GenerateSheetFooter } from "./generate-sheet/GenerateSheetFooter";
 import { GenerateSheetDialogs } from "./generate-sheet/GenerateSheetDialogs";
 import { ValidationReasonsSheet } from "./generate-sheet/ValidationReasonsSheet";
 import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
-import { LegacyGenerateSheet } from "./GenerateSheet.legacy";
+import { GenerateSheetBody } from "./generate-sheet/GenerateSheetBody";
 import type { ReferenceKind } from "./generate-sheet/ReferenceChipsRow";
 
 interface Props {
@@ -48,10 +40,6 @@ interface Props {
 }
 
 export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
-  const isRedesign = useFeatureFlag(
-    GENERATE_SHEET_REDESIGN_ENABLED.storageKey,
-    GENERATE_SHEET_REDESIGN_ENABLED.default,
-  );
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks } = useTracks();
@@ -100,10 +88,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId }: Props) => {
       return () => clearTimeout(timer);
     }
   }, [open]);
-
-  if (!isRedesign) {
-    return <LegacyGenerateSheet open={open} onOpenChange={onOpenChange} projectId={projectId} />;
-  }
 
   const handleAddReference = (kind: ReferenceKind) => {
     if (kind === "project") controller.dialogs.project.setOpen(true);
