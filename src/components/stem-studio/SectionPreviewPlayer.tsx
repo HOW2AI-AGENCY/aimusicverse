@@ -181,7 +181,7 @@ export function SectionPreviewPlayer({
       audio.play();
       setIsPlaying(true);
     }
-  }, [startTime, isPlaying, isLoaded, pauseTrack, sourceId]);
+  }, [audioRef, startTime, isPlaying, isLoaded, pauseTrack, sourceId]);
 
   return (
     <TooltipProvider>
