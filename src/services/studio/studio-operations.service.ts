@@ -362,20 +362,22 @@ export async function sunoFileUpload(
 // Track Remix
 export async function remixTrack(params: {
   audioId: string;
+  audioUrl?: string | null;
   prompt: string;
   style: string;
   title: string;
   instrumental: boolean;
   model?: string;
+  audioWeight?: number;
+  negativeTags?: string;
+  vocalGender?: string;
+  styleWeight?: number;
+  weirdnessConstraint?: number;
 }): Promise<{ error: Error | null }> {
   try {
     const { error } = await studioApi.invokeSunoRemix({
-      audioId: params.audioId,
-      prompt: params.prompt,
-      style: params.style,
-      title: params.title,
-      instrumental: params.instrumental,
-      model: params.model ?? "chirp-v4",
+      ...params,
+      model: params.model ?? "V4_5",
     });
     if (error) return { error: new Error(error.message) };
     return { error: null };

@@ -240,11 +240,19 @@ export async function invokeMusicgenGenerate(payload: { prompt: string; duration
 
 export async function invokeSunoRemix(payload: {
   audioId: string;
+  /** Direct audio URL of the active version — preferred reference source. */
+  audioUrl?: string | null;
   prompt: string;
   style: string;
   title: string;
   instrumental: boolean;
   model?: string;
+  audioWeight?: number;
+  negativeTags?: string;
+  vocalGender?: string;
+  styleWeight?: number;
+  weirdnessConstraint?: number;
+  [key: string]: unknown;
 }) {
   const { data, error } = await supabase.functions.invoke("suno-remix", { body: payload });
   return { data, error };
