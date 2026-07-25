@@ -364,44 +364,47 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             {TitleBlock}
             <Waveform heightClass="h-5" isLoading={isLoading} />
           </div>
-        <div className="flex items-center gap-0.5 flex-shrink-0">
-          {PlayButton}
-          {NextButton}
-          {CloseButton}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
+            {PlayButton}
+            {NextButton}
+            {CloseButton}
+          </div>
         </div>
-      </div>
+      </>
     );
   } else {
     maxWidth = "max-w-5xl 2xl:max-w-[1280px]";
     body = (
-      <div className="flex items-center gap-4 px-4 py-2.5">
-        {Cover}
-        <div className="min-w-[160px] max-w-[220px]">{TitleBlock}</div>
-        <div className="flex items-center gap-1 flex-shrink-0">
-          {PrevButton}
-          {PlayButton}
-          {NextButton}
+      <>
+        {ErrorBanner}
+        <div className="flex items-center gap-4 px-4 py-2.5">
+          {Cover}
+          <div className="min-w-[160px] max-w-[220px]">{TitleBlock}</div>
+          <div className="flex items-center gap-1 flex-shrink-0">
+            {PrevButton}
+            {PlayButton}
+            {NextButton}
+          </div>
+          <span
+            className="text-xs text-muted-foreground tabular-nums w-10 text-right flex-shrink-0"
+            role="timer"
+            aria-label={t("player.compact.timeLabel", { currentTime: formatTime(currentTime) })}
+          >
+            <span aria-hidden="true">{formatTime(currentTime)}</span>
+          </span>
+          <Waveform heightClass="h-8" isLoading={isLoading} />
+          <span className="text-xs text-muted-foreground tabular-nums w-10 flex-shrink-0" aria-hidden="true">
+            {formatTime(duration)}
+          </span>
+          <div className="flex items-center gap-0.5 flex-shrink-0">
+            {LikeButton}
+            {VolumePopover}
+            <StemBatchStatusBadge className="ml-1" />
+            {ExpandButton}
+            {CloseButton}
+          </div>
         </div>
-        <span
-          className="text-xs text-muted-foreground tabular-nums w-10 text-right flex-shrink-0"
-          role="timer"
-          aria-label={t("player.compact.timeLabel", { currentTime: formatTime(currentTime) })}
-        >
-          <span aria-hidden="true">{formatTime(currentTime)}</span>
-        </span>
-        <Waveform heightClass="h-8" isLoading={isLoading} />
-        <span className="text-xs text-muted-foreground tabular-nums w-10 flex-shrink-0" aria-hidden="true">
-          {formatTime(duration)}
-        </span>
-        <div className="flex items-center gap-0.5 flex-shrink-0">
-          {LikeButton}
-          {VolumePopover}
-          <StemBatchStatusBadge className="ml-1" />
-          {ExpandButton}
-          {CloseButton}
-        </div>
-
-      </div>
+      </>
     );
   }
 
