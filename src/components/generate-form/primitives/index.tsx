@@ -90,3 +90,6 @@ export function FormSliderRow({
     </FormSettingCard>
   );
 }
+
+export { GenerateModal } from "./GenerateModal";
+export type { GenerateModalProps, GenerateModalStep } from "./GenerateModal";
