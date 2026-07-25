@@ -43,35 +43,13 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
     (async () => {
       setLoading(true);
       try {
-        const [{ data: trackData }, { data: versionData }] = await Promise.all([
-          supabase.from("tracks").select("active_version_id").eq("id", trackId).maybeSingle(),
-          supabase
-            .from("track_versions")
-            .select("id, version_label, clip_index, audio_url, cover_url, is_primary, metadata")
-            .eq("track_id", trackId)
-            .order("clip_index", { ascending: true }),
-        ]);
-        const { data: taskData } = await supabase
-          .from("generation_tasks")
-          .select("id, status, error_message, received_clips, audio_clips")
-          .eq("track_id", trackId)
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-
-        const { data: notif } = await supabase
-          .from("notifications")
-          .select("metadata")
-          .eq("group_key", taskData ? `generation_${taskData.id}` : "__none__")
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-
+        const { activeVersionId, versions, task, notificationMetadata } =
+          await fetchTrackGenerationStatus(trackId);
         if (cancelled) return;
-        setActiveVersionId((trackData?.active_version_id as string | null) ?? null);
-        setVersions((versionData ?? []) as VersionRow[]);
-        setTask((taskData ?? null) as TaskRow | null);
-        const meta = (notif?.metadata ?? {}) as { skippedClips?: SkipReason[] };
+        setActiveVersionId(activeVersionId);
+        setVersions(versions);
+        setTask(task);
+        const meta = (notificationMetadata ?? {}) as { skippedClips?: SkipReason[] };
         setSkipReasons(Array.isArray(meta.skippedClips) ? meta.skippedClips : []);
       } catch (err) {
         logger.error("TrackGenerationStatusPanel load failed", err, { trackId });
@@ -92,10 +70,7 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
     if (!task) return;
     setRetrying(true);
     try {
-      const { data, error } = await supabase.functions.invoke("retry-track-processing", {
-        body: { track_id: trackId },
-      });
-      if (error) throw error;
+      const data = await invokeRetryTrackProcessing(trackId);
       const created = data?.versions_created ?? 0;
       const updated = data?.versions_updated ?? 0;
       if (created === 0 && updated === 0) {
@@ -104,6 +79,13 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
         toast.success(`Готово: создано ${created}, обновлено ${updated}.`);
       }
       setReloadKey((k) => k + 1);
+    } catch (err) {
+      logger.error("retry-track-processing failed", err, { trackId });
+      toast.error("Не удалось запустить повторную обработку.");
+    } finally {
+      setRetrying(false);
+    }
+  }, [task, trackId]);
     } catch (err) {
       logger.error("retry-track-processing failed", err, { trackId });
       toast.error("Не удалось запустить повторную обработку.");
