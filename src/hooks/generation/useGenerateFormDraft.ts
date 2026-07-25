@@ -239,6 +239,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load quick genre preset", error instanceof Error ? error : new Error(String(error)));
       }
     });
+    // One-shot: consume sessionStorage["quickGenrePreset"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Fetch API credits
