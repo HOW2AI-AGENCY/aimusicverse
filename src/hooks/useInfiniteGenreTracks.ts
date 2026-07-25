@@ -8,24 +8,19 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { enrichTracksWithProfiles } from "@/lib/enrichTracksWithProfiles";
-import { assertGenreIdsMatch } from "./public-content/constants";
+import {
+  CANONICAL_GENRE_DB_VALUES,
+  assertGenreDbValuesMatch,
+  getGenreDbValues,
+} from "./public-content/constants";
 import type { PublicTrackWithCreator } from "./usePublicContent";
 
-// Genre to computed_genre DB values mapping.
-// Keys MUST match CANONICAL_GENRE_IDS from public-content/constants.
-const GENRE_DB_VALUES: Record<string, string[]> = {
-  hiphop: ["hiphop", "hip-hop", "rap", "trap", "drill"],
-  pop: ["pop", "dance", "electropop", "synth-pop"],
-  rock: ["rock", "alternative", "indie", "punk", "grunge"],
-  metal: ["metal", "heavy-metal", "metalcore"],
-  electronic: ["electronic", "house", "techno", "edm", "dnb", "dubstep"],
-  ambient: ["ambient", "chill", "downtempo"],
-  jazz: ["jazz", "swing", "bebop", "fusion"],
-  classical: ["classical", "orchestral", "symphony"],
-  folk: ["folk", "acoustic", "country", "americana", "bluegrass"],
-};
+// GENRE_DB_VALUES is derived from the canonical GENRE_QUERIES map so it can
+// never drift. Kept as a local alias for readability; the guard below fails
+// fast if the canonical source ever mutates unexpectedly.
+const GENRE_DB_VALUES: Readonly<Record<string, readonly string[]>> = CANONICAL_GENRE_DB_VALUES;
 
-assertGenreIdsMatch("GENRE_DB_VALUES", Object.keys(GENRE_DB_VALUES));
+assertGenreDbValuesMatch("GENRE_DB_VALUES", GENRE_DB_VALUES);
 
 interface UseInfiniteGenreTracksParams {
   /** Genre ID (hiphop, pop, rock, electronic, folk) */
@@ -53,7 +48,8 @@ export function useInfiniteGenreTracks({
   enabled = true,
   initialData,
 }: UseInfiniteGenreTracksParams) {
-  const dbValues = GENRE_DB_VALUES[genre] || [genre];
+  const canonical = getGenreDbValues(genre);
+  const dbValues = canonical.length > 0 ? [...canonical] : [genre];
 
   return useInfiniteQuery<GenreTracksPage>({
     queryKey: ["infinite-genre-tracks", genre, pageSize],
