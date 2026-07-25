@@ -45,11 +45,6 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
 
   const phraseRecorder = useVoiceRecorder();
   const sourceRecorder = useVoiceRecorder();
-  const [sourceTab, setSourceTab] = useState<"upload" | "record" | "library">("upload");
-  const [file, setFile] = useState<File | null>(null);
-  const [stemBlob, setStemBlob] = useState<Blob | null>(null);
-  const [selectedStem, setSelectedStem] = useState<UserVocalStem | null>(null);
-  const [stemLoading, setStemLoading] = useState(false);
   const [audioDuration, setAudioDuration] = useState(0);
   const [voiceName, setVoiceName] = useState("");
   const [description, setDescription] = useState("");
@@ -61,11 +56,9 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     return ["ru", "en", "es", "fr", "de", "it", "ja", "zh", "pt"].includes(l) ? l : "en";
   });
 
-  const stemsQuery = useUserVocalStems(open && sourceTab === "library");
+  // Microphone is the only accepted source for the voice sample (Suno requires sung audio).
+  const sourceBlob: Blob | null = sourceRecorder.blob;
 
-  // Final blob used for validation (either uploaded file, mic recording, or chosen library stem)
-  const sourceBlob: Blob | null =
-    sourceTab === "upload" ? file : sourceTab === "record" ? sourceRecorder.blob : stemBlob;
 
   // Memoized object URL so we don't leak on every render
   const sourceUrl = useMemo(() => {
