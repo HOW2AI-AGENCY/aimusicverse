@@ -18,7 +18,6 @@ import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { fetchStemTranscriptions } from "@/api/studio.api";
 import {
   ImagePlus,
-  Disc,
   Plus,
   Music,
   Video,
@@ -141,7 +140,6 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
   const showDetails = isActionAvailable("details", track, actionState);
   const showTogglePublic = isActionAvailable("toggle_public", track, actionState);
 
-  // HD status
 
   return (
     <>
