@@ -84,113 +84,140 @@ export function TrackDialogsPortal({
     }
   }, [dialogs.cover, track.audio_url, track.title]);
 
+  // IMPORTANT: dialogs are lazily mounted (`dialogs.<name> && ...`) so heavy hooks
+  // like usePreviewAudio don't acquire pooled <audio> elements per track card.
+  // Rendering all dialogs eagerly for every visible track exhausts the 6-slot audio
+  // pool and prevents the global player from playing anything.
   return (
     <>
       {/* Details - use Sheet on mobile, Dialog on desktop */}
-      {isMobile ? (
-        <TrackDetailSheet
+      {dialogs.details &&
+        (isMobile ? (
+          <TrackDetailSheet
+            track={track}
+            open={dialogs.details}
+            onOpenChange={(open) => !open && onCloseDialog("details")}
+          />
+        ) : (
+          <TrackDetailDialog
+            open={dialogs.details}
+            onOpenChange={(open) => !open && onCloseDialog("details")}
+            track={track}
+          />
+        ))}
+
+      {/* Edit dialogs */}
+      {dialogs.extend && (
+        <ExtendTrackDialog
+          open={dialogs.extend}
+          onOpenChange={(open) => !open && onCloseDialog("extend")}
           track={track}
-          open={dialogs.details}
-          onOpenChange={(open) => !open && onCloseDialog("details")}
+          activeAudioUrl={activeVersion?.audioUrl}
         />
-      ) : (
-        <TrackDetailDialog
-          open={dialogs.details}
-          onOpenChange={(open) => !open && onCloseDialog("details")}
+      )}
+
+      {dialogs.cover && (
+        <AudioCoverDialog
+          open={dialogs.cover}
+          onOpenChange={(open) => !open && onCloseDialog("cover")}
+          initialAudioFile={coverAudioFile || undefined}
+          prefillData={{
+            title: track.title,
+            style: track.style,
+            lyrics: track.lyrics,
+            isInstrumental: track.is_instrumental ?? false,
+          }}
+        />
+      )}
+
+      {/* Mashup — second source track is picked in the dialog itself. */}
+      {dialogs.mashup && (
+        <MashupDialog
+          open={dialogs.mashup}
+          onOpenChange={(open) => !open && onCloseDialog("mashup")}
+          initialTrackId={track.id}
+          projectId={track.project_id ?? undefined}
+        />
+      )}
+
+      {/* Organize dialogs */}
+      {dialogs.addToProject && (
+        <AddToProjectDialog
+          open={dialogs.addToProject}
+          onOpenChange={(open) => !open && onCloseDialog("addToProject")}
           track={track}
         />
       )}
 
-      {/* Edit dialogs */}
-      <ExtendTrackDialog
-        open={dialogs.extend}
-        onOpenChange={(open) => !open && onCloseDialog("extend")}
-        track={track}
-        activeAudioUrl={activeVersion?.audioUrl}
-      />
+      {dialogs.share && (
+        <ShareTrackDialog open={dialogs.share} onOpenChange={(open) => !open && onCloseDialog("share")} track={track} />
+      )}
 
-      <AudioCoverDialog
-        open={dialogs.cover}
-        onOpenChange={(open) => !open && onCloseDialog("cover")}
-        initialAudioFile={coverAudioFile || undefined}
-        prefillData={{
-          title: track.title,
-          style: track.style,
-          lyrics: track.lyrics,
-          isInstrumental: track.is_instrumental ?? false,
-        }}
-      />
-
-      {/* Mashup — second source track is picked in the dialog itself. */}
-      <MashupDialog
-        open={dialogs.mashup}
-        onOpenChange={(open) => !open && onCloseDialog("mashup")}
-        initialTrackId={track.id}
-        projectId={track.project_id ?? undefined}
-      />
-
-      {/* Organize dialogs */}
-      <AddToProjectDialog
-        open={dialogs.addToProject}
-        onOpenChange={(open) => !open && onCloseDialog("addToProject")}
-        track={track}
-      />
-
-      <ShareTrackDialog open={dialogs.share} onOpenChange={(open) => !open && onCloseDialog("share")} track={track} />
-
-      <AddToPlaylistDialog
-        open={dialogs.addToPlaylist}
-        onOpenChange={(open) => !open && onCloseDialog("addToPlaylist")}
-        track={track}
-      />
+      {dialogs.addToPlaylist && (
+        <AddToPlaylistDialog
+          open={dialogs.addToPlaylist}
+          onOpenChange={(open) => !open && onCloseDialog("addToPlaylist")}
+          track={track}
+        />
+      )}
 
       {/* Delete confirmation */}
-      <ConfirmationDialog
-        open={dialogs.deleteConfirm}
-        onOpenChange={(open) => !open && onCloseDialog("deleteConfirm")}
-        title="Удалить трек?"
-        description={`Вы уверены, что хотите удалить трек "${track.title || "Без названия"}"? Это действие нельзя отменить.`}
-        confirmLabel="Удалить"
-        cancelLabel="Отмена"
-        variant="destructive"
-        onConfirm={onConfirmDelete ?? (() => {})}
-      />
+      {dialogs.deleteConfirm && (
+        <ConfirmationDialog
+          open={dialogs.deleteConfirm}
+          onOpenChange={(open) => !open && onCloseDialog("deleteConfirm")}
+          title="Удалить трек?"
+          description={`Вы уверены, что хотите удалить трек "${track.title || "Без названия"}"? Это действие нельзя отменить.`}
+          confirmLabel="Удалить"
+          cancelLabel="Отмена"
+          variant="destructive"
+          onConfirm={onConfirmDelete ?? (() => {})}
+        />
+      )}
 
       {/* Rename dialog */}
-      <RenameTrackDialog
-        track={track}
-        open={dialogs.rename}
-        onOpenChange={(open) => !open && onCloseDialog("rename")}
-      />
+      {dialogs.rename && (
+        <RenameTrackDialog
+          track={track}
+          open={dialogs.rename}
+          onOpenChange={(open) => !open && onCloseDialog("rename")}
+        />
+      )}
 
-      {/* Create Artist dialog */}
-      <CreateArtistDialog
-        open={dialogs.createArtist}
-        onOpenChange={(open) => !open && onCloseDialog("createArtist")}
-        fromTrack={{
-          title: track.title,
-          style: track.style,
-          tags: track.tags,
-          cover_url: track.cover_url,
-          audio_url: track.audio_url,
-        }}
-      />
+      {/* Create Artist dialog — uses usePreviewAudio, MUST be lazy-mounted. */}
+      {dialogs.createArtist && (
+        <CreateArtistDialog
+          open={dialogs.createArtist}
+          onOpenChange={(open) => !open && onCloseDialog("createArtist")}
+          fromTrack={{
+            title: track.title,
+            style: track.style,
+            tags: track.tags,
+            cover_url: track.cover_url,
+            audio_url: track.audio_url,
+          }}
+        />
+      )}
 
       {/* Add Vocals dialog */}
-      <AddVocalsDialog
-        open={dialogs.addVocals}
-        onOpenChange={(open) => !open && onCloseDialog("addVocals")}
-        track={track}
-        activeAudioUrl={activeVersion?.audioUrl}
-      />
+      {dialogs.addVocals && (
+        <AddVocalsDialog
+          open={dialogs.addVocals}
+          onOpenChange={(open) => !open && onCloseDialog("addVocals")}
+          track={track}
+          activeAudioUrl={activeVersion?.audioUrl}
+        />
+      )}
 
       {/* Add Instrumental dialog */}
-      <AddInstrumentalDialog
-        open={dialogs.addInstrumental}
-        onOpenChange={(open) => !open && onCloseDialog("addInstrumental")}
-        track={track}
-        activeAudioUrl={activeVersion?.audioUrl}
-      />
+      {dialogs.addInstrumental && (
+        <AddInstrumentalDialog
+          open={dialogs.addInstrumental}
+          onOpenChange={(open) => !open && onCloseDialog("addInstrumental")}
+          track={track}
+          activeAudioUrl={activeVersion?.audioUrl}
+        />
+      )}
     </>
   );
 }
