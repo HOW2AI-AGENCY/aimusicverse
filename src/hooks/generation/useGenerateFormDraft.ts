@@ -259,6 +259,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
     if (open) {
       fetchApiCredits();
     }
+    // Fetch API credits when the sheet opens; setters are stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Apply audio reference data when loaded
