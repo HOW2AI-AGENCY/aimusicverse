@@ -81,7 +81,9 @@ export function sectionsToLyrics(sections: LyricSection[]): string {
       const ordinal = (seen.get(s.type) ?? 0) + 1;
       seen.set(s.type, ordinal);
       const base = LYRIC_SECTION_BY_VALUE[s.type].header;
-      const header = (typeTotals.get(s.type) ?? 0) > 1 ? `${base} ${ordinal}` : base;
+      const headerBase = (typeTotals.get(s.type) ?? 0) > 1 ? `${base} ${ordinal}` : base;
+      const extras = (s.tags ?? []).map((t) => t.trim()).filter(Boolean);
+      const header = extras.length ? `${headerBase}, ${extras.join(", ")}` : headerBase;
       return `[${header}]\n${s.content}`.trim();
     })
     .filter((block) => block.length > "[x]".length)
@@ -93,6 +95,9 @@ export function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
   for (let i = 0; i < a.length; i++) {
     if (a[i].type !== b[i].type) return false;
     if (a[i].content !== b[i].content) return false;
+    const at = (a[i].tags ?? []).join("|");
+    const bt = (b[i].tags ?? []).join("|");
+    if (at !== bt) return false;
   }
   return true;
 }
