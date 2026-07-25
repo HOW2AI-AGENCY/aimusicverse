@@ -1,19 +1,26 @@
 /**
- * Regression: genre identifier sets must stay in sync across
- *   - GENRES              (UI tabs, src/components/home/GenreTabsSection.tsx)
- *   - GENRE_QUERIES       (batch fetch, src/hooks/public-content/constants.ts)
- *   - GENRE_DB_VALUES     (infinite scroll, src/hooks/useInfiniteGenreTracks.ts)
+ * Regression: genre identifier sets AND their DB-value maps must stay
+ * in sync across:
+ *   - GENRES               (UI tabs, src/components/home/GenreTabsSection.tsx)
+ *   - GENRE_QUERIES        (batch fetch, src/hooks/public-content/constants.ts) — canonical
+ *   - GENRE_DB_VALUES      (infinite scroll, src/hooks/useInfiniteGenreTracks.ts)
  *
  * A mismatch means a tab renders with no data or a genre gets fetched but
- * never displayed. Keep this test as the single source of truth.
+ * never displayed. `GENRE_QUERIES` is the single source of truth; other
+ * lists must derive from it via getGenreDbValues.
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { GENRE_QUERIES } from "@/hooks/public-content/constants";
+import {
+  GENRE_QUERIES,
+  CANONICAL_GENRE_IDS,
+  CANONICAL_GENRE_DB_VALUES,
+  getGenreDbValues,
+  assertGenreDbValuesMatch,
+} from "@/hooks/public-content/constants";
 
 function extractIds(source: string, marker: string): string[] {
-  // Parses `id: "value"` occurrences inside the first array literal after `marker`.
   const startIdx = source.indexOf(marker);
   if (startIdx === -1) return [];
   const slice = source.slice(startIdx, startIdx + 8000);
@@ -22,19 +29,6 @@ function extractIds(source: string, marker: string): string[] {
   let m: RegExpExecArray | null;
   while ((m = re.exec(slice)) !== null) ids.push(m[1]);
   return ids;
-}
-
-function extractKeys(source: string, marker: string): string[] {
-  const startIdx = source.indexOf(marker);
-  if (startIdx === -1) return [];
-  const slice = source.slice(startIdx, startIdx + 4000);
-  const end = slice.indexOf("};");
-  const body = end === -1 ? slice : slice.slice(0, end);
-  const keys: string[] = [];
-  const re = /^\s*([a-z0-9-]+):\s*\[/gm;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(body)) !== null) keys.push(m[1]);
-  return keys;
 }
 
 const root = resolve(__dirname, "../../..");
@@ -47,32 +41,60 @@ const infiniteSrc = readFileSync(
   "utf8",
 );
 
-const uiIds = extractIds(genreTabsSrc, "const GENRES");
+const uiIds = extractIds(genreTabsSrc, "GENRE_PRESENTATION");
 const queryIds = GENRE_QUERIES.map((g) => g.id);
-const dbKeys = extractKeys(infiniteSrc, "GENRE_DB_VALUES");
 
 describe("genre identifier consistency", () => {
   it("GENRES (UI) matches GENRE_QUERIES (batch)", () => {
-    expect(uiIds.sort()).toEqual(queryIds.sort());
+    expect(uiIds.sort()).toEqual([...queryIds].sort());
   });
 
-  it("GENRES (UI) matches GENRE_DB_VALUES (infinite scroll)", () => {
-    expect(uiIds.sort()).toEqual(dbKeys.sort());
+  it("useInfiniteGenreTracks derives from canonical constants (no local copy)", () => {
+    // The local GENRE_DB_VALUES alias must be assigned from
+    // CANONICAL_GENRE_DB_VALUES — no hand-typed object literal.
+    expect(infiniteSrc).toMatch(
+      /GENRE_DB_VALUES[^=]*=\s*CANONICAL_GENRE_DB_VALUES/,
+    );
+    // Legacy inline `{ hiphop: [...] }` literal must not reappear.
+    expect(infiniteSrc).not.toMatch(/const GENRE_DB_VALUES[^=]*=\s*\{\s*hiphop:/);
   });
 
-  it("no duplicate ids in any list", () => {
-    for (const [name, list] of [
-      ["GENRES", uiIds],
-      ["GENRE_QUERIES", queryIds],
-      ["GENRE_DB_VALUES", dbKeys],
-    ] as const) {
-      expect(new Set(list).size, `${name} has duplicates`).toBe(list.length);
+  it("no duplicate ids or dbValues in the canonical source", () => {
+    expect(new Set(queryIds).size).toBe(queryIds.length);
+    for (const cfg of GENRE_QUERIES) {
+      expect(new Set(cfg.dbValues).size, `${cfg.id} has duplicate dbValues`).toBe(
+        cfg.dbValues.length,
+      );
     }
   });
 
-  it("every UI genre has non-empty dbValues", () => {
+  it("every canonical genre has non-empty dbValues", () => {
     for (const cfg of GENRE_QUERIES) {
       expect(cfg.dbValues.length, `${cfg.id} has empty dbValues`).toBeGreaterThan(0);
     }
   });
+
+  it("getGenreDbValues returns canonical entries and [] for unknown ids", () => {
+    for (const id of CANONICAL_GENRE_IDS) {
+      expect([...getGenreDbValues(id)]).toEqual([...CANONICAL_GENRE_DB_VALUES[id]]);
+    }
+    expect(getGenreDbValues("unknown-genre-xyz")).toEqual([]);
+  });
+
+  it("assertGenreDbValuesMatch accepts canonical map and rejects drift", () => {
+    expect(() =>
+      assertGenreDbValuesMatch("test-canonical", CANONICAL_GENRE_DB_VALUES),
+    ).not.toThrow();
+
+    // Drifted copy: hiphop missing "drill"
+    const drifted = {
+      ...CANONICAL_GENRE_DB_VALUES,
+      hiphop: CANONICAL_GENRE_DB_VALUES.hiphop.filter((v) => v !== "drill"),
+    };
+    // In tests import.meta.env.DEV is true → guard throws.
+    expect(() => assertGenreDbValuesMatch("test-drift", drifted)).toThrow(
+      /out of sync/,
+    );
+  });
 });
+
