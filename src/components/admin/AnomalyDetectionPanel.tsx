@@ -76,10 +76,10 @@ function AnomalyCard({ anomaly }: AnomalyCardProps) {
         <div className="flex-1 min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-1 sm:gap-2">
             <span className="font-medium text-sm sm:text-base truncate">{anomaly.metricLabel}</span>
-            <Badge variant="outline" className={cn("text-[10px] sm:text-xs px-1 sm:px-2", config.color)}>
+            <Badge variant="outline" className={cn("text-[0.625rem] sm:text-xs px-1 sm:px-2", config.color)}>
               {config.label}
             </Badge>
-            <Badge variant="secondary" className="text-[10px] sm:text-xs px-1 sm:px-2">
+            <Badge variant="secondary" className="text-[0.625rem] sm:text-xs px-1 sm:px-2">
               {anomaly.type === "spike" && "Всплеск"}
               {anomaly.type === "drop" && "Падение"}
               {anomaly.type === "trend" && "Тренд"}
@@ -89,7 +89,7 @@ function AnomalyCard({ anomaly }: AnomalyCardProps) {
 
           <p className="text-xs sm:text-sm text-muted-foreground">{anomaly.description}</p>
 
-          <div className="flex items-center gap-3 text-[10px] sm:text-xs text-muted-foreground">
+          <div className="flex items-center gap-3 text-[0.625rem] sm:text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <Zap className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
               Отклонение: {anomaly.deviation.toFixed(0)}%
@@ -140,11 +140,11 @@ export function AnomalyDetectionPanel() {
         <div className="grid grid-cols-3 gap-2 sm:gap-3">
           <div className="p-2 sm:p-3 rounded-lg bg-red-500/10 text-center">
             <div className="text-lg sm:text-2xl font-bold text-red-500">{criticalCount}</div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Критичных</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Критичных</div>
           </div>
           <div className="p-2 sm:p-3 rounded-lg bg-yellow-500/10 text-center">
             <div className="text-lg sm:text-2xl font-bold text-yellow-500">{warningCount}</div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Предупр.</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Предупр.</div>
           </div>
           <div className="p-2 sm:p-3 rounded-lg bg-green-500/10 text-center">
             <div
@@ -155,7 +155,7 @@ export function AnomalyDetectionPanel() {
             >
               {!hasAnomalies ? "✓" : anomalies.length}
             </div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">{!hasAnomalies ? "Норма" : "Всего"}</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">{!hasAnomalies ? "Норма" : "Всего"}</div>
           </div>
         </div>
 
@@ -177,7 +177,7 @@ export function AnomalyDetectionPanel() {
         )}
 
         {/* Info */}
-        <div className="text-[10px] sm:text-xs text-muted-foreground text-center pt-2 border-t">
+        <div className="text-[0.625rem] sm:text-xs text-muted-foreground text-center pt-2 border-t">
           Анализ: Z-score (&gt;2σ), пороговые значения, тренды (3+ дня)
         </div>
       </CardContent>

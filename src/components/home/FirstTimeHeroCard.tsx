@@ -66,7 +66,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({ onCreateClick
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-center mb-3 sm:mb-4"
         >
-          <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-primary/15 text-primary text-[11px] sm:text-xs font-medium border border-primary/20">
+          <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-primary/15 text-primary text-[0.6875rem] sm:text-xs font-medium border border-primary/20">
             <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             Добро пожаловать в MusicVerse AI
           </span>
@@ -111,7 +111,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({ onCreateClick
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] sm:text-xs font-medium text-primary">Шаг {step.number}</span>
+                  <span className="text-[0.625rem] sm:text-xs font-medium text-primary">Шаг {step.number}</span>
                 </div>
                 <h3 className="text-sm font-medium text-foreground leading-tight">{step.title}</h3>
                 <p className="text-xs text-muted-foreground">{step.description}</p>
@@ -132,7 +132,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({ onCreateClick
               Создать первый трек
             </Button>
             {/* Cost badge - honest pricing */}
-            <span className="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 text-[9px] font-bold bg-primary text-primary-foreground rounded-md shadow-sm z-10">
+            <span className="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 text-[0.5625rem] font-bold bg-primary text-primary-foreground rounded-md shadow-sm z-10">
               10-12 💎
             </span>
           </div>
@@ -143,7 +143,7 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({ onCreateClick
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="text-[11px] sm:text-xs text-muted-foreground text-center mt-3 sm:mt-4 hidden xs:block"
+          className="text-[0.6875rem] sm:text-xs text-muted-foreground text-center mt-3 sm:mt-4 hidden xs:block"
         >
           💡 Совет: начни с простого описания, например
           <br />

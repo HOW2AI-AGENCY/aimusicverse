@@ -104,7 +104,7 @@ export function LyricsHeader({
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="text-[11px] text-muted-foreground truncate">
+              <p className="text-[0.6875rem] text-muted-foreground truncate">
                 {projectData.title} • #{(projectTrack?.position ?? 0) + 1}
               </p>
               <p className="text-sm font-semibold truncate">{title}</p>
@@ -140,22 +140,22 @@ export function LyricsHeader({
         {(projectData.genre || projectData.mood || globalTags.length > 0) && (
           <div className="flex gap-1.5 px-3 pb-2 overflow-x-auto scrollbar-hide cursor-pointer" onClick={onOpenTags}>
             {projectData.genre && (
-              <Badge variant="secondary" className="text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0">
+              <Badge variant="secondary" className="text-[0.625rem] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0">
                 {projectData.genre}
               </Badge>
             )}
             {projectData.mood && (
-              <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
+              <Badge variant="outline" className="text-[0.625rem] h-5 px-2 shrink-0">
                 {projectData.mood}
               </Badge>
             )}
             {globalTags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-2 shrink-0">
+              <Badge key={tag} variant="secondary" className="text-[0.625rem] h-5 px-2 shrink-0">
                 {tag}
               </Badge>
             ))}
             {globalTags.length > 3 && (
-              <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
+              <Badge variant="outline" className="text-[0.625rem] h-5 px-2 shrink-0">
                 +{globalTags.length - 3}
               </Badge>
             )}

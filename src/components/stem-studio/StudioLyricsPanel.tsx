@@ -193,8 +193,8 @@ function calculateReplacementBounds(
   }
 
   // Base times from selected lines
-  let startTime = firstLine.startTime;
-  let endTime = lastLine.endTime;
+  const startTime = firstLine.startTime;
+  const endTime = lastLine.endTime;
 
   // Add padding for smoother transitions
   // Look at gaps before first line and after last line
@@ -601,7 +601,7 @@ export function StudioLyricsPanel({
             {/* Progress indicator */}
             {lines.length > 4 && (
               <div className="flex items-center justify-center gap-1 mt-2 pt-2 border-t border-border/20">
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-[0.625rem] text-muted-foreground">
                   {activeLineIndex + 1} / {lines.length}
                 </span>
               </div>

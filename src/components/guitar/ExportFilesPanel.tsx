@@ -157,7 +157,7 @@ export function ExportFilesPanel({ transcriptionFiles, midiUrl, className }: Exp
                   <div className="flex-1 text-left min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-sm">{file.label}</span>
-                      <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 font-mono">
+                      <Badge variant="secondary" className="text-[0.625rem] px-1.5 py-0 h-4 font-mono">
                         {file.format}
                       </Badge>
                     </div>
@@ -169,7 +169,7 @@ export function ExportFilesPanel({ transcriptionFiles, midiUrl, className }: Exp
                     {isAvailable ? (
                       <ExternalLink className="w-4 h-4 text-muted-foreground" />
                     ) : (
-                      <span className="text-[10px] text-muted-foreground">Недоступно</span>
+                      <span className="text-[0.625rem] text-muted-foreground">Недоступно</span>
                     )}
                   </div>
                 </Button>

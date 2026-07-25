@@ -439,7 +439,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
                           >
                             {note.fret}
                             {note.technique && (
-                              <span className="text-[10px] text-muted-foreground absolute -top-1 right-0">
+                              <span className="text-[0.625rem] text-muted-foreground absolute -top-1 right-0">
                                 {TECHNIQUE_SYMBOLS[note.technique]}
                               </span>
                             )}

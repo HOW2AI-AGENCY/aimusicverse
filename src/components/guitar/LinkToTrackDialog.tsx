@@ -185,11 +185,11 @@ export function LinkToTrackDialog({ open, onOpenChange, analysisResult }: LinkTo
                         {track.style && <p className="text-xs text-muted-foreground truncate mt-0.5">{track.style}</p>}
                         <div className="flex items-center gap-1 mt-1">
                           {track.has_stems && (
-                            <Badge variant="secondary" className="text-[10px] px-1 py-0">
+                            <Badge variant="secondary" className="text-[0.625rem] px-1 py-0">
                               Stems
                             </Badge>
                           )}
-                          <Badge variant="outline" className="text-[10px] px-1 py-0">
+                          <Badge variant="outline" className="text-[0.625rem] px-1 py-0">
                             {Math.floor((track.duration_seconds || 0) / 60)}:
                             {String(Math.floor((track.duration_seconds || 0) % 60)).padStart(2, "0")}
                           </Badge>

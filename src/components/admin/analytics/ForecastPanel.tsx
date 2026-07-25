@@ -98,7 +98,7 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
                   <span className="text-lg font-bold">
                     {f.format ? f.format(f.current) : f.current.toLocaleString()}
                   </span>
-                  <span className="text-[10px] text-muted-foreground">сейчас</span>
+                  <span className="text-[0.625rem] text-muted-foreground">сейчас</span>
                 </div>
 
                 <div className="flex items-center gap-1">
@@ -106,7 +106,7 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
                   <span className="text-sm text-muted-foreground">
                     +{f.format ? f.format(f.predicted) : f.predicted.toLocaleString()}
                   </span>
-                  <span className="text-[10px] text-muted-foreground">30д</span>
+                  <span className="text-[0.625rem] text-muted-foreground">30д</span>
                 </div>
 
                 <div
@@ -208,7 +208,7 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
                 новых треков
               </li>
             </ul>
-            <p className="text-[10px] text-muted-foreground mt-3">
+            <p className="text-[0.625rem] text-muted-foreground mt-3">
               * Прогноз основан на линейной регрессии исторических данных
             </p>
           </div>

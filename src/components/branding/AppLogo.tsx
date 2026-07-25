@@ -20,8 +20,8 @@ interface AppLogoProps {
 }
 
 const sizeMap: Record<LogoSize, { logo: string; text: string; tagline: string }> = {
-  xs: { logo: "w-6 h-6", text: "text-[10px]", tagline: "text-[8px]" },
-  sm: { logo: "w-8 h-8", text: "text-xs", tagline: "text-[10px]" },
+  xs: { logo: "w-6 h-6", text: "text-[0.625rem]", tagline: "text-[0.5rem]" },
+  sm: { logo: "w-8 h-8", text: "text-xs", tagline: "text-[0.625rem]" },
   md: { logo: "w-10 h-10", text: "text-sm", tagline: "text-xs" },
   lg: { logo: "w-16 h-16", text: "text-lg", tagline: "text-sm" },
   xl: { logo: "w-20 h-20 sm:w-24 sm:h-24", text: "text-2xl sm:text-3xl", tagline: "text-sm" },

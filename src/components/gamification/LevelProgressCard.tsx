@@ -62,7 +62,7 @@ export function LevelProgressCard({ experience, className, variant = "default" }
             )}
           >
             <span className="text-lg font-bold">{level}</span>
-            <span className="text-[10px] opacity-80">LVL</span>
+            <span className="text-[0.625rem] opacity-80">LVL</span>
           </motion.div>
 
           {/* Progress info */}
@@ -73,7 +73,7 @@ export function LevelProgressCard({ experience, className, variant = "default" }
                   {tierInfo.icon} {tierInfo.name}
                 </span>
                 {level < 20 && (
-                  <Badge variant="outline" className="text-[10px] h-4">
+                  <Badge variant="outline" className="text-[0.625rem] h-4">
                     <TrendingUp className="w-2.5 h-2.5 mr-0.5" />+{xpToNext} до {level + 1} lvl
                   </Badge>
                 )}
@@ -82,7 +82,7 @@ export function LevelProgressCard({ experience, className, variant = "default" }
 
             <div className="space-y-1">
               <Progress value={progress} className="h-2" />
-              <div className="flex items-center justify-between text-[10px] text-muted-foreground">
+              <div className="flex items-center justify-between text-[0.625rem] text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <Zap className="w-3 h-3" />
                   {experience} XP
@@ -93,7 +93,7 @@ export function LevelProgressCard({ experience, className, variant = "default" }
 
             {/* Next level preview */}
             {level < 20 && (
-              <p className="text-[10px] text-muted-foreground mt-2">
+              <p className="text-[0.625rem] text-muted-foreground mt-2">
                 {level + 1 === 5 && "🎵 Следующий уровень: Опытный"}
                 {level + 1 === 10 && "⭐ Следующий уровень: Профи"}
                 {level + 1 === 15 && "💎 Следующий уровень: Мастер"}

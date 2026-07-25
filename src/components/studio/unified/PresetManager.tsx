@@ -157,11 +157,11 @@ export function PresetManager({ trackId, currentSettings, defaultCategory = "cus
               </div>
               {preset.description && <p className="truncate text-xs text-muted-foreground">{preset.description}</p>}
               <div className="mt-1 flex items-center gap-2">
-                <Badge variant="secondary" className="text-[10px] uppercase">
+                <Badge variant="secondary" className="text-[0.625rem] uppercase">
                   {preset.category}
                 </Badge>
                 {preset.usage_count > 0 && (
-                  <span className="text-[10px] text-muted-foreground">{preset.usage_count} использований</span>
+                  <span className="text-[0.625rem] text-muted-foreground">{preset.usage_count} использований</span>
                 )}
               </div>
             </div>

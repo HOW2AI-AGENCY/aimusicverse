@@ -114,18 +114,18 @@ export function IntegratedStemTracks({
           <Headphones className="w-4 h-4 text-primary" />
           <span>Стемы</span>
           {!stemsReady && stemsLoadingProgress < 100 ? (
-            <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-mono flex items-center gap-1">
+            <Badge variant="secondary" className="h-5 px-1.5 text-[0.625rem] font-mono flex items-center gap-1">
               <Loader2 className="w-3 h-3 animate-spin" />
               {stemsLoadingProgress}%
             </Badge>
           ) : (
-            <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-mono">
+            <Badge variant="secondary" className="h-5 px-1.5 text-[0.625rem] font-mono">
               {stems.length}
             </Badge>
           )}
-          {soloedCount > 0 && <Badge className="h-5 px-1.5 text-[10px] bg-primary">{soloedCount}S</Badge>}
+          {soloedCount > 0 && <Badge className="h-5 px-1.5 text-[0.625rem] bg-primary">{soloedCount}S</Badge>}
           {mutedCount > 0 && (
-            <Badge variant="outline" className="h-5 px-1.5 text-[10px] text-destructive">
+            <Badge variant="outline" className="h-5 px-1.5 text-[0.625rem] text-destructive">
               {mutedCount}M
             </Badge>
           )}
@@ -179,7 +179,7 @@ export function IntegratedStemTracks({
                 disabled={masterMuted}
                 className="w-20"
               />
-              <span className="text-[10px] font-mono text-muted-foreground w-7">{Math.round(masterVolume * 100)}</span>
+              <span className="text-[0.625rem] font-mono text-muted-foreground w-7">{Math.round(masterVolume * 100)}</span>
             </>
           )}
         </div>

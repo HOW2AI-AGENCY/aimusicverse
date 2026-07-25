@@ -43,13 +43,13 @@ export function CustomVoicePicker({ value, onChange }: Props) {
         <Mic2 className={cn("h-3 w-3", isActive && "text-primary")} />
         Кастомный голос
         {isActive && !isPending && (
-          <span className="ml-auto inline-flex items-center gap-1 text-primary text-[10px] font-semibold">
+          <span className="ml-auto inline-flex items-center gap-1 text-primary text-[0.625rem] font-semibold">
             <CheckCircle2 className="h-3 w-3" />
             активен
           </span>
         )}
         {isPending && (
-          <span className="ml-auto inline-flex items-center gap-1 text-amber-500 text-[10px] font-semibold">
+          <span className="ml-auto inline-flex items-center gap-1 text-amber-500 text-[0.625rem] font-semibold">
             <Loader2 className="h-3 w-3 animate-spin" />
             готовится
           </span>
@@ -89,7 +89,7 @@ export function CustomVoicePicker({ value, onChange }: Props) {
                 <span className="inline-flex items-center gap-2">
                   <span className="truncate max-w-[180px]">{v.voice_name}</span>
                   {pending && (
-                    <span className="text-[10px] text-amber-500 inline-flex items-center gap-1">
+                    <span className="text-[0.625rem] text-amber-500 inline-flex items-center gap-1">
                       <Loader2 className="h-3 w-3 animate-spin" />
                       готовится
                     </span>
@@ -106,12 +106,12 @@ export function CustomVoicePicker({ value, onChange }: Props) {
         </SelectContent>
       </Select>
       {isActive && selected && !isPending && (
-        <p className="text-[11px] text-muted-foreground">
+        <p className="text-[0.6875rem] text-muted-foreground">
           Голос «{selected.voice_name}» будет применён к вокалу при генерации.
         </p>
       )}
       {isPending && selected && (
-        <p className="text-[11px] text-amber-600 dark:text-amber-400">
+        <p className="text-[0.6875rem] text-amber-600 dark:text-amber-400">
           Голос «{selected.voice_name}» ещё обрабатывается{pendingRelative ? ` · создан ${pendingRelative}` : ""}. Выбор
           сохранён — он подключится автоматически, как только статус станет «готов».
         </p>

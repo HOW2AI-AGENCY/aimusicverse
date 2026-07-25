@@ -163,7 +163,7 @@ export const OptimizedMixerChannel = memo(function OptimizedMixerChannel({
       </div>
 
       {/* Volume Value */}
-      <span className="text-[10px] font-mono text-muted-foreground mb-2">
+      <span className="text-[0.625rem] font-mono text-muted-foreground mb-2">
         {muted ? "M" : `${Math.round(volume * 100)}`}
       </span>
 

@@ -88,7 +88,7 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
               </div>
               <div>
                 <h3 className="text-sm font-medium">Написать текст</h3>
-                <p className="text-[10px] text-muted-foreground">Контекст проекта загружен</p>
+                <p className="text-[0.625rem] text-muted-foreground">Контекст проекта загружен</p>
               </div>
             </div>
             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onClose}>
@@ -177,7 +177,7 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
                   )}
                 >
                   <p className="text-xs font-medium">{structure.label}</p>
-                  <p className="text-[10px] text-muted-foreground">{structure.desc}</p>
+                  <p className="text-[0.625rem] text-muted-foreground">{structure.desc}</p>
                 </button>
               ))}
             </div>
@@ -213,7 +213,7 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
                   step={10}
                   className="w-full"
                 />
-                <p className="text-[10px] text-muted-foreground">
+                <p className="text-[0.625rem] text-muted-foreground">
                   {creativity[0] <= 40 ? "Строго по теме" : creativity[0] <= 70 ? "Баланс" : "Максимальная свобода"}
                 </p>
               </div>
@@ -284,7 +284,7 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
             </div>
             <div>
               <h3 className="text-sm font-medium">Написать текст</h3>
-              <p className="text-[10px] text-muted-foreground">Полная генерация с нуля</p>
+              <p className="text-[0.625rem] text-muted-foreground">Полная генерация с нуля</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onClose}>
@@ -373,7 +373,7 @@ export function WriteToolPanel({ context, onExecute, onClose, isLoading }: ToolP
                 )}
               >
                 <p className="text-xs font-medium">{structure.label}</p>
-                <p className="text-[10px] text-muted-foreground">{structure.desc}</p>
+                <p className="text-[0.625rem] text-muted-foreground">{structure.desc}</p>
               </button>
             ))}
           </div>

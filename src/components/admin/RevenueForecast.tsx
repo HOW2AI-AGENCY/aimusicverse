@@ -221,21 +221,21 @@ export function RevenueForecast() {
                 {growthRate.toFixed(1)}%
               </span>
             </div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Тренд (7д)</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Тренд (7д)</div>
           </div>
 
           <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
             <div className="text-lg sm:text-xl font-bold">
               {isLoading ? <Skeleton className="h-6 w-16 mx-auto" /> : formatCurrency(projectedTotal)}
             </div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Прогноз ({forecastDays}д)</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Прогноз ({forecastDays}д)</div>
           </div>
 
           <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
             <div className="text-lg sm:text-xl font-bold">
               {isLoading ? <Skeleton className="h-6 w-16 mx-auto" /> : formatCurrency(projectedTotal / forecastDays)}
             </div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Ср. в день</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Ср. в день</div>
           </div>
 
           <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
@@ -247,7 +247,7 @@ export function RevenueForecast() {
             >
               {confidence.toFixed(0)}%
             </div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Точность</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Точность</div>
           </div>
         </div>
 
@@ -366,7 +366,7 @@ export function RevenueForecast() {
                 <h4 className="font-medium text-orange-700 dark:text-orange-400 text-xs sm:text-sm">
                   Низкая точность прогноза
                 </h4>
-                <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
+                <p className="text-[0.625rem] sm:text-xs text-muted-foreground mt-1">
                   Высокая волатильность данных снижает точность. Используйте прогноз с осторожностью.
                 </p>
               </div>
@@ -375,7 +375,7 @@ export function RevenueForecast() {
         )}
 
         {/* Legend */}
-        <div className="flex items-center justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs text-muted-foreground">
+        <div className="flex items-center justify-center gap-4 sm:gap-6 text-[0.625rem] sm:text-xs text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-0.5 bg-primary rounded" />
             <span>Факт</span>

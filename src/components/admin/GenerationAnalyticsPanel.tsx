@@ -151,7 +151,7 @@ function TagsCloud({ tags }: { tags: GenerationAnalytics["top_tags"] }) {
             }}
           >
             {tag.tag}
-            <span className="ml-1 text-[10px] opacity-70">{tag.usage_count}</span>
+            <span className="ml-1 text-[0.625rem] opacity-70">{tag.usage_count}</span>
           </Badge>
         );
       })}
@@ -245,7 +245,7 @@ function HourlyDistribution({ hours }: { hours: Record<string, number> }) {
           );
         })}
       </div>
-      <div className="flex justify-between text-[10px] text-muted-foreground">
+      <div className="flex justify-between text-[0.625rem] text-muted-foreground">
         <span>00:00</span>
         <span>12:00</span>
         <span>23:00</span>

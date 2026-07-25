@@ -212,7 +212,7 @@ export default function MobilePaymentScreen() {
             >
               <item.icon className="w-5 h-5 text-primary mb-1" />
               <span className="text-xs font-medium">{item.text}</span>
-              <span className="text-[10px] text-muted-foreground">{item.subtext}</span>
+              <span className="text-[0.625rem] text-muted-foreground">{item.subtext}</span>
             </motion.div>
           ))}
         </motion.section>
@@ -265,7 +265,7 @@ export default function MobilePaymentScreen() {
               />
 
               {/* Terms */}
-              <p className="text-[10px] text-center text-muted-foreground">
+              <p className="text-[0.625rem] text-center text-muted-foreground">
                 Нажимая «Оплатить», вы соглашаетесь с{" "}
                 <a href="/terms" className="underline">
                   условиями использования

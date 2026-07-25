@@ -83,7 +83,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
       <div className="flex items-center justify-between gap-2">
         <h2
           id="generate-sheet-title"
-          className="text-[15px] font-semibold tracking-tight text-foreground truncate min-w-0 flex-1"
+          className="text-[0.9375rem] font-semibold tracking-tight text-foreground truncate min-w-0 flex-1"
           style={{ fontFamily: 'var(--font-display), "Space Grotesque", system-ui, sans-serif' }}
         >
           Создание трека
@@ -113,7 +113,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
             )}
             aria-hidden
           />
-          <span className="text-[11px] font-semibold leading-none tabular-nums">
+          <span className="text-[0.6875rem] font-semibold leading-none tabular-nums">
             {balance == null ? "…" : Math.floor(balance)}
           </span>
         </div>
@@ -190,7 +190,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                   return Icon ? (
                     <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" />
                   ) : (
-                    <span className="text-[10px] font-semibold">{currentModel.name}</span>
+                    <span className="text-[0.625rem] font-semibold">{currentModel.name}</span>
                   );
                 })()}
                 <ChevronDown className="w-3 h-3 text-muted-foreground" aria-hidden="true" />
@@ -210,10 +210,10 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                     {Icon ? <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" /> : null}
                     <div className="flex flex-col flex-1 min-w-0">
                       <span className="font-medium text-xs">{m.name}</span>
-                      <span className="text-[9px] text-muted-foreground">{m.cost} кр.</span>
+                      <span className="text-[0.5625rem] text-muted-foreground">{m.cost} кр.</span>
                     </div>
                     {m.status === "latest" && (
-                      <span className="text-[8px] px-1 py-0.5 rounded bg-neon/20 text-neon font-semibold">NEW</span>
+                      <span className="text-[0.5rem] px-1 py-0.5 rounded bg-neon/20 text-neon font-semibold">NEW</span>
                     )}
                   </DropdownMenuItem>
                 );

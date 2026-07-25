@@ -53,7 +53,7 @@ export const SmartAssistantInline = memo(function SmartAssistantInline({
           <Brain className="h-3.5 w-3.5 text-primary" />
           <span>Smart подсказки</span>
           {hasContext && (
-            <Badge variant="secondary" className="text-[9px] h-4 px-1">
+            <Badge variant="secondary" className="text-[0.5625rem] h-4 px-1">
               персонализировано
             </Badge>
           )}
@@ -63,7 +63,7 @@ export const SmartAssistantInline = memo(function SmartAssistantInline({
             variant="ghost"
             size="sm"
             onClick={() => setExpanded(!expanded)}
-            className="h-6 text-[10px] gap-1 text-muted-foreground hover:text-foreground"
+            className="h-6 text-[0.625rem] gap-1 text-muted-foreground hover:text-foreground"
           >
             {expanded ? "Свернуть" : `Ещё ${suggestions.length - maxVisible}`}
             <ChevronRight className={cn("h-3 w-3 transition-transform", expanded && "rotate-90")} />

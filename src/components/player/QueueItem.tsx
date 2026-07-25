@@ -91,9 +91,9 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: QueueItemProps) {
           {track.title || "Untitled"}
         </p>
         <div className="flex items-center gap-1.5 mt-0.5">
-          <p className="text-[10px] text-muted-foreground truncate">{track.style || "Unknown"}</p>
+          <p className="text-[0.625rem] text-muted-foreground truncate">{track.style || "Unknown"}</p>
           {track.duration_seconds && (
-            <span className="text-[9px] text-muted-foreground/70">{formatDuration(track.duration_seconds)}</span>
+            <span className="text-[0.5625rem] text-muted-foreground/70">{formatDuration(track.duration_seconds)}</span>
           )}
         </div>
       </div>

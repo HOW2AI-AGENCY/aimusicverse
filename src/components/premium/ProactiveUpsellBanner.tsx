@@ -136,7 +136,7 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
 
             {/* Bonus badge */}
             <motion.div
-              className="absolute -top-1 -left-1 px-2 py-0.5 rounded-br-lg rounded-tl-lg bg-purple-500 text-white text-[10px] font-bold"
+              className="absolute -top-1 -left-1 px-2 py-0.5 rounded-br-lg rounded-tl-lg bg-purple-500 text-white text-[0.625rem] font-bold"
               initial={{ x: -20 }}
               animate={{ x: 0 }}
               transition={{ delay: 0.3, type: "spring" }}

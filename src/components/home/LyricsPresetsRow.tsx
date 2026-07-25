@@ -86,7 +86,7 @@ const LyricsCard = memo(function LyricsCard({
           const Icon = getLyricsPresetIcon(preset.id);
           return <Icon className="w-5 h-5 text-primary" />;
         })()}
-        <span className={cn("text-[8px] px-1 py-0.5 rounded", preset.bgClass, preset.colorClass)}>
+        <span className={cn("text-[0.5rem] px-1 py-0.5 rounded", preset.bgClass, preset.colorClass)}>
           {preset.genre.split(",")[0]}
         </span>
       </div>
@@ -95,7 +95,7 @@ const LyricsCard = memo(function LyricsCard({
       <h4 className="text-xs font-medium truncate mb-0.5">{preset.name}</h4>
 
       {/* Structure */}
-      <p className="text-[9px] text-muted-foreground truncate">{preset.structureDescription}</p>
+      <p className="text-[0.5625rem] text-muted-foreground truncate">{preset.structureDescription}</p>
     </motion.button>
   );
 });

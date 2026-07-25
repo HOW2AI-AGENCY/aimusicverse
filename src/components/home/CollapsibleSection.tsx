@@ -110,7 +110,7 @@ export const CollapsibleSection = memo(function CollapsibleSection({
           )}
           <h2 className="text-sm font-semibold text-foreground truncate">{title}</h2>
           {count !== undefined && count > 0 && (
-            <span className="flex-shrink-0 px-1.5 py-0.5 text-[10px] font-medium bg-muted rounded-full text-muted-foreground">
+            <span className="flex-shrink-0 px-1.5 py-0.5 text-[0.625rem] font-medium bg-muted rounded-full text-muted-foreground">
               {count}
             </span>
           )}

@@ -250,7 +250,7 @@ export function StructuredLyricsDisplay({
               <div className="p-3">
                 {/* Section header */}
                 <div className="flex items-center gap-2 mb-2 flex-wrap">
-                  <Badge className={cn("text-[10px] border-0 capitalize font-medium", style.badge)}>
+                  <Badge className={cn("text-[0.625rem] border-0 capitalize font-medium", style.badge)}>
                     {section.type.replace("-", " ")}
                   </Badge>
 
@@ -258,14 +258,14 @@ export function StructuredLyricsDisplay({
                   {section.tags.slice(0, 3).map((tag, i) => {
                     const emoji = getTagEmoji(tag);
                     return (
-                      <Badge key={i} variant="outline" className="text-[9px] h-5 gap-0.5 bg-background/50">
+                      <Badge key={i} variant="outline" className="text-[0.5625rem] h-5 gap-0.5 bg-background/50">
                         {emoji && <span>{emoji}</span>}
                         {tag}
                       </Badge>
                     );
                   })}
                   {section.tags.length > 3 && (
-                    <Badge variant="outline" className="text-[9px] h-5">
+                    <Badge variant="outline" className="text-[0.5625rem] h-5">
                       +{section.tags.length - 3}
                     </Badge>
                   )}

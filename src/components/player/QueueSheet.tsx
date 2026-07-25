@@ -214,12 +214,12 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                 <div>
                   <SheetTitle className="text-left text-base">Очередь воспроизведения</SheetTitle>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <Badge variant="secondary" className="text-[10px] h-5 gap-1">
+                    <Badge variant="secondary" className="text-[0.625rem] h-5 gap-1">
                       <Music2 className="w-2.5 h-2.5" />
                       {queue.length} {queue.length === 1 ? "трек" : queue.length < 5 ? "трека" : "треков"}
                     </Badge>
                     {totalDuration > 0 && (
-                      <Badge variant="outline" className="text-[10px] h-5 gap-1">
+                      <Badge variant="outline" className="text-[0.625rem] h-5 gap-1">
                         <Clock className="w-2.5 h-2.5" />
                         {formatTotalDuration(totalDuration)}
                       </Badge>
@@ -299,7 +299,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
               {radioFetching ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Radio className="w-3.5 h-3.5" />}
               Радио
               {radioEnabled && autoAddedCount > 0 && (
-                <span className="ml-1 text-[10px] opacity-70">+{autoAddedCount}</span>
+                <span className="ml-1 text-[0.625rem] opacity-70">+{autoAddedCount}</span>
               )}
             </Button>
 
@@ -349,7 +349,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                       {currentTrack && (
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2 px-1">
-                            <p className="text-[10px] uppercase tracking-wider text-primary font-semibold flex items-center gap-1.5">
+                            <p className="text-[0.625rem] uppercase tracking-wider text-primary font-semibold flex items-center gap-1.5">
                               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
                               Сейчас играет
                             </p>
@@ -366,12 +366,12 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                       {upNextTracks.length > 0 && (
                         <div>
                           <div className="flex items-center justify-between mb-2 px-1 pt-3 border-t border-border/30">
-                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                            <p className="text-[0.625rem] uppercase tracking-wider text-muted-foreground font-medium">
                               Далее • {upNextTracks.length}{" "}
                               {upNextTracks.length === 1 ? "трек" : upNextTracks.length < 5 ? "трека" : "треков"}
                             </p>
                             {remainingDuration > 0 && (
-                              <p className="text-[10px] text-muted-foreground">
+                              <p className="text-[0.625rem] text-muted-foreground">
                                 {formatTotalDuration(remainingDuration)}
                               </p>
                             )}
@@ -393,7 +393,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                       {currentIndex > 0 && (
                         <div>
                           <div className="flex items-center justify-between mb-2 px-1 pt-3 border-t border-border/30">
-                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground/60 font-medium">
+                            <p className="text-[0.625rem] uppercase tracking-wider text-muted-foreground/60 font-medium">
                               Уже воспроизведено
                             </p>
                           </div>

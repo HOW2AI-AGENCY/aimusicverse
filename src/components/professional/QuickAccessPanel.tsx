@@ -120,10 +120,10 @@ export function QuickAccessPanel({
             </div>
             <div>
               <h3 className={cn("font-semibold", isCompact ? "text-sm" : "text-base")}>Professional Tools</h3>
-              {!isCompact && <p className="text-[10px] text-muted-foreground">Quick access to all tools</p>}
+              {!isCompact && <p className="text-[0.625rem] text-muted-foreground">Quick access to all tools</p>}
             </div>
           </div>
-          <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5">
+          <Badge variant="outline" className="text-[0.625rem] px-1.5 py-0 h-5">
             PRO
           </Badge>
         </div>
@@ -176,14 +176,14 @@ export function QuickAccessPanel({
                         )}
                       </div>
                       {!isCompact && (
-                        <p className="text-[10px] text-muted-foreground leading-tight">{action.description}</p>
+                        <p className="text-[0.625rem] text-muted-foreground leading-tight">{action.description}</p>
                       )}
 
                       {/* Progress Bar */}
                       {hasProgress && showProgress && (
                         <div className="mt-2 space-y-1">
                           <Progress value={action.progress} className="h-1" />
-                          <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <div className="flex items-center gap-1 text-[0.625rem] text-muted-foreground">
                             <Clock className="w-3 h-3" />
                             <span>{action.progress}% завершено</span>
                           </div>
@@ -235,7 +235,7 @@ export function QuickAccessPanel({
             className="mt-3 pt-3 border-t border-border flex items-center gap-2"
           >
             <Sparkles className="w-3 h-3 text-primary shrink-0" />
-            <p className="text-[10px] text-muted-foreground">
+            <p className="text-[0.625rem] text-muted-foreground">
               Все инструменты доступны в вашей профессиональной студии
             </p>
           </motion.div>

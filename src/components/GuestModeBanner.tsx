@@ -70,13 +70,13 @@ export const GuestModeBanner = () => {
         }}
       >
         <div className="mx-auto px-3 py-0.5 flex items-center justify-between gap-2 max-w-screen-md">
-          <p className="text-[11px] text-muted-foreground flex-1 truncate">Гостевой режим</p>
+          <p className="text-[0.6875rem] text-muted-foreground flex-1 truncate">Гостевой режим</p>
           <div className="flex items-center gap-1 shrink-0">
             <Button
               variant="ghost"
               size="sm"
               onClick={handleSignIn}
-              className="h-6 min-h-0 text-[11px] gap-1 px-2"
+              className="h-6 min-h-0 text-[0.6875rem] gap-1 px-2"
               aria-label="Войти в аккаунт"
             >
               <LogIn className="w-3 h-3" />

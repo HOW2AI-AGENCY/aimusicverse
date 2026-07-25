@@ -94,7 +94,7 @@ export const StudioShellHeader = memo(function StudioShellHeader({
         <div className="flex flex-col min-w-0">
           <h1 className="text-sm font-semibold truncate">{projectName}</h1>
           <div className="flex items-center gap-1">
-            <Badge variant="outline" className="text-[10px] px-1 py-0">
+            <Badge variant="outline" className="text-[0.625rem] px-1 py-0">
               {trackCount} дорожек
             </Badge>
             {!isMobile && (
@@ -126,7 +126,7 @@ export const StudioShellHeader = memo(function StudioShellHeader({
           <button
             onClick={() => onStudioModeChange(studioMode === "lite" ? "pro" : "lite")}
             className={cn(
-              "flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider transition-all border",
+              "flex items-center gap-1 px-2 py-1 rounded-full text-[0.625rem] font-semibold uppercase tracking-wider transition-all border",
               studioMode === "pro"
                 ? "bg-primary/15 text-primary border-primary/40"
                 : "bg-muted/50 text-muted-foreground border-border hover:border-primary/30",
@@ -143,7 +143,7 @@ export const StudioShellHeader = memo(function StudioShellHeader({
           <button
             onClick={() => onStudioModeChange(studioMode === "lite" ? "pro" : "lite")}
             className={cn(
-              "flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider transition-all border min-h-[32px]",
+              "flex items-center gap-1 px-2 py-1 rounded-full text-[0.625rem] font-semibold uppercase tracking-wider transition-all border min-h-[32px]",
               studioMode === "pro"
                 ? "bg-primary/15 text-primary border-primary/40"
                 : "bg-muted/50 text-muted-foreground border-border",
@@ -222,7 +222,7 @@ export const StudioShellHeader = memo(function StudioShellHeader({
 
         {/* Mobile: simple save indicator */}
         {isMobile && hasUnsavedChanges && (
-          <Badge variant="secondary" className="text-[10px]">
+          <Badge variant="secondary" className="text-[0.625rem]">
             Не сохранено
           </Badge>
         )}

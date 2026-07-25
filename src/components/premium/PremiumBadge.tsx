@@ -22,8 +22,8 @@ interface PremiumBadgeProps {
 }
 
 const sizeClasses = {
-  xs: "text-[9px] px-1 py-0.5 gap-0.5",
-  sm: "text-[10px] px-1.5 py-0.5 gap-1",
+  xs: "text-[0.5625rem] px-1 py-0.5 gap-0.5",
+  sm: "text-[0.625rem] px-1.5 py-0.5 gap-1",
   md: "text-xs px-2 py-1 gap-1",
 };
 

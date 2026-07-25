@@ -136,7 +136,7 @@ export function GlobalGenerationIndicator() {
                     <Badge
                       variant="outline"
                       className={cn(
-                        "text-[10px] h-4 px-1",
+                        "text-[0.625rem] h-4 px-1",
                         task.status === "processing" && "border-primary/50 text-primary",
                         task.status === "pending" && "border-yellow-500/50 text-yellow-500",
                         task.status === "streaming_ready" && "border-green-500/50 text-green-500 animate-pulse",
@@ -165,7 +165,7 @@ export function GlobalGenerationIndicator() {
                         {task.prompt.slice(0, 40)}
                         {task.prompt.length > 40 ? "..." : ""}
                       </span>
-                      <span className="text-destructive text-[10px]">
+                      <span className="text-destructive text-[0.625rem]">
                         {task.error_message?.slice(0, 50) || "Ошибка генерации"}
                       </span>
                     </div>

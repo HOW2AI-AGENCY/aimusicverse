@@ -73,10 +73,10 @@ export const VUMeter = memo(function VUMeter({
 
   return (
     <div className={cn("flex flex-col items-center gap-1", className)}>
-      {label && <span className="text-[9px] text-muted-foreground font-medium">{label}</span>}
+      {label && <span className="text-[0.5625rem] text-muted-foreground font-medium">{label}</span>}
       <LEDBar value={value} peak={peak} config={config} />
       {showDb && (
-        <span className="text-[9px] font-mono text-muted-foreground tabular-nums">
+        <span className="text-[0.5625rem] font-mono text-muted-foreground tabular-nums">
           {db > -60 ? `${db.toFixed(0)}dB` : "-∞"}
         </span>
       )}
@@ -116,7 +116,7 @@ const LEDBar = memo(function LEDBar({
 
   return (
     <div className="flex flex-col items-center gap-0.5">
-      {label && <span className="text-[8px] text-muted-foreground">{label}</span>}
+      {label && <span className="text-[0.5rem] text-muted-foreground">{label}</span>}
       <div
         className={cn("flex flex-col rounded-sm overflow-hidden p-0.5", hardware.statusBadge)}
         style={{ gap: config.gap }}
@@ -164,7 +164,7 @@ const NeedleMeter = memo(function NeedleMeter({
 
   return (
     <div className={cn("flex flex-col items-center gap-1", className)}>
-      {label && <span className="text-[10px] text-muted-foreground font-medium">{label}</span>}
+      {label && <span className="text-[0.625rem] text-muted-foreground font-medium">{label}</span>}
 
       <div className="relative w-24 h-14 bg-gradient-to-b from-amber-50 to-amber-100 rounded-t-full overflow-hidden border border-amber-200 shadow-inner">
         {/* VU scale markings */}
@@ -198,7 +198,7 @@ const NeedleMeter = memo(function NeedleMeter({
             );
           })}
           {/* VU text */}
-          <text x="48" y="44" textAnchor="middle" className="text-[8px] fill-amber-900/70 font-semibold">
+          <text x="48" y="44" textAnchor="middle" className="text-[0.5rem] fill-amber-900/70 font-semibold">
             VU
           </text>
         </svg>
@@ -242,7 +242,7 @@ const DigitalMeter = memo(function DigitalMeter({
 
   return (
     <div className={cn("flex flex-col items-center gap-1", className)}>
-      {label && <span className="text-[9px] text-muted-foreground font-medium">{label}</span>}
+      {label && <span className="text-[0.5625rem] text-muted-foreground font-medium">{label}</span>}
 
       <div className="px-2 py-1 rounded bg-black border border-zinc-700 font-mono">
         <span
@@ -277,7 +277,7 @@ const HorizontalMeter = memo(function HorizontalMeter({
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      {label && <span className="text-[9px] text-muted-foreground font-medium w-4">{label}</span>}
+      {label && <span className="text-[0.5625rem] text-muted-foreground font-medium w-4">{label}</span>}
 
       <div className={cn("flex-1 flex gap-px h-3 rounded-sm p-0.5", hardware.meterBg)}>
         {Array.from({ length: segments }, (_, i) => {
@@ -306,7 +306,7 @@ const HorizontalMeter = memo(function HorizontalMeter({
       </div>
 
       {showDb && (
-        <span className="text-[9px] font-mono text-muted-foreground tabular-nums w-10 text-right">
+        <span className="text-[0.5625rem] font-mono text-muted-foreground tabular-nums w-10 text-right">
           {db > -60 ? `${db.toFixed(0)}dB` : "-∞"}
         </span>
       )}

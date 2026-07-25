@@ -39,7 +39,7 @@ const routeConfigs: Record<string, RouteConfig> = {
 
 // Track which routes have been preloaded
 const preloadedRoutes = new Set<string>();
-let preloadQueue: string[] = [];
+const preloadQueue: string[] = [];
 let isProcessingQueue = false;
 
 /**

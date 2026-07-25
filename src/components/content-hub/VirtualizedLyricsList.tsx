@@ -58,17 +58,17 @@ export function VirtualizedLyricsList({ templates, onSelect, onDelete }: Virtual
                 </p>
                 <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                   {template.genre && (
-                    <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
+                    <Badge variant="secondary" className="text-[0.5625rem] h-4 px-1.5">
                       {template.genre}
                     </Badge>
                   )}
                   {template.mood && (
-                    <Badge variant="outline" className="text-[9px] h-4 px-1.5">
+                    <Badge variant="outline" className="text-[0.5625rem] h-4 px-1.5">
                       {template.mood}
                     </Badge>
                   )}
                   {template.structure && (
-                    <Badge variant="outline" className="text-[9px] h-4 px-1.5">
+                    <Badge variant="outline" className="text-[0.5625rem] h-4 px-1.5">
                       {template.structure}
                     </Badge>
                   )}

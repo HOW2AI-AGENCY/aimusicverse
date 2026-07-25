@@ -77,7 +77,7 @@ export function CleanStudioLayout({
                   onClick={onVersionSelect}
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
                 >
-                  <Badge variant="outline" className="text-[10px] h-4 px-1.5">
+                  <Badge variant="outline" className="text-[0.625rem] h-4 px-1.5">
                     {currentVersion || `v${versionsCount}`}
                   </Badge>
                   <span className="hidden sm:inline">{versionsCount} версий</span>

@@ -363,7 +363,7 @@ export default function GenerationMetrics() {
             <BarChart3 className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
             <span className="truncate">Generation Metrics</span>
           </h2>
-          <p className="text-[10px] md:text-sm text-muted-foreground">Анализ успешности и ошибок генерации</p>
+          <p className="text-[0.625rem] md:text-sm text-muted-foreground">Анализ успешности и ошибок генерации</p>
         </div>
         <div className="flex gap-1.5">
           <Select value={timeRange} onValueChange={(v) => setTimeRange(v as TimeRange)}>
@@ -553,7 +553,7 @@ export default function GenerationMetrics() {
                 <div key={m.model} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="text-xs font-mono truncate">{m.model}</span>
-                    <Badge variant="outline" className="text-[10px] h-5 px-1.5 shrink-0">
+                    <Badge variant="outline" className="text-[0.625rem] h-5 px-1.5 shrink-0">
                       {m.total}
                     </Badge>
                   </div>
@@ -569,7 +569,7 @@ export default function GenerationMetrics() {
                     </div>
                     <Badge
                       variant={getSuccessRateVariant(m.successRate)}
-                      className="text-[10px] h-5 px-1.5 min-w-[42px] text-center"
+                      className="text-[0.625rem] h-5 px-1.5 min-w-[42px] text-center"
                     >
                       {m.successRate.toFixed(0)}%
                     </Badge>
@@ -588,7 +588,7 @@ export default function GenerationMetrics() {
             <AlertCircle className="h-4 w-4 text-red-500" />
             Последние ошибки генерации
             {recentFailures && (
-              <Badge variant="destructive" className="text-[10px] h-5 px-1.5 ml-1">
+              <Badge variant="destructive" className="text-[0.625rem] h-5 px-1.5 ml-1">
                 {recentFailures.length}
               </Badge>
             )}
@@ -602,7 +602,7 @@ export default function GenerationMetrics() {
           ) : recentFailures && recentFailures.length > 0 ? (
             <ScrollArea className="h-[300px] md:h-[400px]">
               {/* Desktop table header */}
-              <div className="hidden md:grid grid-cols-[100px_80px_1fr_1fr_80px_70px] gap-2 px-3 py-1.5 text-[10px] font-medium text-muted-foreground border-b">
+              <div className="hidden md:grid grid-cols-[100px_80px_1fr_1fr_80px_70px] gap-2 px-3 py-1.5 text-[0.625rem] font-medium text-muted-foreground border-b">
                 <span>Время</span>
                 <span>User</span>
                 <span>Промпт</span>
@@ -622,20 +622,20 @@ export default function GenerationMetrics() {
                     <div key={failure.id}>
                       {/* Desktop row */}
                       <div className="hidden md:grid grid-cols-[100px_80px_1fr_1fr_80px_70px] gap-2 px-3 py-2 hover:bg-muted/50 items-start">
-                        <span className="text-[10px] text-muted-foreground">
+                        <span className="text-[0.625rem] text-muted-foreground">
                           {format(failure.created_at, "DD.MM HH:mm")}
                         </span>
-                        <span className="text-[10px] font-mono truncate">{failure.user_id.slice(0, 8)}</span>
-                        <span className="text-[10px] truncate" title={failure.prompt}>
+                        <span className="text-[0.625rem] font-mono truncate">{failure.user_id.slice(0, 8)}</span>
+                        <span className="text-[0.625rem] truncate" title={failure.prompt}>
                           {truncatePrompt(failure.prompt, 50)}
                         </span>
-                        <span className="text-[10px] text-red-400 truncate" title={failure.error_message || ""}>
+                        <span className="text-[0.625rem] text-red-400 truncate" title={failure.error_message || ""}>
                           {failure.error_message ? truncatePrompt(failure.error_message, 50) : "N/A"}
                         </span>
-                        <Badge variant="outline" className="text-[9px] h-4 px-1 w-fit">
+                        <Badge variant="outline" className="text-[0.5625rem] h-4 px-1 w-fit">
                           {failure.model_used || "N/A"}
                         </Badge>
-                        <span className="text-[10px] text-muted-foreground">
+                        <span className="text-[0.625rem] text-muted-foreground">
                           {duration !== null ? formatDuration(duration) : "--"}
                         </span>
                       </div>
@@ -643,15 +643,15 @@ export default function GenerationMetrics() {
                       {/* Mobile card */}
                       <div className="md:hidden p-3 space-y-1">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] text-muted-foreground">
+                          <span className="text-[0.625rem] text-muted-foreground">
                             {formatRelative(failure.created_at)}
                           </span>
-                          <Badge variant="outline" className="text-[9px] h-4 px-1">
+                          <Badge variant="outline" className="text-[0.5625rem] h-4 px-1">
                             {failure.model_used || "N/A"}
                           </Badge>
                         </div>
                         <p className="text-xs truncate">{truncatePrompt(failure.prompt, 40)}</p>
-                        <p className="text-[10px] text-red-400 line-clamp-2">
+                        <p className="text-[0.625rem] text-red-400 line-clamp-2">
                           {failure.error_message || "No error message"}
                         </p>
                       </div>

@@ -69,7 +69,7 @@ export function usePromptHistory() {
     let totalBPM = 0;
     let totalDensity = 0;
     let totalBrightness = 0;
-    let durationCounts = new Map<number, number>();
+    const durationCounts = new Map<number, number>();
     let ratedCount = 0;
     let highRatedCount = 0;
 

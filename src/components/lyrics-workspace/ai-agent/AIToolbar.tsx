@@ -84,7 +84,7 @@ export function AIToolbar({ activeTool, onSelectTool, isLoading, className, comp
                 ) : (
                   <ChevronDown className={cn(compact ? "w-3 h-3" : "w-3.5 h-3.5")} />
                 )}
-                <span className={cn("font-medium text-muted-foreground", compact ? "text-[9px]" : "text-[10px]")}>
+                <span className={cn("font-medium text-muted-foreground", compact ? "text-[0.5625rem]" : "text-[0.625rem]")}>
                   {expanded ? "−" : `+${secondaryTools.length}`}
                 </span>
               </div>
@@ -145,7 +145,7 @@ const ToolButton = memo(function ToolButton({
       <span
         className={cn(
           "font-medium leading-tight truncate max-w-full",
-          compact ? "text-[9px]" : "text-[10px]",
+          compact ? "text-[0.5625rem]" : "text-[0.625rem]",
           isActive ? "text-foreground" : "text-muted-foreground",
         )}
       >

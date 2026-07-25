@@ -24,7 +24,7 @@ export const GenerationProgressBadge = memo(function GenerationProgressBadge({
       className={cn(
         "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full",
         "bg-primary/10 border border-primary/20",
-        "text-[10px] font-semibold text-primary",
+        "text-[0.625rem] font-semibold text-primary",
         className,
       )}
     >

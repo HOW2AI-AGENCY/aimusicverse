@@ -115,7 +115,7 @@ export const DrumSequencer = memo(function DrumSequencer({
 
   // Step indicators
   const stepIndicators = Array.from({ length: 16 }, (_, i) => (
-    <div key={i} className={cn("flex-1 text-center text-[10px] text-muted-foreground", i % 4 === 0 && "font-bold")}>
+    <div key={i} className={cn("flex-1 text-center text-[0.625rem] text-muted-foreground", i % 4 === 0 && "font-bold")}>
       {i + 1}
     </div>
   ));

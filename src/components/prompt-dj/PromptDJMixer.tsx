@@ -364,7 +364,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
                 )}
               />
               <span className="text-xs font-medium text-red-400">LIVE</span>
-              <span className="text-[10px] text-muted-foreground flex-1">{getLiveStatusText()}</span>
+              <span className="text-[0.625rem] text-muted-foreground flex-1">{getLiveStatusText()}</span>
               {(liveStatus === "generating" || liveStatus === "transitioning") && (
                 <Loader2 className="w-3 h-3 animate-spin text-amber-500" />
               )}
@@ -376,7 +376,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
             <Button
               variant="ghost"
               size="sm"
-              className="shrink-0 h-7 px-2.5 text-[11px] rounded-full bg-primary/20 hover:bg-primary/30 text-primary"
+              className="shrink-0 h-7 px-2.5 text-[0.6875rem] rounded-full bg-primary/20 hover:bg-primary/30 text-primary"
               onClick={() => setShowQuickStart(true)}
             >
               <Rocket className="w-3 h-3 mr-1" />
@@ -387,7 +387,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
                 key={preset.id}
                 variant="ghost"
                 size="sm"
-                className="shrink-0 h-7 px-2.5 text-[11px] rounded-full bg-muted/20 hover:bg-muted/40"
+                className="shrink-0 h-7 px-2.5 text-[0.6875rem] rounded-full bg-muted/20 hover:bg-muted/40"
                 onClick={() => applyPreset(preset)}
                 disabled={isGenerating}
               >
@@ -479,7 +479,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
         {/* BPM & Settings row */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-muted-foreground">BPM</span>
+            <span className="text-[0.625rem] text-muted-foreground">BPM</span>
             <div className="flex items-center bg-muted/20 rounded-lg">
               <button
                 className="w-6 h-6 flex items-center justify-center text-sm hover:bg-muted/30 rounded-l-lg"
@@ -503,7 +503,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
               <button
                 key={d}
                 className={cn(
-                  "px-2 py-0.5 text-[10px] rounded-full transition-all",
+                  "px-2 py-0.5 text-[0.625rem] rounded-full transition-all",
                   globalSettings.duration === d
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted/20 hover:bg-muted/40",
@@ -588,7 +588,7 @@ const PromptDJMixerInner = memo(function PromptDJMixerInner() {
                       <button
                         key={key}
                         className={cn(
-                          "min-w-7 h-7 px-1 rounded text-[10px] font-medium",
+                          "min-w-7 h-7 px-1 rounded text-[0.625rem] font-medium",
                           globalSettings.key === key
                             ? "bg-primary text-primary-foreground"
                             : "bg-muted/30 hover:bg-muted/50",

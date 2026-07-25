@@ -184,7 +184,7 @@ export const MobileSectionsView = memo(function MobileSectionsView({
                         {replacement?.status === "completed" && (
                           <Badge
                             variant="outline"
-                            className="bg-green-500/10 text-green-500 border-green-500/30 text-[10px]"
+                            className="bg-green-500/10 text-green-500 border-green-500/30 text-[0.625rem]"
                           >
                             <Check className="w-3 h-3 mr-0.5" />
                             Заменено
@@ -194,7 +194,7 @@ export const MobileSectionsView = memo(function MobileSectionsView({
                         {replacement?.status === "pending" && (
                           <Badge
                             variant="outline"
-                            className="bg-yellow-500/10 text-yellow-500 border-yellow-500/30 text-[10px]"
+                            className="bg-yellow-500/10 text-yellow-500 border-yellow-500/30 text-[0.625rem]"
                           >
                             <Clock className="w-3 h-3 mr-0.5 animate-pulse" />В очереди
                           </Badge>
@@ -203,7 +203,7 @@ export const MobileSectionsView = memo(function MobileSectionsView({
                         {replacement?.status === "processing" && (
                           <Badge
                             variant="outline"
-                            className="bg-blue-500/10 text-blue-500 border-blue-500/30 text-[10px]"
+                            className="bg-blue-500/10 text-blue-500 border-blue-500/30 text-[0.625rem]"
                           >
                             <Sparkles className="w-3 h-3 mr-0.5 animate-spin" />
                             Генерация

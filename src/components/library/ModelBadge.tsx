@@ -163,7 +163,7 @@ export function ModelBadge({ model, compact = false, className }: ModelBadgeProp
             )}
           >
             <Icon className={cn("w-2.5 h-2.5", info.color)} />
-            <span className={cn("font-semibold", info.color, compact ? "text-[9px]" : "text-[10px]")}>
+            <span className={cn("font-semibold", info.color, compact ? "text-[0.5625rem]" : "text-[0.625rem]")}>
               {info.label}
             </span>
           </div>

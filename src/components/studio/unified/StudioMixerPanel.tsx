@@ -149,7 +149,7 @@ const MixerChannel = memo(function MixerChannel({ track, isSelected, onSelect, c
             <Headphones className="h-3 w-3" />
           </Button>
         </div>
-        <span className="text-[10px] text-muted-foreground truncate max-w-[60px]">{track.name}</span>
+        <span className="text-[0.625rem] text-muted-foreground truncate max-w-[60px]">{track.name}</span>
       </div>
     );
   }
@@ -181,7 +181,7 @@ const MixerChannel = memo(function MixerChannel({ track, isSelected, onSelect, c
 
       {/* Pan Knob (simplified as slider) */}
       <div className="w-full">
-        <div className="text-[10px] text-muted-foreground text-center mb-1">PAN</div>
+        <div className="text-[0.625rem] text-muted-foreground text-center mb-1">PAN</div>
         <Slider
           value={[track.pan]}
           min={-1}
@@ -190,7 +190,7 @@ const MixerChannel = memo(function MixerChannel({ track, isSelected, onSelect, c
           onValueChange={handlePanChange}
           onClick={(e) => e.stopPropagation()}
         />
-        <div className="flex justify-between text-[9px] text-muted-foreground mt-0.5">
+        <div className="flex justify-between text-[0.5625rem] text-muted-foreground mt-0.5">
           <span>L</span>
           <span>R</span>
         </div>
@@ -207,7 +207,7 @@ const MixerChannel = memo(function MixerChannel({ track, isSelected, onSelect, c
           onValueChange={handleVolumeChange}
           onClick={(e) => e.stopPropagation()}
         />
-        <span className="text-[10px] font-mono text-muted-foreground">{Math.round(track.volume * 100)}%</span>
+        <span className="text-[0.625rem] font-mono text-muted-foreground">{Math.round(track.volume * 100)}%</span>
       </div>
 
       {/* Mute/Solo */}
@@ -279,7 +279,7 @@ const MasterChannel = memo(function MasterChannel({ volume, onVolumeChange, comp
           className={compact ? "h-24" : "h-32"}
           onValueChange={handleChange}
         />
-        <span className="text-[10px] font-mono text-muted-foreground">{Math.round(volume * 100)}%</span>
+        <span className="text-[0.625rem] font-mono text-muted-foreground">{Math.round(volume * 100)}%</span>
       </div>
 
       {/* VU Meter placeholder */}

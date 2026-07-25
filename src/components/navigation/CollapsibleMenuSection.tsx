@@ -91,14 +91,14 @@ export const CollapsibleMenuSection = memo(function CollapsibleMenuSection({
                         {item.badge && (
                           <Badge
                             variant="secondary"
-                            className="text-[9px] px-1.5 py-0 h-4 bg-primary/20 text-primary border-0 flex-shrink-0"
+                            className="text-[0.5625rem] px-1.5 py-0 h-4 bg-primary/20 text-primary border-0 flex-shrink-0"
                           >
                             {item.badge}
                           </Badge>
                         )}
                       </div>
                       {item.description && (
-                        <span className="text-[11px] text-muted-foreground truncate block">{item.description}</span>
+                        <span className="text-[0.6875rem] text-muted-foreground truncate block">{item.description}</span>
                       )}
                     </div>
                   </Button>

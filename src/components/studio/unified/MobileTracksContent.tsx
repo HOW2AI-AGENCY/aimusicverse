@@ -194,16 +194,16 @@ const TrackCard = memo(function TrackCard({
         <div className="flex-1 min-w-0">
           <p className="font-medium text-sm truncate">{track.name}</p>
           <div className="flex items-center gap-2 mt-0.5">
-            <Badge variant="outline" className="text-[10px] h-4">
+            <Badge variant="outline" className="text-[0.625rem] h-4">
               {track.type}
             </Badge>
             {track.versions && track.versions.length > 1 && (
-              <Badge variant="secondary" className="text-[10px] h-4">
+              <Badge variant="secondary" className="text-[0.625rem] h-4">
                 {track.activeVersionLabel || "A"}
               </Badge>
             )}
             {isPending && (
-              <Badge variant="default" className="text-[10px] h-4 animate-pulse">
+              <Badge variant="default" className="text-[0.625rem] h-4 animate-pulse">
                 Генерация...
               </Badge>
             )}

@@ -73,7 +73,7 @@ export function RhymeToolPanel({ context, onExecute, onClose, isLoading }: ToolP
             </div>
             <div>
               <h3 className="text-sm font-medium">Поиск рифм</h3>
-              <p className="text-[10px] text-muted-foreground">Найти рифмы к слову</p>
+              <p className="text-[0.625rem] text-muted-foreground">Найти рифмы к слову</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onClose}>
@@ -101,7 +101,7 @@ export function RhymeToolPanel({ context, onExecute, onClose, isLoading }: ToolP
         {/* Suggested from selection */}
         {suggestedWord && (
           <div className="space-y-1.5">
-            <p className="text-[10px] text-muted-foreground">Из выделения:</p>
+            <p className="text-[0.625rem] text-muted-foreground">Из выделения:</p>
             <Button
               variant="outline"
               size="sm"
@@ -119,7 +119,7 @@ export function RhymeToolPanel({ context, onExecute, onClose, isLoading }: ToolP
         {/* Recent Words */}
         {recentWords.length > 0 && (
           <div className="space-y-1.5">
-            <p className="text-[10px] text-muted-foreground">Недавние:</p>
+            <p className="text-[0.625rem] text-muted-foreground">Недавние:</p>
             <div className="flex flex-wrap gap-1.5">
               {recentWords.map((w) => (
                 <Button
@@ -141,13 +141,13 @@ export function RhymeToolPanel({ context, onExecute, onClose, isLoading }: ToolP
 
         {/* Quick Access Words */}
         <div className="space-y-1.5">
-          <p className="text-[10px] text-muted-foreground">Популярные:</p>
+          <p className="text-[0.625rem] text-muted-foreground">Популярные:</p>
           <div className="flex flex-wrap gap-1">
             {COMMON_ENDINGS.map((w) => (
               <button
                 key={w}
                 className={cn(
-                  "px-2 py-1 text-[10px] rounded-md border border-border/50",
+                  "px-2 py-1 text-[0.625rem] rounded-md border border-border/50",
                   "hover:bg-muted/50 transition-colors",
                 )}
                 onClick={() => {

@@ -55,7 +55,7 @@ export const ScrollableTagsRow = memo(function ScrollableTagsRow({
   }, [parsedTags]);
 
   if (parsedTags.visible.length === 0) {
-    return <span className={cn("text-[10px] text-muted-foreground/50 italic px-1", className)}>Без стиля</span>;
+    return <span className={cn("text-[0.625rem] text-muted-foreground/50 italic px-1", className)}>Без стиля</span>;
   }
 
   return (
@@ -80,7 +80,7 @@ export const ScrollableTagsRow = memo(function ScrollableTagsRow({
                 onClick?.(tag.value);
               }}
               className={cn(
-                "flex-shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium transition-colors",
+                "flex-shrink-0 px-1.5 py-0.5 rounded text-[0.625rem] font-medium transition-colors",
                 "cursor-pointer active:scale-95",
                 CATEGORY_COLORS[tag.category],
               )}
@@ -90,7 +90,7 @@ export const ScrollableTagsRow = memo(function ScrollableTagsRow({
           ))}
 
           {parsedTags.hiddenCount > 0 && (
-            <span className="flex-shrink-0 text-[9px] text-muted-foreground/50 px-1">+{parsedTags.hiddenCount}</span>
+            <span className="flex-shrink-0 text-[0.5625rem] text-muted-foreground/50 px-1">+{parsedTags.hiddenCount}</span>
           )}
         </div>
       </div>

@@ -44,8 +44,8 @@ const variantStyles = {
 };
 
 const sizeStyles = {
-  sm: { padding: "px-2 py-1", fontSize: "text-xs", secondary: "text-[9px]" },
-  md: { padding: "px-3 py-1.5", fontSize: "text-sm", secondary: "text-[10px]" },
+  sm: { padding: "px-2 py-1", fontSize: "text-xs", secondary: "text-[0.5625rem]" },
+  md: { padding: "px-3 py-1.5", fontSize: "text-sm", secondary: "text-[0.625rem]" },
   lg: { padding: "px-4 py-2", fontSize: "text-base", secondary: "text-xs" },
 };
 
@@ -144,7 +144,7 @@ export const SegmentedDisplay = memo(function SegmentedDisplay({
 
   return (
     <div className={cn("flex flex-col items-center gap-1", className)}>
-      {label && <span className="text-[9px] text-muted-foreground font-medium uppercase tracking-wider">{label}</span>}
+      {label && <span className="text-[0.5625rem] text-muted-foreground font-medium uppercase tracking-wider">{label}</span>}
 
       <div
         className={cn(

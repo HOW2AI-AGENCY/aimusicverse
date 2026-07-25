@@ -101,7 +101,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({ track, onCl
 
         {/* HD Badge */}
         {hasHD && (
-          <Badge className="absolute -top-1 -right-1 px-1 py-0 text-[7px] font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
+          <Badge className="absolute -top-1 -right-1 px-1 py-0 text-[0.4375rem] font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
             HD
           </Badge>
         )}
@@ -110,7 +110,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({ track, onCl
         {duration && (
           <div
             className={cn(
-              "absolute bottom-0 right-0 text-[8px] px-0.5 py-0 rounded text-center min-w-[24px]",
+              "absolute bottom-0 right-0 text-[0.5rem] px-0.5 py-0 rounded text-center min-w-[24px]",
               pill.glassDark,
             )}
           >

@@ -77,7 +77,7 @@ function BrandEmptyStateImpl({
 
         {eyebrow && (
           <p
-            className="mb-1.5 sm:mb-2 text-[10px] font-bold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-primary"
+            className="mb-1.5 sm:mb-2 text-[0.625rem] font-bold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-primary"
             style={{ fontFamily: BRICOLAGE }}
           >
             {eyebrow}
@@ -102,7 +102,7 @@ function BrandEmptyStateImpl({
             {hints.map((hint) => (
               <li
                 key={hint}
-                className="rounded-full border border-border/60 bg-background/60 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs text-muted-foreground backdrop-blur-sm"
+                className="rounded-full border border-border/60 bg-background/60 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[0.6875rem] sm:text-xs text-muted-foreground backdrop-blur-sm"
               >
                 {hint}
               </li>

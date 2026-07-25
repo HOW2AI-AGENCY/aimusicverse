@@ -65,7 +65,7 @@ export const VocalsToggle = memo(function VocalsToggle({
 
       {/* Contextual hint - only in non-compact mode */}
       {!compact && (
-        <p className="text-[10px] text-muted-foreground text-center">
+        <p className="text-[0.625rem] text-muted-foreground text-center">
           {hasVocals ? g.vocalToggle.withVocalsDesc : g.vocalToggle.instrumentalDesc}
         </p>
       )}

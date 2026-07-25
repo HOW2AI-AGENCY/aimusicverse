@@ -337,7 +337,7 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
             }}
           >
             {/* BPM indicator */}
-            <div className="absolute left-2 top-1 text-[10px] text-muted-foreground font-mono">{bpm} BPM</div>
+            <div className="absolute left-2 top-1 text-[0.625rem] text-muted-foreground font-mono">{bpm} BPM</div>
 
             {/* Beat markers */}
             <div className="absolute left-0 right-0 bottom-0 h-6">
@@ -351,7 +351,7 @@ export const UnifiedDAWLayout = memo(function UnifiedDAWLayout({
                   <div key={i} className="absolute bottom-0" style={{ left: `${(time / duration) * 100}%` }}>
                     <div className={cn("w-px", isBar ? "h-4 bg-foreground/40" : "h-2 bg-foreground/15")} />
                     {isBar && (
-                      <span className="absolute -top-3 text-[9px] text-muted-foreground -translate-x-1/2 font-mono">
+                      <span className="absolute -top-3 text-[0.5625rem] text-muted-foreground -translate-x-1/2 font-mono">
                         {barNumber}
                       </span>
                     )}

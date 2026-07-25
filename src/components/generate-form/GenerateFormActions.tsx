@@ -44,7 +44,7 @@ const ActionChip = memo(function ActionChip({ icon: Icon, label, onClick, ariaLa
       />
       <span
         className={cn(
-          "text-[11px] leading-none font-semibold truncate max-w-full transition-colors",
+          "text-[0.6875rem] leading-none font-semibold truncate max-w-full transition-colors",
           accent ? "text-foreground" : "text-foreground/90 group-hover:text-foreground",
         )}
       >

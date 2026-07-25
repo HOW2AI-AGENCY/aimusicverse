@@ -165,7 +165,7 @@ export function WeeklyChallenges() {
                     </span>
                     <Badge
                       variant="outline"
-                      className={cn("text-[10px] px-1.5 py-0", getDifficultyColor(challenge.difficulty))}
+                      className={cn("text-[0.625rem] px-1.5 py-0", getDifficultyColor(challenge.difficulty))}
                     >
                       {getDifficultyLabel(challenge.difficulty)}
                     </Badge>

@@ -296,7 +296,7 @@ function ContentStatCard({ icon: Icon, label, value, subtext, iconColor }: Conte
           <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1">
             <p className="text-xs sm:text-sm text-muted-foreground truncate">{label}</p>
             <p className="text-lg sm:text-2xl font-bold truncate">{value}</p>
-            {subtext && <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{subtext}</p>}
+            {subtext && <p className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">{subtext}</p>}
           </div>
           <Icon className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 ${iconColor}`} />
         </div>

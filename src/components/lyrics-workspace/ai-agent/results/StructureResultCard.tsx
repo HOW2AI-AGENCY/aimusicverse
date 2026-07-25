@@ -54,7 +54,7 @@ function parseStructureContent(content: string): StructureSection[] {
       ) {
         const tagsStr = trimmedLine.replace(/^.*теги:\s*/i, "");
         const tags = tagsStr.match(/\[([^\]]+)\]|\(([^)]+)\)/g) || [];
-        currentSection.recommendedTags = tags.map((t) => t.replace(/[\[\]\(\)]/g, ""));
+        currentSection.recommendedTags = tags.map((t) => t.replace(/[[\]()]/g, ""));
       }
     }
   }
@@ -152,7 +152,7 @@ export function StructureResultCard({ content, className }: StructureResultCardP
         </div>
         <div>
           <h4 className="text-sm font-medium">Структура песни</h4>
-          <p className="text-[10px] text-muted-foreground">{sections.length} секций</p>
+          <p className="text-[0.625rem] text-muted-foreground">{sections.length} секций</p>
         </div>
       </div>
 
@@ -171,12 +171,12 @@ export function StructureResultCard({ content, className }: StructureResultCardP
               <span className="text-xs font-medium">[{section.tag}]</span>
             </div>
 
-            {section.description && <p className="text-[11px] mt-1 opacity-80">{section.description}</p>}
+            {section.description && <p className="text-[0.6875rem] mt-1 opacity-80">{section.description}</p>}
 
             {section.recommendedTags && section.recommendedTags.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-1.5">
                 {section.recommendedTags.map((tag, tagIdx) => (
-                  <Badge key={tagIdx} variant="outline" className="text-[9px] h-4 px-1.5 bg-background/50">
+                  <Badge key={tagIdx} variant="outline" className="text-[0.5625rem] h-4 px-1.5 bg-background/50">
                     {tag}
                   </Badge>
                 ))}

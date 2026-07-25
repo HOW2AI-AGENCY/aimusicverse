@@ -147,7 +147,7 @@ function VersionItem({
                   </p>
                 )}
                 {isCurrent && (
-                  <Badge variant="default" className="text-[10px] h-4">
+                  <Badge variant="default" className="text-[0.625rem] h-4">
                     Текущая
                   </Badge>
                 )}
@@ -157,7 +157,7 @@ function VersionItem({
                 <p className="text-xs text-muted-foreground line-clamp-1 mb-1">{version.change_description}</p>
               )}
 
-              <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+              <div className="flex items-center gap-2 text-[0.625rem] text-muted-foreground">
                 <Clock className="w-3 h-3" />
                 <span>{timeAgo}</span>
                 {version.ai_model_used && (
@@ -290,7 +290,7 @@ function VersionsContent({
               <Filter className="w-3.5 h-3.5" />
               Фильтр
               {activeFilters.length > 0 && (
-                <Badge variant="default" className="ml-1 h-4 w-4 p-0 text-[10px]">
+                <Badge variant="default" className="ml-1 h-4 w-4 p-0 text-[0.625rem]">
                   {activeFilters.length}
                 </Badge>
               )}

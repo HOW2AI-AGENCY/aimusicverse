@@ -121,13 +121,13 @@ export function ProjectTemplateSelector({ onSelect, selectedId, className }: Pro
             </div>
             <div className="min-w-0 flex-1">
               <h4 className="font-medium text-sm truncate">{template.name}</h4>
-              <p className="text-[10px] text-muted-foreground line-clamp-1">{template.description}</p>
+              <p className="text-[0.625rem] text-muted-foreground line-clamp-1">{template.description}</p>
               <div className="flex items-center gap-1 mt-1">
-                <span className="text-[9px] px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground">
+                <span className="text-[0.5625rem] px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground">
                   {template.trackCount} треков
                 </span>
                 {template.genre && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-primary/10 text-primary">{template.genre}</span>
+                  <span className="text-[0.5625rem] px-1.5 py-0.5 rounded bg-primary/10 text-primary">{template.genre}</span>
                 )}
               </div>
             </div>

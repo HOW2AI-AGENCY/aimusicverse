@@ -168,7 +168,7 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
       <div className="flex items-center justify-between gap-2 px-3">
         <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
           <Music2 className="w-3 h-3 text-primary shrink-0" />
-          <span className="text-[10px] text-muted-foreground truncate">
+          <span className="text-[0.625rem] text-muted-foreground truncate">
             {notesCount > 0 ? (
               <>
                 {notesCount} {notesCount === 1 ? "нота" : notesCount < 5 ? "ноты" : "нот"}
@@ -197,7 +197,7 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
             </Button>
           )}
           {onViewFull && (
-            <Button variant="ghost" size="sm" onClick={onViewFull} className="h-5 gap-1 px-1.5 text-[10px]">
+            <Button variant="ghost" size="sm" onClick={onViewFull} className="h-5 gap-1 px-1.5 text-[0.625rem]">
               <Eye className="w-3 h-3" />
               <span className="hidden sm:inline">Ноты</span>
             </Button>
@@ -422,14 +422,14 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                   {hasTranscription && (
                     <button
                       onClick={() => onAction?.("view_notation")}
-                      className="h-4 px-1 rounded text-[8px] bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors flex items-center gap-0.5"
+                      className="h-4 px-1 rounded text-[0.5rem] bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors flex items-center gap-0.5"
                       title="Показать ноты"
                     >
                       <Music2 className="w-2.5 h-2.5" />
                     </button>
                   )}
                 </div>
-                <span className="text-[10px] text-muted-foreground">{config.shortLabel}</span>
+                <span className="text-[0.625rem] text-muted-foreground">{config.shortLabel}</span>
               </div>
             </div>
 
@@ -441,7 +441,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 size="sm"
                 onClick={() => handleToggle("mute")}
                 className={cn(
-                  "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[10px] font-bold transition-all touch-manipulation",
+                  "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[0.625rem] font-bold transition-all touch-manipulation",
                   track.muted
                     ? "bg-destructive text-destructive-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -456,7 +456,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 size="sm"
                 onClick={() => handleToggle("solo")}
                 className={cn(
-                  "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[10px] font-bold transition-all touch-manipulation",
+                  "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[0.625rem] font-bold transition-all touch-manipulation",
                   track.solo
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -481,7 +481,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 size="sm"
                 onClick={() => setShowVolume(!showVolume)}
                 className={cn(
-                  "h-9 md:h-7 px-2 rounded-lg text-xs md:text-[10px] font-mono touch-manipulation",
+                  "h-9 md:h-7 px-2 rounded-lg text-xs md:text-[0.625rem] font-mono touch-manipulation",
                   showVolume ? "bg-muted" : "",
                 )}
               >

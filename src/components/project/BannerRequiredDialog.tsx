@@ -40,14 +40,14 @@ export function BannerRequiredDialog({ open, onOpenChange, projectTitle, onCreat
               <Sparkles className="w-4 h-4 text-primary" />
             </div>
             <p className="text-xs font-medium">Больше просмотров</p>
-            <p className="text-[10px] text-muted-foreground">Баннеры привлекают внимание</p>
+            <p className="text-[0.625rem] text-muted-foreground">Баннеры привлекают внимание</p>
           </div>
           <div className="p-3 rounded-lg bg-muted/50 text-center space-y-1">
             <div className="w-8 h-8 rounded-full bg-generate/10 flex items-center justify-center mx-auto">
               <Image className="w-4 h-4 text-generate" />
             </div>
             <p className="text-xs font-medium">Профессионально</p>
-            <p className="text-[10px] text-muted-foreground">Качественное оформление</p>
+            <p className="text-[0.625rem] text-muted-foreground">Качественное оформление</p>
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export function BannerRequiredDialog({ open, onOpenChange, projectTitle, onCreat
           </Button>
         </div>
 
-        <p className="text-[10px] text-center text-muted-foreground">
+        <p className="text-[0.625rem] text-center text-muted-foreground">
           Вы можете загрузить своё изображение или сгенерировать с помощью AI
         </p>
       </div>

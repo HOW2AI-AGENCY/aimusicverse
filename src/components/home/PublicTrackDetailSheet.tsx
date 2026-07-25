@@ -325,7 +325,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
             >
               <Card className="p-3 text-center bg-muted/30 border-0">
                 <stat.icon className={`w-5 h-5 mx-auto mb-1 ${stat.color}`} />
-                <p className="text-[10px] text-muted-foreground uppercase tracking-wide">{stat.label}</p>
+                <p className="text-[0.625rem] text-muted-foreground uppercase tracking-wide">{stat.label}</p>
                 <p className="font-bold text-sm">{stat.value}</p>
               </Card>
             </motion.div>

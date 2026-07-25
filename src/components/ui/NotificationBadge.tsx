@@ -47,7 +47,7 @@ export function NotificationBadge({
   };
 
   const sizeClasses = {
-    sm: dot ? "w-2 h-2" : "min-w-[16px] h-4 text-[10px] px-1",
+    sm: dot ? "w-2 h-2" : "min-w-[16px] h-4 text-[0.625rem] px-1",
     md: dot ? "w-2.5 h-2.5" : "min-w-[20px] h-5 text-xs px-1.5",
     lg: dot ? "w-3 h-3" : "min-w-[24px] h-6 text-sm px-2",
   };
@@ -173,7 +173,7 @@ export function LabelBadge({
   className,
 }: LabelBadgeProps) {
   const sizeClasses = {
-    sm: "text-[10px] px-1.5 py-0.5 gap-1",
+    sm: "text-[0.625rem] px-1.5 py-0.5 gap-1",
     md: "text-xs px-2 py-1 gap-1.5",
     lg: "text-sm px-2.5 py-1.5 gap-2",
   };

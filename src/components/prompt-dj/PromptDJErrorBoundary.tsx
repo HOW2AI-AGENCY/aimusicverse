@@ -268,7 +268,7 @@ export class PromptDJErrorBoundary extends Component<Props, State> {
           {process.env.NODE_ENV === "development" && this.state.error && (
             <details className="mt-6 text-left w-full max-w-md">
               <summary className="text-xs text-muted-foreground cursor-pointer">Техническая информация</summary>
-              <pre className="mt-2 p-2 bg-muted/20 rounded text-[10px] overflow-auto max-h-40">
+              <pre className="mt-2 p-2 bg-muted/20 rounded text-[0.625rem] overflow-auto max-h-40">
                 {this.state.error.stack}
               </pre>
             </details>

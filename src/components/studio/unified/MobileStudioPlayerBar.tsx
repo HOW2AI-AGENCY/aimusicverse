@@ -95,7 +95,7 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
         {/* Time display */}
         <div className="flex items-center gap-1 min-w-[80px]">
           <span className="text-xs font-mono font-medium">{formatTime(currentTime)}</span>
-          <span className="text-muted-foreground text-[10px]">/</span>
+          <span className="text-muted-foreground text-[0.625rem]">/</span>
           <span className="text-xs font-mono text-muted-foreground">{formatTime(duration)}</span>
         </div>
 

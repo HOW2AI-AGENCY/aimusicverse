@@ -103,7 +103,7 @@ export function EqualizerControl({ settings, onChange, onPresetChange, color = "
         </svg>
 
         {/* Frequency labels */}
-        <div className="absolute bottom-1 left-0 right-0 flex justify-between px-2 text-[10px] text-muted-foreground">
+        <div className="absolute bottom-1 left-0 right-0 flex justify-between px-2 text-[0.625rem] text-muted-foreground">
           <span>20Hz</span>
           <span>320Hz</span>
           <span>1kHz</span>
@@ -141,7 +141,7 @@ export function EqualizerControl({ settings, onChange, onPresetChange, color = "
               {settings.lowGain > 0 ? "+" : ""}
               {settings.lowGain.toFixed(1)} dB
             </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5">LOW</div>
+            <div className="text-[0.625rem] text-muted-foreground mt-0.5">LOW</div>
           </div>
         </div>
 
@@ -172,7 +172,7 @@ export function EqualizerControl({ settings, onChange, onPresetChange, color = "
               {settings.midGain > 0 ? "+" : ""}
               {settings.midGain.toFixed(1)} dB
             </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5">MID</div>
+            <div className="text-[0.625rem] text-muted-foreground mt-0.5">MID</div>
           </div>
         </div>
 
@@ -203,7 +203,7 @@ export function EqualizerControl({ settings, onChange, onPresetChange, color = "
               {settings.highGain > 0 ? "+" : ""}
               {settings.highGain.toFixed(1)} dB
             </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5">HIGH</div>
+            <div className="text-[0.625rem] text-muted-foreground mt-0.5">HIGH</div>
           </div>
         </div>
       </div>

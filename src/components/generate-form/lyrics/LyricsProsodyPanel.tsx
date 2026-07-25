@@ -83,7 +83,7 @@ export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
   return (
     <div className={cn("rounded-lg border border-border/50 bg-muted/20 p-3 space-y-3", className)}>
       {/* Summary strip + export controls */}
-      <div className="flex flex-wrap items-center gap-2 text-[11px]">
+      <div className="flex flex-wrap items-center gap-2 text-[0.6875rem]">
         <span
           className={cn(
             "inline-flex items-center gap-1 px-2 py-0.5 rounded border font-medium",
@@ -153,7 +153,7 @@ export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
                   type="button"
                   onClick={() => onJumpToLine?.(line.index)}
                   className={cn(
-                    "w-full flex items-start gap-2 rounded-md border px-2 py-1.5 text-left text-[11px]",
+                    "w-full flex items-start gap-2 rounded-md border px-2 py-1.5 text-left text-[0.6875rem]",
                     "hover:bg-background/60 transition-colors",
                     LEVEL_STYLES[topIssue.level],
                   )}
@@ -166,7 +166,7 @@ export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
                     <span className="block truncate font-mono text-foreground/80">
                       {line.raw.trim() || "(пустая строка)"}
                     </span>
-                    <span className="block text-[10px] opacity-80">
+                    <span className="block text-[0.625rem] opacity-80">
                       {line.syllables > 0 && `${line.syllables} сл. · `}
                       {line.rhymeGroup && `рифма ${line.rhymeGroup} · `}
                       {topIssue.message}
@@ -178,7 +178,7 @@ export const LyricsProsodyPanel = memo(function LyricsProsodyPanel({
           })}
         </ul>
       ) : (
-        <div className="text-[11px] text-muted-foreground">
+        <div className="text-[0.6875rem] text-muted-foreground">
           Все строки в пределах 6–12 слогов, рифмы распределены корректно.
         </div>
       )}

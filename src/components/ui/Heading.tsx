@@ -203,7 +203,7 @@ export const SectionHeader = memo(function SectionHeader({
             <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight font-display">{title}</h3>
             {badge}
           </div>
-          {subtitle && <p className="text-[11px] sm:text-xs text-muted-foreground truncate">{subtitle}</p>}
+          {subtitle && <p className="text-[0.6875rem] sm:text-xs text-muted-foreground truncate">{subtitle}</p>}
         </div>
       </div>
       {action && <div className="shrink-0">{action}</div>}

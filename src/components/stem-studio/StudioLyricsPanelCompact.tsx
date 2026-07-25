@@ -73,7 +73,7 @@ function extractSectionTag(text: string): string | null {
 
   // Pattern for section tags (captures the tag name)
   const tagPattern =
-    /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/i;
+    /[[(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\])]/i;
 
   // 1. Exact match - whole text is just a tag
   const exactMatch = trimmed.match(new RegExp(`^${tagPattern.source}$`, "i"));
@@ -94,11 +94,11 @@ function extractSectionTag(text: string): string | null {
 function extractSectionTagWithRemainder(text: string): { tag: string; type: string; remainder: string } | null {
   const trimmed = text.trim();
   const tagPattern =
-    /^([\[\(](?:verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)])\s*/i;
+    /^([[(](?:verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\])])\s*/i;
 
   const match = trimmed.match(tagPattern);
   if (match) {
-    const tagText = match[1].replace(/[\[\]\(\)]/g, "").trim();
+    const tagText = match[1].replace(/[[\]()]/g, "").trim();
     return {
       tag: match[1],
       type: normalizeTag(tagText),
@@ -112,7 +112,7 @@ function extractSectionTagWithRemainder(text: string): { tag: string; type: stri
 function cleanLyricsText(text: string): string {
   return text
     .replace(
-      /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/gi,
+      /[[(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\])]/gi,
       "",
     )
     .trim();
@@ -121,7 +121,7 @@ function cleanLyricsText(text: string): string {
 // Check if text in parentheses is a backing vocal (not a section tag)
 function isBackingVocal(text: string): boolean {
   const content = text
-    .replace(/[\(\)]/g, "")
+    .replace(/[()]/g, "")
     .toLowerCase()
     .trim();
   const structureTags = [
@@ -218,7 +218,7 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
     if (
       tagMatch &&
       !wordText
-        .replace(/[\[\]\(\)]/g, "")
+        .replace(/[[\]()]/g, "")
         .replace(
           /verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал|\d+/gi,
           "",
@@ -274,7 +274,7 @@ function SectionTagBadge({ type }: { type: string }) {
 
   return (
     <span
-      className={cn("inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono uppercase border", colors)}
+      className={cn("inline-flex items-center px-2 py-0.5 rounded-md text-[0.625rem] font-mono uppercase border", colors)}
     >
       {labels[normalizedType] || type}
     </span>
@@ -425,7 +425,7 @@ export function StudioLyricsPanelCompact({
           {!isExpanded && currentSectionTag && <SectionTagBadge type={currentSectionTag} />}
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4">
+          <Badge variant="outline" className="text-[0.625rem] px-1.5 py-0 h-4">
             {activeLineIndex + 1}/{contentLines.length}
           </Badge>
           <Button variant="ghost" size="sm" onClick={() => setIsExpanded(!isExpanded)} className="h-6 w-6 p-0 shrink-0">

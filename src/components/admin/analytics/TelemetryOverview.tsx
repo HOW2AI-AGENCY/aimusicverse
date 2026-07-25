@@ -80,7 +80,7 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
             <ResponsiveContainer width="100%" height={180} className="sm:h-[250px]">
               <BarChart data={eventsByTypeData} layout="vertical">
                 <XAxis type="number" fontSize={10} />
-                <YAxis type="category" dataKey="name" width={80} fontSize={9} className="sm:text-[12px]" />
+                <YAxis type="category" dataKey="name" width={80} fontSize={9} className="sm:text-[0.75rem]" />
                 <Tooltip
                   formatter={(value: TooltipValueType | undefined) => [Number(value).toLocaleString(), "Событий"]}
                   contentStyle={{
@@ -150,7 +150,7 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
                 <div className="text-right">
                   <span className="text-xs sm:text-sm font-medium">{event.count.toLocaleString()}</span>
                   {event.avg_duration_ms && (
-                    <span className="text-[10px] sm:text-xs text-muted-foreground ml-1 sm:ml-2">
+                    <span className="text-[0.625rem] sm:text-xs text-muted-foreground ml-1 sm:ml-2">
                       {event.avg_duration_ms.toFixed(0)}ms
                     </span>
                   )}
@@ -170,17 +170,17 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
           <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
             <div>
               <p className="text-lg sm:text-2xl font-bold">{data.unique_users.toLocaleString()}</p>
-              <p className="text-[10px] sm:text-sm text-muted-foreground">Уникальных</p>
+              <p className="text-[0.625rem] sm:text-sm text-muted-foreground">Уникальных</p>
             </div>
             <div>
               <p className="text-lg sm:text-2xl font-bold">{data.unique_sessions.toLocaleString()}</p>
-              <p className="text-[10px] sm:text-sm text-muted-foreground">Сессий</p>
+              <p className="text-[0.625rem] sm:text-sm text-muted-foreground">Сессий</p>
             </div>
             <div>
               <p className="text-lg sm:text-2xl font-bold">
                 {data.avg_session_duration_sec ? formatDuration(data.avg_session_duration_sec) : "—"}
               </p>
-              <p className="text-[10px] sm:text-sm text-muted-foreground">Ср. длит.</p>
+              <p className="text-[0.625rem] sm:text-sm text-muted-foreground">Ср. длит.</p>
             </div>
           </div>
         </CardContent>

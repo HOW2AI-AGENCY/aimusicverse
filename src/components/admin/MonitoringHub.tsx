@@ -48,7 +48,7 @@ function QuickStat({ label, value, icon, trend, trendValue, status = "good" }: Q
   return (
     <div className={cn("p-2 sm:p-3 rounded-lg border", statusColors[status])}>
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[10px] sm:text-xs text-muted-foreground">{label}</span>
+        <span className="text-[0.625rem] sm:text-xs text-muted-foreground">{label}</span>
         {icon}
       </div>
       <div className="flex items-end justify-between">
@@ -56,7 +56,7 @@ function QuickStat({ label, value, icon, trend, trendValue, status = "good" }: Q
         {trend && trendValue && (
           <span
             className={cn(
-              "text-[10px] sm:text-xs flex items-center gap-0.5",
+              "text-[0.625rem] sm:text-xs flex items-center gap-0.5",
               trend === "up" ? "text-green-500" : trend === "down" ? "text-red-500" : "text-muted-foreground",
             )}
           >
@@ -281,11 +281,11 @@ export function MonitoringHub({ onNavigateToTab }: MonitoringHubProps) {
           <div className="grid grid-cols-3 gap-3 mb-3">
             <div className="text-center">
               <div className="text-xl sm:text-2xl font-bold text-green-500">{generationStats?.completed || 0}</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">Успешно</div>
+              <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Успешно</div>
             </div>
             <div className="text-center">
               <div className="text-xl sm:text-2xl font-bold text-red-500">{generationStats?.failed || 0}</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">Ошибок</div>
+              <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Ошибок</div>
             </div>
             <div className="text-center">
               <div
@@ -300,7 +300,7 @@ export function MonitoringHub({ onNavigateToTab }: MonitoringHubProps) {
               >
                 {(generationStats?.successRate || 100).toFixed(1)}%
               </div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">Success Rate</div>
+              <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Success Rate</div>
             </div>
           </div>
           <Progress value={generationStats?.successRate || 100} className="h-2" />

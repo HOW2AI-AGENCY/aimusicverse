@@ -156,7 +156,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               {count !== undefined && count > 0 && (
                 <span
                   className={cn(
-                    "text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
+                    "text-[0.625rem] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
                     isActive ? "bg-primary/25 text-foreground" : "bg-foreground/10 text-muted-foreground",
                   )}
                 >
@@ -193,7 +193,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
                 {count !== undefined && count > 0 && (
                   <span
                     className={cn(
-                      "text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
+                      "text-[0.625rem] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
                       isActive ? "bg-destructive/25 text-destructive" : "bg-destructive/15 text-destructive",
                     )}
                   >

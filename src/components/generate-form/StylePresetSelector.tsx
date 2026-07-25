@@ -124,7 +124,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
             <TrendingUp className="w-3.5 h-3.5" />
             Мои
             {savedPresets.length > 0 && (
-              <Badge variant="secondary" className="ml-1 h-4 px-1 text-[10px]">
+              <Badge variant="secondary" className="ml-1 h-4 px-1 text-[0.625rem]">
                 {savedPresets.length}
               </Badge>
             )}
@@ -164,12 +164,12 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
                   </div>
                   <div className="flex items-center gap-1 flex-wrap">
                     {preset.bpm && (
-                      <Badge variant="outline" className="text-[10px] h-4 flex-shrink-0">
+                      <Badge variant="outline" className="text-[0.625rem] h-4 flex-shrink-0">
                         {preset.bpm} BPM
                       </Badge>
                     )}
                     {preset.mood && (
-                      <Badge variant="secondary" className="text-[10px] h-4 truncate max-w-[80px]">
+                      <Badge variant="secondary" className="text-[0.625rem] h-4 truncate max-w-[80px]">
                         {MOOD_PRESETS.find((m) => m.id === preset.mood)?.label || preset.mood}
                       </Badge>
                     )}
@@ -232,7 +232,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
                         <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{preset.template_text}</p>
                       </div>
                       {(preset.usage_count ?? 0) > 0 && (
-                        <Badge variant="outline" className="text-[10px] h-5 shrink-0">
+                        <Badge variant="outline" className="text-[0.625rem] h-5 shrink-0">
                           {preset.usage_count}×
                         </Badge>
                       )}
@@ -240,7 +240,7 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
                     {preset.tags?.length > 0 && (
                       <div className="flex items-center gap-1 mt-2 flex-wrap">
                         {preset.tags.slice(0, 3).map((tag: string, i: number) => (
-                          <Badge key={i} variant="secondary" className="text-[10px] h-4">
+                          <Badge key={i} variant="secondary" className="text-[0.625rem] h-4">
                             {tag}
                           </Badge>
                         ))}

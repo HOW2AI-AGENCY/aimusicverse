@@ -145,7 +145,7 @@ export function ReferenceChipsRow({ references, onAdd, onRemove }: Props) {
             </div>
             <span
               className={cn(
-                "text-[10.5px] leading-tight truncate w-full",
+                "text-[0.65625rem] leading-tight truncate w-full",
                 active ? "text-foreground/80 font-medium" : "text-muted-foreground/80",
               )}
             >

@@ -84,7 +84,7 @@ export const IconGridButton = forwardRef<HTMLButtonElement, IconGridButtonProps>
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.3 }}
                 transition={EASE_SPRING}
-                className="absolute -top-1 -right-1 h-3.5 min-w-3.5 px-0.5 text-[9px] font-bold bg-primary text-primary-foreground rounded-full flex items-center justify-center leading-none"
+                className="absolute -top-1 -right-1 h-3.5 min-w-3.5 px-0.5 text-[0.5625rem] font-bold bg-primary text-primary-foreground rounded-full flex items-center justify-center leading-none"
               >
                 {badge}
               </motion.span>
@@ -93,7 +93,7 @@ export const IconGridButton = forwardRef<HTMLButtonElement, IconGridButtonProps>
         </div>
 
         {/* Label */}
-        <span className="text-[10px] font-medium text-foreground/70 text-center leading-tight truncate max-w-full px-0.5">
+        <span className="text-[0.625rem] font-medium text-foreground/70 text-center leading-tight truncate max-w-full px-0.5">
           {label}
         </span>
       </motion.button>

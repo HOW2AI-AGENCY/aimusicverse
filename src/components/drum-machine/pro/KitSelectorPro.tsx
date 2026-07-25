@@ -39,7 +39,7 @@ export const KitSelectorPro = memo(function KitSelectorPro({
           <span className="text-2xl">{currentKit.icon}</span>
           <div className="flex flex-col items-start">
             <span className="font-semibold text-sm">{currentKit.name}</span>
-            <span className="text-[10px] text-muted-foreground">{currentKit.description}</span>
+            <span className="text-[0.625rem] text-muted-foreground">{currentKit.description}</span>
           </div>
           <ChevronDown className="h-4 w-4 ml-auto opacity-50" />
         </Button>

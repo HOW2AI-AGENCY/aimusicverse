@@ -329,7 +329,7 @@ export function NotesViewerDialog({
               <div>
                 <p className="text-sm font-medium flex items-center gap-2">
                   Guitar Pro файл
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/20 text-amber-600 border border-amber-500/30">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[0.625rem] font-medium bg-amber-500/20 text-amber-600 border border-amber-500/30">
                     Табулатура + Ноты
                   </span>
                 </p>
@@ -401,7 +401,7 @@ export function NotesViewerDialog({
                 </Badge>
               )}
               {parsedXml?.partNames && parsedXml.partNames.length > 0 && (
-                <Badge variant="secondary" className="text-[10px]">
+                <Badge variant="secondary" className="text-[0.625rem]">
                   {parsedXml.partNames.join(", ")}
                 </Badge>
               )}
@@ -526,7 +526,7 @@ export function NotesViewerDialog({
               <Music2 className="w-5 h-5 text-primary" />
               Ноты: {stemType}
               {transcription?.model && (
-                <Badge variant="secondary" className="text-[10px]">
+                <Badge variant="secondary" className="text-[0.625rem]">
                   {transcription.model}
                 </Badge>
               )}

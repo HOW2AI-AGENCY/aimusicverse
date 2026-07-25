@@ -163,7 +163,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
         >
           <div className="min-w-0 space-y-1">
             {eyebrow && (
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
+              <p className="text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
             )}
             {title && <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">{title}</h2>}
             {subtitle && <p className="text-xs sm:text-sm text-muted-foreground">{subtitle}</p>}

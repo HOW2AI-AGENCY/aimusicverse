@@ -68,21 +68,21 @@ export function CreditsBalance({ compact = false, showStats = true }: CreditsBal
           <motion.div whileHover={{ scale: 1.02 }} className="flex items-center gap-2 bg-green-500/5 p-2 rounded-lg">
             <TrendingUp className="w-4 h-4 text-green-500" />
             <div>
-              <p className="text-[10px] text-muted-foreground">Заработано</p>
+              <p className="text-[0.625rem] text-muted-foreground">Заработано</p>
               <p className="font-semibold text-sm">{credits?.total_earned || 0}</p>
             </div>
           </motion.div>
           <motion.div whileHover={{ scale: 1.02 }} className="flex items-center gap-2 bg-orange-500/5 p-2 rounded-lg">
             <Flame className="w-4 h-4 text-orange-500" />
             <div>
-              <p className="text-[10px] text-muted-foreground">Макс. серия</p>
+              <p className="text-[0.625rem] text-muted-foreground">Макс. серия</p>
               <p className="font-semibold text-sm">{credits?.longest_streak || 0}</p>
             </div>
           </motion.div>
           <motion.div whileHover={{ scale: 1.02 }} className="flex items-center gap-2 bg-primary/5 p-2 rounded-lg">
             <Sparkles className="w-4 h-4 text-primary" />
             <div>
-              <p className="text-[10px] text-muted-foreground">Опыт</p>
+              <p className="text-[0.625rem] text-muted-foreground">Опыт</p>
               <p className="font-semibold text-sm">{credits?.experience || 0}</p>
             </div>
           </motion.div>

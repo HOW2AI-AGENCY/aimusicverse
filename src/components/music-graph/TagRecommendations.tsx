@@ -106,7 +106,7 @@ export function TagRecommendations({ currentTags = [], genre, onTagSelect, class
                           {rec.category && (
                             <Badge
                               variant="outline"
-                              className="text-[10px] px-1.5"
+                              className="text-[0.625rem] px-1.5"
                               style={{
                                 borderColor: CATEGORY_COLORS[rec.category] + "50",
                                 color: CATEGORY_COLORS[rec.category],
@@ -120,7 +120,7 @@ export function TagRecommendations({ currentTags = [], genre, onTagSelect, class
                         {rec.relatedTags.length > 0 && (
                           <div className="flex items-center gap-1 mt-2">
                             <Link2 className="w-3 h-3 text-muted-foreground" />
-                            <span className="text-[10px] text-muted-foreground">{rec.relatedTags.join(", ")}</span>
+                            <span className="text-[0.625rem] text-muted-foreground">{rec.relatedTags.join(", ")}</span>
                           </div>
                         )}
                       </div>
@@ -201,7 +201,7 @@ export function TagRecommendations({ currentTags = [], genre, onTagSelect, class
                       onClick={() => handleTagClick(item.tag)}
                     >
                       {item.tag}
-                      <span className="ml-1 text-[10px] text-muted-foreground">{item.count}</span>
+                      <span className="ml-1 text-[0.625rem] text-muted-foreground">{item.count}</span>
                     </Badge>
                   </motion.div>
                 ))}

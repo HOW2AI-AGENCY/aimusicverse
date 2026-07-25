@@ -106,7 +106,7 @@ export const EditablePromptPreview = memo(function EditablePromptPreview({
           >
             {/* Header with actions */}
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+              <span className="text-[0.625rem] text-muted-foreground flex items-center gap-1">
                 <Wand2 className="w-3 h-3" />
                 Промпт
               </span>
@@ -141,7 +141,7 @@ export const EditablePromptPreview = memo(function EditablePromptPreview({
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {tags.map((tag, i) => (
-                  <span key={i} className="px-1.5 py-0.5 text-[9px] rounded-full bg-primary/10 text-primary/80">
+                  <span key={i} className="px-1.5 py-0.5 text-[0.5625rem] rounded-full bg-primary/10 text-primary/80">
                     {tag}
                   </span>
                 ))}

@@ -106,7 +106,7 @@ export const QuickActionsBar = memo(function QuickActionsBar({ onClose }: QuickA
               <div className="relative">
                 <Icon className="w-4 h-4" />
                 {action.badge && action.badge > 0 && (
-                  <Badge className="absolute -top-2 -right-2 h-4 min-w-4 px-1 text-[9px] bg-destructive text-destructive-foreground border-0">
+                  <Badge className="absolute -top-2 -right-2 h-4 min-w-4 px-1 text-[0.5625rem] bg-destructive text-destructive-foreground border-0">
                     {action.badge > 9 ? "9+" : action.badge}
                   </Badge>
                 )}

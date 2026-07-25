@@ -98,7 +98,7 @@ const Pad = memo(function Pad({ sound, isActive, isMuted, isSolo, hasSoloActive,
       </span>
 
       {/* Full name - small */}
-      <span className="text-[11px] font-semibold text-white/80 uppercase tracking-wider">{sound.name}</span>
+      <span className="text-[0.6875rem] font-semibold text-white/80 uppercase tracking-wider">{sound.name}</span>
 
       {/* Hit flash overlay */}
       <div
@@ -113,7 +113,7 @@ const Pad = memo(function Pad({ sound, isActive, isMuted, isSolo, hasSoloActive,
         {isMuted && (
           <div
             className={cn(
-              "px-1.5 py-0.5 rounded-md text-[9px] font-bold text-destructive border border-destructive/50",
+              "px-1.5 py-0.5 rounded-md text-[0.5625rem] font-bold text-destructive border border-destructive/50",
               hardware.statusBadge,
             )}
           >
@@ -123,7 +123,7 @@ const Pad = memo(function Pad({ sound, isActive, isMuted, isSolo, hasSoloActive,
         {isSolo && (
           <div
             className={cn(
-              "px-1.5 py-0.5 rounded-md text-[9px] font-bold text-primary border border-primary/50",
+              "px-1.5 py-0.5 rounded-md text-[0.5625rem] font-bold text-primary border border-primary/50",
               hardware.statusBadge,
             )}
           >

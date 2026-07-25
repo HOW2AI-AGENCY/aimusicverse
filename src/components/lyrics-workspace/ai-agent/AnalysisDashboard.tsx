@@ -95,7 +95,7 @@ export function AnalysisDashboard({
         >
           <div className="text-center">
             <span className={cn("text-xl font-bold", getScoreColor(qualityScore))}>{qualityScore}</span>
-            <span className="text-[10px] text-muted-foreground block">качество</span>
+            <span className="text-[0.625rem] text-muted-foreground block">качество</span>
           </div>
         </div>
 
@@ -201,7 +201,7 @@ export function AnalysisDashboard({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-5 text-[10px] px-1.5"
+                    className="h-5 text-[0.625rem] px-1.5"
                     onClick={() => onApplyFix(issue.fix!)}
                   >
                     Исправить

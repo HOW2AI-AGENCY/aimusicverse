@@ -239,13 +239,13 @@ export function EnhancedLyricsPreview({
       {/* Recommended tags from AI */}
       {recommendedTags && Object.keys(recommendedTags).length > 0 && (
         <div className="space-y-1.5">
-          <span className="text-[10px] text-muted-foreground">Рекомендованные теги:</span>
+          <span className="text-[0.625rem] text-muted-foreground">Рекомендованные теги:</span>
           <div className="flex flex-col gap-1.5">
             {recommendedTags.vocal && recommendedTags.vocal.length > 0 && (
               <div className="flex items-center gap-1 flex-wrap">
-                <span className="text-[10px] text-muted-foreground shrink-0">Вокал:</span>
+                <span className="text-[0.625rem] text-muted-foreground shrink-0">Вокал:</span>
                 {recommendedTags.vocal.slice(0, 4).map((tag) => (
-                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
+                  <span key={tag} className="text-[0.625rem] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
                     {tag}
                   </span>
                 ))}
@@ -253,9 +253,9 @@ export function EnhancedLyricsPreview({
             )}
             {recommendedTags.instruments && recommendedTags.instruments.length > 0 && (
               <div className="flex items-center gap-1 flex-wrap">
-                <span className="text-[10px] text-muted-foreground shrink-0">Инстр:</span>
+                <span className="text-[0.625rem] text-muted-foreground shrink-0">Инстр:</span>
                 {recommendedTags.instruments.slice(0, 4).map((tag) => (
-                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
+                  <span key={tag} className="text-[0.625rem] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
                     {tag}
                   </span>
                 ))}
@@ -263,9 +263,9 @@ export function EnhancedLyricsPreview({
             )}
             {recommendedTags.dynamics && recommendedTags.dynamics.length > 0 && (
               <div className="flex items-center gap-1 flex-wrap">
-                <span className="text-[10px] text-muted-foreground shrink-0">Динам:</span>
+                <span className="text-[0.625rem] text-muted-foreground shrink-0">Динам:</span>
                 {recommendedTags.dynamics.slice(0, 4).map((tag) => (
-                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
+                  <span key={tag} className="text-[0.625rem] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
                     {tag}
                   </span>
                 ))}
@@ -273,9 +273,9 @@ export function EnhancedLyricsPreview({
             )}
             {recommendedTags.emotions && recommendedTags.emotions.length > 0 && (
               <div className="flex items-center gap-1 flex-wrap">
-                <span className="text-[10px] text-muted-foreground shrink-0">Эмоции:</span>
+                <span className="text-[0.625rem] text-muted-foreground shrink-0">Эмоции:</span>
                 {recommendedTags.emotions.slice(0, 4).map((tag) => (
-                  <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
+                  <span key={tag} className="text-[0.625rem] px-1.5 py-0.5 rounded-md bg-muted/50 text-foreground/70">
                     {tag}
                   </span>
                 ))}
@@ -288,7 +288,7 @@ export function EnhancedLyricsPreview({
       {/* AI actions */}
       {onAiAction && (
         <div className="space-y-1.5">
-          <span className="text-[10px] text-muted-foreground">Действия с AI:</span>
+          <span className="text-[0.625rem] text-muted-foreground">Действия с AI:</span>
           <div className="flex flex-wrap gap-1">
             {[
               { label: "🎤 Продюсер", action: "producer_review" },
@@ -301,7 +301,7 @@ export function EnhancedLyricsPreview({
               <button
                 key={item.action}
                 type="button"
-                className="text-[10px] px-2 py-1 rounded-md bg-muted/40 hover:bg-muted/60 text-foreground/70 transition-colors"
+                className="text-[0.625rem] px-2 py-1 rounded-md bg-muted/40 hover:bg-muted/60 text-foreground/70 transition-colors"
                 onClick={() => onAiAction(item.action)}
                 disabled={isLoading}
               >
@@ -391,7 +391,7 @@ export function EnhancedLyricsPreview({
       </div>
 
       {/* Helper text */}
-      <p className="text-[11px] text-muted-foreground text-center">
+      <p className="text-[0.6875rem] text-muted-foreground text-center">
         💡 Используйте "Изменить" для быстрых правок или напишите в чат
       </p>
     </motion.div>

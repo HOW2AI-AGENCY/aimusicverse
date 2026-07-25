@@ -345,7 +345,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                 <History className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">История</span>
                 {historyCount > 0 && (
-                  <span className="ml-0.5 hidden sm:inline text-[10px] text-muted-foreground">
+                  <span className="ml-0.5 hidden sm:inline text-[0.625rem] text-muted-foreground">
                     {historyCount > 99 ? "99+" : historyCount}
                   </span>
                 )}
@@ -358,7 +358,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                 <Bookmark className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">Закладки</span>
                 {savedCount > 0 && (
-                  <span className="ml-0.5 hidden sm:inline text-[10px] text-muted-foreground">{savedCount}</span>
+                  <span className="ml-0.5 hidden sm:inline text-[0.625rem] text-muted-foreground">{savedCount}</span>
                 )}
               </TabsTrigger>
             </TabsList>
@@ -437,10 +437,10 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                     {item.title || item.description?.substring(0, 40) || "Без названия"}
                                   </p>
                                   <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                                    <Badge variant="outline" className="text-[10px] h-5">
+                                    <Badge variant="outline" className="text-[0.625rem] h-5">
                                       {item.mode === "simple" ? "Simple" : "Custom"}
                                     </Badge>
-                                    <Badge variant="secondary" className="text-[10px] h-5">
+                                    <Badge variant="secondary" className="text-[0.625rem] h-5">
                                       {item.model}
                                     </Badge>
                                   </div>
@@ -475,10 +475,10 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                               {item.description && (
                                 <p className="text-xs text-muted-foreground line-clamp-2">{item.description}</p>
                               )}
-                              <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                              <div className="flex items-center gap-2 text-[0.625rem] text-muted-foreground">
                                 <Clock className="w-3 h-3" />
                                 {format(item.lastUsed || item.timestamp, "dd MMM, HH:mm", { locale: ru })}
-                                <Badge variant="outline" className="text-[10px] h-4 px-1">
+                                <Badge variant="outline" className="text-[0.625rem] h-4 px-1">
                                   {item.usageCount}x
                                 </Badge>
                               </div>
@@ -515,11 +515,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                   <Badge className="bg-gradient-to-r from-primary to-primary/70 text-xs h-5">
                                     {item.genre}
                                   </Badge>
-                                  <Badge variant="outline" className="text-[10px] h-5">
+                                  <Badge variant="outline" className="text-[0.625rem] h-5">
                                     {item.mood}
                                   </Badge>
                                   {inspirationUsage[item.id] > 0 && (
-                                    <Badge variant="secondary" className="text-[10px] h-5 gap-0.5">
+                                    <Badge variant="secondary" className="text-[0.625rem] h-5 gap-0.5">
                                       <TrendingUp className="w-2.5 h-2.5" />
                                       {inspirationUsage[item.id]}
                                     </Badge>
@@ -535,7 +535,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                 </Button>
                               </div>
                               <p className="text-xs text-muted-foreground line-clamp-3">{item.description}</p>
-                              {item.style && <p className="text-[10px] text-primary/80 truncate">{item.style}</p>}
+                              {item.style && <p className="text-[0.625rem] text-primary/80 truncate">{item.style}</p>}
                             </div>
                           </CardContent>
                         </Card>
@@ -564,7 +564,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                 <div className="flex-1 min-w-0">
                                   <p className="text-sm font-medium truncate">{item.name}</p>
                                   <div className="flex items-center gap-1.5 mt-1">
-                                    <Badge variant="outline" className="text-[10px] h-5">
+                                    <Badge variant="outline" className="text-[0.625rem] h-5">
                                       {item.mode === "simple" ? "Simple" : "Custom"}
                                     </Badge>
                                   </div>
@@ -591,7 +591,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                               {item.description && (
                                 <p className="text-xs text-muted-foreground line-clamp-2">{item.description}</p>
                               )}
-                              <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                              <div className="flex items-center gap-1 text-[0.625rem] text-muted-foreground">
                                 <Clock className="w-3 h-3" />
                                 {format(item.createdAt, "dd MMM yyyy", { locale: ru })}
                               </div>

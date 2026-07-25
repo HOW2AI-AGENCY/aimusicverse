@@ -39,9 +39,9 @@ const StatCard = memo(function StatCard({ icon, label, value, color, subValue }:
       <div className="flex items-center gap-2 sm:gap-3">
         <div className="p-1.5 sm:p-2 rounded-lg bg-background/50 backdrop-blur-sm">{icon}</div>
         <div className="flex-1 min-w-0">
-          <p className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wide">{label}</p>
+          <p className="text-[0.625rem] sm:text-xs font-medium text-muted-foreground uppercase tracking-wide">{label}</p>
           <p className="text-base sm:text-lg font-bold truncate">{value}</p>
-          {subValue && <p className="text-[10px] sm:text-xs text-muted-foreground">{subValue}</p>}
+          {subValue && <p className="text-[0.625rem] sm:text-xs text-muted-foreground">{subValue}</p>}
         </div>
       </div>
     </Card>

@@ -212,7 +212,7 @@ export function UnifiedSectionEditor({
                       <span className="font-medium text-xs truncate">{section.label}</span>
                       {isTooLong && <AlertCircle className="w-3 h-3 text-amber-500 flex-shrink-0" />}
                     </div>
-                    <p className="text-[10px] opacity-70 font-mono mt-0.5">
+                    <p className="text-[0.625rem] opacity-70 font-mono mt-0.5">
                       {formatTime(section.startTime)} — {formatTime(section.endTime)}
                     </p>
                   </motion.button>
@@ -339,7 +339,7 @@ export function UnifiedSectionEditor({
           />
 
           {/* Time markers */}
-          <div className="absolute bottom-0 left-0 right-0 flex justify-between px-1 py-0.5 text-[10px] text-muted-foreground font-mono">
+          <div className="absolute bottom-0 left-0 right-0 flex justify-between px-1 py-0.5 text-[0.625rem] text-muted-foreground font-mono">
             <span>0:00</span>
             <span>{formatTime(duration / 2)}</span>
             <span>{formatTime(duration)}</span>
@@ -364,7 +364,7 @@ export function UnifiedSectionEditor({
                   <h4 className="font-semibold text-sm">
                     {selectedIndex !== null ? sections[selectedIndex]?.label : "Редактор секции"}
                   </h4>
-                  <Badge variant="outline" className="text-[10px]">
+                  <Badge variant="outline" className="text-[0.625rem]">
                     {formatTime(startTime)} — {formatTime(endTime)}
                   </Badge>
                 </div>

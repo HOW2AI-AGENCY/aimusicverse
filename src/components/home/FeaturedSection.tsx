@@ -104,7 +104,7 @@ export const FeaturedSection = memo(function FeaturedSection({
         badge={
           <motion.span
             className={cn(
-              "text-[9px] px-1.5 py-0.5 rounded-full font-semibold border",
+              "text-[0.5625rem] px-1.5 py-0.5 rounded-full font-semibold border",
               homeSectionColors.trending.badge,
             )}
             animate={{ opacity: [1, 0.7, 1] }}

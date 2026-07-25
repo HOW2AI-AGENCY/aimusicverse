@@ -167,7 +167,7 @@ export function StatsWidget({
                     <Badge
                       variant="secondary"
                       className={cn(
-                        "text-[10px] px-1.5 py-0 h-5 gap-0.5",
+                        "text-[0.625rem] px-1.5 py-0 h-5 gap-0.5",
                         isTrendUp && "bg-green-500/10 text-green-400 border-green-500/20",
                         isTrendDown && "bg-red-500/10 text-red-400 border-red-500/20",
                       )}
@@ -270,7 +270,7 @@ export function StatsSummaryCard({
                   <Icon className={cn("w-4 h-4", stat.color)} />
                 </div>
                 <div className="text-2xl font-bold tabular-nums">{stat.value}</div>
-                <div className="text-[10px] text-muted-foreground leading-tight">{stat.label}</div>
+                <div className="text-[0.625rem] text-muted-foreground leading-tight">{stat.label}</div>
               </motion.div>
             );
           })}

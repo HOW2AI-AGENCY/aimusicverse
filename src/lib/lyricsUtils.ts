@@ -73,7 +73,7 @@ export function isStructuralTag(text: string): boolean {
   let tagContent = trimmed;
 
   // Check for [Tag] or (Tag) format
-  const bracketMatch = trimmed.match(/^[\[\(](.+?)[\]\)]$/);
+  const bracketMatch = trimmed.match(/^[[(](.+?)[\])]$/);
   if (bracketMatch) {
     tagContent = bracketMatch[1].trim();
   }

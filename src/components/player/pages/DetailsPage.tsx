@@ -94,10 +94,10 @@ export function DetailsPage({ track }: DetailsPageProps) {
         <section className="rounded-2xl bg-card/60 p-4 ring-1 ring-border/40 backdrop-blur">
           <div className="flex items-start gap-3">
             <div className="min-w-0 flex-1">
-              <h2 className="font-display text-[17px] font-semibold leading-tight text-foreground">
+              <h2 className="font-display text-[1.0625rem] font-semibold leading-tight text-foreground">
                 {track.title || "Без названия"}
               </h2>
-              {track.style && <p className="mt-1 text-[12px] text-muted-foreground/80">{track.style}</p>}
+              {track.style && <p className="mt-1 text-[0.75rem] text-muted-foreground/80">{track.style}</p>}
             </div>
             <Button
               type="button"
@@ -121,7 +121,7 @@ export function DetailsPage({ track }: DetailsPageProps) {
                   key={`${tag.normalized}-${i}`}
                   title={tag.value}
                   className={cn(
-                    "max-w-[10rem] truncate rounded-md px-2 py-1 text-[11px] font-medium leading-none",
+                    "max-w-[10rem] truncate rounded-md px-2 py-1 text-[0.6875rem] font-medium leading-none",
                     TAG_CATEGORY_COLORS[tag.category],
                   )}
                 >
@@ -129,7 +129,7 @@ export function DetailsPage({ track }: DetailsPageProps) {
                 </span>
               ))}
               {displayTags.hiddenCount > 0 && (
-                <span className="rounded-md px-2 py-1 text-[11px] leading-none text-muted-foreground tabular-nums">
+                <span className="rounded-md px-2 py-1 text-[0.6875rem] leading-none text-muted-foreground tabular-nums">
                   +{displayTags.hiddenCount}
                 </span>
               )}
@@ -150,8 +150,8 @@ export function DetailsPage({ track }: DetailsPageProps) {
                 ) : (
                   <span className="h-4 w-4" aria-hidden />
                 )}
-                <span className="text-[12px] uppercase tracking-wider text-muted-foreground/70">{label}</span>
-                <span className="text-right text-[13px] font-medium text-foreground/90">{value}</span>
+                <span className="text-[0.75rem] uppercase tracking-wider text-muted-foreground/70">{label}</span>
+                <span className="text-right text-[0.8125rem] font-medium text-foreground/90">{value}</span>
               </li>
             ))}
           </ul>

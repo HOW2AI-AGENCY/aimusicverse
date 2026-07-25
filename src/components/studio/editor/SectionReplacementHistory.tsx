@@ -72,7 +72,7 @@ export function SectionReplacementHistory({
           <div className="flex items-center gap-2">
             <History className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm">История замен</span>
-            <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">
+            <Badge variant="secondary" className="h-5 px-1.5 text-[0.625rem]">
               {completedCount}
             </Badge>
           </div>
@@ -97,7 +97,7 @@ export function SectionReplacementHistory({
                   {/* Date header */}
                   <div className="flex items-center gap-2 px-2 py-1">
                     <Clock className="w-3 h-3 text-muted-foreground" />
-                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+                    <span className="text-[0.625rem] font-medium text-muted-foreground uppercase tracking-wider">
                       {group.formattedDate}
                     </span>
                   </div>
@@ -205,11 +205,11 @@ function HistoryItem({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <span className="text-xs font-medium">Замена #{index}</span>
-            <Badge variant="outline" className="h-4 px-1 text-[9px] font-mono">
+            <Badge variant="outline" className="h-4 px-1 text-[0.5625rem] font-mono">
               {formatTime(section.start)} — {formatTime(section.end)}
             </Badge>
           </div>
-          <p className="text-[10px] text-muted-foreground">
+          <p className="text-[0.625rem] text-muted-foreground">
             {duration.toFixed(1)}с • {time}
           </p>
         </div>

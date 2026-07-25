@@ -67,11 +67,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
             "group-[.toaster]:min-h-[52px] group-[.toaster]:w-full group-[.toaster]:max-w-full",
             "group-[.toaster]:px-3.5 group-[.toaster]:py-3 sm:group-[.toaster]:px-4",
             "group-[.toaster]:gap-2.5",
-            "group-[.toaster]:text-[13.5px] group-[.toaster]:font-medium group-[.toaster]:leading-tight",
+            "group-[.toaster]:text-[0.84375rem] group-[.toaster]:font-medium group-[.toaster]:leading-tight",
           ),
           title: "group-[.toast]:font-semibold group-[.toast]:tracking-tight",
           description:
-            "group-[.toast]:text-muted-foreground group-[.toast]:text-[12.5px] group-[.toast]:leading-snug group-[.toast]:mt-0.5",
+            "group-[.toast]:text-muted-foreground group-[.toast]:text-[0.78125rem] group-[.toast]:leading-snug group-[.toast]:mt-0.5",
           actionButton:
             "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground group-[.toast]:rounded-lg group-[.toast]:h-8 group-[.toast]:px-3 group-[.toast]:text-xs group-[.toast]:font-semibold",
           cancelButton:

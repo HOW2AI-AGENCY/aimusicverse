@@ -256,7 +256,7 @@ export function RevenueAnalytics() {
                             />
                             <div className="min-w-0">
                               <p className="font-medium text-xs sm:text-sm truncate">{product.product_code}</p>
-                              <p className="text-[10px] sm:text-xs text-muted-foreground">{product.sales} продаж</p>
+                              <p className="text-[0.625rem] sm:text-xs text-muted-foreground">{product.sales} продаж</p>
                             </div>
                           </div>
                           <div className="text-right shrink-0">
@@ -315,9 +315,9 @@ export function RevenueAnalytics() {
                                 className="w-2 h-2 sm:w-3 sm:h-3 rounded-full shrink-0"
                                 style={{ backgroundColor: COLORS[idx % COLORS.length] }}
                               />
-                              <span className="text-[10px] sm:text-xs truncate">{sub.product_code}</span>
+                              <span className="text-[0.625rem] sm:text-xs truncate">{sub.product_code}</span>
                             </div>
-                            <Badge variant="secondary" className="text-[10px] sm:text-xs h-4 sm:h-5 px-1">
+                            <Badge variant="secondary" className="text-[0.625rem] sm:text-xs h-4 sm:h-5 px-1">
                               {sub.active_count}
                             </Badge>
                           </div>
@@ -349,48 +349,48 @@ export function RevenueAnalytics() {
                     <p className="text-lg sm:text-2xl font-bold text-primary">
                       {formatNumber(gamificationData.total_credits_earned)}
                     </p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">Заработано</p>
+                    <p className="text-[0.625rem] sm:text-xs text-muted-foreground">Заработано</p>
                   </div>
                   <div className="p-2 sm:p-3 rounded-lg bg-muted/30 text-center">
                     <p className="text-lg sm:text-2xl font-bold text-destructive">
                       {formatNumber(gamificationData.total_credits_spent)}
                     </p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">Потрачено</p>
+                    <p className="text-[0.625rem] sm:text-xs text-muted-foreground">Потрачено</p>
                   </div>
                   <div className="p-2 sm:p-3 rounded-lg bg-muted/30 text-center">
                     <p className="text-lg sm:text-2xl font-bold">{gamificationData.avg_level.toFixed(1)}</p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">Ср. уровень</p>
+                    <p className="text-[0.625rem] sm:text-xs text-muted-foreground">Ср. уровень</p>
                   </div>
                   <div className="p-2 sm:p-3 rounded-lg bg-muted/30 text-center">
                     <p className="text-lg sm:text-2xl font-bold text-yellow-500">{gamificationData.max_level}</p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">Макс. уровень</p>
+                    <p className="text-[0.625rem] sm:text-xs text-muted-foreground">Макс. уровень</p>
                   </div>
                 </div>
 
                 {/* Checkin Stats - simplified for mobile */}
                 {gamificationData.checkin_stats && (
                   <div className="mt-3 sm:mt-4 p-2 sm:p-3 rounded-lg bg-muted/20">
-                    <p className="text-[10px] sm:text-xs font-medium mb-1.5 sm:mb-2">Чекины</p>
+                    <p className="text-[0.625rem] sm:text-xs font-medium mb-1.5 sm:mb-2">Чекины</p>
                     <div className="grid grid-cols-4 gap-1.5 sm:gap-2 text-center">
                       <div>
                         <p className="text-sm sm:text-lg font-bold">{gamificationData.checkin_stats.total_checkins}</p>
-                        <p className="text-[9px] sm:text-[10px] text-muted-foreground">Всего</p>
+                        <p className="text-[0.5625rem] sm:text-[0.625rem] text-muted-foreground">Всего</p>
                       </div>
                       <div>
                         <p className="text-sm sm:text-lg font-bold">{gamificationData.checkin_stats.unique_users}</p>
-                        <p className="text-[9px] sm:text-[10px] text-muted-foreground">Уник.</p>
+                        <p className="text-[0.5625rem] sm:text-[0.625rem] text-muted-foreground">Уник.</p>
                       </div>
                       <div>
                         <p className="text-sm sm:text-lg font-bold">
                           {gamificationData.checkin_stats.avg_streak.toFixed(1)}
                         </p>
-                        <p className="text-[9px] sm:text-[10px] text-muted-foreground">Ср.</p>
+                        <p className="text-[0.5625rem] sm:text-[0.625rem] text-muted-foreground">Ср.</p>
                       </div>
                       <div>
                         <p className="text-sm sm:text-lg font-bold text-yellow-500">
                           {gamificationData.checkin_stats.max_streak}
                         </p>
-                        <p className="text-[9px] sm:text-[10px] text-muted-foreground">Макс.</p>
+                        <p className="text-[0.5625rem] sm:text-[0.625rem] text-muted-foreground">Макс.</p>
                       </div>
                     </div>
                   </div>
@@ -432,15 +432,15 @@ function MetricCard({
         <div className="flex items-start justify-between gap-1">
           <div className={`p-1 sm:p-1.5 rounded-md ${colorClasses[color]}`}>{icon}</div>
           {trend && (
-            <Badge variant="outline" className="text-[9px] sm:text-[10px] px-1 h-4 sm:h-5">
+            <Badge variant="outline" className="text-[0.5625rem] sm:text-[0.625rem] px-1 h-4 sm:h-5">
               {trend}
             </Badge>
           )}
         </div>
         <div className="mt-1.5 sm:mt-2">
           <p className="text-base sm:text-xl font-bold truncate">{value}</p>
-          <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{title}</p>
-          {subtitle && <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5 truncate">{subtitle}</p>}
+          <p className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">{title}</p>
+          {subtitle && <p className="text-[0.5625rem] sm:text-[0.625rem] text-muted-foreground mt-0.5 truncate">{subtitle}</p>}
         </div>
       </CardContent>
     </Card>

@@ -233,7 +233,7 @@ export function PromptDJMidi() {
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex-1 min-w-0">
                         <p className="text-xs text-muted-foreground truncate">{track.prompt}</p>
-                        <p className="text-[10px] text-muted-foreground/70">{track.createdAt.toLocaleTimeString()}</p>
+                        <p className="text-[0.625rem] text-muted-foreground/70">{track.createdAt.toLocaleTimeString()}</p>
                       </div>
                       <Button
                         variant="ghost"

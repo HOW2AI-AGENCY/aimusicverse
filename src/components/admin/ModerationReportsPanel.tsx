@@ -135,16 +135,16 @@ export function ModerationReportsPanel() {
                         <div className="flex items-center gap-1.5 flex-wrap">
                           <Badge
                             variant="outline"
-                            className={`${statusConfig.color} text-white border-0 text-[10px] px-1.5 py-0`}
+                            className={`${statusConfig.color} text-white border-0 text-[0.625rem] px-1.5 py-0`}
                           >
                             <StatusIcon className="h-3 w-3 mr-0.5" />
                             <span className="hidden sm:inline">{statusConfig.label}</span>
                           </Badge>
-                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                          <Badge variant="secondary" className="text-[0.625rem] px-1.5 py-0">
                             {REASON_LABELS[report.reason] || report.reason}
                           </Badge>
                         </div>
-                        <span className="text-[10px] text-muted-foreground">
+                        <span className="text-[0.625rem] text-muted-foreground">
                           {formatDistanceToNow(new Date(report.created_at), {
                             addSuffix: true,
                             locale: ru,
@@ -178,7 +178,7 @@ export function ModerationReportsPanel() {
 
                       {/* Quick Actions - Mobile Friendly */}
                       <div className="flex items-center justify-between pt-1 border-t border-border/50">
-                        <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                        <div className="flex items-center gap-1 text-[0.625rem] text-muted-foreground">
                           <span>@{report.reporter?.username || report.reporter?.first_name || "—"}</span>
                           <span>→</span>
                           <span>@{report.reported_user?.username || report.reported_user?.first_name || "—"}</span>

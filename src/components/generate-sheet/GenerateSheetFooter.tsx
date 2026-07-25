@@ -54,7 +54,7 @@ export function GenerateSheetFooter(props: Props) {
       {props.shouldShowUIButton && (showSaved || props.hasWarnings) && (
         <div className="mb-1.5 flex items-center justify-between px-1 min-h-[16px]">
           {showSaved ? (
-            <span className="text-[11px] text-neon/80 flex items-center gap-1">
+            <span className="text-[0.6875rem] text-neon/80 flex items-center gap-1">
               <Check className="w-3 h-3" aria-hidden /> Черновик сохранён
             </span>
           ) : (
@@ -64,7 +64,7 @@ export function GenerateSheetFooter(props: Props) {
             <button
               type="button"
               onClick={props.onShowReasons}
-              className="text-[11px] font-semibold text-amber-400 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 rounded"
+              className="text-[0.6875rem] font-semibold text-amber-400 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 rounded"
             >
               {props.warningCount} {props.warningCount === 1 ? "замечание" : "замечаний"}
             </button>
@@ -95,7 +95,7 @@ export function GenerateSheetFooter(props: Props) {
                   : "Открыть причины, почему нельзя сгенерировать"
             }
             className={cn(
-              "h-12 text-[15px] font-bold gap-2 rounded-2xl flex-1 flex items-center justify-center leading-none transition-all active:scale-[0.98]",
+              "h-12 text-[0.9375rem] font-bold gap-2 rounded-2xl flex-1 flex items-center justify-center leading-none transition-all active:scale-[0.98]",
               "bg-neon text-sheet hover:bg-neon/90",
               "shadow-[0_8px_24px_hsl(var(--neon)/0.28)]",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon/60",
@@ -111,7 +111,7 @@ export function GenerateSheetFooter(props: Props) {
               <span className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4" aria-hidden />
                 Сгенерировать
-                <span className="inline-flex items-center gap-1 rounded-md bg-sheet/15 px-2 py-0.5 text-[11px] font-extrabold tabular-nums">
+                <span className="inline-flex items-center gap-1 rounded-md bg-sheet/15 px-2 py-0.5 text-[0.6875rem] font-extrabold tabular-nums">
                   <Coins className="w-3 h-3" aria-hidden />
                   {props.generationCost}
                 </span>

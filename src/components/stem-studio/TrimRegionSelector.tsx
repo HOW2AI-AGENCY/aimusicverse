@@ -192,10 +192,10 @@ export const TrimRegionSelector = ({
       </div>
 
       {/* Time markers */}
-      <div className="absolute bottom-1 left-2 text-[10px] text-muted-foreground font-mono">
+      <div className="absolute bottom-1 left-2 text-[0.625rem] text-muted-foreground font-mono">
         {formatTime(region?.start || 0)}
       </div>
-      <div className="absolute bottom-1 right-2 text-[10px] text-muted-foreground font-mono">
+      <div className="absolute bottom-1 right-2 text-[0.625rem] text-muted-foreground font-mono">
         {formatTime(region?.end || duration)}
       </div>
     </div>

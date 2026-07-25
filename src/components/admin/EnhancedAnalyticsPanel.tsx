@@ -71,27 +71,27 @@ export function EnhancedAnalyticsPanel() {
       {/* Scrollable tabs for mobile */}
       <div className="overflow-x-auto -mx-1 px-1 pb-1">
         <TabsList className="inline-flex w-auto min-w-full sm:grid sm:w-full sm:grid-cols-6 h-8 sm:h-9">
-          <TabsTrigger value="overview" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+          <TabsTrigger value="overview" className="gap-1 sm:gap-1.5 text-[0.625rem] sm:text-xs px-2 sm:px-3 shrink-0">
             <BarChart3 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span className="hidden xs:inline sm:inline">Обзор</span>
           </TabsTrigger>
-          <TabsTrigger value="generation" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+          <TabsTrigger value="generation" className="gap-1 sm:gap-1.5 text-[0.625rem] sm:text-xs px-2 sm:px-3 shrink-0">
             <Music className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span className="hidden xs:inline sm:inline">Генерация</span>
           </TabsTrigger>
-          <TabsTrigger value="revenue" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+          <TabsTrigger value="revenue" className="gap-1 sm:gap-1.5 text-[0.625rem] sm:text-xs px-2 sm:px-3 shrink-0">
             <DollarSign className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span>Доходы</span>
           </TabsTrigger>
-          <TabsTrigger value="funnel" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+          <TabsTrigger value="funnel" className="gap-1 sm:gap-1.5 text-[0.625rem] sm:text-xs px-2 sm:px-3 shrink-0">
             <TrendingUp className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span>Воронка</span>
           </TabsTrigger>
-          <TabsTrigger value="retention" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+          <TabsTrigger value="retention" className="gap-1 sm:gap-1.5 text-[0.625rem] sm:text-xs px-2 sm:px-3 shrink-0">
             <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span className="hidden xs:inline sm:inline">Retention</span>
           </TabsTrigger>
-          <TabsTrigger value="performance" className="gap-1 sm:gap-1.5 text-[10px] sm:text-xs px-2 sm:px-3 shrink-0">
+          <TabsTrigger value="performance" className="gap-1 sm:gap-1.5 text-[0.625rem] sm:text-xs px-2 sm:px-3 shrink-0">
             <Gauge className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span className="hidden xs:inline sm:inline">Perf</span>
           </TabsTrigger>
@@ -218,7 +218,7 @@ export function EnhancedAnalyticsPanel() {
                       <div className="flex items-center justify-between text-xs">
                         <span className="font-medium truncate max-w-[120px]">{stat.model}</span>
                         <div className="flex items-center gap-1">
-                          <Badge variant="outline" className="text-[10px] h-5 px-1">
+                          <Badge variant="outline" className="text-[0.625rem] h-5 px-1">
                             {stat.count}
                           </Badge>
                           <Badge
@@ -229,7 +229,7 @@ export function EnhancedAnalyticsPanel() {
                                   ? "secondary"
                                   : "destructive"
                             }
-                            className="text-[10px] h-5 px-1"
+                            className="text-[0.625rem] h-5 px-1"
                           >
                             {stat.success_rate.toFixed(0)}%
                           </Badge>
@@ -262,10 +262,10 @@ export function EnhancedAnalyticsPanel() {
                       <div className="flex items-center justify-between text-xs">
                         <span className="font-medium">{MODE_LABELS[stat.mode] || stat.mode}</span>
                         <div className="flex items-center gap-1">
-                          <Badge variant="outline" className="text-[10px] h-5 px-1">
+                          <Badge variant="outline" className="text-[0.625rem] h-5 px-1">
                             {stat.count}
                           </Badge>
-                          <span className="text-[10px] text-muted-foreground">{stat.percentage.toFixed(0)}%</span>
+                          <span className="text-[0.625rem] text-muted-foreground">{stat.percentage.toFixed(0)}%</span>
                         </div>
                       </div>
                       <Progress value={stat.percentage} className="h-1" />
@@ -295,10 +295,10 @@ export function EnhancedAnalyticsPanel() {
                       <div className="flex items-center justify-between text-xs">
                         <span className="font-medium truncate max-w-[100px]">{stat.error_type}</span>
                         <div className="flex items-center gap-1">
-                          <Badge variant="destructive" className="text-[10px] h-5 px-1">
+                          <Badge variant="destructive" className="text-[0.625rem] h-5 px-1">
                             {stat.count}
                           </Badge>
-                          <span className="text-[10px] text-muted-foreground">{stat.percentage.toFixed(0)}%</span>
+                          <span className="text-[0.625rem] text-muted-foreground">{stat.percentage.toFixed(0)}%</span>
                         </div>
                       </div>
                       <Progress value={stat.percentage} className="h-1 [&>div]:bg-destructive" />
@@ -328,10 +328,10 @@ export function EnhancedAnalyticsPanel() {
                       <div className="flex items-center justify-between text-xs">
                         <span className="font-medium">{SOURCE_LABELS[stat.source] || stat.source}</span>
                         <div className="flex items-center gap-1">
-                          <Badge variant="outline" className="text-[10px] h-5 px-1">
+                          <Badge variant="outline" className="text-[0.625rem] h-5 px-1">
                             {stat.count}
                           </Badge>
-                          <span className="text-[10px] text-muted-foreground">{stat.percentage.toFixed(0)}%</span>
+                          <span className="text-[0.625rem] text-muted-foreground">{stat.percentage.toFixed(0)}%</span>
                         </div>
                       </div>
                       <Progress value={stat.percentage} className="h-1" />
@@ -403,7 +403,7 @@ function StatBox({
     <div className={`p-2 rounded-lg ${colorClasses[color] || "bg-muted/50"} text-center`}>
       <div className="flex items-center justify-center mb-0.5">{icon}</div>
       <div className="text-sm md:text-lg font-bold">{value}</div>
-      <div className="text-[10px] md:text-xs text-muted-foreground truncate">{label}</div>
+      <div className="text-[0.625rem] md:text-xs text-muted-foreground truncate">{label}</div>
     </div>
   );
 }

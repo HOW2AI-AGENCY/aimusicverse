@@ -122,7 +122,7 @@ export const TrackHistoryItem = memo(function TrackHistoryItem({
       </div>
 
       {/* Prompt preview */}
-      <p className="hidden sm:block flex-1 text-[10px] text-muted-foreground truncate max-w-[100px]">
+      <p className="hidden sm:block flex-1 text-[0.625rem] text-muted-foreground truncate max-w-[100px]">
         {track.prompt.slice(0, 30)}...
       </p>
 
@@ -134,7 +134,7 @@ export const TrackHistoryItem = memo(function TrackHistoryItem({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-44">
-          <DropdownMenuLabel className="text-[10px]">Действия</DropdownMenuLabel>
+          <DropdownMenuLabel className="text-[0.625rem]">Действия</DropdownMenuLabel>
           <DropdownMenuSeparator />
 
           <DropdownMenuItem onClick={onSave} disabled={isSaving} className="text-xs">

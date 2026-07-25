@@ -398,14 +398,14 @@ export function ProjectMediaGenerator({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-sm">{type.label}</span>
-                          <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                          <Badge variant="secondary" className="text-[0.625rem] px-1.5 py-0">
                             {type.aspect}
                           </Badge>
                         </div>
                         <p className="text-xs text-muted-foreground mt-0.5">{type.description}</p>
-                        <p className="text-[10px] text-muted-foreground/70 mt-1">{type.usage}</p>
+                        <p className="text-[0.625rem] text-muted-foreground/70 mt-1">{type.usage}</p>
                       </div>
-                      <span className="text-[10px] text-muted-foreground shrink-0">{type.dimensions}</span>
+                      <span className="text-[0.625rem] text-muted-foreground shrink-0">{type.dimensions}</span>
                     </button>
                   ))}
                 </div>

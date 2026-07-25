@@ -112,7 +112,7 @@ export function StructureToolPanel({ context, onExecute, onClose, isLoading }: T
                     disabled={isLoading}
                   >
                     <p className="text-xs font-medium">{template.label}</p>
-                    <p className="text-[10px] text-muted-foreground line-clamp-1">{template.desc}</p>
+                    <p className="text-[0.625rem] text-muted-foreground line-clamp-1">{template.desc}</p>
                   </button>
                 ))}
               </div>
@@ -122,7 +122,7 @@ export function StructureToolPanel({ context, onExecute, onClose, isLoading }: T
             <div className="space-y-1">
               <Label className="text-xs text-muted-foreground">Структура</Label>
               <div className="p-2 rounded-md bg-muted/30 border border-border/50 max-h-[80px] overflow-y-auto">
-                <p className="text-[10px] font-mono whitespace-pre-wrap text-muted-foreground">
+                <p className="text-[0.625rem] font-mono whitespace-pre-wrap text-muted-foreground">
                   {STRUCTURE_TEMPLATES.find((s) => s.id === selectedStructure)?.structure}
                 </p>
               </div>

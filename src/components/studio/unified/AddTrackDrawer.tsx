@@ -124,7 +124,7 @@ export function AddTrackDrawer({ open, onOpenChange, trackId, trackUrl, trackTit
                     <span className="text-2xl">{config.emoji}</span>
                     <span className="text-xs font-medium">{config.label}</span>
                     {isSuggested && (
-                      <Badge variant="secondary" className="text-[9px] px-1 py-0">
+                      <Badge variant="secondary" className="text-[0.5625rem] px-1 py-0">
                         <Sparkles className="w-2 h-2 mr-0.5" />
                         Рек.
                       </Badge>

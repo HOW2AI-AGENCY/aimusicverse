@@ -190,12 +190,12 @@ export function ProjectDetailsCard({ project, onEdit, compact = false, className
             {visualKeywords && visualKeywords.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {visualKeywords.slice(0, 6).map((keyword, i) => (
-                  <span key={i} className="text-[10px] px-1.5 py-0.5 bg-muted/50 rounded text-muted-foreground">
+                  <span key={i} className="text-[0.625rem] px-1.5 py-0.5 bg-muted/50 rounded text-muted-foreground">
                     {keyword}
                   </span>
                 ))}
                 {visualKeywords.length > 6 && (
-                  <span className="text-[10px] text-muted-foreground/60">+{visualKeywords.length - 6}</span>
+                  <span className="text-[0.625rem] text-muted-foreground/60">+{visualKeywords.length - 6}</span>
                 )}
               </div>
             )}

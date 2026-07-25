@@ -55,7 +55,7 @@ export function ProjectProgressRing({
           </linearGradient>
         </defs>
       </svg>
-      {showLabel && <span className="absolute text-[8px] font-medium text-foreground">{Math.round(progress)}%</span>}
+      {showLabel && <span className="absolute text-[0.5rem] font-medium text-foreground">{Math.round(progress)}%</span>}
     </div>
   );
 }

@@ -502,7 +502,7 @@ export function PianoRoll({
                     isC && "border-b-primary/30",
                   )}
                 >
-                  {isC && <span className="text-[9px] text-muted-foreground">{noteName}</span>}
+                  {isC && <span className="text-[0.5625rem] text-muted-foreground">{noteName}</span>}
                 </div>
               );
             })}
@@ -580,7 +580,7 @@ export function PianoRoll({
                     }}
                     onClick={(e) => handleNoteClick(e, note)}
                   >
-                    <span className="text-[8px] text-primary-foreground px-1 truncate block">
+                    <span className="text-[0.5rem] text-primary-foreground px-1 truncate block">
                       {getNoteNameWithOctave(note.pitch)}
                     </span>
                   </motion.div>

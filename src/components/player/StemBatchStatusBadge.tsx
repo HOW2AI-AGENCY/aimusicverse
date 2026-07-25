@@ -56,7 +56,7 @@ export const StemBatchStatusBadge = memo(function StemBatchStatusBadge({
       aria-live="polite"
       data-testid="stem-batch-status-badge"
       className={cn(
-        "flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] backdrop-blur",
+        "flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-[0.6875rem] backdrop-blur",
         variant === "fullscreen" && "text-xs",
         className,
       )}

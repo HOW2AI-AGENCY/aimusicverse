@@ -28,7 +28,7 @@ export const NotesList = memo(function NotesList({
       <div className="p-2 space-y-1">
         {/* Summary header */}
         <div className="flex items-center gap-2 px-2 py-1.5 bg-muted/30 rounded-lg mb-2">
-          <div className="flex-1 grid grid-cols-3 gap-2 text-center text-[10px]">
+          <div className="flex-1 grid grid-cols-3 gap-2 text-center text-[0.625rem]">
             <div>
               <p className="text-muted-foreground">Всего нот</p>
               <p className="font-semibold text-foreground">{processedNotes.length}</p>
@@ -68,7 +68,7 @@ export const NotesList = memo(function NotesList({
                 {/* Note badge */}
                 <div
                   className={cn(
-                    "w-10 h-8 rounded-md flex items-center justify-center font-mono text-[11px] font-bold transition-colors",
+                    "w-10 h-8 rounded-md flex items-center justify-center font-mono text-[0.6875rem] font-bold transition-colors",
                     isLoud && "bg-orange-500/20 text-orange-600",
                     isSoft && "bg-blue-500/20 text-blue-600",
                     !isLoud && !isSoft && "bg-primary/15 text-primary",
@@ -81,7 +81,7 @@ export const NotesList = memo(function NotesList({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
                     <span className="font-medium text-xs">{note.noteNameRu}</span>
-                    <span className="text-[9px] text-muted-foreground">октава {Math.floor(note.pitch / 12) - 1}</span>
+                    <span className="text-[0.5625rem] text-muted-foreground">октава {Math.floor(note.pitch / 12) - 1}</span>
                   </div>
 
                   {/* Velocity bar */}
@@ -100,8 +100,8 @@ export const NotesList = memo(function NotesList({
 
                 {/* Time & duration */}
                 <div className="text-right shrink-0">
-                  <p className="text-[10px] font-mono text-foreground">{formatTime(note.startTime)}</p>
-                  <p className="text-[9px] text-muted-foreground">{(note.duration * 1000).toFixed(0)}ms</p>
+                  <p className="text-[0.625rem] font-mono text-foreground">{formatTime(note.startTime)}</p>
+                  <p className="text-[0.5625rem] text-muted-foreground">{(note.duration * 1000).toFixed(0)}ms</p>
                 </div>
               </motion.div>
             );
@@ -109,7 +109,7 @@ export const NotesList = memo(function NotesList({
 
           {processedNotes.length > 150 && (
             <div className="text-center py-2">
-              <Badge variant="secondary" className="text-[10px]">
+              <Badge variant="secondary" className="text-[0.625rem]">
                 +{processedNotes.length - 150} ещё нот
               </Badge>
             </div>

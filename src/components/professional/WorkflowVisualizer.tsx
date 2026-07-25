@@ -193,13 +193,13 @@ export function WorkflowVisualizer({
                       <div className="text-center space-y-0.5">
                         <div className={cn("text-sm font-medium", colors.text)}>{step.title}</div>
                         {!compact && (
-                          <div className="text-[10px] text-muted-foreground leading-tight">{step.subtitle}</div>
+                          <div className="text-[0.625rem] text-muted-foreground leading-tight">{step.subtitle}</div>
                         )}
                       </div>
 
                       {/* Time Info */}
                       {step.status === "active" && step.estimatedTime && (
-                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5 flex items-center gap-1">
+                        <Badge variant="secondary" className="text-[0.625rem] px-1.5 py-0 h-5 flex items-center gap-1">
                           <Clock className="w-3 h-3" />
                           {step.estimatedTime}
                         </Badge>
@@ -207,7 +207,7 @@ export function WorkflowVisualizer({
 
                       {/* Completed Time */}
                       {step.status === "completed" && step.completedAt && !compact && (
-                        <div className="text-[10px] text-muted-foreground flex items-center gap-1">
+                        <div className="text-[0.625rem] text-muted-foreground flex items-center gap-1">
                           <Check className="w-3 h-3" />
                           {step.completedAt}
                         </div>
@@ -216,7 +216,7 @@ export function WorkflowVisualizer({
                       {/* Active Indicator */}
                       {isActive && (
                         <motion.div
-                          className="flex items-center gap-1 text-[10px] text-primary"
+                          className="flex items-center gap-1 text-[0.625rem] text-primary"
                           animate={{ opacity: [0.5, 1, 0.5] }}
                           transition={{ duration: 1.5, repeat: Infinity }}
                         >

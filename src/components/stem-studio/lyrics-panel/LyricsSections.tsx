@@ -149,7 +149,7 @@ export const LyricsSections = React.forwardRef<HTMLDivElement, LyricsSectionsPro
                 isHighlighted && "ring-2 ring-warning",
               )}
             >
-              <Badge variant="outline" className="text-[10px] shrink-0">
+              <Badge variant="outline" className="text-[0.625rem] shrink-0">
                 {section.type.toUpperCase()}
               </Badge>
               <span className="flex-1 text-sm truncate">{section.text}</span>

@@ -250,7 +250,7 @@ export const SmartSuggestions = memo(function SmartSuggestions({
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-6 px-2 text-[10px] shrink-0"
+                className="h-6 px-2 text-[0.625rem] shrink-0"
                 onClick={() => onApplySuggestion(suggestion)}
               >
                 {suggestion.action.label}

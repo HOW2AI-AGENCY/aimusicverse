@@ -53,7 +53,7 @@ function MetricCard({ label, value, unit, threshold, isLowerBetter = true, goodP
       </div>
       {goodPercent !== undefined && (
         <div className="mt-1">
-          <div className="text-[10px] sm:text-xs text-muted-foreground mb-0.5">{goodPercent.toFixed(0)}% в норме</div>
+          <div className="text-[0.625rem] sm:text-xs text-muted-foreground mb-0.5">{goodPercent.toFixed(0)}% в норме</div>
           <Progress value={goodPercent} className="h-1" />
         </div>
       )}
@@ -102,7 +102,7 @@ function ScoreGauge({ score }: { score: number | null }) {
         {/* Score text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span className={cn("text-2xl sm:text-3xl font-bold", color)}>{score}</span>
-          <span className="text-[10px] sm:text-xs text-muted-foreground">из 100</span>
+          <span className="text-[0.625rem] sm:text-xs text-muted-foreground">из 100</span>
         </div>
       </div>
       <Badge variant="secondary" className={cn("mt-2 text-xs", bgColor, "text-white")}>

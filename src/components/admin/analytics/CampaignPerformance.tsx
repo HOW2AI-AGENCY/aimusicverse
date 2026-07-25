@@ -95,7 +95,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
           <CardContent className="p-2 sm:p-3">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <Target className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
-              <span className="text-[10px] sm:text-sm text-muted-foreground truncate">Кампаний</span>
+              <span className="text-[0.625rem] sm:text-sm text-muted-foreground truncate">Кампаний</span>
             </div>
             <div className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{summary.totalCampaigns}</div>
           </CardContent>
@@ -104,7 +104,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
           <CardContent className="p-2 sm:p-3">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <MousePointerClick className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
-              <span className="text-[10px] sm:text-sm text-muted-foreground truncate">Визитов</span>
+              <span className="text-[0.625rem] sm:text-sm text-muted-foreground truncate">Визитов</span>
             </div>
             <div className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{summary.totalVisits}</div>
           </CardContent>
@@ -113,7 +113,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
           <CardContent className="p-2 sm:p-3">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <Users className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
-              <span className="text-[10px] sm:text-sm text-muted-foreground truncate">Конверсий</span>
+              <span className="text-[0.625rem] sm:text-sm text-muted-foreground truncate">Конверсий</span>
             </div>
             <div className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{summary.totalConversions}</div>
           </CardContent>
@@ -122,7 +122,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
           <CardContent className="p-2 sm:p-3">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" />
-              <span className="text-[10px] sm:text-sm text-muted-foreground truncate">Ср. конв.</span>
+              <span className="text-[0.625rem] sm:text-sm text-muted-foreground truncate">Ср. конв.</span>
             </div>
             <div className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1">{summary.avgConversionRate}%</div>
           </CardContent>
@@ -193,7 +193,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
                           <span className="text-xs sm:text-sm font-medium truncate max-w-[80px] sm:max-w-[120px]">
                             {campaign.name}
                           </span>
-                          <Badge variant="outline" className="text-[8px] sm:text-[10px] shrink-0">
+                          <Badge variant="outline" className="text-[0.5rem] sm:text-[0.625rem] shrink-0">
                             {campaign.source}
                           </Badge>
                         </div>
@@ -202,7 +202,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
                           {campaign.trend !== 0 && (
                             <span
                               className={cn(
-                                "flex items-center text-[10px] sm:text-xs",
+                                "flex items-center text-[0.625rem] sm:text-xs",
                                 campaign.trend > 0 ? "text-green-500" : "text-red-500",
                               )}
                             >
@@ -217,7 +217,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
                         </div>
                       </div>
                       <Progress value={campaign.conversionRate} className="h-1 sm:h-1.5" />
-                      <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground">
+                      <div className="flex justify-between text-[0.625rem] sm:text-xs text-muted-foreground">
                         <span>{campaign.visits} визитов</span>
                         <span>{campaign.conversions} конв.</span>
                       </div>

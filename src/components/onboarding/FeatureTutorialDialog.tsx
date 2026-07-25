@@ -137,7 +137,7 @@ function TutorialCarousel({ slides, onComplete }: { slides: TutorialSlide[]; onC
               </motion.div>
 
               <div>
-                <Badge variant="outline" className="mb-1 text-[10px]">
+                <Badge variant="outline" className="mb-1 text-[0.625rem]">
                   {currentIndex + 1} из {slides.length}
                 </Badge>
                 <h3 className="text-lg font-bold leading-tight">{currentSlide.title}</h3>

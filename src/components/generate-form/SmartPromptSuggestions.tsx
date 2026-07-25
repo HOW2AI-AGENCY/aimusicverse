@@ -247,7 +247,7 @@ export function SmartPromptSuggestions({
                             <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{template.prompt}</p>
                             <div className="flex flex-wrap gap-1">
                               {template.tags.slice(0, 3).map((tag) => (
-                                <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-1.5">
+                                <Badge key={tag} variant="secondary" className="text-[0.625rem] h-5 px-1.5">
                                   {tag}
                                 </Badge>
                               ))}

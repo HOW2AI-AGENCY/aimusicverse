@@ -54,14 +54,14 @@ export function VirtualizedArtistsList({ artists, onSelect }: VirtualizedArtists
         {/* Info */}
         <h3 className="font-medium text-sm truncate">{artist.name}</h3>
         {artist.genre_tags && artist.genre_tags.length > 0 && (
-          <p className="text-[10px] text-muted-foreground truncate mt-0.5">
+          <p className="text-[0.625rem] text-muted-foreground truncate mt-0.5">
             {artist.genre_tags.slice(0, 2).join(", ")}
           </p>
         )}
 
         {/* Public badge */}
         {artist.is_public && (
-          <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-primary/20 text-primary text-[9px] font-medium">
+          <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-primary/20 text-primary text-[0.5625rem] font-medium">
             Public
           </div>
         )}

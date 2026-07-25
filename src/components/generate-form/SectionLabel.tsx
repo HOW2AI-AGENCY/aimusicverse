@@ -43,7 +43,7 @@ export const SectionLabel = memo(function SectionLabel({
         {label}
         {required && <span className="text-destructive ml-0.5">*</span>}
       </Label>
-      {suffix && <span className="text-[10px] text-muted-foreground">{suffix}</span>}
+      {suffix && <span className="text-[0.625rem] text-muted-foreground">{suffix}</span>}
       {hint && (
         <Popover>
           <PopoverTrigger asChild>

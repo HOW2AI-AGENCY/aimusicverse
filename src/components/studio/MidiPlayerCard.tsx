@@ -131,7 +131,7 @@ export function MidiPlayerCard({
       <Card className={cn("p-4 sm:p-6 flex flex-col items-center justify-center gap-3", className)}>
         <Music className="w-6 h-6 sm:w-8 sm:h-8 text-destructive" />
         <p className="text-xs sm:text-sm text-destructive">Ошибка загрузки MIDI</p>
-        <p className="text-[10px] sm:text-xs text-muted-foreground">{parseError}</p>
+        <p className="text-[0.625rem] sm:text-xs text-muted-foreground">{parseError}</p>
       </Card>
     );
   }
@@ -157,11 +157,11 @@ export function MidiPlayerCard({
             {title && <span className="text-xs sm:text-sm font-medium truncate">{title}</span>}
           </div>
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-            <Badge variant="secondary" className="text-[10px] sm:text-xs">
+            <Badge variant="secondary" className="text-[0.625rem] sm:text-xs">
               {parsedMidi.notes.length} нот
             </Badge>
             {parsedMidi.bpm && (
-              <Badge variant="outline" className="text-[10px] sm:text-xs hidden sm:inline-flex">
+              <Badge variant="outline" className="text-[0.625rem] sm:text-xs hidden sm:inline-flex">
                 {Math.round(parsedMidi.bpm)} BPM
               </Badge>
             )}
@@ -182,11 +182,11 @@ export function MidiPlayerCard({
               onValueChange={(v) => v && setViewMode(v as "piano" | "notation")}
               className="justify-start"
             >
-              <ToggleGroupItem value="piano" size="sm" className="h-7 px-2 sm:px-3 text-[10px] sm:text-xs gap-1">
+              <ToggleGroupItem value="piano" size="sm" className="h-7 px-2 sm:px-3 text-[0.625rem] sm:text-xs gap-1">
                 <Piano className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 Piano Roll
               </ToggleGroupItem>
-              <ToggleGroupItem value="notation" size="sm" className="h-7 px-2 sm:px-3 text-[10px] sm:text-xs gap-1">
+              <ToggleGroupItem value="notation" size="sm" className="h-7 px-2 sm:px-3 text-[0.625rem] sm:text-xs gap-1">
                 <Music2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 Ноты
               </ToggleGroupItem>
@@ -254,7 +254,7 @@ export function MidiPlayerCard({
             )}
           </Button>
 
-          <div className="flex-1 flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground">
+          <div className="flex-1 flex items-center justify-between text-[0.625rem] sm:text-xs text-muted-foreground">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(parsedMidi.duration)}</span>
           </div>

@@ -67,7 +67,7 @@ export function AudioActionUploadSection({
         </Button>
       </div>
 
-      <p className="text-[10px] text-muted-foreground text-center">
+      <p className="text-[0.625rem] text-muted-foreground text-center">
         WAV, MP3, WebM • до 20 МБ • Гитара: детектирование аккордов
       </p>
     </div>

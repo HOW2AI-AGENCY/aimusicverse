@@ -69,7 +69,7 @@ function FunnelBar({ step, maxUsers, isFirst, isLast, isBiggestDropoff }: Funnel
           {isBiggestDropoff && !isFirst && (
             <Badge
               variant="destructive"
-              className="text-[10px] sm:text-xs px-1 py-0 h-4 sm:h-5 shrink-0 hidden sm:flex"
+              className="text-[0.625rem] sm:text-xs px-1 py-0 h-4 sm:h-5 shrink-0 hidden sm:flex"
             >
               <AlertTriangle className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
               Макс. отток
@@ -82,7 +82,7 @@ function FunnelBar({ step, maxUsers, isFirst, isLast, isBiggestDropoff }: Funnel
             <Badge
               variant={step.conversion_rate >= 50 ? "default" : "secondary"}
               className={cn(
-                "text-[10px] sm:text-xs px-1 py-0 h-4 sm:h-5",
+                "text-[0.625rem] sm:text-xs px-1 py-0 h-4 sm:h-5",
                 step.conversion_rate >= 70 && "bg-green-500/20 text-green-700 dark:text-green-400",
                 step.conversion_rate < 30 && "bg-red-500/20 text-red-700 dark:text-red-400",
               )}
@@ -112,7 +112,7 @@ function FunnelBar({ step, maxUsers, isFirst, isLast, isBiggestDropoff }: Funnel
 
       {/* Dropoff indicator */}
       {!isLast && step.dropoff_rate > 0 && (
-        <div className="flex items-center justify-center my-1 sm:my-2 text-[10px] sm:text-xs text-muted-foreground">
+        <div className="flex items-center justify-center my-1 sm:my-2 text-[0.625rem] sm:text-xs text-muted-foreground">
           <ArrowDown className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
           <span className={cn(step.dropoff_rate > 50 && "text-red-500 font-medium")}>-{step.dropoff_rate}%</span>
         </div>
@@ -197,7 +197,7 @@ export function FunnelVisualization() {
                 metrics.totalVisitors.toLocaleString()
               )}
             </div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Посетителей</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Посетителей</div>
           </div>
 
           <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
@@ -208,7 +208,7 @@ export function FunnelVisualization() {
                 metrics.totalConverted.toLocaleString()
               )}
             </div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Платящих</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Платящих</div>
           </div>
 
           <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
@@ -220,7 +220,7 @@ export function FunnelVisualization() {
             >
               {isLoading ? <Skeleton className="h-6 sm:h-8 w-12 sm:w-16 mx-auto" /> : `${metrics.overallConversion}%`}
             </div>
-            <div className="text-[10px] sm:text-xs text-muted-foreground">Конверсия</div>
+            <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Конверсия</div>
           </div>
 
           <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
@@ -229,7 +229,7 @@ export function FunnelVisualization() {
             ) : metrics.biggestDropoff ? (
               <>
                 <div className="text-lg sm:text-2xl font-bold text-red-500">{metrics.biggestDropoff.rate}%</div>
-                <div className="text-[10px] sm:text-xs text-muted-foreground truncate max-w-[80px] sm:max-w-none mx-auto">
+                <div className="text-[0.625rem] sm:text-xs text-muted-foreground truncate max-w-[80px] sm:max-w-none mx-auto">
                   {metrics.biggestDropoff.step}
                 </div>
               </>
@@ -238,7 +238,7 @@ export function FunnelVisualization() {
                 <div className="text-lg sm:text-2xl font-bold text-green-500">
                   <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 mx-auto" />
                 </div>
-                <div className="text-[10px] sm:text-xs text-muted-foreground">Нет данных</div>
+                <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Нет данных</div>
               </>
             )}
           </div>

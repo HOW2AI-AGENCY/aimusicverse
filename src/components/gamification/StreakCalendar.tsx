@@ -54,7 +54,7 @@ export function StreakCalendar() {
                 transition={{ delay: index * 0.05 }}
                 className="flex flex-col items-center gap-1"
               >
-                <span className="text-[10px] text-muted-foreground">{dayNames[dayOfWeek]}</span>
+                <span className="text-[0.625rem] text-muted-foreground">{dayNames[dayOfWeek]}</span>
                 <div
                   className={cn(
                     "w-9 h-9 rounded-lg flex items-center justify-center text-xs font-medium transition-all",

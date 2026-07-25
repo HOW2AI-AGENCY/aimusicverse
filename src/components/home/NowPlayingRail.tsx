@@ -38,7 +38,7 @@ export const NowPlayingRail = memo(function NowPlayingRail({ className }: NowPla
       aria-label="Сейчас играет"
       className={cn(glass.card, "overflow-hidden rounded-2xl p-3 flex flex-col gap-3", className)}
     >
-      <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+      <div className="flex items-center gap-2 text-[0.6875rem] uppercase tracking-[0.14em] text-muted-foreground">
         <Music2 className="w-3.5 h-3.5" />
         Сейчас играет
       </div>
@@ -77,7 +77,7 @@ export const NowPlayingRail = memo(function NowPlayingRail({ className }: NowPla
             {styleTags.map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent-foreground/90 border border-accent/20"
+                className="text-[0.625rem] px-2 py-0.5 rounded-full bg-accent/15 text-accent-foreground/90 border border-accent/20"
               >
                 {tag}
               </span>

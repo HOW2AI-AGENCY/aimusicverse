@@ -189,14 +189,14 @@ export function StructuredLyricsPreview({
               {section.tags.slice(0, 3).map((tag, i) => {
                 const icon = getTagIcon(tag);
                 return (
-                  <Badge key={i} variant="outline" className="text-[10px] gap-1">
+                  <Badge key={i} variant="outline" className="text-[0.625rem] gap-1">
                     {icon && <span>{icon}</span>}
                     {tag}
                   </Badge>
                 );
               })}
               {section.tags.length > 3 && (
-                <Badge variant="outline" className="text-[10px]">
+                <Badge variant="outline" className="text-[0.625rem]">
                   +{section.tags.length - 3}
                 </Badge>
               )}

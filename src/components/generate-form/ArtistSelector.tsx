@@ -104,7 +104,7 @@ export function ArtistSelector({ open, onOpenChange, artists, selectedArtistId, 
                     {artist.genre_tags && artist.genre_tags.length > 0 && (
                       <div className="flex gap-1 flex-wrap mt-1">
                         {artist.genre_tags.slice(0, 2).map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-[10px] px-1.5 py-0">
+                          <Badge key={tag} variant="secondary" className="text-[0.625rem] px-1.5 py-0">
                             {tag}
                           </Badge>
                         ))}

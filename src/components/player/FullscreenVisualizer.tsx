@@ -30,7 +30,7 @@ export const FullscreenVisualizer = memo(function FullscreenVisualizer({
         >
           <div className="px-4 py-3 bg-gradient-to-t from-background/80 to-transparent">
             {visualizerData.isFallback && (
-              <div className="text-[10px] text-muted-foreground/50 text-center mb-1">Визуализация недоступна</div>
+              <div className="text-[0.625rem] text-muted-foreground/50 text-center mb-1">Визуализация недоступна</div>
             )}
             <div className="flex items-end justify-center gap-[2px] h-16">
               {visualizerData.frequencies.map((freq, index) => {

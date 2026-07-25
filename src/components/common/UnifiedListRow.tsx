@@ -123,7 +123,7 @@ export const UnifiedListRow = memo(function UnifiedListRow({
       {/* Position number */}
       {typeof position === "number" && (
         <span
-          className={cn("font-mono text-muted-foreground/60 shrink-0", isCompact ? "text-[10px] w-4" : "text-xs w-5")}
+          className={cn("font-mono text-muted-foreground/60 shrink-0", isCompact ? "text-[0.625rem] w-4" : "text-xs w-5")}
         >
           {position}
         </span>
@@ -164,7 +164,7 @@ export const UnifiedListRow = memo(function UnifiedListRow({
               {badges.slice(0, isMobile ? 1 : 2).map((badge) => {
                 const BadgeIcon = badge.icon;
                 return (
-                  <Badge key={badge.id} variant={badge.variant || "secondary"} className="text-[9px] px-1 py-0 h-4">
+                  <Badge key={badge.id} variant={badge.variant || "secondary"} className="text-[0.5625rem] px-1 py-0 h-4">
                     {BadgeIcon && <BadgeIcon className="w-2.5 h-2.5 mr-0.5" />}
                     {badge.label}
                   </Badge>
@@ -174,7 +174,7 @@ export const UnifiedListRow = memo(function UnifiedListRow({
           )}
         </div>
 
-        {subtitle && !isCompact && <p className="text-[11px] text-muted-foreground truncate mt-0.5">{subtitle}</p>}
+        {subtitle && !isCompact && <p className="text-[0.6875rem] text-muted-foreground truncate mt-0.5">{subtitle}</p>}
 
         {/* Children slot for custom content */}
         {children}

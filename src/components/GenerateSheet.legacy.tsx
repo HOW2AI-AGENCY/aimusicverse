@@ -486,11 +486,11 @@ export const LegacyGenerateSheet = ({ open, onOpenChange, projectId: initialProj
                     </span>
                   ) : (
                     <>
-                      <span className="flex items-center gap-2 text-[15px]">
+                      <span className="flex items-center gap-2 text-[0.9375rem]">
                         <Sparkles className="w-4 h-4" />
                         Сгенерировать
                       </span>
-                      <span className="text-[10px] font-medium uppercase tracking-wider text-primary-foreground/70">
+                      <span className="text-[0.625rem] font-medium uppercase tracking-wider text-primary-foreground/70">
                         {form.generationCost} кредитов
                       </span>
                     </>

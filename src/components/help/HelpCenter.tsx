@@ -235,7 +235,7 @@ function HelpCenterContent({ onClose }: { onClose: () => void }) {
                   </div>
                   <div className="p-2">
                     <p className="text-xs font-medium truncate">{title}</p>
-                    <p className="text-[10px] text-muted-foreground">2 мин</p>
+                    <p className="text-[0.625rem] text-muted-foreground">2 мин</p>
                   </div>
                 </div>
               ))}

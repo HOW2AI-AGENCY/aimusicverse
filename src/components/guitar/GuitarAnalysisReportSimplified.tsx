@@ -188,7 +188,7 @@ export function GuitarAnalysisReportSimplified({
                     style={{ width: `${(currentTime / analysis.totalDuration) * 100}%` }}
                   />
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-1">
+                <p className="text-[0.625rem] text-muted-foreground mt-1">
                   {formatDuration(currentTime)} / {formatDuration(analysis.totalDuration)}
                 </p>
               </div>
@@ -260,7 +260,7 @@ export function GuitarAnalysisReportSimplified({
 
                 <div className="flex flex-wrap gap-1">
                   {analysis.generatedTags.slice(0, 8).map((tag, i) => (
-                    <Badge key={i} variant="secondary" className="text-[10px]">
+                    <Badge key={i} variant="secondary" className="text-[0.625rem]">
                       {tag}
                     </Badge>
                   ))}
@@ -499,7 +499,7 @@ function StatBadge({ icon, label, value }: { icon: React.ReactNode; label: strin
   return (
     <div className="flex flex-col items-center gap-0.5 p-2 rounded-lg bg-background/60 backdrop-blur border border-border/50">
       <div className="text-primary">{icon}</div>
-      <span className="text-[9px] text-muted-foreground uppercase tracking-wide">{label}</span>
+      <span className="text-[0.5625rem] text-muted-foreground uppercase tracking-wide">{label}</span>
       <span className="text-xs font-semibold truncate max-w-full">{value}</span>
     </div>
   );

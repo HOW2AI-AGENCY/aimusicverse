@@ -46,7 +46,7 @@ const DrumPad = memo(function DrumPad({ sound, isActive, onTrigger }: DrumPadPro
       }}
     >
       <span className="text-lg font-bold text-white drop-shadow-md">{sound.shortName}</span>
-      <span className="text-[10px] text-white/80 truncate max-w-full px-1">{sound.name}</span>
+      <span className="text-[0.625rem] text-white/80 truncate max-w-full px-1">{sound.name}</span>
 
       {/* Hit flash effect */}
       <div

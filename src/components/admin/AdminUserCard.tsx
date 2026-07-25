@@ -75,16 +75,16 @@ export function AdminUserCard({
             </span>
             {/* Badges */}
             <div className="flex items-center gap-0.5">
-              {isAdmin && <Badge className="h-4 px-1 text-[9px]">A</Badge>}
+              {isAdmin && <Badge className="h-4 px-1 text-[0.5625rem]">A</Badge>}
               {isModerator && (
-                <Badge variant="secondary" className="h-4 px-1 text-[9px]">
+                <Badge variant="secondary" className="h-4 px-1 text-[0.5625rem]">
                   M
                 </Badge>
               )}
               {hasPremium && <Crown className="h-3 w-3 text-yellow-500" />}
             </div>
           </div>
-          <div className="text-[10px] text-muted-foreground truncate">@{user.username || "—"}</div>
+          <div className="text-[0.625rem] text-muted-foreground truncate">@{user.username || "—"}</div>
         </div>
 
         {/* Balance - visible on all screens */}
@@ -100,7 +100,7 @@ export function AdminUserCard({
           >
             {user.balance || 0} ₵
           </div>
-          <div className="text-[9px] text-muted-foreground">Lvl {user.level || 1}</div>
+          <div className="text-[0.5625rem] text-muted-foreground">Lvl {user.level || 1}</div>
         </div>
 
         {/* Actions Dropdown */}
@@ -120,7 +120,7 @@ export function AdminUserCard({
               <Crown className="h-4 w-4 mr-2" />
               Подписка
               {hasPremium && (
-                <Badge variant="outline" className="ml-auto text-[10px]">
+                <Badge variant="outline" className="ml-auto text-[0.625rem]">
                   {user.subscription_tier}
                 </Badge>
               )}

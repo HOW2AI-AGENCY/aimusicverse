@@ -89,7 +89,7 @@ export function VocalMapResultCard({ sections, onCopyAll }: VocalMapResultCardPr
           </div>
           <div>
             <h4 className="text-sm font-medium">Вокальная карта</h4>
-            <p className="text-[10px] text-muted-foreground">{sections.length} секций</p>
+            <p className="text-[0.625rem] text-muted-foreground">{sections.length} секций</p>
           </div>
         </div>
 
@@ -111,7 +111,7 @@ export function VocalMapResultCard({ sections, onCopyAll }: VocalMapResultCardPr
           >
             {/* Section Header */}
             <div className="flex items-center justify-between mb-2">
-              <Badge variant="outline" className="text-[10px] bg-purple-500/10 border-purple-500/30 text-purple-300">
+              <Badge variant="outline" className="text-[0.625rem] bg-purple-500/10 border-purple-500/30 text-purple-300">
                 {section.section}
               </Badge>
               <Button
@@ -125,7 +125,7 @@ export function VocalMapResultCard({ sections, onCopyAll }: VocalMapResultCardPr
             </div>
 
             {/* Section Content */}
-            <div className="grid grid-cols-2 gap-2 text-[10px]">
+            <div className="grid grid-cols-2 gap-2 text-[0.625rem]">
               {section.vocalType && (
                 <div className="flex items-center gap-1.5">
                   <Mic className="w-3 h-3 text-muted-foreground" />
@@ -157,7 +157,7 @@ export function VocalMapResultCard({ sections, onCopyAll }: VocalMapResultCardPr
                 {section.effects.map((effect, effIdx) => {
                   const Icon = getEffectIcon(effect);
                   return (
-                    <Badge key={effIdx} variant="secondary" className="text-[9px] py-0 px-1.5 bg-background/50">
+                    <Badge key={effIdx} variant="secondary" className="text-[0.5625rem] py-0 px-1.5 bg-background/50">
                       <Icon className="w-2.5 h-2.5 mr-0.5" aria-hidden /> {effect}
                     </Badge>
                   );
@@ -167,7 +167,7 @@ export function VocalMapResultCard({ sections, onCopyAll }: VocalMapResultCardPr
 
             {/* Emotional Note */}
             {section.emotionalNote && (
-              <div className="mt-2 flex items-start gap-1.5 text-[10px] text-amber-400/80 bg-amber-500/10 p-1.5 rounded">
+              <div className="mt-2 flex items-start gap-1.5 text-[0.625rem] text-amber-400/80 bg-amber-500/10 p-1.5 rounded">
                 <Sparkles className="w-3 h-3 shrink-0 mt-0.5" />
                 <span>{section.emotionalNote}</span>
               </div>

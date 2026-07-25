@@ -148,7 +148,7 @@ export default function VoiceHistoryPage() {
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold truncate">{v.voice_name}</h3>
-                    <Badge variant="outline" className="text-[10px]">
+                    <Badge variant="outline" className="text-[0.625rem]">
                       {t === "generation" ? "Генерация" : "Валидация"}
                     </Badge>
                   </div>

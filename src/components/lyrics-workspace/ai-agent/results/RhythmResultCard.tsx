@@ -47,7 +47,7 @@ export function RhythmResultCard({ analysis, onOptimize }: RhythmResultCardProps
           <div>
             <h4 className="text-sm font-medium">Анализ ритма</h4>
             {rhythm.syllablePattern && (
-              <p className="text-[10px] text-muted-foreground font-mono">Паттерн: {rhythm.syllablePattern}</p>
+              <p className="text-[0.625rem] text-muted-foreground font-mono">Паттерн: {rhythm.syllablePattern}</p>
             )}
           </div>
         </div>
@@ -65,7 +65,7 @@ export function RhythmResultCard({ analysis, onOptimize }: RhythmResultCardProps
             className={cn("h-full rounded-full", getProgressColor(rhythm.score))}
           />
         </div>
-        <p className="text-[10px] text-muted-foreground">
+        <p className="text-[0.625rem] text-muted-foreground">
           {rhythm.score >= 80
             ? "Отличный ритм! Текст хорошо ложится на музыку."
             : rhythm.score >= 60
@@ -96,8 +96,8 @@ export function RhythmResultCard({ analysis, onOptimize }: RhythmResultCardProps
                 )}
                 <div>
                   <p>{issue.message}</p>
-                  {issue.line !== undefined && <p className="text-[10px] opacity-70 mt-0.5">Строка {issue.line + 1}</p>}
-                  {issue.fix && <p className="text-[10px] mt-1 opacity-80">💡 {issue.fix}</p>}
+                  {issue.line !== undefined && <p className="text-[0.625rem] opacity-70 mt-0.5">Строка {issue.line + 1}</p>}
+                  {issue.fix && <p className="text-[0.625rem] mt-1 opacity-80">💡 {issue.fix}</p>}
                 </div>
               </div>
             ))}

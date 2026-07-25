@@ -119,7 +119,7 @@ function MasterVersionAssets({ trackId }: { trackId: string }) {
     return (
       <div className="flex items-center gap-1 py-1">
         <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
-        <span className="text-[9px] text-muted-foreground">Загрузка...</span>
+        <span className="text-[0.5625rem] text-muted-foreground">Загрузка...</span>
       </div>
     );
   }
@@ -137,7 +137,7 @@ function MasterVersionAssets({ trackId }: { trackId: string }) {
         animate={{ opacity: 1, height: "auto" }}
         className="mt-2 pt-2 border-t border-border/30"
       >
-        <p className="text-[9px] text-muted-foreground mb-1.5">Ассеты мастер-версии:</p>
+        <p className="text-[0.5625rem] text-muted-foreground mb-1.5">Ассеты мастер-версии:</p>
 
         <div className="flex flex-wrap gap-1">
           {/* Stems */}
@@ -147,7 +147,7 @@ function MasterVersionAssets({ trackId }: { trackId: string }) {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-6 px-2 text-[9px] gap-1"
+                  className="h-6 px-2 text-[0.5625rem] gap-1"
                   onClick={() => navigate(`/studio/${trackId}`)}
                 >
                   <Music className="w-3 h-3" />
@@ -178,7 +178,7 @@ function MasterVersionAssets({ trackId }: { trackId: string }) {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-6 px-2 text-[9px] gap-1"
+                    className="h-6 px-2 text-[0.5625rem] gap-1"
                     onClick={() => {
                       if (trans.midi_url) {
                         window.open(trans.midi_url, "_blank");
@@ -209,7 +209,7 @@ function MasterVersionAssets({ trackId }: { trackId: string }) {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-6 px-2 text-[9px] gap-1"
+                        className="h-6 px-2 text-[0.5625rem] gap-1"
                         onClick={() => window.open(rec.gp5_url!, "_blank")}
                       >
                         <Guitar className="w-3 h-3" />
@@ -225,7 +225,7 @@ function MasterVersionAssets({ trackId }: { trackId: string }) {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-6 px-2 text-[9px] gap-1"
+                        className="h-6 px-2 text-[0.5625rem] gap-1"
                         onClick={() => window.open(rec.pdf_url!, "_blank")}
                       >
                         <FileText className="w-3 h-3" />
@@ -241,7 +241,7 @@ function MasterVersionAssets({ trackId }: { trackId: string }) {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-6 px-2 text-[9px] gap-1"
+                        className="h-6 px-2 text-[0.5625rem] gap-1"
                         onClick={() => window.open(rec.midi_url!, "_blank")}
                       >
                         <FileMusic className="w-3 h-3" />
@@ -337,10 +337,10 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
-            <span className="text-[10px] font-medium truncate">Версия {index + 1}</span>
+            <span className="text-[0.625rem] font-medium truncate">Версия {index + 1}</span>
             {isMaster && <Star className="w-2.5 h-2.5 text-primary fill-primary" />}
           </div>
-          <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-[0.5625rem] text-muted-foreground">
             <span className="flex items-center gap-0.5">
               <Clock className="w-2 h-2" />
               {formatDuration(version.duration_seconds || 0)}
@@ -372,7 +372,7 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
             <Button
               size="sm"
               variant="ghost"
-              className="h-6 px-1.5 text-[9px] gap-0.5"
+              className="h-6 px-1.5 text-[0.5625rem] gap-0.5"
               onClick={() => setMasterTrack({ trackId: version.id, projectTrackId })}
               disabled={isSettingMaster}
             >
@@ -386,7 +386,7 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
               )}
             </Button>
           ) : (
-            <Badge variant="default" className="text-[8px] h-4 px-1.5 gap-0.5">
+            <Badge variant="default" className="text-[0.5rem] h-4 px-1.5 gap-0.5">
               <CheckCircle2 className="w-2.5 h-2.5" />
               Мастер
             </Badge>
@@ -405,11 +405,11 @@ export const TrackVersionsPanel = memo(function TrackVersionsPanel({
       >
         <div className="flex items-center gap-1.5">
           <Music className="w-3 h-3 text-primary" />
-          <span className="text-[10px] font-medium">
+          <span className="text-[0.625rem] font-medium">
             {versionsCount} {versionsCount === 1 ? "версия" : versionsCount < 5 ? "версии" : "версий"}
           </span>
           {masterVersion && (
-            <Badge variant="default" className="text-[8px] h-3.5 px-1 gap-0.5">
+            <Badge variant="default" className="text-[0.5rem] h-3.5 px-1 gap-0.5">
               <Star className="w-2 h-2" />
               Мастер
             </Badge>

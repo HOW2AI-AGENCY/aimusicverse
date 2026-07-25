@@ -54,7 +54,7 @@ export function useTelegramSafeArea(options: UseTelegramSafeAreaOptions = {}): S
     const paddingTop = `calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)${topExtra}, env(safe-area-inset-top, 0px)${topExtra}))`;
 
     // Bottom padding: system safe area OR Telegram content safe area (MainButton), plus extras
-    let bottomParts: string[] = [];
+    const bottomParts: string[] = [];
 
     // Always include system safe area
     bottomParts.push("var(--tg-safe-area-inset-bottom, 0px)");

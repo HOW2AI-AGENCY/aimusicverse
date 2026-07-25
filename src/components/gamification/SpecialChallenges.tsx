@@ -153,12 +153,12 @@ export function SpecialChallenges() {
                       {challenge.title}
                     </span>
                     {challenge.type === "secret" && !challenge.unlocked && (
-                      <Badge variant="outline" className="text-[10px]">
+                      <Badge variant="outline" className="text-[0.625rem]">
                         Секрет
                       </Badge>
                     )}
                     {challenge.type === "limited" && challenge.endsIn && (
-                      <Badge variant="secondary" className="text-[10px] gap-1">
+                      <Badge variant="secondary" className="text-[0.625rem] gap-1">
                         <Timer className="w-3 h-3" />
                         {challenge.endsIn}
                       </Badge>

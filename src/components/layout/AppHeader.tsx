@@ -89,7 +89,7 @@ export function AppHeader({
         {/* Zone 2: title, breadcrumbs, icon */}
         <div className="flex flex-col items-center min-w-0">
           {(breadcrumbs || showBreadcrumbs) && (
-            <Breadcrumbs items={breadcrumbs} className="mb-1 text-[11px]" showHome={true} />
+            <Breadcrumbs items={breadcrumbs} className="mb-1 text-[0.6875rem]" showHome={true} />
           )}
           <div className="flex items-center gap-2 justify-center">
             {icon && (
@@ -105,7 +105,7 @@ export function AppHeader({
             <div className="text-center min-w-0">
               {titleElement || (title && <h2 className="text-base sm:text-lg font-bold truncate">{title}</h2>)}
               {!titleElement && subtitle && (
-                <p className="text-[11px] sm:text-xs text-muted-foreground truncate">{subtitle}</p>
+                <p className="text-[0.6875rem] sm:text-xs text-muted-foreground truncate">{subtitle}</p>
               )}
             </div>
           </div>

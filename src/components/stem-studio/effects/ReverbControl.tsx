@@ -106,8 +106,8 @@ export function ReverbControl({ settings, onChange, onPresetChange }: ReverbCont
               );
             })}
           </div>
-          <div className="absolute bottom-1 left-2 text-[10px] text-muted-foreground">Dry</div>
-          <div className="absolute bottom-1 right-2 text-[10px] text-muted-foreground">Wet</div>
+          <div className="absolute bottom-1 left-2 text-[0.625rem] text-muted-foreground">Dry</div>
+          <div className="absolute bottom-1 right-2 text-[0.625rem] text-muted-foreground">Wet</div>
         </div>
       )}
 
@@ -129,7 +129,7 @@ export function ReverbControl({ settings, onChange, onPresetChange }: ReverbCont
             onValueChange={(v) => onChange({ wetDry: v[0] })}
             disabled={!settings.enabled}
           />
-          <div className="flex justify-between text-[10px] text-muted-foreground">
+          <div className="flex justify-between text-[0.625rem] text-muted-foreground">
             <span>Оригинал</span>
             <span>Эффект</span>
           </div>
@@ -149,7 +149,7 @@ export function ReverbControl({ settings, onChange, onPresetChange }: ReverbCont
             onValueChange={(v) => onChange({ decay: v[0] })}
             disabled={!settings.enabled}
           />
-          <div className="flex justify-between text-[10px] text-muted-foreground">
+          <div className="flex justify-between text-[0.625rem] text-muted-foreground">
             <span>Короткий</span>
             <span>Длинный</span>
           </div>

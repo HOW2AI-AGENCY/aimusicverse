@@ -303,17 +303,17 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
           onValueChange={(v) => v && setViewMode(v as ViewMode)}
           className="flex-shrink-0"
         >
-          <ToggleGroupItem value="piano" size="sm" className="h-7 px-2 text-[10px] sm:text-xs gap-1">
+          <ToggleGroupItem value="piano" size="sm" className="h-7 px-2 text-[0.625rem] sm:text-xs gap-1">
             <Piano className="w-3 h-3" />
             <span className="hidden xs:inline">Piano</span>
           </ToggleGroupItem>
           {effectiveMusicXmlUrl && (
-            <ToggleGroupItem value="notation" size="sm" className="h-7 px-2 text-[10px] sm:text-xs gap-1">
+            <ToggleGroupItem value="notation" size="sm" className="h-7 px-2 text-[0.625rem] sm:text-xs gap-1">
               <Music2 className="w-3 h-3" />
               <span className="hidden xs:inline">Ноты</span>
             </ToggleGroupItem>
           )}
-          <ToggleGroupItem value="list" size="sm" className="h-7 px-2 text-[10px] sm:text-xs gap-1">
+          <ToggleGroupItem value="list" size="sm" className="h-7 px-2 text-[0.625rem] sm:text-xs gap-1">
             <ListMusic className="w-3 h-3" />
             <span className="hidden xs:inline">Список</span>
           </ToggleGroupItem>
@@ -322,22 +322,22 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
         {/* Stats badges - scrollable */}
         <div className="flex-1 flex items-center gap-1 overflow-x-auto pb-0.5">
           {stats && (
-            <Badge variant="secondary" className="text-[10px] flex-shrink-0">
+            <Badge variant="secondary" className="text-[0.625rem] flex-shrink-0">
               {stats.total} нот
             </Badge>
           )}
           {effectiveBpm && (
-            <Badge variant="outline" className="text-[10px] flex-shrink-0">
+            <Badge variant="outline" className="text-[0.625rem] flex-shrink-0">
               {Math.round(effectiveBpm)} BPM
             </Badge>
           )}
           {keySignature && (
-            <Badge variant="outline" className="text-[10px] flex-shrink-0">
+            <Badge variant="outline" className="text-[0.625rem] flex-shrink-0">
               {keySignature}
             </Badge>
           )}
           {model && (
-            <Badge variant="secondary" className="text-[10px] flex-shrink-0">
+            <Badge variant="secondary" className="text-[0.625rem] flex-shrink-0">
               {model}
             </Badge>
           )}

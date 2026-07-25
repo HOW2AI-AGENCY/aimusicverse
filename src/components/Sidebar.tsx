@@ -228,7 +228,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             {isPROBadge && (
               <Badge
                 className={cn(
-                  "h-5 px-1.5 text-[10px] font-bold",
+                  "h-5 px-1.5 text-[0.625rem] font-bold",
                   "bg-gradient-to-r from-amber-500 to-orange-500",
                   "text-white border-0 shadow-sm",
                 )}
@@ -240,7 +240,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             {isNEWBadge && (
               <Badge
                 className={cn(
-                  "h-5 px-1.5 text-[10px] font-bold",
+                  "h-5 px-1.5 text-[0.625rem] font-bold",
                   "bg-gradient-to-r from-emerald-500 to-teal-500",
                   "text-white border-0 shadow-sm animate-pulse",
                 )}
@@ -251,7 +251,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
 
             {/* Keyboard shortcut hint */}
             {shortcut && (
-              <kbd className="hidden lg:inline-flex h-5 px-1.5 items-center justify-center rounded bg-muted/80 text-[10px] font-mono text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+              <kbd className="hidden lg:inline-flex h-5 px-1.5 items-center justify-center rounded bg-muted/80 text-[0.625rem] font-mono text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
                 {isMac ? "⌘" : "Ctrl+"}
                 {shortcut}
               </kbd>
@@ -268,23 +268,23 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
           <TooltipContent side="right" className="flex items-center gap-2">
             <span>{label}</span>
             {shortcut && (
-              <kbd className="h-4 px-1 text-[9px] font-mono rounded bg-muted">
+              <kbd className="h-4 px-1 text-[0.5625rem] font-mono rounded bg-muted">
                 {isMac ? "⌘" : "Ctrl+"}
                 {shortcut}
               </kbd>
             )}
             {isPROBadge && (
-              <Badge className="h-4 px-1 text-[9px] bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
+              <Badge className="h-4 px-1 text-[0.5625rem] bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
                 PRO
               </Badge>
             )}
             {isNEWBadge && (
-              <Badge className="h-4 px-1 text-[9px] bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0">
+              <Badge className="h-4 px-1 text-[0.5625rem] bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0">
                 NEW
               </Badge>
             )}
             {isNumericBadge && (
-              <Badge variant="secondary" className="h-4 px-1 text-[9px]">
+              <Badge variant="secondary" className="h-4 px-1 text-[0.5625rem]">
                 {badge}
               </Badge>
             )}
@@ -381,7 +381,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
               </div>
               {activeGenerations.slice(0, 2).map((gen) => (
                 <div key={gen.id} className="mb-2 last:mb-0">
-                  <p className="text-[10px] text-muted-foreground truncate mb-1">{gen.prompt.slice(0, 25)}...</p>
+                  <p className="text-[0.625rem] text-muted-foreground truncate mb-1">{gen.prompt.slice(0, 25)}...</p>
                   <Progress value={gen.progress} className="h-1" />
                 </div>
               ))}
@@ -410,7 +410,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                   onClick={() => navigate("/library")}
                 >
                   <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[0.5625rem] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {generationCount}
                   </span>
                 </Button>
@@ -530,7 +530,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
 
         {/* Footer */}
         <div className="p-3 border-t border-sidebar-border">
-          <p className={cn("text-[10px] text-muted-foreground text-center", isCollapsed && "hidden")}>
+          <p className={cn("text-[0.625rem] text-muted-foreground text-center", isCollapsed && "hidden")}>
             MusicVerse AI Studio
           </p>
         </div>

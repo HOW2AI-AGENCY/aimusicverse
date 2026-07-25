@@ -50,7 +50,7 @@ const ProjectPresetCard = memo(function ProjectPresetCard({
           const Icon = getProjectPresetIconById(preset.id);
           return <Icon className={cn("w-6 h-6", preset.colorClass)} />;
         })()}
-        <span className={cn("text-[9px] px-1.5 py-0.5 rounded-full", preset.bgClass, preset.colorClass)}>
+        <span className={cn("text-[0.5625rem] px-1.5 py-0.5 rounded-full", preset.bgClass, preset.colorClass)}>
           {getProjectTypeLabel(preset.type)}
         </span>
       </div>
@@ -59,11 +59,11 @@ const ProjectPresetCard = memo(function ProjectPresetCard({
       <h4 className="text-sm font-medium truncate mb-0.5">{preset.name}</h4>
 
       {/* Short description */}
-      <p className="text-[10px] text-muted-foreground line-clamp-2 mb-2">{preset.shortDescription}</p>
+      <p className="text-[0.625rem] text-muted-foreground line-clamp-2 mb-2">{preset.shortDescription}</p>
 
       {/* CTA */}
       <div className="flex items-center gap-1 text-primary">
-        <span className="text-[10px] font-medium">Создать</span>
+        <span className="text-[0.625rem] font-medium">Создать</span>
         <ArrowRight className="w-3 h-3" />
       </div>
     </motion.button>
@@ -145,7 +145,7 @@ export const ProjectPresetsCarousel = memo(function ProjectPresetsCarousel({
             whileTap={{ scale: 0.98 }}
           >
             <Sparkles className="w-5 h-5 text-muted-foreground" />
-            <span className="text-[10px] text-muted-foreground text-center">Свой проект</span>
+            <span className="text-[0.625rem] text-muted-foreground text-center">Свой проект</span>
           </motion.button>
         </div>
       </div>

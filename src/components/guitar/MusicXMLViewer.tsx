@@ -235,7 +235,7 @@ export function MusicXMLViewer({
         {/* Hint for mobile users */}
         {!isLoading && (
           <div className="absolute bottom-2 left-2 z-10 sm:hidden">
-            <span className="text-[10px] text-muted-foreground bg-background/80 px-2 py-1 rounded">
+            <span className="text-[0.625rem] text-muted-foreground bg-background/80 px-2 py-1 rounded">
               Прокрутите для просмотра →
             </span>
           </div>

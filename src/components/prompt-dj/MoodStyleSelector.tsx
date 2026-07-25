@@ -40,7 +40,7 @@ export const MoodStyleSelector = memo(function MoodStyleSelector({
       <div className="p-3 rounded-xl bg-card/30 border border-border/30 space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-pink-400">Настроение</span>
-          <span className="text-[10px] text-muted-foreground">{Math.round(moodWeight * 100)}%</span>
+          <span className="text-[0.625rem] text-muted-foreground">{Math.round(moodWeight * 100)}%</span>
         </div>
 
         <Select value={moodId || ""} onValueChange={(v) => onMoodChange(v || null)} disabled={disabled}>
@@ -71,7 +71,7 @@ export const MoodStyleSelector = memo(function MoodStyleSelector({
       <div className="p-3 rounded-xl bg-card/30 border border-border/30 space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-green-400">Характер</span>
-          <span className="text-[10px] text-muted-foreground">{Math.round(styleWeight * 100)}%</span>
+          <span className="text-[0.625rem] text-muted-foreground">{Math.round(styleWeight * 100)}%</span>
         </div>
 
         <Select value={styleId || ""} onValueChange={(v) => onStyleChange(v || null)} disabled={disabled}>

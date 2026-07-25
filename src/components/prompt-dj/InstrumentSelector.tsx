@@ -49,7 +49,7 @@ export const InstrumentSelector = memo(function InstrumentSelector({
     <div className="p-3 rounded-xl bg-card/30 border border-border/30 space-y-2">
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium">Инструменты</span>
-        <span className="text-[10px] text-muted-foreground">
+        <span className="text-[0.625rem] text-muted-foreground">
           {selectedIds.length}/{maxSelection}
         </span>
       </div>
@@ -61,7 +61,7 @@ export const InstrumentSelector = memo(function InstrumentSelector({
             <Badge
               key={inst.id}
               variant="secondary"
-              className="h-6 px-2 text-[10px] gap-1 bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
+              className="h-6 px-2 text-[0.625rem] gap-1 bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
             >
               {inst.label}
               <button
@@ -74,7 +74,7 @@ export const InstrumentSelector = memo(function InstrumentSelector({
             </Badge>
           ))
         ) : (
-          <span className="text-[10px] text-muted-foreground italic">Выберите до {maxSelection} инструментов</span>
+          <span className="text-[0.625rem] text-muted-foreground italic">Выберите до {maxSelection} инструментов</span>
         )}
       </div>
 

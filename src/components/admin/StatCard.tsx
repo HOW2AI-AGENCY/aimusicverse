@@ -32,7 +32,7 @@ export function StatCard({ title, value, icon, variant = "default", active, onCl
           {icon}
           <p className="text-lg md:text-xl font-bold">{value}</p>
         </div>
-        <p className="text-[10px] md:text-xs text-muted-foreground truncate">{title}</p>
+        <p className="text-[0.625rem] md:text-xs text-muted-foreground truncate">{title}</p>
       </CardContent>
     </Card>
   );

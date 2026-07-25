@@ -250,23 +250,23 @@ export default function StudioHubPage() {
                         <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
                           <Badge
                             variant="outline"
-                            className={cn("h-5 px-1.5 text-[10px] font-medium gap-1 border", meta.className)}
+                            className={cn("h-5 px-1.5 text-[0.625rem] font-medium gap-1 border", meta.className)}
                           >
                             <span className={cn("h-1.5 w-1.5 rounded-full", meta.dot)} />
                             {meta.label}
                           </Badge>
-                          <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <span className="inline-flex items-center gap-1 text-[0.625rem] text-muted-foreground">
                             <Layers className="h-3 w-3" />
                             {trackCount}
                           </span>
                           {project.bpm ? (
-                            <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                            <span className="inline-flex items-center gap-1 text-[0.625rem] text-muted-foreground">
                               <Activity className="h-3 w-3" />
                               {project.bpm}
                             </span>
                           ) : null}
                           {updated ? (
-                            <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground ml-auto">
+                            <span className="inline-flex items-center gap-1 text-[0.625rem] text-muted-foreground ml-auto">
                               <Clock className="h-3 w-3" />
                               {formatDistanceToNow(new Date(updated), { addSuffix: false, locale: ru })}
                             </span>

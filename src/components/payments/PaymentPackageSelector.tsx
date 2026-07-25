@@ -97,7 +97,7 @@ export function PaymentPackageSelector({ products, selectedProduct, onSelect }: 
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className={cn(
-                    "absolute -top-2 left-4 px-2 py-0.5 rounded-full text-[10px] font-medium",
+                    "absolute -top-2 left-4 px-2 py-0.5 rounded-full text-[0.625rem] font-medium",
                     "flex items-center gap-1",
                     label.color,
                   )}
@@ -112,7 +112,7 @@ export function PaymentPackageSelector({ products, selectedProduct, onSelect }: 
                 <motion.div
                   initial={{ scale: 0, rotate: -12 }}
                   animate={{ scale: 1, rotate: -12 }}
-                  className="absolute -top-2 -right-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-warning text-black"
+                  className="absolute -top-2 -right-2 px-2 py-0.5 rounded-full text-[0.625rem] font-bold bg-warning text-black"
                 >
                   -{discount}%
                 </motion.div>

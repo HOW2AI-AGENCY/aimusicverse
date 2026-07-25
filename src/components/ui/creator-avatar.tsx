@@ -19,8 +19,8 @@ interface CreatorAvatarProps {
 }
 
 const sizeClasses = {
-  xs: "w-5 h-5 text-[8px]",
-  sm: "w-6 h-6 text-[10px]",
+  xs: "w-5 h-5 text-[0.5rem]",
+  sm: "w-6 h-6 text-[0.625rem]",
   md: "w-8 h-8 text-xs",
   lg: "w-10 h-10 text-sm",
 };
@@ -69,7 +69,7 @@ export function CreatorAvatar({
         <TooltipTrigger asChild>{avatar}</TooltipTrigger>
         <TooltipContent side="top" className="text-xs">
           <p className="font-medium">{displayName}</p>
-          <p className="text-muted-foreground text-[10px]">Нажмите, чтобы открыть профиль</p>
+          <p className="text-muted-foreground text-[0.625rem]">Нажмите, чтобы открыть профиль</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -167,7 +167,7 @@ export function ComparisonPanel({ timePeriod }: ComparisonPanelProps) {
                   </span>
                 </div>
 
-                <div className="text-[10px] text-muted-foreground mt-0.5">было: {metric.format(metric.previous)}</div>
+                <div className="text-[0.625rem] text-muted-foreground mt-0.5">было: {metric.format(metric.previous)}</div>
               </div>
             );
           })}
@@ -186,7 +186,7 @@ export function ComparisonPanel({ timePeriod }: ComparisonPanelProps) {
                       : 0}
                     %
                   </div>
-                  <div className="text-[10px] text-muted-foreground">сейчас</div>
+                  <div className="text-[0.625rem] text-muted-foreground">сейчас</div>
                 </div>
                 <div className="text-muted-foreground">→</div>
                 <div className="text-right">
@@ -196,7 +196,7 @@ export function ComparisonPanel({ timePeriod }: ComparisonPanelProps) {
                       : 0}
                     %
                   </div>
-                  <div className="text-[10px] text-muted-foreground">было</div>
+                  <div className="text-[0.625rem] text-muted-foreground">было</div>
                 </div>
               </div>
             </div>

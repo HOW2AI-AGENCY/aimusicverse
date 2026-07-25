@@ -165,7 +165,7 @@ export const TransportBar = memo(function TransportBar({
             <div className="font-mono text-3xl font-bold tracking-tight text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]">
               {currentBar}.{currentBeat}
             </div>
-            <div className="text-[9px] text-emerald-400/60 uppercase tracking-widest">BAR.BEAT</div>
+            <div className="text-[0.5625rem] text-emerald-400/60 uppercase tracking-widest">BAR.BEAT</div>
           </div>
 
           <div className="h-10 w-px bg-foreground/10" />
@@ -200,7 +200,7 @@ export const TransportBar = memo(function TransportBar({
                 +
               </Button>
             </div>
-            <div className="text-[9px] text-emerald-400/60 uppercase tracking-widest">BPM • TAP</div>
+            <div className="text-[0.5625rem] text-emerald-400/60 uppercase tracking-widest">BPM • TAP</div>
           </div>
         </div>
 

@@ -33,7 +33,7 @@ export const DurationBadge = memo(function DurationBadge({
     return (
       <div
         className={cn(
-          "absolute bottom-0.5 right-0.5 text-[9px] px-1 py-0.5 rounded font-medium z-10",
+          "absolute bottom-0.5 right-0.5 text-[0.5625rem] px-1 py-0.5 rounded font-medium z-10",
           pill.glassDark,
           className,
         )}

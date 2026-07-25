@@ -63,17 +63,17 @@ export function UserStatsSection() {
             <div className="p-2 rounded-lg bg-muted/50 text-center">
               <Activity className="w-3.5 h-3.5 mx-auto text-primary" />
               <div className="text-base font-bold">{stats.today.generations}</div>
-              <div className="text-[9px] text-muted-foreground">Ген.</div>
+              <div className="text-[0.5625rem] text-muted-foreground">Ген.</div>
             </div>
             <div className="p-2 rounded-lg bg-muted/50 text-center">
               <CheckCircle className="w-3.5 h-3.5 mx-auto text-green-500" />
               <div className="text-base font-bold text-green-600">{stats.today.successful}</div>
-              <div className="text-[9px] text-muted-foreground">Усп.</div>
+              <div className="text-[0.5625rem] text-muted-foreground">Усп.</div>
             </div>
             <div className="p-2 rounded-lg bg-muted/50 text-center">
               <Coins className="w-3.5 h-3.5 mx-auto text-amber-500" />
               <div className="text-base font-bold">${stats.today.cost.toFixed(1)}</div>
-              <div className="text-[9px] text-muted-foreground">Расход</div>
+              <div className="text-[0.5625rem] text-muted-foreground">Расход</div>
             </div>
             <div className="p-2 rounded-lg bg-muted/50 text-center">
               <TrendingUp className="w-3.5 h-3.5 mx-auto text-blue-500" />
@@ -81,7 +81,7 @@ export function UserStatsSection() {
                 {stats.today.generations > 0 ? Math.round((stats.today.successful / stats.today.generations) * 100) : 0}
                 %
               </div>
-              <div className="text-[9px] text-muted-foreground">%</div>
+              <div className="text-[0.5625rem] text-muted-foreground">%</div>
             </div>
           </div>
         </CardContent>
@@ -99,15 +99,15 @@ export function UserStatsSection() {
           <div className="grid grid-cols-3 gap-2">
             <div className="p-2 rounded-lg bg-primary/10 text-center">
               <div className="text-lg font-bold text-primary">{stats.total.generations}</div>
-              <div className="text-[9px] text-muted-foreground">Генераций</div>
+              <div className="text-[0.5625rem] text-muted-foreground">Генераций</div>
             </div>
             <div className="p-2 rounded-lg bg-green-500/10 text-center">
               <div className="text-lg font-bold text-green-600">{stats.total.successful}</div>
-              <div className="text-[9px] text-muted-foreground">Успешных</div>
+              <div className="text-[0.5625rem] text-muted-foreground">Успешных</div>
             </div>
             <div className="p-2 rounded-lg bg-amber-500/10 text-center">
               <div className="text-lg font-bold text-amber-600">${stats.total.cost.toFixed(1)}</div>
-              <div className="text-[9px] text-muted-foreground">Расход</div>
+              <div className="text-[0.5625rem] text-muted-foreground">Расход</div>
             </div>
           </div>
         </CardContent>
@@ -126,32 +126,32 @@ export function UserStatsSection() {
             <div className="p-1.5 rounded-lg bg-muted/50 text-center">
               <Music className="w-3 h-3 mx-auto text-violet-500" />
               <div className="text-xs font-bold">{stats.byType.music}</div>
-              <div className="text-[8px] text-muted-foreground">Муз</div>
+              <div className="text-[0.5rem] text-muted-foreground">Муз</div>
             </div>
             <div className="p-1.5 rounded-lg bg-muted/50 text-center">
               <Mic className="w-3 h-3 mx-auto text-pink-500" />
               <div className="text-xs font-bold">{stats.byType.vocals}</div>
-              <div className="text-[8px] text-muted-foreground">Вок</div>
+              <div className="text-[0.5rem] text-muted-foreground">Вок</div>
             </div>
             <div className="p-1.5 rounded-lg bg-muted/50 text-center">
               <Guitar className="w-3 h-3 mx-auto text-orange-500" />
               <div className="text-xs font-bold">{stats.byType.instrumental}</div>
-              <div className="text-[8px] text-muted-foreground">Инст</div>
+              <div className="text-[0.5rem] text-muted-foreground">Инст</div>
             </div>
             <div className="p-1.5 rounded-lg bg-muted/50 text-center">
               <TrendingUp className="w-3 h-3 mx-auto text-cyan-500" />
               <div className="text-xs font-bold">{stats.byType.extend}</div>
-              <div className="text-[8px] text-muted-foreground">Ext</div>
+              <div className="text-[0.5rem] text-muted-foreground">Ext</div>
             </div>
             <div className="p-1.5 rounded-lg bg-muted/50 text-center">
               <Scissors className="w-3 h-3 mx-auto text-green-500" />
               <div className="text-xs font-bold">{stats.byType.stems}</div>
-              <div className="text-[8px] text-muted-foreground">Стем</div>
+              <div className="text-[0.5rem] text-muted-foreground">Стем</div>
             </div>
             <div className="p-1.5 rounded-lg bg-muted/50 text-center">
               <Layers className="w-3 h-3 mx-auto text-indigo-500" />
               <div className="text-xs font-bold">{stats.byType.cover}</div>
-              <div className="text-[8px] text-muted-foreground">Кав</div>
+              <div className="text-[0.5rem] text-muted-foreground">Кав</div>
             </div>
           </div>
         </CardContent>
@@ -172,11 +172,11 @@ export function UserStatsSection() {
                 <div key={day.date} className="flex items-center justify-between p-1.5 rounded-lg bg-muted/30">
                   <span className="text-xs font-medium">{day.date}</span>
                   <div className="flex items-center gap-1">
-                    <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+                    <Badge variant="outline" className="text-[0.625rem] h-5 px-1.5">
                       {day.generations}
                     </Badge>
                     {day.successful > 0 && (
-                      <Badge variant="secondary" className="text-[10px] h-5 px-1.5 text-green-600">
+                      <Badge variant="secondary" className="text-[0.625rem] h-5 px-1.5 text-green-600">
                         ✓{day.successful}
                       </Badge>
                     )}

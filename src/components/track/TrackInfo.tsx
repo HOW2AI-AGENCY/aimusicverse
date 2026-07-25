@@ -40,7 +40,7 @@ export const TrackInfo = memo(function TrackInfo({
     isHovered && "text-primary",
   );
 
-  const styleClass = cn("text-muted-foreground truncate", variant === "compact" ? "text-[10px]" : "text-xs");
+  const styleClass = cn("text-muted-foreground truncate", variant === "compact" ? "text-[0.625rem]" : "text-xs");
 
   return (
     <div className={cn("min-w-0", className)}>
@@ -73,7 +73,7 @@ export const TrackInfo = memo(function TrackInfo({
             userId={publicTrack.user_id}
             name={publicTrack.creator_name}
             username={publicTrack.creator_username}
-            className="text-[10px] text-muted-foreground truncate max-w-[80px]"
+            className="text-[0.625rem] text-muted-foreground truncate max-w-[80px]"
           />
         </div>
       )}

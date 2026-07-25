@@ -276,7 +276,7 @@ export function parseLine(line: string): ParsedLine {
   // Find all inline bracket tags [tag]
   const bracketPattern = /\[([^\]]+)\]/g;
   let match;
-  let cleanParts: string[] = [];
+  const cleanParts: string[] = [];
   let lastIndex = 0;
 
   // If we have a structural tag, start after it
@@ -447,13 +447,13 @@ export function extractTagFromWord(word: string): {
   const trimmed = word.trim();
 
   // Full tag: [Verse] or (Verse)
-  const fullTagMatch = trimmed.match(/^[\[\(]([^\]\)]+)[\]\)]$/);
+  const fullTagMatch = trimmed.match(/^[[(]([^\])]+)[\])]$/);
   if (fullTagMatch && isStructuralTagValue(fullTagMatch[1])) {
     return { isTag: true, tag: fullTagMatch[1] };
   }
 
   // Tag at start with content: [Verse]Hello
-  const startTagMatch = trimmed.match(/^[\[\(]([^\]\)]+)[\]\)](.+)$/);
+  const startTagMatch = trimmed.match(/^[[(]([^\])]+)[\])](.+)$/);
   if (startTagMatch && isStructuralTagValue(startTagMatch[1])) {
     return {
       isTag: true,
@@ -463,7 +463,7 @@ export function extractTagFromWord(word: string): {
   }
 
   // Tag at end with content: Hello[Tag]
-  const endTagMatch = trimmed.match(/^(.+)[\[\(]([^\]\)]+)[\]\)]$/);
+  const endTagMatch = trimmed.match(/^(.+)[[(]([^\])]+)[\])]$/);
   if (endTagMatch) {
     return {
       isTag: false,

@@ -82,7 +82,7 @@ export const ValidationMessage = memo(function ValidationMessage({
           {suggestion && (
             <div className="flex items-start gap-1.5 mt-1.5 text-muted-foreground">
               <Lightbulb className="w-3 h-3 flex-shrink-0 mt-0.5 text-amber-500" />
-              <span className="text-[11px] leading-tight">{suggestion}</span>
+              <span className="text-[0.6875rem] leading-tight">{suggestion}</span>
             </div>
           )}
         </div>
@@ -94,7 +94,7 @@ export const ValidationMessage = memo(function ValidationMessage({
             variant="ghost"
             size="sm"
             onClick={() => setShowExamples(!showExamples)}
-            className="h-5 px-1.5 text-[10px] gap-0.5"
+            className="h-5 px-1.5 text-[0.625rem] gap-0.5"
           >
             Примеры
             {showExamples ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
@@ -105,12 +105,12 @@ export const ValidationMessage = memo(function ValidationMessage({
       {/* Expandable examples section */}
       {showExamples && examples && examples.length > 0 && (
         <div className="px-2.5 pb-2.5 pt-0 border-t border-border/20">
-          <p className="text-[10px] text-muted-foreground mb-1.5">Попробуйте вместо этого:</p>
+          <p className="text-[0.625rem] text-muted-foreground mb-1.5">Попробуйте вместо этого:</p>
           <div className="flex flex-wrap gap-1">
             {examples.map((example, idx) => (
               <span
                 key={idx}
-                className="inline-block px-2 py-0.5 bg-background/80 rounded text-[10px] text-foreground/80"
+                className="inline-block px-2 py-0.5 bg-background/80 rounded text-[0.625rem] text-foreground/80"
               >
                 {example}
               </span>

@@ -125,16 +125,16 @@ export const typographyClass = {
     lg: "text-base sm:text-lg leading-relaxed",
     md: "text-sm sm:text-base leading-relaxed",
     sm: "text-xs sm:text-sm leading-normal",
-    xs: "text-[11px] sm:text-xs leading-normal",
+    xs: "text-[0.6875rem] sm:text-xs leading-normal",
   },
   /** Form labels and metadata */
   label: "text-xs sm:text-sm font-medium text-muted-foreground",
   /** Small captions and timestamps */
-  caption: "text-[10px] sm:text-[11px] text-muted-foreground leading-tight",
+  caption: "text-[0.625rem] sm:text-[0.6875rem] text-muted-foreground leading-tight",
   /** Interactive text */
   interactive: "text-sm font-medium hover:underline underline-offset-2",
   /** Bottom-navigation tab label (small caps, tight tracking) */
-  navLabel: "text-[11px] leading-none tracking-tight",
+  navLabel: "text-[0.6875rem] leading-none tracking-tight",
   /**
    * Synchronized lyric word — single semantic class for all surfaces.
    * Previously duplicated as 17/19/20px across LyricsPage / LyricsPanel.

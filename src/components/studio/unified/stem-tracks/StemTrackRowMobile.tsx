@@ -98,7 +98,7 @@ export const StemTrackRowMobile = memo(function StemTrackRowMobile({
                   {transcription.midi_url && (
                     <Badge
                       variant="outline"
-                      className="h-4 px-1 text-[8px] bg-primary/10 border-primary/30 text-primary"
+                      className="h-4 px-1 text-[0.5rem] bg-primary/10 border-primary/30 text-primary"
                     >
                       <Music2 className="w-2.5 h-2.5 mr-0.5" />
                       MIDI
@@ -107,7 +107,7 @@ export const StemTrackRowMobile = memo(function StemTrackRowMobile({
                   {transcription.gp5_url && (
                     <Badge
                       variant="outline"
-                      className="h-4 px-1 text-[8px] bg-amber-500/10 border-amber-500/30 text-amber-500"
+                      className="h-4 px-1 text-[0.5rem] bg-amber-500/10 border-amber-500/30 text-amber-500"
                     >
                       <Guitar className="w-2.5 h-2.5 mr-0.5" />
                       TAB
@@ -118,7 +118,7 @@ export const StemTrackRowMobile = memo(function StemTrackRowMobile({
                     !transcription.midi_url && (
                       <Badge
                         variant="outline"
-                        className="h-4 px-1 text-[8px] bg-emerald-500/10 border-emerald-500/30 text-emerald-500"
+                        className="h-4 px-1 text-[0.5rem] bg-emerald-500/10 border-emerald-500/30 text-emerald-500"
                       >
                         <FileMusic className="w-2.5 h-2.5 mr-0.5" />
                         NOTES
@@ -136,7 +136,7 @@ export const StemTrackRowMobile = memo(function StemTrackRowMobile({
               size="sm"
               onClick={() => handleToggle("mute")}
               className={cn(
-                "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[10px] font-bold transition-all touch-manipulation",
+                "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[0.625rem] font-bold transition-all touch-manipulation",
                 state.muted
                   ? "bg-destructive text-destructive-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -151,7 +151,7 @@ export const StemTrackRowMobile = memo(function StemTrackRowMobile({
               size="sm"
               onClick={() => handleToggle("solo")}
               className={cn(
-                "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[10px] font-bold transition-all touch-manipulation",
+                "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[0.625rem] font-bold transition-all touch-manipulation",
                 state.solo
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -166,7 +166,7 @@ export const StemTrackRowMobile = memo(function StemTrackRowMobile({
               size="sm"
               onClick={() => setShowVolume(!showVolume)}
               className={cn(
-                "h-9 md:h-7 px-2 rounded-lg text-xs md:text-[10px] font-mono touch-manipulation",
+                "h-9 md:h-7 px-2 rounded-lg text-xs md:text-[0.625rem] font-mono touch-manipulation",
                 showVolume ? "bg-muted" : "",
               )}
             >

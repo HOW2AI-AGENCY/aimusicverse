@@ -230,7 +230,7 @@ const GridCard = memo(function GridCard({
 
         {/* Type badge */}
         <div className="absolute top-2 left-2">
-          <Badge className={cn(pill.glassDark, "text-[10px] h-5 px-2 shadow-lg")}>{projectType}</Badge>
+          <Badge className={cn(pill.glassDark, "text-[0.625rem] h-5 px-2 shadow-lg")}>{projectType}</Badge>
         </div>
 
         {/* Status badge */}
@@ -247,7 +247,7 @@ const GridCard = memo(function GridCard({
                 <Globe className="w-3 h-3" />
               </Badge>
             ) : (
-              <Badge className={cn("text-[10px] h-5 px-2 border-0 backdrop-blur-sm shadow-lg", status.color)}>
+              <Badge className={cn("text-[0.625rem] h-5 px-2 border-0 backdrop-blur-sm shadow-lg", status.color)}>
                 {status.label}
               </Badge>
             )}
@@ -285,7 +285,7 @@ const GridCard = memo(function GridCard({
         </h2>
         <div className="flex items-center gap-1.5 flex-wrap">
           {project.genre && (
-            <Badge variant="secondary" className={cn(isMobile ? "text-[10px] h-5 px-2" : "text-[9px] h-4 px-1.5")}>
+            <Badge variant="secondary" className={cn(isMobile ? "text-[0.625rem] h-5 px-2" : "text-[0.5625rem] h-4 px-1.5")}>
               <Music className={cn("mr-0.5", isMobile ? "w-3 h-3" : "w-2.5 h-2.5")} />
               {project.genre}
             </Badge>
@@ -294,7 +294,7 @@ const GridCard = memo(function GridCard({
             <span
               className={cn(
                 "text-muted-foreground flex items-center gap-0.5",
-                isMobile ? "text-[11px]" : "text-[10px]",
+                isMobile ? "text-[0.6875rem]" : "text-[0.625rem]",
               )}
             >
               <Calendar className={cn(isMobile ? "w-3 h-3" : "w-2.5 h-2.5")} />
@@ -350,7 +350,7 @@ const ListCard = memo(function ListCard({
             </div>
           )}
           <div className={cn("absolute bottom-0 left-0 right-0 px-1 py-0.5", pill.glassDark)}>
-            <span className="text-[8px] font-medium uppercase tracking-wide">{projectType}</span>
+            <span className="text-[0.5rem] font-medium uppercase tracking-wide">{projectType}</span>
           </div>
         </div>
 
@@ -366,17 +366,17 @@ const ListCard = memo(function ListCard({
                 <Globe className="w-2.5 h-2.5" />
               </Badge>
             ) : (
-              <Badge className={cn("text-[9px] h-4 px-1.5 border-0", status.color)}>{status.label}</Badge>
+              <Badge className={cn("text-[0.5625rem] h-4 px-1.5 border-0", status.color)}>{status.label}</Badge>
             )}
             {project.genre && (
-              <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
+              <Badge variant="secondary" className="text-[0.5625rem] h-4 px-1.5">
                 <Music className="w-2.5 h-2.5 mr-0.5" />
                 {project.genre}
               </Badge>
             )}
           </div>
           {project.created_at && (
-            <div className="flex items-center gap-1 mt-1.5 text-[10px] text-muted-foreground">
+            <div className="flex items-center gap-1 mt-1.5 text-[0.625rem] text-muted-foreground">
               <Calendar className="w-2.5 h-2.5" />
               {format(new Date(project.created_at), "d MMM yyyy", { locale: ru })}
             </div>

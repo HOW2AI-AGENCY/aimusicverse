@@ -160,7 +160,7 @@ export function SectionTagSelector({ selectedTags, onTagsChange, trigger, classN
                       >
                         {isSelected && <Check className="w-3 h-3" />}
                         <span>{tag.value}</span>
-                        <span className="text-[10px] opacity-70">({tag.labelRu})</span>
+                        <span className="text-[0.625rem] opacity-70">({tag.labelRu})</span>
                       </Badge>
                     );
                   })}
@@ -193,7 +193,7 @@ export function SectionTagSelector({ selectedTags, onTagsChange, trigger, classN
                     <p className="text-xs text-muted-foreground mb-1.5">{preset.description}</p>
                     <div className="flex flex-wrap gap-1">
                       {preset.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-[10px]">
+                        <Badge key={tag} variant="secondary" className="text-[0.625rem]">
                           {tag}
                         </Badge>
                       ))}

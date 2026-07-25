@@ -120,7 +120,7 @@ export const ChordOverlay = memo(function ChordOverlay({
             key={`${chord.chord}-${chord.start}-${index}`}
             className={cn(
               "absolute top-0 bottom-0 flex items-center justify-center",
-              "text-white text-[10px] font-bold",
+              "text-white text-[0.625rem] font-bold",
               "border-r border-background/30",
               "transition-all duration-150",
               "hover:brightness-110 active:brightness-90",

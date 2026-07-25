@@ -57,7 +57,7 @@ export const ReferenceModeSelector = memo(function ReferenceModeSelector({
               key={m}
               variant="outline"
               className={cn(
-                "cursor-pointer transition-all text-[10px] px-1.5 py-0.5 h-5",
+                "cursor-pointer transition-all text-[0.625rem] px-1.5 py-0.5 h-5",
                 isActive ? cfg.color : "opacity-50 hover:opacity-80",
               )}
               onClick={() => onModeChange(m)}
@@ -93,7 +93,7 @@ export const ReferenceModeSelector = memo(function ReferenceModeSelector({
           })}
         </TabsList>
       </Tabs>
-      <p className="text-[10px] text-muted-foreground text-center">{modeConfig[currentMode].desc}</p>
+      <p className="text-[0.625rem] text-muted-foreground text-center">{modeConfig[currentMode].desc}</p>
     </div>
   );
 });

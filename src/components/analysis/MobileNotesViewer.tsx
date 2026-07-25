@@ -193,21 +193,21 @@ export const MobileNotesViewer = memo(function MobileNotesViewer({
 
       {/* Stats badges - horizontal scroll on mobile */}
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 -mx-1 px-1">
-        <Badge variant="secondary" className="text-[10px] font-medium flex-shrink-0">
+        <Badge variant="secondary" className="text-[0.625rem] font-medium flex-shrink-0">
           {stats?.total} нот
         </Badge>
         {bpm && (
-          <Badge variant="outline" className="text-[10px] flex-shrink-0">
+          <Badge variant="outline" className="text-[0.625rem] flex-shrink-0">
             {Math.round(bpm)} BPM
           </Badge>
         )}
         {keySignature && (
-          <Badge variant="outline" className="text-[10px] flex-shrink-0">
+          <Badge variant="outline" className="text-[0.625rem] flex-shrink-0">
             {keySignature}
           </Badge>
         )}
         {stats && (
-          <Badge variant="outline" className="text-[10px] text-muted-foreground flex-shrink-0">
+          <Badge variant="outline" className="text-[0.625rem] text-muted-foreground flex-shrink-0">
             {stats.minNote}–{stats.maxNote}
           </Badge>
         )}

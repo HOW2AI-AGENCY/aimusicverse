@@ -174,7 +174,7 @@ export default function Artists() {
 
                         {artist.is_ai_generated && (
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="inline-flex items-center gap-1 bg-primary/15 text-primary px-2 py-0.5 rounded-full text-[11px] font-semibold">
+                            <span className="inline-flex items-center gap-1 bg-primary/15 text-primary px-2 py-0.5 rounded-full text-[0.6875rem] font-semibold">
                               AI АРТИСТ
                             </span>
                           </div>
@@ -295,11 +295,11 @@ export default function Artists() {
               <div>
                 <h1 className="text-lg sm:text-xl font-bold">AI Артисты</h1>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <Badge variant="secondary" className="text-[10px] px-1.5 h-4 gap-1">
+                  <Badge variant="secondary" className="text-[0.625rem] px-1.5 h-4 gap-1">
                     <Mic2 className="w-2.5 h-2.5" />
                     {myArtists?.length || 0}
                   </Badge>
-                  <Badge variant="outline" className="text-[10px] px-1.5 h-4 gap-1">
+                  <Badge variant="outline" className="text-[0.625rem] px-1.5 h-4 gap-1">
                     <TrendingUp className="w-2.5 h-2.5" />
                     {publicArtists?.length || 0}
                   </Badge>
@@ -326,7 +326,7 @@ export default function Artists() {
               <User className="w-3.5 h-3.5" />
               Мои
               {(myArtists?.length || 0) > 0 && (
-                <Badge variant="secondary" className="h-4 px-1 text-[9px]">
+                <Badge variant="secondary" className="h-4 px-1 text-[0.5625rem]">
                   {myArtists?.length}
                 </Badge>
               )}
@@ -338,7 +338,7 @@ export default function Artists() {
               <Users className="w-3.5 h-3.5" />
               Сообщество
               {(publicArtists?.length || 0) > 0 && (
-                <Badge variant="outline" className="h-4 px-1 text-[9px]">
+                <Badge variant="outline" className="h-4 px-1 text-[0.5625rem]">
                   {publicArtists?.length}
                 </Badge>
               )}

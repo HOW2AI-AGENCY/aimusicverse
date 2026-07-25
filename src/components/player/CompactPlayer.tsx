@@ -322,7 +322,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         {hasError && (
           <div
             role="alert"
-            className="mx-3 mb-1.5 flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1 text-[11px] text-destructive"
+            className="mx-3 mb-1.5 flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1 text-[0.6875rem] text-destructive"
           >
             <AlertCircle className="h-3 w-3 flex-shrink-0" />
             <span className="line-clamp-1 flex-1">{playbackError || t("player.compact.errorFallback")}</span>

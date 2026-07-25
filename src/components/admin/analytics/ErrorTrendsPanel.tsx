@@ -230,7 +230,7 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
             <ResponsiveContainer width="100%" height={140} className="sm:h-[180px]">
               <BarChart data={errorsByTypeData} layout="vertical">
                 <XAxis type="number" fontSize={10} />
-                <YAxis type="category" dataKey="name" width={70} fontSize={9} className="sm:text-[11px]" />
+                <YAxis type="category" dataKey="name" width={70} fontSize={9} className="sm:text-[0.6875rem]" />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "hsl(var(--popover))",
@@ -312,18 +312,18 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                       <div className="flex items-center gap-2 flex-wrap">
                         <p className="text-xs sm:text-sm font-medium">{error.error_type}</p>
                         {edgeFn && (
-                          <Badge variant="outline" className="text-[10px] font-mono">
+                          <Badge variant="outline" className="text-[0.625rem] font-mono">
                             <Server className="h-2.5 w-2.5 mr-1" />
                             {edgeFn}
                           </Badge>
                         )}
                       </div>
-                      <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 line-clamp-2">
+                      <p className="text-[0.625rem] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 line-clamp-2">
                         {error.error_message}
                       </p>
 
                       {stackInfo && (
-                        <div className="flex items-center gap-2 mt-1.5 text-[10px] text-muted-foreground font-mono">
+                        <div className="flex items-center gap-2 mt-1.5 text-[0.625rem] text-muted-foreground font-mono">
                           <Code className="h-3 w-3" />
                           <span>{stackInfo.func}</span>
                           <span className="text-muted-foreground/50">@</span>
@@ -334,10 +334,10 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                       )}
                     </div>
                     <div className="text-right shrink-0">
-                      <Badge variant="destructive" className="text-[10px] sm:text-xs">
+                      <Badge variant="destructive" className="text-[0.625rem] sm:text-xs">
                         {error.occurrences}×
                       </Badge>
-                      <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
+                      <p className="text-[0.625rem] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
                         {error.affected_users} польз.
                       </p>
                     </div>
@@ -349,7 +349,7 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-6 px-2 mt-2 text-[10px]"
+                        className="h-6 px-2 mt-2 text-[0.625rem]"
                         onClick={() => setExpandedError(isExpanded ? null : i)}
                       >
                         {isExpanded ? <ChevronUp className="h-3 w-3 mr-1" /> : <ChevronDown className="h-3 w-3 mr-1" />}
@@ -357,14 +357,14 @@ export function ErrorTrendsPanel({ data, isLoading }: ErrorTrendsPanelProps) {
                       </Button>
 
                       {isExpanded && (
-                        <pre className="mt-2 p-2 bg-zinc-900/90 rounded text-[9px] text-green-400 overflow-x-auto max-h-32 font-mono">
+                        <pre className="mt-2 p-2 bg-zinc-900/90 rounded text-[0.5625rem] text-green-400 overflow-x-auto max-h-32 font-mono">
                           {error.error_stack}
                         </pre>
                       )}
                     </>
                   )}
 
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mt-1.5 sm:mt-2">
+                  <p className="text-[0.625rem] sm:text-xs text-muted-foreground mt-1.5 sm:mt-2">
                     Последняя: {new Date(error.last_seen).toLocaleString("ru-RU")}
                   </p>
                 </div>

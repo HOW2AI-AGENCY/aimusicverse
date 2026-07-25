@@ -228,7 +228,7 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
                 </div>
                 <span
                   className={cn(
-                    "text-[10px] mt-1",
+                    "text-[0.625rem] mt-1",
                     chordNotes.includes(NOTE_LABELS[index]) ? "text-primary font-bold" : "text-muted-foreground",
                   )}
                 >

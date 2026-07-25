@@ -138,7 +138,7 @@ export const UnifiedActionBar = memo(function UnifiedActionBar({
               <Icon className={iconSizes[size]} />
               {showLabels && <span className="truncate">{action.label}</span>}
               {action.badge && (
-                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[0.625rem] rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
                   {action.badge}
                 </span>
               )}
@@ -183,7 +183,7 @@ export const UnifiedActionBar = memo(function UnifiedActionBar({
               <Icon className={iconSizes[size]} />
               {showLabels && <span className="whitespace-nowrap">{action.label}</span>}
               {action.badge && (
-                <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
+                <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[0.625rem] rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
                   {action.badge}
                 </span>
               )}

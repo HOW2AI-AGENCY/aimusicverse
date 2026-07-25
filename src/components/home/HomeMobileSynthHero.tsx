@@ -78,7 +78,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
               aria-hidden
             />
             <Zap className="h-3 w-3 text-[hsl(var(--synth-primary-soft))]" aria-hidden />
-            <span className="text-[11px] font-medium uppercase tracking-wider text-[hsl(var(--synth-text))] font-sans">
+            <span className="text-[0.6875rem] font-medium uppercase tracking-wider text-[hsl(var(--synth-text))] font-sans">
               {balance} кредитов
             </span>
           </div>
@@ -88,7 +88,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
             aria-label={`Серия: ${streak} ${streak === 1 ? "день" : "дней"}`}
           >
             <Flame className="h-3 w-3 text-[hsl(var(--synth-mint))]" aria-hidden />
-            <span className="text-[11px] font-medium uppercase tracking-wider text-[hsl(var(--synth-text))] font-sans">
+            <span className="text-[0.6875rem] font-medium uppercase tracking-wider text-[hsl(var(--synth-text))] font-sans">
               {streak} {streak === 1 ? "день" : "дней"}
             </span>
           </div>
@@ -146,7 +146,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={PROMPT_PLACEHOLDER}
               aria-describedby="synth-hero-hint"
-              className="w-full rounded-xl border border-white/20 bg-black/30 px-3.5 py-2.5 pr-12 text-[13px] text-white placeholder:text-white/60 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/50 sm:rounded-2xl sm:px-4 sm:py-3 sm:pr-14 sm:text-sm"
+              className="w-full rounded-xl border border-white/20 bg-black/30 px-3.5 py-2.5 pr-12 text-[0.8125rem] text-white placeholder:text-white/60 transition-all outline-none focus-visible:border-[hsl(var(--synth-mint))] focus-visible:ring-2 focus-visible:ring-[hsl(var(--synth-mint))]/50 sm:rounded-2xl sm:px-4 sm:py-3 sm:pr-14 sm:text-sm"
             />
             <span id="synth-hero-hint" className="sr-only">
               Нажмите Enter или кнопку «Создать», чтобы начать генерацию
@@ -171,16 +171,16 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
                 className="inline-flex items-center gap-1 rounded-md text-white/70 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               >
                 <Lightbulb className="h-3 w-3" aria-hidden />
-                <span className="text-[11px]">Идеи</span>
+                <span className="text-[0.6875rem]">Идеи</span>
               </button>
               {isTooShort ? (
-                <span className="text-[11px] text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span>
+                <span className="text-[0.6875rem] text-white/70 truncate">Мин. {MIN_PROMPT_LENGTH} симв.</span>
               ) : null}
             </div>
             <span
               id="synth-hero-charcount"
               aria-live="polite"
-              className={`shrink-0 text-[11px] font-mono tabular-nums ${isNearLimit ? "text-[hsl(var(--synth-mint))]" : "text-white/50"}`}
+              className={`shrink-0 text-[0.6875rem] font-mono tabular-nums ${isNearLimit ? "text-[hsl(var(--synth-mint))]" : "text-white/50"}`}
             >
               {charCount}
               {charCount >= MIN_PROMPT_LENGTH ? `/${RECOMMENDED_LENGTH}` : ""}
@@ -199,7 +199,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
                   key={tip}
                   type="button"
                   onClick={() => handleTipClick(tip)}
-                  className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[11px] text-white/85 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                  className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[0.6875rem] text-white/85 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                 >
                   {tip}
                 </button>
@@ -232,7 +232,7 @@ function HomeMobileSynthHeroImpl({ onCreateClick }: HomeMobileSynthHeroProps) {
 
           <div className="min-w-0 flex-1">
             <p
-              className="truncate text-[10px] uppercase tracking-[0.2em] text-[hsl(var(--synth-text-muted))]"
+              className="truncate text-[0.625rem] uppercase tracking-[0.2em] text-[hsl(var(--synth-text-muted))]"
               style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
             >
               Продолжи создавать

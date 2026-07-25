@@ -89,7 +89,7 @@ export const FormSection = memo(function FormSection({
         <div className="flex items-center gap-2 mb-0.5">
           <span
             className={cn(
-              "shrink-0 flex items-center justify-center w-6 h-6 rounded-lg border text-[11px] font-bold",
+              "shrink-0 flex items-center justify-center w-6 h-6 rounded-lg border text-[0.6875rem] font-bold",
               TONE_ACCENT[tone],
             )}
             aria-hidden

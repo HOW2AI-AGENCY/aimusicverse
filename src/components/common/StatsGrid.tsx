@@ -60,7 +60,7 @@ const SIZE_CLASSES = {
   },
   compact: {
     icon: "w-4 h-4",
-    label: "text-[10px]",
+    label: "text-[0.625rem]",
     value: "text-sm font-medium",
   },
   card: {
