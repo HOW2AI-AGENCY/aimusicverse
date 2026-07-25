@@ -456,7 +456,7 @@ serve(async (req) => {
           }
 
           // Update track with snake_case field access
-          await supabase
+          const { error: trackUpdateError } = await supabase
             .from("tracks")
             .update({
               status: "completed",
@@ -473,6 +473,16 @@ serve(async (req) => {
               model_name: getModelName(firstClip) || "chirp-v4",
             })
             .eq("id", task.track_id);
+
+          if (trackUpdateError) {
+            // Never let a write failure pass silently: an unreported failure here
+            // leaves the user with a playable-looking but broken track.
+            logger.error("Failed to update track during sync", trackUpdateError, {
+              taskId: task.id,
+              trackId: task.track_id,
+            });
+          }
+
 
           // Update generation task
           await supabase
