@@ -86,13 +86,6 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
       setRetrying(false);
     }
   }, [task, trackId]);
-    } catch (err) {
-      logger.error("retry-track-processing failed", err, { trackId });
-      toast.error("Не удалось запустить повторную обработку.");
-    } finally {
-      setRetrying(false);
-    }
-  }, [task, trackId]);
 
   if (loading) {
     return (
