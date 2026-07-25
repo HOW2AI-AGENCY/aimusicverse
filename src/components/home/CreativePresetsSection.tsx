@@ -86,8 +86,8 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
             presetId: preset.id,
           }),
         );
-        // Dispatch custom event to open GenerateSheet
-        window.dispatchEvent(new CustomEvent("openGenerateSheet"));
+        // Open the canonical generate sheet via the shared helper.
+        dispatchOpenGenerateSheet();
       }
     },
     [onTrackPresetSelect],
