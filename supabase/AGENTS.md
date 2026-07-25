@@ -14,6 +14,8 @@
 - Public-schema table creation must include GRANTs before RLS policies in the same migration.
 - Suno replacement callbacks must create a `track_versions` row for every playable returned clip and preserve skip reasons for unusable clips.
 - Recovery jobs must mirror callback version-creation semantics so completed replacement tasks can be healed without losing A/B variants.
+- Track/version writes in callbacks and recovery jobs must check the returned error and log it; silent write failures are forbidden because they leave tracks unplayable with no diagnostic trail.
+
 
 ## Work Guidance
 
