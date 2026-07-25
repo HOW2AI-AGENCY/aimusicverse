@@ -567,9 +567,20 @@ serve(async (req) => {
             };
 
             if (existingVersion) {
-              await supabase.from("track_versions").update(versionData).eq("id", existingVersion.id);
+              const { error: versionUpdateError } = await supabase
+                .from("track_versions")
+                .update(versionData)
+                .eq("id", existingVersion.id);
+              if (versionUpdateError) {
+                logger.error("Failed to update track version during sync", versionUpdateError, {
+                  taskId: task.id,
+                  trackId: task.track_id,
+                  versionLabel,
+                });
+                continue;
+              }
             } else {
-              const { data: newVersion } = await supabase
+              const { data: newVersion, error: versionInsertError } = await supabase
                 .from("track_versions")
                 .insert({
                   track_id: task.track_id,
@@ -582,7 +593,17 @@ serve(async (req) => {
                 .select()
                 .single();
 
-              if (newVersion && i === 0) {
+              if (versionInsertError || !newVersion) {
+                logger.error("Failed to insert track version during sync", versionInsertError, {
+                  taskId: task.id,
+                  trackId: task.track_id,
+                  versionLabel,
+                  clipIndex: i,
+                });
+                continue;
+              }
+
+              if (i === 0) {
                 await supabase
                   .from("tracks")
                   .update({ active_version_id: newVersion.id })
@@ -592,6 +613,7 @@ serve(async (req) => {
             }
 
             logger.info("Version saved", { versionLabel });
+
 
             // Log version creation
             await supabase.from("track_change_log").insert({
