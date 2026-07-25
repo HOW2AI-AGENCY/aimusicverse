@@ -420,6 +420,11 @@ export function useAudioElement(id: string, priority: AudioPriority = AudioPrior
   const [element, setElement] = React.useState<HTMLAudioElement | null>(null);
 
   React.useEffect(() => {
+    // Skip acquiring a pool slot for empty/sentinel ids (no valid src yet).
+    if (!id || id.endsWith("-none")) {
+      setElement(null);
+      return;
+    }
     const audio = audioElementPool.acquire(id, priority);
     setElement(audio);
 
