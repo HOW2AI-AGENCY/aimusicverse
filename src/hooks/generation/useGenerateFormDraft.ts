@@ -174,6 +174,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         );
       }
     }
+    // One-shot: consume sessionStorage["presetParams"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Apply "Generate Similar" parameters
