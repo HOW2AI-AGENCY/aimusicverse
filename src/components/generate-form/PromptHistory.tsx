@@ -37,7 +37,7 @@ import { format, ru } from "@/lib/date-utils";
 import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from "./inspirationPrompts";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
-import { supabase } from "@/integrations/supabase/client";
+import { clearPromptHistoryForUser, deletePromptHistoryEntry } from "@/api/prompt-history.api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { usePromptHistorySync } from "@/hooks/usePromptHistorySync";
@@ -213,8 +213,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     // If it's a DB row (uuid) — delete from DB and refresh sync query
     if (UUID_RE.test(id) && user?.id) {
       try {
-        const { error } = await supabase.from("user_generation_history").delete().eq("id", id);
-        if (error) throw error;
+        await deletePromptHistoryEntry(id);
         await queryClient.invalidateQueries({ queryKey: ["db-generation-history", user.id] });
         toast.success("Промпт удалён из истории");
       } catch (error) {
@@ -305,8 +304,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     try {
       // Wipe DB history when signed in
       if (user?.id) {
-        const { error } = await supabase.from("user_generation_history").delete().eq("user_id", user.id);
-        if (error) throw error;
+        await clearPromptHistoryForUser(user.id);
         await queryClient.invalidateQueries({ queryKey: ["db-generation-history", user.id] });
       }
       setLocalHistory([]);
