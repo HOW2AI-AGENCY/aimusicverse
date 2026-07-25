@@ -313,18 +313,31 @@ serve(async (req) => {
             const clipImageUrl = getImageUrl(clip);
             const shouldBePrimary = !primaryVersionId;
 
-            // Check if version already exists
-            const { data: existingVersion } = await supabase
+            // Check if version already exists. maybeSingle avoids treating
+            // a legitimately missing row as an error.
+            const { data: existingVersion, error: existingVersionError } = await supabase
               .from("track_versions")
               .select("id")
               .eq("track_id", task.track_id)
               .eq("version_label", versionLabel)
-              .single();
+              .maybeSingle();
+
+            if (existingVersionError) {
+              logger.error("Failed to lookup recovered track version", existingVersionError, {
+                taskId: task.id,
+                trackId: task.track_id,
+                versionLabel,
+                clipIndex: i,
+              });
+              continue;
+            }
 
             const versionData = {
               audio_url: i === 0 ? localAudioUrl || clipAudioUrl : clipAudioUrl,
               cover_url: i === 0 ? localCoverUrl || clipImageUrl : clipImageUrl,
               duration_seconds: Math.round(clip.duration) || null,
+              version_type: getRecoveredVersionType(task.generation_mode),
+              source_type: getRecoveredSourceType(task.generation_mode),
               metadata: {
                 suno_id: clip.id,
                 title: clip.title,
@@ -347,7 +360,6 @@ serve(async (req) => {
                 .insert({
                   track_id: task.track_id,
                   ...versionData,
-                  version_type: i === 0 ? "initial" : "original",
                   version_label: versionLabel,
                   clip_index: i,
                   is_primary: shouldBePrimary,
