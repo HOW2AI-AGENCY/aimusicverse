@@ -14,7 +14,7 @@
   <img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/>
   <img alt="Версия" src="https://img.shields.io/badge/version-v1.0.0-475569?style=for-the-badge"/>
   <img alt="Quality & Build" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/quality-check.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981&label=Quality+%26+Build"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit_tests-1810_passing-10B981?style=for-the-badge&logo=vitest"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit_tests-1857_passing-10B981?style=for-the-badge&logo=vitest"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/>
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript"/>
@@ -209,7 +209,7 @@ npm run dev              # → http://localhost:8080
 ```bash
 # Проверка качества перед коммитом
 npm run check-all        # lint + format + typecheck
-npm test -- --run        # 1810 unit tests
+npm test -- --run        # 1857 unit tests
 npm run build            # production build
 ```
 
@@ -223,17 +223,18 @@ npm run build            # production build
 
 | Метрика                 | Значение                      | Статус |
 | ----------------------- | ----------------------------- | :----: |
-| Unit тесты              | 1810 passing (166 test files) |   ✅   |
+| Unit тесты              | 1857 passing (176 test files) |   ✅   |
 | TypeScript              | 0 errors (`--noEmit`)         |   ✅   |
 | E2E specs               | 59                            |   ✅   |
-| Components              | 1043                          |   ✅   |
-| Hooks                   | 440                           |   ✅   |
-| API files               | 32                            |   ✅   |
+| Components              | 1048                          |   ✅   |
+| Hooks                   | 446                           |   ✅   |
+| API files               | 34                            |   ✅   |
 | Services                | 37 `*.service.ts`             |   ✅   |
 | Stores                  | 25                            |   ✅   |
 | Suno edge functions     | 46 (28/28 API — 100%)         |   ✅   |
 | Files >800 LOC в `src/` | 0                             |   ✅   |
 | `any` budget            | 0/50                          |   ✅   |
+| ESLint warnings         | 525 (было 1744, −70%)         |   ✅   |
 | Bundle eager JS         | ~508 KB gzip                  |   ✅   |
 | Bundle total            | 2.11 MB gzip                  |   🟡   |
 | Branch Protection       | активна                       |   ✅   |
@@ -308,7 +309,7 @@ aimusicverse/
 ├── SPRINTS/              # Планы спринтов
 ├── tests/
 │   ├── e2e/              # Playwright: 59 specs
-│   └── unit/             # Vitest: 1810 test
+│   └── unit/             # Vitest: 1857 tests
 └── scripts/              # Утилиты CI/CD
 ```
 
@@ -411,6 +412,6 @@ PM          → PROJECT_STATUS → ROADMAP → CHANGELOG
 
 **Лицензия:** MIT · **Авторские права:** HOW2AI Agency © 2025–2026 · **Безопасность:** `security@how2ai.agency`
 
-<sub>Последнее обновление: 2026-07-24 · Sprint 065 (Generate v2 + Home Redesign + Visual Regression) · tsc 0 errors · 1810 unit tests · 59 E2E specs · Vite 6.4.3 · [🤝 Передача проекта](HANDOFF.md)</sub>
+<sub>Последнее обновление: 2026-07-25 · Sprint 065+ (Security hardening · Lint cleanup 1744→525 · Genre consistency · Layer-boundary API extraction) · tsc 0 errors · 1857 unit tests · 59 E2E specs · Vite 6.4.3 · [🤝 Передача проекта](HANDOFF.md)</sub>
 
 </div>

@@ -24,6 +24,39 @@
 
 ## [Unreleased]
 
+### 🧹 Hardening & Cleanup (2026-07-25)
+
+**Security**
+
+- Закрыто 7 findings из security-скана: добавлены `authorize()` guards в edge-функциях `recognize-*`, `suno-separate-vocals`, `tinkoff-bot-payment`, `tinkoff-recurrent-charge`; ужесточены RLS-политики `economy_config`, `performance_metrics`, `rum_metrics` (INSERT привязан к `auth.uid()`).
+
+**Changed**
+
+- **Layer boundary:** извлечены `src/api/prompt-history.api.ts` и `src/api/track-generation-status.api.ts` — компоненты больше не обращаются к `supabase.from()` напрямую (8 нарушений → 0).
+- **Genre consistency:** `GENRE_QUERIES` теперь единый источник для ID жанров и их БД-ключей; добавлен `getGenreDbValues(id)`, `assertGenreDbValuesMatch`, регрессионные тесты. `useInfiniteGenreTracks` и `GenreTabsSection` больше не хранят локальные копии маппинга.
+- **Realtime:** `smart-alerts.service.ts` регистрирует слушатели до `subscribe()`, каналы уникальны — устранена ошибка «cannot add postgres_changes callbacks after subscribe()».
+- **Adaptive polling** в `NotificationContext` (5s → 30s backoff при простое) и `useActiveGenerations` (полная остановка при 0 активных задач) — заметно ускорена начальная загрузка.
+
+**Fixed**
+
+- `sync-stale-tasks`: окно восстановления сужено до 7 дней / 25 задач — устранён «poison pill»-loop.
+- Standardized Suno callback field-extraction через `_shared/suno-clip-fields.ts` (regression-test блокирует прямой доступ к полям).
+- UI: `PublicProfilePage` — 1-колоночный список треков на мобильных; `CompactVariant` — компактнее на sm-; `Settings.tsx` — sticky-табы + safe-area 140px; `HomeMobileSynthHero` адаптирован под 360px.
+
+**Data**
+
+- Backfill: 223 публичных трека получили `computed_genre` по стилевым ключам.
+- Новое БД-вью `suno_stuck_completed_tracks` для мониторинга; таблица `suno_generation_events` + daily stats view с correlation-id.
+
+### 🧹 Lint warnings 1744 → 525 (−70%) (2026-07-25)
+
+**Changed**
+
+- Codemod: `text-[Npx]` / `leading-[Npx]` / `tracking-[Npx]` → эквивалент в `rem` (1231 замена, 1rem = 16px — визуально без изменений). Устранено 1127 предупреждений `no-restricted-syntax`.
+- Codemod: удалены 47 бесполезных regex-эскейпов (`no-useless-escape`) точечно по координатам ESLint.
+- Автофикс `prefer-const`, `no-empty`.
+- Остаток warnings (525) — в основном `react-hooks/*` (408) и `react-refresh/only-export-components` (84); требуют семантической правки и запланированы в Sprint 066.
+
 ### 🔒 Устранение уязвимостей зависимостей (2026-07-23)
 
 **Security**
