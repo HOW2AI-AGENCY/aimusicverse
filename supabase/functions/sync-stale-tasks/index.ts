@@ -349,13 +349,23 @@ serve(async (req) => {
             };
 
             if (existingVersion) {
-              await supabase
+              const { error: versionUpdateError } = await supabase
                 .from("track_versions")
                 .update({ ...versionData, is_primary: shouldBePrimary })
                 .eq("id", existingVersion.id);
+              if (versionUpdateError) {
+                logger.error("Failed to update recovered track version", versionUpdateError, {
+                  taskId: task.id,
+                  trackId: task.track_id,
+                  versionId: existingVersion.id,
+                  versionLabel,
+                  clipIndex: i,
+                });
+                continue;
+              }
               if (!primaryVersionId) primaryVersionId = existingVersion.id;
             } else {
-              const { data: newVersion } = await supabase
+              const { data: newVersion, error: versionInsertError } = await supabase
                 .from("track_versions")
                 .insert({
                   track_id: task.track_id,
@@ -366,13 +376,35 @@ serve(async (req) => {
                 })
                 .select("id")
                 .single();
+
+              if (versionInsertError || !newVersion) {
+                logger.error("Failed to create recovered track version", versionInsertError, {
+                  taskId: task.id,
+                  trackId: task.track_id,
+                  versionLabel,
+                  clipIndex: i,
+                });
+                continue;
+              }
+
               if (!primaryVersionId && newVersion) primaryVersionId = newVersion.id;
               logger.info("Version created for recovered track", { versionLabel });
             }
           }
 
           if (primaryVersionId && !task.tracks.active_version_id) {
-            await supabase.from("tracks").update({ active_version_id: primaryVersionId }).eq("id", task.track_id);
+            const { error: activeVersionError } = await supabase
+              .from("tracks")
+              .update({ active_version_id: primaryVersionId })
+              .eq("id", task.track_id);
+
+            if (activeVersionError) {
+              logger.error("Failed to update recovered track active version", activeVersionError, {
+                taskId: task.id,
+                trackId: task.track_id,
+                primaryVersionId,
+              });
+            }
           }
 
           logger.info("Track recovered successfully", { trackId: task.track_id });
