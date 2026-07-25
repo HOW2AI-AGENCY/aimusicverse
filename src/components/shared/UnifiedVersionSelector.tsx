@@ -184,79 +184,59 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   // Don't render if no trackId
   if (!trackId) return null;
 
-  // INLINE variant - compact A/B buttons with lazy loading
+  // INLINE variant - compact A/B buttons (auto-fetched via React Query)
   if (variant === "inline") {
-    // If not fetched yet, show placeholder that triggers fetch on hover/click
-    if (!hasFetched) {
+    // While loading first time, show subtle skeleton buttons
+    if (isLoading) {
       return (
-        <div
-          className={cn("flex items-center gap-1", className)}
-          onMouseEnter={fetchVersions}
-          onClick={(e) => {
-            e.stopPropagation();
-            fetchVersions();
-          }}
-        >
-          <div className="h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold bg-muted/30 text-muted-foreground flex items-center justify-center">
-            A
-          </div>
-          <div className="h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold bg-muted/30 text-muted-foreground flex items-center justify-center">
-            B
-          </div>
+        <div className={cn("flex items-center gap-1", className)}>
+          <Skeleton className="h-7 w-7 rounded-md" />
+          <Skeleton className="h-7 w-7 rounded-md" />
         </div>
       );
     }
 
     // Don't render if only one version after fetch
-    if (!isLoading && versions.length <= 1) return null;
+    if (hasFetched && versions.length <= 1) return null;
 
     return (
       <div className={cn("flex items-center gap-1", className)}>
-        {isLoading ? (
-          <>
-            <Skeleton className="h-7 w-7 rounded-md" />
-            <Skeleton className="h-7 w-7 rounded-md" />
-          </>
-        ) : (
-          versions.slice(0, 4).map((version) => {
-            const isActive = version.id === activeVersionId;
-            return (
-              <button
-                key={version.id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSwitch(version);
-                }}
-                disabled={disabled || isSwitching}
-                className={cn(
-                  "relative h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold",
-                  "transition-all touch-manipulation active:scale-95",
-                  isActive
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
-                  (disabled || isSwitching) && "opacity-50 cursor-not-allowed",
-                )}
-              >
-                {showLabels ? version.label : version.label.charAt(0)}
-                {isActive && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-background" />
-                )}
-              </button>
-            );
-          })
-        )}
+        {versions.slice(0, 4).map((version) => {
+          const isActive = version.id === activeVersionId;
+          return (
+            <button
+              key={version.id}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSwitch(version);
+              }}
+              disabled={disabled || isSwitching}
+              className={cn(
+                "relative h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold",
+                "transition-all touch-manipulation active:scale-95",
+                isActive
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
+                (disabled || isSwitching) && "opacity-50 cursor-not-allowed",
+              )}
+            >
+              {showLabels ? version.label : version.label.charAt(0)}
+              {isActive && (
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-background" />
+              )}
+            </button>
+          );
+        })}
         {isSwitching && <Loader2 className="h-3 w-3 animate-spin ml-1" />}
       </div>
     );
   }
 
-  // COMPACT variant - minimal for player bar (fetch on first interaction)
+  // COMPACT variant - minimal for player bar
   if (variant === "compact") {
-    if (!hasFetched) {
-      fetchVersions(); // Auto-fetch for compact since it's in player
-    }
-
     if (!hasFetched || versions.length <= 1) return null;
+
+
 
     return (
       <div className={cn("flex items-center gap-0.5", className)}>
