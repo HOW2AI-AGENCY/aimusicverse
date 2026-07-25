@@ -131,6 +131,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load generation params from sessionStorage", error);
       }
     });
+    // One-shot: consume sessionStorage["generationParams"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Apply preset parameters from Quick Create
