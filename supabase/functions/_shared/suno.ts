@@ -31,7 +31,11 @@ function timingSafeEqual(a: string, b: string): boolean {
  *
  * Signature format: HMAC-SHA256(`${payload}${timestamp}`) as hex.
  *
- * FAIL-CLOSED: returns FALSE if SUNO_WEBHOOK_SECRET is not configured.
+ * Suno (sunoapi.org) does NOT sign callbacks unless a shared secret is configured
+ * on the provider side. If SUNO_WEBHOOK_SECRET is not configured we cannot verify
+ * anything — in that case we accept the callback (payload is still validated by
+ * taskId lookup downstream) and log a warning, otherwise every generation result
+ * would be dropped.
  */
 export async function verifySunoSignature(
   payload: string,
@@ -39,8 +43,8 @@ export async function verifySunoSignature(
   timestamp: string | null,
 ): Promise<boolean> {
   if (!WEBHOOK_SECRET) {
-    console.error("[suno] SUNO_WEBHOOK_SECRET not set — rejecting callback");
-    return false;
+    console.warn("[suno] SUNO_WEBHOOK_SECRET not set — accepting callback without signature verification");
+    return true;
   }
   if (!signature || !timestamp) return false;
 
