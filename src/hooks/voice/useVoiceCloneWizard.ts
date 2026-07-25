@@ -13,14 +13,27 @@ export type WizardStep =
   | "ready" // done
   | "failed";
 
+/** Реальное количество шагов, которые видит пользователь. */
+export const STEP_TOTAL = 4;
+
 export const STEP_INDEX: Record<WizardStep, number> = {
   upload: 1,
   validating: 2,
   phrase_ready: 3,
-  generating: 5,
-  ready: 6,
+  generating: 4,
+  ready: 4,
   failed: 0,
 };
+
+export const STEP_LABEL: Record<WizardStep, string> = {
+  upload: "Образец голоса",
+  validating: "Готовим контрольную фразу",
+  phrase_ready: "Спойте фразу",
+  generating: "Создаём голос",
+  ready: "Готово",
+  failed: "Ошибка",
+};
+
 
 const POLL_INTERVAL = 5000; // slower — realtime is primary
 const POLL_TIMEOUT = 5 * 60 * 1000;
