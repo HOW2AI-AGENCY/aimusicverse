@@ -38,7 +38,7 @@ export type ValidateParams = {
 export type LastAction =
   | { kind: "validate"; params: ValidateParams }
   | { kind: "submit"; audio: Blob }
-  | { kind: "rerecord"; audio: Blob }
+  | { kind: "regenerate" }
   | null;
 
 export function useVoiceCloneWizard() {
@@ -278,7 +278,7 @@ export function useVoiceCloneWizard() {
     canRetry: lastActionRef.current !== null,
     startValidation,
     submitRecording,
-    reRecord,
+    regeneratePhrase,
     retryLast,
     reset,
   };

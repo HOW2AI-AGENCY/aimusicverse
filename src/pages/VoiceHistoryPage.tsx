@@ -74,8 +74,8 @@ export default function VoiceHistoryPage() {
           toast.info(`Статус: ${info.status}`);
         }
       } else if (v.id && v.verify_path) {
-        const res = await voiceCloneApi.regenerate(v.id, v.verify_path);
-        toast.success("Повторная генерация запущена", { description: `Task: ${res.taskId}` });
+        const res = await voiceCloneApi.regenerate(v.id);
+        toast.success("Запрошена новая контрольная фраза", { description: `Task: ${res.taskId}` });
       } else {
         toast.error("Невозможно повторить: нет данных верификации");
       }
