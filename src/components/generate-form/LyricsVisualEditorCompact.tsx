@@ -220,6 +220,15 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
     [currentSections, emit, pushSnapshot],
   );
 
+  const changeSectionTags = useCallback(
+    (id: string, tags: string[]) => {
+      const next = currentSections.map((s) => (s.id === id ? { ...s, tags } : s));
+      pushSnapshot(next);
+      emit(next);
+    },
+    [currentSections, emit, pushSnapshot],
+  );
+
   const moveSection = useCallback(
     (id: string, direction: -1 | 1) => {
       const idx = currentSections.findIndex((s) => s.id === id);
@@ -376,6 +385,7 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
                 }}
                 onFocusSection={() => setFocusedSectionId(section.id)}
                 onTypeChange={(t) => changeSectionType(section.id, t)}
+                onTagsChange={(tags) => changeSectionTags(section.id, tags)}
                 onContentChange={(c) => updateSectionContent(section.id, c)}
                 onMoveUp={() => moveSection(section.id, -1)}
                 onMoveDown={() => moveSection(section.id, 1)}

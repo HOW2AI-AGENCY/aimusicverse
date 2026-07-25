@@ -15,12 +15,22 @@ export interface LyricSection {
 }
 
 /**
- * Section header: `[Verse]`, `[verse 2]`, `[Pre-Chorus]`, `[PreChorus 1]`…
+ * Section header: `[Verse]`, `[verse 2]`, `[Pre-Chorus]`, `[PreChorus 1]`,
+ * plus Suno v5.5 compound modifiers: `[Verse, energetic, male vocal]`.
+ * The first comma-separated token is the section base; extras become `tags`.
  */
-const SECTION_HEADER_RE = /^\[([a-zа-яё -]+?)(?:\s+\d+)?\]\s*$/i;
+const SECTION_HEADER_RE = /^\[([^\]]+)\]\s*$/;
 
 function makeSectionId(seed: number): string {
   return `sec-${seed}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function parseHeaderInner(inner: string): { type: LyricSectionType | null; tags: string[] } {
+  const parts = inner.split(",").map((p) => p.trim()).filter(Boolean);
+  if (parts.length === 0) return { type: null, tags: [] };
+  const base = parts[0].replace(/\s+\d+$/, "");
+  const type = normalizeSectionType(base);
+  return { type, tags: parts.slice(1) };
 }
 
 export function parseLyrics(input: string): LyricSection[] {
@@ -32,13 +42,14 @@ export function parseLyrics(input: string): LyricSection[] {
   for (const raw of lines) {
     const line = raw.trim();
     const match = line.match(SECTION_HEADER_RE);
-    const type = match ? normalizeSectionType(match[1]) : null;
-    if (type) {
+    const parsed = match ? parseHeaderInner(match[1]) : null;
+    if (parsed && parsed.type) {
       if (current) sections.push(current);
       current = {
         id: makeSectionId(sections.length),
-        type,
+        type: parsed.type,
         content: "",
+        tags: parsed.tags,
       };
       continue;
     }
@@ -70,7 +81,9 @@ export function sectionsToLyrics(sections: LyricSection[]): string {
       const ordinal = (seen.get(s.type) ?? 0) + 1;
       seen.set(s.type, ordinal);
       const base = LYRIC_SECTION_BY_VALUE[s.type].header;
-      const header = (typeTotals.get(s.type) ?? 0) > 1 ? `${base} ${ordinal}` : base;
+      const headerBase = (typeTotals.get(s.type) ?? 0) > 1 ? `${base} ${ordinal}` : base;
+      const extras = (s.tags ?? []).map((t) => t.trim()).filter(Boolean);
+      const header = extras.length ? `${headerBase}, ${extras.join(", ")}` : headerBase;
       return `[${header}]\n${s.content}`.trim();
     })
     .filter((block) => block.length > "[x]".length)
@@ -82,6 +95,9 @@ export function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
   for (let i = 0; i < a.length; i++) {
     if (a[i].type !== b[i].type) return false;
     if (a[i].content !== b[i].content) return false;
+    const at = (a[i].tags ?? []).join("|");
+    const bt = (b[i].tags ?? []).join("|");
+    if (at !== bt) return false;
   }
   return true;
 }
