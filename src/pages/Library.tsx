@@ -50,7 +50,6 @@ import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
 import { TrackDetailPanel } from "@/components/library/TrackDetailPanel";
 
-
 // Extracted hooks and components
 import { useLibraryData, type SortOption } from "@/hooks/useLibraryData";
 import { useLibraryHandlers } from "@/hooks/useLibraryHandlers";
@@ -63,6 +62,10 @@ import { ContextHints } from "@/components/hints";
 // Mobile touch-target size for icon buttons (44px iOS HIG minimum).
 // Desktop shrinks to 36px at lg+.
 const touchIcon = "min-h-[44px] min-w-[44px] h-11 w-11 lg:h-9 lg:w-9 lg:min-h-[36px] lg:min-w-[36px]";
+
+// A freshly-inserted track may carry a couple of loosely-typed generation fields
+// that aren't columns on the tracks Row (used only as skeleton fallbacks).
+type GenerationExtras = { description?: string | null; model_used?: string | null };
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -140,7 +143,6 @@ export default function Library() {
       onPlayTrack: handlePlay,
     });
 
-
   // Get selected track data for detail panel
   const selectedTrack = selectedTrackId ? (filteredTracks.find((t) => t.id === selectedTrackId) ?? null) : null;
 
@@ -149,8 +151,8 @@ export default function Library() {
     const inFlight: typeof filteredTracks = [];
     const ready: typeof filteredTracks = [];
     for (const t of filteredTracks) {
-      const status = (t as any).status as string | undefined;
-      const noAudio = !(t as any).audio_url && !(t as any).streaming_url;
+      const status = t.status ?? undefined;
+      const noAudio = !t.audio_url && !t.streaming_url;
       if ((status === "pending" || status === "processing") && noAudio) {
         inFlight.push(t);
       } else {
@@ -442,14 +444,14 @@ export default function Library() {
                           <GeneratingTrackSkeleton
                             key={t.id}
                             layout={viewMode}
-                            status={(t as any).status || "processing"}
-                            prompt={(t as any).prompt || (t as any).description || (t as any).style || undefined}
-                            createdAt={(t as any).created_at}
-                            title={(t as any).title || null}
-                            style={(t as any).style || null}
-                            coverUrl={(t as any).cover_url || null}
-                            model={(t as any).suno_model || (t as any).model_used || null}
-                            streamingReady={(t as any).status === "streaming_ready" || !!(t as any).streaming_url}
+                            status={t.status || "processing"}
+                            prompt={t.prompt || (t as GenerationExtras).description || t.style || undefined}
+                            createdAt={t.created_at ?? undefined}
+                            title={t.title || null}
+                            style={t.style || null}
+                            coverUrl={t.cover_url || null}
+                            model={t.suno_model || (t as GenerationExtras).model_used || null}
+                            streamingReady={t.status === "streaming_ready" || !!t.streaming_url}
                           />
                         ))}
                       </div>
