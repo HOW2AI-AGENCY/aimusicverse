@@ -97,6 +97,9 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     const clipImageUrl = fields.imageUrl;
     const clipDuration = typeof fields.duration === "number" ? fields.duration : null;
     const shouldBePrimary = !primaryVersionId;
+    const generationMode = task.generation_mode || task.tracks?.generation_mode;
+    const versionType = getVersionType(generationMode);
+    const sourceType = getSourceType(generationMode);
     const versionData = {
       audio_url: finalAudioUrl,
       cover_url: clipImageUrl || null,
@@ -126,7 +129,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     if (existing.version) {
       const { error: versionUpdateError } = await supabase
         .from("track_versions")
-        .update({ ...versionData, is_primary: shouldBePrimary })
+        .update({ ...versionData, is_primary: shouldBePrimary, version_type: versionType, source_type: sourceType })
         .eq("id", existing.version.id);
       if (versionUpdateError) {
         logger.error("Failed to update track version from complete callback", versionUpdateError, {
@@ -144,13 +147,13 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       savedVersionIds.add(existing.version.id);
       if (!primaryVersionId) primaryVersionId = existing.version.id;
     } else {
-      const generationMode = task.generation_mode || task.tracks?.generation_mode;
       const { data: newVersion, error: versionInsertError } = await supabase
         .from("track_versions")
         .insert({
           track_id: trackId,
           ...versionData,
-          version_type: getVersionType(generationMode),
+          version_type: versionType,
+          source_type: sourceType,
           version_label: versionLabel,
           clip_index: i,
           is_primary: shouldBePrimary,
@@ -510,6 +513,22 @@ function makePersistenceFailure(
   availableKeys: string[],
 ): SkipReason {
   return { code, message, clipIndex, clipId, availableKeys };
+}
+
+function getSourceType(mode: string | null): string {
+  switch (mode) {
+    case "extend":
+      return "extended";
+    case "remix":
+      return "remix";
+    case "cover":
+      return "cover";
+    case "add_vocals":
+    case "add_instrumental":
+      return "studio";
+    default:
+      return "generated";
+  }
 }
 
 async function handleStudioInstrumental(

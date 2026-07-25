@@ -9,6 +9,43 @@ const logger = createLogger("sync-stale-tasks");
 
 const getLyrics = (clip: any) => clip?.prompt || clip?.lyrics || clip?.lyric || ""; // Suno uses 'prompt' for lyrics
 
+function getRecoveredVersionType(mode: string | null): string {
+  switch (mode) {
+    case "extend":
+      return "extension";
+    case "remix":
+      return "remix";
+    case "cover":
+      return "cover";
+    case "replace_section":
+      return "replace_section";
+    case "inpaint":
+      return "inpaint";
+    case "add_vocals":
+      return "vocal_add";
+    case "add_instrumental":
+      return "instrumental_add";
+    default:
+      return "initial";
+  }
+}
+
+function getRecoveredSourceType(mode: string | null): string {
+  switch (mode) {
+    case "extend":
+      return "extended";
+    case "remix":
+      return "remix";
+    case "cover":
+      return "cover";
+    case "add_vocals":
+    case "add_instrumental":
+      return "studio";
+    default:
+      return "generated";
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -567,6 +604,8 @@ serve(async (req) => {
               audio_url: versionLocalAudioUrl || clipAudioUrl,
               cover_url: versionLocalCoverUrl || clipImageUrl,
               duration_seconds: Math.round(clip.duration) || null,
+              version_type: getRecoveredVersionType(task.generation_mode),
+              source_type: getRecoveredSourceType(task.generation_mode),
               metadata: {
                 suno_id: clip.id,
                 title: clip.title,
@@ -596,7 +635,6 @@ serve(async (req) => {
                 .insert({
                   track_id: task.track_id,
                   ...versionData,
-                  version_type: i === 0 ? "initial" : "original",
                   version_label: versionLabel,
                   clip_index: i,
                   is_primary: i === 0,
