@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useId } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { GenerateModal } from "./primitives";
+
 import { FileAudio } from "@/lib/icons";
 import { toast } from "sonner";
 import { uploadFile } from "@/api/storage.api";
