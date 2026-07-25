@@ -70,16 +70,17 @@ export function ProjectTrackSelector({
   };
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent
-        side="bottom"
-        className="h-[85dvh] flex flex-col p-0 z-[200]"
-        accessibleTitle={type === "project" ? "Выберите проект" : "Выберите трек"}
-      >
-        <SheetHeader className="px-4 pt-4 pb-3 border-b border-border/50">
-          <SheetTitle className="text-base">{type === "project" ? "Выберите проект" : "Выберите трек"}</SheetTitle>
-        </SheetHeader>
-        <ScrollArea className="flex-1 px-4 py-3">
+    <GenerateModal
+      open={open}
+      onOpenChange={onOpenChange}
+      title={type === "project" ? "Выберите проект" : "Выберите трек"}
+      description={type === "project" ? "Контекст проекта для генерации" : "Трек-референс из проекта"}
+      icon={type === "project" ? FolderOpen : Music}
+      size="md"
+      className="z-[200]"
+    >
+      <>
+
           {type === "project" && (!projects || projects.length === 0) && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <FolderOpen className="w-16 h-16 text-muted-foreground opacity-50 mb-4" />
