@@ -366,10 +366,10 @@ export const AudioCoverDialog = ({
             onChange={(e) => setLyrics(e.target.value)}
             rows={4}
             className="mt-1.5 font-mono text-sm resize-none"
-            maxLength={3000}
+            maxLength={5000}
           />
           <PromptValidationAlert text={lyrics} onApplyReplacement={(newText) => setLyrics(newText)} className="mt-1" />
-          <p className="text-xs text-muted-foreground mt-1">{lyrics.length}/3000</p>
+          <p className="text-xs text-muted-foreground mt-1">{lyrics.length}/5000</p>
         </div>
       )}
 

@@ -4,7 +4,10 @@
 
 // Character limits
 export const SIMPLE_DESCRIPTION_MAX_LENGTH = 500;
-export const LYRICS_MAX_LENGTH = 3000;
+// Suno v5 / v5.5 accept up to 5000 characters in the lyrics field.
+export const LYRICS_MAX_LENGTH = 5000;
+export const LYRICS_DANGER_LENGTH = 4700;
+export const LYRICS_WARNING_LENGTH = 4300;
 export const LYRICS_MIN_LENGTH = 100;
 export const TITLE_MAX_LENGTH = 80;
 export const BOOST_STYLE_MAX_LENGTH = 450;

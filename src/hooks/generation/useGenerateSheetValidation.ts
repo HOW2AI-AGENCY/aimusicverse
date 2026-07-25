@@ -13,7 +13,7 @@
  * Rules implemented (6):
  *   1. empty style  → error (custom mode needs style description)
  *   2. empty title  → warning (auto-generated fallback exists)
- *   3. lyrics >3000 → error (Suno API hard limit)
+ *   3. lyrics >5000 → error (Suno API hard limit)
  *   4. lyrics empty + hasVocals → warning (model can't sing nothing)
  *   5. insufficient credits (balance < cost) → error
  *   6. style >200 chars → warning (Suno truncates at ~200)
@@ -108,12 +108,12 @@ export function useGenerateSheetValidation(
     }
 
     // ── lyrics ───────────────────────────────────────────────────────
-    if (form.lyrics.length > 3000) {
+    if (form.lyrics.length > 5000) {
       r.push({
         field: "lyrics",
         severity: "error",
         message: "lyrics.too_long",
-        messageRu: "Превышен лимит Suno API (3000 символов)",
+        messageRu: "Превышен лимит Suno API (5000 символов)",
       });
     } else if (form.hasVocals && !form.lyrics.trim()) {
       r.push({

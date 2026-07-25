@@ -45,8 +45,8 @@ describe("useGenerateSheetValidation", () => {
     expect(creditsReason?.severity).toBe("error");
   });
 
-  it("flags lyrics >3000 chars as error", () => {
-    const long = "a".repeat(3001);
+  it("flags lyrics >5000 chars as error", () => {
+    const long = "a".repeat(5001);
     const { result } = renderHook(() =>
       useGenerateSheetValidation({ ...emptyForm, style: "rock", lyrics: long }, 100, 8),
     );

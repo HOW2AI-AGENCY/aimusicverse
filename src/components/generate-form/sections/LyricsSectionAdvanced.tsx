@@ -30,7 +30,7 @@ import {
   normalizeSectionType,
   type LyricSectionType,
 } from "../lyricsSectionMeta";
-import { LayoutGrid, AlignLeft, Eye, Plus, Music2 } from "@/lib/icons";
+import { LayoutGrid, AlignLeft, Eye, Music2 } from "@/lib/icons";
 import { LyricsProsodyPanel } from "../lyrics/LyricsProsodyPanel";
 import { useProsodyReport } from "@/hooks/lyrics/useProsodyReport";
 
@@ -145,10 +145,10 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   const lyricsValidation = useMemo(() => checkArtistValidation(lyrics), [lyrics]);
   const hasError = lyricsValidation?.level === "error";
 
-  // Character limit colors
+  // Character limit colors — thresholds tuned to Suno v5/v5.5 hard limit (5000 chars).
   const charCountColor = useMemo(() => {
-    if (lyrics.length > 2800) return "text-destructive";
-    if (lyrics.length > 2500) return "text-amber-500";
+    if (lyrics.length > 4700) return "text-destructive";
+    if (lyrics.length > 4300) return "text-amber-500";
     return "text-muted-foreground";
   }, [lyrics.length]);
 
@@ -309,11 +309,14 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
           <div className="space-y-2">
-            {/* Quick-insert section tag chips */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[0.625rem] uppercase tracking-wide text-muted-foreground/70 mr-0.5">
-                <Plus className="inline h-3 w-3 -mt-0.5 mr-0.5" />
-                Секция:
+            {/* Quick-insert section tag chips — compact icon row, horizontally scrollable */}
+            <div
+              className="-mx-1 flex items-center gap-1 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              role="toolbar"
+              aria-label="Вставить секцию"
+            >
+              <span className="shrink-0 text-[0.625rem] uppercase tracking-wide text-muted-foreground/70 pr-1">
+                Секция
               </span>
               {QUICK_SECTION_TYPES.map((t) => {
                 const def = LYRIC_SECTION_BY_VALUE[t];
@@ -323,19 +326,19 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                     key={t}
                     type="button"
                     onClick={() => insertSectionTag(t)}
+                    title={`Вставить [${def.header}]`}
+                    aria-label={`Вставить ${def.label}`}
                     className={cn(
-                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[0.6875rem] font-medium",
-                      "hover:opacity-100 opacity-80 transition-opacity",
+                      "shrink-0 inline-flex items-center justify-center h-6 min-w-[1.5rem] px-1.5 rounded-md border text-[0.6875rem] font-medium leading-none",
+                      "hover:opacity-100 opacity-85 transition-opacity",
                       color.bg,
                       color.border,
                       color.text,
                     )}
-                    aria-label={`Вставить [${def.header}]`}
                   >
                     <span aria-hidden className="font-mono">
                       {def.glyph}
                     </span>
-                    <span>{def.label}</span>
                   </button>
                 );
               })}
@@ -363,10 +366,10 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                   "bg-muted/30 text-foreground placeholder:text-muted-foreground",
                   "border-border/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
                   "transition-all duration-200",
-                  (lyrics.length > 2800 || hasError) &&
+                  (lyrics.length > 4700 || hasError) &&
                     "border-destructive/50 focus:border-destructive focus:ring-destructive/20",
                 )}
-                aria-invalid={hasError || lyrics.length > 3000}
+                aria-invalid={hasError || lyrics.length > 5000}
                 aria-describedby={lyricsValidation ? "lyrics-error" : undefined}
               />
 
@@ -385,18 +388,18 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                       <motion.div
                         className={cn(
                           "h-full rounded-full transition-colors",
-                          lyrics.length > 2800
+                          lyrics.length > 4700
                             ? "bg-destructive"
-                            : lyrics.length > 2500
+                            : lyrics.length > 4300
                               ? "bg-amber-500"
                               : "bg-primary",
                         )}
                         initial={false}
-                        animate={{ width: `${Math.min((lyrics.length / 3000) * 100, 100)}%` }}
+                        animate={{ width: `${Math.min((lyrics.length / 5000) * 100, 100)}%` }}
                         transition={{ duration: 0.2 }}
                       />
                     </div>
-                    <span className={cn("text-[0.625rem] font-mono", charCountColor)}>{lyrics.length}/3000</span>
+                    <span className={cn("text-[0.625rem] font-mono", charCountColor)}>{lyrics.length}/5000</span>
                   </div>
 
                   {/* Action buttons */}

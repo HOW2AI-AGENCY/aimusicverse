@@ -366,7 +366,7 @@ export const AudioExtendDialog = ({
             onChange={(e) => setLyrics(e.target.value)}
             rows={3}
             className="mt-1.5 font-mono text-sm resize-none"
-            maxLength={3000}
+            maxLength={5000}
           />
           <PromptValidationAlert text={lyrics} onApplyReplacement={(newText) => setLyrics(newText)} className="mt-1" />
         </div>

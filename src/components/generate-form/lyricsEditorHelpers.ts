@@ -113,10 +113,10 @@ export function applyTemplateToSections(
   });
 }
 
-/** Character budget shared with the text-mode editor. */
-export const CHAR_LIMIT = 3000;
-export const CHAR_DANGER = 2800;
-export const CHAR_WARNING = 2500;
+/** Character budget shared with the text-mode editor (Suno v5/v5.5 hard limit is 5000). */
+export const CHAR_LIMIT = 5000;
+export const CHAR_DANGER = 4700;
+export const CHAR_WARNING = 4300;
 
 export interface QUICK_TEMPLATE_DEF {
   id: string;
