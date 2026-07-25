@@ -42,7 +42,7 @@ import {
   Loader2,
 } from "@/lib/icons";
 import { isActionAvailable } from "@/lib/trackActionConditions";
-import { StemsActionButton } from "./sections/StemsActionButton";
+import { StemsModeDialog } from "./sections/StemsActionButton";
 
 interface UnifiedTrackSheetProps {
   track: Track | null;
@@ -61,6 +61,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
   });
 
   const [trackStatus, setTrackStatus] = useState({ hasMidi: false, hasNotes: false });
+  const [stemsModeOpen, setStemsModeOpen] = useState(false);
 
   const {
     actionState,
@@ -81,6 +82,14 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
     onClose: () => onOpenChange(false),
     enabled: open,
   });
+
+  // Диалоги живут в этом компоненте (он смонтирован всегда), но лист действий
+  // должен визуально уйти, чтобы не перекрывать открытый диалог.
+  const anyDialogOpen = Object.values(dialogs).some(Boolean) || stemsModeOpen;
+  const handleCloseDialog = (key: Parameters<typeof closeDialog>[0]) => {
+    closeDialog(key);
+    onOpenChange(false);
+  };
 
 
   // Enable video status fetch when sheet opens
@@ -141,7 +150,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
 
   return (
     <>
-      <Sheet open={open} onOpenChange={onOpenChange}>
+      <Sheet open={open && !anyDialogOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
           className="h-[85vh] sm:h-[70vh] max-h-[85vh] sm:max-h-[70vh] rounded-t-2xl flex flex-col pb-0 px-0 bg-background/95 backdrop-blur-xl"
@@ -216,7 +225,13 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                     />
                   )}
                   {(showStemsSimple || showStemsDetailed) && (
-                    <StemsActionButton onAction={executeAction} isProcessing={isProcessing} />
+                    <IconGridButton
+                      icon={Layers}
+                      label="Стемы"
+                      color="green"
+                      disabled={isProcessing}
+                      onClick={() => setStemsModeOpen(true)}
+                    />
                   )}
                 </ActionGroup>
 
@@ -382,10 +397,24 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
         </SheetContent>
       </Sheet>
 
+      <StemsModeDialog
+        open={stemsModeOpen}
+        onOpenChange={(dialogOpen) => {
+          setStemsModeOpen(dialogOpen);
+          if (!dialogOpen) onOpenChange(false);
+        }}
+        isProcessing={isProcessing}
+        onSelectMode={(mode) => {
+          setStemsModeOpen(false);
+          onOpenChange(false);
+          executeAction(mode === "simple" ? "stems_simple" : "stems_detailed");
+        }}
+      />
+
       <TrackDialogsPortal
         track={track}
         dialogs={dialogs}
-        onCloseDialog={closeDialog}
+        onCloseDialog={handleCloseDialog}
         onConfirmDelete={handleConfirmDelete}
         stems={stems}
         activeVersion={activeVersion}
