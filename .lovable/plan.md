@@ -1,67 +1,118 @@
-## Контекст (что подтверждено чтением)
+# Unified Generation Form — Refactor Plan
 
-- `PROJECT_STATUS.md`: последняя сессия — Sprint 065 (Generate v2 + Home Redesign). Метрики: TS 0 err, 1810 unit-тестов, eager bundle 508 KB gzip, `any`-бюджет 0/50.
-- Открытые долги, зафиксированные документами:
-  - **Sprint 066 — Dependency Health**: `npm install` падает `ERESOLVE` (vite@8 ↔ `@storybook/react-vite@8.6.18` требует vite ≤6). Обход `--legacy-peer-deps`. Также рассинхрон версий в `CLAUDE.md` (заявлен Vite 5).
-  - **Sprint 068 — Edge Fn Decomposition**: ≥10 функций >800 LOC. Фактически подтверждено: `klangio-analyze` 1084, `generate-track-cover` 1015, `process-audio-pipeline` 822, `suno-music-generate` 759, `sync-stale-tasks` 681, `project-ai` 666, `mcp` 645, `send-telegram-notification` 594.
-  - **Sprint 069 — Bundle + Perf budgets**: запланирован, не начат.
-- Свежие правки (этот тред): Sentry-scope с активным треком в `ErrorBoundary`/`ErrorBoundaryWrapper`/`main.tsx`, lazy `UnifiedTrackSheet`, скрипт `release:preflight`. Их надо валидировать в бою.
-- 6 зависимостей с уязвимостями (1 high, 4 moderate, 1 low) по бейджу `PROJECT_STATUS.md` — не закрыты.
+## Why this needs to happen
 
-Планируемые ниже пункты — новая работа; текущее состояние по каждому долгу указано выше на основании прочитанных документов и `wc -l` по `supabase/functions/`.
+The generation form works, but it has grown three parallel implementations. Right now the same feature can be reached through **five different code paths** and rendered by **two different sheets** with **three different lyrics editors**. That is why bugs like "Стили dead in redesign", "черновик сохранён" spam, and mobile layout drift keep coming back — every fix has to be applied twice or three times, and inevitably one copy gets missed.
 
-## План работ (6 шагов, каждый шиппится отдельно)
+Goal: **one canonical form, one entry-point contract, one lyrics editor, one visual language** — so the next change touches exactly one place.
 
-### 1. Валидация недавних правок Sentry + lazy sheet
-- Прогнать `npm run typecheck` и `npm test -- src/lib/errorContext src/components/ErrorBoundary`.
-- Ручной smoke: кинуть тестовое исключение из `/library` при активном треке → убедиться, что в `sessionStorage.musicverse_boot_log` и в Sentry-событии есть `route`, `activeTrackId`, `activeVersionId`.
-- Проверить в build-логе, что `UnifiedTrackSheet.tsx` уехал в отдельный чанк (`vite build` → `dist/assets/…UnifiedTrackSheet-*.js`).
-- Если чанк слипся с library — вынести в `manualChunks`.
+---
 
-### 2. Sprint 066 — Dependency Health (unblock `npm install`)
-- Обновить `@storybook/react-vite` до линии, поддерживающей vite@8 (актуально `^9`), либо, если ломает stories, откатить vite на `^6` (быстрее). Решение выбрать после `npm view @storybook/react-vite versions --json`.
-- Прогнать `npm audit` → зафиксировать 6 CVE, обновить только те deps, что не требуют мажорных миграций; остальное — issue.
-- Синхронизировать `CLAUDE.md` (Vite 8, а не 5) и `AGENTS.md`.
-- Definition of done: `npm ci` без `--legacy-peer-deps`, `npm audit --production` = 0 high.
+## What will change
 
-### 3. Sprint 068 — Edge Function Decomposition (первый заход, 4 из 10)
-Разбить только самые крупные, где риск регрессии минимален (нет платежей):
-- `klangio-analyze/index.ts` (1084) → `handlers/{upload,poll,persist}.ts` + `lib/{klangio-client,mapping}.ts`.
-- `generate-track-cover/index.ts` (1015) → `handlers/{generate,upscale,upload}.ts` + `lib/prompt.ts`.
-- `process-audio-pipeline/index.ts` (822) → шаги пайплайна в отдельные модули с общим `context.ts`.
-- `suno-music-generate/index.ts` (759) → выделить `lib/payload-mapper.ts` (camelCase/snake_case) и `handlers/{start,callback-wire}.ts`.
-Для каждой: сохранить точку входа `index.ts` < 200 LOC, тесты в `supabase/functions/<name>/__tests__/`. `process-audio-pipeline` и `suno-music-generate` — с smoke-тестом через `supabase--test_edge_functions`.
+### 1. Retire the legacy sheet
+- Confirm the redesign flag (`GENERATE_SHEET_REDESIGN_ENABLED`) is at 100% rollout.
+- Delete `GenerateSheet.legacy.tsx` (537 lines) and the flag switch in `GenerateSheet.tsx`.
+- `GenerateSheet.tsx` becomes a thin default export of the redesign path.
 
-Оставшиеся 4 функции (`sync-stale-tasks`, `project-ai`, `mcp`, `send-telegram-notification`) — во второй заход отдельным PR.
+### 2. Collapse the desktop sidebar's private form into the canonical sheet
+- `DesktopLibrarySidebar.tsx` currently mounts its own `useGenerateForm()` + `GenerateFormSimple`/`GenerateFormCustom` + its own dialogs — a shadow copy of the sheet.
+- Replace with a **single "Открыть генератор"** button that calls `dispatchOpenGenerateSheet()`.
+- Removes ~200 lines of divergent UI and eliminates the second dialog stack.
 
-### 4. Sprint 069 — Bundle + Perf budgets
-- Установить `size-limit` порог 950 KB (уже используется) на **gzip eager** + новый порог 200 KB на `library` route-chunk.
-- Прогнать `vite build --report`, собрать топ-10 модулей по весу, вынести в issue `perf-budget-followups`.
-- Добавить `npm run size:library` (size-limit конфиг для конкретного чанка).
-- Включить `size` шаг в `.github/workflows/quality-check.yml`.
+### 3. Standardize every entry point on `dispatchOpenGenerateSheet()`
+- Fix `CreativePresetsSection.tsx:88-89` (raw `window.dispatchEvent`) to use the helper.
+- Audit and unify: `BottomNavigation`, `Sidebar`, `HomeStickyCTA`, `KeyboardShortcutsProvider`, `OnboardingFlow`, `Templates`, Telegram deep link, `TrackDetailSheet` — one helper, one payload shape (optional `initialMode`, `initialReference`, `initialTemplate`).
 
-### 5. N+1 second pass — фактические подтверждения
-- Добавить в dev-режиме счётчик Supabase-запросов на маршрут через `supabase.channel`-обвязку в `src/integrations/supabase/client.ts` (только `import.meta.env.DEV`), логировать в `logger.debug` c маршрутом.
-- Пройти сценарии: cold `/library`, открыть `UnifiedTrackSheet`, переключить версию, лайкнуть трек. Зафиксировать реальные числа запросов в `docs/perf/library-queries.md` (после чего убрать инструментирование или спрятать за флагом).
+### 4. Deduplicate the lyrics editor
+- Canonical stays: `sections/LyricsSectionAdvanced.tsx` → `LyricsVisualEditorCompact.tsx` → `lyrics-editor/SectionCard.tsx` + `ActionButton.tsx` + `lyricsEditorHelpers.ts`.
+- Delete: `generate-form/lyrics/LyricsVisualEditor.tsx`, `generate-form/lyrics/SectionCard.tsx`, `generate-form/lyrics/ActionButton.tsx`, `generate-form/lyrics/lyricsEditorHelpers.ts`, `generate-form/LyricsVisualEditor.tsx` (top-level 627-line copy).
+- Move the associated Storybook story and test to import from the canonical path.
+- Result: one editor, one helpers module, one place to fix bugs.
 
-### 6. Release preflight
-- Проверить, что `npm run release:preflight` проходит локально (lint → typecheck → test → build → `test:smoke:chromium`).
-- Добавить step `release:preflight` в отдельный workflow `release-preflight.yml`, триггер `workflow_dispatch` + `push` в `release/*`.
-- Обновить `CHANGELOG.md` и `PROJECT_STATUS.md` (сессия 2026-07-24, Sprint 066/068/069 частично закрыты).
+### 5. Merge the two lyrics-assistant surfaces
+- Keep `lyrics/LyricsAssistantSheet.tsx` (already wired from the canonical sheet).
+- Fold the useful bits of top-level `LyricsChatAssistant.tsx` (623 lines) into the assistant sheet, delete the standalone file. The lyrics editor gets **one** AI entry point.
 
-## Технические детали
+### 6. Merge the two Studio dialog wirings
+- Determine which of `StudioShell/StudioDialogs.tsx` vs `StudioShellDialogs.tsx` is actually rendered; delete the other. Both wire the same `LazyGenerateSheet`/`LazyAddVocalsDrawer` — this is pure duplication.
 
-- Sentry-контекст трека уже пишется через `getErrorScope()` (`src/lib/errorContext.ts`) — новые edge-функции не задевает; менять контракт не нужно.
-- `LazyUnifiedTrackSheet` рендерит `null` при `open=false`, поэтому чанк не грузится до первого клика по «⋯» — при декомпозиции edge-функций фронтовые импорты не трогаем.
-- Для edge-декомпозиции строгий инвариант: `supabase/config.toml` не редактируем, только добавляем файлы внутри существующих папок функций — деплой конфига остаётся прежним.
-- Все новые модули edge-функций импортируются относительными путями (`./lib/...`), т.к. edge-runtime не резолвит `@/`.
+### 7. Fix prop-drilling: one form object, one convention
+- `GenerateFormCustom.tsx` currently takes 25+ individual props. Migrate it (and `GenerateFormSimple.tsx`) to accept the whole `form: UseGenerateFormReturn` object, matching `GenerateSheetBody.tsx`'s convention.
+- Reduces the surface for prop-drift bugs (this is exactly the class of bug that hid the "Стили dead" regression).
 
-## Что НЕ делаем в этом плане
+### 8. One design system for the form
+- Extract shared visual primitives from `sections/` (TitleSection, StyleSection, VocalsToggle, PrivacyToggle) into a small `generate-form/primitives/` set: `FormField`, `FormRow`, `SegmentedToggle`, `NumericChip`.
+- Every section becomes: label above, control below, helper text under, error state, 44px touch targets. One card padding scale, one border-radius scale, one gap scale — pulled from existing `design-tokens.ts` / `design-spacing.ts`.
+- Applies to both simple and custom modes so switching modes doesn't feel like changing apps.
 
-- Не трогаем платёжные функции (Tinkoff/Stars) и telegram-bot — отдельный релизный цикл.
-- Не начинаем Q3-эпики (Realtime co-editing, Marketplace) — сначала закрываем tech-debt.
-- Не переписываем Storybook stories, только чиним peer-конфликт.
+### 9. Tag composer consolidation
+- Fold `SectionTagSelector.tsx` (401 lines) and `TagBuilderPanel.tsx` (327 lines) responsibilities into one `TagBuilder` component with two entry modes (section-scoped, global). Same UI grammar as the modifier popover already shipped in `SectionCard.tsx`.
 
-## Порядок мержа
+### 10. Remove deprecated hooks
+- Delete `useAddInstrumentalProgress.ts`, `useAddVocalsProgress.ts`, `useExtendProgress.ts` — all explicitly `@deprecated` and superseded by `useAudioProcessing()`. Update the 2-3 call sites still on the old hooks.
 
-1 → 2 → 6 (unblock CI и релизный прогон), затем 3 → 4 → 5 параллельными PR.
+### 11. Tests + docs, then flag off
+- Snapshot test for each entry point → verify it opens the canonical sheet with the right initial state.
+- Contract test on the submit path (already covered by classification tests, extend to cover cover/extend/upload-extend branches).
+- Short `docs/GENERATE_FORM.md` diagram: entry points → sheet → controller → form hooks → submit → edge functions. One page. Kept next to the code so it stays current.
+
+## What will NOT change
+
+- Suno edge functions (`suno-music-generate`, `suno-generate`, `suno-upload-extend`) — untouched. This is a frontend consolidation.
+- Generation cost/credit logic — untouched (still routes through `useGenerateFormValidation` / `secure_credit_update`).
+- Modes stay `simple` and `custom` — no wizard resurrection.
+- Draft autosave semantics unchanged (only the toast noise, already fixed).
+- Extend/cover/add-vocals/stems flows outside the form (Studio, TrackDetailSheet) keep their existing entry points; only the sheet they open is unified.
+
+## Sequencing
+
+Ordered so each step lands independently and can be reverted without breaking the next:
+
+```text
+Phase 1 — Safe cleanup (no user-visible change)
+  1.  Delete duplicate lyrics editor directory (§4)
+  2.  Merge Studio dialog wirings (§6)
+  3.  Delete deprecated progress hooks (§10)
+  4.  Standardize entry points on dispatchOpenGenerateSheet (§3)
+
+Phase 2 — Structural
+  5.  Fix prop-drilling: pass form object (§7)
+  6.  Extract primitives, apply consistently (§8)
+  7.  Consolidate tag composer (§9)
+
+Phase 3 — De-duplication of code paths
+  8.  Collapse DesktopLibrarySidebar to a launcher (§2)
+  9.  Merge lyrics-assistant surfaces (§5)
+  10. Retire GenerateSheet.legacy + flag (§1)
+
+Phase 4 — Verify + document
+  11. Add entry-point snapshot tests, submit contract tests, docs/GENERATE_FORM.md (§11)
+```
+
+## Technical details
+
+- **Entry-point contract** (`src/lib/events.ts`) gets a typed payload:
+  ```ts
+  type OpenGenerateSheetPayload = {
+    initialMode?: 'simple' | 'custom';
+    initialReference?: ActiveReference;
+    initialTemplate?: GenerationTemplate;
+    initialProjectId?: string;
+    initialTrackId?: string;
+  };
+  ```
+  All entry points import a typed helper; raw `window.dispatchEvent` is banned via ESLint rule.
+- **Form object contract**: `UseGenerateFormReturn` becomes the single prop shape. Sections pluck what they need via destructuring inside the component, not from parent props.
+- **Design primitives**: `FormField` = label + control + helper + error; `SegmentedToggle` replaces the ad-hoc mode switch in `GenerateSheetHeader`; both use tokens from `src/lib/design-tokens.ts`.
+- **File deletions** (net): ~2200 lines of duplicated/legacy code removed. No new dependencies.
+- **Feature flag**: `GENERATE_SHEET_REDESIGN_ENABLED` removed once §1 lands.
+- **Risk**: The redesign has already had regressions vs. legacy ("Стили dead", `setAudioDuration` no-op). Before §1, do a diff review of `GenerateSheet.legacy.tsx` vs `GenerateSheetBody.tsx` for any props/handlers the redesign still doesn't wire, and land those first.
+
+## Open questions before Phase 1 starts
+
+1. Is `GENERATE_SHEET_REDESIGN_ENABLED` already at 100%? If not, when? Retiring the legacy sheet is safe only after 100% for a full week with no rollback.
+2. Confirm which Studio dialog wiring file is live (`StudioShell/StudioDialogs.tsx` or `StudioShellDialogs.tsx`) — one 5-min trace, but I want to write the deletion PR against the correct target.
+3. Do you want the desktop sidebar's inline form fully removed (my recommendation) or kept as a "quick generate" surface for desktop power users? If kept, it becomes a **view** of the same shared form state, not a second implementation.
+
+Answer those three and Phase 1 can start immediately.
