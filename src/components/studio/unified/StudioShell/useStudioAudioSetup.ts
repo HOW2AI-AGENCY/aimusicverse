@@ -182,7 +182,7 @@ export function useStudioAudioSetup({
     project.tracks.forEach((track) => {
       audioEngine.setTrackVolume(track.id, track.volume);
     });
-  }, [project?.tracks, audioEngine]);
+  }, [project, audioEngine]);
 
   return {
     audioEngine,

@@ -8,7 +8,7 @@
  * - Listening time statistics
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { usePlayerStore } from "./usePlayerState";
 import type { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
@@ -38,26 +38,23 @@ interface PlaybackHistoryStats {
 }
 
 export function usePlaybackHistory() {
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [currentTrackStart, setCurrentTrackStart] = useState<number | null>(null);
-  const [currentTrackListenTime, setCurrentTrackListenTime] = useState(0);
-
-  const { activeTrack, isPlaying } = usePlayerStore();
-
-  /**
-   * Load history from localStorage
-   */
-  useEffect(() => {
+  const [history, setHistory] = useState<HistoryEntry[]>(() => {
     try {
       const stored = localStorage.getItem(HISTORY_STORAGE_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored) as HistoryEntry[];
-        setHistory(parsed);
+        return JSON.parse(stored) as HistoryEntry[];
       }
     } catch (error) {
       logger.error("Failed to load playback history", error instanceof Error ? error : new Error(String(error)));
     }
-  }, []);
+    return [];
+  });
+
+  // Refs for playback timing — updated synchronously without triggering re-renders.
+  const currentTrackStartRef = useRef<number | null>(null);
+  const currentTrackListenTimeRef = useRef(0);
+
+  const { activeTrack, isPlaying } = usePlayerStore();
 
   /**
    * Save history to localStorage
@@ -121,6 +118,9 @@ export function usePlaybackHistory() {
    * Track active track changes
    */
   useEffect(() => {
+    const currentTrackStart = currentTrackStartRef.current;
+    const currentTrackListenTime = currentTrackListenTimeRef.current;
+
     if (activeTrack && isPlaying) {
       // New track started
       if (!currentTrackStart || activeTrack.id !== history[0]?.trackId) {
@@ -134,16 +134,16 @@ export function usePlaybackHistory() {
         }
 
         // Start tracking new track
-        setCurrentTrackStart(Date.now());
-        setCurrentTrackListenTime(0);
+        currentTrackStartRef.current = Date.now();
+        currentTrackListenTimeRef.current = 0;
       }
     } else if (!isPlaying && currentTrackStart) {
       // Track paused - update listen time
       const elapsed = (Date.now() - currentTrackStart) / 1000;
-      setCurrentTrackListenTime((prev) => prev + elapsed);
-      setCurrentTrackStart(null);
+      currentTrackListenTimeRef.current = currentTrackListenTime + elapsed;
+      currentTrackStartRef.current = null;
     }
-  }, [activeTrack?.id, isPlaying, currentTrackStart, recordPlaySession]);
+  }, [activeTrack, isPlaying, history, recordPlaySession]);
 
   /**
    * Track when component unmounts or window closes
